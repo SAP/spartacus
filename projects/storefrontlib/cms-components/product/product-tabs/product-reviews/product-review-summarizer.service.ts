@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Review } from "@spartacus/core";
 import { LLMMessageRequestPayloadType, LLMPromptRequestPayloadType } from "./product-review-types";
-import { Observable, map } from "rxjs";
+import { Observable, map, EMPTY } from "rxjs";
 //import { BTPLLMContext } from "@sap/llm-commons";
 //import { BTPLLMProxyClient } from "@sap/llm-commons/client/btp";
 
@@ -78,10 +78,11 @@ export class ProductReviewSummarizerService {
     }*/
 
     summarizeReviewHeadlines(reviews: Review[]): Observable<string|undefined> {
-        if (reviews.length > 0){
-            let reviewHeadlines = reviews.map((r) => r.headline);
-            this.messagePayloadForHeadline.messages[1].content = this.messagePayloadForHeadline.messages[1].content.replace(this.REVIEW_TITLES_PLACE_HOLDER, reviewHeadlines.toString().substring(0, 250));
+        if (reviews.length === 0){
+            return EMPTY;
         }
+        let reviewHeadlines = reviews.map((r) => r.headline);
+        this.messagePayloadForHeadline.messages[1].content = this.messagePayloadForHeadline.messages[1].content.replace(this.REVIEW_TITLES_PLACE_HOLDER, reviewHeadlines.toString().substring(0, 300));
         return this.http.post(`${this.llmProxyUrl}`, JSON.stringify(this.messagePayloadForHeadline), {
                 headers: {
                     Authorization: `Bearer ${this.token}`,
@@ -97,10 +98,11 @@ export class ProductReviewSummarizerService {
     }
 
     summarizeReviews(reviews: Review[]): Observable<string|undefined> {
-        if (reviews.length > 0){
-            let reviewComments = reviews.map((r) => r.comment);
-            this.messagePayload.messages[1].content = this.messagePayload.messages[1].content.replace(this.REVIEWS_PLACE_HOLDER, reviewComments.toString().substring(0, 250));
+        if (reviews.length === 0){
+            return EMPTY;
         }
+        let reviewComments = reviews.map((r) => r.comment);
+        this.messagePayload.messages[1].content = this.messagePayload.messages[1].content.replace(this.REVIEWS_PLACE_HOLDER, reviewComments.toString().substring(0, 300));
         return this.http.post(`${this.llmProxyUrl}`, JSON.stringify(this.messagePayload), {
                 headers: {
                     Authorization: `Bearer ${this.token}`,
