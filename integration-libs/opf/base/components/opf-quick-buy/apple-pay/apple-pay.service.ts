@@ -139,6 +139,7 @@ export class ApplePayService {
         });
       }),
       tap(() => console.log('flo')),
+      take(1),
       catchError((error) => {
         this.cartHandlerService.loadCartAfterSingleProductTransaction(
           this.transactionDetails
