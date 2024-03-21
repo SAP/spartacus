@@ -430,7 +430,7 @@ export class ConfiguratorGroupMenuComponent {
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
-  protected handleFocusLoopInMobileMode(event: KeyboardEvent) {
+  protected handleFocusLoopInMobileMode(event: KeyboardEvent): void {
     this.breakpointService
       .isDown(BREAKPOINT.md)
       .pipe(take(1))
