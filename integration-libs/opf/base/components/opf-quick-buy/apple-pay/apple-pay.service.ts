@@ -194,8 +194,10 @@ export class ApplePayService {
             pickupDetails: undefined,
           };
           if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
-            initialRequest.shippingType = ApplePayShippingType.STORE_PICKUP;
+            // Don't display shipping contact form on payment sheet
             initialRequest.requiredShippingContactFields = [];
+            initialRequest.shippingType = ApplePayShippingType.STORE_PICKUP;
+
             return this.transactionDetails.context ===
               OpfQuickBuyLocation.PRODUCT
               ? this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo()

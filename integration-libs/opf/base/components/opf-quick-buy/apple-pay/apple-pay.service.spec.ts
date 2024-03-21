@@ -6,13 +6,19 @@
 import { TestBed } from '@angular/core/testing';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import { Product, WindowRef } from '@spartacus/core';
-import { OpfCartHandlerService } from '@spartacus/opf/base/core';
+import {
+  OpfCartHandlerService,
+  OpfPickupInStoreHandlerService,
+} from '@spartacus/opf/base/core';
 import {
   ApplePayObservableConfig,
+  ApplePayShippingType,
+  ApplePayTransactionInput,
   OpfPaymentFacade,
+  OpfQuickBuyDeliveryInfo,
   OpfQuickBuyDeliveryType,
 } from '@spartacus/opf/base/root';
-import { Subject, of, throwError } from 'rxjs';
+import { Observable, Subject, of, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OpfQuickBuyService } from '../opf-quick-buy.service';
 import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
@@ -113,6 +119,7 @@ describe('ApplePayService', () => {
   let applePaySessionFactoryMock: jasmine.SpyObj<ApplePaySessionFactory>;
   let applePayObservableTestController: Subject<ApplePayJS.ApplePayPaymentAuthorizationResult>;
   let opfQuickBuyServiceMock: jasmine.SpyObj<OpfQuickBuyService>;
+  let opfPickupInStoreHandlerServiceMock: jasmine.SpyObj<OpfPickupInStoreHandlerService>;
   beforeEach(() => {
     opfQuickBuyServiceMock = jasmine.createSpyObj('OpfQuickBuyService', [
       'getQuickBuyLocationContext',
@@ -151,6 +158,10 @@ describe('ApplePayService', () => {
       'removeProductFromOriginalCart',
       'loadCartAfterSingleProductTransaction',
     ]);
+    opfPickupInStoreHandlerServiceMock = jasmine.createSpyObj(
+      'OpfPickupInStoreHandlerService',
+      ['getSingleProductDeliveryInfo']
+    );
     TestBed.configureTestingModule({
       providers: [
         ApplePayService,
@@ -166,6 +177,10 @@ describe('ApplePayService', () => {
           useValue: applePaySessionFactoryMock,
         },
         { provide: OpfQuickBuyService, useValue: opfQuickBuyServiceMock },
+        {
+          provide: OpfPickupInStoreHandlerService,
+          useValue: opfPickupInStoreHandlerServiceMock,
+        },
       ],
     });
     service = TestBed.inject(ApplePayService);
@@ -190,7 +205,7 @@ describe('ApplePayService', () => {
         return applePayObservableTestController;
       });
       opfQuickBuyServiceMock.getQuickBuyDeliveryType.and.returnValue(
-        of(OpfQuickBuyDeliveryType.PICKUP)
+        of(OpfQuickBuyDeliveryType.SHIPPING)
       );
     });
 
@@ -580,17 +595,82 @@ describe('ApplePayService', () => {
         .start({ product: mockProduct, quantity: 1, countryCode: 'us' })
         .subscribe({ error: () => {} });
     });
+
+    it('should handle setApplePayRequestConfig with Pickup delivery type on Cart page', (done) => {
+      const transactionInputMock: ApplePayTransactionInput = {
+        product: undefined,
+        cart: mockCart,
+        quantity: 0,
+        countryCode: 'us',
+      };
+
+      const deliverInfoMock: OpfQuickBuyDeliveryInfo = {
+        type: OpfQuickBuyDeliveryType.PICKUP,
+        pickupDetails: { name: 'Nakano' },
+      };
+      opfQuickBuyServiceMock.getQuickBuyDeliveryType.and.returnValue(
+        of(OpfQuickBuyDeliveryType.PICKUP)
+      );
+
+      opfPickupInStoreHandlerServiceMock.getSingleProductDeliveryInfo.and.returnValue(
+        of(deliverInfoMock)
+      );
+
+      const setApplePayRequestConfig = service['setApplePayRequestConfig'](
+        transactionInputMock
+      ) as Observable<ApplePayJS.ApplePayPaymentRequest>;
+      setApplePayRequestConfig.subscribe((config) => {
+        expect(config.requiredShippingContactFields).toEqual([]);
+        expect(config.shippingType).toEqual(ApplePayShippingType.STORE_PICKUP);
+        expect(
+          opfPickupInStoreHandlerServiceMock.getSingleProductDeliveryInfo
+        ).not.toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should handle setApplePayRequestConfig with Pickup delivery type on Product page', (done) => {
+      const transactionInputMock: ApplePayTransactionInput = {
+        product: mockProduct,
+        cart: undefined,
+        quantity: 1,
+        countryCode: 'us',
+      };
+
+      const deliverInfoMock: OpfQuickBuyDeliveryInfo = {
+        type: OpfQuickBuyDeliveryType.PICKUP,
+        pickupDetails: { name: 'Nakano' },
+      };
+      opfQuickBuyServiceMock.getQuickBuyDeliveryType.and.returnValue(
+        of(OpfQuickBuyDeliveryType.PICKUP)
+      );
+
+      opfPickupInStoreHandlerServiceMock.getSingleProductDeliveryInfo.and.returnValue(
+        of(deliverInfoMock)
+      );
+
+      const setApplePayRequestConfig = service['setApplePayRequestConfig'](
+        transactionInputMock
+      ) as Observable<ApplePayJS.ApplePayPaymentRequest>;
+      setApplePayRequestConfig.subscribe((config) => {
+        expect(config.requiredShippingContactFields).toEqual([]);
+        expect(config.shippingType).toEqual(ApplePayShippingType.STORE_PICKUP);
+        expect(
+          opfPickupInStoreHandlerServiceMock.getSingleProductDeliveryInfo
+        ).toHaveBeenCalled();
+        done();
+      });
+    });
   });
 
   it('should handle errors during Apple Pay session start', () => {
     service = TestBed.inject(ApplePayService);
-
+    opfQuickBuyServiceMock.getQuickBuyDeliveryType.and.returnValue(
+      of(OpfQuickBuyDeliveryType.SHIPPING)
+    );
     cartHandlerServiceMock.loadOriginalCart.and.returnValue(of(true));
     cartHandlerServiceMock.removeProductFromOriginalCart.and.returnValue(
       of(true)
-    );
-    opfQuickBuyServiceMock.getQuickBuyDeliveryType.and.returnValue(
-      of(OpfQuickBuyDeliveryType.PICKUP)
     );
     cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
 
