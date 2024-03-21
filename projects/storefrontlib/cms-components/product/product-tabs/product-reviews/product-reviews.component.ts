@@ -71,8 +71,8 @@ export class ProductReviewsComponent {
   productAverageReview$: Observable<string|undefined> = this.reviews$.pipe(
     distinctUntilChanged(),
     filter(isNotUndefined),
-    //tap((reviews) => console.log(reviews)),
     switchMap((reviews) => this.productReviewSummarizationService.summarizeReviews(reviews)),
+    //switchMap((reviews) => this.productReviewSummarizationService.summarizeReviewsWithBtpClient(reviews)),
   );
 
   constructor(
