@@ -263,12 +263,10 @@ describe('CheckoutDeliveryModeComponent', () => {
     spyOn(document, 'querySelector').and.returnValue(mockElement);
     spyOn(document, 'getElementById').and.returnValue(mockElement);
     spyOn(component.mode, 'setValue');
-    spyOn(component, 'changeMode');
 
-    component.updateMethod(lastFocusedId, mockEvent);
+    component.changeMode(lastFocusedId, mockEvent);
     tick();
 
-    expect(component.changeMode).toHaveBeenCalledWith(lastFocusedId);
     expect(mockElement.classList.remove).toHaveBeenCalledWith('mouse-focus');
     expect(mockElement.focus).toHaveBeenCalled();
     expect(component.mode.setValue).toHaveBeenCalledWith({

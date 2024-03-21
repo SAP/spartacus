@@ -101,43 +101,23 @@ export class CheckoutDeliveryModeComponent {
     protected activeCartFacade: ActiveCartFacade
   ) {}
 
-  /**
-   * We capture the keyboard activated option,
-   * then restore the focus to it after the data is updated.
-   */
-  updateMethod(code: string | undefined, event: Event): void {
-    const lastFocusedId = (<HTMLElement>event.target)?.id;
-    this.changeMode(code);
-    if ((<MouseEvent>event)?.screenX !== 0) {
-      this.mode.setValue({ deliveryModeId: code });
-      return;
-    }
-
-    this.isUpdating$
-      .pipe(
-        filter((isUpdating) => !isUpdating),
-        take(1)
-      )
-      .subscribe(() => {
-        setTimeout(() => {
-          document.querySelector('main')?.classList.remove('mouse-focus');
-          this.mode.setValue({ deliveryModeId: code });
-          document.getElementById(lastFocusedId)?.focus();
-        }, 0);
-      });
-  }
-
-  changeMode(code: string | undefined): void {
+  changeMode(code: string | undefined, event?: Event): void {
     if (!code) {
       return;
     }
-
+    const lastFocusedId = (<HTMLElement>event?.target)?.id;
     this.busy$.next(true);
-
     this.checkoutDeliveryModesFacade.setDeliveryMode(code).subscribe({
       complete: () => this.onSuccess(),
       error: () => this.onError(),
     });
+
+    const isTriggeredByKeyboard = (<MouseEvent>event)?.screenX === 0;
+    if (isTriggeredByKeyboard) {
+      this.restoreFocus(lastFocusedId, code);
+      return;
+    }
+    this.mode.setValue({ deliveryModeId: code });
   }
 
   next(): void {
@@ -165,5 +145,23 @@ export class CheckoutDeliveryModeComponent {
 
     this.isSetDeliveryModeHttpErrorSub.next(true);
     this.busy$.next(false);
+  }
+
+  /**
+   * Restores focus after data is updated.
+   */
+  protected restoreFocus(lastFocusedId: string, code: string): void {
+    this.isUpdating$
+      .pipe(
+        filter((isUpdating) => !isUpdating),
+        take(1)
+      )
+      .subscribe(() => {
+        setTimeout(() => {
+          document.querySelector('main')?.classList.remove('mouse-focus');
+          this.mode.setValue({ deliveryModeId: code });
+          document.getElementById(lastFocusedId)?.focus();
+        }, 0);
+      });
   }
 }
