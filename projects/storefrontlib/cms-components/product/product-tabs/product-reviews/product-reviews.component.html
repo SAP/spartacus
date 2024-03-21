@@ -31,23 +31,36 @@
           </ng-container>
           <div class="sentiments">
             <ng-container
-            *ngIf="aiPositiveSentiments$ | async as aiPositiveSentiments"
-          >
-            <ul class="positive-sentiments">
-              <li *ngFor="let sentiment of aiPositiveSentiments">
-                <i class="fa fa-thumbs-up thumbsUp" aria-hidden="true"></i> {{ sentiment }}
-              </li>
-            </ul>
-          </ng-container>
-          <ng-container
-            *ngIf="aiNegativeSentiments$ | async as aiNegativeSentiments"
-          >
-            <ul class="negative-sentiments">
-              <li *ngFor="let sentiment of aiNegativeSentiments">
-                <i class="fa fa-thumbs-down thumbsDown" aria-hidden="true"></i> {{ sentiment }}
-              </li>
-            </ul>
-          </ng-container>
+              *ngIf="aiPositiveSentiments$ | async as aiPositiveSentiments"
+            >
+              <div class="positive-sentiments">
+                <div *ngIf="aiSentimentPercentage$ | async as arr" class="positive-circle">{{arr[0]+'% of customers gave positive feedback'}}
+                </div>
+                <ul class="sentiment-list">
+                  <li *ngFor="let sentiment of aiPositiveSentiments">
+                    <i class="fa fa-thumbs-up thumbsUp" aria-hidden="true"></i>
+                    {{ sentiment }}
+                  </li>
+                </ul>
+              </div>
+            </ng-container>
+            <ng-container
+              *ngIf="aiNegativeSentiments$ | async as aiNegativeSentiments"
+            >
+              <div class="negative-sentiments">
+                <div *ngIf="aiSentimentPercentage$ | async as arr" class="negative-circle">{{arr[1]+'% of customers gave negative feedback'}}
+                </div>
+                <ul class="sentiment-list">
+                  <li *ngFor="let sentiment of aiNegativeSentiments">
+                    <i
+                      class="fa fa-thumbs-down thumbsDown"
+                      aria-hidden="true"
+                    ></i>
+                    {{ sentiment }}
+                  </li>
+                </ul>
+              </div>
+            </ng-container>
           </div>
         </div>
         <div
@@ -116,7 +129,7 @@
               class="btn btn-link button-add cx-action-link"
               (click)="getReview(product)"
             >
-              <i class='fas fa-robot fa-2x'></i>
+              <i class="fas fa-robot fa-2x"></i>
             </button>
           </span>
           <textarea

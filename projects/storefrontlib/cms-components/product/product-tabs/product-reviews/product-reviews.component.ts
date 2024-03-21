@@ -176,6 +176,31 @@ export class ProductReviewsComponent {
     switchMap((reviews) => this.reviewService.getAiReponse(reviews, 'summary'))
   );
 
+  aiSentimentPercentage$ = this.reviews$.pipe(
+    filter(isNotNullable),
+    map((reviews) => reviews ?? []),
+    distinctUntilChanged(),
+    switchMap((reviews) => {
+      return this.reviewService
+        .getAiReponse(reviews, 'sentimentsPercentage')
+        .pipe(
+          map((sentiments) => {
+            return this.convertStringToNumberArray(
+              sentiments?.choices[0]?.message?.content
+            );
+          })
+        );
+    })
+  );
+
+  convertStringToNumberArray(x: String): number[] {
+    x = x.substring(1, x.length - 1);
+    var y = x.split(',').map(function (item) {
+      return parseInt(item, 10);
+    });
+    return y;
+  }
+
   getReview(product: Product) {
     let reviewFormControls = this.reviewForm.controls;
     let review: Review = {

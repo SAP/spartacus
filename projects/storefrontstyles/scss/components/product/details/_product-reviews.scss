@@ -30,18 +30,31 @@ $gutterSize: 15px;
       .positive-sentiments {
         margin: 0rem 0.5rem;
         border: 1px solid var(--cx-color-medium);
-        list-style-type: none;
         width: 50%;
-        .thumbsUp{
+        .sentiment-list{
+          margin: 0.5rem 0rem;
+          list-style-type: none;
+          .thumbsUp{
+            color: var(--cx-color-success);
+          }
+        }
+        .positive-circle{
           color: var(--cx-color-success);
         }
+
       }
       .negative-sentiments {
         border: 1px solid var(--cx-color-medium);
         margin: 0.5rem 0.5rem;
         width: 50%;
-        list-style-type: none;
-        .thumbsDown{
+        .sentiment-list{
+          margin: 0.5rem 0rem;
+          list-style-type: none;
+          .thumbsDown{
+            color: var(--cx-color-danger);
+          }
+        }
+        .negative-circle{
           color: var(--cx-color-danger);
         }
       }

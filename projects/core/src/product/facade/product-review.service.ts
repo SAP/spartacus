@@ -19,6 +19,7 @@ import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
 import { ProductReviewsConnector } from '../connectors';
+import { COMMENT_PROMPT, NEGATIVE_SENTIMENTS_PROMPT, SENTIMENTS_PERCENTAGE_PROMPT, POSITIVE_SENTIMENTS_PROMPT, SUMMARY_PROMPT } from './ai-prompts';
 
 @Injectable({
   providedIn: 'root',
@@ -101,6 +102,8 @@ export class ProductReviewService {
       input = this.getSystemPositiveContent();
     } else if (systemContent === 'negativeSentiments') {
       input = this.getSystemNegativeContent();
+    }else if (systemContent === 'sentimentsPercentage') {
+      input = this.getSystemSentimentPercentageContent();
     }
     reviews.forEach((review) => {
       let item: aiRoleContent = {};
@@ -115,7 +118,7 @@ export class ProductReviewService {
     let input: aiPrompt = { prompt: [] };
     let item: aiRoleContent = {};
     item.role = 'system';
-    item.content = 'Generate review summary';
+    item.content = SUMMARY_PROMPT;
     input?.prompt?.push(item);
     return input;
   }
@@ -124,7 +127,7 @@ export class ProductReviewService {
     let input: aiPrompt = { prompt: [] };
     let item: aiRoleContent = {};
     item.role = 'system';
-    item.content = 'Tags in separate lines with positive sentiments';
+    item.content = POSITIVE_SENTIMENTS_PROMPT;
     input?.prompt?.push(item);
     return input;
   }
@@ -132,7 +135,7 @@ export class ProductReviewService {
     let input: aiPrompt = { prompt: [] };
     let item: aiRoleContent = {};
     item.role = 'system';
-    item.content = 'Tags in separate lines line with negative sentiments';
+    item.content = NEGATIVE_SENTIMENTS_PROMPT;
     input?.prompt?.push(item);
     return input;
   }
@@ -141,8 +144,16 @@ export class ProductReviewService {
     let input: aiPrompt = { prompt: [] };
     let item: aiRoleContent = {};
     item.role = 'system';
-    item.content =
-      'Generate a detailed customer review comment with approximately 30 words based on product details, review title and rating (out of 5) provided by customer';
+    item.content = COMMENT_PROMPT;
+    input?.prompt?.push(item);
+    return input;
+  }
+
+  private getSystemSentimentPercentageContent(): aiPrompt {
+    let input: aiPrompt = { prompt: [] };
+    let item: aiRoleContent = {};
+    item.role = 'system';
+    item.content = SENTIMENTS_PERCENTAGE_PROMPT;
     input?.prompt?.push(item);
     return input;
   }
