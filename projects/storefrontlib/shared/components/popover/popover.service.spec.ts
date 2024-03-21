@@ -6,6 +6,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { FeatureConfigService } from '@spartacus/core';
 import { PopoverEvent } from '@spartacus/storefront';
 import { PopoverService } from './popover.service';
 
@@ -19,13 +20,25 @@ const focusConfig = {
 @Component({ template: '<div id="a"></div><div id="b" tabindex="5"></div>' })
 class MockComponent {}
 
+class mockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 describe('PopoverService', () => {
   let service: PopoverService;
   let fixture: ComponentFixture<MockComponent>;
   let el: ElementRef<HTMLElement>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PopoverService],
+      providers: [
+        PopoverService,
+        {
+          provide: FeatureConfigService,
+          useClass: mockFeatureConfigService,
+        },
+      ],
     });
     service = TestBed.inject(PopoverService);
     fixture = TestBed.createComponent(MockComponent);
