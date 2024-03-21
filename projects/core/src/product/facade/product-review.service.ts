@@ -79,7 +79,6 @@ export class ProductReviewService {
     rate = rate.concat(' out of 5');
     itemRating.content = rate;
     input?.prompt?.push(itemRating);
-    console.log('prompt:', input);
     return this.productReviewsConnector.getAiResponse(input).pipe(
       map((aiResponse: aiResponse) => {
         return aiResponse?.choices?.[0].message?.content;
