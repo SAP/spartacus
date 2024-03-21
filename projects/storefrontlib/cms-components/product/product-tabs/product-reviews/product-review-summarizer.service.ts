@@ -35,7 +35,7 @@ export class ProductReviewSummarizerService {
         max_tokens: 500
     };
 
-    token = 'eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vcHJvZHVjdHJldmlld3MtbXp4cnkxa2YuYXV0aGVudGljYXRpb24uc2FwLmhhbmEub25kZW1hbmQuY29tL3Rva2VuX2tleXMiLCJraWQiOiJkZWZhdWx0LWp3dC1rZXktMDA1NmU1MWVjOCIsInR5cCI6IkpXVCIsImppZCI6ICJwaEN0UDZOY1c2Z0NXUVBTV1JqVFFveEFibUZITUUxVUVxa1EyL09iMG1vPSJ9.eyJqdGkiOiI4MDI1NGRhMGE3MzY0ZmRmYWQ1NzFiNzhjYWUzZDdmNiIsImV4dF9hdHRyIjp7ImVuaGFuY2VyIjoiWFNVQUEiLCJzdWJhY2NvdW50aWQiOiIyNjZkMzVlMC1lYTQ1LTQ4OTEtOWJlOS01YjBiNmQwM2E4NGIiLCJ6ZG4iOiJwcm9kdWN0cmV2aWV3cy1tenhyeTFrZiIsInNlcnZpY2VpbnN0YW5jZWlkIjoiMzQ5MDczNTEtYzIzYi00MzIzLWI1YmUtYjY1ZTU0NDVmOTNmIn0sInN1YiI6InNiLTM0OTA3MzUxLWMyM2ItNDMyMy1iNWJlLWI2NWU1NDQ1ZjkzZiFiMTIxMzQwfGF6dXJlLW9wZW5haS1zZXJ2aWNlLWkwNTcxNDkteHMhYjE2NzMwIiwiYXV0aG9yaXRpZXMiOlsidWFhLnJlc291cmNlIl0sInNjb3BlIjpbInVhYS5yZXNvdXJjZSJdLCJjbGllbnRfaWQiOiJzYi0zNDkwNzM1MS1jMjNiLTQzMjMtYjViZS1iNjVlNTQ0NWY5M2YhYjEyMTM0MHxhenVyZS1vcGVuYWktc2VydmljZS1pMDU3MTQ5LXhzIWIxNjczMCIsImNpZCI6InNiLTM0OTA3MzUxLWMyM2ItNDMyMy1iNWJlLWI2NWU1NDQ1ZjkzZiFiMTIxMzQwfGF6dXJlLW9wZW5haS1zZXJ2aWNlLWkwNTcxNDkteHMhYjE2NzMwIiwiYXpwIjoic2ItMzQ5MDczNTEtYzIzYi00MzIzLWI1YmUtYjY1ZTU0NDVmOTNmIWIxMjEzNDB8YXp1cmUtb3BlbmFpLXNlcnZpY2UtaTA1NzE0OS14cyFiMTY3MzAiLCJncmFudF90eXBlIjoiY2xpZW50X2NyZWRlbnRpYWxzIiwicmV2X3NpZyI6IjM1MmZiNjZlIiwiaWF0IjoxNzExMDA2NjI4LCJleHAiOjE3MTEwNDk4MjgsImlzcyI6Imh0dHBzOi8vcHJvZHVjdHJldmlld3MtbXp4cnkxa2YuYXV0aGVudGljYXRpb24uc2FwLmhhbmEub25kZW1hbmQuY29tL29hdXRoL3Rva2VuIiwiemlkIjoiMjY2ZDM1ZTAtZWE0NS00ODkxLTliZTktNWIwYjZkMDNhODRiIiwiYXVkIjpbInVhYSIsInNiLTM0OTA3MzUxLWMyM2ItNDMyMy1iNWJlLWI2NWU1NDQ1ZjkzZiFiMTIxMzQwfGF6dXJlLW9wZW5haS1zZXJ2aWNlLWkwNTcxNDkteHMhYjE2NzMwIl19.CuyCF1uqdBy1BN1qsEDeUQWN8oPllXSZAiUp6Wv_UkOKfEzyz9zKbpZFUs02xw8Cn0aXskkU-WKUtkaCQ5WFK2sLo8oReTEGSmRcf6a-les4u1A-lxzHf9lDu7JRPzWrGDm6GFDwBqdjibF2QZ6E0dNVk3LMePjf6YgD4pSnHevF2IE-yDrZyLF2QP817v8Ay2Drjyl8UBDxsCp3Gv6S_dNfUwyaGuFxrz8SnnfT2sUXx2loiidF38dVNhpZ17tiGq9RdAOjYtL9UELbO85rOz0cpbAy7PNVfftv-ji4-0oFEaCvXN-OcyzJhQQwg8V5PQG3OGcaQdBGRsAV6QtKdw';
+    token = '';
 
     constructor(
         protected http: HttpClient,
@@ -56,7 +56,7 @@ export class ProductReviewSummarizerService {
         let token = '';
         this.http.post(this.llmAuthUrl, {}, {
             headers: {
-                Authorization: 'Basic c2ItMzQ5MDczNTEtYzIzYi00MzIzLWI1YmUtYjY1ZTU0NDVmOTNmIWIxMjEzNDB8YXp1cmUtb3BlbmFpLXNlcnZpY2UtaTA1NzE0OS14cyFiMTY3MzA6NmYzNGE4NzMtYjJhMC00N2M0LWIzMDctNmVlY2ZlZDRiMTU4JEFkdm52eE14aGhuZk9kSFJnTE5EUzF5Z0NTTU5icFgzN0hXbHo4bzFOQzQ9',
+                Authorization: 'Basic x',
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         }).subscribe((response)=> {
