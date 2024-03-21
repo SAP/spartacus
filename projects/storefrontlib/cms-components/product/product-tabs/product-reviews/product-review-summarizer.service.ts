@@ -19,7 +19,7 @@ export class ProductReviewSummarizerService {
         prompt: "Summarize reviews in bullet points",
         n: 1,
         deployment_id: "text-davinci-003",
-        temperature: 0.5,
+        temperature: 0.1,
         max_tokens: 500
     };
 
@@ -80,7 +80,6 @@ export class ProductReviewSummarizerService {
                 //let res = JSON.parse(JSON.stringify(response)).choices[0].text;
                 let res = JSON.parse(JSON.stringify(response)).choices[0].message.content || '';
                 res = res.replaceAll("\n", "<br>");
-                console.log(`res is ${res}`);
                 return res;
                 })
             );
