@@ -64,7 +64,7 @@ export class ApplePayObservableFactory {
 
       if (
         config.shippingContactSelected &&
-        config.request.shippingType != ApplePayShippingType.STORE_PICKUP
+        config.request.shippingType !== ApplePayShippingType.STORE_PICKUP
       ) {
         session.addEventListener('shippingcontactselected', (event: Event) => {
           config
@@ -78,7 +78,7 @@ export class ApplePayObservableFactory {
 
       if (
         config.shippingMethodSelected &&
-        config.request.shippingType != ApplePayShippingType.STORE_PICKUP
+        config.request.shippingType !== ApplePayShippingType.STORE_PICKUP
       ) {
         session.addEventListener('shippingmethodselected', (event: Event) => {
           config
