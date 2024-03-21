@@ -57,7 +57,7 @@ scripts/install/config.sh
 /libpeerconnection.log
 /typings
 /.nx
-# .well-known/
+.well-known/
 
 # Logs
 npm-debug.log
