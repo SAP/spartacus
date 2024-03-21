@@ -6,7 +6,7 @@
 
 /// <reference types="@types/applepayjs" />
 import { Cart } from '@spartacus/cart/base/root';
-import { Product } from '@spartacus/core';
+import { PointOfService, Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OpfDynamicScript } from './opf.model';
 
@@ -75,12 +75,17 @@ export interface CtaScript {
   dynamicScript: OpfDynamicScript;
 }
 
+export interface OpfQuickBuyDeliveryInfo {
+  type: OpfQuickBuyDeliveryType;
+  pickupDetails?: PointOfService;
+}
+
 export interface QuickBuyTransactionDetails {
   context?: OpfQuickBuyLocation;
   cart?: Cart;
   product?: Product;
   quantity?: number;
-  deliveryType?: OpfQuickBuyDeliveryType;
+  deliveryInfo?: OpfQuickBuyDeliveryInfo;
   addressIds: string[];
   total: {
     amount: string;
@@ -145,3 +150,11 @@ export enum OpfQuickBuyDeliveryType {
 }
 
 export const ADDRESS_FIELD_PLACEHOLDER = '[FIELD_NOT_SET]';
+
+// Mirror ApplePayShippingType type from applepayjs
+export enum ApplePayShippingType {
+  SHIPPING = 'shipping',
+  DELIVERY = 'delivery',
+  STORE_PICKUP = 'storePickup',
+  SERVICE_PICKUP = 'servicePickup',
+}

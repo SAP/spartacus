@@ -7,7 +7,10 @@
 import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { Product } from '@spartacus/core';
-import { OpfQuickBuyDeliveryType } from '@spartacus/opf/base/root';
+import {
+  OpfQuickBuyDeliveryInfo,
+  OpfQuickBuyDeliveryType,
+} from '@spartacus/opf/base/root';
 import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -25,25 +28,38 @@ export class OpfPickupInStoreHandlerService {
    * Retrieves the delivery type for a single product based on the intended pickup location.
    * @return An observable emitting the delivery type (pickup or shipping).
    */
-  getSingleProductDeliveryType(): Observable<OpfQuickBuyDeliveryType> {
+  getSingleProductDeliveryInfo(): Observable<OpfQuickBuyDeliveryInfo> {
+    let deliveryInfo: OpfQuickBuyDeliveryInfo = {
+      type: OpfQuickBuyDeliveryType.SHIPPING,
+    };
+
     if (!this.intendedPickupLocationFacade) {
-      return of(OpfQuickBuyDeliveryType.SHIPPING);
+      return of(deliveryInfo);
     }
 
     return this.currentProductService.getProduct().pipe(
       take(1),
-      switchMap((product: Product | null) =>
-        this.intendedPickupLocationFacade
-          .getIntendedLocation(product?.code as string)
+      switchMap((product: Product | null) => {
+        const productCode = product?.code as string;
+        return this.intendedPickupLocationFacade
+          .getIntendedLocation(productCode)
           .pipe(
             map((intendedLocation) => {
-              return intendedLocation?.pickupOption ===
-                OpfQuickBuyDeliveryType.PICKUP.toLowerCase()
-                ? OpfQuickBuyDeliveryType.PICKUP
-                : OpfQuickBuyDeliveryType.SHIPPING;
+              if (
+                intendedLocation &&
+                intendedLocation.pickupOption ===
+                  OpfQuickBuyDeliveryType.PICKUP.toLowerCase()
+              ) {
+                deliveryInfo = {
+                  type: OpfQuickBuyDeliveryType.PICKUP,
+                  pickupDetails: intendedLocation,
+                };
+              }
+
+              return deliveryInfo;
             })
-          )
-      )
+          );
+      })
     );
   }
 

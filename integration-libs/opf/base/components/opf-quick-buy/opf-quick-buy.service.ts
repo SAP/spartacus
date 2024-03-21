@@ -14,7 +14,7 @@ import {
   OpfPaymentFacade,
   OpfPaymentProviderType,
   OpfProviderType,
-  OpfQuickBuyDeliveryType,
+  OpfQuickBuyDeliveryInfo,
   OpfQuickBuyLocation,
 } from '@spartacus/opf/base/root';
 import { Observable, of } from 'rxjs';
@@ -100,13 +100,19 @@ export class OpfQuickBuyService {
     );
   }
 
-  getQuickBuyDeliveryType(
+  getQuickBuyDeliveryInfo(
     context: OpfQuickBuyLocation
-  ): Observable<OpfQuickBuyDeliveryType> {
+  ): Observable<OpfQuickBuyDeliveryInfo> {
     const deliveryTypeObservable =
       context === OpfQuickBuyLocation.CART
-        ? this.opfPickupInStoreHandlerService.getActiveCartDeliveryType()
-        : this.opfPickupInStoreHandlerService.getSingleProductDeliveryType();
+        ? this.opfPickupInStoreHandlerService.getActiveCartDeliveryType().pipe(
+            map((deliveryType) => {
+              return {
+                type: deliveryType,
+              } as OpfQuickBuyDeliveryInfo;
+            })
+          )
+        : this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo();
 
     return deliveryTypeObservable.pipe(take(1));
   }

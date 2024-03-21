@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { OpfQuickBuyDeliveryType } from '@spartacus/opf/base/root';
+import {
+  OpfQuickBuyDeliveryInfo,
+  OpfQuickBuyDeliveryType,
+} from '@spartacus/opf/base/root';
 import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
 import { CurrentProductService } from '@spartacus/storefront';
 import { of } from 'rxjs';
@@ -8,8 +11,13 @@ import { OpfPickupInStoreHandlerService } from './opf-pickup-in-store-handler.se
 
 describe('OpfPickupInStoreHandlerService', () => {
   let service: OpfPickupInStoreHandlerService;
+  let intendedPickupLocationFacadeMock: jasmine.SpyObj<IntendedPickupLocationFacade>;
 
   beforeEach(() => {
+    intendedPickupLocationFacadeMock = jasmine.createSpyObj(
+      'IntendedPickupLocationFacade',
+      ['getIntendedLocation']
+    );
     TestBed.configureTestingModule({
       providers: [
         OpfPickupInStoreHandlerService,
@@ -23,9 +31,7 @@ describe('OpfPickupInStoreHandlerService', () => {
         },
         {
           provide: IntendedPickupLocationFacade,
-          useValue: {
-            getIntendedLocation: () => of({ pickupOption: 'pickup' }),
-          },
+          useValue: intendedPickupLocationFacadeMock,
         },
       ],
     });
@@ -37,10 +43,25 @@ describe('OpfPickupInStoreHandlerService', () => {
   });
 
   it('should return pickup delivery type for single product', (done: DoneFn) => {
+    intendedPickupLocationFacadeMock.getIntendedLocation.and.returnValue(
+      of({ pickupOption: 'pickup' })
+    );
     service
-      .getSingleProductDeliveryType()
-      .subscribe((deliveryType: OpfQuickBuyDeliveryType) => {
-        expect(deliveryType).toBe(OpfQuickBuyDeliveryType.PICKUP);
+      .getSingleProductDeliveryInfo()
+      .subscribe((deliveryInfo: OpfQuickBuyDeliveryInfo) => {
+        expect(deliveryInfo.type).toBe(OpfQuickBuyDeliveryType.PICKUP);
+        done();
+      });
+  });
+
+  it('should return shipping delivery type when no pickup details', (done: DoneFn) => {
+    intendedPickupLocationFacadeMock.getIntendedLocation.and.returnValue(
+      of(undefined)
+    );
+    service
+      .getSingleProductDeliveryInfo()
+      .subscribe((deliveryInfo: OpfQuickBuyDeliveryInfo) => {
+        expect(deliveryInfo.type).toBe(OpfQuickBuyDeliveryType.SHIPPING);
         done();
       });
   });
