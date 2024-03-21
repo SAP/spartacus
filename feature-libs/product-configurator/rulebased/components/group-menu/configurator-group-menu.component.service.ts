@@ -155,7 +155,7 @@ export class ConfiguratorGroupMenuService {
    */
   isActiveGroupInGroupList(
     groups: QueryList<ElementRef<HTMLElement>>
-  ): boolean | undefined {
+  ): boolean {
     let activeGroup;
     if (groups) {
       activeGroup = groups.find(
