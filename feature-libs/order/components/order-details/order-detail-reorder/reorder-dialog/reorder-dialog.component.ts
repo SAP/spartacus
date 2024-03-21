@@ -47,6 +47,7 @@ export class ReorderDialogComponent {
   showDecisionPrompt$ = new BehaviorSubject(true);
   data$ = this.launchDialogService.data$;
 
+  // TODO: (CXSPA-6585) - Remove FeatureConfigService and make depenencies required
   @Optional() selectFocusUtility = inject(SelectFocusUtility, {
     optional: true,
   });
@@ -76,6 +77,7 @@ export class ReorderDialogComponent {
   }
 
   recaptureFocus(): void {
+    // TODO: (CXSPA-6585) - Remove feature flag next major release
     if (!this.featureConfigService?.isEnabled('a11yReorderDialog')) {
       return;
     }
