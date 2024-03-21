@@ -74,7 +74,10 @@ describe('ScrollToTopComponent', () => {
     spyOn<any>(component['window'], 'scrollTo');
 
     component.scrollToTop(new MouseEvent('click'));
-    expect(component['window']?.scrollTo).toHaveBeenCalled();
+    expect(component['window']?.scrollTo as any).toHaveBeenCalledWith({
+      top: 0,
+      behavior: ScrollBehavior.SMOOTH,
+    });
   });
 
   describe('on focused out', () => {

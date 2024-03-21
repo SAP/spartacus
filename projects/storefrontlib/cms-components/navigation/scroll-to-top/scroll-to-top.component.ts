@@ -32,10 +32,10 @@ import { ICON_TYPE } from '../../misc/icon/icon.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScrollToTopComponent implements OnInit {
-  readonly iconTypes = ICON_TYPE;
+  iconTypes = ICON_TYPE;
 
   @HostBinding('class.display')
-  display: boolean = false;
+  display: boolean | undefined;
 
   protected window: Window | undefined = this.winRef.nativeWindow;
   protected scrollBehavior: ScrollBehavior = ScrollBehavior.SMOOTH;
