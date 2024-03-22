@@ -17,6 +17,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -113,6 +114,12 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 describe('CheckoutDeliveryModeComponent', () => {
   let component: CheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
@@ -139,6 +146,7 @@ describe('CheckoutDeliveryModeComponent', () => {
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: ActiveCartFacade, useClass: MockCartService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         ],
       }).compileComponents();
 
