@@ -1,4 +1,6 @@
-<ng-container *ngIf="text">
+<ng-container
+  *ngIf="text && config.features?.productConfiguratorAttributeTypesV2"
+>
   <span
     [attr.aria-label]="
       'configurator.a11y.itemDescription'

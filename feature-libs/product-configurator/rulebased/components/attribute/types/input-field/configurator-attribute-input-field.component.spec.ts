@@ -38,7 +38,7 @@ class MockConfigUtilsService {
   }
 }
 
-describe('ConfigAttributeInputFieldComponent', () => {
+describe('ConfiguratorAttributeInputFieldComponent', () => {
   let component: ConfiguratorAttributeInputFieldComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeInputFieldComponent>;
   let htmlElem: HTMLElement;

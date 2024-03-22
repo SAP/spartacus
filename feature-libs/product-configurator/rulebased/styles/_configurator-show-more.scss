@@ -3,13 +3,20 @@
     font-size: 14px;
     line-height: 1.2;
 
+    @include forFeature('productConfiguratorAttributeTypesV2') {
+      padding-block-end: 10px;
+    }
+
     button {
       background-color: transparent;
       border: none;
       display: inline-block;
       outline-offset: 0px;
       text-decoration: underline;
-      padding-inline-start: 0;
+
+      @include forFeature('productConfiguratorAttributeTypesV2') {
+        padding-inline-start: 0;
+      }
 
       &:hover {
         color: var(--cx-color-primary);
