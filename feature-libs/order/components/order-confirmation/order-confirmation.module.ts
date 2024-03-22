@@ -10,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
 import {
   CmsConfig,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
@@ -137,12 +136,6 @@ const orderConfirmationComponents = [
     provideOutlet({
       id: OrderOutlets.CONSIGNMENT_DELIVERY_INFO,
       component: OrderConfirmationShippingComponent,
-    }),
-    // TODO: (CXSPA-6313) - Remove feature flag config next major release
-    provideDefaultConfig(<FeaturesConfig>{
-      features: {
-        a11yOrderConfirmationHeadingOrder: true,
-      },
     }),
   ],
   declarations: [...orderConfirmationComponents],

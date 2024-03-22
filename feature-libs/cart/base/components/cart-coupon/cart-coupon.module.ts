@@ -10,7 +10,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CmsConfig,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
@@ -38,12 +37,6 @@ import { CartCouponComponent } from './cart-coupon.component';
         CartApplyCouponComponent: {
           component: CartCouponComponent,
         },
-      },
-    }),
-    // TODO: (CXSPA-5953) Remove feature flag config next major release
-    provideDefaultConfig(<FeaturesConfig>{
-      features: {
-        a11yRequiredAsterisks: true,
       },
     }),
   ],
