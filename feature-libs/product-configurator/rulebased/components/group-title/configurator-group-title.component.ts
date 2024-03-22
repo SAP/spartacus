@@ -67,11 +67,17 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
             'display',
             'none'
           );
+          this.configuratorStorefrontUtilsService.focusFirstActiveElement(
+            '.cx-group-title'
+          );
         } else {
           this.configuratorStorefrontUtilsService.changeStyling(
             this.PRE_HEADER,
             'display',
             'block'
+          );
+          this.configuratorStorefrontUtilsService.focusFirstActiveElement(
+            'cx-hamburger-menu'
           );
         }
       })

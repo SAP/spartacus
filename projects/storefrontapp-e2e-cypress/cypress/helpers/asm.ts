@@ -177,11 +177,11 @@ export function agentLogin(user, pwd): void {
         cy.get('cx-csagent-login-form form').within(() => {
           cy.get('[formcontrolname="userId"]')
             .clear()
-            .type(user)
+            .type(user, { force: true })
             .should('have.value', user);
           cy.get('[formcontrolname="password"]')
             .clear()
-            .type(pwd)
+            .type(pwd, { force: true })
             .should('have.value', pwd);
           cy.get('button[type="submit"]').click();
         });

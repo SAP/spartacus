@@ -44,10 +44,10 @@ class MockConfiguratorCommonsService {
 }
 
 class MockConfig {
-  features = [{ attributeTypesV2: false }];
+  features = [{ productConfiguratorAttributeTypesV2: false }];
 }
 
-describe('ConfigAttributeSingleSelectionImageComponent', () => {
+describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionImageComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionImageComponent>;
   let htmlElem: HTMLElement;
@@ -154,7 +154,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     };
     component.ownerKey = ownerKey;
     config = TestBed.inject(Config);
-    (config.features ?? {}).attributeTypesV2 = false;
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
     fixture.detectChanges();
   });
 
@@ -170,6 +170,8 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   });
 
   it('should render info icon at value level if value has a description', () => {
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -178,6 +180,8 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   });
 
   it('should render popover with description at value level after clicking on info icon', () => {
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
+    fixture.detectChanges();
     const infoButton = fixture.debugElement.query(
       By.css('button[ng-reflect-cx-popover]')
     ).nativeElement;
@@ -212,7 +216,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   });
 
   describe('select single image', () => {
-    it('should call service for update when attributeTypesV2 feature flag is disabled', () => {
+    it('should call service for update when productConfiguratorAttributeTypesV2 feature flag is disabled', () => {
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
@@ -227,8 +231,8 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       );
     });
 
-    it('should not call service for update and in case attribute is read-only and attributeTypesV2 feature flag is enabled', () => {
-      (config.features ?? {}).attributeTypesV2 = true;
+    it('should not call service for update and in case attribute is read-only and productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
+      (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
@@ -256,8 +260,8 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   });
 
   describe('label styling', () => {
-    it('should set cursor to default in case attributeTypesV2 feature flag is enabled', () => {
-      (config.features ?? {}).attributeTypesV2 = true;
+    it('should set cursor to default in case productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
+      (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
       value1.selected = true;
@@ -324,6 +328,8 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     });
 
     it("should contain button elements with 'aria-label' attribute that point out that there is a description for the current value", () => {
+      (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

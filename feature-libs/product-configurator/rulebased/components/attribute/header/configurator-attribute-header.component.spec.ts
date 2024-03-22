@@ -119,7 +119,6 @@ describe('ConfigAttributeHeaderComponent', () => {
     productConfigurator: {
       enableNavigationToConflict: false,
       descriptions: {
-        addDescriptions: true,
         attributeDescriptionLength: 100,
         valueDescriptionLength: 70,
       },
@@ -1124,14 +1123,14 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should return default value if attributeDescriptionLength setting is not provided', () => {
-      (configuratorUISettingsConfig.productConfigurator.descriptions ??=
-        {}).attributeDescriptionLength = undefined;
+      ((configuratorUISettingsConfig.productConfigurator ??=
+        {}).descriptions ??= {}).attributeDescriptionLength = undefined;
       expect(component.getAttributeDescriptionLength()).toEqual(100);
     });
 
     it('should return set value if attributeDescriptionLength setting is 110', () => {
-      (configuratorUISettingsConfig.productConfigurator.descriptions ??=
-        {}).attributeDescriptionLength = 110;
+      ((configuratorUISettingsConfig.productConfigurator ??=
+        {}).descriptions ??= {}).attributeDescriptionLength = 110;
       expect(component.getAttributeDescriptionLength()).toEqual(110);
     });
   });
