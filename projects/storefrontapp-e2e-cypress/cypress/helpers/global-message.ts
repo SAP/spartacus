@@ -19,3 +19,7 @@ export function getWarningAlert() {
 export function getAlert() {
   return cy.get('cx-global-message .alert');
 }
+
+export function getAssistiveAlert() {
+  return cy.get('cx-global-message .cx-visually-hidden');
+}

@@ -1,4 +1,7 @@
-<cx-view class="card">
+<cx-view
+  [viewTitle]="i18nRoot + '.title' | cxTranslate: { item: item$ | async }"
+  class="card"
+>
   <div class="header">
     <div class="title-bar">
       <div class="title">
