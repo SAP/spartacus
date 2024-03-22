@@ -32,7 +32,7 @@ export class ScheduleLinesComponent {
    * @returns {boolean} - whether the Schedule Line information is present for the order
    */
   hasScheduleLines(item: OrderEntry): boolean {
-    const scheduleLines = item.scheduleLines;
+    const scheduleLines = item.arrivalSlots;
 
     return scheduleLines != null && scheduleLines.length > 0;
   }

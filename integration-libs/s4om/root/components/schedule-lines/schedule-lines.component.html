@@ -2,7 +2,7 @@
   <ng-container *ngIf="hasScheduleLines(orderEntry)">
     <div class="cx-code">
       <div
-        *ngFor="let scheduleLine of orderEntry.scheduleLines; let i = index"
+        *ngFor="let scheduleLine of orderEntry.arrivalSlots; let i = index"
         class="cx-schedule-line-info"
         attr.aria-describedby="{{ getScheduleLineInfoId(i) }}"
       >
@@ -11,19 +11,19 @@
             's4omScheduleLines.a11y.scheduleLineEntryInfo'
               | cxTranslate
                 : {
-                    quantity: scheduleLine.confirmedQuantity,
-                    date: getLongDate(scheduleLine.confirmedAt)
+                    quantity: scheduleLine.quantity,
+                    date: getLongDate(scheduleLine.at)
                   }
           }}
         </div>
         <div class="cx-value" aria-hidden="true">
-          {{ scheduleLine?.confirmedAt | cxDate: 'M/d/yyyy' }}
+          {{ scheduleLine?.at | cxDate: 'M/d/yyyy' }}
         </div>
         <div class="cx-label" aria-hidden="true">
           {{ 's4omScheduleLines.quantity' | cxTranslate }}
         </div>
         <div class="cx-value" aria-hidden="true">
-          {{ scheduleLine?.confirmedQuantity }}
+          {{ scheduleLine?.quantity }}
         </div>
       </div>
     </div>
