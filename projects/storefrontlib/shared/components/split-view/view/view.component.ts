@@ -75,6 +75,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   @Input()
   viewTitle?: string;
 
+  // TODO: (CXSPA-6475) - Remove FeatureConfigService and make globalMessageService required.
   @Optional()
   protected globalMessageService = inject(GlobalMessageService, {
     optional: true,
