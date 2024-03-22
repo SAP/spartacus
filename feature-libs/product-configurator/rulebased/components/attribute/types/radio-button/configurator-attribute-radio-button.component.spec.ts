@@ -62,6 +62,16 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+}
+
 const isCartEntryOrGroupVisited = true;
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
@@ -95,6 +105,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
           MockFocusDirective,
           MockConfiguratorAttributeQuantityComponent,
           MockConfiguratorPriceComponent,
+          MockConfiguratorShowMoreComponent,
         ],
         imports: [
           I18nTestingModule,
@@ -242,6 +253,25 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-price'
+      );
+    });
+
+    it('should not render description in case description not present on model', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
+    });
+
+    it('should render description in case description is present on model', () => {
+      (component.attribute.values ?? [{ description: '' }])[0].description =
+        'Here is a description at value level';
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
       );
     });
   });
