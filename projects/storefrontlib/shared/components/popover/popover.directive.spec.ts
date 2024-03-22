@@ -41,7 +41,7 @@ class PopoverTestComponent {
 }
 
 class MockFeatureConfigService {
-  isLevel() {
+  isEnabled() {
     return true;
   }
 }

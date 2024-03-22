@@ -141,6 +141,7 @@ export class PopoverDirective implements OnInit {
     PopoverEvent.CLOSE_BUTTON_KEYDOWN,
   ];
 
+  // TODO: (CXSPA-6442) - Remove FeatureConfigService and make SelectFocusUtility required.
   @Optional()
   featureFlagService = inject(FeatureConfigService, {
     optional: true,
@@ -158,7 +159,7 @@ export class PopoverDirective implements OnInit {
   open(event: PopoverEvent) {
     if (!this.cxPopoverOptions?.disable) {
       if (
-        this.featureFlagService?.isLevel('6.8') &&
+        this.featureFlagService?.isEnabled('a11yPopoverAriaLive') &&
         event === PopoverEvent.OPEN_BY_KEYBOARD
       ) {
         this.removePopoverWrapper();
@@ -169,7 +170,7 @@ export class PopoverDirective implements OnInit {
         this.cxPopoverOptions?.appendToBody || false
       );
       this.renderPopover();
-      if (!this.featureFlagService?.isLevel('6.8')) {
+      if (!this.featureFlagService?.isEnabled('a11yPopoverAriaLive')) {
         this.openPopover.emit();
       }
     }
@@ -183,7 +184,7 @@ export class PopoverDirective implements OnInit {
     this.isOpen = false;
     this.viewContainer.clear();
     if (
-      this.featureFlagService?.isLevel('6.8') &&
+      this.featureFlagService?.isEnabled('a11yPopoverAriaLive') &&
       this.cxPopoverOptions?.appendToBody
     ) {
       this.removePopoverWrapper();
@@ -202,7 +203,7 @@ export class PopoverDirective implements OnInit {
         this.open(event);
       }
       if (this.focusPopoverTriggerEvents.includes(event)) {
-        if (this.featureFlagService?.isLevel('6.8')) {
+        if (this.featureFlagService?.isEnabled('a11yPopoverAriaLive')) {
           this.openPopover.pipe(take(1)).subscribe(() => {
             this.selectFocusUtility
               ?.findFirstFocusable(this.popoverContainer.location.nativeElement)
@@ -253,7 +254,7 @@ export class PopoverDirective implements OnInit {
         this.cxPopoverOptions?.autoPositioning;
 
       if (this.cxPopoverOptions?.appendToBody) {
-        if (this.featureFlagService?.isLevel('6.8')) {
+        if (this.featureFlagService?.isEnabled('a11yPopoverAriaLive')) {
           this.appendPopoverToBody();
           return;
         } else {
@@ -263,7 +264,7 @@ export class PopoverDirective implements OnInit {
           );
         }
       }
-      if (this.featureFlagService?.isLevel('6.8')) {
+      if (this.featureFlagService?.isEnabled('a11yPopoverAriaLive')) {
         this.openPopover.emit();
       }
       this.popoverContainer.changeDetectorRef.detectChanges();
