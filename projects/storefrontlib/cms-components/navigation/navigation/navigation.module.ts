@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
@@ -33,6 +34,12 @@ import { NavigationComponent } from './navigation.component';
         NavigationComponent: {
           component: NavigationComponent,
         },
+      },
+    }),
+    // TODO: (CXSPA-5919) Remove feature flag config next major release
+    provideDefaultConfig(<FeaturesConfig>{
+      features: {
+        a11yNavigationUiKeyboardControls: true,
       },
     }),
   ],
