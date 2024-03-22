@@ -16,6 +16,7 @@ import {
   OpfProviderType,
   OpfQuickBuyDeliveryInfo,
   OpfQuickBuyLocation,
+  defaultMerchantName,
 } from '@spartacus/opf/base/root';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
@@ -115,5 +116,12 @@ export class OpfQuickBuyService {
         : this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo();
 
     return deliveryTypeObservable.pipe(take(1));
+  }
+
+  getMerchantName(): Observable<string> {
+    return this.baseSiteService.get().pipe(
+      take(1),
+      map((baseSite) => baseSite?.name ?? defaultMerchantName)
+    );
   }
 }
