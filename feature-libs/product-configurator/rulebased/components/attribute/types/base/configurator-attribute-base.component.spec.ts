@@ -1,6 +1,9 @@
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { ConfiguratorUISettingsConfig } from '@spartacus/product-configurator/rulebased';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 
 const attributeCode = 1;
 const currentAttribute: Configurator.Attribute = {
@@ -10,12 +13,31 @@ const currentAttribute: Configurator.Attribute = {
 };
 
 const attributeIncomplete: Configurator.Attribute = { name: 'name' };
+let configuratorUISettingsConfig: ConfiguratorUISettingsConfig = {
+  productConfigurator: {
+    descriptions: {
+      valueDescriptionLength: 80,
+    },
+  },
+};
 
 describe('ConfiguratorAttributeBaseComponent', () => {
   let classUnderTest: ConfiguratorAttributeBaseComponent;
 
   beforeEach(() => {
-    classUnderTest = new ConfiguratorAttributeBaseComponent();
+    TestBed.configureTestingModule({
+      providers: [
+        ConfiguratorAttributeBaseComponent,
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: configuratorUISettingsConfig,
+        },
+      ],
+    });
+
+    classUnderTest = TestBed.inject(
+      ConfiguratorAttributeBaseComponent as Type<ConfiguratorAttributeBaseComponent>
+    );
   });
 
   it('should generate value key', () => {
@@ -323,6 +345,26 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
   });
 
+  describe('getImageLabel', () => {
+    it('should return image label without ellipsis', () => {
+      const label = 'BLACK';
+      const techName = 'BLK';
+      const techLabel = label + ' / [' + techName + ']';
+      expect(classUnderTest.getImageLabel(true, label, techName)).toEqual(
+        techLabel
+      );
+    });
+
+    it('should return image label with ellipsis', () => {
+      const label = 'String value 0 make text long make text long';
+      const techName = 'techName';
+      const techLabel = label.substring(0, 16).concat('...');
+      expect(classUnderTest.getImageLabel(true, label, techName)).toEqual(
+        techLabel
+      );
+    });
+  });
+
   describe('getValuePrice', () => {
     it('should return empty string in case value is undefined', () => {
       expect(classUnderTest['getValuePrice'](undefined)).toEqual('');
@@ -491,67 +533,94 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
   });
 
-  describe('isReadOnly', () => {
-    it('should return false in case uiType is undefined', () => {
-      currentAttribute.uiType = undefined;
-      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(false);
+  describe('getValueDescriptionLength', () => {
+    it('should return default value if productConfigurator setting is not provided', () => {
+      configuratorUISettingsConfig.productConfigurator = undefined;
+      expect(classUnderTest.getValueDescriptionLength()).toEqual(70);
     });
 
-    it('should return false in case uiType is RADIOBUTTON', () => {
-      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(false);
+    it('should return default value if descriptions setting is not provided', () => {
+      (configuratorUISettingsConfig.productConfigurator ??= {}).descriptions ??=
+        {};
+      expect(classUnderTest.getValueDescriptionLength()).toEqual(70);
     });
 
-    it('should return true in case uiType is READ_ONLY', () => {
-      currentAttribute.uiType = Configurator.UiType.READ_ONLY;
-      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
+    it('should return default value if valueDescriptionLength setting is not provided', () => {
+      (
+        configuratorUISettingsConfig.productConfigurator?.descriptions ?? {}
+      ).valueDescriptionLength = undefined;
+      expect(classUnderTest.getValueDescriptionLength()).toEqual(70);
     });
 
-    it('should return true in case uiType is READ_ONLY_SINGLE_SELECTION_IMAGE', () => {
-      currentAttribute.uiType =
-        Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
-      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
+    it('should return set value if valueDescriptionLength setting is 80', () => {
+      (
+        configuratorUISettingsConfig.productConfigurator?.descriptions ?? {}
+      ).valueDescriptionLength = 80;
+      expect(classUnderTest.getValueDescriptionLength()).toEqual(80);
     });
 
-    it('should return true in case uiType is READ_ONLY_MULTI_SELECTION_IMAGE', () => {
-      currentAttribute.uiType =
-        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
-      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
-    });
-  });
+    describe('isReadOnly', () => {
+      it('should return false in case uiType is undefined', () => {
+        currentAttribute.uiType = undefined;
+        expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(false);
+      });
 
-  describe('isValueDisplayed', () => {
-    it('should return false in case uiType is READ_ONLY_MULTI_SELECTION_IMAGE and value is not selected', () => {
-      currentAttribute.uiType =
-        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
-      const value: Configurator.Value = { valueCode: 'val', selected: false };
-      expect(classUnderTest['isValueDisplayed'](currentAttribute, value)).toBe(
-        false
-      );
-    });
+      it('should return false in case uiType is RADIOBUTTON', () => {
+        expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(false);
+      });
 
-    it('should return true in case uiType is READ_ONLY_MULTI_SELECTION_IMAGE and value is selected', () => {
-      currentAttribute.uiType =
-        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
-      const value: Configurator.Value = { valueCode: 'val', selected: true };
-      expect(classUnderTest['isValueDisplayed'](currentAttribute, value)).toBe(
-        true
-      );
-    });
+      it('should return true in case uiType is READ_ONLY', () => {
+        currentAttribute.uiType = Configurator.UiType.READ_ONLY;
+        expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
+      });
 
-    it('should return true in case uiType is RADIOBUTTON and value is not selected', () => {
-      currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
-      const value: Configurator.Value = { valueCode: 'val', selected: false };
-      expect(classUnderTest['isValueDisplayed'](currentAttribute, value)).toBe(
-        true
-      );
+      it('should return true in case uiType is READ_ONLY_SINGLE_SELECTION_IMAGE', () => {
+        currentAttribute.uiType =
+          Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+        expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
+      });
+
+      it('should return true in case uiType is READ_ONLY_MULTI_SELECTION_IMAGE', () => {
+        currentAttribute.uiType =
+          Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+        expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
+      });
     });
 
-    it('should return true in case uiType is RADIOBUTTON and value is selected', () => {
-      currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
-      const value: Configurator.Value = { valueCode: 'val', selected: true };
-      expect(classUnderTest['isValueDisplayed'](currentAttribute, value)).toBe(
-        true
-      );
+    describe('isValueDisplayed', () => {
+      it('should return false in case uiType is READ_ONLY_MULTI_SELECTION_IMAGE and value is not selected', () => {
+        currentAttribute.uiType =
+          Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+        const value: Configurator.Value = { valueCode: 'val', selected: false };
+        expect(
+          classUnderTest['isValueDisplayed'](currentAttribute, value)
+        ).toBe(false);
+      });
+
+      it('should return true in case uiType is READ_ONLY_MULTI_SELECTION_IMAGE and value is selected', () => {
+        currentAttribute.uiType =
+          Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+        const value: Configurator.Value = { valueCode: 'val', selected: true };
+        expect(
+          classUnderTest['isValueDisplayed'](currentAttribute, value)
+        ).toBe(true);
+      });
+
+      it('should return true in case uiType is RADIOBUTTON and value is not selected', () => {
+        currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
+        const value: Configurator.Value = { valueCode: 'val', selected: false };
+        expect(
+          classUnderTest['isValueDisplayed'](currentAttribute, value)
+        ).toBe(true);
+      });
+
+      it('should return true in case uiType is RADIOBUTTON and value is selected', () => {
+        currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
+        const value: Configurator.Value = { valueCode: 'val', selected: true };
+        expect(
+          classUnderTest['isValueDisplayed'](currentAttribute, value)
+        ).toBe(true);
+      });
     });
   });
 });

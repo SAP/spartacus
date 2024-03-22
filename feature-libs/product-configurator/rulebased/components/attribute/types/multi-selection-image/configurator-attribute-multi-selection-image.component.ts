@@ -12,12 +12,13 @@ import {
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Config, useFeatureStyles } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-multi-selection-image',
@@ -32,6 +33,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   ownerKey: string;
   expMode: boolean;
 
+  iconTypes = ICON_TYPE;
   protected config = inject(Config);
 
   constructor(
@@ -45,7 +47,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
 
-    useFeatureStyles('attributeTypesV2');
+    useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
   attributeCheckBoxForms = new Array<UntypedFormControl>();

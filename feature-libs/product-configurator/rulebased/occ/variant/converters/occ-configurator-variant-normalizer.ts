@@ -157,6 +157,7 @@ export class OccConfiguratorVariantNormalizer
       key: sourceAttribute.key,
       validationType: sourceAttribute.validationType,
       visible: sourceAttribute.visible,
+      description: sourceAttribute.longText,
     };
 
     this.setSelectedSingleValue(attribute);
@@ -285,6 +286,7 @@ export class OccConfiguratorVariantNormalizer
       name: occValue.name,
       selected: occValue.selected,
       images: valueImages,
+      description: occValue.longText,
     };
 
     values.push(value);

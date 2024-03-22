@@ -12,10 +12,11 @@ import {
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Config, useFeatureStyles } from '@spartacus/core';
-import { Configurator } from '../../../../core/model/configurator.model';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
@@ -33,6 +34,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   ownerKey: string;
   expMode: boolean;
 
+  iconTypes = ICON_TYPE;
   protected config = inject(Config);
 
   constructor(
@@ -44,7 +46,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
 
-    useFeatureStyles('attributeTypesV2');
+    useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
   ngOnInit(): void {

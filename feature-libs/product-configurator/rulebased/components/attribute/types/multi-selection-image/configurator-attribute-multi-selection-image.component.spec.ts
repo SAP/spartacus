@@ -9,15 +9,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Config, I18nTestingModule } from '@spartacus/core';
+import { IconTestingModule, PopoverModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
 
 class MockGroupService {}
 
@@ -43,10 +44,10 @@ class MockConfiguratorCommonsService {
 }
 
 class MockConfig {
-  features = [{ attributeTypesV2: false }];
+  features = [{ productConfiguratorAttributeTypesV2: false }];
 }
 
-describe('ConfigAttributeMultiSelectionImageComponent', () => {
+describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionImageComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionImageComponent>;
   let htmlElem: HTMLElement;
@@ -60,7 +61,13 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
           MockFocusDirective,
           MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+        imports: [
+          ReactiveFormsModule,
+          NgSelectModule,
+          I18nTestingModule,
+          IconTestingModule,
+          PopoverModule,
+        ],
         providers: [
           ConfiguratorStorefrontUtilsService,
           {
@@ -99,7 +106,8 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     code: string,
     name: string,
     isSelected: boolean,
-    images: Configurator.Image[]
+    images: Configurator.Image[],
+    description?: string
   ): Configurator.Value {
     const value: Configurator.Value = {
       valueCode: code,
@@ -107,6 +115,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       name: name,
       selected: isSelected,
       images: images,
+      description: description,
     };
     return value;
   }
@@ -117,9 +126,21 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     const image = createImage('url', 'altText');
     const images: Configurator.Image[] = [image, image, image];
     value1 = createValue('1', 'val1', false, images);
-    const value2 = createValue('2', 'val2', true, images);
+    const value2 = createValue(
+      '2',
+      'val2',
+      true,
+      images,
+      'Here is a long description at value level'
+    );
     const value3 = createValue('3', VALUE_NAME_3, true, images);
-    const value4 = createValue('4', 'val4', false, images);
+    const value4 = createValue(
+      '4',
+      'val4',
+      false,
+      images,
+      'Here is a long description at value level'
+    );
     const values: Configurator.Value[] = [value1, value2, value3, value4];
 
     fixture = TestBed.createComponent(
@@ -138,7 +159,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       values: values,
     };
     config = TestBed.inject(Config);
-    config.features.attributeTypesV2 = false;
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
     fixture.detectChanges();
   });
 
@@ -151,6 +172,33 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     fixture.detectChanges();
 
     expect(htmlElem.querySelectorAll('.cx-img').length).toBe(4);
+  });
+
+  it('should render 2 info icons at value level when value has a description', () => {
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectNumberOfElements(
+      expect,
+      htmlElem,
+      "cx-icon[ng-reflect-type='INFO']",
+      2
+    );
+  });
+
+  it('should render popover with description at value level after clicking on info icon', () => {
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
+    fixture.detectChanges();
+    const infoButton = fixture.debugElement.query(
+      By.css('button[ng-reflect-cx-popover]')
+    ).nativeElement;
+    infoButton.click();
+    const description = fixture.debugElement.query(
+      By.css('cx-popover > .popover-body > span')
+    );
+    expect(description).toBeTruthy();
+    expect(description.nativeElement.innerText).toBe(
+      (component.attribute.values ?? [{ description: '' }])[1]?.description
+    );
   });
 
   it('should mark two values as selected', () => {
@@ -182,7 +230,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
   });
 
   describe('select multi images', () => {
-    it('should call service for update when attributeTypesV2 feature flag is disabled', () => {
+    it('should call service for update when productConfiguratorAttributeTypesV2 feature flag is disabled', () => {
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
@@ -193,8 +241,8 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       ).toHaveBeenCalled();
     });
 
-    it('should not call service in case uiType READ_ONLY_MULTI_SELECTION_IMAGE and attributeTypesV2 feature flag is enabled', () => {
-      config.features.attributeTypesV2 = true;
+    it('should not call service in case uiType READ_ONLY_MULTI_SELECTION_IMAGE and productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
+      (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
@@ -223,8 +271,8 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
   });
 
   describe('label styling', () => {
-    it('should set cursor to default in case attributeTypesV2 feature flag is enabled', () => {
-      config.features.attributeTypesV2 = true;
+    it('should set cursor to default in case productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
+      (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
       value1.selected = true;
@@ -287,6 +335,20 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
         2,
         'aria-hidden',
         'true'
+      );
+    });
+
+    it("should contain button elements with 'aria-label' attribute that point out that there is a description for the current value", () => {
+      (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        '',
+        1,
+        'aria-label',
+        'configurator.a11y.description'
       );
     });
   });
