@@ -269,23 +269,22 @@ describe('OpfQuickBuyService', () => {
       );
       expect(result).toBe(config);
     });
-
-    describe('getMerchantName', () => {
-      it('should return baseSite name', (done) => {
-        const mockName = 'Electronics store';
-        baseSiteServiceMock.get.and.returnValue(of({ name: mockName }));
-        service.getMerchantName().subscribe((merchantName) => {
-          expect(merchantName).toBe(mockName);
-          done();
-        });
+  });
+  describe('getMerchantName', () => {
+    it('should return baseSite name', (done) => {
+      const mockName = 'Electronics store';
+      baseSiteServiceMock.get.and.returnValue(of({ name: mockName }));
+      service.getMerchantName().subscribe((merchantName) => {
+        expect(merchantName).toBe(mockName);
+        done();
       });
-      it('should return default MerchantName name when empty', (done) => {
-        const mockName = undefined;
-        baseSiteServiceMock.get.and.returnValue(of({ name: mockName }));
-        service.getMerchantName().subscribe((merchantName) => {
-          expect(merchantName).toBe(defaultMerchantName);
-          done();
-        });
+    });
+    it('should return default MerchantName name when empty', (done) => {
+      const mockName = undefined;
+      baseSiteServiceMock.get.and.returnValue(of({ name: mockName }));
+      service.getMerchantName().subscribe((merchantName) => {
+        expect(merchantName).toBe(defaultMerchantName);
+        done();
       });
     });
   });
