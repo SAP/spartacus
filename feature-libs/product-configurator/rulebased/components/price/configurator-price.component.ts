@@ -25,7 +25,7 @@ export class ConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 
   constructor(protected directionService: DirectionService) {
-    useFeatureStyles('attributeTypesV2');
+    useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
   protected isRTLDirection(): boolean {

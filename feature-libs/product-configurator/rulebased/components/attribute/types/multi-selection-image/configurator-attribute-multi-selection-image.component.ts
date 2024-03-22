@@ -47,7 +47,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
 
-    useFeatureStyles('attributeTypesV2');
+    useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
   attributeCheckBoxForms = new Array<UntypedFormControl>();

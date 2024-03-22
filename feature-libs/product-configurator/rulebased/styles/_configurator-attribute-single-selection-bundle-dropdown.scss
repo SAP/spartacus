@@ -2,7 +2,7 @@
   @include cx-configurator-attribute-type();
   @include cx-configurator-form-group();
 
-  @include forFeature('attributeTypesV2') {
+  @include forFeature('productConfiguratorAttributeTypesV2') {
     .form-group {
       @include media-breakpoint-up(md) {
         select {
@@ -22,6 +22,10 @@
   flex-direction: column;
 
   cx-configurator-attribute-product-card {
+    @include forFeature('productConfiguratorAttributeTypesV2') {
+      width: 100%;
+    }
+
     &:first-of-type {
       .cx-product-card-rows {
         padding-inline-start: 0px;
