@@ -159,4 +159,4 @@ export enum ApplePayShippingType {
   SERVICE_PICKUP = 'servicePickup',
 }
 
-export const defaultMerchantName: string = '';
+export const defaultMerchantName: string = 'Store';
