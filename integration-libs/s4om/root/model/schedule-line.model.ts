@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface ScheduleLine {
-  confirmedAt?: Date;
-  confirmedQuantity?: number;
+export interface arrivalSlots {
+  at?: Date;
+  quantity?: number;
 }
