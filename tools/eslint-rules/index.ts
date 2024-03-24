@@ -5,9 +5,15 @@
  */
 
 import {
-  rule as useDefaultProvideConfig,
-  RULE_NAME as useDefaultProvideConfigName,
-} from './rules/use-default-provide-config';
+  rule as useProvideDefaultConfig,
+  RULE_NAME as useProvideDefaultConfigName,
+} from './rules/use-provide-default-config';
+
+import {
+  rule as useProvideDefaultConfigFactory,
+  RULE_NAME as useProvideDefaultConfigFactoryName,
+} from './rules/use-provide-default-config-factory';
+
 /**
  * Import your custom workspace rules at the top of this file.
  *
@@ -33,5 +39,8 @@ module.exports = {
    *  [myCustomRuleName]: myCustomRule
    * }
    */
-  rules: { [useDefaultProvideConfigName]: useDefaultProvideConfig },
+  rules: {
+    [useProvideDefaultConfigName]: useProvideDefaultConfig,
+    [useProvideDefaultConfigFactoryName]: useProvideDefaultConfigFactory,
+  },
 };

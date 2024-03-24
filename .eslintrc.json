@@ -109,7 +109,8 @@
     {
       "files": ["*.module.ts"],
       "rules": {
-        "@nx/workspace/use-default-provide-config": "error"
+        "@nx/workspace/use-provide-default-config": "error",
+        "@nx/workspace/use-provide-default-config-factory": "error"
       }
     }
   ]

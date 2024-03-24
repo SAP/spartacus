@@ -226,6 +226,8 @@ export namespace Configurator {
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',
     READ_ONLY = 'readonly',
+    READ_ONLY_SINGLE_SELECTION_IMAGE = 'read_only_single_selection_image',
+    READ_ONLY_MULTI_SELECTION_IMAGE = 'read_only_multi_selection_image',
     STRING = 'string',
     NUMERIC = 'numeric',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',

@@ -1,5 +1,5 @@
 <!-- Generated file.  Don't update directly -->
 
-# ${major_version}.0 Typescript Breaking Changes
+# ${new_version} Typescript Breaking Changes
 
-This document contains a list of breaking changes or potentially breaking changes for Spartacus ${major_version}.0.
+This document contains a list of breaking changes or potentially breaking changes for Spartacus ${new_version}.

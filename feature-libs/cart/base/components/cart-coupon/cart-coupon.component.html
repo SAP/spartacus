@@ -1,8 +1,18 @@
 <ng-container *ngIf="cart$ | async as cart">
   <div class="form-group">
+    <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
+      {{ 'formLegend.required' | cxTranslate }}
+    </p>
     <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
       <label class="cx-cart-coupon-title">
         {{ 'voucher.coupon' | cxTranslate }}
+        <abbr
+          *cxFeature="'a11yRequiredAsterisks'"
+          class="text-decoration-none"
+          title="{{ 'common.required' | cxTranslate }}"
+          >*</abbr
+        >
       </label>
 
       <div class="cx-cart-coupon-container">

@@ -8,7 +8,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import {
   OrderConfirmationOrderEntriesContextToken,
   OrderFacade,
@@ -54,6 +59,7 @@ const orderConfirmationComponents = [
     OutletModule.forChild(),
     PasswordVisibilityToggleModule,
     AbstractOrderContextModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

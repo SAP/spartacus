@@ -13,6 +13,7 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
+import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attri
     I18nModule,
     ConfiguratorAttributeQuantityModule,
     ConfiguratorPriceModule,
+    ConfiguratorShowMoreModule,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{

@@ -146,4 +146,23 @@ export class ConfiguratorGroupMenuService {
     }
     return undefined;
   }
+
+  /**
+   * Verifies whether the active group is part of the group list.
+   *
+   * @param {QueryList<ElementRef<HTMLElement>>} groups - List of the groups
+   * @returns {boolean} - returns `true` if the active group is in the group list, otherwise `false`
+   */
+  isActiveGroupInGroupList(
+    groups: QueryList<ElementRef<HTMLElement>>
+  ): boolean {
+    let activeGroup;
+    if (groups) {
+      activeGroup = groups.find(
+        (group) =>
+          group.nativeElement?.classList?.value?.indexOf('active') !== -1
+      );
+    }
+    return activeGroup !== undefined;
+  }
 }

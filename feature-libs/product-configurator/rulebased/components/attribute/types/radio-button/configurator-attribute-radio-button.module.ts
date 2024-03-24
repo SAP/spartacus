@@ -15,6 +15,7 @@ import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator
 import { ConfiguratorAttributeInputFieldModule } from '../input-field/configurator-attribute-input-field.module';
 import { ConfiguratorAttributeNumericInputFieldModule } from '../numeric-input-field/configurator-attribute-numeric-input-field.module';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
+import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attrib
     ConfiguratorPriceModule,
     ConfiguratorAttributeNumericInputFieldModule,
     ConfiguratorAttributeInputFieldModule,
+    ConfiguratorShowMoreModule,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{

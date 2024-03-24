@@ -86,6 +86,11 @@ export function assignmentsTest(config: MyCompanyConfig) {
           );
           cy.get('div.header button').contains('Save').click();
           cy.wait('@save');
+
+          // Avoids regression for issue where 'undefined' values for new ids/codes
+          // were not added to ngrx state and no notification was made.
+          cy.get('cx-org-notification.info').should('be.visible');
+
           cy.wait('@getEntityData');
 
           const headerRows = subConfig.createConfig.rows?.filter(

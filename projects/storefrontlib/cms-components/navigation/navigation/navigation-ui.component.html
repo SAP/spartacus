@@ -20,19 +20,39 @@
 
 <ng-template #nav let-node="node" let-depth="depth">
   <li>
-    <cx-generic-link
-      *ngIf="
-        node.url && (!node.children || node.children?.length === 0);
-        else heading
-      "
-      [url]="node.url"
-      [target]="node.target"
-      [style]="node.styleAttributes"
-      [class]="node.styleClasses"
-      (click)="closeIfClickedTheSameLink(node)"
-    >
-      {{ node.title }}
-    </cx-generic-link>
+    <ng-container *cxFeature="'!a11yNavigationUiKeyboardControls'">
+      <cx-generic-link
+        *ngIf="
+          node.url && (!node.children || node.children?.length === 0);
+          else heading
+        "
+        [url]="node.url"
+        [target]="node.target"
+        [style]="node.styleAttributes"
+        [class]="node.styleClasses"
+        (click)="closeIfClickedTheSameLink(node)"
+      >
+        {{ node.title }}
+      </cx-generic-link>
+    </ng-container>
+    <ng-container *cxFeature="'a11yNavigationUiKeyboardControls'">
+      <cx-generic-link
+        *ngIf="
+          node.url && (!node.children || node.children?.length === 0);
+          else heading
+        "
+        [url]="node.url"
+        [target]="node.target"
+        [style]="node.styleAttributes"
+        [class]="node.styleClasses"
+        (click)="closeIfClickedTheSameLink(node)"
+        [tabindex]="depth > 0 && !node.children ? -1 : 0"
+        (focus)="depth || reinitializeMenu()"
+        (keydown.space)="toggleOpen($any($event))"
+      >
+        {{ node.title }}
+      </cx-generic-link>
+    </ng-container>
 
     <ng-template #heading>
       <ng-container *ngIf="flyout && node.children?.length > 0; else title">
@@ -44,21 +64,41 @@
         >
           {{ node.title }}
         </cx-generic-link>
-        <button
-          [attr.tabindex]="depth < 1 ? 0 : -1"
-          [attr.aria-haspopup]="true"
-          [attr.aria-expanded]="false"
-          [attr.aria-label]="node.title"
-          (click)="toggleOpen($any($event))"
-          (mouseenter)="onMouseEnter($event)"
-          (keydown.space)="toggleOpen($any($event))"
-          (keydown.esc)="back()"
-        >
-          <ng-container *ngIf="!node.url">
-            {{ node.title }}
-          </ng-container>
-          <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
-        </button>
+        <ng-container *cxFeature="'!a11yNavigationUiKeyboardControls'">
+          <button
+            [attr.tabindex]="depth < 1 ? 0 : -1"
+            [attr.aria-haspopup]="true"
+            [attr.aria-expanded]="false"
+            [attr.aria-label]="node.title"
+            (click)="toggleOpen($any($event))"
+            (mouseenter)="onMouseEnter($event)"
+            (keydown.space)="toggleOpen($any($event))"
+            (keydown.esc)="back()"
+          >
+            <ng-container *ngIf="!node.url">
+              {{ node.title }}
+            </ng-container>
+            <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
+          </button>
+        </ng-container>
+        <ng-container *cxFeature="'a11yNavigationUiKeyboardControls'">
+          <button
+            [attr.aria-haspopup]="true"
+            [attr.aria-expanded]="false"
+            [attr.aria-label]="node.title"
+            (click)="toggleOpen($any($event))"
+            (mouseenter)="onMouseEnter($event)"
+            (keydown.space)="onSpace($any($event))"
+            (keydown.esc)="back()"
+            (keydown.arrowDown)="focusOnNode($any($event))"
+            (focus)="depth || reinitializeMenu()"
+          >
+            <ng-container *ngIf="!node.url">
+              {{ node.title }}
+            </ng-container>
+            <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
+          </button>
+        </ng-container>
       </ng-container>
       <ng-template #title>
         <span *ngIf="node.title" [attr.tabindex]="-1">

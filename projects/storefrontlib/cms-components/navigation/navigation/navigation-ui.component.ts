@@ -14,12 +14,18 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { WindowRef } from '@spartacus/core';
-import { Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import { FeatureConfigService, WindowRef } from '@spartacus/core';
+import { Subject, Subscription } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  take,
+} from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
@@ -64,10 +70,17 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   private openNodes: HTMLElement[] = [];
   private subscriptions = new Subscription();
   private resize = new EventEmitter();
+  protected arrowControls: Subject<KeyboardEvent> = new Subject();
 
   @HostListener('window:resize')
   onResize() {
     this.resize.next(undefined);
+  }
+
+  @HostListener('document:keyDown.arrowUp', ['$event'])
+  @HostListener('document:keyDown.arrowDown', ['$event'])
+  onArrow(e: KeyboardEvent) {
+    this.arrowControls.next(e);
   }
 
   constructor(
@@ -75,7 +88,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private elemRef: ElementRef,
     protected hamburgerMenuService: HamburgerMenuService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {
     this.subscriptions.add(
       this.router.events
@@ -117,13 +131,20 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       typeof navNode.url === 'string' &&
       this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
-      this.elemRef.nativeElement
-        .querySelectorAll('li.is-open:not(.back), li.is-opened')
-        .forEach((el: any) => {
-          this.renderer.removeClass(el, 'is-open');
-          this.renderer.removeClass(el, 'is-opened');
-        });
-      this.reinitializeMenu();
+      // TODO: (CXSPA-5919) Remove feature flag next major release
+      if (
+        this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
+      ) {
+        this.reinitializeMenu();
+      } else {
+        this.elemRef.nativeElement
+          .querySelectorAll('li.is-open:not(.back), li.is-opened')
+          .forEach((el: any) => {
+            this.renderer.removeClass(el, 'is-open');
+            this.renderer.removeClass(el, 'is-opened');
+          });
+        this.reinitializeMenu();
+      }
       this.hamburgerMenuService.toggle();
     }
   }
@@ -133,8 +154,25 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    */
   reinitializeMenu(): void {
     if (this.openNodes?.length > 0) {
+      // TODO: (CXSPA-5919) Remove feature flag next major release
+      if (
+        this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
+      ) {
+        this.elemRef.nativeElement
+          .querySelectorAll('li.is-open:not(.back), li.is-opened')
+          .forEach((el: any) => {
+            this.renderer.removeClass(el, 'is-open');
+            this.renderer.removeClass(el, 'is-opened');
+          });
+      }
       this.clear();
-      this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
+      if (
+        !this.featureConfigService?.isEnabled(
+          'a11yNavigationUiKeyboardControls'
+        )
+      ) {
+        this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
+      }
     }
   }
 
@@ -173,6 +211,54 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
+  /**
+   * Opens dropdown and starts keyboard navigation
+   */
+  onSpace(event: UIEvent): void {
+    this.hamburgerMenuService.isExpanded
+      .pipe(take(1))
+      .subscribe((isExpanded) => {
+        if (isExpanded) {
+          this.toggleOpen(event);
+          return;
+        }
+        if (!this.openNodes.length) {
+          this.toggleOpen(event);
+          return;
+        }
+        event.preventDefault();
+      });
+    this.focusOnNode(event);
+    this.setupArrowControls();
+  }
+
+  /**
+   * Subscribes to arrow keys and enables navigation between dropdown items
+   */
+  setupArrowControls(): void {
+    this.subscriptions.add(
+      this.arrowControls.subscribe((e) => {
+        e.preventDefault();
+        const parentElement = (<HTMLElement>e.target).parentElement
+          ?.parentElement;
+        const nextLink = parentElement?.nextElementSibling?.querySelector('a');
+        const previousLink =
+          parentElement?.previousElementSibling?.querySelector('a');
+        e.code === 'ArrowDown' ? nextLink?.focus() : previousLink?.focus();
+      })
+    );
+  }
+
+  /**
+   * Focuses on the first focusable element in the dropdown
+   */
+  focusOnNode(event: UIEvent): void {
+    const firstFocusableElement =
+      (<HTMLElement>event.target).nextElementSibling?.querySelector('button') ||
+      (<HTMLElement>event.target).nextElementSibling?.querySelector('a');
+    firstFocusableElement?.focus();
+  }
+
   back(): void {
     if (this.openNodes[this.openNodes.length - 1]) {
       this.renderer.removeClass(
@@ -186,7 +272,11 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
   clear(): void {
     this.openNodes = [];
-    this.updateClasses();
+    if (
+      !this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
+    ) {
+      this.updateClasses();
+    }
   }
 
   onMouseEnter(event: MouseEvent) {

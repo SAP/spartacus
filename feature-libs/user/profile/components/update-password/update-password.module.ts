@@ -13,12 +13,13 @@ import {
   AuthRedirectService,
   AuthService,
   CmsConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
   RoutingService,
   UrlModule,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -30,8 +31,8 @@ import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
 
-import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
+import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 
 const myAccountV2PasswordMapping: CmsConfig = {
   cmsComponents: {
@@ -52,6 +53,7 @@ const myAccountV2PasswordMapping: CmsConfig = {
     UrlModule,
     RouterModule,
     PasswordVisibilityToggleModule,
+    FeaturesConfigModule,
     MessageComponentModule,
   ],
   providers: [

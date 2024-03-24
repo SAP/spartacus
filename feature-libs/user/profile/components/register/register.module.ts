@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
@@ -39,6 +40,7 @@ import { RegisterComponent } from './register.component';
     NgSelectModule,
     NgSelectA11yModule,
     PasswordVisibilityToggleModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

@@ -12,6 +12,7 @@ import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorAttributeCompositionConfig } from '../../composition';
+import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition';
     CommonModule,
     I18nModule,
     ConfiguratorPriceModule,
+    ConfiguratorShowMoreModule,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{

@@ -7,6 +7,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { FeatureConfigService } from '@spartacus/core';
 import {
   AuthActions,
   B2BUser,
@@ -46,6 +47,11 @@ import {
 @Injectable()
 export class B2BUserEffects {
   protected logger = inject(LoggerService);
+
+  // TODO (CXSPA-5630): Remove service in next major.
+  protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   loadB2BUser$: Observable<
     B2BUserActions.LoadB2BUserSuccess | B2BUserActions.LoadB2BUserFail
@@ -91,9 +97,17 @@ export class B2BUserEffects {
               switchMap(() => {
                 const successActions = [
                   new B2BUserActions.CreateB2BUserSuccess(data),
-                  new B2BUserActions.CreateB2BUserSuccess({
-                    customerId: undefined,
-                  }),
+                  new B2BUserActions.CreateB2BUserSuccess(
+                    // TODO (CXSPA-5630): Remove feature flag in next major.
+                    this.featureConfigService?.isEnabled(
+                      'fixMyCompanyUnitUserCreation'
+                    )
+                      ? {
+                          customerId: orgCustomer.customerId,
+                          orgUnit: orgCustomer.orgUnit,
+                        }
+                      : { customerId: undefined }
+                  ),
                   new OrganizationActions.OrganizationClearData(),
                 ] as any[];
                 if (isAssignedToApprovers) {

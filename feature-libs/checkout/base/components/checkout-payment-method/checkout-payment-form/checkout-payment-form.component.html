@@ -1,6 +1,10 @@
 <!-- FORM -->
 <ng-container *ngIf="!loading; else spinner">
   <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+  <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
+    {{ 'formLegend.required' | cxTranslate }}
+  </p>
   <form (ngSubmit)="next()" [formGroup]="paymentForm">
     <div class="row">
       <div class="col-md-12 col-xl-10">
@@ -8,9 +12,12 @@
           <ng-container *ngIf="cardTypes$ | async as cardTypes">
             <div *ngIf="cardTypes.length !== 0">
               <label>
-                <span class="label-content required">{{
-                  'paymentForm.paymentType' | cxTranslate
-                }}</span>
+                <span class="label-content required"
+                  >{{ 'paymentForm.paymentType' | cxTranslate }}
+                  <ng-template
+                    [ngTemplateOutlet]="requiredAsterisk"
+                  ></ng-template
+                ></span>
                 <ng-select
                   [inputAttrs]="{ required: 'true' }"
                   [searchable]="true"
@@ -36,9 +43,10 @@
 
         <div class="form-group">
           <label>
-            <span class="label-content">{{
-              'paymentForm.accountHolderName.label' | cxTranslate
-            }}</span>
+            <span class="label-content"
+              >{{ 'paymentForm.accountHolderName.label' | cxTranslate }}
+              <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+            ></span>
             <input
               required="true"
               class="form-control"
@@ -56,9 +64,10 @@
 
         <div class="form-group">
           <label>
-            <span class="label-content">{{
-              'paymentForm.cardNumber' | cxTranslate
-            }}</span>
+            <span class="label-content"
+              >{{ 'paymentForm.cardNumber' | cxTranslate }}
+              <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+            ></span>
             <input
               required="true"
               type="text"
@@ -76,6 +85,9 @@
             <fieldset class="cx-payment-form-exp-date">
               <legend class="label-content">
                 {{ 'paymentForm.expirationDate' | cxTranslate }}
+                <ng-template
+                  [ngTemplateOutlet]="requiredAsterisk"
+                ></ng-template>
               </legend>
               <label class="cx-payment-form-exp-date-wrapper">
                 <ng-select
@@ -126,6 +138,9 @@
             <label>
               <span class="label-content">
                 {{ 'paymentForm.securityCode' | cxTranslate }}
+                <ng-template
+                  [ngTemplateOutlet]="requiredAsterisk"
+                ></ng-template>
                 <cx-icon
                   [type]="iconTypes.INFO"
                   class="cx-payment-form-tooltip"
@@ -422,6 +437,15 @@
     </div>
   </form>
 </ng-container>
+
+<ng-template #requiredAsterisk>
+  <abbr
+    *cxFeature="'a11yRequiredAsterisks'"
+    class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
+</ng-template>
 
 <ng-template #spinner>
   <cx-spinner></cx-spinner>

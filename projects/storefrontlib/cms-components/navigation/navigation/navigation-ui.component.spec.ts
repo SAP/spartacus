@@ -2,7 +2,12 @@ import { Component, DebugElement, ElementRef, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, WindowRef } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  I18nTestingModule,
+  WindowRef,
+} from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
@@ -18,7 +23,7 @@ class MockIconComponent {
 
 @Component({
   selector: 'cx-generic-link',
-  template: '{{title}}',
+  template: '<a href={{url}}>{{title}}</a>',
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];
@@ -29,6 +34,13 @@ class MockGenericLinkComponent {
 class MockHamburgerMenuService {
   isExpanded = of(true);
   toggle(_forceCollapse?: boolean): void {}
+}
+
+// TODO: (CXSPA-5919) Remove mock next major release
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
 }
 
 const mockWinRef: WindowRef = {
@@ -98,6 +110,8 @@ describe('Navigation UI Component', () => {
         NavigationUIComponent,
         MockIconComponent,
         MockGenericLinkComponent,
+        // TODO: (CXSPA-5919) Remove feature directive next major
+        MockFeatureDirective,
       ],
       providers: [
         {
@@ -107,6 +121,10 @@ describe('Navigation UI Component', () => {
         {
           provide: WindowRef,
           useValue: mockWinRef,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();
@@ -304,6 +322,68 @@ describe('Navigation UI Component', () => {
 
       expect(navigationComponent.reinitializeMenu).toHaveBeenCalledWith();
       expect(hamburgerMenuService.toggle).toHaveBeenCalledWith();
+    });
+  });
+  describe('Keyboard navigation', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('should toggle open when space key is pressed', () => {
+      const spy = spyOn(navigationComponent, 'toggleOpen');
+      const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('button[aria-label="Sub child 1"]')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+
+      navigationComponent.onSpace(spaceEvent);
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should move focus to the opened node', () => {
+      const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
+      const spy = spyOn(firstChild.nativeElement, 'focus');
+      const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('button[aria-label="Sub child 1"]')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+
+      navigationComponent.focusOnNode(spaceEvent);
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should move focus inside node on up/down arrow press', () => {
+      navigationComponent.toggleOpen = () => {};
+      const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
+      const secondChild = element.query(By.css('[href="/sub-sub-child-1b"]'));
+      const arrowDownEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+      });
+      const arrowUpEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowUp',
+      });
+      const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('button[aria-label="Sub child 1"]')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+      Object.defineProperty(arrowDownEvent, 'target', {
+        value: firstChild.nativeElement,
+      });
+      Object.defineProperty(arrowUpEvent, 'target', {
+        value: secondChild.nativeElement,
+      });
+
+      navigationComponent.onSpace(spaceEvent);
+
+      navigationComponent['arrowControls'].next(arrowDownEvent);
+      expect(document.activeElement).toEqual(secondChild.nativeElement);
+      navigationComponent['arrowControls'].next(arrowUpEvent);
+      expect(document.activeElement).toEqual(firstChild.nativeElement);
     });
   });
 });

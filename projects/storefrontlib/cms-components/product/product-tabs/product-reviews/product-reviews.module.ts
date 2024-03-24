@@ -8,9 +8,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
+import { FormErrorsModule, StarRatingModule } from '../../../../shared/index';
 import { ProductReviewsComponent } from './product-reviews.component';
-import { StarRatingModule, FormErrorsModule } from '../../../../shared/index';
 
 @NgModule({
   imports: [
@@ -20,6 +25,7 @@ import { StarRatingModule, FormErrorsModule } from '../../../../shared/index';
     I18nModule,
     StarRatingModule,
     FormErrorsModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

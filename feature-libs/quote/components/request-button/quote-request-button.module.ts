@@ -6,12 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  AuthGuard,
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { QuoteRequestButtonComponent } from './quote-request-button.component';
 
 @NgModule({
@@ -23,7 +18,6 @@ import { QuoteRequestButtonComponent } from './quote-request-button.component';
       cmsComponents: {
         QuoteRequestComponent: {
           component: QuoteRequestButtonComponent,
-          guards: [AuthGuard],
         },
       },
     }),

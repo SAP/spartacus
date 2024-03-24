@@ -92,6 +92,11 @@ if (!environment.production) {
       // For the development environment and CI, feature level is always the highest.
       features: {
         level: '*',
+        a11yRequiredAsterisks: true,
+        a11yQuantityOrderTabbing: true,
+        a11yNavigationUiKeyboardControls: true,
+        a11yOrderConfirmationHeadingOrder: true,
+        a11yStarRating: true,
       },
     }),
     provideConfig(<StoreFinderConfig>{

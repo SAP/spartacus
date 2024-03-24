@@ -67,6 +67,19 @@
               )
             }}</label
           >
+          <cx-configurator-show-more
+            *ngIf="attributeValue.description"
+            [text]="attributeValue.description"
+            [textSize]="getValueDescriptionLength()"
+            [productName]="
+              getLabel(
+                expMode,
+                attributeValue.valueDisplay,
+                attributeValue.valueCode
+              )
+            "
+            [tabIndex]="0"
+          ></cx-configurator-show-more>
         </div>
         <div class="cx-value-price">
           <cx-configurator-price

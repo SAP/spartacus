@@ -251,6 +251,12 @@ input[type='radio'] {
   }
 }
 
+.form-legend {
+  font-style: italic;
+  color: var(--cx-color-secondary);
+  margin-bottom: 1rem;
+}
+
 .ng-select,
 .ng-select.ng-select-single {
   .ng-dropdown-panel {

@@ -156,6 +156,10 @@ describe('ConfigurationGroupTitleComponent', () => {
 
     spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
     spyOn(configuratorStorefrontUtilsService, 'removeStyling');
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'focusFirstActiveElement'
+    ).and.stub();
 
     hamburgerMenuService = TestBed.inject(
       HamburgerMenuService as Type<HamburgerMenuService>
@@ -172,6 +176,9 @@ describe('ConfigurationGroupTitleComponent', () => {
     expect(
       configuratorStorefrontUtilsService.changeStyling
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'block');
+    expect(
+      configuratorStorefrontUtilsService.focusFirstActiveElement
+    ).toHaveBeenCalledWith('cx-hamburger-menu');
   });
 
   it('should create component with hamburger menu icon', () => {
@@ -187,6 +194,9 @@ describe('ConfigurationGroupTitleComponent', () => {
     expect(
       configuratorStorefrontUtilsService.changeStyling
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'none');
+    expect(
+      configuratorStorefrontUtilsService.focusFirstActiveElement
+    ).toHaveBeenCalledWith('.cx-group-title');
   });
 
   it('should get group id as part of group', () => {

@@ -8,6 +8,13 @@
         <span class="cx-cart-quick-order-form-productID">
           <label class="cx-cart-quick-order-form-label">
             {{ 'quickOrderCartForm.productCodeLabel' | cxTranslate }}
+            <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+            <abbr
+              *cxFeature="'a11yRequiredAsterisks'"
+              class="text-decoration-none"
+              title="{{ 'common.required' | cxTranslate }}"
+              >*</abbr
+            >
           </label>
           <input
             [attr.aria-label]="

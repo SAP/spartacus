@@ -12,6 +12,7 @@ import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
+import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
     FormsModule,
     ReactiveFormsModule,
     ConfiguratorPriceModule,
+    ConfiguratorShowMoreModule,
     CommonModule,
     I18nModule,
   ],

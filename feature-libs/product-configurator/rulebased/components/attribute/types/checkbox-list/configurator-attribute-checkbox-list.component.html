@@ -65,6 +65,15 @@
             class="cx-configurator-attribute-value-label form-check-label"
             >{{ getLabel(expMode, value.valueDisplay, value.valueCode) }}</label
           >
+          <cx-configurator-show-more
+            *ngIf="value.description"
+            [text]="value.description"
+            [textSize]="getValueDescriptionLength()"
+            [productName]="
+              getLabel(expMode, value.valueDisplay, value.valueCode)
+            "
+            [tabIndex]="0"
+          ></cx-configurator-show-more>
         </div>
         <div class="cx-value-price">
           <cx-configurator-price

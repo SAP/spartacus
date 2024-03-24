@@ -1,19 +1,25 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { Config, I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorShowMoreComponent } from './configurator-show-more.component';
+
+class MockConfig {
+  features = [{ productConfiguratorAttributeTypesV2: true }];
+}
 
 describe('ConfiguratorShowMoreComponent', () => {
   let component: ConfiguratorShowMoreComponent;
   let fixture: ComponentFixture<ConfiguratorShowMoreComponent>;
   let htmlElem: HTMLElement;
+  let config: Config;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [ConfiguratorShowMoreComponent],
+        providers: [{ provide: Config, useClass: MockConfig }],
       })
         .overrideComponent(ConfiguratorShowMoreComponent, {
           set: {
@@ -31,10 +37,43 @@ describe('ConfiguratorShowMoreComponent', () => {
 
     component.text =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+    config = TestBed.inject(Config);
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it("should render component in case 'productConfiguratorAttributeTypesV2' feature flag is enabled", () => {
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'span'
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'button'
+    );
+  });
+
+  it("should not render component in case 'productConfiguratorAttributeTypesV2' feature flag is disabled", () => {
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'span'
+    );
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'button'
+    );
   });
 
   it('should set showMore after view init', () => {

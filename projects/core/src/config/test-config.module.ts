@@ -66,6 +66,7 @@ export class TestConfigModule {
           provide: TEST_CONFIG_COOKIE_NAME,
           useValue: options && options.cookie,
         },
+        // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory
         provideConfigFactory(configFromCookieFactory, [
           TEST_CONFIG_COOKIE_NAME,
           PLATFORM_ID,
