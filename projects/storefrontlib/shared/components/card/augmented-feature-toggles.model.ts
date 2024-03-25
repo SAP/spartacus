@@ -9,7 +9,8 @@ import '@spartacus/core';
 declare module '@spartacus/core' {
   interface FeatureToggles {
     /**
-     * Indicates that the for the card components, the card paragraph is truncated (like the label)
+     * Enables truncating a paragraph text in the `CardComponent` of the `@spartacus/storefront`
+     * (like truncating a label in the `CartComponent`).
      */
     storeFrontLibCardParagraphTruncated?: boolean;
   }
