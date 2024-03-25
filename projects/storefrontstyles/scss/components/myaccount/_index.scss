@@ -4,12 +4,17 @@
 @import './payment-methods';
 @import './consent-management';
 @import './consent-management-form';
+@import './cx-my-account-v2-consent-management';
+@import './cx-my-account-v2-consent-management-form';
 @import './my-coupons';
 @import './my-coupons-card';
 @import './my-coupons-dialog';
 @import './my-interests';
+@import './cx-my-account-v2-notification-preference';
 
 $myaccount-components-allowlist: cx-anonymous-consent-management-banner,
   cx-anonymous-consent-dialog, cx-anonymous-consent-open-dialog,
   cx-consent-management-form, cx-consent-management, cx-my-interests,
-  cx-my-coupons, cx-coupon-card, cx-coupon-dialog, cx-payment-methods !default;
+  cx-my-coupons, cx-coupon-card, cx-coupon-dialog, cx-payment-methods,
+  cx-my-account-v2-notification-preference,
+  cx-my-account-v2-consent-management-form, cx-my-account-v2-consent-management !default;
