@@ -139,6 +139,15 @@ export interface ApplePayObservableConfig {
   paymentAuthorized: (event: any) => Observable<any>;
 }
 
+export enum ApplePayEvent {
+  VALIDATE_MERCHANT = 'validatemerchant',
+  CANCEL = 'cancel',
+  PAYMENT_METHOD_SELECTED = 'paymentmethodselected',
+  SHIPPING_CONTACT_SELECTED = 'shippingcontactselected',
+  SHIPPING_METHOD_SELECTED = 'shippingmethodselected',
+  PAYMENT_AUTHORIZED = 'paymentauthorized',
+}
+
 export enum OpfQuickBuyLocation {
   CART = 'CART',
   PRODUCT = 'PRODUCT',

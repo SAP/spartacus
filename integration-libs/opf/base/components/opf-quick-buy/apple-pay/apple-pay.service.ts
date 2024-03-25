@@ -138,6 +138,7 @@ export class ApplePayService {
           paymentAuthorized: (event) => this.handlePaymentAuthorized(event),
         });
       }),
+      take(1),
       catchError((error) => {
         this.cartHandlerService.loadCartAfterSingleProductTransaction(
           this.transactionDetails
