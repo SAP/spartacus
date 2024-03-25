@@ -6,6 +6,12 @@
 
 import '../../features-config/config/features-config';
 
+// NOTE: It's EXCEPTIONALLY a part of `FeaturesConfigContent` but not of `FeatureToggles`,
+// because it's a permanent feature enabler, but not a short-living feature toggle
+// covering a breaking change.
+//
+// It's deliberately is disabled by default.
+
 declare module '../../features-config/config/features-config' {
   interface FeaturesConfigContent {
     /**
