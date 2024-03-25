@@ -148,7 +148,7 @@ exports[`Spartacus User schematics: ng-add User Profile feature general setup st
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -332,7 +332,7 @@ exports[`Spartacus User schematics: ng-add User-Account feature general setup st
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",

@@ -31,10 +31,12 @@ SPARTACUS_PROJECTS=(
         "dist/storefinder:feature-libs/storefinder"
         "dist/tracking:feature-libs/tracking"
         "dist/qualtrics:feature-libs/qualtrics"
+        "dist/quote:feature-libs/quote"
         "dist/smartedit:feature-libs/smartedit"
         "dist/customer-ticketing:feature-libs/customer-ticketing"
         "dist/cds:integration-libs/cds"
         "dist/cdc:integration-libs/cdc"
+        "dist/cdp:integration-libs/cdp"
         "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/product-configurator:feature-libs/product-configurator"
         "dist/pickup-in-store:feature-libs/pickup-in-store"
@@ -68,6 +70,7 @@ SSR_PWA_APP_NAME="ssr-pwa"
 ADD_B2B_LIBS=false
 
 ADD_CPQ=false
+ADD_QUOTE=false
 ADD_CDC=false
 # config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false

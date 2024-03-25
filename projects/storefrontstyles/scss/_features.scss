@@ -1,0 +1,62 @@
+$featureMessagingItems: true;
+
+// Prefix for feature's CSS classes that are added to the root element
+//
+// The same as the one used in the TS service FeatureStylesService
+$CSS_FEATURE_FLAG_PREFIX: 'cxFeat_';
+
+// Returns a feature flag's CSS class name.
+//
+// The CSS class name consists of the prefix `cxFeat_`
+// and the feature flag name.
+@function getFeatureCssClass($feature) {
+  @return $CSS_FEATURE_FLAG_PREFIX + $feature;
+}
+
+// Applies styles activated when a specific feature flag is enabled in the Spartacus global config.
+//
+// IMPORTANT: Please mind to call `useFeatureStyles(feature)` from `@spartacus/core`
+//            in the constructor of your styled component.
+//            Otherwise the feature-flagged styles MIGHT NOT be activated
+//            EVEN if the flag is enabled in the Spartacus configuration!
+//
+//            For instance, if the SCSS of your component you have:
+//            ```scss
+//            %cx-my-component {
+//              ...
+//                ...
+//                  @include forFeature('myFeatureFlag') { ... }
+//            }
+//            ```
+//            ...then you should also call `useFeatureStyles('myFeatureFlag')` in the constructor of this component.
+//
+// Use case: Breaking style changes can be added for a specific feature flag
+// and customers can only use those styles if they explicitly enable a feature flag.
+//
+// The mixin requires only a $feature name as argument.
+//
+// The second argument with value `'currentSelector'` should be passed ONLY
+// in one edge case, when the feature-flagged styles are defined
+// for the Angular root element, i.e. `cx-storefront`.
+@mixin forFeature($feature, $classTarget: 'ancestorSelector') {
+  // Validate params
+  @if (type-of($feature) != 'string') {
+    @error "forFeature: $feature param must be a string, but #{type-of($feature)} was provided.";
+  }
+  @if (not index(('ancestorSelector', 'currentSelector'), $classTarget)) {
+    @error "forFeature: $classTarget must be either 'ancestorSelector' or 'currentSelector', but #{$classTarget} was provided.";
+  }
+  // Validate params end
+
+  $featureClass: getFeatureCssClass($feature);
+  @if ($classTarget == 'ancestorSelector') {
+    @at-root .#{$featureClass} & {
+      @content;
+    }
+  }
+  @if ($classTarget == 'currentSelector') {
+    @at-root &.#{$featureClass} {
+      @content;
+    }
+  }
+}

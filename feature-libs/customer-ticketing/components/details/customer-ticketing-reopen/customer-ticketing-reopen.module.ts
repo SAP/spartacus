@@ -22,6 +22,7 @@ import {
 } from '@spartacus/storefront';
 import { CustomerTicketingReopenComponent } from './customer-ticketing-reopen.component';
 import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog/customer-ticketing-reopen-dialog.component';
+import { CustomerTicketingReopenComponentService } from './customer-ticketing-reopen-component.service';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reo
     SpinnerModule,
   ],
   providers: [
+    CustomerTicketingReopenComponentService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         SupportTicketReopenComponent: {

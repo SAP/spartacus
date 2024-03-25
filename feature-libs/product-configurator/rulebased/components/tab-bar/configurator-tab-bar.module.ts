@@ -15,12 +15,14 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 @NgModule({
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    KeyboardFocusModule,
     NgSelectModule,
     CommonModule,
     I18nModule,
