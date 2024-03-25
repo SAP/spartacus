@@ -1,10 +1,16 @@
 <div class="cx-order-type-card">
   <div class="cx-label-container">
     <!-- TODO: (CXSPA-6306) - Remove feature flag next major release -->
-    <h3 *cxFeatureLevel="'6.8'" class="cx-order-replenishment-header">
+    <h3
+      *cxFeature="'a11yScheduleReplenishment'"
+      class="cx-order-replenishment-header"
+    >
       {{ 'checkoutScheduledReplenishment.autoReplenishOrder' | cxTranslate }}
     </h3>
-    <h5 *cxFeatureLevel="'!6.8'" class="cx-order-replenishment-header">
+    <h5
+      *cxFeature="'!a11yScheduleReplenishment'"
+      class="cx-order-replenishment-header"
+    >
       {{ 'checkoutScheduledReplenishment.autoReplenishOrder' | cxTranslate }}
     </h5>
     <cx-icon [type]="iconTypes.CLOCK"></cx-icon>
@@ -121,10 +127,13 @@
 
     <div class="cx-replenishment-form-data-container">
       <!-- TODO: (CXSPA-6306) - Remove feature flag next major release -->
-      <label *cxFeatureLevel="'6.8'" for="datepicker" class="form-data-label">{{
-        'checkoutScheduledReplenishment.startOn' | cxTranslate
-      }}</label>
-      <span *cxFeatureLevel="'!6.8'" class="form-data-label">{{
+      <label
+        *cxFeature="'a11yScheduleReplenishment'"
+        for="datepicker"
+        class="form-data-label"
+        >{{ 'checkoutScheduledReplenishment.startOn' | cxTranslate }}</label
+      >
+      <span *cxFeature="'!a11yScheduleReplenishment'" class="form-data-label">{{
         'checkoutScheduledReplenishment.startOn' | cxTranslate
       }}</span>
       <div class="cx-replenishment-date">
