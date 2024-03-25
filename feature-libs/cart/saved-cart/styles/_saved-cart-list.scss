@@ -130,7 +130,7 @@ cx-saved-cart-list {
       color: var(--cx-color-secondary);
 
       // TODO: (CXSPA-5955) Remove feature flag next major
-      @include forVersion(6.8) {
+      @include forFeature('a11ySavedCartsZoom') {
         text-align: start;
       }
 
@@ -164,7 +164,7 @@ cx-saved-cart-list {
   }
 
   // TODO: (CXSPA-5955) Remove feature flag next major
-  @include forVersion(6.8) {
+  @include forFeature('a11ySavedCartsZoom') {
     @include media-breakpoint-down(md) {
       .cx-saved-cart-make-active {
         min-height: unset;
