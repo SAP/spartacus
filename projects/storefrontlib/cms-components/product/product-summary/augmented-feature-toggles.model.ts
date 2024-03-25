@@ -7,10 +7,10 @@
 import '@spartacus/core';
 
 declare module '@spartacus/core' {
-  interface BreakingChangesFlags {
+  interface FeatureToggles {
     /**
-     * Indicates that the for the card components, the card paragraph is truncated (like the label)
+     * Flag to enable displaying the promotions in the Product Summary component
      */
-    storeFrontLibCardParagraphTruncated?: boolean;
+    showPromotionsInPDP?: boolean;
   }
 }

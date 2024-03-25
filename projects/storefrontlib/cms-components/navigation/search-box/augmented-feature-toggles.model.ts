@@ -7,7 +7,7 @@
 import '@spartacus/core';
 
 declare module '@spartacus/core' {
-  interface BreakingChangesFlags {
+  interface FeatureToggles {
     /**
      * Enables displaying recent searches in the main search box.
      */

@@ -11,25 +11,25 @@ import {
 } from '../../config';
 import '../config/features-config';
 import {
-  BreakingChangesFlags,
-  DefaultBreakingChangesFlags,
-  RootBreakingChangesFlags,
-} from './breaking-changes-flags-tokens';
+  DefaultFeatureToggles,
+  FeatureToggles,
+  RootFeatureToggles,
+} from './feature-toggles-tokens';
 
-export const populateBreakingChangesFlagsToFeatureConfig: FactoryProvider[] = [
-  // Copies RootBreakingChangesFlags to RootConfig
+export const populateFeatureTogglesToFeatureConfig: FactoryProvider[] = [
+  // Copies RootFeatureToggles to RootConfig
   provideConfigFactory(() => {
-    const flags = inject(RootBreakingChangesFlags);
+    const flags = inject(RootFeatureToggles);
     return { features: { ...flags } };
   }),
 
-  // Copies DefaultBreakingChangesFlags to DefaultFeaturesConfig
+  // Copies DefaultFeatureToggles to DefaultFeaturesConfig
   provideDefaultConfigFactory(() => {
-    const flags = inject(DefaultBreakingChangesFlags);
+    const flags = inject(DefaultFeatureToggles);
     return { features: { ...flags } };
   }),
 ];
 
 declare module '../config/features-config' {
-  interface FeaturesConfigContent extends BreakingChangesFlags {}
+  interface FeaturesConfigContent extends FeatureToggles {}
 }

@@ -12,8 +12,8 @@ import {
   FeaturesConfigModule,
   I18nModule,
   UrlModule,
-  provideDefaultBreakingChangesFlags,
   provideDefaultConfig,
+  provideDefaultFeatureToggles,
 } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure';
 import { MediaModule } from '../../../shared/components/media/media.module';
@@ -40,7 +40,7 @@ import { SearchBoxComponent } from './search-box.component';
         },
       },
     }),
-    provideDefaultBreakingChangesFlags({
+    provideDefaultFeatureToggles({
       recentSearches: false,
     }),
   ],

@@ -11,8 +11,8 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
-  provideDefaultBreakingChangesFlags,
   provideDefaultConfig,
+  provideDefaultFeatureToggles,
 } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { PromotionsModule } from '../../misc/promotions/promotions.module';
@@ -27,7 +27,7 @@ import { ProductSummaryComponent } from './product-summary.component';
         },
       },
     }),
-    provideDefaultBreakingChangesFlags({
+    provideDefaultFeatureToggles({
       showPromotionsInPDP: false,
     }),
   ],

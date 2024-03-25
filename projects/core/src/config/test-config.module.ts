@@ -12,7 +12,7 @@ import {
   PLATFORM_ID,
   inject,
 } from '@angular/core';
-import { provideBreakingChangesFlagsFactory } from '../features-config';
+import { provideFeatureTogglesFactory } from '../features-config';
 import { provideConfigFactory } from './config-providers';
 import { getCookie } from './utils/get-cookie';
 
@@ -78,7 +78,7 @@ export class TestConfigModule {
           provide: TEST_CONFIG_COOKIE_NAME,
           useValue: options?.cookie,
         },
-        provideBreakingChangesFlagsFactory(
+        provideFeatureTogglesFactory(
           () => (inject(TEST_CONFIG) ?? {}).features
         ),
         // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory

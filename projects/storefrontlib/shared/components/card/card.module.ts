@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import {
   FeaturesConfigModule,
   I18nModule,
-  provideDefaultBreakingChangesFlags,
+  provideDefaultFeatureToggles,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
@@ -28,7 +28,7 @@ import { CardComponent } from './card.component';
     FeaturesConfigModule,
   ],
   providers: [
-    provideDefaultBreakingChangesFlags({
+    provideDefaultFeatureToggles({
       storeFrontLibCardParagraphTruncated: false,
     }),
   ],

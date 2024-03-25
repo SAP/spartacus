@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './breaking-changes-flags-providers';
-export * from './breaking-changes-flags-tokens';
+export * from './feature-toggles-providers';
+export * from './feature-toggles-tokens';
