@@ -125,6 +125,7 @@ describe('ApplePayService', () => {
       'getQuickBuyLocationContext',
       'getQuickBuyProviderConfig',
       'getQuickBuyDeliveryInfo',
+      'getMerchantName',
     ]);
 
     applePaySessionFactoryMock = jasmine.createSpyObj(
@@ -197,6 +198,7 @@ describe('ApplePayService', () => {
 
   describe('observable callbacks', () => {
     let config: ApplePayObservableConfig;
+    const merchantNameMock = 'Nakano';
     beforeEach(() => {
       (
         applePayObservableFactoryMock.initApplePayEventsHandler as jasmine.Spy
@@ -208,6 +210,9 @@ describe('ApplePayService', () => {
         of({
           type: OpfQuickBuyDeliveryType.SHIPPING,
         })
+      );
+      opfQuickBuyServiceMock.getMerchantName.and.returnValue(
+        of(merchantNameMock)
       );
     });
 
@@ -309,7 +314,7 @@ describe('ApplePayService', () => {
 
       expect(paymentMethodChangeResult.newTotal).toEqual({
         amount: mockProduct.price?.value?.toString(),
-        label: mockProduct.name,
+        label: merchantNameMock,
       });
     });
 
@@ -345,7 +350,7 @@ describe('ApplePayService', () => {
         .subscribe((actural) => (shippingMethodChangeResult = actural));
       expect(shippingMethodChangeResult.newTotal).toEqual({
         amount: mockCart.totalPrice?.value?.toString(),
-        label: mockProduct.name,
+        label: merchantNameMock,
       });
     });
 
@@ -665,6 +670,7 @@ describe('ApplePayService', () => {
 
   it('should handle errors during Apple Pay session start', () => {
     service = TestBed.inject(ApplePayService);
+    const merchantNameMock = 'Nakano';
     opfQuickBuyServiceMock.getQuickBuyDeliveryInfo.and.returnValue(
       of({
         type: OpfQuickBuyDeliveryType.SHIPPING,
@@ -678,6 +684,10 @@ describe('ApplePayService', () => {
 
     applePayObservableFactoryMock.initApplePayEventsHandler.and.returnValue(
       throwError('Error')
+    );
+
+    opfQuickBuyServiceMock.getMerchantName.and.returnValue(
+      of(merchantNameMock)
     );
 
     service

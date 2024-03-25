@@ -7,7 +7,7 @@
 /// <reference types="@types/applepayjs" />
 import { Injectable, inject } from '@angular/core';
 import { Address, Product, WindowRef } from '@spartacus/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, forkJoin, of, throwError } from 'rxjs';
 import {
   catchError,
   finalize,
@@ -27,11 +27,11 @@ import {
   ApplePayShippingType,
   ApplePayTransactionInput,
   OpfPaymentFacade,
-  OpfQuickBuyDeliveryInfo,
   OpfQuickBuyDeliveryType,
   OpfQuickBuyLocation,
   PaymentMethod,
   QuickBuyTransactionDetails,
+  defaultMerchantName,
 } from '@spartacus/opf/base/root';
 
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
@@ -61,7 +61,7 @@ export class ApplePayService {
     quantity: 0,
     addressIds: [],
     total: {
-      label: '',
+      label: defaultMerchantName,
       amount: '',
       currency: '',
     },
@@ -185,33 +185,35 @@ export class ApplePayService {
       countryCode,
     };
 
-    return this.opfQuickBuyService
-      .getQuickBuyDeliveryInfo(
+    return forkJoin({
+      deliveryInfo: this.opfQuickBuyService.getQuickBuyDeliveryInfo(
         this.transactionDetails.context as OpfQuickBuyLocation
-      )
-      .pipe(
-        switchMap((deliveryInfo: OpfQuickBuyDeliveryInfo) => {
-          this.transactionDetails.deliveryInfo = deliveryInfo;
-          if (deliveryInfo.type === OpfQuickBuyDeliveryType.PICKUP) {
-            // Don't display shipping contact form on payment sheet
-            initialRequest.requiredShippingContactFields = [];
-            initialRequest.shippingType = ApplePayShippingType.STORE_PICKUP;
+      ),
+      merchantName: this.opfQuickBuyService.getMerchantName(),
+    }).pipe(
+      switchMap(({ deliveryInfo, merchantName }) => {
+        this.transactionDetails.total.label = merchantName;
+        initialRequest.total.label = merchantName;
+        this.transactionDetails.deliveryInfo = deliveryInfo;
+        if (deliveryInfo.type === OpfQuickBuyDeliveryType.PICKUP) {
+          // Don't display shipping contact form on payment sheet
+          initialRequest.requiredShippingContactFields = [];
+          initialRequest.shippingType = ApplePayShippingType.STORE_PICKUP;
 
-            return this.transactionDetails.context ===
-              OpfQuickBuyLocation.PRODUCT
-              ? this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo()
-              : of(undefined);
-          }
-          return of(undefined);
-        }),
-        map((opfQuickBuyDeliveryInfo) => {
-          if (!opfQuickBuyDeliveryInfo) {
-            return initialRequest;
-          }
-          this.transactionDetails.deliveryInfo = opfQuickBuyDeliveryInfo;
+          return this.transactionDetails.context === OpfQuickBuyLocation.PRODUCT
+            ? this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo()
+            : of(undefined);
+        }
+        return of(undefined);
+      }),
+      map((opfQuickBuyDeliveryInfo) => {
+        if (!opfQuickBuyDeliveryInfo) {
           return initialRequest;
-        })
-      );
+        }
+        this.transactionDetails.deliveryInfo = opfQuickBuyDeliveryInfo;
+        return initialRequest;
+      })
+    );
   }
 
   protected handleSingleProductTransaction(

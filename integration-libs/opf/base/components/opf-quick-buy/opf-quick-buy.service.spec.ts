@@ -14,6 +14,7 @@ import {
   OpfPaymentProviderType,
   OpfProviderType,
   OpfQuickBuyLocation,
+  defaultMerchantName,
 } from '../../root/model';
 import { OpfQuickBuyService } from './opf-quick-buy.service';
 
@@ -267,6 +268,24 @@ describe('OpfQuickBuyService', () => {
         activeConfiguration
       );
       expect(result).toBe(config);
+    });
+  });
+  describe('getMerchantName', () => {
+    it('should return baseSite name', (done) => {
+      const mockName = 'Electronics store';
+      baseSiteServiceMock.get.and.returnValue(of({ name: mockName }));
+      service.getMerchantName().subscribe((merchantName) => {
+        expect(merchantName).toBe(mockName);
+        done();
+      });
+    });
+    it('should return default MerchantName name when empty', (done) => {
+      const mockName = undefined;
+      baseSiteServiceMock.get.and.returnValue(of({ name: mockName }));
+      service.getMerchantName().subscribe((merchantName) => {
+        expect(merchantName).toBe(defaultMerchantName);
+        done();
+      });
     });
   });
 });

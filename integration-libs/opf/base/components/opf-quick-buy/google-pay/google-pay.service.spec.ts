@@ -23,6 +23,7 @@ import { OpfQuickBuyService } from '../opf-quick-buy.service';
 import { OpfGooglePayService } from './google-pay.service';
 
 describe('OpfGooglePayService', () => {
+  const mockMerchantName = 'mockMerchantName';
   let service: OpfGooglePayService;
   let mockResourceLoaderService: jasmine.SpyObj<OpfResourceLoaderService>;
   let mockItemCounterService: jasmine.SpyObj<ItemCounterService>;
@@ -69,6 +70,7 @@ describe('OpfGooglePayService', () => {
       'getQuickBuyLocationContext',
       'getQuickBuyProviderConfig',
       'getQuickBuyDeliveryInfo',
+      'getMerchantName',
     ]);
 
     const googlePayApiMock = {
@@ -495,6 +497,8 @@ describe('OpfGooglePayService', () => {
         of(OpfQuickBuyLocation.PRODUCT)
       );
 
+      mockQuickBuyService.getMerchantName.and.returnValue(of(mockMerchantName));
+
       service.initTransaction();
 
       expect(service['transactionDetails'].context).toBe(
@@ -517,6 +521,8 @@ describe('OpfGooglePayService', () => {
       mockQuickBuyService.getQuickBuyLocationContext.and.returnValue(
         of(OpfQuickBuyLocation.CART)
       );
+
+      mockQuickBuyService.getMerchantName.and.returnValue(of(mockMerchantName));
 
       service.initTransaction();
 
