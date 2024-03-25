@@ -11,11 +11,7 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import {
-  FeaturesConfigModule,
-  I18nTestingModule,
-  UserIdService,
-} from '@spartacus/core';
+import { I18nTestingModule, UserIdService } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CartItemListComponent } from './cart-item-list.component';
@@ -129,7 +125,6 @@ describe('CartItemListComponent', () => {
         RouterTestingModule,
         PromotionsModule,
         I18nTestingModule,
-        FeaturesConfigModule,
       ],
       declarations: [CartItemListComponent, MockCartItemComponent],
       providers: [

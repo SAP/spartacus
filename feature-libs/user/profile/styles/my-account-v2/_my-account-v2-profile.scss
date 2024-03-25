@@ -48,17 +48,10 @@
     max-width: 35rem;
   }
 
-  .btn-group-row {
-    padding-top: 0.75rem;
-    display: flex;
-    flex: 100%;
-    justify-content: end;
-  }
-
   .btn-group {
     display: flex;
-    justify-content: space-between;
-    width: 40%;
+    justify-content: end;
+    flex-wrap: wrap;
   }
 
   .ng-select .ng-select-container {

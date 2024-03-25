@@ -58,7 +58,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.21'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -186,7 +186,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -307,7 +307,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.21'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -425,7 +425,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -542,7 +542,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.21'
     }
   })]
 })
@@ -643,7 +643,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -827,7 +827,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",

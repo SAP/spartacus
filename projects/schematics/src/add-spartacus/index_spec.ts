@@ -117,7 +117,7 @@ describe('add-spartacus', () => {
     expect(depPackageList.includes(SPARTACUS_STYLES)).toBe(true);
   });
 
-  it('Import necessary modules in app.module', async () => {
+  it('should import necessary modules in app.module', async () => {
     const tree = await schematicRunner.runSchematic(
       'add-spartacus',
       defaultOptions,
@@ -129,7 +129,7 @@ describe('add-spartacus', () => {
     );
 
     const appModuleImports = [
-      `import { HttpClientModule } from "@angular/common/http";`,
+      `import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";`,
       `import { AppRoutingModule } from "@spartacus/storefront";`,
       `import { StoreModule } from "@ngrx/store";`,
       `import { EffectsModule } from "@ngrx/effects";`,
@@ -138,6 +138,9 @@ describe('add-spartacus', () => {
 
     appModuleImports.forEach((appImport) =>
       expect(appModule.includes(appImport)).toBe(true)
+    );
+    expect(appModule).toContain(
+      'provideHttpClient(withFetch(), withInterceptorsFromDi())'
     );
   });
 

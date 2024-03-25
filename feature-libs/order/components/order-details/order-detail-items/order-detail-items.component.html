@@ -126,6 +126,10 @@
         </div>
         <div class="cx-list-item">
           <ng-template
+            [cxAbstractOrderContext]="{
+              id: order.code,
+              type: abstractOrderType.ORDER
+            }"
             [cxOutlet]="CartOutlets.CART_ITEM_LIST"
             [cxOutletContext]="{
               items: order.entries,

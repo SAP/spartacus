@@ -5,7 +5,11 @@
  */
 
 import { registerLocaleData } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
@@ -46,7 +50,6 @@ if (!environment.production) {
 @NgModule({
   imports: [
     BrowserModule,
-    HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
@@ -57,6 +60,7 @@ if (!environment.production) {
     ...devImports,
   ],
   providers: [
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideConfig(<OccConfig>{
       backend: {
         occ: {
@@ -88,6 +92,11 @@ if (!environment.production) {
       // For the development environment and CI, feature level is always the highest.
       features: {
         level: '*',
+        a11yRequiredAsterisks: true,
+        a11yQuantityOrderTabbing: true,
+        a11yNavigationUiKeyboardControls: true,
+        a11yOrderConfirmationHeadingOrder: true,
+        a11yStarRating: true,
       },
     }),
     provideConfig(<StoreFinderConfig>{

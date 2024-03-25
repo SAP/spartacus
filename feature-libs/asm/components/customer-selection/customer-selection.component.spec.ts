@@ -12,7 +12,6 @@ import { AsmService } from '@spartacus/asm/core';
 import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
 import {
   FeaturesConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   User,
@@ -25,8 +24,8 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
-import { CustomerSelectionComponent } from './customer-selection.component';
 import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
+import { CustomerSelectionComponent } from './customer-selection.component';
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();
@@ -118,12 +117,7 @@ describe('CustomerSelectionComponent', () => {
       customerSearchResultsLoading = new BehaviorSubject<boolean>(false);
 
       TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          FeaturesConfigModule,
-        ],
+        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
         declarations: [CustomerSelectionComponent, DotSpinnerComponent],
         providers: [
           { provide: AsmService, useClass: MockAsmService },
