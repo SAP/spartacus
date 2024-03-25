@@ -7,7 +7,17 @@
 import { Injectable, InjectionToken, inject } from '@angular/core';
 
 /**
- * Global FeatureToggles, can be used to inject FeatureToggles configuration to any part of the app
+ * Properties for enabling/disabling breaking changes gradually introduced in Spartacus.
+ *
+ * Feature toggles facilitate the incremental evolution of the Spartacus product,
+ * allowing Spartacus users to adjust to breaking changes over time.
+ *
+ * Each feature toggle corresponds to a specific breaking change introduced
+ * in a Spartacus release.
+ *
+ * Each feature toggle is temporary, with a defined duration
+ * (specified in the official documentation), after which the related
+ * breaking change will be permanently enabled.
  */
 @Injectable({
   providedIn: 'root',
