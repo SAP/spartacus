@@ -1,1 +1,0 @@
-{"error":"error","type":"[Order] Load  Consignment Tracking By ID Data Fail","meta":{"entityType":"consignment-tracking-by-id-entities","loader":{"error":"error"},"entityId":"order1,cons1"},"payload":{"orderCode":"order1","consignmentCode":"cons1","error":"error"}}'
