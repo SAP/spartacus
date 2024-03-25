@@ -9,7 +9,7 @@ import '@spartacus/core';
 declare module '@spartacus/core' {
   interface FeatureToggles {
     /**
-     * Flag to enable displaying the promotions in the Product Summary component
+     * Displays the promotions info in the Product Summary component
      */
     showPromotionsInPDP?: boolean;
   }
