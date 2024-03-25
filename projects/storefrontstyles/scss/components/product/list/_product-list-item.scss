@@ -25,7 +25,7 @@
   }
 
   // TODO: (CXSPA-5709) Remove feature flag next major
-  @include forVersion(6.8) {
+  @include forFeature('a11yExpandedFocusIndicator') {
     .cx-product-name {
       a {
         margin: 0 0 3px 0;
@@ -44,7 +44,7 @@
     }
   }
 
-  @include forVersion(1, 6.7) {
+  @include forFeature('!a11yExpandedFocusIndicator') {
     .cx-product-name {
       @include type('5');
       text-align: start;

@@ -7,7 +7,7 @@ cx-add-to-saved-cart {
     margin-top: 3rem;
 
     // TODO: (CXSPA-5709) Remove feature flag next major
-    @include forVersion(6.8) {
+    @include forFeature('a11yExpandedFocusIndicator') {
       .cx-action-link {
         &:nth-child(n + 2) {
           position: relative;
@@ -22,7 +22,7 @@ cx-add-to-saved-cart {
       }
     }
 
-    @include forVersion(1, 6.7) {
+    @include forFeatureure('a11yExpandedFocusIndicator') {
       .cx-action-link {
         &:nth-child(n + 2) {
           margin-inline-end: 0;
