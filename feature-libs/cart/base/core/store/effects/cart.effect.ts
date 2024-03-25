@@ -249,6 +249,7 @@ export class CartEffects {
               | CartActions.CartAddEntrySuccess
               | CartActions.CartUpdateEntrySuccess
               | CartActions.CartRemoveEntrySuccess
+              | CartActions.CartRemoveEntryGroupSuccess
               | CartActions.CartRemoveVoucherSuccess
           ) => action.payload
         ),
