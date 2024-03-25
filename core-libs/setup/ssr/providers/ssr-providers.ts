@@ -40,7 +40,7 @@ export function provideServer(options?: ServerOptions): Provider[] {
     },
     {
       provide: MULTI_ERROR_HANDLERS,
-      useClass: ServerRespondingErrorHandler,
+      useExisting: ServerRespondingErrorHandler,
       multi: true,
     },
   ];

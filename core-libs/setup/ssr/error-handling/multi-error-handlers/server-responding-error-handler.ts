@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { MultiErrorHandler } from '@spartacus/core';
 
 /**
- * Error handler responsible for responsible for handling server responding errors.
+ * Error handler responsible for sending an error response to the incoming request in the server.
  * Intended to be used as part of a multi-error handler strategy.
  *
  * @see MultiErrorHandler

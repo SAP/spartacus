@@ -8,14 +8,13 @@ import { ErrorHandler, ModuleWithProviders, NgModule } from '@angular/core';
 import { CxErrorHandler } from './cx-error-handler';
 import { provideMultiErrorHandlers } from './multi-error-handlers';
 
-@NgModule({
-  providers: [provideMultiErrorHandlers()],
-})
+@NgModule()
 export class ErrorHandlingModule {
   static forRoot(): ModuleWithProviders<ErrorHandlingModule> {
     return {
       ngModule: ErrorHandlingModule,
       providers: [
+        provideMultiErrorHandlers(),
         {
           provide: ErrorHandler,
           useClass: CxErrorHandler,

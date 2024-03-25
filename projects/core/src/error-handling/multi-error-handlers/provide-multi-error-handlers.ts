@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StaticProvider } from '@angular/core';
+import { Provider } from '@angular/core';
 import { LoggingErrorHandler } from './logging-error-handler';
 import { MULTI_ERROR_HANDLERS } from './multi-error-handlers';
 
-export function provideMultiErrorHandlers(): StaticProvider[] {
+export function provideMultiErrorHandlers(): Provider[] {
   return [
     {
       provide: MULTI_ERROR_HANDLERS,

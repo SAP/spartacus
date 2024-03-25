@@ -20,9 +20,6 @@ export interface MultiErrorHandler {
 /**
  * Injection token for multi error handlers.
  * Are multi provided error handlers will be called in the order they are provided.
- * Spartacus is providing one multi error handler by default:
- * - LoggerMultiErrorHandler - responsible for logging errors to the LoggerService.
- * - ServerRespondingErrorHandler - responsible for handling server responding errors.
  *
  */
 
