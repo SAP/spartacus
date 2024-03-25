@@ -38,7 +38,7 @@
     }
 
     // TODO: (CXSPA-5926) Remove feaure flag next major release
-    @include forVersion(6.8) {
+    @include forFeature('a11ySortingOptionsTruncation') {
       & ng-select {
         @include media-breakpoint-up(lg) {
           width: 14rem;
