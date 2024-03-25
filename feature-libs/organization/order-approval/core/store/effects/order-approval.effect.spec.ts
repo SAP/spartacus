@@ -3,7 +3,12 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
+import {
+  LoggerService,
+  OccConfig,
+  SearchConfig,
+  normalizeHttpError,
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
@@ -25,7 +30,7 @@ const httpErrorResponse = new HttpErrorResponse({
   statusText: 'Unknown error',
   url: '/xxx',
 });
-const error = normalizeHttpError(httpErrorResponse);
+
 const orderApprovalCode = 'testCode';
 const userId = 'testUser';
 const orderApproval: OrderApproval = {
@@ -47,6 +52,16 @@ class MockOrderApprovalConnector {
   );
   makeDecision = createSpy().and.returnValue(of(orderApprovalDecision));
 }
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('OrderApproval Effects', () => {
   let actions$: Observable<OrderApprovalActions.OrderApprovalAction>;
@@ -84,6 +99,7 @@ describe('OrderApproval Effects', () => {
           useClass: MockOrderApprovalConnector,
         },
         { provide: OccConfig, useValue: mockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.OrderApprovalEffects,
         provideMockActions(() => actions$),
       ],

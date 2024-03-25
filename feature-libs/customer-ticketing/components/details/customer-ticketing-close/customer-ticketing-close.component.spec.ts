@@ -12,10 +12,10 @@ import {
   LAUNCH_CALLER,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { EMPTY, Observable, of } from 'rxjs';
 
 import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
+import { CustomerTicketingCloseComponentService } from './customer-ticketing-close-component.service';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -26,8 +26,6 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     return EMPTY;
   }
 }
-
-const mockTicketDetails$ = new BehaviorSubject<TicketDetails>({});
 
 let mockTicket: TicketDetails = {
   status: {
@@ -44,7 +42,7 @@ let mockTicket: TicketDetails = {
 
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
   getTicket(): Observable<TicketDetails | undefined> {
-    return mockTicketDetails$;
+    return of(mockTicket);
   }
 }
 
@@ -66,6 +64,7 @@ describe('CustomerTicketingCloseComponent', () => {
       imports: [I18nTestingModule],
       declarations: [CustomerTicketingCloseComponent, MockCxIconComponent],
       providers: [
+        CustomerTicketingCloseComponentService,
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
           provide: CustomerTicketingFacade,
@@ -73,8 +72,6 @@ describe('CustomerTicketingCloseComponent', () => {
         },
       ],
     }).compileComponents();
-
-    mockTicketDetails$.next(mockTicket);
     launchDialogService = TestBed.inject(LaunchDialogService);
   });
 
@@ -97,47 +94,5 @@ describe('CustomerTicketingCloseComponent', () => {
       component.element,
       component['vcr']
     );
-  });
-
-  describe('enableCloseButton', () => {
-    it('should be false if the status is not open or in process', (done) => {
-      mockTicket.status = { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED };
-      mockTicketDetails$.next(mockTicket);
-
-      component.enableCloseButton$.pipe(take(1)).subscribe((data) => {
-        expect(data).toEqual(false);
-        done();
-      });
-    });
-
-    it('should be false if available status is not closed', (done) => {
-      mockTicket.status = { id: STATUS.OPEN, name: STATUS_NAME.OPEN };
-      mockTicket.availableStatusTransitions = [
-        { id: STATUS.OPEN, name: STATUS_NAME.OPEN },
-      ];
-      mockTicketDetails$.next(mockTicket);
-
-      fixture.detectChanges();
-
-      component.enableCloseButton$.pipe(take(1)).subscribe((data) => {
-        expect(data).toEqual(false);
-        done();
-      });
-    });
-
-    it('should be true if status is open and available status is close', (done) => {
-      mockTicket.status = { id: STATUS.OPEN, name: STATUS_NAME.OPEN };
-      mockTicket.availableStatusTransitions = [
-        { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED },
-      ];
-      mockTicketDetails$.next(mockTicket);
-
-      fixture.detectChanges();
-
-      component.enableCloseButton$.pipe(take(1)).subscribe((data) => {
-        expect(data).toEqual(true);
-        done();
-      });
-    });
   });
 });

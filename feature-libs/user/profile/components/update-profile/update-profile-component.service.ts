@@ -1,4 +1,5 @@
 /*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -13,7 +14,7 @@ import {
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
@@ -23,11 +24,13 @@ export class UpdateProfileComponentService {
     protected globalMessageService: GlobalMessageService
   ) {}
 
-  protected user$ = this.userProfile
+  user$ = this.userProfile
     .get()
     .pipe(filter((user): user is User => Boolean(user)));
 
   protected busy$ = new BehaviorSubject(false);
+
+  updateSucceed$ = new Subject<boolean>();
 
   isUpdating$: Observable<boolean> = this.user$.pipe(
     tap((user) => this.form.patchValue(user)),
@@ -71,9 +74,11 @@ export class UpdateProfileComponentService {
 
     this.busy$.next(false);
     this.form.reset();
+    this.updateSucceed$.next(true);
   }
 
   protected onError(_error: Error): void {
     this.busy$.next(false);
+    this.updateSucceed$.next(false);
   }
 }

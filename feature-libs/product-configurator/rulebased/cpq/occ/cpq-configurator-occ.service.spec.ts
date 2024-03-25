@@ -5,8 +5,8 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  CartModification,
   CART_MODIFICATION_NORMALIZER,
+  CartModification,
 } from '@spartacus/cart/base/root';
 import {
   BaseOccUrlProperties,
@@ -22,23 +22,24 @@ import {
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import {
+  CPQ_CONFIGURATOR_NORMALIZER,
+  CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
+  CPQ_CONFIGURATOR_SERIALIZER,
+} from '../common/converters/cpq-configurator.converters';
+import { Cpq } from '../common/cpq.models';
+import {
   CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './converters/cpq-configurator-occ.converters';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
-import {
-  CPQ_CONFIGURATOR_NORMALIZER,
-  CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
-  CPQ_CONFIGURATOR_SERIALIZER,
-  CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
-} from '../common/converters/cpq-configurator.converters';
-import { Cpq } from '../common/cpq.models';
 
 describe('CpqConfigurationOccService', () => {
   const configId = '1234-56-7890';
   const userId = 'Anony';
   const documentId = '82736353';
   const entryNumber = 3;
+  const entryNumberString = '3';
   const productCode = 'Product';
   const cartResponse: CartModification = {
     quantityAdded: 1,
@@ -110,7 +111,6 @@ describe('CpqConfigurationOccService', () => {
         configuratorType: ConfiguratorType.CPQ,
       },
     };
-
   const errorMessages = ['error message 1', 'error message 2'];
   const numberOfConflicts = 2;
   const attributeCode = '111';
@@ -533,7 +533,75 @@ describe('CpqConfigurationOccService', () => {
         urlParams: {
           userId: userId,
           orderId: documentId,
-          orderEntryNumber: '3',
+          orderEntryNumber: entryNumberString,
+        },
+      }
+    );
+  });
+
+  it('should read the configuration for a quote entry and call normalizer in case owner is quote', () => {
+    const readConfigFromQuoteEntryParams = {
+      ...readConfigOrderEntryParams,
+      owner: {
+        ...readConfigOrderEntryParams.owner,
+        type: CommonConfigurator.OwnerType.QUOTE_ENTRY,
+      },
+    };
+    serviceUnderTest
+      .readConfigurationForOrderEntry(readConfigFromQuoteEntryParams)
+      .subscribe((config) => {
+        expect(config.errorMessages).toBe(errorMessages);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readCpqConfigurationForQuoteEntryFull'
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'readCpqConfigurationForQuoteEntryFull',
+      {
+        urlParams: {
+          userId: userId,
+          quoteId: documentId,
+          quoteEntryNumber: entryNumberString,
+        },
+      }
+    );
+  });
+
+  it('should read the configuration for a saved cart entry and call normalizer in case owner is quote', () => {
+    const readConfigFromSavedCartEntryParams = {
+      ...readConfigOrderEntryParams,
+      owner: {
+        ...readConfigOrderEntryParams.owner,
+        type: CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
+      },
+    };
+    serviceUnderTest
+      .readConfigurationForOrderEntry(readConfigFromSavedCartEntryParams)
+      .subscribe((config) => {
+        expect(config.errorMessages).toBe(errorMessages);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readCpqConfigurationForSavedCartEntryFull'
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'readCpqConfigurationForSavedCartEntryFull',
+      {
+        urlParams: {
+          userId: userId,
+          savedCartId: documentId,
+          entryNumber: entryNumberString,
         },
       }
     );

@@ -3,13 +3,14 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import {
   BaseOccUrlProperties,
   DynamicAttributes,
   HttpErrorModel,
-  normalizeHttpError,
+  LoggerService,
   OccEndpointsService,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -40,7 +41,19 @@ describe(`OccStockAdapter`, () => {
       ],
     },
   });
-  const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
+
+  class MockLoggerService {
+    log(): void {}
+    warn(): void {}
+    error(): void {}
+    info(): void {}
+    debug(): void {}
+  }
+
+  const mockNormalizedJaloError = normalizeHttpError(
+    mockJaloError,
+    new MockLoggerService()
+  );
 
   let occAdapter: OccStockAdapter;
   let httpMock: HttpTestingController;
@@ -53,6 +66,7 @@ describe(`OccStockAdapter`, () => {
         providers: [
           OccStockAdapter,
           { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+          { provide: LoggerService, useClass: MockLoggerService },
         ],
       });
     })
