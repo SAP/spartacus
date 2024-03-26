@@ -129,7 +129,7 @@
       </div>
     </div>
     <!-- TODO: (CXSPA-6446) Remove feature flag next major release -->
-    <ng-container *cxFeatureLevel="'6.8'">
+    <ng-container *cxFeature="'a11yReplenishmentOrderFieldset'">
       <fieldset
         *ngIf="isWeekly"
         class="cx-replenishment-form-data-container cx-repeat-days-container"
@@ -151,7 +151,7 @@
         </div>
       </fieldset>
     </ng-container>
-    <ng-container *cxFeatureLevel="'!6.8'">
+    <ng-container *cxFeature="'!a11yReplenishmentOrderFieldset'">
       <div
         *ngIf="isWeekly"
         class="cx-replenishment-form-data-container cx-repeat-days-container"
