@@ -31,7 +31,7 @@ import { Injectable, InjectionToken, inject } from '@angular/core';
 export abstract class FeatureToggles {}
 
 /**
- * Default FeatureToggles token, used to build Global FeatureToggles, built from DefaultFeatureTogglesChunks
+ * DefaultFeatureToggles token, used to build FeatureToggles. Built from DefaultFeatureTogglesChunk's
  */
 export const DefaultFeatureToggles = new InjectionToken(
   'DefaultFeatureToggles',
@@ -46,7 +46,7 @@ export const DefaultFeatureToggles = new InjectionToken(
 );
 
 /**
- * Root FeatureToggles token, used to build Global FeatureToggles, built from FeatureTogglesChunks
+ * RootFeatureToggles token, used to build Global FeatureToggles. Built from FeatureTogglesChunks
  */
 export const RootFeatureToggles = new InjectionToken('RootFeatureToggles', {
   providedIn: 'root',
@@ -58,7 +58,7 @@ export const RootFeatureToggles = new InjectionToken('RootFeatureToggles', {
 });
 
 /**
- * FeatureToggles chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
+ * FeatureTogglesChunk token, contributes to FeatureToggles.
  * Should not be used directly, use `provideFeatureToggles` or `provideFeatureTogglesFactory` instead.
  */
 export const FeatureTogglesChunk = new InjectionToken<FeatureToggles[]>(
@@ -66,7 +66,7 @@ export const FeatureTogglesChunk = new InjectionToken<FeatureToggles[]>(
 );
 
 /**
- * FeatureToggles chunk token, can be used to provide configuration chunk and contribute to the default configuration.
+ * DefaultFeatureTogglesChunk token, contributes to DefaultFeatureToggles.
  * Should not be used directly, use `provideDefaultFeatureToggles` or `provideDefaultFeatureTogglesFactory` instead.
  *
  * General rule is, that all FeatureToggles provided in libraries should be provided as `default`.
