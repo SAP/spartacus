@@ -10,7 +10,7 @@ import '../../features-config/config/features-config';
 // because it's a permanent feature enabler, but not a short-living feature toggle
 // covering a breaking change.
 //
-// It's deliberately is disabled by default.
+// It's disabled by default.
 
 declare module '../../features-config/config/features-config' {
   interface FeaturesConfigContent {
