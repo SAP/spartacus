@@ -140,22 +140,27 @@ export class ApplePayService {
       }),
       take(1),
       catchError((error) => {
-        this.cartHandlerService.deleteUserAddresses([
-          ...this.transactionDetails.addressIds,
-        ]);
-        this.transactionDetails.addressIds = [];
+        this.deleteUserAddresses();
         this.cartHandlerService.loadCartAfterSingleProductTransaction(
           this.transactionDetails
         );
         return throwError(() => error);
       }),
       finalize(() => {
-        this.cartHandlerService.deleteUserAddresses([
-          ...this.transactionDetails.addressIds,
-        ]);
+        this.deleteUserAddresses();
         this.paymentInProgress = false;
       })
     );
+  }
+
+  protected deleteUserAddresses() {
+    if (this.transactionDetails.addressIds.length) {
+      this.cartHandlerService.deleteUserAddresses([
+        ...this.transactionDetails.addressIds,
+      ]);
+    }
+
+    this.transactionDetails.addressIds = [];
   }
 
   private handleValidation(
