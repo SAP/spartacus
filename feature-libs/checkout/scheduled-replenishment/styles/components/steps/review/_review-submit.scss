@@ -100,7 +100,7 @@
 
         .cx-repeat-days {
           //TODO: (CXSPA-6446) Remove feature flag next major release
-          @include forFeatre('a11yReplenishmentOrderFieldset') {
+          @include forFeature('a11yReplenishmentOrderFieldset') {
             font-size: inherit;
           }
           flex: 0 100%;
