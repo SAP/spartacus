@@ -28,7 +28,10 @@ context('Password Visibility', () => {
         'password'
       );
       cy.get('input[aria-label="Enter Your Password"]').type('abc');
-      cy.get('input[aria-label="Enter Your Password"]').should('have.value', 'abc');
+      cy.get('input[aria-label="Enter Your Password"]').should(
+        'have.value',
+        'abc'
+      );
 
       cy.get('button[aria-label="Show password"]').click();
       cy.get('input[aria-label="Enter Your Password"]').should(
@@ -36,7 +39,10 @@ context('Password Visibility', () => {
         'type',
         'text'
       );
-      cy.get('input[aria-label="Enter Your Password"]').should('have.value', 'abc');
+      cy.get('input[aria-label="Enter Your Password"]').should(
+        'have.value',
+        'abc'
+      );
       cy.get('button[aria-label="Hide password"]').should('be.visible');
     });
 
