@@ -98,6 +98,7 @@ if (!environment.production) {
         a11yOrderConfirmationHeadingOrder: true,
         a11yStarRating: true,
         a11ySortingOptionsTruncation: true,
+        a11yCheckoutDeliveryFocus: true,
       },
     }),
     provideConfig(<StoreFinderConfig>{

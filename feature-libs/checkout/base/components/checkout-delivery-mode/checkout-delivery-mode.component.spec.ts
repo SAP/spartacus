@@ -1,5 +1,11 @@
 import { Component, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -11,6 +17,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -107,6 +114,12 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 describe('CheckoutDeliveryModeComponent', () => {
   let component: CheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
@@ -133,6 +146,7 @@ describe('CheckoutDeliveryModeComponent', () => {
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: ActiveCartFacade, useClass: MockCartService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         ],
       }).compileComponents();
 
@@ -245,6 +259,28 @@ describe('CheckoutDeliveryModeComponent', () => {
     const invalid = component.deliveryModeInvalid;
     expect(invalid).toBe(false);
   });
+
+  it('should refocus on the keyboard selected option after they are updated', fakeAsync(() => {
+    const lastFocusedId = 'standard-gross';
+    const mockEvent = new MouseEvent('click');
+    const mockElement = {
+      focus: jasmine.createSpy('focus'),
+      classList: { remove: jasmine.createSpy('remove') },
+    } as any;
+    component.isUpdating$ = of(false);
+    spyOn(document, 'querySelector').and.returnValue(mockElement);
+    spyOn(document, 'getElementById').and.returnValue(mockElement);
+    spyOn(component.mode, 'setValue');
+
+    component.changeMode(lastFocusedId, mockEvent);
+    tick();
+
+    expect(mockElement.classList.remove).toHaveBeenCalledWith('mouse-focus');
+    expect(mockElement.focus).toHaveBeenCalled();
+    expect(component.mode.setValue).toHaveBeenCalledWith({
+      deliveryModeId: lastFocusedId,
+    });
+  }));
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
