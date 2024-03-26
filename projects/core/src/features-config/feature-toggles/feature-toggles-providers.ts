@@ -14,9 +14,9 @@ import {
 export type FeatureTogglesFactory = (...props: any[]) => FeatureToggles;
 
 /**
- * Helper function to provide flags chunk using FlagsChunk token
+ * Helper function to provide FeatureTogglesChunk token
  *
- * To provide default flags in libraries provideDefaultFlags should be used instead.
+ * To provide DefaultFeatureTogglesChunk flags in libraries, provideFeatureTogglesChunk should be used instead.
  *
  * @param flags FeatureToggles object to merge with the global flags
  */
@@ -32,9 +32,9 @@ export function provideFeatureToggles(
 }
 
 /**
- * Helper function to provide flags with factory function, using FlagsChunk token
+ * Helper function to provide FeatureTogglesChunk with a factory function
  *
- * To provide default flags in libraries provideDefaultFeatureTogglesFactory should be used instead.
+ * To provide DefaultFeatureTogglesChunk flags in libraries provideDefaultFeatureTogglesFactory should be used instead.
  *
  * @param featureTogglesFactory Factory Function that will generate flags object
  * @param deps Optional dependencies to a factory function
@@ -51,7 +51,7 @@ export function provideFeatureTogglesFactory(
 }
 
 /**
- * Helper function to provide default flags chunk using DefaultFeatureTogglesChunk token
+ * Helper function to provide DefaultFeatureTogglesChunk token
  *
  * @param flags FeatureToggles object to merge with the default flags
  */
@@ -66,7 +66,7 @@ export function provideDefaultFeatureToggles(
 }
 
 /**
- * Helper function to provide default flags with factory function, using DefaultFeatureTogglesChunk token
+ * Helper function to provide DefaultFeatureTogglesChunk flags with a factory function
  *
  * @param featureTogglesFactory Factory Function that will generate flags object
  * @param deps Optional dependencies to a factory function
