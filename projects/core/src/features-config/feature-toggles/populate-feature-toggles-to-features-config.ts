@@ -16,6 +16,9 @@ import {
   RootFeatureToggles,
 } from './feature-toggles-tokens';
 
+/**
+ * Copies FeatureToggles to FeaturesConfig
+ */
 export const populateFeatureTogglesToFeatureConfig: FactoryProvider[] = [
   // Copies RootFeatureToggles to RootConfig
   provideConfigFactory(() => {
