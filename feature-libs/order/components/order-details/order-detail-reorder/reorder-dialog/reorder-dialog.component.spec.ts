@@ -7,7 +7,7 @@ import {
   CartModificationList,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   ICON_TYPE,
@@ -123,7 +123,6 @@ describe('ReorderDialogComponent', () => {
           SpinnerModule,
           I18nTestingModule,
           PromotionsModule,
-          FeaturesConfigModule,
         ],
         declarations: [
           ReorderDialogComponent,

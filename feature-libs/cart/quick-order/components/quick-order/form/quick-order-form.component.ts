@@ -8,9 +8,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
@@ -40,6 +42,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   results: Product[] = [];
 
   @Input() limit: number;
+
+  @ViewChild('quickOrderInput') quickOrderInput: ElementRef;
 
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
@@ -99,6 +103,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     }
 
     this.quickOrderService.addProduct(product);
+    this.quickOrderInput.nativeElement.focus();
   }
 
   addProduct(event: Event): void {

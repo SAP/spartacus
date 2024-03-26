@@ -10,11 +10,9 @@ import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import {
-  DefaultExpressServerLogger,
   EXPRESS_SERVER_LOGGER,
   ExpressServerLogger,
   ExpressServerLoggerContext,
-  LegacyExpressServerLogger,
 } from '../logger';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { RenderingCache } from './rendering-cache';
@@ -78,7 +76,11 @@ export class OptimizedSsrEngine {
           ...ssrOptions,
         }
       : undefined;
-    this.logger = this.initLogger(this.ssrOptions);
+
+    if (!this.ssrOptions?.logger) {
+      throw new Error('`SsrOptimizationOptions.logger` is not defined');
+    }
+    this.logger = this.ssrOptions?.logger;
     this.logOptions();
   }
 
@@ -91,18 +93,9 @@ export class OptimizedSsrEngine {
       this.ssrOptions
     );
 
-    // This check has been introduced to avoid breaking changes. Remove it in Spartacus version 7.0
-    if (this.ssrOptions.logger) {
-      this.log(`[spartacus] SSR optimization engine initialized`, true, {
-        options: loggableSsrOptions,
-      });
-    } else {
-      const stringifiedOptions = JSON.stringify(loggableSsrOptions, null, 2);
-      this.log(
-        `[spartacus] SSR optimization engine initialized with the following options: ${stringifiedOptions}`,
-        true
-      );
-    }
+    this.log(`[spartacus] SSR optimization engine initialized`, true, {
+      options: loggableSsrOptions,
+    });
   }
 
   /**
@@ -327,8 +320,7 @@ export class OptimizedSsrEngine {
   protected log(
     message: string,
     debug = true,
-    //CXSPA-3680 - in a new major, let's make this argument required
-    context?: ExpressServerLoggerContext
+    context: ExpressServerLoggerContext
   ): void {
     if (debug || this.ssrOptions?.debug) {
       this.logger.log(message, context || {});
@@ -457,6 +449,7 @@ export class OptimizedSsrEngine {
           provide: EXPRESS_SERVER_LOGGER,
           useValue: this.logger,
         },
+        ...(options?.providers ?? []),
       ],
     };
 
@@ -479,13 +472,5 @@ export class OptimizedSsrEngine {
 
       renderCallback(err, html);
     });
-  }
-
-  //CXSPA-3680 - remove this method in 7.0
-  private initLogger(ssrOptions: SsrOptimizationOptions | undefined) {
-    if (ssrOptions?.logger === true) {
-      return new DefaultExpressServerLogger();
-    }
-    return ssrOptions?.logger || new LegacyExpressServerLogger();
   }
 }

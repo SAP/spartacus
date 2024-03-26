@@ -4,10 +4,11 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import {
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   OrderApprovalPermissionType,
   SearchConfig,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
   OrganizationActions,
@@ -28,7 +29,7 @@ const httpErrorResponse = new HttpErrorResponse({
   statusText: 'Unknown error',
   url: '/xxx',
 });
-const error = normalizeHttpError(httpErrorResponse);
+
 const permissionCode = 'testCode';
 const userId = 'testUser';
 const permission: Permission = {
@@ -56,6 +57,16 @@ class MockPermissionConnector {
   update = createSpy().and.returnValue(of(permission));
   getTypes = createSpy().and.returnValue(of(permissionTypes));
 }
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('Permission Effects', () => {
   let actions$: Observable<PermissionActions.PermissionAction>;
@@ -90,6 +101,7 @@ describe('Permission Effects', () => {
       providers: [
         { provide: PermissionConnector, useClass: MockPermissionConnector },
         { provide: OccConfig, useValue: mockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.PermissionEffects,
         provideMockActions(() => actions$),
       ],

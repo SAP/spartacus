@@ -7,6 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
 import {
   CmsConfig,
   FeaturesConfigModule,
@@ -57,6 +58,7 @@ const orderConfirmationComponents = [
     FormErrorsModule,
     OutletModule.forChild(),
     PasswordVisibilityToggleModule,
+    AbstractOrderContextModule,
     FeaturesConfigModule,
   ],
   providers: [

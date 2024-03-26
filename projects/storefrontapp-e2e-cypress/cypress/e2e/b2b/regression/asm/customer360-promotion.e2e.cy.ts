@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
-import * as checkout from '../../../../helpers/checkout-flow';
-import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
-import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 import * as asm from '../../../../helpers/asm';
+import * as checkout from '../../../../helpers/checkout-flow';
+import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
+import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import {
   interceptDelete,
   interceptPost,
@@ -19,6 +19,11 @@ context('Assisted Service Module', () => {
     fullName: 'William Hunter',
     email: 'william.hunter@pronto-hw.com',
   };
+  const customer_coupon = {
+    code: 'dragonboat',
+    name: 'Buy over $1000 get 20% off on cart',
+  };
+
   before(() => {
     clearAllStorage();
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
@@ -80,10 +85,13 @@ context('Assisted Service Module', () => {
       cy.get('.active').contains('Available');
     });
     it('should be able to search customer coupon (CXSPA-3945)', () => {
+      // remove the assigned dragonboat customer coupn and ensure that it is available
+      asm.removeCustomerCoupon(customer.email, 'pw4all', customer_coupon.code);
+
       cy.intercept('POST', /\.*\/customer360\.*/).as('searchCustomerCoupon');
       cy.get('.cx-asm-customer-360-promotion-listing-search-input')
         .click()
-        .type('Buy over $1000 get 20% off on cart');
+        .type(customer_coupon.name);
       cy.get(
         '.cx-asm-customer-360-promotion-listing-search-icon-search'
       ).click();
@@ -92,7 +100,7 @@ context('Assisted Service Module', () => {
         .should('eq', 200);
       cy.get('cx-asm-customer-360-customer-coupon').within(() => {
         cy.get('.cx-asm-customer-360-promotion-listing-row').contains(
-          'Buy over $1000 get 20% off on cart'
+          customer_coupon.name
         );
         cy.get('.cx-asm-customer-360-promotion-listing-row').should(
           'have.length',
@@ -106,7 +114,7 @@ context('Assisted Service Module', () => {
         '/users/*/customercoupons/*/claim?*'
       );
       cy.get('.cx-asm-customer-360-promotion-listing-row')
-        .contains('Buy over $1000 get 20% off on cart')
+        .contains(customer_coupon.name)
         .parent()
         .parent()
         .within(() => {
@@ -115,7 +123,7 @@ context('Assisted Service Module', () => {
         });
       cy.get('.cx-asm-customer-360-promotion-listing-row').should(
         'not.contain',
-        'Buy over $1000 get 20% off on cart'
+        customer_coupon.name
       );
     });
     it('should be able to remove customer coupon for customer coupon (CXSPA-3945)', () => {
@@ -125,7 +133,7 @@ context('Assisted Service Module', () => {
         '/users/*/customercoupons/*/claim?*'
       );
       cy.get('.cx-asm-customer-360-promotion-listing-row')
-        .contains('Buy over $1000 get 20% off on cart')
+        .contains(customer_coupon.name)
         .parent()
         .parent()
         .within(() => {
@@ -134,11 +142,11 @@ context('Assisted Service Module', () => {
         });
       cy.get('.cx-asm-customer-360-promotion-listing-row').should(
         'not.contain',
-        'Buy over $1000 get 20% off on cart'
+        customer_coupon.name
       );
       cy.get('.cx-tab-header').contains('Available').click();
       cy.get('.cx-asm-customer-360-promotion-listing-row').contains(
-        'Buy over $1000 get 20% off on cart'
+        customer_coupon.name
       );
     });
   });

@@ -242,7 +242,11 @@ export function checkConflictDetectedMsgNotDisplayed(
   attributeName: string
 ): void {
   const attributeId = configuration.getAttributeLabelId(attributeName);
-  cy.get(`#${attributeId}`).next().should('not.exist');
+  cy.get(`#${attributeId}`)
+    .parent()
+    .within(() => {
+      cy.get('.cx-conflict-msg').should('not.exist');
+    });
 }
 
 /**
