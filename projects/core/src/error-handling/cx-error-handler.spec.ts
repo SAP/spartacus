@@ -1,53 +1,51 @@
 import { TestBed } from '@angular/core/testing';
 import { CxErrorHandler } from './cx-error-handler';
-import {
-  ChainedErrorInterceptorFn,
-  ERROR_INTERCEPTORS,
-  ErrorInterceptor,
-} from './error-interceptors/error-interceptor';
 import { ErrorInterceptorService } from './error-interceptors/error-interceptor.service';
+import {
+  MULTI_ERROR_HANDLERS,
+  MultiErrorHandler,
+} from './multi-error-handlers';
 
-const mockChainFn = jasmine.createSpy();
+class MockErrorHandler implements MultiErrorHandler {
+  handleError = jasmine.createSpy('handleError');
+}
 
-class MockErrorInterceptor implements ErrorInterceptor {
-  intercept(error: unknown, _next: ChainedErrorInterceptorFn): void {
-    mockChainFn(error);
-  }
+class MockErrorHandler2 implements MultiErrorHandler {
+  handleError = jasmine.createSpy('handleError');
 }
 
 describe('CxErrorHandler', () => {
   let cxErrorHandler: CxErrorHandler;
-  let errorInterceptorService: ErrorInterceptorService;
+  let errorHandlers: MultiErrorHandler[];
 
   beforeEach(() => {
-    mockChainFn.calls.reset();
-
     TestBed.configureTestingModule({
       providers: [
         CxErrorHandler,
         ErrorInterceptorService,
         {
-          provide: ERROR_INTERCEPTORS,
-          useClass: MockErrorInterceptor,
+          provide: MULTI_ERROR_HANDLERS,
+          useClass: MockErrorHandler,
+          multi: true,
+        },
+        {
+          provide: MULTI_ERROR_HANDLERS,
+          useClass: MockErrorHandler2,
           multi: true,
         },
       ],
     });
 
     cxErrorHandler = TestBed.inject(CxErrorHandler);
-    errorInterceptorService = TestBed.inject(ErrorInterceptorService);
+    errorHandlers = TestBed.inject(MULTI_ERROR_HANDLERS);
   });
 
-  it('should call interceptorsChain', () => {
+  it('should call all error handlers', () => {
     const error = new Error('test error');
-    const interceptorsChainSpy = spyOnProperty(
-      errorInterceptorService,
-      'interceptorsChain',
-      'get'
-    ).and.callThrough();
 
     cxErrorHandler.handleError(error);
-    expect(mockChainFn).toHaveBeenCalledWith(error);
-    expect(interceptorsChainSpy).toHaveBeenCalled();
+    errorHandlers.forEach((handler) => {
+      expect(handler.handleError).toHaveBeenCalledWith(error);
+    });
   });
 });

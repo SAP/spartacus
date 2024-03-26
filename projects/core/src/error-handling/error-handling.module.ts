@@ -6,8 +6,7 @@
 
 import { ErrorHandler, ModuleWithProviders, NgModule } from '@angular/core';
 import { CxErrorHandler } from './cx-error-handler';
-import { ERROR_INTERCEPTORS } from './error-interceptors/error-interceptor';
-import { LoggerErrorInterceptor } from './error-interceptors/logger-error.interceptor';
+import { provideMultiErrorHandlers } from './multi-error-handlers';
 
 @NgModule()
 export class ErrorHandlingModule {
@@ -15,11 +14,7 @@ export class ErrorHandlingModule {
     return {
       ngModule: ErrorHandlingModule,
       providers: [
-        {
-          provide: ERROR_INTERCEPTORS,
-          useClass: LoggerErrorInterceptor,
-          multi: true,
-        },
+        provideMultiErrorHandlers(),
         {
           provide: ErrorHandler,
           useClass: CxErrorHandler,
