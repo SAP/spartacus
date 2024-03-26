@@ -15,13 +15,11 @@ describe('Focus managment for a11y', () => {
         cy.contains(/proceed to checkout/i).click();
         checkout.fillAddressForm();
         cy.intercept('GET', '*deliveryMode*').as('getDeliveryMethods');
-        cy.get('input[type=radio][formcontrolname=deliveryModeId]')
-          .as('selectedOption')
-          .eq(1)
-          .focus()
-          .type('{enter}');
+        cy.get('#deliveryMode-premium-gross').trigger('change', {
+          screenX: 0,
+        });
         cy.wait('@getDeliveryMethods');
-        cy.get('@selectedOption').should('have.focus');
+        cy.get('#deliveryMode-premium-gross').should('have.focus');
       });
     });
   });
