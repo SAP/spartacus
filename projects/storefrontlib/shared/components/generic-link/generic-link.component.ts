@@ -73,11 +73,7 @@ export class GenericLinkComponent implements OnChanges {
    * The part with the path of the local url.
    */
   get routerUrl(): string[] | undefined {
-    if (this.isExternalUrl()) {
-      return undefined;
-    } else {
-      return this.routeParts.path;
-    }
+    return this.routeParts.path;
   }
 
   get linkUrl(): string {
