@@ -6,7 +6,7 @@
   transition: none;
 
   // TODO: (CXSPA-5912) Remove feature flag next major
-  @include forVersion(6.8) {
+  @include forFeature('a11yMobileVisibleFocus') {
     @include media-breakpoint-down(md) {
       outline-offset: -2px;
       & > cx-media {
