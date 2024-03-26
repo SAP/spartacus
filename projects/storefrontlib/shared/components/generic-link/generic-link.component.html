@@ -8,6 +8,7 @@
   [attr.class]="class"
   [attr.style]="style"
   [attr.title]="title"
+  [tabindex]="tabindex"
   ><ng-content></ng-content
 ></a> -->
 
@@ -19,6 +20,7 @@
   [attr.class]="class"
   [attr.style]="style"
   [attr.title]="title"
+  [tabindex]="tabindex"
   (click)="onClick($event)"
 >
   <ng-content></ng-content>
@@ -47,6 +49,7 @@
     [attr.class]="class"
     [attr.style]="style"
     [attr.title]="title"
+    [tabindex]="tabindex"
   >
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </a>
@@ -62,6 +65,7 @@
     [attr.class]="class"
     [attr.style]="style"
     [attr.title]="title"
+    [tabindex]="tabindex"
   >
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </a>
