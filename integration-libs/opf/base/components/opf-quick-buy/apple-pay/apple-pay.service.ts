@@ -140,6 +140,10 @@ export class ApplePayService {
       }),
       take(1),
       catchError((error) => {
+        this.cartHandlerService.deleteUserAddresses([
+          ...this.transactionDetails.addressIds,
+        ]);
+        this.transactionDetails.addressIds = [];
         this.cartHandlerService.loadCartAfterSingleProductTransaction(
           this.transactionDetails
         );
