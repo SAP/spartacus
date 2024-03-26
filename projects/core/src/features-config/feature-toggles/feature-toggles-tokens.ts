@@ -7,7 +7,7 @@
 import { Injectable, InjectionToken, inject } from '@angular/core';
 
 /**
- * Properties for enabling/disabling breaking changes gradually introduced in Spartacus.
+ * Properties for gradually enabling/disabling breaking changes introduced in Spartacus.
  *
  * Feature toggles facilitate the incremental evolution of the Spartacus product,
  * allowing Spartacus users to adjust to breaking changes over time.
