@@ -26,8 +26,9 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
     protected converter: ConverterService
   ) {}
 
-  getAiResponse(aiPrompt: aiPrompt): Observable<aiResponse>{
-    let aiUrl =  'https://productreviewllm-bogus-rabbit-wd.cfapps.eu12.hana.ondemand.com/generate-text';
+  getAiResponse(aiPrompt: aiPrompt): Observable<aiResponse> {
+    let aiUrl =
+      'https://productreviewllm-bogus-rabbit-wd.cfapps.eu12.hana.ondemand.com/generate-text';
     return this.http.post(aiUrl, aiPrompt);
   }
 

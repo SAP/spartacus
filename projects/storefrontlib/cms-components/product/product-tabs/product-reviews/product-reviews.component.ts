@@ -58,7 +58,11 @@ export class ProductReviewsComponent {
     map((p) => p.code ?? ''),
     distinctUntilChanged(),
     switchMap((productCode) =>
-      this.reviewService.getByProductCode(productCode)
+      this.reviewService
+        .getByProductCode(productCode)
+        .pipe(
+          switchMap((reviews) => this.reviewService.updateSpamInfo(reviews))
+        )
     ),
     tap(() => {
       this.resetReviewForm();

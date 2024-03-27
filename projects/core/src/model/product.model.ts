@@ -144,6 +144,7 @@ export interface Review {
   id?: string;
   principal?: User;
   rating?: number;
+  isSpam?: boolean;
 }
 
 export interface VariantMatrixElement {

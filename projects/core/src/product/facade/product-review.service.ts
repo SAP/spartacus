@@ -6,8 +6,8 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { EMPTY, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { EMPTY, Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import {
   aiPrompt,
   aiResponse,
@@ -19,7 +19,14 @@ import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
 import { ProductReviewsConnector } from '../connectors';
-import { COMMENT_PROMPT, NEGATIVE_SENTIMENTS_PROMPT, SENTIMENTS_PERCENTAGE_PROMPT, POSITIVE_SENTIMENTS_PROMPT, SUMMARY_PROMPT } from './ai-prompts';
+import {
+  COMMENT_PROMPT,
+  NEGATIVE_SENTIMENTS_PROMPT,
+  SENTIMENTS_PERCENTAGE_PROMPT,
+  POSITIVE_SENTIMENTS_PROMPT,
+  SUMMARY_PROMPT,
+  FETCH_SPAM_PROMPT,
+} from './ai-prompts';
 
 @Injectable({
   providedIn: 'root',
@@ -102,9 +109,12 @@ export class ProductReviewService {
       input = this.getSystemPositiveContent();
     } else if (systemContent === 'negativeSentiments') {
       input = this.getSystemNegativeContent();
-    }else if (systemContent === 'sentimentsPercentage') {
+    } else if (systemContent === 'sentimentsPercentage') {
       input = this.getSystemSentimentPercentageContent();
+    } else if (systemContent === 'fetchSpams') {
+      input = this.getSystemSpamContent();
     }
+    console.log(reviews, systemContent);
     reviews.forEach((review) => {
       let item: aiRoleContent = {};
       item.role = 'user';
@@ -156,5 +166,46 @@ export class ProductReviewService {
     item.content = SENTIMENTS_PERCENTAGE_PROMPT;
     input?.prompt?.push(item);
     return input;
+  }
+
+  private getSystemSpamContent(): aiPrompt {
+    let input: aiPrompt = { prompt: [] };
+    let item: aiRoleContent = {};
+    item.role = 'system';
+    item.content = FETCH_SPAM_PROMPT;
+    input?.prompt?.push(item);
+    return input;
+  }
+
+  updateSpamInfo(reviews: Review[]): Observable<Review[]> {
+    let updatedReviews: Review[] = [];
+    return this.getAiReponse(reviews, 'fetchSpams').pipe(
+      switchMap((spam) => {
+        let spamIndex = this.convertStringToNumberArray(
+          spam.choices[0].message.content
+        );
+        reviews.forEach((review, index) => {
+          let spamIdx = spamIndex.indexOf(index);
+          if (spamIdx === -1) {
+            let out = {};
+            Object.assign(out, review, { isSpam: false });
+            updatedReviews.push(out);
+          } else {
+            let out = {};
+            Object.assign(out, review, { isSpam: true });
+            updatedReviews.push(out);
+          }
+        });
+        return of(updatedReviews);
+      })
+    );
+  }
+
+  convertStringToNumberArray(x: String): number[] {
+    x = x.substring(1, x.length - 1);
+    var y = x.split(',').map(function (item) {
+      return parseInt(item, 10);
+    });
+    return y;
   }
 }

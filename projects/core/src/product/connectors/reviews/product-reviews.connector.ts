@@ -23,8 +23,7 @@ export class ProductReviewsConnector {
     return this.adapter.post(productCode, review);
   }
 
-  getAiResponse(aiPrompt: aiPrompt): Observable<aiResponse>
-  {
+  getAiResponse(aiPrompt: aiPrompt): Observable<aiResponse> {
     return this.adapter.getAiResponse(aiPrompt);
   }
 }

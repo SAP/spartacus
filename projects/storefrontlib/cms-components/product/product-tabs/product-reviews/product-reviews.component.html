@@ -34,7 +34,11 @@
               *ngIf="aiPositiveSentiments$ | async as aiPositiveSentiments"
             >
               <div class="positive-sentiments">
-                <div *ngIf="aiSentimentPercentage$ | async as arr" class="positive-circle">{{arr[0]+'% of customers gave positive feedback'}}
+                <div
+                  *ngIf="aiSentimentPercentage$ | async as arr"
+                  class="positive-circle"
+                >
+                  {{ arr[0] + '% of customers gave positive feedback' }}
                 </div>
                 <ul class="sentiment-list">
                   <li *ngFor="let sentiment of aiPositiveSentiments">
@@ -48,7 +52,11 @@
               *ngIf="aiNegativeSentiments$ | async as aiNegativeSentiments"
             >
               <div class="negative-sentiments">
-                <div *ngIf="aiSentimentPercentage$ | async as arr" class="negative-circle">{{arr[1]+'% of customers gave negative feedback'}}
+                <div
+                  *ngIf="aiSentimentPercentage$ | async as arr"
+                  class="negative-circle"
+                >
+                  {{ arr[1] + '% of customers gave negative feedback' }}
                 </div>
                 <ul class="sentiment-list">
                   <li *ngFor="let sentiment of aiNegativeSentiments">
@@ -68,7 +76,17 @@
           tabindex="0"
           *ngFor="let review of reviews | slice: 0:maxListItems"
         >
-          <div class="title">{{ review.headline }}</div>
+          <div class="title">
+            {{ review.headline }}
+            <ng-container *ngIf="review?.isSpam">
+              <i
+                class="fa fa-exclamation-triangle spam"
+                title="This review looks like a spam!"
+                aria-hidden="true"
+                >{{ ' SPAM' }}</i
+              >
+            </ng-container>
+          </div>
           <cx-star-rating [rating]="review.rating ?? 0"></cx-star-rating>
           <div class="name">
             {{ review.alias ? review.alias : review.principal?.name }}

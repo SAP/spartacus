@@ -22,8 +22,8 @@ $gutterSize: 15px;
     }
   }
 
-  .ai-upgrade{
-    .sentiments{
+  .ai-upgrade {
+    .sentiments {
       display: flex;
       justify-content: space-between;
       margin: 1rem 0rem;
@@ -31,35 +31,33 @@ $gutterSize: 15px;
         margin: 0rem 0.5rem;
         border: 1px solid var(--cx-color-medium);
         width: 50%;
-        .sentiment-list{
+        .sentiment-list {
           margin: 0.5rem 0rem;
           list-style-type: none;
-          .thumbsUp{
+          .thumbsUp {
             color: var(--cx-color-success);
           }
         }
-        .positive-circle{
+        .positive-circle {
           color: var(--cx-color-success);
         }
-
       }
       .negative-sentiments {
         border: 1px solid var(--cx-color-medium);
-        margin: 0.5rem 0.5rem;
+        margin: 0rem 0.5rem;
         width: 50%;
-        .sentiment-list{
+        .sentiment-list {
           margin: 0.5rem 0rem;
           list-style-type: none;
-          .thumbsDown{
+          .thumbsDown {
             color: var(--cx-color-danger);
           }
         }
-        .negative-circle{
+        .negative-circle {
           color: var(--cx-color-danger);
         }
       }
     }
-
   }
 
   .review {
@@ -68,6 +66,13 @@ $gutterSize: 15px;
     grid-template-rows: repeat(3, minmax(10px, auto)) auto;
     grid-column-gap: 1vw;
     margin: 4vh 0 2vh;
+
+    .spam {
+      color: var(--cx-color-danger);
+      font-weight: var(--cx-font-weight-semi);
+      font-size: 10px;
+      font-style: normal;
+    }
 
     // layout
     cx-star-rating,
