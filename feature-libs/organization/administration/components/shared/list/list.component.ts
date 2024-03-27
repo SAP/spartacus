@@ -10,7 +10,12 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { EntitiesModel, PaginationModel, Translatable } from '@spartacus/core';
+import {
+  EntitiesModel,
+  PaginationModel,
+  Translatable,
+  useFeatureStyles,
+} from '@spartacus/core';
 import {
   ICON_TYPE,
   Table,
@@ -21,7 +26,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { OrganizationTableType } from '../organization.model';
-import { ListService, CreateButtonType } from './list.service';
+import { CreateButtonType, ListService } from './list.service';
 
 @Component({
   selector: 'cx-org-list',
@@ -36,7 +41,9 @@ export class ListComponent<T = any, P = PaginationModel> {
   constructor(
     protected service: ListService<T, P>,
     protected organizationItemService: ItemService<T>
-  ) {}
+  ) {
+    useFeatureStyles('a11yOrganizationListHeadingOrder');
+  }
 
   @HostBinding('class')
   viewType: OrganizationTableType = this.service.viewType;
