@@ -18,8 +18,8 @@ import {
   SavedCartFacade,
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
-import { RoutingService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { RoutingService, useFeatureStyles } from '@spartacus/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
@@ -52,7 +52,9 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     protected savedCartService: SavedCartFacade,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
-  ) {}
+  ) {
+    useFeatureStyles('a11ySavedCartsZoom');
+  }
 
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();
