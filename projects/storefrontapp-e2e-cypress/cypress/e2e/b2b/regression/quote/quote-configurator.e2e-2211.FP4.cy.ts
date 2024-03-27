@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FeaturesConfig } from '@spartacus/core';
 import * as quote from '../../../../helpers/b2b/b2b-quote';
 import * as configuration from '../../../../helpers/product-configurator';
 import * as configurationVc from '../../../../helpers/product-configurator-vc';
@@ -30,11 +29,6 @@ const radioGroup = 'radioGroup';
 context('Quote<->Configurator integration', () => {
   // before all tests - ensure that cart is empty
   before(() => {
-    cy.cxConfig({
-      features: {
-        storeFrontLibCardParagraphTruncated: true,
-      },
-    } as FeaturesConfig);
     cy.visit('/');
     quote.login(EMAIL, PASSWORD, USER);
     // add a product - so that it is guaranteed that clear cart link is available
