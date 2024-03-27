@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { FeaturesConfig } from '@spartacus/core';
 import * as quote from '../../../../helpers/b2b/b2b-quote';
 import * as cart from '../../../../helpers/cart';
 import * as common from '../../../../helpers/common';
@@ -21,6 +22,11 @@ const PRODUCT_AMOUNT_30: number = 30;
 context('Quote', () => {
   // before all tests - ensure that cart is empty
   before(() => {
+    cy.cxConfig({
+      features: {
+        storeFrontLibCardParagraphTruncated: true,
+      },
+    } as FeaturesConfig);
     // add a product - so that it is guaranteed that clear cart link is available
     cy.visit('/');
     quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
