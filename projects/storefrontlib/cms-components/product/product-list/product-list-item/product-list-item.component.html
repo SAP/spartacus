@@ -19,12 +19,24 @@
     </a>
   </div>
   <div class="col-12 col-md-8">
-    <a
-      [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
-      class="cx-product-name"
-    >
-      <h2 [innerHtml]="product.nameHtml"></h2>
-    </a>
+    <ng-container *cxFeature="'a11yExpandedFocusIndicator'">
+      <h2 class="cx-product-name">
+        <a
+          [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+          [innerHtml]="product.nameHtml"
+        ></a>
+      </h2>
+    </ng-container>
+
+    <!-- TODO: (CXSPA-5709) Remove feature flag next major -->
+    <ng-container *cxFeature="'!a11yExpandedFocusIndicator'">
+      <a
+        [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+        class="cx-product-name"
+      >
+        <h2 [innerHtml]="product.nameHtml"></h2>
+      </a>
+    </ng-container>
 
     <ng-template [cxOutlet]="ProductListOutlets.ITEM_DETAILS">
       <cx-star-rating
