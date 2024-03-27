@@ -50,6 +50,7 @@ export class CheckoutScheduleReplenishmentOrderComponent
   constructor(
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService
   ) {
+    useFeatureStyles('a11yReplenishmentOrderFieldset');
     useFeatureStyles('a11yScheduleReplenishment');
   }
 
