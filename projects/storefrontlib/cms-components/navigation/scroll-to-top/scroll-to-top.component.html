@@ -1,7 +1,10 @@
 <button
+  #button
   [attr.aria-label]="'navigation.scrollToTop' | cxTranslate"
   class="cx-scroll-to-top-btn"
-  (click)="scrollToTop()"
+  (click)="scrollToTop($event)"
+  (focusout)="onFocusOut()"
+  (keydown.Tab)="onTab($event)"
 >
   <span aria-hidden="true">
     <cx-icon class="caret-up-icon" [type]="iconTypes.CARET_UP"></cx-icon>

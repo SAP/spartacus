@@ -51,6 +51,7 @@ export class CheckoutScheduleReplenishmentOrderComponent
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService
   ) {
     useFeatureStyles('a11yReplenishmentOrderFieldset');
+    useFeatureStyles('a11yScheduleReplenishment');
   }
 
   ngOnInit(): void {

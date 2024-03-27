@@ -13,6 +13,10 @@
   }
 
   .cx-order-replenishment-header {
+    //TODO: (CXSPA-6306) - Remove feature flag next major release
+    @include forFeature('a11yScheduleReplenishment') {
+      @include type(5);
+    }
     margin-inline-end: 14px;
     margin-bottom: 0;
   }
