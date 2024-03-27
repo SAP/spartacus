@@ -221,11 +221,11 @@ export class OpfCartHandlerService {
   }
 
   getCurrentCart(): Observable<Cart> {
-    return this.activeCartFacade.takeActive();
+    return this.activeCartFacade.takeActive().pipe(take(1));
   }
 
   getCurrentCartId(): Observable<string> {
-    return this.activeCartFacade.takeActiveCartId();
+    return this.activeCartFacade.takeActiveCartId().pipe(take(1));
   }
 
   getCurrentCartTotalPrice(): Observable<number | undefined> {
