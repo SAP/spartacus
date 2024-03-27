@@ -141,10 +141,10 @@ export class ApplePayService {
       take(1),
       catchError((error) => {
         console.log('catch');
-        // this.deleteUserAddresses();
-        // this.cartHandlerService.loadCartAfterSingleProductTransaction(
-        //   this.transactionDetails
-        // );
+        this.deleteUserAddresses();
+        this.cartHandlerService.loadCartAfterSingleProductTransaction(
+          this.transactionDetails
+        );
         return throwError(() => error);
       }),
       finalize(() => {
