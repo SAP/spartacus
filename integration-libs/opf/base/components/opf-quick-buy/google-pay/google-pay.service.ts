@@ -367,6 +367,7 @@ export class OpfGooglePayService {
               this.opfCartHandlerService.loadCartAfterSingleProductTransaction(
                 this.transactionDetails
               );
+              this.deleteAssociatedAddresses();
             }
           });
       });
@@ -406,7 +407,10 @@ export class OpfGooglePayService {
             catchError(() => {
               return of(false);
             }),
-            finalize(() => this.deleteAssociatedAddresses())
+            finalize(() => {
+              console.log('finalize');
+              this.deleteAssociatedAddresses();
+            })
           )
         ).then((isSuccess) => {
           this.opfCartHandlerService.loadCartAfterSingleProductTransaction(
