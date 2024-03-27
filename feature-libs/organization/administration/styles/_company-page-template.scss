@@ -31,7 +31,67 @@
     all: unset;
   }
 
-  @include forVersion(6.8) {
+  // TODO: (CXSPA-6362) - Remove feature flag + redundant styles
+  cx-banner {
+    flex: 100%;
+
+    margin-top: 20px;
+
+    @include media-breakpoint-up(md) {
+      flex: 0 0 calc(33% - 10px);
+    }
+    @include media-breakpoint-down(md) {
+      flex: calc(50% - 40px);
+      margin-inline-start: 10px;
+      margin-inline-end: 10px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex: 100%;
+      margin-inline-start: 20px;
+      margin-inline-end: 20px;
+    }
+
+    cx-generic-link,
+    a {
+      height: 100%;
+    }
+
+    a {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      grid-template-rows: min-content 1fr;
+      gap: 3% 30px;
+      grid-template-areas: 'media .' 'media .';
+
+      padding: 25px 25px 25px 30px;
+
+      border: solid 1px var(--cx-color-light);
+      &:hover {
+        text-decoration: none;
+        border-color: var(--cx-color-background);
+        background: var(--cx-color-background);
+      }
+
+      cx-media {
+        grid-area: media;
+        img {
+          filter: var(--cx-img-filter);
+          width: 50px;
+          height: 50px;
+        }
+      }
+
+      p {
+        color: var(--cx-color-text);
+        &.headline {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  @include forFeature('a11yOrganizationsBanner') {
     cx-banner {
       margin-top: 20px;
       display: grid;
@@ -42,26 +102,20 @@
       padding: 25px 25px 25px 30px;
       border: solid 1px var(--cx-color-light);
 
+      a {
+        display: unset;
+        border: unset;
+        padding: unset;
+        &:hover {
+          border-color: unset;
+          background: unset;
+        }
+      }
+
       &:hover {
         text-decoration: none;
         border-color: var(--cx-color-background);
         background: var(--cx-color-background);
-      }
-
-      @include media-breakpoint-up(md) {
-        flex: 0 0 calc(33% - 10px);
-      }
-
-      @include media-breakpoint-down(md) {
-        flex: calc(50% - 40px);
-        margin-inline-start: 10px;
-        margin-inline-end: 10px;
-      }
-
-      @include media-breakpoint-down(sm) {
-        flex: 100%;
-        margin-inline-start: 20px;
-        margin-inline-end: 20px;
       }
 
       cx-media {
@@ -81,67 +135,6 @@
       .headline {
         grid-area: heading;
         font-weight: bold;
-      }
-    }
-  }
-
-  @include forVersion(1, 6.7) {
-    cx-banner {
-      flex: 100%;
-
-      margin-top: 20px;
-
-      @include media-breakpoint-up(md) {
-        flex: 0 0 calc(33% - 10px);
-      }
-      @include media-breakpoint-down(md) {
-        flex: calc(50% - 40px);
-        margin-inline-start: 10px;
-        margin-inline-end: 10px;
-      }
-
-      @include media-breakpoint-down(sm) {
-        flex: 100%;
-        margin-inline-start: 20px;
-        margin-inline-end: 20px;
-      }
-
-      cx-generic-link,
-      a {
-        height: 100%;
-      }
-
-      a {
-        display: grid;
-        grid-template-columns: 60px 1fr;
-        grid-template-rows: min-content 1fr;
-        gap: 3% 30px;
-        grid-template-areas: 'media .' 'media .';
-
-        padding: 25px 25px 25px 30px;
-
-        border: solid 1px var(--cx-color-light);
-        &:hover {
-          text-decoration: none;
-          border-color: var(--cx-color-background);
-          background: var(--cx-color-background);
-        }
-
-        cx-media {
-          grid-area: media;
-          img {
-            filter: var(--cx-img-filter);
-            width: 50px;
-            height: 50px;
-          }
-        }
-
-        p {
-          color: var(--cx-color-text);
-          &.headline {
-            font-weight: bold;
-          }
-        }
       }
     }
   }

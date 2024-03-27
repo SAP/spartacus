@@ -1,5 +1,6 @@
 <ng-container *ngIf="data$ | async as data">
-  <ng-container *cxFeatureLevel="'6.8'">
+  <!-- TODO: (CXSPA-6362) - Remove feature flag next major release -->
+  <ng-container *cxFeature="'a11yOrganizationsBanner'">
     <ng-container *ngIf="routerLink">
       <cx-generic-link
         [url]="routerLink"
@@ -12,7 +13,7 @@
       <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
     </ng-container>
   </ng-container>
-  <ng-container *cxFeatureLevel="'!6.8'">
+  <ng-container *cxFeature="'!a11yOrganizationsBanner'">
     <cx-generic-link
       *ngIf="routerLink"
       [url]="routerLink"
