@@ -98,6 +98,11 @@ if (!environment.production) {
         a11yOrderConfirmationHeadingOrder: true,
         a11yStarRating: true,
         a11yScheduleReplenishment: true,
+        a11yScrollToTop: true,
+        a11ySavedCartsZoom: true,
+        a11ySortingOptionsTruncation: true,
+        a11yExpandedFocusIndicator: true,
+        a11yCheckoutDeliveryFocus: true,
       },
     }),
     provideConfig(<StoreFinderConfig>{
