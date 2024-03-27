@@ -11,6 +11,8 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { CellComponent } from '../../../shared/table/cell.component';
 import { UnitTreeService } from '../../services/unit-tree.service';
 
@@ -54,7 +56,11 @@ export class ToggleLinkCellComponent extends CellComponent {
   toggleItem(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.unitTreeService.toggle(this.model as unknown as B2BUnitTreeNode);
+    this.model$
+      .pipe(take(1))
+      .subscribe((model) =>
+        this.unitTreeService.toggle(model as unknown as B2BUnitTreeNode)
+      );
   }
 
   /**
@@ -68,15 +74,21 @@ export class ToggleLinkCellComponent extends CellComponent {
   }
 
   // TODO: leverage these methods when available from future PR.
-  get hasItem(): boolean {
-    return !!this.item && Object.keys(this.item).length > 0;
+  get hasItem$(): Observable<boolean> {
+    return this.item$.pipe(
+      map((item) => !!item && Object.keys(item).length > 0)
+    );
   }
 
-  protected get item(): B2BUnit | null {
-    if (!this.outlet.context) {
-      return null;
-    }
-    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
-    return all as B2BUnit;
+  protected get item$(): Observable<B2BUnit | null> {
+    return this.outlet.context$.pipe(
+      map((context) => {
+        if (!context) {
+          return null;
+        }
+        const { _field, _options, _type, _i18nRoot, ...all } = context;
+        return all as B2BUnit;
+      })
+    );
   }
 }

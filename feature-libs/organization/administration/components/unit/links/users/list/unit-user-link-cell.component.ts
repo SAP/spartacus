@@ -12,6 +12,7 @@ import {
   TableDataOutletContext,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ItemService } from '../../../../shared/item.service';
 import { CellComponent } from '../../../../shared/table/cell.component';
 
@@ -21,7 +22,8 @@ import { CellComponent } from '../../../../shared/table/cell.component';
     <a
       *ngIf="isUpdatingUserAllowed && hasItem && (unitKey$ | async) as uid"
       [routerLink]="
-        { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
+        { cxRoute: 'orgUnitUserRoles', params: (getRouterModel(uid) | async) }
+          | cxUrl
       "
     >
       {{ 'orgUser.links.rolesAndRights' | cxTranslate }}
@@ -39,7 +41,8 @@ export class UnitUserRolesCellComponent extends CellComponent {
     super(outlet);
   }
   isUpdatingUserAllowed = this.b2bUserService.isUpdatingUserAllowed();
-  getRouterModel(uid: string): any {
-    return { ...this.outlet.context, uid };
+
+  getRouterModel(uid: string): Observable<any> {
+    return this.outlet.context$.pipe(map((context) => ({ ...context, uid })));
   }
 }

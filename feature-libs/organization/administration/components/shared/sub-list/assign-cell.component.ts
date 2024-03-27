@@ -13,8 +13,8 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { EMPTY, Observable } from 'rxjs';
-import { filter, first, switchMap, take } from 'rxjs/operators';
+import { EMPTY, combineLatest, Observable, of } from 'rxjs';
+import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
@@ -25,7 +25,12 @@ import { SubListService } from './sub-list.service';
 @Component({
   selector: 'cx-org-assign-cell',
   template: `
-    <button type="button" *ngIf="hasItem" (click)="toggleAssign()" class="link">
+    <button
+      type="button"
+      *ngIf="hasItem$ | async"
+      (click)="toggleAssign()"
+      class="link"
+    >
       {{ isAssigned ? 'unassign' : 'assign' }}
     </button>
   `,
@@ -41,19 +46,21 @@ export class AssignCellComponent<T extends BaseItem> extends CellComponent {
     super(outlet);
   }
 
-  get isAssigned(): boolean {
-    return (this.item as any)?.selected;
+  get isAssigned$(item: any): boolean {
+    return (item as any)?.selected;
   }
 
   toggleAssign() {
-    const isAssigned = this.isAssigned;
-    this.organizationItemService.key$
+    // const isAssigned = this.isAssigned;
+    combineLatest([
+      this.organizationItemService.key$,
+      this.link$,
+      this.isAssigned$,
+    ])
       .pipe(
         first(),
-        switchMap((key) =>
-          isAssigned
-            ? this.unassign?.(key, this.link)
-            : this.assign(key, this.link)
+        switchMap(([key, link, isAssigned]) =>
+          isAssigned ? this.unassign?.(key, link) : this.assign(key, link)
         ),
         take(1),
         filter(
@@ -98,11 +105,9 @@ export class AssignCellComponent<T extends BaseItem> extends CellComponent {
    * to evaluate the context to return the right key for the associated
    * item.
    */
-  protected get link(): string {
-    return (
-      this.outlet.context.code ??
-      this.outlet.context.customerId ??
-      this.outlet.context.uid
+  protected get link$(): Observable<string> {
+    return this.outlet.context$.pipe(
+      map((context) => context?.code ?? context?.customerId ?? context?.uid)
     );
   }
 

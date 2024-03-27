@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of } from 'rxjs';
 import { DateRangeCellComponent } from '..';
 
 describe('DateRangeCellComponent', () => {
@@ -18,10 +19,10 @@ describe('DateRangeCellComponent', () => {
         {
           provide: OutletContextData,
           useValue: {
-            context: {
+            context$: of({
               startDate: '2020-07-15T02:00:00+0000',
               endDate: '2020-07-15T02:59:00+0000',
-            },
+            }),
           },
         },
       ],

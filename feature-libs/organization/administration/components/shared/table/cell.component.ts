@@ -10,6 +10,8 @@ import {
   TableDataOutletContext,
   TableFieldOptions,
 } from '@spartacus/storefront';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-org-cell',
@@ -23,12 +25,14 @@ export class CellComponent {
     return -1;
   }
 
-  get model(): TableDataOutletContext {
-    return this.outlet.context;
+  get model$(): Observable<TableDataOutletContext | undefined> {
+    return this.outlet.context$;
   }
 
-  get property(): string | undefined {
-    return this.model?.[this.outlet?.context?._field];
+  get property$(): Observable<string | undefined> {
+    return combineLatest([this.model$, this.outlet.context$]).pipe(
+      map(([model, context]) => model?.[context?._field])
+    );
   }
 
   /**
@@ -39,46 +43,59 @@ export class CellComponent {
    *
    * Defaults to `true`.
    */
-  get linkable(): boolean {
-    return this.property !== undefined && (this.cellOptions.linkable ?? true);
+  get linkable$(): Observable<boolean> {
+    return combineLatest([this.property$, this.cellOptions$]).pipe(
+      map(
+        ([property, cellOptions]) =>
+          property !== undefined && (cellOptions.linkable ?? true)
+      )
+    );
   }
 
   /**
    * Helper method to access the cell options.
    */
-  get cellOptions(): TableFieldOptions {
-    return (
-      this.outlet.context?._options?.cells?.[this.outlet.context?._field] ?? {}
+  get cellOptions$(): Observable<TableFieldOptions> {
+    return this.outlet.context$.pipe(
+      map((context) => context?._options?.cells?.[context?._field] ?? {})
     );
   }
 
   /**
    * Generates the configurable route to the detail page of the given context item.
    */
-  get route(): string {
-    return this.outlet.context._type + 'Details';
+  get route$(): Observable<string> {
+    return this.outlet.context$.pipe(
+      map((context) => context?._type + 'Details')
+    );
   }
 
-  get routeModel(): any {
-    return this.outlet.context;
+  get routeModel$(): Observable<any> {
+    return this.outlet.context$;
   }
 
-  get type(): string {
-    return this.model._type;
+  get type$(): Observable<string | undefined> {
+    return this.model$.pipe(map((model) => model?._type));
   }
 
   /**
    * Indicates whether the item is loaded.
    */
-  get hasItem(): boolean {
-    return !!this.item && Object.keys(this.item).length > 0;
+  get hasItem$(): Observable<boolean> {
+    return this.item$.pipe(
+      map((item) => !!item && Object.keys(item).length > 0)
+    );
   }
 
-  protected get item(): any {
-    if (!this.outlet.context) {
-      return null;
-    }
-    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
-    return all;
+  protected get item$(): Observable<any> {
+    return this.outlet.context$.pipe(
+      map((context) => {
+        if (!context) {
+          return null;
+        }
+        const { _field, _options, _type, _i18nRoot, ...all } = context;
+        return all;
+      })
+    );
   }
 }

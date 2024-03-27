@@ -33,7 +33,7 @@ export class UserDetailsCellComponent extends CellComponent {
     protected outlet: OutletContextData<TableDataOutletContext>
   ) {
     super(outlet);
-    this.b2bUserModel = super.model as B2BUser;
+    this.b2bUserModel = super.model$ as B2BUser;
   }
 
   hasRight(model: B2BUser): boolean {
