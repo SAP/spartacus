@@ -50,7 +50,7 @@
     font-size: 1rem;
     line-height: 1.5rem;
     // TODO: (CXSPA-6457) - Remove feature flag next major release
-    @include forVersion(6.8) {
+    @include forFeature('a11yListOversizedFocus') {
       color: var(--cx-color-primary);
     }
 
