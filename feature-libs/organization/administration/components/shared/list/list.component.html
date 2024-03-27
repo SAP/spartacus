@@ -2,7 +2,7 @@
   <ng-container *ngIf="structure$ | async as structure">
     <cx-view class="list" *ngIf="listData$ | async as data">
       <div class="header">
-        <div class="title">
+        <div aria-live="polite" class="title">
           <!-- TODO: (CXSPA-6624) - Remove feature flag next major release -->
           <h2 *cxFeature="'a11yOrganizationListHeadingOrder'">
             {{
@@ -31,10 +31,13 @@
               [cxPopoverOptions]="{
                 placement: 'auto',
                 class: 'hint-popover',
-                appendToBody: true,
                 displayCloseButton: true
               }"
-              [attr.aria-label]="'organization.information' | cxTranslate"
+              [attr.aria-label]="
+                'organization.information'
+                  | cxTranslate
+                    : { title: viewType + '.groupName' | cxTranslate }
+              "
             >
               <cx-icon [type]="iconTypes.INFO"> </cx-icon>
             </button>
