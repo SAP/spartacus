@@ -108,45 +108,26 @@
       </div>
 
       <ng-container *ngIf="order.paymentInfo">
-        <ng-container *cxFeatureLevel="'6.3'">
-          <div
-            class="cx-summary-card"
-            *ngIf="
-              order?.paymentInfo?.billingAddress ||
-              isPaymentInfoCardFull(order?.paymentInfo)
-            "
-          >
-            <ng-container *ngIf="isPaymentInfoCardFull(order?.paymentInfo)">
-              <cx-card
-                [content]="
-                  getPaymentInfoCardContent(order?.paymentInfo) | async
-                "
-              ></cx-card>
-            </ng-container>
-
-            <cx-card
-              [content]="
-                getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
-                  | async
-              "
-            ></cx-card>
-          </div>
-        </ng-container>
-
-        <ng-container *cxFeatureLevel="'!6.3'">
-          <div class="cx-summary-card">
+        <div
+          class="cx-summary-card"
+          *ngIf="
+            order?.paymentInfo?.billingAddress ||
+            isPaymentInfoCardFull(order?.paymentInfo)
+          "
+        >
+          <ng-container *ngIf="isPaymentInfoCardFull(order?.paymentInfo)">
             <cx-card
               [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
             ></cx-card>
+          </ng-container>
 
-            <cx-card
-              [content]="
-                getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
-                  | async
-              "
-            ></cx-card>
-          </div>
-        </ng-container>
+          <cx-card
+            [content]="
+              getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
+                | async
+            "
+          ></cx-card>
+        </div>
       </ng-container>
     </div>
 
@@ -172,17 +153,12 @@
         >
         </ng-template>
       </div>
-      <ng-container *cxFeatureLevel="'!6.6'">
-        <cx-order-detail-billing></cx-order-detail-billing>
-      </ng-container>
-      <ng-container *cxFeatureLevel="'6.6'">
-        <cx-order-detail-billing
-          *ngIf="
-            isPaymentInfoCardFull(order?.paymentInfo) ||
-            order?.paymentInfo?.billingAddress
-          "
-        ></cx-order-detail-billing>
-      </ng-container>
+      <cx-order-detail-billing
+        *ngIf="
+          isPaymentInfoCardFull(order?.paymentInfo) ||
+          order?.paymentInfo?.billingAddress
+        "
+      ></cx-order-detail-billing>
     </div>
   </ng-container>
 </div>
