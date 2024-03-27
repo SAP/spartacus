@@ -76,6 +76,9 @@
 // TODO: (CXSPA-6624) - Remove feature flag + redundant code
 %organizationTitle {
   .title {
+    cx-popover {
+      text-transform: initial;
+    }
     h3 {
       button {
         border: none;
