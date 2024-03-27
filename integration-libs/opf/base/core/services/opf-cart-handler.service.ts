@@ -166,6 +166,10 @@ export class OpfCartHandlerService {
       extraData: { active: true },
     });
     return this.checkStableCart().pipe(
+      switchMap(() => this.activeCartFacade.takeActiveCartId()),
+      filter((cartId) => cartId === this.cartHandlerState.previousCartId),
+      take(1),
+      map(() => true),
       tap(() => this.blockMiniCartComponentUpdate(false))
     );
   }
