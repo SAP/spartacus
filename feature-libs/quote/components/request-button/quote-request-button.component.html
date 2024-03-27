@@ -1,4 +1,5 @@
 <button
+  *ngIf="isLoggedIn$ | async"
   #element
   (click)="goToQuoteDetails()"
   type="button"

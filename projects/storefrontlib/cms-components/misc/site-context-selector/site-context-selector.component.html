@@ -2,6 +2,7 @@
   <span>{{ label$ | async }}:</span>
   <select (change)="active = $any($event).target.value">
     <option
+      [attr.aria-label]="item.name"
       *ngFor="let item of items"
       value="{{ item.isocode }}"
       [selected]="(activeItem$ | async) === item.isocode"

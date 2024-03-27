@@ -15,6 +15,7 @@ import {
   DirectionService,
   HamburgerMenuService,
   ICON_TYPE,
+  BreakpointService,
 } from '@spartacus/storefront';
 import { NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -174,6 +175,12 @@ class MockDirectionService {
   }
 }
 
+class MockBreakpointService {
+  isDown(): Observable<boolean> {
+    return breakpointObservable;
+  }
+}
+
 @Directive({
   selector: '[cxFocus]',
 })
@@ -204,6 +211,7 @@ let directionService: DirectionService;
 let direction: DirectionMode;
 let configUtils: ConfiguratorStorefrontUtilsService;
 let configExpertModeService: ConfiguratorExpertModeService;
+let breakpointObservable: Observable<boolean>;
 
 function initialize() {
   groupVisitedObservable = of(mockGroupVisited);
@@ -246,6 +254,10 @@ describe('ConfigurationGroupMenuComponent', () => {
             provide: DirectionService,
             useClass: MockDirectionService,
           },
+          {
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
+          },
         ],
       });
     })
@@ -272,6 +284,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
     );
     spyOn(configUtils, 'setFocus').and.stub();
+    spyOn(configUtils, 'focusFirstActiveElement').and.stub();
 
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
@@ -962,6 +975,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     beforeEach(() => {
       productConfigurationObservable = of(mockProductConfiguration);
       routerStateObservable = of(mockRouterState);
+      breakpointObservable = of(false);
       initialize();
     });
 
@@ -1705,6 +1719,84 @@ describe('ConfigurationGroupMenuComponent', () => {
 
     it('should return false for undefined input', () => {
       expect(component.isConflictGroupType(undefined)).toBe(false);
+    });
+  });
+
+  describe('handleFocusLoopInMobileMode', () => {
+    it('should not execute focus loop code if tab-key is pressed and we are not in mobile mode', () => {
+      breakpointObservable = of(false);
+      const event = new KeyboardEvent('keydown', {
+        code: 'Tab',
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configGroupMenuService.isBackBtnFocused).not.toHaveBeenCalled();
+    });
+
+    it('should not execute focus loop code if a key different from tab-key is pressed and we are in mobile mode', () => {
+      breakpointObservable = of(true);
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowUp',
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configGroupMenuService.isBackBtnFocused).not.toHaveBeenCalled();
+    });
+
+    it('should not execute focus loop code if shift-tab-key is pressed and we are in mobile mode', () => {
+      breakpointObservable = of(true);
+      const event = new KeyboardEvent('keydown', {
+        code: 'Tab',
+        shiftKey: true,
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configGroupMenuService.isBackBtnFocused).not.toHaveBeenCalled();
+    });
+
+    it('should execute focusFirstActiveElement if tab-key is pressed in mobile mode and focus was on back button and there is no active groups in the group list', () => {
+      breakpointObservable = of(true);
+      const event = new KeyboardEvent('keydown', {
+        code: 'Tab',
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
+      spyOn(configGroupMenuService, 'isActiveGroupInGroupList').and.returnValue(
+        false
+      );
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configUtils.focusFirstActiveElement).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not execute focusFirstActiveElement if tab-key is pressed in mobile mode and focus was on back button and there is the active groups in the group list', () => {
+      breakpointObservable = of(true);
+      const event = new KeyboardEvent('keydown', {
+        code: 'Tab',
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
+      spyOn(configGroupMenuService, 'isActiveGroupInGroupList').and.returnValue(
+        true
+      );
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configUtils.focusFirstActiveElement).toHaveBeenCalledTimes(0);
+    });
+
+    it('should execute focusFirstActiveElement if tab-key is pressed in mobile mode and focus was not on back button', () => {
+      breakpointObservable = of(true);
+      const event = new KeyboardEvent('keydown', {
+        code: 'Tab',
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(false);
+      spyOn(configGroupMenuService, 'isActiveGroupInGroupList').and.returnValue(
+        true
+      );
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configUtils.focusFirstActiveElement).toHaveBeenCalledTimes(1);
     });
   });
 });
