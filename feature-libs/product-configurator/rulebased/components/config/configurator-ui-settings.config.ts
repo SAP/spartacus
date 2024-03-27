@@ -14,6 +14,10 @@ export interface ProductConfiguratorUISettingsConfig {
   };
   addRetractOption?: boolean;
   enableNavigationToConflict?: boolean;
+  descriptions?: {
+    attributeDescriptionLength?: number;
+    valueDescriptionLength?: number;
+  };
 }
 
 @Injectable({

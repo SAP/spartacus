@@ -12,6 +12,7 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { IconModule } from '../../misc/icon/icon.module';
@@ -28,6 +29,7 @@ import { OutletModule } from '../../../cms-structure';
     UrlModule,
     I18nModule,
     OutletModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -35,6 +37,9 @@ import { OutletModule } from '../../../cms-structure';
         SearchBoxComponent: {
           component: SearchBoxComponent,
         },
+      },
+      features: {
+        recentSearches: false,
       },
     }),
   ],
