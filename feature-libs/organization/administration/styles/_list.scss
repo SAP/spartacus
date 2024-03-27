@@ -73,29 +73,26 @@
   }
 }
 
-@include forVersion(6.8) {
-  %organizationTitle {
-    .title {
-      h2,
-      h3 {
-        @include type('3', 'normal');
-        button {
-          border: none;
-          background-color: inherit;
-          cx-icon {
-            pointer-events: none;
-            color: var(--cx-color, var(--cx-color-info));
-          }
+// TODO: (CXSPA-6624) - Remove feature flag + redundant code
+%organizationTitle {
+  .title {
+    h3 {
+      button {
+        border: none;
+        background-color: inherit;
+        cx-icon {
+          pointer-events: none;
+          color: var(--cx-color, var(--cx-color-info));
         }
       }
     }
   }
-}
-
-@include forVersion(1, 6.7) {
-  %organizationTitle {
+  @include forFeature('a11yOrganizationListHeadingOrder') {
     .title {
+      h2,
       h3 {
+        @include type('3', 'normal');
+        text-transform: uppercase;
         button {
           border: none;
           background-color: inherit;

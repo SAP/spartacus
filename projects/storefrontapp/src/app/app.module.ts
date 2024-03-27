@@ -99,6 +99,7 @@ if (!environment.production) {
         a11yStarRating: true,
         a11yExpandedFocusIndicator: true,
         a11yCheckoutDeliveryFocus: true,
+        a11yOrganizationListHeadingOrder: true,
       },
     }),
     provideConfig(<StoreFinderConfig>{
