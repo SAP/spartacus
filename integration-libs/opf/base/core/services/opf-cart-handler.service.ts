@@ -173,10 +173,10 @@ export class OpfCartHandlerService {
       extraData: { active: true },
     });
     return forkJoin({
-      previousCartStable: this.checkStableCart(
+      activeCartStable: this.checkStableCart(
         this.cartHandlerState.previousCartId
       ),
-      cartStable: this.checkStableCart(this.cartHandlerState.cartId),
+      staleCartStable: this.checkStableCart(this.cartHandlerState.cartId),
     }).pipe(
       switchMap(() => this.activeCartFacade.getActiveCartId()),
       filter((cartId) => cartId === this.cartHandlerState.previousCartId),
