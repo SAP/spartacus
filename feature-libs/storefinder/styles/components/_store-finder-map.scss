@@ -7,5 +7,17 @@
       height: 30rem;
       width: 100%;
     }
+
+    // TODO: (CXSPA-5916) Remove feature flag next major
+    @include forFeature('a11yStoreFinderOverflow') {
+      @include media-breakpoint-down(sm) {
+        height: unset;
+        width: unset;
+      }
+      @include media-breakpoint-down(md) {
+        height: 30rem;
+        width: 100%;
+      }
+    }
   }
 }

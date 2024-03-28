@@ -1,9 +1,9 @@
 <ng-container *ngIf="location">
-  <div class="container">
-    <div class="row">
-      <article class="cx-store col-md-4">
+  <!-- TODO: (CXSPA-5916) Remove feature flags next major -->
+  <ng-container *cxFeature="'a11yStoreFinderOverflow'">
+    <div class="cx-container">
+      <article class="cx-store">
         <h2 aria-hidden="true">{{ location.displayName || location.name }}</h2>
-
         <p *ngIf="location.address" class="cx-store-description-address">
           {{ location.address.line1 }} {{ location.address.line2 }} <br />
           {{
@@ -42,27 +42,99 @@
         </div>
 
         <div *ngIf="(location.features | json) !== '{}'" class="cx-features">
-          <div class="row">
-            <div class="col-lg-12">
-              <h3 class="cx-features-header">
-                {{ 'storeFinder.storeFeatures' | cxTranslate }}
-              </h3>
-            </div>
-          </div>
+          <h3 class="cx-features-header">
+            {{ 'storeFinder.storeFeatures' | cxTranslate }}
+          </h3>
 
-          <article class="row">
+          <article>
             <div
-              class="col-lg-12 cx-feature-item"
               *ngFor="let feature of location.features?.entry"
+              class="cx-feature-item"
             >
-              <div class="cx-feature-value">{{ feature.value }}</div>
+              {{ feature.value }}
             </div>
           </article>
         </div>
       </article>
-      <article class="cx-storeMap col-lg-8" *ngIf="!disableMap">
+      <article class="cx-storeMap" *ngIf="!disableMap">
         <cx-store-finder-map [locations]="[location]"></cx-store-finder-map>
       </article>
     </div>
-  </div>
+  </ng-container>
+
+  <ng-container *cxFeature="'!a11yStoreFinderOverflow'">
+    <ng-container *ngIf="location">
+      <div class="container">
+        <div class="row">
+          <article class="cx-store col-md-4">
+            <h2 aria-hidden="true">
+              {{ location.displayName || location.name }}
+            </h2>
+
+            <p *ngIf="location.address" class="cx-store-description-address">
+              {{ location.address.line1 }} {{ location.address.line2 }} <br />
+              {{
+                getFormattedStoreAddress([
+                  location.address.town,
+                  location.address.postalCode,
+                  location.address.country.isocode
+                ])
+              }}
+            </p>
+
+            <section class="cx-contact">
+              <ul class="cx-list">
+                <li class="cx-item">
+                  <a
+                    class="cx-link"
+                    [href]="getDirections(location)"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    [attr.aria-label]="
+                      'storeFinder.ariaLabelGetDirections' | cxTranslate
+                    "
+                    >{{ 'storeFinder.getDirections' | cxTranslate }}</a
+                  >
+                </li>
+                <li class="cx-item" *ngIf="location.address?.phone">
+                  {{ 'storeFinder.call' | cxTranslate }}
+                  {{ location.address?.phone }}
+                </li>
+              </ul>
+            </section>
+            <div class="cx-schedule" *ngIf="location.openingHours">
+              <cx-schedule [location]="location">
+                <h3>{{ 'storeFinder.storeHours' | cxTranslate }}</h3>
+              </cx-schedule>
+            </div>
+
+            <div
+              *ngIf="(location.features | json) !== '{}'"
+              class="cx-features"
+            >
+              <div class="row">
+                <div class="col-lg-12">
+                  <h3 class="cx-features-header">
+                    {{ 'storeFinder.storeFeatures' | cxTranslate }}
+                  </h3>
+                </div>
+              </div>
+
+              <article class="row">
+                <div
+                  class="col-lg-12 cx-feature-item"
+                  *ngFor="let feature of location.features?.entry"
+                >
+                  <div class="cx-feature-value">{{ feature.value }}</div>
+                </div>
+              </article>
+            </div>
+          </article>
+          <article class="cx-storeMap col-lg-8" *ngIf="!disableMap">
+            <cx-store-finder-map [locations]="[location]"></cx-store-finder-map>
+          </article>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
 </ng-container>
