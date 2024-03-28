@@ -75,6 +75,7 @@ export class OpfCartHandlerService {
     originalCartId: string,
     pickupStore?: string | undefined
   ): Observable<boolean> {
+    console.log('flo0', originalCartId);
     this.cartHandlerState.previousCartId = originalCartId;
 
     return this.multiCartFacade
@@ -178,8 +179,18 @@ export class OpfCartHandlerService {
       ),
       staleCartStable: this.checkStableCart(this.cartHandlerState.cartId),
     }).pipe(
+      tap((activeCartStable, staleCartStable) =>
+        console.log(
+          'flo1 activeCartStable',
+          activeCartStable,
+          'staleCartStable',
+          staleCartStable
+        )
+      ),
       switchMap(() => this.activeCartFacade.getActiveCartId()),
+      tap((cartId) => console.log('flo2', cartId)),
       filter((cartId) => cartId === this.cartHandlerState.previousCartId),
+      tap((cartId) => console.log('flo3', cartId)),
       take(1),
       map(() => true),
       tap(() => this.blockMiniCartComponentUpdate(false))
