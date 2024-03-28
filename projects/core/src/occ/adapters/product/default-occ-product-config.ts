@@ -34,7 +34,7 @@ export const defaultOccProductConfig: OccConfig = {
           'products/${productCode}/references?fields=DEFAULT,references(target(images(FULL)))',
         /* eslint-disable max-len */
         productSearch:
-          'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery',
+          'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery,keywordRedirectUrl',
         /* eslint-enable */
         productSuggestions: 'products/suggestions',
       },

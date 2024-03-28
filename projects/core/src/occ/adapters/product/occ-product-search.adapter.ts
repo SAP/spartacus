@@ -7,7 +7,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import {
   ProductSearchPage,
   Suggestion,
@@ -22,12 +22,14 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OCC_HTTP_TOKEN } from '../../utils';
+import { Router } from '@angular/router';
 @Injectable()
 export class OccProductSearchAdapter implements ProductSearchAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
+    protected router: Router
   ) {}
 
   readonly DEFAULT_SEARCH_CONFIG: SearchConfig = {
@@ -44,7 +46,14 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
 
     return this.http
       .get(this.getSearchEndpoint(query, searchConfig), { context })
-      .pipe(this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER));
+      .pipe(
+        this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER),
+        tap(
+          (productSearchPage) =>
+            productSearchPage.keywordRedirectUrl &&
+            this.router.navigate([productSearchPage.keywordRedirectUrl])
+        )
+      );
   }
 
   loadSuggestions(
