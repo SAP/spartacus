@@ -8,7 +8,6 @@ import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
-  CartType,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
   DeliveryMode,
@@ -139,12 +138,12 @@ export class OpfCartHandlerService {
     this.cartHandlerState = { ...this.defaultCartHandlerState };
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.multiCartFacade.getCartIdByType(CartType.ACTIVE),
-      this.activeCartFacade.isStable(),
+      this.activeCartFacade.takeActiveCartId(),
     ]).pipe(
       take(1),
       tap(() => this.blockMiniCartComponentUpdate(true)),
-      switchMap(([userId, cartId, _]) => {
+      switchMap(([userId, cartId]) => {
+        console.log('flo4', cartId);
         this.cartHandlerState.userId = userId;
         if (cartId) {
           return this.addProductToNewCart(
