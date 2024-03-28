@@ -367,6 +367,7 @@ export class OpfGooglePayService {
               this.opfCartHandlerService.loadCartAfterSingleProductTransaction(
                 this.transactionDetails
               );
+              this.deleteAssociatedAddresses();
             }
           });
       });

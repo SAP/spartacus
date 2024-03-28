@@ -588,10 +588,12 @@ describe('OpfCartHandlerService', () => {
 
       multiCartFacade.loadCart.and.callThrough();
       activeCartFacade.isStable.and.returnValue(of(true));
+      activeCartFacade.getActiveCartId.and.returnValue(of(mockPreviousCartId));
+      multiCartFacade.isStable.and.returnValue(of(true));
 
       service.loadOriginalCart().subscribe((result) => {
         expect(result).toBeTruthy();
-        expect(activeCartFacade.isStable).toHaveBeenCalled();
+        expect(multiCartFacade.isStable).toHaveBeenCalled();
         expect(multiCartFacade.loadCart).toHaveBeenCalled();
         expect(opfMiniCartComponentService.blockUpdate).toHaveBeenCalledWith(
           false
@@ -772,6 +774,8 @@ describe('OpfCartHandlerService', () => {
       eventService.get.and.returnValue(of(mockEvent));
       activeCartFacade.isStable.and.returnValue(of(true));
       multiCartFacade.isStable.and.returnValue(of(true));
+      activeCartFacade.getActiveCartId.and.returnValue(of(mockPreviousCartId));
+      multiCartFacade.isStable.and.returnValue(of(true));
       multiCartFacade.deleteCart.and.callThrough();
 
       service.loadCartAfterSingleProductTransaction(initialTransactionDetails);
@@ -807,6 +811,8 @@ describe('OpfCartHandlerService', () => {
       activeCartFacade.isStable.and.returnValue(of(true));
       multiCartFacade.isStable.and.returnValue(of(true));
       multiCartFacade.getEntry.and.returnValue(of(mockEntry));
+      activeCartFacade.getActiveCartId.and.returnValue(of(mockPreviousCartId));
+      multiCartFacade.isStable.and.returnValue(of(true));
 
       service.loadCartAfterSingleProductTransaction(
         initialTransactionDetails,
