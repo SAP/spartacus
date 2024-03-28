@@ -7,7 +7,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
@@ -16,6 +16,7 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class OrderByIdEffect {
+  protected logger = inject(LoggerService);
   protected actions$ = inject(Actions);
   protected orderConnector = inject(OrderHistoryConnector);
   loadOrderById$: Observable<
@@ -33,7 +34,7 @@ export class OrderByIdEffect {
             return of(
               new OrderActions.LoadOrderByIdFail({
                 code,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             );
           })

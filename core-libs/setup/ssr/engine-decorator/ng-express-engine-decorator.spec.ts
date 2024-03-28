@@ -1,6 +1,6 @@
 import { SERVER_REQUEST_URL } from '@spartacus/core';
 import { NgSetupOptions, RenderOptions } from '../engine/ng-express-engine';
-import { EXPRESS_SERVER_LOGGER, LegacyExpressServerLogger } from '../logger';
+import { DefaultExpressServerLogger, EXPRESS_SERVER_LOGGER } from '../logger';
 import {
   NgExpressEngine,
   NgExpressEngineDecorator,
@@ -193,7 +193,7 @@ describe('decorateExpressEngine', () => {
           providers: [
             {
               provide: EXPRESS_SERVER_LOGGER,
-              useValue: new LegacyExpressServerLogger(),
+              useValue: new DefaultExpressServerLogger(),
             },
           ],
         },
@@ -269,7 +269,7 @@ describe('decorateExpressEngine', () => {
           providers: [
             {
               provide: EXPRESS_SERVER_LOGGER,
-              useValue: new LegacyExpressServerLogger(),
+              useValue: new DefaultExpressServerLogger(),
             },
           ],
         },

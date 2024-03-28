@@ -12,11 +12,13 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { IconModule } from '../../misc/icon/icon.module';
 import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponent } from './search-box.component';
+import { OutletModule } from '../../../cms-structure';
 
 @NgModule({
   imports: [
@@ -26,6 +28,8 @@ import { SearchBoxComponent } from './search-box.component';
     IconModule,
     UrlModule,
     I18nModule,
+    OutletModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -33,6 +37,9 @@ import { SearchBoxComponent } from './search-box.component';
         SearchBoxComponent: {
           component: SearchBoxComponent,
         },
+      },
+      features: {
+        recentSearches: false,
       },
     }),
   ],

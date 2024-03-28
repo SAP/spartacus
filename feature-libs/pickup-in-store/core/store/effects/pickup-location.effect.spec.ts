@@ -19,6 +19,14 @@ import {
 } from '../actions/pickup-location.action';
 import { PickupLocationEffect } from './pickup-location.effect';
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('PickupLocationEffect', () => {
   let pickupLocationEffects: PickupLocationEffect;
   let actions$: Observable<any>;
@@ -83,7 +91,7 @@ describe('PickupLocationEffect with Error', () => {
     const error = new HttpErrorResponse({ error: 'error' });
 
     const actionFailure = SetStoreDetailsFailure({
-      payload: normalizeHttpError(error),
+      payload: normalizeHttpError(error, new MockLoggerService()),
     });
     actions$ = hot('-a', { a: action });
     const expected = cold('-(b)', { b: actionFailure });

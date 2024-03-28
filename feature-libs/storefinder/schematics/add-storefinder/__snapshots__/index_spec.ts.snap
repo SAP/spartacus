@@ -117,7 +117,7 @@ exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general se
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",

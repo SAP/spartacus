@@ -38,7 +38,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
   imports: [
     AtMessageModule,
     CommonModule,
-    FeaturesConfigModule,
     I18nModule,
     IconModule,
     InfiniteScrollModule,
@@ -51,6 +50,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     SpinnerModule,
     StarRatingModule,
     UrlModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>defaultViewConfig),

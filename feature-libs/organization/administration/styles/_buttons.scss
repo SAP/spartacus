@@ -49,6 +49,10 @@
     margin: var(--cx-spatial-base);
     font-size: 1rem;
     line-height: 1.5rem;
+    // TODO: (CXSPA-6457) - Remove feature flag next major release
+    @include forFeature('a11yListOversizedFocus') {
+      color: var(--cx-color-primary);
+    }
 
     &.active {
       color: var(--cx-color-primary);
