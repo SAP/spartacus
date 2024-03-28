@@ -119,8 +119,19 @@ describe('FormValidationService', () => {
   });
 
   describe('Password validator', () => {
-    const validPasswords = ['Test123!', 'TEST123!', 'TEST123test!@#'];
-    const invalidPasswords = ['test123!', 'Test1234', 'Test!@#%', 'Te1!'];
+    const validPasswords = [
+      'Test123!',
+      'TEST123!',
+      'TEST123test!@#',
+      'Test1234=!',
+    ];
+    const invalidPasswords = [
+      'test123!',
+      'Test1234',
+      'Test!@#%',
+      'Te1!',
+      'Test1234!=',
+    ];
 
     validPasswords.forEach((validPassword: string) => {
       it(`should allow password ${validPassword}`, () => {
