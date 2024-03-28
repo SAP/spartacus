@@ -43,6 +43,7 @@ export class ListComponent<T = any, P = PaginationModel> {
     protected organizationItemService: ItemService<T>
   ) {
     useFeatureStyles('a11yOrganizationListHeadingOrder');
+    useFeatureStyles('a11yListOversizedFocus');
   }
 
   @HostBinding('class')

@@ -107,6 +107,7 @@ if (!environment.production) {
         a11yOrganizationsBanner: true,
         a11yOrganizationListHeadingOrder: true,
         a11yReplenishmentOrderFieldset: true,
+        a11yListOversizedFocus: true,
       },
     }),
     provideConfig(<StoreFinderConfig>{
