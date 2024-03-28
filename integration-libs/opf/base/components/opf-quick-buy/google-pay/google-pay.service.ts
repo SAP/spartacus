@@ -208,25 +208,8 @@ export class OpfGooglePayService {
   private setDeliveryAddress(
     address: google.payments.api.Address | undefined
   ): Observable<string> {
-    let deliveryAddress: Address = {
-      firstName: ADDRESS_FIELD_PLACEHOLDER,
-      lastName: ADDRESS_FIELD_PLACEHOLDER,
-      country: {
-        isocode: address?.countryCode,
-      },
-      town: address?.locality,
-      district: address?.administrativeArea,
-      postalCode: address?.postalCode,
-      line1: address?.address1 || ADDRESS_FIELD_PLACEHOLDER,
-      line2: `${address?.address2} ${address?.address3}`,
-    };
+    const deliveryAddress = this.convertAddress(address);
 
-    if (address?.name) {
-      deliveryAddress = {
-        ...deliveryAddress,
-        ...this.getFirstAndLastName(address?.name),
-      };
-    }
     if (
       this.transactionDetails?.deliveryInfo?.type ===
       OpfQuickBuyDeliveryType.SHIPPING
@@ -241,6 +224,14 @@ export class OpfGooglePayService {
     } else {
       return of(OpfQuickBuyDeliveryType.PICKUP);
     }
+  }
+
+  private setBillingAddress(
+    address: google.payments.api.Address | undefined
+  ): Observable<boolean> {
+    return this.opfCartHandlerService.setBillingAddress(
+      this.convertAddress(address)
+    );
   }
 
   setDeliveryMode(
@@ -258,6 +249,31 @@ export class OpfGooglePayService {
     return mode && this.verifyShippingOption(mode)
       ? this.opfCartHandlerService.setDeliveryMode(mode)
       : of(undefined);
+  }
+
+  private convertAddress(
+    address: google.payments.api.Address | undefined
+  ): Address {
+    let convertedAddress: Address = {
+      firstName: ADDRESS_FIELD_PLACEHOLDER,
+      lastName: ADDRESS_FIELD_PLACEHOLDER,
+      country: {
+        isocode: address?.countryCode,
+      },
+      town: address?.locality,
+      district: address?.administrativeArea,
+      postalCode: address?.postalCode,
+      line1: address?.address1 || ADDRESS_FIELD_PLACEHOLDER,
+      line2: `${address?.address2} ${address?.address3}`,
+    };
+
+    if (address?.name) {
+      convertedAddress = {
+        ...convertedAddress,
+        ...this.getFirstAndLastName(address?.name),
+      };
+    }
+    return convertedAddress;
   }
 
   handleSingleProductTransaction(): Observable<Product | boolean | null> {
@@ -388,10 +404,16 @@ export class OpfGooglePayService {
           this.opfCartHandlerService.getCurrentCartId().pipe(
             switchMap((cartId) =>
               this.setDeliveryAddress(paymentDataResponse.shippingAddress).pipe(
+                switchMap(() =>
+                  this.setBillingAddress(
+                    paymentDataResponse.paymentMethodData.info?.billingAddress
+                  )
+                ),
                 switchMap(() => {
                   const encryptedToken = btoa(
                     paymentDataResponse.paymentMethodData.tokenizationData.token
                   );
+
                   return this.opfPaymentFacade.submitPayment({
                     additionalData: [],
                     paymentSessionId: '',
@@ -520,6 +542,10 @@ export class OpfGooglePayService {
             'MASTERCARD',
             'VISA',
           ],
+          billingAddressRequired: true,
+          billingAddressParameters: {
+            format: 'FULL',
+          },
         },
         tokenizationSpecification: {
           parameters: {

@@ -6,9 +6,10 @@
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
-import { PriceType } from '@spartacus/core';
+import { Address, PriceType } from '@spartacus/core';
 import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
+  ADDRESS_FIELD_PLACEHOLDER,
   OpfPaymentFacade,
   OpfQuickBuyLocation,
   OpfResourceLoaderService,
@@ -21,6 +22,24 @@ import {
 import { of } from 'rxjs';
 import { OpfQuickBuyService } from '../opf-quick-buy.service';
 import { OpfGooglePayService } from './google-pay.service';
+
+const mockGooglePayAddress = {
+  countryCode: 'CA',
+  locality: 'Toronto',
+  postalCode: 'A1B 2C3',
+  address1: '456 Elm St',
+  address2: '',
+  address3: '',
+};
+
+const mockConvertedAddress: Address = {
+  country: { isocode: 'CA' },
+  town: 'Toronto',
+  district: undefined,
+  postalCode: 'A1B 2C3',
+  line1: '456 Elm St',
+  line2: ' ',
+};
 
 describe('OpfGooglePayService', () => {
   const mockMerchantName = 'mockMerchantName';
@@ -324,6 +343,58 @@ describe('OpfGooglePayService', () => {
     });
   });
 
+  describe('setBillingAddress', () => {
+    it('should call setBillingAddress from cartHandlerService', async () => {
+      const address = {
+        ...mockGooglePayAddress,
+        ...{ name: 'John Doe' },
+      };
+
+      mockCartHandlerService.setBillingAddress.and.returnValue(of(true));
+
+      service['setBillingAddress'](address as any).subscribe((result) => {
+        expect(result).toBe(true);
+        expect(mockCartHandlerService.setBillingAddress).toHaveBeenCalledWith({
+          ...mockConvertedAddress,
+          ...{
+            firstName: 'John',
+            lastName: ' Doe',
+          },
+        });
+      });
+    });
+  });
+
+  describe('convertAddress', () => {
+    it('should convert the address correctly when address is partially defined', () => {
+      const result = service['convertAddress'](mockGooglePayAddress as any);
+
+      expect(result).toEqual({
+        ...mockConvertedAddress,
+        ...{
+          firstName: ADDRESS_FIELD_PLACEHOLDER,
+          lastName: ADDRESS_FIELD_PLACEHOLDER,
+        },
+      });
+    });
+
+    it('should convert the address correctly when address includes a name', () => {
+      const address = {
+        ...mockGooglePayAddress,
+        ...{ name: 'John Doe' },
+      };
+      const result = service['convertAddress'](address as any);
+
+      expect(result).toEqual({
+        ...mockConvertedAddress,
+        ...{
+          firstName: 'John',
+          lastName: ' Doe',
+        },
+      });
+    });
+  });
+
   describe('estimateTotalPrice', () => {
     it('should calculate total price based on counter and product price', () => {
       const productPrice = 100;
@@ -610,6 +681,7 @@ describe('OpfGooglePayService', () => {
 
         mockCartHandlerService.getCurrentCartId.and.returnValue(of(mockCartId));
         mockPaymentFacade.submitPayment.and.returnValue(of(true));
+        mockCartHandlerService.setBillingAddress.and.returnValue(of(true));
         mockCartHandlerService.setDeliveryAddress.and.returnValue(
           of('addressId')
         );
