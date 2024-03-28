@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { firstPageTopRatedResponseStub } from '../sample-data/product-search';
 import { PRODUCT_LISTING } from './data-configuration';
 
 export const resultsTitleSelector = 'cx-breadcrumb h1';
@@ -311,4 +312,19 @@ export function assertNumberOfProducts(alias: string, category: string) {
 
     checkFirstItem(firstProduct);
   });
+}
+
+export function stubFirstPageTopRatedSearchEndPoint() {
+  const alias = 'first_page_top_rated_stub';
+  const request = {
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/search?fields=*query=DSC-N1*currentPage=1*sort=topRated*`,
+  };
+  cy.intercept(request, {
+    body: firstPageTopRatedResponseStub,
+    statusCode: 200,
+  }).as(alias);
+  return alias;
 }
