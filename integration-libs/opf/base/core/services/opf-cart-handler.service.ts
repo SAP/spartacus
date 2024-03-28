@@ -179,7 +179,7 @@ export class OpfCartHandlerService {
       ),
       staleCartStable: this.checkStableCart(this.cartHandlerState.cartId),
     }).pipe(
-      tap((activeCartStable, staleCartStable) =>
+      tap(({ activeCartStable, staleCartStable }) =>
         console.log(
           'flo1 activeCartStable',
           activeCartStable,
