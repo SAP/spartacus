@@ -4,8 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { products } from '../sample-data/apparel-checkout-flow';
 import {
+  b2cApparelCheckoutDetailsStub,
+  products,
+} from '../sample-data/apparel-checkout-flow';
+import {
+  b2cCheckoutDetailsStub,
   cart,
   cartWithCheapProduct,
   cheapProduct,
@@ -29,18 +33,29 @@ import { productItemSelector } from './product-search';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
+export const APPAREL_BASESITE = 'apparel-uk-spa';
 
 export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
 
 export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  const request = {
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
-  ).as(newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
+    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`,
+  };
 
+  if (newAlias) {
+    // only stubbing response after payment step
+    const body =
+      Cypress.env('BASE_SITE') === APPAREL_BASESITE
+        ? b2cApparelCheckoutDetailsStub
+        : b2cCheckoutDetailsStub;
+    cy.intercept(request, { body, statusCode: 200 }).as(newAlias);
+  } else {
+    cy.intercept(request).as(GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
+  }
   return newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
 }
 

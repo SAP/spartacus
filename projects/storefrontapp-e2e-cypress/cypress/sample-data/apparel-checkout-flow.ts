@@ -81,3 +81,73 @@ export const cartWithTotalVariantProduct: SampleCartProduct = {
   total: '£137.54',
   totalAndShipping: '£143.53',
 };
+
+export const b2cApparelCheckoutDetailsStub = {
+  type: 'cartWsDTO',
+  deliveryAddress: {
+    cellphone: '',
+    country: {
+      isocode: 'GB',
+      name: 'United Kingdom',
+    },
+    defaultAddress: false,
+    firstName: 'Cypress',
+    formattedAddress: 'Buckingham Street 5, 1A, London, MA8902, United Kingdom',
+    id: 'xxxxxxxxxxxxx',
+    lastName: 'Customer',
+    line1: 'Buckingham Street 5',
+    line2: '1A',
+    phone: '44 7911 123456',
+    postalCode: 'MA8902',
+    shippingAddress: true,
+    title: 'Mr.',
+    titleCode: 'mr',
+    town: 'London',
+    visibleInAddressBook: true,
+  },
+  deliveryMode: {
+    code: 'standard-gross',
+    deliveryCost: {
+      currencyIso: 'GBP',
+      formattedValue: '£5.99',
+      priceType: 'BUY',
+      value: 5.99,
+    },
+    description: '3-5 business days',
+    name: 'Standard Delivery',
+  },
+  paymentInfo: {
+    accountHolderName: 'Cypress Customer',
+    billingAddress: {
+      country: {
+        isocode: 'GB',
+        name: 'United Kingdom',
+      },
+      defaultAddress: false,
+      email: 'cypress_user_jc7ikrhii_144428219416@sapcx.com',
+      firstName: 'Cypress',
+      formattedAddress:
+        'Buckingham Street 5 1A, 1A, London, MA8902, United Kingdom',
+      id: 'xxxxxxxxxxxxx',
+      lastName: 'Customer',
+      line1: 'Buckingham Street 5 1A',
+      line2: '1A',
+      phone: '44 7911 123456',
+      postalCode: 'MA8902',
+      shippingAddress: false,
+      town: 'London',
+      visibleInAddressBook: true,
+    },
+    cardNumber: '************1111',
+    cardType: {
+      code: 'visa',
+      name: 'Visa',
+    },
+    defaultPayment: false,
+    expiryMonth: '12',
+    expiryYear: '2027',
+    id: 'xxxxxxxxxxxxx',
+    saved: true,
+    subscriptionId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+  },
+};
