@@ -300,6 +300,12 @@
         @include visible-focus();
         outline-offset: -2px;
       }
+      // TODO: (CXSPA-6457) - Remove feature flag next major release
+      @include forFeature('a11yListOversizedFocus') {
+        & cx-org-active-link-cell a:focus {
+          outline: none;
+        }
+      }
 
       .hide-focus-border {
         outline: none;
@@ -324,6 +330,12 @@
           display: none;
         }
         tr {
+          // TODO: (CXSPA-6457) - Remove feature flag next major release
+          @include forFeature('a11yListOversizedFocus') {
+            &:focus-within {
+              outline: none;
+            }
+          }
           td {
             &.actions {
               width: 1px;
@@ -374,7 +386,12 @@
 
     td:last-child a {
       // last cell will have an icon, which is why we add additional padding
+      // TODO: (CXSPA-6457) - Remove feature flag next major release
       padding-inline-end: 40px;
+      @include forFeature('a11yListOversizedFocus') {
+        padding-inline-end: unset;
+        margin-inline-end: 40px;
+      }
     }
 
     td:last-child span {
@@ -429,7 +446,11 @@
         display: flex;
         align-items: center;
         width: 100%;
+        // TODO: (CXSPA-6457) - Remove feature flag next major release
         min-height: 74px;
+        @include forFeature('a11yListOversizedFocus') {
+          min-height: unset;
+        }
 
         @include media-breakpoint-up(lg) {
           .text {
