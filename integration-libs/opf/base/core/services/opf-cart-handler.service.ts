@@ -8,7 +8,6 @@ import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
-  CartType,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
   DeliveryMode,
@@ -34,7 +33,14 @@ import {
   OpfQuickBuyLocation,
   QuickBuyTransactionDetails,
 } from '@spartacus/opf/base/root';
-import { Observable, combineLatest, merge, of, throwError } from 'rxjs';
+import {
+  Observable,
+  combineLatest,
+  forkJoin,
+  merge,
+  of,
+  throwError,
+} from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -68,6 +74,7 @@ export class OpfCartHandlerService {
     originalCartId: string,
     pickupStore?: string | undefined
   ): Observable<boolean> {
+    console.log('flo0', originalCartId);
     this.cartHandlerState.previousCartId = originalCartId;
 
     return this.multiCartFacade
@@ -131,12 +138,12 @@ export class OpfCartHandlerService {
     this.cartHandlerState = { ...this.defaultCartHandlerState };
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.multiCartFacade.getCartIdByType(CartType.ACTIVE),
-      this.activeCartFacade.isStable(),
+      this.activeCartFacade.takeActiveCartId(),
     ]).pipe(
       take(1),
       tap(() => this.blockMiniCartComponentUpdate(true)),
-      switchMap(([userId, cartId, _]) => {
+      switchMap(([userId, cartId]) => {
+        console.log('flo4', cartId);
         this.cartHandlerState.userId = userId;
         if (cartId) {
           return this.addProductToNewCart(
@@ -165,7 +172,26 @@ export class OpfCartHandlerService {
       userId: this.cartHandlerState.userId,
       extraData: { active: true },
     });
-    return this.checkStableCart().pipe(
+    return forkJoin({
+      activeCartStable: this.checkStableCart(
+        this.cartHandlerState.previousCartId
+      ),
+      staleCartStable: this.checkStableCart(this.cartHandlerState.cartId),
+    }).pipe(
+      tap(({ activeCartStable, staleCartStable }) =>
+        console.log(
+          'flo1 activeCartStable',
+          activeCartStable,
+          'staleCartStable',
+          staleCartStable
+        )
+      ),
+      switchMap(() => this.activeCartFacade.getActiveCartId()),
+      tap((cartId) => console.log('flo2', cartId)),
+      filter((cartId) => cartId === this.cartHandlerState.previousCartId),
+      tap((cartId) => console.log('flo3', cartId)),
+      take(1),
+      map(() => true),
       tap(() => this.blockMiniCartComponentUpdate(false))
     );
   }
