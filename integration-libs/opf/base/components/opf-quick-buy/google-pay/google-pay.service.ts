@@ -364,6 +364,7 @@ export class OpfGooglePayService {
           .catch((err) => {
             // If err.statusCode === 'CANCELED' it means that customer closed popup
             if (err.statusCode === 'CANCELED') {
+              this.deleteAssociatedAddresses();
               this.opfCartHandlerService.loadCartAfterSingleProductTransaction(
                 this.transactionDetails
               );

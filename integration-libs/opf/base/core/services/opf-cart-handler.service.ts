@@ -8,6 +8,7 @@ import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
+  CartType,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
   DeliveryMode,
@@ -40,6 +41,7 @@ import {
   merge,
   of,
   throwError,
+  timer,
 } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
@@ -138,12 +140,13 @@ export class OpfCartHandlerService {
     this.cartHandlerState = { ...this.defaultCartHandlerState };
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartFacade.takeActiveCartId(),
+      this.multiCartFacade.getCartIdByType(CartType.ACTIVE),
+      this.activeCartFacade.isStable(),
     ]).pipe(
       take(1),
       tap(() => this.blockMiniCartComponentUpdate(true)),
-      switchMap(([userId, cartId]) => {
-        console.log('flo4', cartId);
+      switchMap(([userId, cartId, stable]) => {
+        console.log('flo4', cartId, 'stable', stable);
         this.cartHandlerState.userId = userId;
         if (cartId) {
           return this.addProductToNewCart(
@@ -163,15 +166,19 @@ export class OpfCartHandlerService {
   }
 
   loadOriginalCart(): Observable<boolean> {
+    console.log('loadOriginalCart 0');
     if (!this.cartHandlerState.previousCartId) {
       this.opfMiniCartComponentService.blockUpdate(false);
+      console.log('loadOriginalCart 1');
       return of(false);
     }
+    console.log('loadOriginalCart 2');
     this.multiCartFacade.loadCart({
       cartId: this.cartHandlerState.previousCartId,
       userId: this.cartHandlerState.userId,
       extraData: { active: true },
     });
+    console.log('loadOriginalCart 3');
     return forkJoin({
       activeCartStable: this.checkStableCart(
         this.cartHandlerState.previousCartId
@@ -347,9 +354,11 @@ export class OpfCartHandlerService {
     transactionDetails: QuickBuyTransactionDetails,
     orderSuccess = false
   ): void {
+    console.log('loadCartAfterSingleProductTransaction');
     if (transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
-      this.loadOriginalCart()
+      timer(5000)
         .pipe(
+          switchMap(() => this.loadOriginalCart()),
           switchMap((cartLoaded) => {
             // No initial cart and order placed successfully: don't delete cart as done oob
             if (!cartLoaded && orderSuccess) {
