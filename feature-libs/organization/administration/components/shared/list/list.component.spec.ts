@@ -23,6 +23,7 @@ import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/ic
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
 import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/shared/components/split-view/testing/spit-view-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { ItemService } from '../item.service';
 import { ListComponent } from './list.component';
@@ -131,7 +132,11 @@ describe('ListComponent', () => {
         KeyboardFocusTestingModule,
         PopoverModule,
       ],
-      declarations: [MockListComponent, MockTableComponent],
+      declarations: [
+        MockListComponent,
+        MockTableComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         {
           provide: ListService,

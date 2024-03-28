@@ -1,5 +1,6 @@
 {
   "orgAccountSummary": {
+    "groupName": "Account Summaries",
     "header": "All Account Summaries ({{count}})",
     "name": "Unit",
     "details": {

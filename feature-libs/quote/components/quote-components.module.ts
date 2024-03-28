@@ -41,7 +41,7 @@ import { QuoteSummarySellerEditModule } from './summary/seller-edit/quote-summar
     provideDefaultConfig(defaultQuoteUIConfig),
     provideDefaultConfig(<FeaturesConfig>{
       features: {
-        storeFrontLibCardParagraphTruncated: true,
+        storeFrontLibCardParagraphTruncated: false,
       },
     }),
   ],

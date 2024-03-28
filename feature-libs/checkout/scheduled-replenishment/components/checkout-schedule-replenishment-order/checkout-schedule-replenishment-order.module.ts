@@ -11,12 +11,23 @@ import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
 } from '@spartacus/checkout/base/components';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { CheckoutScheduleReplenishmentOrderComponent } from './checkout-schedule-replenishment-order.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, I18nModule, IconModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    I18nModule,
+    IconModule,
+    FeaturesConfigModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

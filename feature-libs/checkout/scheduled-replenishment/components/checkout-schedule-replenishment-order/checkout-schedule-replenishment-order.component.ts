@@ -10,11 +10,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { useFeatureStyles } from '@spartacus/core';
 import {
   DaysOfWeek,
   ORDER_TYPE,
-  recurrencePeriod,
   ScheduleReplenishmentForm,
+  recurrencePeriod,
 } from '@spartacus/order/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -48,7 +49,10 @@ export class CheckoutScheduleReplenishmentOrderComponent
 
   constructor(
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService
-  ) {}
+  ) {
+    useFeatureStyles('a11yReplenishmentOrderFieldset');
+    useFeatureStyles('a11yScheduleReplenishment');
+  }
 
   ngOnInit(): void {
     this.subscription.add(
