@@ -342,7 +342,7 @@ export function clickCheapProductDetailsFromHomePage(
   sampleProduct: SampleProduct = cheapProduct
 ) {
   const productPage = waitForProductPage(sampleProduct.code, 'getProductPage');
-  cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+  cy.get('.Section4 cx-banner').first().find('a').click({ force: true });
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', sampleProduct.code);
