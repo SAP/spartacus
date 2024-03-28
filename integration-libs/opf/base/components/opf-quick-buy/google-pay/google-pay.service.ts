@@ -407,10 +407,7 @@ export class OpfGooglePayService {
             catchError(() => {
               return of(false);
             }),
-            finalize(() => {
-              console.log('finalize');
-              this.deleteAssociatedAddresses();
-            })
+            finalize(() => this.deleteAssociatedAddresses())
           )
         ).then((isSuccess) => {
           this.opfCartHandlerService.loadCartAfterSingleProductTransaction(
