@@ -1,21 +1,25 @@
 <ng-container *ngIf="displayConflictSuggestion(currentGroup)">
-  <div
-    class="cx-title"
-    [attr.aria-label]="
+  <div class="alert alert-info" role="alert">
+    <cx-icon  class="INFO"
+              [type]="iconTypes.INFO"></cx-icon>
+    <div
+      class="cx-title"
+      [attr.aria-label]="
       ('configurator.conflict.suggestionTitle'
         | cxTranslate: { number: suggestionNumber + 1 }) +
       ' ' +
       ('configurator.conflict.suggestionText'
         | cxTranslate: { attribute: attribute.label })
     "
-  >
+    >
     <span aria-hidden="true">{{
       'configurator.conflict.suggestionTitle'
         | cxTranslate: { number: suggestionNumber + 1 }
-    }}</span>
+      }}</span>
+    <span aria-hidden="true">{{
+      'configurator.conflict.suggestionText'
+        | cxTranslate: { attribute: attribute.label }
+      }}</span>
+    </div>
   </div>
-  <span aria-hidden="true">{{
-    'configurator.conflict.suggestionText'
-      | cxTranslate: { attribute: attribute.label }
-  }}</span>
 </ng-container>

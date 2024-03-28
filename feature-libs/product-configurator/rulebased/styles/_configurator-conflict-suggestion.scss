@@ -1,8 +1,16 @@
+@import '@spartacus/styles/scss/cxbase/blocks/alert';
+
 %cx-configurator-conflict-suggestion {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
+
+  .alert {
+    width: 100%;
+  }
+  /**
+  //TODO: add versioning
   background-color: mix(#ffffff, theme-color('light'), 90%);
   border: 1px solid var(--cx-color-light);
   border-radius: 2px;
@@ -10,10 +18,10 @@
   padding-inline-end: 15px;
   padding-block-start: 15px;
   padding-block-end: 15px;
+   margin-block-start: 0px;
+  margin-block-end: 15px;
   margin-inline-start: -15px;
   margin-inline-end: -15px;
-  margin-block-start: 0px;
-  margin-block-end: 15px;
 
   @include media-breakpoint-down(sm) {
     padding-inline-start: 35px;
@@ -28,4 +36,5 @@
     padding-inline-end: 5px;
     padding-inline-start: 0px;
   }
+   */
 }
