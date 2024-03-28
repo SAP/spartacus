@@ -49,6 +49,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     trap: true,
     block: true,
     autofocus: 'customer-list-selector',
+    ignoreUpDownArrowKeys: true,
     focusOnEscape: true,
   };
 
