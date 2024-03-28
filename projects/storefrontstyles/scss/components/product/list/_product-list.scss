@@ -36,6 +36,15 @@
       border-width: 1px 0 0 0;
       padding: 25px 0 0px 0;
     }
+
+    // TODO: (CXSPA-5926) Remove feaure flag next major release
+    @include forFeature('a11ySortingOptionsTruncation') {
+      & ng-select {
+        @include media-breakpoint-up(lg) {
+          width: 14rem;
+        }
+      }
+    }
   }
 
   .cx-pagination {

@@ -6,12 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  AuthGuard,
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { QuoteCartGuardComponent } from './quote-cart-guard.component';
 import { QuoteCartGuard } from './quote-cart.guard';
 
@@ -22,7 +17,7 @@ import { QuoteCartGuard } from './quote-cart.guard';
       cmsComponents: {
         QuoteCartGuardComponent: {
           component: QuoteCartGuardComponent,
-          guards: [AuthGuard, QuoteCartGuard],
+          guards: [QuoteCartGuard],
         },
       },
     }),
