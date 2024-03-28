@@ -16,7 +16,7 @@ export {
 } from './config-tokens';
 export * from './config-validator/index';
 export { ConfigModule } from './config.module';
-export * from './services/configuration.service';
+export * from './services/index';
 export {
   TestConfigModule,
   TestConfigModuleOptions,

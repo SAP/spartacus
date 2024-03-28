@@ -4,6 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './augmented-feature-flags.model';
-export * from './card.component';
-export * from './card.module';
+export * from './feature-flags-providers';
+export * from './feature-flags-tokens';

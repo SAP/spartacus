@@ -5,5 +5,5 @@
  */
 
 export * from './augmented-feature-flags.model';
-export * from './card.component';
-export * from './card.module';
+export * from './consignment-tracking.component';
+export * from './tracking-events/tracking-events.component';
