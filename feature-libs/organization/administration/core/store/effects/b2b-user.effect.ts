@@ -7,12 +7,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { FeatureConfigService } from '@spartacus/core';
 import {
   AuthActions,
   B2BUser,
   B2BUserRole,
   EntitiesModel,
+  FeatureConfigService,
   LoggerService,
   RouterState,
   RoutingService,
