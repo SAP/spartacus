@@ -139,20 +139,13 @@ export class ApplePayService {
         });
       }),
       take(1),
-      // tap(() => {
-      //   console.log('in tap');
-      //   this.deleteUserAddresses();
-      // }),
       catchError((error) => {
-        console.log('catch');
-        // this.deleteUserAddresses();
         this.cartHandlerService.loadCartAfterSingleProductTransaction(
           this.transactionDetails
         );
         return throwError(() => error);
       }),
       finalize(() => {
-        console.log('finalize');
         this.deleteUserAddresses();
         this.paymentInProgress = false;
       })
@@ -164,8 +157,8 @@ export class ApplePayService {
       this.cartHandlerService.deleteUserAddresses([
         ...this.transactionDetails.addressIds,
       ]);
+      this.transactionDetails.addressIds = [];
     }
-    this.transactionDetails.addressIds = [];
   }
 
   private handleValidation(

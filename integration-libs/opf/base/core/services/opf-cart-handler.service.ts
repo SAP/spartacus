@@ -34,7 +34,14 @@ import {
   OpfQuickBuyLocation,
   QuickBuyTransactionDetails,
 } from '@spartacus/opf/base/root';
-import { Observable, combineLatest, merge, of, throwError } from 'rxjs';
+import {
+  Observable,
+  combineLatest,
+  forkJoin,
+  merge,
+  of,
+  throwError,
+} from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -165,8 +172,13 @@ export class OpfCartHandlerService {
       userId: this.cartHandlerState.userId,
       extraData: { active: true },
     });
-    return this.checkStableCart().pipe(
-      switchMap(() => this.activeCartFacade.takeActiveCartId()),
+    return forkJoin({
+      activeCartStable: this.checkStableCart(
+        this.cartHandlerState.previousCartId
+      ),
+      staleCartStable: this.checkStableCart(this.cartHandlerState.cartId),
+    }).pipe(
+      switchMap(() => this.activeCartFacade.getActiveCartId()),
       filter((cartId) => cartId === this.cartHandlerState.previousCartId),
       take(1),
       map(() => true),
@@ -221,11 +233,11 @@ export class OpfCartHandlerService {
   }
 
   getCurrentCart(): Observable<Cart> {
-    return this.activeCartFacade.takeActive().pipe(take(1));
+    return this.activeCartFacade.takeActive();
   }
 
   getCurrentCartId(): Observable<string> {
-    return this.activeCartFacade.takeActiveCartId().pipe(take(1));
+    return this.activeCartFacade.takeActiveCartId();
   }
 
   getCurrentCartTotalPrice(): Observable<number | undefined> {
