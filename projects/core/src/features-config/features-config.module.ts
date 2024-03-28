@@ -12,6 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { provideDefaultConfig } from '../config/config-providers';
+import { populateBreakingChangesFlagsToFeatureConfig } from './breaking-changes-flags/populate-breaking-changes-flags-to-features-config';
 import { FeaturesConfig } from './config/features-config';
 import { FeatureLevelDirective } from './directives/feature-level.directive';
 import { FeatureDirective } from './directives/feature.directive';
@@ -28,6 +29,7 @@ export class FeaturesConfigModule {
     return {
       ngModule: FeaturesConfigModule,
       providers: [
+        ...populateBreakingChangesFlagsToFeatureConfig,
         provideDefaultConfig(<FeaturesConfig>{
           features: {
             level: defaultLevel || '*',

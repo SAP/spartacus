@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './breaking-changes-flags/index';
 export * from './config/features-config';
 export * from './directives/feature-level.directive';
 export * from './directives/feature.directive';
