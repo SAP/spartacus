@@ -1,6 +1,6 @@
 <ng-container *ngIf="location">
   <!-- TODO: (CXSPA-5916) Remove feature flags next major -->
-  <ng-container *cxFeatureLevel="'6.8'">
+  <ng-container *cxFeature="'a11yStoreFinderOverflow'">
     <div class="cx-container">
       <article class="cx-store">
         <h2 aria-hidden="true">{{ location.displayName || location.name }}</h2>
@@ -62,7 +62,7 @@
     </div>
   </ng-container>
 
-  <ng-container *cxFeatureLevel="'!6.8'">
+  <ng-container *cxFeature="'!a11yStoreFinderOverflow'">
     <ng-container *ngIf="location">
       <div class="container">
         <div class="row">

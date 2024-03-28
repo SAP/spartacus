@@ -1,6 +1,22 @@
 %cx-store-finder-store-description {
-  // TODO: (CXSPA-5916) Remove feature flags next major
-  @include forVersion(6.8) {
+  // TODO: (CXSPA-5916) Remove feature flags and redundant styles next major
+  .container {
+    margin-bottom: 1rem;
+  }
+
+  .cx-store {
+    text-align: start;
+  }
+
+  @include forFeature('a11yStoreFinderOverflow') {
+    .container {
+      margin-bottom: unset;
+    }
+
+    .cx-store {
+      text-align: unset;
+    }
+
     .cx-container {
       text-align: start;
       display: flex;
@@ -15,16 +31,6 @@
       padding-inline-start: 1rem;
       padding-inline-end: 1rem;
       flex: 1;
-    }
-  }
-
-  @include forVersion(1, 6.7) {
-    .container {
-      margin-bottom: 1rem;
-    }
-
-    .cx-store {
-      text-align: start;
     }
   }
 
@@ -70,9 +76,14 @@
     text-align: start;
   }
 
-  // TODO: (CXSPA-5916) Remove feature flags next major
-  @include forVersion(6.8) {
+  // TODO: (CXSPA-5916) Remove feature flags and redundant styles next major
+  .cx-storeMap {
+    height: 70vh;
+  }
+
+  @include forFeature('a11yStoreFinderOverflow') {
     .cx-storeMap {
+      height: unset;
       flex: 2;
       padding-inline-start: 1rem;
       padding-inline-end: 1rem;
@@ -80,12 +91,6 @@
 
     .cx-feature-item {
       color: var(--cx-color-primary);
-    }
-  }
-
-  @include forVersion(1, 6.7) {
-    .cx-storeMap {
-      height: 70vh;
     }
   }
 
