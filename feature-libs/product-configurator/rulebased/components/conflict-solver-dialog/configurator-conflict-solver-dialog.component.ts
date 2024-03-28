@@ -21,7 +21,7 @@ import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { take } from 'rxjs/operators';
-import { ConfiguratorStorefrontUtilsService } from '../service';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-conflict-solver-dialog',
