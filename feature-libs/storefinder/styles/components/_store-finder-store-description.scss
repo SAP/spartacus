@@ -13,10 +13,6 @@
       margin-bottom: unset;
     }
 
-    .cx-store {
-      text-align: unset;
-    }
-
     .cx-container {
       text-align: start;
       display: flex;
@@ -28,6 +24,7 @@
     }
 
     .cx-store {
+      text-align: unset;
       padding-inline-start: 1rem;
       padding-inline-end: 1rem;
       flex: 1;
