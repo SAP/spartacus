@@ -13,7 +13,7 @@ export const firstProductItemSelector = `${productItemSelector}:first`;
 export const pageLinkSelector = 'cx-pagination a.current';
 export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
-export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
+export const firstProductNameSelector = `${firstProductItemSelector} .cx-product-name`;
 export const searchUrlPrefix = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
   'BASE_SITE'
 )}/products/search`;
@@ -111,9 +111,7 @@ export function searchResult() {
       'have.length',
       PRODUCT_LISTING.PRODUCTS_PER_PAGE
     );
-    cy.get(firstProductItemSelector).within(() => {
-      cy.get('a.cx-product-name').should('be.visible');
-    });
+    cy.get(firstProductNameSelector).should('be.visible');
   });
 }
 

@@ -10,7 +10,7 @@ import { isMember, isTopLevelApi } from './common';
 /**
  * This script generates thee breaking changes markdown doc.
  *
- * Input: Breaking change data returned by readBreakingChangeFile().  Likely is is ./data/X_0/breaking-change.json.  The folder depends on the major version config.`
+ * Input: Breaking change data returned by readBreakingChangeFile().  Likely is is ./data/X_0/breaking-change.json.  The folder depends on the new version config.`
  * Output: A file whose path is in OUTPUT_FILE_PATH const.  The file is a md file that contains the markdown doc to be copied in the release docs.
  *
  */
@@ -21,7 +21,7 @@ import { isMember, isTopLevelApi } from './common';
  * -----------
  */
 const OUTPUT_FILE_TEMPLATE_PATH = `generate-doc.out.template`;
-const OUTPUT_FILE_PATH = `${common.MAJOR_VERSION_DOC_HOME}/generated-typescript-changes-doc.md`;
+const OUTPUT_FILE_PATH = `${common.NEW_VERSION_DOC_HOME}/generated-typescript-changes-doc.md`;
 const MD_CODEBLOCK = '\n```\n';
 
 const apiElementMigrationCommentData =
@@ -232,8 +232,8 @@ export function writeTextDataOutput(
 }
 
 function addVersionNumber(template: string): string {
-  const variable = new RegExp('\\${major_version}', 'g');
-  let resolvedTemplate = template.replace(variable, common.NEW_MAJOR_VERSION);
+  const variable = new RegExp('\\${new_version}', 'g');
+  let resolvedTemplate = template.replace(variable, common.NEW_VERSION);
 
   return resolvedTemplate;
 }

@@ -51,7 +51,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.21'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -152,7 +152,7 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -270,7 +270,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.21'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -371,7 +371,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -489,7 +489,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.21'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -590,7 +590,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -708,7 +708,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.21'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -809,7 +809,7 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -927,7 +927,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.21'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -1028,7 +1028,7 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",

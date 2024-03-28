@@ -24,12 +24,22 @@ import {
   FEATURES_LIBS_SKIP_SCOPES,
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
+  SPARTACUS_SCHEMATICS,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
 } from '../libs-constants';
 import { getServerTsPath } from './file-utils';
 import { addPackageJsonDependencies, dependencyExists } from './lib-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
+
+const DEV_DEPENDENCIES_KEYWORDS = [
+  'schematics',
+  'parse5',
+  'typescript',
+  '@angular-devkit/core',
+  '@angular/compiler',
+  'jsonc-parser',
+];
 
 export function createSpartacusDependencies(
   dependencyObject: Record<string, string>
@@ -97,13 +107,16 @@ export function mapPackageToNodeDependencies(
   pkgVersion: string,
   overwrite = false
 ): NodeDependency {
+  const type = DEV_DEPENDENCIES_KEYWORDS.some((keyword) =>
+    packageName.includes(keyword)
+  )
+    ? NodeDependencyType.Dev
+    : NodeDependencyType.Default;
   return {
-    type: packageName.includes('schematics')
-      ? NodeDependencyType.Dev
-      : NodeDependencyType.Default,
+    type,
+    overwrite,
     name: packageName,
     version: pkgVersion,
-    overwrite,
   };
 }
 
@@ -153,6 +166,7 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
     !!angularJson.projects[projectName].architect['server'];
 
   const serverFileLocation = getServerTsPath(tree);
+
   if (!serverFileLocation) {
     return false;
   }
@@ -199,6 +213,7 @@ export function prepare3rdPartyDependencies(): NodeDependency[] {
     ...collectedDependencies[SPARTACUS_STOREFRONTLIB],
     ...collectedDependencies[SPARTACUS_STYLES],
     ...collectedDependencies[SPARTACUS_ASSETS],
+    ...collectedDependencies[SPARTACUS_SCHEMATICS],
   });
   return thirdPartyDependencies;
 }

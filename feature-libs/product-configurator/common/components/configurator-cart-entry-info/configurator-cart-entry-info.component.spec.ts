@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
-  UntypedFormControl,
   ReactiveFormsModule,
+  UntypedFormControl,
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -11,7 +11,7 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
@@ -46,12 +46,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FeaturesConfigModule,
-        ],
+        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
         declarations: [
           ConfiguratorCartEntryInfoComponent,
           MockConfigureCartEntryComponent,

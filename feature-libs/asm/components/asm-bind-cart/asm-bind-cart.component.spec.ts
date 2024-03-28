@@ -6,6 +6,7 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AsmBindCartFacade, CsAgentAuthService } from '@spartacus/asm/root';
 import {
@@ -17,7 +18,6 @@ import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   AuthService,
   FeatureConfigService,
-  FeaturesConfigModule,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
@@ -26,9 +26,9 @@ import {
   Translatable,
 } from '@spartacus/core';
 import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
   ICON_TYPE,
+  LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { ProcessesLoaderState } from 'projects/core/src/state/utils/processes-loader';
 import {
@@ -41,11 +41,10 @@ import {
 } from 'rxjs';
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { SAVE_CART_DIALOG_ACTION } from '../asm-save-cart-dialog/asm-save-cart-dialog.component';
+import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
 import createSpy = jasmine.createSpy;
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 
 @Component({
   selector: 'cx-icon',
@@ -164,7 +163,7 @@ describe('AsmBindCartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, FeaturesConfigModule],
+      imports: [FormsModule, ReactiveFormsModule],
       declarations: [
         AsmBindCartComponent,
         MockTranslatePipe,

@@ -58,12 +58,17 @@
   </ng-container>
 
   <ng-template #writeReview>
+    <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
+      {{ 'formLegend.required' | cxTranslate }}
+    </p>
     <form (ngSubmit)="submitReview(product)" [formGroup]="reviewForm">
       <div class="form-group">
         <label>
-          <span class="label-content">{{
-            'productReview.reviewTitle' | cxTranslate
-          }}</span>
+          <span class="label-content"
+            >{{ 'productReview.reviewTitle' | cxTranslate }}
+            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+          </span>
           <input
             required="true"
             #titleInput
@@ -76,9 +81,10 @@
       </div>
       <div class="form-group">
         <label>
-          <span class="label-content">{{
-            'productReview.writeYourComments' | cxTranslate
-          }}</span>
+          <span class="label-content"
+            >{{ 'productReview.writeYourComments' | cxTranslate }}
+            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+          </span>
           <textarea
             required="true"
             class="form-control"
@@ -92,9 +98,10 @@
       </div>
       <div class="form-group">
         <label>
-          <span class="label-content">{{
-            'productReview.rating' | cxTranslate
-          }}</span>
+          <span class="label-content"
+            >{{ 'productReview.rating' | cxTranslate }}
+            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+          </span>
           <input
             required="true"
             type="number"
@@ -112,9 +119,9 @@
       </div>
       <div class="form-group">
         <label>
-          <span class="label-content">{{
-            'productReview.reviewerName' | cxTranslate
-          }}</span>
+          <span class="label-content"
+            >{{ 'productReview.reviewerName' | cxTranslate }}
+          </span>
           <input
             type="text"
             class="form-control"
@@ -141,3 +148,12 @@
     </form>
   </ng-template>
 </div>
+
+<ng-template #requiredAsterisk>
+  <abbr
+    *cxFeature="'a11yRequiredAsterisks'"
+    class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
+</ng-template>

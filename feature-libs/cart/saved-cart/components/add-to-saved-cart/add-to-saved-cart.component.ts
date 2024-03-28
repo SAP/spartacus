@@ -14,9 +14,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { AuthService, RoutingService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { AuthService, RoutingService, useFeatureStyles } from '@spartacus/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -43,7 +43,9 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
-  ) {}
+  ) {
+    useFeatureStyles('a11yExpandedFocusIndicator');
+  }
 
   ngOnInit(): void {
     this.cart$ = combineLatest([
