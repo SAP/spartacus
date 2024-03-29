@@ -173,9 +173,9 @@ export function signOutUser() {
 export function goToProductDetailsPage() {
   cy.visit('/');
   // click big banner
-  cy.get('.Section1 cx-banner').first().find('img').click({ force: true });
+  cy.get('.Section1 cx-banner').first().find('a').click({ force: true });
   // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-banner:nth-of-type(6) img').click({ force: true });
+  cy.get('.Section2 cx-banner:nth-of-type(6) a').click({ force: true });
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', product.code);
   });
