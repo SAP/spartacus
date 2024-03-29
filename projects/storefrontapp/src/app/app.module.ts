@@ -108,6 +108,7 @@ if (!environment.production) {
         a11yOrganizationListHeadingOrder: true,
         a11yReplenishmentOrderFieldset: true,
         a11yListOversizedFocus: true,
+        a11yStoreFinderOverflow: true,
         a11yCartSummaryHeadingOrder: true,
       },
     }),
