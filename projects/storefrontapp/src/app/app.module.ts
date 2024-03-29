@@ -104,10 +104,12 @@ if (!environment.production) {
         a11ySortingOptionsTruncation: true,
         a11yExpandedFocusIndicator: true,
         a11yCheckoutDeliveryFocus: true,
+        a11yOrganizationsBanner: true,
         a11yOrganizationListHeadingOrder: true,
         a11yReplenishmentOrderFieldset: true,
         a11yListOversizedFocus: true,
         a11yStoreFinderOverflow: true,
+        a11yCartSummaryHeadingOrder: true,
       },
     }),
     provideConfig(<StoreFinderConfig>{
