@@ -22,11 +22,9 @@ export class ServerRespondingErrorHandler implements MultiErrorHandler {
 
   handleError(error: unknown): void {
     //@ts-ignore
-    //TODO:CXSPA-6577 Remove console.log and propagate the error to the OptimizedSsrEngine
+    //TODO:CXSPA-6577 Propagate the error to the OptimizedSsrEngine
     const cxServerError = resolveApplicable(this.transformers, [
       error,
     ]).transform(error);
-    //@eslint-disable-next-line
-    console.log('ServerRespondingErrorHandler: ', cxServerError);
   }
 }
