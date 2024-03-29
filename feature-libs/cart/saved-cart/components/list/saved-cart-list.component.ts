@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -19,9 +20,14 @@ import {
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
 import { RoutingService, useFeatureStyles } from '@spartacus/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SiteContextComponentService,
+  SiteContextType,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, skip, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-saved-cart-list',
@@ -30,6 +36,9 @@ import { map, take } from 'rxjs/operators';
 })
 export class SavedCartListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
+  protected readonly siteContextService = inject(SiteContextComponentService, {
+    optional: true,
+  });
 
   @ViewChild('element') restoreButton: ElementRef;
 
@@ -47,6 +56,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
       })
     )
   );
+
   constructor(
     protected routing: RoutingService,
     protected savedCartService: SavedCartFacade,
@@ -59,6 +69,17 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();
     this.savedCartService.loadSavedCarts();
+
+    if (this.siteContextService) {
+      this.subscription.add(
+        this.siteContextService
+          .getActiveItem(SiteContextType.LANGUAGE)
+          .pipe(skip(1))
+          .subscribe(() => {
+            this.savedCartService.loadSavedCarts();
+          })
+      );
+    }
   }
 
   goToSavedCartDetails(cart: Cart): void {
