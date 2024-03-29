@@ -96,9 +96,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
 
   protected observeAndReloadSavedCartOnContextChange() {
     if (this.siteContextService) {
-      const contexts: SiteContextType[] = Object.values(SiteContextType).map(
-        (value) => value
-      );
+      const contexts: SiteContextType[] = Object.values(SiteContextType);
 
       if (!contexts.length) {
         return;
@@ -108,9 +106,9 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
         from(contexts)
           .pipe(
             mergeMap((context: SiteContextType) => {
-              return this.siteContextService.getActiveItem(context).pipe(
-                skip(1)
-              );
+              return this.siteContextService
+                .getActiveItem(context)
+                .pipe(skip(1));
             })
           )
           .subscribe(() => {
