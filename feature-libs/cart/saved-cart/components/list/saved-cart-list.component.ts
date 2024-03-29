@@ -26,7 +26,7 @@ import {
   SiteContextComponentService,
   SiteContextType,
 } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { from, mergeMap, Observable, Subscription } from 'rxjs';
 import { map, skip, take } from 'rxjs/operators';
 
 @Component({
@@ -70,16 +70,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();
     this.savedCartService.loadSavedCarts();
 
-    if (this.siteContextService) {
-      this.subscription.add(
-        this.siteContextService
-          .getActiveItem(SiteContextType.LANGUAGE)
-          .pipe(skip(1))
-          .subscribe(() => {
-            this.savedCartService.loadSavedCarts();
-          })
-      );
-    }
+    this.observeAndReloadSavedCartOnContextChange();
   }
 
   goToSavedCartDetails(cart: Cart): void {
@@ -101,6 +92,32 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
       this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
     event.stopPropagation();
+  }
+
+  protected observeAndReloadSavedCartOnContextChange() {
+    if (this.siteContextService) {
+      const contexts: SiteContextType[] = Object.values(SiteContextType).map(
+        (value) => value
+      );
+
+      if (!contexts.length) {
+        return;
+      }
+
+      this.subscription.add(
+        from(contexts)
+          .pipe(
+            mergeMap((context: SiteContextType) => {
+              return this.siteContextService!.getActiveItem(context).pipe(
+                skip(1)
+              );
+            })
+          )
+          .subscribe(() => {
+            this.savedCartService.loadSavedCarts();
+          })
+      );
+    }
   }
 
   ngOnDestroy(): void {
