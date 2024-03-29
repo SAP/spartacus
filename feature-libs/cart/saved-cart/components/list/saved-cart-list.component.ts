@@ -106,9 +106,10 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
         from(contexts)
           .pipe(
             mergeMap((context: SiteContextType) => {
-              return this.siteContextService
-                .getActiveItem(context)
-                .pipe(skip(1));
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              return this.siteContextService!.getActiveItem(context).pipe(
+                skip(1)
+              );
             })
           )
           .subscribe(() => {
