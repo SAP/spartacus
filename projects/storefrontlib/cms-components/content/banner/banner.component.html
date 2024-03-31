@@ -1,13 +1,29 @@
 <ng-container *ngIf="data$ | async as data">
-  <cx-generic-link
-    *ngIf="routerLink"
-    [url]="routerLink"
-    [target]="getTarget(data)"
-  >
-    <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
-    <cx-media [container]="getImage(data)"></cx-media>
-    <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
-  </cx-generic-link>
+  <!-- TODO: (CXSPA-6362) - Remove feature flag next major release -->
+  <ng-container *cxFeature="'a11yOrganizationsBanner'">
+    <ng-container *ngIf="routerLink">
+      <cx-generic-link
+        [url]="routerLink"
+        [target]="getTarget(data)"
+        [ariaLabel]="data.headline"
+      >
+      </cx-generic-link>
+      <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
+      <cx-media [container]="getImage(data)"></cx-media>
+      <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
+    </ng-container>
+  </ng-container>
+  <ng-container *cxFeature="'!a11yOrganizationsBanner'">
+    <cx-generic-link
+      *ngIf="routerLink"
+      [url]="routerLink"
+      [target]="getTarget(data)"
+    >
+      <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
+      <cx-media [container]="getImage(data)"></cx-media>
+      <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
+    </cx-generic-link>
+  </ng-container>
   <ng-container *ngIf="!routerLink">
     <div class="no-link">
       <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
