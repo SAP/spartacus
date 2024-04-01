@@ -31,9 +31,9 @@ import {
   LinkModule,
   LoginRouteModule,
   LogoutModule,
+  MyAccountV2Module,
   MyCouponsModule,
   MyInterestsModule,
-  MyAccountV2Module,
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
@@ -56,13 +56,14 @@ import {
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
-  VideoModule,
-  USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
   USE_MY_ACCOUNT_V2_CONSENT,
+  USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
+  VideoModule,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
-import { AsmFeatureModule } from './features/asm/asm-feature.module';
 import { AsmCustomer360FeatureModule } from './features/asm/asm-customer-360-feature.module';
+import { AsmFeatureModule } from './features/asm/asm-feature.module';
+import { BundleFeatureModule } from './features/bundle/bundle-feature.module';
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
 import { ImportExportFeatureModule } from './features/cart/cart-import-export-feature.module';
 import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
@@ -71,7 +72,6 @@ import { WishListFeatureModule } from './features/cart/wish-list-feature.module'
 import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
-import { QuoteFeatureModule } from './features/quote-feature.module';
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
@@ -89,6 +89,7 @@ import { FutureStockFeatureModule } from './features/product/product-future-stoc
 import { ImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
+import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
@@ -220,6 +221,8 @@ if (environment.requestedDeliveryDate) {
     SavedCartFeatureModule,
     QuickOrderFeatureModule,
     ImportExportFeatureModule,
+
+    BundleFeatureModule,
 
     OrderFeatureModule,
 

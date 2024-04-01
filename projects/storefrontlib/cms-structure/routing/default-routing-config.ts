@@ -47,6 +47,8 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paramsMapping: { productCode: 'code' },
   },
 
+  bundleSearch: { paths: ['entrygroups/:entryGroupNumber'] },
+
   termsAndConditions: { paths: ['terms-and-conditions'] },
   coupons: { paths: ['my-account/coupons'] },
   couponClaim: {

@@ -158,6 +158,21 @@
       "@spartacus/cart/wish-list/root": [
         "feature-libs/cart/wish-list/root/public_api"
       ],
+      "@spartacus/cart/bundle/components": [
+        "feature-libs/cart/bundle/components/public_api"
+      ],
+      "@spartacus/cart/bundle/core": [
+        "feature-libs/cart/bundle/core/public_api"
+      ],
+      "@spartacus/cart/bundle": [
+        "feature-libs/cart/bundle/public_api"
+      ],
+      "@spartacus/cart/bundle/occ": [
+        "feature-libs/cart/bundle/occ/public_api"
+      ],
+      "@spartacus/cart/bundle/root": [
+        "feature-libs/cart/bundle/root/public_api"
+      ],
       "@spartacus/checkout/b2b/assets": [
         "feature-libs/checkout/b2b/assets/public_api"
       ],

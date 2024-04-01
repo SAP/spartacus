@@ -208,3 +208,12 @@ export enum CartValidationStatusCode {
   PRICING_ERROR = 'pricingError',
   UNRESOLVABLE_ISSUES = 'unresolvableIssues',
 }
+
+export interface EntryGroup {
+  entries?: OrderEntry[];
+  entryGroupNumber?: number;
+  entryGroups?: EntryGroup[];
+  erroneous?: boolean;
+  label?: string;
+  type?: string;
+}

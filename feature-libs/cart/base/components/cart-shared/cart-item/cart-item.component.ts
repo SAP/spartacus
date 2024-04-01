@@ -13,6 +13,7 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
+import { RoutingService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 
@@ -42,7 +43,10 @@ export class CartItemComponent implements OnChanges {
   iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
 
-  constructor(protected cartItemContextSource: CartItemContextSource) {}
+  constructor(
+    protected cartItemContextSource: CartItemContextSource,
+    protected routingService: RoutingService
+  ) {}
 
   ngOnChanges(changes?: SimpleChanges) {
     if (changes?.compact) {
@@ -77,5 +81,16 @@ export class CartItemComponent implements OnChanges {
   removeItem() {
     this.quantityControl.setValue(0);
     this.quantityControl.markAsDirty();
+  }
+
+  editBundle(entryGroupNumber: number | undefined) {
+    if (entryGroupNumber) {
+      this.routingService.go({
+        cxRoute: 'bundleSearch',
+        params: {
+          entryGroupNumber,
+        },
+      });
+    }
   }
 }
