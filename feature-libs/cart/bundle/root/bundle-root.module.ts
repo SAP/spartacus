@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { provideDefaultConfig } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-import { BUNDLE_FEATURE, BundleService } from '../core';
+import { BUNDLE_FEATURE } from '../core';
 import { defaultBundleLayoutConfig } from './config/default-bundle-layout-config';
 
 @NgModule({
@@ -23,7 +23,6 @@ import { defaultBundleLayoutConfig } from './config/default-bundle-layout-config
   ],
   declarations: [],
   providers: [
-    BundleService,
     provideDefaultConfig(defaultBundleLayoutConfig),
     provideDefaultConfig({
       featureModules: {
