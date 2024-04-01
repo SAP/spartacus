@@ -1,0 +1,40 @@
+<div #dialog>
+  <!-- Modal Header -->
+  <div class="cx-dialog-header modal-header">
+    <div class="cx-dialog-title modal-title">Product Details</div>
+    <button
+      type="button"
+      class="close"
+      attr.aria-label="{{ 'addToCart.closeModal' | cxTranslate }}"
+      cxModal="dismiss"
+      cxModalReason="Cross click"
+    >
+      <span aria-hidden="true">
+        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      </span>
+    </button>
+  </div>
+  <!-- Modal Body -->
+  <div class="cx-dialog-body modal-body">
+    <div class="row">
+      <div class="col-6">
+        <cx-product-images></cx-product-images>
+      </div>
+
+      <div class="col-6">
+        <h1>{{ product.nameHtml }}</h1>
+
+        <cx-product-intro></cx-product-intro>
+        <cx-product-summary></cx-product-summary>
+        <!-- <cx-product-tabs></cx-product-tabs> -->
+
+        <!-- Actions -->
+        <div class="cx-dialog-buttons">
+          <button class="btn btn-primary" (click)="selectProduct()" autofocus>
+            Select
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

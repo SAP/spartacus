@@ -35,7 +35,7 @@ import { PRODUCT_LISTING_URL_MATCHER } from './product-listing-url-matcher';
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'category' },
-      },
+      }
     ]),
   ],
   providers: [

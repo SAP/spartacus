@@ -9,6 +9,7 @@ import { select, Store } from '@ngrx/store';
 import {
   Cart,
   CartType,
+  EntryGroup,
   MultiCartFacade,
   OrderEntry,
 } from '@spartacus/cart/base/root';
@@ -31,6 +32,66 @@ export class MultiCartService implements MultiCartFacade {
     protected store: Store<StateWithMultiCart>,
     protected userIdService: UserIdService
   ) {}
+
+  /**
+   * Add an entry to an entry group in the cart
+   *
+   * @param cartId
+   * @param userId
+   * @param entryGroupNumber
+   * @param entry
+   * @param quantity
+   */
+  addToEntryGroup(
+    cartId: string,
+    userId: string,
+    entryGroupNumber: number,
+    entry: OrderEntry,
+    quantity: number = 1
+  ) {
+    console.log("addToEntryGroup" + cartId + userId + entryGroupNumber + entry + quantity );
+    // this.store.dispatch(
+    //   new CartActions.AddToEntryGroup({
+    //     cartId,
+    //     userId,
+    //     entryGroupNumber,
+    //     entry,
+    //     quantity,
+    //   })
+    // );
+  }
+
+  /**
+   * Get cart entryGroups as an observable
+   * @param cartId
+   */
+  getEntryGroups(cartId: string): Observable<EntryGroup[]> {
+    // return this.store.pipe(
+    //   select(MultiCartSelectors.getCartEntryGroupsSelectorFactory(cartId))
+    // );
+    console.log(`[getEntryGroups]: ${cartId}`);
+    return of([]);
+  }
+
+  /**
+   * Remove an entry group from the cart
+   *
+   * @param cartId
+   * @param userId
+   * @param entryGroupNumber
+   */
+  removeEntryGroup(cartId: string, userId: string, entryGroupNumber: number) {
+    // this.store.dispatch(
+    //   new CartActions.RemoveEntryGroup({
+    //     cartId,
+    //     userId,
+    //     entryGroupNumber,
+    //   })
+    // );
+    console.log(
+      `[removeEntryGroup]: cartId: ${cartId} with userId: ${userId} and entryGroupNumber: ${entryGroupNumber}`
+    );
+  }
 
   /**
    * Returns cart from store as an observable

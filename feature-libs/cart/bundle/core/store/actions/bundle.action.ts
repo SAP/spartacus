@@ -5,7 +5,8 @@
  */
 
 import { EntryGroup, OrderEntry } from '@spartacus/cart/base/root';
-import { Product, SearchConfig, StateUtils } from '@spartacus/core';
+import { Product, SearchConfig } from '@spartacus/core';
+import { StateUtils } from 'projects/core/src/state/utils';
 import { BundleStarter } from '../../model/bundle.model';
 import { BUNDLE_DATA } from '../bundle-state';
 
@@ -35,7 +36,7 @@ export class StartBundle extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class StartBundleSuccess extends StateUtils.LoaderSuccessAction {
+export class StartBundleSuccess extends StateUtils.LoaderLoadAction {
   readonly type = START_BUNDLE_SUCCESS;
   constructor(
     public payload: {
@@ -83,7 +84,7 @@ export class GetBundleAllowedProducts extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class GetBundleAllowedProductsSuccess extends StateUtils.LoaderSuccessAction {
+export class GetBundleAllowedProductsSuccess extends StateUtils.LoaderLoadAction {
   readonly type = GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS;
   constructor(public payload: any) {
     super(BUNDLE_DATA);

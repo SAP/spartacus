@@ -194,7 +194,7 @@ function configureSpartacusModules(
         'ProductImagesModule,',
         'ProductSummaryModule,',
         'ProductIntroModule,',
-        'BundleComponentsModule,',
+        // 'BundleComponentsModule,',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
