@@ -372,7 +372,7 @@ export class OpfGooglePayService {
     );
   }
 
-  protected loadInitialCartAndCleanAddresses(orderSuccess?: boolean): void {
+  protected loadInitialCartAndCleanAddresses(orderSuccess = false): void {
     this.opfCartHandlerService
       .loadCartAfterSingleProductTransaction(
         this.transactionDetails,
