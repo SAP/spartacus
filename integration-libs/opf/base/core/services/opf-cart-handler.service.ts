@@ -41,7 +41,6 @@ import {
   merge,
   of,
   throwError,
-  timer,
 } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
@@ -76,7 +75,6 @@ export class OpfCartHandlerService {
     originalCartId: string,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    console.log('flo0', originalCartId);
     this.cartHandlerState.previousCartId = originalCartId;
 
     return this.multiCartFacade
@@ -145,8 +143,7 @@ export class OpfCartHandlerService {
     ]).pipe(
       take(1),
       tap(() => this.blockMiniCartComponentUpdate(true)),
-      switchMap(([userId, cartId, stable]) => {
-        console.log('flo4', cartId, 'stable', stable);
+      switchMap(([userId, cartId, _]) => {
         this.cartHandlerState.userId = userId;
         if (cartId) {
           return this.addProductToNewCart(
@@ -166,38 +163,28 @@ export class OpfCartHandlerService {
   }
 
   loadOriginalCart(): Observable<boolean> {
-    console.log('loadOriginalCart 0');
     if (!this.cartHandlerState.previousCartId) {
       this.opfMiniCartComponentService.blockUpdate(false);
-      console.log('loadOriginalCart 1');
       return of(false);
     }
-    console.log('loadOriginalCart 2');
     this.multiCartFacade.loadCart({
       cartId: this.cartHandlerState.previousCartId,
       userId: this.cartHandlerState.userId,
       extraData: { active: true },
     });
-    console.log('loadOriginalCart 3');
-    return forkJoin({
-      activeCartStable: this.checkStableCart(
-        this.cartHandlerState.previousCartId
-      ),
-      staleCartStable: this.checkStableCart(this.cartHandlerState.cartId),
-    }).pipe(
-      tap(({ activeCartStable, staleCartStable }) =>
-        console.log(
-          'flo1 activeCartStable',
-          activeCartStable,
-          'staleCartStable',
-          staleCartStable
-        )
-      ),
-      switchMap(() => this.activeCartFacade.getActiveCartId()),
+    return this.activeCartFacade.getActiveCartId().pipe(
       tap((cartId) => console.log('flo2', cartId)),
       filter((cartId) => cartId === this.cartHandlerState.previousCartId),
       tap((cartId) => console.log('flo3', cartId)),
       take(1),
+      switchMap(() => {
+        return forkJoin({
+          activeCartStable: this.checkStableCart(
+            this.cartHandlerState.previousCartId
+          ),
+          staleCartStable: this.checkStableCart(this.cartHandlerState.cartId),
+        });
+      }),
       map(() => true),
       tap(() => this.blockMiniCartComponentUpdate(false))
     );
@@ -353,33 +340,30 @@ export class OpfCartHandlerService {
   loadCartAfterSingleProductTransaction(
     transactionDetails: QuickBuyTransactionDetails,
     orderSuccess = false
-  ): void {
-    console.log('loadCartAfterSingleProductTransaction');
+  ): Observable<boolean> {
     if (transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
-      timer(5000)
-        .pipe(
-          switchMap(() => this.loadOriginalCart()),
-          switchMap((cartLoaded) => {
-            // No initial cart and order placed successfully: don't delete cart as done oob
-            if (!cartLoaded && orderSuccess) {
-              return of(true);
-            }
-            if (
-              cartLoaded &&
-              orderSuccess &&
-              transactionDetails?.product?.code &&
+      return this.loadOriginalCart().pipe(
+        switchMap((cartLoaded) => {
+          // No initial cart and order placed successfully: don't delete cart as done oob
+          if (!cartLoaded && orderSuccess) {
+            return of(true);
+          }
+          if (
+            cartLoaded &&
+            orderSuccess &&
+            transactionDetails?.product?.code &&
+            transactionDetails?.quantity
+          ) {
+            return this.removeProductFromOriginalCart(
+              transactionDetails?.product?.code,
               transactionDetails?.quantity
-            ) {
-              return this.removeProductFromOriginalCart(
-                transactionDetails?.product?.code,
-                transactionDetails?.quantity
-              );
-            }
-            return this.deleteCurrentCart();
-          }),
-          take(1)
-        )
-        .subscribe();
+            );
+          }
+          return this.deleteCurrentCart();
+        }),
+        take(1)
+      );
     }
+    return of(false);
   }
 }

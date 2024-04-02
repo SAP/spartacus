@@ -26,14 +26,7 @@ import {
   ItemCounterService,
 } from '@spartacus/storefront';
 import { Observable, forkJoin, lastValueFrom, of } from 'rxjs';
-import {
-  catchError,
-  finalize,
-  map,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { OpfQuickBuyService } from '../opf-quick-buy.service';
 
 @Injectable({
@@ -364,10 +357,7 @@ export class OpfGooglePayService {
           .catch((err) => {
             // If err.statusCode === 'CANCELED' it means that customer closed popup
             if (err.statusCode === 'CANCELED') {
-              this.deleteAssociatedAddresses();
-              this.opfCartHandlerService.loadCartAfterSingleProductTransaction(
-                this.transactionDetails
-              );
+              this.loadInitialCartAndCleanAddresses();
             }
           });
       });
@@ -380,6 +370,20 @@ export class OpfGooglePayService {
         buttonSizeMode: 'fill',
       })
     );
+  }
+
+  protected loadInitialCartAndCleanAddresses(orderSuccess?: boolean): void {
+    this.opfCartHandlerService
+      .loadCartAfterSingleProductTransaction(
+        this.transactionDetails,
+        orderSuccess
+      )
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.deleteAssociatedAddresses();
+        },
+      });
   }
 
   private handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
@@ -406,14 +410,10 @@ export class OpfGooglePayService {
             ),
             catchError(() => {
               return of(false);
-            }),
-            finalize(() => this.deleteAssociatedAddresses())
+            })
           )
         ).then((isSuccess) => {
-          this.opfCartHandlerService.loadCartAfterSingleProductTransaction(
-            this.transactionDetails,
-            isSuccess
-          );
+          this.loadInitialCartAndCleanAddresses(isSuccess);
           return { transactionState: isSuccess ? 'SUCCESS' : 'ERROR' };
         });
       },
