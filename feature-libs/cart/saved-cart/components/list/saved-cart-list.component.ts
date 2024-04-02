@@ -97,6 +97,27 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   protected observeAndReloadSavedCartOnContextChange() {
     if (this.siteContextService) {
       const contexts: SiteContextType[] = Object.values(SiteContextType);
+      const siteContextService = this.siteContextService;
+
+      if (!contexts.length) {
+        return;
+      }
+
+      this.subscription.add(
+        from(contexts)
+          .pipe(
+            mergeMap((context: SiteContextType) => {
+              return siteContextService.getActiveItem(context).pipe(skip(1));
+            })
+          )
+          .subscribe(() => {
+            this.savedCartService.loadSavedCarts();
+          })
+      );
+    }
+  }
+    if (this.siteContextService) {
+      const contexts: SiteContextType[] = Object.values(SiteContextType);
 
       if (!contexts.length) {
         return;
