@@ -141,7 +141,7 @@ describe('ApplePayService', () => {
       ['initApplePayEventsHandler']
     );
     cartHandlerServiceMock = jasmine.createSpyObj('OpfCartHandlerService', [
-      'deleteCurrentCart',
+      'deleteStaleCart',
       'deleteUserAddresses',
       'addProductToCart',
       'checkStableCart',

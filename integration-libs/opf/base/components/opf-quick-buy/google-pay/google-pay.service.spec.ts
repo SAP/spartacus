@@ -44,7 +44,7 @@ describe('OpfGooglePayService', () => {
       'getProduct',
     ]);
     mockCartHandlerService = jasmine.createSpyObj('OpfCartHandlerService', [
-      'deleteCurrentCart',
+      'deleteStaleCart',
       'deleteUserAddresses',
       'addProductToCart',
       'checkStableCart',

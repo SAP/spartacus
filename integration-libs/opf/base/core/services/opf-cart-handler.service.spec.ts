@@ -537,7 +537,7 @@ describe('OpfCartHandlerService', () => {
     });
   });
 
-  describe('deleteCurrentCart', () => {
+  describe('deleteStaleCart', () => {
     it('should delete the current cart and return true on success', (done) => {
       const mockCartId = '12345';
       const mockUserId = 'user123';
@@ -747,7 +747,7 @@ describe('OpfCartHandlerService', () => {
   });
 
   describe('loadCartAfterSingleProductTransaction', () => {
-    it('should call deleteCurrentCart when order fails', (done) => {
+    it('should call deleteStaleCart when order fails', (done) => {
       const mockCartId = '12345';
       const mockUserId = 'user123';
       const mockPreviousCartId = 'previousCartId';
@@ -827,7 +827,7 @@ describe('OpfCartHandlerService', () => {
         });
     });
 
-    it('should not deleteCurrentCart when order is successfull and initial cart empty', () => {
+    it('should not deleteStaleCart when order is successfull and initial cart empty', () => {
       const mockCartId = '12345';
       const mockUserId = 'user123';
       const mockPreviousCartId = '';
