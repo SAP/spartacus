@@ -366,17 +366,17 @@ export class ApplePayService {
     const result: ApplePayJS.ApplePayPaymentAuthorizationResult = {
       status: this.applePaySession.statusSuccess,
     };
-    let _success: boolean;
+    let orderSuccess: boolean;
     return this.placeOrderAfterPayment(event.payment).pipe(
       switchMap((success) => {
-        _success = success;
+        orderSuccess = success;
         return this.cartHandlerService.loadCartAfterSingleProductTransaction(
           this.transactionDetails,
           success
         );
       }),
       map(() => {
-        return _success
+        return orderSuccess
           ? result
           : { ...result, status: this.applePaySession.statusFailure };
       }),
