@@ -172,15 +172,19 @@ export class OpfCartHandlerService {
       userId: this.cartHandlerState.userId,
       extraData: { active: true },
     });
-    return forkJoin({
-      activeCartStable: this.checkStableCart(
-        this.cartHandlerState.previousCartId
-      ),
-      staleCartStable: this.checkStableCart(this.cartHandlerState.cartId),
-    }).pipe(
-      switchMap(() => this.activeCartFacade.getActiveCartId()),
+    return this.activeCartFacade.getActiveCartId().pipe(
+      tap((cartId) => console.log('flo2', cartId)),
       filter((cartId) => cartId === this.cartHandlerState.previousCartId),
+      tap((cartId) => console.log('flo3', cartId)),
       take(1),
+      switchMap(() => {
+        return forkJoin({
+          activeCartStable: this.checkStableCart(
+            this.cartHandlerState.previousCartId
+          ),
+          staleCartStable: this.checkStableCart(this.cartHandlerState.cartId),
+        });
+      }),
       map(() => true),
       tap(() => this.blockMiniCartComponentUpdate(false))
     );
@@ -336,31 +340,30 @@ export class OpfCartHandlerService {
   loadCartAfterSingleProductTransaction(
     transactionDetails: QuickBuyTransactionDetails,
     orderSuccess = false
-  ): void {
+  ): Observable<boolean> {
     if (transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
-      this.loadOriginalCart()
-        .pipe(
-          switchMap((cartLoaded) => {
-            // No initial cart and order placed successfully: don't delete cart as done oob
-            if (!cartLoaded && orderSuccess) {
-              return of(true);
-            }
-            if (
-              cartLoaded &&
-              orderSuccess &&
-              transactionDetails?.product?.code &&
+      return this.loadOriginalCart().pipe(
+        switchMap((cartLoaded) => {
+          // No initial cart and order placed successfully: don't delete cart as done oob
+          if (!cartLoaded && orderSuccess) {
+            return of(true);
+          }
+          if (
+            cartLoaded &&
+            orderSuccess &&
+            transactionDetails?.product?.code &&
+            transactionDetails?.quantity
+          ) {
+            return this.removeProductFromOriginalCart(
+              transactionDetails?.product?.code,
               transactionDetails?.quantity
-            ) {
-              return this.removeProductFromOriginalCart(
-                transactionDetails?.product?.code,
-                transactionDetails?.quantity
-              );
-            }
-            return this.deleteCurrentCart();
-          }),
-          take(1)
-        )
-        .subscribe();
+            );
+          }
+          return this.deleteCurrentCart();
+        }),
+        take(1)
+      );
     }
+    return of(false);
   }
 }
