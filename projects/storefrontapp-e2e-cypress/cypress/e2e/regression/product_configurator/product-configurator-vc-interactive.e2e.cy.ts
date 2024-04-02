@@ -8,6 +8,7 @@ import * as configuration from '../../../helpers/product-configurator';
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
+import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as common from '../../../helpers/common';
 
 const electronicsShop = 'electronics-spa';
@@ -99,6 +100,13 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       common.goToPDPage(electronicsShop, testProduct);
       configurationVc.clickOnConfigureBtnInCatalog(testProduct);
+    });
+
+    it('should be able to navigate from the add-to-cart dialog on the product detail page', () => {
+      clickAllowAllFromBanner();
+      common.goToPDPage(electronicsShop, testProduct);
+      common.clickOnAddToCartBtnOnPD();
+      configurationCart.clickOnEditConfigurationLinkInAddToCartDialog();
     });
 
     it('should be able to navigate from the overview page', () => {

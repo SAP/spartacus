@@ -24,6 +24,23 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
 }
 
 /**
+ * Clicks on the 'Edit Configuration' link in add-to-cart dialog.
+ *
+ */
+export function clickOnEditConfigurationLinkInAddToCartDialog(): void {
+  cy.get('cx-added-to-cart-dialog').within(() => {
+    cy.get('cx-configurator-cart-entry-info').within(() => {
+      cy.get('cx-configure-cart-entry')
+        .find('a:contains("Edit")')
+        .click()
+        .then(() => {
+          cy.location('pathname').should('contain', '/cartEntry/entityKey/');
+        });
+    });
+  });
+}
+
+/**
  * Clicks on the 'Display Configuration' link in cart/order or quote for a certain item.
  *
  * @param {number} cartItemIndex - Index of cart item
