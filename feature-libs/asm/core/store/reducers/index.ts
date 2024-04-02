@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { InjectionToken, Provider } from '@angular/core';
 import {
   Action,
@@ -5,16 +11,24 @@ import {
   ActionReducerMap,
   MetaReducer,
 } from '@ngrx/store';
+import { CustomerSearchPage } from '@spartacus/asm/root';
 import { StateUtils } from '@spartacus/core';
-import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmActions } from '../actions';
-import { AsmState, CUSTOMER_SEARCH_DATA } from '../asm-state';
+import {
+  AsmState,
+  CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA,
+  CUSTOMER_SEARCH_DATA,
+} from '../asm-state';
 import * as fromAsmUiReducer from './asm-ui.reducer';
 
 export function getReducers(): ActionReducerMap<AsmState> {
   return {
     customerSearchResult:
       StateUtils.loaderReducer<CustomerSearchPage>(CUSTOMER_SEARCH_DATA),
+    customerListCustomersSearchResult:
+      StateUtils.loaderReducer<CustomerSearchPage>(
+        CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA
+      ),
     asmUi: fromAsmUiReducer.reducer,
   };
 }

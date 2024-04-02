@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { addProductToCart as addToCart } from './applied-promotions';
 import { login } from './auth-forms';
 import * as cart from './cart';
@@ -48,11 +54,11 @@ export function getItem(product, position: ItemList) {
   if (position === ItemList.Cart) {
     return cy
       .get('cx-cart-details > .cart-details-wrapper > cx-cart-item-list')
-      .contains('cx-cart-item', product.code);
+      .contains('.cx-item-list-row', product.code);
   } else {
     return cy
       .get('cx-save-for-later > .cart-details-wrapper > cx-cart-item-list')
-      .contains('cx-cart-item', product.code);
+      .contains('.cx-item-list-row', product.code);
   }
 }
 
@@ -83,7 +89,7 @@ export function moveItem(
   const currentPosition =
     targetPosition === ItemList.Cart ? ItemList.SaveForLater : ItemList.Cart;
   getItem(product, currentPosition).within(() => {
-    cy.get('.cx-sfl-btn > .link').click();
+    cy.get('button.cx-sfl-btn').click();
   });
   if (!isAnonymous) {
     cy.wait(['@refresh_cart', '@refresh_selectivecart']);
@@ -93,7 +99,7 @@ export function moveItem(
 export function removeItem(product, position: ItemList) {
   stubForCartRefresh();
   getItem(product, position).within(() => {
-    cy.get('.cx-remove-btn > .link')
+    cy.get('button.cx-remove-btn')
       .should('not.be.disabled')
       .then((el) => {
         cy.wrap(el).click();
@@ -172,7 +178,7 @@ export function testLoggedInUserSaveForLater() {
         addProductToCart(products[2]);
         moveItem(products[2], ItemList.SaveForLater);
         validateCart(0, 1);
-        cart.logOutAndEmptyCart();
+        cart.logOutAndNavigateToEmptyCart();
         const loginPage = waitForPage('/login', 'getLoginPage');
         cy.visit('/login');
         cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);

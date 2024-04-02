@@ -1,4 +1,6 @@
 %cx-cart-item-validation-warning {
+  width: 100%;
+
   cx-icon {
     font-size: 20px;
   }
@@ -9,7 +11,7 @@
 
   .alert {
     justify-content: flex-start;
-    text-align: var(--cx-text-align, left);
+    text-align: var(--cx-text-align, start);
 
     .close {
       right: 1.75rem;

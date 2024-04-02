@@ -11,21 +11,24 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_EPD_VISUALIZATION_FEATURE,
-  SpartacusOptions,
+  EPD_VISUALIZATION_FEATURE_NAME,
+  SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_SCHEMATICS,
+  SpartacusEpdVisualizationOptions,
+  SpartacusOptions,
+  epdFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
-import { Schema as SpartacusEpdVisualizationOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/epd-visualization/epd-visualization-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/epd-visualization.scss';
 
 describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_EPD_VISUALIZATION,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -42,6 +45,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -60,7 +64,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
 
   const visualizationFeatureOptions: SpartacusEpdVisualizationOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_EPD_VISUALIZATION_FEATURE],
+    features: [EPD_VISUALIZATION_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -72,53 +76,53 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       )
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        libraryNoFeaturesOptions,
+        appTree
+      );
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(epdFeatureModulePath)).toBeFalsy();
     });
   });
 
   describe('SAP EPD Visualization feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', visualizationFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          visualizationFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(epdFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -166,17 +170,15 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...visualizationFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...visualizationFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(epdFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
@@ -185,9 +187,11 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
   describe('SAP EPD Visualization feature - No compilerOptions in tsconfig', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', visualizationFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          visualizationFeatureOptions,
+          appTree
+        );
       });
 
       it('should install necessary Spartacus libraries', () => {
@@ -222,17 +226,15 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...visualizationFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...visualizationFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(epdFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });

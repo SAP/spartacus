@@ -1,9 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { cheapProduct, user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import * as checkoutAsPersistentUser from './checkout-as-persistent-user';
 import * as checkout from './checkout-flow';
 import {
   interceptCheckoutB2CDetailsEndpoint,
+  verifyReviewOrderPage,
   waitForPage,
   waitForProductPage,
 } from './checkout-flow';
@@ -131,7 +138,7 @@ export function verifyProductInWishList(product: TestProduct) {
   });
   waitForGetWishList();
   cy.get('cx-wish-list')
-    .contains('cx-wish-list-item', product.name)
+    .contains('.cx-item-list-row', product.name)
     .within(() => {
       cy.get('.cx-code').should('contain', product.code);
     });
@@ -140,7 +147,7 @@ export function verifyProductInWishList(product: TestProduct) {
 export function removeProductFromWishListPage(product: TestProduct) {
   waitForGetWishList();
   getWishListItem(product.name).within(() => {
-    cy.get('.cx-return-button>button').click();
+    cy.get('button.cx-remove-btn').click();
   });
   cy.wait('@get_wish_list');
   getWishListItem(product.name).should('not.exist');
@@ -217,7 +224,7 @@ export function goToProductPageFromWishList(product: TestProduct) {
   const productPage = waitForProductPage(product.code, 'productPage');
   cy.get('cx-wish-list').should('be.visible');
   cy.get('cx-wish-list')
-    .contains('cx-wish-list-item', product.name)
+    .contains('.cx-item-list-row', product.name)
     .within(() => {
       cy.get('.cx-name>.cx-link').click();
     });
@@ -248,7 +255,7 @@ function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
   cy.location('pathname').should('match', /\/cart$/);
 
   for (const product of checkoutProducts) {
-    cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
+    cy.get('cx-cart-item-list').contains('.cx-item-list-row', product.code);
   }
 }
 
@@ -276,7 +283,7 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
@@ -299,10 +306,10 @@ function fillPaymentForm(
 }
 
 function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
 
   for (const product of checkoutProducts) {
-    cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
+    cy.get('cx-cart-item-list').contains('.cx-item-list-row', product.code);
   }
 
   cy.findByText('Terms & Conditions')
@@ -328,14 +335,14 @@ function verifyOrderConfirmationPage(checkoutProducts: TestProduct[]) {
   cy.get('h2').should('contain', 'Thank you for your order!');
 
   for (const product of checkoutProducts) {
-    cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
+    cy.get('cx-cart-item-list').contains('.cx-item-list-row', product.code);
   }
 }
 
 function getCartItem(name: string) {
-  return cy.get('cx-cart-item-list').contains('cx-cart-item', name);
+  return cy.get('cx-cart-item-list').contains('.cx-item-list-row', name);
 }
 
 function getWishListItem(name: string) {
-  return cy.get('cx-wish-list').contains('cx-wish-list-item', name);
+  return cy.get('cx-wish-list').contains('.cx-item-list-row', name);
 }

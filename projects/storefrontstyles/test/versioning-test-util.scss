@@ -1,0 +1,72 @@
+@mixin shouldDisplayForRange($from, $to: 0) {
+  @include it('should display for range: #{$from} , #{$to}       ') {
+    @include assert {
+      @include output {
+        .test {
+          @include forVersion($from, $to) {
+            color: #fff;
+          }
+        }
+      }
+      @include expect {
+        .test {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+@mixin shouldNOTDisplayForRange($from, $to) {
+  @include it('should NOT display for range: #{$from} , #{$to}      ') {
+    @include assert {
+      @include output {
+        .test {
+          @include forVersion($from, $to) {
+            color: #fff;
+          }
+        }
+      }
+      @include expect {
+        .test {
+        }
+      }
+    }
+  }
+}
+
+@mixin shouldDisplayForVersion($from) {
+  @include it('should display for version: #{$from}') {
+    @include assert {
+      @include output {
+        .test {
+          @include forVersion($from) {
+            color: #fff;
+          }
+        }
+      }
+      @include expect {
+        .test {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+@mixin shouldNOTDisplayForVersion($from) {
+  @include it('should NOT display for version: #{$from}') {
+    @include assert {
+      @include output {
+        .test {
+          @include forVersion($from) {
+            color: #fff;
+          }
+        }
+      }
+      @include expect {
+        .test {
+        }
+      }
+    }
+  }
+}

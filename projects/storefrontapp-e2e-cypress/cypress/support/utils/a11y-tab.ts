@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const focusableSelectors = [
   `a[href]:not([tabindex='-1']):not([hidden])`,
   `area[href]:not([tabindex='-1']):not([hidden])`,

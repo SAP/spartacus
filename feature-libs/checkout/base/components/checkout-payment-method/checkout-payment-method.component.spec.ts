@@ -2,20 +2,22 @@ import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
+  PaymentDetails,
   QueryState,
   UserPaymentService,
 } from '@spartacus/core';
 import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
 import createSpy = jasmine.createSpy;
@@ -73,17 +75,17 @@ const mockPayments: PaymentDetails[] = [
 class MockUserPaymentService implements Partial<UserPaymentService> {
   loadPaymentMethods(): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
-    return of();
+    return EMPTY;
   }
   getPaymentMethodsLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  setPaymentDetails = createSpy().and.returnValue(of());
+  setPaymentDetails = createSpy().and.returnValue(EMPTY);
   createPaymentDetails(_paymentDetails: PaymentDetails): Observable<unknown> {
-    return of();
+    return EMPTY;
   }
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
@@ -91,7 +93,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   paymentProcessSuccess() {}
 
   getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
-    return of();
+    return EMPTY;
   }
 }
 class MockCheckoutDeliveryFacade
@@ -148,6 +150,10 @@ class MockPaymentFormComponent {
   paymentMethodsCount: number;
   @Input()
   setAsDefaultField: boolean;
+  @Input()
+  loading: boolean;
+  @Input()
+  paymentDetails?: PaymentDetails;
 }
 
 @Component({
@@ -193,6 +199,12 @@ describe('CheckoutPaymentMethodComponent', () => {
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '6.3' },
+            },
+          },
         ],
       }).compileComponents();
 

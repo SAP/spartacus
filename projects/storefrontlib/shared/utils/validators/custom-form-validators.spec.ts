@@ -1,11 +1,15 @@
-import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+} from '@angular/forms';
 import {
   controlsMustMatch,
   CustomFormValidators,
 } from './custom-form-validators';
 
 describe('FormValidationService', () => {
-  let email: FormControl;
+  let email: UntypedFormControl;
   let emailError: ValidationErrors;
   let passwordError: ValidationErrors;
   let starRatingEmpty: ValidationErrors;
@@ -14,21 +18,21 @@ describe('FormValidationService', () => {
   let patternError: ValidationErrors;
   let passwordsMustMatchErrorName: string;
   let emailsMustMatchErrorName: string;
-  let form: FormGroup;
+  let form: UntypedFormGroup;
 
   beforeEach(() => {
-    email = new FormControl();
+    email = new UntypedFormControl();
 
-    form = new FormGroup({
-      password: new FormControl(),
-      passwordconf: new FormControl(),
-      rating: new FormControl(),
-      email: new FormControl(),
-      emailconf: new FormControl(),
-      budget: new FormControl(),
-      code: new FormControl(),
-      startDate: new FormControl(),
-      endDate: new FormControl(),
+    form = new UntypedFormGroup({
+      password: new UntypedFormControl(),
+      passwordconf: new UntypedFormControl(),
+      rating: new UntypedFormControl(),
+      email: new UntypedFormControl(),
+      emailconf: new UntypedFormControl(),
+      budget: new UntypedFormControl(),
+      code: new UntypedFormControl(),
+      startDate: new UntypedFormControl(),
+      endDate: new UntypedFormControl(),
     });
 
     emailError = {

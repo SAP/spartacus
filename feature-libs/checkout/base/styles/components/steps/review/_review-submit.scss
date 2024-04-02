@@ -167,18 +167,17 @@ cx-place-order {
         margin: 0;
         top: 1rem;
 
-        @include media-breakpoint-down(sm) {
+        @include media-breakpoint-down(md) {
           top: 0.5rem;
         }
       }
 
       &-label {
         padding: 0;
-        margin-top: 0;
+        margin-top: 0.3rem;
         margin-inline-end: 0;
         margin-bottom: 0.5rem;
-        margin-inline-start: 3rem;
-        margin: 0.3rem 0 0.5rem 2rem;
+        margin-inline-start: 2rem;
       }
     }
   }

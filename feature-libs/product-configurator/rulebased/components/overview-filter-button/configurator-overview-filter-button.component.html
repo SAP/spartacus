@@ -1,0 +1,37 @@
+<ng-container
+  *ngIf="
+    configurationWithOv$ | async as configurationWithOv;
+    else ghostFilterButton
+  "
+>
+  <button
+    #filterButton
+    class="btn btn-secondary cx-config-filter-button"
+    tabindex="0"
+    (click)="openFilterModal(configurationWithOv)"
+    title="{{
+      (getNumFilters(configurationWithOv.overview) > 0
+        ? 'configurator.a11y.filterOverviewWithCount'
+        : 'configurator.a11y.filterOverview'
+      )
+        | cxTranslate
+          : { numAppliedFilters: getNumFilters(configurationWithOv.overview) }
+    }}"
+  >
+    {{
+      (getNumFilters(configurationWithOv.overview) > 0
+        ? 'configurator.button.filterOverviewWithCount'
+        : 'configurator.button.filterOverview'
+      )
+        | cxTranslate
+          : { numAppliedFilters: getNumFilters(configurationWithOv.overview) }
+    }}
+  </button>
+  <cx-configurator-overview-filter-bar
+    [config]="configurationWithOv"
+  ></cx-configurator-overview-filter-bar>
+</ng-container>
+
+<ng-template #ghostFilterButton>
+  <div class="cx-ghost-filter-button ghost"></div>
+</ng-template>

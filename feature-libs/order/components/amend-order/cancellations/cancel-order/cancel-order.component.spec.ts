@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -9,9 +9,9 @@ import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderComponent } from './cancel-order.component';
 
-const mockForm = new FormGroup({
-  orderCode: new FormControl('123'),
-  entries: new FormControl([]),
+const mockForm = new UntypedFormGroup({
+  orderCode: new UntypedFormControl('123'),
+  entries: new UntypedFormControl([]),
 });
 
 class MockOrderAmendService {
@@ -35,7 +35,7 @@ class MockCancelOrReturnItemsComponent {
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
-  @Input() amendOrderForm: FormGroup;
+  @Input() amendOrderForm: UntypedFormGroup;
   @Input() backRoute: string;
   @Input() forwardRoute: string;
 }

@@ -3,11 +3,11 @@ cx-add-to-saved-cart {
 
   .cx-add-to-saved-cart-container {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     margin-top: 3rem;
 
     .cx-action-link {
-      &:last-child {
+      &:nth-child(n + 2) {
         margin-inline-end: 0;
         &:before {
           content: '|';
@@ -20,9 +20,33 @@ cx-add-to-saved-cart {
       }
     }
 
+    // TODO: (CXSPA-5709) Remove feature flag next major
+    @include forFeature('a11yExpandedFocusIndicator') {
+      .cx-action-link {
+        &:nth-child(n + 2) {
+          margin-inline-end: unset;
+          position: relative;
+          margin-inline-start: 1rem;
+          &:before {
+            display: unset;
+            position: absolute;
+            left: -0.75rem;
+            margin-inline-start: unset;
+            margin-inline-end: unset;
+          }
+        }
+      }
+    }
+
     @include media-breakpoint-up(sm) {
       justify-content: flex-end;
     }
+  }
+
+  a.disabled {
+    color: gray;
+    cursor: not-allowed;
+    text-decoration: underline;
   }
 
   button {

@@ -1,24 +1,27 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-  ActiveCartFacade,
-  CardType,
-  PaymentDetails,
-} from '@spartacus/cart/base/root';
-import {
+  CheckoutPaymentCardTypesQueryReloadEvent,
+  CheckoutPaymentCardTypesQueryResetEvent,
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
 } from '@spartacus/checkout/base/root';
 import {
+  CardType,
   Command,
   CommandService,
   CommandStrategy,
-  CurrencySetEvent,
   EventService,
-  LanguageSetEvent,
-  LoadUserPaymentMethodsEvent,
   OCC_USER_ID_ANONYMOUS,
+  PaymentDetails,
   Query,
   QueryNotifier,
   QueryService,
@@ -32,16 +35,24 @@ import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkou
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
   /**
-   * Returns the reload triggers for the cardTypes query
+   * Returns the reload events for the cardTypes query
    */
-  protected getCardTypesReloadTriggers(): QueryNotifier[] {
-    return [LanguageSetEvent, CurrencySetEvent];
+  protected getCheckoutPaymentCardTypesQueryReloadEvents(): QueryNotifier[] {
+    return [CheckoutPaymentCardTypesQueryReloadEvent];
   }
 
-  protected cardTypesQuery: Query<CardType[]> = this.queryService.create<
+  /**
+   * Returns the reset events for the cardTypes query
+   */
+  protected getCheckoutPaymentCardTypesQueryResetEvents(): QueryNotifier[] {
+    return [CheckoutPaymentCardTypesQueryResetEvent];
+  }
+
+  protected paymentCardTypesQuery: Query<CardType[]> = this.queryService.create<
     CardType[]
-  >(() => this.checkoutPaymentConnector.getCardTypes(), {
-    reloadOn: this.getCardTypesReloadTriggers(),
+  >(() => this.checkoutPaymentConnector.getPaymentCardTypes(), {
+    reloadOn: this.getCheckoutPaymentCardTypesQueryReloadEvents(),
+    resetOn: this.getCheckoutPaymentCardTypesQueryResetEvents(),
   });
 
   protected createPaymentMethodCommand: Command<PaymentDetails, unknown> =
@@ -52,22 +63,12 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
             this.checkoutPaymentConnector
               .createPaymentDetails(userId, cartId, paymentDetails)
               .pipe(
-                tap((response) => {
+                tap((response) =>
                   this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      paymentDetails: response,
-                    },
+                    { userId, cartId, paymentDetails: response },
                     CheckoutPaymentDetailsCreatedEvent
-                  );
-                  if (userId !== OCC_USER_ID_ANONYMOUS) {
-                    this.eventService.dispatch(
-                      { userId },
-                      LoadUserPaymentMethodsEvent
-                    );
-                  }
-                })
+                  )
+                )
               )
           )
         ),
@@ -140,12 +141,14 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     );
   }
 
-  getCardTypesState(): Observable<QueryState<CardType[] | undefined>> {
-    return this.cardTypesQuery.getState();
+  getPaymentCardTypesState(): Observable<QueryState<CardType[] | undefined>> {
+    return this.paymentCardTypesQuery.getState();
   }
 
-  getCardTypes(): Observable<CardType[]> {
-    return this.getCardTypesState().pipe(map((state) => state.data ?? []));
+  getPaymentCardTypes(): Observable<CardType[]> {
+    return this.getPaymentCardTypesState().pipe(
+      map((state) => state.data ?? [])
+    );
   }
 
   getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {

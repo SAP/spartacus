@@ -9,11 +9,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
+
+import { StoreModule } from '@ngrx/store';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
+import { getConfiguratorReducers } from '../../../../core/state/reducers';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
@@ -22,6 +31,7 @@ import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/co
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
 
+const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
@@ -53,6 +63,13 @@ export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
 
+let showRequiredErrorMessage: boolean;
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(showRequiredErrorMessage);
+  }
+}
+
 describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleDropdownComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionBundleDropdownComponent>;
@@ -61,7 +78,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   const nameFake = 'nameAttribute';
   const attrCode = 1234;
   const groupId = 'theGroupId';
-  const selectedSingleValue = '0';
+  const selectedSingleValue = Configurator.RetractValueCode;
   let values: Configurator.Value[];
 
   const createImage = (url: string, altText: string): Configurator.Image => {
@@ -93,6 +110,84 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     return value;
   };
 
+  function createComponentWithData(
+    isCartEntryOrGroupVisited: boolean = true
+  ): ConfiguratorAttributeSingleSelectionBundleDropdownComponent {
+    showRequiredErrorMessage = isCartEntryOrGroupVisited;
+
+    fixture = TestBed.createComponent(
+      ConfiguratorAttributeSingleSelectionBundleDropdownComponent
+    );
+
+    values = [
+      createValue(
+        '',
+        [],
+        '',
+        1,
+        true,
+        Configurator.RetractValueCode,
+        'No Selected'
+      ),
+      createValue(
+        'Hih',
+        [createImage('url', 'alt')],
+        'valueName',
+        1,
+        true,
+        '1111',
+        VALUE_DISPLAY_NAME
+      ),
+      createValue(
+        'Huh',
+        [createImage('url', 'alt')],
+        'valueName',
+        1,
+        false,
+        '2222',
+        VALUE_DISPLAY_NAME
+      ),
+      createValue(
+        'Hah',
+        [createImage('url', 'alt')],
+        'valueName',
+        1,
+        false,
+        '3333',
+        VALUE_DISPLAY_NAME
+      ),
+      createValue(
+        'Heh',
+        [createImage('url', 'alt')],
+        'valueName',
+        1,
+        false,
+        '4444',
+        VALUE_DISPLAY_NAME
+      ),
+    ];
+
+    component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
+
+    component.selectionValue = values[0];
+
+    component.attribute = {
+      label: 'Label of attribute',
+      uiType: Configurator.UiType.DROPDOWN_PRODUCT,
+      attrCode,
+      groupId,
+      name: nameFake,
+      required: true,
+      incomplete: true,
+      selectedSingleValue,
+      values,
+    };
+
+    fixture.detectChanges();
+    return component;
+  }
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -103,6 +198,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           MockConfiguratorAttributeQuantityComponent,
           MockConfiguratorPriceComponent,
           MockFocusDirective,
+          MockFeatureLevelDirective,
         ],
         imports: [
           ReactiveFormsModule,
@@ -110,6 +206,19 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           I18nTestingModule,
           RouterTestingModule,
           UrlTestingModule,
+          StoreModule.forRoot({}),
+          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ],
+
+        providers: [
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
+          },
         ],
       })
         .overrideComponent(
@@ -134,81 +243,36 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     })
   );
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(
-      ConfiguratorAttributeSingleSelectionBundleDropdownComponent
-    );
-
-    values = [
-      createValue('', [], '', 1, true, '0', 'No Selected'),
-      createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        [createImage('url', 'alt')],
-        'valueName',
-        1,
-        true,
-        '1111',
-        'Lorem Ipsum Dolor'
-      ),
-      createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        [createImage('url', 'alt')],
-        'valueName',
-        1,
-        false,
-        '2222',
-        'Lorem Ipsum Dolor'
-      ),
-      createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        [createImage('url', 'alt')],
-        'valueName',
-        1,
-        false,
-        '3333',
-        'Lorem Ipsum Dolor'
-      ),
-      createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        [createImage('url', 'alt')],
-        'valueName',
-        1,
-        false,
-        '4444',
-        'Lorem Ipsum Dolor'
-      ),
-    ];
-
-    component = fixture.componentInstance;
-    htmlElem = fixture.nativeElement;
-
-    component.selectionValue = values[0];
-
-    component.attribute = {
-      label: 'Label of attribute',
-      uiType: Configurator.UiType.DROPDOWN_PRODUCT,
-      attrCode,
-      groupId,
-      name: nameFake,
-      required: true,
-      selectedSingleValue,
-      values,
-    };
-
-    fixture.detectChanges();
+  afterEach(() => {
+    document.body.removeChild(htmlElem);
   });
 
   it('should create', () => {
-    component.ngOnInit();
+    createComponentWithData();
     expect(component).toBeTruthy();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'select.cx-required-error-msg'
+    );
+  });
+
+  it('should render an empty component in case showRequiredErrorMessage$ is `false`', () => {
+    createComponentWithData(false).ngOnInit();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'select.cx-required-error-msg'
+    );
   });
 
   it('should set selectedSingleValue on init', () => {
-    component.ngOnInit();
+    createComponentWithData().ngOnInit();
     expect(component.attributeDropDownForm.value).toEqual(selectedSingleValue);
   });
 
   it('should show product card when product selected', () => {
+    createComponentWithData();
     component.selectionValue = values[1];
     fixture.detectChanges();
 
@@ -220,6 +284,10 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   });
 
   describe('quantity at attribute level', () => {
+    beforeEach(() => {
+      createComponentWithData().ngOnInit();
+    });
+
     it('should display attribute quantity when dataType is with attribute quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
@@ -250,10 +318,10 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       checkQuantityStepperNotDisplayed(htmlElem);
     });
 
-    function checkQuantityStepperNotDisplayed(htmlElem: HTMLElement) {
+    function checkQuantityStepperNotDisplayed(htmlEl: HTMLElement) {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
-        htmlElem,
+        htmlEl,
         'cx-configurator-attribute-quantity'
       );
     }
@@ -268,7 +336,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           0,
           undefined,
           undefined,
-          'configurator.a11y.listbox count:' + component.attribute.values.length
+          'configurator.a11y.listbox count:' +
+            component.attribute.values?.length
         );
       });
 
@@ -295,10 +364,59 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           'configurator.a11y.selectedValueOfAttributeFull attribute:' +
             component.attribute.label +
             ' value:' +
-            component.attribute.values[1].valueDisplay,
-          component.attribute.values[1].valueDisplay
+            VALUE_DISPLAY_NAME,
+          VALUE_DISPLAY_NAME
         );
       });
+    });
+  });
+
+  describe('isNotRetractValue', () => {
+    beforeEach(() => {
+      createComponentWithData().ngOnInit();
+    });
+
+    it('should return `true` in case value is `###RETRACT_VALUE_CODE###`', () => {
+      expect(component.isNotRetractValue()).toBe(false);
+    });
+
+    it('should return `true` in case selectionValue is `undefined`', () => {
+      component.selectionValue = undefined;
+      fixture.detectChanges();
+      expect(component.isNotRetractValue()).toBe(false);
+    });
+
+    it('should return `true` in case value is not `###RETRACT_VALUE_CODE###`', () => {
+      component.selectionValue = values[1];
+      fixture.detectChanges();
+      expect(component.isNotRetractValue()).toBe(true);
+    });
+  });
+
+  describe('isRetractValue', () => {
+    beforeEach(() => {
+      createComponentWithData().ngOnInit();
+    });
+
+    it('should return `true` in case valueCode is `###RETRACT_VALUE_CODE###`', () => {
+      expect(component.isRetractValue(Configurator.RetractValueCode)).toBe(
+        true
+      );
+    });
+
+    it('should return `false` in case value is not `###RETRACT_VALUE_CODE###`', () => {
+      expect(component.isRetractValue('8624')).toBe(false);
+    });
+  });
+
+  describe('selectedValue', () => {
+    beforeEach(() => {
+      createComponentWithData().ngOnInit();
+    });
+
+    it('should throw error in case no selection has been made', () => {
+      component.selectionValue = undefined;
+      expect(() => component.selectedValue).toThrow();
     });
   });
 });

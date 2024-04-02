@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT,
   CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE,

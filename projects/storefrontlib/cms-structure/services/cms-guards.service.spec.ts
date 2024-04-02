@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
@@ -20,29 +19,31 @@ describe('CmsGuardsService', () => {
     getGuards = jasmine.createSpy('getGuards').and.returnValue(guards);
   }
 
-  class PositiveGuard implements CanActivate {
+  class PositiveGuard {
     canActivate = jasmine
       .createSpy('PositiveGuard.canActivate')
       .and.returnValue(true);
   }
 
-  class PositiveGuardObservable implements CanActivate {
+  class PositiveGuardObservable {
     canActivate() {
       return of(true);
     }
   }
 
-  class NegativeGuard implements CanActivate {
+  class NegativeGuard {
     canActivate() {
       return false;
     }
   }
 
-  class UrlTreeGuard implements CanActivate {
+  class UrlTreeGuard {
     canActivate() {
       return mockUrlTree;
     }
   }
+
+  class NotGuard {}
 
   const mockActivatedRouteSnapshot: ActivatedRouteSnapshot =
     'ActivatedRouteSnapshot ' as any;
@@ -135,6 +136,69 @@ describe('CmsGuardsService', () => {
         .pipe(take(1))
         .subscribe((res) => (result = res));
       expect(result).toEqual(mockUrlTree);
+    });
+
+    it('should throw error if some guard is not CanActivate', () => {
+      guards.push(PositiveGuard, NotGuard, PositiveGuardObservable);
+
+      expect(() => {
+        service.cmsPageCanActivate(
+          [],
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        );
+      }).toThrowError('Invalid CanActivate guard in cmsMapping');
+    });
+  });
+
+  describe('canActivateGuard', () => {
+    it('should resolve to true if guard resolves to true', () => {
+      let result;
+      service
+        .canActivateGuard(
+          PositiveGuard,
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        )
+        .pipe(take(1))
+        .subscribe((res) => (result = res));
+      expect(result).toEqual(true);
+    });
+
+    it('should resolve to false if guard resolves to false', () => {
+      let result;
+      service
+        .canActivateGuard(
+          NegativeGuard,
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        )
+        .pipe(take(1))
+        .subscribe((res) => (result = res));
+      expect(result).toEqual(false);
+    });
+
+    it('should resolve to UrlTree if guard resolves to UrlTree', () => {
+      let result;
+      service
+        .canActivateGuard(
+          UrlTreeGuard,
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        )
+        .pipe(take(1))
+        .subscribe((res) => (result = res));
+      expect(result).toEqual(mockUrlTree);
+    });
+
+    it('should throw error if guard is not CanActivate', () => {
+      expect(() => {
+        service.canActivateGuard(
+          NotGuard,
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        );
+      }).toThrowError('Invalid CanActivate guard in cmsMapping');
     });
   });
 });

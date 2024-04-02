@@ -1,5 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { product } from '../sample-data/checkout-flow';
 import { addProductToCart as addToCart } from './applied-promotions';
+import { verifyReviewOrderPage } from './checkout-flow';
 
 export const username = 'test-user-with-orders@sap.cx.com';
 export const password = 'pw4all';
@@ -90,8 +97,8 @@ export function addPaymentMethod() {
           accountHolderName: 'test user',
           cardNumber: '4111111111111111',
           cardType: { code: 'visa' },
-          expiryMonth: '01',
-          expiryYear: '2125',
+          expiryMonth: '12',
+          expiryYear: '2027',
           defaultPayment: true,
           saved: true,
           billingAddress: {
@@ -124,7 +131,7 @@ export function selectShippingAddress() {
   cy.findByText(/proceed to checkout/i).click();
   cy.wait('@getShippingPage');
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
@@ -179,7 +186,7 @@ export function selectPaymentMethod() {
 }
 
 export function verifyAndPlaceOrder() {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')

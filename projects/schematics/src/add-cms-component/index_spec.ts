@@ -16,10 +16,11 @@ import {
   CONFIG_MODULE_CLASS,
   UTF_8,
 } from '../shared/constants';
+import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 import {
+  InsertDirection,
   commitChanges,
   getTsSourceFile,
-  InsertDirection,
 } from '../shared/utils/file-utils';
 import { CxCmsComponentSchema } from './schema';
 
@@ -78,7 +79,10 @@ function assertContentDoesNotExist(
 }
 
 describe('add-cms-component', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SCHEMATICS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -95,6 +99,7 @@ describe('add-cms-component', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const defaultOptions: SpartacusOptions = {
@@ -112,31 +117,33 @@ describe('add-cms-component', () => {
   } as CxCmsComponentSchema;
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        ANGULAR_SCHEMATICS,
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        ANGULAR_SCHEMATICS,
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      ANGULAR_SCHEMATICS,
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      ANGULAR_SCHEMATICS,
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
   });
 
   describe('when generating a cms module and a component', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('add-cms-component', commonCmsOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'add-cms-component',
+        commonCmsOptions,
+        appTree
+      );
     });
 
     it('should generate the specified component and cms module', async () => {
@@ -223,33 +230,32 @@ describe('add-cms-component', () => {
         name: 'dummy',
         module: moduleName,
         export: true,
+        standalone: false,
       };
       const modifiedOptions: CxCmsComponentSchema = {
         ...commonCmsOptions,
         declareCmsModule: moduleName,
       };
 
-      appTree = await schematicRunner
-        .runExternalSchematicAsync(
-          ANGULAR_SCHEMATICS,
-          'module',
-          moduleOptions,
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runExternalSchematic(
+        ANGULAR_SCHEMATICS,
+        'module',
+        moduleOptions,
+        appTree
+      );
 
-      appTree = await schematicRunner
-        .runExternalSchematicAsync(
-          ANGULAR_SCHEMATICS,
-          'component',
-          dummyComponentOptions,
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runExternalSchematic(
+        ANGULAR_SCHEMATICS,
+        'component',
+        dummyComponentOptions,
+        appTree
+      );
 
-      appTree = await schematicRunner
-        .runSchematicAsync('add-cms-component', modifiedOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'add-cms-component',
+        modifiedOptions,
+        appTree
+      );
     });
 
     it('should generate a component and add it to the specified module', async () => {
@@ -430,9 +436,11 @@ describe('add-cms-component', () => {
         module: 'app',
       };
 
-      appTree = await schematicRunner
-        .runSchematicAsync('add-cms-component', modifiedOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'add-cms-component',
+        modifiedOptions,
+        appTree
+      );
     });
 
     it('should generate the cms module, the component and declare the cms module to app.module.ts', async () => {
@@ -521,18 +529,18 @@ describe('add-cms-component', () => {
         declareCmsModule: moduleName,
       };
 
-      appTree = await schematicRunner
-        .runExternalSchematicAsync(
-          ANGULAR_SCHEMATICS,
-          'module',
-          moduleOptions,
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runExternalSchematic(
+        ANGULAR_SCHEMATICS,
+        'module',
+        moduleOptions,
+        appTree
+      );
 
-      appTree = await schematicRunner
-        .runSchematicAsync('add-cms-component', modifiedOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'add-cms-component',
+        modifiedOptions,
+        appTree
+      );
     });
 
     it('should generate the component and declare it to the cms module, and declare the cms module to the app.module.ts', async () => {

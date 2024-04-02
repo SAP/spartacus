@@ -5,11 +5,6 @@
     padding: 2rem 0;
   }
 
-  .cx-total {
-    @include type('4');
-    margin: 0 0 1rem;
-  }
-
   .cx-promotions {
     @include type('7');
     color: var(--cx-color-success);
@@ -18,16 +13,5 @@
     li {
       line-height: 1.6;
     }
-  }
-
-  .cx-remove-btn {
-    text-align: end;
-    padding-inline-start: 0;
-    padding-inline-end: 0;
-  }
-
-  .cx-sfl-btn {
-    text-align: end;
-    padding-inline-end: 0;
   }
 }

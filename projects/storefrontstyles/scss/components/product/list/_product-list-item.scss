@@ -29,15 +29,39 @@
     text-align: start;
     display: block;
     margin: 0 0 3px 0;
-    color: var(--cx-color-dark);
+    color: var(--cx-color-text);
     text-decoration: none;
 
     h2 {
       @include type('5');
+
+      @include media-breakpoint-down(sm) {
+        min-height: 48px;
+      }
     }
 
     &:hover {
       color: var(--cx-color-primary);
+    }
+  }
+
+  // TODO: (CXSPA-5709) Remove feature flag next major
+  @include forFeature('a11yExpandedFocusIndicator') {
+    .cx-product-name {
+      a {
+        margin: 0 0 3px 0;
+        color: var(--cx-color-text);
+        text-decoration: none;
+        @include type('5');
+        @include media-breakpoint-down(sm) {
+          text-align: center;
+          min-height: 48px;
+        }
+
+        &:hover {
+          color: var(--cx-color-primary);
+        }
+      }
     }
   }
 

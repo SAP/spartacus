@@ -12,7 +12,7 @@
     <ng-container *ngIf="listData$ | async as data">
       <section>
         <cx-table
-          *ngIf="data.values?.length > 0; else emptyList"
+          *ngIf="data.values && data.values.length > 0; else emptyList"
           [structure]="structure"
           [data]="data.values"
           [i18nRoot]="domainType"
@@ -21,7 +21,14 @@
         </cx-table>
       </section>
 
-      <div class="footer" *ngIf="data.pagination?.totalPages > 1">
+      <div
+        class="footer"
+        *ngIf="
+          data.pagination &&
+          data.pagination.totalPages !== undefined &&
+          data.pagination.totalPages > 1
+        "
+      >
         <cx-pagination
           [pagination]="data.pagination"
           (viewPageEvent)="browse(data.pagination, $event)"

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import {
   Product,
@@ -23,7 +29,7 @@ import { VisualPickingProductFilterService } from '../product-filter/visual-pick
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class VisualPickingProductListService implements OnDestroy {
   constructor(
@@ -48,6 +54,8 @@ export class VisualPickingProductListService implements OnDestroy {
         this.activeSlideStartIndex = 0;
       });
 
+    this.visualPickingProductFilterService.filter = '';
+
     this.filteredItemsSubscription = this.filteredItems$.subscribe((items) => {
       const firstSelectedItemIndex = items.findIndex((item) => item.selected);
       if (firstSelectedItemIndex !== -1) {
@@ -64,9 +72,9 @@ export class VisualPickingProductListService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getFilteredProductReferencesSubscription.unsubscribe();
-    this.filteredItemsSubscription.unsubscribe();
-    this.productReferencesSubscription.unsubscribe();
+    this.getFilteredProductReferencesSubscription?.unsubscribe();
+    this.filteredItemsSubscription?.unsubscribe();
+    this.productReferencesSubscription?.unsubscribe();
   }
 
   private get productReferenceType() {
@@ -112,8 +120,7 @@ export class VisualPickingProductListService implements OnDestroy {
       filter(
         (productReferences: ProductReference[]) =>
           productReferences !== undefined
-      ),
-      distinctUntilChanged((x, y) => JSON.stringify(x) === JSON.stringify(y))
+      )
     );
   }
 

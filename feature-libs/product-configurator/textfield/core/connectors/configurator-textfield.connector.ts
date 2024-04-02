@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -41,6 +47,7 @@ export class ConfiguratorTextfieldConnector {
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.adapter.readConfigurationForOrderEntry(parameters);
   }
+
   /**
    * Updates a configuration that is attached to a cart entry
    * @param parameters Attributes needed to update a cart entries' configuration

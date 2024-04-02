@@ -1,4 +1,4 @@
-cx-quick-order-form {
+%cx-quick-order-form {
   .quick-order-form-container {
     display: flex;
     position: relative;
@@ -13,20 +13,15 @@ cx-quick-order-form {
       padding: 0 46px 0 12px;
     }
 
-    // @deprecated since 4.2, use quick-order-form-search-icon class
-    .search {
-      color: var(--cx-color-light);
-      font-size: 24px;
-      position: absolute;
-      right: 12px;
-      top: 12px;
+    input {
+      height: 47px;
     }
 
     .quick-order-form-search-icon,
     .quick-order-form-reset-icon {
       background: transparent;
       border: none;
-      color: var(--cx-color-light);
+      color: var(--cx-color-medium);
       display: block;
       font-size: 24px;
       position: absolute;

@@ -10,21 +10,24 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_QUALTRICS_FEATURE,
-  LibraryOptions as SpartacusQualtricsOptions,
-  SpartacusOptions,
+  QUALTRICS_FEATURE_NAME,
+  SPARTACUS_QUALTRICS,
   SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
+  LibraryOptions as SpartacusQualtricsOptions,
+  qualtricsFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/qualtrics/qualtrics-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/qualtrics-embedded-feedback.scss';
 
 describe('Spartacus Qualtrics schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_QUALTRICS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -41,6 +44,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -57,7 +61,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
 
   const qualtricsOptions: SpartacusQualtricsOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_QUALTRICS_FEATURE],
+    features: [QUALTRICS_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -66,40 +70,38 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        libraryNoFeaturesOptions,
+        appTree
+      );
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(qualtricsFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -131,13 +133,15 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
   describe('Qualtrics feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', qualtricsOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          qualtricsOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(qualtricsFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -156,17 +160,15 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...qualtricsOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...qualtricsOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(qualtricsFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });

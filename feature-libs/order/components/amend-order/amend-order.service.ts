@@ -1,9 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { formatCurrency, getCurrencySymbol } from '@angular/common';
 import { Injectable } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -28,7 +34,7 @@ function ValidateQuantityToCancel(control: AbstractControl) {
 @Injectable()
 export abstract class OrderAmendService {
   protected amendType: AmendOrderType;
-  protected form: FormGroup;
+  protected form: UntypedFormGroup;
 
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
@@ -66,7 +72,7 @@ export abstract class OrderAmendService {
   /**
    * returns the form with form data at runtime
    */
-  getForm(): Observable<FormGroup> {
+  getForm(): Observable<UntypedFormGroup> {
     return this.getOrder().pipe(
       tap((order) => {
         if (!this.form || this.form.get('orderCode')?.value !== order.code) {
@@ -78,10 +84,10 @@ export abstract class OrderAmendService {
   }
 
   private buildForm(order: Order): void {
-    this.form = new FormGroup({});
-    this.form.addControl('orderCode', new FormControl(order.code));
+    this.form = new UntypedFormGroup({});
+    this.form.addControl('orderCode', new UntypedFormControl(order.code));
 
-    const entryGroup = new FormGroup(
+    const entryGroup = new UntypedFormGroup(
       {},
       { validators: [ValidateQuantityToCancel] }
     );
@@ -91,7 +97,7 @@ export abstract class OrderAmendService {
       const key = entry?.entryNumber?.toString() ?? '';
       entryGroup.addControl(
         key,
-        new FormControl(0, {
+        new UntypedFormControl(0, {
           validators: [
             Validators.min(0),
             Validators.max(this.getMaxAmendQuantity(entry)),
@@ -101,8 +107,11 @@ export abstract class OrderAmendService {
     });
   }
 
-  protected getFormControl(form: FormGroup, entry: OrderEntry): FormControl {
-    return <FormControl>(
+  protected getFormControl(
+    form: UntypedFormGroup,
+    entry: OrderEntry
+  ): UntypedFormControl {
+    return <UntypedFormControl>(
       form.get('entries')?.get(entry.entryNumber?.toString() ?? '')
     );
   }

@@ -19,9 +19,13 @@ import {
   RoutingService,
   Title,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { UserRegisterFacade } from '@spartacus/user/profile/root';
-import { Observable, of, Subject } from 'rxjs';
+import {
+  FormErrorsModule,
+  NgSelectA11yModule,
+  PasswordVisibilityToggleModule,
+} from '@spartacus/storefront';
+import { EMPTY, Observable, of, Subject } from 'rxjs';
+import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
 
@@ -65,7 +69,7 @@ class MockGlobalMessageService {
   add = createSpy();
   remove = createSpy();
   get() {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -75,10 +79,10 @@ class MockRoutingService {
 
 class MockAnonymousConsentsService {
   getConsent(_templateCode: string): Observable<AnonymousConsent> {
-    return of();
+    return EMPTY;
   }
   getTemplate(_templateCode: string): Observable<ConsentTemplate> {
-    return of();
+    return EMPTY;
   }
   withdrawConsent(_templateCode: string): void {}
   giveConsent(_templateCode: string): void {}
@@ -100,9 +104,14 @@ const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   },
 };
 
-class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
+class MockRegisterComponentService
+  implements Partial<RegisterComponentService>
+{
   getTitles = createSpy().and.returnValue(of(mockTitlesList));
   register = createSpy().and.returnValue(of(undefined));
+  postRegisterMessage = createSpy();
+  getAdditionalConsents = createSpy();
+  generateAdditionalConsentsFormControl = createSpy();
 }
 
 describe('RegisterComponent', () => {
@@ -110,11 +119,12 @@ describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  let userRegisterFacade: UserRegisterFacade;
+  let regComponentService: RegisterComponentService;
   let globalMessageService: GlobalMessageService;
   let mockRoutingService: RoutingService;
   let anonymousConsentService: AnonymousConsentsService;
   let authConfigService: AuthConfigService;
+  let registerComponentService: RegisterComponentService;
 
   beforeEach(
     waitForAsync(() => {
@@ -125,10 +135,15 @@ describe('RegisterComponent', () => {
           I18nTestingModule,
           FormErrorsModule,
           NgSelectModule,
+          PasswordVisibilityToggleModule,
+          NgSelectA11yModule,
         ],
         declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
         providers: [
-          { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
+          {
+            provide: RegisterComponentService,
+            useClass: MockRegisterComponentService,
+          },
           {
             provide: GlobalMessageService,
             useClass: MockGlobalMessageService,
@@ -156,11 +171,12 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
-    userRegisterFacade = TestBed.inject(UserRegisterFacade);
+    regComponentService = TestBed.inject(RegisterComponentService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     mockRoutingService = TestBed.inject(RoutingService);
     anonymousConsentService = TestBed.inject(AnonymousConsentsService);
     authConfigService = TestBed.inject(AuthConfigService);
+    registerComponentService = TestBed.inject(RegisterComponentService);
 
     component = fixture.componentInstance;
 
@@ -186,15 +202,6 @@ describe('RegisterComponent', () => {
 
   describe('ngOnInit', () => {
     it('should load titles', () => {
-      spyOn(globalMessageService, 'get').and.returnValue(
-        of({
-          [GlobalMessageType.MSG_TYPE_ERROR]: ['This field is required.'],
-        } as GlobalMessageEntities)
-      );
-      component.ngOnInit();
-    });
-    [];
-    it('should load titles', () => {
       component.ngOnInit();
 
       let titleList: Title[];
@@ -206,9 +213,30 @@ describe('RegisterComponent', () => {
       expect(titleList).toEqual(mockTitlesList);
     });
 
+    it('should handle error when title code is required from the backend config', () => {
+      spyOn(globalMessageService, 'get').and.returnValue(
+        of({
+          [GlobalMessageType.MSG_TYPE_ERROR]: [
+            { raw: 'This field is required.' },
+          ],
+        } as GlobalMessageEntities)
+      );
+      component.ngOnInit();
+
+      expect(globalMessageService.remove).toHaveBeenCalledWith(
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'register.titleRequired',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    });
+
     it('should show spinner when loading = true', () => {
       const register = new Subject();
-      (userRegisterFacade.register as any).and.returnValue(register);
+      (regComponentService.register as any).and.returnValue(register);
       component.ngOnInit();
       component.registerUser();
       fixture.detectChanges();
@@ -245,7 +273,7 @@ describe('RegisterComponent', () => {
       component.registerForm.patchValue(mockRegisterFormData);
       component.ngOnInit();
       component.submitForm();
-      expect(userRegisterFacade.register).toHaveBeenCalledWith({
+      expect(regComponentService.register).toHaveBeenCalledWith({
         firstName: mockRegisterFormData.firstName,
         lastName: mockRegisterFormData.lastName,
         uid: mockRegisterFormData.email_lowercase,
@@ -257,7 +285,7 @@ describe('RegisterComponent', () => {
     it('should not register with valid form', () => {
       component.ngOnInit();
       component.submitForm();
-      expect(userRegisterFacade.register).not.toHaveBeenCalled();
+      expect(regComponentService.register).not.toHaveBeenCalled();
     });
 
     it('should redirect to login page and show message (new flow)', () => {
@@ -266,10 +294,7 @@ describe('RegisterComponent', () => {
       // registerUserIsSuccess.next(true);
 
       expect(mockRoutingService.go).toHaveBeenCalledWith('login');
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'register.postRegisterMessage' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
+      expect(registerComponentService.postRegisterMessage).toHaveBeenCalled();
     });
 
     it('should not redirect in different flow that ResourceOwnerPasswordFlow', () => {
@@ -280,10 +305,7 @@ describe('RegisterComponent', () => {
       component.registerUser();
 
       expect(mockRoutingService.go).not.toHaveBeenCalled();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'register.postRegisterMessage' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
+      expect(registerComponentService.postRegisterMessage).toHaveBeenCalled();
     });
   });
 

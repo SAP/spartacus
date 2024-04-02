@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   b2bProduct,
   POWERTOOLS_BASESITE,
@@ -96,7 +102,7 @@ export function verifySorting() {
 export function cancelReplenishmentInHistory() {
   const replenishmentHistoryAlias = visitReplenishmentHistory();
 
-  cy.get(replenishmentHistoryAlias).should((xhr) => {
+  cy.get(replenishmentHistoryAlias).then((xhr) => {
     const body = xhr.response.body;
     expect(body.replenishmentOrders[0].active).to.equal(true);
 

@@ -1,20 +1,20 @@
 import { TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FeatureConfigService, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
   Budget,
   LoadStatus,
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { UnitUserItemService } from './unit-user-item.service';
 
 class MockRoutingService {
   go() {}
   getParams() {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -22,7 +22,7 @@ const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
 class MockB2bUserService {
   get() {
-    return of();
+    return EMPTY;
   }
   loadBudget() {}
   update() {}
@@ -33,6 +33,13 @@ class MockB2bUserService {
 }
 
 class MockUnitFormService {}
+
+// TODO (CXSPA-5630): Remove mock next major release
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
 
 describe('ChildUnitItemService', () => {
   let service: UnitUserItemService;
@@ -45,6 +52,10 @@ describe('ChildUnitItemService', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UnitFormService, useClass: MockUnitFormService },
         { provide: B2BUserService, useClass: MockB2bUserService },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     });
 
@@ -58,12 +69,12 @@ describe('ChildUnitItemService', () => {
 
   it('should create item with unitUid', () => {
     spyOn(userService, 'create').and.callThrough();
-    const form = new FormGroup({});
-    form.setControl('name', new FormControl('User name'));
+    const form = new UntypedFormGroup({});
+    form.setControl('name', new UntypedFormControl('User name'));
     form.setControl(
       'orgUnit',
-      new FormGroup({
-        uid: new FormControl('unit-uid'),
+      new UntypedFormGroup({
+        uid: new UntypedFormControl('unit-uid'),
       })
     );
     form.get('orgUnit').disable();
@@ -72,6 +83,7 @@ describe('ChildUnitItemService', () => {
     expect(userService.create).toHaveBeenCalledWith({
       name: 'User name',
       orgUnit: { uid: 'unit-uid' },
+      customerId: 'new',
     });
   });
 

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -12,7 +18,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 
@@ -23,6 +29,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/index';
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   activeTabNum = 0;
+  ariaLabel: string;
 
   @ViewChildren(ComponentWrapperDirective)
   children!: QueryList<ComponentWrapperDirective>;
@@ -37,6 +44,9 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
     distinctUntilChanged((x, y) => x?.components === y?.components),
+    tap((data: CMSTabParagraphContainer) => {
+      this.ariaLabel = `${data?.uid}.tabPanelContainerRegion`;
+    }),
     switchMap((data) =>
       combineLatest(
         (data?.components ?? '').split(' ').map((component) =>
@@ -70,7 +80,11 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     if (event && event?.target) {
       const target = event.target as HTMLElement;
       const parentNode = target.parentNode as HTMLElement;
-      this.winRef?.nativeWindow?.scrollTo(0, parentNode.offsetTop);
+      this.winRef?.nativeWindow?.scrollTo({
+        left: 0,
+        top: parentNode.offsetTop,
+        behavior: 'smooth',
+      });
     }
   }
 
@@ -91,13 +105,9 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     this.tabTitleParams.push(componentRef.instance.tabTitleParam$);
   }
 
-  private getTitleParams(children: QueryList<ComponentWrapperDirective>) {
+  protected getTitleParams(children: QueryList<ComponentWrapperDirective>) {
     children.forEach((comp) => {
-      if (comp.cmpRef?.instance.tabTitleParam$) {
-        this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
-      } else {
-        this.tabTitleParams.push(null);
-      }
+      this.tabTitleParams.push(comp['cmpRef']?.instance.tabTitleParam$ ?? null);
     });
   }
 }

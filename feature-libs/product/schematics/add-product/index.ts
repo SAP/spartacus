@@ -1,12 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
   BULK_PRICING_MODULE,
   BULK_PRICING_ROOT_MODULE,
@@ -17,10 +22,11 @@ import {
   configureB2bFeatures,
   IMAGE_ZOOM_MODULE,
   IMAGE_ZOOM_ROOT_MODULE,
+  analyzeApplication,
+  analyzeCrossFeatureDependencies,
+  finalizeInstallation,
   LibraryOptions as SpartacusProductOptions,
   readPackageJson,
-  shouldAddFeature,
-  SPARTACUS_PRODUCT,
   validateSpartacusInstallation,
   VARIANTS_MODULE,
   VARIANTS_MULTIDIMENSIONAL_MODULE,
@@ -66,7 +72,14 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
+    const features = analyzeCrossFeatureDependencies(
+      options.features as string[]
+    );
+
     return chain([
+      analyzeApplication(options, features),
+
+      addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_PRODUCT_BULK_PRICING_FEATURE, options.features)
@@ -90,6 +103,8 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
       )
         ? addVariantsMultidimensionalFeature(options)
         : noop(),
+
+      finalizeInstallation(options, features),
     ]);
   };
 }
@@ -177,6 +192,7 @@ export function addImageZoomFeature(options: SpartacusProductOptions): Rule {
     },
   });
 }
+
 export function addVariantsMultidimensionalFeature(
   options: SpartacusProductOptions
 ): Rule {

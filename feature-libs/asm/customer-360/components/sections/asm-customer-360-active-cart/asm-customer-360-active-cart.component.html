@@ -1,0 +1,42 @@
+<cx-asm-customer-360-product-listing
+  *ngIf="productItems$ | async as productItems"
+  [emptyResultDescription]="
+    'asmCustomer360.activeCart.emptyDescription' | cxTranslate
+  "
+  [headerInactive]="true"
+  [headerTemplate]="headerTemplate"
+  [headerText]="'asmCustomer360.activeCart.header' | cxTranslate"
+  [products]="productItems"
+  (selectProduct)="
+    sectionContext.navigate$.next({ cxRoute: 'product', params: $event })
+  "
+>
+</cx-asm-customer-360-product-listing>
+
+<ng-template #headerTemplate>
+  <ng-container *ngIf="activeCart$ | async as activeCart">
+    <button
+      [attr.aria-label]="
+        'asmCustomer360.activeCart.aria.linkLabel'
+          | cxTranslate: { code: activeCart.code }
+      "
+      class="cx-overview-title-link link"
+      (click)="sectionContext.navigate$.next({ cxRoute: 'cart' })"
+    >
+      {{ activeCart.code }}
+    </button>
+    <div class="cart-total-no-items">
+      {{
+        'asmCustomer360.productListing.totalNoItems'
+          | cxTranslate: { count: activeCart.totalItemCount }
+      }}
+    </div>
+    <div class="cart-divider"></div>
+    <div class="cart-total-price">
+      {{
+        'asmCustomer360.productListing.totalPrice'
+          | cxTranslate: { price: activeCart.totalPrice }
+      }}
+    </div>
+  </ng-container>
+</ng-template>

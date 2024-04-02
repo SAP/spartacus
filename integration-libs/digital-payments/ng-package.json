@@ -2,18 +2,7 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/digital-payments",
   "lib": {
-    "entryFile": "./public_api.ts",
-    "umdModuleIds": {
-      "@spartacus/core": "core",
-      "@spartacus/storefront": "storefront",
-      "@spartacus/cart/base/root": "cartRoot",
-      "@spartacus/checkout/base": "checkout",
-      "@spartacus/checkout/base/core": "checkoutCore",
-      "@spartacus/checkout/base/root": "checkoutRoot",
-      "@spartacus/checkout/base/components": "checkoutComponents",
-      "@ng-select/ng-select": "ngSelect",
-      "rxjs": "rxjs"
-    }
+    "entryFile": "./public_api.ts"
   },
   "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
 }

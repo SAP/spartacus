@@ -48,7 +48,7 @@
       <div class="property">
         <label>{{ 'orgUnitAddress.country' | cxTranslate }}</label>
         <span class="value">
-          {{ (getCountry(model.country.isocode) | async)?.name }}
+          {{ (getCountry(model.country?.isocode) | async)?.name }}
         </span>
       </div>
     </section>

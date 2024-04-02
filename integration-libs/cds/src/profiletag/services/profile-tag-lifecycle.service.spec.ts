@@ -29,7 +29,7 @@ describe('profileTagLifecycleService', () => {
     },
   };
   function setVariables() {
-    getConsentBehavior = new BehaviorSubject<Object>(null);
+    getConsentBehavior = new BehaviorSubject<Object>(undefined);
     isConsentGivenValue = false;
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')

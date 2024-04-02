@@ -1,0 +1,32 @@
+%cx-customer-ticketing-close,
+%cx-customer-ticketing-reopen {
+  display: flex;
+  justify-content: flex-end;
+
+  @include media-breakpoint-down(sm) {
+    div {
+      justify-content: center;
+      display: flex;
+    }
+  }
+
+  button {
+    margin: 1rem;
+  }
+}
+
+%cx-customer-ticketing-create {
+  display: flex;
+  justify-content: flex-end;
+
+  @include media-breakpoint-down(sm) {
+    width: 100%;
+    .cx-customer-ticketing-create {
+      width: 100%;
+    }
+    div {
+      justify-content: center;
+      display: flex;
+    }
+  }
+}

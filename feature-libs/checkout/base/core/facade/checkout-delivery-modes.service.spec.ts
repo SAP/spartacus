@@ -1,10 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import {
-  ActiveCartFacade,
-  DeliveryMode,
-  LoadCartEvent,
-} from '@spartacus/cart/base/root';
-import {
+  CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutQueryFacade,
@@ -16,7 +13,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { of, throwError } from 'rxjs';
+import { EMPTY, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 import { CheckoutDeliveryModesService } from './checkout-delivery-modes.service';
@@ -45,7 +42,7 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(of());
+  get = createSpy().and.returnValue(EMPTY);
   dispatch = createSpy();
 }
 
@@ -204,18 +201,10 @@ describe(`CheckoutDeliveryModesService`, () => {
         {
           userId: mockUserId,
           cartId: mockCartId,
+          cartCode: mockCartId,
           deliveryModeCode: mockDeliveryModeCode,
         },
         CheckoutDeliveryModeSetEvent
-      );
-    });
-
-    it(`should dispatch LoadCartEvent`, () => {
-      service.setDeliveryMode(mockDeliveryModeCode);
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        LoadCartEvent
       );
     });
   });
@@ -237,30 +226,22 @@ describe(`CheckoutDeliveryModesService`, () => {
         {
           userId: mockUserId,
           cartId: mockCartId,
+          cartCode: mockCartId,
         },
         CheckoutDeliveryModeClearedEvent
       );
     });
 
-    it(`should dispatch LoadCartEvent`, () => {
-      service.clearCheckoutDeliveryMode();
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        LoadCartEvent
-      );
-    });
-
-    it(`should reload cart on error`, () => {
+    it(`should dispatch CheckoutDeliveryModeClearedErrorEvent event on error`, () => {
       connector.clearCheckoutDeliveryMode = createSpy().and.returnValue(
-        throwError('err')
+        throwError(() => 'err')
       );
 
       service.clearCheckoutDeliveryMode();
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        LoadCartEvent
+        CheckoutDeliveryModeClearedErrorEvent
       );
     });
   });

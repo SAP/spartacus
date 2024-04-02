@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   CheckoutDeliveryAddressFacade,
@@ -86,9 +92,9 @@ export class ExpressCheckoutService {
         }
         return of([supportedDeliveryModesState]).pipe(
           filter(
-            ([supportedDeliveryModesState]) =>
-              !supportedDeliveryModesState.loading &&
-              !!supportedDeliveryModesState.data?.length
+            ([supportedDeliveryModesStateObject]) =>
+              !supportedDeliveryModesStateObject.loading &&
+              !!supportedDeliveryModesStateObject.data?.length
           ),
           switchMap(([deliveryModesState]) => {
             if (!deliveryModesState.data) {

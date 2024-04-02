@@ -1,9 +1,10 @@
 @import '../../theme';
-@import '~bootstrap/scss/forms';
-@import '~bootstrap/scss/custom-forms';
+@import 'bootstrap/scss/forms';
+@import 'bootstrap/scss/custom-forms';
 
 .form-control {
   margin-bottom: 0.25rem;
+  color: var(--cx-color-text);
   &:focus {
     border-color: var(--cx-color-secondary);
     box-shadow: none;
@@ -61,6 +62,10 @@ cx-file-upload {
   input[type='file'] {
     display: none;
   }
+
+  button {
+    width: 100%;
+  }
 }
 
 input,
@@ -115,6 +120,10 @@ label {
   }
 }
 
+.notes-content {
+  margin-top: 1rem;
+}
+
 legend {
   margin-bottom: $label-margin-bottom;
 }
@@ -143,6 +152,10 @@ legend {
       &:hover {
         color: var(--cx-color-primary);
       }
+
+      @include media-breakpoint-down(sm) {
+        display: inline;
+      }
     }
 
     &::after {
@@ -168,7 +181,7 @@ legend {
     border-style: solid;
     border-radius: 5px;
     border-width: 2px;
-    border-color: var(--cx-color-light);
+    border-color: var(--cx-color-medium);
 
     &:checked {
       font-style: normal;
@@ -207,7 +220,7 @@ input[type='radio'] {
   display: inline-block;
   border-style: solid;
   border-width: 2px;
-  border-color: var(--cx-color-light);
+  border-color: var(--cx-color-medium);
   position: absolute;
 
   &::after {
@@ -236,6 +249,12 @@ input[type='radio'] {
   &--danger {
     color: var(--cx-color-danger);
   }
+}
+
+.form-legend {
+  font-style: italic;
+  color: var(--cx-color-secondary);
+  margin-bottom: 1rem;
 }
 
 .ng-select,
@@ -334,7 +353,7 @@ input {
 
 .form-group {
   input[type='text']::placeholder {
-    color: var(--cx-color-secondary);
+    color: var(--cx-color-text);
     opacity: 1;
   }
 

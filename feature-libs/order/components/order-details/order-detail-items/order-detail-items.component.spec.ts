@@ -3,13 +3,17 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  FeaturesConfig,
-  FeaturesConfigModule,
+  CmsOrderDetailItemsComponent,
   I18nTestingModule,
 } from '@spartacus/core';
 import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
-import { CardModule, PromotionsModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import {
+  CardModule,
+  CmsComponentData,
+  OutletModule,
+  PromotionsModule,
+} from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
@@ -75,6 +79,7 @@ const mockOrder: Order = {
       status: 'PICKUP_COMPLETE',
       statusDate: new Date('2019-02-11T13:05:12+0000'),
       entries: [{ orderEntry: {}, quantity: 4, shippedQuantity: 4 }],
+      deliveryPointOfService: {},
     },
     {
       code: 'a00000342',
@@ -87,6 +92,15 @@ const mockOrder: Order = {
       status: 'OTHERS',
       statusDate: new Date('2019-02-11T13:05:12+0000'),
       entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
+    },
+  ],
+  unconsignedEntries: [
+    {
+      orderCode: 'unconsigned-1',
+      deliveryPointOfService: {},
+    },
+    {
+      orderCode: 'unconsigned-2',
     },
   ],
 };
@@ -109,6 +123,15 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   ],
 };
 
+const mockData: CmsOrderDetailItemsComponent = {
+  enableAddToCart: true,
+  groupCartItems: true,
+};
+
+const MockCmsComponentData = <CmsComponentData<any>>{
+  data$: of(mockData),
+};
+
 @Component({
   selector: 'cx-consignment-tracking',
   template: '',
@@ -129,6 +152,9 @@ describe('OrderDetailItemsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       mockOrderDetailsService = <OrderDetailsService>{
+        isOrderDetailsLoading(): Observable<boolean> {
+          return of(false);
+        },
         getOrderDetails() {
           return of(mockOrder);
         },
@@ -139,17 +165,12 @@ describe('OrderDetailItemsComponent', () => {
           CardModule,
           I18nTestingModule,
           PromotionsModule,
-          FeaturesConfigModule,
           RouterTestingModule,
+          OutletModule,
         ],
         providers: [
           { provide: OrderDetailsService, useValue: mockOrderDetailsService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '1.4', consignmentTracking: true },
-            },
-          },
+          { provide: CmsComponentData, useValue: MockCmsComponentData },
         ],
         declarations: [
           OrderDetailItemsComponent,
@@ -165,7 +186,7 @@ describe('OrderDetailItemsComponent', () => {
     el = fixture.debugElement;
 
     component = fixture.componentInstance;
-    component.ngOnInit();
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -173,7 +194,6 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should initialize order ', () => {
-    fixture.detectChanges();
     let order: Order;
     component.order$
       .subscribe((value) => {
@@ -183,59 +203,43 @@ describe('OrderDetailItemsComponent', () => {
     expect(order).toEqual(mockOrder);
   });
 
-  it('should initialize others and check if it does not allow valid consignment status', () => {
-    fixture.detectChanges();
-    let others: Consignment[];
-    component.others$
-      .subscribe((value) => {
-        others = value;
-      })
-      .unsubscribe();
-
-    expect(others).not.toContain(mockOrder.consignments[1]);
-    expect(others).not.toContain(mockOrder.consignments[2]);
-    expect(others).not.toContain(mockOrder.consignments[3]);
+  it('should get pickupConsignements', () => {
+    component.order$.subscribe().unsubscribe();
+    expect(component.pickupConsignments).toContain(mockOrder.consignments[2]);
   });
 
-  it('should initialize others and check if it contains any consignment status', () => {
-    fixture.detectChanges();
-    let others: Consignment[];
-    component.others$
-      .subscribe((value) => {
-        others = value;
-      })
-      .unsubscribe();
+  it('should get grouped deliveryConsignments', () => {
+    component.order$.subscribe().unsubscribe();
 
-    expect(others).toContain(mockOrder.consignments[0]);
-    expect(others).toContain(mockOrder.consignments[4]);
+    expect(component.deliveryConsignments?.[0]).toEqual(
+      mockOrder.consignments[0]
+    );
+    expect(component.deliveryConsignments?.[1]).toEqual(
+      mockOrder.consignments[4]
+    );
+    expect(component.deliveryConsignments?.[2]).toEqual(
+      mockOrder.consignments[1]
+    );
+    expect(component.deliveryConsignments?.[3]).toEqual(
+      mockOrder.consignments[3]
+    );
   });
 
-  it('should initialize completed', () => {
-    fixture.detectChanges();
-    let completed: Consignment[];
-    component.completed$
-      .subscribe((value) => {
-        completed = value;
-      })
-      .unsubscribe();
-
-    expect(completed).toContain(mockOrder.consignments[1]);
-    expect(completed).toContain(mockOrder.consignments[2]);
+  it('should get pickupUnconsignedEntries', () => {
+    component.order$.subscribe().unsubscribe();
+    expect(component.pickupUnconsignedEntries).toContain(
+      mockOrder.unconsignedEntries[0]
+    );
   });
 
-  it('should initialize cancel', () => {
-    fixture.detectChanges();
-    let cancel: Consignment[];
-    component.cancel$
-      .subscribe((value) => {
-        cancel = value;
-      })
-      .unsubscribe();
-    expect(cancel).toContain(mockOrder.consignments[3]);
+  it('should get deliveryUnConsignedEntries', () => {
+    component.order$.subscribe().unsubscribe();
+    expect(component.deliveryUnConsignedEntries).toContain(
+      mockOrder.unconsignedEntries[1]
+    );
   });
 
   it('should order details item be rendered', () => {
-    fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();
   });
 
@@ -243,7 +247,6 @@ describe('OrderDetailItemsComponent', () => {
     spyOn(mockOrderDetailsService, 'getOrderDetails').and.returnValue(
       of(mockReplenishmentOrder)
     );
-    fixture.detectChanges();
     let order: ReplenishmentOrder;
     mockOrderDetailsService
       .getOrderDetails()

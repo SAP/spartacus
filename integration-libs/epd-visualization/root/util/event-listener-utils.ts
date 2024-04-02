@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Renderer2 } from '@angular/core';
 
 export interface Listener {
@@ -20,8 +26,8 @@ export class EventListenerUtils {
     callback: (event: any) => void
   ): void {
     const listener: Listener = {
-      nativeElement: nativeElement,
-      eventName: eventName,
+      nativeElement,
+      eventName,
       endListener: this.renderer.listen(nativeElement, eventName, callback),
     };
     this.listeners.push(listener);

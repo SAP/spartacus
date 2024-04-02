@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ErrorModel } from '../../../../model/misc.model';
@@ -33,7 +39,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     ) {
       this.globalMessageService.add(
         {
-          key: 'httpHandlers.badRequestPleaseLoginAgain',
+          key: this.getErrorTranslationKey(response.error?.error_description),
           params: {
             errorMessage:
               response.error.error_description || response.message || '',
@@ -52,8 +58,15 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.getErrors(response)
       .filter((error) => error.type === 'PasswordMismatchError')
       .forEach(() => {
+        // Updating email and changing password share same http error occurence.
+        // Determine the context of global error message based on request url
+        const url = new URL(_request.url);
+        const key = url.pathname.endsWith('/password')
+          ? 'httpHandlers.badRequestOldPasswordIncorrect'
+          : 'httpHandlers.validationErrors.invalid.password';
+
         this.globalMessageService.add(
-          { key: 'httpHandlers.badRequestOldPasswordIncorrect' },
+          { key },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ConfigModule } from '@spartacus/core';
@@ -15,11 +21,13 @@ import {
   VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   VARIANT_CONFIGURATOR_NORMALIZER,
   VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER,
   VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER,
   VARIANT_CONFIGURATOR_SERIALIZER,
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './variant-configurator-occ.converters';
+import { OccConfiguratorVariantOverviewSerializer } from './converters/occ-configurator-variant-overview-serializer';
 
 @NgModule({
   imports: [
@@ -65,6 +73,11 @@ import {
     {
       provide: VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
       useExisting: OccConfiguratorVariantOverviewNormalizer,
+      multi: true,
+    },
+    {
+      provide: VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER,
+      useExisting: OccConfiguratorVariantOverviewSerializer,
       multi: true,
     },
   ],

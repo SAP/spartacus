@@ -31,11 +31,12 @@ import {
   USER_ADDRESS_SERVICE,
   UTF_8,
 } from '../constants';
-import { SPARTACUS_CORE } from '../libs-constants';
+import { SPARTACUS_CORE, SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
+  ClassType,
+  InsertDirection,
   addConstructorParam,
   buildSpartacusComment,
-  ClassType,
   commitChanges,
   defineProperty,
   findConstructor,
@@ -49,7 +50,6 @@ import {
   insertCommentAboveConfigProperty,
   insertCommentAboveIdentifier,
   insertComponentSelectorComment,
-  InsertDirection,
   insertHtmlComment,
   isCandidateForConstructorDeprecation,
   isInheriting,
@@ -294,7 +294,10 @@ export class ServiceNameService extends LaunchDialogService {
 }`;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
-const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+const schematicRunner = new SchematicTestRunner(
+  SPARTACUS_SCHEMATICS,
+  collectionPath
+);
 
 describe('File utils', () => {
   let appTree: UnitTestTree;
@@ -310,39 +313,40 @@ describe('File utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
   const defaultOptions = {
     project: 'schematics-test',
   };
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
   });
 
   describe('getTsSourceFile', () => {
     it('should return TS file', async () => {
-      const tsFile = getTsSourceFile(appTree, 'src/test.ts');
+      const tsFile = getTsSourceFile(appTree, 'src/main.ts');
       const tsFileName = tsFile.fileName.split('/').pop();
 
       expect(tsFile).toBeTruthy();
-      expect(tsFileName).toEqual('test.ts');
+      expect(tsFileName).toEqual('main.ts');
     });
   });
 
@@ -363,10 +367,10 @@ describe('File utils', () => {
 
   describe('getPathResultsForFile', () => {
     it('should return proper path for file', async () => {
-      const pathsToFiles = getPathResultsForFile(appTree, 'test.ts', 'src');
+      const pathsToFiles = getPathResultsForFile(appTree, 'main.ts', 'src');
 
       expect(pathsToFiles.length).toBeGreaterThan(0);
-      expect(pathsToFiles[0]).toEqual('/src/test.ts');
+      expect(pathsToFiles[0]).toEqual('/src/main.ts');
     });
   });
 
@@ -398,10 +402,13 @@ describe('File utils', () => {
 
   describe('insertHtmlComment', () => {
     it('should insert the comment with *ngIf', async () => {
+      const angularCompiler = await import('@angular/compiler');
+
       const componentDeprecation = COMPONENT_DEPRECATION_DATA[2];
       const result = insertHtmlComment(
         HTML_EXAMPLE_NGIF,
-        (componentDeprecation.removedProperties || [])[0]
+        (componentDeprecation.removedProperties || [])[0],
+        angularCompiler
       );
 
       expect(result).toBeTruthy();
@@ -917,7 +924,7 @@ describe('File utils', () => {
         commentToInsert
       );
       expect(changes).toEqual([
-        new InsertChange(filePath, 161, commentToInsert),
+        new InsertChange(filePath, 158, commentToInsert),
       ]);
     });
   });
@@ -931,7 +938,7 @@ describe('File utils', () => {
 
       const changes = renameIdentifierNode(filePath, source, oldName, newName);
       expect(changes).toEqual([
-        new ReplaceChange(filePath, 174, oldName, newName),
+        new ReplaceChange(filePath, 171, oldName, newName),
       ]);
     });
   });

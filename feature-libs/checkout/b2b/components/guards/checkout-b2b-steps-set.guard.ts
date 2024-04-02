@@ -1,10 +1,12 @@
-import { Injectable, isDevMode } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  UrlTree,
-} from '@angular/router';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
@@ -20,17 +22,16 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { RoutingConfigService } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { LoggerService, RoutingConfigService } from '@spartacus/core';
+import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutB2BStepsSetGuard
-  extends CheckoutStepsSetGuard
-  implements CanActivate
-{
+export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,
@@ -39,7 +40,8 @@ export class CheckoutB2BStepsSetGuard
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected router: Router,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade
+    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
+    protected activeCartFacade: ActiveCartFacade
   ) {
     super(
       checkoutStepService,
@@ -47,7 +49,8 @@ export class CheckoutB2BStepsSetGuard
       checkoutDeliveryAddressFacade,
       checkoutPaymentFacade,
       checkoutDeliveryModesFacade,
-      router
+      router,
+      activeCartFacade
     );
   }
 
@@ -83,7 +86,7 @@ export class CheckoutB2BStepsSetGuard
           return this.isB2BStepSet(steps[currentIndex - 1], isAccount);
         } else {
           if (isDevMode()) {
-            console.warn(
+            this.logger.warn(
               `Missing step with route '${currentRouteUrl}' in checkout configuration or this step is disabled.`
             );
           }

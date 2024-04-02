@@ -1,20 +1,25 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
-  PaymentTypeSetEvent,
+  CheckoutPaymentTypeSetEvent,
+  CheckoutPaymentTypesQueryReloadEvent,
+  CheckoutPaymentTypesQueryResetEvent,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
   Command,
   CommandService,
   CommandStrategy,
-  CurrencySetEvent,
   EventService,
-  LanguageSetEvent,
-  LoginEvent,
-  LogoutEvent,
+  HttpErrorModel,
   OCC_USER_ID_ANONYMOUS,
   Query,
   QueryNotifier,
@@ -22,24 +27,24 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, combineLatest, of, throwError } from 'rxjs';
+import { concatMap, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutPaymentTypeConnector } from '../connectors/checkout-payment-type/checkout-payment-type.connector';
 
 @Injectable()
 export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
-  protected getPaymentTypesQueryReloadEvents(): QueryNotifier[] {
-    return [LanguageSetEvent, CurrencySetEvent];
+  protected getCheckoutPaymentTypesQueryReloadEvents(): QueryNotifier[] {
+    return [CheckoutPaymentTypesQueryReloadEvent];
   }
-  protected getPaymentTypesQueryResetEvents(): QueryNotifier[] {
-    return [LogoutEvent, LoginEvent];
+  protected getCheckoutPaymentTypesQueryResetEvents(): QueryNotifier[] {
+    return [CheckoutPaymentTypesQueryResetEvent];
   }
 
   protected paymentTypesQuery: Query<PaymentType[]> = this.queryService.create(
     () => this.paymentTypeConnector.getPaymentTypes(),
     {
-      reloadOn: this.getPaymentTypesQueryReloadEvents(),
-      resetOn: this.getPaymentTypesQueryResetEvents(),
+      reloadOn: this.getCheckoutPaymentTypesQueryReloadEvents(),
+      resetOn: this.getCheckoutPaymentTypesQueryResetEvents(),
     }
   );
 
@@ -69,7 +74,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
                     paymentTypeCode,
                     purchaseOrderNumber,
                   },
-                  PaymentTypeSetEvent
+                  CheckoutPaymentTypeSetEvent
                 )
               )
             )
@@ -115,7 +120,14 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   }
 
   getPaymentTypes(): Observable<PaymentType[]> {
-    return this.getPaymentTypesState().pipe(map((state) => state.data ?? []));
+    return this.getPaymentTypesState().pipe(
+      concatMap((state) =>
+        (state?.error as HttpErrorModel)
+          ? throwError(state.error as HttpErrorModel)
+          : of(state)
+      ),
+      map((state) => state.data ?? [])
+    );
   }
 
   setPaymentType(

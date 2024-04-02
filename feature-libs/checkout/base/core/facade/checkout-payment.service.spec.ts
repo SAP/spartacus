@@ -1,9 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import {
-  ActiveCartFacade,
-  CardType,
-  PaymentDetails,
-} from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
@@ -11,14 +7,14 @@ import {
   CheckoutState,
 } from '@spartacus/checkout/base/root';
 import {
+  CardType,
   EventService,
-  LoadUserPaymentMethodsEvent,
-  OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
+  PaymentDetails,
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkout-payment.connector';
 import { CheckoutPaymentService } from './checkout-payment.service';
@@ -51,14 +47,14 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(of());
+  get = createSpy().and.returnValue(EMPTY);
   dispatch = createSpy();
 }
 
 class MockCheckoutPaymentConnector
   implements Partial<CheckoutPaymentConnector>
 {
-  getCardTypes = createSpy().and.returnValue(of(mockCardTypes));
+  getPaymentCardTypes = createSpy().and.returnValue(of(mockCardTypes));
   createPaymentDetails = createSpy().and.returnValue(of(mockPaymentInfo));
   setPaymentDetails = createSpy().and.returnValue(of('set'));
 }
@@ -74,7 +70,6 @@ describe(`CheckoutPaymentService`, () => {
   let connector: CheckoutPaymentConnector;
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
-  let userIdService: UserIdService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -95,7 +90,6 @@ describe(`CheckoutPaymentService`, () => {
     connector = TestBed.inject(CheckoutPaymentConnector);
     checkoutQuery = TestBed.inject(CheckoutQueryFacade);
     eventService = TestBed.inject(EventService);
-    userIdService = TestBed.inject(UserIdService);
   });
 
   it(`should inject CheckoutPaymentService`, inject(
@@ -105,13 +99,13 @@ describe(`CheckoutPaymentService`, () => {
     }
   ));
 
-  describe(`getCardTypesState`, () => {
-    it(`should call the checkoutPaymentConnector.getCardTypes()`, (done) => {
+  describe(`getPaymentCardTypesState`, () => {
+    it(`should call the checkoutPaymentConnector.getPaymentCardTypes()`, (done) => {
       service
-        .getCardTypesState()
+        .getPaymentCardTypesState()
         .pipe(take(1))
         .subscribe((state) => {
-          expect(connector.getCardTypes).toHaveBeenCalled();
+          expect(connector.getPaymentCardTypes).toHaveBeenCalled();
           expect(state).toEqual({
             loading: false,
             error: false,
@@ -122,9 +116,9 @@ describe(`CheckoutPaymentService`, () => {
     });
   });
 
-  describe(`getCardTypes`, () => {
-    it(`should call facade's getCardTypesState()`, (done) => {
-      spyOn(service, 'getCardTypesState').and.returnValue(
+  describe(`getPaymentCardTypes`, () => {
+    it(`should call facade's getPaymentCardTypesState()`, (done) => {
+      spyOn(service, 'getPaymentCardTypesState').and.returnValue(
         of({
           loading: false,
           error: false,
@@ -133,17 +127,17 @@ describe(`CheckoutPaymentService`, () => {
       );
 
       service
-        .getCardTypes()
+        .getPaymentCardTypes()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(mockCardTypes);
-          expect(service.getCardTypesState).toHaveBeenCalled();
+          expect(service.getPaymentCardTypesState).toHaveBeenCalled();
           done();
         });
     });
 
     it(`should return an empty array if query's data is falsy`, (done) => {
-      spyOn(service, 'getCardTypesState').and.returnValue(
+      spyOn(service, 'getPaymentCardTypesState').and.returnValue(
         of({
           loading: false,
           error: false,
@@ -152,7 +146,7 @@ describe(`CheckoutPaymentService`, () => {
       );
 
       service
-        .getCardTypes()
+        .getPaymentCardTypes()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual([]);
@@ -208,28 +202,6 @@ describe(`CheckoutPaymentService`, () => {
           paymentDetails: mockPaymentInfo,
         },
         CheckoutPaymentDetailsCreatedEvent
-      );
-    });
-
-    it(`should dispatch LoadUserPaymentMethodsEvent`, () => {
-      service.createPaymentDetails(mockPaymentInfo);
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId },
-        LoadUserPaymentMethodsEvent
-      );
-    });
-
-    it(`should NOT dispatch LoadUserPaymentMethodsEvent when the user is anonymous`, () => {
-      userIdService.takeUserId = createSpy().and.returnValue(
-        of(OCC_USER_ID_ANONYMOUS)
-      );
-
-      service.createPaymentDetails(mockPaymentInfo);
-
-      expect(eventService.dispatch).not.toHaveBeenCalledWith(
-        { userId: mockUserId },
-        LoadUserPaymentMethodsEvent
       );
     });
   });

@@ -1,8 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
@@ -18,13 +25,10 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
-import {
-  Title,
-  UserRegisterFacade,
-  UserSignUp,
-} from '@spartacus/user/profile/root';
+import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { RegisterComponentService } from './register-component.service';
 
 @Component({
   selector: 'cx-register',
@@ -38,11 +42,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   anonymousConsent$: Observable<{
-    consent: AnonymousConsent;
+    consent: AnonymousConsent | undefined;
     template: string;
   }>;
 
-  registerForm: FormGroup = this.fb.group(
+  registerForm: UntypedFormGroup = this.fb.group(
     {
       titleCode: [null],
       firstName: ['', Validators.required],
@@ -53,10 +57,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
         [Validators.required, CustomFormValidators.passwordValidator],
       ],
       passwordconf: ['', Validators.required],
-      newsletter: new FormControl({
+      newsletter: new UntypedFormControl({
         value: false,
         disabled: this.isConsentRequired(),
       }),
+      additionalConsents:
+        this.registerComponentService.generateAdditionalConsentsFormControl?.() ??
+        this.fb.array([]),
       termsandconditions: [false, Validators.requiredTrue],
     },
     {
@@ -67,18 +74,32 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
   );
 
+  additionalRegistrationConsents: {
+    template: ConsentTemplate;
+    required: boolean;
+  }[];
+
+  get additionalConsents(): UntypedFormArray {
+    return this.registerForm?.get('additionalConsents') as UntypedFormArray;
+  }
+
+  updateAdditionalConsents(event: MouseEvent, index: number) {
+    const { checked } = event.target as HTMLInputElement;
+    this.registerForm.value.additionalConsents[index] = checked;
+  }
+
   constructor(
-    protected userRegister: UserRegisterFacade,
     protected globalMessageService: GlobalMessageService,
-    protected fb: FormBuilder,
+    protected fb: UntypedFormBuilder,
     protected router: RoutingService,
     protected anonymousConsentsService: AnonymousConsentsService,
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
-    protected authConfigService: AuthConfigService
+    protected authConfigService: AuthConfigService,
+    protected registerComponentService: RegisterComponentService
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.userRegister.getTitles().pipe(
+    this.titles$ = this.registerComponentService.getTitles().pipe(
       map((titles: Title[]) => {
         return titles.sort(sortTitles);
       })
@@ -96,7 +117,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
           if (
             messages &&
-            messages.some((message) => message === 'This field is required.')
+            messages.some(
+              (message) => message.raw === 'This field is required.'
+            )
           ) {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             this.globalMessageService.add(
@@ -114,13 +137,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.anonymousConsentsService.getConsent(registerConsent),
       this.anonymousConsentsService.getTemplate(registerConsent),
     ]).pipe(
-      map(([consent, template]: [AnonymousConsent, ConsentTemplate]) => {
-        return {
-          consent,
-          template: template?.description ? template.description : '',
-        };
-      })
+      map(
+        ([consent, template]: [
+          AnonymousConsent | undefined,
+          ConsentTemplate | undefined
+        ]) => {
+          return {
+            consent,
+            template: template?.description ? template.description : '',
+          };
+        }
+      )
     );
+
+    this.additionalRegistrationConsents =
+      this.registerComponentService?.getAdditionalConsents() || [];
 
     this.subscription.add(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -140,11 +171,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   registerUser(): void {
     this.isLoading$.next(true);
-    this.userRegister
+    this.registerComponentService
       .register(this.collectDataFromRegisterForm(this.registerForm.value))
       .subscribe({
         next: () => this.onRegisterUserSuccess(),
         complete: () => this.isLoading$.next(false),
+        error: () => this.isLoading$.next(false),
       });
   }
 
@@ -164,7 +196,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     };
   }
 
-  isConsentGiven(consent: AnonymousConsent): boolean {
+  isConsentGiven(consent: AnonymousConsent | undefined): boolean {
     return this.anonymousConsentsService.isConsentGiven(consent);
   }
 
@@ -181,17 +213,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  private onRegisterUserSuccess(): void {
+  protected onRegisterUserSuccess(): void {
     if (
       this.authConfigService.getOAuthFlow() ===
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {
       this.router.go('login');
     }
-    this.globalMessageService.add(
-      { key: 'register.postRegisterMessage' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+    this.registerComponentService.postRegisterMessage();
   }
 
   toggleAnonymousConsent(): void {

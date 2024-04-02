@@ -1,14 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { SemanticPathService } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CartNotEmptyGuard implements CanActivate {
+export class CartNotEmptyGuard {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,
@@ -16,14 +22,12 @@ export class CartNotEmptyGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    return combineLatest([
-      this.activeCartFacade.getActive(),
-      this.activeCartFacade.isStable(),
-    ]).pipe(
-      filter(([_, loaded]) => loaded),
-      map(([cart]) => {
+    return this.activeCartFacade.takeActive().pipe(
+      map((cart) => {
         if (this.isEmpty(cart)) {
-          return this.router.parseUrl(this.semanticPathService.get('home'));
+          return this.router.parseUrl(
+            this.semanticPathService.get('home') ?? ''
+          );
         }
         return true;
       })

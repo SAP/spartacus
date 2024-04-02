@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   EventService,
   OCC_USER_ID_CURRENT,
@@ -11,7 +11,7 @@ import {
   ReplenishmentOrderScheduledEvent,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { ScheduledReplenishmentOrderConnector } from '../connectors/scheduled-replenishment-order.connector';
 import { ScheduledReplenishmentOrderService } from './scheduled-replenishment-order.service';
 
@@ -37,7 +37,7 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(of());
+  get = createSpy().and.returnValue(EMPTY);
   dispatch = createSpy();
 }
 
@@ -118,18 +118,6 @@ describe(`ScheduledReplenishmentOrderService`, () => {
       );
     });
 
-    it(`should dispatch RemoveCartEvent`, () => {
-      service.scheduleReplenishmentOrder(
-        mockScheduleReplenishmentForm,
-        termsChecked
-      );
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        RemoveCartEvent
-      );
-    });
-
     // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
     it(`should dispatch ReplenishmentOrderScheduledEvent`, () => {
       service.scheduleReplenishmentOrder(
@@ -141,6 +129,7 @@ describe(`ScheduledReplenishmentOrderService`, () => {
         {
           userId: mockUserId,
           cartId: mockCartId,
+          cartCode: mockCartId,
           replenishmentOrder: mockReplenishmentOrder,
         },
         ReplenishmentOrderScheduledEvent

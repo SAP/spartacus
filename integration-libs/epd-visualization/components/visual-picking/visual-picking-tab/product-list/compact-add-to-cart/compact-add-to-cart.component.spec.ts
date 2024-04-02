@@ -1,20 +1,27 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  ElementRef,
+  Input,
+  ViewContainerRef,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AddedToCartDialogEventListener } from '@spartacus/cart/base/components';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { CmsComponent, I18nTestingModule, Product } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
   IconModule,
-  ModalService,
+  LaunchDialogService,
+  LAUNCH_CALLER,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { AddedToCartDialogEventListener } from 'feature-libs/cart/base/components/added-to-cart-dialog';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';
 
 const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
@@ -42,26 +49,37 @@ const mockNoStockProduct: Product = {
 class MockActiveCartService {
   addEntry(_productCode: string, _quantity: number): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return EMPTY;
   }
   isStable(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getActive(): Observable<Cart> {
-    return of();
+    return EMPTY;
   }
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
   }
   getLastEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
+}
+
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef
+  ) {
+    return EMPTY;
+  }
+  closeDialog(_reason: string): void {}
 }
 
 @Component({
@@ -99,8 +117,8 @@ describe('CompactAddToCartComponent', () => {
         declarations: [CompactAddToCartComponent, MockItemCounterComponent],
         providers: [
           {
-            provide: ModalService,
-            useValue: { open: () => ({ componentInstance: {} }) },
+            provide: LaunchDialogService,
+            useValue: MockLaunchDialogService,
           },
           { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {
@@ -162,7 +180,7 @@ describe('CompactAddToCartComponent', () => {
 
     addToCartComponent.addToCart();
 
-    expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
+    expect(service.addEntry).toHaveBeenCalledWith(productCode, 1, undefined);
     expect(listener['openModal']).toHaveBeenCalledTimes(1);
   });
 

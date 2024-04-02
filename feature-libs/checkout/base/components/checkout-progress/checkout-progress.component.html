@@ -16,7 +16,11 @@
             [class.active]="isActive(i)"
             [class.disabled]="isDisabled(i)"
             [tabindex]="getTabIndex(i)"
-            [innerHTML]="step.name | cxTranslate | cxMultiLine"
+            [innerHTML]="
+              step.nameMultiLine !== false
+                ? (step.name | cxTranslate | cxMultiLine)
+                : (step.name | cxTranslate)
+            "
           >
           </a>
         </li>

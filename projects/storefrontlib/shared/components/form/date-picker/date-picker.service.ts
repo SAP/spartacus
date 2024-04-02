@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 
 /**
@@ -43,7 +49,7 @@ export class DatePickerService {
    * ourselves. We cannot rely on `new Date('2020-1-1')`. This will fail, only
    * `new Date('2020-01-01')` works.
    */
-  getDate(value: string): Date {
+  getDate(value: string): Date | undefined {
     if (!value) {
       return;
     }
@@ -52,7 +58,7 @@ export class DatePickerService {
       .replace('yyyy', '')
       .replace('mm', '')
       .replace('dd', '')
-      .substr(0, 1);
+      .substring(0, 1);
 
     const dateParts = value.split(delimiter);
 

@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject, StoreModule } from '@ngrx/store';
 import { TokenResponse } from 'angular-oauth2-oidc';
-import { UserService } from 'projects/core/src/user/facade/user.service';
-import { of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { EventService } from '../../../event/event.service';
-import { User } from '../../../model/misc.model';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
@@ -24,9 +22,6 @@ class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn = () =>
     token$.asObservable().pipe(map((token) => !!token.access_token));
   logout = () => token$.next(anonymousUser);
-}
-class MockUserService implements Partial<UserService> {
-  get = () => of({} as User);
 }
 
 class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
@@ -49,7 +44,6 @@ describe('UserAuthEventBuilder', () => {
       providers: [
         { provide: ActionsSubject, useValue: actions$ },
         { provide: AuthService, useClass: MockAuthService },
-        { provide: UserService, useClass: MockUserService },
         {
           provide: OAuthLibWrapperService,
           useClass: MockOAuthLibWrapperService,
@@ -63,7 +57,7 @@ describe('UserAuthEventBuilder', () => {
 
   describe('LogoutEvent', () => {
     it('should emit a LogoutEvent when a user logs OUT', () => {
-      let result: LogoutEvent;
+      let result: LogoutEvent | undefined;
       eventService
         .get(LogoutEvent)
         .pipe(take(1))
@@ -77,7 +71,7 @@ describe('UserAuthEventBuilder', () => {
     });
 
     it('should NOT emit a LogoutEvent when a user logs IN', () => {
-      let result: LogoutEvent;
+      let result: LogoutEvent | undefined;
       eventService
         .get(LogoutEvent)
         .pipe(take(1))
@@ -91,7 +85,7 @@ describe('UserAuthEventBuilder', () => {
     });
 
     it('should NOT emit a LogoutEvent when a user STAYS logged IN', () => {
-      let result: LogoutEvent;
+      let result: LogoutEvent | undefined;
       eventService
         .get(LogoutEvent)
         .pipe(take(1))
@@ -105,7 +99,7 @@ describe('UserAuthEventBuilder', () => {
     });
 
     it('should emit ONE LogoutEvent when a user logs OUT', () => {
-      let result: LogoutEvent;
+      let result: LogoutEvent | undefined;
       eventService.get(LogoutEvent).subscribe((value) => (result = value));
 
       token$.next(authenticatedUser);
@@ -121,7 +115,7 @@ describe('UserAuthEventBuilder', () => {
 
   describe('LoginEvent', () => {
     it('should emit a LoginEvent on LOGIN action', () => {
-      let result: LoginEvent;
+      let result: LoginEvent | undefined;
       eventService
         .get(LoginEvent)
         .pipe(take(1))
@@ -132,7 +126,7 @@ describe('UserAuthEventBuilder', () => {
     });
 
     it('should emit a LoginEvent for each LOGIN action', () => {
-      let result: LoginEvent;
+      let result: LoginEvent | undefined;
       eventService
         .get(LoginEvent)
         .pipe(take(2))
@@ -141,7 +135,7 @@ describe('UserAuthEventBuilder', () => {
       actions$.next({ type: AuthActions.LOGIN });
       expect(result).toEqual(new LoginEvent());
 
-      result = null;
+      result = undefined;
 
       actions$.next({ type: AuthActions.LOGOUT });
       actions$.next({ type: AuthActions.LOGIN });

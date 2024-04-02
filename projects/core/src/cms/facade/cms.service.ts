@@ -1,11 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of, queueScheduler, using } from 'rxjs';
 import {
   catchError,
   filter,
+  map,
   observeOn,
-  pluck,
   shareReplay,
   switchMap,
   take,
@@ -84,7 +90,7 @@ export class CmsService {
     return component[context] as Observable<T>;
   }
 
-  private createComponentData<T extends CmsComponent>(
+  private createComponentData<T extends CmsComponent | null>(
     uid: string,
     pageContext?: PageContext
   ): Observable<T> {
@@ -127,7 +133,7 @@ export class CmsService {
     const component$ = this.store.pipe(
       select(CmsSelectors.componentsSelectorFactory(uid, context)),
       filter(isNotUndefined)
-    ) as Observable<T | null>;
+    ) as Observable<T>;
 
     return using(
       () => loading$.subscribe(),
@@ -148,7 +154,7 @@ export class CmsService {
             select(
               CmsSelectors.getCurrentSlotSelectorFactory(pageContext, position)
             ),
-            filter(Boolean)
+            filter(isNotUndefined)
           )
         )
       );
@@ -171,7 +177,7 @@ export class CmsService {
    */
   loadNavigationItems(
     rootUid: string,
-    itemList: { id: string; superType: string }[]
+    itemList: { id: string | undefined; superType: string | undefined }[]
   ): void {
     this.store.dispatch(
       new CmsActions.LoadCmsNavigationItems({
@@ -251,9 +257,9 @@ export class CmsService {
           // we should wait for reload and actual value
           return false;
         }
-        return entity.success || (entity.error && !entity.loading);
+        return Boolean(entity.success || (entity.error && !entity.loading));
       }),
-      pluck('success'),
+      map((loaderState) => !!loaderState.success),
       catchError(() => of(false))
     );
   }
@@ -261,7 +267,10 @@ export class CmsService {
   /**
    * Given pageContext, return the CMS page data
    **/
-  getPage(pageContext: PageContext, forceReload = false): Observable<Page> {
+  getPage(
+    pageContext: PageContext,
+    forceReload = false
+  ): Observable<Page | null> {
     return this.hasPage(pageContext, forceReload).pipe(
       switchMap((hasPage) =>
         hasPage ? this.getPageState(pageContext) : of(null)

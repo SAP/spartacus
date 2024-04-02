@@ -1,9 +1,7 @@
 @import './wish-list';
-@import './wish-list-item';
 @import './add-to-wishlist';
 
-$wish-list-components-allowlist: cx-wish-list, cx-wish-list-item,
-  cx-add-to-wishlist !default;
+$wish-list-components-allowlist: cx-wish-list, cx-add-to-wishlist !default;
 
 $skipComponentStyles: () !default;
 

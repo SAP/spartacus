@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, CreateCartEvent } from '@spartacus/cart/base/root';
 import {
@@ -11,7 +17,6 @@ import {
 import { combineLatest, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
-  filter,
   map,
   startWith,
   switchMap,
@@ -31,7 +36,7 @@ export class MiniCartComponentService {
   ) {}
 
   /**
-   * This function supports lazy loading of the cart functoinality's code. We only call
+   * This function supports lazy loading of the cart functionality's code. We only call
    * the activeCartFacade if we know there is actually a cart.
    * Without a cart, we can return a default value and
    * avoid loading the cart library code.
@@ -41,8 +46,8 @@ export class MiniCartComponentService {
       switchMap((activeCartRequired) => {
         if (activeCartRequired) {
           return this.activeCartFacade.getActive().pipe(
-            startWith({ deliveryItemsQuantity: 0 }),
-            map((cart) => cart.deliveryItemsQuantity || 0)
+            startWith({ totalUnitCount: 0 }),
+            map((cart) => cart.totalUnitCount || 0)
           );
         } else {
           return of(0);
@@ -52,7 +57,7 @@ export class MiniCartComponentService {
   }
 
   /**
-   * This function supports lazy loading of the cart functoinality's code. We only call
+   * This function supports lazy loading of the cart functionality's code. We only call
    * the activeCartFacade if we know there is actually a cart.
    * Without a cart, we can return a default value and
    * avoid loading the cart library code.
@@ -61,10 +66,9 @@ export class MiniCartComponentService {
     return this.activeCartRequired().pipe(
       switchMap((activeCartRequired) => {
         if (activeCartRequired) {
-          return this.activeCartFacade.getActive().pipe(
-            filter((cart) => !!cart.totalPrice),
-            map((cart) => cart.totalPrice?.formattedValue ?? '')
-          );
+          return this.activeCartFacade
+            .getActive()
+            .pipe(map((cart) => cart.totalPrice?.formattedValue ?? ''));
         } else {
           return of('');
         }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { EMPTY, of } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
 import { ViewComponent } from './view.component';
 
@@ -18,7 +18,7 @@ class MockSplitViewService {
   toggle() {}
 
   getViewState() {
-    return of();
+    return EMPTY;
   }
 }
 

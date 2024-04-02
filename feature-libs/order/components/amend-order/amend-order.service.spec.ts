@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details/order-details.service';
@@ -73,9 +73,9 @@ describe('OrderAmendService', () => {
       .subscribe((f) => (form = f))
       .unsubscribe();
 
-    expect(Object.keys(<FormGroup>form.get('entries').controls).length).toEqual(
-      2
-    );
+    expect(
+      Object.keys(<UntypedFormGroup>form.get('entries').controls).length
+    ).toEqual(2);
   });
 
   it('should return cancellable', () => {
@@ -103,7 +103,7 @@ describe('OrderAmendService', () => {
   });
 
   it('should calculated amended item price', () => {
-    let form: FormGroup;
+    let form: UntypedFormGroup;
     service
       .getForm()
       .subscribe((f) => (form = f))

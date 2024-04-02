@@ -1,10 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ConfigInitializerService } from './config-initializer.service';
-import { Config, ConfigInitializer, RootConfig } from '@spartacus/core';
-import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer';
-import { tap } from 'rxjs/operators';
+import {
+  Config,
+  ConfigInitializer,
+  LoggerService,
+  RootConfig,
+} from '@spartacus/core';
 import { forkJoin } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer';
+import { ConfigInitializerService } from './config-initializer.service';
 
 const MockConfig = {
   test: 'test',
@@ -229,6 +234,8 @@ describe('ConfigInitializerService', () => {
   });
 
   describe('should warn for duplicate scopes', async () => {
+    let logger: LoggerService;
+
     function getInitializersForScopes(...scopes) {
       return scopes.map((scope) => ({
         scopes: scope,
@@ -240,21 +247,22 @@ describe('ConfigInitializerService', () => {
       'More than one CONFIG_INITIALIZER is initializing the same config scope.';
 
     beforeEach(() => {
-      spyOn(console, 'warn');
+      logger = TestBed.inject(LoggerService);
+      spyOn(logger, 'warn');
     });
 
     it('scope1, scope1', async () => {
       await service.initialize(
         getInitializersForScopes(['scope1'], ['scope1'])
       );
-      expect(console.warn).toHaveBeenCalledWith(duplicateWarn);
+      expect(logger.warn).toHaveBeenCalledWith(duplicateWarn);
     });
 
     it('scope1, scope1.nested', async () => {
       await service.initialize(
         getInitializersForScopes(['scope1'], ['scope1.nested'])
       );
-      expect(console.warn).toHaveBeenCalledWith(duplicateWarn);
+      expect(logger.warn).toHaveBeenCalledWith(duplicateWarn);
     });
   });
 });

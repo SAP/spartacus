@@ -1,0 +1,118 @@
+<div
+  [cxFocus]="focusConfig"
+  (esc)="close('Escape clicked')"
+  class="cx-modal-container"
+>
+  <div class="cx-modal-content">
+    <ng-container>
+      <div class="cx-dialog-header modal-header">
+        <div class="cx-dialog-title modal-title">
+          {{ 'reorder.dialog.reorderProducts' | cxTranslate }}
+        </div>
+        <button
+          type="button"
+          class="close"
+          attr.aria-label="{{ 'addToCart.closeModal' | cxTranslate }}"
+          (click)="close('Close reorder result dialog')"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          </span>
+        </button>
+      </div>
+    </ng-container>
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <ng-container *ngIf="data$ | async as data">
+        <ng-container *ngIf="showDecisionPrompt$ | async; else result">
+          <div class="cx-reorder-dialog-areyousure-section">
+            <p>
+              {{ 'reorder.dialog.areYouSureToReplaceCart' | cxTranslate }}
+            </p>
+            <div class="cx-reorder-dialog-footer">
+              <div class="row">
+                <div class="col-12">
+                  <button
+                    class="btn btn-action"
+                    (click)="close('Cancel creating cart from order')"
+                  >
+                    {{ 'reorder.dialog.cancel' | cxTranslate }}
+                  </button>
+                  <button
+                    class="btn btn-primary"
+                    (click)="createCartFromOrder(data.orderCode)"
+                  >
+                    {{ 'reorder.dialog.continue' | cxTranslate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #result>
+          <ng-container *ngIf="!(loading$ | async); else loading">
+            <p>
+              <ng-container
+                *ngIf="!cartModifications?.length; else cartResponse"
+              >
+                <span class="cx-cart-mod-entry-container">
+                  <span class="alert-icon">
+                    <cx-icon
+                      class="success"
+                      [type]="iconTypes.SUCCESS"
+                    ></cx-icon>
+                  </span>
+                  {{ 'reorder.dialog.messages.success' | cxTranslate }}
+                </span>
+              </ng-container>
+              <ng-template #cartResponse>
+                <span
+                  *ngFor="let cartModification of cartModifications"
+                  class="cx-cart-mod-entry-container"
+                >
+                  <ng-container
+                    *ngIf="
+                      cartModification.statusCode ===
+                        cartValidationStatusCode.LOW_STOCK;
+                      else errorIcon
+                    "
+                  >
+                    <span class="alert-icon">
+                      <cx-icon
+                        class="warning"
+                        [type]="iconTypes.INFO"
+                      ></cx-icon>
+                    </span>
+                  </ng-container>
+                  <ng-template #errorIcon>
+                    <span class="alert-icon">
+                      <cx-icon class="error" [type]="iconTypes.ERROR"></cx-icon>
+                    </span>
+                  </ng-template>
+                  <span>
+                    {{
+                      'reorder.dialog.messages.' + cartModification.statusCode
+                        | cxTranslate
+                          : {
+                              quantity: cartModification.quantity,
+                              quantityAdded: cartModification.quantityAdded,
+                              productCode: cartModification.entry.product.code,
+                              productName: cartModification.entry.product.name
+                            }
+                    }}
+                  </span>
+                </span>
+              </ng-template>
+            </p>
+          </ng-container>
+          <ng-template #loading>
+            <div class="cx-spinner">
+              <cx-spinner></cx-spinner>
+            </div>
+          </ng-template>
+        </ng-template>
+      </ng-container>
+    </div>
+  </div>
+</div>

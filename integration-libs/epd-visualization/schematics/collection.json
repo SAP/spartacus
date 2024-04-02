@@ -9,12 +9,6 @@
       "hidden": true,
       "aliases": ["install"]
     },
-    "add-spartacus-library": {
-      "description": "Install a spartacus library",
-      "factory": "./add-library/index#addSpartacusLibrary",
-      "private": true,
-      "hidden": true
-    },
     "add": {
       "factory": "./add-epd-visualization/index#addEpdVisualizationFeature",
       "description": "Add and configure the SAP Enterprise Product Development Visualization integration",

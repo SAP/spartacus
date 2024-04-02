@@ -5,7 +5,10 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  PasswordVisibilityToggleModule,
+} from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { OrderGuestRegisterFormComponent } from './order-guest-register-form.component';
@@ -33,7 +36,12 @@ describe('OrderGuestRegisterFormComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
+        imports: [
+          I18nTestingModule,
+          ReactiveFormsModule,
+          FormErrorsModule,
+          PasswordVisibilityToggleModule,
+        ],
         declarations: [OrderGuestRegisterFormComponent],
         providers: [
           { provide: AuthService, useClass: MockAuthService },

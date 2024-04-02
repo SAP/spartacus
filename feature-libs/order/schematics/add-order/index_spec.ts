@@ -10,21 +10,26 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_ORDER_FEATURE,
-  LibraryOptions as SpartacusOrderOptions,
-  SpartacusOptions,
+  ORDER_FEATURE_NAME,
+  SPARTACUS_ORDER,
   SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
+  LibraryOptions as SpartacusOrderOptions,
+  cartBaseFeatureModulePath,
+  orderFeatureModulePath,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/order/order-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/order.scss';
 
 describe('Spartacus Order schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_ORDER,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -41,6 +46,7 @@ describe('Spartacus Order schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -57,7 +63,7 @@ describe('Spartacus Order schematics: ng-add', () => {
 
   const orderFeatureOptions: SpartacusOrderOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_ORDER_FEATURE],
+    features: [ORDER_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -66,44 +72,38 @@ describe('Spartacus Order schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...libraryNoFeaturesOptions, features: [] },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        { ...libraryNoFeaturesOptions, features: [] },
+        appTree
+      );
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(orderFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -135,14 +135,26 @@ describe('Spartacus Order schematics: ng-add', () => {
   describe('Order feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', orderFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          orderFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(orderFeatureModulePath);
         expect(module).toMatchSnapshot();
+      });
+
+      it('should NOT install the required feature dependencies', async () => {
+        const baseCartFeatureModule = appTree.readContent(
+          cartBaseFeatureModulePath
+        );
+        expect(baseCartFeatureModule).toBeFalsy();
+
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -160,17 +172,15 @@ describe('Spartacus Order schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...orderFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...orderFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(orderFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });

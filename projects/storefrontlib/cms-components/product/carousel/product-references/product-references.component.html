@@ -1,6 +1,7 @@
 <cx-carousel
+  *ngIf="items$ | async as items"
   [title]="title$ | async"
-  [items]="items$ | async"
+  [items]="items"
   [template]="carouselItem"
 >
 </cx-carousel>

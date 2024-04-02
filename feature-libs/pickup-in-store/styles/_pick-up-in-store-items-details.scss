@@ -1,0 +1,107 @@
+%cx-pick-up-in-store-items-details {
+  .cx-code,
+  .cx-name .cx-property {
+    margin: 0;
+    font-weight: var(--cx-font-weight-normal);
+  }
+  .cx-name-value {
+    margin-bottom: 0.25rem;
+    font-weight: var(--cx-font-weight-semi);
+    text-decoration: var(--cx-text-decoration, underline);
+    text-decoration-color: #d3d6db;
+    text-transform: capitalize;
+  }
+  .cx-pickup-items-details-store-heading {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    font-size: var(--cx-font-size, 1.125rem);
+    font-weight: var(--cx-font-weight-semi);
+    line-height: var(--cx-line-height, 1.2222222222);
+  }
+
+  .cx-delivery-pointof-service-item {
+    border-bottom: 1px solid #d3d6db;
+    padding: 1rem 1rem 1rem 2rem;
+    min-height: 10rem;
+  }
+  .cx-delivery-pointof-service-item-header {
+    font-size: var(--cx-font-size, 0.9rem);
+    font-weight: var(--cx-font-weight-semi);
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-top: 1px solid #d3d6db;
+    border-bottom: 1px solid #d3d6db;
+
+    .cx-price-header {
+      text-align: var(--cx-text-align, center);
+      padding: 0;
+    }
+    .cx-quantity-header {
+      text-align: var(--cx-text-align, start);
+      padding: 0;
+    }
+    .cx-total-header {
+      text-align: var(--cx-text-align, center);
+      padding: 0;
+    }
+  }
+
+  .cx-pickup-items-details-heading {
+    margin: 1rem 0;
+    padding: 1rem 1rem 1rem 2rem;
+    font-size: var(--cx-font-size, 1.125rem);
+    font-weight: 600;
+    background-color: var(--cx-color-background);
+  }
+
+  .cx-total {
+    .cx-value {
+      font-weight: var(--cx-font-weight-normal);
+    }
+  }
+
+  .cx-checkout-in-store-pick-up-location {
+    padding-top: 1.5rem;
+    border: 1px solid #d3d6db;
+    font-weight: 400;
+  }
+
+  .cx-pickup-items-details {
+    padding: 0 1rem 1rem 2rem;
+    min-height: 5vh;
+    border: 1px solid #d3d6db;
+    border-radius: 0.75rem;
+
+    > div {
+      display: flex;
+      width: 100%;
+
+      > .cx-pickup-items-details-store-address {
+        flex: 0 0 50%;
+      }
+
+      > .cx-pickup-items-details-store-schedule {
+        flex: 0 0 40%;
+        .cx-store-schedule-container {
+          width: 100%;
+          margin-top: 1rem;
+        }
+      }
+      > .cx-pickup-items-details-edit-icon {
+        flex: 0 0 10%;
+        text-align: center;
+        margin-top: 1rem;
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+  .cx-checkout-btns {
+    margin-top: 5rem;
+    margin-bottom: 1.125rem;
+  }
+  .cx-pickup-items-details:not(:first-of-type) {
+    background: var(--cx-color-background);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}

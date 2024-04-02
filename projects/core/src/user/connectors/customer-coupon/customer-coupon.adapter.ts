@@ -1,16 +1,22 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Observable } from 'rxjs';
 import {
-  CustomerCouponSearchResult,
-  CustomerCouponNotification,
   CustomerCoupon2Customer,
+  CustomerCouponNotification,
+  CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
 
 export abstract class CustomerCouponAdapter {
   abstract getCustomerCoupons(
     userId: string,
     pageSize: number,
-    currentPage: number,
-    sort: string
+    currentPage?: number,
+    sort?: string
   ): Observable<CustomerCouponSearchResult>;
 
   abstract turnOnNotification(
@@ -24,6 +30,11 @@ export abstract class CustomerCouponAdapter {
   ): Observable<{}>;
 
   abstract claimCustomerCoupon(
+    userId: string,
+    couponCode: string
+  ): Observable<CustomerCoupon2Customer>;
+
+  abstract disclaimCustomerCoupon(
     userId: string,
     couponCode: string
   ): Observable<CustomerCoupon2Customer>;

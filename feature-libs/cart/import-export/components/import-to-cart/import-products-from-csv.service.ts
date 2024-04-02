@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ProductData } from '@spartacus/cart/base/root';
 
@@ -5,7 +11,9 @@ import { ProductData } from '@spartacus/cart/base/root';
   providedIn: 'root',
 })
 export class ImportProductsFromCsvService {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   csvDataToProduct(csvData: string[][]): ProductData[] {
     return csvData.map((row: string[]) => ({

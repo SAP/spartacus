@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -9,7 +15,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthRedirectStorageService {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   private redirectUrl$: Observable<string | undefined> = new BehaviorSubject<
     string | undefined

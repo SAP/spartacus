@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   Command,
   CommandService,
@@ -34,13 +40,6 @@ export class OrderService implements OrderFacade {
                      * we can safely use the cartId, which is actually the cart.code.
                      */
                     cartCode: cartId,
-                  },
-                  RemoveCartEvent
-                );
-                this.eventService.dispatch(
-                  {
-                    userId,
-                    cartId,
                     order,
                   },
                   OrderPlacedEvent
@@ -99,5 +98,27 @@ export class OrderService implements OrderFacade {
 
   setPlacedOrder(order: Order): void {
     this.placedOrder$.next(order);
+  }
+
+  getPickupEntries(): Observable<OrderEntry[]> {
+    return this.getOrderDetails().pipe(
+      map(
+        (order) =>
+          order?.entries?.filter(
+            (entry) => entry.deliveryPointOfService !== undefined
+          ) || []
+      )
+    );
+  }
+
+  getDeliveryEntries(): Observable<OrderEntry[]> {
+    return this.getOrderDetails().pipe(
+      map(
+        (order) =>
+          order?.entries?.filter(
+            (entry) => entry.deliveryPointOfService === undefined
+          ) || []
+      )
+    );
   }
 }

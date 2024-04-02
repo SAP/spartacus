@@ -1,0 +1,24 @@
+<div
+  *ngIf="data$ | async as data; else loading"
+  class="video-container"
+  tabindex="-1"
+>
+  <a *ngIf="data.overlayTitle" [routerLink]="routerLink">{{
+    data.overlayTitle
+  }}</a>
+  <video
+    *ngIf="source"
+    [style.height.px]="data.videoContainerHeight"
+    controls
+    [poster]="thumbnail?.src"
+    [loop]="loop"
+    [autoplay]="autoPlay"
+    [muted]="mute"
+    [attr.aria-label]="'player.label' | cxTranslate"
+    [src]="source"
+  ></video>
+</div>
+
+<ng-template #loading>
+  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+</ng-template>

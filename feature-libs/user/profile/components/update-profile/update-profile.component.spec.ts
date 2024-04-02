@@ -1,23 +1,34 @@
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
 import createSpy = jasmine.createSpy;
+
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 
+@Directive({
+  selector: '[cxNgSelectA11y]',
+})
+class MockNgSelectA11yDirective {
+  @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
+}
 const isBusySubject = new BehaviorSubject(false);
 
 class MockUpdateProfileService
@@ -25,11 +36,11 @@ class MockUpdateProfileService
 {
   user$ = of({});
   titles$ = of([]);
-  form: FormGroup = new FormGroup({
-    customerId: new FormControl(),
-    titleCode: new FormControl(),
-    firstName: new FormControl(),
-    lastName: new FormControl(),
+  form: UntypedFormGroup = new UntypedFormGroup({
+    customerId: new UntypedFormControl(),
+    titleCode: new UntypedFormControl(),
+    firstName: new UntypedFormControl(),
+    lastName: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
   updateProfile = createSpy().and.stub();
@@ -54,11 +65,21 @@ describe('UpdateProfileComponent', () => {
           UrlTestingModule,
           NgSelectModule,
         ],
-        declarations: [UpdateProfileComponent, MockCxSpinnerComponent],
+        declarations: [
+          UpdateProfileComponent,
+          MockCxSpinnerComponent,
+          MockNgSelectA11yDirective,
+        ],
         providers: [
           {
             provide: UpdateProfileComponentService,
             useClass: MockUpdateProfileService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.2' },
+            },
           },
         ],
       }).compileComponents();

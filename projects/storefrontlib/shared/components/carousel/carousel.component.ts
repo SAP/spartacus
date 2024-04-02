@@ -1,12 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   Input,
   isDevMode,
   OnInit,
   TemplateRef,
 } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -36,7 +44,7 @@ export class CarouselComponent implements OnInit {
   /**
    * The title is rendered as the carousel heading.
    */
-  @Input() title: string;
+  @Input() title: string | undefined | null;
 
   /**
    * The items$ represent the carousel items. The items$ are
@@ -77,11 +85,13 @@ export class CarouselComponent implements OnInit {
   activeSlide: number;
   size$: Observable<number>;
 
+  protected logger = inject(LoggerService);
+
   constructor(protected el: ElementRef, protected service: CarouselService) {}
 
   ngOnInit() {
     if (!this.template && isDevMode()) {
-      console.error(
+      this.logger.error(
         'No template reference provided to render the carousel items for the `cx-carousel`'
       );
       return;
@@ -92,7 +102,7 @@ export class CarouselComponent implements OnInit {
   }
 
   getSlideNumber(size: number, currentIndex: number): number {
-    let normalizedCurrentIndex = currentIndex + 1;
+    const normalizedCurrentIndex = currentIndex + 1;
     return Math.ceil(normalizedCurrentIndex / size);
   }
 }

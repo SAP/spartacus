@@ -5,13 +5,14 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
+  FeaturesConfig,
   I18nTestingModule,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -181,6 +182,12 @@ describe('MyCouponsComponent', () => {
             provide: MyCouponsComponentService,
             useValue: myCouponsComponentService,
           },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.1' },
+            },
+          },
         ],
       }).compileComponents();
     })
@@ -217,6 +224,13 @@ describe('MyCouponsComponent', () => {
   it('should create', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it('should display header', () => {
+    fixture.detectChanges();
+    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+      'myCoupons.myCoupons'
+    );
   });
 
   it('should be able to show message when there is no coupon', () => {

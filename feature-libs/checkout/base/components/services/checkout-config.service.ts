@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
@@ -68,6 +74,10 @@ export class CheckoutConfigService {
     return lastMode
       ? deliveryModes[0].code
       : this.findMatchingDeliveryMode(deliveryModes, index + 1);
+  }
+
+  shouldUseAddressSavedInCart(): boolean {
+    return !!this.checkoutConfig?.checkout?.guestUseSavedAddress;
   }
 
   getPreferredDeliveryMode(deliveryModes: DeliveryMode[]): string | undefined {

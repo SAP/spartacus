@@ -1,10 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, Input } from '@angular/core';
 import {
+  AbstractOrderType,
   CartOutlets,
-  OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { Consignment, Order } from '@spartacus/order/root';
+import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-order-consigned-entries',
@@ -13,18 +19,12 @@ import { Consignment, Order } from '@spartacus/order/root';
 export class OrderConsignedEntriesComponent {
   @Input() consignments: Consignment[];
   @Input() order: Order;
+  @Input() enableAddToCart: boolean | undefined;
+  @Input() buyItAgainTranslation: string;
+
   promotionLocation: PromotionLocation = PromotionLocation.Order;
 
+  readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
-
-  getConsignmentProducts(consignment: Consignment): OrderEntry[] {
-    const products: OrderEntry[] = [];
-    consignment.entries?.forEach((element) => {
-      if (element.orderEntry) {
-        products.push(element.orderEntry);
-      }
-    });
-
-    return products;
-  }
+  readonly abstractOrderType = AbstractOrderType;
 }

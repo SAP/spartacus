@@ -17,10 +17,13 @@
       "items": {
         "enum": [
           "ASM",
+          "ASM-Customer-360",
           "Import-Export",
           "Saved-Cart",
           "Quick-Order",
           "CDC",
+          "CDC-B2B",
+          "CDP",
           "CDS",
           "Cart",
           "WishList",
@@ -30,27 +33,39 @@
           "Order",
           "Digital-Payments",
           "EPD-Visualization",
+          "Customer-Ticketing",
           "Administration",
           "Order-Approval",
+          "Organization-User-Registration",
+          "Unit-Order",
+          "Account-Summary",
           "Bulk-Pricing",
           "Image-Zoom",
+          "Future-Stock",
+          "PDF-Invoices",
           "Product-Variants",
           "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
+          "Requested-Delivery-Date",
+          "S4HANA-Order-Management",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
+          "Segment-Refs",
           "TMS-GTM",
           "TMS-AEPL",
-          "Account",
-          "Profile"
+          "Pickup-In-Store",
+          "User-Account",
+          "User-Profile",
+          "Quote"
         ],
         "type": "string"
       },
       "default": [
         "ASM",
+        "ASM-Customer-360",
         "Cart",
         "WishList",
         "Checkout",
@@ -63,16 +78,20 @@
         "SmartEdit",
         "Store-Finder",
         "Personalization",
-        "Account",
-        "Profile"
+        "User-Account",
+        "User-Profile"
       ],
       "x-prompt": {
-        "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the Account feature is required.",
+        "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the User-Account feature is required.",
         "type": "list",
         "items": [
           {
             "value": "ASM",
             "label": "Assisted Services Module"
+          },
+          {
+            "value": "ASM-Customer-360",
+            "label": "ASM Customer 360"
           },
           {
             "value": "Import-Export",
@@ -88,7 +107,15 @@
           },
           {
             "value": "CDC",
-            "label": "Customer Data Cloud Integration"
+            "label": "Customer Data Cloud Integration - B2C"
+          },
+          {
+            "value": "CDC-B2B",
+            "label": "Customer Data Cloud Integration - B2B"
+          },
+          {
+            "value": "CDP",
+            "label": "Customer Data Platform Integration"
           },
           {
             "value": "CDS",
@@ -100,11 +127,11 @@
           },
           {
             "value": "Checkout-B2B",
-            "label": "Checkout (b2b feature, includes Base Checkout)"
+            "label": "Checkout B2B (b2b feature, requires Base Checkout)"
           },
           {
             "value": "Checkout-Scheduled-Replenishment",
-            "label": "Checkout Scheduled Replenishment (b2b feature, includes Base and B2B Checkout)"
+            "label": "Checkout Scheduled Replenishment (b2b feature, requires Base and B2B Checkout)"
           },
           {
             "value": "Cart",
@@ -135,6 +162,18 @@
             "label": "Organization - Order Approval (b2b feature)"
           },
           {
+            "value": "Organization-User-Registration",
+            "label": "Organization - User Registration (b2b feature)"
+          },
+          {
+            "value": "Unit-Order",
+            "label": "Organization - Unit Order (b2b feature)"
+          },
+          {
+            "value": "Account-Summary",
+            "label": "Organization - Account Summary (b2b feature, requires Organization - Administration)"
+          },
+          {
             "value": "Bulk-Pricing",
             "label": "Product - Bulk Pricing (b2b feature)"
           },
@@ -145,6 +184,10 @@
           {
             "value": "Image-Zoom",
             "label": "Product - Image Zoom"
+          },
+          {
+            "value": "Future-Stock",
+            "label": "Product - Future Stock"
           },
           {
             "value": "VC-Configurator",
@@ -159,8 +202,20 @@
             "label": "Product Configurator - CPQ Configurator (b2b feature)"
           },
           {
+            "value": "PDF-Invoices",
+            "label": "PDF Invoices"
+          },
+          {
             "value": "Qualtrics",
             "label": "Qualtrics"
+          },
+          {
+            "value": "Requested-Delivery-Date",
+            "label": "Requested Delivery Date"
+          },
+          {
+            "value": "S4HANA-Order-Management",
+            "label": "S/4HANA Order Management (b2b feature)"
           },
           {
             "value": "SmartEdit",
@@ -175,6 +230,10 @@
             "label": "Tracking - Personalization"
           },
           {
+            "value": "Segment-Refs",
+            "label": "Segment Reference"
+          },
+          {
             "value": "TMS-GTM",
             "label": "Tracking - Tag Management System - Google Tag Manager"
           },
@@ -183,12 +242,24 @@
             "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
           },
           {
-            "value": "Account",
+            "value": "User-Account",
             "label": "User - Account"
           },
           {
-            "value": "Profile",
+            "value": "User-Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Quote",
+            "label": "Quote"
+          },
+          {
+            "value": "Customer-Ticketing",
+            "label": "Customer Ticketing"
+          },
+          {
+            "value": "Pickup-In-Store",
+            "label": "Pickup in Store"
           }
         ]
       }
@@ -218,13 +289,11 @@
     },
     "currency": {
       "type": "string",
-      "description": "A comma-separated list of currencies to use in Spartacus",
-      "default": "USD"
+      "description": "A comma-separated list of currencies to use in Spartacus"
     },
     "language": {
       "type": "string",
-      "description": "A comma-separated list of languages to use in Spartacus",
-      "default": "en"
+      "description": "A comma-separated list of languages to use in Spartacus"
     },
     "urlParameters": {
       "type": "string",
@@ -242,11 +311,6 @@
       "type": "boolean",
       "description": "Overwrite the contents of app.component.html file with the <cx-storefront> tag.",
       "default": true
-    },
-    "pwa": {
-      "type": "boolean",
-      "description": "Add PWA support to the project.",
-      "default": false
     },
     "ssr": {
       "type": "boolean",

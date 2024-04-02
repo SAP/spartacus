@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { CostCenterSetEvent } from '@spartacus/checkout/b2b/root';
+import { CheckoutCostCenterSetEvent } from '@spartacus/checkout/b2b/root';
 import {
   CheckoutQueryFacade,
   CheckoutState,
@@ -12,7 +12,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutCostCenterConnector } from '../connectors/checkout-cost-center/checkout-cost-center.connector';
 import { CheckoutCostCenterService } from './checkout-cost-center.service';
@@ -35,7 +35,7 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(of());
+  get = createSpy().and.returnValue(EMPTY);
   dispatch = createSpy();
 }
 
@@ -127,7 +127,7 @@ describe(`CheckoutCostCenterService`, () => {
         });
     });
 
-    it(`should call dispatch CostCenterSetEvent`, (done) => {
+    it(`should call dispatch CheckoutCostCenterSetEvent`, (done) => {
       service
         .setCostCenter(mockCostCenter.code ?? '')
         .pipe(take(1))
@@ -138,7 +138,7 @@ describe(`CheckoutCostCenterService`, () => {
               userId: mockUserId,
               code: mockCostCenter.code ?? '',
             },
-            CostCenterSetEvent
+            CheckoutCostCenterSetEvent
           );
           done();
         });

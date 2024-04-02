@@ -1,26 +1,25 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import {
-  ActiveCartFacade,
-  DeliveryMode,
-  LoadCartEvent,
-} from '@spartacus/cart/base/root';
-import {
+  CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutDeliveryModesFacade,
   CheckoutQueryFacade,
-  CheckoutReloadDeliveryModesEvent,
-  CheckoutResetDeliveryModesEvent,
+  CheckoutSupportedDeliveryModesQueryReloadEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Command,
   CommandService,
   CommandStrategy,
-  CurrencySetEvent,
   EventService,
-  LanguageSetEvent,
-  LoginEvent,
-  LogoutEvent,
   OCC_USER_ID_ANONYMOUS,
   Query,
   QueryNotifier,
@@ -28,8 +27,8 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, throwError } from 'rxjs';
-import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 
 @Injectable()
@@ -37,34 +36,16 @@ export class CheckoutDeliveryModesService
   implements CheckoutDeliveryModesFacade
 {
   /**
-   * Returns the reload triggers for the supportedDeliveryModes query
+   * Returns the reload events for the supportedDeliveryModes query
    */
-  protected getSupportedDeliveryModesReloadTriggers(): QueryNotifier[] {
-    return [
-      CheckoutReloadDeliveryModesEvent,
-      ...this.getSupportedDeliveryModesQueryReloadSiteContextTriggers(),
-    ];
+  protected getCheckoutSupportedDeliveryModesQueryReloadEvents(): QueryNotifier[] {
+    return [CheckoutSupportedDeliveryModesQueryReloadEvent];
   }
   /**
-   * Returns the site-context reload triggers for the supportedDeliveryModes query
+   * Return the reset events for the supportedDeliveryModes query
    */
-  protected getSupportedDeliveryModesQueryReloadSiteContextTriggers(): QueryNotifier[] {
-    return [LanguageSetEvent, CurrencySetEvent];
-  }
-  /**
-   * Return the reset triggers for the supportedDeliveryModes query
-   */
-  protected getSupportedDeliveryModesQueryResetTriggers(): QueryNotifier[] {
-    return [
-      CheckoutResetDeliveryModesEvent,
-      ...this.getSupportedDeliveryModesQueryResetAuthTriggers(),
-    ];
-  }
-  /**
-   * Returns the auth reset triggers for the supportedDeliveryModes query
-   */
-  protected getSupportedDeliveryModesQueryResetAuthTriggers(): QueryNotifier[] {
-    return [LogoutEvent, LoginEvent];
+  protected getCheckoutSupportedDeliveryModesQueryResetEvents(): QueryNotifier[] {
+    return [CheckoutSupportedDeliveryModesQueryResetEvent];
   }
 
   protected supportedDeliveryModesQuery: Query<DeliveryMode[]> =
@@ -79,8 +60,8 @@ export class CheckoutDeliveryModesService
           )
         ),
       {
-        reloadOn: this.getSupportedDeliveryModesReloadTriggers(),
-        resetOn: this.getSupportedDeliveryModesQueryResetTriggers(),
+        reloadOn: this.getCheckoutSupportedDeliveryModesQueryReloadEvents(),
+        resetOn: this.getCheckoutSupportedDeliveryModesQueryResetEvents(),
       }
     );
 
@@ -94,24 +75,8 @@ export class CheckoutDeliveryModesService
               .pipe(
                 tap(() => {
                   this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      deliveryModeCode,
-                    },
+                    { userId, cartId, cartCode: cartId, deliveryModeCode },
                     CheckoutDeliveryModeSetEvent
-                  );
-                  this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      /**
-                       * As we know the cart is not anonymous (precondition checked),
-                       * we can safely use the cartId, which is actually the cart.code.
-                       */
-                      cartCode: cartId,
-                    },
-                    LoadCartEvent
                   );
                 })
               )
@@ -130,41 +95,35 @@ export class CheckoutDeliveryModesService
             this.checkoutDeliveryModesConnector
               .clearCheckoutDeliveryMode(userId, cartId)
               .pipe(
-                tap(() => {
-                  this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                    },
-                    CheckoutDeliveryModeClearedEvent
-                  );
-                  this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      /**
-                       * As we know the cart is not anonymous (precondition checked),
-                       * we can safely use the cartId, which is actually the cart.code.
-                       */
-                      cartCode: cartId,
-                    },
-                    LoadCartEvent
-                  );
-                }),
-                catchError((error) => {
-                  this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      /**
-                       * As we know the cart is not anonymous (precondition checked),
-                       * we can safely use the cartId, which is actually the cart.code.
-                       */
-                      cartCode: cartId,
-                    },
-                    LoadCartEvent
-                  );
-                  return throwError(error);
+                tap({
+                  next: () => {
+                    this.eventService.dispatch(
+                      {
+                        userId,
+                        cartId,
+                        /**
+                         * As we know the cart is not anonymous (precondition checked),
+                         * we can safely use the cartId, which is actually the cart.code.
+                         */
+                        cartCode: cartId,
+                      },
+                      CheckoutDeliveryModeClearedEvent
+                    );
+                  },
+                  error: () => {
+                    this.eventService.dispatch(
+                      {
+                        userId,
+                        cartId,
+                        /**
+                         * As we know the cart is not anonymous (precondition checked),
+                         * we can safely use the cartId, which is actually the cart.code.
+                         */
+                        cartCode: cartId,
+                      },
+                      CheckoutDeliveryModeClearedErrorEvent
+                    );
+                  },
                 })
               )
           )
@@ -213,6 +172,7 @@ export class CheckoutDeliveryModesService
 
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return this.getSupportedDeliveryModesState().pipe(
+      filter((state) => !state.loading),
       map((state) => state.data ?? [])
     );
   }

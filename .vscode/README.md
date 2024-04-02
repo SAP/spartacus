@@ -18,7 +18,7 @@ The debug configurations are defined in `launch.json`.
 
 In order to debug in VSCode, do the following:
 
-- `yarn start`
+- `npm run start`
 - Open the "Debug view" by selecting the Debug icon in the Activity Bar on the side.
 - Choose a configuration from the dropdown and click on the green "Start Debugging" button.
 

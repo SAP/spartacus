@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ProductScope } from '../../../product/model/product-scope';
 import { OccConfig } from '../../config/occ-config';
 
@@ -12,7 +18,13 @@ export const defaultOccProductConfig: OccConfig = {
             'products/${productCode}?fields=code,name,summary,price(formattedValue),images(DEFAULT,galleryIndex),baseProduct',
           details:
             'products/${productCode}?fields=averageRating,stock(DEFAULT),description,availableForPickup,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,tags,images(FULL)',
+          promotions:
+            'products/${productCode}?fields=potentialPromotions(description)',
           attributes: 'products/${productCode}?fields=classifications',
+          price: 'products/${productCode}?fields=price(formattedValue)',
+          stock: 'products/${productCode}?fields=stock(DEFAULT)',
+          list_item:
+            'products/${productCode}?fields=code,name,price(formattedValue),images(DEFAULT),baseProduct',
         },
 
         productReviews: 'products/${productCode}/reviews',

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,8 +18,8 @@ import {
   SavedCartFacade,
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
-import { RoutingService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { RoutingService, useFeatureStyles } from '@spartacus/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
@@ -31,10 +37,10 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   savedCarts$: Observable<Cart[]> = this.savedCartService.getList().pipe(
     map((lists) =>
       lists.sort((a: Cart, b: Cart) => {
-        let date1: number = a.saveTime
+        const date1: number = a.saveTime
           ? new Date(a.saveTime).getTime()
           : new Date().getTime();
-        let date2: number = b.saveTime
+        const date2: number = b.saveTime
           ? new Date(b.saveTime).getTime()
           : new Date().getTime();
         return date2 - date1;
@@ -46,7 +52,9 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     protected savedCartService: SavedCartFacade,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
-  ) {}
+  ) {
+    useFeatureStyles('a11ySavedCartsZoom');
+  }
 
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();

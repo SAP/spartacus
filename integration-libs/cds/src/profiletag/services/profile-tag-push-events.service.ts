@@ -1,9 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
+  ActiveCartFacade,
   CartAddEntrySuccessEvent,
   CartPageEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
+  MergeCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import { Category, EventService } from '@spartacus/core';
 import { OrderPlacedEvent } from '@spartacus/order/root';
@@ -20,13 +28,14 @@ import {
   distinctUntilChanged,
   distinctUntilKeyChanged,
   map,
-  mapTo,
   pairwise,
   startWith,
+  switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
   AddedToCartPushEvent,
+  CartSnapshotPushEvent,
   CartViewPushEvent,
   CategoryViewPushEvent,
   HomePageViewPushEvent,
@@ -70,12 +79,14 @@ export class ProfileTagPushEventsService {
     this.orderConfirmationPageVisited(),
     this.addedToCart(),
     this.removedFromCart(),
-    this.modifiedCart()
+    this.modifiedCart(),
+    this.cartChangedEvent()
   );
 
   constructor(
     protected eventService: EventService,
-    protected personalizationContextService: PersonalizationContextService
+    protected personalizationContextService: PersonalizationContextService,
+    protected activeCartFacade: ActiveCartFacade
   ) {}
 
   /**
@@ -137,9 +148,11 @@ export class ProfileTagPushEventsService {
               currentCategoryPage.categoryCode &&
             previousRoute.navigation.semanticRoute ===
               currentRoute.navigation.semanticRoute
-          ); // A true means that this item is not unique, so this is hard to wrap your head around.
-          // What we are saying, is that if the categoryCode is the same AND the last emitted semantic route is the same
-          // then this is a duplicate (I.E. via a facet change). In other words, no other page type was visited, and we are on the same categorycode
+          );
+          // A true means that this item is not unique, so this is hard to wrap your head around.
+          // What we are saying, is that if the category code is the same AND the last emitted semantic route is the
+          // same then this is a duplicate (i.e. via a facet change). In other words, no other page type was visited,
+          // and we are on the same category code.
         }
       ),
       map(
@@ -209,7 +222,7 @@ export class ProfileTagPushEventsService {
   protected navigatedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(PageEvent)
-      .pipe(mapTo(new NavigatedPushEvent()));
+      .pipe(map(() => new NavigatedPushEvent()));
   }
 
   /**
@@ -222,7 +235,7 @@ export class ProfileTagPushEventsService {
   protected cartPageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(CartPageEvent)
-      .pipe(mapTo(new CartViewPushEvent()));
+      .pipe(map(() => new CartViewPushEvent()));
   }
 
   /**
@@ -235,7 +248,7 @@ export class ProfileTagPushEventsService {
   protected homePageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(HomePageEvent)
-      .pipe(mapTo(new HomePageViewPushEvent()));
+      .pipe(map(() => new HomePageViewPushEvent()));
   }
 
   /**
@@ -248,13 +261,13 @@ export class ProfileTagPushEventsService {
   protected orderConfirmationPageVisited(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(OrderPlacedEvent)
-      .pipe(mapTo(new OrderConfirmationPushEvent()));
+      .pipe(map(() => new OrderConfirmationPushEvent()));
   }
 
   /**
-   * Listens to CartAddEntrySuccessEvent events, transforms them to AddedToCartPushEvent.
+   * Listens to @CartAddEntrySuccessEvent events, transforms them to @AddedToCartPushEvent .
    *
-   * @returns an observable emitting AddedToCartPushEvent events
+   * @returns an observable emitting @AddedToCartPushEvent events
    * @see CartAddEntrySuccessEvent
    * @see AddedToCartPushEvent
    */
@@ -320,8 +333,8 @@ export class ProfileTagPushEventsService {
   /**
    * Listens to @CartUpdateEntrySuccessEvent events, transforms them to @ModifiedCartPushEvent
    *
-   * @returns an observable emitting @RemovedFromCartPushEvent events
-   * @see CartRemoveEntrySuccessEvent
+   * @returns an observable emitting @ModifiedCartPushEvent events
+   * @see CartUpdateEntrySuccessEvent
    * @see ModifiedCartPushEvent
    */
   protected modifiedCart(): Observable<ProfileTagPushEvent> {
@@ -345,6 +358,34 @@ export class ProfileTagPushEventsService {
                   item.entry.product.categories.length - 1
                 ].code
               : undefined,
+          })
+      )
+    );
+  }
+
+  /**
+   * Listens to @CartAddEntrySuccessEvent , @CartUpdateEntrySuccessEvent and @CartRemoveEntrySuccessEvent events,
+   * transforms them to @CartSnapshotPushEvent whenever there is an activity on the cart.
+   *
+   * @returns an observable emitting @CartSnapshotPushEvent events
+   * @see CartAddEntrySuccessEvent
+   * @see CartUpdateEntrySuccessEvent
+   * @see CartRemoveEntrySuccessEvent
+   * @see MergeCartSuccessEvent
+   * @see CartSnapshotPushEvent
+   */
+  protected cartChangedEvent(): Observable<ProfileTagPushEvent> {
+    return merge(
+      this.eventService.get(CartAddEntrySuccessEvent),
+      this.eventService.get(CartUpdateEntrySuccessEvent),
+      this.eventService.get(CartRemoveEntrySuccessEvent),
+      this.eventService.get(MergeCartSuccessEvent)
+    ).pipe(
+      switchMap(() => this.activeCartFacade.takeActive()),
+      map(
+        (cart) =>
+          new CartSnapshotPushEvent({
+            cart,
           })
       )
     );

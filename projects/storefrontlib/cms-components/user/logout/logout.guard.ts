@@ -1,7 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import {
-  AuthRedirectService,
   AuthService,
   CmsService,
   PageType,
@@ -21,19 +26,16 @@ import { map, switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class LogoutGuard implements CanActivate {
+export class LogoutGuard {
   constructor(
     protected auth: AuthService,
     protected cms: CmsService,
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
-    protected router: Router,
-    protected authRedirectService: AuthRedirectService
+    protected router: Router
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    // Logout route should never be remembered as a redirect url after login (that would cause logout right after login).
-    this.authRedirectService.reportNotAuthGuard();
     /**
      * First we want to complete logout process before redirecting to logout page
      * We want to avoid errors like `token is no longer valid`
@@ -42,7 +44,7 @@ export class LogoutGuard implements CanActivate {
       switchMap(() => {
         return this.cms
           .hasPage({
-            id: this.semanticPathService.get('logout'),
+            id: this.semanticPathService.get('logout') ?? '',
             type: PageType.CONTENT_PAGE,
           })
           .pipe(
@@ -71,6 +73,6 @@ export class LogoutGuard implements CanActivate {
    */
   protected getRedirectUrl(): UrlTree {
     const cxRoute = this.protectedRoutes.shouldProtect ? 'login' : 'home';
-    return this.router.parseUrl(this.semanticPathService.get(cxRoute));
+    return this.router.parseUrl(this.semanticPathService.get(cxRoute) ?? '');
   }
 }

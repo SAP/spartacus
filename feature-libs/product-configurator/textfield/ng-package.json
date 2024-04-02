@@ -1,16 +1,6 @@
 {
   "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
   "lib": {
-    "entryFile": "./public_api.ts",
-    "umdModuleIds": {
-      "@spartacus/core": "core",
-      "@spartacus/storefront": "storefront",
-      "@ng-select/ng-select": "ngSelect",
-      "@ngrx/effects": "effects",
-      "@ngrx/store": "store",
-      "rxjs": "rxjs",
-      "@spartacus/cart/base/root": "cartRoot",
-      "@spartacus/cart/base/core": "cartCore"
-    }
+    "entryFile": "./public_api.ts"
   }
 }

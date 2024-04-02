@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
@@ -9,7 +15,6 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  mapTo,
   shareReplay,
   tap,
   withLatestFrom,
@@ -149,16 +154,17 @@ export class ProductLoadingService {
     if (maxAge && isPlatformBrowser(this.platformId)) {
       // we want to grab load product success and load product fail for this product and scope
       const loadFinish$ = this.actions$.pipe(
+        ofType(
+          ProductActions.LOAD_PRODUCT_SUCCESS,
+          ProductActions.LOAD_PRODUCT_FAIL
+        ),
         filter(
           (
             action:
               | ProductActions.LoadProductSuccess
               | ProductActions.LoadProductFail
           ) =>
-            (action.type === ProductActions.LOAD_PRODUCT_SUCCESS ||
-              action.type === ProductActions.LOAD_PRODUCT_FAIL) &&
-            action.meta.entityId === productCode &&
-            action.meta.scope === scope
+            action.meta.entityId === productCode && action.meta.scope === scope
         )
       );
 
@@ -175,7 +181,7 @@ export class ProductLoadingService {
 
     const reloadTriggers$ = this.loadingScopes
       .getReloadTriggers('product', scope)
-      .map(this.eventService.get);
+      .map((e) => this.eventService.get(e));
 
     return triggers.concat(reloadTriggers$);
   }
@@ -207,7 +213,7 @@ export class ProductLoadingService {
 
       const timestampRefresh$ = timestamp$.pipe(
         delay(maxAge, scheduler),
-        mapTo(true),
+        map(() => true),
         withdrawOn(loadStart$)
       );
 

@@ -154,23 +154,22 @@ describe('SavedCart Effects', () => {
         saveCartName: '',
         saveCartDescription: '',
       });
-      const completion2 = new CartActions.SetActiveCartId(mockCartId);
-      const completion3 = new CartActions.LoadCartSuccess({
+      const completion2 = new CartActions.LoadCartSuccess({
         userId: mockUserId,
         cartId: mockCartId,
         cart: mockSavedCarts[0],
+        extraData: { active: true },
       });
-      const completion4 = new SavedCartActions.RestoreSavedCartSuccess({
+      const completion3 = new SavedCartActions.RestoreSavedCartSuccess({
         userId: mockUserId,
         cartId: mockCartId,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcde)', {
+      const expected = cold('-(bcd)', {
         b: completion1,
         c: completion2,
         d: completion3,
-        e: completion4,
       });
 
       expect(effects.restoreSavedCart$).toBeObservable(expected);
@@ -198,22 +197,63 @@ describe('SavedCart Effects', () => {
         cartId: mockCartId,
       });
 
-      const completion1 = new CartActions.SetActiveCartId(mockCartId);
-      const completion2 = new CartActions.LoadCartSuccess({
+      const completion1 = new CartActions.LoadCartSuccess({
         userId: mockUserId,
         cartId: mockCartId,
         cart: mockSavedCarts[0],
+        extraData: { active: true },
       });
-      const completion3 = new SavedCartActions.RestoreSavedCartSuccess({
+      const completion2 = new SavedCartActions.RestoreSavedCartSuccess({
         userId: mockUserId,
         cartId: mockCartId,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bc)', {
         b: completion1,
         c: completion2,
-        d: completion3,
+      });
+
+      expect(effects.restoreSavedCart$).toBeObservable(expected);
+      expect(connector.restoreSavedCart).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId
+      );
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'savedCartList.swapCartNoActiveCart',
+          params: {
+            cartName: mockCartId,
+            previousCartName: mockActiveCart.code,
+          },
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+
+    it('should restore a saved cart and make it active without saving active cart if active cart is linked to a quote', () => {
+      activeCart$.next({ ...mockActiveCart, quoteCode: 'quoteCode' });
+
+      const action = new SavedCartActions.RestoreSavedCart({
+        userId: mockUserId,
+        cartId: mockCartId,
+      });
+
+      const completion1 = new CartActions.LoadCartSuccess({
+        userId: mockUserId,
+        cartId: mockCartId,
+        cart: mockSavedCarts[0],
+        extraData: { active: true },
+      });
+      const completion2 = new SavedCartActions.RestoreSavedCartSuccess({
+        userId: mockUserId,
+        cartId: mockCartId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: completion1,
+        c: completion2,
       });
 
       expect(effects.restoreSavedCart$).toBeObservable(expected);

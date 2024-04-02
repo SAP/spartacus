@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { OccConfigurator } from '../variant-configurator-occ.models';
@@ -11,7 +17,9 @@ export class OccConfiguratorVariantAddToCartSerializer
       OccConfigurator.AddToCartParameters
     >
 {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   convert(
     source: Configurator.AddToCartParameters,

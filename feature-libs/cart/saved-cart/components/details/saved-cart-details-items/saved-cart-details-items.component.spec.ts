@@ -11,7 +11,8 @@ import {
   RoutingService,
   Translatable,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { OutletModule } from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsItemsComponent } from './saved-cart-details-items.component';
 
@@ -48,7 +49,7 @@ class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
 
 class MockEventService implements Partial<EventService> {
   get(): Observable<any> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -81,7 +82,7 @@ describe('SavedCartDetailsItemsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [StoreModule.forRoot({}), I18nTestingModule],
+        imports: [StoreModule.forRoot({}), I18nTestingModule, OutletModule],
         declarations: [SavedCartDetailsItemsComponent],
         providers: [
           {

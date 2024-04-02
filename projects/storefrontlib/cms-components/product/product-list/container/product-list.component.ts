@@ -1,10 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
   ProductSearchPage,
+  useFeatureStyles,
 } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, skip, take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
 import { ViewConfig } from '../../../../shared/config/view-config';
@@ -18,7 +25,7 @@ import { ProductListComponentService } from './product-list-component.service';
 export class ProductListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
-  isInfiniteScroll: boolean;
+  isInfiniteScroll: boolean | undefined;
 
   model$: Observable<ProductSearchPage> =
     this.productListComponentService.model$;
@@ -31,7 +38,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private productListComponentService: ProductListComponentService,
     private globalMessageService: GlobalMessageService,
     public scrollConfig: ViewConfig
-  ) {}
+  ) {
+    useFeatureStyles('a11ySortingOptionsTruncation');
+  }
 
   ngOnInit(): void {
     this.isInfiniteScroll = this.scrollConfig.view?.infiniteScroll?.active;

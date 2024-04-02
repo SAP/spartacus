@@ -1,4 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { InjectionToken, Provider } from '@angular/core';
+import { LoggerService } from '../../logger';
 import { Config } from '../config-tokens';
 
 export const ConfigValidatorToken = new InjectionToken(
@@ -29,12 +36,13 @@ export function provideConfigValidator(
 
 export function validateConfig(
   config: Config,
-  configValidators: ConfigValidator[]
+  configValidators: ConfigValidator[],
+  logger: LoggerService
 ) {
   for (const validate of configValidators) {
     const warning = validate(config);
     if (warning) {
-      console.warn(warning);
+      logger.warn(warning);
     }
   }
 }

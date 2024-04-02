@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CxEvent } from '@spartacus/core';
 import { OrderEntry } from '../models/cart.model';
 
@@ -120,6 +126,7 @@ export class CartUiEventAddToCart extends CxEvent {
   productCode: string;
   quantity: number;
   numberOfEntriesBeforeAdd: number;
+  pickupStoreName?: string;
 }
 
 /**
@@ -183,4 +190,50 @@ export class DeleteCartFailEvent extends CartEvent {
    * Event's type
    */
   static readonly type = 'DeleteCartFailEvent';
+}
+
+export class AddCartVoucherEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type: string = 'AddCartVoucherEvent';
+  voucherId: string;
+}
+
+export class AddCartVoucherSuccessEvent extends AddCartVoucherEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'AddCartVoucherSuccessEvent';
+}
+
+export class AddCartVoucherFailEvent extends AddCartVoucherEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'AddCartVoucherFailEvent';
+  error: unknown;
+}
+
+export class RemoveCartVoucherEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type: string = 'RemoveCartVoucherEvent';
+  voucherId: string;
+}
+
+export class RemoveCartVoucherSuccessEvent extends RemoveCartVoucherEvent {
+  /**
+   * Event's type
+   */
+  static readonly type: string = 'RemoveCartVoucherSuccessEvent';
+}
+
+export class RemoveCartVoucherFailEvent extends RemoveCartVoucherEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'RemoveCartVoucherFailEvent';
+  error: unknown;
 }

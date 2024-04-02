@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,13 +14,14 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
+import { Product } from '@spartacus/core';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
 } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-wish-list-item',
+  selector: '[cx-wish-list-item], cx-wish-list-item',
   templateUrl: './wish-list-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -39,7 +46,9 @@ export class WishListItemComponent implements OnChanges {
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.cartEntry) {
-      this.productListItemContextSource.product$.next(this.cartEntry.product);
+      this.productListItemContextSource.product$.next(
+        this.cartEntry.product as Product
+      );
     }
   }
 

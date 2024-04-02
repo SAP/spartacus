@@ -10,9 +10,9 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductCarouselComponent,
-  FeatureConfigService,
   I18nTestingModule,
   Product,
+  ProductScope,
   ProductService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -35,6 +35,11 @@ class MockCarouselComponent {
   @Input() items: any[];
 }
 
+@Component({ selector: 'cx-product-carousel-item', template: '' })
+class MockProductCarouselItemComponent {
+  @Input() item: any;
+}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -53,7 +58,7 @@ class MockMediaComponent {
 
 const productCodeArray: string[] = ['1', '2'];
 
-const mockProducts = {
+const mockProducts: Record<string, Product> = {
   1: {
     code: '1',
     name: 'product 1',
@@ -88,50 +93,51 @@ const mockComponentData: CmsProductCarouselComponent = {
   name: 'Mock Product Carousel',
   container: 'false',
 };
+const mockComponentWithAddCartData: CmsProductCarouselComponent = {
+  ...mockComponentData,
+  composition: { inner: ['ProductAddToCartComponent'] },
+};
 
 const MockCmsProductCarouselComponent = <CmsComponentData<any>>{
   data$: of(mockComponentData),
 };
-
-class MockProductService {
-  get(code): Observable<Product> {
-    return of(mockProducts[code]);
+const MockCmsProductCarouselComponentAddToCart = <CmsComponentData<any>>{
+  data$: of(mockComponentWithAddCartData),
+};
+class MockProductService implements Partial<ProductService> {
+  get(productCode: string): Observable<Product> {
+    return of(mockProducts[productCode]);
   }
-}
-
-class MockFeatureConfigService {
-  isLevel = () => true;
 }
 
 describe('ProductCarouselComponent', () => {
   let component: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
 
+  const testBedDefaults = {
+    imports: [RouterTestingModule, I18nTestingModule],
+    declarations: [
+      ProductCarouselComponent,
+      MockProductCarouselItemComponent,
+      MockCarouselComponent,
+      MockMediaComponent,
+      MockUrlPipe,
+    ],
+    providers: [
+      {
+        provide: CmsComponentData,
+        useValue: MockCmsProductCarouselComponent,
+      },
+      {
+        provide: ProductService,
+        useClass: MockProductService,
+      },
+    ],
+  };
+
   beforeEach(
     waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          ProductCarouselComponent,
-          MockCarouselComponent,
-          MockMediaComponent,
-          MockUrlPipe,
-        ],
-        providers: [
-          {
-            provide: CmsComponentData,
-            useValue: MockCmsProductCarouselComponent,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
-        ],
-      }).compileComponents();
+      TestBed.configureTestingModule(testBedDefaults).compileComponents();
     })
   );
 
@@ -148,21 +154,28 @@ describe('ProductCarouselComponent', () => {
     })
   );
 
-  it(
-    'should have 2 items',
-    waitForAsync(() => {
-      let items: Observable<Product>[];
-      component.items$.subscribe((i) => (items = i));
-      expect(items.length).toBe(2);
-    })
-  );
+  it('should have 2 items', (done) => {
+    const productService = TestBed.inject(ProductService);
+    spyOn(productService, 'get').and.callThrough();
+
+    const scopes = [ProductScope.LIST_ITEM];
+
+    component.items$.subscribe((items) => {
+      expect(productService.get).toHaveBeenCalledTimes(2);
+      expect(productService.get).toHaveBeenCalledWith('1', scopes);
+      expect(productService.get).toHaveBeenCalledWith('2', scopes);
+      expect(items?.length).toBe(2);
+
+      done();
+    });
+  });
 
   it(
     'should have product code 111 in first product',
     waitForAsync(() => {
-      let items: Observable<Product>[];
+      let items: Observable<Product | undefined>[] = [];
       component.items$.subscribe((i) => (items = i));
-      let product: Product;
+      let product: Product | undefined;
       items[0].subscribe((p) => (product = p));
 
       expect(product).toBe(mockProducts[1]);
@@ -173,43 +186,42 @@ describe('ProductCarouselComponent', () => {
     it(
       'should have 2 rendered templates',
       waitForAsync(() => {
-        const el = fixture.debugElement.queryAll(By.css('a'));
+        const el = fixture.debugElement.queryAll(
+          By.css('cx-product-carousel-item')
+        );
         expect(el.length).toEqual(2);
       })
     );
+  });
 
-    it(
-      'should render product name in template',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('a:first-child h3'));
-        expect(el.nativeElement).toBeTruthy();
-        expect(el.nativeElement.innerText).toEqual('product 1');
-      })
-    );
+  describe('Carousel with inner component mapping', () => {
+    beforeEach(() => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule(testBedDefaults);
 
-    it(
-      'should render product price in template',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('a:last-child .price'));
-        expect(el.nativeElement).toBeTruthy();
-        expect(el.nativeElement.innerText).toEqual('$200.00');
-      })
-    );
+      TestBed.overrideProvider(CmsComponentData, {
+        useValue: MockCmsProductCarouselComponentAddToCart,
+      });
+      TestBed.compileComponents();
+      fixture = TestBed.createComponent(ProductCarouselComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
 
-    it(
-      'should render product primary image for the first item',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('a:first-child cx-media'));
-        expect(el.nativeElement).toBeTruthy();
-      })
-    );
+    it('should invoke the productService with the correct scope.', (done) => {
+      const productService = TestBed.inject(ProductService);
+      spyOn(productService, 'get').and.callThrough();
 
-    it(
-      'should render missing product image for the 2nd item as well',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
-        expect(el.nativeElement).toBeTruthy();
-      })
-    );
+      const scopes = [ProductScope.LIST, ProductScope.STOCK];
+
+      component.items$.subscribe((items) => {
+        expect(productService.get).toHaveBeenCalledTimes(2);
+        expect(productService.get).toHaveBeenCalledWith('1', scopes);
+        expect(productService.get).toHaveBeenCalledWith('2', scopes);
+        expect(items?.length).toBe(2);
+
+        done();
+      });
+    });
   });
 });

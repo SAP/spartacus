@@ -1,6 +1,5 @@
 /// <reference types="jest" />
 
-import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -11,24 +10,25 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_USER_ACCOUNT_FEATURE,
-  CLI_USER_PROFILE_FEATURE,
-  LibraryOptions,
-  LibraryOptions as SpartacusUserOptions,
-  SpartacusOptions,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
+  SpartacusOptions,
+  LibraryOptions as SpartacusUserOptions,
+  USER_ACCOUNT_FEATURE_NAME,
+  USER_PROFILE_FEATURE_NAME,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/user/user-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/user.scss';
 
 describe('Spartacus User schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_USER,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -45,6 +45,7 @@ describe('Spartacus User schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -61,12 +62,12 @@ describe('Spartacus User schematics: ng-add', () => {
 
   const accountFeatureOptions: SpartacusUserOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_USER_ACCOUNT_FEATURE],
+    features: [USER_ACCOUNT_FEATURE_NAME],
   };
 
   const profileFeatureOptions: SpartacusUserOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_USER_PROFILE_FEATURE],
+    features: [USER_PROFILE_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -75,40 +76,38 @@ describe('Spartacus User schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        libraryNoFeaturesOptions,
+        appTree
+      );
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(userFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -137,16 +136,18 @@ describe('Spartacus User schematics: ng-add', () => {
     });
   });
 
-  describe('Account feature', () => {
+  describe('User-Account feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', accountFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          accountFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -165,32 +166,32 @@ describe('Spartacus User schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...accountFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...accountFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
   });
 
-  describe('Profile feature', () => {
+  describe('User Profile feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', profileFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          profileFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -206,40 +207,23 @@ describe('Spartacus User schematics: ng-add', () => {
         });
       });
 
-      it('should run the proper installation tasks', async () => {
-        const tasks = schematicRunner.tasks
-          .filter((task) => task.name === 'run-schematic')
-          .map(
-            (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
-          );
-        expect(tasks.length).toEqual(1);
-
-        const userTaskWithSubFeatures = tasks[0];
-        expect(userTaskWithSubFeatures).toBeTruthy();
-        expect(userTaskWithSubFeatures.name).toEqual('add-spartacus-library');
-        expect(userTaskWithSubFeatures.options).toHaveProperty(
-          'collection',
-          SPARTACUS_USER
-        );
-        expect(userTaskWithSubFeatures.options.options?.features).toEqual([
-          CLI_USER_ACCOUNT_FEATURE,
-        ]);
+      it('should NOT install the required feature dependencies', async () => {
+        const featureModule = appTree.readContent(userFeatureModulePath);
+        expect(featureModule).toMatchSnapshot();
       });
     });
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...profileFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...profileFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });

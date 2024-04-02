@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Breadcrumb, Facet } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import {
   FacetCollapseState,
   FacetGroupCollapsedState,
@@ -10,7 +10,7 @@ import { FacetService } from './facet.service';
 import { ProductFacetService } from './product-facet.service';
 
 class MockProductFacetService {
-  facetList$ = of();
+  facetList$ = EMPTY;
 }
 const mockFacetValues: Facet[] = [
   { name: 'a' },
@@ -216,9 +216,21 @@ describe('FacetService', () => {
 
   describe('getLinkParams', () => {
     it('should decode the provided value', () => {
-      const result = service.getLinkParams('test%20test');
-      expect(result).toEqual({ query: 'test test' });
+      const result = service.getLinkParams(
+        'test%20test ~ ! @ # $ & * ( ) = : / , ; ? _ . %'
+      );
+      expect(result).toEqual({
+        query: 'test test ~ ! @ # $ & * ( ) = : / , ; ? _ . %',
+      });
     });
+
+    it('should decode the special values ', () => {
+      const result = service.getLinkParams('1280+%C3%97+720');
+      expect(result).toEqual({
+        query: '1280 × 720',
+      });
+    });
+
     it(`should replace '+' with and empty space ' '`, () => {
       const result = service.getLinkParams('test+test');
       expect(result).toEqual({ query: 'test test' });

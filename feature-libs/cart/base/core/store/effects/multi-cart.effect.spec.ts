@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
+import { MultiCartEffectsService } from './multi-cart-effect.service';
 import * as fromEffects from './multi-cart.effect';
 
 const testCart: Cart = {
@@ -23,6 +24,14 @@ const testCart: Cart = {
     value: 0,
   },
 };
+
+class MockMultiCartEffectsService implements Partial<MultiCartEffectsService> {
+  getActiveCartTypeOnLoadSuccess(
+    _action: CartActions.LoadCartSuccess
+  ): CartActions.SetCartTypeIndex | undefined {
+    return undefined;
+  }
+}
 
 describe('Multi Cart effect', () => {
   let cartEffects: fromEffects.MultiCartEffects;
@@ -41,6 +50,10 @@ describe('Multi Cart effect', () => {
       providers: [
         fromEffects.MultiCartEffects,
         provideMockActions(() => actions$),
+        {
+          provide: MultiCartEffectsService,
+          useClass: MockMultiCartEffectsService,
+        },
       ],
     });
 
@@ -107,7 +120,8 @@ describe('Multi Cart effect', () => {
 
       expect(cartEffects.setActiveCartId$).toBeObservable(expected);
     });
-    it('should set active cart id to state for LoadCartSuccess', () => {
+
+    it('should call MultiCartEffectsService to set cart id for LoadCartSuccess, when cart is active', () => {
       const action = new CartActions.LoadCartSuccess({
         userId: 'userId',
         cartId: 'cartId',
@@ -120,10 +134,46 @@ describe('Multi Cart effect', () => {
         cartId: 'cartId',
       });
 
+      const multiCartEffectsService = TestBed.inject(MultiCartEffectsService);
+      spyOn(
+        multiCartEffectsService,
+        'getActiveCartTypeOnLoadSuccess'
+      ).and.returnValue(setActiveCartIdAction);
+
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: setActiveCartIdAction });
 
       expect(cartEffects.setActiveCartId$).toBeObservable(expected);
+      expect(
+        multiCartEffectsService.getActiveCartTypeOnLoadSuccess
+      ).toHaveBeenCalledWith(action);
+    });
+
+    it('should call MultiCartEffectsService to set cart id for LoadCartSuccess, when the active cart is saved', () => {
+      const action = new CartActions.LoadCartSuccess({
+        userId: 'userId',
+        cartId: 'cartId',
+        cart: { code: 'test', saveTime: new Date() },
+        extraData: { active: true },
+      });
+
+      const setActiveCartIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: '',
+      });
+      const multiCartEffectsService = TestBed.inject(MultiCartEffectsService);
+      spyOn(
+        multiCartEffectsService,
+        'getActiveCartTypeOnLoadSuccess'
+      ).and.returnValue(setActiveCartIdAction);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setActiveCartIdAction });
+
+      expect(cartEffects.setActiveCartId$).toBeObservable(expected);
+      expect(
+        multiCartEffectsService.getActiveCartTypeOnLoadSuccess
+      ).toHaveBeenCalledWith(action);
     });
 
     it('should set active cart id to state for CreateCart', () => {

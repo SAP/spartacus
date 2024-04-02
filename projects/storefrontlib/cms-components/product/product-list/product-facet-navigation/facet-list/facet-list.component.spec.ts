@@ -6,11 +6,11 @@ import {
   Input,
   Renderer2,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { of } from 'rxjs';
+import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
+import { EMPTY, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import {
   FacetCollapseState,
@@ -52,7 +52,7 @@ class MockFacetService {
   facetList$ = of(mockFacetList);
 
   getState() {
-    return of();
+    return EMPTY;
   }
   toggleExpand() {}
 }
@@ -74,7 +74,15 @@ describe('FacetListComponent', () => {
           MockFacetComponent,
           MockKeyboadFocusDirective,
         ],
-        providers: [{ provide: FacetService, useClass: MockFacetService }],
+        providers: [
+          { provide: FacetService, useClass: MockFacetService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.1' },
+            },
+          },
+        ],
       })
         .overrideComponent(FacetListComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },

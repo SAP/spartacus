@@ -5,7 +5,13 @@ import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { BadRequestHandler } from './bad-request.handler';
 
-const MockRequest = {} as HttpRequest<any>;
+const MockRequest = {
+  url: 'https://electronics-spa/occ/user/password',
+} as HttpRequest<any>;
+
+const MockRequestEmailChange = {
+  url: 'https://electronics-spa/occ/user/email',
+} as HttpRequest<any>;
 
 const MockRandomResponse = {} as HttpErrorResponse;
 
@@ -21,6 +27,15 @@ const MockBadPasswordResponse = {
   url: 'https://server.com/authorizationserver/oauth/token',
   error: {
     error: 'invalid_grant',
+    error_description: 'Bad password',
+  },
+} as HttpErrorResponse;
+
+const MockDisabledUserResponse = {
+  url: 'https://server.com/authorizationserver/oauth/token',
+  error: {
+    error: 'invalid_grant',
+    error_description: 'User is disabled',
   },
 } as HttpErrorResponse;
 
@@ -128,7 +143,21 @@ describe('BadRequestHandler', () => {
   });
 
   it('should handle bad password message', () => {
+    spyOn(service, 'getErrorTranslationKey').and.callThrough();
     service.handleError(MockBadPasswordRequest, MockBadPasswordResponse);
+    expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
+      MockBadPasswordResponse.error.error_description
+    );
+    expect(globalMessageService.add).toHaveBeenCalled();
+    expect(globalMessageService.remove).toHaveBeenCalled();
+  });
+
+  it('should handle disabled user message', () => {
+    spyOn(service, 'getErrorTranslationKey').and.callThrough();
+    service.handleError(MockBadPasswordRequest, MockDisabledUserResponse);
+    expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
+      MockDisabledUserResponse.error.error_description
+    );
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(globalMessageService.remove).toHaveBeenCalled();
   });
@@ -137,6 +166,14 @@ describe('BadRequestHandler', () => {
     service.handleError(MockRequest, MockBadLoginResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.badRequestOldPasswordIncorrect' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should handle non matching password response for email update', () => {
+    service.handleError(MockRequestEmailChange, MockBadLoginResponse);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'httpHandlers.validationErrors.invalid.password' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });
@@ -170,6 +207,13 @@ describe('BadRequestHandler', () => {
     expect(globalMessageService.add).toHaveBeenCalledWith(
       'item not found',
       GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should convert error description to translation key', () => {
+    const error_description = 'This is test error';
+    expect(service.getErrorTranslationKey(error_description)).toBe(
+      'httpHandlers.badRequest.this_is_test_error'
     );
   });
 });

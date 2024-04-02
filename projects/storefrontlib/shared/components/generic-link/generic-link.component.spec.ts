@@ -68,6 +68,20 @@ describe('GenericLinkComponent', () => {
       expect(component.isExternalUrl()).toBeFalsy();
     });
 
+    it('should return true when url starts with mailto: or tel:', () => {
+      component.url = 'tel:123456789';
+      expect(component.isExternalUrl()).toBeTruthy();
+
+      component.url = 'mailto:test@example.com';
+      expect(component.isExternalUrl()).toBeTruthy();
+
+      component.url = 'tel:';
+      expect(component.isExternalUrl()).toBeTruthy();
+
+      component.url = 'mailto:';
+      expect(component.isExternalUrl()).toBeTruthy();
+    });
+
     describe('styling', () => {
       it('should not have any style classes', () => {
         fixture.detectChanges();

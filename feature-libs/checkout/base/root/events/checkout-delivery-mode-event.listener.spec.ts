@@ -1,31 +1,29 @@
 import { TestBed } from '@angular/core/testing';
-import { LoadCartEvent } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, LoadCartEvent } from '@spartacus/cart/base/root';
 import {
   createFrom,
+  CurrencySetEvent,
   CxEvent,
-  DeleteUserAddressEvent,
   EventService,
-  UpdateUserAddressEvent,
+  LanguageSetEvent,
+  LoginEvent,
+  LogoutEvent,
 } from '@spartacus/core';
-import { of, Subject } from 'rxjs';
-import { CheckoutDeliveryModesFacade } from '../facade/checkout-delivery-modes.facade';
+import { Subject } from 'rxjs';
 import { CheckoutDeliveryModeEventListener } from './checkout-delivery-mode-event.listener';
 import {
+  CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
-  CheckoutResetDeliveryModesEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
+  CheckoutSupportedDeliveryModesQueryReloadEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
 
 const mockUserId = 'test-user-id';
 const mockCartId = 'test-cart-id';
-
-class MockCheckoutDeliveryModesFacade
-  implements Partial<CheckoutDeliveryModesFacade>
-{
-  clearCheckoutDeliveryMode = createSpy().and.returnValue(of());
-}
+const mockDeliveryModeCode = 'test-delivery-mode-code';
 
 const mockEventStream$ = new Subject<CxEvent>();
 
@@ -35,7 +33,6 @@ class MockEventService implements Partial<EventService> {
 }
 
 describe(`CheckoutDeliveryModeEventListener`, () => {
-  let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let eventService: EventService;
 
   beforeEach(() => {
@@ -46,67 +43,88 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
           provide: EventService,
           useClass: MockEventService,
         },
-        {
-          provide: CheckoutDeliveryModesFacade,
-          useClass: MockCheckoutDeliveryModesFacade,
-        },
       ],
     });
 
     TestBed.inject(CheckoutDeliveryModeEventListener);
-    checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     eventService = TestBed.inject(EventService);
+    TestBed.inject(ActiveCartFacade);
   });
 
-  describe(`onUserAddressChange`, () => {
-    it(`UpdateUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch CheckoutResetDeliveryModesEvent`, () => {
-      mockEventStream$.next(new UpdateUserAddressEvent());
-
-      expect(
-        checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
-      ).toHaveBeenCalled();
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        CheckoutResetDeliveryModesEvent
+  describe(`onDeliveryModeSet`, () => {
+    beforeEach(() => {
+      mockEventStream$.next(
+        createFrom(CheckoutDeliveryModeSetEvent, {
+          userId: mockUserId,
+          cartId: mockCartId,
+          cartCode: mockCartId,
+          deliveryModeCode: mockDeliveryModeCode,
+        })
       );
     });
 
-    it(`DeleteUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch CheckoutResetDeliveryModesEvent`, () => {
-      mockEventStream$.next(new DeleteUserAddressEvent());
-
-      expect(
-        checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
-      ).toHaveBeenCalled();
+    it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetDeliveryModesEvent
+        CheckoutQueryResetEvent
+      );
+    });
+
+    it(`CheckoutDeliveryModeSetEvent should dispatch LoadCartEvent`, () => {
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
+        LoadCartEvent
       );
     });
   });
 
-  describe(`onDeliveryModeChange`, () => {
-    it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutResetQueryEvent()`, () => {
-      mockEventStream$.next(new CheckoutDeliveryModeSetEvent());
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        CheckoutResetQueryEvent
+  describe(`onDeliveryModeCleared`, () => {
+    beforeEach(() => {
+      mockEventStream$.next(
+        createFrom(CheckoutDeliveryModeClearedEvent, {
+          userId: mockUserId,
+          cartId: mockCartId,
+          cartCode: mockCartId,
+        })
       );
     });
-    it(`CheckoutDeliveryModeClearedEvent should dispatch CheckoutResetQueryEvent()`, () => {
-      mockEventStream$.next(new CheckoutDeliveryModeClearedEvent());
 
+    it(`CheckoutDeliveryModeClearedEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
+      );
+    });
+
+    it(`CheckoutDeliveryModeClearedEvent should dispatch LoadCartEvent`, () => {
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
+        LoadCartEvent
+      );
+    });
+  });
+
+  describe(`onDeliveryModeClearedError`, () => {
+    it(`CheckoutDeliveryModeClearedErrorEvent should dispatch LoadCartEvent()`, () => {
+      mockEventStream$.next(
+        createFrom(CheckoutDeliveryModeClearedErrorEvent, {
+          userId: mockUserId,
+          cartId: mockCartId,
+          cartCode: mockCartId,
+        })
+      );
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
+        LoadCartEvent
       );
     });
   });
 
   describe(`onDeliveryModeReset`, () => {
-    it(`CheckoutResetDeliveryModesEvent should dispatch LoadCartEvent()`, () => {
+    it(`CheckoutSupportedDeliveryModesQueryResetEvent should dispatch LoadCartEvent()`, () => {
       mockEventStream$.next(
-        createFrom(CheckoutResetDeliveryModesEvent, {
+        createFrom(CheckoutSupportedDeliveryModesQueryResetEvent, {
           userId: mockUserId,
           cartId: mockCartId,
         })
@@ -115,6 +133,46 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
         LoadCartEvent
+      );
+    });
+  });
+
+  describe(`onGetSupportedDeliveryModesQueryReload`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutSupportedDeliveryModesQueryReloadEvent()`, () => {
+      mockEventStream$.next(new LanguageSetEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutSupportedDeliveryModesQueryReloadEvent
+      );
+    });
+
+    it(`LanguageSetEvent should dispatch CheckoutSupportedDeliveryModesQueryReloadEvent()`, () => {
+      mockEventStream$.next(new CurrencySetEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutSupportedDeliveryModesQueryReloadEvent
+      );
+    });
+  });
+
+  describe(`onGetSupportedDeliveryModesQueryReset`, () => {
+    it(`LogoutEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent()`, () => {
+      mockEventStream$.next(new LogoutEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutSupportedDeliveryModesQueryResetEvent
+      );
+    });
+
+    it(`LoginEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent()`, () => {
+      mockEventStream$.next(new LoginEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutSupportedDeliveryModesQueryResetEvent
       );
     });
   });

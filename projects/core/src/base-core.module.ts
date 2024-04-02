@@ -1,10 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CmsModule } from './cms/cms.module';
 import { ConfigInitializerModule } from './config/config-initializer/config-initializer.module';
 import { ConfigValidatorModule } from './config/config-validator/config-validator.module';
 import { ConfigModule } from './config/config.module';
+import { ErrorHandlingModule } from './error-handling';
 import { FeaturesConfigModule } from './features-config/features-config.module';
 import { GlobalMessageModule } from './global-message/global-message.module';
+import { HttpModule } from './http/http.module';
 import { I18nModule } from './i18n/i18n.module';
 import { LazyLoadingModule } from './lazy-loading/lazy-loading.module';
 import { BaseOccModule } from './occ/base-occ.module';
@@ -28,6 +36,8 @@ import { StateModule } from './state/state.module';
     MetaTagConfigModule.forRoot(),
     BaseOccModule.forRoot(),
     LazyLoadingModule.forRoot(),
+    HttpModule.forRoot(),
+    ErrorHandlingModule.forRoot(),
   ],
 })
 export class BaseCoreModule {

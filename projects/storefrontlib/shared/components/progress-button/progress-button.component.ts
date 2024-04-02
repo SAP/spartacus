@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'cx-progress-button',
@@ -19,5 +25,7 @@ export class ProgressButtonComponent {
   @Output()
   clickEvent = new EventEmitter<void>();
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }

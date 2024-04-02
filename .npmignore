@@ -1,0 +1,4 @@
+.*
+sonar-project.properties
+sub-folder/
+.pipeline/

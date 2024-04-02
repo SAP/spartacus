@@ -3,15 +3,6 @@
   "dest": "../../dist/storefrontlib",
   "lib": {
     "entryFile": "./public_api.ts",
-    "umdModuleIds": {
-      "@ngrx/effects": "effects",
-      "@ng-bootstrap/ng-bootstrap": "ngBootstrap",
-      "@ngrx/store": "store",
-      "@ngrx/router-store": "fromNgrxRouter",
-      "@ng-select/ng-select": "ngSelect",
-      "@spartacus/core": "core",
-      "ngx-infinite-scroll": "ngxInfiniteScroll"
-    },
     "styleIncludePaths": ["../", "../storefrontstyles/scss"]
   }
 }

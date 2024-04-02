@@ -1,8 +1,21 @@
-import { SchematicsException, Tree } from '@angular-devkit/schematics';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
+  Rule,
+  SchematicContext,
+  SchematicsException,
+  Tree,
+} from '@angular-devkit/schematics';
+import {
+  addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import semver from 'semver';
 import { version } from '../../../package.json';
 import collectedDependencies from '../../dependencies.json';
 import { UTF_8 } from '../constants';
@@ -11,11 +24,22 @@ import {
   FEATURES_LIBS_SKIP_SCOPES,
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
+  SPARTACUS_SCHEMATICS,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
 } from '../libs-constants';
 import { getServerTsPath } from './file-utils';
+import { addPackageJsonDependencies, dependencyExists } from './lib-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
+
+const DEV_DEPENDENCIES_KEYWORDS = [
+  'schematics',
+  'parse5',
+  'typescript',
+  '@angular-devkit/core',
+  '@angular/compiler',
+  'jsonc-parser',
+];
 
 export function createSpartacusDependencies(
   dependencyObject: Record<string, string>
@@ -80,16 +104,19 @@ export function createDependencies(
 
 export function mapPackageToNodeDependencies(
   packageName: string,
-  version: string,
+  pkgVersion: string,
   overwrite = false
 ): NodeDependency {
+  const type = DEV_DEPENDENCIES_KEYWORDS.some((keyword) =>
+    packageName.includes(keyword)
+  )
+    ? NodeDependencyType.Dev
+    : NodeDependencyType.Default;
   return {
-    type: packageName.includes('schematics')
-      ? NodeDependencyType.Dev
-      : NodeDependencyType.Default,
-    name: packageName,
-    version,
+    type,
     overwrite,
+    name: packageName,
+    version: pkgVersion,
   };
 }
 
@@ -139,6 +166,7 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
     !!angularJson.projects[projectName].architect['server'];
 
   const serverFileLocation = getServerTsPath(tree);
+
   if (!serverFileLocation) {
     return false;
   }
@@ -185,6 +213,60 @@ export function prepare3rdPartyDependencies(): NodeDependency[] {
     ...collectedDependencies[SPARTACUS_STOREFRONTLIB],
     ...collectedDependencies[SPARTACUS_STYLES],
     ...collectedDependencies[SPARTACUS_ASSETS],
+    ...collectedDependencies[SPARTACUS_SCHEMATICS],
   });
   return thirdPartyDependencies;
+}
+
+export function updatePackageJsonDependencies(
+  dependencies: NodeDependency[],
+  packageJson: any
+): Rule {
+  return (tree: Tree, context: SchematicContext): Rule => {
+    const dependenciesToAdd: NodeDependency[] = [];
+
+    for (const dependency of dependencies) {
+      const currentVersion = getCurrentDependencyVersion(
+        dependency,
+        packageJson
+      );
+      if (!currentVersion) {
+        dependenciesToAdd.push(dependency);
+        continue;
+      }
+
+      if (semver.satisfies(currentVersion, dependency.version)) {
+        continue;
+      }
+
+      const versionToUpdate = semver.parse(
+        cleanSemverVersion(dependency.version)
+      );
+      if (!versionToUpdate || semver.eq(versionToUpdate, currentVersion)) {
+        continue;
+      }
+
+      addPackageJsonDependency(tree, { ...dependency, overwrite: true });
+      const change = semver.gt(versionToUpdate, currentVersion)
+        ? 'Upgrading'
+        : 'Downgrading';
+      context.logger.info(
+        `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
+      );
+    }
+
+    return addPackageJsonDependencies(dependenciesToAdd, packageJson);
+  };
+}
+
+function getCurrentDependencyVersion(
+  dependency: NodeDependency,
+  packageJson: any
+): semver.SemVer | null {
+  if (!dependencyExists(dependency, packageJson)) {
+    return null;
+  }
+  const dependencies = packageJson[dependency.type];
+  const currentVersion = dependencies[dependency.name];
+  return semver.parse(cleanSemverVersion(currentVersion));
 }

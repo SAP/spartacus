@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { EventEmitter, Injectable } from '@angular/core';
 import { Product, ProductReference } from '@spartacus/core';
 import { combineLatest, concat, Observable, of } from 'rxjs';
@@ -7,18 +13,20 @@ import { filter, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class VisualPickingProductFilterService {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   /**
    * The current filter value.
    * @param filter The filter value to apply.
    */
-  public set filter(filter: string) {
-    if (this._filter === filter) {
+  public set filter(filterStr: string) {
+    if (this._filter === filterStr) {
       return;
     }
-    this._filter = filter;
-    this.filter$.emit(filter);
+    this._filter = filterStr;
+    this.filter$.emit(filterStr);
   }
   public get filter(): string {
     return this._filter;
@@ -32,10 +40,10 @@ export class VisualPickingProductFilterService {
   protected fieldsToMatch = ['code', 'name'];
 
   protected applyFilter(
-    filter: string,
+    filterToApply: string,
     unfilteredProductReferences: ProductReference[]
   ): ProductReference[] {
-    filter = filter.toLowerCase();
+    filterToApply = filterToApply.toLowerCase();
     const filteredProductReferences = unfilteredProductReferences.filter(
       (productReference) => {
         const product = productReference.target as Product;
@@ -43,7 +51,7 @@ export class VisualPickingProductFilterService {
           const fieldValue = (product as any)[field];
           return (
             fieldValue !== undefined &&
-            fieldValue.toLowerCase().indexOf(filter) !== -1
+            fieldValue.toLowerCase().indexOf(filterToApply) !== -1
           );
         });
       }
@@ -64,11 +72,11 @@ export class VisualPickingProductFilterService {
       unfilteredProductReferences$,
     ]).pipe(
       filter(
-        ([filter, productReferences]) =>
-          filter !== undefined && productReferences !== undefined
+        ([filterStr, productReferences]) =>
+          filterStr !== undefined && productReferences !== undefined
       ),
-      map(([filter, productReferences]) =>
-        this.applyFilter(filter, productReferences)
+      map(([filterToApply, productReferences]) =>
+        this.applyFilter(filterToApply, productReferences)
       )
     );
   }

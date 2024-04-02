@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "4.1.0-next.0",
+  "version": "2211.21.0-1",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -11,25 +11,30 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build": "yarn clean && yarn --cwd ../../ generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
-    "clean": "../../node_modules/.bin/rimraf \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
-    "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+    "build": "npm run clean && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
+    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "@angular/pwa": "^12.0.5",
-    "@nguniversal/express-engine": "^12.0.2",
-    "semver": "^6.3.0",
+    "@angular/pwa": "^17.0.5",
+    "@angular/ssr": "^17.0.5",
+    "semver": "^7.5.2",
     "ts-morph": "^9.1.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular-devkit/core": "^12.0.5",
-    "@angular-devkit/schematics": "^12.0.5",
-    "@angular/compiler": "^12.0.5",
-    "@schematics/angular": "^12.0.5",
-    "jsonc-parser": "^3.0.0",
-    "parse5": "^6.0.1",
-    "typescript": "^4.2.4"
+    "@angular-devkit/core": "^17.0.5",
+    "@angular-devkit/schematics": "^17.0.5",
+    "@angular/compiler": "^17.0.5",
+    "@schematics/angular": "^17.0.5",
+    "jsonc-parser": "^3.2.0",
+    "parse5": "^7.1.2",
+    "typescript": "^5.2.2"
+  },
+  "peerDependenciesMeta": {
+    "canvas": {
+      "optional": true
+    }
   },
   "ng-add": {
     "save": "devDependencies"
@@ -40,23 +45,29 @@
       "@spartacus/core",
       "@spartacus/storefront",
       "@spartacus/styles",
-      "@spartacus/user",
-      "@spartacus/cds",
       "@spartacus/assets",
-      "@spartacus/organization",
-      "@spartacus/product",
-      "@spartacus/storefinder",
-      "@spartacus/checkout",
+      "@spartacus/setup",
       "@spartacus/asm",
-      "@spartacus/smartedit",
-      "@spartacus/qualtrics",
-      "@spartacus/cdc",
-      "@spartacus/tracking",
       "@spartacus/cart",
+      "@spartacus/checkout",
       "@spartacus/order",
+      "@spartacus/organization",
+      "@spartacus/pdf-invoices",
+      "@spartacus/product",
+      "@spartacus/product-configurator",
+      "@spartacus/qualtrics",
+      "@spartacus/requested-delivery-date",
+      "@spartacus/smartedit",
+      "@spartacus/storefinder",
+      "@spartacus/tracking",
+      "@spartacus/pickup-in-store",
+      "@spartacus/user",
+      "@spartacus/cdc",
+      "@spartacus/cds",
       "@spartacus/digital-payments",
       "@spartacus/epd-visualization",
-      "@spartacus/setup"
+      "@spartacus/s4om",
+      "@spartacus/customer-ticketing"
     ]
   },
   "schematics": "./src/collection.json"

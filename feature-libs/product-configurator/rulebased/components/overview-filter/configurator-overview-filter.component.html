@@ -1,0 +1,82 @@
+<ng-container *ngIf="showFilterBar">
+  <cx-configurator-overview-filter-bar
+    [config]="config"
+  ></cx-configurator-overview-filter-bar>
+</ng-container>
+<div class="cx-overview-filter-header">
+  {{ 'configurator.overviewFilter.byOption' | cxTranslate }}
+</div>
+
+<div class="cx-overview-filter-option">
+  <div class="form-check">
+    <input
+      id="cx-configurator-overview-filter-option-price"
+      type="checkbox"
+      class="form-check-input"
+      [formControl]="priceFilter"
+      (change)="onFilter(config)"
+      name="config-overview-price-filter"
+      [attr.aria-label]="
+        'configurator.a11y.filterOverviewByPrice' | cxTranslate
+      "
+    />
+    <label
+      class="form-check-label"
+      for="cx-configurator-overview-filter-option-price"
+    >
+      {{ 'configurator.overviewFilter.byPrice' | cxTranslate }}</label
+    >
+  </div>
+</div>
+
+<div class="cx-overview-filter-option">
+  <div class="form-check">
+    <input
+      id="cx-configurator-overview-filter-option-mySelections"
+      type="checkbox"
+      class="form-check-input"
+      [formControl]="mySelectionsFilter"
+      (change)="onFilter(config)"
+      name="config-overview-my-selection-filter"
+      [attr.aria-label]="
+        'configurator.a11y.filterOverviewByMySelections' | cxTranslate
+      "
+    />
+    <label
+      class="form-check-label"
+      for="cx-configurator-overview-filter-option-mySelections"
+    >
+      {{ 'configurator.overviewFilter.mySelections' | cxTranslate }}</label
+    >
+  </div>
+</div>
+<ng-container *ngIf="config.overview.possibleGroups">
+  <div class="cx-overview-filter-header">
+    {{ 'configurator.overviewFilter.byGroup' | cxTranslate }}
+  </div>
+  <ng-container
+    *ngFor="let group of config.overview.possibleGroups; let i = index"
+  >
+    <div class="cx-overview-filter-option">
+      <div class="form-check">
+        <input
+          id="{{ 'cx-configurator-overview-filter-option-group-' + group.id }}"
+          type="checkbox"
+          class="form-check-input"
+          [formControl]="groupFilters[i]"
+          (change)="onFilter(config)"
+          name="{{ 'config-overview-group-filter-' + group.id }}"
+          [attr.aria-label]="
+            'configurator.a11y.filterOverviewByGroup'
+              | cxTranslate: { groupName: group.groupDescription }
+          "
+        />
+        <label
+          class="form-check-label"
+          for="{{ 'cx-configurator-overview-filter-option-group-' + group.id }}"
+          >{{ group.groupDescription }}</label
+        >
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

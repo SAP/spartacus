@@ -1,13 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   EventService,
+  isNotUndefined,
   ProductSearchPage,
   RoutingService,
   SearchboxService,
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable, of, ReplaySubject } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import {
   SearchBoxProductSelectedEvent,
@@ -21,6 +28,9 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
   providedIn: 'root',
 })
 export class SearchBoxComponentService {
+  chosenWord = new ReplaySubject<string>();
+  sharedEvent = new ReplaySubject<KeyboardEvent>();
+
   constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
@@ -73,7 +83,7 @@ export class SearchBoxComponentService {
     ]).pipe(
       map(([productResults, suggestions, message]) => {
         return {
-          products: productResults ? productResults.products : null,
+          products: productResults ? productResults.products : undefined,
           suggestions,
           message,
         };
@@ -152,7 +162,8 @@ export class SearchBoxComponentService {
     return (
       (!!results.products && results.products.length > 0) ||
       (!!results.suggestions && results.suggestions.length > 0) ||
-      !!results.message
+      !!results.message ||
+      !!results.recentSearches
     );
   }
 
@@ -181,7 +192,9 @@ export class SearchBoxComponentService {
       return of([]);
     } else {
       return this.searchService.getSuggestionResults().pipe(
-        map((res) => res.map((suggestion) => suggestion.value)),
+        map((res) =>
+          res.map((suggestion) => suggestion.value).filter(isNotUndefined)
+        ),
         switchMap((suggestions) => {
           if (suggestions.length === 0) {
             return this.getExactSuggestion(config).pipe(
@@ -199,14 +212,16 @@ export class SearchBoxComponentService {
    * Whenever there is at least 1 product, we simulate
    * a suggestion to provide easy access to the search result page
    */
-  protected getExactSuggestion(config: SearchBoxConfig): Observable<string> {
+  protected getExactSuggestion(
+    config: SearchBoxConfig
+  ): Observable<string | undefined> {
     return this.getProductResults(config).pipe(
       switchMap((productResult) => {
         return productResult.products && productResult.products.length > 0
           ? this.fetchTranslation('searchBox.help.exactMatch', {
               term: productResult.freeTextSearch,
             })
-          : of(null);
+          : of(undefined);
       })
     );
   }
@@ -215,7 +230,9 @@ export class SearchBoxComponentService {
    * Emits a 'no match' message, in case the product search results and search suggestions are empty.
    * Otherwise it emits null.
    */
-  protected getSearchMessage(config: SearchBoxConfig): Observable<string> {
+  protected getSearchMessage(
+    config: SearchBoxConfig
+  ): Observable<string | undefined> {
     return combineLatest([
       this.getProductResults(config),
       this.getProductSuggestions(config),
@@ -230,7 +247,7 @@ export class SearchBoxComponentService {
         ) {
           return this.fetchTranslation('searchBox.help.noMatch');
         } else {
-          return of(null);
+          return of(undefined);
         }
       })
     );
@@ -251,5 +268,13 @@ export class SearchBoxComponentService {
     options?: any
   ): Observable<string> {
     return this.translationService.translate(translationKey, options);
+  }
+
+  changeSelectedWord(selectedWord: string) {
+    this.chosenWord.next(selectedWord);
+  }
+
+  shareEvent($event: KeyboardEvent) {
+    this.sharedEvent.next($event);
   }
 }

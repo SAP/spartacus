@@ -6,7 +6,7 @@ import { ComponentDataProvider } from './component-data.provider';
 
 class MockCmsComponentsService {
   getStaticData() {
-    return of({});
+    return {};
   }
 }
 
@@ -44,7 +44,7 @@ describe('ComponentDataProvider', () => {
   });
 
   it('should load data from cms service', () => {
-    spyOn(cmsService, 'getComponentData');
+    spyOn(cmsService, 'getComponentData').and.callThrough();
     service.get('123').subscribe().unsubscribe();
     expect(cmsService.getComponentData).toHaveBeenCalledWith('123');
   });
@@ -107,11 +107,10 @@ describe('ComponentDataProvider', () => {
     let complete = false;
     service
       .get('', 'BannerComponent')
-      .subscribe(
-        (data) => (result = data),
-        undefined,
-        () => (complete = true)
-      )
+      .subscribe({
+        next: (data) => (result = data),
+        complete: () => (complete = true),
+      })
       .unsubscribe();
     expect(result).toEqual(undefined);
     expect(complete).toEqual(true);

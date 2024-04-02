@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { Configurator } from '../../core/model/configurator.model';
@@ -37,3 +43,7 @@ export const VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER =
 export const VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER = new InjectionToken<
   Converter<OccConfigurator.Overview, Configurator.Overview>
 >('VariantConfiguratorOverviewNormalizer');
+
+export const VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER = new InjectionToken<
+  Converter<Configurator.Overview, OccConfigurator.Overview>
+>('VariantConfiguratorOverviewSerializer');

@@ -3,9 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import {
@@ -14,6 +16,9 @@ import {
 } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
+import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
+import { getConfiguratorReducers } from '../../../../core/state/reducers';
+import { StoreModule } from '@ngrx/store';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -52,6 +57,7 @@ function getFirstValue(
   const values = component.attribute?.values;
   return values ? values[0] : { valueCode: 'a' };
 }
+
 describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionBundleComponent>;
@@ -90,7 +96,13 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule, ReactiveFormsModule],
+        imports: [
+          I18nTestingModule,
+          RouterTestingModule,
+          ReactiveFormsModule,
+          StoreModule.forRoot({}),
+          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ],
         declarations: [
           ConfiguratorAttributeSingleSelectionBundleComponent,
           ConfiguratorShowMoreComponent,
@@ -98,6 +110,12 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           MockProductCardComponent,
           MockConfiguratorPriceComponent,
           MockConfiguratorAttributeQuantityComponent,
+        ],
+        providers: [
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
         ],
       })
         .overrideComponent(

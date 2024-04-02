@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { CheckoutDeliveryAddressModule } from './checkout-delivery-address/checkout-delivery-address.module';
 import { CheckoutDeliveryModeModule } from './checkout-delivery-mode/checkout-delivery-mode.module';
@@ -10,6 +16,9 @@ import { CheckoutProgressMobileBottomModule } from './checkout-progress/checkout
 import { CheckoutProgressMobileTopModule } from './checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 import { CheckoutProgressModule } from './checkout-progress/checkout-progress.module';
 import { CheckoutReviewSubmitModule } from './checkout-review-submit/checkout-review-submit.module';
+import { CheckoutReviewOverviewModule } from './checkout-review/checkout-review-overview/checkout-review-overview.module';
+import { CheckoutReviewPaymentModule } from './checkout-review/checkout-review-payment/checkout-review-payment.module';
+import { CheckoutReviewShippingModule } from './checkout-review/checkout-review-shipping/checkout-review-shipping.module';
 
 @NgModule({
   imports: [
@@ -22,6 +31,9 @@ import { CheckoutReviewSubmitModule } from './checkout-review-submit/checkout-re
     CheckoutPaymentMethodModule,
     CheckoutPlaceOrderModule,
     CheckoutReviewSubmitModule,
+    CheckoutReviewPaymentModule,
+    CheckoutReviewShippingModule,
+    CheckoutReviewOverviewModule,
     CheckoutDeliveryAddressModule,
     CheckoutLoginModule,
   ],

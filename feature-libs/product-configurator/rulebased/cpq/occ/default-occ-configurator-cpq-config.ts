@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { OccConfig } from '@spartacus/core';
 
 export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
@@ -5,7 +11,7 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
     backend: {
       occ: {
         endpoints: {
-          getCpqAccessData: 'users/current/access/cpqconfigurator',
+          getCpqAccessData: 'users/${userId}/access/cpqconfigurator',
           addCpqConfigurationToCart:
             'users/${userId}/carts/${cartId}/entries/cpqconfigurator',
           readCpqConfigurationForCartEntry:
@@ -14,6 +20,24 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
             'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/cpqconfigurator',
           updateCpqConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
+          createCpqConfiguration:
+            'products/${productCode}/configurators/cpqconfigurator',
+          readCpqConfiguration:
+            'cpqconfigurator/${configurationId}/configuration?tabId=${tabId}',
+          readCpqConfigurationOverview:
+            'cpqconfigurator/${configurationId}/configurationOverview',
+          updateCpqAttribute:
+            'cpqconfigurator/${configurationId}/attributes/${attributeCode}?tabId=${tabId}',
+          updateCpqAttributeValueQuantity:
+            'cpqconfigurator/${configurationId}/attributes/${attributeCode}/values/${attributeValueId}?tabId=${tabId}',
+          readCpqConfigurationForCartEntryFull:
+            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator/configuration',
+          readCpqConfigurationForOrderEntryFull:
+            'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/cpqconfigurator/configuration',
+          readCpqConfigurationForQuoteEntryFull:
+            'users/${userId}/quotes/${quoteId}/entries/${quoteEntryNumber}/cpqconfigurator/configuration',
+          readCpqConfigurationForSavedCartEntryFull:
+            'users/${userId}/savedCarts/${savedCartId}/entries/${entryNumber}/cpqconfigurator/configuration',
         },
       },
     },

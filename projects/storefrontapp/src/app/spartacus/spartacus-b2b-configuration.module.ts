@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { defaultB2BCheckoutConfig } from '@spartacus/checkout/b2b/root';
 import { provideConfig, SiteContextConfig } from '@spartacus/core';
@@ -10,9 +16,11 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 
-const baseSite = environment.epdVisualization
-  ? ['powertools-epdvisualization-spa', 'powertools-spa']
-  : ['powertools-spa'];
+let baseSite = ['powertools-spa', 'powertools-standalone'];
+
+if (environment.epdVisualization) {
+  baseSite.unshift('powertools-epdvisualization-spa');
+}
 
 @NgModule({
   providers: [

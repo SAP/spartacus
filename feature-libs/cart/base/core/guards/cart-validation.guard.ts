@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import {
   ActiveCartFacade,
   CartValidationFacade,
@@ -18,7 +24,7 @@ import { CartValidationStateService } from '../services/cart-validation-state.se
 @Injectable({
   providedIn: 'root',
 })
-export class CartValidationGuard implements CanActivate {
+export class CartValidationGuard {
   constructor(
     protected cartValidationService: CartValidationFacade,
     protected semanticPathService: SemanticPathService,
@@ -72,7 +78,9 @@ export class CartValidationGuard implements CanActivate {
                 this.GLOBAL_MESSAGE_TIMEOUT
               );
               this.activeCartService.reloadActiveCart();
-              return this.router.parseUrl(this.semanticPathService.get('cart'));
+              return this.router.parseUrl(
+                this.semanticPathService.get('cart') ?? ''
+              );
             }
 
             return true;

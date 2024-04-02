@@ -2,7 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
-  PaymentTypeSetEvent,
+  CheckoutPaymentTypeSetEvent,
 } from '@spartacus/checkout/b2b/root';
 import {
   CheckoutQueryFacade,
@@ -14,7 +14,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeConnector } from '../connectors/checkout-payment-type/checkout-payment-type.connector';
 import { CheckoutPaymentTypeService } from './checkout-payment-type.service';
@@ -38,7 +38,7 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(of());
+  get = createSpy().and.returnValue(EMPTY);
   dispatch = createSpy();
 }
 
@@ -161,7 +161,7 @@ describe(`CheckoutPaymentTypeService`, () => {
         });
     });
 
-    it(`should call dispatch PaymentTypeSetEvent`, (done) => {
+    it(`should call dispatch CheckoutPaymentTypeSetEvent`, (done) => {
       service
         .setPaymentType(mockB2bPaymentType, mockPurchaseOrderNumber)
         .pipe(take(1))
@@ -173,7 +173,7 @@ describe(`CheckoutPaymentTypeService`, () => {
               paymentTypeCode: mockB2bPaymentType,
               purchaseOrderNumber: mockPurchaseOrderNumber,
             },
-            PaymentTypeSetEvent
+            CheckoutPaymentTypeSetEvent
           );
           done();
         });

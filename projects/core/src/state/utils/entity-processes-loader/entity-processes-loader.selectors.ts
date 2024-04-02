@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { entityLoaderStateSelector } from '../entity-loader/entity-loader.selectors';
 import { initialLoaderState } from '../loader/loader.reducer';
 import {

@@ -10,6 +10,7 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import * as path from 'path';
 import ts from 'typescript';
 import { UTF_8 } from '../constants';
+import { SPARTACUS_SCHEMATICS } from '../libs-constants';
 import { getPathResultsForFile } from './file-utils';
 import {
   addImport,
@@ -21,7 +22,10 @@ import {
 } from './module-file-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
-const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+const schematicRunner = new SchematicTestRunner(
+  SPARTACUS_SCHEMATICS,
+  collectionPath
+);
 
 const TEMPLATE_NAME = 'template.html';
 const COMPONENT_TEMPLATE_URL = `
@@ -56,30 +60,31 @@ describe('Module file utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
   const defaultOptions = {
     project: 'schematics-test',
   };
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
   });
 
   describe('stripTsFromImport', () => {

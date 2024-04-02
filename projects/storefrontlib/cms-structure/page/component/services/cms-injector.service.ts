@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, Injector } from '@angular/core';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CmsComponentData } from '../../model/cms-component-data';

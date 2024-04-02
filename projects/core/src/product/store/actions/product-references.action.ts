@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 import { ErrorModel } from '../../../model/misc.model';
 import { ProductReference } from '../../../model/product.model';
@@ -22,7 +28,7 @@ export class LoadProductReferences implements Action {
 
 export class LoadProductReferencesFail implements Action {
   readonly type = LOAD_PRODUCT_REFERENCES_FAIL;
-  constructor(public payload: ErrorModel) {}
+  constructor(public payload?: ErrorModel) {}
 }
 
 export class LoadProductReferencesSuccess implements Action {

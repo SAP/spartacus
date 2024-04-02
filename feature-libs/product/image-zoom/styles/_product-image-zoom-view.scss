@@ -20,6 +20,11 @@ cx-product-image-zoom-view {
         align-self: center;
         font-size: 2rem;
       }
+
+      .btn:focus,
+      .btn:active {
+        box-shadow: none;
+      }
     }
 
     .cx-default-image-zoom {

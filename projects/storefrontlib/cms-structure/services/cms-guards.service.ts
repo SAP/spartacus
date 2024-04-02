@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { RouterStateSnapshot, UrlTree, CanActivateFn } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   getLastValueSync,
@@ -27,18 +33,9 @@ export class CmsGuardsService {
     const guards = this.cmsComponentsService.getGuards(componentTypes);
 
     if (guards.length) {
-      const canActivateObservables = guards.map((guardClass) => {
-        const guard = getLastValueSync(
-          this.unifiedInjector.get<CanActivate>(guardClass)
-        );
-        if (isCanActivate(guard)) {
-          return wrapIntoObservable(guard.canActivate(route, state)).pipe(
-            first()
-          );
-        } else {
-          throw new Error('Invalid CanActivate guard in cmsMapping');
-        }
-      });
+      const canActivateObservables = guards.map((guard) =>
+        this.canActivateGuard(guard, route, state)
+      );
 
       return concat(...canActivateObservables).pipe(
         skipWhile((canActivate: boolean | UrlTree) => canActivate === true),
@@ -47,6 +44,23 @@ export class CmsGuardsService {
       );
     } else {
       return of(true);
+    }
+  }
+
+  canActivateGuard(
+    guardClass: any,
+    route: CmsActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> {
+    const guard = getLastValueSync(
+      this.unifiedInjector.get<{
+        canActivate: CanActivateFn;
+      }>(guardClass)
+    );
+    if (isCanActivate(guard)) {
+      return wrapIntoObservable(guard.canActivate(route, state)).pipe(first());
+    } else {
+      throw new Error('Invalid CanActivate guard in cmsMapping');
     }
   }
 }
@@ -69,8 +83,15 @@ function isPromise(obj: any): obj is Promise<any> {
   return !!obj && typeof obj.then === 'function';
 }
 
-function isCanActivate(guard: any): guard is CanActivate {
-  return guard && isFunction<CanActivate>(guard.canActivate);
+function isCanActivate(guard: any): guard is {
+  canActivate: CanActivateFn;
+} {
+  return (
+    guard &&
+    isFunction<{
+      canActivate: CanActivateFn;
+    }>(guard.canActivate)
+  );
 }
 
 function isFunction<T>(v: any): v is T {

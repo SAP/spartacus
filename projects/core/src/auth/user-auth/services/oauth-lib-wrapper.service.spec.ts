@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { OAuthService, TokenResponse } from 'angular-oauth2-oidc';
-import { WindowRef } from 'projects/core/src/window';
+import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
+import { BehaviorSubject } from 'rxjs';
+import { WindowRef } from '../../../window';
 import { AuthConfigService } from './auth-config.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
@@ -37,6 +38,7 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
     };
   }
 }
+
 class MockOAuthService implements Partial<OAuthService> {
   configure() {}
   fetchTokenUsingPasswordFlow() {
@@ -58,6 +60,31 @@ class MockOAuthService implements Partial<OAuthService> {
   }
 }
 
+const store = {};
+const MockWindowRef = {
+  localStorage: {
+    getItem: (key: string): string => {
+      return key in store ? store[key] : null;
+    },
+    setItem: (key: string, value: string) => {
+      store[key] = `${value}`;
+    },
+    removeItem: (key: string): void => {
+      if (key in store) {
+        store[key] = undefined;
+      }
+    },
+  },
+  isBrowser(): boolean {
+    return true;
+  },
+  nativeWindow: {
+    location: {
+      origin: 'test.com',
+    },
+  },
+};
+
 describe('OAuthLibWrapperService', () => {
   let service: OAuthLibWrapperService;
   let oAuthService: OAuthService;
@@ -70,6 +97,7 @@ describe('OAuthLibWrapperService', () => {
         OAuthLibWrapperService,
         { provide: AuthConfigService, useClass: MockAuthConfigService },
         { provide: OAuthService, useClass: MockOAuthService },
+        { provide: WindowRef, useValue: MockWindowRef },
       ],
     });
     service = TestBed.inject(OAuthLibWrapperService);
@@ -218,9 +246,25 @@ describe('OAuthLibWrapperService', () => {
 
       expect(oAuthService.initLoginFlow).toHaveBeenCalled();
     });
+
+    it('should set oAuth flow key in local storage', () => {
+      service.initLoginFlow();
+
+      const storedOauthFlowKey = winRef.localStorage?.getItem(
+        'oAuthRedirectCodeFlow'
+      );
+
+      expect(storedOauthFlowKey).toBeTruthy();
+    });
   });
 
   describe('tryLogin()', () => {
+    beforeEach(() => {
+      service.events$ = new BehaviorSubject<OAuthEvent>({
+        type: 'token_received',
+      });
+    });
+
     it('should call tryLogin method from the lib', () => {
       spyOn(oAuthService, 'tryLogin').and.callThrough();
 
@@ -228,6 +272,25 @@ describe('OAuthLibWrapperService', () => {
 
       expect(oAuthService.tryLogin).toHaveBeenCalledWith({
         disableOAuth2StateCheck: true,
+      });
+    });
+
+    it('should return POSTITIVE token received event indication', async () => {
+      const result = await service.tryLogin();
+      expect(result).toEqual({
+        result: true,
+        tokenReceived: true,
+      });
+    });
+
+    it('should return NEGATIVE token received event indication', async () => {
+      (service.events$ as BehaviorSubject<OAuthEvent>).next({
+        type: 'discovery_document_load_error',
+      });
+      const result = await service.tryLogin();
+      expect(result).toEqual({
+        result: true,
+        tokenReceived: false,
       });
     });
   });

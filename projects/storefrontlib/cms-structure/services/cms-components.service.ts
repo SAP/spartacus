@@ -1,5 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isPlatformServer } from '@angular/common';
 import {
+  inject,
   Inject,
   Injectable,
   isDevMode,
@@ -16,9 +23,11 @@ import {
   ConfigInitializerService,
   deepMerge,
   DeferLoadingStrategy,
+  isNotUndefined,
+  LoggerService,
 } from '@spartacus/core';
 import { defer, forkJoin, Observable, of } from 'rxjs';
-import { mapTo, share, tap } from 'rxjs/operators';
+import { filter, map, share, tap } from 'rxjs/operators';
 import { CmsFeaturesService } from './cms-features.service';
 
 /**
@@ -40,6 +49,8 @@ export class CmsComponentsService {
   // Contains already initialized resolvers for specified component typez
   protected mappingResolvers: Map<string, Observable<CmsComponentMapping>> =
     new Map();
+
+  protected logger = inject(LoggerService);
 
   constructor(
     protected config: CmsConfig,
@@ -70,7 +81,7 @@ export class CmsComponentsService {
       // we use defer, to be sure the logic below used to compose final observable
       // will be executed at subscription time (with up to date state at the time,
       // when it will be needed)
-      const featureResolvers = [];
+      const featureResolvers: Observable<unknown>[] = [];
 
       for (const componentType of componentTypes) {
         if (!this.mappings[componentType]) {
@@ -81,17 +92,22 @@ export class CmsComponentsService {
           if (this.featureModules.hasFeatureFor(componentType)) {
             featureResolvers.push(
               // we delegate populating this.mappings to feature resolver
-              this.getFeatureMappingResolver(componentType, staticConfig)
+              this.getFeatureMappingResolver(
+                componentType,
+                staticConfig
+              ) as Observable<CmsComponentMapping>
             );
           } else {
             // simply use only static config
-            this.mappings[componentType] = staticConfig;
+            if (staticConfig) {
+              this.mappings[componentType] = staticConfig;
+            }
           }
         }
       }
 
       if (featureResolvers.length) {
-        return forkJoin(featureResolvers).pipe(mapTo(componentTypes));
+        return forkJoin(featureResolvers).pipe(map(() => componentTypes));
       } else {
         return of(componentTypes);
       }
@@ -101,11 +117,12 @@ export class CmsComponentsService {
   private getFeatureMappingResolver(
     componentType: string,
     staticConfig?: CmsComponentMapping
-  ): Observable<CmsComponentMapping> {
+  ): Observable<CmsComponentMapping> | undefined {
     if (!this.mappingResolvers.has(componentType)) {
       const mappingResolver$ = this.featureModules
         .getCmsMapping(componentType)
         .pipe(
+          filter(isNotUndefined),
           tap((featureComponentMapping) => {
             // We treat cms mapping configuration from a feature as a default,
             // that can be overridden by app/static configuration
@@ -130,10 +147,9 @@ export class CmsComponentsService {
    * @param componentType
    */
   getModule(componentType: string): NgModuleRef<any> | undefined {
-    return (
-      this.featureModules.hasFeatureFor(componentType) &&
-      this.featureModules.getModule(componentType)
-    );
+    if (this.featureModules.hasFeatureFor(componentType)) {
+      return this.featureModules.getModule(componentType);
+    }
   }
 
   /**
@@ -154,7 +170,7 @@ export class CmsComponentsService {
     if (isDevMode() && !componentConfig) {
       if (!this.missingComponents.includes(componentType)) {
         this.missingComponents.push(componentType);
-        console.warn(
+        this.logger.warn(
           `No component implementation found for the CMS component type '${componentType}'.\n`,
           `Make sure you implement a component and register it in the mapper.`
         );
@@ -219,9 +235,9 @@ export class CmsComponentsService {
 
     (childRoutesConfigs || []).forEach((config) => {
       if (Array.isArray(config)) {
-        result.children.push(...config);
+        result.children?.push(...config);
       } else {
-        result.children.push(...(config.children || []));
+        result.children?.push(...(config.children || []));
         if (config.parent) {
           result.parent = config.parent;
         }

@@ -5,9 +5,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import {
   CostCenter,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   SearchConfig,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
   Budget,
@@ -17,7 +18,6 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
-import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 import { BudgetActions, CostCenterActions } from '../actions/index';
 import * as fromEffects from './cost-center.effect';
 
@@ -30,7 +30,7 @@ const httpErrorResponse = new HttpErrorResponse({
   statusText: 'Unknown error',
   url: '/xxx',
 });
-const error = normalizeHttpError(httpErrorResponse);
+
 const costCenterCode = 'testCode';
 const userId = 'testUser';
 const costCenter: CostCenter = {
@@ -70,6 +70,16 @@ class MockCostCenterConnector implements Partial<CostCenterConnector> {
   unassignBudget = createSpy().and.returnValue(of(null));
 }
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+
 describe('CostCenter Effects', () => {
   let actions$: Observable<CostCenterActions.CostCenterAction>;
   let costCenterConnector: CostCenterConnector;
@@ -85,6 +95,15 @@ describe('CostCenter Effects', () => {
     },
   };
 
+  const mockOccModuleConfig: OccConfig = {
+    backend: {
+      occ: {
+        baseUrl: '',
+        prefix: '',
+      },
+    },
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -93,7 +112,8 @@ describe('CostCenter Effects', () => {
       ],
       providers: [
         { provide: CostCenterConnector, useClass: MockCostCenterConnector },
-        { provide: OccConfig, useValue: defaultOccOrganizationConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.CostCenterEffects,
         provideMockActions(() => actions$),
       ],
@@ -125,7 +145,7 @@ describe('CostCenter Effects', () => {
 
     it('should return LoadCostCenterFail action if costCenter not updated', () => {
       costCenterConnector.get = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.LoadCostCenter({
         userId,
@@ -167,7 +187,7 @@ describe('CostCenter Effects', () => {
 
     it('should return LoadCostCentersFail action if costCenters not loaded', () => {
       costCenterConnector.getList = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.LoadCostCenters({ userId, params });
       const completion = new CostCenterActions.LoadCostCentersFail({
@@ -204,7 +224,7 @@ describe('CostCenter Effects', () => {
 
     it('should return CreateCostCenterFail action if costCenter not created', () => {
       costCenterConnector.create = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.CreateCostCenter({
         userId,
@@ -250,7 +270,7 @@ describe('CostCenter Effects', () => {
 
     it('should return UpdateCostCenterFail action if costCenter not created', () => {
       costCenterConnector.update = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.UpdateCostCenter({
         userId,
@@ -302,7 +322,7 @@ describe('CostCenter Effects', () => {
 
     it('should return LoadAssignedBudgetsFail action if budgets not loaded', () => {
       costCenterConnector.getBudgets = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.LoadAssignedBudgets({
         userId,
@@ -351,7 +371,7 @@ describe('CostCenter Effects', () => {
 
     it('should return UpdateCostCenterFail action if budget not assigned', () => {
       costCenterConnector.assignBudget = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.AssignBudget({
         userId,
@@ -399,7 +419,7 @@ describe('CostCenter Effects', () => {
 
     it('should return UnassignBudgetFail action if budget not unassigned', () => {
       costCenterConnector.unassignBudget = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.UnassignBudget({
         userId,

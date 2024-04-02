@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import {
   Budget,
@@ -7,10 +7,10 @@ import {
   OrganizationItemStatus,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { UnitFormService } from '../../../form/unit-form.service';
-import { UnitChildItemService } from './unit-child-item.service';
 import { CurrentUnitChildService } from './current-unit-child.service';
+import { UnitChildItemService } from './unit-child-item.service';
 import createSpy = jasmine.createSpy;
 
 const mockCode = 'u1';
@@ -20,7 +20,7 @@ class MockRoutingService {
 const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 class MockOrgUnitService {
   get() {
-    return of();
+    return EMPTY;
   }
   loadBudget() {}
   update() {}
@@ -33,7 +33,7 @@ class MockOrgUnitService {
 class MockUnitFormService {}
 class MockCurrentUnitChildService {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
 }
 describe('UnitChildItemService', () => {
@@ -64,12 +64,12 @@ describe('UnitChildItemService', () => {
 
   it('should create item with parentUnitUid', () => {
     spyOn(unitService, 'create').and.callThrough();
-    const form = new FormGroup({});
-    form.setControl('name', new FormControl('Child Unit Name'));
+    const form = new UntypedFormGroup({});
+    form.setControl('name', new UntypedFormControl('Child Unit Name'));
     form.setControl(
       'parentOrgUnit',
-      new FormGroup({
-        uid: new FormControl('child-unit-uid'),
+      new UntypedFormGroup({
+        uid: new UntypedFormControl('child-unit-uid'),
       })
     );
     form.get('parentOrgUnit').disable();

@@ -1,5 +1,12 @@
-import { Injectable, isDevMode } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject, isDevMode } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
+import { LoggerService } from '@spartacus/core';
 import {
   ConfigurationInfo,
   ConfigurationInfoFields,
@@ -12,6 +19,8 @@ import { LineItem } from './configurator-cart-entry-bundle-info.model';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartEntryBundleInfoService {
+  protected logger = inject(LoggerService);
+
   /**
    * Retrieves the CPQ line items for an order entry
    *
@@ -69,7 +78,7 @@ export class ConfiguratorCartEntryBundleInfoService {
       preparedLabel.length - 1
     );
     if (lastCharacter === ':') {
-      preparedLabel = preparedLabel.substr(0, preparedLabel.length - 1);
+      preparedLabel = preparedLabel.substring(0, preparedLabel.length - 1);
     }
 
     return preparedLabel;
@@ -168,7 +177,7 @@ export class ConfiguratorCartEntryBundleInfoService {
 
   protected logWarning(text: string): void {
     if (isDevMode()) {
-      console.warn(text);
+      this.logger.warn(text);
     }
   }
 }

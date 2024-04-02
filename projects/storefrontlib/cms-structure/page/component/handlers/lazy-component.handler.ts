@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ComponentRef,
   ElementRef,
@@ -33,7 +39,7 @@ export class LazyComponentHandler implements ComponentHandler {
   }
 
   private isNotClass(symbol: any): boolean {
-    const signature = symbol.toString().substr(0, 20).replace(' ', '');
+    const signature = symbol.toString().substring(0, 20).replace(' ', '');
     return signature.startsWith('function()') || signature.startsWith('()=>');
   }
 

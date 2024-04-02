@@ -334,7 +334,7 @@ describe('NavigationComponentService', () => {
         )
         .subscribe((node) => (result = node));
 
-      expect(result).toBeFalsy();
+      expect(result).toEqual({});
     });
 
     it('should populate node with entry linkName', () => {

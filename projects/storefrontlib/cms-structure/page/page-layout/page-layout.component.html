@@ -1,6 +1,7 @@
 <ng-template
-  [cxPageTemplateStyle]="layoutName$ | async"
-  [cxOutlet]="layoutName$ | async"
+  *ngIf="layoutName$ | async as layoutName"
+  [cxPageTemplateStyle]="layoutName"
+  [cxOutlet]="layoutName"
   [cxOutletContext]="{
     templateName$: templateName$,
     slots$: slots$,

@@ -14,12 +14,13 @@
       [attr.aria-label]="
         'quickOrderForm.searchBoxLabel' | cxTranslate: { limit: limit }
       "
-      aria-controls="results"
+      aria-controls="quick-order-search-results"
       aria-describedby="quickOrderFormInitialDescription"
       class="form-control"
       formControlName="product"
       placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
       type="text"
+      #quickOrderInput
     />
 
     <button
@@ -55,7 +56,7 @@
     *ngIf="isResultsBoxOpen()"
     class="quick-order-results"
     role="dialog"
-    id="results"
+    id="quick-order-search-results"
   >
     <ul
       *ngIf="results.length"
@@ -65,11 +66,10 @@
       <li
         *ngFor="let product of results; let i = index"
         class="quick-order-results-product-container"
-        role="option"
       >
         <button
           (blur)="onBlur($event)"
-          (click)="add(product, $event)"
+          (mousedown)="add(product, $event)"
           (keydown.arrowdown)="focusNextChild($event)"
           (keydown.arrowup)="focusPreviousChild($event)"
           (keydown.enter)="add(product, $event)"
@@ -78,6 +78,7 @@
             config?.quickOrder?.searchForm?.displayProductImages
           "
           class="quick-order-results-product"
+          role="option"
         >
           <cx-media
             *ngIf="config?.quickOrder?.searchForm?.displayProductImages"

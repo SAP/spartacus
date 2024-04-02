@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { BaseSite } from '../../../model/misc.model';
@@ -17,7 +23,7 @@ import { SiteContextConfig } from '../site-context-config';
 @Injectable({ providedIn: 'root' })
 export class SiteContextConfigInitializer implements ConfigInitializer {
   readonly scopes = ['context'];
-  readonly configFactory = () => this.resolveConfig().toPromise();
+  readonly configFactory = () => lastValueFrom(this.resolveConfig());
 
   constructor(
     protected baseSiteService: BaseSiteService,

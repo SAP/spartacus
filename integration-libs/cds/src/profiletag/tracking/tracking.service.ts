@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { filter, tap, withLatestFrom } from 'rxjs/operators';
 import { ProfileTagLifecycleService } from '../services/profile-tag-lifecycle.service';
@@ -27,7 +33,7 @@ export class TrackingService {
           this.profileTagLifecycleService.consentChanged().pipe(
             tap((event) => {
               // always notify of consent changes
-              this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
+              this.profileTagEventTracker.notifyProfileTagOfEventOccurrence(
                 event
               );
             })
@@ -35,7 +41,7 @@ export class TrackingService {
         ),
         filter(([_event, consentChanged]) => consentChanged.data.granted), //don't notify other events until consent is granted
         tap(([event]) => {
-          this.profileTagEventTracker.notifyProfileTagOfEventOccurence(event);
+          this.profileTagEventTracker.notifyProfileTagOfEventOccurrence(event);
         })
       )
       .subscribe();

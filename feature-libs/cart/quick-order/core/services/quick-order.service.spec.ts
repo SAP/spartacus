@@ -1,5 +1,5 @@
 import { AbstractType } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
   ActiveCartFacade,
   CartAddEntrySuccessEvent,
@@ -14,11 +14,12 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import { Observable, of, queueScheduler } from 'rxjs';
-import { delay, observeOn, switchMap, take, tap } from 'rxjs/operators';
+import { observeOn, take, tap } from 'rxjs/operators';
 import { QuickOrderService } from './quick-order.service';
 
 const mockProduct1Code: string = 'mockCode1';
 const mockProduct2Code: string = 'mockCode2';
+const mockProduct3Code: string = 'mockCode3';
 const mockProduct1: Product = {
   code: mockProduct1Code,
   price: {
@@ -87,6 +88,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   isStable(): Observable<boolean> {
     return of(true);
   }
+
   addEntries(_cartEntries: OrderEntry[]): void {}
 }
 
@@ -324,24 +326,32 @@ describe('QuickOrderService', () => {
       });
   });
 
-  it('should add deleted entry and after 7s delete it', (done) => {
+  it('should add deleted entry and after 7s delete it', fakeAsync(() => {
     service.loadEntries(mockEntries);
     service.softDeleteEntry(0);
+
+    let softDeletedEntries: any;
+    let shouldCheck = true;
 
     service
       .getSoftDeletedEntries()
       .pipe(
-        tap((softDeletedEntries) => {
-          expect(softDeletedEntries).toEqual({ mockCode1: mockEntry1 });
-        }),
-        delay(7000),
-        switchMap(() => service.getSoftDeletedEntries())
+        tap((entries) => {
+          if (shouldCheck) {
+            expect(entries).toEqual({ mockCode1: mockEntry1 });
+
+            shouldCheck = false;
+          }
+        })
       )
       .subscribe((result) => {
-        expect(result).toEqual({});
+        softDeletedEntries = result;
       });
-    done();
-  });
+
+    tick(7000);
+
+    expect(softDeletedEntries).toEqual({});
+  }));
 
   it('should not add deleted entry', (done) => {
     service.loadEntries([mockEmptyEntry]);
@@ -430,6 +440,63 @@ describe('QuickOrderService', () => {
         service.addProduct(mockProduct1);
 
         service.canAdd().subscribe((canAdd) => (result = canAdd));
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('adding list of products to non-empty entry list', () => {
+      const mockProductsToAdd: any[] = [
+        { productCode: mockProduct1Code },
+        { productCode: mockProduct2Code },
+        { productCode: mockProduct3Code },
+      ];
+
+      beforeEach(() => {
+        service.addProduct(mockProduct1);
+      });
+
+      it('should verify can add products which already exists even list limit reached', () => {
+        let result: boolean;
+        service.setListLimit(2);
+        service.addProduct(mockProduct2);
+
+        service
+          .canAdd(mockProduct1Code, mockProductsToAdd)
+          .subscribe((canAdd) => (result = canAdd));
+        expect(result).toBe(true);
+        service
+          .canAdd(mockProduct2Code, mockProductsToAdd)
+          .subscribe((canAdd) => (result = canAdd));
+        expect(result).toBe(true);
+      });
+
+      it('should verify can add 1st existing product in list of 3 products because it will NOT breach limit of 2', () => {
+        let result: boolean;
+        service.setListLimit(2);
+
+        service
+          .canAdd(mockProduct1Code, mockProductsToAdd)
+          .subscribe((canAdd) => (result = canAdd));
+        expect(result).toBe(true);
+      });
+
+      it('should verify can add 2nd non-existing product in list of 3 products because it will NOT breach limit of 2', () => {
+        let result: boolean;
+        service.setListLimit(2);
+
+        service
+          .canAdd(mockProduct2Code, mockProductsToAdd)
+          .subscribe((canAdd) => (result = canAdd));
+        expect(result).toBe(true);
+      });
+
+      it('should verify cannot add 3rd non-existing product in list of 3 products because it will breach limit of 2', () => {
+        let result: boolean;
+        service.setListLimit(2);
+
+        service
+          .canAdd(mockProduct3Code, mockProductsToAdd)
+          .subscribe((canAdd) => (result = canAdd));
         expect(result).toBe(false);
       });
     });

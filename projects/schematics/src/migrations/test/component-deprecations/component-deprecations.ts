@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ComponentData } from '../../../shared/utils/file-utils';
 import { migrateComponentMigration } from '../../mechanism/component-deprecations/component-deprecations';
@@ -18,7 +24,16 @@ export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
 ];
 
 export function migrate(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    return migrateComponentMigration(tree, context, COMPONENT_DEPRECATION_DATA);
+  return async (tree: Tree, context: SchematicContext): Promise<Rule> => {
+    const angularCompiler = await import('@angular/compiler');
+
+    return () => {
+      return migrateComponentMigration(
+        tree,
+        context,
+        COMPONENT_DEPRECATION_DATA,
+        angularCompiler
+      );
+    };
   };
 }

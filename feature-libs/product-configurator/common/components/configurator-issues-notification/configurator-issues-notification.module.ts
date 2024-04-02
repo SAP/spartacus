@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
@@ -21,8 +27,8 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
   declarations: [ConfiguratorIssuesNotificationComponent],
   providers: [
     provideOutlet({
-      id: CartOutlets.ITEM,
-      position: OutletPosition.BEFORE,
+      id: CartOutlets.ITEM_CONFIGURATOR_ISSUES,
+      position: OutletPosition.REPLACE,
       component: ConfiguratorIssuesNotificationComponent,
     }),
   ],

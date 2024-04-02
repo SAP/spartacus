@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { DOCUMENT } from '@angular/common';
 import {
   ComponentRef,
@@ -26,29 +32,29 @@ export abstract class LaunchRenderStrategy implements Applicable {
   /**
    * Classes to apply to the component when the dialog is a DIALOG
    */
-  protected dialogClasses = ['d-block', 'fade', 'modal', 'show'];
+  protected readonly dialogClasses = ['d-block', 'fade', 'modal', 'show'];
   /**
    * Classes to apply to the component when the dialog is a POPOVER
    */
-  protected popoverClasses = ['cx-dialog-popover'];
+  protected readonly popoverClasses = ['cx-dialog-popover'];
   /**
    * Classes to apply to the component when the dialog is a POPOVER_CENTER
    */
-  protected popoverCenterClasses = ['cx-dialog-popover-center'];
+  protected readonly popoverCenterClasses = ['cx-dialog-popover-center'];
   /**
    * Classes to apply to the component when the dialog is a POPOVER_CENTER with a backdrop
    */
-  protected popoverCenterBackdropClasses = [
+  protected readonly popoverCenterBackdropClasses = [
     'cx-dialog-popover-center-backdrop',
   ];
   /**
    * Classes to apply to the component when the dialog is a SIDEBAR_END
    */
-  protected sidebarEndClasses = ['cx-sidebar-end'];
+  protected readonly sidebarEndClasses = ['cx-sidebar-end'];
   /**
    * Classes to apply to the component when the dialog is a SIDEBAR_START
    */
-  protected sidebarStartClasses = ['cx-sidebar-start'];
+  protected readonly sidebarStartClasses = ['cx-sidebar-start'];
 
   protected renderer: Renderer2;
 

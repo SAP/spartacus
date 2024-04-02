@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export class TestingTimeUtils {
   static fakeToLocaleTimeString(mockTime: string, callback: Function): any {
     const original = Date.prototype.toLocaleTimeString;

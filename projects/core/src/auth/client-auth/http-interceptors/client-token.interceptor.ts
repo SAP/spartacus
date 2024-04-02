@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -6,7 +12,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import {
@@ -40,7 +46,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
 
     return this.getClientToken(isClientTokenRequest).pipe(
       take(1),
-      switchMap((token: ClientToken) => {
+      switchMap((token: ClientToken | undefined) => {
         if (
           token?.access_token &&
           request.url.includes(this.occEndpoints.getBaseUrl())
@@ -56,19 +62,18 @@ export class ClientTokenInterceptor implements HttpInterceptor {
 
         return next.handle(request).pipe(
           catchError((errResponse: any) => {
-            if (errResponse instanceof HttpErrorResponse) {
-              if (errResponse.status === 401) {
-                if (isClientTokenRequest) {
-                  if (this.isExpiredToken(errResponse)) {
-                    return this.clientErrorHandlingService.handleExpiredClientToken(
-                      request,
-                      next
-                    );
-                  }
-                }
-              }
+            if (
+              errResponse instanceof HttpErrorResponse &&
+              errResponse.status === 401 &&
+              isClientTokenRequest &&
+              this.isExpiredToken(errResponse)
+            ) {
+              return this.clientErrorHandlingService.handleExpiredClientToken(
+                request,
+                next
+              );
             }
-            return throwError(errResponse);
+            throw errResponse;
           })
         );
       })
@@ -77,11 +82,11 @@ export class ClientTokenInterceptor implements HttpInterceptor {
 
   protected getClientToken(
     isClientTokenRequest: boolean
-  ): Observable<ClientToken> {
+  ): Observable<ClientToken | undefined> {
     if (isClientTokenRequest) {
       return this.clientTokenService.getClientToken();
     }
-    return of(null);
+    return of(undefined);
   }
 
   protected isClientTokenRequest(request: HttpRequest<any>): boolean {

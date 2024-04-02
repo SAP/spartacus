@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { ConfigurationInfo } from '@spartacus/product-configurator/common';
@@ -14,7 +20,9 @@ export class OccConfiguratorTextfieldUpdateCartEntrySerializer
       OccConfiguratorTextfield.UpdateCartEntryParameters
     >
 {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   /**
    * Converts the attributes for the updateCartEntry request into OCC format. Most attributes are just copied,

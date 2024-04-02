@@ -1,24 +1,33 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
-import { Action, ActionReducer, MetaReducer, META_REDUCERS } from '@ngrx/store';
+import { Action, ActionReducer, META_REDUCERS, MetaReducer } from '@ngrx/store';
 import { CartType } from '@spartacus/cart/base/root';
-import { ConfigInitializerService, MODULE_INITIALIZER } from '@spartacus/core';
+import {
+  Config,
+  ConfigInitializerService,
+  MODULE_INITIALIZER,
+} from '@spartacus/core';
+import { lastValueFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
 
 export function cartStatePersistenceFactory(
   cartStatePersistenceService: MultiCartStatePersistenceService,
   configInit: ConfigInitializerService
-) {
-  const result = () =>
-    configInit
-      .getStable('context')
-      .pipe(
+): () => Promise<Config> {
+  return () =>
+    lastValueFrom(
+      configInit.getStable('context').pipe(
         tap(() => {
           cartStatePersistenceService.initSync();
         })
       )
-      .toPromise();
-  return result;
+    );
 }
 
 /**

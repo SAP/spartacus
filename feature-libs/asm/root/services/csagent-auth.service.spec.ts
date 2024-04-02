@@ -4,11 +4,11 @@ import {
   AuthActions,
   AuthService,
   AuthToken,
+  FeatureConfigService,
   OAuthLibWrapperService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   UserIdService,
-  UserService,
 } from '@spartacus/core';
 import { TokenResponse } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
@@ -20,6 +20,7 @@ import {
   TokenTarget,
 } from '../services/asm-auth-storage.service';
 import { CsAgentAuthService } from './csagent-auth.service';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 
 class MockAuthService implements Partial<AuthService> {
   logout() {}
@@ -34,7 +35,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   }
 }
 
-class MockUserService implements Partial<UserService> {
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get() {
     return of({});
   }
@@ -47,7 +48,8 @@ describe('CsAgentAuthService', () => {
   let authService: AuthService;
   let asmAuthStorageService: AsmAuthStorageService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
-  let userService: UserService;
+  let userAccountFacade: UserAccountFacade;
+  let featureConfig: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -63,7 +65,7 @@ describe('CsAgentAuthService', () => {
           provide: OAuthLibWrapperService,
           useClass: MockOAuthLibWrapperService,
         },
-        { provide: UserService, useClass: MockUserService },
+        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
       ],
     });
 
@@ -72,7 +74,8 @@ describe('CsAgentAuthService', () => {
     authService = TestBed.inject(AuthService);
     asmAuthStorageService = TestBed.inject(AsmAuthStorageService);
     oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
-    userService = TestBed.inject(UserService);
+    userAccountFacade = TestBed.inject(UserAccountFacade);
+    featureConfig = TestBed.inject(FeatureConfigService);
     store = TestBed.inject(Store);
   });
 
@@ -117,7 +120,10 @@ describe('CsAgentAuthService', () => {
       ).and.callThrough();
       spyOn(userIdService, 'setUserId').and.callThrough();
       spyOn(asmAuthStorageService, 'setEmulatedUserToken').and.callThrough();
-      spyOn(userService, 'get').and.returnValue(of({ customerId: 'custId' }));
+      spyOn(userAccountFacade, 'get').and.returnValue(
+        of({ customerId: 'custId' })
+      );
+      spyOn(featureConfig, 'isLevel').and.returnValue(true);
       asmAuthStorageService.setToken({ access_token: 'token' } as AuthToken);
 
       await service.authorizeCustomerSupportAgent('testUser', 'testPass');
@@ -254,7 +260,7 @@ describe('CsAgentAuthService', () => {
   });
 
   // TODO(#8248)
-  xdescribe('getCustomerSupportAgentTokenLoading()', () => {});
+  // xdescribe('getCustomerSupportAgentTokenLoading()', () => {});
 
   describe('logoutCustomerSupportAgent()', () => {
     it('should logout CS agent', async () => {

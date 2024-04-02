@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
 import { INPUT_TYPE, MyCompanyConfig, MY_COMPANY_FEATURE } from '../models';
@@ -64,11 +70,16 @@ export const unitShippingAddressConfig: MyCompanyConfig = {
   ],
 };
 
-export const userRolesConfig: MyCompanyConfig = {
+export const userRolesAndRightsConfig: MyCompanyConfig = {
   rows: [
     {
       formLabel: 'Roles',
       updateValue: 'Manager',
+      inputType: INPUT_TYPE.CHECKBOX,
+    },
+    {
+      formLabel: 'Rights',
+      updateValue: 'View Unit-Level Orders',
       inputType: INPUT_TYPE.CHECKBOX,
     },
   ],
@@ -199,7 +210,7 @@ export const unitConfig: MyCompanyConfig = {
       apiEndpoint: '**/availableOrgCustomers**',
       objectType: 'members',
       createConfig: userConfig,
-      rolesConfig: userRolesConfig,
+      rolesAndRightsConfig: userRolesAndRightsConfig,
     },
     {
       name: 'Approvers',

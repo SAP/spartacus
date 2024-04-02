@@ -3,8 +3,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  PasswordVisibilityToggleModule,
+} from '@spartacus/storefront';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
+import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 
 describe('CSAgentLoginFormComponent', () => {
   let component: CSAgentLoginFormComponent;
@@ -19,8 +23,13 @@ describe('CSAgentLoginFormComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-        declarations: [CSAgentLoginFormComponent],
+        imports: [
+          ReactiveFormsModule,
+          I18nTestingModule,
+          FormErrorsModule,
+          PasswordVisibilityToggleModule,
+        ],
+        declarations: [CSAgentLoginFormComponent, DotSpinnerComponent],
       }).compileComponents();
     })
   );
@@ -80,7 +89,7 @@ describe('CSAgentLoginFormComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(el.query(By.css('div.spinner'))).toBeTruthy();
+    expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();
     expect(el.query(By.css('form'))).toBeFalsy();
   });
   it('should not display spinner when login is not running', () => {

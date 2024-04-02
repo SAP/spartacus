@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
@@ -10,7 +16,6 @@ import {
   UserOccModule,
 } from '@spartacus/core';
 import {
-  AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
   BannerCarouselModule,
@@ -28,11 +33,13 @@ import {
   LogoutModule,
   MyCouponsModule,
   MyInterestsModule,
+  MyAccountV2Module,
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
   PageTitleModule,
   PaymentMethodsModule,
+  PDFModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
   ProductFacetNavigationModule,
@@ -44,72 +51,94 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
+  ScrollToTopModule,
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
+  VideoModule,
+  USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
+  USE_MY_ACCOUNT_V2_CONSENT,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
-import { AdministrationFeatureModule } from './features/administration-feature.module';
-import { AsmFeatureModule } from './features/asm-feature.module';
-import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
-import { CartBaseFeatureModule } from './features/cart-base-feature.module';
-import { CdcFeatureModule } from './features/cdc-feature.module';
-import { CdsFeatureModule } from './features/cds-feature.module';
-import { CheckoutFeatureModule } from './features/checkout-feature.module';
-import { CheckoutScheduledReplenishmentFeatureModule } from './features/checkout-scheduled-replenishment-feature.module';
-import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
-import { EpdVisualizationFeatureModule } from './features/epd-visualization-feature.module';
-import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
-import { ImportExportFeatureModule } from './features/import-export-feature.module';
-import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
-import { OrderFeatureModule } from './features/order-feature.module';
-import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product-configurator-rulebased-cpq-feature.module';
-import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator-rulebased-feature.module';
-import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
-import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
-import { QuickOrderFeatureModule } from './features/quick-order-feature.module';
-import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
-import { SmartEditFeatureModule } from './features/smartedit-feature.module';
-import { StorefinderFeatureModule } from './features/storefinder-feature.module';
-import { TrackingFeatureModule } from './features/tracking-feature.module';
-import { UserFeatureModule } from './features/user-feature.module';
-import { VariantsFeatureModule } from './features/variants-feature.module';
+import { AsmFeatureModule } from './features/asm/asm-feature.module';
+import { AsmCustomer360FeatureModule } from './features/asm/asm-customer-360-feature.module';
+import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
+import { ImportExportFeatureModule } from './features/cart/cart-import-export-feature.module';
+import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
+import { SavedCartFeatureModule } from './features/cart/cart-saved-cart-feature.module';
+import { WishListFeatureModule } from './features/cart/wish-list-feature.module';
+import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
+import { CdsFeatureModule } from './features/cds/cds-feature.module';
+import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
+import { QuoteFeatureModule } from './features/quote-feature.module';
+import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
+import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
+import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
+import { OrderFeatureModule } from './features/order/order-feature.module';
+import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
+import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
+import { OrderApprovalFeatureModule } from './features/organization/organization-order-approval-feature.module';
+import { UnitOrderFeatureModule } from './features/organization/organization-unit-order-feature.module';
+import { PDFInvoicesFeatureModule } from './features/pdf-invoices/pdf-invoices-feature.module';
+import { PickupInStoreFeatureModule } from './features/pickup-in-store/pickup-in-store-feature.module';
+import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator/product-configurator-rulebased-feature.module';
+import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator/product-configurator-textfield-feature.module';
+import { BulkPricingFeatureModule } from './features/product/product-bulk-pricing-feature.module';
+import { FutureStockFeatureModule } from './features/product/product-future-stock-feature.module';
+import { ImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
+import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
+import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
+import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
+import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
+import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
+import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
+import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
+import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
+import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
+import { UserFeatureModule } from './features/user/user-feature.module';
 import { VariantsMultidimensionalFeatureModule } from './features/variants-multidimensional-feature.module';
-import { WishListFeatureModule } from './features/wish-list-feature.module';
 
 const featureModules = [];
 
 if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
+    AccountSummaryFeatureModule,
     BulkPricingFeatureModule,
-    OrderApprovalFeatureModule
+    OrderApprovalFeatureModule,
+    OrganizationUserRegistrationFeatureModule,
+    UnitOrderFeatureModule,
+    FutureStockFeatureModule
   );
-}
-
-let CheckoutFeature = CheckoutFeatureModule;
-
-if (environment.b2b) {
-  CheckoutFeature = CheckoutScheduledReplenishmentFeatureModule;
+} else {
+  featureModules.push(PickupInStoreFeatureModule);
 }
 
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
 }
+
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
-}
-if (environment.cpq) {
-  featureModules.push(ProductConfiguratorRulebasedCpqFeatureModule);
-} else {
-  featureModules.push(ProductConfiguratorRulebasedFeatureModule);
 }
 if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
 }
 if (environment.epdVisualization) {
   featureModules.push(EpdVisualizationFeatureModule);
+}
+if (environment.pdfInvoices) {
+  featureModules.push(PDFInvoicesFeatureModule);
+}
+if (environment.s4om) {
+  featureModules.push(S4OMFeatureModule);
+}
+if (environment.segmentRefs) {
+  featureModules.push(SegmentRefsFeatureModule);
+}
+if (environment.requestedDeliveryDate) {
+  featureModules.push(RequestedDeliveryDateFeatureModule);
 }
 
 @NgModule({
@@ -132,15 +161,18 @@ if (environment.epdVisualization) {
     FooterNavigationModule,
     PageTitleModule,
     BreadcrumbModule,
+    PDFModule,
+    ScrollToTopModule,
+    VideoModule,
 
     // User Core
     UserModule,
     UserOccModule,
     // User UI
-    AddressBookModule,
     PaymentMethodsModule,
     NotificationPreferenceModule,
     MyInterestsModule,
+    MyAccountV2Module,
     StockNotificationModule,
     ConsentManagementModule,
     MyCouponsModule,
@@ -192,11 +224,12 @@ if (environment.epdVisualization) {
 
     OrderFeatureModule,
 
-    CheckoutFeature,
+    CheckoutFeatureModule,
 
     TrackingFeatureModule,
 
     AsmFeatureModule,
+    AsmCustomer360FeatureModule,
 
     StorefinderFeatureModule,
 
@@ -205,11 +238,26 @@ if (environment.epdVisualization) {
     SmartEditFeatureModule,
 
     VariantsFeatureModule,
-    ProductConfiguratorTextfieldFeatureModule,
     ImageZoomFeatureModule,
     VariantsMultidimensionalFeatureModule,
 
+    QuoteFeatureModule,
+    CustomerTicketingFeatureModule,
+
+    ProductConfiguratorTextfieldFeatureModule,
+    ProductConfiguratorRulebasedFeatureModule,
     ...featureModules,
+  ],
+  providers: [
+    // Adding the provider here because consents feature is not code-splitted to separate library and not lazy-loaded
+    {
+      provide: USE_MY_ACCOUNT_V2_CONSENT,
+      useValue: environment.myAccountV2,
+    },
+    {
+      provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
+      useValue: environment.myAccountV2,
+    },
   ],
 })
 export class SpartacusFeaturesModule {}

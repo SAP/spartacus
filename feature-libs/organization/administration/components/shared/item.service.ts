@@ -1,9 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { FormUtils } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CurrentItemService } from './current-item.service';
 import { FormService } from './form/form.service';
@@ -38,11 +44,14 @@ export abstract class ItemService<T> {
     switchMap((key) => this.currentItemService.getError(key))
   );
 
-  save(form: FormGroup, key?: string): Observable<OrganizationItemStatus<T>> {
+  save(
+    form: UntypedFormGroup,
+    key?: string
+  ): Observable<OrganizationItemStatus<T>> {
     if (form.invalid) {
       form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(form);
-      return of();
+      return EMPTY;
     } else {
       /**
        * This assignment is needed to re-use form value after `form.disable()` call
@@ -82,14 +91,14 @@ export abstract class ItemService<T> {
    */
   protected abstract getDetailsRoute(): string;
 
-  getForm(item?: T): FormGroup {
+  getForm(item?: T): UntypedFormGroup | null {
     return this.formService.getForm(item);
   }
 
   /**
    * Launches the detailed route for the given item item.
    */
-  launchDetails(item: T): void {
+  launchDetails(item?: T): void {
     const cxRoute = this.getDetailsRoute();
     const params = this.buildRouteParams(item);
     if (cxRoute && item && Object.keys(item).length > 0) {
@@ -106,7 +115,7 @@ export abstract class ItemService<T> {
    * doesn't match the expected route parameters. You can manipulate
    * the parameter data.
    */
-  protected buildRouteParams(item: T): any {
+  protected buildRouteParams(item?: T): any {
     return item;
   }
 

@@ -137,4 +137,13 @@ describe('OrganizationBadRequestHandler', () => {
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });
+
+  it('should not handle conflict if error response does not have enough info', () => {
+    spyOn(globalMessageService, 'add');
+    service.handleError(MockRequest, {
+      error: {},
+    } as HttpErrorResponse);
+
+    expect(globalMessageService.add).not.toHaveBeenCalled();
+  });
 });

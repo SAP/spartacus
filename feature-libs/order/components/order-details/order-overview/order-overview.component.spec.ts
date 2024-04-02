@@ -1,14 +1,17 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
+  CmsOrderDetailOverviewComponent,
   I18nTestingModule,
+  PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
 import { Order, ReplenishmentOrder } from '@spartacus/order/root';
-import { Card } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Card, CmsComponentData } from '@spartacus/storefront';
+import { EMPTY, Observable, of } from 'rxjs';
+import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponent } from './order-overview.component';
 
 @Component({ selector: 'cx-card', template: '' })
@@ -110,31 +113,50 @@ const mockFormattedAddress = 'test1, test2, test3, test4';
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
+
+class MockOrderDetailsService {
+  isOrderDetailsLoading(): Observable<boolean> {
+    return of(false);
+  }
+  getOrderDetails() {
+    return of(mockOrder);
+  }
+}
+
+const mockData: CmsOrderDetailOverviewComponent = {
+  simple: false,
+};
+
+const MockCmsComponentData = <CmsComponentData<any>>{
+  data$: of(mockData),
+};
 
 describe('OrderOverviewComponent', () => {
   let component: OrderOverviewComponent;
   let fixture: ComponentFixture<OrderOverviewComponent>;
   let translationService: TranslationService;
+  let orderDetailsService: OrderDetailsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [OrderOverviewComponent, MockCardComponent],
-        providers: [
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [OrderOverviewComponent, MockCardComponent],
+      providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
+        { provide: OrderDetailsService, useClass: MockOrderDetailsService },
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
+      ],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderOverviewComponent);
     component = fixture.componentInstance;
     translationService = TestBed.inject(TranslationService);
+    orderDetailsService = TestBed.inject(OrderDetailsService);
   });
 
   it('should create', () => {
@@ -143,7 +165,9 @@ describe('OrderOverviewComponent', () => {
 
   describe('when replenishment order code is defined', () => {
     beforeEach(() => {
-      component.order = mockReplenishmentOrder;
+      spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+        of(mockReplenishmentOrder)
+      );
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 
@@ -250,7 +274,6 @@ describe('OrderOverviewComponent', () => {
 
   describe('when replenishment is NOT defined', () => {
     beforeEach(() => {
-      component.order = mockOrder;
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 
@@ -308,7 +331,6 @@ describe('OrderOverviewComponent', () => {
 
   describe('when purchase order number is defined', () => {
     beforeEach(() => {
-      component.order = mockOrder;
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 
@@ -367,7 +389,6 @@ describe('OrderOverviewComponent', () => {
 
   describe('when paymentInfo is defined', () => {
     beforeEach(() => {
-      component.order = mockOrder;
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 
@@ -379,16 +400,27 @@ describe('OrderOverviewComponent', () => {
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
-          expect(data.textBold).toEqual(
-            mockOrder.paymentInfo.accountHolderName
-          );
-          expect(data.text).toEqual([mockOrder.paymentInfo.cardNumber, 'test']);
+          expect(data.text).toEqual([
+            mockOrder.paymentInfo?.cardType?.name,
+            mockOrder.paymentInfo?.accountHolderName,
+            mockOrder.paymentInfo?.cardNumber,
+            'test',
+          ]);
         })
         .unsubscribe();
 
       expect(component.getPaymentInfoCardContent).toHaveBeenCalledWith(
         mockOrder.paymentInfo
       );
+    });
+
+    it('should isPaymentInfoCardFull be falsy when paymentInfo is partial', () => {
+      expect(
+        component.isPaymentInfoCardFull({
+          ...mockOrder.paymentInfo,
+          expiryMonth: undefined,
+        })
+      ).toBeFalsy();
     });
 
     it('should call getBillingAddressCardContent(billingAddress: Address)', () => {
@@ -419,7 +451,6 @@ describe('OrderOverviewComponent', () => {
 
   describe('common column in all types of order', () => {
     beforeEach(() => {
-      component.order = mockOrder;
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 

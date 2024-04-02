@@ -1,3 +1,4 @@
+import { waitForAsync } from '@angular/core/testing';
 import { deepMerge } from './deep-merge';
 
 describe('deepMerge utility', () => {
@@ -118,5 +119,72 @@ describe('deepMerge utility', () => {
     const b = { a: { value: 'test1' } };
     const merged = deepMerge(a, undefined, b, null);
     expect(merged).toEqual(jasmine.objectContaining({ a: { value: 'test1' } }));
+  });
+
+  describe('protptype pollution gurads', () => {
+    it(
+      'should avoid property injection',
+      waitForAsync(async () => {
+        // arrange
+        class TestContainer {
+          constructor(public name: string) {}
+
+          getName() {
+            return this.name;
+          }
+        }
+
+        const actual = new TestContainer('Merged');
+        const untouchedObject = new TestContainer('Untouched');
+        const baseObject = {};
+
+        const prototypePollutionVector = await new Response(`
+          {
+            "__proto__": {
+              "radioactiveWaste": true
+            }
+          }
+        `).json();
+
+        // act
+        deepMerge(actual as {}, prototypePollutionVector);
+
+        // assert
+        expect('radioactiveWaste' in baseObject).toBe(false);
+        expect('radioactiveWaste' in untouchedObject).toBe(false);
+        expect('radioactiveWaste' in actual).toBe(false);
+      })
+    );
+
+    it(
+      'should avoid denial of service',
+      waitForAsync(async () => {
+        class TestContainer {
+          constructor(public name: string) {}
+
+          getName() {
+            return this.name;
+          }
+        }
+
+        const actual = new TestContainer('Merged');
+        const untouchedObject = new TestContainer('Untouched');
+        const baseObject = {};
+
+        const prototypePollutionVector = await new Response(`
+          {
+            "__proto__": {
+              "toString": "attack success"
+            }
+          }
+        `).json();
+
+        deepMerge(actual as {}, prototypePollutionVector);
+
+        expect(typeof baseObject.toString).toBe('function');
+        expect(typeof untouchedObject.toString).toBe('function');
+        expect(typeof actual.toString).toBe('function');
+      })
+    );
   });
 });

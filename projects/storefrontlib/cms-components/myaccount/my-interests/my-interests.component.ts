@@ -1,11 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
 import {
+  GlobalMessageService,
+  GlobalMessageType,
   PaginationModel,
   Product,
   ProductInterestEntryRelation,
@@ -15,11 +22,12 @@ import {
   TranslationService,
   UserInterestsService,
 } from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   results?: (ProductInterestEntryRelation & {
-    product$?: Observable<Product>;
+    product$?: Observable<Product | undefined>;
   })[];
 }
 
@@ -30,10 +38,11 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
   private DEFAULT_PAGE_SIZE = 10;
-  private sortMapping = {
+  private sortMapping: { [key: string]: string } = {
     byNameAsc: 'name:asc',
     byNameDesc: 'name:desc',
   };
+  private sortChanged = false;
 
   sort = 'byNameAsc';
   sortOptions = [
@@ -56,7 +65,8 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   constructor(
     private productInterestService: UserInterestsService,
     private translationService: TranslationService,
-    private productService: ProductService
+    private productService: ProductService,
+    private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit() {
@@ -66,13 +76,23 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
         tap(
           (interests) =>
             (this.pagination = {
-              currentPage: interests.pagination.page,
-              pageSize: interests.pagination.count,
-              totalPages: interests.pagination.totalPages,
-              totalResults: interests.pagination.totalCount,
+              currentPage: interests.pagination?.page,
+              pageSize: interests.pagination?.count,
+              totalPages: interests.pagination?.totalPages,
+              totalResults: interests.pagination?.totalCount,
               sort: 'byNameAsc',
             })
         ),
+        tap(() => {
+          if (this.sortChanged) {
+            this.sortChanged = false;
+            this.globalMessageService?.add(
+              { key: 'sorting.pageViewUpdated' },
+              GlobalMessageType.MSG_TYPE_ASSISTIVE,
+              500
+            );
+          }
+        }),
         map((interest) => ({
           ...interest,
           results: interest.results
@@ -113,13 +133,16 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   private getProduct(
     interest: ProductInterestEntryRelation
-  ): Observable<Product> {
-    return this.productService.get(interest.product.code, ProductScope.DETAILS);
+  ): Observable<Product | undefined> {
+    return this.productService.get(
+      interest.product?.code ?? '',
+      ProductScope.DETAILS
+    );
   }
 
   removeInterest(
     relation: ProductInterestEntryRelation & {
-      product$?: Observable<Product>;
+      product$?: Observable<Product | undefined>;
     }
   ): void {
     this.productInterestService.removeProdutInterest({
@@ -130,6 +153,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   sortChange(sort: string): void {
     this.sort = sort;
+    this.sortChanged = true;
     this.productInterestService.loadProductInterests(
       this.DEFAULT_PAGE_SIZE,
       0,

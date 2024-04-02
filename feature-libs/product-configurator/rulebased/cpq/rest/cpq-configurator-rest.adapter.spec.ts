@@ -205,6 +205,10 @@ describe('CpqConfiguratorRestAdapter', () => {
       });
   });
 
+  it('should throw error in case overview is to be updated', () => {
+    expect(() => adapterUnderTest.updateConfigurationOverview()).toThrowError();
+  });
+
   it('should delegate update quantity configuration to rest service and map owner', () => {
     inputForUpdateConfiguration.updateType =
       Configurator.UpdateType.VALUE_QUANTITY;
@@ -227,6 +231,10 @@ describe('CpqConfiguratorRestAdapter', () => {
           mockedRestService.readConfigurationOverview
         ).toHaveBeenCalledWith(productConfiguration.configId);
       });
+  });
+
+  it('should throw exception if variant search is attempted', () => {
+    expect(() => adapterUnderTest.searchVariants()).toThrowError();
   });
 
   it('should delegate addToCart to OCC service', () => {
@@ -275,5 +283,9 @@ describe('CpqConfiguratorRestAdapter', () => {
           updateCartParams
         );
       });
+  });
+
+  it("shouldn't support CPQ over OCC mode", () => {
+    expect(adapterUnderTest.supportsCpqOverOcc()).toBe(false);
   });
 });

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,6 +11,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
+import { useFeatureStyles } from '@spartacus/core';
 import { ProductListOutlets } from '../../product-outlets.model';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
@@ -27,7 +34,9 @@ export class ProductListItemComponent implements OnChanges {
 
   constructor(
     protected productListItemContextSource: ProductListItemContextSource
-  ) {}
+  ) {
+    useFeatureStyles('a11yExpandedFocusIndicator');
+  }
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.product) {

@@ -7,7 +7,7 @@ import {
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
@@ -62,7 +62,7 @@ const mockTabComponentData3 = {
 };
 
 const MockCmsService = {
-  getComponentData: () => of(),
+  getComponentData: () => EMPTY,
 };
 
 const MockCmsComponentData = <CmsComponentData<CMSTabParagraphContainer>>{
@@ -166,7 +166,7 @@ describe('TabParagraphContainerComponent', () => {
     let childCompFixture: ComponentFixture<TestComponent>;
     childCompFixture = TestBed.createComponent(TestComponent);
 
-    component.children.first.cmpRef = childCompFixture.componentRef;
+    component.children.first['cmpRef'] = childCompFixture.componentRef;
     component.ngAfterViewInit();
 
     let param = '';
@@ -193,5 +193,12 @@ describe('TabParagraphContainerComponent', () => {
     });
 
     expect(param).toEqual('title param');
+  });
+
+  it('should be able to get ariaLabel', () => {
+    fixture.detectChanges();
+    expect(component.ariaLabel).toEqual(
+      'TabPanelContainer.tabPanelContainerRegion'
+    );
   });
 });

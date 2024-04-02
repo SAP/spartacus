@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { CART_BASE_FEATURE } from '@spartacus/cart/base/root';
 import {
@@ -21,6 +27,9 @@ export const CHECKOUT_BASE_CMS_COMPONENTS: string[] = [
   'CheckoutPaymentDetails',
   'CheckoutPlaceOrder',
   'CheckoutReviewOrder',
+  'CheckoutReviewPayment',
+  'CheckoutReviewShipping',
+  'CheckoutReviewOverview',
   'CheckoutDeliveryAddress',
   'GuestCheckoutLoginComponent',
 ];

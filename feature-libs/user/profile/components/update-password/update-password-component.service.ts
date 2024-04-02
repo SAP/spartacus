@@ -1,37 +1,52 @@
-import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject } from '@angular/core';
 import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  AuthRedirectService,
+  AuthService,
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 
 @Injectable()
 export class UpdatePasswordComponentService {
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected authRedirectService?: AuthRedirectService,
+    protected authService?: AuthService
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
+
+  private usingV2 = inject(USE_MY_ACCOUNT_V2_PASSWORD);
 
   isUpdating$ = this.busy$.pipe(
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
-  form: FormGroup = new FormGroup(
+  form: UntypedFormGroup = new UntypedFormGroup(
     {
-      oldPassword: new FormControl('', Validators.required),
-      newPassword: new FormControl('', [
-        Validators.required,
-        CustomFormValidators.passwordValidator,
-      ]),
-      newPasswordConfirm: new FormControl('', Validators.required),
+      oldPassword: new UntypedFormControl('', Validators.required),
+      newPassword: new UntypedFormControl('', Validators.required),
+      newPasswordConfirm: new UntypedFormControl('', Validators.required),
     },
     {
       validators: CustomFormValidators.passwordsMustMatch(
@@ -57,21 +72,46 @@ export class UpdatePasswordComponentService {
 
     this.userPasswordService.update(oldPassword, newPassword).subscribe({
       next: () => this.onSuccess(),
-      error: (error: Error) => this.onError(error),
+      error: (error: HttpErrorModel | Error) => this.onError(error),
     });
   }
 
   protected onSuccess(): void {
     this.globalMessageService.add(
-      { key: 'updatePasswordForm.passwordUpdateSuccess' },
+      {
+        key: this.usingV2
+          ? 'myAccountV2PasswordForm.passwordUpdateSuccess'
+          : 'updatePasswordForm.passwordUpdateSuccess',
+      },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
     this.busy$.next(false);
     this.form.reset();
-    this.routingService.go({ cxRoute: 'home' });
+
+    // sets the redirect url after login
+    this.authRedirectService?.setRedirectUrl(
+      this.routingService.getUrl({ cxRoute: 'home' })
+    );
+    // TODO(#9638): Use logout route when it will support passing redirect url
+    this.authService?.coreLogout().then(() => {
+      this.routingService.go({ cxRoute: 'login' });
+    });
   }
 
-  protected onError(_error: Error): void {
+  protected onError(_error: HttpErrorModel | Error): void {
+    if (
+      _error instanceof HttpErrorModel &&
+      _error.details?.[0].type === 'AccessDeniedError'
+    ) {
+      this.globalMessageService.add(
+        {
+          key: this.usingV2
+            ? 'myAccountV2PasswordForm.accessDeniedError'
+            : 'updatePasswordForm.accessDeniedError',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
     this.busy$.next(false);
     this.form.reset();
   }

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CostCenter, I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import { DisableInfoModule } from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
@@ -12,12 +12,13 @@ import { MessageTestingModule } from '../../shared/message/message.testing.modul
 import { MessageService } from '../../shared/message/services/message.service';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 import createSpy = jasmine.createSpy;
+import { FocusDirective } from '@spartacus/storefront';
 
 const mockCode = 'c1';
 
 class MockItemService implements Partial<ItemService<CostCenter>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
 }
 
@@ -46,7 +47,7 @@ describe('CostCenterDetailsComponent', () => {
         ToggleStatusModule,
         DisableInfoModule,
       ],
-      declarations: [CostCenterDetailsComponent],
+      declarations: [CostCenterDetailsComponent, FocusDirective],
       providers: [{ provide: ItemService, useClass: MockItemService }],
     })
       .overrideComponent(CostCenterDetailsComponent, {

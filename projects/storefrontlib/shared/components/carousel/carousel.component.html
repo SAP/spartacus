@@ -1,4 +1,4 @@
-<ng-container *ngIf="items?.length > 0 && (size$ | async) as size">
+<ng-container *ngIf="items && items.length > 0 && (size$ | async) as size">
   <h2 *ngIf="title">{{ title }}</h2>
 
   <div class="carousel-panel" [ngClass]="'size-' + size">
@@ -52,7 +52,7 @@
     <ng-container *ngFor="let _ of items; let i = index">
       <button
         *ngIf="i % size === 0"
-        (focus)="activeSlide = i"
+        (click)="activeSlide = i"
         [disabled]="i === activeSlide"
         [attr.aria-label]="
           'carousel.slideNumber'

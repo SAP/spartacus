@@ -1,11 +1,11 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { StoreFinderSearchComponent } from './store-finder-search.component';
 
 const query = {
   queryParams: {

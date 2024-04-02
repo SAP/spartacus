@@ -10,13 +10,11 @@ import {
 import {
   Address,
   EventService,
-  LoadUserAddressesEvent,
-  OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { config, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutDeliveryAddressConnector } from '../connectors/checkout-delivery-address/checkout-delivery-address.connector';
 import { CheckoutDeliveryAddressService } from './checkout-delivery-address.service';
@@ -62,7 +60,22 @@ describe(`CheckoutDeliveryAddressService`, () => {
   let connector: CheckoutDeliveryAddressConnector;
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
-  let userIdService: UserIdService;
+
+  // TODO: CXSPA-4870 verify if can be avoided
+  let originalOnUnhandledError: ((err: any) => void) | null;
+
+  beforeAll(() => {
+    // configure rxjs to not crash node instance with thrown errors
+    // TODO: CXSPA-4870 verify if can be avoided
+    originalOnUnhandledError = config.onUnhandledError;
+    config.onUnhandledError = () => {};
+  });
+
+  afterAll(() => {
+    // reset rxjs configuration
+    // TODO: CXSPA-4870 verify if can be avoided
+    config.onUnhandledError = originalOnUnhandledError;
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -83,7 +96,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
     connector = TestBed.inject(CheckoutDeliveryAddressConnector);
     checkoutQuery = TestBed.inject(CheckoutQueryFacade);
     eventService = TestBed.inject(EventService);
-    userIdService = TestBed.inject(UserIdService);
   });
 
   it(`should inject CheckoutDeliveryAddressService`, inject(
@@ -140,28 +152,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
           address: mockAddress,
         },
         CheckoutDeliveryAddressCreatedEvent
-      );
-    });
-
-    it(`should dispatch LoadUserAddressesEvent`, () => {
-      service.createAndSetAddress(mockAddress);
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId },
-        LoadUserAddressesEvent
-      );
-    });
-
-    it(`should NOT dispatch LoadUserAddressesEvent when the user is anonymous`, () => {
-      userIdService.takeUserId = createSpy().and.returnValue(
-        of(OCC_USER_ID_ANONYMOUS)
-      );
-
-      service.createAndSetAddress(mockAddress);
-
-      expect(eventService.dispatch).not.toHaveBeenCalledWith(
-        { userId: mockUserId },
-        LoadUserAddressesEvent
       );
     });
   });

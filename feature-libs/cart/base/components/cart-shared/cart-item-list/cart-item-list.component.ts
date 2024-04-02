@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,7 +13,7 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
@@ -16,6 +22,7 @@ import {
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
+  CartOutlets,
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
@@ -48,17 +55,17 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
+    displayAddToCart: false,
   };
 
   @Input() cartId: string;
 
   protected _items: OrderEntry[] = [];
-  form: FormGroup = new FormGroup({});
+  form: UntypedFormGroup = new UntypedFormGroup({});
 
   @Input('items')
   set items(items: OrderEntry[]) {
-    this.resolveItems(items);
-    this.createForm();
+    this._setItems(items);
   }
   get items(): OrderEntry[] {
     return this._items;
@@ -76,7 +83,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       this.cd.markForCheck();
     }
   }
-
+  readonly CartOutlets = CartOutlets;
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
@@ -96,9 +103,19 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     );
   }
 
+  protected _setItems(
+    items: OrderEntry[],
+    options?: { forceRerender?: boolean }
+  ) {
+    this.resolveItems(items, options);
+    this.createForm();
+  }
+
   protected getInputsFromContext(): Subscription | undefined {
     return this.outlet?.context$.subscribe((context) => {
+      let contextRequiresRerender = false;
       if (context.readonly !== undefined) {
+        contextRequiresRerender = this.readonly !== context.readonly;
         this.readonly = context.readonly;
       }
       if (context.hasHeader !== undefined) {
@@ -110,14 +127,17 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       if (context.cartId !== undefined) {
         this.cartId = context.cartId;
       }
-      if (context.items !== undefined) {
-        this.items = context.items;
-      }
       if (context.promotionLocation !== undefined) {
         this.promotionLocation = context.promotionLocation;
       }
       if (context.cartIsLoading !== undefined) {
         this.setLoading = context.cartIsLoading;
+      }
+      if (context.items !== undefined) {
+        this.cd.markForCheck();
+        this._setItems(context.items, {
+          forceRerender: contextRequiresRerender,
+        });
       }
     });
   }
@@ -125,7 +145,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   /**
    * Resolves items passed to component input and updates 'items' field
    */
-  protected resolveItems(items: OrderEntry[]): void {
+  protected resolveItems(
+    items: OrderEntry[],
+    options?: { forceRerender?: boolean }
+  ): void {
     if (!items) {
       this._items = [];
       return;
@@ -134,29 +157,51 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     // The items we're getting from the input do not have a consistent model.
     // In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
     if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
-      this._items = items.map((consignmentEntry) => {
-        const entry = Object.assign(
-          {},
-          (consignmentEntry as ConsignmentEntry).orderEntry
-        );
-        entry.quantity = consignmentEntry.quantity;
-        return entry;
-      });
+      this.normalizeConsignmentEntries(items);
     } else {
-      // We'd like to avoid the unnecessary re-renders of unchanged cart items after the data reload.
-      // OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
-      // So we update each array element to the new object only when it's any different to the previous one.
-      for (let i = 0; i < Math.max(items.length, this._items.length); i++) {
-        if (JSON.stringify(this._items?.[i]) !== JSON.stringify(items[i])) {
-          if (this._items[i] && this.form) {
-            this.form.removeControl(this.getControlName(this._items[i]));
-          }
-          if (!items[i]) {
-            this._items.splice(i, 1);
-            i--;
-          } else {
-            this._items[i] = items[i];
-          }
+      this.rerenderChangedItems(items, options);
+    }
+  }
+
+  protected normalizeConsignmentEntries(items: OrderEntry[]) {
+    this._items = items.map((consignmentEntry) => {
+      const entry = Object.assign(
+        {},
+        (consignmentEntry as ConsignmentEntry).orderEntry
+      );
+      entry.quantity = consignmentEntry.quantity;
+      return entry;
+    });
+  }
+
+  /**
+   * We'd like to avoid the unnecessary re-renders of unchanged cart items after the data reload.
+   * OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
+   * So we update each array element to the new object only when it's any different to the previous one.
+   */
+  protected rerenderChangedItems(
+    items: OrderEntry[],
+    options?: { forceRerender?: boolean }
+  ) {
+    let offset = 0;
+    for (
+      let i = 0;
+      i - offset < Math.max(items.length, this._items.length);
+      i++
+    ) {
+      const index = i - offset;
+      if (
+        options?.forceRerender ||
+        JSON.stringify(this._items?.[index]) !== JSON.stringify(items[index])
+      ) {
+        if (this._items[index]) {
+          this.form?.removeControl(this.getControlName(this._items[index]));
+        }
+        if (!items[index]) {
+          this._items.splice(index, 1);
+          offset++;
+        } else {
+          this._items[index] = items[index];
         }
       }
     }
@@ -174,9 +219,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
           control.patchValue({ quantity: item.quantity }, { emitEvent: false });
         }
       } else {
-        const group = new FormGroup({
-          entryNumber: new FormControl(item.entryNumber),
-          quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
+        const group = new UntypedFormGroup({
+          entryNumber: new UntypedFormControl(item.entryNumber),
+          quantity: new UntypedFormControl(item.quantity, { updateOn: 'blur' }),
         });
         this.form.addControl(controlName, group);
       }
@@ -208,7 +253,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     delete this.form.controls[this.getControlName(item)];
   }
 
-  getControl(item: OrderEntry): Observable<FormGroup> | undefined {
+  getControl(item: OrderEntry): Observable<UntypedFormGroup> | undefined {
     return this.form.get(this.getControlName(item))?.valueChanges.pipe(
       // eslint-disable-next-line import/no-deprecated
       startWith(null),
@@ -234,7 +279,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
           }
         }
       }),
-      map(() => <FormGroup>this.form.get(this.getControlName(item)))
+      map(() => <UntypedFormGroup>this.form.get(this.getControlName(item)))
     );
   }
 

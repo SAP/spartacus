@@ -1,7 +1,19 @@
-import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+  APP_INITIALIZER,
+  ModuleWithProviders,
+  NgModule,
+  PLATFORM_ID,
+} from '@angular/core';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
-import { tap } from 'rxjs/operators';
+import { lastValueFrom } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { provideDefaultConfig } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
@@ -18,20 +30,20 @@ import { AuthStorageService } from './services/auth-storage.service';
  */
 export function checkOAuthParamsInUrl(
   authService: AuthService,
-  configInit: ConfigInitializerService
-) {
-  const result = () =>
-    configInit
-      .getStable()
-      .pipe(
-        tap(() => {
-          // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
-          authService.checkOAuthParamsInUrl();
-        })
-      )
-      .toPromise();
-
-  return result;
+  configInit: ConfigInitializerService,
+  platformId: Object
+): () => Promise<void> {
+  return () =>
+    isPlatformBrowser(platformId)
+      ? lastValueFrom(
+          configInit.getStable().pipe(
+            switchMap(() =>
+              // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
+              authService.checkOAuthParamsInUrl()
+            )
+          )
+        )
+      : Promise.resolve(); // Do nothing in SSR
 }
 
 export function authStatePersistenceFactory(
@@ -69,7 +81,7 @@ export class UserAuthModule {
         {
           provide: APP_INITIALIZER,
           useFactory: checkOAuthParamsInUrl,
-          deps: [AuthService, ConfigInitializerService],
+          deps: [AuthService, ConfigInitializerService, PLATFORM_ID],
           multi: true,
         },
       ],

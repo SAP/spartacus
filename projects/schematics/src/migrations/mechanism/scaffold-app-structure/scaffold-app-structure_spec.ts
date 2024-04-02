@@ -9,6 +9,8 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
+import { firstValueFrom } from 'rxjs';
+import { spartacusFeaturesModulePath } from '../../../shared/utils/test-utils';
 import { scaffoldAppStructure } from './scaffold-app-structure';
 
 const spartacusModulePath = 'src/app/spartacus/spartacus.module.ts';
@@ -23,16 +25,15 @@ import { SpartacusFeaturesModule } from './spartacus-features.module';
   declarations: [],
   imports: [
     MyFeature,
+    BaseStorefrontModule,
     SpartacusFeaturesModule,
     SpartacusConfigurationModule,
-    BaseStorefrontModule
   ],
   exports: [BaseStorefrontModule]
 })
 export class SpartacusModule { }
 `;
 
-const featuresModulePath = 'src/app/spartacus/spartacus-features.module.ts';
 const exampleFeaturesModule = `
 import { NgModule } from '@angular/core';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
@@ -73,6 +74,7 @@ describe('scaffold app structure', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   beforeEach(async () => {
@@ -81,30 +83,28 @@ describe('scaffold app structure', () => {
       require.resolve('../../test/migrations-test.json')
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
   });
 
   describe('When the new app structure does NOT exist', () => {
     it('should create it', async () => {
-      const resultTree = await schematicRunner
-        .callRule(scaffoldAppStructure(), appTree)
-        .toPromise();
-
-      expect(resultTree.read(featuresModulePath)?.toString()).toMatchSnapshot();
+      const resultTree = await firstValueFrom(
+        schematicRunner.callRule(scaffoldAppStructure(), appTree)
+      );
+      expect(
+        resultTree.read(spartacusFeaturesModulePath)?.toString()
+      ).toMatchSnapshot();
       expect(
         resultTree.read(configurationModulePath)?.toString()
       ).toMatchSnapshot();
@@ -117,16 +117,18 @@ describe('scaffold app structure', () => {
   describe('When the new app structure is already in place', () => {
     beforeEach(async () => {
       appTree.create(spartacusModulePath, exampleSpartacusModule);
-      appTree.create(featuresModulePath, exampleFeaturesModule);
+      appTree.create(spartacusFeaturesModulePath, exampleFeaturesModule);
       appTree.create(configurationModulePath, exampleConfigurationModule);
     });
 
     it('should not touch it', async () => {
-      const resultTree = await schematicRunner
-        .callRule(scaffoldAppStructure(), appTree)
-        .toPromise();
+      const resultTree = await firstValueFrom(
+        schematicRunner.callRule(scaffoldAppStructure(), appTree)
+      );
 
-      expect(resultTree.read(featuresModulePath)?.toString()).toMatchSnapshot();
+      expect(
+        resultTree.read(spartacusFeaturesModulePath)?.toString()
+      ).toMatchSnapshot();
       expect(
         resultTree.read(configurationModulePath)?.toString()
       ).toMatchSnapshot();

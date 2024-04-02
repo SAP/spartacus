@@ -1,20 +1,28 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  inject,
+  isDevMode,
   OnInit,
 } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
-import {
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-} from '../../../core';
 
 @Component({
   selector: 'cx-configurator-attribute-header',
@@ -25,20 +33,35 @@ export class ConfiguratorAttributeHeaderComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  @Input() attribute: Configurator.Attribute;
-  @Input() owner: CommonConfigurator.Owner;
-  @Input() groupId: string;
-  @Input() groupType: Configurator.GroupType;
+  attribute: Configurator.Attribute;
+  owner: CommonConfigurator.Owner;
+  groupId: string;
+  groupType: Configurator.GroupType;
+  expMode: boolean;
+  isNavigationToGroupEnabled: boolean;
 
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
 
+  protected logger = inject(LoggerService);
+
   constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService
+    protected configuratorGroupsService: ConfiguratorGroupsService,
+    protected configuratorUiSettings: ConfiguratorUISettingsConfig,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
   ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.owner = attributeComponentContext.owner;
+    this.groupId = attributeComponentContext.group.id;
+    this.groupType =
+      attributeComponentContext.group.groupType ??
+      Configurator.GroupType.ATTRIBUTE_GROUP;
+    this.expMode = attributeComponentContext.expMode;
+    this.isNavigationToGroupEnabled =
+      attributeComponentContext.isNavigationToGroupEnabled ?? false;
   }
 
   ngOnInit(): void {
@@ -47,9 +70,7 @@ export class ConfiguratorAttributeHeaderComponent
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(
-        map((result) => (result ? this.isRequiredAttributeWithDomain() : false))
-      );
+      .pipe(map((result) => result && this.needsRequiredAttributeErrorMsg()));
   }
 
   /**
@@ -58,16 +79,17 @@ export class ConfiguratorAttributeHeaderComponent
    */
   getRequiredMessageKey(): string {
     if (this.isSingleSelection()) {
-      return 'configurator.attribute.singleSelectRequiredMessage';
-    } else if (this.isMultiSelection()) {
+      return this.isWithAdditionalValues(this.attribute)
+        ? 'configurator.attribute.singleSelectAdditionalRequiredMessage'
+        : 'configurator.attribute.singleSelectRequiredMessage';
+    } else if (this.isMultiSelection) {
       return 'configurator.attribute.multiSelectRequiredMessage';
     } else {
-      //input attribute types
       return 'configurator.attribute.singleSelectRequiredMessage';
     }
   }
 
-  protected isMultiSelection(): boolean {
+  protected get isMultiSelection(): boolean {
     switch (this.attribute.uiType) {
       case Configurator.UiType.CHECKBOXLIST:
       case Configurator.UiType.CHECKBOXLIST_PRODUCT:
@@ -81,10 +103,10 @@ export class ConfiguratorAttributeHeaderComponent
   protected isSingleSelection(): boolean {
     switch (this.attribute.uiType) {
       case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
       case Configurator.UiType.RADIOBUTTON_PRODUCT:
       case Configurator.UiType.CHECKBOX:
-      case Configurator.UiType.DROPDOWN:
-      case Configurator.UiType.DROPDOWN_PRODUCT:
+      case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         return true;
       }
@@ -92,15 +114,30 @@ export class ConfiguratorAttributeHeaderComponent
     return false;
   }
 
-  protected isRequiredAttributeWithDomain(): boolean {
-    const uiType = this.attribute.uiType;
+  protected isAttributeWithoutErrorMsg(
+    uiType: Configurator.UiType | undefined
+  ): boolean {
+    switch (uiType) {
+      case Configurator.UiType.NOT_IMPLEMENTED:
+      case Configurator.UiType.STRING:
+      case Configurator.UiType.NUMERIC:
+      case Configurator.UiType.CHECKBOX:
+      case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.DROPDOWN_PRODUCT: {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  protected needsRequiredAttributeErrorMsg(): boolean {
+    return this.isRequiredAttributeWithoutErrorMsg();
+  }
+
+  protected isRequiredAttributeWithoutErrorMsg(): boolean {
     return (
-      (this.attribute.required &&
-        this.attribute.incomplete &&
-        uiType !== Configurator.UiType.NOT_IMPLEMENTED &&
-        uiType !== Configurator.UiType.STRING &&
-        uiType !== Configurator.UiType.NUMERIC) ??
-      false
+      this.isRequiredErrorMsg(this.attribute) &&
+      this.isAttributeWithoutErrorMsg(this.attribute.uiType)
     );
   }
 
@@ -117,6 +154,15 @@ export class ConfiguratorAttributeHeaderComponent
   }
 
   /**
+   * Verifies whether the conflict resolution is active.
+   *
+   * @return {boolean} - 'true' if the conflict resolution is active otherwise 'false'
+   */
+  isConflictResolutionActive(): boolean {
+    return this.isAttributeGroup() && this.isNavigationToGroupEnabled;
+  }
+
+  /**
    * Retrieves a certain conflict link key depending on the current group type for translation.
    *
    * @return {string} - the conflict link key
@@ -124,7 +170,9 @@ export class ConfiguratorAttributeHeaderComponent
   getConflictMessageKey(): string {
     return this.groupType === Configurator.GroupType.CONFLICT_GROUP
       ? 'configurator.conflict.viewConfigurationDetails'
-      : 'configurator.conflict.viewConflictDetails';
+      : this.isNavigationToConflictEnabled()
+      ? 'configurator.conflict.viewConflictDetails'
+      : 'configurator.conflict.conflictDetected';
   }
 
   /**
@@ -153,28 +201,74 @@ export class ConfiguratorAttributeHeaderComponent
       .getConfiguration(this.owner)
       .pipe(take(1))
       .subscribe((configuration) => {
+        let groupId;
         if (this.groupType === Configurator.GroupType.CONFLICT_GROUP) {
-          const groupId = this.attribute.groupId;
-          if (groupId) {
-            this.configuratorGroupsService.navigateToGroup(
-              configuration,
-              groupId
-            );
-            this.focusAttribute(this.attribute.name);
-          }
+          groupId = this.attribute.groupId;
+        } else {
+          groupId = this.findConflictGroupId(configuration, this.attribute);
+        }
+        if (groupId) {
+          this.configuratorGroupsService.navigateToGroup(
+            configuration,
+            groupId
+          );
+          this.focusValue(this.attribute);
+          this.scrollToAttribute(this.attribute.name);
+        } else {
+          this.logError(
+            'Attribute was not found in any conflict group. Note that for this navigation, commerce 22.05 or later is required. Consider to disable setting "enableNavigationToConflict"'
+          );
         }
       });
+  }
+
+  /**
+   * Scroll to conflicting attribute
+   *
+   * @protected
+   */
+  protected scrollToAttribute(name: string) {
+    this.onNavigationCompleted(() =>
+      this.configUtils.scrollToConfigurationElement(
+        '#' + this.createAttributeUiKey('label', name)
+      )
+    );
+  }
+
+  findConflictGroupId(
+    configuration: Configurator.Configuration,
+    currentAttribute: Configurator.Attribute
+  ): string | undefined {
+    return configuration.flatGroups
+      .filter(
+        (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
+      )
+      .find((group) => {
+        return group.attributes?.find(
+          (attribute) => attribute.key === currentAttribute.key
+        );
+      })?.id;
+  }
+
+  protected logError(text: string): void {
+    if (isDevMode()) {
+      this.logger.error(text);
+    }
+  }
+
+  protected focusValue(attribute: Configurator.Attribute): void {
+    this.onNavigationCompleted(() => this.configUtils.focusValue(attribute));
   }
 
   /**
    * The status of the configuration loading is retrieved twice:
    * firstly, wait that the navigation to the corresponding group is started,
    * secondly, wait that the navigation is completed and
-   * finally, focus a value of the in conflict involved attribute in the group.
+   * finally, invoke the callback function
    *
    * @protected
    */
-  protected focusAttribute(name: string): void {
+  protected onNavigationCompleted(callback: () => void): void {
     this.configuratorCommonsService
       .isConfigurationLoading(this.owner)
       .pipe(
@@ -190,6 +284,32 @@ export class ConfiguratorAttributeHeaderComponent
             )
         )
       )
-      .subscribe(() => this.configUtils.focusAttribute(name));
+      .subscribe(callback);
+  }
+
+  /**
+   * Verifies whether the navigation to a conflict group is enabled.
+   *
+   * @returns {boolean} true only if navigation to conflict groups is enabled.
+   */
+  isNavigationToConflictEnabled(): boolean {
+    return (
+      (this.isNavigationToGroupEnabled &&
+        this.configuratorUISettingsConfig.productConfigurator
+          ?.enableNavigationToConflict) ??
+      false
+    );
+  }
+
+  /**
+   * Retrieves the length of the attribute description.
+   *
+   * @returns - the length of the attribute description
+   */
+  getAttributeDescriptionLength(): number {
+    return (
+      this.configuratorUISettingsConfig.productConfigurator?.descriptions
+        ?.attributeDescriptionLength ?? 100
+    );
   }
 }

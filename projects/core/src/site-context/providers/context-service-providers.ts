@@ -1,6 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { APP_INITIALIZER, Provider } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
+import { Config } from '../../config/config-tokens';
 import { BaseSiteService } from '../facade/base-site.service';
 import { CurrencyService } from '../facade/currency.service';
 import { LanguageService } from '../facade/language.service';
@@ -9,11 +17,10 @@ import { SiteContextRoutesHandler } from '../services/site-context-routes-handle
 export function initializeContext(
   configInit: ConfigInitializerService,
   siteContextRoutesHandler: SiteContextRoutesHandler
-) {
+): () => Promise<Config> {
   return () => {
-    return configInit
-      .getStable('context')
-      .pipe(
+    return lastValueFrom(
+      configInit.getStable('context').pipe(
         tap(() => {
           // `siteContextRoutesHandler.init()` should be executed before CurrencyInitializer,
           // LanguageInitializer and BaseSiteInitializer
@@ -23,7 +30,7 @@ export function initializeContext(
           siteContextRoutesHandler.init();
         })
       )
-      .toPromise();
+    );
   };
 }
 

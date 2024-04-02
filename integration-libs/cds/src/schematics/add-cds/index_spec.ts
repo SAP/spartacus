@@ -1,6 +1,5 @@
 /// <reference types="jest" />
 
-import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -11,25 +10,25 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_CDS_FEATURE,
-  CLI_TRACKING_PERSONALIZATION_FEATURE,
-  LibraryOptions,
-  SpartacusOptions,
-  SPARTACUS_CART,
-  SPARTACUS_ORDER,
+  CDS_FEATURE_NAME,
+  SPARTACUS_CDS,
   SPARTACUS_SCHEMATICS,
-  SPARTACUS_TRACKING,
+  SpartacusCdsOptions,
+  SpartacusOptions,
+  cdsFeatureModulePath,
+  trackingPersonalizationFeatureModulePath,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../../package.json';
-import { Schema as SpartacusCdsOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/cds/cds-feature.module.ts';
 
 describe('Spartacus CDS schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_CDS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -46,6 +45,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -64,7 +64,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
 
   const cdsFeatureOptions: SpartacusCdsOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CDS_FEATURE],
+    features: [CDS_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -73,40 +73,38 @@ describe('Spartacus CDS schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        libraryNoFeaturesOptions,
+        appTree
+      );
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(cdsFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -139,108 +137,57 @@ describe('Spartacus CDS schematics: ng-add', () => {
     describe('without Profile tag', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', cdsFeatureOptions, appTree)
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            cdsFeatureOptions,
+            appTree
+          );
         });
 
         it('should create the feature module', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(cdsFeatureModulePath);
           expect(module).toMatchSnapshot();
         });
 
-        it('should run the proper installation tasks', async () => {
-          const tasks = schematicRunner.tasks
-            .filter((task) => task.name === 'run-schematic')
-            .map(
-              (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
-            );
-          expect(tasks.length).toEqual(4);
+        it('should NOT install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toBeFalsy();
 
-          const cartTask = tasks[0];
-          expect(cartTask).toBeTruthy();
-          expect(cartTask.name).toEqual('add-spartacus-library');
-          expect(cartTask.options).toHaveProperty('collection', SPARTACUS_CART);
-          expect(cartTask.options.options?.features).toEqual([]);
-
-          const orderTask = tasks[1];
-          expect(orderTask).toBeTruthy();
-          expect(orderTask.name).toEqual('add-spartacus-library');
-          expect(orderTask.options).toHaveProperty(
-            'collection',
-            SPARTACUS_ORDER
+          const trackingPersonalizationFeatureModule = appTree.readContent(
+            trackingPersonalizationFeatureModulePath
           );
-          expect(orderTask.options.options?.features).toEqual([]);
-
-          const trackingTask = tasks[2];
-          expect(trackingTask).toBeTruthy();
-          expect(trackingTask.name).toEqual('add-spartacus-library');
-          expect(trackingTask.options).toHaveProperty(
-            'collection',
-            SPARTACUS_TRACKING
-          );
-          expect(trackingTask.options.options?.features).toEqual([]);
-
-          const trackingTaskWithSubFeatures = tasks[3];
-          expect(trackingTaskWithSubFeatures).toBeTruthy();
-          expect(trackingTaskWithSubFeatures.name).toEqual(
-            'add-spartacus-library'
-          );
-          expect(trackingTaskWithSubFeatures.options).toHaveProperty(
-            'collection',
-            SPARTACUS_TRACKING
-          );
-          expect(trackingTaskWithSubFeatures.options.options?.features).toEqual(
-            [CLI_TRACKING_PERSONALIZATION_FEATURE]
-          );
-        });
-      });
-
-      describe('validation', () => {
-        let firstMessage: string | undefined;
-        beforeEach(async () => {
-          schematicRunner.logger.subscribe((log) => {
-            if (!firstMessage) {
-              firstMessage = log.message;
-            }
-          });
-
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...cdsFeatureOptions, profileTagConfigUrl: 'xxx' },
-              appTree
-            )
-            .toPromise();
-        });
-
-        it('show the warning', () => {
-          expect(firstMessage).toEqual(
-            `Profile tag will not be added. Please run the schematic again, and make sure you provide both profile tag options.`
-          );
+          expect(trackingPersonalizationFeatureModule).toBeFalsy();
         });
       });
     });
 
     describe('with Profile tag configured', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...cdsFeatureOptions,
-              profileTagConfigUrl: 'profile-tag-config-url.com',
-              profileTagLoadUrl: 'profile-tag-load-url.com',
-            },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          {
+            ...cdsFeatureOptions,
+            profileTagConfigUrl: 'profile-tag-config-url.com',
+            profileTagLoadUrl: 'profile-tag-load-url.com',
+          },
+          appTree
+        );
       });
 
       describe('general setup', () => {
         it('should create the feature module', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(cdsFeatureModulePath);
           expect(module).toMatchSnapshot();
+        });
+
+        it('should NOT install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toBeFalsy();
+
+          const trackingPersonalizationFeatureModule = appTree.readContent(
+            trackingPersonalizationFeatureModulePath
+          );
+          expect(trackingPersonalizationFeatureModule).toBeFalsy();
         });
       });
     });

@@ -87,7 +87,7 @@ describe('CardComponent', () => {
 
       it('should have back button by default', () => {
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a.close')
+          By.css('button.close')
         ).nativeElement;
         expect(el).toBeDefined();
       });
@@ -97,7 +97,7 @@ describe('CardComponent', () => {
       it('should not have back button', () => {
         component.previous = false;
         fixture.detectChanges();
-        const el = fixture.debugElement.query(By.css('a.close'));
+        const el = fixture.debugElement.query(By.css('button.close'));
         expect(el).toBeFalsy();
       });
 
@@ -105,7 +105,7 @@ describe('CardComponent', () => {
         component.previous = 'organization.assign';
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a.close')
+          By.css('button.close')
         ).nativeElement;
         expect(el.innerText).toContain('organization.assign');
       });

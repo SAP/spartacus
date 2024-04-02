@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { WindowRef } from '../../../window/window-ref';
 import {
@@ -62,8 +68,8 @@ export class PageLinkService {
   ): string {
     const queryPos = url.indexOf('?');
     if (queryPos > -1) {
-      const urlBeforeQueryParam = url.substr(0, queryPos);
-      const params = new URLSearchParams(url.substr(queryPos));
+      const urlBeforeQueryParam = url.substring(0, queryPos);
+      const params = new URLSearchParams(url.substring(queryPos));
 
       url = urlBeforeQueryParam;
 

@@ -1,14 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { useFeatureStyles } from '@spartacus/core';
 import {
   DaysOfWeek,
   ORDER_TYPE,
-  recurrencePeriod,
   ScheduleReplenishmentForm,
+  recurrencePeriod,
 } from '@spartacus/order/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -42,7 +49,10 @@ export class CheckoutScheduleReplenishmentOrderComponent
 
   constructor(
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService
-  ) {}
+  ) {
+    useFeatureStyles('a11yReplenishmentOrderFieldset');
+    useFeatureStyles('a11yScheduleReplenishment');
+  }
 
   ngOnInit(): void {
     this.subscription.add(
@@ -117,7 +127,9 @@ export class CheckoutScheduleReplenishmentOrderComponent
     } else {
       const foundDay = this.currentDaysOfWeek.find((data) => day === data);
 
-      if (!foundDay) return;
+      if (!foundDay) {
+        return;
+      }
 
       const index = this.currentDaysOfWeek.indexOf(foundDay);
       this.currentDaysOfWeek.splice(index, 1);

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { DeepPartial } from './form';
 
 export interface Address {
@@ -13,6 +19,7 @@ export interface AddressData {
   firstName: string;
   lastName: string;
   phone: string;
+  cellphone: string;
   address: Address;
 }
 
@@ -33,6 +40,7 @@ export function fillShippingAddress(
   shippingAddress: Partial<AddressData>,
   submitForm: boolean = true
 ) {
+  cy.wait(3000);
   cy.get('button.btn-primary').should('be.visible');
   cy.get('cx-address-form').within(() => {
     if (shippingAddress) {
@@ -40,7 +48,7 @@ export function fillShippingAddress(
         cy
           .get('.country-select[formcontrolname="isocode"]')
           .ngSelect(shippingAddress.address.country);
-      cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
+      cy.get('[formcontrolname="titleCode"]').ngSelect('Mr');
       shippingAddress?.firstName &&
         cy
           .get('[formcontrolname="firstName"]')
@@ -162,7 +170,7 @@ export function fillPaymentDetails(
        * It takes time for the delivery address to set.
        * Was reported in the ec-spartacus-release https://sap-cx.slack.com/archives/GLJ5MR1LL/p1586937731001500
        */
-      //cy.wait(3000);
+      cy.wait(3000);
       cy.get('button.btn.btn-block.btn-primary')
         .should('be.enabled')
         .contains('Continue')

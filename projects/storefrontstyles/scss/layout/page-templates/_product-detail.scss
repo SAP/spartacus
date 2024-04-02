@@ -1,6 +1,10 @@
 %ProductDetailsPageTemplate {
   padding: var(--cx-padding, 2.5rem 0 0);
 
+  .cx-tab-paragraph-content {
+    background-color: var(--cx-color-background);
+  }
+
   cx-page-slot {
     &.Summary {
       @extend .container !optional;
@@ -38,6 +42,7 @@
 
         cx-add-to-cart {
           grid-column: 2;
+          grid-row: 3;
           padding-top: 20px;
           padding-inline-end: 20px;
           padding-bottom: 0px;

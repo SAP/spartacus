@@ -5,6 +5,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
+  OCC_HTTP_TOKEN,
   PRODUCT_SEARCH_PAGE_NORMALIZER,
   PRODUCT_SUGGESTION_NORMALIZER,
 } from '@spartacus/core';
@@ -17,7 +18,7 @@ import createSpy = jasmine.createSpy;
 
 class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
-    // eslint-disable-next-line no-shadow
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     (url) => url
   );
 }
@@ -75,6 +76,9 @@ describe('OccProductSearchAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+        sendUserIdAsHeader: true,
+      });
       expect(endpoints.buildUrl).toHaveBeenCalledWith('productSearch', {
         queryParams: {
           query: queryText,

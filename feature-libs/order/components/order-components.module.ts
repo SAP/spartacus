@@ -1,9 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { OrderDetailsOrderEntriesContextToken } from '@spartacus/order/root';
 import {
   OrderCancellationModule,
   OrderReturnModule,
 } from './amend-order/index';
+import { MyAccountV2OrdersModule } from './my-account-v2';
 import { OrderConfirmationModule } from './order-confirmation/order-confirmation.module';
 import { OrderDetailsModule } from './order-details/order-details.module';
 import { OrderHistoryModule } from './order-history/order-history.module';
@@ -24,6 +31,7 @@ import { ReturnRequestListModule } from './return-request-list/order-return-requ
     ReturnRequestListModule,
     ReturnRequestDetailModule,
     OrderConfirmationModule,
+    MyAccountV2OrdersModule,
   ],
   providers: [
     {

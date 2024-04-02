@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { ActivatedRoutesService, UnifiedInjector } from '@spartacus/core';
@@ -48,12 +54,7 @@ export class RoutingContextService {
   get<T>(contextToken: ContextToken): Observable<T | undefined> {
     return this.contextTokenMapping$.pipe(
       switchMap((contextMapping) => {
-        const providerToken =
-          contextMapping?.[
-            // TODO: remove 'as any' after upgrading TypeScript to v4.4
-            // See: https://github.com/Microsoft/TypeScript/issues/24587
-            contextToken as any
-          ];
+        const providerToken = contextMapping?.[contextToken];
         return !!providerToken
           ? this.injector.get<T>(providerToken)
           : of(undefined);

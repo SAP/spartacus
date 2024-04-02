@@ -1,16 +1,25 @@
-const { pathsToModuleNameMapper } = require('ts-jest/utils');
-const { compilerOptions } = require('./tsconfig.schematics');
+const { pathsToModuleNameMapper } = require('ts-jest');
+const { compilerOptions } = require('./tsconfig.schematics.json');
+const { defaultTransformerOptions } = require('jest-preset-angular/presets');
 
+/** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
-  setupFilesAfterEnv: ['<rootDir>/jest.ts'],
+  preset: 'jest-preset-angular',
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
+    prefix: '<rootDir>/',
+  }),
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
+  testMatch: ['**/+(*_)+(spec).+(ts)'],
   transform: {
-    '^.+\\.ts?$': 'ts-jest',
+    '^.+\\.(ts|js|mjs|html|svg)$': [
+      'jest-preset-angular',
+      {
+        ...defaultTransformerOptions,
+        tsconfig: '<rootDir>/tsconfig.schematics.json',
+      },
+    ],
   },
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.schematics.json',
-    },
-  },
+
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
   coverageDirectory: '<rootDir>/../../coverage/product/schematics',
@@ -22,12 +31,4 @@ module.exports = {
       lines: 90,
     },
   },
-
-  roots: ['<rootDir>/schematics'],
-  modulePaths: ['<rootDir>/../../projects/schematics'],
-  testMatch: ['**/+(*_)+(spec).+(ts)'],
-  moduleFileExtensions: ['js', 'ts', 'json'],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
-    prefix: '<rootDir>/',
-  }),
 };

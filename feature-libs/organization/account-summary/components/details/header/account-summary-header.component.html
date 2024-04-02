@@ -1,0 +1,148 @@
+<div class="cx-account-summary" *ngIf="headerDetails$ | async as headerDetails">
+  <div class="cx-account-summary-header-cards">
+    <div
+      class="
+        cx-summary-card-responsive-group cx-summary-card-group-unit-address
+      "
+    >
+      <!-- Card: Unit ID & Unit Name -->
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="getIdCardContent(headerDetails?.orgUnit?.uid) | async"
+        >
+        </cx-card>
+
+        <cx-card
+          [content]="getNameCardContent(headerDetails?.orgUnit?.name) | async"
+        >
+        </cx-card>
+      </div>
+
+      <!-- Card: Address -->
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getAddressCardContent(headerDetails?.billingAddress) | async
+          "
+        >
+        </cx-card>
+      </div>
+    </div>
+
+    <div
+      class="
+        cx-summary-card-responsive-group cx-summary-card-group-credit-balance
+      "
+    >
+      <!-- Card: Credit Rep & Credit Line -->
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getCreditRepCardContent(headerDetails?.accountManagerName) | async
+          "
+        >
+        </cx-card>
+
+        <cx-card
+          [content]="
+            getCreditLineCardContent(headerDetails?.creditLimit) | async
+          "
+        >
+        </cx-card>
+      </div>
+
+      <!-- Card: Current Balance & Open Balance -->
+      <div class="cx-summary-card cx-summary-card-balance">
+        <cx-card
+          [content]="
+            getCurrentBalanceCardContent(
+              headerDetails?.amountBalance?.currentBalance
+            ) | async
+          "
+        >
+        </cx-card>
+
+        <cx-card
+          [content]="
+            getOpenBalanceCardContent(headerDetails?.amountBalance?.openBalance)
+              | async
+          "
+        >
+        </cx-card>
+      </div>
+    </div>
+
+    <!-- Card: Past Due Balance & Date Ranges -->
+    <div class="cx-summary-card cx-summary-card-group-due">
+      <!-- If there range of past due balances are provided, display them here in a bordered section -->
+      <div
+        *ngIf="
+          headerDetails.amountBalance &&
+            headerDetails.amountBalance.dueBalances as pastDue;
+          else noDueRange
+        "
+        [class.cx-account-summary-header-past-due-section]="pastDue.length > 0"
+      >
+        <!-- Dynamically create lines of past due date ranges -->
+        <div
+          *ngIf="pastDue.length > 0"
+          class="cx-account-summary-header-past-due-range-dates"
+        >
+          <div
+            *ngFor="let rangeBalance of pastDue"
+            class="cx-account-summary-header-past-due-range-collection"
+            [tabindex]="-1"
+          >
+            <div
+              class="cx-past-due-range-date"
+              *ngIf="rangeBalance.dayRange as dayRange"
+            >
+              <ng-template [ngIf]="dayRange?.maxBoundary" [ngIfElse]="dayPlus">
+                {{
+                  'orgAccountSummary.details.dayRange'
+                    | cxTranslate
+                      : {
+                          minBoundary: dayRange.minBoundary,
+                          maxBoundary: dayRange.maxBoundary
+                        }
+                }}
+              </ng-template>
+
+              <ng-template #dayPlus>
+                {{
+                  'orgAccountSummary.details.dayPlus'
+                    | cxTranslate: { minBoundary: dayRange.minBoundary }
+                }}
+              </ng-template>
+            </div>
+            <div>
+              {{ rangeBalance.amount }}
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="cx-account-summary-header-past-due-balance-total"
+          [tabindex]="-1"
+        >
+          <div class="cx-past-due-balance-label cx-card-title">
+            {{ 'orgAccountSummary.details.pastDueBalance' | cxTranslate }}
+          </div>
+          <div>{{ headerDetails?.amountBalance?.pastDueBalance }}</div>
+        </div>
+      </div>
+
+      <!-- When there are no Ranges, only show a card containing the Past Due Balance -->
+      <ng-template #noDueRange>
+        <cx-card
+          [content]="
+            getPastDueBalanceCardContent(
+              headerDetails?.amountBalance?.pastDueBalance
+            ) | async
+          "
+        >
+        </cx-card>
+      </ng-template>
+    </div>
+  </div>
+</div>

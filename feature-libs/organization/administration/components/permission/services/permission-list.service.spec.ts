@@ -36,6 +36,7 @@ class MockTableService {
 
 describe('PermissionListService', () => {
   let service: PermissionListService;
+  let permissionService: PermissionService;
 
   describe('with table config', () => {
     beforeEach(() => {
@@ -53,6 +54,7 @@ describe('PermissionListService', () => {
         ],
       });
       service = TestBed.inject(PermissionListService);
+      permissionService = TestBed.inject(PermissionService);
     });
 
     it('should inject service', () => {
@@ -67,6 +69,14 @@ describe('PermissionListService', () => {
       let result: EntitiesModel<PermissionModel>;
       service.getData().subscribe((table) => (result = table));
       expect(result.values[0].code).toEqual(code);
+    });
+
+    it('should get empty table with 10 rows', () => {
+      spyOn(permissionService, 'getList').and.returnValue(of(undefined));
+      let result: EntitiesModel<PermissionModel>;
+      service.getData().subscribe((table) => (result = table));
+      expect(result.values.length).toBe(10);
+      expect(result.values[0]).toBeUndefined();
     });
   });
 });

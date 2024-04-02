@@ -3,10 +3,6 @@
   flex-direction: column;
   justify-content: flex-start;
   max-width: 1140px;
-
-  padding-inline-start: 0px;
-  padding-inline-end: 0px;
-
   padding-block-start: 5px;
   padding-block-end: 5px;
 
@@ -15,12 +11,14 @@
     padding-inline-end: 20px;
   }
 
+  $subgroupLevel2Top: 60px;
+  $subgroupLevel3Top: 112px;
+  $subgroupLevel4Top: 164px;
+  $subgroupLevel5Top: 216px;
+
   .cx-group {
-    padding-inline-start: 0px;
-    padding-inline-end: 0px;
     padding-block-start: 25px;
     padding-block-end: 25px;
-
     margin-inline-start: -20px;
     margin-inline-end: -25px;
 
@@ -46,13 +44,40 @@
         border-top: solid 1px var(--cx-color-light);
         border-left-style: none;
         border-right-style: none;
-        background: none;
         text-transform: none;
+        background: var(--cx-color-inverse) none;
+
+        @include media-breakpoint-down(sm) {
+          position: sticky;
+          top: 2px;
+          z-index: 5;
+        }
       }
     }
 
     &.subgroupTopLevel {
-      margin-bottom: -60px;
+      margin-bottom: -20px;
+    }
+
+    &.subgroup {
+      @include media-breakpoint-down(sm) {
+        padding-block-start: 20px;
+        padding-block-end: 20px;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: normal;
+        text-transform: uppercase;
+        border: solid 1px var(--cx-color-light);
+        background-color: var(--cx-color-background);
+
+        @include media-breakpoint-down(sm) {
+          position: sticky;
+        }
+      }
     }
 
     h2 {
@@ -136,6 +161,36 @@
               visibility: visible;
             }
           }
+        }
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      &.subgroupLevel2 {
+        h2 {
+          top: $subgroupLevel2Top;
+          z-index: 4;
+        }
+      }
+
+      &.subgroupLevel3 {
+        h2 {
+          top: $subgroupLevel3Top;
+          z-index: 3;
+        }
+      }
+
+      &.subgroupLevel4 {
+        h2 {
+          top: $subgroupLevel4Top;
+          z-index: 2;
+        }
+      }
+
+      &.subgroupLevel5 {
+        h2 {
+          top: $subgroupLevel5Top;
+          z-index: 1;
         }
       }
     }

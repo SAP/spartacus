@@ -20,6 +20,7 @@ import {
   CmsService,
   ConfigInitializerService,
   DynamicAttributeService,
+  EventService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -93,7 +94,8 @@ describe('InnerComponentsHostDirective', () => {
       {} as DynamicAttributeService,
       {} as Renderer2,
       {} as ComponentHandlerService,
-      {} as CmsInjectorService
+      {} as CmsInjectorService,
+      {} as EventService
     );
     expect(directive).toBeTruthy();
   });

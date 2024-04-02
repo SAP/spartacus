@@ -1,4 +1,5 @@
 import {
+  DebugElement,
   ElementRef,
   Pipe,
   PipeTransform,
@@ -12,9 +13,13 @@ import {
   SavedCartFacade,
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import {
+  FeaturesConfig,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { EMPTY, Observable, of } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 const mockCart1: Cart = {
@@ -50,7 +55,7 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
   }
   restoreSavedCart(_cartId: string): void {}
   getRestoreSavedCartProcessSuccess(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getSavedCartListProcessLoading(): Observable<boolean> {
     return of(false);
@@ -74,7 +79,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -84,6 +89,7 @@ describe('SavedCartListComponent', () => {
   let savedCartFacade: SavedCartFacade | MockSavedCartFacade;
   let routingService: RoutingService | MockRoutingService;
   let launchDialogService: LaunchDialogService;
+  let el: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -93,6 +99,12 @@ describe('SavedCartListComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
+          },
+        },
       ],
     }).compileComponents();
   });
@@ -107,16 +119,23 @@ describe('SavedCartListComponent', () => {
     fixture = TestBed.createComponent(SavedCartListComponent);
 
     component = fixture.componentInstance;
+    el = fixture.debugElement;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should display header', () => {
+    fixture.detectChanges();
+    expect(el.query(By.css('h2')).nativeElement.innerText).toContain(
+      'savedCartList.savedCarts'
+    );
+  });
+
   it('should render proper number of carts when user contains saved carts', () => {
     component.savedCarts$ = savedCartFacade.getList();
     fixture.detectChanges();
-    const el = fixture.debugElement;
     expect(el.query(By.css('.cx-saved-cart-list-table'))).not.toBeNull();
     expect(el.queryAll(By.css('.cx-saved-cart-list-cart-id')).length).toEqual(
       mockCarts.length

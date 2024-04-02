@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-customer-ticketing/index#addCustomerTicketingFeatures",
+      "description": "Add and configure Spartacus' Customer Ticketing features",
+      "schema": "./add-customer-ticketing/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-customer-ticketing/index#addCustomerTicketingFeatures",
+      "description": "Add and configure Spartacus' Customer Ticketing features",
+      "schema": "./add-customer-ticketing/schema.json"
+    }
+  }
+}

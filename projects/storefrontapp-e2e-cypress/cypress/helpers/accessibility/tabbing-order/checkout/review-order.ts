@@ -1,4 +1,10 @@
-import { waitForPage } from '../../../checkout-flow';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { verifyReviewOrderPage, waitForPage } from '../../../checkout-flow';
 import { verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
@@ -14,7 +20,7 @@ export function checkoutReviewOrderTabbingOrder(
 
   cy.wait(`@${reviewPage}`);
 
-  cy.get('cx-review-submit .cx-review-title').should('exist');
+  verifyReviewOrderPage();
 
   cy.findAllByText(/I am confirming that I have read and agreed with/i)
     .first()

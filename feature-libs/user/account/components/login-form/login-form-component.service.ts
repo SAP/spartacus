@@ -1,5 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   AuthService,
   GlobalMessageService,
@@ -30,12 +40,12 @@ export class LoginFormComponentService {
     })
   );
 
-  form: FormGroup = new FormGroup({
-    userId: new FormControl('', [
+  form: UntypedFormGroup = new UntypedFormGroup({
+    userId: new UntypedFormControl('', [
       Validators.required,
       CustomFormValidators.emailValidator,
     ]),
-    password: new FormControl('', Validators.required),
+    password: new UntypedFormControl('', Validators.required),
   });
 
   login() {

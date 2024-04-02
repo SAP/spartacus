@@ -1,9 +1,23 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
-import { Address, CostCenter, TranslationService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CartOutlets, DeliveryMode } from '@spartacus/cart/base/root';
+import {
+  Address,
+  CmsOrderDetailOverviewComponent,
+  CostCenter,
+  PaymentDetails,
+  TranslationService,
+} from '@spartacus/core';
+import { Card, CmsComponentData } from '@spartacus/storefront';
+import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { OrderDetailsService } from '../order-details.service';
+import { paymentMethodCard } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-order-overview',
@@ -11,14 +25,23 @@ import { filter, map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderOverviewComponent {
-  order: any;
+  readonly cartOutlets = CartOutlets;
 
-  @Input('order')
-  set setOrder(order: any) {
-    this.order = order;
-  }
+  order$: Observable<any> = this.orderDetailsService.getOrderDetails();
+  isOrderLoading$: Observable<boolean> =
+    typeof this.orderDetailsService.isOrderDetailsLoading === 'function'
+      ? this.orderDetailsService.isOrderDetailsLoading()
+      : of(false);
 
-  constructor(protected translation: TranslationService) {}
+  simple$: Observable<boolean | undefined> = this.component.data$.pipe(
+    map((data) => data.simple)
+  );
+
+  constructor(
+    protected translation: TranslationService,
+    protected orderDetailsService: OrderDetailsService,
+    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
+  ) {}
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(
@@ -196,14 +219,15 @@ export class OrderOverviewComponent {
       }),
     ]).pipe(
       filter(() => Boolean(payment)),
-      map(
-        ([textTitle, textExpires]) =>
-          ({
-            title: textTitle,
-            textBold: payment.accountHolderName,
-            text: [payment.cardNumber, textExpires],
-          } as Card)
+      map(([textTitle, textExpires]) =>
+        paymentMethodCard(textTitle, textExpires, payment)
       )
+    );
+  }
+
+  isPaymentInfoCardFull(payment: PaymentDetails): boolean {
+    return (
+      !!payment?.cardNumber && !!payment?.expiryMonth && !!payment?.expiryYear
     );
   }
 
@@ -229,8 +253,6 @@ export class OrderOverviewComponent {
       .split(',')
       .map((address) => address.trim());
 
-    const newFormattedAddress = addresses.filter(Boolean).join(', ');
-
-    return newFormattedAddress;
+    return addresses.filter(Boolean).join(', ');
   }
 }

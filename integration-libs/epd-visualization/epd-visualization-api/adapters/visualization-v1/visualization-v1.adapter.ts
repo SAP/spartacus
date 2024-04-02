@@ -1,9 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ConverterService, normalizeHttpError } from '@spartacus/core';
+import { Injectable, inject } from '@angular/core';
 import {
-  LookupVisualizationsResponse,
+  ConverterService,
+  LoggerService,
+  normalizeHttpError,
+} from '@spartacus/core';
+import {
   LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER,
+  LookupVisualizationsResponse,
   VisualizationAdapter,
 } from '@spartacus/epd-visualization/core';
 import {
@@ -12,7 +22,7 @@ import {
   UsageId,
   VisualizationApiConfig,
 } from '@spartacus/epd-visualization/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 /**
@@ -23,6 +33,8 @@ import { catchError } from 'rxjs/operators';
  */
 @Injectable()
 export class VisualizationV1Adapter implements VisualizationAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected epdVisualizationConfig: EpdVisualizationConfig,
@@ -67,7 +79,9 @@ export class VisualizationV1Adapter implements VisualizationAdapter {
     folderUsageId: UsageId
   ): Observable<LookupVisualizationsResponse> {
     return this.http.get(this.getUrl(visualizationUsageId, folderUsageId)).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
+      catchError((error) => {
+        throw normalizeHttpError(error, this.logger);
+      }),
       this.converter.pipeable(LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER)
     );
   }

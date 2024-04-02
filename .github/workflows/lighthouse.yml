@@ -1,0 +1,43 @@
+on:
+  pull_request:
+    types: [ready_for_review]
+    branches:
+      - develop
+      - develop-*
+      - release/**
+  workflow_dispatch:
+    # empty as it is used only to manually trigger the workflow
+env:
+  CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+  NODE_VERSION: '20'
+
+concurrency: 
+  group: lighthouse-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+name: Lighthouse
+jobs:
+  lighthouse:
+    name: Lighthouse score validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Package installation
+        run: npm ci
+      - name: Run lighthouse score validation
+        run: |
+          ci-scripts/lhci.sh

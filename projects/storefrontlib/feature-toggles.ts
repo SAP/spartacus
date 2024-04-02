@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export interface FeatureToggles {
   features?: {
     /**
@@ -20,5 +26,12 @@ export interface FeatureToggles {
      *    lazy loaded modules, it will have to use ConfigurationService.unifiedConfig$
      */
     disableConfigUpdates?: boolean;
+
+    /**
+     * Indicates that the for the card components, the card paragraph is truncated (like the label)
+     */
+    storeFrontLibCardParagraphTruncated?: boolean;
+    showPromotionsInPDP?: boolean;
+    recentSearches?: boolean;
   };
 }
