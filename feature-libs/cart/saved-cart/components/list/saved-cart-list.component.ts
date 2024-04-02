@@ -116,29 +116,6 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
       );
     }
   }
-    if (this.siteContextService) {
-      const contexts: SiteContextType[] = Object.values(SiteContextType);
-
-      if (!contexts.length) {
-        return;
-      }
-
-      this.subscription.add(
-        from(contexts)
-          .pipe(
-            mergeMap((context: SiteContextType) => {
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              return this.siteContextService!.getActiveItem(context).pipe(
-                skip(1)
-              );
-            })
-          )
-          .subscribe(() => {
-            this.savedCartService.loadSavedCarts();
-          })
-      );
-    }
-  }
 
   ngOnDestroy(): void {
     this.savedCartService.clearSavedCarts();
