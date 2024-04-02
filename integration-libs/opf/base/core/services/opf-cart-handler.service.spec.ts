@@ -553,7 +553,7 @@ describe('OpfCartHandlerService', () => {
       multiCartFacade.deleteCart.and.callThrough();
       eventService.get.and.returnValue(of(mockEvent));
 
-      service.deleteCurrentCart().subscribe((result) => {
+      service.deleteStaleCart().subscribe((result) => {
         expect(result).toBeTruthy();
         expect(multiCartFacade.deleteCart).toHaveBeenCalledWith(
           mockCartId,

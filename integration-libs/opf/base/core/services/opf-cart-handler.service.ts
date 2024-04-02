@@ -282,7 +282,7 @@ export class OpfCartHandlerService {
     });
   }
 
-  deleteCurrentCart(): Observable<boolean> {
+  deleteStaleCart(): Observable<boolean> {
     if (!this.cartHandlerState.cartId || !this.cartHandlerState.userId) {
       return of(false);
     }
@@ -357,7 +357,7 @@ export class OpfCartHandlerService {
               transactionDetails?.quantity
             );
           }
-          return this.deleteCurrentCart();
+          return this.deleteStaleCart();
         }),
         take(1)
       );

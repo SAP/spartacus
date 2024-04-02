@@ -220,7 +220,7 @@ describe('ApplePayService', () => {
       let event: ApplePayJS.ApplePayValidateMerchantEvent;
 
       event = <ApplePayJS.ApplePayValidateMerchantEvent>{};
-      cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
+      cartHandlerServiceMock.deleteStaleCart.and.returnValue(of(true));
       cartHandlerServiceMock.addProductToCart.and.returnValue(of(true));
       cartHandlerServiceMock.getCurrentCartId.and.returnValue(of('cartId01'));
       opfPaymentServiceMock.getApplePayWebSession.and.returnValue(
@@ -250,7 +250,7 @@ describe('ApplePayService', () => {
       event = <ApplePayJS.ApplePayShippingContactSelectedEvent>{
         shippingContact: mockApplePayPaymentContact,
       };
-      cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
+      cartHandlerServiceMock.deleteStaleCart.and.returnValue(of(true));
       cartHandlerServiceMock.setDeliveryAddress.and.returnValue(
         of('addresId01')
       );
@@ -486,7 +486,7 @@ describe('ApplePayService', () => {
             .pipe(map(() => <ApplePayJS.ApplePayPaymentAuthorizationResult>{}));
         }
       );
-      cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
+      cartHandlerServiceMock.deleteStaleCart.and.returnValue(of(true));
       cartHandlerServiceMock.addProductToCart.and.returnValue(of(true));
       cartHandlerServiceMock.getCurrentCartId.and.returnValue(of('cartId01'));
       opfPaymentServiceMock.getApplePayWebSession.and.returnValue(
@@ -680,7 +680,7 @@ describe('ApplePayService', () => {
     cartHandlerServiceMock.removeProductFromOriginalCart.and.returnValue(
       of(true)
     );
-    cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
+    cartHandlerServiceMock.deleteStaleCart.and.returnValue(of(true));
 
     applePayObservableFactoryMock.initApplePayEventsHandler.and.returnValue(
       throwError('Error')
