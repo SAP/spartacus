@@ -173,9 +173,7 @@ export class OpfCartHandlerService {
       extraData: { active: true },
     });
     return this.activeCartFacade.getActiveCartId().pipe(
-      tap((cartId) => console.log('flo2', cartId)),
       filter((cartId) => cartId === this.cartHandlerState.previousCartId),
-      tap((cartId) => console.log('flo3', cartId)),
       take(1),
       switchMap(() => {
         return forkJoin({
