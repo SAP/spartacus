@@ -56,6 +56,11 @@
         cx-stock-notification:empty {
           display: none;
         }
+
+        cx-variants-multi-dimensional {
+          grid-column: 2;
+          grid-row: 3;
+        }
       }
     }
     &.AddToCart {

@@ -88,6 +88,7 @@ import { BulkPricingFeatureModule } from './features/product/product-bulk-pricin
 import { FutureStockFeatureModule } from './features/product/product-future-stock-feature.module';
 import { ImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
+import { VariantsMultidimensionalFeatureModule } from './features/variants-multidimensional-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
@@ -237,6 +238,7 @@ if (environment.requestedDeliveryDate) {
     SmartEditFeatureModule,
 
     VariantsFeatureModule,
+    VariantsMultidimensionalFeatureModule,
     ImageZoomFeatureModule,
 
     QuoteFeatureModule,

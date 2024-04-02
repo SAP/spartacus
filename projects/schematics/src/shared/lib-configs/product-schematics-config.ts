@@ -147,6 +147,20 @@ export const PRODUCT_VARIANTS_SCHEMATICS_CONFIG: SchematicConfig = {
   },
 };
 
+export const VARIANTS_MULTIDIMENSIONAL_MODULE_NAME =
+  'ProductVariantsMultiDimensional';
+export const VARIANTS_MULTIDIMENSIONAL_FEATURE_NAME_CONSTANT =
+  'PRODUCT_VARIANTS_MULTIDIMENSIONAL_FEATURE';
+export const SPARTACUS_VARIANTS_MULTIDIMENSIONAL = `${SPARTACUS_PRODUCT}/multi-d`;
+export const SPARTACUS_VARIANTS_MULTIDIMENSIONAL_ROOT = `${SPARTACUS_VARIANTS_MULTIDIMENSIONAL}/root`;
+export const SPARTACUS_VARIANTS_MULTIDIMENSIONAL_ASSETS = `${SPARTACUS_VARIANTS_MULTIDIMENSIONAL}/assets`;
+export const VARIANTS_MULTIDIMENSIONAL_TRANSLATIONS =
+  'variantsMultidimensionalTranslations';
+export const VARIANTS_MULTIDIMENSIONAL_TRANSLATION_CHUNKS_CONFIG =
+  'variantsMultidimensionalTranslationChunksConfig';
+
+// TODO: SchematicConfig here?
+
 export const FUTURE_STOCK_MODULE = 'FutureStockModule';
 export const FUTURE_STOCK_ROOT_MODULE = 'FutureStockRootModule';
 export const FUTURE_STOCK_MODULE_NAME = 'ProductFutureStock';
