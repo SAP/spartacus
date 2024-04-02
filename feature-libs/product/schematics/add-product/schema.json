@@ -33,7 +33,12 @@
         ],
         "type": "string"
       },
-      "default": ["Product-Variants", "Image-Zoom", "Future-Stock"],
+      "default": [
+        "Product-Variants",
+        "Image-Zoom",
+        "Future-Stock",
+        "Variants-Multidimensional"
+      ],
       "x-prompt": {
         "message": "Which Product features would you like to set up?",
         "type": "list",
@@ -53,6 +58,10 @@
           {
             "value": "Future-Stock",
             "label": "Future Stock"
+          },
+          {
+            "value": "Variants-Multidimensional",
+            "label": "Variants Multidimensional"
           }
         ]
       }

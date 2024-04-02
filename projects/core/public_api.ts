@@ -48,4 +48,6 @@ export { Price, Product, Stock } from './src/model/product.model';
 export { BackendConfig } from './src/occ/config/occ-config';
 export { OccEndpoints } from './src/occ/occ-models/occ-endpoints.model';
 export { RoutingConfigDefinition } from './src/routing/configurable-routes/config/routing-config';
+// TODO
+// export { ProductScope } from './src/product/model/product-scope';
 /** AUGMENTABLE_TYPES_END */
