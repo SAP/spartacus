@@ -690,6 +690,10 @@ describe('ApplePayService', () => {
       of(merchantNameMock)
     );
 
+    cartHandlerServiceMock.loadCartAfterSingleProductTransaction.and.returnValue(
+      of(true)
+    );
+
     service
       .start({ product: mockProduct, quantity: 1, countryCode: 'us' })
       .subscribe({

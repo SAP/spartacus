@@ -747,7 +747,7 @@ describe('OpfCartHandlerService', () => {
   });
 
   describe('loadCartAfterSingleProductTransaction', () => {
-    it('should call deleteCurrentCart when order fails', () => {
+    it('should call deleteCurrentCart when order fails', (done) => {
       const mockCartId = '12345';
       const mockUserId = 'user123';
       const mockPreviousCartId = 'previousCartId';
@@ -778,11 +778,15 @@ describe('OpfCartHandlerService', () => {
       multiCartFacade.isStable.and.returnValue(of(true));
       multiCartFacade.deleteCart.and.callThrough();
 
-      service.loadCartAfterSingleProductTransaction(initialTransactionDetails);
-      expect(multiCartFacade.deleteCart).toHaveBeenCalled();
+      service
+        .loadCartAfterSingleProductTransaction(initialTransactionDetails, true)
+        .subscribe(() => {
+          expect(multiCartFacade.deleteCart).toHaveBeenCalled();
+          done();
+        });
     });
 
-    it('should removeProductFromOriginalCart when order is successfull', () => {
+    it('should removeProductFromOriginalCart when order is successfull', (done) => {
       const mockCartId = '12345';
       const mockUserId = 'user123';
       const mockPreviousCartId = 'previousCartId';
@@ -814,12 +818,13 @@ describe('OpfCartHandlerService', () => {
       activeCartFacade.getActiveCartId.and.returnValue(of(mockPreviousCartId));
       multiCartFacade.isStable.and.returnValue(of(true));
 
-      service.loadCartAfterSingleProductTransaction(
-        initialTransactionDetails,
-        true
-      );
-      expect(multiCartFacade.getEntry).toHaveBeenCalled();
-      expect(multiCartFacade.deleteCart).not.toHaveBeenCalled();
+      service
+        .loadCartAfterSingleProductTransaction(initialTransactionDetails, true)
+        .subscribe(() => {
+          expect(multiCartFacade.getEntry).toHaveBeenCalled();
+          expect(multiCartFacade.deleteCart).not.toHaveBeenCalled();
+          done();
+        });
     });
 
     it('should not deleteCurrentCart when order is successfull and initial cart empty', () => {
