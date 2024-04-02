@@ -613,6 +613,9 @@ describe('OpfGooglePayService', () => {
         mockCartHandlerService.setDeliveryAddress.and.returnValue(
           of('addressId')
         );
+        mockCartHandlerService.loadCartAfterSingleProductTransaction.and.returnValue(
+          of(true)
+        );
 
         if (callbacks.onPaymentAuthorized) {
           (
