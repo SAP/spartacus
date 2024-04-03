@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
+import { LoggerService } from '../../../logger';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
-import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
@@ -27,6 +27,8 @@ import { UserIdService } from './user-id.service';
   providedIn: 'root',
 })
 export class AuthService {
+  protected loggerService = inject(LoggerService);
+
   /**
    * Indicates whether the access token is being refreshed
    */
@@ -36,6 +38,12 @@ export class AuthService {
    * Indicates whether the logout is being performed
    */
   logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+
+  /**
+   * Indicates whether the login is being performed
+   */
+  codeOrTokenLoginInProgress$: Observable<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -52,26 +60,34 @@ export class AuthService {
    */
   async checkOAuthParamsInUrl(): Promise<void> {
     try {
-      const loginResult: OAuthTryLoginResult =
-        await this.oAuthLibWrapperService.tryLogin();
+      this.setCodeOrTokenLoginProgress(true);
+      await this.oAuthLibWrapperService
+        .tryLogin()
+        .then((loginResult) => {
+          const token = this.authStorageService.getItem('access_token');
 
-      const token = this.authStorageService.getItem('access_token');
+          // We get the value `true` of `result` in the _code flow_ even if we did not log in successfully
+          // (see source code https://github.com/manfredsteyer/angular-oauth2-oidc/blob/d95d7da788e2c1390346c66de62dc31f10d2b852/projects/lib/src/oauth-service.ts#L1711),
+          // that why we also need to check if we have access_token
+          if (loginResult.result && token) {
+            this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+            this.store.dispatch(new AuthActions.Login());
 
-      // We get the value `true` of `result` in the _code flow_ even if we did not log in successfully
-      // (see source code https://github.com/manfredsteyer/angular-oauth2-oidc/blob/d95d7da788e2c1390346c66de62dc31f10d2b852/projects/lib/src/oauth-service.ts#L1711),
-      // that why we also need to check if we have access_token
-      if (loginResult.result && token) {
-        this.userIdService.setUserId(OCC_USER_ID_CURRENT);
-        this.store.dispatch(new AuthActions.Login());
-
-        // We check if the token was received during the `tryLogin()` attempt.
-        // If so, we will redirect as we can deduce we are returning from the authentication server.
-        // Redirection should not be done in cases we get the token from storage (eg. refreshing the page).
-        if (loginResult.tokenReceived) {
-          this.authRedirectService.redirect();
-        }
-      }
-    } catch {}
+            // We check if the token was received during the `tryLogin()` attempt.
+            // If so, we will redirect as we can deduce we are returning from the authentication server.
+            // Redirection should not be done in cases we get the token from storage (eg. refreshing the page).
+            if (loginResult.tokenReceived) {
+              this.authRedirectService.redirect();
+            }
+          }
+        })
+        .finally(() => {
+          this.setCodeOrTokenLoginProgress(false);
+        });
+    } catch (error) {
+      this.loggerService.error(error);
+      this.setCodeOrTokenLoginProgress(false);
+    }
   }
 
   /**
@@ -156,5 +172,14 @@ export class AuthService {
    */
   setLogoutProgress(progress: boolean): void {
     (this.logoutInProgress$ as BehaviorSubject<boolean>).next(progress);
+  }
+
+  /**
+   * Start or stop the login process
+   */
+  setCodeOrTokenLoginProgress(progress: boolean): void {
+    (this.codeOrTokenLoginInProgress$ as BehaviorSubject<boolean>).next(
+      progress
+    );
   }
 }

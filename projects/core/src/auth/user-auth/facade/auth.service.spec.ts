@@ -1,5 +1,6 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { LoggerService } from '@spartacus/core';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -65,6 +66,10 @@ class MockAuthMultisiteIsolationService {
   }
 }
 
+class MockLoggerService {
+  error() {}
+}
+
 describe('AuthService', () => {
   let service: AuthService;
   let routingService: RoutingService;
@@ -74,6 +79,7 @@ describe('AuthService', () => {
   let authRedirectService: AuthRedirectService;
   let authMultisiteIsolationService: AuthMultisiteIsolationService;
   let store: Store;
+  let loggerService: LoggerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -95,6 +101,10 @@ describe('AuthService', () => {
           provide: AuthMultisiteIsolationService,
           useClass: MockAuthMultisiteIsolationService,
         },
+        {
+          provide: LoggerService,
+          useClass: MockLoggerService,
+        },
       ],
     });
 
@@ -108,6 +118,7 @@ describe('AuthService', () => {
       AuthMultisiteIsolationService
     );
     store = TestBed.inject(Store);
+    loggerService = TestBed.inject(LoggerService);
   });
 
   it('should be created', () => {
@@ -149,6 +160,38 @@ describe('AuthService', () => {
 
         expect(authRedirectService.redirect).not.toHaveBeenCalled();
       });
+    });
+
+    describe('when the token is NOT received', () => {
+      it('should NOT redirect', async () => {
+        spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
+          Promise.resolve({ result: true, tokenReceived: false })
+        );
+        spyOn(authRedirectService, 'redirect').and.stub();
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(authRedirectService.redirect).not.toHaveBeenCalled();
+      });
+    });
+
+    it('should not proceed when tryLogin throw error', async () => {
+      const error = new Error('error');
+      spyOn(oAuthLibWrapperService, 'tryLogin').and.throwError(error);
+      spyOn(authRedirectService, 'redirect').and.stub();
+      spyOn(userIdService, 'setUserId').and.stub();
+      spyOn(store, 'dispatch').and.stub();
+      spyOn(authStorageService, 'getItem').and.stub();
+      spyOn(loggerService, 'error').and.callThrough();
+
+      await service.checkOAuthParamsInUrl();
+
+      expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
+      expect(authRedirectService.redirect).not.toHaveBeenCalled();
+      expect(userIdService.setUserId).not.toHaveBeenCalled();
+      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(authStorageService.getItem).not.toHaveBeenCalled();
+      expect(loggerService.error).toHaveBeenCalledWith(error);
     });
   });
 

@@ -12,7 +12,7 @@ import {
 } from '@angular/router';
 import { AuthConfigService, AuthService, OAuthFlow } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take, withLatestFrom } from 'rxjs/operators';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 
 /**
@@ -35,14 +35,12 @@ export class LoginGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
-    return this.authService.isUserLoggedIn().pipe(
+    return this.authService.codeOrTokenLoginInProgress$.pipe(
+      filter((loginInProgress) => !loginInProgress),
+      withLatestFrom(this.authService.isUserLoggedIn()),
       take(1),
-      switchMap((isUserLoggedIn) => {
-        if (
-          this.authConfigService.getOAuthFlow() ===
-            OAuthFlow.ResourceOwnerPasswordFlow ||
-          isUserLoggedIn
-        ) {
+      switchMap(([_, isUserLoggedIn]) => {
+        if (this.isResourceOwnerPasswordFlowOrUserLoggedIn(isUserLoggedIn)) {
           return this.cmsPageGuard.canActivate(route, state);
         } else {
           // This method can trigger redirect to OAuth server that's why we don't return anything in this case
@@ -54,5 +52,14 @@ export class LoginGuard {
         }
       })
     );
+  }
+
+  protected isResourceOwnerPasswordFlowOrUserLoggedIn(
+    isUserLoggedIn: boolean
+  ): boolean {
+    const isResourceOwnerPasswordFlow =
+      this.authConfigService.getOAuthFlow() ===
+      OAuthFlow.ResourceOwnerPasswordFlow;
+    return isResourceOwnerPasswordFlow || isUserLoggedIn;
   }
 }
