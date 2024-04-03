@@ -537,7 +537,7 @@ describe('OpfCartHandlerService', () => {
     });
   });
 
-  describe('deleteCurrentCart', () => {
+  describe('deleteStaleCart', () => {
     it('should delete the current cart and return true on success', (done) => {
       const mockCartId = '12345';
       const mockUserId = 'user123';
@@ -553,7 +553,7 @@ describe('OpfCartHandlerService', () => {
       multiCartFacade.deleteCart.and.callThrough();
       eventService.get.and.returnValue(of(mockEvent));
 
-      service.deleteCurrentCart().subscribe((result) => {
+      service.deleteStaleCart().subscribe((result) => {
         expect(result).toBeTruthy();
         expect(multiCartFacade.deleteCart).toHaveBeenCalledWith(
           mockCartId,
@@ -588,10 +588,12 @@ describe('OpfCartHandlerService', () => {
 
       multiCartFacade.loadCart.and.callThrough();
       activeCartFacade.isStable.and.returnValue(of(true));
+      activeCartFacade.getActiveCartId.and.returnValue(of(mockPreviousCartId));
+      multiCartFacade.isStable.and.returnValue(of(true));
 
       service.loadOriginalCart().subscribe((result) => {
         expect(result).toBeTruthy();
-        expect(activeCartFacade.isStable).toHaveBeenCalled();
+        expect(multiCartFacade.isStable).toHaveBeenCalled();
         expect(multiCartFacade.loadCart).toHaveBeenCalled();
         expect(opfMiniCartComponentService.blockUpdate).toHaveBeenCalledWith(
           false
@@ -745,7 +747,7 @@ describe('OpfCartHandlerService', () => {
   });
 
   describe('loadCartAfterSingleProductTransaction', () => {
-    it('should call deleteCurrentCart when order fails', () => {
+    it('should call deleteStaleCart when order fails', (done) => {
       const mockCartId = '12345';
       const mockUserId = 'user123';
       const mockPreviousCartId = 'previousCartId';
@@ -772,13 +774,19 @@ describe('OpfCartHandlerService', () => {
       eventService.get.and.returnValue(of(mockEvent));
       activeCartFacade.isStable.and.returnValue(of(true));
       multiCartFacade.isStable.and.returnValue(of(true));
+      activeCartFacade.getActiveCartId.and.returnValue(of(mockPreviousCartId));
+      multiCartFacade.isStable.and.returnValue(of(true));
       multiCartFacade.deleteCart.and.callThrough();
 
-      service.loadCartAfterSingleProductTransaction(initialTransactionDetails);
-      expect(multiCartFacade.deleteCart).toHaveBeenCalled();
+      service
+        .loadCartAfterSingleProductTransaction(initialTransactionDetails, true)
+        .subscribe(() => {
+          expect(multiCartFacade.deleteCart).toHaveBeenCalled();
+          done();
+        });
     });
 
-    it('should removeProductFromOriginalCart when order is successfull', () => {
+    it('should removeProductFromOriginalCart when order is successfull', (done) => {
       const mockCartId = '12345';
       const mockUserId = 'user123';
       const mockPreviousCartId = 'previousCartId';
@@ -807,16 +815,19 @@ describe('OpfCartHandlerService', () => {
       activeCartFacade.isStable.and.returnValue(of(true));
       multiCartFacade.isStable.and.returnValue(of(true));
       multiCartFacade.getEntry.and.returnValue(of(mockEntry));
+      activeCartFacade.getActiveCartId.and.returnValue(of(mockPreviousCartId));
+      multiCartFacade.isStable.and.returnValue(of(true));
 
-      service.loadCartAfterSingleProductTransaction(
-        initialTransactionDetails,
-        true
-      );
-      expect(multiCartFacade.getEntry).toHaveBeenCalled();
-      expect(multiCartFacade.deleteCart).not.toHaveBeenCalled();
+      service
+        .loadCartAfterSingleProductTransaction(initialTransactionDetails, true)
+        .subscribe(() => {
+          expect(multiCartFacade.getEntry).toHaveBeenCalled();
+          expect(multiCartFacade.deleteCart).not.toHaveBeenCalled();
+          done();
+        });
     });
 
-    it('should not deleteCurrentCart when order is successfull and initial cart empty', () => {
+    it('should not deleteStaleCart when order is successfull and initial cart empty', () => {
       const mockCartId = '12345';
       const mockUserId = 'user123';
       const mockPreviousCartId = '';

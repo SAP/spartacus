@@ -63,7 +63,7 @@ describe('OpfGooglePayService', () => {
       'getProduct',
     ]);
     mockCartHandlerService = jasmine.createSpyObj('OpfCartHandlerService', [
-      'deleteCurrentCart',
+      'deleteStaleCart',
       'deleteUserAddresses',
       'addProductToCart',
       'checkStableCart',
@@ -684,6 +684,9 @@ describe('OpfGooglePayService', () => {
         mockCartHandlerService.setBillingAddress.and.returnValue(of(true));
         mockCartHandlerService.setDeliveryAddress.and.returnValue(
           of('addressId')
+        );
+        mockCartHandlerService.loadCartAfterSingleProductTransaction.and.returnValue(
+          of(true)
         );
 
         if (callbacks.onPaymentAuthorized) {
