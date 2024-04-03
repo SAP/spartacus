@@ -10,6 +10,8 @@ import * as configurationOverviewVc from '../../../helpers/product-configurator-
 import * as configurationVc from '../../../helpers/product-configurator-vc';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as common from '../../../helpers/common';
+import { clickOnConfigurationLink } from '../../../helpers/common';
+import { checkConfigPageDisplayed } from '../../../helpers/product-configurator-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
@@ -102,11 +104,20 @@ context('Product Configuration', () => {
       configurationVc.clickOnConfigureBtnInCatalog(testProduct);
     });
 
-    it('should be able to navigate from the add-to-cart dialog on the product detail page', () => {
+    it('should be able to navigate from the add-to-cart dialog by clicking on "Edit Configuration" link', () => {
       clickAllowAllFromBanner();
       common.goToPDPage(electronicsShop, testProduct);
       common.clickOnAddToCartBtnOnPD();
-      configurationCart.clickOnEditConfigurationLinkInAddToCartDialog();
+      common.clickOnConfigurationLink();
+      configurationVc.checkConfigPageDisplayed();
+    });
+
+    it('should be able to navigate from the add-to-cart dialog by clicking on "Resolve Issues" link', () => {
+      clickAllowAllFromBanner();
+      common.goToPDPage(electronicsShop, testProduct);
+      common.clickOnAddToCartBtnOnPD();
+      common.clickOnResolveIssuesLink();
+      configurationVc.checkConfigPageDisplayed();
     });
 
     it('should be able to navigate from the overview page', () => {
