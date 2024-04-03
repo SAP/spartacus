@@ -13,7 +13,12 @@ import {
   HttpResponseStatus,
   RoutingService,
   UserIdService,
+  backOff,
 } from '@spartacus/core';
+import {
+  isAuthorizationError,
+  opfAuthorizationErrorRetry,
+} from '@spartacus/opf/base/occ';
 import {
   OpfOrderFacade,
   OpfOtpFacade,
@@ -120,9 +125,15 @@ export class OpfCheckoutPaymentWrapperService {
           this.renderPaymentGateway(paymentOptionConfig);
         }
       }),
-      catchError((err: HttpErrorModel) =>
-        this.handlePaymentInitiationError(err)
-      ),
+      catchError((err) => this.handlePaymentInitiationError(err)),
+      backOff({
+        /**
+         * We should retry this sequence only if the error is an authorization error.
+         * It menas that `accessCode` (OTP signature) is not valid or expired and we need to refresh it.
+         */
+        shouldRetry: isAuthorizationError,
+        maxTries: opfAuthorizationErrorRetry,
+      }),
       take(1)
     );
   }
@@ -179,6 +190,10 @@ export class OpfCheckoutPaymentWrapperService {
   protected handlePaymentInitiationError(
     err: HttpErrorModel
   ): Observable<Error> {
+    if (isAuthorizationError(err)) {
+      throwError(err);
+    }
+
     return Number(err.status) === HttpResponseStatus.CONFLICT
       ? this.handlePaymentAlreadyDoneError()
       : this.handleGeneralPaymentError();
