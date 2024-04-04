@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product, ProductScope } from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
@@ -28,9 +28,10 @@ export class ConfigureProductComponent {
   product$: Observable<Product> = (this.productListItemContext
     ? this.productListItemContext.product$
     : this.currentProductService
-    ? this.currentProductService.getProduct(
-        ConfiguratorProductScope.CONFIGURATOR
-      )
+    ? this.currentProductService.getProduct([
+        ProductScope.DETAILS,
+        ConfiguratorProductScope.CONFIGURATOR,
+      ])
     : of(null)
   ).pipe(
     //needed because also currentProductService might return null
@@ -74,6 +75,20 @@ export class ConfigureProductComponent {
    */
   isDisplayRestartDialog(configuratorType?: string): string {
     return this.isConfiguratorTypeReadOnly(configuratorType) ? 'false' : 'true';
+  }
+
+  /**
+   * Verifies whether a configurator type of a product ends with '_READ_ONLY' postfix and
+   * either a base product is undefined or a base product is empty.
+   *
+   * @param configuratorType - configurator type
+   * @param baseProduct - base product
+   */
+  isReadOnlyBaseProduct(
+    configuratorType: string,
+    baseProduct?: string
+  ): boolean {
+    return this.isConfiguratorTypeReadOnly(configuratorType) && !baseProduct;
   }
 
   protected isConfiguratorTypeReadOnly(configuratorType?: string): boolean {

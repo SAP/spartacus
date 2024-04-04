@@ -3,7 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
-import { I18nTestingModule, Product, RoutingService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  Product,
+  ProductScope,
+  RoutingService,
+} from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
@@ -137,9 +142,10 @@ describe('ConfigureProductComponent', () => {
 
   it('should call currentProductService with configurator scope only as we do not need more scopes', () => {
     setupWithCurrentProductService(true);
-    expect(currentProductService.getProduct).toHaveBeenCalledWith(
-      ConfiguratorProductScope.CONFIGURATOR
-    );
+    expect(currentProductService.getProduct).toHaveBeenCalledWith([
+      ProductScope.DETAILS,
+      ConfiguratorProductScope.CONFIGURATOR,
+    ]);
   });
 
   it('should show button', () => {
@@ -264,6 +270,60 @@ describe('ConfigureProductComponent', () => {
           ConfiguratorType.VARIANT + ReadOnlyPostfix
         )
       ).toEqual('false');
+    });
+  });
+
+  describe('isReadOnlyBaseProduct', () => {
+    beforeEach(() => {
+      setupWithCurrentProductService(true);
+    });
+
+    it('should return false in case configurator type is CPQCONFIGURATOR and a base product is undefined', () => {
+      expect(
+        component.isReadOnlyBaseProduct(ConfiguratorType.VARIANT, undefined)
+      ).toEqual(false);
+    });
+
+    it('should return false in case configurator type is CPQCONFIGURATOR and a base product is empty', () => {
+      expect(
+        component.isReadOnlyBaseProduct(ConfiguratorType.VARIANT, '')
+      ).toEqual(false);
+    });
+
+    it('should return false in case configurator type is CPQCONFIGURATOR and a base product is BASE_PRODUCT', () => {
+      expect(
+        component.isReadOnlyBaseProduct(
+          ConfiguratorType.VARIANT,
+          'BASE_PRODUCT'
+        )
+      ).toEqual(false);
+    });
+
+    it('should return false in case configurator type has postfix readOnly and a base product is BASE_PRODUCT', () => {
+      expect(
+        component.isReadOnlyBaseProduct(
+          ConfiguratorType.VARIANT + ReadOnlyPostfix,
+          'BASE_PRODUCT'
+        )
+      ).toEqual(false);
+    });
+
+    it('should return true in case configurator type has postfix readOnly and a base product is undefined', () => {
+      expect(
+        component.isReadOnlyBaseProduct(
+          ConfiguratorType.VARIANT + ReadOnlyPostfix,
+          undefined
+        )
+      ).toEqual(true);
+    });
+
+    it('should return true in case configurator type has postfix readOnly and a base product is empty', () => {
+      expect(
+        component.isReadOnlyBaseProduct(
+          ConfiguratorType.VARIANT + ReadOnlyPostfix,
+          ''
+        )
+      ).toEqual(true);
     });
   });
 
