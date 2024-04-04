@@ -54,10 +54,10 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   sort = 'byInvoiceIdAsc';
 
   protected sortMapping: { [key: string]: string } = {
-    byCreatedAtAsc: this.featureConfig.isEnabled('useUpdatedSortMappingForInvoices')
+    byCreatedAtAsc: this.featureConfig.isEnabled('pdfInvoicesSortByInvoiceDate')
       ? 'createdAt:asc'
       : 'invoiceDate:asc',
-    byCreatedAtDesc: this.featureConfig.isEnabled('useUpdatedSortMappingForInvoices')
+    byCreatedAtDesc: this.featureConfig.isEnabled('pdfInvoicesSortByInvoiceDate')
       ? 'createdAt:desc'
       : 'invoiceDate:desc',
     byInvoiceIdAsc: 'invoiceId:asc',

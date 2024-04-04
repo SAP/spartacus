@@ -46,7 +46,7 @@ import { InvoicesListComponent } from './invoices-list/invoices-list.component';
         },
       },
       features: {
-        useUpdatedSortMappingForInvoices: false,
+        pdfInvoicesSortByInvoiceDate: false,
       },
     }),
   ],
