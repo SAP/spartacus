@@ -97,6 +97,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { OppsFeatureModule } from './features/opps/opps-feature.module';
 
 const featureModules = [];
 
@@ -135,6 +136,9 @@ if (environment.s4om) {
 }
 if (environment.segmentRefs) {
   featureModules.push(SegmentRefsFeatureModule);
+}
+if (environment.opps) {
+  featureModules.push(OppsFeatureModule);
 }
 if (environment.requestedDeliveryDate) {
   featureModules.push(RequestedDeliveryDateFeatureModule);
