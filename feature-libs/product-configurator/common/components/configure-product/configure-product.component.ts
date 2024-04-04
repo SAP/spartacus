@@ -78,14 +78,16 @@ export class ConfigureProductComponent {
   }
 
   /**
-   * Verifies whether a configurator type of a product ends with '_READ_ONLY' postfix and
-   * either a base product is undefined or a base product is empty.
+   * Verifies whether a configurator type of a product contains a read-only postfix and
+   * a base product is either undefined or empty.
    *
    * @param configuratorType - configurator type
    * @param baseProduct - base product
+   * @returns - If the configurator type contains a read-only postfix and
+   * a base product is either undefined or empty then true will be returned, otherwise false.
    */
   isReadOnlyBaseProduct(
-    configuratorType: string,
+    configuratorType?: string,
     baseProduct?: string
   ): boolean {
     return this.isConfiguratorTypeReadOnly(configuratorType) && !baseProduct;
