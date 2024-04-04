@@ -371,6 +371,19 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         CommonConfigurator.OwnerType.SAVED_CART_ENTRY
       ) {
         this.goToSavedCartDetails(container.routerData.owner);
+      } else if (
+        container.routerData.owner.type ===
+          CommonConfigurator.OwnerType.CART_ENTRY &&
+        !container.routerData.navigateToCheckout
+      ) {
+        this.routingService.go({ cxRoute: 'cart' });
+      } else if (
+        container.routerData.owner.type === CommonConfigurator.OwnerType.PRODUCT
+      ) {
+        this.routingService.go({
+          cxRoute: 'product',
+          params: { code: container.routerData.owner.id },
+        });
       } else {
         this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
       }
@@ -401,6 +414,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       params: { quoteId: entryKeys.documentId },
     });
   }
+
   /**
    * Navigates to the quote that is attached to the saved cart. At the moment we
    * only support saved carts if linked to quotes.
