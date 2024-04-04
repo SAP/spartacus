@@ -33,5 +33,6 @@ export interface FeatureToggles {
     storeFrontLibCardParagraphTruncated?: boolean;
     showPromotionsInPDP?: boolean;
     sortMapping?: boolean;
+    recentSearches?: boolean;
   };
 }

@@ -8,6 +8,10 @@ import { Request } from 'express';
 import { RenderingStrategy } from './ssr-optimization-options';
 import { RenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
 
+const defaultAlwaysCsrOptions = {
+  excludedUrls: ['cx-preview'],
+};
+
 const hasExcludedParams = (
   request: Request,
   excludedParams: string[] | undefined
@@ -58,6 +62,10 @@ const shouldFallbackToCsr = (
 export const defaultRenderingStrategyResolver =
   (options: RenderingStrategyResolverOptions) =>
   (request: Request): RenderingStrategy => {
+    if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
+      return RenderingStrategy.ALWAYS_CSR;
+    }
+
     return shouldFallbackToCsr(request, options)
       ? RenderingStrategy.ALWAYS_CSR
       : RenderingStrategy.DEFAULT;

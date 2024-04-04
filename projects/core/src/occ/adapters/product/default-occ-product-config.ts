@@ -22,6 +22,8 @@ export const defaultOccProductConfig: OccConfig = {
           attributes: 'products/${productCode}?fields=classifications',
           price: 'products/${productCode}?fields=price(formattedValue)',
           stock: 'products/${productCode}?fields=stock(DEFAULT)',
+          list_item:
+            'products/${productCode}?fields=code,name,price(formattedValue),images(DEFAULT),baseProduct',
         },
 
         productReviews: 'products/${productCode}/reviews',

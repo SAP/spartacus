@@ -6,7 +6,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from '@spartacus/core';
+import { FeaturesConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   quoteTranslationChunksConfig,
   quoteTranslations,
@@ -52,6 +52,11 @@ import {
               (m) => m.QuoteRequestButtonModule
             ),
         },
+      },
+    }),
+    provideConfig(<FeaturesConfig>{
+      features: {
+        storeFrontLibCardParagraphTruncated: true,
       },
     }),
   ],
