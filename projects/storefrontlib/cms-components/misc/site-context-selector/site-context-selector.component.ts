@@ -5,7 +5,6 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SiteContext } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteContextComponentService } from './site-context-component.service';
@@ -17,7 +16,6 @@ import { SiteContextType } from './site-context.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SiteContextSelectorComponent {
-  siteContextService: SiteContext<any>;
   iconTypes = ICON_TYPE;
   /**
    * the context type can be set as an input. If the context is
