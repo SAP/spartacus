@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+const addToCartDialog = 'cx-added-to-cart-dialog';
+
 /**
  * Clicks on 'Add to cart' on the product details page.
  */
@@ -12,7 +14,7 @@ export function clickOnAddToCartBtnOnPD(): void {
     .contains('Add to cart')
     .click()
     .then(() => {
-      cy.get('cx-added-to-cart-dialog').should('be.visible');
+      cy.get(addToCartDialog).should('be.visible');
       cy.get('div.cx-dialog-body').should('be.visible');
       cy.get('div.cx-dialog-buttons a.btn-primary')
         .contains('view cart')
@@ -57,4 +59,40 @@ export function goToPDPage(shopName: string, productId: string): void {
 export function checkLoadingMsgNotDisplayed(): void {
   cy.log('Wait until the loading notification is not displayed anymore');
   cy.get('cx-storefront').should('not.contain.value', 'Loading');
+}
+
+/**
+ * Clicks on 'Edit Configuration' or 'Display Configuration' link in the add-to-cart dialog.
+ *
+ * @param isReadOnly - if 'isReadOnly' is false then 'Edit Configuration' link is displayed, otherwise 'Display Configuration' link.
+ */
+export function clickOnConfigurationLink(isReadOnly = false): void {
+  let linkText = isReadOnly ? 'Display' : 'Edit';
+
+  cy.get(addToCartDialog).within(() => {
+    cy.get('cx-configurator-cart-entry-info').within(() => {
+      cy.get('cx-configure-cart-entry')
+        .find(`a:contains(${linkText})`)
+        .click()
+        .then(() => {
+          cy.location('pathname').should('contain', '/cartEntry/entityKey/');
+        });
+    });
+  });
+}
+
+/**
+ * Clicks on 'Resolve Issues' link in the add-to-cart dialog.
+ */
+export function clickOnResolveIssuesLink(): void {
+  cy.get(addToCartDialog).within(() => {
+    cy.get('cx-configurator-issues-notification').within(() => {
+      cy.get('cx-configure-cart-entry')
+        .find('a:contains("Resolve")')
+        .click()
+        .then(() => {
+          cy.location('pathname').should('contain', '/cartEntry/entityKey/');
+        });
+    });
+  });
 }
