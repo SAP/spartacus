@@ -57,7 +57,9 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
     byCreatedAtAsc: this.featureConfig.isEnabled('pdfInvoicesSortByInvoiceDate')
       ? 'createdAt:asc'
       : 'invoiceDate:asc',
-    byCreatedAtDesc: this.featureConfig.isEnabled('pdfInvoicesSortByInvoiceDate')
+    byCreatedAtDesc: this.featureConfig.isEnabled(
+      'pdfInvoicesSortByInvoiceDate'
+    )
       ? 'createdAt:desc'
       : 'invoiceDate:desc',
     byInvoiceIdAsc: 'invoiceId:asc',
