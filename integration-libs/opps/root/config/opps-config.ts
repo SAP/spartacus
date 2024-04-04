@@ -13,7 +13,9 @@ import { Config } from '@spartacus/core';
 })
 export abstract class OppsConfig {
   opps?: {
-    httpHeaderName: string;
+    coupon?: {
+      httpHeaderName: string;
+    };
   };
 }
 

@@ -16,11 +16,11 @@ import { LoggerService, OccEndpointsService, WindowRef } from '@spartacus/core';
 import { OppsConfig } from '../config/opps-config';
 
 @Injectable({ providedIn: 'root' })
-export class OccOppsInterceptor implements HttpInterceptor {
-  private opps?: string | null;
+export class OccOppsCouponInterceptor implements HttpInterceptor {
+  private oppsCoupon?: string | null;
   private requestHeader?: string;
-  protected readonly OPPS_KEY = 'opps';
-  protected readonly OPPS_QUERY_PARAM = 'opps';
+  protected readonly OPPS_COUPON_KEY = 'opps';
+  protected readonly OPPS_COUPON_QUERY_PARAM = 'opps';
 
   protected logger = inject(LoggerService);
 
@@ -39,17 +39,17 @@ export class OccOppsInterceptor implements HttpInterceptor {
   protected initialize() {
     const url = this.winRef.location.href ?? '';
     const queryParams = new URLSearchParams(url.substring(url.indexOf('?')));
-    this.opps = queryParams.get(this.OPPS_QUERY_PARAM);
-    if (this.opps) {
-      this.winRef.localStorage?.setItem(this.OPPS_KEY, this.opps);
+    this.oppsCoupon = queryParams.get(this.OPPS_COUPON_QUERY_PARAM);
+    if (this.oppsCoupon) {
+      this.winRef.localStorage?.setItem(this.OPPS_COUPON_KEY, this.oppsCoupon);
     } else {
-      this.opps = this.winRef.localStorage?.getItem(this.OPPS_KEY);
+      this.oppsCoupon = this.winRef.localStorage?.getItem(this.OPPS_COUPON_KEY);
     }
     if (this.winRef.isBrowser()) {
-      if (!this.config.opps?.httpHeaderName && isDevMode()) {
-        this.logger.warn(`There is no httpHeaderName configured in Segment`);
+      if (!this.config.opps?.coupon?.httpHeaderName && isDevMode()) {
+        this.logger.warn(`There is no httpHeaderName configured in OPPS Coupon`);
       }
-      this.requestHeader = this.config.opps?.httpHeaderName?.toLowerCase?.();
+      this.requestHeader = this.config.opps?.coupon?.httpHeaderName?.toLowerCase?.();
     }
   }
 
@@ -67,12 +67,12 @@ export class OccOppsInterceptor implements HttpInterceptor {
     if (
       this.winRef.isBrowser() &&
       this.requestHeader &&
-      this.opps &&
+      this.oppsCoupon &&
       request.url.includes(this.occEndpoints.getBaseUrl())
     ) {
       request = request.clone({
         setHeaders: {
-          [this.requestHeader]: this.opps,
+          [this.requestHeader]: this.oppsCoupon,
         },
       });
     }

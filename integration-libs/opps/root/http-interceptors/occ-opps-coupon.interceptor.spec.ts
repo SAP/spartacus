@@ -6,13 +6,15 @@ import {
 import { inject, TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { OppsConfig } from '../config/opps-config';
-import { OccOppsInterceptor } from './occ-opps.interceptor';
+import { OccOppsCouponInterceptor } from './occ-opps-coupon.interceptor';
 
 const url =
   'https://localhost:9002/occ/v2/electronics-spa/cms/pages?lang=en&curr=USD';
 const mockOppsConfig: OppsConfig = {
   opps: {
-    httpHeaderName: 'mock-opps',
+    coupon:{
+      httpHeaderName: 'mock-opps',
+    }
   },
 };
 const MockWindowRef1 = {
@@ -52,7 +54,7 @@ const MockWindowRef3 = {
     href: 'http://localhost:4200/electronics-spa/en/USD/',
   },
 };
-describe('OccOppsInterceptor', () => {
+describe('OccOppsCouponInterceptor', () => {
   describe('launch storefront with url containing opps', () => {
     let httpMock: HttpTestingController;
     beforeEach(() => {
@@ -63,7 +65,7 @@ describe('OccOppsInterceptor', () => {
           { provide: WindowRef, useValue: MockWindowRef1 },
           {
             provide: HTTP_INTERCEPTORS,
-            useClass: OccOppsInterceptor,
+            useClass: OccOppsCouponInterceptor,
             multi: true,
           },
         ],
@@ -100,7 +102,7 @@ describe('OccOppsInterceptor', () => {
           { provide: WindowRef, useValue: MockWindowRef2 },
           {
             provide: HTTP_INTERCEPTORS,
-            useClass: OccOppsInterceptor,
+            useClass: OccOppsCouponInterceptor,
             multi: true,
           },
         ],
@@ -137,7 +139,7 @@ describe('OccOppsInterceptor', () => {
           { provide: WindowRef, useValue: MockWindowRef3 },
           {
             provide: HTTP_INTERCEPTORS,
-            useClass: OccOppsInterceptor,
+            useClass: OccOppsCouponInterceptor,
             multi: true,
           },
         ],
