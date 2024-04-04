@@ -32,7 +32,7 @@ export interface FeatureToggles {
      */
     storeFrontLibCardParagraphTruncated?: boolean;
     showPromotionsInPDP?: boolean;
-    sortMapping?: boolean;
+    useUpdatedSortMappingForInvoices?: boolean;
     recentSearches?: boolean;
   };
 }
