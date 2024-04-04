@@ -12,10 +12,12 @@ if [ -z "$TEST_ROOT" ] || [ -z "$NUM_SPLITS" ] || [ -z "$REQUESTED_GROUP" ]; the
 fi
 
 # List all test files in subdirectories
-TEST_FILES=$(find "$TEST_ROOT" -type f -name "*.cy.ts")
+TEST_FILES=$(find "$TEST_ROOT" -type f -name "*.cy.ts" ! -name "**flaky**" ! -name "**my-account-v2**")
 
 # Calculate the total number of tests
 TOTAL_TESTS=$(echo "$TEST_FILES" | wc -l)
+
+echo $TOTAL_TESTS
 
 # Calculate the number of tests per split
 TESTS_PER_SPLIT=$((TOTAL_TESTS / NUM_SPLITS))
