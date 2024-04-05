@@ -75,6 +75,14 @@ export function ensureModuleExists(options: {
   };
 }
 
+/**
+ * Adds the given Module (import, content) to the `imports` array
+ * of the NgModule in the given source file.
+ *
+ * If `order` param is provided, the Module will be added at the specified array's index.
+ *
+ * Moreover, it adds the JS import of this Module in the source file.
+ */
 export function addModuleImport(
   sourceFile: SourceFile,
   insertOptions: {
@@ -179,6 +187,12 @@ function addToModuleInternal(
   return createdNode;
 }
 
+/**
+ * Removes the given Module (importPath, content) from the `imports` array
+ * of the NgModule in the given source file.
+ *
+ * Moreover, it removes the JS import of this Module from the source file.
+ */
 export function removeModuleImport(
   sourceFile: SourceFile,
   removeOptions: {
