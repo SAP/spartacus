@@ -295,29 +295,29 @@ describe('Import utils', () => {
       ).toBeFalsy();
       expect(removedImports.length).toBe(1);
     });
-  });
 
-  it('should not remove the specified imports when they do not exist', async () => {
-    const { program } = createProgram(tree, tree.root.path, buildPath);
-    const appModule = program.getSourceFileOrThrow(appModulePath);
+    it('should not remove the specified imports when they do not exist', async () => {
+      const { program } = createProgram(tree, tree.root.path, buildPath);
+      const appModule = program.getSourceFileOrThrow(appModulePath);
 
-    const NON_EXISTING_PATH = 'non-existing/path';
-    const NON_EXISTING_MODULE = 'nonExistingModule';
+      const NON_EXISTING_PATH = 'non-existing/path';
+      const NON_EXISTING_MODULE = 'nonExistingModule';
 
-    expect(
-      staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE)
-    ).toBeFalsy();
+      expect(
+        staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE)
+      ).toBeFalsy();
 
-    const removedImports = removeImports(appModule, [
-      {
-        node: NON_EXISTING_MODULE,
-        importPath: NON_EXISTING_PATH,
-      },
-    ]);
-    saveAndFormat(appModule);
-    expect(
-      staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE)
-    ).toBeFalsy();
-    expect(removedImports.length).toBe(0);
+      const removedImports = removeImports(appModule, [
+        {
+          node: NON_EXISTING_MODULE,
+          importPath: NON_EXISTING_PATH,
+        },
+      ]);
+      saveAndFormat(appModule);
+      expect(
+        staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE)
+      ).toBeFalsy();
+      expect(removedImports.length).toBe(0);
+    });
   });
 });
