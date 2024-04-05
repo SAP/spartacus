@@ -7,11 +7,11 @@
     "guestCheckout": "Guest Checkout",
     "emailAddress": {
       "label": "Email address",
-      "placeholder": "Enter email"
+      "placeholder": "Enter Email Address"
     },
     "password": {
       "label": "Password",
-      "placeholder": "Password"
+      "placeholder": "Enter Your Password"
     },
     "wrongEmailFormat": "This is not a valid email format."
   },
