@@ -93,44 +93,6 @@ describe('New Module utils', () => {
     );
   });
 
-  // export function removeModuleImport(
-  //   sourceFile: SourceFile,
-  //   removeOptions: {
-  //     importPath: string;
-  //     content: string;
-  //   }
-  // ): Expression | undefined {
-  //   return removeFromModuleInternal(sourceFile, 'imports', removeOptions);
-  // }
-
-  // function removeFromModuleInternal(
-  //   sourceFile: SourceFile,
-  //   propertyName: ModuleProperty,
-  //   removeOptions: {
-  //     importPath: string;
-  //     content: string;
-  //   }
-  // ): Expression | undefined {
-  //   const initializer = getModulePropertyInitializer(sourceFile, propertyName);
-  //   if (!initializer) {
-  //     return undefined;
-  //   }
-
-  //   removeImports(sourceFile, [
-  //     { node: removeOptions.content, importPath: removeOptions.importPath },
-  //   ]);
-
-  //   let nodeToRemove: Expression | undefined = initializer
-  //     .getElements()
-  //     .find((element) => element.getText() === removeOptions.content);
-
-  //   if (nodeToRemove) {
-  //     initializer.removeElement(nodeToRemove);
-  //   }
-
-  //   return nodeToRemove;
-  // }
-
   describe('removeModuleImport', () => {
     /**
      * Checks if the `imports` array (in NgModule decorator) contains the ModuleName
