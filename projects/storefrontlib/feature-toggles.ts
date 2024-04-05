@@ -32,6 +32,7 @@ export interface FeatureToggles {
      */
     storeFrontLibCardParagraphTruncated?: boolean;
     showPromotionsInPDP?: boolean;
+    pdfInvoicesSortByInvoiceDate?: boolean;
     recentSearches?: boolean;
   };
 }
