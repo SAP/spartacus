@@ -276,7 +276,7 @@ describe('Import utils', () => {
   });
 
   describe('removeImports', () => {
-    it('should remove the specified imports', async () => {
+    it('should remove the specified imports', () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
       const appModule = program.getSourceFileOrThrow(appModulePath);
 
@@ -296,7 +296,7 @@ describe('Import utils', () => {
       expect(removedImports.length).toBe(1);
     });
 
-    it('should not remove the specified imports when they do not exist', async () => {
+    it('should not remove the specified imports when they do not exist', () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
       const appModule = program.getSourceFileOrThrow(appModulePath);
 
