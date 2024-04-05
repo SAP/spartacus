@@ -1155,4 +1155,5 @@ export const EXPRESS_TOKENS = 'express.tokens';
 
 export const APP_ROUTING_MODULE = 'AppRoutingModule';
 export const APP_ROUTING_MODULE_LOCAL_PATH = './app-routing.module';
+export const APP_ROUTING_MODULE_LOCAL_FILENAME = 'app-routing.module.ts';
 export const BROWSER_MODULE = 'BrowserModule';
