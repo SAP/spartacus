@@ -6,10 +6,10 @@
 
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
-  APP_INITIALIZER,
   ModuleWithProviders,
   NgModule,
   PLATFORM_ID,
+  inject,
 } from '@angular/core';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 import { lastValueFrom } from 'rxjs';
@@ -17,6 +17,7 @@ import { switchMap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { provideDefaultConfig } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
+import { MULTI_LOCATION_INITIALIZED } from '../../multi-location-initialized/multi-location-initialized-token';
 import { baseUrlConfigValidator } from './config/base-url-config-validator';
 import { defaultAuthConfig } from './config/default-auth-config';
 import { UserAuthEventModule } from './events/user-auth-event.module';
@@ -54,6 +55,20 @@ export function authStatePersistenceFactory(
 }
 
 /**
+ * Factory to ensure that auth is initialized and its stated is synced between browser storage and in-memory storage.
+ * This is required to handle the OAuth callback.
+ */
+const authInitializedFactory = () => {
+  const authService = inject(AuthService);
+  const configInit = inject(ConfigInitializerService);
+  const platformId = inject(PLATFORM_ID);
+  const authStatePersistenceService = inject(AuthStatePersistenceService);
+
+  authStatePersistenceFactory(authStatePersistenceService)(); //we need to call it before checkOAuthParamsInUrl to ensure that in-memory storage is in sync with browser storage. In other case "nonce" value used in Implicit FLow will be undefined causing the error.
+  return checkOAuthParamsInUrl(authService, configInit, platformId);
+};
+
+/**
  * Authentication module for a user. Handlers requests for logged in users,
  * provides authorization services and storage for tokens.
  */
@@ -73,15 +88,8 @@ export class UserAuthModule {
           useExisting: AuthStorageService,
         },
         {
-          provide: APP_INITIALIZER,
-          useFactory: authStatePersistenceFactory,
-          deps: [AuthStatePersistenceService],
-          multi: true,
-        },
-        {
-          provide: APP_INITIALIZER,
-          useFactory: checkOAuthParamsInUrl,
-          deps: [AuthService, ConfigInitializerService, PLATFORM_ID],
+          provide: MULTI_LOCATION_INITIALIZED,
+          useFactory: authInitializedFactory,
           multi: true,
         },
       ],
