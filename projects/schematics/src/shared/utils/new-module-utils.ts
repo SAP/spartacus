@@ -220,7 +220,7 @@ function removeFromModuleInternal(
     { node: removeOptions.content, importPath: removeOptions.importPath },
   ]);
 
-  let nodeToRemove: Expression | undefined = initializer
+  const nodeToRemove: Expression | undefined = initializer
     .getElements()
     .find((element) => element.getText() === removeOptions.content);
 
