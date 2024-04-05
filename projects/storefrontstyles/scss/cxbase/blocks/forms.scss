@@ -10,6 +10,24 @@
     box-shadow: none;
     -webkit-box-shadow: none;
   }
+
+  @include forFeature('santoriniV2') {
+    &::placeholder{
+      color: var(--cx-color-dark);
+    }
+
+    &::-webkit-input-placeholder {
+      color: var(--cx-color-dark);
+    }
+    
+    &:-ms-input-placeholder {
+      color: var(--cx-color-dark);
+    }
+
+    &::-ms-input-placeholder {
+      color: var(--cx-color-dark);
+    }
+  }
 }
 
 cx-form-errors {
@@ -353,15 +371,27 @@ input {
 
 .form-group {
   input[type='text']::placeholder {
-    color: var(--cx-color-text);
+    color: var(--cx-color-secondary);
     opacity: 1;
+
+    @include forFeature('santoriniV2') {
+      color: var(--cx-color-dark);
+    }
   }
 
   input[type='text']:-ms-input-placeholder {
     color: var(--cx-color-secondary);
+
+    @include forFeature('santoriniV2') {
+      color: var(--cx-color-dark);
+    }
   }
 
   input[type='text']::-ms-input-placeholder {
     color: var(--cx-color-secondary);
+
+    @include forFeature('santoriniV2') {
+      color: var(--cx-color-dark);
+    }
   }
 }

@@ -110,6 +110,11 @@ if (!environment.production) {
       provide: USE_LEGACY_MEDIA_COMPONENT,
       useValue: false,
     },
+    provideConfig({
+      features: {
+        santoriniV2: true,
+      }
+    })
   ],
   bootstrap: [StorefrontComponent],
 })

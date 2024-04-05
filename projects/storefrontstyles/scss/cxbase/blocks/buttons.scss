@@ -31,6 +31,10 @@ button {
   min-width: 48px;
   border-radius: var(--cx-buttons-border-radius);
 
+  @include forFeature('santoriniV2') {
+    @include type('4');
+  }
+
   &-sm {
     padding-top: 0;
     padding-bottom: 0;
