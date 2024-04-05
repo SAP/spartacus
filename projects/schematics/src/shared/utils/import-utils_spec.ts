@@ -8,7 +8,11 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import * as path from 'path';
 import { firstValueFrom } from 'rxjs';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { NGRX_STORE } from '../constants';
+import {
+  ANGULAR_PLATFORM_BROWSER,
+  BROWSER_MODULE,
+  NGRX_STORE,
+} from '../constants';
 import { CART_BASE_MODULE } from '../lib-configs/cart-schematics-config';
 import {
   CART_BASE_FEATURE_NAME,
@@ -30,12 +34,13 @@ import {
   isImportedFromSpartacusCoreLib,
   isImportedFromSpartacusLibs,
   isRelative,
+  removeImports,
   staticImportExists,
 } from './import-utils';
 import { LibraryOptions } from './lib-utils';
-import { createProgram } from './program';
+import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
-import { cartBaseFeatureModulePath } from './test-utils';
+import { appModulePath, cartBaseFeatureModulePath } from './test-utils';
 
 describe('Import utils', () => {
   const schematicRunner = new SchematicTestRunner(
@@ -269,5 +274,51 @@ describe('Import utils', () => {
       });
       expect(result).toBeFalsy();
     });
+  });
+
+  describe('removeImports', () => {
+    it('should remove the specified imports', async () => {
+      const { program } = createProgram(tree, tree.root.path, buildPath);
+      const appModule = program.getSourceFileOrThrow(appModulePath);
+
+      expect(
+        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE)
+      ).toBeTruthy();
+
+      const removedImports = removeImports(appModule, [
+        {
+          node: BROWSER_MODULE,
+          importPath: ANGULAR_PLATFORM_BROWSER,
+        },
+      ]);
+      expect(
+        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE)
+      ).toBeFalsy();
+      expect(removedImports.length).toBe(1);
+    });
+  });
+
+  it('should not remove the specified imports when they do not exist', async () => {
+    const { program } = createProgram(tree, tree.root.path, buildPath);
+    const appModule = program.getSourceFileOrThrow(appModulePath);
+
+    const NON_EXISTING_PATH = 'non-existing/path';
+    const NON_EXISTING_MODULE = 'nonExistingModule';
+
+    expect(
+      staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE)
+    ).toBeFalsy();
+
+    const removedImports = removeImports(appModule, [
+      {
+        node: NON_EXISTING_MODULE,
+        importPath: NON_EXISTING_PATH,
+      },
+    ]);
+    saveAndFormat(appModule);
+    expect(
+      staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE)
+    ).toBeFalsy();
+    expect(removedImports.length).toBe(0);
   });
 });
