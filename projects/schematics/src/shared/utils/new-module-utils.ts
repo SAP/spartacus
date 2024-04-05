@@ -24,7 +24,7 @@ import {
 import { ANGULAR_CORE, ANGULAR_SCHEMATICS } from '../constants';
 import { isSpartacusConfigDuplicate } from './config-utils';
 import { getTsSourceFile } from './file-utils';
-import { createImports, isImportedFrom } from './import-utils';
+import { createImports, isImportedFrom, removeImports } from './import-utils';
 import { getSourceRoot } from './workspace-utils';
 
 export type ModuleProperty =
@@ -177,6 +177,44 @@ function addToModuleInternal(
   }
 
   return createdNode;
+}
+
+export function removeModuleImport(
+  sourceFile: SourceFile,
+  removeOptions: {
+    importPath: string;
+    content: string;
+  }
+): Expression | undefined {
+  return removeFromModuleInternal(sourceFile, 'imports', removeOptions);
+}
+
+function removeFromModuleInternal(
+  sourceFile: SourceFile,
+  propertyName: ModuleProperty,
+  removeOptions: {
+    importPath: string;
+    content: string;
+  }
+): Expression | undefined {
+  const initializer = getModulePropertyInitializer(sourceFile, propertyName);
+  if (!initializer) {
+    return undefined;
+  }
+
+  removeImports(sourceFile, [
+    { node: removeOptions.content, importPath: removeOptions.importPath },
+  ]);
+
+  let nodeToRemove: Expression | undefined = initializer
+    .getElements()
+    .find((element) => element.getText() === removeOptions.content);
+
+  if (nodeToRemove) {
+    initializer.removeElement(nodeToRemove);
+  }
+
+  return nodeToRemove;
 }
 
 function isDuplication(
