@@ -46,7 +46,7 @@ context('Product Configuration', () => {
       it('should add a product to the cart from the catalog and display a product overview', () => {
         configuration.searchForProduct(testProduct);
         common.clickOnAddToCartBtnOnPD();
-        configurationCart.clickOnDisplayConfigurationLinkInAddedToCartDialog();
+        common.clickOnConfigurationLink(true);
         configurationOverview.checkConfigOverviewPageDisplayed();
         configurationOverview.clickCloseBtnOnOP(false, true);
       });
@@ -54,7 +54,7 @@ context('Product Configuration', () => {
       it('should add a product to the cart from the product details page and display a product overview', () => {
         common.goToPDPage(electronicsShop, testProduct);
         common.clickOnAddToCartBtnOnPD();
-        configurationCart.clickOnDisplayConfigurationLinkInAddedToCartDialog();
+        common.clickOnConfigurationLink(true);
         configurationOverview.checkConfigOverviewPageDisplayed();
         configurationOverview.clickCloseBtnOnOP(false, true);
       });
