@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { LOCATION_INITIALIZED } from '@angular/common';
 import { ModuleWithProviders, NgModule, inject } from '@angular/core';
 import { MULTI_LOCATION_INITIALIZED } from './multi-location-initialized-token';
