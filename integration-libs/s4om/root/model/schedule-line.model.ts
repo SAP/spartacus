@@ -8,3 +8,6 @@ export interface arrivalSlots {
   at?: Date;
   quantity?: number;
 }
+export interface arrivalSlot {
+  at?: Date;
+}
