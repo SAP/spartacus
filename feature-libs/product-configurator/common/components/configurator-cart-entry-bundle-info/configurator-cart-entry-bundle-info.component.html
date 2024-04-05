@@ -53,7 +53,7 @@
       <cx-configure-cart-entry
         *ngIf="(shouldShowButton$ | async) && orderEntry?.product?.configurable"
         [cartEntry]="orderEntry"
-        [readOnly]="(readonly$ | async) ?? true"
+        [readOnly]="(readonly$ | async) ?? false"
         [msgBanner]="false"
         [disabled]="quantityControl.disabled"
       ></cx-configure-cart-entry
