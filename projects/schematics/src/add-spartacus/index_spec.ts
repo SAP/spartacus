@@ -37,7 +37,6 @@ const appOptions: ApplicationOptions = {
   name: 'schematics-test',
   inlineStyle: false,
   inlineTemplate: false,
-  // routing: true,
   style: Style.Scss,
   skipTests: false,
   standalone: false,
