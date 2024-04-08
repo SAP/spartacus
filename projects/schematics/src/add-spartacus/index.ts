@@ -517,7 +517,7 @@ function addAppRoutingModuleImport(
   });
   context.logger.info(
     removedImport
-      ? `✅ Removed import from AppModule: ${removedImport?.print?.()}`
+      ? `✅ Removed from AppModule the import of local AppRoutingModule`
       : `✅ No import of local AppRoutingModule found in AppModule`
   );
 
