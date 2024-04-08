@@ -508,7 +508,7 @@ function addAppRoutingModuleImport(
   sourceFile: SourceFile
 ) {
   context.logger.info(
-    `⌛️ Removing from AppModule the import of local AppRoutingModule, if exists`
+    `⌛️ Removing from AppModule's imports array a local AppRoutingModule, if exists`
   );
   // remove import of AppRoutingModule (NgModule import and module path import), if exists
   const removedImport = removeModuleImport(sourceFile, {
@@ -517,22 +517,26 @@ function addAppRoutingModuleImport(
   });
   context.logger.info(
     removedImport
-      ? `✅ Removed from AppModule the import of local AppRoutingModule`
-      : `✅ No import of local AppRoutingModule found in AppModule`
+      ? `✅ Removed from AppModule's imports array a local AppRoutingModule`
+      : `✅ No local AppRoutingModule found im AppModule's imports array`
   );
 
-  context.logger.info(`⌛️ Deleting local AppRoutingModule file, if exists`);
+  context.logger.info(
+    `⌛️ Deleting a local file "${APP_ROUTING_MODULE_LOCAL_FILENAME}", if exists`
+  );
   // delete local file of AppRoutingModule, if exists
   let deletedFile: Path | undefined;
   tree.visit((filePath: Path) => {
     if (filePath.endsWith(APP_ROUTING_MODULE_LOCAL_FILENAME)) {
       tree.delete(filePath);
-      context.logger.info(`✅ Deleted local file: ${filePath}`);
+      context.logger.info(`✅ Deleted a local file: ${filePath}`);
       deletedFile = filePath;
     }
   });
   if (!deletedFile) {
-    context.logger.info(`✅ No local AppRoutingModule file found`);
+    context.logger.info(
+      `✅ No local file found with the path "${APP_ROUTING_MODULE_LOCAL_FILENAME}"`
+    );
   }
 
   context.logger.info(
