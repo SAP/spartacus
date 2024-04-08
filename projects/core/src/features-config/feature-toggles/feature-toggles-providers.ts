@@ -16,17 +16,17 @@ export type FeatureTogglesFactory = (...props: any[]) => FeatureToggles;
 /**
  * Helper function to provide FeatureTogglesChunk token
  *
- * To provide DefaultFeatureTogglesChunk flags in libraries, provideFeatureTogglesChunk should be used instead.
+ * To provide DefaultFeatureTogglesChunk toggles in libraries, provideFeatureTogglesChunk should be used instead.
  *
- * @param flags FeatureToggles object to merge with the global flags
+ * @param toggles FeatureToggles object to merge with the global toggles
  */
 export function provideFeatureToggles(
-  flags: FeatureToggles = {},
-  defaultFlags = false
+  toggles: FeatureToggles = {},
+  defaultToggles = false
 ): ValueProvider {
   return {
-    provide: defaultFlags ? DefaultFeatureTogglesChunk : FeatureTogglesChunk,
-    useValue: flags,
+    provide: defaultToggles ? DefaultFeatureTogglesChunk : FeatureTogglesChunk,
+    useValue: toggles,
     multi: true,
   };
 }
@@ -34,17 +34,17 @@ export function provideFeatureToggles(
 /**
  * Helper function to provide FeatureTogglesChunk with a factory function
  *
- * To provide DefaultFeatureTogglesChunk flags in libraries provideDefaultFeatureTogglesFactory should be used instead.
+ * To provide DefaultFeatureTogglesChunk toggles in libraries provideDefaultFeatureTogglesFactory should be used instead.
  *
- * @param featureTogglesFactory Factory Function that will generate flags object
+ * @param featureTogglesFactory Factory Function that will generate toggles object
  * @param deps Optional dependencies to a factory function
  */
 export function provideFeatureTogglesFactory(
   featureTogglesFactory: FeatureTogglesFactory,
-  defaultFlags = false
+  defaultToggles = false
 ): FactoryProvider {
   return {
-    provide: defaultFlags ? DefaultFeatureTogglesChunk : FeatureTogglesChunk,
+    provide: defaultToggles ? DefaultFeatureTogglesChunk : FeatureTogglesChunk,
     useFactory: featureTogglesFactory,
     multi: true,
   };
@@ -53,22 +53,22 @@ export function provideFeatureTogglesFactory(
 /**
  * Helper function to provide DefaultFeatureTogglesChunk token
  *
- * @param flags FeatureToggles object to merge with the default flags
+ * @param toggles FeatureToggles object to merge with the default toggles
  */
 export function provideDefaultFeatureToggles(
-  flags: FeatureToggles = {}
+  toggles: FeatureToggles = {}
 ): ValueProvider {
   return {
     provide: DefaultFeatureTogglesChunk,
-    useValue: flags,
+    useValue: toggles,
     multi: true,
   };
 }
 
 /**
- * Helper function to provide DefaultFeatureTogglesChunk flags with a factory function
+ * Helper function to provide DefaultFeatureTogglesChunk toggles with a factory function
  *
- * @param featureTogglesFactory Factory Function that will generate flags object
+ * @param featureTogglesFactory Factory Function that will generate toggles object
  * @param deps Optional dependencies to a factory function
  */
 export function provideDefaultFeatureTogglesFactory(
