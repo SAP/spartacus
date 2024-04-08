@@ -15,8 +15,9 @@ export class ItemCounterService {
   protected isInitialProductCounter(
     input?: ElementRef<HTMLInputElement>
   ): boolean {
+    const wrapperClass = 'cx-counter-stock';
     return Boolean(
-      input?.nativeElement.offsetParent?.className === 'cx-counter-stock'
+      input?.nativeElement.offsetParent?.className === wrapperClass
     );
   }
 
