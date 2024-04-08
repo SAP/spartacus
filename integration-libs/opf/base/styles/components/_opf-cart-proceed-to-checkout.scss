@@ -1,3 +1,9 @@
 %cx-opf-cart-proceed-to-checkout {
-  display: contents;
+  @include media-breakpoint-up(lg) {
+    display: flex;
+    flex-direction: column;
+  }
+  @include media-breakpoint-down(lg) {
+    order: 3;
+  }
 }
