@@ -476,7 +476,7 @@ function updateAppModule(options: SpartacusOptions): Rule {
             content: 'provideHttpClient(withFetch(), withInterceptorsFromDi())',
           });
 
-          addAppRoutingModuleImport(tree, sourceFile);
+          addAppRoutingModuleImport(tree, context, sourceFile);
 
           saveAndFormat(sourceFile);
           break;
@@ -502,20 +502,37 @@ function updateAppModule(options: SpartacusOptions): Rule {
  *
  * See Angular enabling routing by default in v17: https://github.com/angular/angular-cli/commit/1a6a139aaf8d5a6947b399bbbd48bbfd9e52372c
  */
-function addAppRoutingModuleImport(tree: Tree, sourceFile: SourceFile) {
+function addAppRoutingModuleImport(
+  tree: Tree,
+  context: SchematicContext,
+  sourceFile: SourceFile
+) {
+  context.logger.info(
+    `⌛️ Removing from AppModule the import of local AppRoutingModule, if exists`
+  );
   // remove import of AppRoutingModule (NgModule import and module path import), if exists
   removeModuleImport(sourceFile, {
     importPath: APP_ROUTING_MODULE_LOCAL_PATH,
     content: APP_ROUTING_MODULE,
   });
+  context.logger.info(
+    `✅ Removing from AppModule the import of local AppRoutingModule, if exists - complete`
+  );
 
+  context.logger.info(`⌛️ Deleting local AppRoutingModule file, if exists`);
   // delete local file of AppRoutingModule, if exists
   tree.visit((filePath: Path) => {
     if (filePath.endsWith(APP_ROUTING_MODULE_LOCAL_FILENAME)) {
       tree.delete(filePath);
     }
   });
+  context.logger.info(
+    `✅ Deleting local AppRoutingModule file, if exists - complete`
+  );
 
+  context.logger.info(
+    `⌛️ Importing AppRoutingModule of Spartacus in AppModule`
+  );
   // add import of AppRoutingModule from Spartacus
   addModuleImport(sourceFile, {
     order: 2,
@@ -525,6 +542,9 @@ function addAppRoutingModuleImport(tree: Tree, sourceFile: SourceFile) {
     },
     content: APP_ROUTING_MODULE,
   });
+  context.logger.info(
+    `✅ Importing AppRoutingModule of Spartacus in AppModule - complete`
+  );
 }
 
 export function addSpartacus(options: SpartacusOptions): Rule {
