@@ -9,17 +9,17 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
   KeyboardFocusModule,
   PaginationModule,
+  PopoverModule,
   SplitViewModule,
   TableModule,
 } from '@spartacus/storefront';
 import { MessageModule } from '../message/message.module';
 import { ListComponent } from './list.component';
-import { PopoverModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -36,6 +36,7 @@ import { PopoverModule } from '@spartacus/storefront';
     MessageModule,
     KeyboardFocusModule,
     PopoverModule,
+    FeaturesConfigModule,
   ],
   declarations: [ListComponent],
   exports: [ListComponent],

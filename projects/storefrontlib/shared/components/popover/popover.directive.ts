@@ -5,21 +5,23 @@
  */
 
 import {
-  Directive,
-  ElementRef,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
+  ChangeDetectorRef,
   ComponentFactoryResolver,
   ComponentRef,
-  Renderer2,
-  ChangeDetectorRef,
-  Output,
+  Directive,
+  ElementRef,
   EventEmitter,
   HostListener,
+  Input,
   OnInit,
+  Optional,
+  Output,
+  Renderer2,
+  TemplateRef,
+  ViewContainerRef,
+  inject,
 } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { FeatureConfigService, WindowRef } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';
@@ -116,6 +118,10 @@ export class PopoverDirective implements OnInit {
     }
   }
 
+  @Optional() featureConfigService? = inject(FeatureConfigService, {
+    optional: true,
+  });
+
   protected openTriggerEvents: PopoverEvent[] = [
     PopoverEvent.OPEN,
     PopoverEvent.OPEN_BY_KEYBOARD,
@@ -178,11 +184,16 @@ export class PopoverDirective implements OnInit {
         this.close();
       }
       if (this.focusDirectiveTriggerEvents.includes(event)) {
-        this.popoverService.setFocusOnElement(
-          this.element,
-          this.focusConfig,
-          this.cxPopoverOptions?.appendToBody
-        );
+        // TODO: (CXSPA-6594) - Remove feature flag next major release.
+        if (this.featureConfigService?.isEnabled('a11yPopoverFocus')) {
+          this.popoverService.setFocusOnElement(this.element);
+        } else {
+          this.popoverService.setFocusOnElement(
+            this.element,
+            this.focusConfig,
+            this.cxPopoverOptions?.appendToBody
+          );
+        }
       }
     });
   }

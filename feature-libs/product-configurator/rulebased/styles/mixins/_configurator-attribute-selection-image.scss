@@ -29,7 +29,7 @@
         }
       }
 
-      // TODO: this block should be remove after attributeTypesV2 feature flag has been removed
+      // TODO: this block should be remove after productConfiguratorAttributeTypesV2 feature flag has been removed
       // TODO: start of the block
       input[checked='checked'] + .cx-label-container {
         .cx-img,
@@ -46,7 +46,7 @@
         margin-block-end: 5px;
 
         label {
-          // TODO: this block should be remove after attributeTypesV2 feature flag has been removed
+          // TODO: this block should be remove after productConfiguratorAttributeTypesV2 feature flag has been removed
           // TODO: start of the block
           cursor: pointer;
           // TODO: end of the block
@@ -58,17 +58,12 @@
             border: none;
             background-color: inherit;
             padding-inline-start: 0;
+            padding-inline-end: 0;
 
             cx-icon {
               pointer-events: none;
               color: var(--cx-color, var(--cx-color-secondary));
             }
-          }
-
-          @include forFeature('attributeTypesV2') {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
           }
 
           .cx-img,
@@ -87,13 +82,13 @@
           .cx-img-dummy {
             block-size: 75%;
 
-            @include forFeature('attributeTypesV2') {
+            @include forFeature('productConfiguratorAttributeTypesV2') {
               max-width: 100px;
               min-height: 100px;
             }
           }
 
-          @include forFeature('attributeTypesV2') {
+          @include forFeature('productConfiguratorAttributeTypesV2') {
             .cx-img-hover:hover {
               border: var(--cx-color-secondary) 3px solid;
             }
@@ -105,7 +100,7 @@
         }
 
         cx-configurator-price {
-          @include forFeature('attributeTypesV2') {
+          @include forFeature('productConfiguratorAttributeTypesV2') {
             min-height: 27px;
             max-width: 100%;
           }
