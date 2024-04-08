@@ -511,24 +511,29 @@ function addAppRoutingModuleImport(
     `⌛️ Removing from AppModule the import of local AppRoutingModule, if exists`
   );
   // remove import of AppRoutingModule (NgModule import and module path import), if exists
-  removeModuleImport(sourceFile, {
+  const removedImport = removeModuleImport(sourceFile, {
     importPath: APP_ROUTING_MODULE_LOCAL_PATH,
     content: APP_ROUTING_MODULE,
   });
   context.logger.info(
-    `✅ Removing from AppModule the import of local AppRoutingModule, if exists - complete`
+    removedImport
+      ? `✅ Removed import from AppModule: ${removedImport?.print?.()}`
+      : `✅ No import of local AppRoutingModule found in AppModule`
   );
 
   context.logger.info(`⌛️ Deleting local AppRoutingModule file, if exists`);
   // delete local file of AppRoutingModule, if exists
+  let deletedFile: Path | undefined;
   tree.visit((filePath: Path) => {
     if (filePath.endsWith(APP_ROUTING_MODULE_LOCAL_FILENAME)) {
       tree.delete(filePath);
+      context.logger.info(`✅ Deleted local file: ${filePath}`);
+      deletedFile = filePath;
     }
   });
-  context.logger.info(
-    `✅ Deleting local AppRoutingModule file, if exists - complete`
-  );
+  if (!deletedFile) {
+    context.logger.info(`✅ No local AppRoutingModule file found`);
+  }
 
   context.logger.info(
     `⌛️ Importing AppRoutingModule of Spartacus in AppModule`
@@ -542,9 +547,7 @@ function addAppRoutingModuleImport(
     },
     content: APP_ROUTING_MODULE,
   });
-  context.logger.info(
-    `✅ Importing AppRoutingModule of Spartacus in AppModule - complete`
-  );
+  context.logger.info(`✅ Imported AppRoutingModule of Spartacus in AppModule`);
 }
 
 export function addSpartacus(options: SpartacusOptions): Rule {
