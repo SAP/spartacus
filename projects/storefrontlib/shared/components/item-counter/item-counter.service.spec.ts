@@ -1,3 +1,8 @@
+/*
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ElementRef } from '@angular/core';
 import { ItemCounterService } from './item-counter.service';
 
