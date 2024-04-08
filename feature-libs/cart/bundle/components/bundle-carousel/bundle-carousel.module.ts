@@ -6,13 +6,14 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CartBaseModule } from '@spartacus/cart/base';
-import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { OutletModule, CarouselModule } from '@spartacus/storefront';
 import { BundleCarouselComponent } from './bundle-carousel.component';
+import { CartBaseRootModule } from 'feature-libs/cart/base/root/cart-base-root.module';
+import { ProductDetailsDialogModule } from '../product-details-dialog/product-details-dialog.module';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, CartBaseModule, AddToCartModule],
+  imports: [CommonModule, OutletModule, I18nModule, CarouselModule, CartBaseRootModule, ProductDetailsDialogModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -20,7 +21,7 @@ import { BundleCarouselComponent } from './bundle-carousel.component';
           component: BundleCarouselComponent,
         },
       },
-    }),
+    })
   ],
   declarations: [BundleCarouselComponent],
   exports: [BundleCarouselComponent],

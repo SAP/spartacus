@@ -4,28 +4,56 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import { ICON_TYPE, LaunchDialogService, FocusConfig } from '@spartacus/storefront';
+import { take } from 'rxjs/operators';
+
+export interface SwitchProductDetailsDialogData {
+  product: Product;
+  function: Function;
+}
+
+export enum PRODUCT_DETAILS_DIALOG_ACTION {
+  CANCEL = 'CANCEL',
+  SELECT = 'SELECT',
+}
 
 @Component({
   selector: 'cx-product-details-dialog',
   templateUrl: './product-details-dialog.component.html',
 })
-export class ProductDetailsDialogComponent {
+export class ProductDetailsDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
+  PRODUCT_DETAILS_ACTION = PRODUCT_DETAILS_DIALOG_ACTION;
+
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: true,
+    focusOnEscape: true,
+  };
+
+  constructor(protected launchDialogService: LaunchDialogService) {}
 
   product: Product;
   select: Function;
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
-
-  selectProduct() {
-    this.select();
-    this.dismissModal();
+  ngOnInit(): void {
+    this.launchDialogService.data$.pipe(take(1)).subscribe((data: SwitchProductDetailsDialogData) => {
+      this.product = data.product;
+      this.select = data.function;
+    });
   }
 
-  dismissModal(reason?: any): void {
+  dismissModal(reason: PRODUCT_DETAILS_DIALOG_ACTION): void {
+    console.log(reason);
     this.launchDialogService.closeDialog(reason);
   }
+
+  selectProduct(): void {
+    this.select();
+    this.dismissModal(this.PRODUCT_DETAILS_ACTION.SELECT);
+  }
+
 }

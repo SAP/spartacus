@@ -1,102 +1,188 @@
-// TODO: Write component unit tests when components are finalized
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Component, Input, DebugElement } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { By } from '@angular/platform-browser';
+import { Product, EventService, I18nTestingModule } from '@spartacus/core';
+import { EMPTY, Observable, of } from 'rxjs';
+import { CurrentProductService, OutletModule } from '@spartacus/storefront';
+import { BundleCarouselComponent } from './bundle-carousel.component';
+import { ActiveCartFacade, CartUiEventAddToCart, OrderEntry } from '@spartacus/cart/base/root';
+import { CartBundleService } from '@spartacus/cart/bundle/core';
 
-// import { DebugElement } from '@angular/core';
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { By } from '@angular/platform-browser';
-// import { I18nTestingModule, Product, RoutingService } from '@spartacus/core';
-// import { CurrentProductService } from '@spartacus/storefront';
-// import { of } from 'rxjs';
-// import { BundleCarouselComponent } from './bundle-carousel.component';
+class MockCurrentProductService {
+  getProduct(): Observable<Product> {
+    return EMPTY;
+  }
+}
 
-// const mockProduct: Product = {
-//   bundleTemplates: [
-//     {
-//       name: 'templateA',
-//       rootBundleTemplateName: 'rootTemplateA',
-//       id: 'tmpA',
-//     },
-//     {
-//       name: 'templateB',
-//       rootBundleTemplateName: 'rootTemplateB',
-//       id: 'tmpB',
-//     },
-//   ],
-// };
-// class MockCurrentProductService implements Partial<CurrentProductService> {
-//   getProduct() {
-//     return of({ bundleTemplates: [] });
-//   }
-// }
-// class MockRoutingService implements Partial<RoutingService> {
-//   go = () => Promise.resolve(true);
-// }
+class MockActiveCartService {
+    getEntries(): Observable<OrderEntry[]> {
+      return of([]);
+    }
+}
 
-// describe('BundleCarouselComponent', () => {
-//   let component: BundleCarouselComponent;
-//   let fixture: ComponentFixture<BundleCarouselComponent>;
-//   let currentProductService: CurrentProductService;
-//   let routingService: RoutingService;
-//   let el: DebugElement;
+class MockEventService implements Partial<EventService> {
+    dispatch(): void {};
+}
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       imports: [I18nTestingModule],
-//       declarations: [BundleCarouselComponent],
-//       providers: [
-//         { provide: CurrentProductService, useClass: MockCurrentProductService },
-//         { provide: RoutingService, useClass: MockRoutingService },
-//       ],
-//     }).compileComponents();
+class MockCartBundleService {
+  startBundle(
+    _bundleStarter: Object
+  ): void {}
+}
 
-//     fixture = TestBed.createComponent(BundleCarouselComponent);
-//     component = fixture.componentInstance;
-//     currentProductService = TestBed.inject(CurrentProductService);
-//     routingService = TestBed.inject(RoutingService);
-//   });
+@Component({
+    selector: 'cx-carousel',
+    template: `
+      <ng-container *ngFor="let item$ of items">
+        <ng-container
+          *ngTemplateOutlet="template; context: { item: item$ | async }"
+        ></ng-container>
+      </ng-container>
+    `,
+})
+class MockCarouselComponent {
+    @Input() items;
+    @Input() itemWidth;
+    @Input() template;
+}
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
+describe('bundle carousel component in product', () => {
+  let bundleCarouselComponent: BundleCarouselComponent;
+  let fixture: ComponentFixture<BundleCarouselComponent>;
+  let activeCartService: ActiveCartFacade;
+  let currentProductService: CurrentProductService;
+  let cartBundleService: CartBundleService;
+  let eventService: EventService;
+  let el: DebugElement;
 
-//   it('should not display bundle templates when not set', () => {
-//     fixture.detectChanges();
-//     el = fixture.debugElement;
+  const mockBundleTemplate = {
+    id: 'testBundleComponentId',
+    name: 'testBundleComponentName',
+    rootBundleTemplateName: 'testBundleTemplateId'
+  }
+  const mockProduct: Product = {
+    name: 'mockProduct',
+    code: 'code1',
+    bundleTemplates: [mockBundleTemplate]
+  }
+  const mockProductWithEmptyBundle: Product = {
+    name: 'mockProductWithEmptyBundle',
+    code: 'code2',
+    bundleTemplates: []
+  }
+  const mockCartEntry: OrderEntry = { entryNumber: 7 };
+  const mockProductCode: string = "testProduct";
 
-//     const header = el.queryAll(By.css('h1'));
-//     const bundleRows = el.queryAll(By.css('.template-row'));
-//     expect(header.length).toEqual(0);
-//     expect(bundleRows.length).toEqual(0);
-//   });
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [CommonModule, OutletModule, I18nTestingModule],
+        declarations: [BundleCarouselComponent, MockCarouselComponent],
+        providers: [
+            { provide: ActiveCartFacade, useClass: MockActiveCartService },
+            {
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
+            },
+            { provide: EventService, useClass: MockEventService },
+            { provide: CartBundleService, useClass: MockCartBundleService}
+        ],
+      }).compileComponents();
 
-//   it('should display bundle templates when product input is set', () => {
-//     component.product$ = of(mockProduct);
-//     fixture.detectChanges();
-//     el = fixture.debugElement;
+      activeCartService = TestBed.inject(ActiveCartFacade);
+      currentProductService = TestBed.inject(CurrentProductService);
+      cartBundleService = TestBed.inject(CartBundleService);
+      eventService = TestBed.inject(EventService);
+    })
+  );
 
-//     const bundleRows = el.queryAll(By.css('.template-row'));
-//     expect(bundleRows.length).toEqual(2);
-//   });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(BundleCarouselComponent);
+    bundleCarouselComponent = fixture.componentInstance;
+    el = fixture.debugElement;
+  });
 
-//   it('should display bundle templates when current product returned by service', () => {
-//     spyOn(currentProductService, 'getProduct').and.returnValue(of(mockProduct));
-//     fixture = TestBed.createComponent(BundleCarouselComponent);
-//     fixture.detectChanges();
-//     el = fixture.debugElement;
+  it('should be created', () => {
+    expect(bundleCarouselComponent).toBeTruthy();
+  });
 
-//     const bundleRows = el.queryAll(By.css('.template-row'));
-//     expect(bundleRows.length).toEqual(2);
-//   });
+  describe('UI test', () => {
+    it('should have cx-carousel element', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct)
+      );
+      fixture.detectChanges();
+      waitForAsync(() => {
+        const ele = el.query(By.css('cx-carousel'));
+        expect(ele).toBeTruthy();
+      });
+    });
 
-//   it('should go to bundle start route', () => {
-//     component.product$ = of(mockProduct);
-//     fixture.detectChanges();
-//     el = fixture.debugElement;
+    it('should use the provided string for bundle component and template', () => {
+        spyOn(currentProductService, 'getProduct').and.returnValue(
+          of(mockProduct)
+        );
+        fixture.detectChanges();
+        waitForAsync(() => {
+            const title = el.query(By.css('title')).nativeElement.innerText;
+            const content = el.query(By.css('content')).nativeElement.innerText;
+            expect(title).toEqual(mockBundleTemplate.rootBundleTemplateName);
+            expect(content).toEqual(mockBundleTemplate.name);
+        });
+    });
 
-//     const startBundleBtn = el.query(By.css('.btn'));
-//     spyOn(routingService, 'go').and.callThrough();
-//     startBundleBtn.nativeElement.click();
-//     expect(routingService.go).toHaveBeenCalledWith('start-bundle', {
-//       queryParams: { template: mockProduct.bundleTemplates?.[0].id },
-//     });
-//   });
-// });
+    it('should not have bundle element when current product is null', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(null)
+      );
+      fixture.detectChanges();
+      waitForAsync(() => {
+        const headerEl = el.query(By.css('.header'));
+        const bundleEl = el.query(By.css('.bundle'));
+        expect(headerEl).toBeNull();
+        expect(bundleEl).toBeNull();
+      });
+    });
+
+    it('should not have bundle element when bundleTemplate is empty', () => {
+        spyOn(currentProductService, 'getProduct').and.returnValue(
+          of(mockProductWithEmptyBundle)
+        );
+        fixture.detectChanges();
+        waitForAsync(() => {
+            const headerEl = el.query(By.css('.header'));
+            const bundleEl = el.query(By.css('.bundle'));
+            expect(headerEl).toBeNull();
+            expect(bundleEl).toBeNull();
+        });
+      });
+  });
+
+  it('should call addBundleToCart() and dispatch the add to cart UI event', () => {
+    spyOn(cartBundleService, 'startBundle').and.callThrough();
+    spyOn(activeCartService, 'getEntries').and.returnValue(
+      of([mockCartEntry])
+    );
+    spyOn(eventService, 'dispatch').and.callThrough();
+
+    const uiEvent: CartUiEventAddToCart = new CartUiEventAddToCart();
+    uiEvent.productCode = mockProductCode;
+    uiEvent.numberOfEntriesBeforeAdd = 7;
+    uiEvent.quantity = 1;
+    spyOn(
+      bundleCarouselComponent as any,
+      'createCartUiEventAddToCart'
+    ).and.returnValue(uiEvent);
+
+    fixture.detectChanges();
+    bundleCarouselComponent.addBundleToCart(mockProductCode, mockBundleTemplate.rootBundleTemplateName);
+    expect(cartBundleService.startBundle).toHaveBeenCalledWith(
+      {productCode: mockProductCode,
+        templateId: mockBundleTemplate.rootBundleTemplateName,
+        quantity: 1}
+    );
+    expect(eventService.dispatch).toHaveBeenCalledWith(uiEvent);
+  });
+
+});

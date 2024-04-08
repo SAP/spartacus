@@ -6,30 +6,27 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule, UrlModule } from '@spartacus/core';
-import {
-    IconModule,
-    ProductImagesModule,
-    ProductIntroModule,
-    ProductSummaryModule,
-    ProductTabsModule,
-    SpinnerModule,
-} from '@spartacus/storefront';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { KeyboardFocusModule, IconModule, ProductImagesModule, ProductIntroModule, ProductSummaryModule, TabParagraphContainerModule, PageComponentModule, OutletModule } from '@spartacus/storefront';
 import { ProductDetailsDialogComponent } from './product-details-dialog.component';
+import { ProductTabsComponent } from './components/product-tabs/product-tabs.component';
+import { defaultProductDetailsLayoutConfig } from './default-product-details-layout.config';
 
 @NgModule({
   imports: [
     CommonModule,
-    SpinnerModule,
-    UrlModule,
     IconModule,
     I18nModule,
-    ProductSummaryModule,
-    ProductIntroModule,
+    KeyboardFocusModule,
     ProductImagesModule,
-    ProductTabsModule,
+    ProductIntroModule,
+    ProductSummaryModule,
+    PageComponentModule,
+    TabParagraphContainerModule,
+    OutletModule
   ],
-  declarations: [ProductDetailsDialogComponent],
+  providers: [provideDefaultConfig(defaultProductDetailsLayoutConfig)],
+  declarations: [ProductDetailsDialogComponent, ProductTabsComponent],
   exports: [ProductDetailsDialogComponent],
 })
 export class ProductDetailsDialogModule {}

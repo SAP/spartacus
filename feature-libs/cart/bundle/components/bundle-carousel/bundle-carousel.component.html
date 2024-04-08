@@ -1,30 +1,39 @@
 <ng-container *ngIf="product$ | async as product">
-  <ng-container
-    *ngIf="(product$ | async)?.bundleTemplates as templates; else addToCart"
-  >
-    <ng-container *ngIf="templates.length">
-      <h1>{{ 'Buy This Item In A Bundle' }}</h1>
-      <!-- <h1>{{ 'Buy This Item In A Bundle' | cxTranslate }}</h1> -->
-
-      <select (change)="setTemplate($event.target.value)" class="form-control">
-        <option selected value="undefined">Not Selected</option>
-        <option *ngFor="let template of templates" [value]="template.id">
-          {{ template?.rootBundleTemplateName }}
-        </option>
-      </select>
-
-      <button
-        *ngIf="selectedTemplate; else addToCart"
-        class="btn btn-primary btn-block btn-add-bundle-to-cart"
-        (click)="startBundle(selectedTemplate)"
-      >
-        <!-- {{ 'Start Bundle' | cxTranslate }} -->
-        {{ 'Add Bundle To Cart' }}
-      </button>
+  <ng-container *ngIf="bundleTemplates$ | async as bundleTemplates">
+    <ng-container *ngIf="bundleTemplates.length">
+      <label class="header">{{ 'bundleCarousel.buyItemInBundle' | cxTranslate }}</label>
+      <cx-carousel
+      [items]="bundleTemplates"
+      itemWidth="250px"
+      [template]="bundleTemplate"
+      [hideIndicators]="true"
+      ></cx-carousel>
     </ng-container>
   </ng-container>
 
-  <ng-template #addToCart>
-    <cx-add-to-cart [product]="product"></cx-add-to-cart>
+  <ng-template #bundleTemplate let-item="item">
+    <div class="bundle">
+      <div class="title" [attr.aria-label]="'bundleCarousel.bundleTempalte' | cxTranslate">
+        {{ item.rootBundleTemplateName }}
+      </div>
+      <div class="content" [attr.aria-label]="'bundleCarousel.bundleComponent' | cxTranslate">
+        {{ item.name }}
+      </div>
+      <button
+        (click)="addBundleToCart(product.code, item.id)"
+        class="btn btn-secondary"
+        type="button"
+        [attr.aria-label]="
+        'bundleCarousel.AddBundleToCart'
+          | cxTranslate
+            : {
+                component: item.name,
+                template: item.rootBundleTemplateName
+              }
+        "
+      >
+        {{ 'bundleCarousel.startBundle' | cxTranslate }}
+      </button>
+    </div>
   </ng-template>
 </ng-container>
