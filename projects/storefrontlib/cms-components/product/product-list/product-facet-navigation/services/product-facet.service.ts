@@ -92,6 +92,14 @@ export class ProductFacetService {
     ) {
       return page.freeTextSearch === state.params.query.split(':')[0];
     }
+
+    if (
+      state.context.type === PageType.CONTENT_PAGE &&
+      state.context.id === 'bundleSearch'
+    ) {
+      return true;
+    }
+
     return false;
   }
 

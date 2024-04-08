@@ -15,9 +15,9 @@ import {
 import {
     CmsService
 } from '@spartacus/core';
+import { ComponentWrapperDirective } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, take } from 'rxjs/operators';
-import { ComponentWrapperDirective } from '@spartacus/storefront';
 
 @Component({
     selector: 'cx-product-tabs',
@@ -26,7 +26,6 @@ import { ComponentWrapperDirective } from '@spartacus/storefront';
 })
 export class ProductTabsComponent implements AfterViewInit, OnInit {
     activeTabNum = 0;
-    ariaLabel: string;
 
     @ViewChildren(ComponentWrapperDirective)
     children!: QueryList<ComponentWrapperDirective>;

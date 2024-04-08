@@ -14,7 +14,7 @@ import {
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BundleStarter, BundleTypes } from '../model/bundle.model';
 import { BundleActions, BundleSelectors, StateWithBundle } from '../store';
@@ -96,17 +96,19 @@ export class BundleService {
     );
   }
 
-  getAllowedProducts(entryGroupNumber: number, searchConfig?: SearchConfig) {
+  getAllowedProducts(entryGroupNumber: number, query?: string, searchConfig?: SearchConfig) {
     if (entryGroupNumber) {
-      this.activeCartService.getActiveCartId().subscribe((cartId) => {
-        this.userIdService?.getUserId().subscribe((userId) => {
-          this.getBundleAllowedProducts(
-            cartId,
-            userId,
-            entryGroupNumber,
-            searchConfig
-          );
-        });
+      combineLatest(this.activeCartService.getActiveCartId(), this.userIdService.getUserId())
+        .subscribe(([cartId, userId]) => {
+          if (cartId && userId) {
+            this.getBundleAllowedProducts(
+              cartId,
+              userId,
+              entryGroupNumber,
+              query,
+              searchConfig
+            );
+          }
       });
     }
   }
@@ -122,12 +124,14 @@ export class BundleService {
     cartId: string,
     userId: string,
     entryGroupNumber: number,
+    query?: string,
     searchConfig?: SearchConfig
   ) {
     this.store.dispatch(
-      new BundleActions.GetBundleAllowedProducts({
+      new BundleActions.GetBundleAllowedProductsInPLP({
         cartId,
         userId,
+        query,
         entryGroupNumber,
         searchConfig,
       })

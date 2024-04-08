@@ -1,0 +1,31 @@
+%cx-bundle-product-list {
+  .cx-sort-dropdown {
+    height: 48px;
+    align-items: center;
+    display: flex;
+
+    span {
+      margin-inline-end: 0.5rem;
+      flex: none;
+    }
+  }
+
+  .cx-sorting {
+    border-style: solid;
+    border-color: var(--cx-color-light);
+
+    &.top {
+      border-width: 0 0 1px 0;
+      padding: 0 0 8px 0;
+    }
+
+    &.bottom {
+      border-width: 1px 0 0 0;
+      padding: 25px 0 0px 0;
+    }
+  }
+
+  .cx-product-container {
+    margin: 40px 0;
+  }
+}

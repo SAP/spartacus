@@ -56,12 +56,14 @@ export class BundleConnector {
     userId: string,
     cartId: string,
     entryGroupNumber: number,
+    query?: string,
     searchConfig?: SearchConfig
   ): Observable<ProductSearchPage> {
     return this.adapter.bundleAllowedProductsSearch(
       userId,
       cartId,
       entryGroupNumber,
+      query,
       searchConfig
     );
   }

@@ -5,13 +5,13 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BundleTemplate, BundleProductScope, CartBundleService } from '@spartacus/cart/bundle/core';
+import { BundleProductScope, BundleTemplate, CartBundleService } from '@spartacus/cart/bundle/core';
 // import { ActivatedRoute, Router } from '@angular/router';
-import { Product, EventService } from '@spartacus/core';
+import { EventService, Product } from '@spartacus/core';
 // import { Product } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { CurrentProductService } from '@spartacus/storefront';
 import { ActiveCartFacade, CartUiEventAddToCart } from '@spartacus/cart/base/root';
+import { CurrentProductService } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 // import { map } from 'rxjs/operators';
 import { map, take } from 'rxjs/operators';
 
@@ -62,19 +62,6 @@ export class BundleCarouselComponent {
     if (!productCode || !templateId) {
       return;
     }
-
-    // const data = { product: {code: "testProduct", name: "testName"}, function: ()=>this.select() };
-    // this.launchDialogService?.openDialogAndSubscribe(
-    //   LAUNCH_CALLER.PRODUCT_DETAILS_DIALOG,
-    //   this.bindToCartElemRef,
-    //   data
-    // );
-
-    // this.router.navigate([], {
-    //   relativeTo: this.activatedRoute,
-    //   queryParams: { productCode: 'testProduct' },
-    //   queryParamsHandling: 'merge',
-    // });
 
     this.activeCartService
     .getEntries()

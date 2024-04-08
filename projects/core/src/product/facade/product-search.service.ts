@@ -6,7 +6,6 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { BundleActions } from '@spartacus/cart/bundle/core';
 import { Observable } from 'rxjs';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
@@ -29,18 +28,6 @@ export class ProductSearchService {
         })
       );
     }
-  }
-
-  searchInBundle(cartId: string, userId: string, entryGroupNumber: number, queryText?: string, searchConfig?: SearchConfig): void {
-    this.store.dispatch(
-      new BundleActions.GetBundleAllowedProducts({
-        cartId,
-        userId,
-        entryGroupNumber,
-        query: queryText,
-        searchConfig
-      })
-    );
   }
 
   getResults(): Observable<ProductSearchPage> {

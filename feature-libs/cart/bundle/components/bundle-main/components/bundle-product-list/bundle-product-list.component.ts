@@ -4,38 +4,82 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ProductBtnActionTypes } from '@spartacus/cart/bundle/core';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter,
-    Input,
-    Output,
-} from '@angular/core';
-import {
-    ProductBtnActionTypes,
-    ProductSelectionState,
-} from '@spartacus/cart/bundle/core';
-import { Product } from '@spartacus/core';
+  GlobalMessageService,
+  GlobalMessageType,
+  ProductSearchPage,
+} from '@spartacus/core';
+import { PageLayoutService, ViewConfig, ViewModes } from '@spartacus/storefront';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, skip, take } from 'rxjs/operators';
+import { BundleProductListComponentService } from './bundle-product-list.service';
 
 @Component({
   selector: 'cx-bundle-product-list',
   templateUrl: './bundle-product-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BundleProductListComponent {
-  @Input() products: Product[];
-  @Input() selectedProducts: Product[];
-  @Input() productAction: ProductBtnActionTypes;
+export class BundleProductListComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
 
-  @Output() readonly toggleProduct = new EventEmitter<ProductSelectionState>();
-  @Output() readonly edit = new EventEmitter<string>();
+  productBtnActions = ProductBtnActionTypes;
 
-  toggleSelection(selectionState: ProductSelectionState): void {
-    console.log('toggleSel');
-    this.toggleProduct.next(selectionState);
+  isInfiniteScroll: boolean | undefined;
+
+  model$: Observable<ProductSearchPage> =
+    this.bundleProductListService.model$;
+
+  viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.List);
+  ViewModes = ViewModes;
+
+  constructor(
+    private pageLayoutService: PageLayoutService,
+    private globalMessageService: GlobalMessageService,
+    protected bundleProductListService: BundleProductListComponentService,
+    public scrollConfig: ViewConfig
+  ) {}
+
+  ngOnInit(): void {
+    this.isInfiniteScroll = this.scrollConfig.view?.infiniteScroll?.active;
+
+    this.subscription.add(
+      this.pageLayoutService.templateName$
+        .pipe(take(1))
+        .subscribe((template) => {
+          this.viewMode$.next(
+            template === 'ProductGridPageTemplate'
+              ? ViewModes.Grid
+              : ViewModes.List
+          );
+        })
+    );
+
+    this.subscription.add(
+      combineLatest([this.model$, this.viewMode$])
+        .pipe(
+          skip(1),
+          filter(([model, mode]) => !!model && !!mode)
+        )
+        .subscribe(() =>
+          this.globalMessageService.add(
+            { key: 'sorting.pageViewUpdated' },
+            GlobalMessageType.MSG_TYPE_ASSISTIVE,
+            500
+          )
+        )
+    );
   }
 
-  onEditProduct(productCode: string): void {
-    this.edit.next(productCode);
+  sortList(sortCode: string): void {
+    this.bundleProductListService.sort(sortCode);
+  }
+
+  setViewMode(mode: ViewModes): void {
+    this.viewMode$.next(mode);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

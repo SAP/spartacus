@@ -47,6 +47,7 @@ export abstract class BundleAdapter {
     userId: string,
     cartId: string,
     entryGroupNumber: number,
+    query?: string,
     searchConfig?: SearchConfig
   ): Observable<ProductSearchPage>;
 }

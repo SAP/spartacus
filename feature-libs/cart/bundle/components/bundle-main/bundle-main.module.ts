@@ -8,17 +8,27 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-    CmsConfig,
-    I18nModule,
-    provideDefaultConfig,
-    UrlModule,
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule
 } from '@spartacus/core';
-import { IconModule, MediaModule } from '@spartacus/storefront';
+import {
+  IconModule,
+  LayoutModule,
+  ListNavigationModule,
+  MediaModule,
+  OutletModule,
+  ProductListModule,
+  StarRatingModule
+} from '@spartacus/storefront';
 import { BundleMainComponent } from './bundle-main.component';
 import { BundleProductGridItemComponent } from './components/bundle-product-grid-item/bundle-product-grid-item.component';
+import { BundleProductListItemComponent } from './components/bundle-product-list-item/bundle-product-list-item.component';
 import { BundleProductListComponent } from './components/bundle-product-list/bundle-product-list.component';
 import { BundleProgressComponent } from './components/bundle-progress/bundle-progress.component';
 import { BundleProgressService } from './components/bundle-progress/bundle-progress.service';
+import { BundleSelectProductComponent } from './components/bundle-select-product/bundle-select-product.component';
 import { BundleSummaryComponent } from './components/bundle-summary/bundle-summary.component';
 import { SelectedProductPipe } from './pipes/selected-product.pipe';
 
@@ -30,12 +40,17 @@ import { SelectedProductPipe } from './pipes/selected-product.pipe';
     UrlModule,
     RouterModule,
     IconModule,
+    LayoutModule,
+    OutletModule,
+    ListNavigationModule,
+    StarRatingModule,
+    ProductListModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        CartTotalsComponent: {
-          component: BundleMainComponent,
+        BundleAllowedProductListComponent: {
+          component: BundleProductListComponent,
         },
       },
     }),
@@ -44,7 +59,9 @@ import { SelectedProductPipe } from './pipes/selected-product.pipe';
   declarations: [
     BundleMainComponent,
     BundleProductListComponent,
+    BundleProductListItemComponent,
     BundleProductGridItemComponent,
+    BundleSelectProductComponent,
     BundleSummaryComponent,
     BundleProgressComponent,
     SelectedProductPipe,

@@ -1,13 +1,16 @@
 @import './bundle-carousel';
+@import './bundle-product-list';
+@import './bundle-product-list-item';
 @import './bundle-product-grid-item';
+@import './product-details-dialog';
+@import './product-details-dialog-tabs';
 @import './bundle-summary';
 @import './bundle-progress';
 @import './bundle-main';
-@import './product-details-dialog';
-@import './product-details-dialog-tabs';
 
-$cart-components-allowlist: cx-bundle-carousel, cx-bundle-product-grid-item,
-  cx-bundle-summary, cx-bundle-main, cx-bundle-progress, cx-product-details-dialog, cx-product-tabs;
+$cart-components-allowlist: cx-bundle-carousel, cx-bundle-product-list,
+  cx-bundle-product-list-item, cx-bundle-product-grid-item, cx-bundle-summary,
+  cx-bundle-main, cx-bundle-progress, cx-product-details-dialog, cx-product-tabs;
 
 $skipComponentStyles: () !default;
 

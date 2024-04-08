@@ -1,0 +1,10 @@
+<ng-container *ngIf="product$ | async as product">
+  <ng-container *ngIf="product">
+    <a
+      class="btn btn-primary btn-block"
+      cxAutoFocus
+      [attr.aria-label]="'configurator.button.select' | cxTranslate"
+      >{{ 'configurator.button.select' | cxTranslate }}</a
+    >
+  </ng-container>
+</ng-container>

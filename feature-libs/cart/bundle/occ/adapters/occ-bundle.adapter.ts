@@ -4,19 +4,30 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpContext,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BundleAdapter, BundleStarter } from '@spartacus/cart/bundle/core';
 import {
   ConverterService,
+  OCC_HTTP_TOKEN,
   OccEndpointsService,
   PRODUCT_SEARCH_PAGE_NORMALIZER,
+  ProductSearchPage,
   SearchConfig,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccBundleAdapter implements BundleAdapter {
+  readonly DEFAULT_SEARCH_CONFIG: SearchConfig = {
+    pageSize: 20,
+  };
+
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
@@ -73,28 +84,37 @@ export class OccBundleAdapter implements BundleAdapter {
     userId: string,
     cartId: string,
     entryGroupNumber: number,
-    searchConfig?: SearchConfig
-  ): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+    query?: string,
+    searchConfig: SearchConfig = this.DEFAULT_SEARCH_CONFIG
+  ): Observable<ProductSearchPage> {
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
+      sendUserIdAsHeader: true,
     });
 
-    const url = this.occEndpointsService.buildUrl(
-      'bundleAllowedProductsSearch',
-      {
-        urlParams: {
-          userId,
-          cartId,
-          entryGroupNumber,
-        },
-      }
-    );
+    console.log('bundleAllowedProductsSearch');
 
     return this.http
-      .get<any>(url, {
-        headers,
-        params: <HttpParams>searchConfig,
-      })
+      .get(
+        this.getBundleAllowedProductsSearchEndpoint(
+          { userId, cartId, entryGroupNumber },
+          query,
+          searchConfig
+        ),
+        {
+          context,
+        }
+      )
       .pipe(this.converterService.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER));
+  }
+
+  private getBundleAllowedProductsSearchEndpoint(
+    urlParams: any,
+    query: string | undefined,
+    searchConfig: SearchConfig
+  ): string {
+    return this.occEndpointsService.buildUrl('bundleAllowedProductsSearch', {
+      urlParams,
+      queryParams: { query, ...searchConfig },
+    });
   }
 }

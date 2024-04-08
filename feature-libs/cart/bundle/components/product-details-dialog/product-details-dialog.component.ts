@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { ICON_TYPE, LaunchDialogService, FocusConfig } from '@spartacus/storefront';
+import { FocusConfig, ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
 
 export interface SwitchProductDetailsDialogData {
@@ -34,7 +34,10 @@ export class ProductDetailsDialogComponent implements OnInit {
     focusOnEscape: true,
   };
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  constructor(
+    protected launchDialogService: LaunchDialogService,
+    protected ref: ChangeDetectorRef
+  ) {}
 
   product: Product;
   select: Function;
@@ -43,6 +46,7 @@ export class ProductDetailsDialogComponent implements OnInit {
     this.launchDialogService.data$.pipe(take(1)).subscribe((data: SwitchProductDetailsDialogData) => {
       this.product = data.product;
       this.select = data.function;
+      this.ref.detectChanges();
     });
   }
 
