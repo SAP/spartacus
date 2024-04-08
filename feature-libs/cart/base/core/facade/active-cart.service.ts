@@ -9,6 +9,7 @@ import {
   ActiveCartFacade,
   Cart,
   CartType,
+  EntryGroup,
   MultiCartFacade,
   OrderEntry,
 } from '@spartacus/cart/base/root';
@@ -76,6 +77,31 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   ) {
     this.initActiveCart();
     this.detectUserChange();
+  }
+
+  /**
+   * Add an entry to an entry group in the cart
+   *
+   * @param entryGroupNumber
+   * @param entry
+   * @param quantity
+   */
+  addToEntryGroup(
+    entryGroupNumber: number,
+    entry: OrderEntry,
+    quantity: number = 1
+  ) {
+    this.requireLoadedCart()
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cart, userId]) => {
+        this.multiCartFacade.addToEntryGroup(
+          getCartIdByUserId(cart, userId),
+          userId,
+          entryGroupNumber,
+          entry,
+          quantity
+        );
+      });
   }
 
   protected initActiveCart() {
@@ -207,6 +233,16 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartId$.pipe(
       switchMap((cartId) => this.multiCartFacade.getEntries(cartId)),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Returns cart entry groups
+   */
+  getEntryGroups(): Observable<EntryGroup[]> {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) => this.multiCartFacade.getEntryGroups(cartId)),
       distinctUntilChanged()
     );
   }
@@ -460,6 +496,19 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           cartId,
           entry.entryNumber as number
         );
+      });
+  }
+
+  /**
+   * Remove an entry group from the cart
+   *
+   * @param entryGroupNumber
+   */
+  removeEntryGroup(entryGroupNumber: number) {
+    this.activeCartId$
+      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+      .subscribe(([cartId, userId]) => {
+        this.multiCartFacade.removeEntryGroup(cartId, userId, entryGroupNumber);
       });
   }
 

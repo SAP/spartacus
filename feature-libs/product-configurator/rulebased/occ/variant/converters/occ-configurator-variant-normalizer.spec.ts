@@ -403,18 +403,25 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should convert a configuration and support description at attribute and value level', () => {
-      (configUISettingsConfig.productConfigurator.descriptions ??=
-        {}).addDescriptions = true;
       const result = occConfiguratorVariantNormalizer.convert(configuration);
-      expect(result.groups[0].attributes[0].description).toBeDefined();
-      expect(result.groups[0].attributes[0].description).toBe(
-        configuration.groups[0].attributes[0].longText
-      );
       expect(
-        result.groups[0].attributes[0].values[1].description
+        (result.groups[0].attributes ?? [{ description: '' }])[0].description
       ).toBeDefined();
-      expect(result.groups[0].attributes[0].values[1].description).toBe(
-        configuration.groups[0].attributes[0].domainValues[1].longText
+      expect(
+        (result.groups[0].attributes ?? [{ description: '' }])[0].description
+      ).toBe(
+        ((configuration.groups ??= [])[0].attributes ?? [{ longText: '' }])[0]
+          .longText
+      );
+
+      expect(
+        ((result.groups[0].attributes ??= [])[0].values ??= [])[1].description
+      ).toBeDefined();
+      expect(
+        ((result.groups[0].attributes ??= [])[0].values ??= [])[1].description
+      ).toBe(
+        (((configuration.groups ??= [])[0].attributes ??=
+          [])[0].domainValues ??= [])[1].longText
       );
     });
 
@@ -1290,44 +1297,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
           sourceAttribute
         )
       ).toBe(true);
-    });
-  });
-
-  describe('geDescription', () => {
-    it("should return undefined because the 'addDescriptions' mode is not activated", () => {
-      (configUISettingsConfig.productConfigurator.descriptions ??=
-        {}).addDescriptions = false;
-
-      expect(
-        occConfiguratorVariantNormalizer['geDescription']()
-      ).toBeUndefined();
-    });
-
-    it("should return undefined despite 'longText' is defined BUT the 'addDescriptions' mode is not activated", () => {
-      (configUISettingsConfig.productConfigurator.descriptions ??=
-        {}).addDescriptions = false;
-
-      expect(
-        occConfiguratorVariantNormalizer['geDescription']('longText')
-      ).toBeUndefined();
-    });
-
-    it("should return undefined despite the 'addDescriptions' mode is not activated BUT 'longText' is undefined", () => {
-      (configUISettingsConfig.productConfigurator.descriptions ??=
-        {}).addDescriptions = true;
-
-      expect(
-        occConfiguratorVariantNormalizer['geDescription']()
-      ).toBeUndefined();
-    });
-
-    it('should return long text', () => {
-      (configUISettingsConfig.productConfigurator.descriptions ??=
-        {}).addDescriptions = true;
-
-      expect(
-        occConfiguratorVariantNormalizer['geDescription']('longText')
-      ).toBe('longText');
     });
   });
 

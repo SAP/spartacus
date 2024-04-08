@@ -6,6 +6,7 @@ import {
   CmsBannerComponent,
   CmsService,
   FeaturesConfig,
+  FeaturesConfigModule,
   Page,
   PageContext,
   SemanticPathService,
@@ -82,7 +83,7 @@ describe('BannerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, FeaturesConfigModule],
       declarations: [BannerComponent, MockMediaComponent, GenericLinkComponent],
       providers: [
         {

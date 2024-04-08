@@ -14,7 +14,7 @@
             }
     }}
   </label>
-  <ng-container *ngIf="!config.features?.attributeTypesV2">
+  <ng-container *ngIf="!config.features?.productConfiguratorAttributeTypesV2">
     <select
       id="{{ createAttributeIdForConfigurator(attribute) }}"
       class="form-control"
@@ -38,7 +38,7 @@
     </select>
   </ng-container>
 
-  <ng-container *ngIf="config.features?.attributeTypesV2">
+  <ng-container *ngIf="config.features?.productConfiguratorAttributeTypesV2">
     <div class="cx-value-label-pair">
       <select
         id="{{ createAttributeIdForConfigurator(attribute) }}"
