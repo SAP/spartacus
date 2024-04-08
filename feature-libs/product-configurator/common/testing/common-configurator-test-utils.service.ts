@@ -145,7 +145,7 @@ export class CommonConfiguratorTestUtilsService {
     );
   }
 
-  protected static getHTMLElement(
+  static getHTMLElement(
     htmlElements: HTMLElement,
     tag: string,
     tagClass?: string,

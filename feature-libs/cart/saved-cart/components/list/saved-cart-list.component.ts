@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -19,9 +20,14 @@ import {
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
 import { RoutingService, useFeatureStyles } from '@spartacus/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SiteContextComponentService,
+  SiteContextType,
+} from '@spartacus/storefront';
+import { from, mergeMap, Observable, Subscription } from 'rxjs';
+import { map, skip, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-saved-cart-list',
@@ -30,6 +36,9 @@ import { map, take } from 'rxjs/operators';
 })
 export class SavedCartListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
+  protected readonly siteContextService = inject(SiteContextComponentService, {
+    optional: true,
+  });
 
   @ViewChild('element') restoreButton: ElementRef;
 
@@ -47,6 +56,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
       })
     )
   );
+
   constructor(
     protected routing: RoutingService,
     protected savedCartService: SavedCartFacade,
@@ -59,6 +69,8 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();
     this.savedCartService.loadSavedCarts();
+
+    this.observeAndReloadSavedCartOnContextChange();
   }
 
   goToSavedCartDetails(cart: Cart): void {
@@ -80,6 +92,29 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
       this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
     event.stopPropagation();
+  }
+
+  protected observeAndReloadSavedCartOnContextChange() {
+    if (this.siteContextService) {
+      const contexts: SiteContextType[] = Object.values(SiteContextType);
+      const siteContextService = this.siteContextService;
+
+      if (!contexts.length) {
+        return;
+      }
+
+      this.subscription.add(
+        from(contexts)
+          .pipe(
+            mergeMap((context: SiteContextType) => {
+              return siteContextService.getActiveItem(context).pipe(skip(1));
+            })
+          )
+          .subscribe(() => {
+            this.savedCartService.loadSavedCarts();
+          })
+      );
+    }
   }
 
   ngOnDestroy(): void {
