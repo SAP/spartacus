@@ -17,7 +17,6 @@ import { switchMap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { provideDefaultConfig } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
-import { MULTI_LOCATION_INITIALIZED } from '../../multi-location-initialized/multi-location-initialized-token';
 import { baseUrlConfigValidator } from './config/base-url-config-validator';
 import { defaultAuthConfig } from './config/default-auth-config';
 import { UserAuthEventModule } from './events/user-auth-event.module';
@@ -25,6 +24,7 @@ import { AuthService } from './facade/auth.service';
 import { interceptors } from './http-interceptors/index';
 import { AuthStatePersistenceService } from './services/auth-state-persistence.service';
 import { AuthStorageService } from './services/auth-storage.service';
+import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-multi/location-initialized-multi';
 
 /**
  * Initialize the check for `token` or `code` in the url returned from the OAuth server.
@@ -64,7 +64,9 @@ const authInitializedFactory = () => {
   const platformId = inject(PLATFORM_ID);
   const authStatePersistenceService = inject(AuthStatePersistenceService);
 
-  authStatePersistenceFactory(authStatePersistenceService)(); //we need to call it before checkOAuthParamsInUrl to ensure that in-memory storage is in sync with browser storage. In other case "nonce" value used in Implicit FLow will be undefined causing the error.
+  //We need to call it before checkOAuthParamsInUrl to ensure that in-memory storage is in sync with browser storage.
+  //In other case "nonce" value used in Implicit Flow will be undefined causing the error.
+  authStatePersistenceFactory(authStatePersistenceService)();
   return checkOAuthParamsInUrl(authService, configInit, platformId);
 };
 
@@ -88,7 +90,7 @@ export class UserAuthModule {
           useExisting: AuthStorageService,
         },
         {
-          provide: MULTI_LOCATION_INITIALIZED,
+          provide: LOCATION_INITIALIZED_MULTI,
           useFactory: authInitializedFactory,
           multi: true,
         },

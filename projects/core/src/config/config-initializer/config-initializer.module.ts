@@ -9,9 +9,10 @@ import {
   ModuleWithProviders,
   NgModule,
   Optional,
+  inject,
 } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { MULTI_LOCATION_INITIALIZED } from '../../multi-location-initialized/multi-location-initialized-token';
+import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-multi/location-initialized-multi';
 import { Config } from '../config-tokens';
 import {
   CONFIG_INITIALIZER,
@@ -28,13 +29,13 @@ export function configInitializerFactory(
   return isReady;
 }
 
+/**
+ * @deprecated since 2211.22  - should not be a public API
+ */
 export function locationInitializedFactory(
   configInitializer: ConfigInitializerService
-): () => Promise<Config> {
-  return () =>
-    lastValueFrom(configInitializer.getStable()).finally(() =>
-      console.log('config initialized')
-    );
+): Promise<Config> {
+  return lastValueFrom(configInitializer.getStable());
 }
 
 @NgModule({})
@@ -58,9 +59,11 @@ export class ConfigInitializerModule {
         },
         {
           // Hold on the initial navigation until the Spartacus configuration is stable
-          provide: MULTI_LOCATION_INITIALIZED,
-          useFactory: locationInitializedFactory,
-          deps: [ConfigInitializerService],
+          provide: LOCATION_INITIALIZED_MULTI,
+          useFactory: () => {
+            const configInitializer = inject(ConfigInitializerService);
+            return () => lastValueFrom(configInitializer.getStable());
+          },
           multi: true,
         },
       ],

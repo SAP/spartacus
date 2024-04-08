@@ -15,7 +15,6 @@ import { GlobalMessageModule } from './global-message/global-message.module';
 import { HttpModule } from './http/http.module';
 import { I18nModule } from './i18n/i18n.module';
 import { LazyLoadingModule } from './lazy-loading/lazy-loading.module';
-import { MultiLocationInitializedModule } from './multi-location-initialized/multi-location-initialized.module';
 import { BaseOccModule } from './occ/base-occ.module';
 import { MetaTagConfigModule } from './occ/config/meta-tag-config.module';
 import { ProcessModule } from './process/process.module';
@@ -26,7 +25,6 @@ import { StateModule } from './state/state.module';
   imports: [
     StateModule.forRoot(),
     ConfigModule.forRoot(),
-    MultiLocationInitializedModule.forRoot(),
     ConfigInitializerModule.forRoot(),
     ConfigValidatorModule.forRoot(),
     I18nModule.forRoot(),
