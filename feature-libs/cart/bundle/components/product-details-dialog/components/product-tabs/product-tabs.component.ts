@@ -25,7 +25,7 @@ import { distinctUntilChanged, map, take } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductTabsComponent implements AfterViewInit, OnInit {
-    activeTabNum = 0;
+    activeTabNum = -1;
 
     @ViewChildren(ComponentWrapperDirective)
     children!: QueryList<ComponentWrapperDirective>;
