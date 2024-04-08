@@ -12,9 +12,9 @@ const url =
   'https://localhost:9002/occ/v2/electronics-spa/cms/pages?lang=en&curr=USD';
 const mockOppsConfig: OppsConfig = {
   opps: {
-    coupon:{
-      httpHeaderName: 'mock-opps',
-    }
+    coupon: {
+      httpHeaderName: 'mock-opps-coupon',
+    },
   },
 };
 const MockWindowRef1 = {
@@ -25,7 +25,7 @@ const MockWindowRef1 = {
     return true;
   },
   location: {
-    href: 'http://localhost:4200/electronics-spa/en/USD/?opps=footwear,bags',
+    href: 'http://localhost:4200/electronics-spa/en/USD/?couponcodes=footwear,bags',
   },
 };
 const MockWindowRef2 = {
@@ -55,7 +55,7 @@ const MockWindowRef3 = {
   },
 };
 describe('OccOppsCouponInterceptor', () => {
-  describe('launch storefront with url containing opps', () => {
+  describe('launch storefront with url containing opps coupon codes', () => {
     let httpMock: HttpTestingController;
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -75,7 +75,7 @@ describe('OccOppsCouponInterceptor', () => {
     afterEach(() => {
       httpMock.verify();
     });
-    it('should add request header if opps exists in url', inject(
+    it('should add request header if opps coupon codes exists in url', inject(
       [HttpClient],
       (http: HttpClient) => {
         http.get(url).subscribe((result) => {
@@ -84,7 +84,7 @@ describe('OccOppsCouponInterceptor', () => {
         const mockReq = httpMock.expectOne((req) => {
           return req.method === 'GET';
         });
-        const perHeader = mockReq.request.headers.get('mock-opps');
+        const perHeader = mockReq.request.headers.get('mock-opps-coupon');
         expect(perHeader).toBeTruthy();
         expect(perHeader).toEqual('footwear,bags');
         mockReq.flush('someData');
@@ -92,7 +92,7 @@ describe('OccOppsCouponInterceptor', () => {
     ));
   });
 
-  describe('launch storefront with url not containing opps but previous histroty exists', () => {
+  describe('launch storefront with url not containing opps coupon codes but previous histroty exists', () => {
     let httpMock: HttpTestingController;
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -112,7 +112,7 @@ describe('OccOppsCouponInterceptor', () => {
     afterEach(() => {
       httpMock.verify();
     });
-    it('should add request header if opps exists in local storage', inject(
+    it('should add request header if opps coupon codes exists in local storage', inject(
       [HttpClient],
       (http: HttpClient) => {
         http.get(url).subscribe((result) => {
@@ -121,7 +121,7 @@ describe('OccOppsCouponInterceptor', () => {
         const mockReq = httpMock.expectOne((req) => {
           return req.method === 'GET';
         });
-        const perHeader = mockReq.request.headers.get('mock-opps');
+        const perHeader = mockReq.request.headers.get('mock-opps-coupon');
         expect(perHeader).toBeTruthy();
         expect(perHeader).toEqual('footwear,bags');
         mockReq.flush('someData');
@@ -129,7 +129,7 @@ describe('OccOppsCouponInterceptor', () => {
     ));
   });
 
-  describe('launch storefront with url not containing opps and no previous history of opps', () => {
+  describe('launch storefront with url not containing opps coupon codes and no previous history of opps coupon codes', () => {
     let httpMock: HttpTestingController;
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -149,7 +149,7 @@ describe('OccOppsCouponInterceptor', () => {
     afterEach(() => {
       httpMock.verify();
     });
-    it('should not add request header if opps doesnot exists', inject(
+    it('should not add request header if opps coupon codes doesnot exists', inject(
       [HttpClient],
       (http: HttpClient) => {
         http.get(url).subscribe((result) => {
@@ -158,7 +158,7 @@ describe('OccOppsCouponInterceptor', () => {
         const mockReq = httpMock.expectOne((req) => {
           return req.method === 'GET';
         });
-        const perHeader = mockReq.request.headers.get('mock-opps');
+        const perHeader = mockReq.request.headers.get('mock-opps-coupon');
         expect(perHeader).toBeFalsy();
         expect(perHeader).toEqual(null);
         mockReq.flush('someData');

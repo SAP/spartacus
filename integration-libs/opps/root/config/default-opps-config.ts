@@ -9,7 +9,7 @@ import { OppsConfig } from './opps-config';
 export const defaultOppsConfig: OppsConfig = {
   opps: {
     coupon: {
-      httpHeaderName: 'opps',
+      httpHeaderName: 'couponcodes',
     },
   },
 };
