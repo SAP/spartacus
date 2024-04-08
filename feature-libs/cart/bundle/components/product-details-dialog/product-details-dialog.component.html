@@ -1,0 +1,58 @@
+<div
+  class="cx-product-details-dialog cx-modal-container"
+  [cxFocus]="focusConfig"
+  (esc)="dismissModal(PRODUCT_DETAILS_ACTION.CANCEL)"
+>
+  <div class="cx-modal-content">
+    <!-- Modal Header -->
+    <div class="cx-dialog-header modal-header">
+      <div>
+        <span id="product-details-dialog-title" class="title modal-title">
+          {{ 'productDetailsDialog.ProductDetailTitle' | cxTranslate }}
+        </span>
+      </div>
+      <button
+      type="button"
+      class="close"
+      attr.aria-label="{{ 'productDetailsDialog.closeModal' | cxTranslate }}"
+      (click)="dismissModal(PRODUCT_DETAILS_ACTION.CANCEL)"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="row">
+        <div class="col-6">
+          <cx-product-images></cx-product-images>
+        </div>
+  
+        <div class="col-6">
+          <h1>{{ product.name }}</h1>
+          <cx-product-intro
+          [displayShowReviewsButton]="false"
+          ></cx-product-intro>
+          <cx-product-summary></cx-product-summary>
+          <cx-product-tabs></cx-product-tabs>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="cx-dialog-footer modal-footer">
+      <button
+        (click)="selectProduct()"
+        [attr.aria-label]="
+          'productDetailsDialog.selectAriaLabel' | cxTranslate
+        "
+        class="btn btn-primary"
+        type="button"
+      >
+        {{ 'productDetailsDialog.selectButton' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</div>

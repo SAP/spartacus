@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   EventService,
   Product,
@@ -25,6 +25,9 @@ import { CurrentProductService } from '../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductIntroComponent {
+  @Input()
+  displayShowReviewsButton = true;
+
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
 

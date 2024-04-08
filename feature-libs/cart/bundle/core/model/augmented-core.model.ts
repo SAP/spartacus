@@ -11,3 +11,9 @@ declare module '@spartacus/core' {
     bundleTemplates?: BundleTemplate[];
   }
 }
+
+declare module '@spartacus/storefront' {
+  const enum LAUNCH_CALLER {
+    PRODUCT_DETAILS_DIALOG = 'PRODUCT_DETAILS_DIALOG',
+  }
+}

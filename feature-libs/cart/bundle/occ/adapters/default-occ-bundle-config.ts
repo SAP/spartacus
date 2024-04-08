@@ -16,7 +16,7 @@ export const defaultOccBundleConfig: OccConfig = {
           'users/${userId}/carts/${cartId}/entrygroups/${entryGroupNumber}/allowedProductsSearch?fields=products(FULL)',
         product: {
           bundleTemplates:
-            'products/${productCode}?fields=code,bundleTemplates',
+            'products/${productCode}?fields=code,name,summary,bundleTemplates',
         },
       },
     },

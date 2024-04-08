@@ -5,8 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
+import { BundleCarouselModule } from './bundle-carousel/bundle-carousel.module';
+import { ProductDetailsDialogModule } from './product-details-dialog';
 
 @NgModule({
-
+    imports: [BundleCarouselModule, ProductDetailsDialogModule]
 })
 export class BundleComponentsModule {}
