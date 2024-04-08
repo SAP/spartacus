@@ -53,6 +53,19 @@
     "share": "Share",
     "newItemPrice": "New item price"
   },
+  "bundleCarousel": {
+    "buyItemInBundle": "Buy This Item In A Bundle",
+    "startBundle": "Start Bundle",
+    "bundleTempalte": "Bundle Template Name",
+    "bundleComponent": "Bundle Component Name",
+    "AddBundleToCart": "Add bundleComponent {{component}} of bundleTempalte {{template}} to the cart"
+  },
+  "productDetailsDialog": {
+    "ProductDetailTitle": "Product Detail",
+    "closeModal": "Close Modal",
+    "selectButton": "Select",
+    "selectAriaLabel": "Select Product"
+  },
   "productReview": {
     "overallRating": "Overall Rating",
     "reviewTitle": "Review Title",

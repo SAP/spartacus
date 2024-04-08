@@ -1,0 +1,27 @@
+%cx-bundle-carousel {
+    
+    .header {
+        display: inline-block;
+        @include type('3');
+        margin-top: 10px;
+        margin-left: 20px;
+    }
+
+    .bundle {
+        margin: 20px;
+        text-align: center;
+    }
+
+    .title {
+        height: 50px;
+        margin-bottom: 10px;
+        @include type('5');
+    }
+
+    .content {
+        height: 50px;
+        margin-bottom: 10px;
+        @include type('7');
+    }
+
+}

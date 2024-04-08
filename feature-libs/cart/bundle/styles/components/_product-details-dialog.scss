@@ -1,0 +1,39 @@
+%cx-product-details-dialog {
+
+    .cx-product-details-dialog {
+      .cx-modal-content {
+        border-radius: 16px;
+      }
+    }
+
+    .cx-dialog-header {
+        padding-inline-end: 1.75rem;
+        padding-inline-start: 2rem;
+        border-width: 0;
+        display: flex;
+        border-bottom: 1px solid #dee2e6;
+        padding: 10px;
+        align-items: center;
+        .title {
+          font-size: 18px;
+          font-weight: 900;
+        }
+        .close {
+            position: unset;
+            cx-icon {
+                color: var(--cx-color-text);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+            }
+        }
+    }
+
+    .cx-dialog-body {
+        padding-top: 15px;
+        max-height: calc(100vh - 260px);
+        overflow-y: auto;
+    }
+}
