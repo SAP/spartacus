@@ -12,6 +12,7 @@ import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
+  provideDefaultFeatureToggles,
   UrlModule,
 } from '@spartacus/core';
 import {
@@ -45,6 +46,9 @@ import { InvoicesListComponent } from './invoices-list/invoices-list.component';
           guards: [AuthGuard],
         },
       },
+    }),
+    provideDefaultFeatureToggles({
+      pdfInvoicesSortByInvoiceDate: false,
     }),
   ],
 })

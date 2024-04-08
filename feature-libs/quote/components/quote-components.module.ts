@@ -6,7 +6,10 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import {
+  provideDefaultConfig,
+  provideDefaultFeatureToggles,
+} from '@spartacus/core';
 import { ListNavigationModule } from '@spartacus/storefront';
 import { QuoteCommentsModule } from './comments/quote-comments.module';
 import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
@@ -37,6 +40,11 @@ import { QuoteSummarySellerEditModule } from './summary/seller-edit/quote-summar
     QuoteSummaryPricesModule,
     QuoteSummarySellerEditModule,
   ],
-  providers: [provideDefaultConfig(defaultQuoteUIConfig)],
+  providers: [
+    provideDefaultConfig(defaultQuoteUIConfig),
+    provideDefaultFeatureToggles({
+      storeFrontLibCardParagraphTruncated: false,
+    }),
+  ],
 })
 export class QuoteComponentsModule {}

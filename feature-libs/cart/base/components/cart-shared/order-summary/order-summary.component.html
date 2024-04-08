@@ -1,4 +1,9 @@
-<div class="cx-summary-heading">
+<!-- TODO: (CXSPA-5987) Remove feature flag next major -->
+<h3 *cxFeature="'a11yCartSummaryHeadingOrder'" class="cx-summary-heading">
+  {{ 'orderCost.orderSummary' | cxTranslate }}
+</h3>
+
+<div *cxFeature="'!a11yCartSummaryHeadingOrder'" class="cx-summary-heading">
   {{ 'orderCost.orderSummary' | cxTranslate }}
 </div>
 
