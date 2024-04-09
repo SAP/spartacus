@@ -51,16 +51,16 @@ export function initSecurePortalConfig(
   return null;
 }
 
-* Factory function for Angular's injection token LOCATION_INITIALIZED.
-* 
-* Note: LOCATION_INITIALIZED is an Angular's API (https://angular.io/api/common/LOCATION_INITIALIZED).
-*          Only when the Promise in this injection token is resolved, then Angular
-*          will start the initial navigation in the Router.
-* 
-* Our factory retrieves the initializers from the `LOCATION_INITIALIZED_MULTI` 
-* injection token of Spartacus, invokes each initializer, and returns a Promise
-* that resolves when all initializers have completed.
-* 
+/** Factory function for Angular's injection token LOCATION_INITIALIZED.
+ *
+ * Note: LOCATION_INITIALIZED is an Angular's API (https://angular.io/api/common/LOCATION_INITIALIZED).
+ *          Only when the Promise in this injection token is resolved, then Angular
+ *          will start the initial navigation in the Router.
+ *
+ * Our factory retrieves the initializers from the `LOCATION_INITIALIZED_MULTI`
+ * injection token of Spartacus, invokes each initializer, and returns a Promise
+ * that resolves when all initializers have completed.
+ *
  * @returns A promise that resolves when all initializers have completed.
  */
 function locationInitializedFactory(): Promise<any> {
