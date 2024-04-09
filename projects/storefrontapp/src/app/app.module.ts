@@ -97,6 +97,7 @@ if (!environment.production) {
         a11yNavigationUiKeyboardControls: true,
         a11yOrderConfirmationHeadingOrder: true,
         a11yStarRating: true,
+        a11yViewChangeAssistiveMessage: true,
         a11yReorderDialog: true,
         a11yPopoverFocus: true,
         a11yScheduleReplenishment: true,
