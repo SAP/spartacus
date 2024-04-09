@@ -62,7 +62,8 @@ export const RootFeatureToggles = new InjectionToken('RootFeatureToggles', {
  * Should not be used directly, use `provideFeatureToggles` or `provideFeatureTogglesFactory` instead.
  */
 export const FeatureTogglesChunk = new InjectionToken<FeatureToggles[]>(
-  'FeatureTogglesChunk'
+  'FeatureTogglesChunk',
+  { providedIn: 'root', factory: () => [] }
 );
 
 /**
@@ -72,5 +73,6 @@ export const FeatureTogglesChunk = new InjectionToken<FeatureToggles[]>(
  * General rule is, that all FeatureToggles provided in libraries should be provided as `default`.
  */
 export const DefaultFeatureTogglesChunk = new InjectionToken<FeatureToggles[]>(
-  'DefaultFeatureTogglesChunk'
+  'DefaultFeatureTogglesChunk',
+  { providedIn: 'root', factory: () => [] }
 );
