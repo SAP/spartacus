@@ -34,6 +34,10 @@ export class AddedToCartDialogEventListener implements OnDestroy {
       })
     );
 
+    /**
+     * TODO Tiger:
+     * This code causes the added-to-cart dialog to be rendered briefly and then closed immediately because CartAddEntryFailEvent has been thrown
+     */
     this.subscription.add(
       this.eventService.get(CartAddEntryFailEvent).subscribe((event) => {
         this.closeModal(event);

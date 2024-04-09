@@ -141,6 +141,11 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * TODO Tiger:
+   * After extending bad-cart-request.handler.ts http-interceptor with getMakeToStockErrors method to respond to IllegalStateError exception in case of make-to-stock.
+   * Due to watchAddEntryFailEvent method the global error is rendered twice with 2 messages due to (1) cart http-interceptor and (2) CartAddEntryFailEvent.
+   */
   protected watchAddEntryFailEvent(): void {
     this.cartEventsSubscription.add(
       this.eventService

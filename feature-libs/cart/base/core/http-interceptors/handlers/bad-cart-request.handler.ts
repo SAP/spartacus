@@ -13,7 +13,11 @@ import {
   HttpResponseStatus,
   Priority,
 } from '@spartacus/core';
-import { isCartError, isCartNotFoundError } from '../../utils/utils';
+import {
+  isCartError,
+  isCartNotFoundError,
+  isIllegalStateError,
+} from '../../utils/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +39,22 @@ export class BadCartRequestHandler extends HttpErrorHandler {
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.handleCartNotFoundError(request, response);
     this.handleOtherCartErrors(request, response);
+    this.getMakeToStockErrors(request, response);
+  }
+
+  protected getMakeToStockErrors(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter((e) => isIllegalStateError(e))
+      .forEach((error) => {
+        console.log('bad-cart-request.handler.ts');
+        this.globalMessageService.add(
+          error.message,
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
   }
 
   protected handleCartNotFoundError(
