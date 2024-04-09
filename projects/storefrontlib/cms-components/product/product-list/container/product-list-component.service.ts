@@ -80,6 +80,9 @@ export class ProductListComponentService {
       debounceTime(0),
       map(([routerState, ..._context]) => (routerState as RouterState).state),
       tap((state: ActivatedRouterStateSnapshot) => {
+        if (state.params['entryGroupNumber']) {
+          return;
+        }
         const criteria = this.getCriteriaFromRoute(
           state.params,
           state.queryParams

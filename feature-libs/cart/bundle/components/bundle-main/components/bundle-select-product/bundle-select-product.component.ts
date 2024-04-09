@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { CommonConfigurator, ConfiguratorProductScope } from '@spartacus/product-configurator/common';
+import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   CurrentProductService,
   ProductListItemContext,
@@ -20,7 +20,6 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BundleSelectProductComponent {
-  nonConfigurable: Product = { configurable: false };
   product$: Observable<Product> = (this.productListItemContext
     ? this.productListItemContext.product$
     : this.currentProductService
@@ -30,11 +29,8 @@ export class BundleSelectProductComponent {
     : of(null)
   ).pipe(
     //needed because also currentProductService might return null
-    map((product) => (product ? product : this.nonConfigurable))
+    map((product) => (product ? product : {}))
   );
-
-  ownerTypeProduct: CommonConfigurator.OwnerType =
-    CommonConfigurator.OwnerType.PRODUCT;
 
   constructor(
     @Optional() protected productListItemContext: ProductListItemContext, // when on PLP

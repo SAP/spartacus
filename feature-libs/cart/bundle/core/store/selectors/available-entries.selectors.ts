@@ -7,9 +7,9 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Product, StateUtils } from '@spartacus/core';
 import {
-    AvailableEntriesState,
-    BundlesState,
-    StateWithBundle,
+  AvailableEntriesState,
+  BundlesState,
+  StateWithBundle,
 } from '../bundle-state';
 import { getBundleState } from './feature.selector';
 

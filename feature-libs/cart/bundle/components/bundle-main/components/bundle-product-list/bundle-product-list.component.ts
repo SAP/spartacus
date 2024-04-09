@@ -5,13 +5,15 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductBtnActionTypes } from '@spartacus/cart/bundle/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  Product,
   ProductSearchPage,
 } from '@spartacus/core';
-import { PageLayoutService, ViewConfig, ViewModes } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService, PageLayoutService, ViewConfig, ViewModes } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, skip, take } from 'rxjs/operators';
 import { BundleProductListComponentService } from './bundle-product-list.service';
@@ -27,8 +29,8 @@ export class BundleProductListComponent implements OnInit, OnDestroy {
 
   isInfiniteScroll: boolean | undefined;
 
-  model$: Observable<ProductSearchPage> =
-    this.bundleProductListService.model$;
+  availableEntities$: Observable<ProductSearchPage> =
+    this.bundleProductListService.availableEntities$;
 
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.List);
   ViewModes = ViewModes;
@@ -37,7 +39,10 @@ export class BundleProductListComponent implements OnInit, OnDestroy {
     private pageLayoutService: PageLayoutService,
     private globalMessageService: GlobalMessageService,
     protected bundleProductListService: BundleProductListComponentService,
-    public scrollConfig: ViewConfig
+    public scrollConfig: ViewConfig,
+    protected launchDialogService: LaunchDialogService,
+    protected router: Router,
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +61,7 @@ export class BundleProductListComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      combineLatest([this.model$, this.viewMode$])
+      combineLatest([this.availableEntities$, this.viewMode$])
         .pipe(
           skip(1),
           filter(([model, mode]) => !!model && !!mode)
@@ -77,6 +82,21 @@ export class BundleProductListComponent implements OnInit, OnDestroy {
 
   setViewMode(mode: ViewModes): void {
     this.viewMode$.next(mode);
+  }
+
+  checkDetails(selectedProduct: Product): void {
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { productCode: selectedProduct.code },
+      queryParamsHandling: 'merge',
+    });
+
+    const data = { product: selectedProduct, function: () => console.log(selectedProduct.code + ' selected')};
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.PRODUCT_DETAILS_DIALOG,
+      undefined,
+      data
+    );
   }
 
   ngOnDestroy(): void {

@@ -13,14 +13,10 @@ export interface StateWithBundle {
   [BUNDLE_FEATURE]: BundlesState;
 }
 
-export interface AvailableEntriesEntities {
-  [cartId: string]: {
-    [sectionId: number]: {
-      cartId: string;
-      userId: string;
-      entryGroupNumber: number;
-    } & ProductSearchPage;
-  };
+export interface AvailableEntriesEntities extends ProductSearchPage {
+    cartId?: string;
+    userId?: string;
+    entryGroupNumber?: number;
 }
 
 export type SelectedProductsState = {

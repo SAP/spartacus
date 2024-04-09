@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,12 +7,15 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LAUNCH_CALLER, LaunchDialogService, ProductListItemContext, ProductListItemContextSource } from '@spartacus/storefront';
+import { Product } from '@spartacus/core';
+import { LaunchDialogService, ProductListItemContext, ProductListItemContextSource } from '@spartacus/storefront';
 import { BundleProductListOutlets } from '../../bundle-outlets.model';
 
 @Component({
@@ -29,7 +32,8 @@ import { BundleProductListOutlets } from '../../bundle-outlets.model';
 })
 export class BundleProductListItemComponent implements OnChanges {
   readonly BundleProductListOutlets = BundleProductListOutlets;
-  @Input() product: any;
+  @Input() product: Product;
+  @Output() checkDetails = new EventEmitter<Product>();
 
   constructor(
     protected productListItemContextSource: ProductListItemContextSource,
@@ -44,18 +48,7 @@ export class BundleProductListItemComponent implements OnChanges {
     }
   }
 
-  checkDetails(): void {
-    // this.router.navigate([], {
-    //   relativeTo: this.activatedRoute,
-    //   queryParams: { productCode: this.product.code },
-    //   queryParamsHandling: 'merge',
-    // });
-
-    const data = { product: this.product, function: () => console.log(this.product.code + 'selected')};
-    this.launchDialogService?.openDialogAndSubscribe(
-      LAUNCH_CALLER.PRODUCT_DETAILS_DIALOG,
-      undefined,
-      data
-    );
+  onCheckDetails(): void {
+    this.checkDetails.emit(this.product);
   }
 }

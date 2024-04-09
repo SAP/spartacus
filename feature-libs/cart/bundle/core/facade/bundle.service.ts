@@ -17,7 +17,7 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BundleStarter, BundleTypes } from '../model/bundle.model';
-import { BundleActions, BundleSelectors, StateWithBundle } from '../store';
+import { AvailableEntriesEntities, BundleActions, BundleSelectors, StateWithBundle } from '../store';
 
 @Injectable({
   providedIn: 'root',
@@ -50,29 +50,11 @@ export class BundleService {
   /**
    * Returns observable for store's entities
    */
-  getAvailableEntriesEntities(): Observable<any> {
+  getAvailableEntriesEntities(): Observable<AvailableEntriesEntities> {
     return this.store.pipe(
       select(BundleSelectors.getAvailableEntriesEntities),
       map((data) => {
         return data.availableEntriesEntities;
-      })
-    );
-  }
-
-  /**
-   * Returns observable for store's entities
-   */
-  getAvailableEntriesEntity(
-    cartId: string,
-    entryGroupNumber: number
-  ): Observable<any> {
-    return this.store.pipe(
-      select(BundleSelectors.getAvailableEntriesEntities),
-      map((data) => {
-        console.log(
-          data.availableEntriesEntities?.[cartId]?.[entryGroupNumber]
-        );
-        return data.availableEntriesEntities?.[cartId]?.[entryGroupNumber];
       })
     );
   }
@@ -128,7 +110,7 @@ export class BundleService {
     searchConfig?: SearchConfig
   ) {
     this.store.dispatch(
-      new BundleActions.GetBundleAllowedProductsInPLP({
+      new BundleActions.GetBundleAllowedProducts({
         cartId,
         userId,
         query,

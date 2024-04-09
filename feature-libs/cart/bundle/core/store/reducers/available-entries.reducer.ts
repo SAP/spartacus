@@ -21,12 +21,7 @@ export function availableEntriesReducer(
       return {
         ...state,
         availableEntriesEntities: {
-          ...state.availableEntriesEntities,
-          [availableEntriesEntities.cartId]: {
-            ...state.availableEntriesEntities[availableEntriesEntities.cartId],
-            [availableEntriesEntities.entryGroupNumber]:
-              availableEntriesEntities,
-          },
+          ...availableEntriesEntities
         },
       };
     }

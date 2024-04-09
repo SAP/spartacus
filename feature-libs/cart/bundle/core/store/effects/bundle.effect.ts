@@ -67,55 +67,55 @@ export class BundleEffects {
     )
   );
 
-  getBundleAllowedProducts$: Observable<
-    | BundleActions.GetBundleAllowedProductsSuccess
-    | BundleActions.GetBundleAllowedProductsFail
-    | CartActions.LoadCart
-  > = createEffect(() =>
-    this.actions$.pipe(
-      ofType(BundleActions.GET_BUNDLE_ALLOWED_PRODUCTS),
-      map((action: BundleActions.GetBundleAllowedProducts) => action.payload),
-      mergeMap((payload) =>
-        this.bundleConnector
-          .bundleAllowedProductsSearch(
-            payload.userId,
-            payload.cartId,
-            payload.entryGroupNumber,
-            payload.query,
-            payload.searchConfig
-          )
-          .pipe(
-            map(
-              (data) =>
-                new BundleActions.GetBundleAllowedProductsSuccess(<any>{
-                  ...payload,
-                  data,
-                })
-            ),
-            catchError((error) =>
-              from([
-                new BundleActions.GetBundleAllowedProductsFail({
-                  ...payload,
-                  error: error,
-                }),
-                new CartActions.LoadCart({
-                  cartId: payload.cartId,
-                  userId: payload.userId,
-                }),
-              ])
-            )
-          )
-      ),
-      withdrawOn(this.contextChange$)
-    )
-  );
+  // getBundleAllowedProducts$: Observable<
+  //   | BundleActions.GetBundleAllowedProductsSuccess
+  //   | BundleActions.GetBundleAllowedProductsFail
+  //   | CartActions.LoadCart
+  // > = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(BundleActions.GET_BUNDLE_ALLOWED_PRODUCTS),
+  //     map((action: BundleActions.GetBundleAllowedProducts) => action.payload),
+  //     mergeMap((payload) =>
+  //       this.bundleConnector
+  //         .bundleAllowedProductsSearch(
+  //           payload.userId,
+  //           payload.cartId,
+  //           payload.entryGroupNumber,
+  //           payload.query,
+  //           payload.searchConfig
+  //         )
+  //         .pipe(
+  //           map(
+  //             (data) =>
+  //               new BundleActions.GetBundleAllowedProductsSuccess(<any>{
+  //                 ...payload,
+  //                 data,
+  //               })
+  //           ),
+  //           catchError((error) =>
+  //             from([
+  //               new BundleActions.GetBundleAllowedProductsFail({
+  //                 ...payload,
+  //                 error: error,
+  //               }),
+  //               new CartActions.LoadCart({
+  //                 cartId: payload.cartId,
+  //                 userId: payload.userId,
+  //               }),
+  //             ])
+  //           )
+  //         )
+  //     ),
+  //     withdrawOn(this.contextChange$)
+  //   )
+  // );
 
-  getBundleAllowedProductsInPLP$: Observable<
+  getBundleAllowedProducts$: Observable<
     ProductActions.SearchProductsSuccess | ProductActions.SearchProductsFail
   > = createEffect(() =>
     this.actions$.pipe(
       ofType(BundleActions.GET_BUNDLE_ALLOWED_PRODUCTS),
-      map((action: BundleActions.GetBundleAllowedProductsInPLP) => action.payload),
+      map((action: BundleActions.GetBundleAllowedProducts) => action.payload),
       mergeMap((payload) =>
         this.bundleConnector
           .bundleAllowedProductsSearch(

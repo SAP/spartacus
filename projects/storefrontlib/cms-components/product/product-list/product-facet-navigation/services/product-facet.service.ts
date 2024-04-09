@@ -97,7 +97,7 @@ export class ProductFacetService {
       state.context.type === PageType.CONTENT_PAGE &&
       state.context.id === 'bundleSearch'
     ) {
-      return true;
+      return state.params['entryGroupNumber'] != null;
     }
 
     return false;

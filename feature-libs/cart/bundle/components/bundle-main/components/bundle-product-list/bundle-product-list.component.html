@@ -1,4 +1,4 @@
-<div class="cx-page" *ngIf="model$ | async as model">
+<div class="cx-page" *ngIf="availableEntities$ | async as model">
   <section
     tabindex="-1"
     class="cx-page-section"
@@ -52,6 +52,7 @@
                   <cx-bundle-product-grid-item
                     *ngFor="let product of model?.products"
                     [product]="product"
+                    (checkDetails)="checkDetails($event)"
                     class="col-12 col-sm-6 col-md-4"
                   ></cx-bundle-product-grid-item>
                 </div>
@@ -60,6 +61,7 @@
               <ng-container *ngIf="viewMode === ViewModes.List">
                 <cx-bundle-product-list-item
                   *ngFor="let product of model?.products"
+                  (checkDetails)="checkDetails($event)"
                   [product]="product"
                   class="bundle-allowed-product-list"
                 ></cx-bundle-product-list-item>

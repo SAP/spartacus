@@ -6,13 +6,12 @@
 
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BundleService } from '@spartacus/cart/bundle/core';
+import { AvailableEntriesEntities, BundleService } from '@spartacus/cart/bundle/core';
 import {
   ActivatedRouterStateSnapshot,
   CurrencyService,
   LanguageService,
   ProductSearchPage,
-  ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
 import { SearchCriteria, ViewConfig } from '@spartacus/storefront';
@@ -39,18 +38,18 @@ export class BundleProductListComponentService {
     protected currencyService: CurrencyService,
     protected languageService: LanguageService,
     protected bundleService: BundleService,
-    protected productSearchService: ProductSearchService
   ) {}
 
-  readonly availableEntities$: Observable<ProductSearchPage> = using(
+  readonly availableEntities$: Observable<AvailableEntriesEntities> = using(
     () => this.searchByRouting$.subscribe(),
     () => this.searchResults$
   ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
   protected searchResults$: Observable<ProductSearchPage> =
-    this.productSearchService
-      .getResults()
-      .pipe(filter((searchResult) => Object.keys(searchResult).length > 0));
+    this.bundleService
+      .getAvailableEntriesEntities()
+      .pipe(filter((searchResult) => Object.keys(searchResult).length > 0))
+      .pipe(map((result: AvailableEntriesEntities) => result));
 
   protected searchByRouting$: Observable<ActivatedRouterStateSnapshot> =
     combineLatest([
@@ -87,10 +86,11 @@ export class BundleProductListComponentService {
     entryGroupNumber: number,
     criteria: SearchCriteria
   ) {
-    this.productSearchService
-      .getResults()
+    this.bundleService
+      .getAvailableEntriesEntities()
       .pipe(take(1))
-      .subscribe((results) => {
+      .subscribe((results: AvailableEntriesEntities) => {
+        console.log(results);
         const previous: SearchCriteria = {
           query: results?.currentQuery?.query?.value,
           currentPage: results?.pagination?.currentPage,
@@ -98,6 +98,7 @@ export class BundleProductListComponentService {
           sortCode: results?.pagination?.sort,
         };
 
+        this.search(entryGroupNumber, criteria);
         if (
           checkQueriesDiffer() ||
           checkCurrentPagesDiffer() ||
