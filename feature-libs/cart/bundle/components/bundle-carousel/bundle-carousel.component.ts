@@ -6,13 +6,10 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BundleProductScope, BundleTemplate, CartBundleService } from '@spartacus/cart/bundle/core';
-// import { ActivatedRoute, Router } from '@angular/router';
 import { EventService, Product } from '@spartacus/core';
-// import { Product } from '@spartacus/core';
 import { ActiveCartFacade, CartUiEventAddToCart } from '@spartacus/cart/base/root';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-// import { map } from 'rxjs/operators';
 import { map, take } from 'rxjs/operators';
 
 @Component({
@@ -21,8 +18,6 @@ import { map, take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BundleCarouselComponent {
-
-  // @ViewChild('bindToCart') bindToCartElemRef: ElementRef<HTMLButtonElement>;
 
   product$: Observable<Product | null> = this.currentProductService.getProduct(BundleProductScope.TEMPLATES);
 
@@ -35,9 +30,6 @@ export class BundleCarouselComponent {
     protected cartBundleService: CartBundleService,
     protected activeCartService: ActiveCartFacade,
     protected eventService: EventService,
-    // protected launchDialogService: LaunchDialogService,
-    // protected router: Router,
-    // protected activatedRoute: ActivatedRoute
   ) {}
 
   protected createCartUiEventAddToCart(
@@ -53,10 +45,6 @@ export class BundleCarouselComponent {
     newEvent.pickupStoreName = storeName;
     return newEvent;
   }
-
-  // select() {
-  //   console.log("select product");
-  // }
 
   addBundleToCart(productCode: string, templateId: string) {
     if (!productCode || !templateId) {

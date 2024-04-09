@@ -10,10 +10,9 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { OutletModule, CarouselModule } from '@spartacus/storefront';
 import { BundleCarouselComponent } from './bundle-carousel.component';
 import { CartBaseRootModule } from 'feature-libs/cart/base/root/cart-base-root.module';
-import { ProductDetailsDialogModule } from '../product-details-dialog/product-details-dialog.module';
 
 @NgModule({
-  imports: [CommonModule, OutletModule, I18nModule, CarouselModule, CartBaseRootModule, ProductDetailsDialogModule],
+  imports: [CommonModule, OutletModule, I18nModule, CarouselModule, CartBaseRootModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

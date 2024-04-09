@@ -5,6 +5,7 @@
  */
 
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '@spartacus/core';
 import { FocusConfig, ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
@@ -36,7 +37,9 @@ export class ProductDetailsDialogComponent implements OnInit {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected ref: ChangeDetectorRef
+    protected ref: ChangeDetectorRef,
+    protected router: Router,
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   product: Product;
@@ -51,7 +54,11 @@ export class ProductDetailsDialogComponent implements OnInit {
   }
 
   dismissModal(reason: PRODUCT_DETAILS_DIALOG_ACTION): void {
-    console.log(reason);
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { productCode: null },
+      queryParamsHandling: '',
+    });
     this.launchDialogService.closeDialog(reason);
   }
 
