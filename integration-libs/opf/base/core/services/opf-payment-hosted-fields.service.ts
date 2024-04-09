@@ -126,7 +126,7 @@ export class OpfPaymentHostedFieldsService {
       backOff({
         /**
          * We should retry this sequence only if the error is an authorization error.
-         * It menas that `accessCode` (OTP signature) is not valid or expired and we need to refresh it.
+         * It means that `accessCode` (OTP signature) is not valid or expired and we need to refresh it.
          */
         shouldRetry: isAuthorizationError,
         maxTries: opfAuthorizationErrorRetry,
@@ -184,7 +184,7 @@ export class OpfPaymentHostedFieldsService {
       backOff({
         /**
          * We should retry this sequence only if the error is an authorization error.
-         * It menas that `accessCode` (OTP signature) is not valid or expired and we need to refresh it.
+         * It means that `accessCode` (OTP signature) is not valid or expired and we need to refresh it.
          */
         shouldRetry: isAuthorizationError,
         maxTries: opfAuthorizationErrorRetry,
