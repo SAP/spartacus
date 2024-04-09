@@ -33,7 +33,7 @@ export abstract class FeatureToggles {}
 /**
  * DefaultFeatureToggles token, used to build FeatureToggles. Built from DefaultFeatureTogglesChunk's
  */
-export const DefaultFeatureToggles = new InjectionToken(
+export const DefaultFeatureToggles = new InjectionToken<FeatureToggles>(
   'DefaultFeatureToggles',
   {
     providedIn: 'root',
@@ -48,14 +48,17 @@ export const DefaultFeatureToggles = new InjectionToken(
 /**
  * RootFeatureToggles token, used to build Global FeatureToggles. Built from FeatureTogglesChunks
  */
-export const RootFeatureToggles = new InjectionToken('RootFeatureToggles', {
-  providedIn: 'root',
-  factory: () =>
-    Object.assign(
-      {},
-      ...(inject(FeatureTogglesChunk, { optional: true }) ?? [])
-    ),
-});
+export const RootFeatureToggles = new InjectionToken<FeatureToggles>(
+  'RootFeatureToggles',
+  {
+    providedIn: 'root',
+    factory: () =>
+      Object.assign(
+        {},
+        ...(inject(FeatureTogglesChunk, { optional: true }) ?? [])
+      ),
+  }
+);
 
 /**
  * FeatureTogglesChunk token, contributes to FeatureToggles.
