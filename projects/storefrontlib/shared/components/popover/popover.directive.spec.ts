@@ -2,6 +2,8 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FeatureConfigService } from '@spartacus/core';
+import { PopoverDirective } from './popover.directive';
 import { PopoverModule } from './popover.module';
 
 @Component({
@@ -38,6 +40,12 @@ class PopoverTestComponent {
   }
 }
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 describe('PopoverDirective', () => {
   let component: PopoverTestComponent;
   let fixture: ComponentFixture<PopoverTestComponent>;
@@ -46,10 +54,17 @@ describe('PopoverDirective', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PopoverModule],
       declarations: [PopoverTestComponent],
+      providers: [
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PopoverTestComponent);
     component = fixture.componentInstance;
+  });
+
+  afterEach(() => {
+    document.body.lastChild?.remove();
   });
 
   function getPopoverOpener(): DebugElement {
@@ -83,6 +98,7 @@ describe('PopoverDirective', () => {
 
     getPopoverOpener().nativeElement.click();
     expect(getPopoverComponent()).toBeTruthy();
+    fixture.detectChanges();
 
     getPopoverCloseButton().nativeElement.click();
     expect(getPopoverComponent()).toBeFalsy();
@@ -102,6 +118,8 @@ describe('PopoverDirective', () => {
     fixture.detectChanges();
 
     getPopoverOpener().nativeElement.click();
+    fixture.detectChanges();
+
     expect(getPopoverComponent().nativeElement.classList).toContain(
       'test-class'
     );
@@ -111,6 +129,8 @@ describe('PopoverDirective', () => {
     fixture.detectChanges();
 
     getPopoverOpener().nativeElement.click();
+    fixture.detectChanges();
+
     expect(getPopoverComponent().nativeElement.classList).toContain('top');
   });
 
@@ -118,6 +138,7 @@ describe('PopoverDirective', () => {
     fixture.detectChanges();
 
     getPopoverOpener().nativeElement.click();
+    fixture.detectChanges();
 
     const template = getPopoverComponent().query(By.css('h1'));
     expect(template).toBeTruthy();
@@ -128,15 +149,25 @@ describe('PopoverDirective', () => {
     fixture.detectChanges();
 
     getPopoverOpener().nativeElement.click();
-    expect(document.body.lastChild).toBe(getPopoverComponent().nativeElement);
-  });
-
-  it('should call passed method on popover `open` event', () => {
-    const spy = spyOn(component, 'open');
     fixture.detectChanges();
 
+    expect(document.body.lastElementChild?.id).toEqual('popoverWrapper');
+  });
+
+  it('should call passed method on popover `open` event', (done) => {
+    fixture.detectChanges();
+    const spy = spyOn(component, 'open');
+    const directive = fixture.debugElement
+      .query(By.directive(PopoverDirective))
+      .injector.get(PopoverDirective);
+
     getPopoverOpener().nativeElement.click();
-    expect(spy).toHaveBeenCalled();
+    fixture.detectChanges();
+
+    directive.openPopover.subscribe(() => {
+      expect(spy).toHaveBeenCalled();
+      done();
+    });
   });
 
   it('should call passed method on popover `close` event', () => {
@@ -148,5 +179,14 @@ describe('PopoverDirective', () => {
 
     getPopoverOpener().nativeElement.click();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should be rendered inside aria-live wrapper', () => {
+    fixture.detectChanges();
+
+    getPopoverOpener().nativeElement.click();
+    fixture.detectChanges();
+
+    expect(document.body.lastElementChild?.ariaLive).toEqual('polite');
   });
 });

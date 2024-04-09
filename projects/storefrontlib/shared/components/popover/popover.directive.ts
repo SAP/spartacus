@@ -22,8 +22,9 @@ import {
   inject,
 } from '@angular/core';
 import { FeatureConfigService, WindowRef } from '@spartacus/core';
-import { Subject } from 'rxjs';
+import { Subject, take } from 'rxjs';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
+import { SelectFocusUtility } from '../../../layout/a11y/keyboard-focus/services';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverOptions } from './popover.model';
 import { PopoverService } from './popover.service';
@@ -144,27 +145,54 @@ export class PopoverDirective implements OnInit {
     PopoverEvent.CLOSE_BUTTON_KEYDOWN,
   ];
 
+  // TODO: (CXSPA-6442) - Remove FeatureConfigService and make SelectFocusUtility required.
+  @Optional()
+  featureFlagService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
+  @Optional()
+  selectFocusUtility = inject(SelectFocusUtility, {
+    optional: true,
+  });
+
   /**
    * Method performs open action for popover component.
    */
+  // TODO: (CXSPA-6442) - remove feature flags next major release
   open(event: PopoverEvent) {
     if (!this.cxPopoverOptions?.disable) {
+      if (
+        this.featureFlagService?.isEnabled('a11yPopoverAriaLive') &&
+        event === PopoverEvent.OPEN_BY_KEYBOARD
+      ) {
+        this.removePopoverWrapper();
+      }
       this.isOpen = true;
       this.focusConfig = this.popoverService.getFocusConfig(
         event,
         this.cxPopoverOptions?.appendToBody || false
       );
       this.renderPopover();
-      this.openPopover.emit();
+      if (!this.featureFlagService?.isEnabled('a11yPopoverAriaLive')) {
+        this.openPopover.emit();
+      }
     }
   }
 
   /**
    * Method performs close action for popover component.
    */
+  // TODO: (CXSPA-6442) - remove feature flags next major release
   close() {
     this.isOpen = false;
     this.viewContainer.clear();
+    if (
+      this.featureFlagService?.isEnabled('a11yPopoverAriaLive') &&
+      this.cxPopoverOptions?.appendToBody
+    ) {
+      this.removePopoverWrapper();
+    }
     this.closePopover.emit();
   }
 
@@ -172,13 +200,22 @@ export class PopoverDirective implements OnInit {
    * Method subscribes for events emitted by popover component
    * and based on event performs specific action.
    */
+  // TODO: (CXSPA-6442) - remove feature flags next major release
   handlePopoverEvents() {
     this.eventSubject.subscribe((event: PopoverEvent) => {
       if (this.openTriggerEvents.includes(event)) {
         this.open(event);
       }
       if (this.focusPopoverTriggerEvents.includes(event)) {
-        this.popoverContainer.location.nativeElement.focus();
+        if (this.featureFlagService?.isEnabled('a11yPopoverAriaLive')) {
+          this.openPopover.pipe(take(1)).subscribe(() => {
+            this.selectFocusUtility
+              ?.findFirstFocusable(this.popoverContainer.location.nativeElement)
+              ?.focus();
+          });
+        } else {
+          this.popoverContainer.location.nativeElement.focus();
+        }
       }
       if (this.closeTriggerEvents.includes(event)) {
         this.close();
@@ -201,6 +238,7 @@ export class PopoverDirective implements OnInit {
   /**
    * Method creates instance and pass parameters to popover component.
    */
+  // TODO: (CXSPA-6442) - remove feature flags next major release
   renderPopover() {
     const containerFactory =
       this.componentFactoryResolver.resolveComponentFactory(PopoverComponent);
@@ -225,13 +263,50 @@ export class PopoverDirective implements OnInit {
         this.cxPopoverOptions?.autoPositioning;
 
       if (this.cxPopoverOptions?.appendToBody) {
-        this.renderer.appendChild(
-          this.winRef.document.body,
-          this.popoverContainer.location.nativeElement
-        );
+        if (this.featureFlagService?.isEnabled('a11yPopoverAriaLive')) {
+          this.appendPopoverToBody();
+          return;
+        } else {
+          this.renderer.appendChild(
+            this.winRef.document.body,
+            this.popoverContainer.location.nativeElement
+          );
+        }
       }
-
+      if (this.featureFlagService?.isEnabled('a11yPopoverAriaLive')) {
+        this.openPopover.emit();
+      }
       this.popoverContainer.changeDetectorRef.detectChanges();
+    }
+  }
+
+  /**
+   * To ensure screen reader readout, this method first creates
+   * an aria-live wrapper then nests the popover.
+   */
+  appendPopoverToBody(): void {
+    const popoverWrapper = this.renderer.createElement('div');
+    const wrapperObserver = new MutationObserver((_mutation, observer) => {
+      this.renderer.appendChild(
+        popoverWrapper,
+        this.popoverContainer.location.nativeElement
+      );
+      this.popoverContainer.instance.positionPopover();
+      this.popoverContainer.changeDetectorRef.detectChanges();
+      observer.disconnect();
+      this.openPopover.emit();
+    });
+    wrapperObserver.observe(this.winRef.document.body, { childList: true });
+    this.renderer.setAttribute(popoverWrapper, 'aria-live', 'polite');
+    this.renderer.setProperty(popoverWrapper, 'id', 'popoverWrapper');
+    this.renderer.appendChild(this.winRef.document.body, popoverWrapper);
+  }
+
+  removePopoverWrapper(): void {
+    const popoverWrapper =
+      this.winRef.document.getElementById('popoverWrapper');
+    if (popoverWrapper) {
+      this.renderer.removeChild(this.winRef.document.body, popoverWrapper);
     }
   }
 
