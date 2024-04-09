@@ -78,10 +78,12 @@ export class TestConfigModule {
           provide: TEST_CONFIG_COOKIE_NAME,
           useValue: options?.cookie,
         },
+
+        // eslint-disable-next-line @nx/workspace/use-provide-default-feature-toggles-factory -- the TestConfigModule deliberately wants to provide a high-priority feature toggles chunk, to win with default feature toggles chunks
         provideFeatureTogglesFactory(
           () => (inject(TEST_CONFIG) ?? {}).features
         ),
-        // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory
+        // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory -- the TestConfigModule deliberately wants to provide a high-priority config chunk, to win with default config chunks
         provideConfigFactory(() => inject(TEST_CONFIG)),
       ],
     };
