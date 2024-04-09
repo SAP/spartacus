@@ -86,6 +86,11 @@ button {
       border-color: var(--cx-color-primary);
       @include cx-lighten(88);
 
+      @include forFeature('santoriniV2') {
+        background-color: var(--cx-color-primary-accent);
+        filter: none;
+      }
+
       &:focus {
         box-shadow: 0 0 0 0.2rem rgba(var(--cx-color-primary), 0.5);
       }

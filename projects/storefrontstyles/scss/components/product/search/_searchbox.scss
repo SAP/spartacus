@@ -136,6 +136,10 @@
 
       @include placeholder {
         color: currentColor;
+
+        @include forFeature('santoriniV2') {
+          color: var(--cx-color-dark);
+        }
       }
     }
 
