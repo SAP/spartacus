@@ -6,17 +6,14 @@
 
 import { InjectionToken } from '@angular/core';
 import { Applicable } from '@spartacus/core';
-import { CxServerError } from '../server-errors';
+import { CxServerErrorResponse } from '../server-errors';
 
 /**
- * A transformer responsible for transforming an error into a {@link CxServerError}.
+ * A transformer responsible for transforming an error into a {@link CxServerErrorResponse}.
  * The transformer is applicable when the error matches the transformer's criteria.
- * Spartacus provides two default transformers:
- * - {@link CmsPageNotFoundServerErrorResponseTransformer}
- * - {@link UnknownServerErrorResponseTransformer}
  */
 export interface ServerErrorResponseTransformer extends Applicable {
-  transform(error: unknown): CxServerError;
+  transform(error: unknown): CxServerErrorResponse;
 }
 
 /**

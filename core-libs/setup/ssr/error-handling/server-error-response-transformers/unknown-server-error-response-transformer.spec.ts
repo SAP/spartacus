@@ -1,11 +1,17 @@
 import { Priority } from '@spartacus/core';
 import { UnknownServerErrorResponseTransformer } from './unknown-server-error-response-transformer';
+import { TestBed } from '@angular/core/testing';
 
 describe('UnknonnServerErrorResponse', () => {
   let unknownServerErrorResponse: UnknownServerErrorResponseTransformer;
 
   beforeEach(() => {
-    unknownServerErrorResponse = new UnknownServerErrorResponseTransformer();
+    TestBed.configureTestingModule({
+      providers: [UnknownServerErrorResponseTransformer],
+    });
+    unknownServerErrorResponse = TestBed.inject(
+      UnknownServerErrorResponseTransformer
+    );
   });
 
   it('should return the priority', () => {
@@ -20,6 +26,6 @@ describe('UnknonnServerErrorResponse', () => {
     const error = 'error';
     const result = unknownServerErrorResponse.transform(error);
     expect(result.data?.message).toBe('An unknown server error occurred');
-    expect(result.data?.originalError).toBe(error);
+    expect(result.data?.cause).toBe(error);
   });
 });

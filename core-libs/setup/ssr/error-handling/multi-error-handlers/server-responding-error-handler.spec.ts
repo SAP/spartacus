@@ -7,12 +7,7 @@ import {
   UnknownServerErrorResponseTransformer,
 } from '../server-error-response-transformers';
 import { ServerRespondingErrorHandler } from './server-responding-error-handler';
-import { Priority } from '@spartacus/core';
-
-const pageNotFoundTransformer =
-  new CmsPageNotFoundServerErrorResponseTransformer();
-const unknownServerErrorTransformer =
-  new UnknownServerErrorResponseTransformer();
+import { OccEndpointsService, Priority } from '@spartacus/core';
 
 class MockTransformerWithHigherPriority
   implements ServerErrorResponseTransformer
@@ -27,24 +22,35 @@ class MockTransformerWithHigherPriority
   transform = jest.fn();
 }
 
+class MockOccEndpointsService implements Partial<OccEndpointsService> {
+  buildUrl(endpoint: string): string {
+    return `https://localhost:9002/rest/v2/cms/${endpoint}`;
+  }
+}
+
 describe('ServerRespondingErrorHandler', () => {
   describe('default transformers', () => {
+    let pageNotFoundTransformer: CmsPageNotFoundServerErrorResponseTransformer;
+    let unknownServerErrorTransformer: UnknownServerErrorResponseTransformer;
     let serverRespondingErrorHandler: ServerRespondingErrorHandler;
+    let transformers: ServerErrorResponseTransformer[];
 
     beforeEach(() => {
-      jest.spyOn(pageNotFoundTransformer, 'transform');
-      jest.spyOn(unknownServerErrorTransformer, 'transform');
-
       TestBed.configureTestingModule({
         providers: [
+          ServerRespondingErrorHandler,
+          {
+            provide: OccEndpointsService,
+            useClass: MockOccEndpointsService,
+          },
           {
             provide: SERVER_ERROR_RESPONSE_TRANSFORMERS,
-            useValue: pageNotFoundTransformer,
+            useClass: CmsPageNotFoundServerErrorResponseTransformer,
             multi: true,
           },
           {
             provide: SERVER_ERROR_RESPONSE_TRANSFORMERS,
-            useValue: unknownServerErrorTransformer,
+            useClass: UnknownServerErrorResponseTransformer,
             multi: true,
           },
         ],
@@ -53,6 +59,12 @@ describe('ServerRespondingErrorHandler', () => {
       serverRespondingErrorHandler = TestBed.inject(
         ServerRespondingErrorHandler
       );
+      transformers = TestBed.inject(SERVER_ERROR_RESPONSE_TRANSFORMERS);
+      pageNotFoundTransformer = transformers[0] as CmsPageNotFoundServerErrorResponseTransformer;
+      unknownServerErrorTransformer = transformers[1] as UnknownServerErrorResponseTransformer;
+
+      jest.spyOn(pageNotFoundTransformer, 'transform');
+      jest.spyOn(unknownServerErrorTransformer, 'transform');
     });
 
     afterEach(() => {
@@ -60,10 +72,9 @@ describe('ServerRespondingErrorHandler', () => {
     });
 
     it('should call CmsPageNotFoundServerErrorResponseTransformer', () => {
-      const error = {
-        headers: {},
+      const error = new HttpErrorResponse({
         url: 'https://localhost:9002/rest/v2/cms/pages',
-      } as HttpErrorResponse;
+      });
 
       serverRespondingErrorHandler.handleError(error);
 
@@ -96,12 +107,12 @@ describe('ServerRespondingErrorHandler', () => {
           ServerRespondingErrorHandler,
           {
             provide: SERVER_ERROR_RESPONSE_TRANSFORMERS,
-            useValue: pageNotFoundTransformer,
+            useClass: CmsPageNotFoundServerErrorResponseTransformer,
             multi: true,
           },
           {
             provide: SERVER_ERROR_RESPONSE_TRANSFORMERS,
-            useValue: unknownServerErrorTransformer,
+            useClass: UnknownServerErrorResponseTransformer,
             multi: true,
           },
           {

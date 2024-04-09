@@ -7,30 +7,30 @@
 import { CxError } from './cx-errors';
 
 /**
- * Data that can be attached to a {@link CxServerError}.
+ * Data that can be attached to a {@link CxServerErrorResponse}.
  */
-export interface CxServerErrorData {
+export interface CxServerErrorResponseData {
   message?: string;
-  originalError?: unknown;
+  cause?: unknown;
 }
 
 /**
  * A base class for all Spartacus server errors.
  */
-export abstract class CxServerError extends Error {
+export abstract class CxServerErrorResponse extends Error {
   constructor(
     public readonly cxErrorCode: string,
-    public readonly data?: CxServerErrorData
+    public readonly data?: CxServerErrorResponseData
   ) {
-    super(data?.message);
+    super(data?.message, { cause: data?.cause });
   }
 }
 
 /**
  * Error produced when an unknown server error occurs.
  */
-export class UnknownServerError extends CxServerError {
-  constructor(data: CxServerErrorData) {
+export class UnknownServerErrorResponse extends CxServerErrorResponse {
+  constructor(data: CxServerErrorResponseData) {
     super(CxError.UnknownServerError, data);
   }
 }
@@ -38,8 +38,8 @@ export class UnknownServerError extends CxServerError {
 /**
  * Error produced when a CMS page is not found.
  */
-export class CmsPageNotFoundServerError extends CxServerError {
-  constructor(data: CxServerErrorData) {
+export class CmsPageNotFoundServerErrorResponse extends CxServerErrorResponse {
+  constructor(data: CxServerErrorResponseData) {
     super(CxError.CmsPageNotFoundServerError, data);
   }
 }

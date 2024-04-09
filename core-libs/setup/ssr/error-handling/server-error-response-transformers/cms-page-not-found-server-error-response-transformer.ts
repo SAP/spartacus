@@ -4,14 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ServerErrorResponseTransformer } from './server-error-response-transformers';
-import { CmsPageNotFoundServerError, CxServerError } from '../server-errors';
+import {
+  CmsPageNotFoundServerErrorResponse,
+  CxServerErrorResponse,
+} from '../server-errors';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Priority } from '@spartacus/core';
+import { OccEndpointsService, Priority } from '@spartacus/core';
 
 /**
- * A transformer responsible for transforming an HTTP error response into a {@link CmsPageNotFoundServerError}.
+ * A transformer responsible for transforming an HTTP error response into a {@link CmsPageNotFoundServerErrorResponse}.
  * The transformer is applicable when the error the URL contains 'cms/pages'.
  */
 @Injectable({
@@ -20,25 +23,33 @@ import { Priority } from '@spartacus/core';
 export class CmsPageNotFoundServerErrorResponseTransformer
   implements ServerErrorResponseTransformer
 {
+  endpointsService: OccEndpointsService;
+  constructor() {
+    this.endpointsService = inject(OccEndpointsService);
+  }
+
   hasMatch(error: unknown): boolean {
+    const pagesEndpoint = this.endpointsService.buildUrl('pages');
+    console.log('pagesEndpoint', pagesEndpoint);
     return (
-      this.isHttpErrorResponse(error) && !!error.url?.includes('cms/pages')
+      this.isHttpErrorResponse(error) &&
+      (error.url ?? '').startsWith(pagesEndpoint)
     );
   }
 
   getPriority(): number {
-    return Priority.NORMAL;
+    return Priority.LOW;
   }
 
-  transform(error: any): CxServerError {
+  transform(error: any): CxServerErrorResponse {
     const message = 'CMS page not found';
-    return new CmsPageNotFoundServerError({
+    return new CmsPageNotFoundServerErrorResponse({
       message,
-      originalError: error,
+      cause: error,
     });
   }
 
   protected isHttpErrorResponse(error: any): error is HttpErrorResponse {
-    return 'headers' in error;
+    return error instanceof HttpErrorResponse;
   }
 }

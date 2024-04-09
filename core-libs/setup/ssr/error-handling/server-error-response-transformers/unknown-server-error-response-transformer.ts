@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { ServerErrorResponseTransformer } from './server-error-response-transformers';
-import { CxServerError, UnknownServerError } from '../server-errors';
+import { CxServerErrorResponse, UnknownServerErrorResponse } from '../server-errors';
 import { Priority } from '@spartacus/core';
 
 /*
@@ -29,11 +29,11 @@ export class UnknownServerErrorResponseTransformer
     return true;
   }
 
-  transform(error: any): CxServerError {
+  transform(error: any): CxServerErrorResponse {
     const message = 'An unknown server error occurred';
-    return new UnknownServerError({
+    return new UnknownServerErrorResponse({
       message,
-      originalError: error,
+      cause: error,
     });
   }
 }
