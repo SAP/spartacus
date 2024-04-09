@@ -8,7 +8,6 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     Component,
-    OnInit,
     QueryList,
     ViewChildren,
 } from '@angular/core';
@@ -16,15 +15,15 @@ import {
     CmsService
 } from '@spartacus/core';
 import { ComponentWrapperDirective } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, map, take } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 
 @Component({
     selector: 'cx-product-tabs',
     templateUrl: './product-tabs.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductTabsComponent implements AfterViewInit, OnInit {
+export class ProductTabsComponent implements AfterViewInit {
     activeTabNum = -1;
 
     @ViewChildren(ComponentWrapperDirective)
@@ -36,38 +35,36 @@ export class ProductTabsComponent implements AfterViewInit, OnInit {
         protected cmsService: CmsService
     ) { }
 
-    components$: Observable<any>[];
+    components$: Observable<any> = this.cmsService.getComponentData('TabPanelContainer').pipe(
+        distinctUntilChanged(),
+        switchMap((data: any) =>
+        combineLatest(
+        (data?.components ?? '').split(' ').map((component: any) =>
+            this.cmsService.getComponentData(component).pipe(
+                distinctUntilChanged(),
+                map((tab: any) => {
+                    if (!tab) {
+                        return undefined;
+                    }
+
+                    if (!tab.flexType) {
+                        tab = {
+                            ...tab,
+                            flexType: tab.typeCode,
+                        };
+                    }
+
+                    return {
+                        ...tab,
+                        title: `${data?.uid}.tabs.${tab.uid}`,
+                    };
+                })
+            )
+        )
+    )));
 
     select(tabNum: number): void {
         this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
-    }
-
-    ngOnInit(): void {
-        this.cmsService.getComponentData('TabPanelContainer').pipe(take(1)).subscribe((data: any) => {
-            this.components$ = (data?.components ?? '').split(' ').map((component: any) =>
-                this.cmsService.getComponentData(component).pipe(
-                    distinctUntilChanged(),
-                    map((tab: any) => {
-                        if (!tab) {
-                            return undefined;
-                        }
-
-                        if (!tab.flexType) {
-                            tab = {
-                                ...tab,
-                                flexType: tab.typeCode,
-                            };
-                        }
-
-                        return {
-                            ...tab,
-                            title: `${data?.uid}.tabs.${tab.uid}`,
-                        };
-                    })
-                )
-            )
-        }
-        )
     }
 
     ngAfterViewInit(): void {

@@ -1,7 +1,7 @@
-<ng-container *ngIf="components$">
+<ng-container *ngIf="components$ | async as components">
     <div role="region" tabindex="-1" class="container">
-        <ng-container *ngFor="let component$ of components$; let i = index">
-            <ng-container *ngIf="component$ | async as component">
+        <ng-container *ngFor="let component of components; let i = index">
+            <ng-container *ngIf="component">
                 <button [class.active]="i === activeTabNum" (click)="select(i)"
                     [attr.aria-expanded]="i === activeTabNum">
                     {{
