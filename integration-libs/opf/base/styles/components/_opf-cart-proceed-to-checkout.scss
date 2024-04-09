@@ -1,15 +1,3 @@
-@import '@spartacus/cart/base/styles/components/cart-proceed-to-checkout';
 %cx-opf-cart-proceed-to-checkout {
-  @extend %cx-cart-proceed-to-checkout;
-
-  @include media-breakpoint-down(sm) {
-    max-width: 100%;
-    padding-inline-end: 0;
-    padding-inline-start: 0;
-  }
-
-  @include media-breakpoint-down(md) {
-    min-width: 100%;
-    order: 5;
-  }
+  display: contents;
 }
