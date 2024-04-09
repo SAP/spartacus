@@ -49,7 +49,6 @@ const config: Configurator.Configuration = {
       PRODUCT_CODE
     )
   ),
-
   productCode: PRODUCT_CODE,
   kbKey: {
     kbName: PRODUCT_CODE + '_KB',
@@ -59,7 +58,7 @@ const config: Configurator.Configuration = {
   },
 };
 
-const orderEntryconfig: Configurator.Configuration = {
+const orderEntryConfig: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     CONFIG_ID,
     ConfiguratorModelUtils.createOwner(
@@ -73,7 +72,22 @@ const orderEntryconfig: Configurator.Configuration = {
   },
 };
 
-const orderEntryconfigWoOverview: Configurator.Configuration = {
+const cartEntryConfig: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration(
+    CONFIG_ID,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.CART_ENTRY,
+      '0'
+    )
+  ),
+  productCode: PRODUCT_CODE,
+  overview: {
+    configId: CONFIG_ID,
+    productCode: PRODUCT_CODE,
+  },
+};
+
+const orderEntryConfigWoOverview: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.ORDER_ENTRY,
@@ -220,7 +234,7 @@ describe('ConfigProductTitleComponent', () => {
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(config.owner);
-    configuratorUtils.setOwnerKey(orderEntryconfig.owner);
+    configuratorUtils.setOwnerKey(orderEntryConfig.owner);
     configuration = config;
 
     configExpertModeService = TestBed.inject(
@@ -237,21 +251,31 @@ describe('ConfigProductTitleComponent', () => {
   });
 
   describe('product$', () => {
-    it('should get product name as part of product of configuration', () => {
+    it('should get product name as part of product configuration', () => {
       component.product$.subscribe((data: Product | undefined) => {
         expect(data?.name).toEqual(PRODUCT_NAME);
+        expect(data?.code).toEqual(configuration.owner.id);
       });
     });
 
     it('should get product name as part of product from overview, in case configuration is order bound', () => {
-      configuration = orderEntryconfig;
+      configuration = orderEntryConfig;
       component.product$.subscribe((data: Product | undefined) => {
         expect(data?.name).toEqual(PRODUCT_NAME);
+        expect(data?.code).toEqual(configuration.owner.id);
+      });
+    });
+
+    it('should get product name as part of product configuration, in case configuration is cart bound', () => {
+      configuration = cartEntryConfig;
+      component.product$.subscribe((data: Product | undefined) => {
+        expect(data?.name).toEqual(PRODUCT_NAME);
+        expect(data?.code).toEqual(configuration.overview?.productCode);
       });
     });
 
     it('should not emit in case an order bound configuration does not have the OV aspect (yet)', () => {
-      configuration = orderEntryconfigWoOverview;
+      configuration = orderEntryConfigWoOverview;
       const expected = cold('|');
       expect(component.product$).toBeObservable(expected);
     });
@@ -303,7 +327,7 @@ describe('ConfigProductTitleComponent', () => {
   });
 
   it('should render properly for navigation from order entry', () => {
-    configuration = orderEntryconfig;
+    configuration = orderEntryConfig;
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,

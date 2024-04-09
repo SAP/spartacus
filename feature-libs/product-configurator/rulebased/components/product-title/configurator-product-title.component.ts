@@ -39,6 +39,7 @@ export class ConfiguratorProductTitleComponent {
       map((configuration) => {
         switch (configuration.owner.type) {
           case CommonConfigurator.OwnerType.PRODUCT:
+            return configuration.owner.id;
           case CommonConfigurator.OwnerType.CART_ENTRY:
             return configuration.productCode;
           case CommonConfigurator.OwnerType.ORDER_ENTRY:
