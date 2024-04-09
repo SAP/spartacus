@@ -55,7 +55,8 @@ export function authStatePersistenceFactory(
 }
 
 /**
- * Factory to ensure that auth is initialized and its stated is synced between browser storage and in-memory storage.
+ * Factory to ensure that auth is initialized and its state is synced between
+ * browser storage and in-memory storage.
  * This is required to handle the OAuth callback.
  */
 const authInitializedFactory = () => {
