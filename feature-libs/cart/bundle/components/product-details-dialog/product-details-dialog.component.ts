@@ -57,7 +57,7 @@ export class ProductDetailsDialogComponent implements OnInit {
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: { productCode: null },
-      queryParamsHandling: '',
+      queryParamsHandling: 'merge',
     });
     this.launchDialogService.closeDialog(reason);
   }
