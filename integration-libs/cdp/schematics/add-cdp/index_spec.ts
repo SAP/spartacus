@@ -11,11 +11,11 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   CDP_FEATURE_NAME,
-  SPARTACUS_SCHEMATICS,
-  SPARTACUS_CDP,
-  LibraryOptions as CdpOptions,
-  SpartacusOptions,
   CUSTOMER_TICKETING_FEATURE_NAME,
+  LibraryOptions as CdpOptions,
+  SPARTACUS_CDP,
+  SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
   cdpFeatureModulePath,
   customerTicketingFeatureModulePath,
   customerTicketingWrapperModulePath,
@@ -41,7 +41,6 @@ describe('Spartacus CDP schematics: ng-add', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
