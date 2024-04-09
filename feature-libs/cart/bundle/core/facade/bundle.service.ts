@@ -17,7 +17,12 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BundleStarter, BundleTypes } from '../model/bundle.model';
-import { AvailableEntriesEntities, BundleActions, BundleSelectors, StateWithBundle } from '../store';
+import {
+  AvailableEntriesEntities,
+  BundleActions,
+  BundleSelectors,
+  StateWithBundle,
+} from '../store';
 
 @Injectable({
   providedIn: 'root',
@@ -78,19 +83,25 @@ export class BundleService {
     );
   }
 
-  getAllowedProducts(entryGroupNumber: number, query?: string, searchConfig?: SearchConfig) {
+  getAllowedProducts(
+    entryGroupNumber: number,
+    query?: string,
+    searchConfig?: SearchConfig
+  ) {
     if (entryGroupNumber) {
-      combineLatest(this.activeCartService.getActiveCartId(), this.userIdService.getUserId())
-        .subscribe(([cartId, userId]) => {
-          if (cartId && userId) {
-            this.getBundleAllowedProducts(
-              cartId,
-              userId,
-              entryGroupNumber,
-              query,
-              searchConfig
-            );
-          }
+      combineLatest([
+        this.activeCartService.getActiveCartId(),
+        this.userIdService.getUserId(),
+      ]).subscribe(([cartId, userId]) => {
+        if (cartId && userId) {
+          this.getBundleAllowedProducts(
+            cartId,
+            userId,
+            entryGroupNumber,
+            query,
+            searchConfig
+          );
+        }
       });
     }
   }

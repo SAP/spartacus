@@ -22,7 +22,6 @@ import {
   ProductListModule,
   StarRatingModule
 } from '@spartacus/storefront';
-import { BundleMainComponent } from './bundle-main.component';
 import { BundleProductGridItemComponent } from './components/bundle-product-grid-item/bundle-product-grid-item.component';
 import { BundleProductListItemComponent } from './components/bundle-product-list-item/bundle-product-list-item.component';
 import { BundleProductListComponent } from './components/bundle-product-list/bundle-product-list.component';
@@ -57,7 +56,6 @@ import { SelectedProductPipe } from './pipes/selected-product.pipe';
     BundleProgressService,
   ],
   declarations: [
-    BundleMainComponent,
     BundleProductListComponent,
     BundleProductListItemComponent,
     BundleProductGridItemComponent,
@@ -66,6 +64,6 @@ import { SelectedProductPipe } from './pipes/selected-product.pipe';
     BundleProgressComponent,
     SelectedProductPipe,
   ],
-  exports: [BundleMainComponent],
+  exports: [BundleProductListComponent],
 })
 export class BundleMainModule {}
