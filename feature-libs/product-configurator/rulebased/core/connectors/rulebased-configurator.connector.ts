@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
@@ -23,27 +23,11 @@ export class RulebasedConfiguratorConnector {
     RulebasedConfiguratorAdapter[]
   >('ConfiguratorAdapterList');
 
-  // TODO(CXSPA-3392): make config a required dependency
-  constructor(
-    adapters: RulebasedConfiguratorAdapter[],
-    configUtilsService: CommonConfiguratorUtilsService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    config: ConfiguratorCoreConfig
-  );
-
-  /**
-   * @deprecated since 6.3
-   */
-  constructor(
-    adapters: RulebasedConfiguratorAdapter[],
-    configUtilsService: CommonConfiguratorUtilsService
-  );
-
   constructor(
     @Inject(RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST)
     protected adapters: RulebasedConfiguratorAdapter[],
     protected configUtilsService: CommonConfiguratorUtilsService,
-    @Optional() protected config?: ConfiguratorCoreConfig
+    protected config: ConfiguratorCoreConfig
   ) {}
 
   createConfiguration(
@@ -166,7 +150,7 @@ export class RulebasedConfiguratorConnector {
     let matching = adapter.getConfiguratorType() === configuratorType;
     if (matching && ConfiguratorType.CPQ === configuratorType) {
       const isCpqOverOccRequested =
-        this.config?.productConfigurator?.cpqOverOcc ?? false;
+        this.config.productConfigurator?.cpqOverOcc ?? false;
       const isCpqOverOccSupported =
         !!adapter.supportsCpqOverOcc && adapter.supportsCpqOverOcc();
       matching = isCpqOverOccRequested === isCpqOverOccSupported;

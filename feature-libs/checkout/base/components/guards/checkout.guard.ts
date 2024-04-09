@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import { RoutingConfigService } from '@spartacus/core';
@@ -18,7 +18,7 @@ import { ExpressCheckoutService } from '../services/express-checkout.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutGuard implements CanActivate {
+export class CheckoutGuard {
   private readonly firstStep$: Observable<UrlTree> =
     this.checkoutStepService.steps$.pipe(
       map((steps) => {

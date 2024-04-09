@@ -22,13 +22,13 @@ import {
 import {
   ActivatedRouterStateSnapshot,
   FeaturesConfig,
-  FeaturesConfigModule,
   I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
+  KeyboardFocusTestingModule,
   LaunchDialogService,
   PromotionsModule,
   SpinnerModule,
@@ -143,7 +143,7 @@ describe('AddedToCartDialogComponent', () => {
         SpinnerModule,
         I18nTestingModule,
         PromotionsModule,
-        FeaturesConfigModule,
+        KeyboardFocusTestingModule,
       ],
       declarations: [
         AddedToCartDialogComponent,

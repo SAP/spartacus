@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -242,7 +242,11 @@ export function checkConflictDetectedMsgNotDisplayed(
   attributeName: string
 ): void {
   const attributeId = configuration.getAttributeLabelId(attributeName);
-  cy.get(`#${attributeId}`).next().should('not.exist');
+  cy.get(`#${attributeId}`)
+    .parent()
+    .within(() => {
+      cy.get('.cx-conflict-msg').should('not.exist');
+    });
 }
 
 /**

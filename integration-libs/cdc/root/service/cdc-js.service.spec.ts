@@ -10,6 +10,7 @@ import {
   User,
   WindowRef,
 } from '@spartacus/core';
+import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { EMPTY, Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -97,6 +98,7 @@ class MockSubscription {
 const b2b = {
   getOrganizationContext: () => {},
   openDelegatedAdminLogin: () => {},
+  registerOrganization: () => {},
 };
 
 const gigya = {
@@ -267,7 +269,7 @@ describe('CdcJsService', () => {
         errorCallback: jasmine.any(Function) as any,
       });
       expect(winRef?.nativeWindow['__gigyaConf']).toEqual({
-        include: 'id_token',
+        include: 'id_token, missing-required-fields',
       });
     });
 
@@ -456,7 +458,6 @@ describe('CdcJsService', () => {
         expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
           loginID: 'uid',
           password: 'password',
-          include: 'missing-required-fields',
           ignoreInterruptions: true,
           sessionExpiry: sampleCdcConfig.cdc[0].sessionExpiration,
           callback: jasmine.any(Function),
@@ -485,7 +486,6 @@ describe('CdcJsService', () => {
           expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
             loginID: 'uid',
             password: 'password',
-            include: 'missing-required-fields',
             ignoreInterruptions: true,
             context: 'RESET_EMAIL',
             sessionExpiry: sampleCdcConfig?.cdc[0]?.sessionExpiration,
@@ -617,6 +617,38 @@ describe('CdcJsService', () => {
         'Error',
         GlobalMessageType.MSG_TYPE_ERROR
       );
+    });
+  });
+
+  describe('handleProfileUpdateResponse', () => {
+    it('should not show error message on success', () => {
+      spyOn(globalMessageService, 'add');
+      spyOn(globalMessageService, 'remove');
+      service['handleProfileUpdateResponse']({
+        response: { errorCode: 0 },
+      });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'cdcProfile.profileUpdateSuccess',
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+    });
+
+    it('should show error message on failure', () => {
+      spyOn(globalMessageService, 'add');
+      spyOn(globalMessageService, 'remove');
+      service['handleProfileUpdateResponse']({
+        response: { errorCode: 1 },
+      });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'cdcProfile.profileUpdateFailure',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
   });
 
@@ -1000,6 +1032,9 @@ describe('CdcJsService', () => {
           lastName: 'lastName',
           email: newEmail,
         },
+        response: {
+          errorCode: 0,
+        },
       };
 
       service.onProfileUpdateEventHandler(response);
@@ -1023,6 +1058,9 @@ describe('CdcJsService', () => {
           firstName: 'firstName',
           lastName: 'lastName',
           email: 'email@mail.com', //email updated
+        },
+        response: {
+          errorCode: 0,
         },
       };
       userProfileFacade.get = createSpy().and.returnValue(
@@ -1208,6 +1246,140 @@ describe('CdcJsService', () => {
       });
       expect(service['invokeAPI']).toHaveBeenCalled();
       expect(service.getSiteConsentDetails).toBeTruthy();
+    });
+  });
+
+  describe('registerOrganisationWithoutScreenSet', () => {
+    it('should not call accounts.b2b.registerOrganization', (done) => {
+      spyOn(
+        service['gigyaSDK'].accounts.b2b,
+        'registerOrganization'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      expect(service.registerOrganisationWithoutScreenSet).toBeTruthy();
+      const wrongOrgInfo: OrganizationUserRegistrationForm = {
+        companyName: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+      };
+      service.registerOrganisationWithoutScreenSet(wrongOrgInfo).subscribe({
+        error: (error) => {
+          expect(error).toEqual('Organization details not provided');
+          done();
+        },
+      });
+      expect(
+        service['gigyaSDK'].accounts.b2b.registerOrganization
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should call accounts.b2b.registerOrganization', (done) => {
+      spyOn(
+        service['gigyaSDK'].accounts.b2b,
+        'registerOrganization'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+
+      expect(service.registerOrganisationWithoutScreenSet).toBeTruthy();
+      const correctOrgInfo: OrganizationUserRegistrationForm = {
+        companyName: 'ABC',
+        email: 'abc@mail.com',
+        firstName: 'A',
+        lastName: 'User',
+        addressLine1: 'Line 1',
+        addressLine2: 'Line 2',
+        postalCode: '12312',
+        town: 'town',
+        region: 'region',
+        country: 'India',
+        phoneNumber: '+911234567890',
+        message: 'department: Dept;\nposition: Pos',
+      };
+
+      service
+        .registerOrganisationWithoutScreenSet(correctOrgInfo)
+        .subscribe(() => {
+          expect(
+            service['gigyaSDK'].accounts.b2b.registerOrganization
+          ).toHaveBeenCalledWith({
+            organization: {
+              name: correctOrgInfo.companyName,
+              street_address:
+                correctOrgInfo.addressLine1 + ' ' + correctOrgInfo.addressLine2,
+              city: correctOrgInfo.town,
+              state: correctOrgInfo.region,
+              zip_code: correctOrgInfo.postalCode,
+              country: correctOrgInfo.country,
+            },
+            requester: {
+              firstName: correctOrgInfo.firstName,
+              lastName: correctOrgInfo.lastName,
+              email: correctOrgInfo.email,
+              phone: correctOrgInfo.phoneNumber,
+              department: 'Dept',
+              jobFunction: 'Pos',
+            },
+            regSource: 'https://spartacus.cx',
+            callback: jasmine.any(Function),
+          });
+          done();
+        });
+    });
+
+    it('should call accounts.b2b.registerOrganization and not pass phone number if empty', (done) => {
+      spyOn(
+        service['gigyaSDK'].accounts.b2b,
+        'registerOrganization'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+
+      expect(service.registerOrganisationWithoutScreenSet).toBeTruthy();
+      const correctOrgInfo: OrganizationUserRegistrationForm = {
+        companyName: 'ABC',
+        email: 'abc@mail.com',
+        firstName: 'A',
+        lastName: 'User',
+        addressLine1: 'Line 1',
+        addressLine2: 'Line 2',
+        postalCode: '12312',
+        town: 'town',
+        region: 'region',
+        country: 'India',
+        phoneNumber: '',
+        message: 'department: Dept;\nposition: Pos',
+      };
+
+      service
+        .registerOrganisationWithoutScreenSet(correctOrgInfo)
+        .subscribe(() => {
+          expect(
+            service['gigyaSDK'].accounts.b2b.registerOrganization
+          ).toHaveBeenCalledWith({
+            organization: {
+              name: correctOrgInfo.companyName,
+              street_address:
+                correctOrgInfo.addressLine1 + ' ' + correctOrgInfo.addressLine2,
+              city: correctOrgInfo.town,
+              state: correctOrgInfo.region,
+              zip_code: correctOrgInfo.postalCode,
+              country: correctOrgInfo.country,
+            },
+            requester: {
+              firstName: correctOrgInfo.firstName,
+              lastName: correctOrgInfo.lastName,
+              email: correctOrgInfo.email,
+              department: 'Dept',
+              jobFunction: 'Pos',
+            },
+            regSource: 'https://spartacus.cx',
+            callback: jasmine.any(Function),
+          });
+          done();
+        });
     });
   });
 });

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,19 +14,20 @@ import {
   Optional,
 } from '@angular/core';
 import {
+  AbstractOrderType,
   CartOutlets,
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import { Address, TranslationService } from '@spartacus/core';
 import {
-  deliveryAddressCard,
-  deliveryModeCard,
   Order,
   OrderFacade,
+  deliveryAddressCard,
+  deliveryModeCard,
 } from '@spartacus/order/root';
 import { Card, OutletContextData } from '@spartacus/storefront';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Component({
@@ -38,6 +39,7 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
   @Input() showItemList: boolean = true;
 
   readonly cartOutlets = CartOutlets;
+  readonly abstractOrderType = AbstractOrderType;
 
   entries: OrderEntry[] | undefined;
 
@@ -46,7 +48,7 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
     .pipe(
       tap((order) => {
         this.entries = order?.entries?.filter(
-          (entry) => entry.deliveryPointOfService === undefined
+          (entry) => !entry.deliveryPointOfService
         );
       })
     );

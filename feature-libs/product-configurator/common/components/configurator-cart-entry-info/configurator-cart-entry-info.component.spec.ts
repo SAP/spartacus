@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
-  UntypedFormControl,
   ReactiveFormsModule,
+  UntypedFormControl,
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -11,7 +11,7 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
@@ -37,6 +37,7 @@ class MockConfigureCartEntryComponent {
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
 }
+
 describe('ConfiguratorCartEntryInfoComponent', () => {
   let component: ConfiguratorCartEntryInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
@@ -46,12 +47,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FeaturesConfigModule,
-        ],
+        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
         declarations: [
           ConfiguratorCartEntryInfoComponent,
           MockConfigureCartEntryComponent,
@@ -104,7 +100,6 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       expect(values).toEqual([true, false]);
       done();
     });
-
     mockCartItemContext.readonly$.next(true);
     mockCartItemContext.readonly$.next(false);
   });
@@ -222,6 +217,61 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           ],
         });
       });
+
+      describe('readonly$', () => {
+        beforeEach(() => {
+          mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        });
+
+        it('should expose readonly$ as false in case readonly$ is undefined', () => {
+          mockCartItemContext.readonly$?.next(undefined);
+          fixture.detectChanges();
+          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
+            htmlElem,
+            'cx-configure-cart-entry'
+          );
+
+          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
+          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+        });
+
+        it('should expose readonly$ as false in case readonly$ is null', () => {
+          mockCartItemContext.readonly$?.next(null);
+          fixture.detectChanges();
+          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
+            htmlElem,
+            'cx-configure-cart-entry'
+          );
+
+          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
+          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+        });
+
+        it('should expose readonly$ as false in case readonly$ is false', () => {
+          mockCartItemContext.readonly$?.next(false);
+          fixture.detectChanges();
+          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
+            htmlElem,
+            'cx-configure-cart-entry'
+          );
+
+          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
+          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+        });
+
+        it('should expose readonly$ as true in case readonly$ is true', () => {
+          mockCartItemContext.readonly$?.next(true);
+          fixture.detectChanges();
+          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
+            htmlElem,
+            'cx-configure-cart-entry'
+          );
+
+          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
+          expect(element.getAttribute('ng-reflect-read-only')).toBe('true');
+        });
+      });
+
       it('should prevent the rendering of "edit configuration" if context is SaveForLater', () => {
         mockCartItemContext.location$.next(PromotionLocation.SaveForLater);
         fixture.detectChanges();
@@ -235,6 +285,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
       it('should allow the rendering of "edit configuration" if context is active cart', () => {
         mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$.next(null);
         fixture.detectChanges();
 
         const htmlElementAfterChanges = fixture.nativeElement;

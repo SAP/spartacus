@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "RequestedDeliveryDateSchematics",
+  "title": "Requested Delivery Date Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "debug": {
+      "description": "Display additional details during the running process.",
+      "type": "boolean",
+      "default": false
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the Requested Delivery Date.",
+      "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "default": ["Requested-Delivery-Date"]
+    }
+  },
+  "required": []
+}

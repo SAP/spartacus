@@ -50,12 +50,20 @@
             "bundleName": "storefinder"
           },
           {
+            "input": "projects/storefrontapp/src/styles/lib-pdf-invoices.scss",
+            "bundleName": "pdf-invoices"
+          },
+          {
             "input": "projects/storefrontapp/src/styles/lib-product.scss",
             "bundleName": "product"
           },
           {
             "input": "projects/storefrontapp/src/styles/lib-qualtrics.scss",
             "bundleName": "qualtrics"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-requested-delivery-date.scss",
+            "bundleName": "requested-delivery-date"
           },
           {
             "input": "projects/storefrontapp/src/styles/lib-cart.scss",
@@ -88,6 +96,10 @@
           {
             "input": "projects/storefrontapp/src/styles/lib-s4om.scss",
             "bundleName": "s4om"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-quote.scss",
+            "bundleName": "quote"
           }
         ],
         "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
@@ -131,14 +143,14 @@
     "serve": {
       "executor": "@angular-builders/custom-webpack:dev-server",
       "options": {
-        "browserTarget": "storefrontapp:build"
+        "buildTarget": "storefrontapp:build"
       },
       "configurations": {
         "production": {
-          "browserTarget": "storefrontapp:build:production"
+          "buildTarget": "storefrontapp:build:production"
         },
         "development": {
-          "browserTarget": "storefrontapp:build:development"
+          "buildTarget": "storefrontapp:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -205,7 +217,7 @@
       "defaultConfiguration": "production"
     },
     "serve-ssr": {
-      "executor": "@nguniversal/builders:ssr-dev-server",
+      "executor": "@angular-devkit/build-angular:ssr-dev-server",
       "configurations": {
         "development": {
           "browserTarget": "storefrontapp:build:development",
@@ -219,7 +231,7 @@
       "defaultConfiguration": "development"
     },
     "prerender": {
-      "executor": "@nguniversal/builders:prerender",
+      "executor": "@angular-devkit/build-angular:prerender",
       "options": {
         "routes": ["/"]
       },

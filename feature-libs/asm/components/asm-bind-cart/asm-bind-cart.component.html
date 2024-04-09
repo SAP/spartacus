@@ -44,23 +44,21 @@
     ></cx-dot-spinner>
   </button>
 
-  <ng-container *cxFeatureLevel="'6.2'">
-    <button
-      id="asm-save-inactive-cart-btn"
-      #saveInactiveCart
-      *ngIf="displaySaveCartBtn$ | async"
-      class="cx-asm-bindCartToCustomer cx-asm-active"
-      type="submit"
-      [class.cx-bind-loading]="loading$ | async"
-      (click)="onSaveInactiveCart()"
-    >
-      <span [attr.aria-hidden]="loading$ | async">
-        {{ 'asm.saveCart.saveCartBtn' | cxTranslate }}
-      </span>
-      <cx-dot-spinner
-        [attr.aria-hidden]="!(loading$ | async)"
-        [attr.aria-label]="'common.loading' | cxTranslate"
-      ></cx-dot-spinner>
-    </button>
-  </ng-container>
+  <button
+    id="asm-save-inactive-cart-btn"
+    #saveInactiveCart
+    *ngIf="displaySaveCartBtn$ | async"
+    class="cx-asm-bindCartToCustomer cx-asm-active"
+    type="submit"
+    [class.cx-bind-loading]="loading$ | async"
+    (click)="onSaveInactiveCart()"
+  >
+    <span [attr.aria-hidden]="loading$ | async">
+      {{ 'asm.saveCart.saveCartBtn' | cxTranslate }}
+    </span>
+    <cx-dot-spinner
+      [attr.aria-hidden]="!(loading$ | async)"
+      [attr.aria-label]="'common.loading' | cxTranslate"
+    ></cx-dot-spinner>
+  </button>
 </form>

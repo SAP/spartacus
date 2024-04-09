@@ -1,11 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { InjectionToken, Optional, PLATFORM_ID, Provider } from '@angular/core';
-import { TransferState } from '@angular/platform-browser';
+import {
+  InjectionToken,
+  Optional,
+  PLATFORM_ID,
+  Provider,
+  TransferState,
+} from '@angular/core';
+
 import { META_REDUCERS } from '@ngrx/store';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { Config } from '../../config/config-tokens';

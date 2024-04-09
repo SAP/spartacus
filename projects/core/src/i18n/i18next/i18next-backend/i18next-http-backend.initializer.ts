@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Inject, Injectable } from '@angular/core';
 import type { i18n, InitOptions } from 'i18next';
-import i18nextHttpBackend, { BackendOptions } from 'i18next-http-backend';
+import i18nextHttpBackend, { HttpBackendOptions } from 'i18next-http-backend';
 import { WindowRef } from '../../../window/window-ref';
 import { I18nConfig } from '../../config/i18n-config';
 import { I18NEXT_INSTANCE } from '../i18next-instance';
@@ -44,7 +44,7 @@ export class I18nextHttpBackendInitializer
    * Configures an i18next HTTP backend plugin,
    * to allow for loading translations via HTTP.
    */
-  initialize(): InitOptions {
+  initialize(): InitOptions<HttpBackendOptions> {
     this.i18next.use(i18nextHttpBackend);
     return { backend: this.getBackendConfig() };
   }
@@ -52,14 +52,14 @@ export class I18nextHttpBackendInitializer
   /**
    * Returns the configuration for the i18next-http-backend plugin.
    */
-  protected getBackendConfig(): BackendOptions {
+  protected getBackendConfig(): HttpBackendOptions {
     if (!this.config.i18n?.backend?.loadPath) {
       throw new Error('Missing config `i18n.backend.loadPath`.');
     }
 
     const loadPath = this.getLoadPath(this.config.i18n.backend.loadPath);
 
-    const backend: BackendOptions = {
+    const backend: HttpBackendOptions = {
       loadPath,
       request: this.i18nextHttpClient,
 

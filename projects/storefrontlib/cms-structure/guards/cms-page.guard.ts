@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
@@ -22,7 +22,7 @@ import { CmsPageGuardService } from './cms-page-guard.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CmsPageGuard implements CanActivate {
+export class CmsPageGuard {
   static guardName = 'CmsPageGuard';
 
   constructor(

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -67,11 +67,17 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
             'display',
             'none'
           );
+          this.configuratorStorefrontUtilsService.focusFirstActiveElement(
+            '.cx-group-title'
+          );
         } else {
           this.configuratorStorefrontUtilsService.changeStyling(
             this.PRE_HEADER,
             'display',
             'block'
+          );
+          this.configuratorStorefrontUtilsService.focusFirstActiveElement(
+            'cx-hamburger-menu'
           );
         }
       })

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -59,5 +59,13 @@ declare module '@spartacus/core' {
      * Endpoint for reading a CPQ configuration attached to a given order entry over OCC
      */
     readCpqConfigurationForOrderEntryFull?: string | OccEndpoint;
+    /**
+     * Endpoint for reading an entire CPQ configuration attached to a given quote entry over OCC
+     */
+    readCpqConfigurationForQuoteEntryFull?: string | OccEndpoint;
+    /**
+     * Endpoint for reading a CPQ configuration attached to a given saved cart entry over OCC
+     */
+    readCpqConfigurationForSavedCartEntryFull?: string | OccEndpoint;
   }
 }

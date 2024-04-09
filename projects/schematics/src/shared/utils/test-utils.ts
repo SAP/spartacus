@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,8 @@ export const cartWrapperModulePath =
   'src/app/spartacus/features/cart/cart-base-wrapper.module.ts';
 export const customerTicketingFeatureModulePath =
   'src/app/spartacus/features/customer-ticketing/customer-ticketing-feature.module.ts';
+export const customerTicketingWrapperModulePath =
+  'src/app/spartacus/features/customer-ticketing/customer-ticketing-wrapper.module.ts';
 export const importExportFeatureModulePath =
   'src/app/spartacus/features/cart/cart-import-export-feature.module.ts';
 export const quickOrderFeatureModulePath =
@@ -37,6 +39,8 @@ export const checkoutFeatureModulePath =
   'src/app/spartacus/features/checkout/checkout-feature.module.ts';
 export const checkoutWrapperModulePath =
   'src/app/spartacus/features/checkout/checkout-wrapper.module.ts';
+export const quoteFeatureModulePath =
+  'src/app/spartacus/features/quote/quote-feature.module.ts';
 export const orderFeatureModulePath =
   'src/app/spartacus/features/order/order-feature.module.ts';
 export const organizationAdministrationFeatureModulePath =
@@ -55,6 +59,8 @@ export const organizationUnitOrderFeatureModulePath =
   'src/app/spartacus/features/organization/organization-unit-order-feature.module.ts';
 export const organizationAccountSummaryFeatureModulePath =
   'src/app/spartacus/features/organization/organization-account-summary-feature.module.ts';
+export const pdfInvoicesFeatureModulePath =
+  'src/app/spartacus/features/pdf-invoices/pdf-invoices-feature.module.ts';
 export const productBulkPricingFeatureModulePath =
   'src/app/spartacus/features/product/product-bulk-pricing-feature.module.ts';
 export const productImageZoomFeatureModulePath =
@@ -69,6 +75,8 @@ export const productConfiguratorRulebasedWrapperModulePath =
   'src/app/spartacus/features/product-configurator/rulebased-configurator-wrapper.module.ts';
 export const qualtricsFeatureModulePath =
   'src/app/spartacus/features/qualtrics/qualtrics-feature.module.ts';
+export const requestedDeliveryDateFeatureModulePath =
+  'src/app/spartacus/features/requested-delivery-date/requested-delivery-date-feature.module.ts';
 export const smartEditFeatureModulePath =
   'src/app/spartacus/features/smartedit/smart-edit-feature.module.ts';
 export const storeFinderFeatureModulePath =
@@ -86,6 +94,8 @@ export const userProfileWrapperModulePath =
 
 export const cdcFeatureModulePath =
   'src/app/spartacus/features/cdc/cdc-feature.module.ts';
+export const cdpFeatureModulePath =
+  'src/app/spartacus/features/cdp/cdp-feature.module.ts';
 export const cdsFeatureModulePath =
   'src/app/spartacus/features/cds/cds-feature.module.ts';
 export const digitalPaymentsFeatureModulePath =
@@ -109,9 +119,7 @@ export function runMigration(
   migrationScript: string,
   options = {}
 ): Promise<UnitTestTree> {
-  return schematicRunner
-    .runSchematicAsync(migrationScript, options, appTree)
-    .toPromise();
+  return schematicRunner.runSchematic(migrationScript, options, appTree);
 }
 
 export function getConstructor(nodes: ts.Node[]): ts.Node {

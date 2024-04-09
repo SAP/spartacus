@@ -10,6 +10,15 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME,
+  ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+  ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
+  ORGANIZATION_UNIT_ORDER_FEATURE_NAME,
+  ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
+  SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_ORGANIZATION,
+  SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
   LibraryOptions as SpartacusOrganizationOptions,
   orderFeatureModulePath,
   organizationAccountSummaryFeatureModulePath,
@@ -17,15 +26,6 @@ import {
   organizationOrderApprovalFeatureModulePath,
   organizationUnitOrderFeatureModulePath,
   organizationUserRegistrationFeatureModulePath,
-  ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME,
-  ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-  ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
-  ORGANIZATION_UNIT_ORDER_FEATURE_NAME,
-  ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
-  SpartacusOptions,
-  SPARTACUS_CONFIGURATION_MODULE,
-  SPARTACUS_ORGANIZATION,
-  SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -55,6 +55,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

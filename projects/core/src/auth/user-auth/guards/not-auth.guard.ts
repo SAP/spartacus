@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
@@ -18,7 +18,7 @@ import { AuthService } from '../facade/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class NotAuthGuard implements CanActivate {
+export class NotAuthGuard {
   constructor(
     protected authService: AuthService,
     protected semanticPathService: SemanticPathService,

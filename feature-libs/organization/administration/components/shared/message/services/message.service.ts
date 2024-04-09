@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,9 +16,9 @@ export class MessageService<
   O extends MessageEventData = MessageEventData,
   T extends MessageData<O> = MessageData<O>
 > {
-  protected data$: ReplaySubject<T> = new ReplaySubject();
+  protected data$: ReplaySubject<T | undefined> = new ReplaySubject();
 
-  get(): Observable<T> {
+  get(): Observable<T | undefined> {
     return this.data$;
   }
 
@@ -51,6 +51,6 @@ export class MessageService<
   }
 
   clear(): void {
-    this.data$.next(undefined as unknown as T); // TODO: CXSPA-3088 Type incongruity
+    this.data$.next(undefined);
   }
 }

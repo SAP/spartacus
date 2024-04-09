@@ -120,30 +120,26 @@ $sapFiori_Button_Emphasized_Active_BorderColor: #0070f2;
     min-height: 137px;
 
     .cx-dialog-content {
-      margin: 0px 60px 30px 60px;
+      margin: 10px 60px 0px 60px;
 
       .item-left-text {
-        width: 27px;
-        height: 22px;
-        font-family: 'Open Sans';
-        font-style: normal;
+        font-family: 72;
+        font-size: 14px;
         font-weight: 400;
-        font-size: 16px;
-        line-height: 22px;
-        color: #14293a;
-        padding: 15px;
+        line-height: 16px;
+        letter-spacing: 0px;
+        color: #556b82;
+        padding: 5px;
       }
+
       .item-right-text {
-        width: 93px;
-        height: 25px;
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 18px;
-        line-height: 25px;
-        text-transform: capitalize;
-        color: #14293a;
-        padding: 15px;
+        font-family: 72;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: 0px;
+        color: #131e29;
+        padding: 5px;
       }
     }
   }

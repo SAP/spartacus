@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,13 +9,13 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
   delay,
@@ -29,11 +29,6 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import {
-  FeatureConfigService,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-form',
@@ -65,29 +60,6 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
     )
   );
-  // TODO(CXSPA-3392): make globalMessageService a required dependency
-  constructor(
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    configExpertModeService: ConfiguratorExpertModeService,
-    launchDialogService: LaunchDialogService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService: FeatureConfigService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    globalMessageService: GlobalMessageService
-  );
-
-  /**
-   * @deprecated since 6.1
-   */
-  constructor(
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    configExpertModeService: ConfiguratorExpertModeService,
-    launchDialogService: LaunchDialogService
-  );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -95,9 +67,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configExpertModeService: ConfiguratorExpertModeService,
     protected launchDialogService: LaunchDialogService,
-    // TODO:(CXSPA-3392) for next major release remove feature config service
-    @Optional() protected featureConfigservice?: FeatureConfigService,
-    @Optional() protected globalMessageService?: GlobalMessageService
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnDestroy(): void {
@@ -120,15 +90,10 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   }
 
   protected displayConflictResolvedMessage(): void {
-    if (
-      this.globalMessageService &&
-      (this.featureConfigservice?.isLevel('6.1') ?? false)
-    ) {
-      this.globalMessageService.add(
-        { key: 'configurator.header.conflictsResolved' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    }
+    this.globalMessageService.add(
+      { key: 'configurator.header.conflictsResolved' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   ngOnInit(): void {

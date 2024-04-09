@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,10 +36,10 @@ import {
 } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
-import { CdcAuthFacade } from '../facade/cdc-auth.facade';
-import { CdcReConsentEvent } from '../events';
-import { CdcSiteConsentTemplate } from '../consent-management/model/index';
 import { CdcConsentsLocalStorageService } from '../consent-management';
+import { CdcSiteConsentTemplate } from '../consent-management/model/index';
+import { CdcReConsentEvent } from '../events';
+import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
 const defaultSessionTimeOut = 3600;
 const setAccountInfoAPI = 'accounts.setAccountInfo';
@@ -125,7 +125,7 @@ export class CdcJsService implements OnDestroy {
                 (this.winRef.nativeWindow as { [key: string]: any })[
                   '__gigyaConf'
                 ] = {
-                  include: 'id_token',
+                  include: 'id_token, missing-required-fields',
                 };
               }
             }
@@ -201,7 +201,7 @@ export class CdcJsService implements OnDestroy {
     user: UserSignUp
   ): Observable<{ status: string }> {
     if (!user.uid || !user.password) {
-      return throwError(null);
+      return throwError(() => null);
     } else {
       return this.invokeAPI('accounts.initRegistration', {}).pipe(
         switchMap((response) => this.onInitRegistrationHandler(user, response))
@@ -220,7 +220,7 @@ export class CdcJsService implements OnDestroy {
     response: any
   ): Observable<{ status: string }> {
     if (!response?.regToken || !user?.uid || !user?.password) {
-      return throwError(null);
+      return throwError(() => null);
     } else {
       const regSource: string = this.winRef.nativeWindow?.location?.href || '';
       return this.invokeAPI('accounts.register', {
@@ -266,7 +266,6 @@ export class CdcJsService implements OnDestroy {
         return this.invokeAPI('accounts.login', {
           loginID: email,
           password: password,
-          include: 'missing-required-fields',
           ignoreInterruptions: ignoreInterruptions,
           ...(context && { context: context }),
           sessionExpiry: sessionExpiration,
@@ -306,21 +305,14 @@ export class CdcJsService implements OnDestroy {
       !orgInfo?.firstName ||
       !orgInfo?.lastName
     ) {
-      return throwError(null);
+      return throwError('Organization details not provided');
     } else {
       const regSource: string = this.winRef.nativeWindow?.location?.href || '';
       const message = orgInfo.message;
       let department = null;
       let position = null;
       if (message) {
-        const msgList = message.replace('\n', '').split(';');
-        for (const msg of msgList) {
-          if (msg.trim().toLowerCase().search('department') === 0) {
-            department = msg.split(':')[1].trim();
-          } else if (msg.trim().toLowerCase().search('position') === 0) {
-            position = msg.split(':')[1].trim();
-          }
-        }
+        ({ department, position } = this.parseMessage(message));
       }
 
       return this.invokeAPI('accounts.b2b.registerOrganization', {
@@ -336,7 +328,8 @@ export class CdcJsService implements OnDestroy {
           firstName: orgInfo.firstName,
           lastName: orgInfo.lastName,
           email: orgInfo.email,
-          phone: orgInfo.phoneNumber,
+          ...(orgInfo.phoneNumber &&
+            orgInfo.phoneNumber.length > 0 && { phone: orgInfo.phoneNumber }),
           department: department,
           jobFunction: position,
         },
@@ -423,6 +416,23 @@ export class CdcJsService implements OnDestroy {
     return of(defaultSessionTimeOut);
   }
 
+  private parseMessage(message: string): {
+    department: string;
+    position: string;
+  } {
+    const msgList = message.replace('\n', '').split(';');
+    let department = '';
+    let position = '';
+    for (const msg of msgList) {
+      if (msg.trim().toLowerCase().search('department') === 0) {
+        department = msg.split(':')[1].trim();
+      } else if (msg.trim().toLowerCase().search('position') === 0) {
+        position = msg.split(':')[1].trim();
+      }
+    }
+    return { department, position };
+  }
+
   private getCurrentBaseSite(): string {
     let baseSite: string = '';
     this.baseSiteService
@@ -449,7 +459,7 @@ export class CdcJsService implements OnDestroy {
    */
   resetPasswordWithoutScreenSet(email: string): Observable<{ status: string }> {
     if (!email || email?.length === 0) {
-      return throwError('No email provided');
+      return throwError(() => 'No email provided');
     } else {
       return this.invokeAPI('accounts.resetPassword', {
         loginID: email,
@@ -496,7 +506,7 @@ export class CdcJsService implements OnDestroy {
       !user?.lastName ||
       user?.lastName?.length === 0
     ) {
-      return throwError('User details not provided');
+      return throwError(() => 'User details not provided');
     } else {
       const profileObj = {
         profile: {
@@ -533,7 +543,7 @@ export class CdcJsService implements OnDestroy {
       !newPassword ||
       newPassword?.length === 0
     ) {
-      return throwError('No passwords provided');
+      return throwError(() => 'No passwords provided');
     } else {
       return this.invokeAPI(setAccountInfoAPI, {
         password: oldPassword,
@@ -564,11 +574,36 @@ export class CdcJsService implements OnDestroy {
           if (currentEmail !== userDetails.uid) {
             this.logoutUser();
           }
+          this.handleProfileUpdateResponse(response);
         });
       });
+    } else {
+      this.handleProfileUpdateResponse(response);
     }
   }
 
+  /**
+   * handle toast message on profile update
+   * @param response
+   *
+   */
+  protected handleProfileUpdateResponse(response?: any) {
+    if (response?.response?.errorCode === 0) {
+      this.globalMessageService.add(
+        {
+          key: 'cdcProfile.profileUpdateSuccess',
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    } else {
+      this.globalMessageService.add(
+        {
+          key: 'cdcProfile.profileUpdateFailure',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
+  }
   /**
    * Trigger CDC user email update.
    *
@@ -585,14 +620,14 @@ export class CdcJsService implements OnDestroy {
       !newEmail ||
       newEmail?.length === 0
     ) {
-      return throwError('Email or password not provided');
+      return throwError(() => 'Email or password not provided');
     } else {
       //Verify the password by attempting to login
       return this.getLoggedInUserEmail().pipe(
         switchMap((user) => {
           const email = user?.uid;
           if (!email || email?.length === 0) {
-            return throwError('Email or password not provided');
+            return throwError(() => 'Email or password not provided');
           }
           // Verify the password by attempting to login
           // - CDC doesn't require to verify password before changing an email, but the default Spartacus requires it.
@@ -653,7 +688,7 @@ export class CdcJsService implements OnDestroy {
     country?: string
   ): Observable<{ status: string }> {
     if (!formattedAddress || formattedAddress?.length === 0) {
-      return throwError('No address provided');
+      return throwError(() => 'No address provided');
     } else {
       const profileObj = {
         address: formattedAddress,

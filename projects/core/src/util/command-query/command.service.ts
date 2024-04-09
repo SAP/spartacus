@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import {
   zip,
 } from 'rxjs';
 import {
+  TapObserver,
   catchError,
   concatMap,
   finalize,
@@ -53,6 +54,19 @@ export class CommandService implements OnDestroy {
     const commands$ = new Subject<PARAMS>();
     const results$ = new Subject<ReplaySubject<RESULT>>();
 
+    // We have to specify selectively the handlers after RxJS version 7.3.0.
+    // Otherwise, the `unsubscribe` handler would be forwarded implicitly
+    // to `notifier$` when calling `tap(notifier$)`.
+    // But we don't want to forward `unsubscribe`, in particular.
+    // To see more details, please check: https://github.com/ReactiveX/rxjs/pull/6527
+    const notify = (
+      notifier$: ReplaySubject<RESULT>
+    ): Partial<TapObserver<RESULT>> => ({
+      next: (x) => notifier$.next(x),
+      error: (e) => notifier$.error(e),
+      complete: () => notifier$.complete(),
+    });
+
     let process$: Observable<unknown>;
 
     switch (options?.strategy) {
@@ -61,7 +75,7 @@ export class CommandService implements OnDestroy {
         process$ = zip(commands$, results$).pipe(
           switchMap(([cmd, notifier$]) =>
             defer(() => commandFactory(cmd)).pipe(
-              tap(notifier$),
+              tap(notify(notifier$)),
               catchError(() => EMPTY),
               finalize(() => {
                 // do not overwrite existing existing ending state
@@ -83,7 +97,7 @@ export class CommandService implements OnDestroy {
         process$ = zip(commands$, results$).pipe(
           mergeMap(([cmd, notifier$]) =>
             defer(() => commandFactory(cmd)).pipe(
-              tap(notifier$),
+              tap(notify(notifier$)),
               catchError(() => EMPTY)
             )
           )
@@ -95,7 +109,7 @@ export class CommandService implements OnDestroy {
         process$ = zip(commands$, results$).pipe(
           concatMap(([cmd, notifier$]) =>
             defer(() => commandFactory(cmd)).pipe(
-              tap(notifier$),
+              tap(notify(notifier$)),
               catchError(() => EMPTY)
             )
           )

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -26,14 +25,7 @@ const components = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    MediaModule,
-    FeaturesConfigModule,
-  ],
+  imports: [CommonModule, RouterModule, UrlModule, I18nModule, MediaModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

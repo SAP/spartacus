@@ -41,5 +41,15 @@ describe('Navigation Entry Item Reducer', () => {
       const state = fromComponent.reducer(initialState, action);
       expect(state).toEqual(mockNodes['testId']);
     });
+
+    it(`should NOT populate the component state nodes, when no components' details were received`, () => {
+      const mockPayload = { nodeId: 'testId', components: [] };
+
+      const { initialState } = fromComponent;
+      const action = new CmsActions.LoadCmsNavigationItemsSuccess(mockPayload);
+      const state = fromComponent.reducer(initialState, action);
+      expect(state).toEqual(initialState); // check that no nested mutations were done
+      expect(state).toBe(initialState); // check that the same object reference was returned
+    });
   });
 });

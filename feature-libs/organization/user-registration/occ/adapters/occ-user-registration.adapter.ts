@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,7 @@ import {
   UserRegistrationAdapter,
 } from '@spartacus/organization/user-registration/core';
 import { OrganizationUserRegistration } from '@spartacus/organization/user-registration/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -50,9 +50,9 @@ export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
     return this.http
       .post<OrganizationUserRegistration>(url, userData, { headers })
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        )
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        })
       );
   }
 

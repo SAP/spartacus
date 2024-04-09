@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { RouterStateSnapshot, UrlTree, CanActivateFn } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   getLastValueSync,
@@ -53,7 +53,9 @@ export class CmsGuardsService {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     const guard = getLastValueSync(
-      this.unifiedInjector.get<CanActivate>(guardClass)
+      this.unifiedInjector.get<{
+        canActivate: CanActivateFn;
+      }>(guardClass)
     );
     if (isCanActivate(guard)) {
       return wrapIntoObservable(guard.canActivate(route, state)).pipe(first());
@@ -81,8 +83,15 @@ function isPromise(obj: any): obj is Promise<any> {
   return !!obj && typeof obj.then === 'function';
 }
 
-function isCanActivate(guard: any): guard is CanActivate {
-  return guard && isFunction<CanActivate>(guard.canActivate);
+function isCanActivate(guard: any): guard is {
+  canActivate: CanActivateFn;
+} {
+  return (
+    guard &&
+    isFunction<{
+      canActivate: CanActivateFn;
+    }>(guard.canActivate)
+  );
 }
 
 function isFunction<T>(v: any): v is T {

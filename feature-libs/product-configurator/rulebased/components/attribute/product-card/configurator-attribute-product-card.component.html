@@ -36,6 +36,7 @@
           [text]="product.description"
           [textSize]="45"
           [productName]="product.code"
+          [tabIndex]="0"
         ></cx-configurator-show-more>
       </div>
     </div>
@@ -74,7 +75,7 @@
               [cxFocus]="focusConfig"
               [attr.aria-label]="getAriaLabelMultiSelected(product)"
               [attr.aria-describedby]="
-                createAttributeUiKey('label', attributeName)
+                createAttributeUiKey('label', productCardOptions.attributeName)
               "
             >
               {{ 'configurator.button.remove' | cxTranslate }}
@@ -90,7 +91,10 @@
                 [cxFocus]="focusConfig"
                 [attr.aria-label]="getAriaLabelMultiUnselected(product)"
                 [attr.aria-describedby]="
-                  createAttributeUiKey('label', attributeName)
+                  createAttributeUiKey(
+                    'label',
+                    productCardOptions.attributeName
+                  )
                 "
               >
                 {{ 'configurator.button.add' | cxTranslate }}
@@ -112,7 +116,7 @@
               [cxFocus]="focusConfig"
               [attr.aria-label]="getAriaLabelSingleUnselected(product)"
               [attr.aria-describedby]="
-                createAttributeUiKey('label', attributeName)
+                createAttributeUiKey('label', productCardOptions.attributeName)
               "
             >
               {{ 'configurator.button.select' | cxTranslate }}
@@ -135,7 +139,10 @@
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="getAriaLabelSingleSelected(product)"
                   [attr.aria-describedby]="
-                    createAttributeUiKey('label', attributeName)
+                    createAttributeUiKey(
+                      'label',
+                      productCardOptions.attributeName
+                    )
                   "
                 >
                   {{ 'configurator.button.deselect' | cxTranslate }}
@@ -159,7 +166,12 @@
         aria-live="assertive"
         aria-atomic="true"
         role="alert"
-        id="{{ createAttributeUiKey('attribute-msg', attributeName) }}"
+        id="{{
+          createAttributeUiKey(
+            'attribute-msg',
+            productCardOptions.attributeName
+          )
+        }}"
       >
         <cx-icon class="deselection-error-symbol" type="ERROR"></cx-icon>
         {{ 'configurator.attribute.deselectionNotPossible' | cxTranslate }}

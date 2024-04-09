@@ -4,13 +4,13 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsOrderDetailItemsComponent,
-  FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
 import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
 import {
   CardModule,
   CmsComponentData,
+  OutletModule,
   PromotionsModule,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -165,8 +165,8 @@ describe('OrderDetailItemsComponent', () => {
           CardModule,
           I18nTestingModule,
           PromotionsModule,
-          FeaturesConfigModule,
           RouterTestingModule,
+          OutletModule,
         ],
         providers: [
           { provide: OrderDetailsService, useValue: mockOrderDetailsService },

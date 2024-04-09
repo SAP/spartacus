@@ -7,7 +7,6 @@ import {
   Cart,
   DeliveryMode,
   OrderEntry,
-  PaymentDetails,
 } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
@@ -16,8 +15,13 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, Country, I18nTestingModule } from '@spartacus/core';
-import { Card, PromotionsModule } from '@spartacus/storefront';
+import {
+  Address,
+  Country,
+  I18nTestingModule,
+  PaymentDetails,
+} from '@spartacus/core';
+import { Card, OutletModule, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
@@ -149,6 +153,7 @@ describe('CheckoutReviewSubmitComponent', () => {
           PromotionsModule,
           RouterTestingModule,
           IconTestingModule,
+          OutletModule,
         ],
         declarations: [
           CheckoutReviewSubmitComponent,

@@ -41,12 +41,12 @@
     "profileTagLoadUrl": {
       "type": "string",
       "description": "Where to load ProfileTag from. (e.g. https://tag.static.us.context.cloud.sap/js/profile-tag.js)",
-      "x-prompt": "[CDS] Where to load ProfileTag from? (optional)"
+      "x-prompt": "[CDS] Where to load ProfileTag from?"
     },
     "profileTagConfigUrl": {
       "type": "string",
       "description": "Configuration URL for ProfileTag. (e.g. https://tag.static.stage.context.cloud.sap/config/my-config123)",
-      "x-prompt": "[CDS] What is the ProfileTag configuration URL? (optional)"
+      "x-prompt": "[CDS] What is the ProfileTag configuration URL?"
     }
   }
 }

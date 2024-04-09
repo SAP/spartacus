@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -55,19 +55,21 @@ function runExtractor(libPath: string) {
   } else {
     console.error(
       `API Extractor completed with ${extractorResult.errorCount} errors` +
-        ` and ${extractorResult.warningCount} warnings`
+      ` and ${extractorResult.warningCount} warnings`
     );
     process.exitCode = 1;
   }
 }
 
-export function updateNameInPackageJson(filePath: string): {
+export function updateNameInPackageJson(libPath: string): {
   name: string;
   newName: string;
 } {
+  const filePath = `${libPath}/package.json`;
   const packageContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-  const name: string = packageContent.name;
+  const name: string = packageContent.name ?? getEntryPointName(libPath);
   const newName = escapePackageName(name);
+
   fs.writeFileSync(
     filePath,
     JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
@@ -86,13 +88,14 @@ function preparePackageJson(libPath: string): void {
 
   // Update the package.json file
   console.log(`update package name in file ${libPath}/package.json`);
-  updateNameInPackageJson(`${libPath}/package.json`);
+  updateNameInPackageJson(libPath);
 }
 
 function createPackageJsonFile(libPath: string) {
   const beginIdx = libPath.indexOf(distFolderPath) + distFolderPath.length + 1;
   const entryPointNameFromPath = `@spartacus/${libPath.substring(beginIdx)}`;
   const entryPointNameGenerated = getEntryPointName(libPath);
+
   if (entryPointNameFromPath !== entryPointNameGenerated) {
     console.log(
       `INFO: Module name ${entryPointNameGenerated} differs from path name ${libPath}`

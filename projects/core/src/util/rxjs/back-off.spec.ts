@@ -20,7 +20,7 @@ describe(`backOff`, () => {
           if (calledTimes === 3) {
             return of(recoveredValue);
           }
-          return throwError(error);
+          return throwError(() => error);
         });
         const test$ = source$.pipe(backOff());
 
@@ -37,7 +37,7 @@ describe(`backOff`, () => {
       it(`should NOT be able to recover`, fakeAsync(() => {
         const initialError = 'error';
 
-        const source$ = throwError(initialError);
+        const source$ = throwError(() => initialError);
         const test$ = source$.pipe(backOff());
 
         let result: string | undefined;
@@ -69,10 +69,10 @@ describe(`backOff`, () => {
   });
 
   describe(`when the source throws an error`, () => {
-    describe(`errFn`, () => {
+    describe(`shouldRetry function`, () => {
       describe(`evaluates to false`, () => {
         it(`should not retry and just re-throw the error`, (done) => {
-          const source$ = throwError('error');
+          const source$ = throwError(() => 'error');
           const test$ = source$.pipe(backOff({ shouldRetry: () => false }));
 
           test$.subscribe({
@@ -89,7 +89,7 @@ describe(`backOff`, () => {
           it(`should re-throw the initial error`, fakeAsync(() => {
             const initialError = 'error';
 
-            const source$ = throwError(initialError);
+            const source$ = throwError(() => initialError);
             const test$ = source$.pipe(backOff({ shouldRetry: doBackOff }));
 
             let result: string | undefined;
@@ -110,7 +110,7 @@ describe(`backOff`, () => {
             const initialError = 'error';
             const recoveredValue = 'xxx';
 
-            const error$ = throwError(initialError);
+            const error$ = throwError(() => initialError);
             // at first, we throw an error by returning the false
             const recovery$ = new BehaviorSubject<boolean>(false);
             const source$ = recovery$.pipe(
@@ -153,7 +153,9 @@ describe(`backOff`, () => {
           };
 
           const error$ = new BehaviorSubject<HttpErrorModel>(initialError);
-          const source$ = error$.pipe(switchMap((error) => throwError(error)));
+          const source$ = error$.pipe(
+            switchMap((error) => throwError(() => error))
+          );
 
           let errorResult: HttpErrorModel | undefined;
           let result: HttpErrorModel | undefined;
@@ -187,7 +189,7 @@ describe(`backOff`, () => {
       it(`should use the provided maxTries option`, fakeAsync(() => {
         const initialError = 'error';
 
-        const source$ = throwError(initialError);
+        const source$ = throwError(() => initialError);
         const test$ = source$.pipe(
           backOff({ shouldRetry: doBackOff, maxTries: 2 })
         );
@@ -207,7 +209,7 @@ describe(`backOff`, () => {
       it(`should use the provided delay option`, fakeAsync(() => {
         const initialError = 'error';
 
-        const source$ = throwError(initialError);
+        const source$ = throwError(() => initialError);
         const test$ = source$.pipe(
           backOff({ shouldRetry: doBackOff, delay: 100 })
         );
@@ -227,7 +229,7 @@ describe(`backOff`, () => {
       it(`should use both the provided maxTries and delay options`, fakeAsync(() => {
         const initialError = 'error';
 
-        const source$ = throwError(initialError);
+        const source$ = throwError(() => initialError);
         const test$ = source$.pipe(
           backOff({ shouldRetry: doBackOff, maxTries: 2, delay: 100 })
         );

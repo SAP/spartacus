@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { LogoutGuard } from '@spartacus/storefront';
+import { lastValueFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdcConsentManagementModule } from './consent-management/cdc-consent.module';
 import { defaultCdcRoutingConfig } from './config/default-cdc-routing-config';
@@ -24,16 +25,14 @@ export function cdcJsFactory(
   cdcJsService: CdcJsService,
   configInit: ConfigInitializerService
 ): () => Promise<Config> {
-  const func = () =>
-    configInit
-      .getStable('context', 'cdc')
-      .pipe(
+  return () =>
+    lastValueFrom(
+      configInit.getStable('context', 'cdc').pipe(
         tap(() => {
           cdcJsService.initialize();
         })
       )
-      .toPromise();
-  return func;
+    );
 }
 
 export function defaultCdcComponentsConfig(): CmsConfig {

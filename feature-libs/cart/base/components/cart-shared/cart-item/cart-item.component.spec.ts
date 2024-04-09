@@ -11,13 +11,13 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
-  UntypedFormControl,
   ReactiveFormsModule,
+  UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
@@ -87,6 +87,21 @@ const mockProduct = {
   },
 };
 
+@Component({
+  selector: 'cx-cart-item-validation-warning',
+  template: '',
+})
+class MockCartItemValidationWarningComponent {
+  @Input() code: string;
+}
+
+@Directive({
+  selector: '[cxAtMessage]',
+})
+class MockAtMessageDirective {
+  @Input() cxAtMessage: string | string[] | undefined;
+}
+
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let componentInjector: Injector;
@@ -105,7 +120,6 @@ describe('CartItemComponent', () => {
           RouterTestingModule,
           ReactiveFormsModule,
           I18nTestingModule,
-          FeaturesConfigModule,
           OutletModule,
         ],
         declarations: [
@@ -116,6 +130,8 @@ describe('CartItemComponent', () => {
           MockUrlPipe,
           MockFeatureLevelDirective,
           MockOutletDirective,
+          MockCartItemValidationWarningComponent,
+          MockAtMessageDirective,
         ],
         providers: [
           {

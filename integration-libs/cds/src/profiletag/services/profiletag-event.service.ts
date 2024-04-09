@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,18 +7,19 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
   Inject,
+  inject,
   Injectable,
   OnDestroy,
   PLATFORM_ID,
-  inject,
 } from '@angular/core';
 import { BaseSiteService, LoggerService, WindowRef } from '@spartacus/core';
 import {
   BehaviorSubject,
-  Observable,
-  Subscription,
   fromEvent,
   merge,
+  Observable,
+  of,
+  Subscription,
 } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -45,7 +46,7 @@ export class ProfileTagEventService implements OnDestroy {
   protected subscription: Subscription = new Subscription();
   latestConsentReference: BehaviorSubject<string | null>;
   profileTagDebug = false;
-  private consentReference$: Observable<string | null>;
+  private consentReference$: Observable<string | null> | null;
   private profileTagWindow: ProfileTagWindowObject;
   private profileTagEvents$ = merge(
     this.setConsentReference(),
@@ -84,12 +85,12 @@ export class ProfileTagEventService implements OnDestroy {
     }
   }
 
-  getProfileTagEvents(): Observable<string | DebugEvent | Event> {
+  getProfileTagEvents(): Observable<string | DebugEvent | Event | null> {
     return this.profileTagEvents$;
   }
 
-  getConsentReference(): Observable<string> {
-    if (!this.consentReference$) {
+  getConsentReference(): Observable<string | null> | null {
+    if (!this.consentReference$ && this.winRef.nativeWindow) {
       this.consentReference$ = fromEvent(
         this.winRef.nativeWindow,
         InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED
@@ -119,7 +120,7 @@ export class ProfileTagEventService implements OnDestroy {
 
   notifyProfileTagOfEventOccurrence(event: ProfileTagPushEvent): void {
     try {
-      this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
+      this.profileTagWindow?.Y_TRACKING?.eventLayer?.push(event);
     } catch (e) {
       this.logger.log(
         `Unexpected error when calling profiletag push method ${e}`
@@ -127,32 +128,39 @@ export class ProfileTagEventService implements OnDestroy {
     }
   }
 
-  private setConsentReference(): Observable<string> {
-    return this.getConsentReference().pipe(
-      tap((consentReference) =>
-        this.latestConsentReference.next(consentReference)
-      )
-    );
+  private setConsentReference(): Observable<string | null> {
+    return this.winRef.nativeWindow && !!this.getConsentReference()
+      ? this.getConsentReference().pipe(
+          tap((consentReference) => {
+            this.latestConsentReference.next(consentReference);
+          })
+        )
+      : of(null);
   }
 
   private debugModeChanged(): Observable<DebugEvent> {
-    return fromEvent(
-      this.winRef.nativeWindow,
-      InternalProfileTagEventNames.DEBUG_FLAG_CHANGED
-    ).pipe(
-      map((event) => <DebugEvent>event),
-      tap((event) => (this.profileTagDebug = event.detail.debug))
-    );
+    return this.winRef.nativeWindow
+      ? fromEvent(
+          this.winRef.nativeWindow,
+          InternalProfileTagEventNames.DEBUG_FLAG_CHANGED
+        ).pipe(
+          map((event) => <DebugEvent>event),
+          tap((event) => (this.profileTagDebug = event.detail.debug))
+        )
+      : of();
   }
 
   private createConfig(siteId: string): void {
-    const newConfig: ProfileTagJsConfig = {
-      ...this.config.cds.profileTag,
-      tenant: this.config.cds.tenant,
-      siteId,
-      spa: true,
-    };
-    this.exposeConfig(newConfig);
+    const cds = this.config.cds;
+    if (cds) {
+      const newConfig: ProfileTagJsConfig = {
+        ...cds.profileTag,
+        tenant: cds.tenant,
+        siteId,
+        spa: true,
+      };
+      this.exposeConfig(newConfig);
+    }
   }
 
   /*
@@ -165,16 +173,19 @@ export class ProfileTagEventService implements OnDestroy {
   }
 
   private addScript(): void {
-    if (this.isScriptLoaded(this.config.cds.profileTag.javascriptUrl)) {
-      return;
+    const javascriptUrl = this.config.cds?.profileTag?.javascriptUrl;
+    if (javascriptUrl) {
+      if (this.isScriptLoaded(javascriptUrl)) {
+        return;
+      }
+      const profileTagScript = this.winRef.document.createElement('script');
+      profileTagScript.type = 'text/javascript';
+      profileTagScript.async = true;
+      profileTagScript.src = javascriptUrl;
+      this.winRef.document
+        .getElementsByTagName('head')[0]
+        .appendChild(profileTagScript);
     }
-    const profileTagScript = this.winRef.document.createElement('script');
-    profileTagScript.type = 'text/javascript';
-    profileTagScript.async = true;
-    profileTagScript.src = this.config.cds.profileTag.javascriptUrl;
-    this.winRef.document
-      .getElementsByTagName('head')[0]
-      .appendChild(profileTagScript);
   }
 
   private initWindow(): void {

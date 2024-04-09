@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,5 +44,12 @@ export class CustomerCouponConnector {
     couponCode: string
   ): Observable<CustomerCoupon2Customer> {
     return this.adapter.claimCustomerCoupon(userId, couponCode);
+  }
+
+  disclaimCustomerCoupon(
+    userId: string,
+    couponCode: string
+  ): Observable<CustomerCoupon2Customer> {
+    return this.adapter.disclaimCustomerCoupon(userId, couponCode);
   }
 }

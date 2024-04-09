@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,7 @@ import {
   EpdVisualizationInnerConfig,
   VisualizationApiConfig,
 } from '@spartacus/epd-visualization/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 /**
@@ -98,9 +98,9 @@ export class StorageV1Adapter implements SceneAdapter {
     return this.http
       .get(this.getUrl(sceneId, nodeIds, $expand, $filter, contentType))
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         this.converter.pipeable(NODES_RESPONSE_NORMALIZER)
       );
   }

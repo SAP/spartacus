@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  Optional,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -18,14 +18,14 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
   UserAddressService,
+  getLastValueSync,
 } from '@spartacus/core';
 import { Card, getAddressNumbers } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -33,8 +33,8 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutConfigService } from '../services';
+import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
   card: Card;
@@ -47,6 +47,7 @@ export interface CardWithAddress {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
+  protected checkoutConfigService = inject(CheckoutConfigService);
   protected busy$ = new BehaviorSubject<boolean>(false);
 
   cards$: Observable<CardWithAddress[]>;
@@ -73,32 +74,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
   }
 
-  // TODO(CXSPA-): make checkoutConfigService a required dependency
-  constructor(
-    userAddressService: UserAddressService,
-    checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    activatedRoute: ActivatedRoute,
-    translationService: TranslationService,
-    activeCartFacade: ActiveCartFacade,
-    checkoutStepService: CheckoutStepService,
-    checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    globalMessageService: GlobalMessageService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    checkoutConfigService: CheckoutConfigService
-  );
-  /**
-   * @deprecated since 6.2
-   */
-  constructor(
-    userAddressService: UserAddressService,
-    checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    activatedRoute: ActivatedRoute,
-    translationService: TranslationService,
-    activeCartFacade: ActiveCartFacade,
-    checkoutStepService: CheckoutStepService,
-    checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    globalMessageService: GlobalMessageService
-  );
   constructor(
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -107,8 +82,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected globalMessageService: GlobalMessageService,
-    @Optional() protected checkoutConfigService?: CheckoutConfigService
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -132,9 +106,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       region = address.region.isocode + ', ';
     }
 
-    /**
-     * TODO: (#CXSPA-53) Remove feature config check in 6.0
-     */
     const numbers = getAddressNumbers(address, textPhone, textMobile);
 
     return {

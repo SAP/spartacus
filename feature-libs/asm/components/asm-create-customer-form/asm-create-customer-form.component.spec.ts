@@ -67,6 +67,16 @@ const errorResponse: HttpErrorModel = {
     },
   ],
 };
+
+const duplicatedUidErrorResponse: HttpErrorModel = {
+  details: [
+    {
+      message: 'Duplicate User id',
+      type: 'AssistedServiceDuplicatedUidError',
+    },
+  ],
+};
+
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -188,6 +198,17 @@ describe('AsmCreateCustomerFormComponent', () => {
     );
     expect(component.backendErrorMessages[2]).toEqual(
       'asm.createCustomerForm.validationErrors.lastName'
+    );
+  });
+
+  it('should show duplicated uid error with duplicate User id', () => {
+    component.createdCustomer = createdCustomerData;
+    // @ts-ignore
+    component.onRegisterUserFail(duplicatedUidErrorResponse);
+    expect(component.showDialogBackendErrorAlerts[0]).toBeTruthy();
+    expect(component.backendErrorMessages[0]).toEqual(
+      'asm.createCustomerForm.badRequestDuplicatedEmail emailAddress:' +
+        createdCustomerData.email
     );
   });
 

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -539,7 +539,7 @@ export function completeOrderProcess(productName: string): void {
   this.searchForProduct(productName);
   common.clickOnAddToCartBtnOnPD();
   this.clickOnProceedToCheckoutBtnOnPD();
-  configurationCartVc.checkout();
+  configurationCartVc.completeCheckout();
   //TODO: activate after 22.05
   //configurationCart.navigateToOrderDetails();
   //don't check the order history aspect because this part is flaky

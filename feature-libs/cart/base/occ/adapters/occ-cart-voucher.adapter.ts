@@ -1,25 +1,29 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CartVoucherAdapter } from '@spartacus/cart/base/core';
 import { CART_VOUCHER_NORMALIZER } from '@spartacus/cart/base/root';
 import {
   ConverterService,
   InterceptorUtil,
-  OccEndpointsService,
+  LoggerService,
   OCC_USER_ID_ANONYMOUS,
+  OccEndpointsService,
   USE_CLIENT_TOKEN,
+  normalizeHttpError,
 } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccCartVoucherAdapter implements CartVoucherAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -54,7 +58,9 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
     const headers = this.getHeaders(userId);
 
     return this.http.post(url, toAdd, { headers, params }).pipe(
-      catchError((error: any) => throwError(error)),
+      catchError((error: any) => {
+        throw normalizeHttpError(error, this.logger);
+      }),
       this.converter.pipeable(CART_VOUCHER_NORMALIZER)
     );
   }
@@ -67,8 +73,10 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
 
     const headers = this.getHeaders(userId);
 
-    return this.http
-      .delete(url, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+    return this.http.delete(url, { headers }).pipe(
+      catchError((error: any) => {
+        throw normalizeHttpError(error, this.logger);
+      })
+    );
   }
 }

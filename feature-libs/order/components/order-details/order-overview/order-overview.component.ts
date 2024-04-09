@@ -1,21 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import { CartOutlets, DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
   CostCenter,
+  PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
 import { Card, CmsComponentData } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
+import { paymentMethodCard } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-order-overview',
@@ -23,6 +25,8 @@ import { OrderDetailsService } from '../order-details.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderOverviewComponent {
+  readonly cartOutlets = CartOutlets;
+
   order$: Observable<any> = this.orderDetailsService.getOrderDetails();
   isOrderLoading$: Observable<boolean> =
     typeof this.orderDetailsService.isOrderDetailsLoading === 'function'
@@ -215,14 +219,15 @@ export class OrderOverviewComponent {
       }),
     ]).pipe(
       filter(() => Boolean(payment)),
-      map(
-        ([textTitle, textExpires]) =>
-          ({
-            title: textTitle,
-            textBold: payment.accountHolderName,
-            text: [payment.cardNumber, textExpires],
-          } as Card)
+      map(([textTitle, textExpires]) =>
+        paymentMethodCard(textTitle, textExpires, payment)
       )
+    );
+  }
+
+  isPaymentInfoCardFull(payment: PaymentDetails): boolean {
+    return (
+      !!payment?.cardNumber && !!payment?.expiryMonth && !!payment?.expiryYear
     );
   }
 

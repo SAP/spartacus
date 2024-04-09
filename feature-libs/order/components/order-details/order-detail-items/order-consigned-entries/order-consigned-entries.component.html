@@ -1,7 +1,7 @@
 <div *ngFor="let consignment of consignments" class="cx-list row">
   <ng-template
     [cxOutlet]="OrderOutlets.ORDER_CONSIGNMENT"
-    [cxOutletContext]="{ item: consignment }"
+    [cxOutletContext]="{ item: consignment, order: order }"
   >
     <div class="cx-list-header col-12">
       <div class="cx-list-status">
@@ -25,6 +25,10 @@
   </ng-template>
   <div class="cx-list-item col-12">
     <ng-template
+      [cxAbstractOrderContext]="{
+        id: order.code,
+        type: abstractOrderType.ORDER
+      }"
       [cxOutlet]="CartOutlets.CART_ITEM_LIST"
       [cxOutletContext]="{
         items: consignment.entries,

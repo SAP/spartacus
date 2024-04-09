@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useFeatureStyles } from '@spartacus/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '../../core/model/configurator.model';
@@ -23,7 +24,9 @@ export interface ConfiguratorPriceComponentOptions {
 export class ConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 
-  constructor(protected directionService: DirectionService) {}
+  constructor(protected directionService: DirectionService) {
+    useFeatureStyles('productConfiguratorAttributeTypesV2');
+  }
 
   protected isRTLDirection(): boolean {
     return this.directionService.getDirection() === DirectionMode.RTL;

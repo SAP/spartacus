@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, OperatorFunction } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -25,27 +25,6 @@ export class ConfiguratorOverviewFilterButtonComponent {
 
   @ViewChild('filterButton') filterButton: ElementRef;
   @HostBinding('class.ghost') ghostStyle = true;
-
-  //TODO(CXSPA-3392) remove this member in next major, it is not used
-  /**
-   * @deprecated since 6.1. Use configurationWithOv$ instead
-   */
-  config$: Observable<Configurator.Configuration> =
-    this.configRouterExtractorService.extractRouterData().pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner)
-      ),
-      // filter 'strict null check safe'
-      filter(
-        (configuration) => configuration.overview != null
-      ) as OperatorFunction<
-        Configurator.Configuration,
-        Configurator.ConfigurationWithOverview
-      >,
-      tap(() => {
-        this.ghostStyle = false;
-      })
-    );
 
   configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(

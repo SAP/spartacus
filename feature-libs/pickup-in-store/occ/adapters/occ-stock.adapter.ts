@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,7 @@ import {
 } from '@spartacus/core';
 import { StockAdapter } from '@spartacus/pickup-in-store/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 /**
@@ -44,9 +44,9 @@ export class OccStockAdapter implements StockAdapter {
         })
       )
       .pipe(
-        catchError((error: any) =>
-          throwError(normalizeHttpError(error, this.logger))
-        )
+        catchError((error: any) => {
+          throw normalizeHttpError(error, this.logger);
+        })
       );
   }
 
@@ -61,9 +61,9 @@ export class OccStockAdapter implements StockAdapter {
         })
       )
       .pipe(
-        catchError((error: any) =>
-          throwError(normalizeHttpError(error, this.logger))
-        )
+        catchError((error: any) => {
+          throw normalizeHttpError(error, this.logger);
+        })
       );
   }
 }
