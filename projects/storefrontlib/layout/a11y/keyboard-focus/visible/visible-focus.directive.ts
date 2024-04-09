@@ -29,6 +29,7 @@ import { VisibleFocusConfig } from '../keyboard-focus.model';
  */
 @Directive() // selector: '[cxVisibleFocus]'
 export class VisibleFocusDirective extends BaseFocusDirective {
+  // TODO: (CXSPA-5912) Remove usless constructor next major release
   constructor(
     protected elementRef: ElementRef<HTMLElement>,
     protected service: BaseFocusService
