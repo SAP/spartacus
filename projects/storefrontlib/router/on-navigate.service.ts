@@ -97,6 +97,7 @@ export class OnNavigateService {
           }
 
           this.hostComponent?.location?.nativeElement.focus();
+          console.log('focus', this.hostComponent?.location?.nativeElement);
         });
     }
   }
