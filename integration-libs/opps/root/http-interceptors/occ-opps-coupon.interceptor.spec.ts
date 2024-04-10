@@ -12,7 +12,7 @@ const url =
   'https://localhost:9002/occ/v2/electronics-spa/cms/pages?lang=en&curr=USD';
 const mockOppsConfig: OppsConfig = {
   opps: {
-    coupon: {
+    couponcodes: {
       httpHeaderName: 'mock-opps-coupon',
     },
   },

@@ -53,13 +53,13 @@ export class OccOppsCouponInterceptor implements HttpInterceptor {
       );
     }
     if (this.winRef.isBrowser()) {
-      if (!this.config.opps?.coupon?.httpHeaderName && isDevMode()) {
+      if (!this.config.opps?.couponcodes?.httpHeaderName && isDevMode()) {
         this.logger.warn(
           `There is no httpHeaderName configured for OPPS Coupon`
         );
       }
       this.requestHeader =
-        this.config.opps?.coupon?.httpHeaderName?.toLowerCase?.();
+        this.config.opps?.couponcodes?.httpHeaderName?.toLowerCase?.();
     }
   }
 
