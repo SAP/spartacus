@@ -13,11 +13,11 @@
             (shouldShowButton$ | async) && orderEntry?.product?.configurable
           "
           [cartEntry]="orderEntry"
-          [readOnly]="(readonly$ | async) ?? true"
+          [readOnly]="(readonly$ | async) ?? false"
           [msgBanner]="true"
           [disabled]="quantityControl.disabled"
-        ></cx-configure-cart-entry
-      ></ng-container>
+        ></cx-configure-cart-entry>
+      </ng-container>
     </div>
   </ng-container>
 </ng-container>
