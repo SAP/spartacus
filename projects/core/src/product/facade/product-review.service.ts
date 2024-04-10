@@ -185,7 +185,7 @@ export class ProductReviewService {
           spam.choices[0].message.content
         );
         reviews.forEach((review, index) => {
-          let spamIdx = spamIndex.indexOf(index);
+          let spamIdx = spamIndex.indexOf(index+1); // as AI returns data in index starting from 1 and not from 0.
           if (spamIdx === -1) {
             let out = {};
             Object.assign(out, review, { isSpam: false });

@@ -29,15 +29,12 @@
             <h3>{{ 'Overall Review Summary' }}</h3>
             {{ aiSummary.choices[0].message.content | json }}
           </ng-container>
-          <div class="sentiments">
+          <div class="sentiments" *ngIf="aiSentimentPercentage$ | async as arr">
             <ng-container
               *ngIf="aiPositiveSentiments$ | async as aiPositiveSentiments"
             >
               <div class="positive-sentiments">
-                <div
-                  *ngIf="aiSentimentPercentage$ | async as arr"
-                  class="positive-circle"
-                >
+                <div class="positive-circle">
                   {{ arr[0] + '% of customers gave positive feedback' }}
                 </div>
                 <ul class="sentiment-list">
@@ -52,10 +49,7 @@
               *ngIf="aiNegativeSentiments$ | async as aiNegativeSentiments"
             >
               <div class="negative-sentiments">
-                <div
-                  *ngIf="aiSentimentPercentage$ | async as arr"
-                  class="negative-circle"
-                >
+                <div class="negative-circle">
                   {{ arr[1] + '% of customers gave negative feedback' }}
                 </div>
                 <ul class="sentiment-list">
