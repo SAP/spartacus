@@ -20,7 +20,7 @@ import { REQUEST } from '../tokens/express.tokens';
 import { ServerOptions } from './model';
 import { serverRequestOriginFactory } from './server-request-origin';
 import { serverRequestUrlFactory } from './server-request-url';
-import { provideServerErrorResponseTransformers } from '../error-handling/server-error-response-transformers/provide-server-error-response-transformers';
+import { provideServerErrorResponseFactory } from '../error-handling/server-error-response-factory/provide-server-error-response-factory';
 
 /**
  * Returns the providers used for SSR and pre-rendering processes.
@@ -44,7 +44,7 @@ export function provideServer(options?: ServerOptions): Provider[] {
       useExisting: ServerRespondingErrorHandler,
       multi: true,
     },
-    provideServerErrorResponseTransformers(),
+    provideServerErrorResponseFactory(),
   ];
 }
 /**

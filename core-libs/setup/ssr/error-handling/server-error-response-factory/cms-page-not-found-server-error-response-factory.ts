@@ -5,7 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { ServerErrorResponseTransformer } from './server-error-response-transformers';
+import { ServerErrorResponseFactory } from './server-error-response-factory';
 import {
   CmsPageNotFoundServerErrorResponse,
   CxServerErrorResponse,
@@ -14,14 +14,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { OccEndpointsService, Priority } from '@spartacus/core';
 
 /**
- * A transformer responsible for transforming an HTTP error response into a {@link CmsPageNotFoundServerErrorResponse}.
- * The transformer is applicable when the error the URL contains 'cms/pages'.
+ * A factory responsible for creating {@link CmsPageNotFoundServerErrorResponse}.
+ * The factory is applicable when the error response occurs during HTTP call for CMS pages.
  */
 @Injectable({
   providedIn: 'root',
 })
-export class CmsPageNotFoundServerErrorResponseTransformer
-  implements ServerErrorResponseTransformer
+export class CmsPageNotFoundServerErrorResponseFactory
+  implements ServerErrorResponseFactory
 {
   endpointsService: OccEndpointsService;
   constructor() {
@@ -41,7 +41,7 @@ export class CmsPageNotFoundServerErrorResponseTransformer
     return Priority.LOW;
   }
 
-  transform(error: any): CxServerErrorResponse {
+  create(error: any): CxServerErrorResponse {
     const message = 'CMS page not found';
     return new CmsPageNotFoundServerErrorResponse({
       message,

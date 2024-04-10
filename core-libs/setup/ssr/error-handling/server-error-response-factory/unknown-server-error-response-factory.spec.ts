@@ -1,16 +1,16 @@
 import { Priority } from '@spartacus/core';
-import { UnknownServerErrorResponseTransformer } from './unknown-server-error-response-transformer';
+import { UnknownServerErrorResponseFactory } from './unknown-server-error-response-factory';
 import { TestBed } from '@angular/core/testing';
 
 describe('UnknonnServerErrorResponse', () => {
-  let unknownServerErrorResponse: UnknownServerErrorResponseTransformer;
+  let unknownServerErrorResponse: UnknownServerErrorResponseFactory;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UnknownServerErrorResponseTransformer],
+      providers: [UnknownServerErrorResponseFactory],
     });
     unknownServerErrorResponse = TestBed.inject(
-      UnknownServerErrorResponseTransformer
+      UnknownServerErrorResponseFactory
     );
   });
 
@@ -22,9 +22,9 @@ describe('UnknonnServerErrorResponse', () => {
     expect(unknownServerErrorResponse.hasMatch()).toBe(true);
   });
 
-  it('should transform the error', () => {
+  it('should create the error', () => {
     const error = 'error';
-    const result = unknownServerErrorResponse.transform(error);
+    const result = unknownServerErrorResponse.create(error);
     expect(result.data?.message).toBe('An unknown server error occurred');
     expect(result.data?.cause).toBe(error);
   });

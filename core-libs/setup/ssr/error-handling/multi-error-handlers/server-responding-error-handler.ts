@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { MultiErrorHandler, resolveApplicable } from '@spartacus/core';
-import { SERVER_ERROR_RESPONSE_TRANSFORMERS } from '../server-error-response-transformers';
+import { SERVER_ERROR_RESPONSE_FACTORY } from '../server-error-response-factory';
 
 /**
  * Error handler responsible for sending an error response to the incoming request in the server.
@@ -18,13 +18,13 @@ import { SERVER_ERROR_RESPONSE_TRANSFORMERS } from '../server-error-response-tra
   providedIn: 'root',
 })
 export class ServerRespondingErrorHandler implements MultiErrorHandler {
-  protected transformers = inject(SERVER_ERROR_RESPONSE_TRANSFORMERS);
+  protected factories = inject(SERVER_ERROR_RESPONSE_FACTORY);
 
   handleError(error: unknown): void {
     //@ts-ignore
     //TODO:CXSPA-6577 Propagate the error to the OptimizedSsrEngine
-    const cxServerError = resolveApplicable(this.transformers, [
+    const cxServerError = resolveApplicable(this.factories, [
       error,
-    ]).transform(error);
+    ]).create(error);
   }
 }

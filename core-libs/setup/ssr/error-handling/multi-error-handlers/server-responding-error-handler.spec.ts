@@ -1,17 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
-  CmsPageNotFoundServerErrorResponseTransformer,
-  SERVER_ERROR_RESPONSE_TRANSFORMERS,
-  ServerErrorResponseTransformer,
-  UnknownServerErrorResponseTransformer,
-} from '../server-error-response-transformers';
+  CmsPageNotFoundServerErrorResponseFactory,
+  SERVER_ERROR_RESPONSE_FACTORY,
+  ServerErrorResponseFactory,
+  UnknownServerErrorResponseFactory,
+} from '../server-error-response-factory';
 import { ServerRespondingErrorHandler } from './server-responding-error-handler';
 import { OccEndpointsService, Priority } from '@spartacus/core';
 
-class MockTransformerWithHigherPriority
-  implements ServerErrorResponseTransformer
-{
+class MockFactoryWithHigherPriority implements ServerErrorResponseFactory {
   hasMatch(): boolean {
     return true;
   }
@@ -19,7 +17,7 @@ class MockTransformerWithHigherPriority
     return Priority.HIGH;
   }
 
-  transform = jest.fn();
+  create = jest.fn();
 }
 
 class MockOccEndpointsService implements Partial<OccEndpointsService> {
@@ -29,11 +27,11 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
 }
 
 describe('ServerRespondingErrorHandler', () => {
-  describe('default transformers', () => {
-    let pageNotFoundTransformer: CmsPageNotFoundServerErrorResponseTransformer;
-    let unknownServerErrorTransformer: UnknownServerErrorResponseTransformer;
+  describe('default factories', () => {
+    let pageNotFoundFactory: CmsPageNotFoundServerErrorResponseFactory;
+    let unknownServerErrorFactory: UnknownServerErrorResponseFactory;
     let serverRespondingErrorHandler: ServerRespondingErrorHandler;
-    let transformers: ServerErrorResponseTransformer[];
+    let factories: ServerErrorResponseFactory[];
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -44,13 +42,13 @@ describe('ServerRespondingErrorHandler', () => {
             useClass: MockOccEndpointsService,
           },
           {
-            provide: SERVER_ERROR_RESPONSE_TRANSFORMERS,
-            useClass: CmsPageNotFoundServerErrorResponseTransformer,
+            provide: SERVER_ERROR_RESPONSE_FACTORY,
+            useClass: CmsPageNotFoundServerErrorResponseFactory,
             multi: true,
           },
           {
-            provide: SERVER_ERROR_RESPONSE_TRANSFORMERS,
-            useClass: UnknownServerErrorResponseTransformer,
+            provide: SERVER_ERROR_RESPONSE_FACTORY,
+            useClass: UnknownServerErrorResponseFactory,
             multi: true,
           },
         ],
@@ -59,30 +57,32 @@ describe('ServerRespondingErrorHandler', () => {
       serverRespondingErrorHandler = TestBed.inject(
         ServerRespondingErrorHandler
       );
-      transformers = TestBed.inject(SERVER_ERROR_RESPONSE_TRANSFORMERS);
-      pageNotFoundTransformer = transformers[0] as CmsPageNotFoundServerErrorResponseTransformer;
-      unknownServerErrorTransformer = transformers[1] as UnknownServerErrorResponseTransformer;
+      factories = TestBed.inject(SERVER_ERROR_RESPONSE_FACTORY);
+      pageNotFoundFactory =
+        factories[0] as CmsPageNotFoundServerErrorResponseFactory;
+      unknownServerErrorFactory =
+        factories[1] as UnknownServerErrorResponseFactory;
 
-      jest.spyOn(pageNotFoundTransformer, 'transform');
-      jest.spyOn(unknownServerErrorTransformer, 'transform');
+      jest.spyOn(pageNotFoundFactory, 'create');
+      jest.spyOn(unknownServerErrorFactory, 'create');
     });
 
     afterEach(() => {
       jest.clearAllMocks();
     });
 
-    it('should call CmsPageNotFoundServerErrorResponseTransformer', () => {
+    it('should call CmsPageNotFoundServerErrorResponseFactory', () => {
       const error = new HttpErrorResponse({
         url: 'https://localhost:9002/rest/v2/cms/pages',
       });
 
       serverRespondingErrorHandler.handleError(error);
 
-      expect(pageNotFoundTransformer.transform).toHaveBeenCalledWith(error);
-      expect(unknownServerErrorTransformer.transform).not.toHaveBeenCalled();
+      expect(pageNotFoundFactory.create).toHaveBeenCalledWith(error);
+      expect(unknownServerErrorFactory.create).not.toHaveBeenCalled();
     });
 
-    it('should call UnknownServerErrorResponseTransformer as fallback', () => {
+    it('should call UnknownServerErrorResponseFactory as fallback', () => {
       const error = {
         headers: {},
         url: 'https://localhost:9002/rest/v2/unknown',
@@ -90,34 +90,32 @@ describe('ServerRespondingErrorHandler', () => {
 
       serverRespondingErrorHandler.handleError(error);
 
-      expect(pageNotFoundTransformer.transform).not.toHaveBeenCalled();
-      expect(unknownServerErrorTransformer.transform).toHaveBeenCalledWith(
-        error
-      );
+      expect(pageNotFoundFactory.create).not.toHaveBeenCalled();
+      expect(unknownServerErrorFactory.create).toHaveBeenCalledWith(error);
     });
   });
 
-  describe('custom transformers', () => {
+  describe('custom factories', () => {
     let serverRespondingErrorHandler: ServerRespondingErrorHandler;
-    let transformers: ServerErrorResponseTransformer[];
+    let factories: ServerErrorResponseFactory[];
 
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
           ServerRespondingErrorHandler,
           {
-            provide: SERVER_ERROR_RESPONSE_TRANSFORMERS,
-            useClass: CmsPageNotFoundServerErrorResponseTransformer,
+            provide: SERVER_ERROR_RESPONSE_FACTORY,
+            useClass: CmsPageNotFoundServerErrorResponseFactory,
             multi: true,
           },
           {
-            provide: SERVER_ERROR_RESPONSE_TRANSFORMERS,
-            useClass: UnknownServerErrorResponseTransformer,
+            provide: SERVER_ERROR_RESPONSE_FACTORY,
+            useClass: UnknownServerErrorResponseFactory,
             multi: true,
           },
           {
-            provide: SERVER_ERROR_RESPONSE_TRANSFORMERS,
-            useClass: MockTransformerWithHigherPriority,
+            provide: SERVER_ERROR_RESPONSE_FACTORY,
+            useClass: MockFactoryWithHigherPriority,
             multi: true,
           },
         ],
@@ -126,10 +124,10 @@ describe('ServerRespondingErrorHandler', () => {
       serverRespondingErrorHandler = TestBed.inject(
         ServerRespondingErrorHandler
       );
-      transformers = TestBed.inject(SERVER_ERROR_RESPONSE_TRANSFORMERS);
+      factories = TestBed.inject(SERVER_ERROR_RESPONSE_FACTORY);
     });
 
-    it('should call transformer with highers prioroty', () => {
+    it('should call factory with highers prioroty', () => {
       const error = {
         headers: {},
         url: 'https://localhost:9002/rest/v2/cms/pages',
@@ -137,7 +135,7 @@ describe('ServerRespondingErrorHandler', () => {
 
       serverRespondingErrorHandler.handleError(error);
 
-      expect(transformers[2].transform).toHaveBeenCalledWith(error);
+      expect(factories[2].create).toHaveBeenCalledWith(error);
     });
   });
 });

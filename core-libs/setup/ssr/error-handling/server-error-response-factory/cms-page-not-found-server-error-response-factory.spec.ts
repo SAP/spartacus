@@ -1,5 +1,5 @@
 import { OccConfig, OccEndpointsService, Priority } from '@spartacus/core';
-import { CmsPageNotFoundServerErrorResponseTransformer } from './cms-page-not-found-server-error-response-transformer';
+import { CmsPageNotFoundServerErrorResponseFactory } from './cms-page-not-found-server-error-response-factory';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
@@ -16,12 +16,12 @@ const mockOccConfig: OccConfig = {
 const expectedUrl = `${mockOccConfig.backend?.occ?.baseUrl}/${mockOccConfig.backend?.occ?.prefix}/${mockOccConfig.backend?.occ?.endpoints?.pages}`;
 
 describe('CmsPageNotFoundServerErrorResponse', () => {
-  let cmsPageNotFoundServerErrorResponse: CmsPageNotFoundServerErrorResponseTransformer;
+  let cmsPageNotFoundServerErrorResponse: CmsPageNotFoundServerErrorResponseFactory;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CmsPageNotFoundServerErrorResponseTransformer,
+        CmsPageNotFoundServerErrorResponseFactory,
         OccEndpointsService,
         {
           provide: OccConfig,
@@ -31,7 +31,7 @@ describe('CmsPageNotFoundServerErrorResponse', () => {
     });
 
     cmsPageNotFoundServerErrorResponse = TestBed.inject(
-      CmsPageNotFoundServerErrorResponseTransformer
+      CmsPageNotFoundServerErrorResponseFactory
     );
   });
 
@@ -61,9 +61,9 @@ describe('CmsPageNotFoundServerErrorResponse', () => {
     expect(cmsPageNotFoundServerErrorResponse.hasMatch(error)).toBe(false);
   });
 
-  it('should transform the error', () => {
+  it('should create the error', () => {
     const error = 'error';
-    const result = cmsPageNotFoundServerErrorResponse.transform(error);
+    const result = cmsPageNotFoundServerErrorResponse.create(error);
     expect(result.data?.message).toBe('CMS page not found');
     expect(result.data?.cause).toBe(error);
   });
