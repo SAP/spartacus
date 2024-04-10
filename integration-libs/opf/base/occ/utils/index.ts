@@ -4,6 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './model/index';
-export * from './opf-base-occ.module';
-export * from './utils/index';
+export * from './opf-occ-http-error-handlers';
