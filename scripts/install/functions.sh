@@ -99,7 +99,6 @@ function create_shell_app {
     ( cd ${INSTALLATION_DIR} && \
         ng new ${1} \
             --style scss \
-            --no-routing \
             ${EXTRA_ANGULAR_CLI_FLAGS}
     )
 }
