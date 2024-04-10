@@ -23,7 +23,7 @@ import { UserSignUp } from '@spartacus/user/profile/root';
 import { OccUserProfileAdapter } from './occ-user-profile.adapter';
 import { Observable, of } from 'rxjs';
 import {
-  GoogleRecaptchaApiConfig,
+  CaptchaApiConfig,
   CaptchaProvider,
 } from '@spartacus/storefront';
 
@@ -88,7 +88,7 @@ class MockCaptchaService implements CaptchaProvider {
   }
 }
 
-const mockCaptchaApiConfig: GoogleRecaptchaApiConfig = {
+const mockCaptchaApiConfig: CaptchaApiConfig = {
   apiUrl: 'mock-url',
   fields: { 'mock-field-key': 'mock-field-value' },
   captchaProvider: MockCaptchaService,
@@ -110,7 +110,7 @@ describe('OccUserProfileAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
-        { provide: GoogleRecaptchaApiConfig, useValue: mockCaptchaApiConfig },
+        { provide: CaptchaApiConfig, useValue: mockCaptchaApiConfig },
         MockCaptchaService,
       ],
     });

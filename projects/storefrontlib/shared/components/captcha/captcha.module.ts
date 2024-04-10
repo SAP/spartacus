@@ -8,14 +8,14 @@ import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { CaptchaComponent } from './captcha.component';
 import { CommonModule } from '@angular/common';
-import { defaultGoogleRecaptchaApiConfig } from './google-recaptchaV2/config/default-google-recaptcha-api-config';
+import { defaultCaptchaApiConfig } from './config/default-captcha-api-config';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormErrorsModule } from '../form';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, FormErrorsModule],
   declarations: [CaptchaComponent],
-  providers: [provideDefaultConfig(defaultGoogleRecaptchaApiConfig)],
+  providers: [provideDefaultConfig(defaultCaptchaApiConfig)],
   exports: [CaptchaComponent],
 })
 export class CaptchaModule {}

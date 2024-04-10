@@ -19,7 +19,7 @@ import {
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
-import { GoogleRecaptchaApiConfig } from './google-recaptchaV2/config/google-recaptcha-api-config';
+import { CaptchaApiConfig } from './config/captcha-api-config';
 import { CaptchaProvider } from './captcha.model';
 
 @Component({
@@ -36,13 +36,13 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    protected config: GoogleRecaptchaApiConfig,
+    protected config: CaptchaApiConfig,
     protected injector: Injector,
     private renderer: Renderer2
   ) {}
 
   /**
-   * Add fields from GoogleRecaptchaApiConfig. Call backend to get captcha
+   * Add fields from CaptchaApiConfig. Call backend to get captcha
    * config.
    */
   ngAfterViewInit(): void {

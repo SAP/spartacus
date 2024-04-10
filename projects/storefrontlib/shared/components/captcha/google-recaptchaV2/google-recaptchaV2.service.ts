@@ -22,7 +22,7 @@ import {
 } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 import { CaptchaProvider, RenderParams } from '../captcha.model';
-import { GoogleRecaptchaApiConfig } from './config/google-recaptcha-api-config';
+import { CaptchaApiConfig } from '../config/captcha-api-config';
 
 /**
  * Global function to be passes as "onload" url param for captcha <script>, to be
@@ -44,7 +44,7 @@ export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
 
   constructor(
     protected adapter: SiteAdapter,
-    protected apiConfig: GoogleRecaptchaApiConfig,
+    protected apiConfig: CaptchaApiConfig,
     protected languageService: LanguageService,
     protected scriptLoader: ScriptLoader,
     protected baseSiteService: BaseSiteService
@@ -95,7 +95,7 @@ export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
   }
 
   /**
-   * Trigger rendering function configured in GoogleRecaptchaApiConfig
+   * Trigger rendering function configured in CaptchaApiConfig
    * @param {HTMLElement} elem - HTML element to render captcha widget within.
    * @param {string} pubKey - public key to be used for the widget
    */
