@@ -4,14 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ViewportScroller } from '@angular/common';
-import {
-  ApplicationRef,
-  ComponentRef,
-  Injectable,
-  Injector,
-  inject,
-} from '@angular/core';
+import { DOCUMENT, ViewportScroller } from '@angular/common';
+import { Injectable, Injector, inject } from '@angular/core';
 import {
   EventType,
   NavigationEnd,
@@ -33,8 +27,10 @@ export class OnNavigateService {
 
   protected subscription: Subscription;
 
-  get hostComponent(): ComponentRef<any> {
-    return this.injector.get(ApplicationRef)?.components?.[0];
+  get hostComponent(): HTMLElement | undefined {
+    return <HTMLElement>(
+      this.injector.get(DOCUMENT).getElementsByTagName('cx-storefront')?.[0]
+    );
   }
 
   constructor(
@@ -42,15 +38,12 @@ export class OnNavigateService {
     protected router: Router,
     protected viewportScroller: ViewportScroller,
     protected injector: Injector
-  ) {
-    console.log('navigation service initialized');
-  }
+  ) {}
 
   /**
    * Reads configuration and enables features based on flags set.
    */
   initializeWithConfig(): void {
-    console.log('config', this.config);
     if (this.config?.enableResetViewOnNavigate?.active) {
       this.setResetViewOnNavigate(this.config.enableResetViewOnNavigate.active);
     }
@@ -96,8 +89,7 @@ export class OnNavigateService {
             this.scrollToPosition(currentRoute, position);
           }
 
-          this.hostComponent?.location?.nativeElement.focus();
-          console.log('focus', this.hostComponent?.location?.nativeElement);
+          this.hostComponent?.focus();
         });
     }
   }
