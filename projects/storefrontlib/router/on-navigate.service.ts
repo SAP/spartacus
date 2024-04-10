@@ -42,12 +42,15 @@ export class OnNavigateService {
     protected router: Router,
     protected viewportScroller: ViewportScroller,
     protected injector: Injector
-  ) {}
+  ) {
+    console.log('navigation service initialized');
+  }
 
   /**
    * Reads configuration and enables features based on flags set.
    */
   initializeWithConfig(): void {
+    console.log('config', this.config);
     if (this.config?.enableResetViewOnNavigate?.active) {
       this.setResetViewOnNavigate(this.config.enableResetViewOnNavigate.active);
     }
