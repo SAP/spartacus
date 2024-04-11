@@ -5,7 +5,13 @@
  */
 
 import { DOCUMENT, ViewportScroller } from '@angular/common';
-import { Injectable, Injector, inject } from '@angular/core';
+import {
+  ApplicationRef,
+  ComponentRef,
+  Injectable,
+  Injector,
+  inject,
+} from '@angular/core';
 import {
   EventType,
   NavigationEnd,
@@ -27,9 +33,17 @@ export class OnNavigateService {
 
   protected subscription: Subscription;
 
-  get hostComponent(): HTMLElement | undefined {
+  get hostComponent(): ComponentRef<any> {
+    return this.injector.get(ApplicationRef)?.components?.[0];
+  }
+
+  get selectedHostElement(): HTMLElement | undefined {
     return <HTMLElement>(
-      this.injector.get(DOCUMENT).getElementsByTagName('cx-storefront')?.[0]
+      this.injector
+        .get(DOCUMENT)
+        ?.getElementsByTagName(
+          this.config?.enableResetViewOnNavigate?.selectedHostElement
+        )?.[0]
     );
   }
 
@@ -89,7 +103,11 @@ export class OnNavigateService {
             this.scrollToPosition(currentRoute, position);
           }
 
-          this.hostComponent?.focus();
+          if (this.selectedHostElement) {
+            this.selectedHostElement?.focus();
+          } else {
+            this.hostComponent?.location?.nativeElement.focus();
+          }
         });
     }
   }
