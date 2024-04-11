@@ -85,11 +85,7 @@ export class BundleProductListComponent implements OnInit, OnDestroy {
   }
 
   checkDetails(selectedProduct: Product): void {
-    this.router.navigate([], {
-      relativeTo: this.activatedRoute,
-      queryParams: { productCode: selectedProduct.code },
-      queryParamsHandling: 'merge',
-    });
+    this.bundleProductListService.checkDetails(selectedProduct);
 
     const data = { product: selectedProduct, function: () => console.log(selectedProduct.code + ' selected')};
     this.launchDialogService?.openDialogAndSubscribe(

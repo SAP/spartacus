@@ -5,7 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { Product, RoutingService } from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   CurrentProductService,
@@ -33,7 +34,16 @@ export class BundleSelectProductComponent {
   );
 
   constructor(
-    @Optional() protected productListItemContext: ProductListItemContext, // when on PLP
-    @Optional() protected currentProductService: CurrentProductService // when on PDP
+    protected activeCartService: ActiveCartFacade,
+    protected routingService: RoutingService,
+    @Optional() protected productListItemContext: ProductListItemContext,
+    @Optional() protected currentProductService: CurrentProductService
   ) {}
+
+  //TODO: update bundle when the product selected
+  select(product: Product) {
+    console.log('Select ' + product.code);
+    this.routingService.go({ cxRoute: 'cart' });
+    // this.activeCartService.updateEntryGroup();
+  }
 }

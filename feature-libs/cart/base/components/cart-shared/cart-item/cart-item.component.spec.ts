@@ -17,7 +17,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
@@ -102,6 +102,10 @@ class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
 
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
+}
+
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let componentInjector: Injector;
@@ -136,6 +140,10 @@ describe('CartItemComponent', () => {
         providers: [
           {
             provide: ControlContainer,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService
           },
         ],
       }).compileComponents();

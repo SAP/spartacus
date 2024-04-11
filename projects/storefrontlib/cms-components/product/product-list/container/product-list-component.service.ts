@@ -80,7 +80,8 @@ export class ProductListComponentService {
       debounceTime(0),
       map(([routerState, ..._context]) => (routerState as RouterState).state),
       tap((state: ActivatedRouterStateSnapshot) => {
-        if (state.params['entryGroupNumber']) {
+        // Not trigger search in bundles
+        if (state.context.id === 'bundleSearch') {
           return;
         }
         const criteria = this.getCriteriaFromRoute(

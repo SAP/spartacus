@@ -14,8 +14,8 @@ import {
   SiteContextActions,
   withdrawOn
 } from '@spartacus/core';
-import { from, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { concat, from, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { BundleConnector } from '../../connectors/bundle.connector';
 import { BundleActions } from '../actions';
 
@@ -67,51 +67,11 @@ export class BundleEffects {
     )
   );
 
-  // getBundleAllowedProducts$: Observable<
-  //   | BundleActions.GetBundleAllowedProductsSuccess
-  //   | BundleActions.GetBundleAllowedProductsFail
-  //   | CartActions.LoadCart
-  // > = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(BundleActions.GET_BUNDLE_ALLOWED_PRODUCTS),
-  //     map((action: BundleActions.GetBundleAllowedProducts) => action.payload),
-  //     mergeMap((payload) =>
-  //       this.bundleConnector
-  //         .bundleAllowedProductsSearch(
-  //           payload.userId,
-  //           payload.cartId,
-  //           payload.entryGroupNumber,
-  //           payload.query,
-  //           payload.searchConfig
-  //         )
-  //         .pipe(
-  //           map(
-  //             (data) =>
-  //               new BundleActions.GetBundleAllowedProductsSuccess(<any>{
-  //                 ...payload,
-  //                 data,
-  //               })
-  //           ),
-  //           catchError((error) =>
-  //             from([
-  //               new BundleActions.GetBundleAllowedProductsFail({
-  //                 ...payload,
-  //                 error: error,
-  //               }),
-  //               new CartActions.LoadCart({
-  //                 cartId: payload.cartId,
-  //                 userId: payload.userId,
-  //               }),
-  //             ])
-  //           )
-  //         )
-  //     ),
-  //     withdrawOn(this.contextChange$)
-  //   )
-  // );
-
   getBundleAllowedProducts$: Observable<
-    ProductActions.SearchProductsSuccess | ProductActions.SearchProductsFail
+    | BundleActions.GetBundleAllowedProductsSuccess
+    | BundleActions.GetBundleAllowedProductsFail
+    | ProductActions.SearchProductsSuccess
+    | ProductActions.SearchProductsFail
   > = createEffect(() =>
     this.actions$.pipe(
       ofType(BundleActions.GET_BUNDLE_ALLOWED_PRODUCTS),
@@ -126,17 +86,25 @@ export class BundleEffects {
             payload.searchConfig
           )
           .pipe(
-            map(
-              (data) =>
-                new ProductActions.SearchProductsSuccess(
-                  data
-                )
+            switchMap(
+              (data) => [
+                  new ProductActions.SearchProductsSuccess(
+                    data
+                  ),
+                  new BundleActions.GetBundleAllowedProductsSuccess(<any>{
+                    ...payload,
+                    ...data,
+                  })
+                ]
             ),
             catchError((error) =>
-              of(
-                new ProductActions.SearchProductsFail(
+              concat(
+                of(new ProductActions.SearchProductsFail(
                   normalizeHttpError(error, this.logger)
-                )
+                )),
+                of(new BundleActions.GetBundleAllowedProductsFail(
+                  normalizeHttpError(error, this.logger)
+                )),
               )
             )
           )

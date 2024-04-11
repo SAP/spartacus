@@ -142,4 +142,8 @@ export class BundleService {
       Object.values(BundleTypes).includes(entryGroup.type as BundleTypes)
     );
   }
+
+  getComponentName() {
+    return this.store.pipe(select(BundleSelectors.getAvailableEntriesState));
+  }
 }
