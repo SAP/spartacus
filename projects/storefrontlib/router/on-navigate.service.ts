@@ -41,7 +41,7 @@ export class OnNavigateService {
     return <HTMLElement>(
       this.injector
         .get(DOCUMENT)
-        ?.getElementsByTagName(
+        ?.getElementsByTagName?.(
           this.config?.enableResetViewOnNavigate?.selectedHostElement
         )?.[0]
     );
