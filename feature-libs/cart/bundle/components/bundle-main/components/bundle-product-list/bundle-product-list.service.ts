@@ -53,24 +53,22 @@ export class BundleProductListComponentService {
   protected searchByRouting$: Observable<ActivatedRouterStateSnapshot> =
     combineLatest([
       this.routing.getRouterState().pipe(
-        distinctUntilChanged((x, y) => {
-          // router emits new value also when the anticipated `nextState` changes
-          // but we want to perform search only when current url changes
-          return x.state.url === y.state.url;
-        })
+        distinctUntilChanged((x, y) => x.state.url === y.state.url)
       ),
       ...this.siteContext,
     ]).pipe(
       debounceTime(0),
       map(([routerState, ..._context]) => routerState.state),
       tap((state: ActivatedRouterStateSnapshot) => {
-        const entryGroupNumber = state.params['entryGroupNumber'];
-        if (entryGroupNumber) {
-          const criteria = this.getCriteriaFromRoute(
-            state.params,
-            state.queryParams
-          );
-          this.search(entryGroupNumber, criteria);
+        if (state.context.id === 'bundleSearch') {
+          const entryGroupNumber = state.params['entryGroupNumber'];
+          if (entryGroupNumber) {
+            const criteria = this.getCriteriaFromRoute(
+              state.params,
+              state.queryParams
+            );
+            this.search(entryGroupNumber, criteria);
+          }
         }
       })
     );
@@ -127,10 +125,6 @@ export class BundleProductListComponentService {
    * major version.
    */
   private get siteContext(): Observable<string>[] {
-    // TODO: we should refactor this so that custom context will be taken
-    // into account automatically. Ideally, we drop the specific context
-    // from the constructor, and query a ContextService for all contexts.
-
     return [this.languageService.getActive(), this.currencyService.getActive()];
   }
 
