@@ -38,13 +38,13 @@ export class OnNavigateService {
   }
 
   get selectedHostElement(): HTMLElement | undefined {
-    return <HTMLElement>(
-      this.injector
-        .get(DOCUMENT)
-        ?.getElementsByTagName?.(
-          this.config?.enableResetViewOnNavigate?.selectedHostElement
-        )?.[0]
-    );
+    const toSelect =
+      this.config?.enableResetViewOnNavigate?.selectedHostElement;
+    return toSelect
+      ? <HTMLElement>(
+          this.injector.get(DOCUMENT)?.getElementsByTagName?.(toSelect)?.[0]
+        )
+      : undefined;
   }
 
   constructor(
