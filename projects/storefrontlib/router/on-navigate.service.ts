@@ -103,12 +103,20 @@ export class OnNavigateService {
             this.scrollToPosition(currentRoute, position);
           }
 
-          if (this.selectedHostElement) {
-            this.selectedHostElement?.focus();
-          } else {
-            this.hostComponent?.location?.nativeElement.focus();
-          }
+          this.focusOnHostElement();
         });
+    }
+  }
+
+  /**
+   * Focus on selectedHostElement if set in config.
+   * Otherwise, focuses on hostComponent.
+   */
+  protected focusOnHostElement() {
+    if (this.selectedHostElement) {
+      this.selectedHostElement?.focus();
+    } else {
+      this.hostComponent?.location?.nativeElement.focus();
     }
   }
 
