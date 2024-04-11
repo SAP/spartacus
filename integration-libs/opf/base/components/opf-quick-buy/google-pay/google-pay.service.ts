@@ -14,6 +14,7 @@ import {
   ActiveConfiguration,
   OpfPaymentFacade,
   OpfProviderType,
+  OpfQuickBuyDeliveryInfo,
   OpfQuickBuyDeliveryType,
   OpfQuickBuyLocation,
   OpfResourceLoaderService,
@@ -25,8 +26,8 @@ import {
   CurrentProductService,
   ItemCounterService,
 } from '@spartacus/storefront';
-import { Observable, forkJoin, lastValueFrom, of } from 'rxjs';
-import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, combineLatest, forkJoin, lastValueFrom, of } from 'rxjs';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { OpfQuickBuyService } from '../opf-quick-buy.service';
 
 @Injectable({
@@ -269,8 +270,57 @@ export class OpfGooglePayService {
     return convertedAddress;
   }
 
-  handleSingleProductTransaction(): Observable<Product | boolean | null> {
-    this.transactionDetails.context = OpfQuickBuyLocation.PRODUCT;
+  prepareCartForPdp() {
+    this.opfQuickBuyService
+      .getQuickBuyLocationContext()
+      .pipe(
+        filter((context) => context === OpfQuickBuyLocation.PRODUCT),
+        tap((context) => {
+          console.log(
+            'isCartIdExist',
+            this.opfCartHandlerService.isPreviousCartIdExist
+          );
+          this.transactionDetails.context = context;
+          this.loadInitialCartAndCleanAddresses();
+        }),
+        switchMap(() =>
+          combineLatest({
+            deliveryInfo: this.opfQuickBuyService.getQuickBuyDeliveryInfo(
+              OpfQuickBuyLocation.PRODUCT
+            ),
+            product: this.currentProductService.getProduct(),
+          })
+        ),
+        take(1),
+        switchMap(({ deliveryInfo, product }) => {
+          const count = this.itemCounterService.getCounter();
+          this.transactionDetails.product = product as Product;
+          this.transactionDetails.quantity = count;
+
+          console.log('add product to cart');
+
+          return this.opfCartHandlerService.addProductToCart(
+            product?.code || '',
+            count,
+            deliveryInfo?.pickupDetails?.name
+          );
+        })
+      )
+      .subscribe((val) => console.log('prepare cart', val));
+  }
+
+  protected handleTransaction(
+    context: OpfQuickBuyLocation
+  ): Observable<Cart | DeliveryMode | undefined> {
+    const transactionHandlers = {
+      [OpfQuickBuyLocation.PRODUCT]: (deliveryInfo: OpfQuickBuyDeliveryInfo) =>
+        this.handleSingleProductTransaction(deliveryInfo),
+      [OpfQuickBuyLocation.CART]: (deliveryInfo: OpfQuickBuyDeliveryInfo) =>
+        this.handleActiveCartTransaction(deliveryInfo),
+    };
+
+    this.transactionDetails.context = context;
+
     return forkJoin({
       deliveryInfo: this.opfQuickBuyService.getQuickBuyDeliveryInfo(
         this.transactionDetails.context as OpfQuickBuyLocation
@@ -280,72 +330,49 @@ export class OpfGooglePayService {
       switchMap(({ deliveryInfo, merchantName }) => {
         this.transactionDetails.deliveryInfo = deliveryInfo;
         this.setGooglePaymentRequestConfig(deliveryInfo.type, merchantName);
-        return this.currentProductService.getProduct().pipe(
-          take(1),
-          switchMap((product: Product | null) => {
-            const count = this.itemCounterService.getCounter();
-            this.transactionDetails.product = product as Product;
-            this.transactionDetails.quantity = count;
-            return this.opfCartHandlerService
-              .addProductToCart(
-                product?.code || '',
-                count,
-                this.transactionDetails.deliveryInfo?.pickupDetails?.name
-              )
-              .pipe(
-                tap(() => {
-                  this.setDeliveryMode(
-                    undefined,
-                    this.transactionDetails.deliveryInfo?.type
-                  );
-                  this.updateTransactionInfo({
-                    totalPrice: this.estimateTotalPrice(product?.price?.value),
-                    currencyCode:
-                      product?.price?.currencyIso ||
-                      this.initialTransactionInfo.currencyCode,
-                    totalPriceStatus:
-                      this.initialTransactionInfo.totalPriceStatus,
-                  });
-                })
-              );
-          })
-        );
+
+        return transactionHandlers[context](deliveryInfo);
       })
     );
   }
 
-  handleActiveCartTransaction(): Observable<Cart> {
-    this.transactionDetails.context = OpfQuickBuyLocation.CART;
+  protected handleSingleProductTransaction(
+    deliveryInfo?: OpfQuickBuyDeliveryInfo
+  ): Observable<DeliveryMode | undefined> {
+    const product = this.transactionDetails.product;
 
-    return forkJoin({
-      deliveryInfo: this.opfQuickBuyService.getQuickBuyDeliveryInfo(
-        this.transactionDetails.context as OpfQuickBuyLocation
-      ),
-      merchantName: this.opfQuickBuyService.getMerchantName(),
-    }).pipe(
-      switchMap(({ deliveryInfo, merchantName }) => {
-        this.transactionDetails.deliveryInfo = deliveryInfo;
-        this.setGooglePaymentRequestConfig(deliveryInfo.type, merchantName);
-
-        return this.setDeliveryMode(undefined, deliveryInfo.type).pipe(
-          switchMap(() =>
-            this.opfCartHandlerService.getCurrentCart().pipe(
-              take(1),
-              tap((cart: Cart) => {
-                this.transactionDetails.cart = cart;
-                this.updateTransactionInfo({
-                  totalPrice: `${cart.totalPrice?.value}`,
-                  currencyCode:
-                    cart.totalPrice?.currencyIso ||
-                    this.initialTransactionInfo.currencyCode,
-                  totalPriceStatus:
-                    this.initialTransactionInfo.totalPriceStatus,
-                });
-              })
-            )
-          )
-        );
+    return this.setDeliveryMode(undefined, deliveryInfo?.type).pipe(
+      tap(() => {
+        this.updateTransactionInfo({
+          totalPrice: this.estimateTotalPrice(product?.price?.value),
+          currencyCode:
+            product?.price?.currencyIso ||
+            this.initialTransactionInfo.currencyCode,
+          totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
+        });
       })
+    );
+  }
+
+  protected handleActiveCartTransaction(
+    deliveryInfo: OpfQuickBuyDeliveryInfo
+  ): Observable<Cart> {
+    return this.setDeliveryMode(undefined, deliveryInfo.type).pipe(
+      switchMap(() =>
+        this.opfCartHandlerService.getCurrentCart().pipe(
+          take(1),
+          tap((cart: Cart) => {
+            this.transactionDetails.cart = cart;
+            this.updateTransactionInfo({
+              totalPrice: `${cart.totalPrice?.value}`,
+              currencyCode:
+                cart.totalPrice?.currencyIso ||
+                this.initialTransactionInfo.currencyCode,
+              totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
+            });
+          })
+        )
+      )
     );
   }
 
@@ -359,12 +386,7 @@ export class OpfGooglePayService {
       .getQuickBuyLocationContext()
       .pipe(
         switchMap((context: OpfQuickBuyLocation) => {
-          this.transactionDetails.context = context;
-          if (context === OpfQuickBuyLocation.PRODUCT) {
-            return this.handleSingleProductTransaction();
-          }
-
-          return this.handleActiveCartTransaction();
+          return this.handleTransaction(context);
         })
       )
       .subscribe(() => {
@@ -380,12 +402,20 @@ export class OpfGooglePayService {
   }
 
   renderPaymentButton(container: ElementRef): void {
+    this.prepareCartForPdp();
+
     container.nativeElement.appendChild(
       this.getClient().createButton({
         onClick: () => this.initTransaction(),
         buttonSizeMode: 'fill',
       })
     );
+  }
+
+  cleanCartForPdp() {
+    this.transactionDetails.context = OpfQuickBuyLocation.PRODUCT;
+
+    this.loadInitialCartAndCleanAddresses();
   }
 
   protected loadInitialCartAndCleanAddresses(orderSuccess = false): void {

@@ -144,6 +144,7 @@ export class OpfCartHandlerService {
       take(1),
       tap(() => this.blockMiniCartComponentUpdate(true)),
       switchMap(([userId, cartId, _]) => {
+        console.log('cartId', cartId);
         this.cartHandlerState.userId = userId;
         if (cartId) {
           return this.addProductToNewCart(
@@ -160,6 +161,15 @@ export class OpfCartHandlerService {
         ).pipe(take(1));
       })
     );
+  }
+
+  get isPreviousCartExist() {
+    if (!!this.cartHandlerState.cartId) {
+      this.checkStableCart(this.cartHandlerState.cartId).subscribe((val) =>
+        console.log('stable', val, this.cartHandlerState.cartId)
+      );
+    }
+    return this.cartHandlerState.cartId;
   }
 
   loadOriginalCart(): Observable<boolean> {
@@ -282,10 +292,20 @@ export class OpfCartHandlerService {
     });
   }
 
+  get isPreviousCartIdExist() {
+    return !!this.cartHandlerState.cartId;
+  }
+
   deleteStaleCart(): Observable<boolean> {
+    console.log(3);
+
     if (!this.cartHandlerState.cartId || !this.cartHandlerState.userId) {
+      console.log(4);
+
       return of(false);
     }
+
+    console.log(5);
 
     this.multiCartFacade.deleteCart(
       this.cartHandlerState.cartId,
@@ -344,19 +364,25 @@ export class OpfCartHandlerService {
         switchMap((cartLoaded) => {
           // No initial cart and order placed successfully: don't delete cart as done oob
           if (!cartLoaded && orderSuccess) {
+            console.log(1);
+
             return of(true);
           }
+
           if (
             cartLoaded &&
             orderSuccess &&
             transactionDetails?.product?.code &&
             transactionDetails?.quantity
           ) {
+            console.log(2);
+
             return this.removeProductFromOriginalCart(
               transactionDetails?.product?.code,
               transactionDetails?.quantity
             );
           }
+
           return this.deleteStaleCart();
         }),
         take(1)
