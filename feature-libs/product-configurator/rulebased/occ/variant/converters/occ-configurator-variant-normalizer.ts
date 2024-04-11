@@ -41,6 +41,7 @@ export class OccConfiguratorVariantNormalizer
       consistent: source.consistent,
       totalNumberOfIssues: source.totalNumberOfIssues,
       productCode: source.rootProduct,
+      variantCode: source.variantProduct,
       groups: [],
       flatGroups: [],
       kbKey: source.kbKey ?? undefined,

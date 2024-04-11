@@ -30,6 +30,7 @@ export class OccConfiguratorVariantSerializer
       ...target,
       configId: source.configId,
       rootProduct: source.productCode,
+      variantProduct: source.variantCode,
       complete: source.complete,
       groups: resultGroups,
     };

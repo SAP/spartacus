@@ -40,7 +40,7 @@ export class ConfiguratorProductTitleComponent {
         switch (configuration.owner.type) {
           case CommonConfigurator.OwnerType.PRODUCT:
           case CommonConfigurator.OwnerType.CART_ENTRY:
-            return configuration.productCode;
+            return this.getProductCode(configuration);
           case CommonConfigurator.OwnerType.ORDER_ENTRY:
             return configuration.overview?.productCode;
         }
@@ -58,6 +58,10 @@ export class ConfiguratorProductTitleComponent {
     );
   showMore = false;
   iconTypes = ICON_TYPE;
+
+  protected getProductCode(configuration: Configurator.Configuration): string {
+    return configuration.variantCode || configuration.productCode;
+  }
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,

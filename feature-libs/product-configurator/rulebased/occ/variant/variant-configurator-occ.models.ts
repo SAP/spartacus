@@ -27,6 +27,7 @@ export namespace OccConfigurator {
     totalNumberOfIssues?: number;
     groups?: Group[];
     rootProduct: string;
+    variantProduct: string;
     kbKey?: KB;
     pricingEnabled?: boolean;
     hideBasePriceAndSelectedOptions?: boolean;
