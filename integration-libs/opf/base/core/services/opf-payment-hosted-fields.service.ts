@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
+  backOff,
   GlobalMessageService,
   RoutingService,
   UserIdService,
@@ -25,6 +26,10 @@ import {
   tap,
 } from 'rxjs/operators';
 
+import {
+  isAuthorizationError,
+  opfAuthorizationErrorRetry,
+} from '@spartacus/opf/base/occ';
 import {
   defaultError,
   MerchantCallback,
@@ -94,7 +99,6 @@ export class OpfPaymentHostedFieldsService {
         submitRequest.cartId = activeCartId;
         return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
       }),
-      filter((response) => Boolean(response?.accessCode)),
       take(1),
       concatMap(({ accessCode: otpKey }) =>
         this.opfPaymentConnector.submitPayment(
@@ -118,11 +122,21 @@ export class OpfPaymentHostedFieldsService {
           returnPath
         );
         return throwError(error);
+      }),
+      backOff({
+        /**
+         * We should retry this sequence only if the error is an authorization error.
+         * It means that `accessCode` (OTP signature) is not valid or expired and we need to refresh it.
+         */
+        shouldRetry: isAuthorizationError,
+        maxTries: opfAuthorizationErrorRetry,
       })
     );
   }
 
-  submitCompletePayment(submitCompleteInput: SubmitCompleteInput) {
+  submitCompletePayment(
+    submitCompleteInput: SubmitCompleteInput
+  ): Observable<boolean> {
     const { cartId, additionalData, paymentSessionId, returnPath } =
       submitCompleteInput;
 
@@ -143,7 +157,6 @@ export class OpfPaymentHostedFieldsService {
         submitCompleteRequest.cartId = activeCartId;
         return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
       }),
-      filter((response) => Boolean(response?.accessCode)),
       take(1),
       concatMap(({ accessCode: otpKey }) =>
         this.opfPaymentConnector.submitCompletePayment(
@@ -167,6 +180,14 @@ export class OpfPaymentHostedFieldsService {
           returnPath
         );
         return throwError(error);
+      }),
+      backOff({
+        /**
+         * We should retry this sequence only if the error is an authorization error.
+         * It means that `accessCode` (OTP signature) is not valid or expired and we need to refresh it.
+         */
+        shouldRetry: isAuthorizationError,
+        maxTries: opfAuthorizationErrorRetry,
       })
     );
   }
@@ -178,7 +199,7 @@ export class OpfPaymentHostedFieldsService {
       MerchantCallback,
       MerchantCallback
     ]
-  ) {
+  ): Observable<Order> {
     if (
       response.status === SubmitStatus.ACCEPTED ||
       response.status === SubmitStatus.DELAYED

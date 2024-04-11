@@ -6,14 +6,18 @@
 
 import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { UserIdService } from '@spartacus/core';
+import { UserIdService, backOff } from '@spartacus/core';
+import {
+  isAuthorizationError,
+  opfAuthorizationErrorRetry,
+} from '@spartacus/opf/base/occ';
 import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
   OpfOtpFacade,
 } from '@spartacus/opf/base/root';
-import { Observable, combineLatest } from 'rxjs';
-import { concatMap, filter, switchMap, take } from 'rxjs/operators';
+import { Observable, combineLatest, throwError } from 'rxjs';
+import { catchError, concatMap, filter, switchMap, take } from 'rxjs/operators';
 import { OpfPaymentConnector } from '../connectors';
 
 @Injectable({ providedIn: 'root' })
@@ -43,6 +47,15 @@ export class OpfPaymentApplePayService {
           applePayWebSessionRequest,
           otpKey
         );
+      }),
+      catchError((error) => throwError(error)),
+      backOff({
+        /**
+         * We should retry this sequence only if the error is an authorization error.
+         * It means that `accessCode` (OTP signature) is not valid or expired and we need to refresh it.
+         */
+        shouldRetry: isAuthorizationError,
+        maxTries: opfAuthorizationErrorRetry,
       })
     );
   }

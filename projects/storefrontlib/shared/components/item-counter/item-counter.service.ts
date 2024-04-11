@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +12,17 @@ import { Injectable } from '@angular/core';
 export class ItemCounterService {
   protected counter = 1;
 
-  setCounter(value: number): void {
-    if (value > 0) {
+  protected isInitialProductCounter(
+    input?: ElementRef<HTMLInputElement>
+  ): boolean {
+    const wrapperClass = 'cx-counter-stock';
+    return Boolean(
+      input?.nativeElement.offsetParent?.className === wrapperClass
+    );
+  }
+
+  setCounter(value: number, input?: ElementRef<HTMLInputElement>): void {
+    if (value > 0 && this.isInitialProductCounter(input)) {
       this.counter = value;
     }
   }
