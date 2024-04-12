@@ -4,6 +4,7 @@ import { Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideConfig, provideDefaultConfig } from '../config';
 import {
+  FeatureToggles,
   provideDefaultFeatureToggles,
   provideFeatureToggles,
 } from './feature-toggles';
@@ -23,7 +24,7 @@ describe('when FeaturesConfigModule.forRoot() is imported,', () => {
   describe('when FeatureToggles and FeaturesConfig use different levels (DEFAULT vs ROOT),', () => {
     it('DEFAULT FeatureToggles should be overridden by ROOT FeaturesConfig', () => {
       setProviders([
-        provideDefaultFeatureToggles({ [testToggle]: true }),
+        provideDefaultFeatureToggles({ [testToggle]: true } as FeatureToggles),
         provideConfig({ features: { [testToggle]: false } }),
       ]);
       const service = TestBed.inject(FeatureConfigService);
@@ -32,7 +33,7 @@ describe('when FeaturesConfigModule.forRoot() is imported,', () => {
 
     it('ROOT FeatureToggles should be NOT overridden by DEFAULT FeatureConfig', () => {
       setProviders([
-        provideFeatureToggles({ [testToggle]: true }),
+        provideFeatureToggles({ [testToggle]: true } as FeatureToggles),
         provideDefaultConfig({ features: { [testToggle]: false } }),
       ]);
       const service = TestBed.inject(FeatureConfigService);
@@ -42,7 +43,7 @@ describe('when FeaturesConfigModule.forRoot() is imported,', () => {
     it('DEFAULT FeatureConfig should be overridden by ROOT FeatureToggles', () => {
       setProviders([
         provideDefaultConfig({ features: { [testToggle]: true } }),
-        provideFeatureToggles({ [testToggle]: false }),
+        provideFeatureToggles({ [testToggle]: false } as FeatureToggles),
       ]);
       const service = TestBed.inject(FeatureConfigService);
       expect(service.isEnabled(testToggle)).toBe(false);
@@ -51,7 +52,7 @@ describe('when FeaturesConfigModule.forRoot() is imported,', () => {
     it('ROOT FeaturesConfig should be NOT overridden by DEFAULT FeatureToggles', () => {
       setProviders([
         provideConfig({ features: { [testToggle]: true } }),
-        provideDefaultFeatureToggles({ [testToggle]: false }),
+        provideDefaultFeatureToggles({ [testToggle]: false } as FeatureToggles),
       ]);
       const service = TestBed.inject(FeatureConfigService);
       expect(service.isEnabled(testToggle)).toBe(true);
@@ -61,7 +62,7 @@ describe('when FeaturesConfigModule.forRoot() is imported,', () => {
   describe('when FeatureToggles and FeaturesConfig use the same levels (DEFAULT/ROOT),', () => {
     it('ROOT FeatureToggles should be overridden by ROOT FeaturesConfig', () => {
       setProviders([
-        provideFeatureToggles({ [testToggle]: true }),
+        provideFeatureToggles({ [testToggle]: true } as FeatureToggles),
         provideConfig({ features: { [testToggle]: false } }),
       ]);
       const service = TestBed.inject(FeatureConfigService);
@@ -70,7 +71,7 @@ describe('when FeaturesConfigModule.forRoot() is imported,', () => {
 
     it('DEFAULT FeatureToggles should be overridden by DEFAULT FeaturesConfig', () => {
       setProviders([
-        provideDefaultFeatureToggles({ [testToggle]: true }),
+        provideDefaultFeatureToggles({ [testToggle]: true } as FeatureToggles),
         provideDefaultConfig({ features: { [testToggle]: false } }),
       ]);
       const service = TestBed.inject(FeatureConfigService);
@@ -91,7 +92,7 @@ describe('when FeaturesConfigModule.forRoot() is imported,', () => {
     it('ROOT FeaturesConfig should NOT be overridden by ROOT FeatureToggles', () => {
       setProviders([
         provideConfig({ features: { [testToggle]: true } }),
-        provideFeatureToggles({ [testToggle]: false }),
+        provideFeatureToggles({ [testToggle]: false } as FeatureToggles),
       ]);
       const service = TestBed.inject(FeatureConfigService);
       expect(service.isEnabled(testToggle)).toBe(true);
@@ -100,7 +101,7 @@ describe('when FeaturesConfigModule.forRoot() is imported,', () => {
     it('DEFAULT FeaturesConfig should NOT be overridden by DEFAULT FeatureToggles', () => {
       setProviders([
         provideDefaultConfig({ features: { [testToggle]: true } }),
-        provideDefaultFeatureToggles({ [testToggle]: false }),
+        provideDefaultFeatureToggles({ [testToggle]: false } as FeatureToggles),
       ]);
       const service = TestBed.inject(FeatureConfigService);
       expect(service.isEnabled(testToggle)).toBe(true);

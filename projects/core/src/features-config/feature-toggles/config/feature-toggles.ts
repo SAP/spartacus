@@ -7,6 +7,10 @@
 import '../feature-toggles-tokens';
 
 declare module '../feature-toggles-tokens' {
+  // Let's NOT add here any wildcard property like
+  //  `[key: string]: boolean | undefined;`
+  // We want this interface to be STRICT and cause a compilation error when a removed property is used.
+  // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
   interface FeatureToggles {
     /**
      * In `ProductSummaryComponent` it shows the promotions info.
