@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { OccConfig, Priority } from '@spartacus/core';
 import {
   CmsPageNotFoundServerErrorResponseFactory,
   SERVER_ERROR_RESPONSE_FACTORY,
@@ -7,7 +8,18 @@ import {
   UnknownServerErrorResponseFactory,
 } from '../server-error-response-factory';
 import { ServerRespondingErrorHandler } from './server-responding-error-handler';
-import { OccEndpointsService, Priority } from '@spartacus/core';
+
+const mockOccConfig: OccConfig = {
+  backend: {
+    occ: {
+      prefix: '/occ/v2/',
+      baseUrl: 'https://localhost:9002',
+      endpoints: { pages: 'cms/pages' },
+    },
+  },
+};
+
+const expectedUrl = `${mockOccConfig.backend?.occ?.baseUrl}${mockOccConfig.backend?.occ?.prefix}electronics-spa/${mockOccConfig.backend?.occ?.endpoints?.pages}`;
 
 class MockFactoryWithHigherPriority implements ServerErrorResponseFactory {
   hasMatch(): boolean {
@@ -18,12 +30,6 @@ class MockFactoryWithHigherPriority implements ServerErrorResponseFactory {
   }
 
   create = jest.fn();
-}
-
-class MockOccEndpointsService implements Partial<OccEndpointsService> {
-  buildUrl(endpoint: string): string {
-    return `https://localhost:9002/rest/v2/cms/${endpoint}`;
-  }
 }
 
 describe('ServerRespondingErrorHandler', () => {
@@ -38,10 +44,6 @@ describe('ServerRespondingErrorHandler', () => {
         providers: [
           ServerRespondingErrorHandler,
           {
-            provide: OccEndpointsService,
-            useClass: MockOccEndpointsService,
-          },
-          {
             provide: SERVER_ERROR_RESPONSE_FACTORY,
             useClass: CmsPageNotFoundServerErrorResponseFactory,
             multi: true,
@@ -50,6 +52,10 @@ describe('ServerRespondingErrorHandler', () => {
             provide: SERVER_ERROR_RESPONSE_FACTORY,
             useClass: UnknownServerErrorResponseFactory,
             multi: true,
+          },
+          {
+            provide: OccConfig,
+            useValue: mockOccConfig,
           },
         ],
       });
@@ -73,7 +79,7 @@ describe('ServerRespondingErrorHandler', () => {
 
     it('should call CmsPageNotFoundServerErrorResponseFactory', () => {
       const error = new HttpErrorResponse({
-        url: 'https://localhost:9002/rest/v2/cms/pages',
+        url: expectedUrl,
       });
 
       serverRespondingErrorHandler.handleError(error);
@@ -127,7 +133,7 @@ describe('ServerRespondingErrorHandler', () => {
       factories = TestBed.inject(SERVER_ERROR_RESPONSE_FACTORY);
     });
 
-    it('should call factory with highers prioroty', () => {
+    it('should call factory with highers priority', () => {
       const error = {
         headers: {},
         url: 'https://localhost:9002/rest/v2/cms/pages',

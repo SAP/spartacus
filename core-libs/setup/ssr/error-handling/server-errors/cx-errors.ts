@@ -11,6 +11,6 @@
  *  - CmsPageNotFoundServerError SR0002: Used when the requested CMS page is not found.
  * */
 export enum CxError {
-  UnknownServerError = 'SR0001',
-  CmsPageNotFoundServerError = 'SR0002',
+  UnknownServerError = 'UnknownServerError',
+  CmsPageNotFoundServerError = 'CmsPageNotFoundServerError',
 }

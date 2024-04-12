@@ -1,28 +1,28 @@
-import { OccConfig, OccEndpointsService, Priority } from '@spartacus/core';
-import { CmsPageNotFoundServerErrorResponseFactory } from './cms-page-not-found-server-error-response-factory';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { OccConfig, Priority } from '@spartacus/core';
+import { CmsPageNotFoundServerErrorResponseFactory } from './cms-page-not-found-server-error-response-factory';
 
 const mockOccConfig: OccConfig = {
   backend: {
     occ: {
-      prefix: 'occ/v2',
+      prefix: '/occ/v2/',
       baseUrl: 'https://localhost:9002',
       endpoints: { pages: 'cms/pages' },
     },
   },
 };
 
-const expectedUrl = `${mockOccConfig.backend?.occ?.baseUrl}/${mockOccConfig.backend?.occ?.prefix}/${mockOccConfig.backend?.occ?.endpoints?.pages}`;
+const expectedUrl = `${mockOccConfig.backend?.occ?.baseUrl}${mockOccConfig.backend?.occ?.prefix}electronics-spa/${mockOccConfig.backend?.occ?.endpoints?.pages}`;
 
 describe('CmsPageNotFoundServerErrorResponse', () => {
   let cmsPageNotFoundServerErrorResponse: CmsPageNotFoundServerErrorResponseFactory;
+  let config: OccConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CmsPageNotFoundServerErrorResponseFactory,
-        OccEndpointsService,
         {
           provide: OccConfig,
           useValue: mockOccConfig,
@@ -33,6 +33,7 @@ describe('CmsPageNotFoundServerErrorResponse', () => {
     cmsPageNotFoundServerErrorResponse = TestBed.inject(
       CmsPageNotFoundServerErrorResponseFactory
     );
+    config = TestBed.inject(OccConfig);
   });
 
   it('should return the priority', () => {
@@ -43,6 +44,7 @@ describe('CmsPageNotFoundServerErrorResponse', () => {
     const error = new HttpErrorResponse({
       url: expectedUrl,
     });
+    console.log('expectedUrl', expectedUrl);
     expect(cmsPageNotFoundServerErrorResponse.hasMatch(error)).toBe(true);
   });
 
@@ -58,6 +60,15 @@ describe('CmsPageNotFoundServerErrorResponse', () => {
     const error = new HttpErrorResponse({
       url: unexpectedUrl,
     });
+    expect(cmsPageNotFoundServerErrorResponse.hasMatch(error)).toBe(false);
+  });
+
+  it('should return false if occConfig is not defined', () => {
+    const error = new HttpErrorResponse({
+      url: expectedUrl,
+    });
+    config.backend = { occ: undefined };
+
     expect(cmsPageNotFoundServerErrorResponse.hasMatch(error)).toBe(false);
   });
 

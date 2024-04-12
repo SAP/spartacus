@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { ServerErrorResponseFactory } from './server-error-response-factory';
+import { OccConfig, Priority } from '@spartacus/core';
 import {
   CmsPageNotFoundServerErrorResponse,
   CxServerErrorResponse,
 } from '../server-errors';
-import { HttpErrorResponse } from '@angular/common/http';
-import { OccEndpointsService, Priority } from '@spartacus/core';
+import { ServerErrorResponseFactory } from './server-error-response-factory';
 
 /**
  * A factory responsible for creating {@link CmsPageNotFoundServerErrorResponse}.
@@ -23,18 +23,31 @@ import { OccEndpointsService, Priority } from '@spartacus/core';
 export class CmsPageNotFoundServerErrorResponseFactory
   implements ServerErrorResponseFactory
 {
-  endpointsService: OccEndpointsService;
-  constructor() {
-    this.endpointsService = inject(OccEndpointsService);
-  }
+  protected config = inject(OccConfig);
 
   hasMatch(error: unknown): boolean {
-    const pagesEndpoint = this.endpointsService.buildUrl('pages');
-    console.log('pagesEndpoint', pagesEndpoint);
-    return (
-      this.isHttpErrorResponse(error) &&
-      (error.url ?? '').startsWith(pagesEndpoint)
-    );
+    const occConfig = this.config.backend?.occ;
+    if (occConfig) {
+      const { baseUrl, prefix, endpoints } = occConfig;
+      const pagesEndpoint = endpoints?.pages;
+      const endpoint =
+        pagesEndpoint &&
+        (typeof pagesEndpoint === 'string'
+          ? pagesEndpoint
+          : pagesEndpoint.default);
+      // The OccEndpointsService can't be used due to circular dependency injection
+      // Optional BaseSiteService depends on ngrx, which has dependency on the ErrorHandler
+      const expectedUrlRegexp = this.buildUrlRegexp({
+        baseUrl,
+        prefix,
+        endpoint,
+      });
+      return (
+        error instanceof HttpErrorResponse &&
+        expectedUrlRegexp.test(error.url ?? '')
+      );
+    }
+    return false;
   }
 
   getPriority(): number {
@@ -49,7 +62,20 @@ export class CmsPageNotFoundServerErrorResponseFactory
     });
   }
 
-  protected isHttpErrorResponse(error: any): error is HttpErrorResponse {
-    return error instanceof HttpErrorResponse;
+  protected escapeRegExp(string: string): string {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  protected buildUrlRegexp({
+    baseUrl,
+    prefix,
+    endpoint,
+  }: Record<string, string | undefined>): RegExp {
+    const escapedBaseUrl = this.escapeRegExp(baseUrl ?? '');
+    const escapedPrefix = this.escapeRegExp(prefix ?? '');
+    const escapedEndpoint = this.escapeRegExp(endpoint ?? '');
+    return new RegExp(
+      `^${escapedBaseUrl}${escapedPrefix}[^/]+/${escapedEndpoint}`
+    );
   }
 }
