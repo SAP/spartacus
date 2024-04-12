@@ -10,6 +10,7 @@
     box-shadow: none;
     -webkit-box-shadow: none;
   }
+  border: 1px solid var(--cx-color-medium);
 
   @include forFeature('santoriniV2') {
     &::placeholder{
@@ -37,6 +38,10 @@ cx-form-errors {
     padding-inline-start: 25px;
     position: relative;
     word-break: break-word;
+
+    @include forFeature('santoriniV2') {
+      @include type('7')
+    }
 
     &::before,
     &::after {

@@ -62,6 +62,9 @@ button {
       background-color: var(--cx-color-primary);
       border-color: var(--cx-color-primary);
       @include cx-darken(88);
+      @include forFeature('santoriniV2') {
+        filter: none;
+      }
     }
 
     &.disabled,
@@ -161,6 +164,11 @@ button {
     .focus {
       border-radius: 4px;
     }
+
+    @include forFeature('santoriniV2') {
+      @include type('8');
+      color: var(--cx-color-primary);
+    }
   }
 }
 
@@ -171,6 +179,10 @@ button {
   border-style: none;
   font-size: var(--cx-font-size, 1rem);
   width: auto;
+
+  @include forFeature('santoriniV2') {
+    @include type('6');
+  }
 
   &:hover {
     background-color: var(--cx-color-transparent);

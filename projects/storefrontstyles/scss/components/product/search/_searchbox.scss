@@ -187,6 +187,10 @@
     background-color: #fff;
     font-size: var(--cx-font-small, 1rem);
 
+    @include forFeature('santoriniV2') {
+      @include type('8');
+    }
+
     @include media-breakpoint-down(sm) {
       top: 105px;
       z-index: 10;
@@ -269,12 +273,20 @@
           font-size: inherit;
           font-weight: inherit;
 
+          @include forFeature('santoriniV2') {
+            @include type('8');
+          }
+
           // Required for text-overflow to do anything
           white-space: nowrap;
           overflow: hidden;
         }
         .price {
           font-weight: normal;
+
+          @include forFeature('santoriniV2') {
+            @include type('8');
+          }
         }
       }
     }

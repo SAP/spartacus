@@ -13,6 +13,11 @@ $useAccordionOnly: false !default;
     text-align: start;
     height: 63px;
     position: relative;
+
+    @include forFeature('santoriniV2') {
+      @include type('3');
+    }
+
     > span.accordion-icon {
       &:before {
         content: '+';
