@@ -5,7 +5,16 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  AuthGuard,
+  CmsConfig,
+  RoutingConfig,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
+import { CmsPageGuard } from '@spartacus/storefront';
+import { VerificationTokenFormComponent } from '../components/verification-token-form';
 import { UserAccountEventModule } from './events/user-account-event.module';
 import {
   USER_ACCOUNT_CORE_FEATURE,
@@ -33,7 +42,35 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  imports: [UserAccountEventModule],
-  providers: [provideDefaultConfigFactory(defaultUserAccountComponentsConfig)],
+  imports: [
+    UserAccountEventModule,
+    RouterModule.forChild([
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: VerificationTokenFormComponent,
+        data: {
+          cxRoute: 'loginByVerifyToken',
+          // cxContext: {
+          //   [ORDER_ENTRIES_CONTEXT]: SavedCartOrderEntriesContextToken,
+          // },
+        },
+      },
+    ]),
+  ],
+  providers: [
+    provideDefaultConfigFactory(defaultUserAccountComponentsConfig),
+    provideDefaultConfig(<RoutingConfig>{
+      routing: {
+        routes: {
+          loginByVerifyToken: {
+            paths: ['login/verify-token'],
+            paramsMapping: { savedCartId: 'savedCartId' },
+          },
+        },
+      },
+    }),
+  ],
 })
 export class UserAccountRootModule {}
