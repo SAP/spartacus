@@ -31,6 +31,8 @@
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",
           "Order",
+          "OPPS-ALL",
+          "OPPS-COUPON-CODES",
           "Digital-Payments",
           "EPD-Visualization",
           "Customer-Ticketing",
@@ -240,6 +242,14 @@
           {
             "value": "TMS-AEPL",
             "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
+          },
+          {
+            "value": "OPPS-ALL",
+            "label": "All OPPS Features"
+          },
+          {
+            "value": "OPPS-COUPON-CODES",
+            "label": "OPPS Coupon Codes"
           },
           {
             "value": "User-Account",

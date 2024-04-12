@@ -411,6 +411,7 @@
       "@spartacus/epd-visualization/root": [
         "../../dist/epd-visualization/root"
       ],
+      "@spartacus/opps/coupon-codes": ["../../dist/opps/coupon-codes"],
       "@spartacus/opps": ["../../dist/opps"],
       "@spartacus/opps/root": ["../../dist/opps/root"],
       "@spartacus/s4om/assets": ["../../dist/s4om/assets"],

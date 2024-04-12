@@ -5,13 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
-import { defaultOppsConfig } from './config/default-opps-config';
-import { oppsInterceptors } from './http-interceptors';
+import { OppsCouponCodesModule } from '../coupon-codes/opps-coupon-codes.module';
 
 @NgModule({
   declarations: [],
-  imports: [],
-  providers: [...oppsInterceptors, provideDefaultConfig(defaultOppsConfig)],
+  imports: [OppsCouponCodesModule],
 })
 export class OppsRootModule {}

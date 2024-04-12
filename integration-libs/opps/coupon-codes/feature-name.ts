@@ -4,7 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Public API Surface of opps
- */
-export * from './coupon-codes/public_api';
+export const OPPS_COUPON_CODES_FEATURE = 'opps-coupon-codes';

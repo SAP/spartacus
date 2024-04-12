@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { OppsRootModule } from '@spartacus/opps/root';
+import { OppsCouponCodesModule } from '@spartacus/opps';
 
 @NgModule({
-  imports: [OppsRootModule],
+  imports: [OppsCouponCodesModule],
 })
 export class OppsFeatureModule {}

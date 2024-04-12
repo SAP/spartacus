@@ -5,5 +5,3 @@
  */
 
 export * from './opps-root.module';
-export * from './config/index';
-export * from './http-interceptors/index';

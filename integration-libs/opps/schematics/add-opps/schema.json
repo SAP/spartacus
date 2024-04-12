@@ -16,10 +16,31 @@
       "type": "boolean",
       "default": false
     },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the OPPS features.",
+      "default": true
+    },
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["opps"]
+      "items": {
+        "enum": ["OPPS-ALL", "OPPS-COUPON-CODES"],
+        "type": "string"
+      },
+      "default": ["OPPS-ALL"],
+      "x-prompt": {
+        "message": "Which OPPS features would you like to set up?",
+        "type": "list",
+        "items": [
+          { "value": "OPPS-ALL", "label": "All OPPS Features" },
+          {
+            "value": "OPPS-COUPON-CODES",
+            "label": "OPPS Coupon Codes"
+          }
+        ]
+      }
     }
-  }
+  },
+  "required": []
 }
