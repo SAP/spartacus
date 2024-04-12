@@ -4,18 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { WindowRef } from '@spartacus/core';
+import { RoutingService, WindowRef } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { VerificationTokenFacade } from '../../root/facade/verification-token.facade';
@@ -28,8 +23,11 @@ import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from './use-otp-login-form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OneTimePasswordLoginFormComponent {
-  protected verificationTokenFacade = inject(VerificationTokenFacade);
-  protected winRef = inject(WindowRef);
+  constructor(
+    protected routingService: RoutingService,
+    protected verificationTokenFacade: VerificationTokenFacade,
+    protected winRef: WindowRef
+  ) {}
 
   protected busy$ = new BehaviorSubject(false);
 
@@ -63,6 +61,7 @@ export class OneTimePasswordLoginFormComponent {
     this.verificationTokenFacade.createVerificationToken(
       this.collectDataFromLoginForm()
     );
+    this.routingService.go({ cxRoute: 'login/otp' });
     this.busy$.next(false);
   }
 
