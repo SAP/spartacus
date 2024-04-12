@@ -3,14 +3,14 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <label>
     <span class="label-content">
-      {{ 'otpLoginForm.verificationCode.label' | cxTranslate }}
+      {{ 'verificationTokenForm.verificationCode.label' | cxTranslate }}
     </span>
     <input
       required="true"
       class="form-control"
       formControlName="tokenCode"
       placeholder="{{
-        'otpLoginForm.verificationCode.placeholder' | cxTranslate
+        'verificationTokenForm.verificationCode.placeholder' | cxTranslate
       }}"
     />
     <cx-form-errors [control]="form.get('tokenCode')"></cx-form-errors>
@@ -26,18 +26,19 @@
           class="btn-link"
           [ngClass]="{ 'disabled-link': isResendDisabled }"
         >
-          {{ 'otpLoginForm.resend' | cxTranslate }}
+          {{ 'verificationTokenForm.resend' | cxTranslate }}
         </a>
         <ng-container *ngIf="isResendDisabled">
           {{
-            'otpLoginForm.sendRateLime' | cxTranslate: { waitTime: waitTime }
+            'verificationTokenForm.sendRateLime'
+              | cxTranslate: { waitTime: waitTime }
           }}
         </ng-container>
       </span>
     </div>
     <div class="col-md-6 col-lg-6 right-text">
       <a (click)="openInfoDailog()" class="btn-link">
-        {{ 'otpLoginForm.noReceiveCode' | cxTranslate }}
+        {{ 'verificationTokenForm.noReceiveCode' | cxTranslate }}
       </a>
     </div>
   </div>
@@ -48,12 +49,12 @@
       class="btn btn-block btn-primary"
       [disabled]="form.disabled"
     >
-      {{ 'otpLoginForm.verify' | cxTranslate }}
+      {{ 'verificationTokenForm.verify' | cxTranslate }}
     </button>
     <a
       [routerLink]="{ cxRoute: 'login' } | cxUrl"
       class="btn btn-block btn-secondary btn-register"
-      >{{ 'otpLoginForm.back' | cxTranslate }}</a
+      >{{ 'verificationTokenForm.back' | cxTranslate }}</a
     >
   </div>
 </form>

@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
@@ -18,6 +18,7 @@ import {
   UrlModule,
   WindowRef,
   provideDefaultConfig,
+  provideDefaultConfigFactory,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -26,6 +27,17 @@ import {
 } from '@spartacus/storefront';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
+import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
+
+import { USE_ONE_TIME_PASSWORD_LOGIN } from './use-otp-login-form';
+
+const oneTimePasswordLoginFormMapping: CmsConfig = {
+  cmsComponents: {
+    ReturningCustomerLoginComponent: {
+      component: OneTimePasswordLoginFormComponent,
+    },
+  },
+};
 
 @NgModule({
   imports: [
@@ -56,7 +68,11 @@ import { LoginFormComponent } from './login-form.component';
         },
       },
     }),
+    provideDefaultConfigFactory(() =>
+      inject(USE_ONE_TIME_PASSWORD_LOGIN) ? oneTimePasswordLoginFormMapping : {}
+    ),
   ],
-  declarations: [LoginFormComponent],
+  declarations: [LoginFormComponent, OneTimePasswordLoginFormComponent],
+  exports: [LoginFormComponent, OneTimePasswordLoginFormComponent],
 })
 export class LoginFormModule {}

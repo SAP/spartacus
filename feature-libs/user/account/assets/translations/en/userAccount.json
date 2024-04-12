@@ -15,7 +15,7 @@
     },
     "wrongEmailFormat": "This is not a valid email format."
   },
-  "otpLoginForm": {
+  "verificationTokenForm": {
     "sentOTP": "Verification code has been sent to {{target}}. Please enter the code.",
     "sendRateLime": "in {{waitTime}}s",
     "resend": "Resend",

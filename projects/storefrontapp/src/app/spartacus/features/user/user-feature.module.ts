@@ -28,6 +28,8 @@ import {
   USER_PROFILE_FEATURE,
 } from '@spartacus/user/profile/root';
 import { environment } from '../../../../environments/environment';
+import { USE_ONE_TIME_PASSWORD_LOGIN } from '@spartacus/user/account/components';
+
 
 @NgModule({
   imports: [UserAccountRootModule, UserProfileRootModule],
@@ -70,6 +72,10 @@ import { environment } from '../../../../environments/environment';
     {
       provide: USE_MY_ACCOUNT_V2_PASSWORD,
       useValue: environment.myAccountV2,
+    },
+    {
+      provide: USE_ONE_TIME_PASSWORD_LOGIN,
+      useValue: environment.otpUserLogin,
     },
     provideConfig(<I18nConfig>{
       i18n: {

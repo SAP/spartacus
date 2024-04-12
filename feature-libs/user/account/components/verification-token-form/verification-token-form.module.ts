@@ -24,8 +24,8 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { OTPLoginFormComponentService } from './otp-login-form-component.service';
-import { OTPLoginFormComponent } from './otp-login-form.component';
+import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
+import { VerificationTokenFormComponent } from './verification-token-form.component';
 
 @NgModule({
   imports: [
@@ -44,12 +44,12 @@ import { OTPLoginFormComponent } from './otp-login-form.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ReturningCustomerOTPLoginComponent: {
-          component: OTPLoginFormComponent,
+          component: VerificationTokenFormComponent,
           guards: [NotAuthGuard],
           providers: [
             {
-              provide: OTPLoginFormComponentService,
-              useClass: OTPLoginFormComponentService,
+              provide: VerificationTokenFormComponentService,
+              useClass: VerificationTokenFormComponentService,
               deps: [AuthService, GlobalMessageService, WindowRef],
             },
           ],
@@ -57,6 +57,6 @@ import { OTPLoginFormComponent } from './otp-login-form.component';
       },
     }),
   ],
-  declarations: [OTPLoginFormComponent],
+  declarations: [VerificationTokenFormComponent],
 })
-export class OTPLoginFormModule {}
+export class VerificationTokenFormModule {}

@@ -20,7 +20,7 @@ import { BehaviorSubject, from } from 'rxjs';
 import { tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
-export class OTPLoginFormComponentService {
+export class VerificationTokenFormComponentService {
   constructor(
     protected auth: AuthService,
     protected globalMessage: GlobalMessageService,
@@ -64,7 +64,7 @@ export class OTPLoginFormComponentService {
   displayMessage(target: string) {
     this.globalMessage.add(
       {
-        key: 'otpLoginForm.sentOTP',
+        key: 'verificationTokenForm.sentOTP',
         params: { target },
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION,

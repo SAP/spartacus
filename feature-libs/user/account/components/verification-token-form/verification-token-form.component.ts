@@ -13,16 +13,16 @@ import {
 import { UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { OTPLoginFormComponentService } from './otp-login-form-component.service';
+import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 
 @Component({
-  selector: 'cx-otp-login-form',
-  templateUrl: './otp-login-form.component.html',
+  selector: 'cx-verification-token-form',
+  templateUrl: './verification-token-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OTPLoginFormComponent {
+export class VerificationTokenFormComponent {
   constructor(
-    protected service: OTPLoginFormComponentService,
+    protected service: VerificationTokenFormComponentService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {}
