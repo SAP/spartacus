@@ -11,9 +11,11 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
-    "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
-    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+    "build": "npm run clean && npm run feature-toggles:copy && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json && npm run feature-toggles:clean",
+    "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\" && npm run feature-toggles:clean",
+    "test": "npm run clean && npm run feature-toggles:copy && ../../node_modules/.bin/jest --config ./jest.schematics.config.js && npm run feature-toggles:clean",
+    "feature-toggles:copy": "cp -r ../../projects/core/src/features-config/feature-toggles/config/feature-toggles.ts ./src/feature-toggles.copy.ts",
+    "feature-toggles:clean": "../../node_modules/.bin/rimraf --glob \"./src/feature-toggles.copy.ts\""
   },
   "dependencies": {
     "@angular/pwa": "^17.0.5",

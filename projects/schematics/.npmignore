@@ -11,3 +11,4 @@ src/migrations/test/**/*
 .eslintrc.json
 sub-folder/
 .pipeline/
+src/feature-toggles.copy.ts

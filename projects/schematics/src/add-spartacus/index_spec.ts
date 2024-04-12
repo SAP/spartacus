@@ -9,7 +9,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { defaultFeatureToggles } from '../../../core/src/features-config/feature-toggles/config/default-feature-toggles';
+import { defaultFeatureToggles } from '../../../core/src/features-config/feature-toggles/config/feature-toggles';
 import {
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,

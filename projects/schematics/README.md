@@ -211,3 +211,13 @@ Example for 6.3.2 release:
     }
 ```
 version remains unchanged
+
+## FeatureToggles copying
+During running the `build` and `test` commands in the schematics project,
+the file `feature-toggles.ts` from the `@spartacus/core` is
+temporarily copied to the `src/feature-toggles.copy.ts` file in the schematics project.
+After finished building or testing, the `src/feature-toggles.copy.ts` file is removed.
+
+This is done to automatically detect the up-to-date list of feature toggles and use it in the installation schematics to explicitly enable all the existing feature toggles in the source code of the new created app.
+
+Note: The approach of temporary copying of a file  `feature-toggles.ts` from the `@spartacus/core` library was introduced to avoid the direct runtime dependency on the `@spartacus/core` library in the `@spartacus/schematics` project.

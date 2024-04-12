@@ -5,8 +5,6 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { SourceFile } from 'ts-morph';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { defaultFeatureToggles } from '../../../core/src/features-config/feature-toggles/config/default-feature-toggles';
 import {
   PROVIDE_FEATURE_TOGGLES_FUNCTION,
   SPARTACUS_CORE,
@@ -73,6 +71,8 @@ function _addFeatureToggles(sourceFile: SourceFile): void {
  * Returns a provider for all existing feature toggles with value `true`.
  */
 function createFeatureTogglesProvider(): string {
+  const { defaultFeatureToggles } = require('../feature-toggles.copy');
+
   //for each key in `defaultFeatureToggles` map it to a key with value true
   const featureTogglesAllEnabled: Record<string, boolean> = Object.keys(
     defaultFeatureToggles
