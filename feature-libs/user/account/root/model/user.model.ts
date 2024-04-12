@@ -13,3 +13,15 @@ export interface User {
   customerId?: string;
   title?: string;
 }
+
+export interface LoginForm {
+  purpose: string;
+  loginId: string;
+  password: string;
+}
+
+export interface VerificationToken {
+  expiresIn: string;
+  tokenId: string;
+}
+

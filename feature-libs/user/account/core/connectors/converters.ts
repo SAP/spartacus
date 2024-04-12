@@ -6,7 +6,7 @@
 
 import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
+import { LoginForm, User, VerificationToken } from '@spartacus/user/account/root';
 
 export const USER_ACCOUNT_NORMALIZER = new InjectionToken<Converter<any, User>>(
   'UserAccountNormalizer'
@@ -15,3 +15,13 @@ export const USER_ACCOUNT_NORMALIZER = new InjectionToken<Converter<any, User>>(
 export const USER_ACCOUNT_SERIALIZER = new InjectionToken<Converter<User, any>>(
   'UserAccountSerializer'
 );
+
+
+export const VERIFICATION_TOKEN_NORMALIZER = new InjectionToken<Converter<any, VerificationToken>>(
+  'VerificationTokenNormalizer'
+);
+
+export const LOGIN_FORM_SERIALIZER = new InjectionToken<Converter<LoginForm, any>>(
+  'LoginFormSerializer'
+);
+
