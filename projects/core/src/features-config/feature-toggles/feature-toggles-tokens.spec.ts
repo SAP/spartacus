@@ -52,7 +52,7 @@ describe('FeatureToggles injection tokens', () => {
       expect(TestBed.inject(RootFeatureToggles)).toEqual({
         test1: true,
         test2: false,
-      });
+      } as FeatureToggles);
     });
 
     it('should consist of merged properties of all provided FeatureTogglesChunk, and last provided wins when they clash by name', () => {
@@ -74,7 +74,7 @@ describe('FeatureToggles injection tokens', () => {
         test1: true,
         test2: false,
         test3: false,
-      });
+      } as FeatureToggles);
     });
 
     it('should NOT take into account DefaultFeatureTogglesChunk', () => {
@@ -94,7 +94,7 @@ describe('FeatureToggles injection tokens', () => {
       });
       expect(TestBed.inject(RootFeatureToggles)).toEqual({
         test1: true,
-      });
+      } as FeatureToggles);
     });
   });
 
@@ -122,7 +122,7 @@ describe('FeatureToggles injection tokens', () => {
       expect(TestBed.inject(DefaultFeatureToggles)).toEqual({
         test1: true,
         test2: false,
-      });
+      } as FeatureToggles);
     });
 
     it('should consist of merged properties of all provided DefaultFeatureTogglesChunk, and last provided wins when they clash by name', () => {
@@ -144,7 +144,7 @@ describe('FeatureToggles injection tokens', () => {
         test1: true,
         test2: false,
         test3: false,
-      });
+      } as FeatureToggles);
     });
 
     it('should NOT take into account FeatureTogglesChunk', () => {
@@ -164,7 +164,7 @@ describe('FeatureToggles injection tokens', () => {
       });
       expect(TestBed.inject(DefaultFeatureToggles)).toEqual({
         test1: true,
-      });
+      } as FeatureToggles);
     });
   });
 
@@ -204,7 +204,7 @@ describe('FeatureToggles injection tokens', () => {
         test2: false,
         test3: true,
         test4: false,
-      });
+      } as FeatureToggles);
     });
 
     it('should favor FeatureTogglesChunk over DefaultFeatureTogglesChunk, when they clash by name', () => {
@@ -226,7 +226,7 @@ describe('FeatureToggles injection tokens', () => {
         test1: true,
         test2: true,
         test3: false,
-      });
+      } as FeatureToggles);
     });
 
     it('should favor FeatureTogglesChunk over DefaultFeatureTogglesChunk, when they clash by name - test 2', () => {
@@ -260,7 +260,7 @@ describe('FeatureToggles injection tokens', () => {
         test3: true,
         test4: true,
         test5: false,
-      });
+      } as FeatureToggles);
     });
   });
 });
