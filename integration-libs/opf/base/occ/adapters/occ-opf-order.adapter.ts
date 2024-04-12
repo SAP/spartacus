@@ -18,10 +18,12 @@ import {
   isJaloError,
   normalizeHttpError,
 } from '@spartacus/core';
-import { OpfOrderAdapter } from '@spartacus/opf/base/core';
+import {
+  OpfOrderAdapter,
+  isHttp500Error,
+  opfHttp500ErrorRetry,
+} from '@spartacus/opf/base/core';
 import { ORDER_NORMALIZER, Order } from '@spartacus/order/root';
-
-import { isHttp500Error, opfHttp500ErrorRetry } from '@spartacus/opf/base/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
