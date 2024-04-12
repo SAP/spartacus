@@ -19,9 +19,9 @@ import {
   USE_CLIENT_TOKEN,
   normalizeHttpError,
 } from '@spartacus/core';
+import { opfHttp500ErrorRetry } from '@spartacus/opf/base/core';
 import { ORDER_NORMALIZER, Order } from '@spartacus/order/root';
 import { defer, of, throwError } from 'rxjs';
-import { opfHttp500ErrorRetry } from '../utils/opf-occ-http-error-handlers';
 import { OccOpfOrderAdapter } from './occ-opf-order.adapter';
 
 const mockJaloError = new HttpErrorResponse({

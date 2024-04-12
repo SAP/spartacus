@@ -18,7 +18,7 @@ import {
 import {
   isAuthorizationError,
   opfAuthorizationErrorRetry,
-} from '@spartacus/opf/base/occ';
+} from '@spartacus/opf/base/core';
 import {
   OpfOrderFacade,
   OpfOtpFacade,

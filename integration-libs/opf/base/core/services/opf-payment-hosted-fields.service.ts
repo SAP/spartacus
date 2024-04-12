@@ -27,10 +27,6 @@ import {
 } from 'rxjs/operators';
 
 import {
-  isAuthorizationError,
-  opfAuthorizationErrorRetry,
-} from '@spartacus/opf/base/occ';
-import {
   defaultError,
   MerchantCallback,
   OpfOrderFacade,
@@ -48,6 +44,10 @@ import {
 } from '@spartacus/opf/base/root';
 import { OpfPaymentConnector } from '../connectors/opf-payment.connector';
 import { OpfPaymentErrorHandlerService } from '../services/opf-payment-error-handler.service';
+import {
+  isAuthorizationError,
+  opfAuthorizationErrorRetry,
+} from '../utils/opf-occ-http-error-handlers';
 import { getBrowserInfo } from '../utils/opf-payment-utils';
 
 @Injectable()

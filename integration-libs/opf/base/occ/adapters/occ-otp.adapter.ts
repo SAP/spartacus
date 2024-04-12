@@ -13,9 +13,12 @@ import {
   backOff,
   normalizeHttpError,
 } from '@spartacus/core';
-import { OTP_NORMALIZER, OtpAdapter } from '@spartacus/opf/base/core';
+import {
+  OTP_NORMALIZER,
+  OtpAdapter,
+  isHttp500Error,
+} from '@spartacus/opf/base/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { isHttp500Error } from '../utils/opf-occ-http-error-handlers';
 
 @Injectable()
 export class OccOtpAdapter implements OtpAdapter {
