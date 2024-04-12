@@ -40,34 +40,36 @@ export class VerificationTokenFormComponent {
 
   password: string;
 
+  purpose: string;
+
   waitTime: int = 60;
 
   isResendDisabled: boolean = true;
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this.tokenId = '<LGN[W307fQyxtGUH4RKYON9Mx7fDYpdr+3Og8N6WH+cwexs=]>';
+      this.tokenId = params['tokenId'];
       this.password = params['password'];
-      this.target = params['targetEmail'];
+      this.target = params['loginId'];
+      this.purpose = params['purpose'];
+      this.service.displayMessage(this.target);
     });
-    this.tokenId = '<LGN[W307fQyxtGUH4RKYON9Mx7fDYpdr+3Og8N6WH+cwexs=]>';
-    this.setWaitTime();
-    this.service.displayMessage(this.target);
+    this.startWaitTimeInterval();
   }
 
   onSubmit(): void {
-    debugger;
     this.service.login();
   }
 
   resendOTP(): void {
     this.isResendDisabled = true;
     this.waitTime = 60;
+    this.startWaitTimeInterval();
+    this.service.sentOTP(this.target, this.password, this.purpose);
     this.service.displayMessage(this.target);
-    this.setWaitTime();
   }
 
-  setWaitTime(): void {
+  startWaitTimeInterval(): void {
     let interval = setInterval(() => {
       this.waitTime--;
       this.cdr.detectChanges();

@@ -29,7 +29,7 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
         cmsComponents: [
           'LoginComponent',
           'ReturningCustomerLoginComponent',
-          'ReturningCustomerOTPLoginComponent',
+          'VerifyOTPTokenComponent',
           'ReturningCustomerRegisterComponent',
           'MyAccountViewUserComponent',
         ],
