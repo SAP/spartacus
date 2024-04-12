@@ -1152,3 +1152,8 @@ export const NEW_ZONE_IMPORT = 'zone.js/node';
 export const NGUNIVERSAL_IMPORT = '@nguniversal/express-engine';
 export const SSR_SETUP_IMPORT = '@spartacus/setup/ssr';
 export const EXPRESS_TOKENS = 'express.tokens';
+
+export const APP_ROUTING_MODULE = 'AppRoutingModule';
+export const APP_ROUTING_MODULE_LOCAL_PATH = './app-routing.module';
+export const APP_ROUTING_MODULE_LOCAL_FILENAME = 'app-routing.module.ts';
+export const BROWSER_MODULE = 'BrowserModule';

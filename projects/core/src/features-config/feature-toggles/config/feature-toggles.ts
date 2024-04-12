@@ -35,6 +35,8 @@ declare module '../feature-toggles-tokens' {
     a11yNavigationUiKeyboardControls?: boolean;
     a11yOrderConfirmationHeadingOrder?: boolean;
     a11yStarRating?: boolean;
+    a11yViewChangeAssistiveMessage?: boolean;
+    a11yReorderDialog?: boolean;
     a11yPopoverFocus?: boolean;
     a11yScheduleReplenishment?: boolean;
     a11yScrollToTop?: boolean;
@@ -42,6 +44,7 @@ declare module '../feature-toggles-tokens' {
     a11ySortingOptionsTruncation?: boolean;
     a11yExpandedFocusIndicator?: boolean;
     a11yCheckoutDeliveryFocus?: boolean;
+    a11yMobileVisibleFocus?: boolean;
     a11yOrganizationsBanner?: boolean;
     a11yOrganizationListHeadingOrder?: boolean;
     a11yReplenishmentOrderFieldset?: boolean;
