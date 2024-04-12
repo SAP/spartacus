@@ -1,0 +1,59 @@
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <label>
+    <span class="label-content">
+      {{ 'otpLoginForm.verificationCode.label' | cxTranslate }}
+    </span>
+    <input
+      required="true"
+      class="form-control"
+      formControlName="tokenCode"
+      placeholder="{{
+        'otpLoginForm.verificationCode.placeholder' | cxTranslate
+      }}"
+    />
+    <cx-form-errors [control]="form.get('tokenCode')"></cx-form-errors>
+  </label>
+
+  <input type="hidden" formControlName="tokenId" [(ngModel)]="tokenId" />
+
+  <div class="row resend-link-text">
+    <div class="col-md-6 col-lg-6 left-text">
+      <span>
+        <a
+          (click)="resendOTP()"
+          class="btn-link"
+          [ngClass]="{ 'disabled-link': isResendDisabled }"
+        >
+          {{ 'otpLoginForm.resend' | cxTranslate }}
+        </a>
+        <ng-container *ngIf="isResendDisabled">
+          {{
+            'otpLoginForm.sendRateLime' | cxTranslate: { waitTime: waitTime }
+          }}
+        </ng-container>
+      </span>
+    </div>
+    <div class="col-md-6 col-lg-6 right-text">
+      <a (click)="openInfoDailog()" class="btn-link">
+        {{ 'otpLoginForm.noReceiveCode' | cxTranslate }}
+      </a>
+    </div>
+  </div>
+
+  <div class="verify-container">
+    <button
+      type="submit"
+      class="btn btn-block btn-primary"
+      [disabled]="form.disabled"
+    >
+      {{ 'otpLoginForm.verify' | cxTranslate }}
+    </button>
+    <a
+      [routerLink]="{ cxRoute: 'login' } | cxUrl"
+      class="btn btn-block btn-secondary btn-register"
+      >{{ 'otpLoginForm.back' | cxTranslate }}</a
+    >
+  </div>
+</form>

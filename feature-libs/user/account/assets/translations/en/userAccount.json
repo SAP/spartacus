@@ -15,6 +15,18 @@
     },
     "wrongEmailFormat": "This is not a valid email format."
   },
+  "otpLoginForm": {
+    "sentOTP": "Verification code has been sent to {{target}}. Please enter the code.",
+    "sendRateLime": "in {{waitTime}}s",
+    "resend": "Resend",
+    "verificationCode": {
+      "label": "Verification Code",
+      "placeholder": "Enter Verification Code"
+    },
+    "noReceiveCode": "Didn't receive the code?",
+    "verify": "Verify",
+    "back": "Back"
+  },
   "miniLogin": {
     "userGreeting": "Hi, {{name}}",
     "signInRegister": "Sign In / Register"

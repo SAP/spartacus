@@ -47,6 +47,7 @@ import {
   OCC_USER_ACCOUNT_ADAPTER,
   OCC_USER_ADAPTER,
   OCC_USER_PROFILE_ADAPTER,
+  OTP_LOGIN_FORM_MODULE,
   PAGE_EVENT_BUILDER,
   PAGE_EVENT_MODULE,
   PRODUCT_VARIANTS_MODULE,
@@ -369,7 +370,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: USER_COMPONENT_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${USER_COMPONENT_MODULE}' - Following module imports '${LOGIN_MODULE}', '${LOGIN_FORM_MODULE}', '${LOGIN_REGISTER_MODULE}', '${REGISTER_COMPONENT_MODULE}' were removed. Those modules are now part of ${SPARTACUS_USER}.`,
+    comment: `'${USER_COMPONENT_MODULE}' - Following module imports '${LOGIN_MODULE}', '${LOGIN_FORM_MODULE}','${OTP_LOGIN_FORM_MODULE}', '${LOGIN_REGISTER_MODULE}', '${REGISTER_COMPONENT_MODULE}' were removed. Those modules are now part of ${SPARTACUS_USER}.`,
   },
   // projects/storefrontlib/cms-components/myaccount/close-account/components/close-account-modal/close-account-modal.component.ts
   {

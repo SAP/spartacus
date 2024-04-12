@@ -44,6 +44,7 @@ import {
   LOGIN_REGISTER_MODULE,
   OCC_ASM_ADAPTER,
   ORDER_ENTRY,
+  OTP_LOGIN_FORM_MODULE,
   PERMISSION_ROUTING_CONFIG,
   PERSONALIZATION_ACTION,
   PERSONALIZATION_CONFIG,
@@ -415,6 +416,12 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   // projects/storefrontlib/cms-components/user/login-form/login-form.module.ts
   {
     previousNode: LOGIN_FORM_MODULE,
+    previousImportPath: SPARTACUS_STOREFRONTLIB,
+    newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
+  },
+  // projects/storefrontlib/cms-components/user/otp-login-form/otp-login-form.module.ts
+  {
+    previousNode: OTP_LOGIN_FORM_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
   },
