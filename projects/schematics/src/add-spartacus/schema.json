@@ -244,10 +244,6 @@
             "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
           },
           {
-            "value": "OPPS-ALL",
-            "label": "All OPPS Features"
-          },
-          {
             "value": "OPPS-COUPON-CODES",
             "label": "OPPS Coupon Codes"
           },

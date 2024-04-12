@@ -129,7 +129,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
         featureSchematicConfigMapping.get(feature);
       if (!schematicsConfiguration) {
         throw new SchematicsException(
-          `[Internal] No feature config found for ${feature}. ` +
+          `[Internal] Shit No feature config found for ${feature}. ` +
             `Please check if the schematics config is added to projects/schematics/src/shared/schematics-config-mappings.ts`
         );
       }

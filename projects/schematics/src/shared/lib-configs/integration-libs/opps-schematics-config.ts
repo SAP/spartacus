@@ -6,7 +6,6 @@
 
 import {
   OPPS_COUPON_CODES_FEATURE_NAME,
-  OPPS_FEATURE_NAME,
   SPARTACUS_OPPS,
   SPARTACUS_OPPS_COUPON_CODES,
   SPARTACUS_OPPS_ROOT,
@@ -35,28 +34,6 @@ export const OPPS_COUPON_CODES_SCHEMATICS_CONFIG: SchematicConfig = {
     importPath: SPARTACUS_OPPS_COUPON_CODES,
     name: OPPS_COUPON_CODES_MODULE,
     content: `${OPPS_COUPON_CODES_MODULE}`,
-  },
-  /* Through Spartacus Opps code doesnot have a dependency on Personalization,
-  backend occ api of Opps requires Personalization to be enabled , hence adding this dependency
-  If Personalization library is not installed, Personalization & Opps won't apply */
-  dependencyFeatures: [TRACKING_PERSONALIZATION_FEATURE_NAME],
-};
-
-export const OPPS_ALL_SCHEMATICS_CONFIG: SchematicConfig = {
-  library: {
-    featureName: OPPS_FEATURE_NAME,
-    mainScope: SPARTACUS_OPPS,
-  },
-  folderName: OPPS_FOLDER_NAME,
-  moduleName: OPPS_MODULE_NAME,
-  featureModule: {
-    name: OPPS_ROOT_MODULE,
-    importPath: SPARTACUS_OPPS,
-  },
-  rootModule: {
-    importPath: SPARTACUS_OPPS_ROOT,
-    name: OPPS_ROOT_MODULE,
-    content: `${OPPS_ROOT_MODULE}`,
   },
   /* Through Spartacus Opps code doesnot have a dependency on Personalization,
   backend occ api of Opps requires Personalization to be enabled , hence adding this dependency

@@ -413,7 +413,6 @@
       ],
       "@spartacus/opps/coupon-codes": ["../../dist/opps/coupon-codes"],
       "@spartacus/opps": ["../../dist/opps"],
-      "@spartacus/opps/root": ["../../dist/opps/root"],
       "@spartacus/s4om/assets": ["../../dist/s4om/assets"],
       "@spartacus/s4om": ["../../dist/s4om"],
       "@spartacus/s4om/root": ["../../dist/s4om/root"],
