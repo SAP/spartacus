@@ -71,6 +71,7 @@ export const EVENTS_MODULE = 'EventsModule';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
+export const PROVIDE_FEATURE_TOGGLES_FUNCTION = 'provideFeatureToggles';
 export const SITE_CONTEXT_CONFIG = 'SiteContextConfig';
 export const I18N_CONFIG = 'I18nConfig';
 export const OCC_CONFIG = 'OccConfig';
