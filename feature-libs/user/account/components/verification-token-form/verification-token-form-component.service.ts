@@ -18,12 +18,14 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, from } from 'rxjs';
 import { tap, withLatestFrom } from 'rxjs/operators';
+import { VerificationTokenFacade } from '../../root/facade';
 
 @Injectable()
 export class VerificationTokenFormComponentService {
   constructor(
     protected auth: AuthService,
     protected globalMessage: GlobalMessageService,
+    protected verificationTokenFacade: VerificationTokenFacade,
     protected winRef: WindowRef
   ) {}
 
@@ -45,7 +47,6 @@ export class VerificationTokenFormComponentService {
       this.form.markAllAsTouched();
       return;
     }
-    debugger;
     this.busy$.next(true);
 
     from(
@@ -70,6 +71,14 @@ export class VerificationTokenFormComponentService {
       GlobalMessageType.MSG_TYPE_CONFIRMATION,
       10000
     );
+  }
+
+  sentOTP(loginId: string, password: string, purpose: string) {
+    this.verificationTokenFacade.createVerificationToken({
+      loginId,
+      password,
+      purpose,
+    });
   }
 
   protected onSuccess(isLoggedIn: boolean): void {

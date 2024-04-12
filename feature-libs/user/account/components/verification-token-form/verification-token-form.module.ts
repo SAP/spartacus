@@ -43,7 +43,7 @@ import { VerificationTokenFormComponent } from './verification-token-form.compon
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        ReturningCustomerOTPLoginComponent: {
+        VerifyOTPTokenComponent: {
           component: VerificationTokenFormComponent,
           guards: [NotAuthGuard],
           providers: [
