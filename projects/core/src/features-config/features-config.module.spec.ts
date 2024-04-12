@@ -94,7 +94,7 @@ describe('when FeaturesConfigModule.forRoot() is imported,', () => {
         provideFeatureToggles({ [testToggle]: false }),
       ]);
       const service = TestBed.inject(FeatureConfigService);
-      expect(service.isEnabled(testToggle)).toBe(false);
+      expect(service.isEnabled(testToggle)).toBe(true);
     });
 
     it('DEFAULT FeaturesConfig should NOT be overridden by DEFAULT FeatureToggles', () => {
@@ -103,7 +103,7 @@ describe('when FeaturesConfigModule.forRoot() is imported,', () => {
         provideDefaultFeatureToggles({ [testToggle]: false }),
       ]);
       const service = TestBed.inject(FeatureConfigService);
-      expect(service.isEnabled(testToggle)).toBe(false);
+      expect(service.isEnabled(testToggle)).toBe(true);
     });
   });
 });
