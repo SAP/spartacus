@@ -7,3 +7,5 @@
 export * from './login-form-component.service';
 export * from './login-form.component';
 export * from './login-form.module';
+export * from './otp-login-form.component';
+export * from './use-otp-login-form';
