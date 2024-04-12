@@ -37,14 +37,14 @@ export class CmsPageNotFoundServerErrorResponseFactory
           : pagesEndpoint.default);
       // The OccEndpointsService can't be used due to circular dependency injection
       // Optional BaseSiteService depends on ngrx, which has dependency on the ErrorHandler
-      const expectedUrlRegexp = this.buildUrlRegexp({
+      const expectedUrlRegex = this.buildUrlRegex({
         baseUrl,
         prefix,
         endpoint,
       });
       return (
         error instanceof HttpErrorResponse &&
-        expectedUrlRegexp.test(error.url ?? '')
+        expectedUrlRegex.test(error.url ?? '')
       );
     }
     return false;
@@ -66,7 +66,7 @@ export class CmsPageNotFoundServerErrorResponseFactory
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
-  protected buildUrlRegexp({
+  protected buildUrlRegex({
     baseUrl,
     prefix,
     endpoint,
