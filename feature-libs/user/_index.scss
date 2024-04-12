@@ -39,6 +39,12 @@ $selectors: cx-address-book, cx-address-form, cx-suggested-addresses-dialog,
       flex: 100%;
       margin-bottom: 0.375rem;
     }
+
+    .input-hint {
+      font-size: 0.875rem;
+      color: var(--cx-color-secondary);
+      margin-bottom: 0;
+    }
   }
 
   button,
