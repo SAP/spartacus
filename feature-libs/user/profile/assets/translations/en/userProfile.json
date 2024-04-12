@@ -52,7 +52,7 @@
     "emailMarketing": "Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to Consent Management in My Account.",
     "confirmThatRead": "I am confirming that I have read and agreed with the",
     "selectTitle": "Select Title",
-    "passwordMinRequirements": "Password must be six characters minimum, with one uppercase letter, one number, one symbol",
+    "passwordMinRequirements": "Here's a quick guide for a secure password: Use at least 8 characters with a mix of upper and lowercase letters, numbers, and symbols.",
     "bothPasswordMustMatch": "Both password must match",
     "titleRequired": "Title is required.",
     "postRegisterMessage": "Please log in with provided credentials."
