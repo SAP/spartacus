@@ -7,17 +7,9 @@
 import { Injectable, InjectionToken, inject } from '@angular/core';
 
 /**
- * Properties for gradually enabling/disabling breaking changes introduced in Spartacus.
- *
- * Feature toggles facilitate the incremental evolution of the Spartacus product,
- * allowing Spartacus users to adjust to breaking changes over time.
- *
- * Each feature toggle corresponds to a specific breaking change introduced
- * in a Spartacus release.
- *
- * Some feature toggles might be only temporary, with a defined duration
- * (specified in the official documentation), after which the related
- * breaking change will be permanently enabled.
+ * Properties for gradual adaptation to breaking changes in Spartacus via feature toggles.
+ * Each toggle has its own lifespan defined in the official docs.
+ * It should be provided in the root injector (in an eagerly loaded module).
  */
 @Injectable({
   providedIn: 'root',
