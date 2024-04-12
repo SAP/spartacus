@@ -18,7 +18,7 @@ import { LoginForm } from '../../root/model';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from './use-otp-login-form';
 
 @Component({
-  selector: 'cx-otp-login-form',
+  selector: 'cx-verification-token-form',
   templateUrl: './login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

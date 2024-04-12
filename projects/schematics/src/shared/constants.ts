@@ -864,6 +864,7 @@ export const RESET_PASSWORD_FORM_COMPONENT = 'ResetPasswordFormComponent';
 export const LOGIN_COMPONENT = 'LoginComponent';
 export const LOGIN_MODULE = 'LoginModule';
 export const LOGIN_FORM_MODULE = 'LoginFormModule';
+export const OTP_LOGIN_FORM_MODULE = 'VerificationTokenFormModule';
 export const LOGIN_REGISTER_COMPONENT = 'LoginRegisterComponent';
 export const LOGIN_REGISTER_MODULE = 'LoginRegisterModule';
 
