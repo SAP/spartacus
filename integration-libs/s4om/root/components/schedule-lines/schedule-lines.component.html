@@ -14,7 +14,7 @@
           }}
         </div>
         <div class="cx-value" aria-hidden="true">
-          Estimated Arrival time: 
+          Estimated Arrival time:
           {{scheduleLine?.at | cxDate: 'M/d/yyyy' }}
         </div>
         <div class="cx-label" aria-hidden="true">
@@ -30,26 +30,12 @@
 
 
 <ng-container *ngIf="consignments$ | async as consignments">
-<ng-container *ngIf="consignments.length>0">
-  <ng-container *ngIf="hasConsignmentEntryScheduleLines(consignments)">
-    <div class="cx-code">
-      <div *ngFor="let consignment of consignments; let i = index" class="cx-schedule-line-info"
-        attr.aria-describedby="{{ getScheduleLineInfoId(i) }}">
-        <div id="{{ getScheduleLineInfoId(i) }}" class="cx-visually-hidden">
-          {{
-          's4omScheduleLines.a11y.scheduleLineEntryInfo'
-          | cxTranslate
-          : {
-          date: getLongDate(consignment.arrivalSlot?.at)
-          }
-          }}
-        </div>
-        <div class="cx-value" aria-hidden="true">
-          Estimated Arrival time: 
-          {{ consignment.arrivalSlot?.at | cxDate: 'M/d/yyyy' }}
-        </div>
+  <ng-container *ngIf="orderEntry$ | async as orderEntry">
+    <ng-container *ngIf="hasConsignmentEntryScheduleLines(consignments) && !hasOrderEntryScheduleLines(orderEntry)">
+      <div class="cx-value" aria-hidden="true">
+        Estimated Arrival:
+        {{ consignments.arrivalSlot?.at | cxDate: 'M/d/yyyy' }}
       </div>
-    </div>
+    </ng-container>
   </ng-container>
-</ng-container>
 </ng-container>
