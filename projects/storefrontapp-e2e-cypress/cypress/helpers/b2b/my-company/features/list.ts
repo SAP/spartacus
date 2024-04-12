@@ -18,7 +18,9 @@ export function listTest(config: MyCompanyConfig): void {
       cy.visit(`/organization`);
       testList(config, {
         trigger: () =>
-          cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click(),
+          cy
+            .get(`cx-page-slot.BodyContent a[aria-label*="${config.name}"]`)
+            .click(),
       });
     });
 

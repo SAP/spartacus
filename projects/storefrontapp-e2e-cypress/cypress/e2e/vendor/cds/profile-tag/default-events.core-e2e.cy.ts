@@ -548,7 +548,7 @@ function goToProductPage(): Cypress.Chainable<number> {
     productCode,
     'getProductPage'
   );
-  cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+  cy.get('.Section4 cx-banner').first().find('a').click({ force: true });
   return cy
     .wait(`@${productPage}`)
     .its('response.statusCode')
