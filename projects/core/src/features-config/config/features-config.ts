@@ -87,7 +87,7 @@ export abstract class FeaturesConfig {
      */
     [_: string]: string | boolean | undefined;
 
-    // The properties below should be removed in the future
+    // The properties below should be moved in the future
     // to the global config, because they are not temporary feature toggles
     // but rather permanent config options:
 
