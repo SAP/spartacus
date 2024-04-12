@@ -16,7 +16,7 @@ import { FeaturesConfig } from './config/features-config';
 import { FeatureLevelDirective } from './directives/feature-level.directive';
 import { FeatureDirective } from './directives/feature.directive';
 import { provideDefaultFeatureToggles } from './feature-toggles';
-import { defaultFeatureToggles } from './feature-toggles/default-feature-toggles';
+import { defaultFeatureToggles } from './feature-toggles/config/default-feature-toggles';
 import { populateFeatureTogglesToFeaturesConfig } from './feature-toggles/populate-feature-toggles-to-features-config';
 import { FeatureStylesService } from './services/feature-styles.service';
 

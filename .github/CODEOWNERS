@@ -41,6 +41,7 @@
 # ================================================
 /docs/
 /projects/storefrontapp-e2e-cypress/
+/projects/core/src/features-config/feature-toggles/config/
 
 # @SAP/spartacus-codeowners needs to be repeated in each subsequent rules
 # to remain owner of all the sources in the repo.

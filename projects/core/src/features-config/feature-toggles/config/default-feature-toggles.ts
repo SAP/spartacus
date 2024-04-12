@@ -1,4 +1,4 @@
-import { FeatureToggles } from './feature-toggles-tokens';
+import { FeatureToggles } from '../feature-toggles-tokens';
 
 export const defaultFeatureToggles: FeatureToggles = {
   showPromotionsInPDP: false,

@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import './feature-toggles-tokens';
+import '../feature-toggles-tokens';
 
-declare module './feature-toggles-tokens' {
+declare module '../feature-toggles-tokens' {
   interface FeatureToggles {
     /**
      * Displays the promotions info in the ProductSummaryComponent
