@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './augmented-feature-toggles.model';
 export * from './highlight.pipe';
 export * from './search-box-component.service';
 export * from './search-box-outlets.model';

@@ -8,11 +8,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   CmsConfig,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
-  provideDefaultFeatureToggles,
 } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { PromotionsModule } from '../../misc/promotions/promotions.module';
@@ -20,15 +18,12 @@ import { ProductSummaryComponent } from './product-summary.component';
 
 @NgModule({
   providers: [
-    provideDefaultConfig(<CmsConfig | FeaturesConfig>{
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductSummaryComponent: {
           component: ProductSummaryComponent,
         },
       },
-    }),
-    provideDefaultFeatureToggles({
-      showPromotionsInPDP: false,
     }),
   ],
   declarations: [ProductSummaryComponent],

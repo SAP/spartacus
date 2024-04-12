@@ -6,11 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  FeaturesConfigModule,
-  I18nModule,
-  provideDefaultFeatureToggles,
-} from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { AtMessageModule } from '../assistive-technology-message/assistive-technology-message.module';
@@ -26,11 +22,6 @@ import { CardComponent } from './card.component';
     TruncateTextPopoverModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultFeatureToggles({
-      storeFrontLibCardParagraphTruncated: false,
-    }),
   ],
   declarations: [CardComponent],
   exports: [CardComponent],

@@ -13,7 +13,6 @@ import {
   I18nModule,
   UrlModule,
   provideDefaultConfig,
-  provideDefaultFeatureToggles,
 } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure';
 import { MediaModule } from '../../../shared/components/media/media.module';
@@ -39,9 +38,6 @@ import { SearchBoxComponent } from './search-box.component';
           component: SearchBoxComponent,
         },
       },
-    }),
-    provideDefaultFeatureToggles({
-      recentSearches: false,
     }),
   ],
   declarations: [SearchBoxComponent, HighlightPipe],

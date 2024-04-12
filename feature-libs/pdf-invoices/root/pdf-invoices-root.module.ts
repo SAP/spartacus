@@ -6,11 +6,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import {
-  CmsConfig,
-  provideDefaultConfigFactory,
-  provideDefaultFeatureToggles,
-} from '@spartacus/core';
+import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import {
   PDF_INVOICES_CORE_FEATURE,
   PDF_INVOICES_FEATURE,
@@ -33,9 +29,6 @@ export function defaultRequestedDeliveryDateComponentsConfig(): CmsConfig {
 @NgModule({
   providers: [
     provideDefaultConfigFactory(defaultRequestedDeliveryDateComponentsConfig),
-    provideDefaultFeatureToggles({
-      pdfInvoicesSortByInvoiceDate: false,
-    }),
   ],
 })
 export class PDFInvoicesRootModule {}
