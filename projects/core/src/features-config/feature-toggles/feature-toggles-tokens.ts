@@ -15,7 +15,7 @@ import { Injectable, InjectionToken, inject } from '@angular/core';
  * Each feature toggle corresponds to a specific breaking change introduced
  * in a Spartacus release.
  *
- * Each feature toggle is temporary, with a defined duration
+ * Some feature toggles might be only temporary, with a defined duration
  * (specified in the official documentation), after which the related
  * breaking change will be permanently enabled.
  */
