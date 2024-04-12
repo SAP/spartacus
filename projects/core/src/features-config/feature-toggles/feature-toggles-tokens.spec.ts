@@ -13,12 +13,6 @@ import {
   RootFeatureToggles,
 } from './feature-toggles-tokens';
 
-declare module './feature-toggles-tokens' {
-  interface FeatureToggles {
-    [key: string]: boolean; // allow in tests to use any key like 'test', 'test2'
-  }
-}
-
 describe('FeatureToggles injection tokens', () => {
   describe('FeatureTogglesChunk', () => {
     it('should fallback to empty array, unless anything provided', () => {
