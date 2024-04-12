@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import {
@@ -29,7 +29,7 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService,
-    protected router: Router
+    @Optional() protected router: Router
   ) {}
 
   readonly DEFAULT_SEARCH_CONFIG: SearchConfig = {
@@ -51,7 +51,7 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
         tap(
           (productSearchPage) =>
             productSearchPage.keywordRedirectUrl &&
-            this.router.navigate([productSearchPage.keywordRedirectUrl])
+            this.router?.navigate([productSearchPage.keywordRedirectUrl])
         )
       );
   }
