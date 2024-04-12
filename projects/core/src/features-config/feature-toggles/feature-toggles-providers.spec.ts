@@ -15,12 +15,6 @@ import {
   FeatureTogglesChunk,
 } from './feature-toggles-tokens';
 
-declare module './feature-toggles-tokens' {
-  interface FeatureToggles {
-    test?: boolean;
-  }
-}
-
 describe('FeatureToggles providers', () => {
   describe(`provideFeatureToggles`, () => {
     it('should provide FeatureTogglesChunk with the given toggles', () => {

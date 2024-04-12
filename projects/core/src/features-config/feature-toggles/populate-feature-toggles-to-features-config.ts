@@ -12,7 +12,6 @@ import {
 import '../config/features-config';
 import {
   DefaultFeatureToggles,
-  FeatureToggles,
   RootFeatureToggles,
 } from './feature-toggles-tokens';
 
@@ -32,7 +31,3 @@ export const populateFeatureTogglesToFeatureConfig: FactoryProvider[] = [
     return { features: { ...flags } };
   }),
 ];
-
-declare module '../config/features-config' {
-  interface FeaturesConfigContent extends FeatureToggles {}
-}

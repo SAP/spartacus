@@ -30,6 +30,10 @@ import { Injectable, InjectionToken, inject } from '@angular/core';
 })
 export abstract class FeatureToggles {}
 
+export interface FeatureToggles {
+  [featureToggleName: string]: boolean | undefined;
+}
+
 /**
  * DefaultFeatureToggles token, used to build FeatureToggles. Built from DefaultFeatureTogglesChunk's
  */
