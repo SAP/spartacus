@@ -18,15 +18,14 @@ import {
   isJaloError,
   normalizeHttpError,
 } from '@spartacus/core';
-import { OpfOrderAdapter } from '@spartacus/opf/base/core';
-import { ORDER_NORMALIZER, Order } from '@spartacus/order/root';
-
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import {
+  OpfOrderAdapter,
   isHttp500Error,
   opfHttp500ErrorRetry,
-} from '../utils/opf-occ-http-error-handlers';
+} from '@spartacus/opf/base/core';
+import { ORDER_NORMALIZER, Order } from '@spartacus/order/root';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccOpfOrderAdapter implements OpfOrderAdapter {

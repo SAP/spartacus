@@ -6,4 +6,3 @@
 
 export * from './model/index';
 export * from './opf-base-occ.module';
-export * from './utils/index';

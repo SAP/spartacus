@@ -8,10 +8,6 @@ import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { UserIdService, backOff } from '@spartacus/core';
 import {
-  isAuthorizationError,
-  opfAuthorizationErrorRetry,
-} from '@spartacus/opf/base/occ';
-import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
   OpfOtpFacade,
@@ -19,6 +15,10 @@ import {
 import { Observable, combineLatest, throwError } from 'rxjs';
 import { catchError, concatMap, filter, switchMap, take } from 'rxjs/operators';
 import { OpfPaymentConnector } from '../connectors';
+import {
+  isAuthorizationError,
+  opfAuthorizationErrorRetry,
+} from '../utils/opf-occ-http-error-handlers';
 
 @Injectable({ providedIn: 'root' })
 export class OpfPaymentApplePayService {

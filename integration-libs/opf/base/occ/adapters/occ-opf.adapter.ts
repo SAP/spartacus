@@ -23,6 +23,7 @@ import {
   OPF_PAYMENT_VERIFICATION_NORMALIZER,
   OpfEndpointsService,
   OpfPaymentAdapter,
+  isHttp500Error,
 } from '@spartacus/opf/base/core';
 import {
   ActiveConfiguration,
@@ -43,7 +44,6 @@ import {
 } from '@spartacus/opf/base/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { isHttp500Error } from '../utils/opf-occ-http-error-handlers';
 
 @Injectable()
 export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
