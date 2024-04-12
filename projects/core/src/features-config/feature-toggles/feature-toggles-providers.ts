@@ -14,13 +14,13 @@ import {
 export type FeatureTogglesFactory = (...props: any[]) => FeatureToggles;
 
 /**
- * Helper function to provide FeatureTogglesChunk token
+ * Enables gradual adaptation to breaking changes in Spartacus via feature toggles.
+ * Each toggle has its own lifespan defined in the official docs.
+ * It should be provided in the root injector (in an eagerly loaded module).
  *
- * CAUTION: It should be provided only in the root injector, i.e. in eagerly loaded modules.
+ * For using in a library, call `provideDefaultFeatureToggles() instead.
  *
- * To provide DefaultFeatureTogglesChunk toggles in libraries, provideFeatureTogglesChunk should be used instead.
- *
- * @param toggles FeatureToggles object to merge with the global toggles
+ * @param toggles FeatureToggles object
  */
 export function provideFeatureToggles(
   toggles: FeatureToggles = {},
@@ -34,14 +34,13 @@ export function provideFeatureToggles(
 }
 
 /**
- * Helper function to provide FeatureTogglesChunk with a factory function
+ * Enables gradual adaptation to breaking changes in Spartacus via feature toggles.
+ * Each toggle has its own lifespan defined in the official docs.
+ * It should be provided in the root injector (in an eagerly loaded module).
  *
- * CAUTION: It should be provided only in the root injector, i.e. in eagerly loaded modules.
+ * For using in a library, call `provideDefaultFeatureToggles() instead.
  *
- * To provide DefaultFeatureTogglesChunk toggles in libraries provideDefaultFeatureTogglesFactory should be used instead.
- *
- * @param featureTogglesFactory Factory Function that will generate toggles object
- * @param deps Optional dependencies to a factory function
+ * @param featureTogglesFactory Factory Function that returns FeatureToggles object
  */
 export function provideFeatureTogglesFactory(
   featureTogglesFactory: FeatureTogglesFactory,
@@ -55,11 +54,11 @@ export function provideFeatureTogglesFactory(
 }
 
 /**
- * Helper function to provide DefaultFeatureTogglesChunk token
+ * It's a helper function to provide DefaultFeatureTogglesChunk token
  *
- * CAUTION: It should be provided only in the root injector, i.e. in eagerly loaded modules.
+ * CAUTION: It should be provided only in the root injector, i.e. in eagerly loaded module.
  *
- * @param toggles FeatureToggles object to merge with the default toggles
+ * @param toggles FeatureToggles object
  */
 export function provideDefaultFeatureToggles(
   toggles: FeatureToggles = {}
@@ -72,12 +71,11 @@ export function provideDefaultFeatureToggles(
 }
 
 /**
- * Helper function to provide DefaultFeatureTogglesChunk toggles with a factory function
+ * It's a helper function to provide DefaultFeatureTogglesChunk toggles with a factory function
  *
- * CAUTION: It should be provided only in the root injector, i.e. in eagerly loaded modules.
+ * CAUTION: It should be provided only in the root injector, i.e. in eagerly loaded module.
  *
- * @param featureTogglesFactory Factory Function that will generate toggles object
- * @param deps Optional dependencies to a factory function
+ * @param featureTogglesFactory Factory Function that returns FeatureToggles object
  */
 export function provideDefaultFeatureTogglesFactory(
   featureTogglesFactory: FeatureTogglesFactory
