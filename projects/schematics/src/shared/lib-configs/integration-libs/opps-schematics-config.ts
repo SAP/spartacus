@@ -8,14 +8,12 @@ import {
   OPPS_COUPON_CODES_FEATURE_NAME,
   SPARTACUS_OPPS,
   SPARTACUS_OPPS_COUPON_CODES,
-  SPARTACUS_OPPS_ROOT,
   TRACKING_PERSONALIZATION_FEATURE_NAME,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
 
 export const OPPS_FOLDER_NAME = 'opps';
 export const OPPS_MODULE_NAME = 'Opps';
-export const OPPS_ROOT_MODULE = 'OppsRootModule';
 export const OPPS_COUPON_CODES_MODULE = 'OppsCouponCodesModule';
 export const OPPS_FEATURE_NAME_CONSTANT = 'OPPS_FEATURE';
 

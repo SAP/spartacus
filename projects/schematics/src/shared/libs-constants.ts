@@ -218,7 +218,6 @@ export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
 export const SPARTACUS_OPPS = '@spartacus/opps';
-export const SPARTACUS_OPPS_ROOT = `@spartacus/opps/root`;
 export const SPARTACUS_OPPS_COUPON_CODES = `@spartacus/opps/coupon-codes`;
 
 export const SPARTACUS_SEGMENT_REFS = '@spartacus/segment-refs';
