@@ -22,7 +22,6 @@ import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
   FeaturesConfig,
   I18nConfig,
-  MULTI_ERROR_HANDLERS,
   OccConfig,
   RoutingConfig,
   TestConfigModule,
@@ -38,8 +37,6 @@ import {
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
-import { ServerRespondingErrorHandler } from 'core-libs/setup/ssr/error-handling/multi-error-handlers';
-import { provideServerErrorResponseFactory } from 'core-libs/setup/ssr/error-handling/server-error-response-factory';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -107,12 +104,6 @@ if (!environment.production) {
       provide: USE_LEGACY_MEDIA_COMPONENT,
       useValue: false,
     },
-    {
-      provide: MULTI_ERROR_HANDLERS,
-      useExisting: ServerRespondingErrorHandler,
-      multi: true,
-    },
-    provideServerErrorResponseFactory(),
   ],
   bootstrap: [StorefrontComponent],
 })
