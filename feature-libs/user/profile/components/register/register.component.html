@@ -117,8 +117,12 @@
                 [attr.aria-label]="
                   'register.password.placeholder' | cxTranslate
                 "
+                aria-describedby="password-input-hint"
                 cxPasswordVisibilitySwitch
               />
+              <p class="input-hint" id="password-input-hint">
+                {{ 'register.passwordMinRequirements' | cxTranslate }}
+              </p>
               <cx-form-errors
                 [control]="registerForm.get('password')"
               ></cx-form-errors>
