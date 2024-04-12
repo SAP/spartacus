@@ -18,7 +18,7 @@ import {
 /**
  * Copies FeatureToggles to FeaturesConfig
  */
-export const populateFeatureTogglesToFeatureConfig: FactoryProvider[] = [
+export const populateFeatureTogglesToFeaturesConfig: FactoryProvider[] = [
   // Copies RootFeatureToggles to RootConfig
   provideConfigFactory(() => {
     const flags = inject(RootFeatureToggles);
