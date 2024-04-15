@@ -25,11 +25,11 @@
     },
     "phoneNumber": {
       "label": "Phone number (optional)",
-      "placeholder": "(555) 555 - 0123"
+      "placeholder": "e.g. (###) - ### - ####"
     },
     "cellphone": {
       "label": "Mobile number (optional)",
-      "placeholder": "(555) 555 - 0123"
+      "placeholder": "e.g. (###) - ### - ####"
     },
     "saveAsDefault": "Save as default",
     "chooseAddress": "Choose address",
