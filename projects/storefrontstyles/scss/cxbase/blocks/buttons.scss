@@ -166,7 +166,7 @@ button {
     }
 
     @include forFeature('santoriniV2') {
-      @include type('8');
+      @include type('6');
       color: var(--cx-color-primary);
     }
   }
