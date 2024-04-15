@@ -81,7 +81,7 @@ describe('when FeaturesConfigModule.forRoot() is imported,', () => {
     // The following 2 tests confirm a correct behavior, which might not be intuitive.
     //
     // When mixing `FeaturesConfig` and `FeatureToggles` in the same level (both ROOT, or both DEFAULT)
-    // then `FeaturesConfig` takes precedence over `FeatureToggles`, regadless of the order of providers.
+    // then `FeaturesConfig` takes precedence over `FeatureToggles`, regardless of the order of providers.
     //
     // It's a consequence of the implementation detail - that in `FeatureConfigModule.forRoot()`
     // we provide a new chunk of `FeaturesConfig`, by reading the resolved
