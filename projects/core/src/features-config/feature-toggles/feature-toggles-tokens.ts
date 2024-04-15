@@ -5,6 +5,7 @@
  */
 
 import { Injectable, InjectionToken, inject } from '@angular/core';
+import { FeatureTogglesInterface } from './config/feature-toggles';
 
 /**
  * Properties for gradual adaptation to breaking changes in Spartacus via feature toggles.
@@ -21,6 +22,7 @@ import { Injectable, InjectionToken, inject } from '@angular/core';
     ),
 })
 export abstract class FeatureToggles {}
+export interface FeatureToggles extends FeatureTogglesInterface {}
 
 /**
  * DefaultFeatureToggles token, used to build FeatureToggles. Built from DefaultFeatureTogglesChunk's
