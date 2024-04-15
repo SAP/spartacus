@@ -10,6 +10,7 @@ import {
   AuthModule,
   CostCenterOccModule,
   ExternalRoutesModule,
+  FeatureToggles,
   ProductModule,
   ProductOccModule,
   UserModule,
@@ -258,10 +259,11 @@ if (environment.requestedDeliveryDate) {
       useValue: environment.myAccountV2,
     },
     provideFeatureToggles({
-      showPromotionsInPDP: true,
-      recentSearches: true,
-      pdfInvoicesSortByInvoiceDate: true,
+      showPromotionsInPDP: false,
+      recentSearches: false,
+      pdfInvoicesSortByInvoiceDate: false,
       storeFrontLibCardParagraphTruncated: true,
+      productConfiguratorAttributeTypesV2: false,
       a11yRequiredAsterisks: true,
       a11yQuantityOrderTabbing: true,
       a11yNavigationUiKeyboardControls: true,
@@ -283,7 +285,7 @@ if (environment.requestedDeliveryDate) {
       a11yListOversizedFocus: true,
       a11yStoreFinderOverflow: true,
       a11yCartSummaryHeadingOrder: true,
-    }),
+    } satisfies Required<FeatureToggles>),
   ],
 })
 export class SpartacusFeaturesModule {}
