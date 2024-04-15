@@ -213,11 +213,17 @@ Example for 6.3.2 release:
 version remains unchanged
 
 ## FeatureToggles copying
+The installation schematics generates a list of available feature toggles in a customer's app.
+It's to help customers to see what feature toggles are available in Spartacus.
+
+Moreover, each feature toggle is explicitly enabled in customer's app, to help customers start with the most up-to-date configuration (without a technical debt of any feature toggles disabled). Of course, they can disable any feature toggle they don't want to use.
+
+**Technical notes:**
 During running the `build` and `test` commands in the schematics project,
-the file `feature-toggles.ts` from the `@spartacus/core` is
-temporarily copied to the `src/feature-toggles.copy.ts` file in the schematics project.
-After finished building or testing, the `src/feature-toggles.copy.ts` file is removed.
+the file `feature-toggles.ts` is copied temporarily from the `@spartacus/core` project location
+to the `src/feature-toggles.copy.ts` file in the `@spartacus/schematics` project location.
+After the finished run of  `build` or `test`, the temporary file `src/feature-toggles.copy.ts` is removed from the schematics project.
 
-This is done to automatically detect the up-to-date list of feature toggles and use it in the installation schematics to explicitly enable all the existing feature toggles in the source code of the new created app.
+In particular, this TS file is copied to schematics project. Then the  `build` command compiles it into a JS file. Then TS file is removed, but JS file remains. Then the JS file be shipped with all other JS files in the schematics project to customers, and it will be used in runtime of schematics to generate a list of feature toggles in customer's app.
 
-Note: The approach of temporary copying of a file  `feature-toggles.ts` from the `@spartacus/core` library was introduced to avoid the direct runtime dependency on the `@spartacus/core` library in the `@spartacus/schematics` project.
+Note: We copy the TS file to the schematics project location (instead of directly importing it from the core project) to avoid a direct dependency in `@spartacus/schematics` on the lib `@spartacus/core`.
