@@ -34,29 +34,11 @@ describe('Consignment Tracking By Id Actions', () => {
 
   describe('LoadConsignmentTrackingByIdFail Action', () => {
     it('should create the action', () => {
-      // const error = new Error('error');
       const action = new fromAction.LoadConsignmentTrackingByIdFail({
         orderCode: 'order1',
         consignmentCode: 'cons1',
         error: 'error',
       });
-
-      console.log(JSON.stringify({ ...action }));
-      const bla = {
-        type: fromAction.LOAD_CONSIGNMENT_TRACKING_BY_ID_FAIL,
-        payload: {
-          orderCode: 'order1',
-          consignmentCode: 'cons1',
-          error: 'error',
-        },
-        meta: StateUtils.entityFailMeta(
-          CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
-          'order1,cons1',
-          'error'
-        ),
-      };
-
-      console.log('BLA: ', JSON.stringify({ ...bla }));
 
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_CONSIGNMENT_TRACKING_BY_ID_FAIL,
