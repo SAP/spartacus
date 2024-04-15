@@ -10,7 +10,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  OPPS_FEATURE_NAME,
+  OPPS_COUPON_CODES_FEATURE_NAME,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_OPPS,
   LibraryOptions as OppsOptions,
@@ -62,7 +62,7 @@ describe('Spartacus opps schematics: ng-add', () => {
 
   const oppsFeatureOptions: OppsOptions = {
     ...libraryNoFeaturesOptions,
-    features: [OPPS_FEATURE_NAME],
+    features: [OPPS_COUPON_CODES_FEATURE_NAME],
   };
 
   beforeEach(async () => {

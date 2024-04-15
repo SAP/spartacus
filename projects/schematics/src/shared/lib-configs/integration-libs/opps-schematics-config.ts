@@ -15,7 +15,6 @@ import { SchematicConfig } from '../../utils/lib-utils';
 export const OPPS_FOLDER_NAME = 'opps';
 export const OPPS_MODULE_NAME = 'Opps';
 export const OPPS_COUPON_CODES_MODULE = 'OppsCouponCodesModule';
-export const OPPS_FEATURE_NAME_CONSTANT = 'OPPS_FEATURE';
 
 export const OPPS_COUPON_CODES_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {

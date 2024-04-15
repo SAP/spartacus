@@ -24,13 +24,13 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["OPPS-COUPON-CODES"],
+      "default": ["Opps-Coupon-Codes"],
       "x-prompt": {
         "message": "Which OPPS features would you like to set up?",
         "type": "list",
         "items": [
           {
-            "value": "OPPS-COUPON-CODES",
+            "value": "Opps-Coupon-Codes",
             "label": "OPPS Coupon Codes"
           }
         ]

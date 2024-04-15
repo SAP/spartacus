@@ -307,7 +307,7 @@ export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 
 export const SEGMENT_REFS_FEATURE_NAME = 'Segment-Refs';
 
-export const OPPS_COUPON_CODES_FEATURE_NAME = 'OPPS-COUPON-CODES';
+export const OPPS_COUPON_CODES_FEATURE_NAME = 'Opps-Coupon-Codes';
 
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 /***** Feature name end *****/

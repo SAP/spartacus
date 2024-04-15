@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus opps schematics: ng-add opps feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { OppsCouponCodesModule } from "@spartacus/opps/coupon-codes";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    OppsCouponCodesModule
+  ]
+})
+export class OppsFeatureModule { }
+"
+`;
+
+exports[`Spartacus opps schematics: ng-add opps feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { OppsCouponCodesModule } from "@spartacus/opps/coupon-codes";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    OppsCouponCodesModule
+  ]
+})
+export class OppsFeatureModule { }
+"
+`;
