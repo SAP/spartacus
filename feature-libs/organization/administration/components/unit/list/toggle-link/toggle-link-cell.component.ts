@@ -10,8 +10,9 @@ import {
   ElementRef,
   HostBinding,
   Optional,
+  inject,
 } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
+import { B2BUnit, RoutingService } from '@spartacus/core';
 import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
 import {
   OutletContextData,
@@ -32,10 +33,14 @@ export class ToggleLinkCellComponent extends CellComponent {
     return this.model.depthLevel;
   }
 
+  @Optional() private elementRef = inject(ElementRef, { optional: true });
+  @Optional() private routingService = inject(RoutingService, {
+    optional: true,
+  });
+
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
-    protected unitTreeService: UnitTreeService,
-    @Optional() private elementRef: ElementRef
+    protected unitTreeService: UnitTreeService
   ) {
     super(outlet);
   }
@@ -84,25 +89,10 @@ export class ToggleLinkCellComponent extends CellComponent {
     return all as B2BUnit;
   }
 
-  onFocus(event: FocusEvent) {
-    if (this.expanded || !this.isSwitchable) {
-      return;
-    }
-
-    const focusedElementId = document.activeElement?.id || '';
-    this.toggleItem(event);
-    this.unitTreeService.treeToggle$.pipe(take(1)).subscribe(() => {
-      setTimeout(() => {
-        document.getElementById(focusedElementId)?.focus();
-      }, 0);
-    });
-  }
-
   onKeydown(event: KeyboardEvent) {
-    const tableElement = this.elementRef.nativeElement.closest('table');
-    const focusedDepth = this.model.depthLevel;
+    const tableElement = this.elementRef?.nativeElement.closest('table');
     const siblingElements = tableElement.querySelectorAll(
-      `[data-depth="${focusedDepth}"]`
+      `cx-org-toggle-link-cell a`
     );
     const currentSelectedIndex = Array.from(siblingElements).findIndex(
       (element) => {
@@ -110,59 +100,78 @@ export class ToggleLinkCellComponent extends CellComponent {
       }
     );
 
-    this.handleTab(event, focusedDepth, tableElement);
-    this.handleArrowDown(event, currentSelectedIndex, siblingElements);
-    this.handleArrowUp(event, currentSelectedIndex, siblingElements);
+    switch (event.key) {
+      case 'ArrowDown':
+        this.onArrowDown(event, currentSelectedIndex, siblingElements);
+        break;
+      case 'ArrowUp':
+        this.onArrowUp(event, currentSelectedIndex, siblingElements);
+        break;
+      case 'ArrowRight':
+        this.onArrowRight(event);
+        break;
+      case 'ArrowLeft':
+        this.onArrowLeft(event);
+        break;
+      case ' ':
+      case 'Enter':
+        this.onSpace(event, siblingElements);
+        break;
+    }
   }
 
-  handleTab(
-    event: KeyboardEvent,
-    focusedDepth: number,
-    tableElement: HTMLElement
-  ): void {
-    if (!(event.key === 'Tab' && this.isSwitchable && !event.shiftKey)) {
-      return;
-    }
-    const firstChild = Array.from(
-      tableElement.querySelectorAll(`[data-depth="${focusedDepth + 1}"]`)
-    ).find((element) => {
-      return this.model.children
-        .map((child: TableDataOutletContext) => child.id)
-        .includes((element as HTMLElement).id);
-    }) as HTMLElement;
-
+  onSpace(event: KeyboardEvent, siblingElements: HTMLElement[]): void {
     event.preventDefault();
-    firstChild.focus();
+    siblingElements.forEach((element) => {
+      element.tabIndex = -1;
+    });
+    (event.target as HTMLElement).tabIndex = 0;
+    this.routingService
+      ?.go({ cxRoute: this.route, params: this.routeModel })
+      .then(() => {
+        this.restoreFocus();
+      });
   }
 
-  handleArrowDown(
+  onArrowDown(
     event: KeyboardEvent,
     currentSelectedIndex: number,
-    siblingElements: Element[]
+    siblingElements: HTMLElement[]
   ): void {
-    if (
-      event.key === 'ArrowDown' &&
-      currentSelectedIndex < siblingElements.length - 1
-    ) {
-      if (this.expanded) {
-        this.toggleItem(event);
-      }
-      event.preventDefault();
-      (siblingElements[currentSelectedIndex + 1] as HTMLElement)?.focus();
+    event.preventDefault();
+    siblingElements[currentSelectedIndex + 1]?.focus();
+  }
+
+  onArrowUp(
+    event: KeyboardEvent,
+    currentSelectedIndex: number,
+    siblingElements: HTMLElement[]
+  ): void {
+    event.preventDefault();
+    siblingElements[currentSelectedIndex + -1]?.focus();
+  }
+
+  onArrowRight(event: KeyboardEvent): void {
+    if (!this.expanded && this.isSwitchable) {
+      this.toggleItem(event);
+      this.restoreFocus();
     }
   }
 
-  handleArrowUp(
-    event: KeyboardEvent,
-    currentSelectedIndex: number,
-    siblingElements: Element[]
-  ): void {
-    if (event.key === 'ArrowUp' && currentSelectedIndex > 0) {
-      if (this.expanded) {
-        this.toggleItem(event);
-      }
-      event.preventDefault();
-      (siblingElements[currentSelectedIndex + -1] as HTMLElement)?.focus();
+  onArrowLeft(event: KeyboardEvent): void {
+    if (this.expanded && this.isSwitchable) {
+      this.toggleItem(event);
+      this.restoreFocus();
     }
+    console.log(this.model, this.outlet);
+  }
+
+  restoreFocus(): void {
+    const focusedElementId = document.activeElement?.id || '';
+    this.unitTreeService.treeToggle$.pipe(take(1)).subscribe(() => {
+      setTimeout(() => {
+        document.getElementById(focusedElementId)?.focus();
+      }, 0);
+    });
   }
 }

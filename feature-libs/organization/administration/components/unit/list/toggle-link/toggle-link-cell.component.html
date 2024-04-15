@@ -3,12 +3,10 @@
   [id]="model.uid"
   class="hide-focus-border"
   [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
-  (focus)="onFocus($event)"
   (keydown)="onKeydown($event)"
   [attr.aria-haspopup]="isSwitchable"
   [attr.data-depth]="model.depthLevel"
-  [tabindex]="isSwitchable ? 0 : -1"
-  role="tab"
+  role="treeitem"
 >
   <button
     *ngIf="isSwitchable"
