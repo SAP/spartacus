@@ -9,7 +9,7 @@ import { Applicable } from '@spartacus/core';
 import { CxServerErrorResponse } from '../server-errors';
 
 /**
- * A factory responsible for creating a {@link CxServerErrorResponse} basedon HTTP error response during SSR.
+ * A factory responsible for creating a {@link CxServerErrorResponse} based on a HTTP error response during SSR.
  * The fatory is applicable when the error matches the factory's criteria.
  */
 export interface ServerErrorResponseFactory extends Applicable {
