@@ -42,13 +42,13 @@ export class BundleProductListComponentService {
 
   readonly availableEntities$: Observable<ProductSearchPage> = using(
     () => this.searchByRouting$.subscribe(),
-    () => this.searchResults$
+    () => this.availableEntriesEntities$
   ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
-  protected searchResults$: Observable<ProductSearchPage> =
+  protected availableEntriesEntities$: Observable<ProductSearchPage> =
     this.bundleService
       .getAvailableEntriesEntities()
-      .pipe(filter((searchResult) => Object.keys(searchResult).length > 0));
+      .pipe(filter((entities) => Object.keys(entities).length > 0));
 
   protected searchByRouting$: Observable<ActivatedRouterStateSnapshot> =
     combineLatest([
@@ -101,20 +101,11 @@ export class BundleProductListComponentService {
     queryParams: SearchCriteria
   ): SearchCriteria {
     return {
-      query: queryParams.query || this.getQueryFromRouteParams(routeParams),
+      query: queryParams.query || routeParams['query'],
       pageSize: queryParams.pageSize || this.config.view?.defaultPageSize,
       currentPage: queryParams.currentPage,
       sortCode: queryParams.sortCode,
     };
-  }
-
-  /**
-   * Resolves the search query from the given `ProductListRouteParams`.
-   */
-  protected getQueryFromRouteParams({ query }: any) {
-    if (query) {
-      return query;
-    }
   }
 
   /**
