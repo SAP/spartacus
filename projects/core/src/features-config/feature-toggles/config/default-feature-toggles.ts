@@ -6,7 +6,7 @@
 
 import { FeatureToggles } from '../feature-toggles-tokens';
 
-export const defaultFeatureToggles: FeatureToggles = {
+export const defaultFeatureToggles: Required<FeatureToggles> = {
   showPromotionsInPDP: false,
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
@@ -17,6 +17,8 @@ export const defaultFeatureToggles: FeatureToggles = {
   a11yNavigationUiKeyboardControls: false,
   a11yOrderConfirmationHeadingOrder: false,
   a11yStarRating: false,
+  a11yViewChangeAssistiveMessage: false,
+  a11yReorderDialog: false,
   a11yPopoverFocus: false,
   a11yScheduleReplenishment: false,
   a11yScrollToTop: false,
@@ -24,6 +26,7 @@ export const defaultFeatureToggles: FeatureToggles = {
   a11ySortingOptionsTruncation: false,
   a11yExpandedFocusIndicator: false,
   a11yCheckoutDeliveryFocus: false,
+  a11yMobileVisibleFocus: false,
   a11yOrganizationsBanner: false,
   a11yOrganizationListHeadingOrder: false,
   a11yReplenishmentOrderFieldset: false,
