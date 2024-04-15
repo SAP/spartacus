@@ -6,7 +6,7 @@
 
 import { InjectionToken } from '@angular/core';
 import { Applicable } from '@spartacus/core';
-import { CxServerErrorResponse } from '../server-errors';
+import { CxServerErrorResponse } from '../server-error-response';
 
 /**
  * A factory responsible for creating a {@link CxServerErrorResponse} based on a HTTP error response during SSR.

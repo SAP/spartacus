@@ -10,7 +10,7 @@ import { OccConfig, Priority } from '@spartacus/core';
 import {
   CmsPageNotFoundServerErrorResponse,
   CxServerErrorResponse,
-} from '../server-errors';
+} from '../server-error-response';
 import { ServerErrorResponseFactory } from './server-error-response-factory';
 
 /**
@@ -74,8 +74,12 @@ export class CmsPageNotFoundServerErrorResponseFactory
     const escapedBaseUrl = this.escapeRegExp(baseUrl ?? '');
     const escapedPrefix = this.escapeRegExp(prefix ?? '');
     const escapedEndpoint = this.escapeRegExp(endpoint ?? '');
+    // matches any non-empty string ended with slash. Provided because baseSite is a dynamic part of the URL to which we don't have straight access
+    // because of the circular dependency between ErrorHandler and BaseSiteService
+    const baseSiteWildcardUrlSegment = '[^/]+/';
+
     return new RegExp(
-      `^${escapedBaseUrl}${escapedPrefix}[^/]+/${escapedEndpoint}`
+      `^${escapedBaseUrl}${escapedPrefix}${baseSiteWildcardUrlSegment}${escapedEndpoint}`
     );
   }
 }

@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CxError } from './cx-errors';
-
 /**
  * Data that can be attached to a {@link CxServerErrorResponse}.
  */
@@ -19,10 +17,10 @@ export interface CxServerErrorResponseData {
  */
 export abstract class CxServerErrorResponse extends Error {
   constructor(
-    public readonly cxErrorCode: string,
-    public readonly data?: CxServerErrorResponseData
+    public readonly type: string,
+    errorData?: CxServerErrorResponseData
   ) {
-    super(data?.message, { cause: data?.cause });
+    super(errorData?.message, { cause: errorData?.cause });
   }
 }
 
@@ -31,7 +29,7 @@ export abstract class CxServerErrorResponse extends Error {
  */
 export class UnknownServerErrorResponse extends CxServerErrorResponse {
   constructor(data: CxServerErrorResponseData) {
-    super(CxError.UnknownServerError, data);
+    super('UnknownServerErrorResponse', data);
   }
 }
 
@@ -40,6 +38,6 @@ export class UnknownServerErrorResponse extends CxServerErrorResponse {
  */
 export class CmsPageNotFoundServerErrorResponse extends CxServerErrorResponse {
   constructor(data: CxServerErrorResponseData) {
-    super(CxError.CmsPageNotFoundServerError, data);
+    super('CmsPageNotFoundServerErrorResponse', data);
   }
 }

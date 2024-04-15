@@ -75,7 +75,7 @@ describe('CmsPageNotFoundServerErrorResponse', () => {
   it('should create the error', () => {
     const error = 'error';
     const result = cmsPageNotFoundServerErrorResponse.create(error);
-    expect(result.data?.message).toBe('CMS page not found');
-    expect(result.data?.cause).toBe(error);
+    expect(result.message).toBe('CMS page not found');
+    expect(result.cause).toBe(error);
   });
 });

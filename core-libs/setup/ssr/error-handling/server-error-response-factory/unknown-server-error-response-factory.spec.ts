@@ -1,6 +1,6 @@
+import { TestBed } from '@angular/core/testing';
 import { Priority } from '@spartacus/core';
 import { UnknownServerErrorResponseFactory } from './unknown-server-error-response-factory';
-import { TestBed } from '@angular/core/testing';
 
 describe('UnknownServerErrorResponse', () => {
   let unknownServerErrorResponse: UnknownServerErrorResponseFactory;
@@ -25,7 +25,7 @@ describe('UnknownServerErrorResponse', () => {
   it('should create the error', () => {
     const error = 'error';
     const result = unknownServerErrorResponse.create(error);
-    expect(result.data?.message).toBe('An unknown server error occurred');
-    expect(result.data?.cause).toBe(error);
+    expect(result.message).toBe('An unknown server error occurred');
+    expect(result.cause).toBe(error);
   });
 });

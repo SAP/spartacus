@@ -5,12 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ServerErrorResponseFactory } from './server-error-response-factory';
+import { Priority } from '@spartacus/core';
 import {
   CxServerErrorResponse,
   UnknownServerErrorResponse,
-} from '../server-errors';
-import { Priority } from '@spartacus/core';
+} from '../server-error-response';
+import { ServerErrorResponseFactory } from './server-error-response-factory';
 
 /*
  * The UnknownServerErrorResponseFactory creates an UnknownServerErrorResponse if HTTP error occur during server-side rendering.
