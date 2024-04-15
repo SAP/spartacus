@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -49,6 +50,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     SpinnerModule,
     StarRatingModule,
     UrlModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>defaultViewConfig),

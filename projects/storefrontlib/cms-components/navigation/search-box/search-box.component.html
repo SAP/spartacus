@@ -57,7 +57,12 @@
     class="message"
     [innerHTML]="result.message"
   ></div>
-
+  <!--RESULT  SUGGESTIONS-->
+  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+    <div class="message" *ngIf="result?.suggestions?.length">
+      {{ 'searchBox.suggestions' | cxTranslate }}
+    </div>
+  </ng-container>
   <ul
     class="suggestions"
     attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
@@ -92,6 +97,25 @@
     </li>
   </ul>
 
+  <!--  RECENT SEARCHES-->
+  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+    <ng-template
+      *ngIf="config.recentSearches"
+      [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES"
+      [cxOutletContext]="{
+        search: searchInput.value,
+        searchBoxActive: searchBoxActive,
+        maxRecentSearches: config.maxRecentSearches
+      }"
+    ></ng-template>
+  </ng-container>
+
+  <!--RESULT  PRODUCTS-->
+  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+    <div class="message" *ngIf="result.products?.length">
+      {{ 'searchBox.products' | cxTranslate }}
+    </div>
+  </ng-container>
   <ul
     class="products"
     *ngIf="result.products"

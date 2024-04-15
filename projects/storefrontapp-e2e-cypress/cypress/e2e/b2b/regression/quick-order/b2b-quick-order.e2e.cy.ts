@@ -193,6 +193,7 @@ context('B2B - Quick Order', () => {
       it('should conform to tabbing order for quick order page', () => {
         quickOrder.visitQuickOrderPage();
         quickOrder.addProductToTheList(sampleData.b2bProduct.code);
+        quickOrder.verifyInputHasFocus();
         quickOrder.verifyQuickOrderListQuantity(1);
         quickOrder.verifyQuickOrderPageTabbingOrder();
       });

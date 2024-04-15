@@ -46,12 +46,12 @@ export class MyAccountV2OrderHistoryService {
   getOrderDetailsWithTracking(
     orderCode: string
   ): Observable<OrderView | undefined> {
-    return this.getOrderDetails(orderCode).pipe(
-      switchMap((order: Order) => {
+    return this.getOrderDetailsV2(orderCode).pipe(
+      switchMap((order: Order | undefined) => {
         //-----------------> filling consignment tracking
         const orderView: OrderView = { ...order };
         orderView.consignments = [];
-        const requests = (order.consignments ?? []).map(
+        const requests = (order?.consignments ?? []).map(
           (consignment: Consignment) => {
             const consignmentView: ConsignmentView = { ...consignment };
             if (consignment.code && consignment.trackingID) {
@@ -174,9 +174,7 @@ export class MyAccountV2OrderHistoryService {
   }
 
   protected getOrderDetailsValue(code: string): Observable<Order> {
-    return this.store
-      .select(getOrderById(code))
-      .pipe(filter((order) => Boolean(order)));
+    return this.store.select(getOrderById(code));
   }
 
   protected getOrderDetailsState(
@@ -197,6 +195,10 @@ export class MyAccountV2OrderHistoryService {
     });
   }
 
+  //TODO: CXINT-2896: Remove this method in next major release
+  /**
+   * @deprecated since 2211.20. Use getOrderDetailsV2 instead
+   */
   getOrderDetails(code: string): Observable<Order> {
     const loading$ = this.getOrderDetailsState(code).pipe(
       auditTime(0),
@@ -209,6 +211,24 @@ export class MyAccountV2OrderHistoryService {
     return using(
       () => loading$.subscribe(),
       () => this.getOrderDetailsValue(code)
+    );
+  }
+
+  //TODO: CXINT-2896: Rename this method to `getOrderDetails` in next major release
+  getOrderDetailsV2(code: string): Observable<Order | undefined> {
+    const loading$ = this.getOrderDetailsState(code).pipe(
+      auditTime(0),
+      tap((state) => {
+        if (!(state.loading || state.success || state.error)) {
+          this.loadOrderDetails(code);
+        }
+      })
+    );
+    return loading$.pipe(
+      filter((state) => (state.success || state.error) ?? false),
+      map((state) => {
+        return state.value;
+      })
     );
   }
 

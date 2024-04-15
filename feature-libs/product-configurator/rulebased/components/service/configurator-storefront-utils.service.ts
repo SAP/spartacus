@@ -125,13 +125,22 @@ export class ConfiguratorStorefrontUtilsService {
    * Focus the first attribute in the form.
    */
   focusFirstAttribute(): void {
+    this.focusFirstActiveElement('cx-configurator-form');
+  }
+
+  /**
+   * Focus the first active element inside the given host element
+   *
+   * @param selector - query selector of the host element
+   */
+  focusFirstActiveElement(selector: string) {
     if (!this.windowRef.isBrowser()) {
       return;
     }
-    const form = this.getElement('cx-configurator-form');
-    if (form) {
+    const element = this.getElement(selector);
+    if (element) {
       const focusableElements: HTMLElement[] =
-        this.keyboardFocusService.findFocusable(form);
+        this.keyboardFocusService.findFocusable(element);
       if (focusableElements && focusableElements.length > 0) {
         focusableElements[0].focus();
       }

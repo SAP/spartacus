@@ -1,4 +1,5 @@
 %cx-banner {
+  // TODO: (CXSPA-6362) - Remove feature flag + redundant styles
   a {
     display: block;
     &:focus {
@@ -9,6 +10,18 @@
 
   cx-generic-link {
     display: block;
+  }
+
+  @include forFeature('a11yOrganizationsBanner') {
+    position: relative;
+    a {
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      position: absolute;
+    }
   }
 
   .no-link {

@@ -9,6 +9,8 @@
     [attr.class]="class"
     [attr.style]="style"
     [attr.title]="title"
+    [attr.aria-label]="ariaLabel ? ariaLabel : null"
+    [tabindex]="tabindex"
   >
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </a>
@@ -24,6 +26,8 @@
     [attr.class]="class"
     [attr.style]="style"
     [attr.title]="title"
+    [attr.aria-label]="ariaLabel ? ariaLabel : null"
+    [tabindex]="tabindex"
   >
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </a>

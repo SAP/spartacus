@@ -79,7 +79,7 @@ describe('VisualizationApiService', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/visualization/v1/lookup/visualization?usage=%7B%22name%22%3A%22CommerceCloud-SpareParts%22%2C%22keys%22%3A%5B%7B%22name%22%3A%22ProductCode%22%2C%22value%22%3A%22123%22%7D%5D%7D&folderUsageId=%7B%22name%22%3A%22CommerceCloud-Folder%22%2C%22keys%22%3A%5B%7B%22name%22%3A%22Function%22%2C%22value%22%3A%22Staging%22%7D%5D%7D'
+            'https://fake.visualization.application.domain.sap/vis/public/visualization/v1/lookup/visualization?usage=%7B%22name%22%3A%22CommerceCloud-SpareParts%22%2C%22keys%22%3A%5B%7B%22name%22%3A%22ProductCode%22%2C%22value%22%3A%22123%22%7D%5D%7D&folderUsageId=%7B%22name%22%3A%22CommerceCloud-Folder%22%2C%22keys%22%3A%5B%7B%22name%22%3A%22Function%22%2C%22value%22%3A%22Staging%22%7D%5D%7D'
       );
 
       expect(mockReq.cancelled).toBeFalsy();

@@ -620,6 +620,38 @@ describe('CdcJsService', () => {
     });
   });
 
+  describe('handleProfileUpdateResponse', () => {
+    it('should not show error message on success', () => {
+      spyOn(globalMessageService, 'add');
+      spyOn(globalMessageService, 'remove');
+      service['handleProfileUpdateResponse']({
+        response: { errorCode: 0 },
+      });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'cdcProfile.profileUpdateSuccess',
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+    });
+
+    it('should show error message on failure', () => {
+      spyOn(globalMessageService, 'add');
+      spyOn(globalMessageService, 'remove');
+      service['handleProfileUpdateResponse']({
+        response: { errorCode: 1 },
+      });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'cdcProfile.profileUpdateFailure',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+    });
+  });
+
   describe('handleResetPassResponse', () => {
     it('should Error with no response', () => {
       spyOn(globalMessageService, 'remove');
@@ -1000,6 +1032,9 @@ describe('CdcJsService', () => {
           lastName: 'lastName',
           email: newEmail,
         },
+        response: {
+          errorCode: 0,
+        },
       };
 
       service.onProfileUpdateEventHandler(response);
@@ -1023,6 +1058,9 @@ describe('CdcJsService', () => {
           firstName: 'firstName',
           lastName: 'lastName',
           email: 'email@mail.com', //email updated
+        },
+        response: {
+          errorCode: 0,
         },
       };
       userProfileFacade.get = createSpy().and.returnValue(
