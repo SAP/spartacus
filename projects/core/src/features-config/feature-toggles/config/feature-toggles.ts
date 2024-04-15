@@ -34,6 +34,8 @@ declare module '../feature-toggles-tokens' {
      */
     storeFrontLibCardParagraphTruncated?: boolean;
 
+    productConfiguratorAttributeTypesV2?: boolean;
+
     a11yRequiredAsterisks?: boolean;
     a11yQuantityOrderTabbing?: boolean;
     a11yNavigationUiKeyboardControls?: boolean;

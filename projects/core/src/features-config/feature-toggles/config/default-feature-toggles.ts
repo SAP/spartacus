@@ -11,6 +11,7 @@ export const defaultFeatureToggles: FeatureToggles = {
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
+  productConfiguratorAttributeTypesV2: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,
