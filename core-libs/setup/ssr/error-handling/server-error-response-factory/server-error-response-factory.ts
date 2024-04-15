@@ -10,7 +10,8 @@ import { CxServerErrorResponse } from '../server-errors';
 
 /**
  * A factory responsible for creating a {@link CxServerErrorResponse} based on a HTTP error response during SSR.
- * The fatory is applicable when the error matches the factory's criteria.
+ *
+ * The factory implements the {@link Applicable} interface. So when handing an original error, only one of the provided server response factories will be used - the one that is the best applicable for the handled error.
  */
 export interface ServerErrorResponseFactory extends Applicable {
   create(error: unknown): CxServerErrorResponse;
