@@ -16,7 +16,7 @@ import { Priority } from '@spartacus/core';
  * The UnknownServerErrorResponseFactory creates an UnknownServerErrorResponse if HTTP error occur during server-side rendering.
  *
  * This factory is used as a fallback to handle any server error that
- * does not match any other cases.
+ * does not match the applicability criteria of other Server Error Response Factories.
  */
 @Injectable({
   providedIn: 'root',
