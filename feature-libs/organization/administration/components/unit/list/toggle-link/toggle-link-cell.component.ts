@@ -12,7 +12,12 @@ import {
   Optional,
   inject,
 } from '@angular/core';
-import { B2BUnit, RoutingService } from '@spartacus/core';
+import {
+  B2BUnit,
+  FeatureConfigService,
+  RoutingService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
 import {
   OutletContextData,
@@ -33,8 +38,11 @@ export class ToggleLinkCellComponent extends CellComponent {
     return this.model.depthLevel;
   }
 
-  @Optional() private elementRef = inject(ElementRef, { optional: true });
-  @Optional() private routingService = inject(RoutingService, {
+  @Optional() protected elementRef = inject(ElementRef, { optional: true });
+  @Optional() protected routingService = inject(RoutingService, {
+    optional: true,
+  });
+  @Optional() protected featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
 
@@ -43,6 +51,7 @@ export class ToggleLinkCellComponent extends CellComponent {
     protected unitTreeService: UnitTreeService
   ) {
     super(outlet);
+    useFeatureStyles('a11yUnitsListKeyboardControls');
   }
 
   get combinedName() {
@@ -90,6 +99,12 @@ export class ToggleLinkCellComponent extends CellComponent {
   }
 
   onKeydown(event: KeyboardEvent) {
+    // TODO: (CXSPA-6804) - Remove feature flag next major release
+    if (
+      !this.featureConfigService?.isEnabled('a11yUnitsListKeyboardControls')
+    ) {
+      return;
+    }
     const tableElement = this.elementRef?.nativeElement.closest('table');
     const siblingElements = tableElement.querySelectorAll(
       `cx-org-toggle-link-cell a`
@@ -163,7 +178,6 @@ export class ToggleLinkCellComponent extends CellComponent {
       this.toggleItem(event);
       this.restoreFocus();
     }
-    console.log(this.model, this.outlet);
   }
 
   restoreFocus(): void {

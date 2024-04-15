@@ -113,6 +113,7 @@ if (!environment.production) {
         a11yListOversizedFocus: true,
         a11yStoreFinderOverflow: true,
         a11yCartSummaryHeadingOrder: true,
+        a11yUnitsListKeyboardControls: true,
       },
     }),
     provideConfig(<StoreFinderConfig>{
