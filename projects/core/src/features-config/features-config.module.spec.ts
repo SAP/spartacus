@@ -78,7 +78,7 @@ describe('when FeaturesConfigModule.forRoot() is imported,', () => {
       expect(service.isEnabled(testToggle)).toBe(false);
     });
 
-    // The following 2 tests confirm a correct behavior, which is might be not intuitive.
+    // The following 2 tests confirm a correct behavior, which might not be intuitive.
     //
     // When mixing `FeaturesConfig` and `FeatureToggles` in the same level (both ROOT, or both DEFAULT)
     // then `FeaturesConfig` takes precedence over `FeatureToggles`, regadless of the order of providers.
