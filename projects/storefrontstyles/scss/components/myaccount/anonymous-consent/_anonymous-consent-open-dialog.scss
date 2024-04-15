@@ -12,7 +12,9 @@
     font-size: 0.875rem;
 
     @include forFeature('santoriniV2') {
-      @include type('8')
+      @include type('8');
+      font-weight: var(--cx-font-weight-semi);
+      color: var(--cx-color-inverse);
     }
 
     &:not(:hover) {
