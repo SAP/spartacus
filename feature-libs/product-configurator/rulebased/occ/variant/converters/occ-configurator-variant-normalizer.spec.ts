@@ -811,6 +811,13 @@ describe('OccConfiguratorVariantNormalizer', () => {
       ).toBe(Configurator.UiType.NUMERIC);
     });
 
+    it('should convert date attribute type correctly', () => {
+      sourceAttribute.type = OccConfigurator.UiType.DATE;
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.DATE);
+    });
+
     it('should convert read-only attribute type correctly', () => {
       sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
       expect(

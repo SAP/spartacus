@@ -413,6 +413,10 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.NUMERIC;
         break;
       }
+      case OccConfigurator.UiType.DATE: {
+        uiType = Configurator.UiType.DATE;
+        break;
+      }
     }
     return uiType;
   }
