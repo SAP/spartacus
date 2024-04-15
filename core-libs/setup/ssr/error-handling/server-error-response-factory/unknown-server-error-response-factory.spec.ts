@@ -2,7 +2,7 @@ import { Priority } from '@spartacus/core';
 import { UnknownServerErrorResponseFactory } from './unknown-server-error-response-factory';
 import { TestBed } from '@angular/core/testing';
 
-describe('UnknonnServerErrorResponse', () => {
+describe('UnknownServerErrorResponse', () => {
   let unknownServerErrorResponse: UnknownServerErrorResponseFactory;
 
   beforeEach(() => {
