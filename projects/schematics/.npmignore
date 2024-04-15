@@ -12,3 +12,4 @@ src/migrations/test/**/*
 sub-folder/
 .pipeline/
 src/feature-toggles.copy.ts
+clone-feature-toggles.js
