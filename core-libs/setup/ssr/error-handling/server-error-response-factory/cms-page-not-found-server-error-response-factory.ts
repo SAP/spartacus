@@ -27,6 +27,9 @@ export class CmsPageNotFoundServerErrorResponseFactory
   protected injector = inject(Injector);
 
   hasMatch(error: unknown): boolean {
+    // OccEndpointsService could not be injected in the constructor, due to a circular dependency:
+    //   ErrorHandler -> *CmsPageNotFoundServerErrorResponseFactory* -> OccEndpointsService -> 
+    //   -> BaseSiteService -> NgRx -> ErrorHandler
     const occEndpointsService = this.injector.get(OccEndpointsService);
     const expectedUrl = occEndpointsService.buildUrl('pages');
     return (
