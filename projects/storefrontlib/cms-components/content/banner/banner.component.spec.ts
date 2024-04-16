@@ -15,7 +15,7 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
-import { BannerComponent } from './banner.component';
+import { CxBannerComponent } from './banner.component';
 
 const mockBannerData: CmsBannerComponent = {
   uid: 'SiteLogoComponent',
@@ -76,15 +76,15 @@ class MockMediaComponent {
   @Input() container: any;
 }
 
-describe('BannerComponent', () => {
-  let bannerComponent: BannerComponent;
-  let fixture: ComponentFixture<BannerComponent>;
+describe('CxBannerComponent', () => {
+  let bannerComponent: CxBannerComponent;
+  let fixture: ComponentFixture<CxBannerComponent>;
   let el: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, FeaturesConfigModule],
-      declarations: [BannerComponent, MockMediaComponent, GenericLinkComponent],
+      declarations: [CxBannerComponent, MockMediaComponent, GenericLinkComponent],
       providers: [
         {
           provide: CmsComponentData,
@@ -101,7 +101,7 @@ describe('BannerComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BannerComponent);
+    fixture = TestBed.createComponent(CxBannerComponent);
     bannerComponent = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
