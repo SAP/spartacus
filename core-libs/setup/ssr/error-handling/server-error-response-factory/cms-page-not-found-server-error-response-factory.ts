@@ -5,8 +5,8 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { OccConfig, Priority } from '@spartacus/core';
+import { Injectable, Injector, inject } from '@angular/core';
+import { OccConfig, OccEndpointsService, Priority } from '@spartacus/core';
 import {
   CmsPageNotFoundServerErrorResponse,
   CxServerErrorResponse,
@@ -24,30 +24,18 @@ export class CmsPageNotFoundServerErrorResponseFactory
   implements ServerErrorResponseFactory
 {
   protected config = inject(OccConfig);
+  protected injector = inject(Injector);
 
   hasMatch(error: unknown): boolean {
-    const occConfig = this.config.backend?.occ;
-    if (occConfig) {
-      const { baseUrl, prefix, endpoints } = occConfig;
-      const pagesEndpoint = endpoints?.pages;
-      const endpoint =
-        pagesEndpoint &&
-        (typeof pagesEndpoint === 'string'
-          ? pagesEndpoint
-          : pagesEndpoint.default);
-      // The OccEndpointsService can't be used due to circular dependency injection
-      // Optional BaseSiteService depends on ngrx, which has dependency on the ErrorHandler
-      const expectedUrlRegex = this.buildUrlRegex({
-        baseUrl,
-        prefix,
-        endpoint,
-      });
-      return (
-        error instanceof HttpErrorResponse &&
-        expectedUrlRegex.test(error.url ?? '')
-      );
-    }
-    return false;
+    // OccEndpointsService could not be injected in the constructor, due to a circular dependency:
+    //   ErrorHandler -> *CmsPageNotFoundServerErrorResponseFactory* -> OccEndpointsService -> 
+    //   -> BaseSiteService -> NgRx -> ErrorHandler
+    const occEndpointsService = this.injector.get(OccEndpointsService);
+    const expectedUrl = occEndpointsService.buildUrl('pages');
+    return (
+      error instanceof HttpErrorResponse &&
+      (error.url ?? '').startsWith(expectedUrl)
+    );
   }
 
   getPriority(): number {
@@ -60,26 +48,5 @@ export class CmsPageNotFoundServerErrorResponseFactory
       message,
       cause: error,
     });
-  }
-
-  protected escapeRegExp(string: string): string {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  }
-
-  protected buildUrlRegex({
-    baseUrl,
-    prefix,
-    endpoint,
-  }: Record<string, string | undefined>): RegExp {
-    const escapedBaseUrl = this.escapeRegExp(baseUrl ?? '');
-    const escapedPrefix = this.escapeRegExp(prefix ?? '');
-    const escapedEndpoint = this.escapeRegExp(endpoint ?? '');
-    // matches any non-empty string ended with slash. Provided because baseSite is a dynamic part of the URL to which we don't have straight access
-    // because of the circular dependency between ErrorHandler and BaseSiteService
-    const baseSiteWildcardUrlSegment = '[^/]+/';
-
-    return new RegExp(
-      `^${escapedBaseUrl}${escapedPrefix}${baseSiteWildcardUrlSegment}${escapedEndpoint}`
-    );
   }
 }

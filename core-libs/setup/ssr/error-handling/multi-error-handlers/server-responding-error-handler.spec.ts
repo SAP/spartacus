@@ -19,7 +19,7 @@ const mockOccConfig: OccConfig = {
   },
 };
 
-const expectedUrl = `${mockOccConfig.backend?.occ?.baseUrl}${mockOccConfig.backend?.occ?.prefix}electronics-spa/${mockOccConfig.backend?.occ?.endpoints?.pages}`;
+const expectedUrl = `${mockOccConfig.backend?.occ?.baseUrl}${mockOccConfig.backend?.occ?.prefix}${mockOccConfig.backend?.occ?.endpoints?.pages}`;
 
 class MockFactoryWithHigherPriority implements ServerErrorResponseFactory {
   hasMatch(): boolean {

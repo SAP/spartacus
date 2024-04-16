@@ -13,11 +13,10 @@ const mockOccConfig: OccConfig = {
   },
 };
 
-const expectedUrl = `${mockOccConfig.backend?.occ?.baseUrl}${mockOccConfig.backend?.occ?.prefix}electronics-spa/${mockOccConfig.backend?.occ?.endpoints?.pages}`;
+const expectedUrl = `${mockOccConfig.backend?.occ?.baseUrl}${mockOccConfig.backend?.occ?.prefix}${mockOccConfig.backend?.occ?.endpoints?.pages}`;
 
 describe('CmsPageNotFoundServerErrorResponse', () => {
   let cmsPageNotFoundServerErrorResponse: CmsPageNotFoundServerErrorResponseFactory;
-  let config: OccConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,7 +32,6 @@ describe('CmsPageNotFoundServerErrorResponse', () => {
     cmsPageNotFoundServerErrorResponse = TestBed.inject(
       CmsPageNotFoundServerErrorResponseFactory
     );
-    config = TestBed.inject(OccConfig);
   });
 
   it('should return the priority', () => {
@@ -44,7 +42,6 @@ describe('CmsPageNotFoundServerErrorResponse', () => {
     const error = new HttpErrorResponse({
       url: expectedUrl,
     });
-    console.log('expectedUrl', expectedUrl);
     expect(cmsPageNotFoundServerErrorResponse.hasMatch(error)).toBe(true);
   });
 
@@ -60,15 +57,6 @@ describe('CmsPageNotFoundServerErrorResponse', () => {
     const error = new HttpErrorResponse({
       url: unexpectedUrl,
     });
-    expect(cmsPageNotFoundServerErrorResponse.hasMatch(error)).toBe(false);
-  });
-
-  it('should return false if occConfig is not defined', () => {
-    const error = new HttpErrorResponse({
-      url: expectedUrl,
-    });
-    config.backend = { occ: undefined };
-
     expect(cmsPageNotFoundServerErrorResponse.hasMatch(error)).toBe(false);
   });
 
