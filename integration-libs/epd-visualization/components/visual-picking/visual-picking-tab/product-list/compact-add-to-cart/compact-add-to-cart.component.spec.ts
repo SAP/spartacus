@@ -10,15 +10,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AddedToCartDialogEventListener } from '@spartacus/cart/base/components';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { CmsComponent, I18nTestingModule, Product } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
   IconModule,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -99,7 +98,6 @@ describe('CompactAddToCartComponent', () => {
   let service: ActiveCartFacade;
   let currentProductService: CurrentProductService;
   let el: DebugElement;
-  let listener: AddedToCartDialogEventListener;
 
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
@@ -129,7 +127,6 @@ describe('CompactAddToCartComponent', () => {
             provide: CmsComponentData,
             useValue: MockCmsComponentData,
           },
-          AddedToCartDialogEventListener,
         ],
       }).compileComponents();
     })
@@ -140,10 +137,8 @@ describe('CompactAddToCartComponent', () => {
     addToCartComponent = fixture.componentInstance;
     service = TestBed.inject(ActiveCartFacade);
     currentProductService = TestBed.inject(CurrentProductService);
-    listener = TestBed.inject(AddedToCartDialogEventListener);
-    el = fixture.debugElement;
 
-    spyOn(listener as any, 'openModal').and.stub();
+    el = fixture.debugElement;
 
     fixture.detectChanges();
   });
@@ -181,7 +176,6 @@ describe('CompactAddToCartComponent', () => {
     addToCartComponent.addToCart();
 
     expect(service.addEntry).toHaveBeenCalledWith(productCode, 1, undefined);
-    expect(listener['openModal']).toHaveBeenCalledTimes(1);
   });
 
   describe('UI', () => {
