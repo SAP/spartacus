@@ -23,7 +23,7 @@ export class ServerRespondingErrorHandler implements MultiErrorHandler {
   handleError(error: unknown): void {
     //@ts-ignore
     //TODO:CXSPA-6577 Propagate the error to the OptimizedSsrEngine
-    const cxServerError = resolveApplicable(this.factories, [error]).create(
+    const cxServerErrorResponse = resolveApplicable(this.factories, [error]).create(
       error
     );
   }
