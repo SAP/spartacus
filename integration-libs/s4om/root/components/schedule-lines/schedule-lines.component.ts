@@ -7,7 +7,10 @@
 import { Component, Optional } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CxDatePipe, TranslationService } from '@spartacus/core';
+import { OrderDetailsOrderEntriesContext } from '@spartacus/order/components';
+import { Consignment, Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { EMPTY, Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-schedule-lines',
@@ -17,6 +20,8 @@ import { EMPTY, Observable } from 'rxjs';
 export class ScheduleLinesComponent {
   constructor(
     @Optional() protected cartItemContext: CartItemContext,
+    protected orderDetailsOrderEntriesContext: OrderDetailsOrderEntriesContext,
+    protected orderHistoryFacade: OrderHistoryFacade,
     protected translationService: TranslationService,
     protected datePipe: CxDatePipe
   ) {}
@@ -24,17 +29,34 @@ export class ScheduleLinesComponent {
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;
 
+  consignments$: Observable<Consignment> = this.orderHistoryFacade
+    .getOrderDetails()
+    .pipe(map((order: Order) => order?.consignments ?? []))
+    .pipe(mergeMap((consignments: Consignment[]) => consignments));
+
   /**
-   * Verifies whether the Schedule Line infos have any entries.
+   * Verifies whether the Schedule Line infos (from Order Entry) have any entries.
    * Only in this case we want to display the schedule line summary
    *
    * @param {OrderEntry} item - Cart item
    * @returns {boolean} - whether the Schedule Line information is present for the order
    */
-  hasScheduleLines(item: OrderEntry): boolean {
-    const scheduleLines = item.scheduleLines;
-
+  hasOrderEntryScheduleLines(item: OrderEntry): boolean {
+    const scheduleLines = item.arrivalSlots;
     return scheduleLines != null && scheduleLines.length > 0;
+  }
+
+  /**
+   * Verifies whether the Schedule Line infos (from Consignment) have any entries.
+   * Only in this case we want to display the schedule line summary
+   *
+   * @param {Consignment} item - Consignment item
+   * @returns {boolean} - whether the Schedule Line information is present for the order
+   */
+
+  hasConsignmentEntryScheduleLines(item: Consignment): boolean {
+    const scheduleLines = item.arrivalSlot;
+    return scheduleLines != null && scheduleLines.at != null;
   }
 
   getScheduleLineInfoId(index: number): string {

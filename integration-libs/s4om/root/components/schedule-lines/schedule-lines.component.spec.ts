@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { LanguageService } from '@spartacus/core';
-import { ScheduleLine } from '@spartacus/s4om/root';
+import { arrivalSlots } from '@spartacus/s4om/root';
 import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -31,7 +31,7 @@ class MockLanguageService {
   template: '',
 })
 class MockConfigureScheduleLineComponent {
-  @Input() cartEntry: Partial<OrderEntry & Array<ScheduleLine>>;
+  @Input() cartEntry: Partial<OrderEntry & Array<arrivalSlots>>;
 }
 
 describe('ScheduleLinesCartEntryComponent', () => {
@@ -74,9 +74,9 @@ describe('ScheduleLinesCartEntryComponent', () => {
   });
 
   it('should expose orderEntry$', (done) => {
-    const orderEntry: Partial<OrderEntry & Array<ScheduleLine>> = {
+    const orderEntry: Partial<OrderEntry & Array<arrivalSlots>> = {
       orderCode: '123',
-      scheduleLines: [],
+      arrivalSlots: [],
     };
     component.orderEntry$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(orderEntry);
@@ -95,7 +95,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
   describe('schedule lines', () => {
     it('should not be displayed if model provides empty array', () => {
       mockCartItemContext.item$.next({
-        scheduleLines: undefined,
+        arrivalSlots: undefined,
       });
 
       const htmlElem = fixture.nativeElement;
@@ -106,14 +106,14 @@ describe('ScheduleLinesCartEntryComponent', () => {
 
     it('should be displayed if model provides data', () => {
       mockCartItemContext.item$.next({
-        scheduleLines: [
+        arrivalSlots: [
           {
-            confirmedAt: new Date('2022-05-22T00:00:00+0000'),
-            confirmedQuantity: 1,
+            at: new Date('2022-05-22T00:00:00+0000'),
+            quantity: 1,
           },
           {
-            confirmedAt: new Date('2022-05-10T00:00:00+0000'),
-            confirmedQuantity: 3,
+            at: new Date('2022-05-10T00:00:00+0000'),
+            quantity: 3,
           },
         ],
       });
@@ -128,10 +128,10 @@ describe('ScheduleLinesCartEntryComponent', () => {
     describe('Accessibility', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
-          scheduleLines: [
+          arrivalSlots: [
             {
-              confirmedAt: new Date('2022-05-22T00:00:00+0000'),
-              confirmedQuantity: 1,
+              at: new Date('2022-05-22T00:00:00+0000'),
+              quantity: 1,
             },
           ],
         });
