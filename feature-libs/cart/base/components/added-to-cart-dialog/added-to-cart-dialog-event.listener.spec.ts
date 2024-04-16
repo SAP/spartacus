@@ -1,19 +1,28 @@
-import { ElementRef, ViewContainerRef } from '@angular/core';
+import { AbstractType, ElementRef, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CartAddEntryFailEvent,
+  CartAddEntrySuccessEvent,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
 
 const mockEventStream$ = new BehaviorSubject<CxEvent>({});
+const mockEventSuccessStream$ = new BehaviorSubject<CxEvent>({});
 
 class MockEventService implements Partial<EventService> {
-  get(): Observable<any> {
-    return mockEventStream$.asObservable();
+  get<T>(eventType: AbstractType<T>): Observable<T> {
+    if (
+      eventType.name === CartUiEventAddToCart.type ||
+      eventType.name === CartAddEntryFailEvent.type
+    ) {
+      return mockEventStream$.asObservable() as Observable<T>;
+    } else {
+      return mockEventSuccessStream$.asObservable() as Observable<T>;
+    }
   }
 }
 
@@ -29,6 +38,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 const mockEvent = new CartUiEventAddToCart();
+const mockSuccessEvent = new CartAddEntrySuccessEvent();
 mockEvent.productCode = 'test';
 mockEvent.quantity = 3;
 mockEvent.numberOfEntriesBeforeAdd = 1;
@@ -62,9 +72,13 @@ describe('AddToCartDialogEventListener', () => {
 
   describe('onAddToCart', () => {
     it('Should open modal on event', () => {
-      spyOn(listener as any, 'openModal').and.stub();
+      spyOn(listener as any, 'openModalAfterSuccess').and.stub();
       mockEventStream$.next(mockEvent);
-      expect(listener['openModal']).toHaveBeenCalledWith(mockEvent);
+      mockEventSuccessStream$.next(mockSuccessEvent);
+      expect(listener['openModalAfterSuccess']).toHaveBeenCalledWith(
+        mockEvent,
+        mockSuccessEvent
+      );
     });
 
     it('Should close modal on fail event', () => {
