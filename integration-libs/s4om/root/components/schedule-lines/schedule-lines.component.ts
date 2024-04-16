@@ -42,7 +42,6 @@ export class ScheduleLinesComponent {
    * @returns {boolean} - whether the Schedule Line information is present for the order
    */
   hasOrderEntryScheduleLines(item: OrderEntry): boolean {
-    console.log("1");
     const scheduleLines = item.arrivalSlots;
     return scheduleLines != null && scheduleLines.length > 0;
   }
@@ -56,7 +55,6 @@ export class ScheduleLinesComponent {
    */
 
   hasConsignmentEntryScheduleLines(item: Consignment): boolean {
-    console.log("2");
     const scheduleLines = item.arrivalSlot;
     return scheduleLines != null && scheduleLines.at != null;
   }
