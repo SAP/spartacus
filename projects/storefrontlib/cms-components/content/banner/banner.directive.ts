@@ -4,11 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {Directive, HostBinding} from "@angular/core";
-import {CmsBannerComponent, CmsService, Image, ImageGroup, PageType, SemanticPathService,} from '@spartacus/core';
-import {Observable} from 'rxjs';
-import {take, tap} from 'rxjs/operators';
-import {CmsComponentData} from '../../../cms-structure/page/model/cms-component-data';
+import { Directive, HostBinding } from '@angular/core';
+import {
+  CmsBannerComponent,
+  CmsService,
+  Image,
+  ImageGroup,
+  PageType,
+  SemanticPathService,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Directive()
 export class BannerComponent {
@@ -27,8 +34,7 @@ export class BannerComponent {
     protected component: CmsComponentData<CmsBannerComponent>,
     protected urlService: SemanticPathService,
     protected cmsService: CmsService
-  ) {
-  }
+  ) {}
 
   /**
    * Returns `_blank` to force opening the link in a new window whenever the
@@ -54,12 +60,12 @@ export class BannerComponent {
     } else if (data.product) {
       this.routerLink = this.urlService.transform({
         cxRoute: 'product',
-        params: {code: data.product},
+        params: { code: data.product },
       });
     } else if (data.category) {
       this.routerLink = this.urlService.transform({
         cxRoute: 'category',
-        params: {code: data.category},
+        params: { code: data.category },
       });
     }
   }

@@ -4,14 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {BannerComponent} from "./banner.directive";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { BannerComponent } from './banner.directive';
 
 @Component({
   selector: 'cx-banner',
   templateUrl: './banner.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CxBannerComponent extends BannerComponent{
-
-}
+export class CxBannerComponent extends BannerComponent {}

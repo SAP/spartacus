@@ -84,7 +84,11 @@ describe('CxBannerComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, FeaturesConfigModule],
-      declarations: [CxBannerComponent, MockMediaComponent, GenericLinkComponent],
+      declarations: [
+        CxBannerComponent,
+        MockMediaComponent,
+        GenericLinkComponent,
+      ],
       providers: [
         {
           provide: CmsComponentData,
