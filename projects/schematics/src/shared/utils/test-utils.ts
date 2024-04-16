@@ -14,6 +14,7 @@ import { findNodes } from '@schematics/angular/utility/ast-utils';
 import ts from 'typescript';
 import { findConstructor } from './file-utils';
 
+export const appModulePath = 'src/app/app.module.ts';
 export const spartacusFeaturesModulePath =
   'src/app/spartacus/spartacus-features.module.ts';
 
