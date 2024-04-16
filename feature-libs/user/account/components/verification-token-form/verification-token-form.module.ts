@@ -21,9 +21,12 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  PasswordVisibilityToggleModule,
+  IconModule,
+  KeyboardFocusModule,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { defaultVerificationTokenLayoutConfig } from './default-verification-token-layout.config';
+import { VerificationTokenDialogComponent } from './verification-token-dialog.component';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { VerificationTokenFormComponent } from './verification-token-form.component';
 
@@ -31,13 +34,14 @@ import { VerificationTokenFormComponent } from './verification-token-form.compon
   imports: [
     CommonModule,
     FormsModule,
+    KeyboardFocusModule,
     ReactiveFormsModule,
     RouterModule,
     UrlModule,
+    IconModule,
     I18nModule,
     FormErrorsModule,
     SpinnerModule,
-    PasswordVisibilityToggleModule,
     FeaturesConfigModule,
   ],
   providers: [
@@ -56,7 +60,11 @@ import { VerificationTokenFormComponent } from './verification-token-form.compon
         },
       },
     }),
+    provideDefaultConfig(defaultVerificationTokenLayoutConfig),
   ],
-  declarations: [VerificationTokenFormComponent],
+  declarations: [
+    VerificationTokenFormComponent,
+    VerificationTokenDialogComponent,
+  ],
 })
 export class VerificationTokenFormModule {}

@@ -39,7 +39,7 @@ export class VerificationTokenFormComponentService {
 
   form: UntypedFormGroup = new UntypedFormGroup({
     tokenId: new UntypedFormControl('', [Validators.required]),
-    tokenCode: new UntypedFormControl('', Validators.required),
+    tokenCode: new UntypedFormControl('', [Validators.required]),
   });
 
   login() {

@@ -8,10 +8,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   HostBinding,
+  ViewChild,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 
@@ -23,6 +26,7 @@ import { VerificationTokenFormComponentService } from './verification-token-form
 export class VerificationTokenFormComponent {
   constructor(
     protected service: VerificationTokenFormComponentService,
+    protected launchDialogService: LaunchDialogService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {}
@@ -31,6 +35,8 @@ export class VerificationTokenFormComponent {
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   @HostBinding('class.user-form') style = true;
+
+  @ViewChild('noReceiveCodeLink') element: ElementRef;
 
   tokenId: string;
 
@@ -48,7 +54,7 @@ export class VerificationTokenFormComponent {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this.tokenId = params['tokenId'];
+      this.tokenId = 'test';
       this.password = params['password'];
       this.target = params['loginId'];
       this.purpose = params['purpose'];
@@ -82,6 +88,9 @@ export class VerificationTokenFormComponent {
   }
 
   openInfoDailog(): void {
-    throw new Error('Method not implemented.');
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.ACCOUNT_VERIFICATION_TOKEN,
+      this.element
+    );
   }
 }

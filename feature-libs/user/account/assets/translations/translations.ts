@@ -15,6 +15,7 @@ export const userAccountTranslationChunksConfig: TranslationChunksConfig = {
   userAccount: [
     'loginForm',
     'verificationTokenForm',
+    'verificationTokenDialog',
     'miniLogin',
     'myAccountV2User',
   ],

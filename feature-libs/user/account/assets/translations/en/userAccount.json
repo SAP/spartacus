@@ -27,6 +27,14 @@
     "verify": "Verify",
     "back": "Back"
   },
+  "verificationTokenDialog": {
+    "title": "Don't receive the code",
+    "noReceiveCode": "If you have not received the code, please try:",
+    "contentLine1": "1. Wait for a while as the email may be delayed.",
+    "contentLine2": "2. Check if it is in the junk mail.",
+    "contentLine3": "3. Go back and make sure your email address and password is correct.",
+    "ok": "ok"
+  },
   "miniLogin": {
     "userGreeting": "Hi, {{name}}",
     "signInRegister": "Sign In / Register"
