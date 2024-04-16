@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { MultiErrorHandler } from '@spartacus/core';
+import { Injectable, inject } from '@angular/core';
+import { MultiErrorHandler, resolveApplicable } from '@spartacus/core';
+import { SERVER_ERROR_RESPONSE_FACTORY } from '../server-error-response-factory';
 
 /**
  * Error handler responsible for sending an error response to the incoming request in the server.
@@ -17,7 +18,13 @@ import { MultiErrorHandler } from '@spartacus/core';
   providedIn: 'root',
 })
 export class ServerRespondingErrorHandler implements MultiErrorHandler {
-  handleError(_error: Error): void {
-    // TODO: CXSPA-6576 use SEVER_ERROR_RESPONSE_TRANSFORMERS
+  protected factories = inject(SERVER_ERROR_RESPONSE_FACTORY);
+
+  handleError(error: unknown): void {
+    //@ts-ignore
+    //TODO:CXSPA-6577 Propagate the error to the OptimizedSsrEngine
+    const cxServerErrorResponse = resolveApplicable(this.factories, [
+      error,
+    ]).create(error);
   }
 }

@@ -13,6 +13,7 @@ import {
 } from '@spartacus/core';
 
 import { ServerRespondingErrorHandler } from '../error-handling/multi-error-handlers';
+import { provideServerErrorResponseFactories } from '../error-handling/server-error-response-factory/provide-server-error-response-factories';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { serverLoggerServiceFactory } from '../logger';
@@ -43,6 +44,7 @@ export function provideServer(options?: ServerOptions): Provider[] {
       useExisting: ServerRespondingErrorHandler,
       multi: true,
     },
+    provideServerErrorResponseFactories(),
   ];
 }
 /**
