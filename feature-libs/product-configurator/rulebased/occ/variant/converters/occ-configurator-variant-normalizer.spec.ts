@@ -990,6 +990,29 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
   });
 
+  describe('compileUserInput', () => {
+    const value = '2021-01-01';
+    const sourceAttribute: OccConfigurator.Attribute = {
+      name: attributeName,
+      key: attributeName,
+      value: value,
+      type: OccConfigurator.UiType.DATE,
+    };
+    it('should return attribute value in case of date UI type', () => {
+      expect(
+        occConfiguratorVariantNormalizer['compileUserInput'](sourceAttribute)
+      ).toBe(value);
+    });
+    it('should default to blank if no value is present for date UI type', () => {
+      expect(
+        occConfiguratorVariantNormalizer['compileUserInput']({
+          ...sourceAttribute,
+          value: undefined,
+        })
+      ).toBe('');
+    });
+  });
+
   describe('convertGroupType', () => {
     it('should convert group types properly', () => {
       expect(

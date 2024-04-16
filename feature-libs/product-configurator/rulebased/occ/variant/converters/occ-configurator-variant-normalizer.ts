@@ -136,13 +136,7 @@ export class OccConfiguratorVariantNormalizer
       uiType: uiType,
       uiTypeVariation: sourceAttribute.type,
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
-      userInput:
-        uiType === Configurator.UiType.NUMERIC ||
-        uiType === Configurator.UiType.STRING
-          ? sourceAttribute.formattedValue
-            ? sourceAttribute.formattedValue
-            : ''
-          : undefined,
+      userInput: this.compileUserInput(sourceAttribute),
       maxlength:
         (sourceAttribute.maxlength ?? 0) +
         (sourceAttribute.negativeAllowed ? 1 : 0),
@@ -166,7 +160,23 @@ export class OccConfiguratorVariantNormalizer
     this.compileAttributeIncomplete(attribute);
     attributeList.push(attribute);
   }
-
+  protected compileUserInput(
+    sourceAttribute: OccConfigurator.Attribute
+  ): string | undefined {
+    let userInput;
+    if (
+      sourceAttribute.type === OccConfigurator.UiType.NUMERIC ||
+      sourceAttribute.type === OccConfigurator.UiType.STRING
+    ) {
+      userInput = sourceAttribute.formattedValue
+        ? sourceAttribute.formattedValue
+        : '';
+    }
+    if (sourceAttribute.type === OccConfigurator.UiType.DATE) {
+      userInput = sourceAttribute.value ? sourceAttribute.value : '';
+    }
+    return userInput;
+  }
   setSelectedSingleValue(attribute: Configurator.Attribute) {
     if (attribute.values) {
       const selectedValues = attribute.values

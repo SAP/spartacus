@@ -12,14 +12,14 @@ import {
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { Observable, Subscription, of, timer } from 'rxjs';
-import { debounce, map } from 'rxjs/operators';
+import { Observable, Subscription, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 
 @Component({
   selector: 'cx-configurator-attribute-date-input-field',
@@ -27,7 +27,7 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeDateInputFieldComponent
-  extends ConfiguratorAttributeBaseComponent
+  extends ConfiguratorAttributeInputFieldComponent
   implements OnInit, OnDestroy
 {
   attributeInputForm = new UntypedFormControl('');
@@ -53,13 +53,12 @@ export class ConfiguratorAttributeDateInputFieldComponent
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
-    super();
-
-    this.attribute = attributeComponentContext.attribute;
-    this.group = attributeComponentContext.group.id;
-    this.owner = attributeComponentContext.owner;
-    this.ownerKey = attributeComponentContext.owner.key;
-    this.ownerType = attributeComponentContext.owner.type;
+    super(
+      config,
+      attributeComponentContext,
+      configuratorCommonsService,
+      configuratorStorefrontUtilsService
+    );
 
     this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
       .isCartEntryOrGroupVisited(this.owner, this.group)
@@ -71,28 +70,6 @@ export class ConfiguratorAttributeDateInputFieldComponent
             : false
         )
       );
-  }
-
-  ngOnInit() {
-    this.attributeInputForm.setValue(this.attribute.userInput);
-    if (
-      this.ownerType === CommonConfigurator.OwnerType.CART_ENTRY &&
-      this.attribute.required &&
-      this.attribute.incomplete &&
-      !this.attributeInputForm.value
-    ) {
-      this.attributeInputForm.markAsTouched();
-    }
-    this.sub = this.attributeInputForm.valueChanges
-      .pipe(
-        debounce(() =>
-          timer(
-            this.config.productConfigurator?.updateDebounceTime?.input ??
-              this.FALLBACK_DEBOUNCE_TIME
-          )
-        )
-      )
-      .subscribe(() => this.onChange());
   }
 
   onChange(): void {

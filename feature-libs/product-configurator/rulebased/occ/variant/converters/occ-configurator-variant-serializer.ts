@@ -112,7 +112,10 @@ export class OccConfiguratorVariantSerializer
       attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
       this.retractValue(attribute, targetAttribute);
-    } else if (attribute.uiType === Configurator.UiType.STRING) {
+    } else if (
+      attribute.uiType === Configurator.UiType.STRING ||
+      attribute.uiType === Configurator.UiType.DATE
+    ) {
       targetAttribute.value = attribute.userInput;
     } else if (attribute.uiType === Configurator.UiType.NUMERIC) {
       targetAttribute.formattedValue = attribute.userInput;
@@ -167,6 +170,10 @@ export class OccConfiguratorVariantSerializer
       }
       case Configurator.UiType.NUMERIC: {
         uiType = OccConfigurator.UiType.NUMERIC;
+        break;
+      }
+      case Configurator.UiType.DATE: {
+        uiType = OccConfigurator.UiType.DATE;
         break;
       }
       case Configurator.UiType.CHECKBOX: {

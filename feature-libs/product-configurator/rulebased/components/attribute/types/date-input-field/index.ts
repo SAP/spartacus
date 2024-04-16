@@ -6,4 +6,3 @@
 
 export * from './configurator-attribute-date-input-field.component';
 export * from './configurator-attribute-date-input-field.module';
-

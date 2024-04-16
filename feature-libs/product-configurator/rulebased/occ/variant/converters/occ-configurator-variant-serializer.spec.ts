@@ -449,6 +449,12 @@ describe('OccConfiguratorVariantSerializer', () => {
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.DATE
+      )
+    ).toBe(OccConfigurator.UiType.DATE);
+
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.RADIOBUTTON
       )
     ).toBe(OccConfigurator.UiType.RADIO_BUTTON);
