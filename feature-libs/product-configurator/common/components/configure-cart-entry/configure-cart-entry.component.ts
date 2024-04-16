@@ -51,7 +51,7 @@ export class ConfigureCartEntryComponent {
     forceReload: boolean;
     resolveIssues: boolean;
     navigateToCheckout: boolean;
-    productCode: string;
+    productCode: string | undefined;
   }> = this.isInCheckout().pipe(
     map((isInCheckout) => ({
       forceReload: true,
