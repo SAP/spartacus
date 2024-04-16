@@ -23,5 +23,6 @@ export namespace ConfiguratorRouter {
     displayRestartDialog?: boolean;
     navigationId?: number;
     navigateToCheckout?: boolean;
+    productCode?: string;
   }
 }

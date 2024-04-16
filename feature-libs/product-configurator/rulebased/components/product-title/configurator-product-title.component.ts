@@ -8,6 +8,7 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -25,8 +26,11 @@ import { Configurator } from '../../core/model/configurator.model';
 export class ConfiguratorProductTitleComponent {
   @HostBinding('class.ghost') ghostStyle = true;
 
+  routerData$: Observable<ConfiguratorRouter.Data> =
+    this.configRouterExtractorService.extractRouterData();
+
   configuration$: Observable<Configurator.Configuration> =
-    this.configRouterExtractorService.extractRouterData().pipe(
+    this.routerData$.pipe(
       switchMap((routerData) => {
         return this.configuratorCommonsService.getConfiguration(
           routerData.owner
@@ -34,29 +38,35 @@ export class ConfiguratorProductTitleComponent {
       })
     );
 
-  product$: Observable<Product | undefined> = this.configuration$
-    .pipe(
-      map((configuration) => {
-        switch (configuration.owner.type) {
-          case CommonConfigurator.OwnerType.PRODUCT:
-            return configuration.owner.id;
-          case CommonConfigurator.OwnerType.CART_ENTRY:
-            return configuration.productCode;
-          case CommonConfigurator.OwnerType.ORDER_ENTRY:
-            return configuration.overview?.productCode;
-        }
-      }),
-      switchMap((productCode) =>
-        productCode
-          ? this.productService.get(productCode, ProductScope.LIST)
-          : EMPTY
-      )
+  product$: Observable<Product | undefined> = this.routerData$.pipe(
+    switchMap((routerData) =>
+      this.configuration$
+        .pipe(map((configuration) => ({ routerData, configuration })))
+        .pipe(
+          map((container) => {
+            switch (container.configuration.owner.type) {
+              case CommonConfigurator.OwnerType.PRODUCT:
+                return container.configuration.owner.id;
+              case CommonConfigurator.OwnerType.CART_ENTRY:
+                return container.routerData.productCode;
+              case CommonConfigurator.OwnerType.ORDER_ENTRY:
+                return container.configuration.overview?.productCode;
+            }
+          }),
+          switchMap((productCode) =>
+            productCode
+              ? this.productService.get(productCode, ProductScope.LIST)
+              : EMPTY
+          )
+        )
+        .pipe(
+          tap(() => {
+            this.ghostStyle = false;
+          })
+        )
     )
-    .pipe(
-      tap(() => {
-        this.ghostStyle = false;
-      })
-    );
+  );
+
   showMore = false;
   iconTypes = ICON_TYPE;
 

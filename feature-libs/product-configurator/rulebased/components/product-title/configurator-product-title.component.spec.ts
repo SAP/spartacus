@@ -1,18 +1,15 @@
 import { ChangeDetectorRef, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterState } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  I18nTestingModule,
-  Product,
-  ProductService,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, Product, ProductService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
@@ -24,22 +21,14 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
+
+const mockProductConfiguration = ConfigurationTestData.productConfiguration;
 
 const PRODUCT_DESCRIPTION = 'Here is a product description';
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const PRODUCT_NAME = 'productName';
 const CONFIG_ID = '12342';
-const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
-
-const mockRouterState: any = {
-  state: {
-    params: {
-      entityKey: PRODUCT_CODE,
-      ownerType: CommonConfigurator.OwnerType.PRODUCT,
-    },
-    semanticRoute: CONFIGURATOR_ROUTE,
-  },
-};
 
 const config: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
@@ -81,10 +70,6 @@ const cartEntryConfig: Configurator.Configuration = {
     )
   ),
   productCode: PRODUCT_CODE,
-  overview: {
-    configId: CONFIG_ID,
-    productCode: PRODUCT_CODE,
-  },
 };
 
 const orderEntryConfigWoOverview: Configurator.Configuration = {
@@ -128,9 +113,16 @@ const product: Product = {
 };
 let configuration: Configurator.Configuration;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+const mockOwner = mockProductConfiguration.owner;
+const mockRouterData: ConfiguratorRouter.Data = {
+  pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+  isOwnerCartEntry: false,
+  owner: mockOwner,
+};
+
+class MockConfiguratorRouterExtractorService {
+  extractRouterData(): Observable<ConfiguratorRouter.Data> {
+    return of(mockRouterData);
   }
 }
 
@@ -173,8 +165,11 @@ class MockMediaComponent {
 
 class MockConfiguratorExpertModeService {
   setExpModeRequested(): void {}
+
   getExpModeRequested() {}
+
   setExpModeActive(): void {}
+
   getExpModeActive(): Observable<boolean> {
     return of(true);
   }
@@ -203,8 +198,8 @@ describe('ConfigProductTitleComponent', () => {
             useClass: MockRouter,
           },
           {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorService,
           },
           {
             provide: ConfiguratorCommonsService,
@@ -254,7 +249,7 @@ describe('ConfigProductTitleComponent', () => {
     it('should get product name as part of product configuration', () => {
       component.product$.subscribe((data: Product | undefined) => {
         expect(data?.name).toEqual(PRODUCT_NAME);
-        expect(data?.code).toEqual(configuration.owner.id);
+        expect(data?.code).toEqual(PRODUCT_CODE);
       });
     });
 
@@ -262,15 +257,20 @@ describe('ConfigProductTitleComponent', () => {
       configuration = orderEntryConfig;
       component.product$.subscribe((data: Product | undefined) => {
         expect(data?.name).toEqual(PRODUCT_NAME);
-        expect(data?.code).toEqual(configuration.owner.id);
+        expect(data?.code).toEqual(PRODUCT_CODE);
       });
     });
 
     it('should get product name as part of product configuration, in case configuration is cart bound', () => {
       configuration = cartEntryConfig;
+      mockRouterData.owner = ConfiguratorModelUtils.createOwner(
+        CommonConfigurator.OwnerType.CART_ENTRY,
+        '0'
+      );
+      mockRouterData.productCode = PRODUCT_CODE;
       component.product$.subscribe((data: Product | undefined) => {
         expect(data?.name).toEqual(PRODUCT_NAME);
-        expect(data?.code).toEqual(configuration.overview?.productCode);
+        expect(data?.code).toEqual(PRODUCT_CODE);
       });
     });
 

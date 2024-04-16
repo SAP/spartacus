@@ -24,6 +24,7 @@ import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 const orderCode = '01008765';
 const savedCartCode = '0108336';
 const quoteCode = '01008764';
+const productCode = 'PRODUCT_CODE';
 
 class MockAbstractOrderContext {
   key$ = of({ id: quoteCode, type: AbstractOrderType.QUOTE });
@@ -524,6 +525,20 @@ describe('ConfigureCartEntryComponent', () => {
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.navigateToCheckout).toBe(true);
+            done();
+          });
+      });
+
+      it('should set "productCode" parameter in case product code is relevant', (done) => {
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType, code: productCode },
+        };
+        fixture.detectChanges();
+        component.queryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.productCode).toBe(productCode);
             done();
           });
       });
