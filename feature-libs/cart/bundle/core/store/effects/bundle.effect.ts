@@ -12,9 +12,9 @@ import {
   normalizeHttpError,
   ProductActions,
   SiteContextActions,
-  withdrawOn
+  withdrawOn,
 } from '@spartacus/core';
-import { concat, from, Observable, of } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { BundleConnector } from '../../connectors/bundle.connector';
 import { BundleActions } from '../actions';
@@ -42,13 +42,9 @@ export class BundleEffects {
         this.bundleConnector
           .bundleStart(payload.userId, payload.cartId, payload.bundleStarter)
           .pipe(
-            map(
-              (data) =>
-                new BundleActions.StartBundleSuccess(<any>{
-                  ...payload,
-                  ...data,
-                })
-            ),
+            map((data) => {
+              return new BundleActions.StartBundleSuccess(data);
+            }),
             catchError((error) =>
               from([
                 new BundleActions.StartBundleFail({
@@ -86,26 +82,24 @@ export class BundleEffects {
             payload.searchConfig
           )
           .pipe(
-            switchMap(
-              (data) => [
-                  new ProductActions.SearchProductsSuccess(
-                    data
-                  ),
-                  new BundleActions.GetBundleAllowedProductsSuccess(<any>{
-                    ...payload,
-                    ...data,
-                  })
-                ]
+            switchMap((data) =>
+              from([
+                new ProductActions.SearchProductsSuccess(data),
+                new BundleActions.GetBundleAllowedProductsSuccess({
+                  ...payload,
+                  ...data,
+                }),
+              ])
             ),
             catchError((error) =>
-              concat(
-                of(new ProductActions.SearchProductsFail(
+              from([
+                new ProductActions.SearchProductsFail(
                   normalizeHttpError(error, this.logger)
-                )),
-                of(new BundleActions.GetBundleAllowedProductsFail(
+                ),
+                new BundleActions.GetBundleAllowedProductsFail(
                   normalizeHttpError(error, this.logger)
-                )),
-              )
+                ),
+              ])
             )
           )
       ),
