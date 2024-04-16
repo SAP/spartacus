@@ -35,7 +35,7 @@ export class StartBundle extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class StartBundleSuccess extends StateUtils.LoaderLoadAction {
+export class StartBundleSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = START_BUNDLE_SUCCESS;
   constructor(
     public payload: {
@@ -83,7 +83,7 @@ export class GetBundleAllowedProducts extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class GetBundleAllowedProductsSuccess extends StateUtils.LoaderLoadAction {
+export class GetBundleAllowedProductsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS;
   constructor(public payload: any) {
     super(BUNDLE_DATA);

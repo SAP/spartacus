@@ -22,7 +22,7 @@ export class BundleProductGridItemComponent {
   @Input() product: Product;
   @Output() checkDetails = new EventEmitter<Product>();
 
-  onCheckoutDetails(): void {
+  onCheckDetails(): void {
     this.checkDetails.emit(this.product);
   }
 }

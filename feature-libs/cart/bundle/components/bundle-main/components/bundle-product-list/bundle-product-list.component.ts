@@ -36,13 +36,13 @@ export class BundleProductListComponent implements OnInit, OnDestroy {
   ViewModes = ViewModes;
 
   constructor(
-    private pageLayoutService: PageLayoutService,
-    private globalMessageService: GlobalMessageService,
-    protected bundleProductListService: BundleProductListComponentService,
     public scrollConfig: ViewConfig,
+    protected bundleProductListService: BundleProductListComponentService,
     protected launchDialogService: LaunchDialogService,
     protected router: Router,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected pageLayoutService: PageLayoutService,
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +64,7 @@ export class BundleProductListComponent implements OnInit, OnDestroy {
       combineLatest([this.availableEntities$, this.viewMode$])
         .pipe(
           skip(1),
-          filter(([model, mode]) => !!model && !!mode)
+          filter(([entities, mode]) => !!entities && !!mode)
         )
         .subscribe(() =>
           this.globalMessageService.add(

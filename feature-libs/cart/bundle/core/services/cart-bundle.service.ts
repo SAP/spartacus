@@ -5,10 +5,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, EntryGroup, MultiCartFacade } from '@spartacus/cart/base/root';
 import { Product, ProductService, UserIdService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { switchMap, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { BundleService } from '../facade/bundle.service';
 import { BundleProductScope } from '../model';
 import { BundleTemplate } from '../model/bundle-template.model';
@@ -59,16 +59,15 @@ export class CartBundleService {
    *
    * @param cartId
    */
-  getBundle(cartId: string): Observable<any> {
-    // return this.multiCartService.getEntryGroups(cartId).pipe(
-    //   map(
-    //     (groups: EntryGroup[]) =>
-    //       // There is always cart created for each new bundle so our cart will have only one bundle entry group
-    //       groups.find((group) =>
-    //         this.bundleService.isBundle(group)
-    //       ) as EntryGroup
-    //   )
-    // );
-    return of(cartId);
+  getBundle(cartId: string): Observable<EntryGroup> {
+    return this.multiCartService.getEntryGroups(cartId).pipe(
+      map(
+        (groups: EntryGroup[]) =>
+          // There is always cart created for each new bundle so our cart will have only one bundle entry group
+          groups.find((group) =>
+            this.bundleService.isBundle(group)
+          ) as EntryGroup
+      )
+    );
   }
 }

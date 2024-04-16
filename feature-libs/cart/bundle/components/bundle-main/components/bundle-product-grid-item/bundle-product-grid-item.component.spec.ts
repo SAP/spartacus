@@ -11,7 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import { OutletDirective, OutletModule } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
-import { BundleProductListItemComponent } from './bundle-product-list-item.component';
+import { BundleProductGridItemComponent } from './bundle-product-grid-item.component';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -84,16 +84,16 @@ const mockProduct: Product = {
   ],
 };
 
-describe('BundleProductListItemComponent', () => {
-  let component: BundleProductListItemComponent;
-  let fixture: ComponentFixture<BundleProductListItemComponent>;
+describe('BundleProductGridItemComponent', () => {
+  let component: BundleProductGridItemComponent;
+  let fixture: ComponentFixture<BundleProductGridItemComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule, I18nTestingModule, OutletModule],
         declarations: [
-          BundleProductListItemComponent,
+          BundleProductGridItemComponent,
           MockPictureComponent,
           MockAddToCartComponent,
           MockStarRatingComponent,
@@ -103,7 +103,7 @@ describe('BundleProductListItemComponent', () => {
           MockOutletDirective,
         ]
       })
-        .overrideComponent(BundleProductListItemComponent, {
+        .overrideComponent(BundleProductGridItemComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
         .compileComponents();
@@ -111,7 +111,7 @@ describe('BundleProductListItemComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BundleProductListItemComponent);
+    fixture = TestBed.createComponent(BundleProductGridItemComponent);
     component = fixture.componentInstance;
     component.product = mockProduct;
     fixture.detectChanges();

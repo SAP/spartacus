@@ -4,15 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade, EntryGroup } from '@spartacus/cart/base/root';
 import {
-  GlobalMessageService,
-  RoutingService,
   SearchConfig,
-  UserIdService,
-  WindowRef,
+  UserIdService
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -30,12 +27,8 @@ import {
 export class BundleService {
   constructor(
     protected store: Store<StateWithBundle>,
-    protected winRef: WindowRef,
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
     protected activeCartService: ActiveCartFacade,
     protected userIdService: UserIdService,
-    @Inject(PLATFORM_ID) protected platformId?: any
   ) {}
 
   /**
