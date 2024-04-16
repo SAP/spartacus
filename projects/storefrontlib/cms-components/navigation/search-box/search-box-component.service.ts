@@ -45,11 +45,6 @@ export class SearchBoxComponentService {
    * products or suggestions.
    */
   search(query: string, config: SearchBoxConfig): void {
-    if (!query || query === '') {
-      this.clearResults();
-      return;
-    }
-
     if (
       config.minCharactersBeforeRequest &&
       query.length < config.minCharactersBeforeRequest

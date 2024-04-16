@@ -11,4 +11,5 @@ export interface CdsEndpoints {
    * @member {string}
    */
   strategyProducts: string;
+  searchIntelligence: string;
 }

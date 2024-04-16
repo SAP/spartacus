@@ -8,7 +8,7 @@
       aria-controls="results"
       [attr.aria-label]="'searchBox.placeholder' | cxTranslate"
       (focus)="open()"
-      (click)="open()"
+      (click)="search(searchInput.value)"
       (input)="search(searchInput.value)"
       (blur)="close($any($event))"
       (keydown.escape)="close($any($event))"
@@ -106,6 +106,17 @@
         search: searchInput.value,
         searchBoxActive: searchBoxActive,
         maxRecentSearches: config.maxRecentSearches
+      }"
+    ></ng-template>
+  </ng-container>
+
+  <!--  TRENDING SEARCHES-->
+  <ng-container *cxFeature="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
+    <ng-template
+      *ngIf="config.recentSearches"
+      [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
+      [cxOutletContext]="{
+          maxTrendingSearches: config.maxTrendingSearches
       }"
     ></ng-template>
   </ng-container>

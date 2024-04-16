@@ -39,7 +39,8 @@ import { OutletModule } from '../../../cms-structure';
         },
       },
       features: {
-        recentSearches: false,
+        recentSearches: true,
+        trendingSearches: true,
       },
     }),
   ],
