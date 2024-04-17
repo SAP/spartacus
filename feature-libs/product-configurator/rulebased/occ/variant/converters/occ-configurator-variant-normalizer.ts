@@ -549,6 +549,7 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
       case Configurator.UiType.NUMERIC:
+      case Configurator.UiType.DATE:
       case Configurator.UiType.STRING: {
         if (!attribute.userInput) {
           attribute.incomplete = true;
