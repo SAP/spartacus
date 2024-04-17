@@ -33,39 +33,7 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  imports: [
-    UserAccountEventModule,
-    // RouterModule.forChild([
-    //   {
-    //     // @ts-ignore
-    //     path: null,
-    //     canActivate: [AuthGuard, CmsPageGuard],
-    //     component: PageLayoutComponent,
-    //     data: {
-    //       cxRoute: 'loginByVerifyToken',
-    //       // cxContext: {
-    //       //   [ORDER_ENTRIES_CONTEXT]: SavedCartOrderEntriesContextToken,
-    //       // },
-    //     },
-    //   },
-    // ]),
-  ],
-  providers: [
-    provideDefaultConfigFactory(defaultUserAccountComponentsConfig),
-    // provideDefaultConfig(<RoutingConfig>{
-    //   routing: {
-    //     routes: {
-    //       loginByVerifyToken: {
-    //         paths: ['login/verify-token'],
-    //         paramsMapping: {
-    //           loginId: 'loginId',
-    //           password: 'password',
-    //           tokenId: 'tokenId',
-    //         },
-    //       },
-    //     },
-    //   },
-    // }),
-  ],
+  imports: [UserAccountEventModule],
+  providers: [provideDefaultConfigFactory(defaultUserAccountComponentsConfig)],
 })
 export class UserAccountRootModule {}

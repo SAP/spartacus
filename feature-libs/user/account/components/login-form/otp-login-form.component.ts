@@ -15,7 +15,6 @@ import {
   GlobalMessageType,
   HttpErrorModel,
   RoutingService,
-  TranslationService,
   WindowRef,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
@@ -25,7 +24,7 @@ import { LoginForm, VerificationToken } from '../../root/model';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from './use-otp-login-form';
 
 @Component({
-  selector: 'cx-verification-token-form',
+  selector: 'cx-otp-login-form',
   templateUrl: './login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,7 +33,6 @@ export class OneTimePasswordLoginFormComponent {
     protected routingService: RoutingService,
     protected verificationTokenFacade: VerificationTokenFacade,
     protected winRef: WindowRef,
-    protected translationService: TranslationService,
     protected globalMessage: GlobalMessageService
   ) {}
 
@@ -98,14 +96,18 @@ export class OneTimePasswordLoginFormComponent {
     verificationToken: VerificationToken,
     loginForm: LoginForm
   ): void {
-    this.routingService.go({
-      cxRoute: 'verifyToken',
-      params: {
-        loginId: loginForm.loginId,
-        password: loginForm.password,
-        tokenId: verificationToken.tokenId,
+    this.routingService.go(
+      {
+        cxRoute: 'verifyToken',
       },
-    });
+      {
+        state: {
+          loginId: loginForm.loginId,
+          password: loginForm.password,
+          tokenId: verificationToken.tokenId,
+        },
+      }
+    );
   }
 
   protected collectDataFromLoginForm(): LoginForm {
