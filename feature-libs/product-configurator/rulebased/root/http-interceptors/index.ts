@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './product-configurator-bad-request.handler';
+export * from './configurator-bad-request.handler';

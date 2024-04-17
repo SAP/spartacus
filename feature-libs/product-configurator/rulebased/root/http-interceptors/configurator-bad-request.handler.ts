@@ -18,7 +18,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class ProductConfiguratorBadRequestHandler extends HttpErrorHandler {
+export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
   constructor(protected globalMessageService: GlobalMessageService) {
@@ -44,7 +44,7 @@ export class ProductConfiguratorBadRequestHandler extends HttpErrorHandler {
     );
   }
 
-  protected handleIllegalArgumentIssues(message: string) {
+  protected handleIllegalArgumentIssues(message: string): void {
     if (this.isIllegalStateErrorRelatedToMakeToStock(message)) {
       this.globalMessageService.add(
         {
@@ -55,8 +55,8 @@ export class ProductConfiguratorBadRequestHandler extends HttpErrorHandler {
     }
   }
 
-  protected isNotEmpty(errors: ErrorModel[]) {
-    return errors.length > 0;
+  protected isNotEmpty(errors: ErrorModel[]): boolean {
+    return errors?.length > 0;
   }
 
   protected isIllegalStateErrorRelatedToMakeToStock(message: string): boolean {
@@ -71,7 +71,7 @@ export class ProductConfiguratorBadRequestHandler extends HttpErrorHandler {
   protected getIllegalStateErrorsRelatedToProductConfigurator(
     response: HttpErrorResponse
   ): ErrorModel[] {
-    return (response.error?.errors ?? [])
+    return (response?.error?.errors ?? [])
       .filter((error: ErrorModel) => error.type === 'IllegalStateError')
       .filter((error: ErrorModel) =>
         this.isIllegalStateErrorRelatedToProductConfigurator(error.message)

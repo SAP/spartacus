@@ -12,7 +12,7 @@ import { RulebasedConfiguratorRootFeatureModule } from './rulebased-configurator
 import { RulebasedConfiguratorRoutingModule } from './rulebased-configurator-routing.module';
 import { VariantConfiguratorInteractiveModule } from './variant/variant-configurator-interactive.module';
 import { VariantConfiguratorOverviewModule } from './variant/variant-configurator-overview.module';
-import { ProductConfiguratorBadRequestHandler } from './http-interceptors';
+import { ConfiguratorBadRequestHandler } from './http-interceptors/configurator-bad-request.handler';
 
 /**
  * Exposes the root modules that we need to load statically. Contains page mappings, route configurations
@@ -30,7 +30,7 @@ import { ProductConfiguratorBadRequestHandler } from './http-interceptors';
   providers: [
     {
       provide: HttpErrorHandler,
-      useExisting: ProductConfiguratorBadRequestHandler,
+      useExisting: ConfiguratorBadRequestHandler,
       multi: true,
     },
   ],
