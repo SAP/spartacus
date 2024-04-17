@@ -281,7 +281,7 @@ export class OpfGooglePayService {
             this.opfCartHandlerService.isPreviousCartIdExist
           );
           this.transactionDetails.context = context;
-          this.loadInitialCartAndCleanAddresses();
+          this.cleanCartForPdp();
         }),
         switchMap(() =>
           combineLatest({
@@ -415,7 +415,7 @@ export class OpfGooglePayService {
   cleanCartForPdp() {
     this.transactionDetails.context = OpfQuickBuyLocation.PRODUCT;
 
-    this.loadInitialCartAndCleanAddresses();
+    this.opfCartHandlerService.deleteStaleCart();
   }
 
   protected loadInitialCartAndCleanAddresses(orderSuccess = false): void {

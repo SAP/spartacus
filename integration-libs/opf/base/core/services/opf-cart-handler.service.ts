@@ -297,15 +297,19 @@ export class OpfCartHandlerService {
   }
 
   deleteStaleCart(): Observable<boolean> {
-    console.log(3);
+    console.log(3, this.cartHandlerState.cartId);
 
     if (!this.cartHandlerState.cartId || !this.cartHandlerState.userId) {
-      console.log(4);
+      console.log(4, this.cartHandlerState.cartId);
 
       return of(false);
     }
 
     console.log(5);
+    console.log(
+      'this.cartHandlerState.cartId - 1',
+      this.cartHandlerState.cartId
+    );
 
     this.multiCartFacade.deleteCart(
       this.cartHandlerState.cartId,
@@ -383,6 +387,7 @@ export class OpfCartHandlerService {
             );
           }
 
+          console.log('before deleteStaleCart');
           return this.deleteStaleCart();
         }),
         take(1)

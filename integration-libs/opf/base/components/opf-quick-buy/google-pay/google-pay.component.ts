@@ -10,6 +10,7 @@ import {
   Component,
   ElementRef,
   Input,
+  OnDestroy,
   OnInit,
   ViewChild,
   inject,
@@ -23,7 +24,7 @@ import { OpfGooglePayService } from './google-pay.service';
   templateUrl: './google-pay.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfGooglePayComponent implements OnInit {
+export class OpfGooglePayComponent implements OnInit, OnDestroy {
   protected opfGooglePayService = inject(OpfGooglePayService);
   protected changeDetectionRef = inject(ChangeDetectorRef);
 
@@ -46,5 +47,9 @@ export class OpfGooglePayComponent implements OnInit {
         }
       });
     });
+  }
+
+  ngOnDestroy() {
+    this.opfGooglePayService.cleanCartForPdp();
   }
 }
