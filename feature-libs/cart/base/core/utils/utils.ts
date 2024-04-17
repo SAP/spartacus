@@ -56,22 +56,12 @@ export function isVoucherError(error: ErrorModel): boolean {
   return error.type === 'VoucherOperationError';
 }
 
-/**
- * TODO Tiger:
- * It would be better to define a more descriptive exception for make-to-stock.
- * It should start with Cart- suffix.
- */
-export function isIllegalStateError(error: ErrorModel): boolean {
-  return error.type === 'IllegalStateError';
-}
-
 export function isCartError(error: ErrorModel): boolean {
   return (
     error.type === 'CartError' ||
     error.type === 'CartAddressError' ||
     error.type === 'CartEntryError' ||
-    error.type === 'CartEntryGroupError' ||
-    error.type === 'IllegalStateError'
+    error.type === 'CartEntryGroupError'
   );
 }
 
