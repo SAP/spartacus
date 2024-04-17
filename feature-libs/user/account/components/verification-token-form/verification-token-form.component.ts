@@ -10,11 +10,17 @@ import {
   Component,
   ElementRef,
   HostBinding,
+
   ViewChild,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+=======
+  OnInit,
+} from '@angular/core';
+import { UntypedFormGroup } from '@angular/forms';
+>>>>>>> feature/CXSPA-6672
 import { Observable } from 'rxjs';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 
@@ -23,7 +29,7 @@ import { VerificationTokenFormComponentService } from './verification-token-form
   templateUrl: './verification-token-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VerificationTokenFormComponent {
+export class VerificationTokenFormComponent implements OnInit {
   constructor(
     protected service: VerificationTokenFormComponentService,
     protected launchDialogService: LaunchDialogService,
@@ -46,20 +52,15 @@ export class VerificationTokenFormComponent {
 
   password: string;
 
-  purpose: string;
-
   waitTime: int = 60;
 
   isResendDisabled: boolean = true;
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.tokenId = 'test';
-      this.password = params['password'];
-      this.target = params['loginId'];
-      this.purpose = params['purpose'];
-      this.service.displayMessage(this.target);
-    });
+    this.tokenId = history.state['tokenId'];
+    this.password = history.state['password'];
+    this.target = history.state['loginId'];
+
     this.startWaitTimeInterval();
   }
 
@@ -71,7 +72,7 @@ export class VerificationTokenFormComponent {
     this.isResendDisabled = true;
     this.waitTime = 60;
     this.startWaitTimeInterval();
-    this.service.sentOTP(this.target, this.password, this.purpose);
+    this.service.sentOTP(this.target, this.password, 'LOGIN');
     this.service.displayMessage(this.target);
   }
 
