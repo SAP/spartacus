@@ -38,14 +38,9 @@ import { SearchBoxComponent } from './search-box.component';
           component: SearchBoxComponent,
         },
       },
-      features: {
-        recentSearches: true,
-        trendingSearches: true,
-      },
     }),
   ],
   declarations: [SearchBoxComponent, HighlightPipe],
   exports: [SearchBoxComponent, HighlightPipe],
 })
 export class SearchBoxModule {}
-
