@@ -166,7 +166,8 @@ export class OccConfiguratorVariantNormalizer
     let userInput;
     if (
       sourceAttribute.type === OccConfigurator.UiType.NUMERIC ||
-      sourceAttribute.type === OccConfigurator.UiType.STRING
+      sourceAttribute.type === OccConfigurator.UiType.STRING ||
+      sourceAttribute.type === OccConfigurator.UiType.READ_ONLY
     ) {
       userInput = sourceAttribute.formattedValue
         ? sourceAttribute.formattedValue

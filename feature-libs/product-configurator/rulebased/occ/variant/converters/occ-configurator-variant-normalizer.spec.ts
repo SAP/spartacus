@@ -991,11 +991,13 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   describe('compileUserInput', () => {
-    const value = '2021-01-01';
+    const value = '2025-01-01';
+    const formattedValue = '01/01/2025';
     const sourceAttribute: OccConfigurator.Attribute = {
       name: attributeName,
       key: attributeName,
       value: value,
+      formattedValue: formattedValue,
       type: OccConfigurator.UiType.DATE,
     };
     it('should return attribute value in case of date UI type', () => {
@@ -1003,11 +1005,28 @@ describe('OccConfiguratorVariantNormalizer', () => {
         occConfiguratorVariantNormalizer['compileUserInput'](sourceAttribute)
       ).toBe(value);
     });
+    it('should return formatted attribute value in case of readOnly UI type', () => {
+      expect(
+        occConfiguratorVariantNormalizer['compileUserInput']({
+          ...sourceAttribute,
+          type: OccConfigurator.UiType.READ_ONLY,
+        })
+      ).toBe(formattedValue);
+    });
     it('should default to blank if no value is present for date UI type', () => {
       expect(
         occConfiguratorVariantNormalizer['compileUserInput']({
           ...sourceAttribute,
           value: undefined,
+        })
+      ).toBe('');
+    });
+    it('should default to blank if no formatted value is present for read-only UI type', () => {
+      expect(
+        occConfiguratorVariantNormalizer['compileUserInput']({
+          ...sourceAttribute,
+          formattedValue: undefined,
+          type: OccConfigurator.UiType.READ_ONLY,
         })
       ).toBe('');
     });
