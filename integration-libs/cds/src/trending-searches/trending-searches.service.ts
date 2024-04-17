@@ -10,6 +10,7 @@ import { CdsEndpointsService } from '../services';
 import { CdsConfig } from '../config';
 import { BaseSiteService } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { SearchPhrases } from './trending-searches.component';
 
 const TRENDING_SEARCHES_ENDPOINT_KEY = 'searchIntelligence';
 
@@ -24,9 +25,9 @@ export class TrendingSearchesService {
     private baseSiteService: BaseSiteService
   ) {}
 
-  getTrendingSearches(): Observable<any> {
+  getTrendingSearches(): Observable<SearchPhrases[]> {
     return new Observable((observer) => {
-      this.baseSiteService.getActive().subscribe((currentSite) => {
+      this.baseSiteService.getActive().subscribe((currentSite: string) => {
         const originalEndpointUrl = this.cdsEndpointsService.getUrl(
           TRENDING_SEARCHES_ENDPOINT_KEY
         );
@@ -37,7 +38,7 @@ export class TrendingSearchesService {
         );
 
         this.httpClient.get<any>(modifiedUrl).subscribe((data) => {
-          observer.next(data);
+          observer.next(data?.searchPhrases);
           observer.complete();
         });
       });

@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, Optional } from '@angular/core';
+import { Component, OnInit, OnDestroy, Optional } from '@angular/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { TrendingSearchesService } from './trending-searches.service';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { EMPTY, Subject } from 'rxjs';
 
 const MAX_TRENDING_SEARCHES = 5;
 
@@ -23,9 +25,9 @@ export interface SearchPhrases {
   selector: 'cx-trending-searches',
   templateUrl: './trending-searches.component.html',
 })
-export class TrendingSearchesComponent implements OnInit {
-  public context$ = this.outletContext?.context$;
+export class TrendingSearchesComponent implements OnInit, OnDestroy {
   public searchPhrases: SearchPhrases[] = [];
+  private destroy$ = new Subject<void>();
 
   constructor(
     @Optional()
@@ -34,15 +36,40 @@ export class TrendingSearchesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.context$.subscribe((context: SearchBoxOutletTrendingSearches) => {
-      this.trendingSearchesService.getTrendingSearches().subscribe((data) => {
-        if (data) {
-          this.searchPhrases = data.searchPhrases.slice(
-            0,
-            context.maxTrendingSearches || MAX_TRENDING_SEARCHES
-          );
-        }
+    this.listenToContextChanges();
+  }
+
+  private listenToContextChanges() {
+    this.getSearchPhrases()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((searchPhrases: SearchPhrases[]) => {
+        this.searchPhrases = searchPhrases;
       });
-    });
+  }
+
+  private getSearchPhrases() {
+    return this.contextObservable.pipe(
+      takeUntil(this.destroy$),
+      switchMap((context: SearchBoxOutletTrendingSearches) => {
+        const maxSearches =
+          context?.maxTrendingSearches ?? MAX_TRENDING_SEARCHES;
+        return this.trendingSearchesService
+          .getTrendingSearches()
+          .pipe(
+            map((data) =>
+              data ? data.slice(0, maxSearches) : []
+            )
+          );
+      })
+    );
+  }
+
+  get contextObservable() {
+    return this.outletContext?.context$ ?? EMPTY;
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
