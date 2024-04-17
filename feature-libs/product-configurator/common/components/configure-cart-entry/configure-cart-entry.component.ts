@@ -51,11 +51,13 @@ export class ConfigureCartEntryComponent {
     forceReload: boolean;
     resolveIssues: boolean;
     navigateToCheckout: boolean;
+    productCode: string | undefined;
   }> = this.isInCheckout().pipe(
     map((isInCheckout) => ({
       forceReload: true,
       resolveIssues: this.msgBanner && this.hasIssues(),
       navigateToCheckout: isInCheckout,
+      productCode: this.cartEntry.product?.code,
     }))
   );
 
