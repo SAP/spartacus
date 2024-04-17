@@ -25,11 +25,14 @@ import { OCC_HTTP_TOKEN } from '../../utils';
 import { Router } from '@angular/router';
 @Injectable()
 export class OccProductSearchAdapter implements ProductSearchAdapter {
+  protected router = inject(Router, {
+    optional: true,
+  });
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService,
-    @Optional() protected router: Router
+    protected converter: ConverterService
   ) {}
 
   readonly DEFAULT_SEARCH_CONFIG: SearchConfig = {
