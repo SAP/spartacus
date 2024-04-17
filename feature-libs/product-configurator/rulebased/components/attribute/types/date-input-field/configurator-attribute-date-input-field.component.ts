@@ -72,8 +72,9 @@ export class ConfiguratorAttributeDateInputFieldComponent
       );
   }
 
-  onChange(): void {
+  onChange(): void {    
     if (!this.attributeInputForm.invalid) {
+      console.log("CHHI onChange is valid", this.attributeInputForm.value, );
       this.configuratorCommonsService.updateConfiguration(
         this.ownerKey,
         {
