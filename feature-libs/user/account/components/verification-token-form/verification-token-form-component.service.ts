@@ -50,7 +50,7 @@ export class VerificationTokenFormComponentService {
     this.busy$.next(true);
 
     from(
-      this.auth.loginWithCredentials(
+      this.auth.otpLoginWithCredentials(
         this.form.value.tokenId,
         this.form.value.tokenCode
       )
