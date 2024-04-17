@@ -97,6 +97,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { CustomBannerModule } from './features/banner/custom-banner.module';
 
 const featureModules = [];
 
@@ -245,6 +246,7 @@ if (environment.requestedDeliveryDate) {
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
     ...featureModules,
+    CustomBannerModule,
   ],
   providers: [
     // Adding the provider here because consents feature is not code-splitted to separate library and not lazy-loaded

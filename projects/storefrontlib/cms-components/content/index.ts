@@ -6,7 +6,7 @@
 
 export * from './banner-carousel/banner-carousel.component';
 export * from './banner-carousel/banner-carousel.module';
-export * from './banner/banner.component';
+export * from './banner/banner.directive';
 export * from './banner/banner.module';
 export * from './link/link.component';
 export * from './link/link.module';
