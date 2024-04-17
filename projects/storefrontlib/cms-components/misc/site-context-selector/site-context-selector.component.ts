@@ -17,6 +17,9 @@ import { SiteContextType } from './site-context.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SiteContextSelectorComponent {
+  /**
+   * @deprecated since 2011.21 removed unused property
+   */
   siteContextService: SiteContext<any>;
   iconTypes = ICON_TYPE;
   /**
