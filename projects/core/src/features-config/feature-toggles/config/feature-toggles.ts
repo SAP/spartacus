@@ -33,26 +33,109 @@ export interface FeatureTogglesInterface {
 
   productConfiguratorAttributeTypesV2?: boolean;
 
+  /**
+   * Adds asterisks to required form fields.
+   */
   a11yRequiredAsterisks?: boolean;
+
+  /**
+   * Restores default tab flow for quantity counter.
+   */
   a11yQuantityOrderTabbing?: boolean;
+
+  /**
+   * Improves keyboard navigation of 'NavigationUIComponent'.
+   */
   a11yNavigationUiKeyboardControls?: boolean;
+
+  /**
+   * Fixes Order confirmation heading gap.
+   */
   a11yOrderConfirmationHeadingOrder?: boolean;
+
+  /**
+   * Improves accessibility of star rating component.
+   */
   a11yStarRating?: boolean;
+
+  /**
+   * Trigger an assistive message after 'split-view' active view change.
+   */
   a11yViewChangeAssistiveMessage?: boolean;
+
+  /**
+   * Refocuses reorder modal after content change.
+   */
   a11yReorderDialog?: boolean;
+
+  /**
+   * Refocus on popover trigger button after the popover is closed.
+   */
   a11yPopoverFocus?: boolean;
+
+  /**
+   * Datepicker label and heading order fix for Schedule Replenishment.
+   */
   a11yScheduleReplenishment?: boolean;
+
+  /**
+   * Improves Scroll to top button focus behavior.
+   */
   a11yScrollToTop?: boolean;
+
+  /**
+   * Fixes Saved Carts missing header on 200% zoom.
+   */
   a11ySavedCartsZoom?: boolean;
+
+  /**
+   * Stops sorting options from truncating.
+   */
   a11ySortingOptionsTruncation?: boolean;
+
+  /**
+   * Fixes unnecessarily expanded focus indicator.
+   */
   a11yExpandedFocusIndicator?: boolean;
+
+  /**
+   * Restore focus after delivery methods update.
+   */
   a11yCheckoutDeliveryFocus?: boolean;
+
+  /**
+   * Improves visible focus on mobile/while zoomed.
+   */
   a11yMobileVisibleFocus?: boolean;
+
+  /**
+   * Improves screen reader readout for banners on organization page.
+   */
   a11yOrganizationsBanner?: boolean;
+
+  /**
+   * Corrects heading order for organizations list.
+   */
   a11yOrganizationListHeadingOrder?: boolean;
+
+  /**
+   * Changes order days check list into a fieldset.
+   */
   a11yReplenishmentOrderFieldset?: boolean;
+
+  /**
+   * Removes oversized focus from organization list.
+   */
   a11yListOversizedFocus?: boolean;
+
+  /**
+   * Stops store finder map from overflowing on zoomed/mobile screens.
+   */
   a11yStoreFinderOverflow?: boolean;
+
+  /**
+   * Corrects cart summary heading order.
+   */
   a11yCartSummaryHeadingOrder?: boolean;
 }
 
