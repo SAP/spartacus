@@ -243,7 +243,7 @@ function setDataForOrderEntry() {
   mockRouterData.owner.id = ORDER_ENTRY_KEY;
 }
 
-function setDareForOrderEntryWithoutOverview() {
+function setDataForOrderEntryWithoutOverview() {
   mockConfiguration = {
     ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
       id: PRODUCT_CODE,
@@ -380,7 +380,7 @@ describe('ConfigProductTitleComponent', () => {
     });
 
     it('should not emit in case an order bound configuration does not have the OV aspect (yet)', () => {
-      setDareForOrderEntryWithoutOverview();
+      setDataForOrderEntryWithoutOverview();
       initialize();
       const expected = cold('|');
       expect(component.product$).toBeObservable(expected);
