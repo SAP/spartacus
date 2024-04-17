@@ -530,42 +530,64 @@ export class OccConfiguratorVariantNormalizer
     //Default value for incomplete is false
     attribute.incomplete = false;
 
-    switch (attribute.uiType) {
-      case Configurator.UiType.RADIOBUTTON:
-      case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
-      case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
-      case Configurator.UiType.DROPDOWN: {
-        if (
-          !attribute.selectedSingleValue ||
-          attribute.selectedSingleValue === Configurator.RetractValueCode
-        ) {
-          attribute.incomplete = true;
-        }
-        break;
-      }
-      case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
-        if (!attribute.selectedSingleValue) {
-          attribute.incomplete = true;
-        }
-        break;
-      }
-      case Configurator.UiType.NUMERIC:
-      case Configurator.UiType.DATE:
-      case Configurator.UiType.STRING: {
-        if (!attribute.userInput) {
-          attribute.incomplete = true;
-        }
-        break;
-      }
-
-      case Configurator.UiType.CHECKBOXLIST:
-      case Configurator.UiType.CHECKBOX:
-      case Configurator.UiType.MULTI_SELECTION_IMAGE: {
-        const isOneValueSelected =
-          attribute.values?.find((value) => value.selected) !== undefined;
-        attribute.incomplete = !isOneValueSelected;
-        break;
-      }
+    const singleValueTypes = [
+      Configurator.UiType.RADIOBUTTON,
+      Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
+      Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
+      Configurator.UiType.DROPDOWN,
+    ];
+    const inputTypes = [
+      Configurator.UiType.NUMERIC,
+      Configurator.UiType.DATE,
+      Configurator.UiType.STRING,
+    ];
+    const multiValueTypes = [
+      Configurator.UiType.CHECKBOXLIST,
+      Configurator.UiType.CHECKBOX,
+      Configurator.UiType.MULTI_SELECTION_IMAGE,
+    ];
+    const uiType = attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED;
+    if (singleValueTypes.includes(uiType)) {
+      this.compileAttributeIncompleteSingleLevel(attribute);
+    } else if (uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE) {
+      this.compileAttributeIncompleteSingleSelectionImage(attribute);
+    } else if (inputTypes.includes(uiType)) {
+      this.compileAttributeIncompleteInputTypes(attribute);
+    } else if (multiValueTypes.includes(uiType)) {
+      this.compileAttributeIncompleteMultiSelect(attribute);
     }
+  }
+
+  protected compileAttributeIncompleteSingleLevel(
+    attribute: Configurator.Attribute
+  ): void {
+    if (
+      !attribute.selectedSingleValue ||
+      attribute.selectedSingleValue === Configurator.RetractValueCode
+    ) {
+      attribute.incomplete = true;
+    }
+  }
+  protected compileAttributeIncompleteSingleSelectionImage(
+    attribute: Configurator.Attribute
+  ): void {
+    if (!attribute.selectedSingleValue) {
+      attribute.incomplete = true;
+    }
+  }
+  protected compileAttributeIncompleteInputTypes(
+    attribute: Configurator.Attribute
+  ): void {
+    if (!attribute.userInput) {
+      attribute.incomplete = true;
+    }
+  }
+
+  protected compileAttributeIncompleteMultiSelect(
+    attribute: Configurator.Attribute
+  ): void {
+    const isOneValueSelected =
+      attribute.values?.find((value) => value.selected) !== undefined;
+    attribute.incomplete = !isOneValueSelected;
   }
 }
