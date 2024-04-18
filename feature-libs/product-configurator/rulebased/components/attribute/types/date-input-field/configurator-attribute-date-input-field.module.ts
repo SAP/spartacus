@@ -25,7 +25,7 @@ import { ConfiguratorAttributeDateInputFieldComponent } from './configurator-att
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
       productConfigurator: {
         assignment: {
-          AttributeType_date: ConfiguratorAttributeDateInputFieldComponent,
+          AttributeType_sap_date: ConfiguratorAttributeDateInputFieldComponent,
         },
       },
     }),

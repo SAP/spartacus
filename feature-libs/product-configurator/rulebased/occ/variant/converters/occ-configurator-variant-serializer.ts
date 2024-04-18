@@ -118,7 +118,7 @@ export class OccConfiguratorVariantSerializer
 
     const inputTypesSetValue = [
       Configurator.UiType.STRING,
-      Configurator.UiType.DATE,
+      Configurator.UiType.SAP_DATE,
     ];
 
     const inputTypesSetFormattedValue = [Configurator.UiType.NUMERIC];
@@ -212,8 +212,8 @@ export class OccConfiguratorVariantSerializer
         uiType = OccConfigurator.UiType.NUMERIC;
         break;
       }
-      case Configurator.UiType.DATE: {
-        uiType = OccConfigurator.UiType.DATE;
+      case Configurator.UiType.SAP_DATE: {
+        uiType = OccConfigurator.UiType.SAP_DATE;
         break;
       }
       case Configurator.UiType.CHECKBOX: {

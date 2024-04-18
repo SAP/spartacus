@@ -230,7 +230,7 @@ export namespace Configurator {
     READ_ONLY_MULTI_SELECTION_IMAGE = 'read_only_multi_selection_image',
     STRING = 'string',
     NUMERIC = 'numeric',
-    DATE = 'date',
+    SAP_DATE = 'sap_date',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
     MULTI_SELECTION_IMAGE = 'multi_selection_image',
     SINGLE_SELECTION_IMAGE = 'single_selection_image',

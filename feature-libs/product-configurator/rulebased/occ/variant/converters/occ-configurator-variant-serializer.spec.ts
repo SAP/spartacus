@@ -449,9 +449,9 @@ describe('OccConfiguratorVariantSerializer', () => {
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.DATE
+        Configurator.UiType.SAP_DATE
       )
-    ).toBe(OccConfigurator.UiType.DATE);
+    ).toBe(OccConfigurator.UiType.SAP_DATE);
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(

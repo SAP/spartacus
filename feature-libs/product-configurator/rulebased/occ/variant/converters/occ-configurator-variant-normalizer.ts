@@ -173,7 +173,7 @@ export class OccConfiguratorVariantNormalizer
         ? sourceAttribute.formattedValue
         : '';
     }
-    if (sourceAttribute.type === OccConfigurator.UiType.DATE) {
+    if (sourceAttribute.type === OccConfigurator.UiType.SAP_DATE) {
       userInput = sourceAttribute.value ? sourceAttribute.value : '';
     }
     return userInput;
@@ -424,8 +424,8 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.NUMERIC;
         break;
       }
-      case OccConfigurator.UiType.DATE: {
-        uiType = Configurator.UiType.DATE;
+      case OccConfigurator.UiType.SAP_DATE: {
+        uiType = Configurator.UiType.SAP_DATE;
         break;
       }
     }
@@ -538,7 +538,7 @@ export class OccConfiguratorVariantNormalizer
     ];
     const inputTypes = [
       Configurator.UiType.NUMERIC,
-      Configurator.UiType.DATE,
+      Configurator.UiType.SAP_DATE,
       Configurator.UiType.STRING,
     ];
     const multiValueTypes = [

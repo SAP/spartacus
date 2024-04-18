@@ -812,10 +812,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should convert date attribute type correctly', () => {
-      sourceAttribute.type = OccConfigurator.UiType.DATE;
+      sourceAttribute.type = OccConfigurator.UiType.SAP_DATE;
       expect(
         occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
-      ).toBe(Configurator.UiType.DATE);
+      ).toBe(Configurator.UiType.SAP_DATE);
     });
 
     it('should convert read-only attribute type correctly', () => {
@@ -998,7 +998,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       key: attributeName,
       value: value,
       formattedValue: formattedValue,
-      type: OccConfigurator.UiType.DATE,
+      type: OccConfigurator.UiType.SAP_DATE,
     };
     it('should return attribute value in case of date UI type', () => {
       expect(
