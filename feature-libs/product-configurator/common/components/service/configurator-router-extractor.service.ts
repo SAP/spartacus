@@ -57,6 +57,7 @@ export class ConfiguratorRouterExtractorService {
               : ConfiguratorRouter.PageType.CONFIGURATION,
           navigateToCheckout:
             routingData.state.queryParams?.navigateToCheckout === 'true',
+          productCode: routingData.state.queryParams?.productCode,
         };
 
         return routerData;

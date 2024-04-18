@@ -317,6 +317,32 @@ describe('ConfigRouterExtractorService', () => {
         })
         .unsubscribe();
     });
+
+    it('should tell from the URL that a product code has been passed', () => {
+      mockRouterState.state.queryParams = {
+        productCode: PRODUCT_CODE,
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.productCode).toBe(PRODUCT_CODE);
+        })
+        .unsubscribe();
+    });
+
+    it('should be fine with a product code not provided', () => {
+      mockRouterState.state.queryParams = {};
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.productCode).toBe(undefined);
+        })
+        .unsubscribe();
+    });
   });
 
   describe('createOwnerFromRouterState', () => {
