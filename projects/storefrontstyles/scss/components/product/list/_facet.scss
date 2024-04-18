@@ -169,7 +169,7 @@ $intialExpandedFacetsLarge: 3 !default;
       margin-inline-end: 0.5rem;
 
       @include forFeature('santoriniV2') {
-        border: solid 1px var(--cx-color-medium);
+        border: solid 2px var(--cx-color-text);
       }
     }
 

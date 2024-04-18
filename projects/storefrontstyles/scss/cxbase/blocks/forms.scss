@@ -13,6 +13,11 @@
   border: 1px solid var(--cx-color-medium);
 
   @include forFeature('santoriniV2') {
+    &:focus {
+      border-color: var(--cx-color-text);
+      box-shadow: 0 0 0 0.2em var(--cx-color-border-medium);
+    }
+    
     &::placeholder{
       color: var(--cx-color-dark);
     }
@@ -206,6 +211,10 @@ legend {
     border-width: 2px;
     border-color: var(--cx-color-medium);
 
+    @include forFeature('santoriniV2') {
+      border-color: var(--cx-color-text);
+    }
+
     &:checked {
       font-style: normal;
       border-color: var(--cx-color-primary);
@@ -245,6 +254,10 @@ input[type='radio'] {
   border-width: 2px;
   border-color: var(--cx-color-medium);
   position: absolute;
+
+  @include forFeature('santoriniV2') {
+    border-color: var(--cx-color-text);
+  }
 
   &::after {
     content: '';

@@ -59,7 +59,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
           padding: 0px 5px;
           
           @include forFeature('santoriniV2') {
-            color: var(--cx-color-primary)
+            color: var(--cx-color-primary);
           }
         }
       }

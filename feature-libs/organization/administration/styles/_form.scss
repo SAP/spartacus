@@ -49,7 +49,7 @@
         font-weight: normal;
 
         @include forFeature('santoriniV2') {
-          @include type('6')
+          @include type('6');
         }
       }
     }

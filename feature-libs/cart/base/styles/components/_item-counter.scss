@@ -30,6 +30,10 @@
     border: solid 1px var(--cx-color-light);
     display: inline-flex;
 
+    @include forFeature('santoriniV2') {
+      border: solid 1px var(--cx-color-medium);
+    }
+
     input {
       border: solid 1px var(--cx-color-light);
       border-width: 0 1px;
@@ -37,6 +41,13 @@
       max-height: 48px;
       min-width: 46%;
       max-width: 46%;
+
+      @include forFeature('santoriniV2') {
+        border-left: solid 1px var(--cx-color-medium);
+        border-right: solid 1px var(--cx-color-medium);
+        border-bottom: none;
+        border-top: none;
+      }
 
       &:focus {
         background: var(--cx-color-background);
@@ -55,6 +66,11 @@
     max-width: 27%;
 
     @include type(3);
+    @include forFeature('santoriniV2') {
+      font-size: var(--cx-font-size, 2rem);
+      line-height: 0;
+      color: var(--cx-color-secondary);
+    }
 
     &:hover {
       color: var(--cx-color-primary);
@@ -68,6 +84,10 @@
 
     &:disabled {
       color: var(--cx-color-light);
+
+      @include forFeature('santoriniV2') {
+        color: var(--cx-color-medium);
+      }
     }
   }
 

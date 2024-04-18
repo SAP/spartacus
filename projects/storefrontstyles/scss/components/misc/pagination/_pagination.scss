@@ -5,6 +5,11 @@
   align-content: center;
   align-items: stretch;
 
+  @include forFeature('santoriniV2') {
+    align-items: center;
+  }
+  
+
   a {
     color: var(--cx-color-text);
     width: 48px;
@@ -26,7 +31,14 @@
     &:first-child {
       border-top-left-radius: 0.25rem;
       border-bottom-left-radius: 0.25rem;
+
+      @include forFeature('santoriniV2') {
+        color: var(--cx-color-secondary);
+        font-size: var(--cx-font-size, 2rem);
+        line-height: 0;
+      }
     }
+
     &:last-child {
       border-inline-end: solid 1px var(--cx-color-light);
       border-top-right-radius: 0.25rem;
@@ -34,6 +46,9 @@
 
       @include forFeature('santoriniV2') {
         border-inline-end: solid 1px var(--cx-color-medium);
+        color: var(--cx-color-secondary);
+        font-size: var(--cx-font-size, 2rem);
+        line-height: 0;
       }
     }
 
