@@ -24,6 +24,7 @@
 
     <button
       [attr.aria-label]="'common.reset' | cxTranslate"
+      [title]="'common.reset' | cxTranslate"
       (mousedown)="clear(searchInput)"
       (keydown.enter)="clear(searchInput)"
       class="reset"
@@ -31,12 +32,17 @@
       <cx-icon [type]="iconTypes.RESET"></cx-icon>
     </button>
 
-    <div role="presentation" class="search-icon">
+    <div
+      role="presentation"
+      class="search-icon"
+      [title]="'common.search' | cxTranslate"
+    >
       <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
     </div>
 
     <button
       [attr.aria-label]="'common.search' | cxTranslate"
+      [title]="'common.search' | cxTranslate"
       class="search"
       (click)="open()"
     >
