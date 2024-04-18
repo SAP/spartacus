@@ -352,16 +352,19 @@ input {
 }
 
 .form-group {
-  input[type='text']::placeholder {
+  input[type='text']::placeholder,
+  input[type='tel']::placeholder {
     color: var(--cx-color-text);
     opacity: 1;
   }
 
-  input[type='text']:-ms-input-placeholder {
+  input[type='text']:-ms-input-placeholder,
+  input[type='tel']:-ms-input-placeholder {
     color: var(--cx-color-secondary);
   }
 
-  input[type='text']::-ms-input-placeholder {
+  input[type='text']::-ms-input-placeholder,
+  input[type='tel']::-ms-input-placeholder {
     color: var(--cx-color-secondary);
   }
 }
