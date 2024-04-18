@@ -65,8 +65,10 @@ export class AuthRedirectService implements OnDestroy {
       .pipe(take(1))
       .subscribe((redirectUrl) => {
         if (redirectUrl === undefined) {
+          debugger;
           this.routing.go('/');
         } else {
+          debugger;
           this.routing.goByUrl(redirectUrl);
         }
         this.clearRedirectUrl();
