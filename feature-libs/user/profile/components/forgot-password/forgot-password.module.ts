@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import {
   AuthConfigService,
   CmsConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
@@ -32,6 +33,7 @@ import { ForgotPasswordComponent } from './forgot-password.component';
     I18nModule,
     FormErrorsModule,
     SpinnerModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

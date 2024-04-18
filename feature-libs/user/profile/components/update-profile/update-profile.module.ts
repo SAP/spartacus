@@ -12,22 +12,23 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
+  UrlModule,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-  UrlModule,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  SpinnerModule,
   NgSelectA11yModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
+import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
 import { USE_MY_ACCOUNT_V2_PROFILE } from './use-my-account-v2-profile';
-import { UpdateProfileComponentService } from './update-profile-component.service';
-import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 
 const myAccountV2ProfileMapping: CmsConfig = {
   cmsComponents: {
@@ -49,6 +50,7 @@ const myAccountV2ProfileMapping: CmsConfig = {
     UrlModule,
     NgSelectModule,
     NgSelectA11yModule,
+    FeaturesConfigModule,
   ],
   declarations: [UpdateProfileComponent, MyAccountV2ProfileComponent],
   exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],
