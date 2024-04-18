@@ -35,5 +35,4 @@ export const environment: Environment = {
   requestedDeliveryDate: buildProcess.env.CX_REQUESTED_DELIVERY_DATE ?? false,
   pdfInvoices: buildProcess.env.CX_PDF_INVOICES ?? false,
   myAccountV2: buildProcess.env.CX_MY_ACCOUNT_V2 ?? false,
-  otpUserLogin: buildProcess.env.CX_OTP_USER_LOGIN ?? false,
 };

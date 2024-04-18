@@ -11,8 +11,8 @@ import {
   userAccountTranslations,
 } from '@spartacus/user/account/assets';
 import {
-  USER_ACCOUNT_FEATURE,
   UserAccountRootModule,
+  USER_ACCOUNT_FEATURE,
 } from '@spartacus/user/account/root';
 import {
   userProfileTranslationChunksConfig,
@@ -28,8 +28,6 @@ import {
   USER_PROFILE_FEATURE,
 } from '@spartacus/user/profile/root';
 import { environment } from '../../../../environments/environment';
-
-
 
 @NgModule({
   imports: [UserAccountRootModule, UserProfileRootModule],
