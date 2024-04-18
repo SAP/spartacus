@@ -55,7 +55,7 @@ export interface FeatureTogglesInterface {
   a11yOrderConfirmationHeadingOrder?: boolean;
 
   /**
-   * Improves accessibility of'StarRatingComponent' i.e.
+   * Improves accessibility of 'StarRatingComponent' i.e.
    * Provides a clear rating value to screen readers.
    * Includes information on whether it is interactive.
    */
@@ -114,7 +114,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * Improves screen reader readout of 'BannerComponent' on organization page.
-   * the anchor tag will no longer contain unnecessary text that would otherwise be read out.
+   * The anchor tag will no longer contain unnecessary text that would otherwise be read out.
    */
   a11yOrganizationsBanner?: boolean;
 
