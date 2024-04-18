@@ -513,4 +513,14 @@ describe('OccConfiguratorVariantSerializer', () => {
       )
     ).toBe(OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT);
   });
+
+  describe('convertCharacteristicTypeSingleValue', () => {
+    it('should default to NOT_IMPLEMENTED', () => {
+      expect(
+        occConfiguratorVariantSerializer[
+          'convertCharacteristicTypeSingleValue'
+        ](Configurator.UiType.MULTI_SELECTION_IMAGE)
+      ).toBe(OccConfigurator.UiType.NOT_IMPLEMENTED);
+    });
+  });
 });

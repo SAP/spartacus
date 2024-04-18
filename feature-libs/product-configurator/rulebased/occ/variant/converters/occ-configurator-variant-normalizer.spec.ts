@@ -1264,12 +1264,12 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should not touch flag in case uiType is not defined ', () => {
       //a previous user input is always be part of the domain after a roundtrip
-      attributeDDWithValues.uiType = undefined; 
+      attributeDDWithValues.uiType = undefined;
       occConfiguratorVariantNormalizer.compileAttributeIncomplete(
         attributeDDWithValues
       );
       expect(attributeDDWithValues.incomplete).toBe(false);
-    });    
+    });
   });
 
   describe('isRetractValueSelected', () => {
