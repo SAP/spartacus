@@ -45,9 +45,6 @@ import { InvoicesListComponent } from './invoices-list/invoices-list.component';
           guards: [AuthGuard],
         },
       },
-      features: {
-        pdfInvoicesSortByInvoiceDate: false,
-      },
     }),
   ],
 })
