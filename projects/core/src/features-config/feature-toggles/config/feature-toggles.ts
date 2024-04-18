@@ -34,107 +34,112 @@ export interface FeatureTogglesInterface {
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
-   * Adds asterisks to required form fields.
+   * Adds asterisks to required form fields in all components existing before v2211.20
    */
   a11yRequiredAsterisks?: boolean;
 
   /**
-   * Restores default tab flow for quantity counter.
+   * In `QuantityCounterComponent` the numeric input is no longer made focused
+   * after an increment/decrement button is clicked.
    */
   a11yQuantityOrderTabbing?: boolean;
 
   /**
-   * Improves keyboard navigation of 'NavigationUIComponent'.
+   * Improves keyboard navigation inside of 'NavigationUIComponent'.
    */
   a11yNavigationUiKeyboardControls?: boolean;
 
   /**
-   * Fixes Order confirmation heading gap.
+   * Fixes heading gap present in 'OrderConfirmationItemsComponent' template.
    */
   a11yOrderConfirmationHeadingOrder?: boolean;
 
   /**
-   * Improves accessibility of star rating component.
+   * Improves accessibility of'StarRatingComponent' i.e.
+   * Provides a clear rating value to screen readers.
+   * Includes information on whether it is interactive.
    */
   a11yStarRating?: boolean;
 
   /**
-   * Trigger an assistive message after 'split-view' active view change.
+   * 'ViewComponent' will trigger an assistive message after active view changes.
    */
   a11yViewChangeAssistiveMessage?: boolean;
 
   /**
-   * Refocuses reorder modal after content change.
+   * Refocuses inside of 'ReorderDialogComponent' after its content updates.
    */
   a11yReorderDialog?: boolean;
 
   /**
-   * Refocus on popover trigger button after the popover is closed.
+   * Element containing the 'PopoverDirective' will be refocused after the popover is closed.
    */
   a11yPopoverFocus?: boolean;
 
   /**
-   * Datepicker label and heading order fix for Schedule Replenishment.
+   * Adds Datepicker label and corrects heading order for 'CheckoutScheduleReplenishmentOrderComponent'.
    */
   a11yScheduleReplenishment?: boolean;
 
   /**
-   * Improves Scroll to top button focus behavior.
+   * When 'ScrollToTopComponent' is trigged with a keyboard, focus remains on the
+   * button and preserves the user's context.
    */
   a11yScrollToTop?: boolean;
 
   /**
-   * Fixes Saved Carts missing header on 200% zoom.
+   * Fixes 'cx-saved-cart-list-label' dissapering on 200% zoom in 'SavedCartListComponent'.
    */
   a11ySavedCartsZoom?: boolean;
 
   /**
-   * Stops sorting options from truncating.
+   * Stops dropdown options labels from truncating inside 'ProductListComponent'.
    */
   a11ySortingOptionsTruncation?: boolean;
 
   /**
-   * Fixes unnecessarily expanded focus indicator.
+   * Fixes unnecessarily expanded focus indicator in 'ProductListItemComponent' and 'AddToSavedCartComponent'.
    */
   a11yExpandedFocusIndicator?: boolean;
 
   /**
-   * Restore focus after delivery methods update.
+   * Fixes 'CheckoutDeliveryModeComponent' losing focus after delivery methods update.
    */
   a11yCheckoutDeliveryFocus?: boolean;
 
   /**
-   * Improves visible focus on mobile/while zoomed.
+   * Prevents the focus indicator of 'VisibleFocusDirective' from overflowing on mobile/while zoomed.
    */
   a11yMobileVisibleFocus?: boolean;
 
   /**
-   * Improves screen reader readout for banners on organization page.
+   * Improves screen reader readout of 'BannerComponent' on organization page.
+   * the anchor tag will no longer contain unnecessary text that would otherwise be read out.
    */
   a11yOrganizationsBanner?: boolean;
 
   /**
-   * Corrects heading order for organizations list.
+   * Corrects heading order inside 'ListComponent' template.
    */
   a11yOrganizationListHeadingOrder?: boolean;
 
   /**
-   * Changes order days check list into a fieldset.
+   * Changes 'order days' check list into a fieldset inside of 'CheckoutScheduleReplenishmentOrderComponent'.
    */
   a11yReplenishmentOrderFieldset?: boolean;
 
   /**
-   * Removes oversized focus from organization list.
+   * Corrects oversized focus indicator from list items inside 'ListComponent'.
    */
   a11yListOversizedFocus?: boolean;
 
   /**
-   * Stops store finder map from overflowing on zoomed/mobile screens.
+   * Adjuststs the styles of 'StoreFinderMapComponent' to stop the Google map from overflowing on zoomed/mobile screens.
    */
   a11yStoreFinderOverflow?: boolean;
 
   /**
-   * Corrects cart summary heading order.
+   * Corrects heading order inside 'OrderSummaryComponent' template.
    */
   a11yCartSummaryHeadingOrder?: boolean;
 }
