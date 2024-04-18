@@ -28,6 +28,7 @@ export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
       productCode: string;
       quantity: number;
       pickupStore?: string;
+      numberOfEntriesBeforeAdd?: number;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -48,6 +49,7 @@ export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementActi
       quantityAdded?: number;
       statusCode?: string;
       statusMessage?: string;
+      numberOfEntriesBeforeAdd?: number;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);

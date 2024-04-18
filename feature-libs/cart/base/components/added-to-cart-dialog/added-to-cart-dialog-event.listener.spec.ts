@@ -5,7 +5,7 @@ import {
   CartAddEntrySuccessEvent,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
-import { CxEvent, EventService } from '@spartacus/core';
+import { CxEvent, EventService, FeatureConfigService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
@@ -47,9 +47,10 @@ mockEvent.pickupStoreName = 'testStore';
 const mockFailEvent = new CartAddEntryFailEvent();
 mockFailEvent.error = {};
 
-describe('AddToCartDialogEventListener', () => {
+describe('AddedToCartDialogEventListener', () => {
   let listener: AddedToCartDialogEventListener;
   let launchDialogService: LaunchDialogService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,22 +67,48 @@ describe('AddToCartDialogEventListener', () => {
       ],
     });
 
-    listener = TestBed.inject(AddedToCartDialogEventListener);
+    featureConfigService = TestBed.inject(FeatureConfigService);
     launchDialogService = TestBed.inject(LaunchDialogService);
   });
 
   describe('onAddToCart', () => {
-    it('Should open modal on event', () => {
+    it('should open modal on event CartAddEntrySuccessEvent in case the toggle is active', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      listener = TestBed.inject(AddedToCartDialogEventListener);
       spyOn(listener as any, 'openModalAfterSuccess').and.stub();
-      mockEventStream$.next(mockEvent);
       mockEventSuccessStream$.next(mockSuccessEvent);
       expect(listener['openModalAfterSuccess']).toHaveBeenCalledWith(
-        mockEvent,
         mockSuccessEvent
       );
     });
 
-    it('Should close modal on fail event', () => {
+    it('should not open modal on event CartAddEntrySuccessEvent in case the toggle is inactive', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      listener = TestBed.inject(AddedToCartDialogEventListener);
+      spyOn(listener as any, 'openModalAfterSuccess').and.stub();
+      mockEventSuccessStream$.next(mockSuccessEvent);
+      expect(listener['openModalAfterSuccess']).not.toHaveBeenCalled();
+    });
+
+    it('should open modal on event CartUiEventAddToCart in case the toggle is inactive', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      listener = TestBed.inject(AddedToCartDialogEventListener);
+      spyOn(listener as any, 'openModal').and.stub();
+      mockEventStream$.next(mockEvent);
+      expect(listener['openModal']).toHaveBeenCalledWith(mockEvent);
+    });
+
+    it('should not open modal on event CartUiEventAddToCart in case the toggle is active', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      listener = TestBed.inject(AddedToCartDialogEventListener);
+      spyOn(listener as any, 'openModal').and.stub();
+      mockEventStream$.next(mockEvent);
+      expect(listener['openModal']).not.toHaveBeenCalled();
+    });
+
+    it('should close modal on fail event in case toggle is inactive', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      listener = TestBed.inject(AddedToCartDialogEventListener);
       spyOn(listener as any, 'closeModal').and.stub();
       mockEventStream$.next(mockFailEvent);
       expect(listener['closeModal']).toHaveBeenCalledWith(mockFailEvent);
@@ -89,7 +116,8 @@ describe('AddToCartDialogEventListener', () => {
   });
 
   describe('openModal', () => {
-    it('Should open the add to cart dialog', () => {
+    it('should open the add to cart dialog', () => {
+      listener = TestBed.inject(AddedToCartDialogEventListener);
       spyOn(launchDialogService, 'openDialog').and.callThrough();
       listener['openModal'](mockEvent);
       expect(launchDialogService.openDialog).toHaveBeenCalled();
@@ -97,7 +125,8 @@ describe('AddToCartDialogEventListener', () => {
   });
 
   describe('closeModal', () => {
-    it('Should close the add to cart dialog', () => {
+    it('should close the add to cart dialog', () => {
+      listener = TestBed.inject(AddedToCartDialogEventListener);
       spyOn(launchDialogService, 'closeDialog').and.stub();
       listener['closeModal']('reason');
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith('reason');

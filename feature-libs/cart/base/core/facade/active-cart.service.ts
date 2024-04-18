@@ -441,7 +441,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           getCartIdByUserId(cart, userId),
           productCode,
           quantity,
-          pickupStore
+          pickupStore,
+          cart.entries?.length
         );
       });
   }

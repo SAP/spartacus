@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
-import { EventService } from '@spartacus/core';
+import { EventService, FeatureConfigService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Subscription, combineLatest } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Injectable({
@@ -20,6 +20,7 @@ import { take } from 'rxjs/operators';
 })
 export class AddedToCartDialogEventListener implements OnDestroy {
   protected subscription = new Subscription();
+  private featureConfig = inject(FeatureConfigService);
 
   constructor(
     protected eventService: EventService,
@@ -29,23 +30,30 @@ export class AddedToCartDialogEventListener implements OnDestroy {
   }
 
   protected onAddToCart() {
-    this.subscription.add(
-      combineLatest([
-        this.eventService.get(CartUiEventAddToCart),
-        this.eventService.get(CartAddEntrySuccessEvent),
-      ]).subscribe(([event, successEvent]) => {
-        this.openModalAfterSuccess(event, successEvent);
-      })
-    );
-
-    this.subscription.add(
-      this.eventService.get(CartAddEntryFailEvent).subscribe((event) => {
-        this.closeModal(event);
-      })
-    );
+    if (
+      this.featureConfig.isEnabled('adddedToCartDialogDrivenBySuccessEvent')
+    ) {
+      this.subscription.add(
+        this.eventService
+          .get(CartAddEntrySuccessEvent)
+          .subscribe((successEvent) => {
+            this.openModalAfterSuccess(successEvent);
+          })
+      );
+    } else {
+      this.subscription.add(
+        this.eventService.get(CartUiEventAddToCart).subscribe((event) => {
+          this.openModal(event);
+        })
+      );
+      this.subscription.add(
+        this.eventService.get(CartAddEntryFailEvent).subscribe((event) => {
+          this.closeModal(event);
+        })
+      );
+    }
   }
   /**
-   * @deprecated
    * Opens modal based on CartUiEventAddToCart.
    * @param event Signals that a product has been added to the cart.
    */
@@ -71,18 +79,16 @@ export class AddedToCartDialogEventListener implements OnDestroy {
 
   /**
    * Opens modal after addToCart has been successfully performed.
-   * @param event Signals that a product has been added to the cart.
    * @param successEvent Signals that the backend call succeeded.
    */
   protected openModalAfterSuccess(
-    event: CartUiEventAddToCart,
     successEvent: CartAddEntrySuccessEvent
   ): void {
     const addToCartData = {
       productCode: successEvent.productCode,
       quantity: successEvent.quantity,
-      numberOfEntriesBeforeAdd: event.numberOfEntriesBeforeAdd,
-      pickupStoreName: event.pickupStoreName,
+      numberOfEntriesBeforeAdd: successEvent.numberOfEntriesBeforeAdd,
+      pickupStoreName: successEvent.pickupStoreName,
     };
 
     const dialog = this.launchDialogService.openDialog(

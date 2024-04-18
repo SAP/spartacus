@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
-  getLastValueSync,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -9,8 +8,9 @@ import {
   StateUtils,
   UserIdService,
   WindowRef,
+  getLastValueSync,
 } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ActiveCartService } from './active-cart.service';
 
@@ -457,9 +457,10 @@ describe('ActiveCartService', () => {
   });
 
   describe('addEntry', () => {
+    const entries = [{}, {}, {}];
     it('should just add entry after cart is provided', () => {
       spyOn<any>(service, 'requireLoadedCart').and.returnValue(
-        of({ code: 'code', guid: 'guid' })
+        of({ code: 'code', guid: 'guid', entries: entries })
       );
       spyOn(multiCartFacade, 'addEntry').and.callThrough();
       userId$.next(OCC_USER_ID_ANONYMOUS);
@@ -471,13 +472,14 @@ describe('ActiveCartService', () => {
         'guid',
         'productCode',
         2,
-        undefined
+        undefined,
+        3
       );
     });
 
     it('should handle pickup in store', () => {
       spyOn<any>(service, 'requireLoadedCart').and.returnValue(
-        of({ code: 'code', guid: 'guid' })
+        of({ code: 'code', guid: 'guid', entries: entries })
       );
       spyOn(multiCartFacade, 'addEntry').and.callThrough();
       userId$.next(OCC_USER_ID_ANONYMOUS);
@@ -489,7 +491,8 @@ describe('ActiveCartService', () => {
         'guid',
         'productCode',
         2,
-        'pickupStore'
+        'pickupStore',
+        3
       );
     });
   });

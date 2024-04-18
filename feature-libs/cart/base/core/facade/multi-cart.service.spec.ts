@@ -401,12 +401,13 @@ describe('MultiCartService', () => {
           productCode: 'productCode',
           quantity: 2,
           pickupStore: undefined,
+          numberOfEntriesBeforeAdd: undefined,
         })
       );
     });
 
     it('should dispatch addEntry action with pickupStore', () => {
-      service.addEntry('userId', 'cartId', 'productCode', 2, 'pickupStore');
+      service.addEntry('userId', 'cartId', 'productCode', 2, 'pickupStore', 3);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartAddEntry({
@@ -415,6 +416,7 @@ describe('MultiCartService', () => {
           productCode: 'productCode',
           quantity: 2,
           pickupStore: 'pickupStore',
+          numberOfEntriesBeforeAdd: 3,
         })
       );
     });
