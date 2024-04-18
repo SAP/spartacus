@@ -16,9 +16,9 @@ import {
   GlobalMessageType,
   WindowRef,
 } from '@spartacus/core';
+import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, from } from 'rxjs';
 import { tap, withLatestFrom } from 'rxjs/operators';
-import { VerificationTokenFacade } from '../../root/facade';
 
 @Injectable()
 export class VerificationTokenFormComponentService {

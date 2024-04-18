@@ -58,6 +58,5 @@ import { LoginFormComponent } from './login-form.component';
     }),
   ],
   declarations: [LoginFormComponent],
-  exports: [LoginFormComponent],
 })
 export class LoginFormModule {}

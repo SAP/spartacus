@@ -47,6 +47,5 @@ import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
     }),
   ],
   declarations: [OneTimePasswordLoginFormComponent],
-  exports: [OneTimePasswordLoginFormComponent],
 })
 export class OneTimePasswordLoginFormModeule {}

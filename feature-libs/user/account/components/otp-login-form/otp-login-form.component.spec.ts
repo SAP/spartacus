@@ -13,10 +13,13 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { VerificationTokenService } from '@spartacus/user/account/core';
+import {
+  LoginForm,
+  VerificationToken,
+  VerificationTokenFacade,
+} from '@spartacus/user/account/root';
 import { BehaviorSubject, of } from 'rxjs';
-import { VerificationTokenService } from '../../core/facade';
-import { VerificationTokenFacade } from '../../root/facade/verification-token.facade';
-import { LoginForm, VerificationToken } from '../../root/model';
 import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
 import createSpy = jasmine.createSpy;
 

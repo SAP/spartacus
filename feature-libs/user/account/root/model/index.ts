@@ -5,4 +5,5 @@
  */
 
 export * from './augmented-core.model';
+export * from './otp-login.model';
 export * from './user.model';
