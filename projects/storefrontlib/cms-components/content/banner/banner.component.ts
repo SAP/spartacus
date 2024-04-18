@@ -12,4 +12,5 @@ import { BannerComponent } from './banner.directive';
   templateUrl: './banner.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class CxBannerComponent extends BannerComponent {}
