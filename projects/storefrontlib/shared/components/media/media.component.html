@@ -15,6 +15,7 @@
   <img
     *ngIf="media && media.src"
     [alt]="media.alt"
+    [title]="media.alt"
     [src]="media.src"
     [srcset]="media.srcset || media.src"
     [attr.role]="media.role"
