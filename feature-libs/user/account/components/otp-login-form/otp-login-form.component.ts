@@ -21,11 +21,13 @@ import { CustomFormValidators } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { VerificationTokenFacade } from '../../root/facade/verification-token.facade';
 import { LoginForm, VerificationToken } from '../../root/model';
-import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from './use-otp-login-form';
+import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
+
+
 
 @Component({
   selector: 'cx-otp-login-form',
-  templateUrl: './login-form.component.html',
+  templateUrl: './otp-login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OneTimePasswordLoginFormComponent {

@@ -11,8 +11,8 @@ import {
   userAccountTranslations,
 } from '@spartacus/user/account/assets';
 import {
-  UserAccountRootModule,
   USER_ACCOUNT_FEATURE,
+  UserAccountRootModule,
 } from '@spartacus/user/account/root';
 import {
   userProfileTranslationChunksConfig,
@@ -28,7 +28,7 @@ import {
   USER_PROFILE_FEATURE,
 } from '@spartacus/user/profile/root';
 import { environment } from '../../../../environments/environment';
-import { USE_ONE_TIME_PASSWORD_LOGIN } from '@spartacus/user/account/components';
+
 
 
 @NgModule({
@@ -72,10 +72,6 @@ import { USE_ONE_TIME_PASSWORD_LOGIN } from '@spartacus/user/account/components'
     {
       provide: USE_MY_ACCOUNT_V2_PASSWORD,
       useValue: environment.myAccountV2,
-    },
-    {
-      provide: USE_ONE_TIME_PASSWORD_LOGIN,
-      useValue: environment.otpUserLogin,
     },
     provideConfig(<I18nConfig>{
       i18n: {

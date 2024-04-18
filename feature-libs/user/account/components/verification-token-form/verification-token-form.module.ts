@@ -29,6 +29,7 @@ import { defaultVerificationTokenLayoutConfig } from './default-verification-tok
 import { VerificationTokenDialogComponent } from './verification-token-dialog.component';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { VerificationTokenFormComponent } from './verification-token-form.component';
+import { VerificationTokenFacade } from '../../root/facade';
 
 @NgModule({
   imports: [
@@ -54,7 +55,7 @@ import { VerificationTokenFormComponent } from './verification-token-form.compon
             {
               provide: VerificationTokenFormComponentService,
               useClass: VerificationTokenFormComponentService,
-              deps: [AuthService, GlobalMessageService, WindowRef],
+              deps: [AuthService, GlobalMessageService, VerificationTokenFacade, WindowRef],
             },
           ],
         },

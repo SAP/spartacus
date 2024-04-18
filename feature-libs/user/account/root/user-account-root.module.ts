@@ -23,6 +23,7 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
           'VerifyOTPTokenComponent',
           'ReturningCustomerRegisterComponent',
           'MyAccountViewUserComponent',
+          'ReturningCustomerOTPLoginComponent',
         ],
       },
       // by default core is bundled together with components

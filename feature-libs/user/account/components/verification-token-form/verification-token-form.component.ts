@@ -16,6 +16,7 @@ import {
 import { UntypedFormGroup } from '@angular/forms';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 
 @Component({
@@ -64,7 +65,11 @@ export class VerificationTokenFormComponent implements OnInit {
     this.isResendDisabled = true;
     this.waitTime = 60;
     this.startWaitTimeInterval();
-    this.service.sentOTP(this.target, this.password, 'LOGIN');
+    this.service.sentOTP(
+      this.target,
+      this.password,
+      ONE_TIME_PASSWORD_LOGIN_PURPOSE
+    );
     this.service.displayMessage(this.target);
   }
 
