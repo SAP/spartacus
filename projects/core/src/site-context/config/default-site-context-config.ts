@@ -33,10 +33,10 @@ export function defaultSiteContextConfigFactory(): SiteContextConfig {
         'pa',
       ],
       [CURRENCY_CONTEXT_ID]: [
+        'GBP',
         'USD',
         'EUR',
         'JPY',
-        'GBP',
         'AUD',
         'CAD',
         'CHF',
