@@ -265,7 +265,7 @@ if (environment.requestedDeliveryDate) {
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
-        productConfiguratorAttributeTypesV2: false,
+        productConfiguratorAttributeTypesV2: true,
         a11yRequiredAsterisks: true,
         a11yQuantityOrderTabbing: true,
         a11yNavigationUiKeyboardControls: true,

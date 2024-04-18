@@ -8,6 +8,7 @@
       (click)="activeSlide = activeSlide - size"
       [disabled]="activeSlide === 0"
       [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
+      [attr.title]="'carousel.previousSlide' | cxTranslate"
     >
       <cx-icon [type]="previousIcon"></cx-icon>
     </button>
@@ -43,6 +44,7 @@
       tabindex="-1"
       [disabled]="activeSlide > items.length - size - 1"
       [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
+      [attr.title]="'carousel.nextSlide' | cxTranslate"
     >
       <cx-icon [type]="nextIcon"></cx-icon>
     </button>
@@ -55,6 +57,10 @@
         (click)="activeSlide = i"
         [disabled]="i === activeSlide"
         [attr.aria-label]="
+          'carousel.slideNumber'
+            | cxTranslate: { currentSlideNumber: getSlideNumber(size, i) }
+        "
+        [attr.title]="
           'carousel.slideNumber'
             | cxTranslate: { currentSlideNumber: getSlideNumber(size, i) }
         "
