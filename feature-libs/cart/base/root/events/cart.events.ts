@@ -73,7 +73,7 @@ export class CartAddEntrySuccessEvent extends CartEvent {
   quantityAdded?: number;
   deliveryModeChanged?: boolean;
   numberOfEntriesBeforeAdd?: number;
-  pickupStoreName?: string;
+  pickupStore?: string;
 }
 
 export class CartAddEntryFailEvent extends CartEvent {
