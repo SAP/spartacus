@@ -10,11 +10,13 @@ import {
   ComponentRef,
   Injectable,
   Injector,
+  inject,
 } from '@angular/core';
 import {
   EventType,
   NavigationEnd,
   NavigationSkipped,
+  ROUTER_CONFIGURATION,
   Router,
   Scroll,
 } from '@angular/router';
@@ -26,6 +28,9 @@ import { OnNavigateConfig } from './config';
   providedIn: 'root',
 })
 export class OnNavigateService {
+  protected readonly routerConfiguration =
+    inject(ROUTER_CONFIGURATION, { optional: true }) || {};
+
   protected subscription: Subscription;
 
   get hostComponent(): ComponentRef<any> {
@@ -106,10 +111,7 @@ export class OnNavigateService {
       anchor: string | null,
       scrollPosition: [number, number]
     ) => {
-      if (
-        anchor &&
-        (this.router as any).options?.anchorScrolling === 'enabled'
-      ) {
+      if (anchor && this.routerConfiguration.anchorScrolling === 'enabled') {
         this.viewportScroller.scrollToAnchor(anchor);
       } else {
         this.viewportScroller.scrollToPosition(scrollPosition);
