@@ -77,7 +77,9 @@ function _addFeatureToggles(sourceFile: SourceFile): void {
  * Returns a provider for all existing feature toggles with value `true`.
  */
 function createFeatureTogglesProvider(): string {
-  const { defaultFeatureToggles } = require('../feature-toggles.copy');
+  const {
+    defaultFeatureToggles,
+  } = require('../feature-toggles.copied-from-core-lib');
 
   //for each key in `defaultFeatureToggles` map it to a key with value true
   const featureTogglesAllEnabled: Record<string, boolean> = Object.keys(

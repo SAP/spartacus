@@ -19,4 +19,4 @@ yarn-error.log*
 .DS_Store
 
 # FeatureToggles
-src/feature-toggles.copy.ts
+src/feature-toggles.copied-from-core-lib.ts
