@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/assets",
-  "version": "2211.21.0",
+  "version": "2211.23.0-1",
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/assets",
   "scripts": {
