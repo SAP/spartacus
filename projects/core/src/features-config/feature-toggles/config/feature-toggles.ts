@@ -31,6 +31,19 @@ export interface FeatureTogglesInterface {
    */
   storeFrontLibCardParagraphTruncated?: boolean;
 
+  /**
+   * In `ConfiguratorShowMoreComponent` the content of this component will be rendered and displayed accordingly
+   * if the `productConfiguratorAttributeTypesV2` feature toggle is `true`, otherwise no content will be rendered.
+   *
+   * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
+   * and finally in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
+   * to render read-only attribute with images and a long description at the value level accordingly.
+   *
+   * In `cx-configurator-price`, `cx-configurator-show-more`,`cx-configurator-attribute-drop-down`,
+   * cx-configurator-attribute-selection-image`, `cx-configurator-attribute-single-selection-bundle-dropdown`,
+   * `cx-configurator-attribute-type`and finally `cx-configurator-form-group` some styling changes were done
+   * to render read-only attribute with images and a long description at the value level accordingly.
+   */
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
