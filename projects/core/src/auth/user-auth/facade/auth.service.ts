@@ -118,12 +118,9 @@ export class AuthService {
     tokenId: string,
     tokenCode: string
   ): Promise<void> {
-    debugger;
-    let uid = tokenId;
-
     try {
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
-        uid,
+        tokenId,
         tokenCode
       );
 
@@ -132,6 +129,7 @@ export class AuthService {
 
       this.store.dispatch(new AuthActions.Login());
 
+      debugger;
       this.authRedirectService.redirect();
     } catch {}
   }
