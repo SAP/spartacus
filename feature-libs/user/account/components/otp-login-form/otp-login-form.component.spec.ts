@@ -1,15 +1,12 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  ReactiveFormsModule,
-  UntypedFormControl,
-  UntypedFormGroup,
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   GlobalMessageService,
   I18nTestingModule,
+  RoutingService,
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
@@ -19,21 +16,13 @@ import {
   VerificationToken,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
 import createSpy = jasmine.createSpy;
 
-const isBusySubject = new BehaviorSubject(false);
-
-const formGroup: UntypedFormGroup = new UntypedFormGroup({
-  userId: new UntypedFormControl(),
-  password: new UntypedFormControl(),
-});
-const isUpdating$ = isBusySubject;
-
-const form: LoginForm = {
+const loginForm: LoginForm = {
   purpose: 'LOGIN',
-  loginId: 'mockEmail',
+  loginId: 'test@email.com',
   password: '1234',
 };
 
@@ -59,6 +48,10 @@ class MockVerificationTokenService
 class MockGlobalMessageService {
   add = createSpy().and.stub();
   remove = createSpy().and.stub();
+}
+
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
 }
 
 @Pipe({
@@ -93,6 +86,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
           },
           { provide: WindowRef, useClass: MockWinRef },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: RoutingService, useClass: MockRoutingService },
         ],
       }).compileComponents();
     })
@@ -101,7 +95,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
   beforeEach(() => {
     winRef = TestBed.inject(WindowRef);
     fixture = TestBed.createComponent(OneTimePasswordLoginFormComponent);
-    service = TestBed.inject(VerificationTokenService);
+    service = TestBed.inject(VerificationTokenFacade);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -112,41 +106,42 @@ describe('OneTimePasswordLoginFormComponent', () => {
   });
 
   describe('login', () => {
-    const userId = 'test@email.com';
-    const password = 'secret';
-
     it('should not patch user id', () => {
-      isUpdating$.subscribe().unsubscribe();
-      expect(form.value.userId).toEqual('');
+      component.isUpdating$.subscribe().unsubscribe();
+      expect(component.form.value.userId).toEqual('');
     });
 
     it('should patch user id', () => {
       spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
-        history: { state: { newUid: 'test.user@shop.com' } },
+        history: { state: { newUid: loginForm.loginId } },
       } as Window);
-      isUpdating$.subscribe().unsubscribe();
-      expect(formGroup.value.userId).toEqual('test.user@shop.com');
+      component.isUpdating$.subscribe().unsubscribe();
+      expect(component.form.value.userId).toEqual(loginForm.loginId);
     });
 
     describe('success', () => {
+      beforeEach(() => {
+        component.form.setValue({
+          userId: loginForm.loginId,
+          password: loginForm.password,
+        });
+      });
+
       it('should request email', () => {
         component.onSubmit();
-        expect(service.createVerificationToken).toHaveBeenCalledWith(
-          userId,
-          password
-        );
+        expect(service.createVerificationToken).toHaveBeenCalledWith(loginForm);
       });
 
       it('should reset the form', () => {
-        spyOn(formGroup, 'reset').and.stub();
-        service.createVerificationToken(form);
-        expect(formGroup.reset).toHaveBeenCalled();
+        spyOn(component.form, 'reset').and.stub();
+        component.onSubmit();
+        expect(component.form.reset).toHaveBeenCalled();
       });
     });
 
     describe('error', () => {
       beforeEach(() => {
-        formGroup.setValue({
+        component.form.setValue({
           userId: 'invalid',
           password: '123',
         });
@@ -158,9 +153,9 @@ describe('OneTimePasswordLoginFormComponent', () => {
       });
 
       it('should not reset the form', () => {
-        spyOn(formGroup, 'reset').and.stub();
+        spyOn(component.form, 'reset').and.stub();
         component.onSubmit();
-        expect(formGroup.reset).not.toHaveBeenCalled();
+        expect(component.form.reset).not.toHaveBeenCalled();
       });
     });
   });
@@ -176,7 +171,8 @@ describe('OneTimePasswordLoginFormComponent', () => {
     });
 
     it('should show the spinner', () => {
-      isBusySubject.next(true);
+      // @ts-ignore
+      component.busy$.next(true);
       fixture.detectChanges();
       expect(el.query(By.css('cx-spinner'))).toBeTruthy();
     });
@@ -191,7 +187,8 @@ describe('OneTimePasswordLoginFormComponent', () => {
     });
 
     it('should not show the spinner', () => {
-      isBusySubject.next(false);
+      // @ts-ignore
+      component.isUpdating$.next(false);
       fixture.detectChanges();
       expect(el.query(By.css('cx-spinner'))).toBeNull();
     });
@@ -206,6 +203,10 @@ describe('OneTimePasswordLoginFormComponent', () => {
     });
 
     it('should call the service method on submit', () => {
+      component.form.setValue({
+        userId: loginForm.loginId,
+        password: loginForm.password,
+      });
       component.onSubmit();
       expect(service.createVerificationToken).toHaveBeenCalled();
     });

@@ -75,24 +75,7 @@ export class OneTimePasswordLoginFormComponent {
         this.goToVerificationTokenForm(result, loginForm),
       error: (error: HttpErrorModel) =>
         this.onCreateVerificationTokenFail(error),
-      complete: () => this.busy$.next(false),
-    });
-  }
-
-  protected onCreateVerificationTokenFail(error: HttpErrorModel): void {
-    this.busy$.next(false);
-    const errorDetails = error.details ?? [];
-    if (errorDetails.length === 0) {
-      this.globalMessage.add(
-        { key: 'httpHandlers.unknownError' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    }
-    errorDetails.forEach((err) => {
-      this.globalMessage.add(
-        { raw: err.message },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
+      complete: () => this.onCreateVerificationTokenComplete(),
     });
   }
 
@@ -112,6 +95,28 @@ export class OneTimePasswordLoginFormComponent {
         },
       }
     );
+  }
+
+  protected onCreateVerificationTokenFail(error: HttpErrorModel): void {
+    this.busy$.next(false);
+    const errorDetails = error.details ?? [];
+    if (errorDetails.length === 0) {
+      this.globalMessage.add(
+        { key: 'httpHandlers.unknownError' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
+    errorDetails.forEach((err) => {
+      this.globalMessage.add(
+        { raw: err.message },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    });
+  }
+
+  protected onCreateVerificationTokenComplete(): void {
+    this.form.reset();
+    this.busy$.next(false);
   }
 
   protected collectDataFromLoginForm(): LoginForm {

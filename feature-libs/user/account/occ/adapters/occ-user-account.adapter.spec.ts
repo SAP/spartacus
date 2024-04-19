@@ -63,7 +63,7 @@ const user: User = {
 
 const form: LoginForm = {
   purpose: 'LOGIN',
-  loginId: 'mockEmail',
+  loginId: 'test@email.com',
   password: password,
 };
 
@@ -147,10 +147,7 @@ describe('OccUserAccountAdapter', () => {
       });
 
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-        'createVerificationToken',
-        {
-          state: { form },
-        }
+        'createVerificationToken'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

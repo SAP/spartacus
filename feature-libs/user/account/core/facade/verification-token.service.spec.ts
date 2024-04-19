@@ -10,7 +10,7 @@ import createSpy = jasmine.createSpy;
 
 const form: LoginForm = {
   purpose: 'LOGIN',
-  loginId: 'mockEmail',
+  loginId: 'test@email.com',
   password: '1234',
 };
 
