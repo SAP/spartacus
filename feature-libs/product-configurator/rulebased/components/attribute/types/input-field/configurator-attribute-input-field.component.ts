@@ -61,16 +61,7 @@ export class ConfiguratorAttributeInputFieldComponent
     this.ownerKey = attributeComponentContext.owner.key;
     this.ownerType = attributeComponentContext.owner.type;
 
-    this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
-      .isCartEntryOrGroupVisited(this.owner, this.group)
-      .pipe(
-        map((result) =>
-          result
-            ? this.isRequiredErrorMsg(this.attribute) &&
-              this.isUserInput(this.attribute)
-            : false
-        )
-      );
+    this.compileShowRequiredErrorMessage();
   }
 
   ngOnInit() {
@@ -84,14 +75,7 @@ export class ConfiguratorAttributeInputFieldComponent
       this.attributeInputForm.markAsTouched();
     }
     this.sub = this.attributeInputForm.valueChanges
-      .pipe(
-        debounce(() =>
-          timer(
-            this.config.productConfigurator?.updateDebounceTime?.input ??
-              this.FALLBACK_DEBOUNCE_TIME
-          )
-        )
-      )
+      .pipe(debounce(() => timer(this.calculateDebounceTime())))
       .subscribe(() => this.onChange());
   }
 
@@ -134,5 +118,25 @@ export class ConfiguratorAttributeInputFieldComponent
     return this.isUserInput(this.attribute)
       ? this.attribute.required ?? false
       : false;
+  }
+
+  protected compileShowRequiredErrorMessage(): void {
+    this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
+      .isCartEntryOrGroupVisited(this.owner, this.group)
+      .pipe(
+        map((result) =>
+          result
+            ? this.isRequiredErrorMsg(this.attribute) &&
+              this.isUserInput(this.attribute)
+            : false
+        )
+      );
+  }
+
+  protected calculateDebounceTime(): number {
+    return (
+      this.config.productConfigurator?.updateDebounceTime?.input ??
+      this.FALLBACK_DEBOUNCE_TIME
+    );
   }
 }

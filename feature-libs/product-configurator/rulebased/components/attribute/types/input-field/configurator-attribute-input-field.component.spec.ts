@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -31,10 +32,10 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
-const isCartEntryOrGroupVisited = true;
+let isCartEntryOrGroupVisited = of(true);
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
+    return isCartEntryOrGroupVisited;
   }
 }
 
@@ -42,7 +43,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
   let component: ConfiguratorAttributeInputFieldComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeInputFieldComponent>;
   let htmlElem: HTMLElement;
-  let DEBOUNCE_TIME: number;
+  let DEBOUNCE_TIME: number = 600;
   const ownerKey = 'theOwnerKey';
   const name = 'attributeName';
   const groupId = 'theGroupId';
@@ -106,9 +107,13 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     component.ownerType = CommonConfigurator.OwnerType.CART_ENTRY;
     component.ownerKey = ownerKey;
     fixture.detectChanges();
-    DEBOUNCE_TIME =
-      defaultConfiguratorUISettingsConfig.productConfigurator
-        ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
+
+    defaultConfiguratorUISettingsConfig.productConfigurator = {
+      updateDebounceTime: {
+        input: DEBOUNCE_TIME,
+      },
+    };
+
     spyOn(
       component['configuratorCommonsService'],
       'updateConfiguration'
@@ -315,6 +320,30 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     it('should return true if there is no user input', () => {
       component.attribute.userInput = undefined;
       expect(component.isUserInputEmpty).toBe(true);
+    });
+  });
+
+  describe('compileShowRequiredErrorMessage', () => {
+    it('should create observable that emits false in case configuration is in initial state', () => {
+      const falseEmittingObs = cold('a', { a: false });
+      isCartEntryOrGroupVisited = falseEmittingObs;
+      component['compileShowRequiredErrorMessage']();
+      expect(component.showRequiredErrorMessage$).toBeObservable(
+        falseEmittingObs
+      );
+    });
+  });
+
+  describe('calculateDebounceTime', () => {
+    it('should return debounce time from configuration if available', () => {
+      expect(component['calculateDebounceTime']()).toBe(DEBOUNCE_TIME);
+    });
+
+    it('should return fallback if nothing available in configuration', () => {
+      component['config'].productConfigurator = {};
+      expect(component['calculateDebounceTime']()).toBe(
+        component['FALLBACK_DEBOUNCE_TIME']
+      );
     });
   });
 });
