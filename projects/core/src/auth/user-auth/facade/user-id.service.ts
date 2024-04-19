@@ -30,7 +30,7 @@ export class UserIdService {
    * @param userId
    */
   public setUserId(userId: string): void {
-    console.log('UserIdService setUserId', userId);
+    console.log('[UserIdService] setUserId', userId);
     (this._userId as ReplaySubject<string>).next(userId);
   }
 
@@ -45,6 +45,7 @@ export class UserIdService {
    * asm customer emulation session, the userId will be the customerId.
    */
   public getUserId(): Observable<string> {
+    console.log('[UserIdService] getUserId');
     return this._userId;
   }
 

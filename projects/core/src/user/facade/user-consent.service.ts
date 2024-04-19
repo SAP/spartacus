@@ -48,7 +48,9 @@ export class UserConsentService {
    * Retrieves all consents.
    */
   loadConsents(): void {
+    console.log('[UserConsentService] Loading consents');
     this.userIdService.takeUserId().subscribe((userId) => {
+      console.log('[UserConsentService] Loading consents userId=' + userId);
       this.store.dispatch(new UserActions.LoadUserConsents(userId));
     });
   }
@@ -58,6 +60,9 @@ export class UserConsentService {
    * @param loadIfMissing is set to `true`, the method will load templates if those are not already present. The default value is `false`.
    */
   getConsents(loadIfMissing = false): Observable<ConsentTemplate[]> {
+    console.log(
+      '[UserConsentService] getConsents loadIfMissing=' + loadIfMissing
+    );
     return iif(
       () => loadIfMissing,
       (<Store<StateWithUser>>this.store).pipe(
@@ -143,13 +148,14 @@ export class UserConsentService {
     ]).pipe(
       tap((result) => {
         console.log(
-          '[UserConsentService] getConsent: result = ' + JSON.stringify(result)
+          '[UserConsentService] getConsent: tap result = ' +
+            JSON.stringify(result)
         );
       }),
       filter(
         ([loggedIn, userId]) => loggedIn && userId === OCC_USER_ID_CURRENT
       ),
-      switchMap(() => this.getConsents(true)),
+      switchMap(() => this.getConsents(false)),
       take(1),
       switchMap(() =>
         (<Store<StateWithUser>>this.store).pipe(

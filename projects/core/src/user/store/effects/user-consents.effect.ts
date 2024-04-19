@@ -7,7 +7,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, concatMap, map } from 'rxjs/operators';
+import { catchError, concatMap, map, tap } from 'rxjs/operators';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { LoggerService } from '../../../logger';
@@ -34,6 +34,11 @@ export class UserConsentsEffect {
       map((action: UserActions.LoadUserConsents) => action.payload),
       concatMap((userId) =>
         this.userConsentConnector.loadConsents(userId).pipe(
+          tap((consents) => {
+            console.log(
+              '[UserConsentsEffect] getConsents$: ' + JSON.stringify(consents)
+            );
+          }),
           map((consents) => new UserActions.LoadUserConsentsSuccess(consents)),
           catchError((error) =>
             of(

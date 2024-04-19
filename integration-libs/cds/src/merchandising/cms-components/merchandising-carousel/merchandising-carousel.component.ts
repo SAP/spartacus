@@ -39,7 +39,7 @@ export class MerchandisingCarouselComponent {
   ) {
     this.lastEventModelId = '';
   }
-
+  disabled = true;
   /**
    * returns an Observable string for the title.
    */
