@@ -13,9 +13,7 @@ import { featureSchematicConfigMapping } from '../schematics-config-mappings';
 export function getConfiguredDependencies(feature: string): string[] {
   const featureConfig = featureSchematicConfigMapping.get(feature);
   if (!featureConfig) {
-    throw new SchematicsException(
-      `Fuck No feature config found for ${feature}.`
-    );
+    throw new SchematicsException(`No feature config found for ${feature}.`);
   }
 
   return featureConfig.dependencyFeatures ?? [];
