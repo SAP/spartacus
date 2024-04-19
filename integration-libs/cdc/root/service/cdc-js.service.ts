@@ -34,7 +34,7 @@ import {
   Subscription,
   throwError,
 } from 'rxjs';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcConsentsLocalStorageService } from '../consent-management';
 import { CdcSiteConsentTemplate } from '../consent-management/model/index';
@@ -845,6 +845,14 @@ export class CdcJsService implements OnDestroy {
   protected logoutUser() {
     this.auth.logout();
     this.invokeAPI('accounts.logout', {});
+  }
+
+  verifySession(): Observable<{ errorCode: number; errorMessage: string }> {
+    return this.invokeAPI('accounts.session.verify', {}).pipe(
+      catchError((error) => {
+        return of(error);
+      })
+    );
   }
 
   ngOnDestroy(): void {
