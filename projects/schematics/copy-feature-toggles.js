@@ -4,7 +4,7 @@ const fs = require('fs');
  * This script copies the feature-toggles.ts file from the Spartacus core project to schematics project.
  * 
  * Usage:
- * - Copy the file: `node clone-feature-toggles.ts copy`
+ * `node copy-feature-toggles.ts copy`
  */
 
 const SOURCE =
