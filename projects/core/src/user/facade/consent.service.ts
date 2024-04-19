@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { merge, Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { AnonymousConsentsService } from '../../anonymous-consents/index';
 import { AnonymousConsent, Consent } from '../../model/index';
 import { UserConsentService } from './user-consent.service';
@@ -28,9 +28,25 @@ export class ConsentService {
   getConsent(
     templateCode: string
   ): Observable<AnonymousConsent | Consent | undefined> {
+    console.log('[ConsentService] getConsent: templateCode=' + templateCode);
     return merge(
-      this.userConsentService.getConsent(templateCode),
-      this.anonymousConsentsService.getConsent(templateCode)
+      this.userConsentService
+        .getConsent(templateCode)
+        .pipe(
+          tap((result) =>
+            console.log('[ConsentService] get user Consent result: ', result)
+          )
+        ),
+      this.anonymousConsentsService
+        .getConsent(templateCode)
+        .pipe(
+          tap((result) =>
+            console.log(
+              '[ConsentService] get anonymous Consent result: ',
+              result
+            )
+          )
+        )
     );
   }
 
@@ -41,6 +57,9 @@ export class ConsentService {
    * @param templateId of a template which's consent should be checked
    */
   checkConsentGivenByTemplateId(templateId: string): Observable<boolean> {
+    console.log(
+      '[ConsentService] checkConsentGivenByTemplateId templateId=' + templateId
+    );
     return this.getConsent(templateId).pipe(
       map((consent) => {
         if (!consent) {
@@ -62,6 +81,10 @@ export class ConsentService {
    * @param templateId of a template which's consent should be checked
    */
   checkConsentWithdrawnByTemplateId(templateId: string): Observable<boolean> {
+    console.log(
+      '[ConsentService] checkConsentWithdrawnByTemplateId templateId=' +
+        templateId
+    );
     return this.getConsent(templateId).pipe(
       map((consent) => {
         if (!consent) {

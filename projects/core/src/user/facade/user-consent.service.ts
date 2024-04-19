@@ -135,10 +135,17 @@ export class UserConsentService {
 
     // NOTE: This is a temporary solution and the issue should be solved in the roots.
     // Here is the ticket to track the issue: https://jira.tools.sap/browse/CXSPA-2988
+
+    console.log('[UserConsentService] getConsent templateId= ' + templateId);
     return combineLatest([
       this.authService.isUserLoggedIn(),
       this.userIdService.getUserId(),
     ]).pipe(
+      tap((result) => {
+        console.log(
+          '[UserConsentService] getConsent: result = ' + JSON.stringify(result)
+        );
+      }),
       filter(
         ([loggedIn, userId]) => loggedIn && userId === OCC_USER_ID_CURRENT
       ),

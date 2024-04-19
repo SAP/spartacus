@@ -30,6 +30,7 @@ export class UserIdService {
    * @param userId
    */
   public setUserId(userId: string): void {
+    console.log('UserIdService setUserId', userId);
     (this._userId as ReplaySubject<string>).next(userId);
   }
 
