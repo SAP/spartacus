@@ -46,15 +46,17 @@ export class VerificationTokenFormComponent implements OnInit {
 
   password: string;
 
-  waitTime: int = 60;
+  waitTime: number = 60;
 
   isResendDisabled: boolean = true;
 
   ngOnInit() {
-    this.tokenId = history.state['tokenId'];
-    this.password = history.state['password'];
-    this.target = history.state['loginId'];
-    this.startWaitTimeInterval();
+    if (!!history.state) {
+      this.tokenId = history.state['tokenId'];
+      this.password = history.state['password'];
+      this.target = history.state['loginId'];
+      this.startWaitTimeInterval();
+    }
   }
 
   onSubmit(): void {

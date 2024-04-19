@@ -14,7 +14,6 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
-  WindowRef,
 } from '@spartacus/core';
 import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, from } from 'rxjs';
@@ -25,8 +24,7 @@ export class VerificationTokenFormComponentService {
   constructor(
     protected auth: AuthService,
     protected globalMessage: GlobalMessageService,
-    protected verificationTokenFacade: VerificationTokenFacade,
-    protected winRef: WindowRef
+    protected verificationTokenFacade: VerificationTokenFacade
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
