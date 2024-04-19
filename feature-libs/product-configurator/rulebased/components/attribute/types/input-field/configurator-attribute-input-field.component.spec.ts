@@ -38,12 +38,12 @@ class MockConfigUtilsService {
     return isCartEntryOrGroupVisited;
   }
 }
+const DEBOUNCE_TIME: number = 600;
 
 describe('ConfiguratorAttributeInputFieldComponent', () => {
   let component: ConfiguratorAttributeInputFieldComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeInputFieldComponent>;
   let htmlElem: HTMLElement;
-  let DEBOUNCE_TIME: number = 600;
   const ownerKey = 'theOwnerKey';
   const name = 'attributeName';
   const groupId = 'theGroupId';
