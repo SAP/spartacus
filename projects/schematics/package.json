@@ -11,9 +11,9 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && npm run clone-feature-toggles:copy && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json && npm run feature-toggles:clean",
+    "build": "npm run clean && npm run clone-feature-toggles:copy && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json && npm run feature-toggles:remove",
     "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
-    "test": "npm run clean && npm run clone-feature-toggles:copy && ../../node_modules/.bin/jest --config ./jest.schematics.config.js && npm run feature-toggles:clean",
+    "test": "npm run clean && npm run clone-feature-toggles:copy && ../../node_modules/.bin/jest --config ./jest.schematics.config.js && npm run feature-toggles:remove",
     "clone-feature-toggles:copy": "node clone-feature-toggles copy",
     "clone-feature-toggles:remove": "node clone-feature-toggles remove"
   },
