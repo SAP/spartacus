@@ -14,7 +14,6 @@ import { ConfiguratorAttributeFooterModule } from '../attribute/footer/configura
 import { ConfiguratorAttributeHeaderModule } from '../attribute/header/configurator-attribute-header.module';
 import { ConfiguratorAttributeCheckboxListModule } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.module';
 import { ConfiguratorAttributeCheckboxModule } from '../attribute/types/checkbox/configurator-attribute-checkbox.module';
-import { ConfiguratorAttributeDateInputFieldModule } from '../attribute/types/date-input-field/configurator-attribute-date-input-field.module';
 import { ConfiguratorAttributeDropDownModule } from '../attribute/types/drop-down/configurator-attribute-drop-down.module';
 import { ConfiguratorAttributeInputFieldModule } from '../attribute/types/input-field/configurator-attribute-input-field.module';
 import { ConfiguratorAttributeMultiSelectionBundleModule } from '../attribute/types/multi-selection-bundle/configurator-attribute-multi-selection-bundle.module';
@@ -38,7 +37,6 @@ import { ConfiguratorGroupComponent } from './configurator-group.component';
     I18nModule,
     NgSelectModule,
     ConfiguratorAttributeNotSupportedModule,
-    ConfiguratorAttributeDateInputFieldModule,
     ConfiguratorAttributeInputFieldModule,
     ConfiguratorAttributeFooterModule,
     ConfiguratorAttributeNumericInputFieldModule,

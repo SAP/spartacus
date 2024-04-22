@@ -346,4 +346,15 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
       );
     });
   });
+
+  describe('inputType', () => {
+    it('should return "text" for UI type string', () => {
+      expect(component.inputType).toBe('text');
+    });
+
+    it('should return "date" for UI type sap_date', () => {
+      component.attribute.uiType = Configurator.UiType.SAP_DATE;
+      expect(component.inputType).toBe('date');
+    });
+  });
 });

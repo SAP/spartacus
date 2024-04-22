@@ -2,6 +2,7 @@
   <input
     [formControl]="attributeInputForm"
     class="form-control"
+    type="{{ inputType }}"
     [ngClass]="{
       'cx-required-error-msg ': (showRequiredErrorMessage$ | async)
     }"

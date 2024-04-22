@@ -25,6 +25,7 @@ import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribu
       productConfigurator: {
         assignment: {
           AttributeType_string: ConfiguratorAttributeInputFieldComponent,
+          AttributeType_sap_date: ConfiguratorAttributeInputFieldComponent,
         },
       },
     }),

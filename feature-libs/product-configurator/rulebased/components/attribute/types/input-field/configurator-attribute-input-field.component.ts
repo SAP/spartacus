@@ -119,6 +119,14 @@ export class ConfiguratorAttributeInputFieldComponent
       ? this.attribute.required ?? false
       : false;
   }
+  /**
+   * Returns the type for the input field. Depending on the UI type, that is text or date.
+   */
+  get inputType(): string {
+    return this.attribute.uiType === Configurator.UiType.SAP_DATE
+      ? 'date'
+      : 'text';
+  }
 
   protected compileShowRequiredErrorMessage(): void {
     this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
