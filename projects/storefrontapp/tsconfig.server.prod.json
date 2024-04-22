@@ -412,6 +412,7 @@
         "../../dist/epd-visualization/root"
       ],
       "@spartacus/opps/coupon-codes": ["../../dist/opps/coupon-codes"],
+      "@spartacus/opps/login-required": ["../../dist/opps/login-required"],
       "@spartacus/opps": ["../../dist/opps"],
       "@spartacus/s4om/assets": ["../../dist/s4om/assets"],
       "@spartacus/s4om": ["../../dist/s4om"],

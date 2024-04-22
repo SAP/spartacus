@@ -13,11 +13,7 @@ import {
 import { Injectable, inject, isDevMode } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoggerService, OccEndpointsService, WindowRef } from '@spartacus/core';
-import { OppsConfig } from '../config/opps-config';
-import {
-  OPPS_COUPON_LOCAL_STORAGE_KEY,
-  OPPS_COUPON_URL_QUERY_PARAM,
-} from '../config';
+import { OppsConfig } from '../../config';
 
 @Injectable({ providedIn: 'root' })
 export class OccOppsCouponInterceptor implements HttpInterceptor {
@@ -39,18 +35,16 @@ export class OccOppsCouponInterceptor implements HttpInterceptor {
    * browser local storage
    */
   protected initialize() {
+    const URL_PARAM = this.config.opps?.couponcodes?.urlParameter ?? '';
+    const LOCAL_STORAGE_KEY =
+      this.config.opps?.couponcodes?.localStorageKey ?? '';
     const url = this.winRef.location.href ?? '';
     const queryParams = new URLSearchParams(url.substring(url.indexOf('?')));
-    this.oppsCoupon = queryParams.get(OPPS_COUPON_URL_QUERY_PARAM);
+    this.oppsCoupon = queryParams.get(URL_PARAM);
     if (this.oppsCoupon) {
-      this.winRef.localStorage?.setItem(
-        OPPS_COUPON_LOCAL_STORAGE_KEY,
-        this.oppsCoupon
-      );
+      this.winRef.localStorage?.setItem(LOCAL_STORAGE_KEY, this.oppsCoupon);
     } else {
-      this.oppsCoupon = this.winRef.localStorage?.getItem(
-        OPPS_COUPON_LOCAL_STORAGE_KEY
-      );
+      this.oppsCoupon = this.winRef.localStorage?.getItem(LOCAL_STORAGE_KEY);
     }
     if (this.winRef.isBrowser()) {
       if (!this.config.opps?.couponcodes?.httpHeaderName && isDevMode()) {

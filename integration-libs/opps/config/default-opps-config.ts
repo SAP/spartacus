@@ -10,6 +10,11 @@ export const defaultOppsConfig: OppsConfig = {
   opps: {
     couponcodes: {
       httpHeaderName: 'couponcodes',
+      urlParameter: 'couponcodes',
+      localStorageKey: 'opps-couponcodes',
+    },
+    loginRequired: {
+      urlParameter: 'loginRequired',
     },
   },
 };

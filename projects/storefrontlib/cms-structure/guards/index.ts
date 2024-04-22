@@ -6,3 +6,4 @@
 
 export * from './cms-page.guard';
 export * from './cms-page-guard.service';
+export * from './cms-page-guard.provider';

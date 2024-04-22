@@ -5,5 +5,4 @@
  */
 
 export * from './opps-coupon-codes.module';
-export * from './config/index';
 export * from './http-interceptors/index';

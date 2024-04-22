@@ -8,3 +8,5 @@
  * Public API Surface of opps
  */
 export * from './coupon-codes/public_api';
+export * from './config/index';
+export * from './login-required/public_api';

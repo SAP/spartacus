@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
@@ -18,6 +18,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { filter, first, switchMap, take } from 'rxjs/operators';
 import { CmsPageGuardService } from './cms-page-guard.service';
+import { MultiCmsPageGuardService } from './multi-cms-page-guard.service';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +34,8 @@ export class CmsPageGuard {
     protected routingConfig: RoutingConfigService
   ) {}
 
+  protected multiGuard = inject(MultiCmsPageGuardService);
+
   /**
    * Tries to load the CMS page data for the anticipated route and returns:
    * - `true` - if it can be activated
@@ -45,6 +48,21 @@ export class CmsPageGuard {
    * For more, see docs of the `CmsPageGuardService.canActivatePage`.
    */
   canActivate(
+    route: CmsActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> {
+    return this.multiGuard.canActivate(route, state).pipe(
+      switchMap((result) => {
+        if (result === true) {
+          return this.coreCanActivate(route, state);
+        } else {
+          return of(result);
+        }
+      })
+    );
+  }
+
+  coreCanActivate(
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {

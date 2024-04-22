@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import { OppsConfig } from '../config/opps-config';
+import { OppsConfig } from '../config/opps-coupon-codes-config';
 import { OccOppsCouponInterceptor } from './occ-opps-coupon.interceptor';
 
 const url =

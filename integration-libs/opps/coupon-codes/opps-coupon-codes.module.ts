@@ -6,8 +6,8 @@
 
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { defaultOppsConfig } from './config/default-opps-config';
 import { oppsInterceptors } from './http-interceptors';
+import { defaultOppsConfig } from '../config';
 
 @NgModule({
   declarations: [],

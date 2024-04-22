@@ -660,6 +660,9 @@
       "@spartacus/opps/coupon-codes": [
         "integration-libs/opps/coupon-codes/public_api"
       ],
+      "@spartacus/opps/login-required": [
+        "integration-libs/opps/login-required/public_api"
+      ],
       "@spartacus/opps": [
         "integration-libs/opps/public_api"
       ],

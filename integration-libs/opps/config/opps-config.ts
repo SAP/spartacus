@@ -15,6 +15,11 @@ export abstract class OppsConfig {
   opps?: {
     couponcodes?: {
       httpHeaderName?: string;
+      urlParameter?: string;
+      localStorageKey?: string;
+    };
+    loginRequired?: {
+      urlParameter?: string;
     };
   };
 }
