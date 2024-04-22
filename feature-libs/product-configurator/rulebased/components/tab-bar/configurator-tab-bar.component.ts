@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
+  CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
@@ -96,13 +97,16 @@ export class ConfiguratorTabBarComponent {
    */
   navigateToOverview(routerData: ConfiguratorRouter.Data) {
     this.routingService
-      .go({
-        cxRoute: 'configureOverview' + routerData.owner.configuratorType,
-        params: {
-          entityKey: routerData.owner.id,
-          ownerType: routerData.owner.type,
+      .go(
+        {
+          cxRoute: 'configureOverview' + routerData.owner.configuratorType,
+          params: {
+            entityKey: routerData.owner.id,
+            ownerType: routerData.owner.type,
+          },
         },
-      })
+        { queryParams: { productCode: this.getProductCode(routerData) } }
+      )
       .then(() => {
         this.focusOverviewInTabBar();
       });
@@ -115,16 +119,30 @@ export class ConfiguratorTabBarComponent {
    */
   navigateToConfiguration(routerData: ConfiguratorRouter.Data) {
     this.routingService
-      .go({
-        cxRoute: 'configure' + routerData.owner.configuratorType,
-        params: {
-          entityKey: routerData.owner.id,
-          ownerType: routerData.owner.type,
+      .go(
+        {
+          cxRoute: 'configure' + routerData.owner.configuratorType,
+          params: {
+            entityKey: routerData.owner.id,
+            ownerType: routerData.owner.type,
+          },
         },
-      })
+        { queryParams: { productCode: this.getProductCode(routerData) } }
+      )
       .then(() => {
         this.focusConfigurationInTabBar();
       });
+  }
+
+  getProductCode(routerData: ConfiguratorRouter.Data): string {
+    switch (routerData.owner.type) {
+      case CommonConfigurator.OwnerType.CART_ENTRY:
+        return routerData.productCode
+          ? routerData.productCode
+          : routerData.owner.id;
+      default:
+        return routerData.owner.id;
+    }
   }
 
   protected focusOverviewInTabBar(): void {

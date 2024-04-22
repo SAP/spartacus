@@ -45,12 +45,12 @@ export class ConfiguratorProductTitleComponent {
         .pipe(
           map((container) => {
             switch (container.configuration.owner.type) {
-              case CommonConfigurator.OwnerType.PRODUCT:
-                return container.configuration.owner.id;
               case CommonConfigurator.OwnerType.CART_ENTRY:
-                return container.routerData.productCode;
               case CommonConfigurator.OwnerType.ORDER_ENTRY:
-                return container.configuration.overview?.productCode;
+              case CommonConfigurator.OwnerType.SAVED_CART_ENTRY:
+                return container.routerData.productCode;
+              default:
+                return container.configuration.owner.id;
             }
           }),
           switchMap((productCode) =>
