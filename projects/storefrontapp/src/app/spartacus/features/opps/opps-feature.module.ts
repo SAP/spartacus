@@ -6,8 +6,9 @@
 
 import { NgModule } from '@angular/core';
 import { OppsCouponCodesModule } from '@spartacus/opps';
+import { OppsLoginRequiredModule } from 'integration-libs/opps/login-required/opps-login-required.module';
 
 @NgModule({
-  imports: [OppsCouponCodesModule],
+  imports: [OppsCouponCodesModule, OppsLoginRequiredModule],
 })
 export class OppsFeatureModule {}
