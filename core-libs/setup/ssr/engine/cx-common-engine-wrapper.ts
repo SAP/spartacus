@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { StaticProvider } from '@angular/core';
 import { CommonEngine } from '@angular/ssr';
 import { CxServerErrorResponse } from '../error-handling/server-error-response';
