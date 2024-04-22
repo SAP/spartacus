@@ -79,18 +79,34 @@ export class ConfigureProductComponent {
 
   /**
    * Verifies whether a configurator type of a product contains a read-only postfix and
-   * a base product is either undefined or empty.
+   * a product is a base product.
    *
-   * @param configuratorType - configurator type
-   * @param baseProduct - base product
+   * @param product - product
    * @returns - If the configurator type contains a read-only postfix and
-   * a base product is either undefined or empty then true will be returned, otherwise false.
+   * a product is a base product then returns true, otherwise false.
    */
-  isReadOnlyBaseProduct(
-    configuratorType?: string,
-    baseProduct?: string
-  ): boolean {
-    return this.isConfiguratorTypeReadOnly(configuratorType) && !baseProduct;
+  isReadOnlyBaseProduct(product: Product): boolean {
+    return (
+      this.isConfiguratorTypeReadOnly(product.configuratorType) &&
+      this.isBaseProduct(product)
+    );
+  }
+
+  /**
+   * Verifies if a product is a base product.
+   *
+   * In the catalog the product is a base one when baseProduct and code are defined and equal.
+   * In the product detail page a product is a base one when only code is defined.
+   *
+   * @param product - product
+   * @returns - If a product a base product then returns true, otherwise false.
+   * @protected
+   */
+  protected isBaseProduct(product: Product): boolean {
+    return (
+      product.baseProduct === product.code ||
+      (!product.baseProduct && !!product.code)
+    );
   }
 
   protected isConfiguratorTypeReadOnly(configuratorType?: string): boolean {

@@ -1,10 +1,5 @@
 <ng-container *ngIf="product$ | async as product">
-  <ng-container
-    *ngIf="
-      product.configurable &&
-      !isReadOnlyBaseProduct(product.configuratorType, product.baseProduct)
-    "
-  >
+  <ng-container *ngIf="product.configurable && !isReadOnlyBaseProduct(product)">
     <a
       [routerLink]="
         {

@@ -34,6 +34,8 @@ const mockProductNotConfigurable: Product = {
   configurable: false,
 };
 
+const testProduct = { ...mockProduct };
+
 class MockCurrentProductService implements Partial<CurrentProductService> {
   getProduct(): Observable<Product> {
     return of(mockProduct);
@@ -274,64 +276,57 @@ describe('ConfigureProductComponent', () => {
   });
 
   describe('isReadOnlyBaseProduct', () => {
-    beforeEach(() => {
-      setupWithCurrentProductService(true);
+    it('should return false in case configurator type is CPQCONFIGURATOR and a product code is undefined', () => {
+      testProduct.code = undefined;
+      expect(component.isReadOnlyBaseProduct(testProduct)).toEqual(false);
     });
 
-    it('should return false in case configurator type is CPQCONFIGURATOR and a base product is undefined', () => {
-      expect(
-        component.isReadOnlyBaseProduct(ConfiguratorType.VARIANT, undefined)
-      ).toEqual(false);
+    it('should return false in case configurator type is CPQCONFIGURATOR and a product code is empty', () => {
+      testProduct.code = '';
+      expect(component.isReadOnlyBaseProduct(testProduct)).toEqual(false);
     });
 
-    it('should return false in case configurator type is CPQCONFIGURATOR and a base product is empty', () => {
-      expect(
-        component.isReadOnlyBaseProduct(ConfiguratorType.VARIANT, '')
-      ).toEqual(false);
+    it('should return false in case configurator type is CPQCONFIGURATOR and a product code is BASE_PRODUCT', () => {
+      testProduct.code = 'BASE_PRODUCT';
+      expect(component.isReadOnlyBaseProduct(testProduct)).toEqual(false);
     });
 
-    it('should return false in case configurator type is CPQCONFIGURATOR and a base product is BASE_PRODUCT', () => {
-      expect(
-        component.isReadOnlyBaseProduct(
-          ConfiguratorType.VARIANT,
-          'BASE_PRODUCT'
-        )
-      ).toEqual(false);
+    it('should return true in case configurator type has postfix readOnly and a base product and a product code are equal', () => {
+      testProduct.configuratorType = ConfiguratorType.VARIANT + ReadOnlyPostfix;
+      testProduct.baseProduct = 'BASE_PRODUCT';
+      testProduct.code = 'BASE_PRODUCT';
+      expect(component.isReadOnlyBaseProduct(testProduct)).toEqual(true);
     });
 
-    it('should return false in case configurator type has postfix readOnly and a base product is BASE_PRODUCT', () => {
-      expect(
-        component.isReadOnlyBaseProduct(
-          ConfiguratorType.VARIANT + ReadOnlyPostfix,
-          'BASE_PRODUCT'
-        )
-      ).toEqual(false);
+    it('should return true in case configurator type has postfix readOnly and a product code is defined', () => {
+      testProduct.configuratorType = ConfiguratorType.VARIANT + ReadOnlyPostfix;
+      testProduct.baseProduct = undefined;
+      testProduct.code = 'BASE_PRODUCT';
+      expect(component.isReadOnlyBaseProduct(testProduct)).toEqual(true);
+    });
+  });
+
+  describe('isBaseProduct', () => {
+    it('should return false in case base product and code are not equal', () => {
+      testProduct.baseProduct = 'BASE_PRODUCT';
+      testProduct.code = 'ANOTHER_PRODUCT_CODE';
+      expect(component['isBaseProduct'](testProduct)).toEqual(false);
     });
 
-    it('should return true in case configurator type has postfix readOnly and a base product is undefined', () => {
-      expect(
-        component.isReadOnlyBaseProduct(
-          ConfiguratorType.VARIANT + ReadOnlyPostfix,
-          undefined
-        )
-      ).toEqual(true);
+    it('should return true in case base product and code are equal', () => {
+      testProduct.baseProduct = 'BASE_PRODUCT';
+      testProduct.code = 'BASE_PRODUCT';
+      expect(component['isBaseProduct'](testProduct)).toEqual(true);
     });
 
-    it('should return true in case configurator type has postfix readOnly and a base product is empty', () => {
-      expect(
-        component.isReadOnlyBaseProduct(
-          ConfiguratorType.VARIANT + ReadOnlyPostfix,
-          ''
-        )
-      ).toEqual(true);
+    it('should return true in case a base product is undefined and code is defined', () => {
+      testProduct.baseProduct = undefined;
+      testProduct.code = 'BASE_PRODUCT';
+      expect(component['isBaseProduct'](testProduct)).toEqual(true);
     });
   });
 
   describe('isConfiguratorTypeReadOnly', () => {
-    beforeEach(() => {
-      setupWithCurrentProductService(true);
-    });
-
     it('should return false in case configurator type is undefined', () => {
       expect(component['isConfiguratorTypeReadOnly'](undefined)).toBe(false);
     });
