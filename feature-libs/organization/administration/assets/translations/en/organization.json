@@ -358,7 +358,7 @@
     "zipCode": "Zip code",
     "phoneNumber": "Phone number (optional)",
     "streetAddress": "Street Address",
-    "aptSuite": "Apt, Suite",
+    "aptSuite": "Apartment Number",
     "selectOne": "Select One...",
     "hint": "When a buyer is checking out using the \"Account\" purchase method, they much choose a cost center. The delivery addresses available to the buyer depend on the unit of the cost center chosen.",
     "details": {
