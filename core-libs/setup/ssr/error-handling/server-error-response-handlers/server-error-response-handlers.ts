@@ -20,11 +20,7 @@ import {
 export const handleCmsPageNotFoundErrorResponse =
   (documentContent: string): ErrorRequestHandler =>
   (err, _req, res, next) => {
-    if (res.headersSent) {
-      return next(err);
-    }
-
-    if (err instanceof CmsPageNotFoundServerErrorResponse) {
+    if (!res.headersSent && err instanceof CmsPageNotFoundServerErrorResponse) {
       res.set('Cache-Control', 'no-store');
       res.status(404).send(documentContent);
     } else {
@@ -42,11 +38,7 @@ export const handleCmsPageNotFoundErrorResponse =
 export const handleUnknownServerErrorResponse =
   (documentContent: string): ErrorRequestHandler =>
   (err, _req, res, next) => {
-    if (res.headersSent) {
-      return next(err);
-    }
-
-    if (err instanceof UnknownServerErrorResponse) {
+    if (!res.headersSent && err instanceof UnknownServerErrorResponse) {
       res.set('Cache-Control', 'no-store');
       res.status(500).send(documentContent);
     } else {
