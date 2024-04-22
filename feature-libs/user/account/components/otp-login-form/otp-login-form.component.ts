@@ -10,13 +10,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  HttpErrorModel,
-  RoutingService,
-  WindowRef,
-} from '@spartacus/core';
+import { RoutingService, WindowRef } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
@@ -36,8 +30,7 @@ export class OneTimePasswordLoginFormComponent {
   constructor(
     protected routingService: RoutingService,
     protected verificationTokenFacade: VerificationTokenFacade,
-    protected winRef: WindowRef,
-    protected globalMessage: GlobalMessageService
+    protected winRef: WindowRef
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
@@ -73,8 +66,7 @@ export class OneTimePasswordLoginFormComponent {
     this.verificationTokenFacade.createVerificationToken(loginForm).subscribe({
       next: (result: VerificationToken) =>
         this.goToVerificationTokenForm(result, loginForm),
-      error: (error: HttpErrorModel) =>
-        this.onCreateVerificationTokenFail(error),
+      error: () => this.busy$.next(false),
       complete: () => this.onCreateVerificationTokenComplete(),
     });
   }
@@ -92,26 +84,10 @@ export class OneTimePasswordLoginFormComponent {
           loginId: loginForm.loginId,
           password: loginForm.password,
           tokenId: verificationToken.tokenId,
+          expiresIn: verificationToken.expiresIn,
         },
       }
     );
-  }
-
-  protected onCreateVerificationTokenFail(error: HttpErrorModel): void {
-    this.busy$.next(false);
-    const errorDetails = error.details ?? [];
-    if (errorDetails.length === 0) {
-      this.globalMessage.add(
-        { key: 'httpHandlers.unknownError' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    }
-    errorDetails.forEach((err) => {
-      this.globalMessage.add(
-        { raw: err.message },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    });
   }
 
   protected onCreateVerificationTokenComplete(): void {
