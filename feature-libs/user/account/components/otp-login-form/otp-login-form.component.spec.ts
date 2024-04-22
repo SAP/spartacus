@@ -3,12 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  GlobalMessageService,
-  I18nTestingModule,
-  RoutingService,
-  WindowRef,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService, WindowRef } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { VerificationTokenService } from '@spartacus/user/account/core';
 import {
@@ -43,11 +38,6 @@ class MockVerificationTokenService
   createVerificationToken = createSpy().and.callFake(() =>
     of(verificationToken)
   );
-}
-
-class MockGlobalMessageService {
-  add = createSpy().and.stub();
-  remove = createSpy().and.stub();
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -85,7 +75,6 @@ describe('OneTimePasswordLoginFormComponent', () => {
             useClass: MockVerificationTokenService,
           },
           { provide: WindowRef, useClass: MockWinRef },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: RoutingService, useClass: MockRoutingService },
         ],
       }).compileComponents();
@@ -105,7 +94,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('login', () => {
+  describe('create OTP', () => {
     it('should not patch user id', () => {
       component.isUpdating$.subscribe().unsubscribe();
       expect(component.form.value.userId).toEqual('');
@@ -147,7 +136,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
         });
       });
 
-      it('should not login', () => {
+      it('should not create OTP', () => {
         component.onSubmit();
         expect(service.createVerificationToken).not.toHaveBeenCalled();
       });
