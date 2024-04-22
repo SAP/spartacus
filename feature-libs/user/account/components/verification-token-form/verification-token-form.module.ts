@@ -55,7 +55,12 @@ import { VerificationTokenFacade } from '../../root/facade';
             {
               provide: VerificationTokenFormComponentService,
               useClass: VerificationTokenFormComponentService,
-              deps: [AuthService, GlobalMessageService, VerificationTokenFacade, WindowRef],
+              deps: [
+                AuthService,
+                GlobalMessageService,
+                VerificationTokenFacade,
+                WindowRef,
+              ],
             },
           ],
         },

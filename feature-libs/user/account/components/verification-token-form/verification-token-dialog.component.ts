@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 
 export enum VERIFICATION_TOKEN_DIALOG_ACTION {
@@ -15,7 +15,7 @@ export enum VERIFICATION_TOKEN_DIALOG_ACTION {
   selector: 'cx-verification-token-dialog',
   templateUrl: './verification-token-dialog.component.html',
 })
-export class VerificationTokenDialogComponent implements OnInit {
+export class VerificationTokenDialogComponent {
   VERIFICATION_TOKEN_DIALOG_ACTION = VERIFICATION_TOKEN_DIALOG_ACTION;
 
   focusConfig: FocusConfig = {
@@ -26,8 +26,6 @@ export class VerificationTokenDialogComponent implements OnInit {
   };
 
   constructor(protected launchDialogService: LaunchDialogService) {}
-
-  ngOnInit(): void {}
 
   closeModal(reason: VERIFICATION_TOKEN_DIALOG_ACTION): void {
     this.launchDialogService.closeDialog(reason);

@@ -6,12 +6,12 @@
 
       .left-text {
         padding: 0;
-        text-align: left;
+        text-align: var(--cx-text-align, left);
       }
 
       .right-text {
         padding: 0;
-        text-align: right;
+        text-align: var(--cx-text-align, right);
       }
 
       a.disabled-link {

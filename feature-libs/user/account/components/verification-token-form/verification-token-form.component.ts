@@ -84,7 +84,7 @@ export class VerificationTokenFormComponent implements OnInit {
   }
 
   startWaitTimeInterval(): void {
-    let interval = setInterval(() => {
+    const interval = setInterval(() => {
       this.waitTime--;
       this.cdr.detectChanges();
       if (this.waitTime <= 0) {
