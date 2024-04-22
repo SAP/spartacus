@@ -6,13 +6,16 @@
 
     <ul
       class="recent-searches"
-      [ariaLabel]="'cdsTrendingSearches.ariaTrendingSearches' | cxTranslate">
+      [ariaLabel]="'cdsTrendingSearches.ariaTrendingSearches' | cxTranslate"
+    >
       <li *ngFor="let phrase of searchPhrases">
-        <a role="option" [href]="'/electronics-spa/en/USD/search/' + phrase.searchPhrase">
+        <a
+          role="option"
+          [href]="'/electronics-spa/en/USD/search/' + phrase.searchPhrase"
+        >
           {{ phrase.searchPhrase }}
         </a>
       </li>
     </ul>
-
   </ng-container>
 </ng-container>

@@ -96,7 +96,7 @@ describe('cdsConfigValidator', () => {
         baseUrl: '',
         endpoints: {
           strategyProducts: '',
-          searchIntelligence: ''
+          searchIntelligence: '',
         },
       },
     };

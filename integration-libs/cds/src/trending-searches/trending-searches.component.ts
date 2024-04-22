@@ -55,11 +55,7 @@ export class TrendingSearchesComponent implements OnInit, OnDestroy {
           context?.maxTrendingSearches ?? MAX_TRENDING_SEARCHES;
         return this.trendingSearchesService
           .getTrendingSearches()
-          .pipe(
-            map((data) =>
-              data ? data.slice(0, maxSearches) : []
-            )
-          );
+          .pipe(map((data) => (data ? data.slice(0, maxSearches) : [])));
       })
     );
   }
