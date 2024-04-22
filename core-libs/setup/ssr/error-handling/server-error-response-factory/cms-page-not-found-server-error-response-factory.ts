@@ -34,6 +34,7 @@ export class CmsPageNotFoundServerErrorResponseFactory
     const expectedUrl = occEndpointsService.buildUrl('pages');
     return (
       error instanceof HttpErrorResponse &&
+      error.status === 404 &&
       (error.url ?? '').startsWith(expectedUrl)
     );
   }

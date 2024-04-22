@@ -291,12 +291,19 @@ export class OptimizedSsrEngine {
         clearTimeout(requestTimeout);
         callback(err, html);
 
-        this.log(
-          `Request is resolved with the SSR rendering result (${request?.originalUrl})`,
-          true,
-          { request }
-        );
-
+        if (html) {
+          this.log(
+            `Request is resolved with the SSR rendering result (${request?.originalUrl})`,
+            true,
+            { request }
+          );
+        }
+        if (err) {
+          this.logger.error(
+            `Request is resolved with the SSR rendering error (${request?.originalUrl})`,
+            { request, error: err }
+          );
+        }
         // store the render only if caching is enabled
         if (this.ssrOptions?.cache) {
           this.renderingCache.store(renderingKey, err, html);

@@ -12,6 +12,7 @@ import {
 } from '@angular/ssr';
 import { Request, Response } from 'express';
 import { REQUEST, RESPONSE } from '../tokens/express.tokens';
+import { cxCommonEngineWrapper } from './cx-common-engine-wrapper';
 
 /**
  * @license
@@ -117,10 +118,7 @@ export function ngExpressEngine(setupOptions: NgSetupOptions) {
       renderOptions.inlineCriticalCss =
         renderOptions.inlineCriticalCss ?? setupOptions.inlineCriticalCss;
 
-      engine
-        .render(renderOptions)
-        .then((html) => callback(null, html))
-        .catch(callback);
+      cxCommonEngineWrapper(engine, renderOptions, callback);
     } catch (err) {
       err instanceof Error && callback(err);
     }
