@@ -31,6 +31,16 @@ export interface FeatureTogglesInterface {
    */
   storeFrontLibCardParagraphTruncated?: boolean;
 
+  /**
+   * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
+   * and in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
+   * to render read-only attribute with images and a long description at the value level accordingly.
+   *
+   * In `cx-configurator-price`, `cx-configurator-show-more`,`cx-configurator-attribute-drop-down`,
+   * `cx-configurator-attribute-selection-image`, `cx-configurator-attribute-single-selection-bundle-dropdown`,
+   * `cx-configurator-attribute-type` and `cx-configurator-form-group` some styling changes were done
+   * to render read-only attribute with images and a long description at the value level accordingly.
+   */
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
