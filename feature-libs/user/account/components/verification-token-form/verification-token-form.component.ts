@@ -55,6 +55,14 @@ export class VerificationTokenFormComponent implements OnInit {
       this.tokenId = history.state['tokenId'];
       this.password = history.state['password'];
       this.target = history.state['loginId'];
+      history.pushState(
+        {
+          tokenId: '',
+          password: '',
+          loginId: '',
+        },
+        'verifyToken'
+      );
       this.startWaitTimeInterval();
     }
   }
