@@ -14,38 +14,24 @@ import { Injectable, inject, isDevMode } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoggerService, OccEndpointsService, WindowRef } from '@spartacus/core';
 import { OppsConfig } from '../../config';
+import { OppsCouponCodesService } from '../opps-coupon-codes.service';
 
 @Injectable({ providedIn: 'root' })
 export class OccOppsCouponInterceptor implements HttpInterceptor {
   private oppsCoupon?: string | null;
   private requestHeader?: string;
-
   protected logger = inject(LoggerService);
-
   protected config = inject(OppsConfig);
   protected occEndpoints = inject(OccEndpointsService);
   protected winRef = inject(WindowRef);
+  protected service = inject(OppsCouponCodesService);
 
   constructor() {
     this.initialize();
   }
 
-  /**
-   * Fetched the OPPS coupon codes from URL query parameter and saves it into
-   * browser local storage
-   */
   protected initialize() {
-    const URL_PARAM = this.config.opps?.couponcodes?.urlParameter ?? '';
-    const LOCAL_STORAGE_KEY =
-      this.config.opps?.couponcodes?.localStorageKey ?? '';
-    const url = this.winRef.location.href ?? '';
-    const queryParams = new URLSearchParams(url.substring(url.indexOf('?')));
-    this.oppsCoupon = queryParams.get(URL_PARAM);
-    if (this.oppsCoupon) {
-      this.winRef.localStorage?.setItem(LOCAL_STORAGE_KEY, this.oppsCoupon);
-    } else {
-      this.oppsCoupon = this.winRef.localStorage?.getItem(LOCAL_STORAGE_KEY);
-    }
+    this.oppsCoupon = this.service.getCouponCodes();
     if (this.winRef.isBrowser()) {
       if (!this.config.opps?.couponcodes?.httpHeaderName && isDevMode()) {
         this.logger.warn(

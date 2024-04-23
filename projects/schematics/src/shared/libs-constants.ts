@@ -219,6 +219,7 @@ export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
 export const SPARTACUS_OPPS = '@spartacus/opps';
 export const SPARTACUS_OPPS_COUPON_CODES = `@spartacus/opps/coupon-codes`;
+export const SPARTACUS_OPPS_LOGIN_REQUIRED = `@spartacus/opps/login-required`;
 
 export const SPARTACUS_SEGMENT_REFS = '@spartacus/segment-refs';
 export const SPARTACUS_SEGMENT_REFS_ROOT = `@spartacus/segment-refs/root`;
@@ -308,6 +309,7 @@ export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 export const SEGMENT_REFS_FEATURE_NAME = 'Segment-Refs';
 
 export const OPPS_COUPON_CODES_FEATURE_NAME = 'Opps-Coupon-Codes';
+export const OPPS_LOGIN_REQUIRED_FEATURE_NAME = 'Opps-Login-Required';
 
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 /***** Feature name end *****/

@@ -198,6 +198,7 @@ describe('Graph utils', () => {
           "CDS",
           "CDP",
           "Opps-Coupon-Codes",
+          "Opps-Login-Required",
           "CDC-B2B",
           "CDC",
           "SmartEdit",

@@ -32,6 +32,7 @@
           "Checkout-Scheduled-Replenishment",
           "Order",
           "Opps-Coupon-Codes",
+          "Opps-Login-Required",
           "Digital-Payments",
           "EPD-Visualization",
           "Customer-Ticketing",
@@ -245,6 +246,10 @@
           {
             "value": "Opps-Coupon-Codes",
             "label": "OPPS Coupon Codes"
+          },
+          {
+            "value": "Opps-Login-Required",
+            "label": "OPPS - Recommend Users To Login To Get More Promotions"
           },
           {
             "value": "User-Account",

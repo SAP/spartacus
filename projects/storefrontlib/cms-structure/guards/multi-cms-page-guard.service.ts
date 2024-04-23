@@ -15,7 +15,7 @@ import { CmsActivatedRouteSnapshot, UnifiedInjector } from '@spartacus/core';
   providedIn: 'root',
 })
 export class MultiCmsPageGuardService {
-  protected cx_guards = inject(CX_PAGE_GUARD);
+  protected cxPageGuards = inject(CX_PAGE_GUARD);
   protected cmsGuardService = inject(CmsGuardsService);
   protected unifiedInjector = inject(UnifiedInjector);
 
@@ -23,7 +23,7 @@ export class MultiCmsPageGuardService {
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
-    const guards = this.cx_guards;
+    const guards = this.cxPageGuards;
 
     if (guards.length) {
       const canActivateObservables = guards.map((guard) =>

@@ -24,7 +24,7 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["Opps-Coupon-Codes"],
+      "default": ["Opps-Coupon-Codes", "Opps-Login-Required"],
       "x-prompt": {
         "message": "Which OPPS features would you like to set up?",
         "type": "list",
@@ -32,6 +32,10 @@
           {
             "value": "Opps-Coupon-Codes",
             "label": "OPPS Coupon Codes"
+          },
+          {
+            "value": "Opps-Login-Required",
+            "label": "OPPS - Recommend Users To Login To Get More Promotions"
           }
         ]
       }

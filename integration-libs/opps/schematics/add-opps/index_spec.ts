@@ -18,6 +18,7 @@ import {
   TRACKING_PERSONALIZATION_FEATURE_NAME,
   oppsFeatureModulePath,
   trackingPersonalizationFeatureModulePath,
+  OPPS_LOGIN_REQUIRED_FEATURE_NAME,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -62,7 +63,10 @@ describe('Spartacus opps schematics: ng-add', () => {
 
   const oppsFeatureOptions: OppsOptions = {
     ...libraryNoFeaturesOptions,
-    features: [OPPS_COUPON_CODES_FEATURE_NAME],
+    features: [
+      OPPS_COUPON_CODES_FEATURE_NAME,
+      OPPS_LOGIN_REQUIRED_FEATURE_NAME,
+    ],
   };
 
   beforeEach(async () => {
