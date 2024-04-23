@@ -161,7 +161,7 @@ export function verifyTabbingOrder() {
     .should('have.class', 'cx-icon fas fa-angle-right flip-at-rtl');
 
   cy.pressTab();
-  cy.pressTab(true)
+  cy.pressTab(true);
   cy.focused()
     .should('have.class', 'next')
     .find('cx-icon')
