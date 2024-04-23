@@ -12,7 +12,7 @@
     [loading]="loading"
     [alt]="media?.alt"
     [title]="media?.alt"
-    [src]="media.src"
+    [src]="media!.src"
     [attr.role]="media?.role"
     (load)="loadHandler()"
     (error)="errorHandler()"
