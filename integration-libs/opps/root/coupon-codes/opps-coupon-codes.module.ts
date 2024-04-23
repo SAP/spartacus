@@ -5,12 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import {
-  LOCATION_INITIALIZED_MULTI,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { LOCATION_INITIALIZED_MULTI } from '@spartacus/core';
 import { oppsInterceptors } from './http-interceptors';
-import { defaultOppsConfig } from '../config';
 import { OppsCouponCodesService } from './opps-coupon-codes.service';
 
 export function saveCouponCodesFactory(
@@ -26,7 +22,6 @@ export function saveCouponCodesFactory(
   imports: [],
   providers: [
     ...oppsInterceptors,
-    provideDefaultConfig(defaultOppsConfig),
     OppsCouponCodesService,
     {
       provide: LOCATION_INITIALIZED_MULTI,

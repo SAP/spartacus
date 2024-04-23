@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const OPPS_COUPON_CODES_FEATURE = 'opps-coupon-codes';
+//export const OPPS_LOGIN_REQUIRED_FEATURE = 'opps-login-required';

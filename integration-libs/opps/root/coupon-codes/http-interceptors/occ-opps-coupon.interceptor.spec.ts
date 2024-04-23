@@ -5,8 +5,8 @@ import {
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import { OppsConfig } from '../config/opps-coupon-codes-config';
 import { OccOppsCouponInterceptor } from './occ-opps-coupon.interceptor';
+import { OppsConfig } from '@spartacus/opps';
 
 const url =
   'https://localhost:9002/occ/v2/electronics-spa/cms/pages?lang=en&curr=USD';
@@ -25,13 +25,13 @@ const MockWindowRef1 = {
     return true;
   },
   location: {
-    href: 'http://localhost:4200/electronics-spa/en/USD/?couponcodes=footwear,bags',
+    href: 'http://localhost:4200/electronics-spa/en/USD/?couponcodes=pinkcamera',
   },
 };
 const MockWindowRef2 = {
   localStorage: {
     getItem: (_key: string): string => {
-      return 'footwear,bags';
+      return 'pinkcamera';
     },
   },
   isBrowser(): boolean {
@@ -86,7 +86,7 @@ describe('OccOppsCouponInterceptor', () => {
         });
         const perHeader = mockReq.request.headers.get('mock-opps-coupon');
         expect(perHeader).toBeTruthy();
-        expect(perHeader).toEqual('footwear,bags');
+        expect(perHeader).toEqual('pinkcamera');
         mockReq.flush('someData');
       }
     ));
@@ -123,7 +123,7 @@ describe('OccOppsCouponInterceptor', () => {
         });
         const perHeader = mockReq.request.headers.get('mock-opps-coupon');
         expect(perHeader).toBeTruthy();
-        expect(perHeader).toEqual('footwear,bags');
+        expect(perHeader).toEqual('pinkcamera');
         mockReq.flush('someData');
       }
     ));
