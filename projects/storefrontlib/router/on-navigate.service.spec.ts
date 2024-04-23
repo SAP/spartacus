@@ -28,9 +28,18 @@ const mockComponentRef = {
   location: { nativeElement: { ...MockComponent, focus: (): void => {} } },
 };
 
+const mockElement = {
+  focus: (): void => {},
+};
+
 class MockInjector implements Partial<Injector> {
   get(_token: any): ApplicationRef {
-    return { components: [mockComponentRef] } as any;
+    return {
+      components: [mockComponentRef],
+      getElementsByTagName: (el: string) => {
+        return el ? [mockElement] : undefined;
+      },
+    } as any;
   }
 }
 
@@ -216,6 +225,20 @@ describe('OnNavigateService', () => {
       emitPairScrollEvent([1000, 500]);
 
       expect(mockComponentRef.location.nativeElement.focus).toHaveBeenCalled();
+    });
+  });
+
+  describe('selectedHostElement', () => {
+    beforeEach(() => {
+      config.enableResetViewOnNavigate.selectedHostElement = 'cx-storefront';
+    });
+
+    it('should call focus on storefront component when selectedHostElement is set', () => {
+      const ref: any = service.selectedHostElement;
+      spyOn(ref, 'focus').and.callThrough();
+      service.setResetViewOnNavigate(true);
+      emitPairScrollEvent(null);
+      expect(ref.focus).toHaveBeenCalled();
     });
   });
 });
