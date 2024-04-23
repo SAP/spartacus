@@ -13,8 +13,8 @@ import {
 import { Injectable, inject, isDevMode } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoggerService, OccEndpointsService, WindowRef } from '@spartacus/core';
-import { OppsConfig } from '../../config';
 import { OppsCouponCodesService } from '../opps-coupon-codes.service';
+import { OppsConfig } from '../../config';
 
 @Injectable({ providedIn: 'root' })
 export class OccOppsCouponInterceptor implements HttpInterceptor {

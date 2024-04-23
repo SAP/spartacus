@@ -8,7 +8,7 @@ import { Provider } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OccOppsCouponInterceptor } from './occ-opps-coupon.interceptor';
 
-export const oppsInterceptors: Provider[] = [
+export const oppsCouponCodesInterceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
     useExisting: OccOppsCouponInterceptor,
