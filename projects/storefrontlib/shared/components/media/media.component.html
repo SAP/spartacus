@@ -1,4 +1,4 @@
-<picture *ngIf="media?.srcset && !isLegacy; else legacyImgTmp">
+<picture *ngIf="media?.srcset && media?.src && !isLegacy; else legacyImgTmp">
   <source
     *ngFor="
       let source of media!.srcset! | cxMediaSources;
@@ -10,11 +10,10 @@
 
   <img
     [loading]="loading"
-    [alt]="media!.alt"
-    [title]="media!.alt"
-    [src]="media!.src"
-    [srcset]="media!.srcset || media!.src"
-    [attr.role]="media!.role"
+    [alt]="media?.alt"
+    [title]="media?.alt"
+    [src]="media.src"
+    [attr.role]="media?.role"
     (load)="loadHandler()"
     (error)="errorHandler()"
   />
@@ -24,11 +23,11 @@
   <img
     *ngIf="media && media.src"
     [loading]="loading"
-    [alt]="media!.alt"
-    [title]="media!.alt"
+    [alt]="media?.alt"
+    [title]="media?.alt"
     [src]="media.src"
-    [srcset]="media!.srcset || media.src"
-    [attr.role]="media!.role"
+    [srcset]="media?.srcset || media.src"
+    [attr.role]="media?.role"
     (load)="loadHandler()"
     (error)="errorHandler()"
   />
