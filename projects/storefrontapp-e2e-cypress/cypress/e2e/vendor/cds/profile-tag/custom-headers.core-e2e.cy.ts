@@ -61,7 +61,7 @@ describe('Custom header additions to occ calls', () => {
         .its('request.headers')
         .should('have.deep.property', X_CONSENT_REFERENCE_HEADER);
       // withdraw consent
-      cy.get('button.btn.btn-link').contains('Consent Preferences').click();
+      cy.get('button.btn.btn-link').contains('Consent').click();
       cy.get('input.form-check-input').uncheck();
       cy.get('button.close').click();
       navigation.visitHomePage({

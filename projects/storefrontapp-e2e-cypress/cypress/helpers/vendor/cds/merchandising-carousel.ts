@@ -103,8 +103,9 @@ function verifyCarouselItemRendered(
   index: number
 ): void {
   const product = STRATEGY_RESPONSE.products[index];
-
+cy.wait(8000)
   cy.wrap($carouselItem).within(() => {
+    // cy.wait(5000)
     cy.get('.data-cx-merchandising-product').should(($productMetadata) => {
       expect($productMetadata)
         .to.have.attr('data-cx-merchandising-product-slot')
@@ -120,8 +121,9 @@ function verifyCarouselItemRendered(
     });
 
     cy.get('a').within(() => {
+      // cy.wait(5000)
       cy.root().should('have.attr', 'href');
-      cy.wait(5000);
+      // cy.wait(5000);
       cy.get('h4').should('not.be.empty');
       cy.get('.price').should('not.be.empty');
     });
