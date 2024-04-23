@@ -129,7 +129,6 @@ export class AuthService {
 
       this.store.dispatch(new AuthActions.Login());
 
-      debugger;
       this.authRedirectService.redirect();
     } catch {}
   }
