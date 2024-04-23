@@ -163,7 +163,7 @@ export class FacetComponent {
       this.values?.first?.nativeElement.focus();
       return;
     }
-    this.values.get(++targetIndex)?.nativeElement.focus();
+    this.values.get(targetIndex + 1)?.nativeElement.focus();
   }
 
   onArrowUp(event: Event, targetIndex: number): void {
@@ -171,6 +171,6 @@ export class FacetComponent {
       return;
     }
     event.preventDefault();
-    this.values.get(--targetIndex)?.nativeElement.focus();
+    this.values.get(targetIndex - 1)?.nativeElement.focus();
   }
 }
