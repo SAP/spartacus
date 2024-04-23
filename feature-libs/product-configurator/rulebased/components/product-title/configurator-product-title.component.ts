@@ -48,6 +48,7 @@ export class ConfiguratorProductTitleComponent {
               case CommonConfigurator.OwnerType.CART_ENTRY:
               case CommonConfigurator.OwnerType.ORDER_ENTRY:
               case CommonConfigurator.OwnerType.SAVED_CART_ENTRY:
+              case CommonConfigurator.OwnerType.QUOTE_ENTRY:
                 return container.routerData.productCode;
               default:
                 return container.configuration.owner.id;
