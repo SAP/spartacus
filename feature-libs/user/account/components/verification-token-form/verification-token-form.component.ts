@@ -64,8 +64,9 @@ export class VerificationTokenFormComponent implements OnInit {
         },
         'verifyToken'
       );
-      this.startWaitTimeInterval();
     }
+    this.startWaitTimeInterval();
+    this.service.displayMessage(this.target);
   }
 
   onSubmit(): void {
