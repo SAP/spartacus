@@ -1,4 +1,9 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  DebugElement,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -13,7 +18,8 @@ import {
   LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
+import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { VerificationTokenFormComponent } from './verification-token-form.component';
 import createSpy = jasmine.createSpy;
@@ -28,7 +34,9 @@ class MockFormComponentService
   });
   isUpdating$ = isBusySubject;
   login = createSpy().and.stub();
-  sentOTP = createSpy().and.stub();
+  sentOTP = createSpy().and.returnValue(
+    of({ tokenId: 'testTokenId', expiresIn: '300' })
+  );
   displayMessage = createSpy('displayMessage').and.stub();
 }
 @Pipe({
@@ -69,6 +77,7 @@ describe('VerificationTokenFormComponent', () => {
             provide: LaunchDialogService,
             useClass: MockLaunchDialogService,
           },
+          ChangeDetectorRef,
         ],
       }).compileComponents();
     })
@@ -145,15 +154,24 @@ describe('VerificationTokenFormComponent', () => {
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
     });
 
-    it('should resend otp token', () => {
-      component.resendOTP();
-      expect(service.sentOTP).toHaveBeenCalled();
-    });
+    it('should resend OTP', () => {
+      component.target = 'example@example.com';
+      component.password = 'password';
+      spyOn(component, 'startWaitTimeInterval');
 
-    it('should resend otp token', () => {
       component.resendOTP();
-      expect(service.sentOTP).toHaveBeenCalled();
-      expect(service.displayMessage).toHaveBeenCalled();
+
+      expect(component.isResendDisabled).toBe(true);
+      expect(component.waitTime).toBe(60);
+      expect(component.startWaitTimeInterval).toHaveBeenCalled();
+      expect(service.sentOTP).toHaveBeenCalledWith(
+        'example@example.com',
+        'password',
+        ONE_TIME_PASSWORD_LOGIN_PURPOSE
+      );
+      expect(service.displayMessage).toHaveBeenCalledWith(
+        'example@example.com'
+      );
     });
   });
 });

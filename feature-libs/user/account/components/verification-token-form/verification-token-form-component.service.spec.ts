@@ -8,12 +8,19 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { VerificationTokenFacade } from '../../root/facade';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import createSpy = jasmine.createSpy;
 
 class MockAuthService implements Partial<AuthService> {
   otpLoginWithCredentials = createSpy().and.returnValue(of({}));
   isUserLoggedIn = createSpy().and.returnValue(of(true));
+}
+
+class MockVerificationTokenFacade implements Partial<VerificationTokenFacade> {
+  createVerificationToken = createSpy().and.returnValue(
+    of({ tokenId: 'testTokenId', expiresIn: '300' })
+  );
 }
 
 class MockGlobalMessageService {
@@ -24,6 +31,7 @@ class MockGlobalMessageService {
 describe('VerificationTokenFormComponentService', () => {
   let service: VerificationTokenFormComponentService;
   let authService: AuthService;
+  let facade: VerificationTokenFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -39,6 +47,10 @@ describe('VerificationTokenFormComponentService', () => {
           VerificationTokenFormComponentService,
           { provide: AuthService, useClass: MockAuthService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          {
+            provide: VerificationTokenFacade,
+            useClass: MockVerificationTokenFacade,
+          },
         ],
       }).compileComponents();
     })
@@ -47,10 +59,24 @@ describe('VerificationTokenFormComponentService', () => {
   beforeEach(() => {
     service = TestBed.inject(VerificationTokenFormComponentService);
     authService = TestBed.inject(AuthService);
+    facade = TestBed.inject(VerificationTokenFacade);
   });
 
   it('should create service', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should sent otp', () => {
+    const loginId = 'example@example.com';
+    const password = 'pw4all';
+    const purpose = 'LOGIN';
+
+    service.sentOTP(loginId, password, purpose);
+    expect(facade.createVerificationToken).toHaveBeenCalledWith({
+      loginId,
+      password,
+      purpose,
+    });
   });
 
   describe('login', () => {

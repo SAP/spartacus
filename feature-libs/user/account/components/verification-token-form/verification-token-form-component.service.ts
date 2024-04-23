@@ -72,7 +72,7 @@ export class VerificationTokenFormComponentService {
   }
 
   sentOTP(loginId: string, password: string, purpose: string) {
-    this.verificationTokenFacade.createVerificationToken({
+    return this.verificationTokenFacade.createVerificationToken({
       loginId,
       password,
       purpose,
