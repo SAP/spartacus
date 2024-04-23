@@ -1158,3 +1158,6 @@ export const APP_ROUTING_MODULE = 'AppRoutingModule';
 export const APP_ROUTING_MODULE_LOCAL_PATH = './app-routing.module';
 export const APP_ROUTING_MODULE_LOCAL_FILENAME = 'app-routing.module.ts';
 export const BROWSER_MODULE = 'BrowserModule';
+
+export const FEATURE_TOGGLES_COPIED_FROM_CORE_LIB_PATH =
+  '../feature-toggles.copied-from-core-lib';
