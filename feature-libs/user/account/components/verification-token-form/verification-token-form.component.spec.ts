@@ -144,5 +144,16 @@ describe('VerificationTokenFormComponent', () => {
       component.openInfoDailog();
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
     });
+
+    it('should resend otp token', () => {
+      component.resendOTP();
+      expect(service.sentOTP).toHaveBeenCalled();
+    });
+
+    it('should resend otp token', () => {
+      component.resendOTP();
+      expect(service.sentOTP).toHaveBeenCalled();
+      expect(service.displayMessage).toHaveBeenCalled();
+    });
   });
 });
