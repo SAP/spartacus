@@ -93,20 +93,18 @@ export class ConfigureProductComponent {
   }
 
   /**
-   * Verifies if a product is a base product.
+   * Verifies whether a product is a base product.
    *
-   * In the catalog the product is a base one when baseProduct and code are defined and equal.
-   * In the product detail page a product is a base one when only code is defined.
+   * The `baseProduct` property contains the product code of the base product.
+   * If the `baseProduct` is undefined or if the provided product code equals the code of the base product,
+   * then this product is a base product.
    *
    * @param product - product
-   * @returns - If a product a base product then returns true, otherwise false.
+   * @returns - If a product is a base product then returns true, otherwise false.
    * @protected
    */
   protected isBaseProduct(product: Product): boolean {
-    return (
-      product.baseProduct === product.code ||
-      (!product.baseProduct && !!product.code)
-    );
+    return !product.baseProduct || product.baseProduct === product.code;
   }
 
   protected isConfiguratorTypeReadOnly(configuratorType?: string): boolean {
