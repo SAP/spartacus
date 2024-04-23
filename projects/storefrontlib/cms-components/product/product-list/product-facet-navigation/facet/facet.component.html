@@ -1,7 +1,9 @@
 <ng-container *ngIf="state$ | async as state">
   <button
     class="heading"
+    #facetHeader
     (click)="toggleGroup($event)"
+    (keydown)="onKeydown($event)"
     [attr.aria-expanded]="isExpanded"
     [attr.aria-label]="
       'productFacetNavigation.filterBy.name' | cxTranslate: { name: facet.name }
@@ -19,8 +21,10 @@
       routerLink="./"
       [queryParams]="getLinkParams(value)"
       class="value"
+      [tabindex]="-1"
       [class.selected]="value.selected"
       [cxFocus]="{ key: value.name }"
+      (keydown)="onKeydown($event)"
       (keydown.space)="openLink($any($event))"
       [attr.role]="facet.multiSelect ? 'checkbox' : null"
       [attr.aria-checked]="facet.multiSelect ? value.selected : null"
@@ -43,10 +47,12 @@
         "
         #facetValue
         routerLink="./"
+        [tabindex]="-1"
         [queryParams]="getLinkParams(value)"
         class="value"
         [class.selected]="value.selected"
         [cxFocus]="{ key: value.name }"
+        (keydown)="onKeydown($event)"
         (keydown.space)="openLink($any($event))"
       >
         <span

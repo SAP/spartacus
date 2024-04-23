@@ -142,6 +142,11 @@ export interface FeatureTogglesInterface {
    * Corrects heading order inside 'OrderSummaryComponent' template.
    */
   a11yCartSummaryHeadingOrder?: boolean;
+
+  /**
+   * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
+   */
+  a11yFacetKeyboardNavigation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -171,4 +176,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
   a11yCartSummaryHeadingOrder: false,
+  a11yFacetKeyboardNavigation: false,
 };

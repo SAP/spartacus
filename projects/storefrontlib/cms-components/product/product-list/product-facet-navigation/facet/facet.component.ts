@@ -11,11 +11,13 @@ import {
   ElementRef,
   HostBinding,
   Input,
+  Optional,
   QueryList,
   ViewChild,
   ViewChildren,
+  inject,
 } from '@angular/core';
-import { Facet, FacetValue } from '@spartacus/core';
+import { Facet, FacetValue, FeatureConfigService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
@@ -42,6 +44,8 @@ export class FacetComponent {
 
   @ViewChild(FocusDirective) keyboardFocus: FocusDirective;
 
+  @ViewChild('facetHeader') facetHeader: ElementRef<HTMLElement>;
+
   @Input()
   set facet(value: Facet) {
     this._facet = value;
@@ -52,6 +56,10 @@ export class FacetComponent {
   get facet(): Facet {
     return this._facet;
   }
+
+  @Optional() featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   constructor(
     protected facetService: FacetService,
@@ -105,5 +113,64 @@ export class FacetComponent {
 
   getLinkParams(value: FacetValue) {
     return this.facetService.getLinkParams(value.query?.query?.value ?? '');
+  }
+
+  onKeydown(event: KeyboardEvent): void {
+    // TODO: (CXSPA-6892) - Remove feature flag next major release.
+    if (!this.featureConfigService?.isEnabled('a11yFacetKeyboardNavigation')) {
+      return;
+    }
+    const targetIndex = this.values.toArray().findIndex((el) => {
+      return el.nativeElement === event.target;
+    });
+    switch (event.key) {
+      case 'ArrowLeft':
+        this.onArrowLeft(event);
+        break;
+      case 'ArrowRight':
+        this.onArrowRight(event);
+        break;
+      case 'ArrowDown':
+        this.onArrowDown(event, targetIndex);
+        break;
+      case 'ArrowUp':
+        this.onArrowUp(event, targetIndex);
+        break;
+    }
+  }
+
+  onArrowRight(event: Event): void {
+    if (this.isExpanded) {
+      return;
+    }
+    this.toggleGroup(event as UIEvent);
+  }
+
+  onArrowLeft(event: Event): void {
+    if (!this.isExpanded) {
+      return;
+    }
+    this.toggleGroup(event as UIEvent);
+    this.facetHeader.nativeElement.focus();
+  }
+
+  onArrowDown(event: Event, targetIndex: number): void {
+    if (!this.isExpanded) {
+      return;
+    }
+    event.preventDefault();
+    if (event.target === this.facetHeader.nativeElement) {
+      this.values?.first?.nativeElement.focus();
+      return;
+    }
+    this.values.get(++targetIndex)?.nativeElement.focus();
+  }
+
+  onArrowUp(event: Event, targetIndex: number): void {
+    if (!this.isExpanded) {
+      return;
+    }
+    event.preventDefault();
+    this.values.get(--targetIndex)?.nativeElement.focus();
   }
 }
