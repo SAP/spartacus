@@ -1,4 +1,4 @@
-<picture *ngIf="media?.srcset && !isLegacy; else tmpImg">
+<picture *ngIf="media?.srcset && !isLegacy; else legacyImgTmp">
   <source
     *ngFor="
       let source of media!.srcset! | cxMediaSources;
@@ -8,18 +8,27 @@
     [media]="source.media"
   />
 
-  <ng-container [ngTemplateOutlet]="tmpImg"></ng-container>
+  <img
+    [loading]="loading"
+    [alt]="media!.alt"
+    [title]="media!.alt"
+    [src]="media!.src"
+    [srcset]="media!.srcset || media!.src"
+    [attr.role]="media!.role"
+    (load)="loadHandler()"
+    (error)="errorHandler()"
+  />
 </picture>
 
-<ng-template #tmpImg>
+<ng-template #legacyImgTmp>
   <img
     *ngIf="media && media.src"
-    [alt]="media.alt"
-    [title]="media.alt"
-    [src]="media.src"
-    [srcset]="media.srcset || media.src"
-    [attr.role]="media.role"
     [loading]="loading"
+    [alt]="media!.alt"
+    [title]="media!.alt"
+    [src]="media.src"
+    [srcset]="media!.srcset || media.src"
+    [attr.role]="media!.role"
     (load)="loadHandler()"
     (error)="errorHandler()"
   />
