@@ -10,7 +10,7 @@ import {
   inject,
   OnDestroy,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -23,8 +23,16 @@ import { tap } from 'rxjs/operators';
 export class QuoteRequestButtonComponent implements OnDestroy {
   protected quoteFacade = inject(QuoteFacade);
   protected routingService = inject(RoutingService);
+  protected authService = inject(AuthService);
 
   protected subscription = new Subscription();
+
+  /**
+   * Quote handling requires a logged-in user. We cannot enforce that via an authGuard here
+   * because otheriwise the entire cart page would need an authenticated user. So we check on
+   * the view and don't render the button if the user is not logged in.
+   */
+  isLoggedIn$ = this.authService.isUserLoggedIn();
 
   /**
    * Creates a new quote and triggers the navigation according to route 'quoteDetails',

@@ -20,6 +20,7 @@ export class ConfiguratorAttributeBaseComponent {
   private static PREFIX_LABEL = 'label';
   private static PREFIX_OPTION_PRICE_VALUE = 'price--optionsPriceValue';
   private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
+  protected static MAX_IMAGE_LABEL_CHARACTERS = 16;
 
   /**
    * Creates unique key for config value on the UI
@@ -167,6 +168,33 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   /**
+   * Retrieves image label with or without technical name depending whether the expert mode is set or not.
+   * If the length of the label is longer than 'MAX_IMAGE_LABEL_CHARACTERS' characters, it will be shortened and ellipsis will be added at the end.
+   *
+   * @param expMode - Is expert mode set?
+   * @param label - value label
+   * @param techName - value technical name
+   * @param value - Configurator value
+   */
+  getImageLabel(
+    expMode: boolean,
+    label: string | undefined,
+    techName: string | undefined,
+    value?: Configurator.Value
+  ): string {
+    const labelForImage = this.getLabel(expMode, label, techName, value);
+    return labelForImage?.trim().length >=
+      ConfiguratorAttributeBaseComponent.MAX_IMAGE_LABEL_CHARACTERS
+      ? labelForImage
+          .substring(
+            0,
+            ConfiguratorAttributeBaseComponent.MAX_IMAGE_LABEL_CHARACTERS
+          )
+          .concat('...')
+      : labelForImage;
+  }
+
+  /**
    * Fetches the first image for a given value
    * @param value Value
    * @returns Image
@@ -308,6 +336,7 @@ export class ConfiguratorAttributeBaseComponent {
         ?.valueDescriptionLength ?? 70
     );
   }
+
   protected isReadOnly(attribute: Configurator.Attribute): boolean {
     if (attribute.uiType) {
       return (

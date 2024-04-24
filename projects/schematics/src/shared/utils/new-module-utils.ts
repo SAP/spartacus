@@ -24,7 +24,7 @@ import {
 import { ANGULAR_CORE, ANGULAR_SCHEMATICS } from '../constants';
 import { isSpartacusConfigDuplicate } from './config-utils';
 import { getTsSourceFile } from './file-utils';
-import { createImports, isImportedFrom } from './import-utils';
+import { createImports, isImportedFrom, removeImports } from './import-utils';
 import { getSourceRoot } from './workspace-utils';
 
 export type ModuleProperty =
@@ -75,6 +75,14 @@ export function ensureModuleExists(options: {
   };
 }
 
+/**
+ * Adds the given Module (import, content) to the `imports` array
+ * of the NgModule in the given source file.
+ *
+ * If `order` param is provided, the Module will be added at the specified array's index.
+ *
+ * Moreover, it adds the JS import of this Module in the source file.
+ */
 export function addModuleImport(
   sourceFile: SourceFile,
   insertOptions: {
@@ -177,6 +185,50 @@ function addToModuleInternal(
   }
 
   return createdNode;
+}
+
+/**
+ * Removes the given Module (importPath, content) from the `imports` array
+ * of the NgModule in the given source file.
+ *
+ * Moreover, it removes the JS import of this Module from the source file.
+ */
+export function removeModuleImport(
+  sourceFile: SourceFile,
+  removeOptions: {
+    importPath: string;
+    content: string;
+  }
+): Expression | undefined {
+  return removeFromModuleInternal(sourceFile, 'imports', removeOptions);
+}
+
+function removeFromModuleInternal(
+  sourceFile: SourceFile,
+  propertyName: ModuleProperty,
+  removeOptions: {
+    importPath: string;
+    content: string;
+  }
+): Expression | undefined {
+  const initializer = getModulePropertyInitializer(sourceFile, propertyName);
+  if (!initializer) {
+    return undefined;
+  }
+
+  removeImports(sourceFile, [
+    { node: removeOptions.content, importPath: removeOptions.importPath },
+  ]);
+
+  const nodeToRemove: Expression | undefined = initializer
+    .getElements()
+    .find((element) => element.getText() === removeOptions.content);
+
+  if (nodeToRemove) {
+    initializer.removeElement(nodeToRemove);
+  }
+
+  return nodeToRemove;
 }
 
 function isDuplication(
