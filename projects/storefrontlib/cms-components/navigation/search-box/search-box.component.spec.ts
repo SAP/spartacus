@@ -98,7 +98,7 @@ class MockRoutingService implements Partial<RoutingService> {
   getRouterState = () => routerState$.asObservable();
 }
 
-fdescribe('SearchBoxComponent', () => {
+describe('SearchBoxComponent', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
   let serviceSpy: SearchBoxComponentService;
