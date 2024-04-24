@@ -1,7 +1,12 @@
 import { ViewportScroller } from '@angular/common';
 import { ApplicationRef, Component, Injector } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { NavigationEnd, Router, Scroll } from '@angular/router';
+import {
+  NavigationEnd,
+  ROUTER_CONFIGURATION,
+  Router,
+  Scroll,
+} from '@angular/router';
 import { OnNavigateConfig } from '@spartacus/storefront';
 import { Subject } from 'rxjs';
 import { OnNavigateService } from './on-navigate.service';
@@ -23,9 +28,18 @@ const mockComponentRef = {
   location: { nativeElement: { ...MockComponent, focus: (): void => {} } },
 };
 
+const mockElement = {
+  focus: (): void => {},
+};
+
 class MockInjector implements Partial<Injector> {
   get(_token: any): ApplicationRef {
-    return { components: [mockComponentRef] } as any;
+    return {
+      components: [mockComponentRef],
+      getElementsByTagName: (el: string) => {
+        return el ? [mockElement] : undefined;
+      },
+    } as any;
   }
 }
 
@@ -85,6 +99,10 @@ describe('OnNavigateService', () => {
           provide: Injector,
           useClass: MockInjector,
         },
+        {
+          provide: ROUTER_CONFIGURATION,
+          useValue: { anchorScrolling: 'enabled' },
+        },
       ],
     }).compileComponents();
 
@@ -92,9 +110,12 @@ describe('OnNavigateService', () => {
     config = TestBed.inject(OnNavigateConfig);
     viewportScroller = TestBed.inject(ViewportScroller);
 
-    config.enableResetViewOnNavigate.active = true;
-    config.enableResetViewOnNavigate.ignoreQueryString = false;
-    config.enableResetViewOnNavigate.ignoreRoutes = [];
+    config.enableResetViewOnNavigate = {
+      active: true,
+      ignoreQueryString: false,
+      ignoreRoutes: [],
+    };
+
     spyOn(service, 'setResetViewOnNavigate').and.callThrough();
     spyOn(viewportScroller, 'scrollToPosition').and.callThrough();
     spyOn(viewportScroller, 'scrollToAnchor').and.callThrough();
@@ -204,6 +225,20 @@ describe('OnNavigateService', () => {
       emitPairScrollEvent([1000, 500]);
 
       expect(mockComponentRef.location.nativeElement.focus).toHaveBeenCalled();
+    });
+  });
+
+  describe('selectedHostElement', () => {
+    beforeEach(() => {
+      config.enableResetViewOnNavigate.selectedHostElement = 'cx-storefront';
+    });
+
+    it('should call focus on storefront component when selectedHostElement is set', () => {
+      const ref: any = service.selectedHostElement;
+      spyOn(ref, 'focus').and.callThrough();
+      service.setResetViewOnNavigate(true);
+      emitPairScrollEvent(null);
+      expect(ref.focus).toHaveBeenCalled();
     });
   });
 });

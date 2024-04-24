@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, HostBinding, HostListener } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostBinding,
+  HostListener,
+} from '@angular/core';
+import { useFeatureStyles } from '@spartacus/core';
+import { BaseFocusService } from '../base';
 import { BaseFocusDirective } from '../base/base-focus.directive';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
 
@@ -22,6 +29,15 @@ import { VisibleFocusConfig } from '../keyboard-focus.model';
  */
 @Directive() // selector: '[cxVisibleFocus]'
 export class VisibleFocusDirective extends BaseFocusDirective {
+  // TODO: (CXSPA-5912) Remove usless constructor next major release
+  constructor(
+    protected elementRef: ElementRef<HTMLElement>,
+    protected service: BaseFocusService
+  ) {
+    super(elementRef, service);
+    useFeatureStyles('a11yMobileVisibleFocus');
+  }
+
   protected defaultConfig: VisibleFocusConfig = {
     disableMouseFocus: true,
   };
