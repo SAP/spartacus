@@ -24,14 +24,13 @@ export function testUpdateEmailAndLogin() {
       cy.get('[formcontrolname="email"]').type(newUid);
       cy.get('[formcontrolname="confirmEmail"]').type(newUid);
       cy.get('[formcontrolname="password"]').type(password);
-
       cy.get('button.btn-primary').click();
     });
 
     alerts
       .getSuccessAlert()
       .should('contain', `Success. Please sign in with ${newUid}`);
-      
+
     cy.get('cx-login-form').should('exist');
     login(newUid, password);
 
