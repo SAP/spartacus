@@ -27,12 +27,12 @@ export function testUpdateEmailAndLogin() {
 
       cy.get('button.btn-primary').click();
     });
-    cy.get('cx-login-form').should('exist');
 
     alerts
       .getSuccessAlert()
       .should('contain', `Success. Please sign in with ${newUid}`);
-
+      
+    cy.get('cx-login-form').should('exist');
     login(newUid, password);
 
     cy.get('cx-login .cx-login-greet').should('exist');
