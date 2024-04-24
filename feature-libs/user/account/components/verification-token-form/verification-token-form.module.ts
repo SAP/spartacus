@@ -25,11 +25,12 @@ import {
   KeyboardFocusModule,
   SpinnerModule,
 } from '@spartacus/storefront';
+
 import { defaultVerificationTokenLayoutConfig } from './default-verification-token-layout.config';
 import { VerificationTokenDialogComponent } from './verification-token-dialog.component';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { VerificationTokenFormComponent } from './verification-token-form.component';
-import { VerificationTokenFacade } from '../../root/facade';
+import { VerificationTokenFacade } from '@spartacus/user/account/root';
 
 @NgModule({
   imports: [
