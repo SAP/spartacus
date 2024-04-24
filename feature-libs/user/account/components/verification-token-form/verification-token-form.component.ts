@@ -16,9 +16,10 @@ import {
 import { UntypedFormGroup } from '@angular/forms';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { VerificationToken } from '../../root/model';
+
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
+import { VerificationToken } from '@spartacus/user/account/root';
 
 @Component({
   selector: 'cx-verification-token-form',
