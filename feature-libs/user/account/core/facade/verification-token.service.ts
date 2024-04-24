@@ -6,9 +6,12 @@
 
 import { Injectable } from '@angular/core';
 import { Command, CommandService } from '@spartacus/core';
+import {
+  LoginForm,
+  VerificationToken,
+  VerificationTokenFacade,
+} from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
-import { VerificationTokenFacade } from '../../root/facade';
-import { LoginForm, VerificationToken } from '../../root/model';
 import { UserAccountConnector } from '../connectors';
 
 @Injectable()
