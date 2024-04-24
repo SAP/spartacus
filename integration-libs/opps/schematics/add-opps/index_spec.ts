@@ -62,9 +62,7 @@ describe('Spartacus Opps Schematics: ng-add', () => {
 
   const oppsFeatureOptions: OppsOptions = {
     ...libraryNoFeaturesOptions,
-    features: [
-      OPPS_FEATURE_NAME,
-    ],
+    features: [OPPS_FEATURE_NAME],
   };
 
   beforeEach(async () => {

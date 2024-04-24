@@ -134,6 +134,7 @@ describe('schematics-config-mappings', () => {
   describe('featureSchematicConfigMapping', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().featureSchematicConfigMapping;
+
       expect(result.get(ASM_FEATURE_NAME)).toEqual(ASM_SCHEMATICS_CONFIG);
       expect(result.get(CHECKOUT_BASE_FEATURE_NAME)).toEqual(
         CHECKOUT_BASE_SCHEMATICS_CONFIG

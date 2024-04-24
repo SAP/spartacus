@@ -18,7 +18,7 @@ export class OppsCouponCodesService {
     const URL_PARAM = this.config.opps?.couponcodes?.urlParameter ?? '';
     const url = this.winRef.location.href ?? '';
     const queryParams = new URLSearchParams(url.substring(url.indexOf('?')));
-    let oppsCoupon = queryParams.get(URL_PARAM);
+    const oppsCoupon = queryParams.get(URL_PARAM);
     if (oppsCoupon) {
       this.setCouponCodes(oppsCoupon);
     }
