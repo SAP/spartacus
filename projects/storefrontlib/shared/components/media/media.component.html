@@ -8,7 +8,7 @@
       [srcset]="source.srcset"
       [media]="source.media"
     />
-  
+
     <img
       [loading]="loading"
       [alt]="media.alt"
@@ -19,7 +19,7 @@
       (error)="errorHandler()"
     />
   </picture>
-  
+
   <ng-template #legacyImgTmp>
     <img
       *ngIf="media.src"
