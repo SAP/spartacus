@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { OppsConfig } from '../config';
+import { OppsConfig } from '../public_api';
 
 @Injectable()
 export class OppsCouponCodesService {

@@ -16,29 +16,10 @@
       "type": "boolean",
       "default": false
     },
-    "lazy": {
-      "type": "boolean",
-      "description": "Lazy load the OPPS features.",
-      "default": true
-    },
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["Opps-Coupon-Codes", "Opps-Login-Required"],
-      "x-prompt": {
-        "message": "Which OPPS features would you like to set up?",
-        "type": "list",
-        "items": [
-          {
-            "value": "Opps-Coupon-Codes",
-            "label": "OPPS Coupon Codes"
-          },
-          {
-            "value": "Opps-Login-Required",
-            "label": "OPPS - Recommend Users To Login To Get More Promotions"
-          }
-        ]
-      }
+      "default": ["OPPS"]
     }
   },
   "required": []

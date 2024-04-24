@@ -31,8 +31,7 @@
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",
           "Order",
-          "Opps-Coupon-Codes",
-          "Opps-Login-Required",
+          "OPPS",
           "Digital-Payments",
           "EPD-Visualization",
           "Customer-Ticketing",
@@ -244,12 +243,8 @@
             "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
           },
           {
-            "value": "Opps-Coupon-Codes",
-            "label": "Omnichannel Promotion Pricing Service (OPPS) Coupon Codes"
-          },
-          {
-            "value": "Opps-Login-Required",
-            "label": "Omnichannel Promotion Pricing Service (OPPS) - Recommand Login"
+            "value": "OPPS",
+            "label": "Omnichannel Promotion Pricing Service (OPPS) Integration"
           },
           {
             "value": "User-Account",

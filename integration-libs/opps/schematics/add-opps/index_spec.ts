@@ -10,7 +10,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  OPPS_COUPON_CODES_FEATURE_NAME,
+  OPPS_FEATURE_NAME,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_OPPS,
   LibraryOptions as OppsOptions,
@@ -18,14 +18,13 @@ import {
   TRACKING_PERSONALIZATION_FEATURE_NAME,
   oppsFeatureModulePath,
   trackingPersonalizationFeatureModulePath,
-  OPPS_LOGIN_REQUIRED_FEATURE_NAME,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus opps schematics: ng-add', () => {
+describe('Spartacus Opps Schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_OPPS,
     collectionPath
@@ -64,8 +63,7 @@ describe('Spartacus opps schematics: ng-add', () => {
   const oppsFeatureOptions: OppsOptions = {
     ...libraryNoFeaturesOptions,
     features: [
-      OPPS_COUPON_CODES_FEATURE_NAME,
-      OPPS_LOGIN_REQUIRED_FEATURE_NAME,
+      OPPS_FEATURE_NAME,
     ],
   };
 

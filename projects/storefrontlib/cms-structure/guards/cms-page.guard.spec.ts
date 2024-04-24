@@ -6,6 +6,7 @@ import {
 } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  CmsActivatedRouteSnapshot,
   CmsService,
   Page,
   PageContext,
@@ -14,9 +15,10 @@ import {
   RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
-import { NEVER, of } from 'rxjs';
+import { NEVER, Observable, of } from 'rxjs';
 import { CmsPageGuardService } from './cms-page-guard.service';
 import { CmsPageGuard } from './cms-page.guard';
+import { MultiCmsPageGuardService } from './multi-cms-page-guard.service';
 
 class MockRoutingService implements Partial<RoutingService> {
   getNextPageContext = () => of({} as any);
@@ -39,6 +41,17 @@ class MockRoutingConfigService {
   getLoadStrategy = () => {};
 }
 
+class MockMultiCmsPageGuardService
+  implements Partial<MultiCmsPageGuardService>
+{
+  canActivate(
+    _route: CmsActivatedRouteSnapshot,
+    _state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> {
+    return of(true);
+  }
+}
+
 const mockActivatedRouteSnapshot: ActivatedRouteSnapshot = {} as any;
 const mockRouterStateSnapshot: RouterStateSnapshot = {} as any;
 
@@ -48,6 +61,7 @@ describe('CmsPageGuard', () => {
   let service: CmsPageGuardService;
   let protectedRoutesGuard: ProtectedRoutesGuard;
   let guard: CmsPageGuard;
+  let multiGuard: MultiCmsPageGuardService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,6 +74,10 @@ describe('CmsPageGuard', () => {
           provide: RoutingConfigService,
           useClass: MockRoutingConfigService,
         },
+        {
+          provide: MultiCmsPageGuardService,
+          useClass: MockMultiCmsPageGuardService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -69,9 +87,48 @@ describe('CmsPageGuard', () => {
     protectedRoutesGuard = TestBed.inject(ProtectedRoutesGuard);
     service = TestBed.inject(CmsPageGuardService);
     guard = TestBed.inject(CmsPageGuard);
+    multiGuard = TestBed.inject(MultiCmsPageGuardService);
   });
 
   describe('canActivate', () => {
+    describe('when multiple page guards are implemented,', () => {
+      it('should return result of page guards injected via CX_PAGE_GUARD if its a UrlTree', () => {
+        const urlTree = {} as UrlTree;
+        spyOn(multiGuard, 'canActivate').and.returnValue(of(urlTree));
+        spyOn(guard, 'coreCanActivate').and.returnValue(of(true));
+
+        let result;
+        guard
+          .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
+          .subscribe((res) => (result = res))
+          .unsubscribe();
+        expect(result).toBe(urlTree);
+        expect(guard.coreCanActivate).not.toHaveBeenCalled();
+      });
+      it('should return result of page guards injected via CX_PAGE_GUARD if its false', () => {
+        spyOn(multiGuard, 'canActivate').and.returnValue(of(false));
+        spyOn(guard, 'coreCanActivate').and.returnValue(of(true));
+        let result;
+        guard
+          .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
+          .subscribe((res) => (result = res))
+          .unsubscribe();
+        expect(result).toBe(false);
+        expect(guard.coreCanActivate).not.toHaveBeenCalled();
+      });
+      it('should return result of page guards injected via CX_PAGE_GUARD if its not true', () => {
+        const urlTree = {} as UrlTree;
+        spyOn(multiGuard, 'canActivate').and.returnValue(of(true));
+        spyOn(guard, 'coreCanActivate').and.returnValue(of(urlTree));
+        let result;
+        guard
+          .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
+          .subscribe((res) => (result = res))
+          .unsubscribe();
+        expect(result).toBe(urlTree);
+        expect(guard.coreCanActivate).toHaveBeenCalled();
+      });
+    });
     describe('when ProtectedRoutesGuard.canActivate emits redirect url,', () => {
       const urlTree = new UrlTree();
       beforeEach(() => {

@@ -6,5 +6,5 @@
 
 export * from './config/index';
 export * from './opps-root.module';
-export * from './coupon-codes/public_api';
-export * from './login-required/public_api';
+export * from './coupon-codes/index';
+export * from './login-required/index';
