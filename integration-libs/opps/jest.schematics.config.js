@@ -22,7 +22,7 @@ module.exports = {
 
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
-  coverageDirectory: '<rootDir>/../../coverage/segment/schematics',
+  coverageDirectory: '<rootDir>/../../coverage/opps/schematics',
   coverageThreshold: {
     global: {
       statements: 90,

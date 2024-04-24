@@ -18,12 +18,12 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
-      outputFile: 'unit-test-segment.xml',
+      outputFile: 'unit-test-opps.xml',
       outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
       useBrowserName: false,
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, '../../coverage/segment'),
+      dir: require('path').join(__dirname, '../../coverage/opps'),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
       check: {
         global: {
