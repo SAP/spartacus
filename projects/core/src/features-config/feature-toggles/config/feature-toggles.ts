@@ -152,6 +152,12 @@ export interface FeatureTogglesInterface {
    * Corrects heading order inside 'OrderSummaryComponent' template.
    */
   a11yCartSummaryHeadingOrder?: boolean;
+
+  /**
+   * Improves focus behaviour of 'SearchBoxComponent'.
+   * On mobile, search box will no longer open on focus.
+   */
+  a11ySearchBoxMobileFocus?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -181,4 +187,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
   a11yCartSummaryHeadingOrder: false,
+  a11ySearchBoxMobileFocus: false,
 };

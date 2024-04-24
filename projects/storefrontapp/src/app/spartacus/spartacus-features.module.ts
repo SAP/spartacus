@@ -287,6 +287,7 @@ if (environment.requestedDeliveryDate) {
         a11yListOversizedFocus: true,
         a11yStoreFinderOverflow: true,
         a11yCartSummaryHeadingOrder: true,
+        a11ySearchBoxMobileFocus: true,
       };
       return appFeatureToggles;
     }),
