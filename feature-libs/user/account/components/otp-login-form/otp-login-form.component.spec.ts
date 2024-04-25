@@ -7,15 +7,15 @@ import { I18nTestingModule, RoutingService, WindowRef } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { VerificationTokenService } from '@spartacus/user/account/core';
 import {
-  LoginForm,
   VerificationToken,
+  VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
 import { of } from 'rxjs';
 import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
 import createSpy = jasmine.createSpy;
 
-const loginForm: LoginForm = {
+const verificationTokenCreation: VerificationTokenCreation = {
   purpose: 'LOGIN',
   loginId: 'test@email.com',
   password: '1234',
@@ -102,23 +102,27 @@ describe('OneTimePasswordLoginFormComponent', () => {
 
     it('should patch user id', () => {
       spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
-        history: { state: { newUid: loginForm.loginId } },
+        history: { state: { newUid: verificationTokenCreation.loginId } },
       } as Window);
       component.isUpdating$.subscribe().unsubscribe();
-      expect(component.form.value.userId).toEqual(loginForm.loginId);
+      expect(component.form.value.userId).toEqual(
+        verificationTokenCreation.loginId
+      );
     });
 
     describe('success', () => {
       beforeEach(() => {
         component.form.setValue({
-          userId: loginForm.loginId,
-          password: loginForm.password,
+          userId: verificationTokenCreation.loginId,
+          password: verificationTokenCreation.password,
         });
       });
 
       it('should request email', () => {
         component.onSubmit();
-        expect(service.createVerificationToken).toHaveBeenCalledWith(loginForm);
+        expect(service.createVerificationToken).toHaveBeenCalledWith(
+          verificationTokenCreation
+        );
       });
 
       it('should reset the form', () => {
@@ -193,8 +197,8 @@ describe('OneTimePasswordLoginFormComponent', () => {
 
     it('should call the service method on submit', () => {
       component.form.setValue({
-        userId: loginForm.loginId,
-        password: loginForm.password,
+        userId: verificationTokenCreation.loginId,
+        password: verificationTokenCreation.password,
       });
       component.onSubmit();
       expect(service.createVerificationToken).toHaveBeenCalled();

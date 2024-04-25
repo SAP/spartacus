@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface LoginForm {
+export interface VerificationTokenCreation {
   purpose: string;
   loginId: string;
   password: string;

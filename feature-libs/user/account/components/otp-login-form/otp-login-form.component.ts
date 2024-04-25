@@ -15,8 +15,8 @@ import { CustomFormValidators } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 import {
-  LoginForm,
   VerificationToken,
+  VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
@@ -62,18 +62,20 @@ export class OneTimePasswordLoginFormComponent {
     }
 
     this.busy$.next(true);
-    const loginForm = this.collectDataFromLoginForm();
-    this.verificationTokenFacade.createVerificationToken(loginForm).subscribe({
-      next: (result: VerificationToken) =>
-        this.goToVerificationTokenForm(result, loginForm),
-      error: () => this.busy$.next(false),
-      complete: () => this.onCreateVerificationTokenComplete(),
-    });
+    const verificationTokenCreation = this.collectDataFromLoginForm();
+    this.verificationTokenFacade
+      .createVerificationToken(verificationTokenCreation)
+      .subscribe({
+        next: (result: VerificationToken) =>
+          this.goToVerificationTokenForm(result, verificationTokenCreation),
+        error: () => this.busy$.next(false),
+        complete: () => this.onCreateVerificationTokenComplete(),
+      });
   }
 
   protected goToVerificationTokenForm(
     verificationToken: VerificationToken,
-    loginForm: LoginForm
+    verificationTokenCreation: VerificationTokenCreation
   ): void {
     this.routingService.go(
       {
@@ -81,8 +83,8 @@ export class OneTimePasswordLoginFormComponent {
       },
       {
         state: {
-          loginId: loginForm.loginId,
-          password: loginForm.password,
+          loginId: verificationTokenCreation.loginId,
+          password: verificationTokenCreation.password,
           tokenId: verificationToken.tokenId,
           expiresIn: verificationToken.expiresIn,
         },
@@ -95,7 +97,7 @@ export class OneTimePasswordLoginFormComponent {
     this.busy$.next(false);
   }
 
-  protected collectDataFromLoginForm(): LoginForm {
+  protected collectDataFromLoginForm(): VerificationTokenCreation {
     return {
       // TODO: consider dropping toLowerCase as this should not be part of the UI,
       // as it's too opinionated and doesn't work with other AUTH services

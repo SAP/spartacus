@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { LoginForm, VerificationToken } from '../../root/model';
+import { VerificationToken, VerificationTokenCreation } from '../../root/model';
 import { UserAccountAdapter } from './user-account.adapter';
 import { UserAccountConnector } from './user-account.connector';
 import createSpy = jasmine.createSpy;
 
-const form: LoginForm = {
+const verificationTokenCreation: VerificationTokenCreation = {
   purpose: 'LOGIN',
   loginId: 'test@email.com',
   password: '1234',
@@ -50,10 +50,14 @@ describe('UserConnector', () => {
     expect(adapter.load).toHaveBeenCalledWith('user-id');
   });
 
-  it('should create a new customer', () => {
+  it('should create a new verification token', () => {
     let result;
-    service.createVerificationToken(form).subscribe((res) => (result = res));
+    service
+      .createVerificationToken(verificationTokenCreation)
+      .subscribe((res) => (result = res));
     expect(result).toEqual(verificationToken);
-    expect(adapter.createVerificationToken).toHaveBeenCalledWith(form);
+    expect(adapter.createVerificationToken).toHaveBeenCalledWith(
+      verificationTokenCreation
+    );
   });
 });
