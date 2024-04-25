@@ -22,11 +22,11 @@ context('scroll Position Restoration', () => {
     cy.get('cx-category-navigation a').eq(0).click();
 
     cy.get('cx-product-list-item').should('exist');
-    cy.get('cx-product-list-item .cx-product-name')
+    cy.get('cx-product-list-item .cx-product-name a')
       .eq(3)
       .then(($productItem) => {
         const productName = $productItem.text();
-        cy.wrap($productItem).scrollIntoView().click();
+        cy.wrap($productItem).scrollIntoView().click({ force: true });
 
         cy.log('Go to product details page');
         verifyProductPageLoaded(productName);
