@@ -4,21 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, OnDestroy, Optional } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { TrendingSearchesService } from './trending-searches.service';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { EMPTY, Subject } from 'rxjs';
+import { SearchPhrases } from './trending-searches.model';
 
 const MAX_TRENDING_SEARCHES = 5;
 
-export interface SearchBoxOutletTrendingSearches {
+interface SearchBoxOutletTrendingSearches {
   maxTrendingSearches?: number;
-}
-
-export interface SearchPhrases {
-  searchPhrase: string;
-  count: number;
 }
 
 @Component({
@@ -27,19 +23,18 @@ export interface SearchPhrases {
 })
 export class TrendingSearchesComponent implements OnInit, OnDestroy {
   public searchPhrases: SearchPhrases[] = [];
-  private destroy$ = new Subject<void>();
+  protected destroy$ = new Subject<void>();
 
-  constructor(
-    @Optional()
-    protected outletContext: OutletContextData<SearchBoxOutletTrendingSearches>,
-    private trendingSearchesService: TrendingSearchesService
-  ) {}
+  protected trendingSearchesService = inject(TrendingSearchesService);
+  protected outletContext = inject(OutletContextData, {
+    optional: true,
+  }) as OutletContextData | null;
 
   ngOnInit() {
     this.listenToContextChanges();
   }
 
-  private listenToContextChanges() {
+  protected listenToContextChanges() {
     this.getSearchPhrases()
       .pipe(takeUntil(this.destroy$))
       .subscribe((searchPhrases: SearchPhrases[]) => {
@@ -47,7 +42,7 @@ export class TrendingSearchesComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getSearchPhrases() {
+  protected getSearchPhrases() {
     return this.contextObservable.pipe(
       takeUntil(this.destroy$),
       switchMap((context: SearchBoxOutletTrendingSearches) => {

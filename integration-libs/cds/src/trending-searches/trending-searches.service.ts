@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CdsEndpointsService } from '../services';
 import { CdsConfig } from '../config';
 import { BaseSiteService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { SearchPhrases } from './trending-searches.component';
+import { SearchPhrases } from './trending-searches.model';
 
 const TRENDING_SEARCHES_ENDPOINT_KEY = 'searchIntelligence';
 
@@ -18,12 +18,10 @@ const TRENDING_SEARCHES_ENDPOINT_KEY = 'searchIntelligence';
   providedIn: 'root',
 })
 export class TrendingSearchesService {
-  constructor(
-    private httpClient: HttpClient,
-    private cdsEndpointsService: CdsEndpointsService,
-    private cdsConfig: CdsConfig,
-    private baseSiteService: BaseSiteService
-  ) {}
+  protected httpClient = inject(HttpClient);
+  protected cdsEndpointsService = inject(CdsEndpointsService);
+  protected cdsConfig = inject(CdsConfig);
+  protected baseSiteService = inject(BaseSiteService);
 
   getTrendingSearches(): Observable<SearchPhrases[]> {
     return new Observable((observer) => {
