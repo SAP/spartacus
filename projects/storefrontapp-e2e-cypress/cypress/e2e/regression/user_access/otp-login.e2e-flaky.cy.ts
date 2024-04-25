@@ -92,7 +92,7 @@ describe('OTP Login', () => {
       beforeEach(() => {
         cy.visit('/login');
       });
-      it('should be not able to create OTP with invalid user data (CXSPA-6672)', () => {
+      it('should not be able to create OTP with invalid user data (CXSPA-6672)', () => {
         listenForCreateVerificationToken();
 
         cy.get('cx-otp-login-form form').within(() => {
@@ -114,7 +114,7 @@ describe('OTP Login', () => {
     });
 
     describe('Verification token', () => {
-      it('Should can return back to otp login page from verification token page (CXSPA-6689)', () => {
+      it('Should go back to login page when click back button (CXSPA-6689)', () => {
         cy.visit('/login/verify-token');
 
         cy.get('cx-verification-token-form').should('exist');
