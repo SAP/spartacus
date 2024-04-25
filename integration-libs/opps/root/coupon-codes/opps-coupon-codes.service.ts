@@ -25,12 +25,18 @@ export class OppsCouponCodesService {
     }
   }
   setCouponCodes(couponCodes: string) {
-    this.winRef.localStorage?.setItem(this.localStorageKey, couponCodes);
+    if (this.localStorageKey && couponCodes) {
+      this.winRef.localStorage?.setItem(this.localStorageKey, couponCodes);
+    }
   }
   getCouponCodes(): string | undefined | null {
-    return this.winRef.localStorage?.getItem(this.localStorageKey);
+    if (this.localStorageKey) {
+      return this.winRef.localStorage?.getItem(this.localStorageKey);
+    }
   }
   clearCouponCodes() {
-    return this.winRef.localStorage?.removeItem(this.localStorageKey);
+    if (this.localStorageKey) {
+      return this.winRef.localStorage?.removeItem(this.localStorageKey);
+    }
   }
 }

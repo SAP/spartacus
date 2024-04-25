@@ -10,9 +10,9 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable, inject, isDevMode } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LoggerService, OccEndpointsService, WindowRef } from '@spartacus/core';
+import { OccEndpointsService, WindowRef } from '@spartacus/core';
 import { OppsCouponCodesService } from '../opps-coupon-codes.service';
 import { OppsConfig } from '../../config';
 
@@ -20,7 +20,6 @@ import { OppsConfig } from '../../config';
 export class OccOppsCouponCodesInterceptor implements HttpInterceptor {
   private oppsCoupon?: string | null;
   private requestHeader?: string;
-  protected logger = inject(LoggerService);
   protected config = inject(OppsConfig);
   protected occEndpoints = inject(OccEndpointsService);
   protected winRef = inject(WindowRef);
@@ -33,11 +32,6 @@ export class OccOppsCouponCodesInterceptor implements HttpInterceptor {
   protected initialize() {
     this.oppsCoupon = this.service.getCouponCodes();
     if (this.winRef.isBrowser()) {
-      if (!this.config.opps?.couponcodes?.httpHeaderName && isDevMode()) {
-        this.logger.warn(
-          `There is no httpHeaderName configured for OPPS Coupon`
-        );
-      }
       this.requestHeader =
         this.config.opps?.couponcodes?.httpHeaderName?.toLowerCase?.();
     }
