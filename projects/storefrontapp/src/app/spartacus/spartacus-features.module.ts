@@ -288,6 +288,7 @@ if (environment.requestedDeliveryDate) {
         a11yStoreFinderOverflow: true,
         a11yCartSummaryHeadingOrder: true,
         a11yUnitsListKeyboardControls: true,
+        a11yCartItemsLinksStyles: true,
       };
       return appFeatureToggles;
     }),

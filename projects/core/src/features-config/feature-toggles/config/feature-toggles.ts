@@ -159,6 +159,13 @@ export interface FeatureTogglesInterface {
    * adjusts 'ListComponent' styles to accomodate.
    */
   a11yUnitsListKeyboardControls?: boolean;
+
+  /**
+   * When set to `true`, product titles in `CartItemComponent`, `QuickOrderItemComponent`, `WishListItemComponent`
+   * adopt a more link-like style, appearing blue with an underline. This enhances visual cues for clickable elements,
+   * providing a more intuitive user experience.
+   */
+  a11yCartItemsLinksStyles?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -189,4 +196,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderOverflow: false,
   a11yCartSummaryHeadingOrder: false,
   a11yUnitsListKeyboardControls: false,
+  a11yCartItemsLinksStyles: false,
 };
