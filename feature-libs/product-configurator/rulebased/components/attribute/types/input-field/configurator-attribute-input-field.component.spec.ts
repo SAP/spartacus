@@ -8,7 +8,7 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { cold } from 'jasmine-marbles';
@@ -73,12 +73,6 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
           {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: MockConfigUtilsService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '*' },
-            },
           },
         ],
       })
@@ -274,6 +268,80 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
         'aria-describedby',
         'cx-configurator--label--attributeName'
       );
+    });
+  });
+
+  describe('Accessibility support for attributes of type sap_date', () => {
+    beforeEach(() => {
+      component.attribute.uiType = Configurator.UiType.SAP_DATE;
+      fixture.detectChanges();
+    });
+    describe('in case value is empty', () => {
+      it('should render input element with aria-label attribute that defines an accessible name to label the current element', () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'input',
+          'form-control',
+          0,
+          'aria-label',
+          'configurator.a11y.valueOfAttributeBlank attribute:' +
+            component.attribute.label
+        );
+      });
+
+      it('should render hidden label with aria-label attribute that explains that date picker can be reached by hitting space ', () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'label',
+          'cx-visually-hidden',
+          0,
+          'aria-label',
+          'configurator.a11y.valueOfAttributeBlank attribute:' +
+            component.attribute.label +
+            'configurator.a11y.spaceKeyForDatePicker'
+        );
+      });
+    });
+    describe('in case value is present', () => {
+      beforeEach(() => {
+        component.attribute.userInput = '2024-12-31';
+        fixture.detectChanges();
+      });
+      it("should contain input element with class name 'form-control' with an 'aria-label' attribute that also mentions the value", () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'input',
+          'form-control',
+          0,
+          'aria-label',
+          'configurator.a11y.valueOfAttributeFull attribute:' +
+            component.attribute.label +
+            ' value:' +
+            component.attribute.userInput
+        );
+      });
+
+      it('should render hidden label with aria-label attribute that explains that date picker can be reached by hitting space ', () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'label',
+          'cx-visually-hidden',
+          0,
+          'aria-label',
+          'configurator.a11y.valueOfAttributeFull attribute:' +
+            component.attribute.label +
+            ' value:' +
+            component.attribute.userInput +
+            'configurator.a11y.spaceKeyForDatePicker'
+        );
+      });
     });
   });
 
