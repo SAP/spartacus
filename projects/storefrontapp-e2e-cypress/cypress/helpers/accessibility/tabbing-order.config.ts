@@ -2509,4 +2509,11 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     // uncomment the following line to test againt S4,S7
     { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
   ],
+  otpLogin: [
+    { value: 'userId', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
+    { value: '', type: TabbingOrderTypes.LINK },
+    { value: 'Forgot password?', type: TabbingOrderTypes.LINK },
+    { value: 'Sign In', type: TabbingOrderTypes.BUTTON },
+  ],
 };
