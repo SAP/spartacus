@@ -19,6 +19,8 @@ import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, from } from 'rxjs';
 import { tap, withLatestFrom } from 'rxjs/operators';
 
+const globalMsgShowTime: number = 10000;
+
 @Injectable()
 export class VerificationTokenFormComponentService {
   constructor(
@@ -63,15 +65,15 @@ export class VerificationTokenFormComponentService {
   displayMessage(target: string) {
     this.globalMessage.add(
       {
-        key: 'verificationTokenForm.sentOTP',
+        key: 'verificationTokenForm.createVerificationToken',
         params: { target },
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      10000
+      globalMsgShowTime
     );
   }
 
-  sentOTP(loginId: string, password: string, purpose: string) {
+  createVerificationToken(loginId: string, password: string, purpose: string) {
     return this.verificationTokenFacade.createVerificationToken({
       loginId,
       password,

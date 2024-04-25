@@ -71,7 +71,7 @@ describe('VerificationTokenFormComponentService', () => {
     const password = 'pw4all';
     const purpose = 'LOGIN';
 
-    service.sentOTP(loginId, password, purpose);
+    service.createVerificationToken(loginId, password, purpose);
     expect(facade.createVerificationToken).toHaveBeenCalledWith({
       loginId,
       password,
