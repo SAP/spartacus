@@ -23,11 +23,11 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable, Subscription, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { BREAKPOINT, BreakpointService } from '../../../layout/';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxFeatures } from './search-box-features.model';
 import { SearchBoxOutlets } from './search-box-outlets.model';
