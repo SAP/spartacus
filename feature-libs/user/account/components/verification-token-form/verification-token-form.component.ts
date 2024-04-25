@@ -17,9 +17,9 @@ import { UntypedFormGroup } from '@angular/forms';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 
+import { VerificationToken } from '@spartacus/user/account/root';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
-import { VerificationToken } from '@spartacus/user/account/root';
 
 @Component({
   selector: 'cx-verification-token-form',
@@ -79,7 +79,11 @@ export class VerificationTokenFormComponent implements OnInit {
     this.waitTime = 60;
     this.startWaitTimeInterval();
     this.service
-      .sentOTP(this.target, this.password, ONE_TIME_PASSWORD_LOGIN_PURPOSE)
+      .createVerificationToken(
+        this.target,
+        this.password,
+        ONE_TIME_PASSWORD_LOGIN_PURPOSE
+      )
       .subscribe({
         next: (result: VerificationToken) => (this.tokenId = result.tokenId),
         complete: () => this.service.displayMessage(this.target),

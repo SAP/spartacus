@@ -34,7 +34,7 @@ class MockFormComponentService
   });
   isUpdating$ = isBusySubject;
   login = createSpy().and.stub();
-  sentOTP = createSpy().and.returnValue(
+  createVerificationToken = createSpy().and.returnValue(
     of({ tokenId: 'testTokenId', expiresIn: '300' })
   );
   displayMessage = createSpy('displayMessage').and.stub();
@@ -164,7 +164,7 @@ describe('VerificationTokenFormComponent', () => {
       expect(component.isResendDisabled).toBe(true);
       expect(component.waitTime).toBe(60);
       expect(component.startWaitTimeInterval).toHaveBeenCalled();
-      expect(service.sentOTP).toHaveBeenCalledWith(
+      expect(service.createVerificationToken).toHaveBeenCalledWith(
         'example@example.com',
         'password',
         ONE_TIME_PASSWORD_LOGIN_PURPOSE
