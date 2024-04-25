@@ -22,7 +22,7 @@
     <div class="col-md-6 col-lg-6 left-text">
       <span>
         <a
-          href=""
+          href="javascript:void(0);"
           (click)="resendOTP()"
           class="btn-link"
           [ngClass]="{ 'disabled-link': isResendDisabled }"
@@ -38,7 +38,12 @@
       </span>
     </div>
     <div class="col-md-6 col-lg-6 right-text">
-      <a href="" #noReceiveCodeLink (click)="openInfoDailog()" class="btn-link">
+      <a
+        href="javascript:void(0);"
+        #noReceiveCodeLink
+        (click)="openInfoDailog()"
+        class="btn-link"
+      >
         {{ 'verificationTokenForm.noReceiveCode' | cxTranslate }}
       </a>
     </div>
