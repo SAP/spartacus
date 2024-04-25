@@ -8,6 +8,8 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { defaultFeatureToggles } from '../../../core/src/features-config/feature-toggles/config/feature-toggles';
 import {
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
@@ -477,6 +479,25 @@ describe('add-spartacus', () => {
           )
         ).toBe(true);
       });
+    });
+  });
+
+  it('Should add provideFeatureToggles in SpartacusFeaturesModule', async () => {
+    const tree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
+
+    const featureModuleContent = tree.readContent(
+      `/projects/schematics-test/${spartacusFeaturesModulePath}`
+    );
+
+    expect(featureModuleContent).toContain(`provideFeatureToggles({`);
+
+    const featureTogglesKeys = Object.keys(defaultFeatureToggles);
+    featureTogglesKeys.forEach((key) => {
+      expect(featureModuleContent).toContain(`"${key}": true`);
     });
   });
 

@@ -66,6 +66,7 @@ import {
 import { addSpartacusConfiguration } from './configuration';
 import { Schema as SpartacusOptions } from './schema';
 import { setupSpartacusModule } from './spartacus';
+import { addFeatureToggles } from './spartacus-feature-toggles';
 import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
 
@@ -576,6 +577,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       setupSpartacusFeaturesModule(options),
 
       addSpartacusConfiguration(options),
+
+      addFeatureToggles(options),
 
       updateAppModule(options),
       createStylesConfig(options),
