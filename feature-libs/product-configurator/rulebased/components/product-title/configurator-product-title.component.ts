@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
 import {
-  CommonConfigurator,
+  // CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
@@ -44,15 +44,9 @@ export class ConfiguratorProductTitleComponent {
         .pipe(map((configuration) => ({ routerData, configuration })))
         .pipe(
           map((container) => {
-            switch (container.configuration.owner.type) {
-              case CommonConfigurator.OwnerType.CART_ENTRY:
-              case CommonConfigurator.OwnerType.ORDER_ENTRY:
-              case CommonConfigurator.OwnerType.SAVED_CART_ENTRY:
-              case CommonConfigurator.OwnerType.QUOTE_ENTRY:
-                return container.routerData.productCode;
-              default:
-                return container.configuration.owner.id;
-            }
+            return !!container.routerData.productCode
+              ? container.routerData.productCode
+              : container.configuration.productCode;
           }),
           switchMap((productCode) =>
             productCode

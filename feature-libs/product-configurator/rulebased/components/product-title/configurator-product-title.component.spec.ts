@@ -38,6 +38,7 @@ const ORDER_ENTRY_KEY = '001+1';
 const CART_ENTRY_KEY = ORDER_ENTRY_KEY;
 const SAVED_CART_ENTRY_KEY = ORDER_ENTRY_KEY;
 const QUOTE_ENTRY_KEY = ORDER_ENTRY_KEY;
+const PRODUCT_SUFFIX = 'PRODUCT_';
 const ORDER_ENTRY_SUFFIX = 'ORDER_ENTRY_';
 const CART_ENTRY_SUFFIX = 'CART_ENTRY_';
 const SAVED_CART_ENTRY_SUFFIX = 'SAVED_CART_ENTRY_';
@@ -345,7 +346,7 @@ function setDataForQuoteEntry() {
   mockRouterData.productCode = QUOTE_ENTRY_SUFFIX + PRODUCT_CODE;
 }
 
-describe('ConfigProductTitleComponent', () => {
+fdescribe('ConfigProductTitleComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -404,7 +405,7 @@ describe('ConfigProductTitleComponent', () => {
   });
 
   describe('product$', () => {
-    it('should get product name as part of product configuration', () => {
+    it('should get product name as part of product configuration via config product code', () => {
       setDataForProductConfiguration();
       initialize();
 
@@ -414,7 +415,30 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product configuration, in case configuration is cart bound', () => {
+    it('should get product name as part of product configuration via routerData product code', () => {
+      setDataForProductConfiguration();
+      mockRouterData.productCode = PRODUCT_SUFFIX + PRODUCT_CODE;
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        mockRouterData.productCode,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration, in case configuration is cart bound via config product code', () => {
+      setDataForCartEntry();
+      mockConfiguration.productCode = PRODUCT_CODE;
+      mockRouterData.productCode = undefined;
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration, in case configuration is cart bound via routerData product code', () => {
       setDataForCartEntry();
       initialize();
 
@@ -424,7 +448,19 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product configuration, in case configuration is saved cart bound', () => {
+    it('should get product name as part of product configuration, in case configuration is saved cart bound via config product code', () => {
+      setDataForSavedCartEntry();
+      mockConfiguration.productCode = PRODUCT_CODE;
+      mockRouterData.productCode = undefined;
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration, in case configuration is saved cart bound via routerData product code', () => {
       setDataForSavedCartEntry();
       initialize();
 
@@ -434,7 +470,19 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product configuration, in case configuration is quote bound', () => {
+    it('should get product name as part of product configuration, in case configuration is quote bound via config routerData', () => {
+      setDataForQuoteEntry();
+      mockConfiguration.productCode = PRODUCT_CODE;
+      mockRouterData.productCode = undefined;
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration, in case configuration is quote bound via routerDate product code', () => {
       setDataForQuoteEntry();
       initialize();
 
