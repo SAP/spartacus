@@ -18,18 +18,18 @@
     .info-icon {
       cx-icon {
         font-size: 1.4rem;
-        color: #0084fe;
+        color: var(--cx-color-primary);
       }
     }
 
     .title {
-      font-size: 1rem;
-      font-weight: 600;
+      @include type('4');
     }
   }
 
   .cx-dialog-body {
     padding: 1rem;
+    @include type();
 
     .cx-dialog-row {
       margin: 0;

@@ -6,24 +6,24 @@
 
       .left-text {
         padding: 0;
+        width: 50%;
         text-align: var(--cx-text-align, left);
       }
 
       .right-text {
         padding: 0;
+        width: 50%;
         text-align: var(--cx-text-align, right);
       }
 
       a.disabled-link {
         pointer-events: none;
-        color: #a7cce8;
+        color: var(--cx-color-secondary);
         text-decoration: none;
       }
 
       a {
-        font-size: 1rem;
-        font-weight: 400;
-        color: #1672b7;
+        @include type(7);
         white-space: nowrap;
         text-decoration: none;
       }

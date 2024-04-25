@@ -33,6 +33,8 @@ export class VerificationTokenFormComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
+  waitTime: number = 60;
+
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
@@ -47,8 +49,6 @@ export class VerificationTokenFormComponent implements OnInit {
   target: string;
 
   password: string;
-
-  waitTime: number = 60;
 
   isResendDisabled: boolean = true;
 
