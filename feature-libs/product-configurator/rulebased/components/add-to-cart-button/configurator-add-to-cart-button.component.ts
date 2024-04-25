@@ -253,7 +253,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     const owner = configuration.owner;
     const productCode = !!routerData.productCode
       ? routerData.productCode
-      : routerData.owner.id;
+      : configuration.productCode;
 
     const currentGroup = configuration.interactionState.currentGroup;
     if (currentGroup) {

@@ -25,7 +25,7 @@
           [queryParams]="{
             resolveIssues: true,
             skipConflicts: skipConflictsOnIssueNavigation$ | async,
-            productCode: routerData.productCode,
+            productCode: routerData.productCode
           }"
           cxAutoFocus
         >
@@ -55,7 +55,10 @@
               }
             } | cxUrl
           "
-          [queryParams]="{ resolveIssues: true,  productCode: routerData.productCode,}"
+          [queryParams]="{
+            resolveIssues: true,
+            productCode: routerData.productCode
+          }"
           cxAutoFocus
         >
           {{ 'configurator.header.resolveConflicts' | cxTranslate }}

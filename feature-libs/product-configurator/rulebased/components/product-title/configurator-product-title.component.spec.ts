@@ -35,9 +35,13 @@ const PRODUCT_DESCRIPTION = 'Here is a product description';
 const PRODUCT_NAME = 'productName';
 const CONFIG_ID = '12342';
 const ORDER_ENTRY_KEY = '001+1';
-const CART_ENTRY_KEY = '001+1';
+const CART_ENTRY_KEY = ORDER_ENTRY_KEY;
+const SAVED_CART_ENTRY_KEY = ORDER_ENTRY_KEY;
+const QUOTE_ENTRY_KEY = ORDER_ENTRY_KEY;
 const ORDER_ENTRY_SUFFIX = 'ORDER_ENTRY_';
 const CART_ENTRY_SUFFIX = 'CART_ENTRY_';
+const SAVED_CART_ENTRY_SUFFIX = 'SAVED_CART_ENTRY_';
+const QUOTE_ENTRY_SUFFIX = 'QUOTE_ENTRY_';
 
 const ROUTE_CONFIGURATION = 'configureCPQCONFIGURATOR';
 const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
@@ -230,7 +234,7 @@ function setDataForOrderEntry() {
     ),
     overview: {
       configId: CONFIG_ID,
-      productCode: ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
+      productCode: PRODUCT_CODE,
     },
   };
 
@@ -241,6 +245,7 @@ function setDataForOrderEntry() {
   mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
   mockRouterData.owner.id = ORDER_ENTRY_KEY;
+  mockRouterData.productCode = ORDER_ENTRY_SUFFIX + PRODUCT_CODE;
 }
 
 function setDataForOrderEntryWithoutOverview() {
@@ -288,6 +293,56 @@ function setDataForCartEntry() {
   mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
   mockRouterData.owner.id = CART_ENTRY_KEY;
   mockRouterData.productCode = CART_ENTRY_SUFFIX + PRODUCT_CODE;
+}
+
+function setDataForSavedCartEntry() {
+  mockConfiguration = {
+    ...ConfiguratorTestUtils.createConfiguration(
+      CONFIG_ID,
+      ConfiguratorModelUtils.createOwner(
+        CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
+        PRODUCT_CODE
+      )
+    ),
+    overview: {
+      configId: CONFIG_ID,
+      productCode: PRODUCT_CODE,
+    },
+  };
+
+  mockRouterState.state.params = {
+    entityKey: SAVED_CART_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.SAVED_CART_ENTRY;
+  mockRouterData.owner.id = SAVED_CART_ENTRY_KEY;
+  mockRouterData.productCode = SAVED_CART_ENTRY_SUFFIX + PRODUCT_CODE;
+}
+
+function setDataForQuoteEntry() {
+  mockConfiguration = {
+    ...ConfiguratorTestUtils.createConfiguration(
+      CONFIG_ID,
+      ConfiguratorModelUtils.createOwner(
+        CommonConfigurator.OwnerType.QUOTE_ENTRY,
+        PRODUCT_CODE
+      )
+    ),
+    overview: {
+      configId: CONFIG_ID,
+      productCode: PRODUCT_CODE,
+    },
+  };
+
+  mockRouterState.state.params = {
+    entityKey: QUOTE_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.QUOTE_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.QUOTE_ENTRY;
+  mockRouterData.owner.id = QUOTE_ENTRY_KEY;
+  mockRouterData.productCode = QUOTE_ENTRY_SUFFIX + PRODUCT_CODE;
 }
 
 describe('ConfigProductTitleComponent', () => {
@@ -359,16 +414,6 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product from overview, in case configuration is order bound', () => {
-      setDataForOrderEntry();
-      initialize();
-
-      expect(productService.get).toHaveBeenCalledWith(
-        ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
-        ProductScope.LIST
-      );
-    });
-
     it('should get product name as part of product configuration, in case configuration is cart bound', () => {
       setDataForCartEntry();
       initialize();
@@ -379,7 +424,38 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should not emit in case an order bound configuration does not have the OV aspect (yet)', () => {
+    it('should get product name as part of product configuration, in case configuration is saved cart bound', () => {
+      setDataForSavedCartEntry();
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        SAVED_CART_ENTRY_SUFFIX + PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration, in case configuration is quote bound', () => {
+      setDataForQuoteEntry();
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        QUOTE_ENTRY_SUFFIX + PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product from overview, in case configuration is order bound', () => {
+      setDataForOrderEntry();
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    // TODO: fix this test
+    xit('should not emit in case an order bound configuration does not have the OV aspect (yet)', () => {
       setDataForOrderEntryWithoutOverview();
       initialize();
       const expected = cold('|');

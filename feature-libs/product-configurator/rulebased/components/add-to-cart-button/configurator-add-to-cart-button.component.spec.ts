@@ -74,6 +74,10 @@ const navParamsOverview: any = {
   params: { ownerType: 'cartEntry', entityKey: CART_ENTRY_KEY },
 };
 
+const queryParams: any = {
+  queryParams: { productCode: mockProductConfiguration.productCode },
+};
+
 const mockOwner = mockProductConfiguration.owner;
 const mockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
@@ -133,6 +137,7 @@ class MockConfiguratorQuantityService {
   getQuantity(): Observable<number> {
     return of(QUANTITY);
   }
+
   setQuantity(): void {}
 }
 
@@ -201,7 +206,9 @@ class MockIntersectionService {
     return of(false);
   }
 }
+
 const cart: Cart = { quoteCode: QUOTE_CODE };
+
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   getCart(): Observable<Cart> {
     return of(cart);
@@ -608,8 +615,10 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('should navigate to OV in case configuration is cart bound and we are on product config page', () => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       performUpdateCart();
-      expect(routingService.go).toHaveBeenCalledWith(navParamsOverview);
-
+      expect(routingService.go).toHaveBeenCalledWith(
+        navParamsOverview,
+        queryParams
+      );
       expect(
         configuratorGroupsService.setGroupStatusVisited
       ).toHaveBeenCalled();
@@ -655,7 +664,10 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('should navigate to overview in case configuration has not been added yet and we are on configuration page', () => {
       ensureProductBound();
       component.onAddToCart(mockProductConfiguration, mockRouterData);
-      expect(routingService.go).toHaveBeenCalledWith(navParamsOverview);
+      expect(routingService.go).toHaveBeenCalledWith(
+        navParamsOverview,
+        queryParams
+      );
     });
 
     it('should remove one configuration (cart bound) in case configuration has not yet been added and we are on configuration page', () => {
@@ -702,9 +714,13 @@ describe('ConfigAddToCartButtonComponent', () => {
       component['navigateForProductBound'](
         mockProductConfiguration,
         mockOwner.configuratorType,
-        false
+        false,
+        mockProductConfiguration.productCode
       );
-      expect(routingService.go).toHaveBeenCalledWith(navParamsOverview);
+      expect(routingService.go).toHaveBeenCalledWith(
+        navParamsOverview,
+        queryParams
+      );
     });
 
     it('should handle case that next owner is not defined', () => {
@@ -714,12 +730,16 @@ describe('ConfigAddToCartButtonComponent', () => {
       component['navigateForProductBound'](
         { ...mockProductConfiguration, nextOwner: undefined },
         mockOwner.configuratorType,
-        false
+        false,
+        mockProductConfiguration.productCode
       );
-      expect(routingService.go).toHaveBeenCalledWith({
-        ...navParamsOverview,
-        params: { ...navParamsOverview.params, entityKey: 'INITIAL' },
-      });
+      expect(routingService.go).toHaveBeenCalledWith(
+        {
+          ...navParamsOverview,
+          params: { ...navParamsOverview.params, entityKey: 'INITIAL' },
+        },
+        queryParams
+      );
     });
   });
 
@@ -1054,16 +1074,20 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('navigateToOverview should navigate to overview page and should call focusFirstActiveElement inside focusOverviewInTabBar', fakeAsync(() => {
       component['navigateToOverview'](
         mockRouterData.owner.configuratorType,
-        mockRouterData.owner
+        mockRouterData.owner,
+        mockProductConfiguration.productCode
       );
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'configureOverview' + mockRouterData.owner.configuratorType,
-        params: {
-          ownerType: 'cartEntry',
-          entityKey: mockRouterData.owner.id,
+      expect(routingService.go).toHaveBeenCalledWith(
+        {
+          cxRoute: 'configureOverview' + mockRouterData.owner.configuratorType,
+          params: {
+            ownerType: 'cartEntry',
+            entityKey: mockRouterData.owner.id,
+          },
         },
-      });
+        queryParams
+      );
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
