@@ -2516,11 +2516,4 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Forgot password?', type: TabbingOrderTypes.LINK },
     { value: 'Sign In', type: TabbingOrderTypes.BUTTON },
   ],
-  verifyToken: [
-    { value: 'tokenCode', type: TabbingOrderTypes.FORM_FIELD },
-    { value: "Didn't receive the code?", type: TabbingOrderTypes.LINK },
-    { value: 'Verify', type: TabbingOrderTypes.BUTTON },
-    { value: 'Back', type: TabbingOrderTypes.LINK },
-  ],
-  verifyTokenDialog: [{ value: 'ok', type: TabbingOrderTypes.BUTTON }],
 };
