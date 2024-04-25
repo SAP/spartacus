@@ -6,30 +6,31 @@
 
 import { Injectable, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { OppsConfig } from '../public_api';
+import { OppsConfig } from '../config';
 
 @Injectable()
 export class OppsCouponCodesService {
   protected winRef = inject(WindowRef);
   protected config = inject(OppsConfig);
-  protected LOCAL_STORAGE_KEY =
+  protected localStorageKey =
     this.config.opps?.couponcodes?.localStorageKey ?? '';
+
   saveUrlCouponCodes() {
-    const URL_PARAM = this.config.opps?.couponcodes?.urlParameter ?? '';
+    const urlParam = this.config.opps?.couponcodes?.urlParameter ?? '';
     const url = this.winRef.location.href ?? '';
     const queryParams = new URLSearchParams(url.substring(url.indexOf('?')));
-    const oppsCoupon = queryParams.get(URL_PARAM);
+    const oppsCoupon = queryParams.get(urlParam);
     if (oppsCoupon) {
       this.setCouponCodes(oppsCoupon);
     }
   }
   setCouponCodes(couponCodes: string) {
-    this.winRef.localStorage?.setItem(this.LOCAL_STORAGE_KEY, couponCodes);
+    this.winRef.localStorage?.setItem(this.localStorageKey, couponCodes);
   }
   getCouponCodes(): string | undefined | null {
-    return this.winRef.localStorage?.getItem(this.LOCAL_STORAGE_KEY);
+    return this.winRef.localStorage?.getItem(this.localStorageKey);
   }
   clearCouponCodes() {
-    return this.winRef.localStorage?.removeItem(this.LOCAL_STORAGE_KEY);
+    return this.winRef.localStorage?.removeItem(this.localStorageKey);
   }
 }

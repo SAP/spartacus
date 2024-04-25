@@ -17,7 +17,7 @@ import { OppsCouponCodesService } from '../opps-coupon-codes.service';
 import { OppsConfig } from '../../config';
 
 @Injectable({ providedIn: 'root' })
-export class OccOppsCouponInterceptor implements HttpInterceptor {
+export class OccOppsCouponCodesInterceptor implements HttpInterceptor {
   private oppsCoupon?: string | null;
   private requestHeader?: string;
   protected logger = inject(LoggerService);
