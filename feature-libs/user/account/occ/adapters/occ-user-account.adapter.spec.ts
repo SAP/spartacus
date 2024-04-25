@@ -15,9 +15,9 @@ import {
   VERIFICATION_TOKEN_NORMALIZER,
 } from '@spartacus/user/account/core';
 import {
-  LoginForm,
   User,
   VerificationToken,
+  VerificationTokenCreation,
 } from '@spartacus/user/account/root';
 import { OccUserAccountAdapter } from './occ-user-account.adapter';
 
@@ -61,7 +61,7 @@ const user: User = {
   displayUid: password,
 };
 
-const form: LoginForm = {
+const verificationTokenCreation: VerificationTokenCreation = {
   purpose: 'LOGIN',
   loginId: 'test@email.com',
   password: password,
@@ -137,7 +137,7 @@ describe('OccUserAccountAdapter', () => {
   describe('create verification token', () => {
     it('should create verification token for given email and password', () => {
       occUserAccountAdapter
-        .createVerificationToken(form)
+        .createVerificationToken(verificationTokenCreation)
         .subscribe((result) => {
           expect(result).toEqual(verificationToken);
         });
@@ -155,7 +155,9 @@ describe('OccUserAccountAdapter', () => {
     });
 
     it('should use converter', () => {
-      occUserAccountAdapter.createVerificationToken(form).subscribe();
+      occUserAccountAdapter
+        .createVerificationToken(verificationTokenCreation)
+        .subscribe();
       httpMock
         .expectOne((req) => {
           return req.method === 'POST';

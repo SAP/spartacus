@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { USER_ACCOUNT_CORE_FEATURE } from '../feature-name';
-import { LoginForm, VerificationToken } from '../model';
+import { VerificationToken, VerificationTokenCreation } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +21,6 @@ import { LoginForm, VerificationToken } from '../model';
 })
 export abstract class VerificationTokenFacade {
   abstract createVerificationToken(
-    form: LoginForm
+    verificationTokenCreation: VerificationTokenCreation
   ): Observable<VerificationToken>;
 }

@@ -7,8 +7,8 @@
 import { Injectable } from '@angular/core';
 import { Command, CommandService } from '@spartacus/core';
 import {
-  LoginForm,
   VerificationToken,
+  VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
@@ -17,10 +17,10 @@ import { UserAccountConnector } from '../connectors';
 @Injectable()
 export class VerificationTokenService implements VerificationTokenFacade {
   protected createVerificationTokenCommand: Command<
-    { form: LoginForm },
+    { verificationTokenCreation: VerificationTokenCreation },
     VerificationToken
-  > = this.command.create(({ form }) =>
-    this.connector.createVerificationToken(form)
+  > = this.command.create(({ verificationTokenCreation }) =>
+    this.connector.createVerificationToken(verificationTokenCreation)
   );
 
   constructor(
@@ -31,7 +31,11 @@ export class VerificationTokenService implements VerificationTokenFacade {
   /**
    * create verification token
    */
-  createVerificationToken(form: LoginForm): Observable<VerificationToken> {
-    return this.createVerificationTokenCommand.execute({ form });
+  createVerificationToken(
+    verificationTokenCreation: VerificationTokenCreation
+  ): Observable<VerificationToken> {
+    return this.createVerificationTokenCommand.execute({
+      verificationTokenCreation,
+    });
   }
 }

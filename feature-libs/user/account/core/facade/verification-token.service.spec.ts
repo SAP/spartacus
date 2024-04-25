@@ -4,11 +4,14 @@ import {
   UserAccountConnector,
   VerificationTokenService,
 } from '@spartacus/user/account/core';
-import { LoginForm, VerificationToken } from '@spartacus/user/account/root';
+import {
+  VerificationToken,
+  VerificationTokenCreation,
+} from '@spartacus/user/account/root';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-const form: LoginForm = {
+const verificationTokenCreation: VerificationTokenCreation = {
   purpose: 'LOGIN',
   loginId: 'test@email.com',
   password: '1234',
@@ -50,13 +53,15 @@ describe('VerificationTokenService', () => {
     it('should create verification token for given email and password', () => {
       let result: VerificationToken | undefined;
       service
-        .createVerificationToken(form)
+        .createVerificationToken(verificationTokenCreation)
         .subscribe((data) => {
           result = data;
         })
         .unsubscribe();
       expect(result).toEqual(verificationToken);
-      expect(connector.createVerificationToken).toHaveBeenCalledWith(form);
+      expect(connector.createVerificationToken).toHaveBeenCalledWith(
+        verificationTokenCreation
+      );
     });
   });
 });

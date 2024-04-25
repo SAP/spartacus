@@ -22,9 +22,9 @@ import {
   VERIFICATION_TOKEN_NORMALIZER,
 } from '@spartacus/user/account/core';
 import {
-  LoginForm,
   User,
   VerificationToken,
+  VerificationTokenCreation,
 } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -51,7 +51,9 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
     );
   }
 
-  createVerificationToken(form: LoginForm): Observable<VerificationToken> {
+  createVerificationToken(
+    verificationTokenCreation: VerificationTokenCreation
+  ): Observable<VerificationToken> {
     const url = this.occEndpoints.buildUrl('createVerificationToken');
 
     const headers = InterceptorUtil.createHeader(
@@ -61,13 +63,18 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
         ...CONTENT_TYPE_JSON_HEADER,
       })
     );
-    form = this.converter.convert(form, LOGIN_FORM_SERIALIZER);
-
-    return this.http.post<VerificationToken>(url, form, { headers }).pipe(
-      catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
-      }),
-      this.converter.pipeable(VERIFICATION_TOKEN_NORMALIZER)
+    verificationTokenCreation = this.converter.convert(
+      verificationTokenCreation,
+      LOGIN_FORM_SERIALIZER
     );
+
+    return this.http
+      .post<VerificationToken>(url, verificationTokenCreation, { headers })
+      .pipe(
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
+        this.converter.pipeable(VERIFICATION_TOKEN_NORMALIZER)
+      );
   }
 }
