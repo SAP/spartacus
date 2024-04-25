@@ -16,6 +16,13 @@ export abstract class OnNavigateConfig {
     active?: boolean;
     ignoreQueryString?: boolean;
     ignoreRoutes?: string[];
+    /**
+     * When set, finds the element with the tag name matching this string
+     * to return focus to on navigation.
+     *
+     * Uses hostComponent when unset.
+     */
+    selectedHostElement?: string;
   };
 }
 
