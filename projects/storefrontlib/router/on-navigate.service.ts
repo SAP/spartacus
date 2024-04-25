@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ViewportScroller } from '@angular/common';
+import { DOCUMENT, ViewportScroller } from '@angular/common';
 import {
   ApplicationRef,
   ComponentRef,
@@ -35,6 +35,16 @@ export class OnNavigateService {
 
   get hostComponent(): ComponentRef<any> {
     return this.injector.get(ApplicationRef)?.components?.[0];
+  }
+
+  get selectedHostElement(): HTMLElement | undefined {
+    const toSelect =
+      this.config?.enableResetViewOnNavigate?.selectedHostElement;
+    return toSelect
+      ? <HTMLElement>(
+          this.injector.get(DOCUMENT)?.getElementsByTagName?.(toSelect)?.[0]
+        )
+      : undefined;
   }
 
   constructor(
@@ -93,8 +103,20 @@ export class OnNavigateService {
             this.scrollToPosition(currentRoute, position);
           }
 
-          this.hostComponent?.location?.nativeElement.focus();
+          this.focusOnHostElement();
         });
+    }
+  }
+
+  /**
+   * Focus on selectedHostElement if set in config.
+   * Otherwise, focuses on hostComponent.
+   */
+  protected focusOnHostElement() {
+    if (this.selectedHostElement) {
+      this.selectedHostElement?.focus();
+    } else {
+      this.hostComponent?.location?.nativeElement.focus();
     }
   }
 
