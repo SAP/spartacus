@@ -32,5 +32,13 @@ describe('Tabbing order for OTP login', () => {
         verifyTabbingOrder('cx-otp-login-form', config.otpLogin);
       });
     });
+
+    it('should allow to navigate with tab key for otp verification token form', () => {
+      cy.visit('/login/verify-token');
+      cy.get('cx-verification-token-form').should('exist');
+      cy.get('cx-verification-token-form form').should('exist');
+
+      verifyTabbingOrder('cx-verification-token-form', config.verifyToken);
+    });
   });
 });
