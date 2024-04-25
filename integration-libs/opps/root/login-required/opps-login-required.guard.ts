@@ -14,7 +14,7 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import { Observable, of, switchMap, take } from 'rxjs';
-import { OppsConfig } from '../public_api';
+import { OppsConfig } from '../config/opps-config';
 
 @Injectable({
   providedIn: 'root',

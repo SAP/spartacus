@@ -1,62 +1,54 @@
-// import { TestBed } from '@angular/core/testing';
-// import { WindowRef } from '@spartacus/core';
-// import { OppsCouponCodesService } from './opps-coupon-codes.service';
-// import { OppsConfig } from '../public_api';
-// const MockWindowRef = {
-//   localStorage: {
-//     setItem: (_key: string, _value: string) => {},
-//     getItem: (_key: string): string => {
-//       return 'pink,blue';
-//     },
-//     removeItem: (_key: string) => {},
-//   },
-//   isBrowser(): boolean {
-//     return true;
-//   },
-//   location: {
-//     href: 'http://localhost:4200/electronics-spa/en/USD/?couponcodes=pink,blue',
-//   },
-// };
-// const MockConfig: OppsConfig = {
-//   opps: {
-//     couponcodes: {
-//       localStorageKey: 'opps-couponcodes',
-//       urlParameter: 'couponcodes',
-//     },
-//   },
-// };
-// describe('OppsCouponCodesService', () => {
-//   let service: OppsCouponCodesService;
-//   //let winRef: WindowRef;
-//   //let config: OppsConfig;
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       providers: [
-//         { WindowRef, useValue: MockWindowRef },
-//         { OppsConfig, useValue: MockConfig },
-//       ],
-//     });
-//     service = TestBed.inject(OppsCouponCodesService);
-//     //winRef = TestBed.inject(WindowRef);
-//     //config = TestBed.inject(OppsConfig);
-//   });
-//   it('should inject service', () => {
-//     expect(service).toBeTruthy();
-//   });
-//   //   it('should save coupon codes to local storage', () => {
-//   //     service.saveUrlCouponCodes();
-//   //     expect(service.setCouponCodes).toHaveBeenCalledWith('pink,blue');
-//   //   });
-//   //   it('should set coupon codes to local storage', () => {
-//   //     service.setCouponCodes('pink,blue');
-//   //     expect(winRef.localStorage.setItem).toHaveBeenCalledWith( 'opps-couponcodes', 'pink,blue');
-//   //   });
-//   //   it('should get coupon codes from local storage', () => {
-//   //     service.getCouponCodes();
-//   //     expect(winRef.localStorage.getItem).toHaveBeenCalledWith('opps-couponcodes');
-//   //   });
-//   //   it('should clear coupon codes from local storage', () => {
-//   //     service.clearCouponCodes();
-//   //     expect(winRef.localStorage.removeItem).toHaveBeenCalledWith('opps-couponcodes');
-//   //   });
-// });
+import { TestBed } from '@angular/core/testing';
+import { OppsConfig } from 'integration-libs/opps/root/config/opps-config';
+import { WindowRef } from 'projects/core/src/window';
+import { OppsCouponCodesService } from './opps-coupon-codes.service';
+const mockLocation = {
+  href: 'http://localhost:4200/electronics-spa/en/USD/?test-param=summer',
+};
+const MockConfig: OppsConfig = {
+  opps: {
+    couponcodes: {
+      urlParameter: 'test-param',
+      localStorageKey: 'test-key',
+    },
+  },
+};
+describe('OppsCouponCodesService', () => {
+  let service: OppsCouponCodesService;
+  let winRef: WindowRef;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: OppsConfig, useValue: MockConfig },
+        OppsCouponCodesService,
+      ],
+    });
+    service = TestBed.inject(OppsCouponCodesService);
+    winRef = TestBed.inject(WindowRef);
+  });
+  it('should inject service', () => {
+    expect(service).toBeTruthy();
+  });
+  it('should save coupons to local storage', () => {
+    spyOnProperty(winRef, 'location').and.returnValue(mockLocation);
+    service.saveUrlCouponCodes();
+    expect(service.getCouponCodes()).toEqual('summer');
+  });
+  it('should set/get coupon codes to/from local storage', () => {
+    spyOn(winRef.localStorage, 'setItem').and.callThrough();
+    spyOn(winRef.localStorage, 'getItem').and.callThrough();
+    service.setCouponCodes('black,pink');
+    expect(service.getCouponCodes()).toEqual('black,pink');
+    expect(winRef.localStorage?.setItem).toHaveBeenCalledWith(
+      'test-key',
+      'black,pink'
+    );
+    expect(winRef.localStorage?.getItem).toHaveBeenCalledWith('test-key');
+  });
+  it('should remove coupon codes from local storage', () => {
+    spyOn(winRef.localStorage, 'removeItem').and.callThrough();
+    service.clearCouponCodes();
+    expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith('test-key');
+    expect(service.getCouponCodes()).toBeNull();
+  });
+});
