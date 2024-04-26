@@ -28,11 +28,15 @@ export class CxCommonEngine extends CommonEngine {
   }
 
   /**
-   * Renders the given options and handles any server error response.
-   * If an error response exists, it will be thrown after the rendering is complete.
+   * @override
+   * Renders for the given options.
+   * If a server error response object is populated from the rendered applications
+   * (via `PROPAGATE_SERVER_ERROR_RESPONSE` callback), then such an error
+   * will be thrown and the result promise rejected - but only AFTER the rendering is complete.
+   *
    * @param {CommonEngineRenderOptions} options - The options to render.
-   * @returns {Promise<string>} The rendered HTML as a string.
-   * @throws {CxServerErrorResponse} The server error response, if one occurred during rendering.
+   * @returns {Promise<string>} Promise which resolves with the rendered HTML as a string
+   *                                                 OR rejects with the server error response object, if any is propagated from the rendered app.
    */
   async render(options: CommonEngineRenderOptions): Promise<string> {
     return super
