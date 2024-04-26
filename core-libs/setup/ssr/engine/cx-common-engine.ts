@@ -47,7 +47,8 @@ export class CxCommonEngine extends CommonEngine {
             provide: PROPAGATE_SERVER_ERROR_RESPONSE,
             useFactory: () => {
               return (serverErrorResponse: CxServerErrorResponse) => {
-                this.errorResponse ??= serverErrorResponse;
+                // We're interested only the first propagated error, so we use `??=` instead of `=`:
+                errorResponse ??= serverErrorResponse;
               };
             },
           },
