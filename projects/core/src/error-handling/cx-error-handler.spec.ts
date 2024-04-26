@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { CxErrorHandler } from './cx-error-handler';
-import { ErrorInterceptorService } from './error-interceptors/error-interceptor.service';
 import {
   MULTI_ERROR_HANDLERS,
   MultiErrorHandler,
@@ -22,7 +21,6 @@ describe('CxErrorHandler', () => {
     TestBed.configureTestingModule({
       providers: [
         CxErrorHandler,
-        ErrorInterceptorService,
         {
           provide: MULTI_ERROR_HANDLERS,
           useClass: MockErrorHandler,
