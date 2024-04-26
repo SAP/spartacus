@@ -17,12 +17,6 @@ import { PROPAGATE_SERVER_ERROR_RESPONSE } from '../error-handling/server-error-
  * @extends {CommonEngine}
  */
 export class CxCommonEngine extends CommonEngine {
-  /**
-   * Stores any server error response that occurs during the rendering process.
-   * @type {CxServerErrorResponse | undefined}
-   */
-  protected errorResponse: undefined | CxServerErrorResponse;
-
   constructor(options?: CommonEngineOptions) {
     super(options);
   }
@@ -36,9 +30,11 @@ export class CxCommonEngine extends CommonEngine {
    *
    * @param {CommonEngineRenderOptions} options - The options to render.
    * @returns {Promise<string>} Promise which resolves with the rendered HTML as a string
-   *                                                 OR rejects with the server error response object, if any is propagated from the rendered app.
+   *                            OR rejects with the server error response object, if any is propagated from the rendered app.
    */
   async render(options: CommonEngineRenderOptions): Promise<string> {
+    let errorResponse: undefined | CxServerErrorResponse;
+
     return super
       .render({
         ...options,
@@ -56,8 +52,8 @@ export class CxCommonEngine extends CommonEngine {
         ],
       })
       .then((html: string) => {
-        if (this.errorResponse) {
-          throw this.errorResponse;
+        if (errorResponse) {
+          throw errorResponse;
         }
         return html;
       });
