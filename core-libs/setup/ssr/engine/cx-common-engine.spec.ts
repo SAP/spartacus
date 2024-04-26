@@ -121,16 +121,6 @@ describe('CxCommonEngine', () => {
       bootstrap: WithPropagatedErrorServerModule,
     });
 
-    // await cxCommonEngineWrapper(
-    //   engine,
-    //   {
-    //     req: {} as any,
-    //     bootstrap: null as any,
-    //     document: '<cx-response></cx-response>',
-    //   },
-    //   callback
-    // );
-
     // Cannot use `.toMatchInlineSnapshot()` due to bug in jest:
     // see: https://github.com/thymikee/jest-preset-angular/issues/1084ń
     await expect(
