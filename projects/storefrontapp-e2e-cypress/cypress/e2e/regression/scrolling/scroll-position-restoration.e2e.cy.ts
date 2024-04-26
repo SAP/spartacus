@@ -36,7 +36,7 @@ context('scroll Position Restoration', () => {
       .eq(3)
       .then(($productItem) => {
         const productName = $productItem.text();
-        cy.wrap($productItem).scrollIntoView().click({ force: true });
+        cy.wrap($productItem).scrollIntoView().click();
 
         cy.log('Go to product details page');
         verifyProductPageLoaded(productName);
