@@ -2,10 +2,7 @@ import {
   CmsPageNotFoundServerErrorResponse,
   UnknownServerErrorResponse,
 } from '../server-error-response';
-import {
-  handleCmsPageNotFoundErrorResponse,
-  handleUnknownServerErrorResponse,
-} from './server-error-response-handlers';
+import { defaultServerErrorResponseHandlers } from './server-error-response-handlers';
 
 describe('serverErrorResponseHandlers', () => {
   let documentContent: string;
@@ -30,7 +27,7 @@ describe('serverErrorResponseHandlers', () => {
         message: 'Page not found',
       });
       const errorRequestHandler =
-        handleCmsPageNotFoundErrorResponse(documentContent);
+        defaultServerErrorResponseHandlers(documentContent);
       res.headersSent = true;
 
       errorRequestHandler(err, req, res, next);
@@ -46,7 +43,7 @@ describe('serverErrorResponseHandlers', () => {
         message: 'Page not found',
       });
       const errorRequestHandler =
-        handleCmsPageNotFoundErrorResponse(documentContent);
+        defaultServerErrorResponseHandlers(documentContent);
 
       errorRequestHandler(err, req, res, next);
 
@@ -59,7 +56,7 @@ describe('serverErrorResponseHandlers', () => {
     it('should call next for other error types', () => {
       const err = new Error('Some error');
       const errorRequestHandler =
-        handleCmsPageNotFoundErrorResponse(documentContent);
+        defaultServerErrorResponseHandlers(documentContent);
 
       errorRequestHandler(err, req, res, next);
 
@@ -76,7 +73,7 @@ describe('serverErrorResponseHandlers', () => {
         message: 'Page not found',
       });
       const errorRequestHandler =
-        handleUnknownServerErrorResponse(documentContent);
+        defaultServerErrorResponseHandlers(documentContent);
       res.headersSent = true;
 
       errorRequestHandler(err, req, res, next);
@@ -90,7 +87,7 @@ describe('serverErrorResponseHandlers', () => {
     it('should handle UnknownServerErrorResponse', () => {
       const err = new UnknownServerErrorResponse({ message: 'Some error' });
       const errorRequestHandler =
-        handleUnknownServerErrorResponse(documentContent);
+        defaultServerErrorResponseHandlers(documentContent);
 
       errorRequestHandler(err, req, res, next);
 
@@ -103,7 +100,7 @@ describe('serverErrorResponseHandlers', () => {
     it('should call next for other error types', () => {
       const err = new Error('Some error');
       const errorRequestHandler =
-        handleUnknownServerErrorResponse(documentContent);
+        defaultServerErrorResponseHandlers(documentContent);
 
       errorRequestHandler(err, req, res, next);
 

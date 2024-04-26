@@ -19,16 +19,21 @@ import { PROPAGATE_SERVER_ERROR_RESPONSE } from '../server-error-response/propag
   providedIn: 'root',
 })
 export class ServerRespondingErrorHandler implements MultiErrorHandler {
-  protected transformers = inject(SERVER_ERROR_RESPONSE_FACTORY);
+  protected serverErrorResponseFactories = inject(
+    SERVER_ERROR_RESPONSE_FACTORY
+  );
   protected propagateServerErrorResponse = inject(
     PROPAGATE_SERVER_ERROR_RESPONSE
   );
 
   handleError(error: unknown): void {
-    const cxServerError = resolveApplicable(this.transformers, [error])?.create(
-      error
-    );
+    const cxServerErrorResponse = resolveApplicable(
+      this.serverErrorResponseFactories,
+      [error]
+    )?.create(error);
 
-    cxServerError && this.propagateServerErrorResponse(cxServerError);
+    if (cxServerErrorResponse) {
+      this.propagateServerErrorResponse(cxServerErrorResponse);
+    }
   }
 }

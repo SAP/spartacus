@@ -8,9 +8,8 @@ import { InjectionToken } from '@angular/core';
 import { CxServerErrorResponse } from './cx-server-error-response';
 
 /**
- * Injection token used to provide a function that will propagate the server error response occurred during server side rendering to the CommonEngine wrapper.
- *
- * @private
+ * Function that will propagate the server error response object
+ * created during server side rendering to the CxCommonEngine.
  */
 export const PROPAGATE_SERVER_ERROR_RESPONSE = new InjectionToken<
   (serverResponse: CxServerErrorResponse) => void

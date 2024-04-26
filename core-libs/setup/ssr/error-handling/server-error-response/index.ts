@@ -5,3 +5,4 @@
  */
 
 export * from './cx-server-error-response';
+export * from './propagate-server-error-response';

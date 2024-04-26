@@ -474,7 +474,7 @@ export class OptimizedSsrEngine {
    * Logs the result of the render.
    */
   private logForRenderResult(
-    err: any,
+    err: unknown | undefined,
     html: string | undefined,
     request: Request
   ): void {

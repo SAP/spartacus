@@ -8,10 +8,9 @@ import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
+  defaultServerErrorResponseHandlers,
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
-  handleCmsPageNotFoundErrorResponse,
-  handleUnknownServerErrorResponse,
 } from '@spartacus/setup/ssr';
 
 import express from 'express';
@@ -66,8 +65,7 @@ export function app(): express.Express {
     });
   });
 
-  server.use(handleCmsPageNotFoundErrorResponse(indexHtmlContent));
-  server.use(handleUnknownServerErrorResponse(indexHtmlContent));
+  server.use(defaultServerErrorResponseHandlers(indexHtmlContent));
 
   return server;
 }
