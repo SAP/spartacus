@@ -346,7 +346,7 @@ function setDataForQuoteEntry() {
   mockRouterData.productCode = QUOTE_ENTRY_SUFFIX + PRODUCT_CODE;
 }
 
-fdescribe('ConfigProductTitleComponent', () => {
+describe('ConfigProductTitleComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
