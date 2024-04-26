@@ -6,12 +6,12 @@
 
 import { Provider } from '@angular/core';
 import { LoggingErrorHandler } from './logging-error-handler';
-import { MULTI_ERROR_HANDLERS } from './multi-error-handlers';
+import { MULTI_ERROR_HANDLER } from './multi-error-handler';
 
-export function provideMultiErrorHandlers(): Provider[] {
+export function provideMultiErrorHandler(): Provider[] {
   return [
     {
-      provide: MULTI_ERROR_HANDLERS,
+      provide: MULTI_ERROR_HANDLER,
       useExisting: LoggingErrorHandler,
       multi: true,
     },

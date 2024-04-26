@@ -7,7 +7,7 @@
 import { Provider, StaticProvider } from '@angular/core';
 import {
   LoggerService,
-  MULTI_ERROR_HANDLERS,
+  MULTI_ERROR_HANDLER,
   SERVER_REQUEST_ORIGIN,
   SERVER_REQUEST_URL,
 } from '@spartacus/core';
@@ -40,7 +40,7 @@ export function provideServer(options?: ServerOptions): Provider[] {
       useFactory: serverLoggerServiceFactory,
     },
     {
-      provide: MULTI_ERROR_HANDLERS,
+      provide: MULTI_ERROR_HANDLER,
       useExisting: ServerRespondingErrorHandler,
       multi: true,
     },

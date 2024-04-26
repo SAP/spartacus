@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { LoggerService } from '../../logger';
-import { MultiErrorHandler } from './multi-error-handlers';
+import { MultiErrorHandler } from './multi-error-handler';
 
 /**
  * An error handler that logs errors using a logger service.
