@@ -40,6 +40,7 @@ context('scroll Position Restoration', () => {
 
         cy.log('Go to product details page');
         verifyProductPageLoaded(productName);
+        cy.wait(500);
         cy.window().scrollTo('bottom');
 
         cy.log('Go back to product list');
