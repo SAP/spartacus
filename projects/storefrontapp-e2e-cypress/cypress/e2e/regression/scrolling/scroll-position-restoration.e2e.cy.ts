@@ -40,8 +40,14 @@ context('scroll Position Restoration', () => {
 
         cy.log('Go to product details page');
         verifyProductPageLoaded(productName);
-        cy.wait(500);
-        cy.window().scrollTo('bottom');
+
+        cy.get('cx-tab-paragraph-container button')
+          .eq(2)
+          .then(($button) => {
+            cy.wrap($button).scrollIntoView().click();
+            cy.get('cx-product-reviews').should('be.visible');
+            cy.window().scrollTo('bottom');
+          });
 
         cy.log('Go back to product list');
         cy.go(-1);
