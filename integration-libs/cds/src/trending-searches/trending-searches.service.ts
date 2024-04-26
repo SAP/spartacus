@@ -10,7 +10,7 @@ import { CdsEndpointsService } from '../services';
 import { CdsConfig } from '../config';
 import { BaseSiteService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { SearchPhrases } from './trending-searches.model';
+import { SearchPhrases } from './model';
 
 const TRENDING_SEARCHES_ENDPOINT_KEY = 'searchIntelligence';
 

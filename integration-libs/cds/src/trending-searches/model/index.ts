@@ -4,7 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface SearchPhrases {
-  searchPhrase: string;
-  count: number;
-}
+export * from './trending-searches.model';

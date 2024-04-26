@@ -9,13 +9,9 @@ import { OutletContextData } from '@spartacus/storefront';
 import { TrendingSearchesService } from './trending-searches.service';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { EMPTY, Subject } from 'rxjs';
-import { SearchPhrases } from './trending-searches.model';
+import { SearchBoxOutletTrendingSearches, SearchPhrases } from './model';
 
 const MAX_TRENDING_SEARCHES = 5;
-
-interface SearchBoxOutletTrendingSearches {
-  maxTrendingSearches?: number;
-}
 
 @Component({
   selector: 'cx-trending-searches',
