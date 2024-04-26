@@ -16,6 +16,16 @@ context('scroll Position Restoration', () => {
       },
     }).as('getPage');
 
+    cy.intercept({
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/cms/pages`,
+      query: {
+        pageType: 'CategoryPage',
+      },
+    }).as('getCategoryPage');
+
     cy.visit('/');
 
     cy.log('Go to category page');
@@ -34,6 +44,7 @@ context('scroll Position Restoration', () => {
 
         cy.log('Go back to product list');
         cy.go(-1);
+        waitForCategoryPageLoad();
         cy.window().its('scrollY').should('be.greaterThan', 0);
 
         cy.log('Go forward to product details');
@@ -49,4 +60,8 @@ context('scroll Position Restoration', () => {
 const verifyProductPageLoaded = (productName: string) => {
   cy.wait('@getPage').its('response.statusCode').should('eq', 200);
   cy.get(`cx-breadcrumb h1`).should('contain', productName);
+};
+
+const waitForCategoryPageLoad = () => {
+  cy.wait('@getCategoryPage').its('response.statusCode').should('eq', 200);
 };
