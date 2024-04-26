@@ -42,6 +42,7 @@ export class OpfCtaScriptsService {
   protected currentProductService = inject(CurrentProductService);
 
   getCtaHtmlslList(): Observable<string[]> {
+    console.log('Fetching Htmls...');
     return this.fillCtaScriptRequest().pipe(
       switchMap((ctaScriptsRequest) => this.fetchCtaScripts(ctaScriptsRequest)),
       switchMap((scriptslist) => this.runCtaScripts(scriptslist)),
@@ -58,6 +59,7 @@ export class OpfCtaScriptsService {
   protected fetchCtaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<OpfDynamicScript[]> {
+    console.log('Fetching scripts...');
     return this.opfPaymentFacade.getCtaScripts(ctaScriptsRequest).pipe(
       concatMap((ctaScriptsResponse: CtaScriptsResponse) => {
         if (!ctaScriptsResponse?.value?.length) {
@@ -77,10 +79,12 @@ export class OpfCtaScriptsService {
 
     return this.getPaymentAccountIds().pipe(
       concatMap((accIds) => {
+        console.log(accIds);
         paymentAccountIds = accIds;
         return this.getScriptLocation();
       }),
       concatMap((scriptsLocation: CtaScriptsLocation | undefined) => {
+        console.log(scriptsLocation);
         return this.fillRequestForTargetPage(
           scriptsLocation,
           paymentAccountIds
@@ -123,13 +127,13 @@ export class OpfCtaScriptsService {
   protected fillCtaRequestforPagesWithOrder(
     scriptLocation: CtaScriptsLocation
   ): Observable<CtaScriptsRequest> {
+    console.log('Filling with order...');
     return this.getOrderDetails(scriptLocation).pipe(
       map((order) => {
-        if (!order?.paymentInfo?.id) {
-          throw new Error('OrderPaymentInfoId missing');
-        }
+        console.log(order);
+
         const ctaScriptsRequest: CtaScriptsRequest = {
-          cartId: order?.paymentInfo?.id,
+          cartId: '00299267',
           ctaProductItems: this.getProductItems(order as Order),
           scriptLocations: [scriptLocation],
         };
@@ -146,6 +150,7 @@ export class OpfCtaScriptsService {
     return this.currentProductService.getProduct().pipe(
       filter(isNotNullable),
       map((product: Product) => {
+        // TODO: For on-site messaging add here additional attributes
         return {
           orderId: undefined,
           ctaProductItems: [{ productId: product?.code, quantity: 1 }],
