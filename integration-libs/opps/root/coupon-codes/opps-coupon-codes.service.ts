@@ -15,7 +15,7 @@ export class OppsCouponCodesService {
   protected localStorageKey =
     this.config.opps?.couponcodes?.localStorageKey ?? '';
 
-  saveUrlCouponCodes() {
+  saveUrlCouponCodes(): void {
     const urlParam = this.config.opps?.couponcodes?.urlParameter ?? '';
     const url = this.winRef.location.href ?? '';
     const queryParams = new URLSearchParams(url.substring(url.indexOf('?')));
@@ -24,7 +24,7 @@ export class OppsCouponCodesService {
       this.setCouponCodes(oppsCoupon);
     }
   }
-  setCouponCodes(couponCodes: string) {
+  setCouponCodes(couponCodes: string): void {
     if (this.localStorageKey && couponCodes) {
       this.winRef.localStorage?.setItem(this.localStorageKey, couponCodes);
     }
@@ -34,9 +34,9 @@ export class OppsCouponCodesService {
       return this.winRef.localStorage?.getItem(this.localStorageKey);
     }
   }
-  clearCouponCodes() {
+  clearCouponCodes(): void {
     if (this.localStorageKey) {
-      return this.winRef.localStorage?.removeItem(this.localStorageKey);
+      this.winRef.localStorage?.removeItem(this.localStorageKey);
     }
   }
 }
