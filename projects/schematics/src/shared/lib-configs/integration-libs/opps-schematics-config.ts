@@ -32,5 +32,7 @@ export const OPPS_SCHEMATICS_CONFIG: SchematicConfig = {
     name: OPPS_ROOT_MODULE,
     content: `${OPPS_ROOT_MODULE}`,
   },
+  /* Through Spartacus OPPS code doesnot have a dependency on Personalization,
+  backend occ api of OPPS requires Personalization to be enabled , hence adding this dependency */
   dependencyFeatures: [TRACKING_PERSONALIZATION_FEATURE_NAME],
 };
