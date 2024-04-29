@@ -11,7 +11,12 @@
       <li *ngFor="let phrase of searchPhrases">
         <a
           role="option"
-          [href]="'/electronics-spa/en/USD/search/' + phrase.searchPhrase"
+          [routerLink]="
+            {
+              cxRoute: 'search',
+              params: { query: phrase.searchPhrase }
+            } | cxUrl
+          "
         >
           {{ phrase.searchPhrase }}
         </a>
