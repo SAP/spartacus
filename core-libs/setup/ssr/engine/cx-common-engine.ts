@@ -32,7 +32,7 @@ export class CxCommonEngine extends CommonEngine {
    * @returns {Promise<string>} Promise which resolves with the rendered HTML as a string
    *                            OR rejects with the server error response object, if any is propagated from the rendered app.
    */
-  async render(options: CommonEngineRenderOptions): Promise<string> {
+  override async render(options: CommonEngineRenderOptions): Promise<string> {
     let errorResponse: undefined | CxServerErrorResponse;
 
     return super
