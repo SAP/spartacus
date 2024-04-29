@@ -5,8 +5,18 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CdsConfig, CdsModule } from '@spartacus/cds';
-import { provideConfigFactory, WindowRef } from '@spartacus/core';
+import {
+  CdsConfig,
+  CdsModule,
+  cdsTranslationChunksConfig,
+  cdsTranslations,
+} from '@spartacus/cds';
+import {
+  I18nConfig,
+  provideConfig,
+  provideConfigFactory,
+  WindowRef,
+} from '@spartacus/core';
 
 const cds1: CdsConfig = {
   cds: {
@@ -69,6 +79,15 @@ const cdsConfig = (windowRef: WindowRef): CdsConfig => {
 
 @NgModule({
   imports: [CdsModule.forRoot()],
-  providers: [provideConfigFactory(cdsConfig, [WindowRef])],
+  providers: [
+    provideConfig(<I18nConfig>{
+      i18n: {
+        resources: cdsTranslations,
+        chunks: cdsTranslationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
+    provideConfigFactory(cdsConfig, [WindowRef]),
+  ],
 })
 export class CdsFeatureModule {}
