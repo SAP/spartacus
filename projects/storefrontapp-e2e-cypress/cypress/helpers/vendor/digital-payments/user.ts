@@ -23,6 +23,9 @@ export const my_user = {
       year: '2030',
     },
   },
+  orderConfirmation: {
+    orderConfirmation: 'Order Confirmation',
+  }
 };
 
 export function checkoutShippingAddress() {
@@ -90,9 +93,9 @@ export function reviewAndPlaceOrder() {
     '/order-confirmation',
     'getOrderConfirmationPage'
   );
-  cy.get('cx-review-submit').within(() => {
+  cy.get('cx-checkout-review-payment').within(() => {
     cy.get('cx-card')
-      .eq(0)
+      .eq(1)
       .within(() => {
         cy.findByText(my_user.payment.number);
         cy.findByText(
@@ -111,8 +114,12 @@ export function reviewAndPlaceOrder() {
 }
 
 export function orderConfirmation() {
-  cy.get('cx-breadcrumb').within(() => {
-    cy.findByText('Order Confirmation');
+  cy.get('cx-breadcrumb')
+  .within(() => {
+    cy.get('h1')
+    .within(() => {
+    cy.findByText(my_user.orderConfirmation.orderConfirmation);
+    })
   });
   cy.get('cx-order-confirmation-thank-you-message');
   cy.findByText(my_user.payment.number);
