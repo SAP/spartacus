@@ -160,7 +160,10 @@ export function verifyTabbingOrder() {
     .find('cx-icon')
     .should('have.class', 'cx-icon fas fa-angle-right flip-at-rtl');
 
-  // Focus should move to the footer area
   cy.pressTab();
-  cy.get('cx-footer-navigation:focus-within');
+  cy.pressTab(true);
+  cy.focused()
+    .should('have.class', 'next')
+    .find('cx-icon')
+    .should('have.class', 'cx-icon fas fa-angle-right flip-at-rtl');
 }
