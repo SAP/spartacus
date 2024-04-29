@@ -299,9 +299,8 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
           'cx-visually-hidden',
           0,
           'aria-label',
-          'configurator.a11y.valueOfAttributeBlank attribute:' +
-            component.attribute.label +
-            'configurator.a11y.spaceKeyForDatePicker'
+          'configurator.a11y.valueOfDateAttributeBlank attribute:' +
+            component.attribute.label
         );
       });
     });
@@ -335,11 +334,10 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
           'cx-visually-hidden',
           0,
           'aria-label',
-          'configurator.a11y.valueOfAttributeFull attribute:' +
+          'configurator.a11y.valueOfDateAttributeFull attribute:' +
             component.attribute.label +
             ' value:' +
-            component.attribute.userInput +
-            'configurator.a11y.spaceKeyForDatePicker'
+            component.attribute.userInput
         );
       });
     });

@@ -5,17 +5,17 @@
     id="{{ createAttributeUiKey('labelForDate', attribute.name) }}"
     [attr.aria-label]="
       isUserInputEmpty
-        ? ('configurator.a11y.valueOfAttributeBlank'
-            | cxTranslate
-              : {
-                  attribute: attribute.label
-                }) + ('configurator.a11y.spaceKeyForDatePicker' | cxTranslate)
-        : ('configurator.a11y.valueOfAttributeFull'
-            | cxTranslate
-              : {
-                  value: attribute.userInput,
-                  attribute: attribute.label
-                }) + ('configurator.a11y.spaceKeyForDatePicker' | cxTranslate)
+        ? ('configurator.a11y.valueOfDateAttributeBlank'
+          | cxTranslate
+            : {
+                attribute: attribute.label
+              })
+        : ('configurator.a11y.valueOfDateAttributeFull'
+          | cxTranslate
+            : {
+                value: attribute.userInput,
+                attribute: attribute.label
+              })
     "
   ></label>
   <input
