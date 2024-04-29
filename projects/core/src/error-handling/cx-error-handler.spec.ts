@@ -1,10 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { CxErrorHandler } from './cx-error-handler';
-import { ErrorInterceptorService } from './error-interceptors/error-interceptor.service';
-import {
-  MULTI_ERROR_HANDLERS,
-  MultiErrorHandler,
-} from './multi-error-handlers';
+import { MULTI_ERROR_HANDLER, MultiErrorHandler } from './multi-error-handler';
 
 class MockErrorHandler implements MultiErrorHandler {
   handleError = jasmine.createSpy('handleError');
@@ -22,14 +18,13 @@ describe('CxErrorHandler', () => {
     TestBed.configureTestingModule({
       providers: [
         CxErrorHandler,
-        ErrorInterceptorService,
         {
-          provide: MULTI_ERROR_HANDLERS,
+          provide: MULTI_ERROR_HANDLER,
           useClass: MockErrorHandler,
           multi: true,
         },
         {
-          provide: MULTI_ERROR_HANDLERS,
+          provide: MULTI_ERROR_HANDLER,
           useClass: MockErrorHandler2,
           multi: true,
         },
@@ -37,7 +32,7 @@ describe('CxErrorHandler', () => {
     });
 
     cxErrorHandler = TestBed.inject(CxErrorHandler);
-    errorHandlers = TestBed.inject(MULTI_ERROR_HANDLERS);
+    errorHandlers = TestBed.inject(MULTI_ERROR_HANDLER);
   });
 
   it('should call all error handlers', () => {

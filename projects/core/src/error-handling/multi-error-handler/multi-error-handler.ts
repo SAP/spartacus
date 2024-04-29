@@ -19,10 +19,9 @@ export interface MultiErrorHandler {
 
 /**
  * Injection token for multi error handlers.
- * Are multi provided error handlers will be called in the order they are provided.
- *
+ * Multi provided error handlers will be called in the order they are provided.
  */
 
-export const MULTI_ERROR_HANDLERS = new InjectionToken<MultiErrorHandler[]>(
-  'MULTI_ERROR_HANDLERS'
+export const MULTI_ERROR_HANDLER = new InjectionToken<MultiErrorHandler[]>(
+  'MULTI_ERROR_HANDLER'
 );

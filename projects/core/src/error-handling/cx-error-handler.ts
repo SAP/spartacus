@@ -6,7 +6,7 @@
 
 import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { LoggerService } from '../logger';
-import { MULTI_ERROR_HANDLERS } from './multi-error-handlers';
+import { MULTI_ERROR_HANDLER } from './multi-error-handler';
 
 /**
  * The CxErrorHandler is the default ErrorHandler for Spartacus.
@@ -23,7 +23,7 @@ export class CxErrorHandler implements ErrorHandler {
    * @deprecated Since 6.6 - `LoggerService` is unused here. Instead it's now used in `LoggingErrorHandler`.
    */
   protected logger = inject(LoggerService);
-  protected errorHandlers = inject(MULTI_ERROR_HANDLERS);
+  protected errorHandlers = inject(MULTI_ERROR_HANDLER);
 
   /**
    * Error handler method. Handles the error by passing it to the registered multi error handlers.
