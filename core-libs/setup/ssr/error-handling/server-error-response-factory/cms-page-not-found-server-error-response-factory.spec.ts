@@ -38,8 +38,9 @@ describe('CmsPageNotFoundServerErrorResponse', () => {
     expect(cmsPageNotFoundServerErrorResponse.getPriority()).toBe(Priority.LOW);
   });
 
-  it('should match if error is an instance of HttpErrorResponse and URL starts with proper OCC endpoint including /cms/pages', () => {
+  it('should match if error is an instance of HttpErrorResponse and, status is 404 and URL starts with proper OCC endpoint including /cms/pages', () => {
     const error = new HttpErrorResponse({
+      status: 404,
       url: expectedUrl,
     });
     expect(cmsPageNotFoundServerErrorResponse.hasMatch(error)).toBe(true);
@@ -47,14 +48,24 @@ describe('CmsPageNotFoundServerErrorResponse', () => {
 
   it('should not match if error is not type of HttpErrorResponse', () => {
     const error = {
+      status: 404,
       url: expectedUrl,
     };
+    expect(cmsPageNotFoundServerErrorResponse.hasMatch(error)).toBe(false);
+  });
+
+  it('should not match if status does not equal 404', () => {
+    const error = new HttpErrorResponse({
+      status: 500,
+      url: expectedUrl,
+    });
     expect(cmsPageNotFoundServerErrorResponse.hasMatch(error)).toBe(false);
   });
 
   it('should not match if URL does not start with proper OCC url including /cms/pages string', () => {
     const unexpectedUrl = `${mockOccConfig.backend?.occ?.baseUrl}/${mockOccConfig.backend?.occ?.prefix}/unexpected`;
     const error = new HttpErrorResponse({
+      status: 404,
       url: unexpectedUrl,
     });
     expect(cmsPageNotFoundServerErrorResponse.hasMatch(error)).toBe(false);

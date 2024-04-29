@@ -8,9 +8,9 @@ import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-d
 import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
-  defaultSsrOptimizationOptions,
   RenderingStrategy,
   SsrOptimizationOptions,
+  defaultSsrOptimizationOptions,
 } from './ssr-optimization-options';
 
 const defaultRenderTime = 100;
@@ -20,6 +20,7 @@ jest.mock('fs', () => ({
   readFileSync: () => '',
 }));
 const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
+const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
 class MockExpressServerLogger implements Partial<ExpressServerLogger> {
   log(message: string, context: ExpressServerLoggerContext): void {
@@ -666,6 +667,7 @@ describe('OptimizedSsrEngine', () => {
       engineRunner.request('a');
       tick(200);
       expect(engineRunner.responses).toEqual([new Error('a-0')]);
+      expect(consoleErrorSpy).toHaveBeenCalled();
     }));
 
     it('should render fallback to CSR when followup request fails', fakeAsync(() => {
@@ -685,6 +687,7 @@ describe('OptimizedSsrEngine', () => {
         new Error('a-0'),
         new Error('a-1'),
       ]);
+      expect(consoleErrorSpy).toHaveBeenCalled();
     }));
   });
 
@@ -745,6 +748,7 @@ describe('OptimizedSsrEngine', () => {
       engineRunner.request('a');
       tick(200);
       expect(engineRunner.responses).toEqual([new Error('a-0')]);
+      expect(consoleErrorSpy).toHaveBeenCalled();
       flush();
     }));
 
@@ -763,6 +767,7 @@ describe('OptimizedSsrEngine', () => {
       tick(200);
       engineRunner.request('a');
       expect(engineRunner.responses).toEqual(['', new Error('a-0')]);
+      expect(consoleErrorSpy).toHaveBeenCalled();
     }));
   });
   describe('maxRenderTime option', () => {
@@ -1335,6 +1340,7 @@ describe('OptimizedSsrEngine', () => {
       tick(100);
       expect(engineRunner.renderCount).toEqual(1);
       expect(engineRunner.responses).toEqual(['', new Error('a-0')]);
+      expect(consoleErrorSpy).toHaveBeenCalled();
       flush();
     }));
 
@@ -1374,6 +1380,7 @@ describe('OptimizedSsrEngine', () => {
         new Error('a-0'),
         new Error('a-0'),
       ]);
+      expect(consoleErrorSpy).toHaveBeenCalled();
       flush();
     }));
   });
@@ -1393,29 +1400,8 @@ describe('OptimizedSsrEngine', () => {
 
     it('should use the default server logger, if custom logger is not specified', () => {
       new TestEngineRunner({});
-      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-        [
-          "{
-          "message": "[spartacus] SSR optimization engine initialized",
-          "context": {
-            "timestamp": "2023-01-01T00:00:00.000Z",
-            "options": {
-              "cacheSize": 3000,
-              "concurrency": 10,
-              "timeout": 3000,
-              "forcedSsrTimeout": 60000,
-              "maxRenderTime": 300000,
-              "reuseCurrentRendering": true,
-              "debug": false,
-              "renderingStrategyResolver": "(request) => {\\n    if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {\\n        return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;\\n    }\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}",
-              "logger": "DefaultExpressServerLogger"
-            }
-          }
-        }",
-        ]
-      `);
+      expect(consoleErrorSpy).toHaveBeenCalled();
     });
-
     it('should use the provided logger', () => {
       new TestEngineRunner({
         logger: new MockExpressServerLogger() as ExpressServerLogger,

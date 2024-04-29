@@ -7,6 +7,7 @@ import {
   ServerErrorResponseFactory,
   UnknownServerErrorResponseFactory,
 } from '../server-error-response-factory';
+import { PROPAGATE_SERVER_ERROR_RESPONSE } from '../server-error-response/propagate-server-error-response';
 import { ServerRespondingErrorHandler } from './server-responding-error-handler';
 
 const mockOccConfig: OccConfig = {
@@ -38,6 +39,7 @@ describe('ServerRespondingErrorHandler', () => {
     let unknownServerErrorFactory: UnknownServerErrorResponseFactory;
     let serverRespondingErrorHandler: ServerRespondingErrorHandler;
     let factories: ServerErrorResponseFactory[];
+    let propagateServerErrorResponse: any;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -54,6 +56,10 @@ describe('ServerRespondingErrorHandler', () => {
             multi: true,
           },
           {
+            provide: PROPAGATE_SERVER_ERROR_RESPONSE,
+            useValue: jest.fn(),
+          },
+          {
             provide: OccConfig,
             useValue: mockOccConfig,
           },
@@ -68,6 +74,9 @@ describe('ServerRespondingErrorHandler', () => {
         factories[0] as CmsPageNotFoundServerErrorResponseFactory;
       unknownServerErrorFactory =
         factories[1] as UnknownServerErrorResponseFactory;
+      propagateServerErrorResponse = TestBed.inject(
+        PROPAGATE_SERVER_ERROR_RESPONSE
+      );
 
       jest.spyOn(pageNotFoundFactory, 'create');
       jest.spyOn(unknownServerErrorFactory, 'create');
@@ -79,6 +88,7 @@ describe('ServerRespondingErrorHandler', () => {
 
     it('should call CmsPageNotFoundServerErrorResponseFactory', () => {
       const error = new HttpErrorResponse({
+        status: 404,
         url: expectedUrl,
       });
 
@@ -86,6 +96,7 @@ describe('ServerRespondingErrorHandler', () => {
 
       expect(pageNotFoundFactory.create).toHaveBeenCalledWith(error);
       expect(unknownServerErrorFactory.create).not.toHaveBeenCalled();
+      expect(propagateServerErrorResponse as jest.Mock).toHaveBeenCalled();
     });
 
     it('should call UnknownServerErrorResponseFactory as fallback', () => {
@@ -98,6 +109,7 @@ describe('ServerRespondingErrorHandler', () => {
 
       expect(pageNotFoundFactory.create).not.toHaveBeenCalled();
       expect(unknownServerErrorFactory.create).toHaveBeenCalledWith(error);
+      expect(propagateServerErrorResponse as jest.Mock).toHaveBeenCalled();
     });
   });
 
@@ -123,6 +135,10 @@ describe('ServerRespondingErrorHandler', () => {
             provide: SERVER_ERROR_RESPONSE_FACTORY,
             useClass: MockFactoryWithHigherPriority,
             multi: true,
+          },
+          {
+            provide: PROPAGATE_SERVER_ERROR_RESPONSE,
+            useValue: jest.fn(),
           },
         ],
       });

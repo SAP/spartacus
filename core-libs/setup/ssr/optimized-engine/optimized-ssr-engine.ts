@@ -291,11 +291,7 @@ export class OptimizedSsrEngine {
         clearTimeout(requestTimeout);
         callback(err, html);
 
-        this.log(
-          `Request is resolved with the SSR rendering result (${request?.originalUrl})`,
-          true,
-          { request }
-        );
+        this.logForRenderResult(err, html, request);
 
         // store the render only if caching is enabled
         if (this.ssrOptions?.cache) {
@@ -472,5 +468,28 @@ export class OptimizedSsrEngine {
 
       renderCallback(err, html);
     });
+  }
+
+  /**
+   * Logs the result of the render.
+   */
+  private logForRenderResult(
+    err: unknown | undefined,
+    html: string | undefined,
+    request: Request
+  ): void {
+    if (html) {
+      this.log(
+        `Request is resolved with the SSR rendering result (${request?.originalUrl})`,
+        true,
+        { request }
+      );
+    }
+    if (err) {
+      this.logger.error(
+        `Request is resolved with the SSR rendering error (${request?.originalUrl})`,
+        { request, error: err }
+      );
+    }
   }
 }

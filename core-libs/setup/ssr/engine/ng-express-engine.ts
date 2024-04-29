@@ -5,13 +5,10 @@
  */
 
 import { StaticProvider } from '@angular/core';
-import {
-  CommonEngine,
-  CommonEngineOptions,
-  CommonEngineRenderOptions,
-} from '@angular/ssr';
+import { CommonEngineOptions, CommonEngineRenderOptions } from '@angular/ssr';
 import { Request, Response } from 'express';
 import { REQUEST, RESPONSE } from '../tokens/express.tokens';
+import { CxCommonEngine } from './cx-common-engine';
 
 /**
  * @license
@@ -80,7 +77,7 @@ export interface RenderOptions extends CommonEngineRenderOptions {
  * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/src/main.ts
  */
 export function ngExpressEngine(setupOptions: NgSetupOptions) {
-  const engine = new CommonEngine({
+  const engine = new CxCommonEngine({
     bootstrap: setupOptions.bootstrap,
     providers: setupOptions.providers,
     enablePerformanceProfiler: setupOptions.enablePerformanceProfiler,
