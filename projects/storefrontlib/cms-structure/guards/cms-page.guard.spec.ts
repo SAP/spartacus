@@ -92,7 +92,7 @@ describe('CmsPageGuard', () => {
 
   describe('canActivate', () => {
     describe('when multiple page guards are implemented,', () => {
-      it('should return result of page guards injected via CX_PAGE_GUARD if its a UrlTree', () => {
+      it('should return result of page guards injected via CX_PAGE_GUARD_TOKEN if its a UrlTree', () => {
         const urlTree = {} as UrlTree;
         spyOn(multiGuard, 'canActivate').and.returnValue(of(urlTree));
         spyOn(guard, 'coreCanActivate').and.returnValue(of(true));
@@ -105,7 +105,7 @@ describe('CmsPageGuard', () => {
         expect(result).toBe(urlTree);
         expect(guard.coreCanActivate).not.toHaveBeenCalled();
       });
-      it('should return result of page guards injected via CX_PAGE_GUARD if its false', () => {
+      it('should return result of page guards injected via CX_PAGE_GUARD_TOKEN if its false', () => {
         spyOn(multiGuard, 'canActivate').and.returnValue(of(false));
         spyOn(guard, 'coreCanActivate').and.returnValue(of(true));
         let result;
@@ -116,7 +116,7 @@ describe('CmsPageGuard', () => {
         expect(result).toBe(false);
         expect(guard.coreCanActivate).not.toHaveBeenCalled();
       });
-      it('should return result of page guards injected via CX_PAGE_GUARD if its not true', () => {
+      it('should return result of page guards injected via CX_PAGE_GUARD_TOKEN if its not true', () => {
         const urlTree = {} as UrlTree;
         spyOn(multiGuard, 'canActivate').and.returnValue(of(true));
         spyOn(guard, 'coreCanActivate').and.returnValue(of(urlTree));

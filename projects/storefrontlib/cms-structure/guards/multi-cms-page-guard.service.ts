@@ -5,7 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { CX_PAGE_GUARD } from './cms-page-guard.provider';
+import { CX_PAGE_GUARD_TOKEN } from './cms-page-guard.provider';
 import { RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, concat, endWith, first, of, skipWhile } from 'rxjs';
 import { CmsGuardsService } from '../services';
@@ -15,7 +15,7 @@ import { CmsActivatedRouteSnapshot, UnifiedInjector } from '@spartacus/core';
   providedIn: 'root',
 })
 export class MultiCmsPageGuardService {
-  protected cxPageGuards = inject(CX_PAGE_GUARD);
+  protected cxPageGuards = inject(CX_PAGE_GUARD_TOKEN);
   protected cmsGuardService = inject(CmsGuardsService);
   protected unifiedInjector = inject(UnifiedInjector);
 

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { CmsActivatedRouteSnapshot, ConfigModule } from '@spartacus/core';
 import { CmsGuardsService } from '../services';
 import { MultiCmsPageGuardService } from './multi-cms-page-guard.service';
-import { CX_PAGE_GUARD } from './cms-page-guard.provider';
+import { CX_PAGE_GUARD_TOKEN } from './cms-page-guard.provider';
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
@@ -56,7 +56,7 @@ describe('MultiCmsPageGuardService', () => {
           useClass: MockCmsGuardsService,
         },
         {
-          provide: CX_PAGE_GUARD,
+          provide: CX_PAGE_GUARD_TOKEN,
           useValue: [MockCustomGuard1, MockCustomGuard2, MockCustomGuard3],
         },
       ],
