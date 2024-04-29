@@ -54,6 +54,9 @@
     top: 47px;
     width: 330px;
     z-index: 20;
+    @include media-breakpoint-only(xs) {
+      width: 95%;
+    }
 
     .quick-order-results-products {
       list-style: none;

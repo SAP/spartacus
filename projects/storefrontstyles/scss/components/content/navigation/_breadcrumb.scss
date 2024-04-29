@@ -23,6 +23,10 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
     text-overflow: ellipsis;
     text-align: center;
     text-transform: capitalize;
+    @include media-breakpoint-only(xs) {
+      white-space: wrap;
+      @include type('4');
+    }
   }
 
   nav {

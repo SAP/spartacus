@@ -17,6 +17,9 @@
       width: 100%;
       max-width: none;
     }
+    @include media-breakpoint-only(xs) {
+      padding-top: 35px;
+    }
   }
   .ProductListSlot,
   .ProductGridSlot {
@@ -25,6 +28,12 @@
     @include media-breakpoint-down(md) {
       width: 100%;
       max-width: none;
+    }
+
+    .cx-page-section {
+      @include media-breakpoint-only(xs) {
+        padding-top: 0;
+      }
     }
   }
 }

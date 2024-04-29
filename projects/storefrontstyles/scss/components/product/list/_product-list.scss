@@ -36,6 +36,19 @@
       border-width: 1px 0 0 0;
       padding: 25px 0 0px 0;
     }
+
+    @include media-breakpoint-only(xs) {
+      .row {
+        .col-auto:first-of-type {
+          padding-inline-start: 0;
+          padding-inline-end: 10px;
+        }
+        .col-auto:last-of-type {
+          padding-inline-end: 10px;
+          padding-inline-start: 0;
+        }
+      }
+    }
   }
 
   .cx-pagination {
@@ -51,6 +64,11 @@
     height: 48px;
     align-items: center;
     display: flex;
+    @include media-breakpoint-only(xs) {
+      display: unset;
+      height: 80px;
+    }
+
     span {
       margin-inline-end: 0.5rem;
       flex: none;
