@@ -18,14 +18,12 @@
 
       a.disabled-link {
         pointer-events: none;
-        color: var(--cx-color-secondary);
-        text-decoration: none;
+        color: var(--cx-color-dark);
       }
 
       a {
+        color: var(--cx-color-primary);
         @include type(7);
-        white-space: nowrap;
-        text-decoration: none;
       }
     }
 
