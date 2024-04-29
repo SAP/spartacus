@@ -41,5 +41,12 @@
   },
   "myAccountV2User": {
     "signOut": "Sign Out"
+  },
+  "httpHandlers": {
+    "validationErrors": {
+      "invalid": {
+        "loginId": "Email is not valid."
+      }
+    }
   }
 }
