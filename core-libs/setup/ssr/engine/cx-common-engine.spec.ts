@@ -8,7 +8,7 @@ import { PROPAGATE_SERVER_ERROR_RESPONSE } from '../error-handling/server-error-
 import { CmsPageNotFoundServerErrorResponse } from '../public_api';
 import { CxCommonEngine } from './cx-common-engine';
 
-// Test how the cxCommonEngineWrapper handles successful server-side rendering
+// Test how the CxCommonEngine handles successful server-side rendering
 @Component({ selector: 'cx-mock', template: 'some template' })
 export class SuccessComponent {}
 
@@ -19,7 +19,7 @@ export class SuccessComponent {}
 })
 export class SuccessServerModule {}
 
-// Test how the cxCommonEngineWrapper handles propagated server errors
+// Test how the CxCommonEngine handles propagated server errors
 @Component({
   selector: 'cx-response',
   template: ``,
@@ -39,8 +39,8 @@ export class WithPropagatedErrorComponent {
 })
 export class WithPropagatedErrorServerModule {}
 
-// Test that the cxCommonEngineWrapper doesn't override providers
-// If SOME_TOKEN not provided, test how the cxCommonEngineWrapper handles APP_INITIALIZER errors
+// Test that the CxCommonEngine doesn't override providers
+// If SOME_TOKEN not provided, test how the CxCommonEngine handles APP_INITIALIZER errors
 export const SOME_TOKEN = new InjectionToken<string>('SOME_TOKEN');
 
 @Component({
