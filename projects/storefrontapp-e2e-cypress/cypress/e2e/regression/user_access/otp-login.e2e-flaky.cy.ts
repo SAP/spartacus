@@ -43,12 +43,12 @@ describe('OTP Login', () => {
         cy.log('The email being sent is asynchronous, so waiting 10s');
         cy.wait(10000);
 
-        const API_ENDPOINT =
-          'http://mail-ccv2.westeurope.azurecontainer.io:8025/api/v2/search';
         cy.request({
           method: 'GET',
           url:
-            API_ENDPOINT + '?query=' + user.email + '&kind=to&start=0&limit=2',
+            'http://mail-ccv2.westeurope.azurecontainer.io:8025/api/v2/search?query=' +
+            user.email +
+            '&kind=to&start=0&limit=2',
         }).then((response) => {
           const subject =
             '[Spartacus Electronics Site] Login Verification Code';
