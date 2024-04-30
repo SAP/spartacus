@@ -20,6 +20,7 @@ export class UserAccountConnector {
   get(userId: string): Observable<User> {
     return this.adapter.load(userId);
   }
+
   createVerificationToken(
     verificationTokenCreation: VerificationTokenCreation
   ): Observable<VerificationToken> {

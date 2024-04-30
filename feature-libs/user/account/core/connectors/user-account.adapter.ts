@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 
 export abstract class UserAccountAdapter {
   abstract load(userId: string): Observable<User>;
+
   abstract createVerificationToken(
     verificationTokenCreation: VerificationTokenCreation
   ): Observable<VerificationToken>;

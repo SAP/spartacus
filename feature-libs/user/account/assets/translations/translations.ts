@@ -18,6 +18,5 @@ export const userAccountTranslationChunksConfig: TranslationChunksConfig = {
     'verificationTokenDialog',
     'miniLogin',
     'myAccountV2User',
-    'httpHandlers',
   ],
 };
