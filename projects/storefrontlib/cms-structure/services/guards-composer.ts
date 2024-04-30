@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { CanActivateFn, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { CmsActivatedRouteSnapshot, wrapIntoObservable } from '@spartacus/core';
 import { Observable, concat, endWith, first, of, skipWhile } from 'rxjs';
-import { isCanActivate } from '../utils/guards.util';
 
 // Move it all to the service:
 
@@ -54,7 +53,7 @@ export class GuardsComposer {
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
-    if (isCanActivate(guard)) {
+    if (this.isCanActivate(guard)) {
       return wrapIntoObservable(guard.canActivate(route, state)).pipe(first());
     } else {
       throw new Error('Invalid CanActivate guard');
