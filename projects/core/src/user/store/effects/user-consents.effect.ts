@@ -12,7 +12,7 @@ import { GlobalMessageType } from '../../../global-message/models/global-message
 import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { LoggerService } from '../../../logger';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
 import { UserActions } from '../actions/index';
 
@@ -38,7 +38,7 @@ export class UserConsentsEffect {
           catchError((error) =>
             of(
               new UserActions.LoadUserConsentsFail(
-                normalizeHttpError(error, this.logger)
+                tryNormalizeHttpError(error, this.logger)
               )
             )
           )
@@ -69,7 +69,7 @@ export class UserConsentsEffect {
                 | GlobalMessageActions.RemoveMessagesByType
               > = [
                 new UserActions.GiveUserConsentFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 ),
               ];
               if (
@@ -102,7 +102,7 @@ export class UserConsentsEffect {
               catchError((error) =>
                 of(
                   new UserActions.WithdrawUserConsentFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )

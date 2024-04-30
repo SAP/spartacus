@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   B2BApprovalProcess,
@@ -15,16 +15,16 @@ import {
   FeatureConfigService,
   LoggerService,
   StateUtils,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
-import { Observable, from, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import {
   B2BUserActions,
-  OrgUnitActions,
   OrganizationActions,
+  OrgUnitActions,
 } from '../actions/index';
 
 @Injectable()
@@ -62,7 +62,7 @@ export class OrgUnitEffects {
             of(
               new OrgUnitActions.LoadOrgUnitFail({
                 orgUnitId,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -86,7 +86,7 @@ export class OrgUnitEffects {
           catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.LoadOrgUnitNodesFail({
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -113,7 +113,7 @@ export class OrgUnitEffects {
             from([
               new OrgUnitActions.CreateUnitFail({
                 unitCode: payload.unit.uid ?? '',
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               }),
               new OrganizationActions.OrganizationClearData(),
             ])
@@ -144,7 +144,7 @@ export class OrgUnitEffects {
               from([
                 new OrgUnitActions.UpdateUnitFail({
                   unitCode: payload.unit.uid ?? '',
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -169,7 +169,7 @@ export class OrgUnitEffects {
           catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.LoadTreeFail({
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -194,7 +194,7 @@ export class OrgUnitEffects {
           catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.LoadApprovalProcessesFail({
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -241,7 +241,7 @@ export class OrgUnitEffects {
                       orgUnitId,
                       roleId,
                       params,
-                      error: normalizeHttpError(error, this.logger),
+                      error: tryNormalizeHttpError(error, this.logger),
                     })
                   )
                 )
@@ -272,7 +272,7 @@ export class OrgUnitEffects {
             of(
               new OrgUnitActions.AssignRoleFail({
                 orgCustomerId,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -301,7 +301,7 @@ export class OrgUnitEffects {
             of(
               new OrgUnitActions.UnassignRoleFail({
                 orgCustomerId,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -334,7 +334,7 @@ export class OrgUnitEffects {
               from([
                 new OrgUnitActions.AssignApproverFail({
                   orgCustomerId,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -368,7 +368,7 @@ export class OrgUnitEffects {
               from([
                 new OrgUnitActions.UnassignApproverFail({
                   orgCustomerId,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -406,7 +406,7 @@ export class OrgUnitEffects {
               from([
                 new OrgUnitActions.CreateAddressFail({
                   addressId: payload.address.id ?? '',
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -438,7 +438,7 @@ export class OrgUnitEffects {
               from([
                 new OrgUnitActions.UpdateAddressFail({
                   addressId: address.id ?? '',
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -470,7 +470,7 @@ export class OrgUnitEffects {
               from([
                 new OrgUnitActions.DeleteAddressFail({
                   addressId: payload.addressId,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])

@@ -46,6 +46,7 @@ const MOCK_ACTIVE_CART: Cart = {
   guid: MOCK_ACTIVE_CART_ID,
   code: MOCK_ID,
 };
+const error = new Error('error');
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive = () => of(MOCK_ACTIVE_CART);
   getActiveCartId = () => getActiveCartIdSubject;
@@ -202,11 +203,11 @@ describe('CartEventBuilder', () => {
             event: createFrom(CartAddEntryFailEvent, eventData),
             actionActive: new CartActions.CartAddEntryFail({
               ...eventData,
-              error: 'error',
+              error,
             }),
             actionNotActive: new CartActions.CartAddEntryFail({
               ...eventData,
-              error: 'error',
+              error,
               ...MOCK_NOT_ACTIVE_CART_EVENT,
             }),
           });
@@ -284,14 +285,14 @@ describe('CartEventBuilder', () => {
 
           actions$.next(
             new CartActions.CartRemoveEntryFail({
-              error: 'remove failed',
+              error,
               entryNumber: '0',
               ...MOCK_ACTIVE_CART_EVENT,
             })
           );
           actions$.next(
             new CartActions.CartRemoveEntryFail({
-              error: 'remove failed',
+              error,
               entryNumber: '0',
               ...MOCK_NOT_ACTIVE_CART_EVENT,
             })
@@ -299,7 +300,7 @@ describe('CartEventBuilder', () => {
 
           actions$.next(
             new CartActions.CartRemoveEntryFail({
-              error: 'remove failed',
+              error,
               entryNumber: '1',
               ...MOCK_ACTIVE_CART_EVENT,
             })
@@ -361,7 +362,7 @@ describe('CartEventBuilder', () => {
 
           actions$.next(
             new CartActions.CartUpdateEntryFail({
-              error: 'update failed',
+              error: new Error('update failed'),
               entryNumber: '0',
               quantity: 2,
               ...MOCK_ACTIVE_CART_EVENT,

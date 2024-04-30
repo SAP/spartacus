@@ -10,7 +10,7 @@ import { CartModification } from '@spartacus/cart/base/root';
 import {
   LoggerService,
   SiteContextActions,
-  normalizeHttpError,
+  tryNormalizeHttpError,
   withdrawOn,
 } from '@spartacus/core';
 import { Observable, from } from 'rxjs';
@@ -58,7 +58,7 @@ export class CartEntryEffects {
               from([
                 new CartActions.CartAddEntryFail({
                   ...payload,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new CartActions.LoadCart({
                   cartId: payload.cartId,
@@ -93,7 +93,7 @@ export class CartEntryEffects {
               from([
                 new CartActions.CartRemoveEntryFail({
                   ...payload,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new CartActions.LoadCart({
                   cartId: payload.cartId,
@@ -135,7 +135,7 @@ export class CartEntryEffects {
               from([
                 new CartActions.CartUpdateEntryFail({
                   ...payload,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new CartActions.LoadCart({
                   cartId: payload.cartId,

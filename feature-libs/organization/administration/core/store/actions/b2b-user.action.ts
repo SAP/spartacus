@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { B2BUser, ListModel, SearchConfig, StateUtils } from '@spartacus/core';
+import {
+  B2BUser,
+  ErrorActionType,
+  ListModel,
+  SearchConfig,
+  StateUtils,
+} from '@spartacus/core';
 import {
   B2B_USER_APPROVERS,
   B2B_USER_ENTITIES,
@@ -89,6 +95,7 @@ export const UNASSIGN_B2B_USER_USER_GROUP_SUCCESS =
 
 export class LoadB2BUser extends StateUtils.EntityLoadAction {
   readonly type = LOAD_B2B_USER;
+
   constructor(public payload: { userId: string; orgCustomerId: string }) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId);
   }
@@ -96,13 +103,17 @@ export class LoadB2BUser extends StateUtils.EntityLoadAction {
 
 export class LoadB2BUserFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_B2B_USER_FAIL;
-  constructor(public payload: { orgCustomerId: string; error: any }) {
+
+  constructor(
+    public payload: { orgCustomerId: string; error: ErrorActionType }
+  ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
 }
 
 export class LoadB2BUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_B2B_USER_SUCCESS;
+
   constructor(public payload: B2BUser | B2BUser[]) {
     super(
       B2B_USER_ENTITIES,
@@ -115,6 +126,7 @@ export class LoadB2BUserSuccess extends StateUtils.EntitySuccessAction {
 
 export class CreateB2BUser extends StateUtils.EntityLoadAction {
   readonly type = CREATE_B2B_USER;
+
   constructor(public payload: { userId: string; orgCustomer: B2BUser }) {
     super(B2B_USER_ENTITIES, payload.orgCustomer.customerId ?? null);
   }
@@ -122,13 +134,17 @@ export class CreateB2BUser extends StateUtils.EntityLoadAction {
 
 export class CreateB2BUserFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_B2B_USER_FAIL;
-  constructor(public payload: { orgCustomerId: string; error: any }) {
+
+  constructor(
+    public payload: { orgCustomerId: string; error: ErrorActionType }
+  ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
 }
 
 export class CreateB2BUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_B2B_USER_SUCCESS;
+
   constructor(public payload: B2BUser) {
     super(B2B_USER_ENTITIES, payload.customerId ?? null, payload);
   }
@@ -136,6 +152,7 @@ export class CreateB2BUserSuccess extends StateUtils.EntitySuccessAction {
 
 export class UpdateB2BUser extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_B2B_USER;
+
   constructor(
     public payload: {
       userId: string;
@@ -149,13 +166,17 @@ export class UpdateB2BUser extends StateUtils.EntityLoadAction {
 
 export class UpdateB2BUserFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_B2B_USER_FAIL;
-  constructor(public payload: { orgCustomerId: string; error: any }) {
+
+  constructor(
+    public payload: { orgCustomerId: string; error: ErrorActionType }
+  ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
 }
 
 export class UpdateB2BUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_B2B_USER_SUCCESS;
+
   constructor(public payload: B2BUser) {
     super(B2B_USER_ENTITIES, payload.customerId ?? '', payload);
   }
@@ -163,6 +184,7 @@ export class UpdateB2BUserSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadB2BUsers extends StateUtils.EntityLoadAction {
   readonly type = LOAD_B2B_USERS;
+
   constructor(
     public payload: {
       userId: string;
@@ -174,8 +196,12 @@ export class LoadB2BUsers extends StateUtils.EntityLoadAction {
 }
 
 export class LoadB2BUsersFail extends StateUtils.EntityFailAction {
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_B2B_USERS_FAIL;
-  constructor(public payload: { params: SearchConfig; error: any }) {
+
+  constructor(
+    public payload: { params: SearchConfig; error: ErrorActionType }
+  ) {
     super(
       USER_LIST,
       StateUtils.serializeSearchConfig(payload.params),
@@ -186,6 +212,7 @@ export class LoadB2BUsersFail extends StateUtils.EntityFailAction {
 
 export class LoadB2BUsersSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_B2B_USERS_SUCCESS;
+
   constructor(
     public payload: {
       page: ListModel;
@@ -198,6 +225,7 @@ export class LoadB2BUsersSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadB2BUserApprovers extends StateUtils.EntityLoadAction {
   readonly type = LOAD_B2B_USER_APPROVERS;
+
   constructor(
     public payload: {
       userId: string;
@@ -214,11 +242,12 @@ export class LoadB2BUserApprovers extends StateUtils.EntityLoadAction {
 
 export class LoadB2BUserApproversFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_B2B_USER_APPROVERS_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
       params: SearchConfig;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(
@@ -231,6 +260,7 @@ export class LoadB2BUserApproversFail extends StateUtils.EntityFailAction {
 
 export class LoadB2BUserApproversSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_B2B_USER_APPROVERS_SUCCESS;
+
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -247,6 +277,7 @@ export class LoadB2BUserApproversSuccess extends StateUtils.EntitySuccessAction 
 
 export class AssignB2BUserApprover extends StateUtils.EntityLoadAction {
   readonly type = ASSIGN_B2B_USER_APPROVER;
+
   constructor(
     public payload: {
       userId: string;
@@ -259,20 +290,23 @@ export class AssignB2BUserApprover extends StateUtils.EntityLoadAction {
 }
 
 export class AssignB2BUserApproverFail extends StateUtils.EntityFailAction {
+  error: ErrorActionType = this.payload.error;
   readonly type = ASSIGN_B2B_USER_APPROVER_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
       approverId: string;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
-    super(B2B_USER_ENTITIES, payload.approverId);
+    super(B2B_USER_ENTITIES, payload.approverId, payload.error);
   }
 }
 
 export class AssignB2BUserApproverSuccess extends StateUtils.EntitySuccessAction {
   readonly type = ASSIGN_B2B_USER_APPROVER_SUCCESS;
+
   constructor(
     public payload: {
       approverId: string;
@@ -285,6 +319,7 @@ export class AssignB2BUserApproverSuccess extends StateUtils.EntitySuccessAction
 
 export class UnassignB2BUserApprover extends StateUtils.EntityLoadAction {
   readonly type = UNASSIGN_B2B_USER_APPROVER;
+
   constructor(
     public payload: {
       userId: string;
@@ -297,20 +332,23 @@ export class UnassignB2BUserApprover extends StateUtils.EntityLoadAction {
 }
 
 export class UnassignB2BUserApproverFail extends StateUtils.EntityFailAction {
+  error: ErrorActionType = this.payload.error;
   readonly type = UNASSIGN_B2B_USER_APPROVER_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
       approverId: string;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
-    super(B2B_USER_ENTITIES, payload.approverId);
+    super(B2B_USER_ENTITIES, payload.approverId, payload.error);
   }
 }
 
 export class UnassignB2BUserApproverSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UNASSIGN_B2B_USER_APPROVER_SUCCESS;
+
   constructor(
     public payload: {
       approverId: string;
@@ -323,6 +361,7 @@ export class UnassignB2BUserApproverSuccess extends StateUtils.EntitySuccessActi
 
 export class LoadB2BUserPermissions extends StateUtils.EntityLoadAction {
   readonly type = LOAD_B2B_USER_PERMISSIONS;
+
   constructor(
     public payload: {
       userId: string;
@@ -338,12 +377,14 @@ export class LoadB2BUserPermissions extends StateUtils.EntityLoadAction {
 }
 
 export class LoadB2BUserPermissionsFail extends StateUtils.EntityFailAction {
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_B2B_USER_PERMISSIONS_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
       params: SearchConfig;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(B2B_USER_PERMISSIONS, payload.orgCustomerId, payload.error);
@@ -352,6 +393,7 @@ export class LoadB2BUserPermissionsFail extends StateUtils.EntityFailAction {
 
 export class LoadB2BUserPermissionsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_B2B_USER_PERMISSIONS_SUCCESS;
+
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -368,6 +410,7 @@ export class LoadB2BUserPermissionsSuccess extends StateUtils.EntitySuccessActio
 
 export class AssignB2BUserPermission extends StateUtils.EntityLoadAction {
   readonly type = ASSIGN_B2B_USER_PERMISSION;
+
   constructor(
     public payload: {
       userId: string;
@@ -380,12 +423,14 @@ export class AssignB2BUserPermission extends StateUtils.EntityLoadAction {
 }
 
 export class AssignB2BUserPermissionFail extends StateUtils.EntityFailAction {
+  error: ErrorActionType = this.payload.error;
   readonly type = ASSIGN_B2B_USER_PERMISSION_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
       permissionId: string;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(PERMISSION_ENTITIES, payload.permissionId, payload.error);
@@ -394,6 +439,7 @@ export class AssignB2BUserPermissionFail extends StateUtils.EntityFailAction {
 
 export class AssignB2BUserPermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = ASSIGN_B2B_USER_PERMISSION_SUCCESS;
+
   constructor(
     public payload: {
       permissionId: string;
@@ -406,6 +452,7 @@ export class AssignB2BUserPermissionSuccess extends StateUtils.EntitySuccessActi
 
 export class UnassignB2BUserPermission extends StateUtils.EntityLoadAction {
   readonly type = UNASSIGN_B2B_USER_PERMISSION;
+
   constructor(
     public payload: {
       userId: string;
@@ -418,12 +465,14 @@ export class UnassignB2BUserPermission extends StateUtils.EntityLoadAction {
 }
 
 export class UnassignB2BUserPermissionFail extends StateUtils.EntityFailAction {
+  error: ErrorActionType = this.payload.error;
   readonly type = UNASSIGN_B2B_USER_PERMISSION_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
       permissionId: string;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(PERMISSION_ENTITIES, payload.permissionId, payload.error);
@@ -432,6 +481,7 @@ export class UnassignB2BUserPermissionFail extends StateUtils.EntityFailAction {
 
 export class UnassignB2BUserPermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UNASSIGN_B2B_USER_PERMISSION_SUCCESS;
+
   constructor(
     public payload: {
       permissionId: string;
@@ -444,6 +494,7 @@ export class UnassignB2BUserPermissionSuccess extends StateUtils.EntitySuccessAc
 
 export class LoadB2BUserUserGroups extends StateUtils.EntityLoadAction {
   readonly type = LOAD_B2B_USER_USER_GROUPS;
+
   constructor(
     public payload: {
       userId: string;
@@ -459,12 +510,14 @@ export class LoadB2BUserUserGroups extends StateUtils.EntityLoadAction {
 }
 
 export class LoadB2BUserUserGroupsFail extends StateUtils.EntityFailAction {
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_B2B_USER_USER_GROUPS_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
       params: SearchConfig;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(
@@ -477,6 +530,7 @@ export class LoadB2BUserUserGroupsFail extends StateUtils.EntityFailAction {
 
 export class LoadB2BUserUserGroupsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_B2B_USER_USER_GROUPS_SUCCESS;
+
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -493,6 +547,7 @@ export class LoadB2BUserUserGroupsSuccess extends StateUtils.EntitySuccessAction
 
 export class AssignB2BUserUserGroup extends StateUtils.EntityLoadAction {
   readonly type = ASSIGN_B2B_USER_USER_GROUP;
+
   constructor(
     public payload: {
       userId: string;
@@ -506,11 +561,12 @@ export class AssignB2BUserUserGroup extends StateUtils.EntityLoadAction {
 
 export class AssignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_B2B_USER_USER_GROUP_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
       userGroupId: string;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
@@ -519,6 +575,7 @@ export class AssignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
 
 export class AssignB2BUserUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = ASSIGN_B2B_USER_USER_GROUP_SUCCESS;
+
   constructor(
     public payload: {
       uid: string;
@@ -531,6 +588,7 @@ export class AssignB2BUserUserGroupSuccess extends StateUtils.EntitySuccessActio
 
 export class UnassignB2BUserUserGroup extends StateUtils.EntityLoadAction {
   readonly type = UNASSIGN_B2B_USER_USER_GROUP;
+
   constructor(
     public payload: {
       userId: string;
@@ -544,11 +602,12 @@ export class UnassignB2BUserUserGroup extends StateUtils.EntityLoadAction {
 
 export class UnassignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_B2B_USER_USER_GROUP_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
       userGroupId: string;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
@@ -557,6 +616,7 @@ export class UnassignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
 
 export class UnassignB2BUserUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UNASSIGN_B2B_USER_USER_GROUP_SUCCESS;
+
   constructor(
     public payload: {
       uid: string;

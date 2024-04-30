@@ -18,12 +18,12 @@ describe('Regions Actions', () => {
 
   describe('LoadRegionsFail', () => {
     it('should create the action', () => {
-      const error = 'anError';
+      const error = new Error('anError');
       const action = new UserActions.LoadRegionsFail(error);
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_REGIONS_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(REGIONS, error),
       });
     });

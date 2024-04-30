@@ -19,7 +19,7 @@ import { ReplenishmentOrderHistoryService } from './replenishment-order-history.
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockReplenishmentOrderCode = 'test-repl-code';
-const mockError = 'test-error';
+const mockError = new Error('test-error');
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
   active: true,

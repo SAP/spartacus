@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -34,6 +33,7 @@ type readConfigurationForCartEntryResultType =
 
 export const ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND =
   'Entry number is required in addToCart response';
+
 @Injectable()
 /**
  * Common configurator effects related to cart handling
@@ -84,10 +84,7 @@ export class ConfiguratorCartEffects {
                 cartId: payload.cartId,
                 productCode: payload.productCode,
                 quantity: payload.quantity,
-                error:
-                  error instanceof HttpErrorResponse
-                    ? normalizeHttpError(error, this.logger)
-                    : error,
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -123,7 +120,7 @@ export class ConfiguratorCartEffects {
                     userId: payload.userId,
                     cartId: payload.cartId,
                     entryNumber: payload.cartEntryNumber,
-                    error: normalizeHttpError(error, this.logger),
+                    error: tryNormalizeHttpError(error, this.logger),
                   })
                 )
               )
@@ -166,7 +163,7 @@ export class ConfiguratorCartEffects {
               catchError((error) => [
                 new ConfiguratorActions.ReadCartEntryConfigurationFail({
                   ownerKey: action.payload.owner.key,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
               ])
             );
@@ -194,7 +191,7 @@ export class ConfiguratorCartEffects {
             catchError((error) => [
               new ConfiguratorActions.ReadOrderEntryConfigurationFail({
                 ownerKey: action.payload.owner.key,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               }),
             ])
           );

@@ -13,12 +13,12 @@ describe('Delivery Countries Actions', () => {
 
   describe('LoadDeliveryCountriesFail', () => {
     it('should create the action', () => {
-      const error = 'anError';
+      const error = new Error('anError');
       const action = new UserActions.LoadDeliveryCountriesFail(error);
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_DELIVERY_COUNTRIES_FAIL,
-        payload: error,
+        error,
       });
     });
   });

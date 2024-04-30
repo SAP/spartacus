@@ -16,6 +16,8 @@ import { CmsStructureModel, Page } from '../../model/page.model';
 import { CmsActions } from '../actions/index';
 import { CMS_FEATURE } from '../cms-state';
 import * as fromEffects from './page.effect';
+import { HttpErrorResponse } from '@angular/common/http';
+import { tryNormalizeHttpError } from '@spartacus/core';
 
 function mockDateNow(): number {
   return 1000000000000;
@@ -153,7 +155,7 @@ describe('Page Effects', () => {
 
         const completion = new CmsActions.LoadCmsPageDataFail(
           pageContext,
-          normalizeHttpError(error, new MockLoggerService())
+          tryNormalizeHttpError(error)
         );
 
         actions$ = hot('-a', { a: action });

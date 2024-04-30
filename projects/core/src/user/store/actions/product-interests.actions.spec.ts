@@ -19,6 +19,7 @@ import {
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 
+const error = new Error('error');
 const userId = 'qingyu@sap.com';
 const productCode = '343898';
 
@@ -43,11 +44,10 @@ describe('Product Interests Actions', () => {
   });
   describe('LoadProductInterestsFail Actions', () => {
     it('should be able to create the action', () => {
-      const error = 'error';
       const action = new UserActions.LoadProductInterestsFail(error);
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_PRODUCT_INTERESTS_FAIL,
-        payload: error,
+        error,
         meta: failMeta(PRODUCT_INTERESTS, error),
       });
     });
@@ -105,11 +105,10 @@ describe('Product Interests Actions', () => {
 
   describe('RemoveProductInterestsFail Actions', () => {
     it('should be able to create the action', () => {
-      const error = 'remove fail';
       const action = new UserActions.RemoveProductInterestFail(error);
       expect({ ...action }).toEqual({
         type: UserActions.REMOVE_PRODUCT_INTEREST_FAIL,
-        payload: error,
+        error,
         meta: entityFailMeta(
           PROCESS_FEATURE,
           REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
@@ -152,11 +151,10 @@ describe('Product Interests Actions', () => {
 
   describe('AddProductInterestFail Action', () => {
     it('should be able to create the action', () => {
-      const error = 'add fail';
       const action = new UserActions.AddProductInterestFail(error);
       expect({ ...action }).toEqual({
         type: UserActions.ADD_PRODUCT_INTEREST_FAIL,
-        payload: error,
+        error,
         meta: entityFailMeta(
           PROCESS_FEATURE,
           ADD_PRODUCT_INTEREST_PROCESS_ID,

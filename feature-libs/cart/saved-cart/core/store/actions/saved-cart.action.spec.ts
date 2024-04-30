@@ -12,7 +12,7 @@ const mockUserId = 'test-user';
 const mockCartId = 'test-cart';
 const mockCartName = 'test-cart-name';
 const mockCartDescription = 'test-cart-description';
-const error = 'anError';
+const error = { message: 'anError' };
 
 describe('SavedCart Actions', () => {
   describe('LoadSavedCart Actions', () => {
@@ -54,6 +54,7 @@ describe('SavedCart Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: SavedCartActions.LOAD_SAVED_CART_FAIL,
           payload: { userId: mockUserId, cartId: mockCartId, error },
           meta: StateUtils.entityFailMeta(MULTI_CART_DATA, mockCartId, error),
@@ -103,6 +104,7 @@ describe('SavedCart Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: SavedCartActions.LOAD_SAVED_CARTS_FAIL,
           payload: { userId: mockUserId, error },
           meta: StateUtils.entityFailMeta(
@@ -175,6 +177,7 @@ describe('SavedCart Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: SavedCartActions.RESTORE_SAVED_CART_FAIL,
           payload: { userId: mockUserId, cartId: mockCartId, error },
           meta: StateUtils.entityFailMeta(
@@ -254,6 +257,7 @@ describe('SavedCart Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: SavedCartActions.SAVE_CART_FAIL,
           payload: {
             userId: mockUserId,
@@ -339,6 +343,7 @@ describe('SavedCart Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: SavedCartActions.EDIT_SAVED_CART_FAIL,
           payload: {
             userId: mockUserId,
@@ -412,6 +417,7 @@ describe('SavedCart Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: SavedCartActions.CLONE_SAVED_CART_FAIL,
           payload: {
             userId: mockUserId,

@@ -5,7 +5,7 @@
  */
 
 import { createAction, props } from '@ngrx/store';
-import { PointOfService } from '@spartacus/core';
+import { ErrorActionType, PointOfService } from '@spartacus/core';
 import {
   AugmentedPointOfService,
   PickupOption,
@@ -83,5 +83,5 @@ export const SetStoreDetailsSuccess = createAction(
 
 export const SetStoreDetailsFailure = createAction(
   STORE_DETAILS_FAIL,
-  props<{ payload: any }>()
+  props<{ error: ErrorActionType }>()
 );

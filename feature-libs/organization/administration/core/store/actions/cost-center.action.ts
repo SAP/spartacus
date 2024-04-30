@@ -6,6 +6,7 @@
 
 import {
   CostCenter,
+  ErrorActionType,
   ListModel,
   SearchConfig,
   StateUtils,
@@ -52,6 +53,7 @@ export const UNASSIGN_BUDGET_FAIL = '[CostCenter] Unassign Budget fail';
 
 export class LoadCostCenter extends StateUtils.EntityLoadAction {
   readonly type = LOAD_COST_CENTER;
+
   constructor(public payload: { userId: string; costCenterCode: string }) {
     super(COST_CENTER_ENTITIES, payload.costCenterCode);
   }
@@ -59,13 +61,17 @@ export class LoadCostCenter extends StateUtils.EntityLoadAction {
 
 export class LoadCostCenterFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_COST_CENTER_FAIL;
-  constructor(public payload: { costCenterCode: string; error: any }) {
+
+  constructor(
+    public payload: { costCenterCode: string; error: ErrorActionType }
+  ) {
     super(COST_CENTER_ENTITIES, payload.costCenterCode, payload.error);
   }
 }
 
 export class LoadCostCenterSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_COST_CENTER_SUCCESS;
+
   constructor(public payload: CostCenter | CostCenter[]) {
     super(
       COST_CENTER_ENTITIES,
@@ -78,6 +84,7 @@ export class LoadCostCenterSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadCostCenters extends StateUtils.EntityLoadAction {
   readonly type = LOAD_COST_CENTERS;
+
   constructor(
     public payload: {
       userId: string;
@@ -90,7 +97,10 @@ export class LoadCostCenters extends StateUtils.EntityLoadAction {
 
 export class LoadCostCentersFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_COST_CENTERS_FAIL;
-  constructor(public payload: { params: SearchConfig; error: any }) {
+
+  constructor(
+    public payload: { params: SearchConfig; error: ErrorActionType }
+  ) {
     super(
       COST_CENTER_LIST,
       StateUtils.serializeSearchConfig(payload.params),
@@ -101,6 +111,7 @@ export class LoadCostCentersFail extends StateUtils.EntityFailAction {
 
 export class LoadCostCentersSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_COST_CENTERS_SUCCESS;
+
   constructor(
     public payload: {
       page: ListModel;
@@ -113,6 +124,7 @@ export class LoadCostCentersSuccess extends StateUtils.EntitySuccessAction {
 
 export class CreateCostCenter extends StateUtils.EntityLoadAction {
   readonly type = CREATE_COST_CENTER;
+
   constructor(public payload: { userId: string; costCenter: CostCenter }) {
     super(COST_CENTER_ENTITIES, payload.costCenter.code ?? null);
   }
@@ -120,13 +132,17 @@ export class CreateCostCenter extends StateUtils.EntityLoadAction {
 
 export class CreateCostCenterFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_COST_CENTER_FAIL;
-  constructor(public payload: { costCenterCode: string; error: any }) {
+
+  constructor(
+    public payload: { costCenterCode: string; error: ErrorActionType }
+  ) {
     super(COST_CENTER_ENTITIES, payload.costCenterCode, payload.error);
   }
 }
 
 export class CreateCostCenterSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_COST_CENTER_SUCCESS;
+
   constructor(public payload: CostCenter) {
     super(COST_CENTER_ENTITIES, payload.code ?? null, payload);
   }
@@ -134,6 +150,7 @@ export class CreateCostCenterSuccess extends StateUtils.EntitySuccessAction {
 
 export class UpdateCostCenter extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_COST_CENTER;
+
   constructor(
     public payload: {
       userId: string;
@@ -147,13 +164,17 @@ export class UpdateCostCenter extends StateUtils.EntityLoadAction {
 
 export class UpdateCostCenterFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_COST_CENTER_FAIL;
-  constructor(public payload: { costCenterCode: string; error: any }) {
+
+  constructor(
+    public payload: { costCenterCode: string; error: ErrorActionType }
+  ) {
     super(COST_CENTER_ENTITIES, payload.costCenterCode, payload.error);
   }
 }
 
 export class UpdateCostCenterSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_COST_CENTER_SUCCESS;
+
   constructor(public payload: CostCenter) {
     super(COST_CENTER_ENTITIES, payload.code ?? '', payload);
   }
@@ -161,6 +182,7 @@ export class UpdateCostCenterSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadAssignedBudgets extends StateUtils.EntityLoadAction {
   readonly type = LOAD_ASSIGNED_BUDGETS;
+
   constructor(
     public payload: {
       userId: string;
@@ -177,11 +199,12 @@ export class LoadAssignedBudgets extends StateUtils.EntityLoadAction {
 
 export class LoadAssignedBudgetsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ASSIGNED_BUDGETS_FAIL;
+
   constructor(
     public payload: {
       costCenterCode: string;
       params: SearchConfig;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(
@@ -194,6 +217,7 @@ export class LoadAssignedBudgetsFail extends StateUtils.EntityFailAction {
 
 export class LoadAssignedBudgetsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ASSIGNED_BUDGETS_SUCCESS;
+
   constructor(
     public payload: {
       costCenterCode: string;
@@ -210,6 +234,7 @@ export class LoadAssignedBudgetsSuccess extends StateUtils.EntitySuccessAction {
 
 export class AssignBudget extends StateUtils.EntityLoadAction {
   readonly type = ASSIGN_BUDGET;
+
   constructor(
     public payload: {
       userId: string;
@@ -223,13 +248,15 @@ export class AssignBudget extends StateUtils.EntityLoadAction {
 
 export class AssignBudgetFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_BUDGET_FAIL;
-  constructor(public payload: { budgetCode: string; error: any }) {
+
+  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }
 
 export class AssignBudgetSuccess extends StateUtils.EntitySuccessAction {
   readonly type = ASSIGN_BUDGET_SUCCESS;
+
   constructor(public payload: { code: string; selected: boolean }) {
     super(BUDGET_ENTITIES, payload.code, payload);
   }
@@ -237,6 +264,7 @@ export class AssignBudgetSuccess extends StateUtils.EntitySuccessAction {
 
 export class UnassignBudget extends StateUtils.EntityLoadAction {
   readonly type = UNASSIGN_BUDGET;
+
   constructor(
     public payload: {
       userId: string;
@@ -250,13 +278,15 @@ export class UnassignBudget extends StateUtils.EntityLoadAction {
 
 export class UnassignBudgetFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_BUDGET_FAIL;
-  constructor(public payload: { budgetCode: string; error: any }) {
+
+  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }
 
 export class UnassignBudgetSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UNASSIGN_BUDGET_SUCCESS;
+
   constructor(public payload: { code: string; selected: boolean }) {
     super(BUDGET_ENTITIES, payload.code, payload);
   }

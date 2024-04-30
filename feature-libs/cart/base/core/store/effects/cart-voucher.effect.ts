@@ -10,7 +10,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable, from } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -53,7 +53,7 @@ export class CartVoucherEffects {
               from([
                 new CartActions.CartAddVoucherFail({
                   ...payload,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new CartActions.CartProcessesDecrement(payload.cartId),
                 new CartActions.LoadCart({
@@ -92,7 +92,7 @@ export class CartVoucherEffects {
             catchError((error) =>
               from([
                 new CartActions.CartRemoveVoucherFail({
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                   cartId: payload.cartId,
                   userId: payload.userId,
                   voucherId: payload.voucherId,

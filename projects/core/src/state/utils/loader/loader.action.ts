@@ -5,6 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction, ErrorActionType } from '@spartacus/core';
 
 export const LOADER_LOAD_ACTION = '[LOADER] LOAD';
 export const LOADER_FAIL_ACTION = '[LOADER] FAIL';
@@ -60,25 +61,31 @@ export function resetMeta(entityType: string): LoaderMeta {
     loader: {},
   };
 }
+
 export class LoaderLoadAction implements LoaderAction {
   type = LOADER_LOAD_ACTION;
   readonly meta: LoaderMeta;
+
   constructor(entityType: string) {
     this.meta = loadMeta(entityType);
   }
 }
 
-export class LoaderFailAction implements LoaderAction {
+export class LoaderFailAction implements LoaderAction, ErrorAction {
   type = LOADER_FAIL_ACTION;
+  error: ErrorActionType;
   readonly meta: LoaderMeta;
-  constructor(entityType: string, error?: any) {
+
+  constructor(entityType: string, error: ErrorActionType) {
     this.meta = failMeta(entityType, error);
+    this.error = error;
   }
 }
 
 export class LoaderSuccessAction implements LoaderAction {
   type = LOADER_SUCCESS_ACTION;
   readonly meta: LoaderMeta;
+
   constructor(entityType: string) {
     this.meta = successMeta(entityType);
   }
@@ -87,6 +94,7 @@ export class LoaderSuccessAction implements LoaderAction {
 export class LoaderResetAction implements LoaderAction {
   type = LOADER_RESET_ACTION;
   readonly meta: LoaderMeta;
+
   constructor(entityType: string) {
     this.meta = resetMeta(entityType);
   }

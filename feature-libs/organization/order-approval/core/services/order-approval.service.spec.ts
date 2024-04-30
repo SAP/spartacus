@@ -238,7 +238,7 @@ describe('OrderApprovalService', () => {
       store.dispatch(
         new OrderApprovalActions.MakeDecisionFail({
           orderApprovalCode,
-          error: 'error',
+          error: new Error('error'),
         })
       );
 

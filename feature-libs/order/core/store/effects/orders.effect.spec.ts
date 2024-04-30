@@ -8,6 +8,7 @@ import {
   normalizeHttpError,
   SiteContextActions,
 } from '@spartacus/core';
+import { tryNormalizeHttpError, SiteContextActions } from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -97,7 +98,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new OrderActions.LoadUserOrdersFail(
-          normalizeHttpError(mockError, new MockLoggerService())
+          tryNormalizeHttpError(mockError)
         );
         actions$ = hot('-a', { a: action });
 
@@ -143,7 +144,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new OrderActions.LoadUserOrdersFail(
-          normalizeHttpError(mockError, new MockLoggerService())
+          tryNormalizeHttpError(mockError)
         );
         actions$ = hot('-a', { a: action });
 

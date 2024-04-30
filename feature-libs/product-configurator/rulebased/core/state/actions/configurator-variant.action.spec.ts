@@ -43,7 +43,7 @@ describe('ConfiguratorVariantActions', () => {
   it('should provide variant search fail action with proper type', () => {
     const action = new ConfiguratorVariantActions.SearchVariantsFail({
       ownerKey: CONFIGURATION.owner.key,
-      error: 'Error',
+      error: new Error('Error'),
     });
     expect(action.type).toBe(ConfiguratorVariantActions.SEARCH_VARIANTS_FAIL);
   });

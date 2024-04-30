@@ -40,7 +40,7 @@ describe('Orders Reducer', () => {
   describe('LOAD_USER_ORDERS_FAIL action', () => {
     it('should return the initial state', () => {
       const { initialState } = fromUserOrdersReducer;
-      const action = new OrderActions.LoadUserOrdersFail('error');
+      const action = new OrderActions.LoadUserOrdersFail(new Error('error'));
       const state = fromUserOrdersReducer.reducer(initialState, action);
       expect(state).toEqual(initialState);
     });

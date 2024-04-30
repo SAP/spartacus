@@ -114,7 +114,7 @@ describe('ReplenishmentOrdersSelectors', () => {
 
   describe('getReplenishmentOrdersError', () => {
     it('should return the boolean value from the loader state error', () => {
-      const mockError = 'test-error';
+      const mockError = new Error('test-error');
 
       store.dispatch(
         new OrderActions.LoadUserReplenishmentOrdersFail(mockError)

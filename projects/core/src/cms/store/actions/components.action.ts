@@ -8,6 +8,7 @@ import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
 import { COMPONENT_ENTITY } from '../cms-state';
+import { ErrorActionType } from '@spartacus/core';
 
 export const LOAD_CMS_COMPONENT = '[Cms] Load Component';
 export const LOAD_CMS_COMPONENT_FAIL = '[Cms] Load Component Fail';
@@ -16,6 +17,7 @@ export const CMS_GET_COMPONENT_FROM_PAGE = '[Cms] Get Component from Page';
 
 export class LoadCmsComponent extends StateUtils.EntityLoadAction {
   readonly type = LOAD_CMS_COMPONENT;
+
   constructor(
     public payload: {
       uid: string;
@@ -28,8 +30,13 @@ export class LoadCmsComponent extends StateUtils.EntityLoadAction {
 
 export class LoadCmsComponentFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_COMPONENT_FAIL;
+
   constructor(
-    public payload: { uid: string; error?: any; pageContext: PageContext }
+    public payload: {
+      uid: string;
+      error: ErrorActionType;
+      pageContext: PageContext;
+    }
   ) {
     super(COMPONENT_ENTITY, payload.uid, payload.error);
   }
@@ -39,6 +46,7 @@ export class LoadCmsComponentSuccess<
   T extends CmsComponent
 > extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_CMS_COMPONENT_SUCCESS;
+
   constructor(
     public payload: {
       component: T;
@@ -54,6 +62,7 @@ export class CmsGetComponentFromPage<
   T extends CmsComponent
 > extends StateUtils.EntitySuccessAction {
   readonly type = CMS_GET_COMPONENT_FROM_PAGE;
+
   constructor(
     public payload:
       | { component: T; pageContext: PageContext }

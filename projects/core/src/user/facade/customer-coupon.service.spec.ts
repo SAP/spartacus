@@ -163,7 +163,9 @@ describe('CustomerCouponService', () => {
   });
 
   it('should getSubscribeCustomerCouponResultError() return the error flag', () => {
-    store.dispatch(new UserActions.SubscribeCustomerCouponFail('error'));
+    store.dispatch(
+      new UserActions.SubscribeCustomerCouponFail(new Error('error'))
+    );
 
     let result = false;
     service
@@ -214,7 +216,9 @@ describe('CustomerCouponService', () => {
   });
 
   it('should getUnsubscribeCustomerCouponResultError() return the error flag', () => {
-    store.dispatch(new UserActions.UnsubscribeCustomerCouponFail('error'));
+    store.dispatch(
+      new UserActions.UnsubscribeCustomerCouponFail(new Error('error'))
+    );
 
     let result = false;
     service

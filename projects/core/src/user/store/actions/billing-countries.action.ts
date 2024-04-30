@@ -5,6 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '@spartacus/core';
 
 export const LOAD_BILLING_COUNTRIES = '[User] Load Billing Countries';
 export const LOAD_BILLING_COUNTRIES_FAIL = '[User] Load Billing Countries Fail';
@@ -18,9 +19,9 @@ export class LoadBillingCountries implements Action {
   }
 }
 
-export class LoadBillingCountriesFail implements Action {
+export class LoadBillingCountriesFail implements ErrorAction {
   readonly type = LOAD_BILLING_COUNTRIES_FAIL;
-  constructor(public payload: any) {}
+  constructor(public error: any) {}
 }
 
 export class LoadBillingCountriesSuccess implements Action {

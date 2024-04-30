@@ -10,7 +10,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
@@ -41,7 +41,7 @@ export class ReplenishmentOrderDetailsEffect {
               catchError((error) =>
                 of(
                   new OrderActions.LoadReplenishmentOrderDetailsFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -78,7 +78,7 @@ export class ReplenishmentOrderDetailsEffect {
 
                 return of(
                   new OrderActions.CancelReplenishmentOrderFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 );
               })

@@ -21,12 +21,12 @@ describe('User Cost Centers Actions', () => {
 
   describe('LoadActiveCostCentersFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new UserActions.LoadActiveCostCentersFail(error);
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ACTIVE_COST_CENTERS_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(USER_COST_CENTERS, error),
       });
     });

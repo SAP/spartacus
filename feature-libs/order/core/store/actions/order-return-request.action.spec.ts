@@ -56,12 +56,12 @@ describe('Order Return Request actions', () => {
 
   describe('CreateOrderReturnRequestFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.CreateOrderReturnRequestFail(error);
 
       expect({ ...action }).toEqual({
         type: OrderActions.CREATE_ORDER_RETURN_REQUEST_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(RETURN_REQUEST_DETAILS, error),
       });
     });
@@ -101,12 +101,12 @@ describe('Order Return Request actions', () => {
 
   describe('LoadOrderReturnRequestFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.LoadOrderReturnRequestFail(error);
 
       expect({ ...action }).toEqual({
         type: OrderActions.LOAD_ORDER_RETURN_REQUEST_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(RETURN_REQUEST_DETAILS, error),
       });
     });
@@ -151,12 +151,12 @@ describe('Order Return Request actions', () => {
 
   describe('CancelOrderReturnRequestFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.CancelOrderReturnRequestFail(error);
 
       expect({ ...action }).toEqual({
         type: OrderActions.CANCEL_ORDER_RETURN_REQUEST_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           CANCEL_RETURN_PROCESS_ID,
@@ -197,12 +197,12 @@ describe('Order Return Request actions', () => {
 
   describe('LoadOrderReturnRequestListFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.LoadOrderReturnRequestListFail(error);
 
       expect({ ...action }).toEqual({
         type: OrderActions.LOAD_ORDER_RETURN_REQUEST_LIST_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(RETURN_REQUESTS, error),
       });
     });

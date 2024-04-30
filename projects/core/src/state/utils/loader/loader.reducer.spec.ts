@@ -44,7 +44,8 @@ describe('Loader reducer', () => {
 
   describe('FAIL ACTION', () => {
     it('should set load state', () => {
-      const action = new LoaderFailAction(TEST_ENTITY_TYPE);
+      const error = new Error('error');
+      const action = new LoaderFailAction(TEST_ENTITY_TYPE, error);
       const state = loaderReducer(TEST_ENTITY_TYPE)(undefined, action);
       const expectedState = {
         loading: false,

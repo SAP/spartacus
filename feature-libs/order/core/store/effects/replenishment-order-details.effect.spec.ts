@@ -6,6 +6,7 @@ import {
   GlobalMessageType,
   LoggerService,
   normalizeHttpError,
+  tryNormalizeHttpError,
   Translatable,
 } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
@@ -112,7 +113,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.LoadReplenishmentOrderDetailsFail(
-        normalizeHttpError(mockError, new MockLoggerService())
+        tryNormalizeHttpError(mockError)
       );
 
       actions$ = hot('-a', { a: action });
@@ -156,7 +157,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.CancelReplenishmentOrderFail(
-        normalizeHttpError(mockError, new MockLoggerService())
+        tryNormalizeHttpError(mockError)
       );
 
       actions$ = hot('-a', { a: action });

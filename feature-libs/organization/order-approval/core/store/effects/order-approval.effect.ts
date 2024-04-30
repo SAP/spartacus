@@ -12,7 +12,7 @@ import {
   LoggerService,
   OCC_USER_ID_ANONYMOUS,
   StateUtils,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
@@ -43,7 +43,7 @@ export class OrderApprovalEffects {
             of(
               new OrderApprovalActions.LoadOrderApprovalFail({
                 orderApprovalCode,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -80,7 +80,7 @@ export class OrderApprovalEffects {
             of(
               new OrderApprovalActions.LoadOrderApprovalsFail({
                 params: params,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -116,7 +116,7 @@ export class OrderApprovalEffects {
               of(
                 new OrderApprovalActions.MakeDecisionFail({
                   orderApprovalCode: orderApprovalCode,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 })
               )
             )

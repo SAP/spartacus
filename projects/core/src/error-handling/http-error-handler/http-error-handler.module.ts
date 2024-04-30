@@ -13,7 +13,6 @@ export class HttpErrorHandlerModule {
   static forRoot(): ModuleWithProviders<HttpErrorHandlerModule> {
     return {
       ngModule: HttpErrorHandlerModule,
-
       providers: [
         {
           provide: HTTP_INTERCEPTORS,

@@ -29,10 +29,12 @@ describe('Loader Actions', () => {
 
     describe('LoaderFailAction', () => {
       it('should create an action', () => {
-        const action = new LoaderFailAction(TEST_ENTITY_TYPE, 'error');
+        const error = new Error('error');
+        const action = new LoaderFailAction(TEST_ENTITY_TYPE, error);
         expect({ ...action }).toEqual({
           type: LOADER_FAIL_ACTION,
-          meta: failMeta(TEST_ENTITY_TYPE, 'error'),
+          meta: failMeta(TEST_ENTITY_TYPE, error),
+          error,
         });
       });
     });

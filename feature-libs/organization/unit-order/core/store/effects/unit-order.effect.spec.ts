@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { normalizeHttpError, SiteContextActions } from '@spartacus/core';
+import { SiteContextActions, tryNormalizeHttpError } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -89,7 +89,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new UnitOrderActions.LoadUnitOrdersFail(
-          normalizeHttpError(mockError, new MockLoggerService())
+          tryNormalizeHttpError(mockError)
         );
         actions$ = hot('-a', { a: action });
 
@@ -140,16 +140,14 @@ describe('Orders effect', () => {
           new MockLoggerService()
         );
         spyOn(orderHistoryConnector, 'getUnitOrderDetail').and.returnValue(
-          throwError(() => mockError)
+          throwError(mockError)
         );
 
         const action = new UnitOrderActions.LoadOrderDetails(
           mockOrderDetailsParams
         );
 
-        const completion = new UnitOrderActions.LoadOrderDetailsFail(
-          mockNormalizedError
-        );
+        const completion = new UnitOrderActions.LoadOrderDetailsFail(mockError);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });

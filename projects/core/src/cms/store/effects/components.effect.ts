@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable, from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { catchError, groupBy, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { LoggerService } from '../../../logger';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
 import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
@@ -94,6 +94,9 @@ export class ComponentsEffects {
           actions.push(
             new CmsActions.LoadCmsComponentFail({
               uid,
+              error: {
+                message: `Failed to load CmsComponent ${pageContext.type} uid: ${uid}`,
+              },
               pageContext,
             })
           );
@@ -106,7 +109,7 @@ export class ComponentsEffects {
             (uid) =>
               new CmsActions.LoadCmsComponentFail({
                 uid,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
                 pageContext,
               })
           )

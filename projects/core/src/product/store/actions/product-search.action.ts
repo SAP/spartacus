@@ -12,6 +12,7 @@ import {
   Suggestion,
 } from '../../../model/product-search.model';
 import { SearchConfig } from '../../model/search-config';
+import { ErrorAction } from '@spartacus/core';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
 export const SEARCH_PRODUCTS_FAIL = '[Product] Search Products Fail';
@@ -32,12 +33,9 @@ export class SearchProducts implements Action {
   ) {}
 }
 
-export class SearchProductsFail implements Action {
+export class SearchProductsFail implements ErrorAction {
   readonly type = SEARCH_PRODUCTS_FAIL;
-  constructor(
-    public payload: ErrorModel | undefined,
-    public auxiliary?: boolean
-  ) {}
+  constructor(public error: ErrorModel, public auxiliary?: boolean) {}
 }
 
 export class SearchProductsSuccess implements Action {
@@ -55,9 +53,9 @@ export class GetProductSuggestionsSuccess implements Action {
   constructor(public payload: Suggestion[]) {}
 }
 
-export class GetProductSuggestionsFail implements Action {
+export class GetProductSuggestionsFail implements ErrorAction {
   readonly type = GET_PRODUCT_SUGGESTIONS_FAIL;
-  constructor(public payload: ErrorModel | undefined) {}
+  constructor(public error: ErrorModel) {}
 }
 
 export class ClearProductSearchResult implements Action {

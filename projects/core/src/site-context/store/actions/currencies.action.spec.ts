@@ -14,12 +14,12 @@ describe('Currencies Actions', () => {
 
     describe('LoadCurrenciesFail', () => {
       it('should create an action', () => {
-        const payload = { message: 'Load Error' };
-        const action = new SiteContextActions.LoadCurrenciesFail(payload);
+        const error = { message: 'Load Error' };
+        const action = new SiteContextActions.LoadCurrenciesFail(error);
 
         expect({ ...action }).toEqual({
           type: SiteContextActions.LOAD_CURRENCIES_FAIL,
-          payload,
+          error,
         });
       });
     });

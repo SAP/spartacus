@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { ReturnRequest, ReturnRequestList } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -35,7 +35,7 @@ export class OrderReturnRequestEffect {
               catchError((error) =>
                 of(
                   new OrderActions.CreateOrderReturnRequestFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -60,7 +60,7 @@ export class OrderReturnRequestEffect {
               catchError((error) =>
                 of(
                   new OrderActions.LoadOrderReturnRequestFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -86,7 +86,7 @@ export class OrderReturnRequestEffect {
               catchError((error) =>
                 of(
                   new OrderActions.CancelOrderReturnRequestFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -120,7 +120,7 @@ export class OrderReturnRequestEffect {
               catchError((error) =>
                 of(
                   new OrderActions.LoadOrderReturnRequestListFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )

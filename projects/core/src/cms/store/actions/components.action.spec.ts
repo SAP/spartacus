@@ -34,6 +34,7 @@ describe('Cms Component Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           payload: {
             uid: test_uid,
             error,

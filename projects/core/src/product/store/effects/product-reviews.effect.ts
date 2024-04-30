@@ -63,11 +63,11 @@ export class ProductReviewsEffects {
                 reviewResponse
               );
             }),
-            catchError((error) =>
+            catchError((_error) =>
               of(
-                new ProductActions.PostProductReviewFail(
-                  normalizeHttpError(error, this.logger)
-                )
+                new ProductActions.PostProductReviewFail({
+                  message: payload.productCode,
+                } as ErrorModel)
               )
             )
           );
