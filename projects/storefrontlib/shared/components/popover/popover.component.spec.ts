@@ -2,13 +2,14 @@ import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule } from '@spartacus/core';
+import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { KeyboardFocusTestingModule } from '../../../layout/a11y/keyboard-focus/focus-testing.module';
+import { PositioningService } from '../../services/positioning/positioning.service';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverPosition } from './popover.model';
-import { PositioningService } from '../../services/positioning/positioning.service';
-import { Subject } from 'rxjs';
 
 const mockPopoverPosition = 'top';
 
@@ -35,7 +36,12 @@ describe('PopoverComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, IconModule, KeyboardFocusTestingModule],
+      imports: [
+        RouterTestingModule,
+        IconModule,
+        KeyboardFocusTestingModule,
+        I18nTestingModule,
+      ],
       declarations: [PopoverComponent],
       providers: [
         { provide: PositioningService, useClass: MockPositionService },
