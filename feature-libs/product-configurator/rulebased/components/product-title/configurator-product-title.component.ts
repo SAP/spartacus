@@ -7,7 +7,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
 import {
-  // CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
