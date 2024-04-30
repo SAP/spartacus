@@ -166,6 +166,11 @@ export interface FeatureTogglesInterface {
    * providing a more intuitive user experience.
    */
   a11yCartItemsLinksStyles?: boolean;
+
+  /**
+   * Determines whether the controls in the `CarouselComponent` are focusable and accessible from the keyboard.
+   */
+  a11yFocusableCarouselControls?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -197,4 +202,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartSummaryHeadingOrder: false,
   a11yUnitsListKeyboardControls: false,
   a11yCartItemsLinksStyles: false,
+  a11yFocusableCarouselControls: false,
 };
