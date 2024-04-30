@@ -1,6 +1,8 @@
 %cx-verification-token-form {
   &.user-form {
     .resend-link-text {
+      display: flex;
+      flex-direction: row;
       width: 100%;
       margin: auto;
 

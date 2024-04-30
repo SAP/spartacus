@@ -12,8 +12,7 @@
     padding-inline-start: 1rem;
     border-width: 0;
     display: flex;
-
-    box-shadow: 0px 0px 4px rgba(85, 107, 130, 0.16), inset 0px -1px 0px #d9d9d9;
+    border-color: var(--cx-color-light);
 
     .info-icon {
       cx-icon {
@@ -27,6 +26,10 @@
     }
   }
 
+  .spliter {
+    margin: 0;
+  }
+
   .cx-dialog-body {
     padding: 1rem;
     @include type();
@@ -38,14 +41,8 @@
       padding-inline-end: 0.875rem;
       padding-bottom: 0.85rem;
       padding-inline-start: 2.875rem;
-
       max-width: 100%;
       flex-wrap: wrap;
-
-      @include media-breakpoint-down(sm) {
-        flex-direction: column;
-        padding: 0;
-      }
     }
 
     .cx-dialog-item {
