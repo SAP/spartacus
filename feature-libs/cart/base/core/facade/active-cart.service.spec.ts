@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
+  getLastValueSync,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -8,9 +9,8 @@ import {
   StateUtils,
   UserIdService,
   WindowRef,
-  getLastValueSync,
 } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, Subject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ActiveCartService } from './active-cart.service';
 
