@@ -3,7 +3,7 @@
   class="cx-row"
   role="radiogroup"
 >
-  <ng-container *ngIf="!config.features?.attributeTypesV2">
+  <ng-container *ngIf="!config.features?.productConfiguratorAttributeTypesV2">
     <div
       *ngFor="let value of attribute.values"
       id="{{
@@ -67,19 +67,6 @@
           />
           <div *ngIf="!getImage(value)" class="cx-img-dummy"></div>
           {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
-          <button
-            *ngIf="value.description"
-            [cxPopover]="value.description"
-            [cxPopoverOptions]="{
-                placement: 'auto',
-                class: 'cx-value-description',
-                appendToBody: true,
-                displayCloseButton: true,
-              }"
-            [attr.aria-label]="'configurator.a11y.description' | cxTranslate"
-          >
-            <cx-icon [type]="iconTypes.INFO"> </cx-icon>
-          </button>
           <cx-configurator-price
             [formula]="extractValuePriceFormulaParameters(value)"
           ></cx-configurator-price>
@@ -87,7 +74,7 @@
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="config.features?.attributeTypesV2">
+  <ng-container *ngIf="config.features?.productConfiguratorAttributeTypesV2">
     <ng-container *ngFor="let value of attribute.values">
       <div
         *ngIf="isValueDisplayed(attribute, value)"
@@ -166,7 +153,20 @@
               *ngIf="!getImage(value)"
               [ngClass]="getImgStyleClasses(attribute, value, 'cx-img-dummy')"
             ></div>
-            {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
+            {{ getImageLabel(expMode, value.valueDisplay, value.valueCode) }}
+            <button
+              *ngIf="value.description"
+              [cxPopover]="value.description"
+              [cxPopoverOptions]="{
+                placement: 'auto',
+                class: 'cx-value-description',
+                appendToBody: true,
+                displayCloseButton: true,
+              }"
+              [attr.aria-label]="'configurator.a11y.description' | cxTranslate"
+            >
+              <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+            </button>
             <cx-configurator-price
               [formula]="extractValuePriceFormulaParameters(value)"
             ></cx-configurator-price>

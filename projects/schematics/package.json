@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2211.21.0-1",
+  "version": "2211.23.0-1",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -12,8 +12,9 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run clean && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
-    "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
-    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+    "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\" && npm run copy-feature-toggles",
+    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js",
+    "copy-feature-toggles": "node copy-feature-toggles"
   },
   "dependencies": {
     "@angular/pwa": "^17.0.5",
