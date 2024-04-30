@@ -21,7 +21,7 @@
     "resend": "Resend",
     "verificationCode": {
       "label": "Verification Code",
-      "placeholder": "Enter verification code"
+      "placeholder": "Enter Verification Code"
     },
     "noReceiveCode": "Didn't receive the code?",
     "verify": "Verify",
