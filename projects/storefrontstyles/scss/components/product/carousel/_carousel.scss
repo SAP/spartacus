@@ -19,6 +19,11 @@
     display: flex;
     justify-content: space-between;
 
+    // TODO: (CXSPA-6904) - Remove feature flag next major release
+    @include forFeature('a11yFocusableCarouselControls') {
+      align-items: center;
+    }
+
     // The size of carousel items depends on the number of items per slide.
     // We generate 10 sizes in case there are a lot of carousel items displayed
     // on a single slide.
@@ -79,6 +84,11 @@
   button {
     &:focus {
       outline: none;
+
+      // TODO: (CXSPA-6904) - Remove feature flag next major release
+      @include forFeature('a11yFocusableCarouselControls') {
+        @include visible-focus();
+      }
     }
     color: var(--cx-color-inverse);
 
@@ -115,6 +125,13 @@
         border: 4px solid var(--cx-color-primary);
         border-radius: 20px;
         background-color: var(--cx-color-inverse);
+      }
+
+      // TODO: (CXSPA-6904) - Remove feature flag next major release
+      @include forFeature('a11yFocusableCarouselControls') {
+        &:focus {
+          outline-offset: -5px;
+        }
       }
     }
 
