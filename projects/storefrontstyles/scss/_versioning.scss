@@ -34,7 +34,7 @@ $_fullVersion: (
 
 // The _global_ major version. Any (left over) styles from previous stable versions
 // are processed to the final CSS.
-$_majorVersion: 6;
+$_majorVersion: 2211;
 
 // The `$styleVersion` can be used by customers to explicitly opt-in to breaking style
 // changes till the given style version. It must contain a floating number, such as `2.1`.
@@ -66,7 +66,7 @@ $useLatestStyles: false !default;
   $from: getVersion($from);
 
   // We never create content that is part of future releases, this should not really happen.
-  @if (compareVersion($from, $_fullVersion) <= 0) {
+  @if (compareVersion($from, $_fullVersion) <=0) {
     @if (
       (isStableVersion($from, $to) and isValidVersion($from, $to)) or
         addBreakingChange($from, $to)
@@ -83,11 +83,13 @@ $useLatestStyles: false !default;
 
   $string: toString($value);
   $i: str-index($string, '.');
-  @if $i != null {
+
+  @if $i !=null {
     $major: toNumber(str-slice($string, 1, $i - 1));
     $remaining: str-slice($string, $i + 1);
     $d: str-index($remaining, '.');
-    @if $d != null {
+
+    @if $d !=null {
       $minor: toNumber(str-slice($remaining, 1, $d - 1));
       $patch: toNumber(str-slice($remaining, $d + 1));
     } @else {
@@ -112,9 +114,11 @@ $useLatestStyles: false !default;
     $firstItem: toString(nth($value, 1));
     $secondItem: toString(nth($value, 2));
     $firstDot: str-index($firstItem, '.');
-    @if $firstDot != null {
+
+    @if $firstDot !=null {
       $secondDot: str-index($secondItem, '.');
-      @if $secondDot != null {
+
+      @if $secondDot !=null {
         @return $firstItem + '.' + str-slice($secondItem, $secondDot + 1);
       } @else {
         @return $firstItem;
@@ -130,6 +134,7 @@ $useLatestStyles: false !default;
 @function toNumber($string) {
   $strings: '0' '1' '2' '3' '4' '5' '6' '7' '8' '9';
   $result: 0;
+
   @for $i from 1 through str-length($string) {
     $character: str-slice($string, $i, $i);
     $number: index($strings, $character) - 1;
@@ -143,9 +148,11 @@ $useLatestStyles: false !default;
   @if type-of($v1) != 'map' {
     $v1: getVersion($v1);
   }
+
   @if type-of($v2) != 'map' {
     $v2: getVersion($v2);
   }
+
   $v1Major: map-get($v1, major);
   $v1Minor: map-get($v1, minor);
   $v1Patch: map-get($v1, patch);
@@ -155,9 +162,11 @@ $useLatestStyles: false !default;
   $v2Patch: map-get($v2, patch);
 
   $compareMajor: compareNumber($v1Major, $v2Major);
-  @if ($compareMajor == 0) {
+
+  @if ($compareMajor ==0) {
     $compareMinor: compareNumber($v1Minor, $v2Minor);
-    @if ($compareMinor == 0) {
+
+    @if ($compareMinor ==0) {
       @return compareNumber($v1Patch, $v2Patch);
     } @else {
       @return $compareMinor;
@@ -183,33 +192,34 @@ $useLatestStyles: false !default;
 // - from 1.1 to 1.2 is not valid for version 1
 // - from 1.1 to 1.2 is not valid for version 2
 @function isStableVersion($from, $to: 0) {
-  @if ($to == 0) {
-    @return compareVersion($from, $_majorVersion) <= 0;
+  @if ($to ==0) {
+    @return compareVersion($from, $_majorVersion) <=0;
   } @else {
-    @return compareVersion($from, $_majorVersion) <= 0 and
+    @return compareVersion($from, $_majorVersion) <=0 and
       compareVersion($to, $_majorVersion) >=0;
   }
 }
 
 // Indicates that the style rule should be created for the given opt-in rules.
 @function addBreakingChange($from, $to) {
-  @if (useBreakingChanges() == false) {
+  @if (useBreakingChanges() ==false) {
     @return false;
   }
+
   @return isValidVersion($from, $to);
 }
 
 // Indicates that the given from / to versions are valid.
 @function isValidVersion($from, $to: 0) {
-  @if ($to == 0) {
+  @if ($to ==0) {
     // ensure that we opt-in the from version
     @return $useLatestStyles or
-      ($useLatestStyles == false and compareVersion($from, $styleVersion) <= 0);
+      ($useLatestStyles ==false and compareVersion($from, $styleVersion) <=0);
   } @else {
     // ensure that we opt-in the from/to version
     @return ($useLatestStyles and compareVersion($to, $_fullVersion) >=0) or
       (
-        $useLatestStyles == false and compareVersion($from, $styleVersion) <=0
+        $useLatestStyles ==false and compareVersion($from, $styleVersion) <=0
           and compareVersion($to, $styleVersion) >=0
       );
   }
@@ -217,5 +227,5 @@ $useLatestStyles: false !default;
 
 // Indicates if breaking changes are requested.
 @function useBreakingChanges() {
-  @return $useLatestStyles or compareVersion($styleVersion, $_majorVersion) > 0;
+  @return $useLatestStyles or compareVersion($styleVersion, $_majorVersion) >0;
 }

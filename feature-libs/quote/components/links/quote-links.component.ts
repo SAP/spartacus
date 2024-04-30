@@ -5,7 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CartUtilsService } from '@spartacus/quote/core';
+import { EventService } from '@spartacus/core';
+import {
+  CartUtilsService,
+  QuoteDetailsReloadQueryEvent,
+} from '@spartacus/quote/core';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { Observable } from 'rxjs';
 
@@ -17,6 +21,7 @@ import { Observable } from 'rxjs';
 export class QuoteLinksComponent {
   protected quoteFacade = inject(QuoteFacade);
   protected cartUtilsService = inject(CartUtilsService);
+  protected eventService = inject(EventService);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
@@ -24,6 +29,9 @@ export class QuoteLinksComponent {
    * Creates a new cart and navigates according to the 'cart' route.
    */
   goToNewCart(): void {
+    //since from now on, the active cart deviates from the quote, we need to mark
+    //the quote details for reload. Otherwise a browser back won't always work.
+    this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
     this.cartUtilsService.goToNewCart();
   }
 }
