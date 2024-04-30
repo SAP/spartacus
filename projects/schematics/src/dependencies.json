@@ -23,6 +23,9 @@
     "parse5": "^7.1.2",
     "typescript": "^5.2.2"
   },
+  "ssr-tests": {
+    "http-proxy": "^1.18.1"
+  },
   "storefrontapp-e2e-cypress": {},
   "@spartacus/storefront": {
     "@angular/common": "^17.0.5",
