@@ -20,6 +20,7 @@ import {
   filter,
   map,
   switchMap,
+  take,
 } from 'rxjs/operators';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
@@ -227,19 +228,26 @@ export class MultiCartService implements MultiCartFacade {
     cartId: string,
     productCode: string,
     quantity: number,
-    pickupStore?: string,
-    numberOfEntriesBeforeAdd?: number
+    pickupStore?: string
   ): void {
-    this.store.dispatch(
-      new CartActions.CartAddEntry({
-        userId,
-        cartId,
-        productCode,
-        quantity,
-        pickupStore,
-        numberOfEntriesBeforeAdd,
-      })
-    );
+    this.store
+      .pipe(
+        select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId)),
+        map((entries) => entries.length),
+        take(1)
+      )
+      .subscribe((numberOfEntriesBeforeAdd) => {
+        this.store.dispatch(
+          new CartActions.CartAddEntry({
+            userId,
+            cartId,
+            productCode,
+            quantity,
+            pickupStore,
+            numberOfEntriesBeforeAdd,
+          })
+        );
+      });
   }
 
   /**

@@ -54,6 +54,9 @@ export class AddedToCartDialogEventListener implements OnDestroy {
     }
   }
   /**
+   * @deprecated since 2211.24. Enable feature toggle 'adddedToCartDialogDrivenBySuccessEvent'
+   * and use method openModalAfterSuccess instead.
+   *
    * Opens modal based on CartUiEventAddToCart.
    * @param event Signals that a product has been added to the cart.
    */

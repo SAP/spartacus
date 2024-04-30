@@ -457,10 +457,9 @@ describe('ActiveCartService', () => {
   });
 
   describe('addEntry', () => {
-    const entries = [{}, {}, {}];
     it('should just add entry after cart is provided', () => {
       spyOn<any>(service, 'requireLoadedCart').and.returnValue(
-        of({ code: 'code', guid: 'guid', entries: entries })
+        of({ code: 'code', guid: 'guid' })
       );
       spyOn(multiCartFacade, 'addEntry').and.callThrough();
       userId$.next(OCC_USER_ID_ANONYMOUS);
@@ -472,14 +471,13 @@ describe('ActiveCartService', () => {
         'guid',
         'productCode',
         2,
-        undefined,
-        3
+        undefined
       );
     });
 
     it('should handle pickup in store', () => {
       spyOn<any>(service, 'requireLoadedCart').and.returnValue(
-        of({ code: 'code', guid: 'guid', entries: entries })
+        of({ code: 'code', guid: 'guid' })
       );
       spyOn(multiCartFacade, 'addEntry').and.callThrough();
       userId$.next(OCC_USER_ID_ANONYMOUS);
@@ -491,8 +489,7 @@ describe('ActiveCartService', () => {
         'guid',
         'productCode',
         2,
-        'pickupStore',
-        3
+        'pickupStore'
       );
     });
   });

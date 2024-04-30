@@ -391,6 +391,10 @@ describe('MultiCartService', () => {
   });
 
   describe('addEntry', () => {
+    const numberOfEntriesBeforeAdd = 3;
+    beforeEach(() => {
+      spyOn(store, 'pipe').and.returnValue(of(numberOfEntriesBeforeAdd));
+    });
     it('should dispatch addEntry action', () => {
       service.addEntry('userId', 'cartId', 'productCode', 2);
 
@@ -401,13 +405,13 @@ describe('MultiCartService', () => {
           productCode: 'productCode',
           quantity: 2,
           pickupStore: undefined,
-          numberOfEntriesBeforeAdd: undefined,
+          numberOfEntriesBeforeAdd: numberOfEntriesBeforeAdd,
         })
       );
     });
 
     it('should dispatch addEntry action with pickupStore', () => {
-      service.addEntry('userId', 'cartId', 'productCode', 2, 'pickupStore', 3);
+      service.addEntry('userId', 'cartId', 'productCode', 2, 'pickupStore');
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartAddEntry({
@@ -416,7 +420,7 @@ describe('MultiCartService', () => {
           productCode: 'productCode',
           quantity: 2,
           pickupStore: 'pickupStore',
-          numberOfEntriesBeforeAdd: 3,
+          numberOfEntriesBeforeAdd: numberOfEntriesBeforeAdd,
         })
       );
     });

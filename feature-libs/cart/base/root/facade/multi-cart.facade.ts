@@ -148,16 +148,13 @@ export abstract class MultiCartFacade {
    * @param productCode
    * @param quantity
    * @param pickupStore
-   * @param numberOfEntriesBeforeAdd Number of cart entries before the addToCart was triggered. Can be
-   * provided in order to tell after addToCart whether an entry was added or the quantity was increased.
    */
   abstract addEntry(
     userId: string,
     cartId: string,
     productCode: string,
     quantity: number,
-    pickupStore?: string,
-    numberOfEntriesBeforeAdd?: number
+    pickupStore?: string
   ): void;
 
   /**
