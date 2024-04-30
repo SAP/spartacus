@@ -46,7 +46,9 @@ export class ConfiguratorProductTitleComponent {
           map((container) => {
             return !!container.routerData.productCode
               ? container.routerData.productCode
-              : container.configuration.productCode;
+              : !!container.configuration.productCode
+              ? container.configuration.productCode
+              : container.configuration.overview?.productCode;
           }),
           switchMap((productCode) =>
             productCode

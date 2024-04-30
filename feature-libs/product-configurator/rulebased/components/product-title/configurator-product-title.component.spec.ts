@@ -235,7 +235,7 @@ function setDataForOrderEntry() {
     ),
     overview: {
       configId: CONFIG_ID,
-      productCode: PRODUCT_CODE,
+      productCode: ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
     },
   };
 
@@ -246,7 +246,7 @@ function setDataForOrderEntry() {
   mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
   mockRouterData.owner.id = ORDER_ENTRY_KEY;
-  mockRouterData.productCode = ORDER_ENTRY_SUFFIX + PRODUCT_CODE;
+  mockRouterData.productCode = undefined;
 }
 
 function setDataForOrderEntryWithoutOverview() {
