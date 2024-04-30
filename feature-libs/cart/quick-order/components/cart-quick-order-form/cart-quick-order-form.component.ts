@@ -7,6 +7,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -23,6 +24,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   EventService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
@@ -35,6 +37,8 @@ import { first, map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
+  private featureConfig = inject(FeatureConfigService);
+
   quickOrderForm: UntypedFormGroup;
   cartIsLoading$: Observable<boolean> = this.activeCartService
     .isStable()
@@ -73,7 +77,11 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
     const quantity = this.quickOrderForm.get('quantity')?.value;
 
     this.watchAddEntrySuccessEvent();
-    this.watchAddEntryFailEvent();
+    if (
+      !this.featureConfig.isEnabled('cartQuickOrderRemoveListenToFailEvent')
+    ) {
+      this.watchAddEntryFailEvent();
+    }
 
     if (productCode && quantity) {
       this.activeCartService.addEntry(productCode, quantity);
@@ -141,6 +149,13 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * @deprecate since SPA_2406
+   *
+   * This method is no longer needed since BadRequestHandler.handleUnknownIdentifierError was introduced.
+   * If this method is used an unnecessary duplicated error message will appear in the UI.
+   * Therefore this method will be removed.
+   */
   protected watchAddEntryFailEvent(): void {
     this.cartEventsSubscription.add(
       this.eventService

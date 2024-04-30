@@ -171,6 +171,12 @@ export interface FeatureTogglesInterface {
    * Determines whether the controls in the `CarouselComponent` are focusable and accessible from the keyboard.
    */
   a11yFocusableCarouselControls?: boolean;
+
+  /**
+   * Determines whether `watchAddEntryFailEvent` method is executed or not in `CartQuickOrderFormComponent` component.
+   * The `watchAddEntryFailEvent` method listens to CartAddEntryFailEvent event.
+   */
+  cartQuickOrderRemoveListenToFailEvent?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -203,4 +209,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUnitsListKeyboardControls: false,
   a11yCartItemsLinksStyles: false,
   a11yFocusableCarouselControls: false,
+  cartQuickOrderRemoveListenToFailEvent: false,
 };
