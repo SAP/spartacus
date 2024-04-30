@@ -391,10 +391,6 @@ describe('MultiCartService', () => {
   });
 
   describe('addEntry', () => {
-    const numberOfEntriesBeforeAdd = 3;
-    beforeEach(() => {
-      spyOn(store, 'pipe').and.returnValue(of(numberOfEntriesBeforeAdd));
-    });
     it('should dispatch addEntry action', () => {
       service.addEntry('userId', 'cartId', 'productCode', 2);
 
@@ -405,7 +401,6 @@ describe('MultiCartService', () => {
           productCode: 'productCode',
           quantity: 2,
           pickupStore: undefined,
-          numberOfEntriesBeforeAdd: numberOfEntriesBeforeAdd,
         })
       );
     });
@@ -420,7 +415,6 @@ describe('MultiCartService', () => {
           productCode: 'productCode',
           quantity: 2,
           pickupStore: 'pickupStore',
-          numberOfEntriesBeforeAdd: numberOfEntriesBeforeAdd,
         })
       );
     });

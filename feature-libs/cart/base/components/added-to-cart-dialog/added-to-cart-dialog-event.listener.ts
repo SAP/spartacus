@@ -14,6 +14,7 @@ import { EventService, FeatureConfigService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { AddedToCartDialogComponentData } from './added-to-cart-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -61,7 +62,7 @@ export class AddedToCartDialogEventListener implements OnDestroy {
    * @param event Signals that a product has been added to the cart.
    */
   protected openModal(event: CartUiEventAddToCart): void {
-    const addToCartData = {
+    const addToCartData: AddedToCartDialogComponentData = {
       productCode: event.productCode,
       quantity: event.quantity,
       numberOfEntriesBeforeAdd: event.numberOfEntriesBeforeAdd,
@@ -87,11 +88,12 @@ export class AddedToCartDialogEventListener implements OnDestroy {
   protected openModalAfterSuccess(
     successEvent: CartAddEntrySuccessEvent
   ): void {
-    const addToCartData = {
+    const addToCartData: AddedToCartDialogComponentData = {
       productCode: successEvent.productCode,
       quantity: successEvent.quantity,
-      numberOfEntriesBeforeAdd: successEvent.numberOfEntriesBeforeAdd,
+      numberOfEntriesBeforeAdd: 0,
       pickupStoreName: successEvent.pickupStore,
+      addedEntryWasMerged: this.calculateEntryWasMerged(successEvent),
     };
 
     const dialog = this.launchDialogService.openDialog(
@@ -104,6 +106,18 @@ export class AddedToCartDialogEventListener implements OnDestroy {
     if (dialog) {
       dialog.pipe(take(1)).subscribe();
     }
+  }
+
+  protected calculateEntryWasMerged(
+    successEvent: CartAddEntrySuccessEvent
+  ): boolean {
+    //In case quantityAdded zero, the system could have run into stock issues.
+    //Then we continue and still launch the dialogue in 'merge' mode to not break compatibility
+    const quantityAdded = successEvent.quantityAdded ?? 0;
+    return (
+      quantityAdded === 0 ||
+      (successEvent.entry?.quantity ?? 0) - quantityAdded > 0
+    );
   }
 
   protected closeModal(reason?: any): void {

@@ -11,22 +11,22 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
-  CartUiEventAddToCart,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { RoutingService } from '@spartacus/core';
+import { FeatureConfigService, RoutingService } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import {
   filter,
   map,
@@ -36,12 +36,29 @@ import {
   tap,
 } from 'rxjs/operators';
 
+export interface AddedToCartDialogComponentData {
+  productCode: string;
+  quantity: number;
+  /**
+   * Number of cart entries before addToCart was triggered.
+   * @deprecated since 2211.24. Enable feature toggle 'adddedToCartDialogDrivenBySuccessEvent'
+   * and use attribute addedEntryWasMerged instead.
+   */
+  numberOfEntriesBeforeAdd: number;
+  pickupStoreName?: string;
+  /**
+   * Was the product added to the cart merged into an existing cart entry (with increased quantity),
+   * or did the system create a new cart entry?
+   */
+  addedEntryWasMerged?: boolean;
+}
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddedToCartDialogComponent implements OnInit, OnDestroy {
+  private featureConfig = inject(FeatureConfigService);
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry | undefined>;
@@ -83,12 +100,13 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
       this.launchDialogService.data$.subscribe(
-        (dialogData: CartUiEventAddToCart) => {
+        (dialogData: AddedToCartDialogComponentData) => {
           this.init(
             dialogData.productCode,
             dialogData.quantity,
             dialogData.numberOfEntriesBeforeAdd,
-            dialogData.pickupStoreName
+            dialogData.pickupStoreName,
+            dialogData.addedEntryWasMerged
           );
         }
       )
@@ -141,16 +159,24 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     productCode: string,
     quantity: number,
     numberOfEntriesBeforeAdd: number,
-    pickupStoreName?: string
+    pickupStoreName?: string,
+    addedEntryWasMerged?: boolean
   ): void {
     // Display last entry for new product code. This always corresponds to
     // our new item, independently of whether merging occured or not
     this.entry$ = this.activeCartFacade.getLastEntry(productCode);
     this.quantity = quantity;
-    this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
-      numberOfEntriesBeforeAdd
-    );
+
     this.pickupStoreName = pickupStoreName;
+    if (
+      this.featureConfig.isEnabled('adddedToCartDialogDrivenBySuccessEvent')
+    ) {
+      this.addedEntryWasMerged$ = of(addedEntryWasMerged ?? false);
+    } else {
+      this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
+        numberOfEntriesBeforeAdd
+      );
+    }
   }
 
   protected getAddedEntryWasMerged(
