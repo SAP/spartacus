@@ -135,9 +135,6 @@
       "restartButton": "Start New",
       "resumeButton": "Resume"
     },
-    "httpHandlers": {
-      "makeToStockBaseProductIssue": "Product or its base product is defined as 'make-to-stock'. Configuration update for 'make-to-stock' products is not allowed."
-    },
     "a11y": {
       "configureProduct": "Configure product",
       "showDetailsProduct": "Show details of the product",
