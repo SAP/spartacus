@@ -9,28 +9,31 @@ import {
   ElementRef,
   HostListener,
   Input,
-  OnInit,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { GenericLinkComponentService } from './generic-link-component.service';
+import { RoutingService } from '@spartacus/core';
 
 @Directive({
   selector: '[cxGenericLink]',
 })
-export class GenericLinkDirective implements OnInit {
-  @Input() cxGenericLink: string | undefined;
+export class GenericLinkDirective implements OnChanges {
+  @Input() href: string | any[];
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    const url = target.getAttribute('href');
-    if (url) {
-      event.preventDefault();
+    if (this.href) {
+      const target = event.target as HTMLElement;
       const linkTarget = target.getAttribute('target');
-      if (this.isExternalUrl(url) || linkTarget === '_blank') {
-        window.open(url, linkTarget ?? undefined);
-      } else {
-        this.router.navigateByUrl(url); // Navigate internally using Angular Router
+      if (!this.isExternalUrl() && linkTarget !== '_blank') {
+        event.preventDefault();
+        const url: string =
+          typeof this.href === 'string'
+            ? this.href
+            : this.router.createUrlTree([this.href]).toString();
+        this.router.navigateByUrl(url);
       }
     }
   }
@@ -38,21 +41,28 @@ export class GenericLinkDirective implements OnInit {
   constructor(
     protected el: ElementRef,
     protected router: Router,
-    protected service: GenericLinkComponentService
+    protected service: GenericLinkComponentService,
+    protected routingService: RoutingService
   ) {}
-  ngOnInit() {
-    this.updateHref(this.el.nativeElement.getAttribute('href'));
+
+  ngOnChanges(changes?: SimpleChanges) {
+    if (changes?.href) {
+      this.updateHref();
+    }
   }
 
-  protected isExternalUrl(url: string): boolean {
-    return this.service.isExternalUrl(url);
+  protected isExternalUrl(): boolean {
+    return this.service.isExternalUrl(this.href);
   }
-  protected updateHref(url: string): void {
-    if (url) {
-      if (!this.isExternalUrl(url)) {
-        const homeUrlTree = this.router.createUrlTree(['']);
-        const homeUrl = this.router.serializeUrl(homeUrlTree).slice(0, -1);
-        this.el.nativeElement.setAttribute('href', `${homeUrl}${url}`);
+
+  protected updateHref(): void {
+    if (this.href) {
+      if (this.isExternalUrl()) {
+        this.el.nativeElement.setAttribute('href', this.href);
+      } else {
+        // should we use this.routingService.getFullUrl(this.url);
+        const newUrl = this.routingService.getUrl(this.href);
+        this.el.nativeElement.setAttribute('href', newUrl);
       }
     }
   }
