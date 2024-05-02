@@ -123,9 +123,15 @@ export class ConfiguratorAttributeInputFieldComponent
    * Returns the type for the input field. Depending on the UI type, that is text or date.
    */
   get inputType(): string {
-    return this.attribute.uiType === Configurator.UiType.SAP_DATE
-      ? 'date'
-      : 'text';
+    return this.isDateBased(this.attribute) ? 'date' : 'text';
+  }
+
+  protected isDateBased(attribute: Configurator.Attribute) {
+    return (
+      attribute.uiType === Configurator.UiType.SAP_DATE ||
+      (this.isWithAdditionalValues(attribute) &&
+        attribute.validationType === Configurator.ValidationType.SAP_DATE)
+    );
   }
 
   protected compileShowRequiredErrorMessage(): void {
