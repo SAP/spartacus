@@ -65,13 +65,15 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
 const PRODUCT_CODE = 'CODE1111';
 const QUANTITY = 3;
 const NUMBER_ENTRIES_BEFORE_ADD = 2;
+const PICKUP_STORE_NAME = 'testStore';
+let numberOfEntriesBeforeAdd: number | undefined = NUMBER_ENTRIES_BEFORE_ADD;
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
     return of({
       productCode: PRODUCT_CODE,
       quantity: QUANTITY,
-      numberOfEntriesBeforeAdd: NUMBER_ENTRIES_BEFORE_ADD,
-      pickupStoreName: 'test',
+      numberOfEntriesBeforeAdd: numberOfEntriesBeforeAdd,
+      pickupStoreName: PICKUP_STORE_NAME,
     });
   }
 
@@ -414,6 +416,21 @@ describe('AddedToCartDialogComponent', () => {
       component.init(PRODUCT_CODE, QUANTITY, NUMBER_ENTRIES_BEFORE_ADD);
       expect(component.addedEntryWasMerged$).toBeObservable(
         cold('t', { t: true })
+      );
+    });
+  });
+
+  describe('ngOnInit()', () => {
+    it('should default numberOfEntriesBeforeAdd with zero in case it is not provided from outside', () => {
+      numberOfEntriesBeforeAdd = undefined;
+      spyOn(component, 'init').and.callThrough();
+      component.ngOnInit();
+      expect(component.init).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        QUANTITY,
+        0,
+        PICKUP_STORE_NAME,
+        undefined
       );
     });
   });

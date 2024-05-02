@@ -55,8 +55,9 @@ export class AddedToCartDialogEventListener implements OnDestroy {
     }
   }
   /**
-   * @deprecated since 2211.24. Enable feature toggle 'adddedToCartDialogDrivenBySuccessEvent'
-   * and use method openModalAfterSuccess instead.
+   * @deprecated since 2211.24. With activation of feature toggle 'adddedToCartDialogDrivenBySuccessEvent'
+   * the method is no longer called, instead method openModalAfterSuccess takes care of launching
+   * the addedToCart dialogue.
    *
    * Opens modal based on CartUiEventAddToCart.
    * @param event Signals that a product has been added to the cart.
@@ -91,7 +92,6 @@ export class AddedToCartDialogEventListener implements OnDestroy {
     const addToCartData: AddedToCartDialogComponentData = {
       productCode: successEvent.productCode,
       quantity: successEvent.quantity,
-      numberOfEntriesBeforeAdd: 0,
       pickupStoreName: successEvent.pickupStore,
       addedEntryWasMerged: this.calculateEntryWasMerged(successEvent),
     };
@@ -111,8 +111,9 @@ export class AddedToCartDialogEventListener implements OnDestroy {
   protected calculateEntryWasMerged(
     successEvent: CartAddEntrySuccessEvent
   ): boolean {
-    //In case quantityAdded zero, the system could have run into stock issues.
-    //Then we continue and still launch the dialogue in 'merge' mode to not break compatibility
+    // In case quantityAdded zero, the system could have run into stock issues.
+    // Then we continue and still launch the dialogue in 'merge' mode in order
+    // to not break the existing behaviour.
     const quantityAdded = successEvent.quantityAdded ?? 0;
     return (
       quantityAdded === 0 ||
