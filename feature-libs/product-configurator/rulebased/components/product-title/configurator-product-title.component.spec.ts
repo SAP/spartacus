@@ -16,10 +16,8 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
-import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -35,9 +33,14 @@ const PRODUCT_DESCRIPTION = 'Here is a product description';
 const PRODUCT_NAME = 'productName';
 const CONFIG_ID = '12342';
 const ORDER_ENTRY_KEY = '001+1';
-const CART_ENTRY_KEY = '001+1';
+const CART_ENTRY_KEY = ORDER_ENTRY_KEY;
+const SAVED_CART_ENTRY_KEY = ORDER_ENTRY_KEY;
+const QUOTE_ENTRY_KEY = ORDER_ENTRY_KEY;
+const PRODUCT_SUFFIX = 'PRODUCT_';
 const ORDER_ENTRY_SUFFIX = 'ORDER_ENTRY_';
 const CART_ENTRY_SUFFIX = 'CART_ENTRY_';
+const SAVED_CART_ENTRY_SUFFIX = 'SAVED_CART_ENTRY_';
+const QUOTE_ENTRY_SUFFIX = 'QUOTE_ENTRY_';
 
 const ROUTE_CONFIGURATION = 'configureCPQCONFIGURATOR';
 const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
@@ -241,31 +244,7 @@ function setDataForOrderEntry() {
   mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
   mockRouterData.owner.id = ORDER_ENTRY_KEY;
-}
-
-function setDataForOrderEntryWithoutOverview() {
-  mockConfiguration = {
-    ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
-      id: PRODUCT_CODE,
-      type: CommonConfigurator.OwnerType.ORDER_ENTRY,
-      key: ConfiguratorModelUtils.getOwnerKey(
-        CommonConfigurator.OwnerType.ORDER_ENTRY,
-        PRODUCT_CODE
-      ),
-      configuratorType: ConfiguratorType.VARIANT,
-    }),
-  };
-
-  mockRouterState.state.params = {
-    entityKey: ORDER_ENTRY_KEY,
-    ownerType: CommonConfigurator.OwnerType.ORDER_ENTRY,
-  };
-  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
-  mockRouterData.isOwnerCartEntry = false;
-  mockRouterData.owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
-  mockRouterData.owner.id = ORDER_ENTRY_KEY;
-  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
-  mockRouterData.displayOnly = true;
+  mockRouterData.productCode = undefined;
 }
 
 function setDataForCartEntry() {
@@ -288,6 +267,56 @@ function setDataForCartEntry() {
   mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
   mockRouterData.owner.id = CART_ENTRY_KEY;
   mockRouterData.productCode = CART_ENTRY_SUFFIX + PRODUCT_CODE;
+}
+
+function setDataForSavedCartEntry() {
+  mockConfiguration = {
+    ...ConfiguratorTestUtils.createConfiguration(
+      CONFIG_ID,
+      ConfiguratorModelUtils.createOwner(
+        CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
+        PRODUCT_CODE
+      )
+    ),
+    overview: {
+      configId: CONFIG_ID,
+      productCode: PRODUCT_CODE,
+    },
+  };
+
+  mockRouterState.state.params = {
+    entityKey: SAVED_CART_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.SAVED_CART_ENTRY;
+  mockRouterData.owner.id = SAVED_CART_ENTRY_KEY;
+  mockRouterData.productCode = SAVED_CART_ENTRY_SUFFIX + PRODUCT_CODE;
+}
+
+function setDataForQuoteEntry() {
+  mockConfiguration = {
+    ...ConfiguratorTestUtils.createConfiguration(
+      CONFIG_ID,
+      ConfiguratorModelUtils.createOwner(
+        CommonConfigurator.OwnerType.QUOTE_ENTRY,
+        PRODUCT_CODE
+      )
+    ),
+    overview: {
+      configId: CONFIG_ID,
+      productCode: PRODUCT_CODE,
+    },
+  };
+
+  mockRouterState.state.params = {
+    entityKey: QUOTE_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.QUOTE_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.QUOTE_ENTRY;
+  mockRouterData.owner.id = QUOTE_ENTRY_KEY;
+  mockRouterData.productCode = QUOTE_ENTRY_SUFFIX + PRODUCT_CODE;
 }
 
 describe('ConfigProductTitleComponent', () => {
@@ -349,7 +378,7 @@ describe('ConfigProductTitleComponent', () => {
   });
 
   describe('product$', () => {
-    it('should get product name as part of product configuration', () => {
+    it('should get product name as part of product configuration via config product code', () => {
       setDataForProductConfiguration();
       initialize();
 
@@ -359,17 +388,30 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product from overview, in case configuration is order bound', () => {
-      setDataForOrderEntry();
+    it('should get product name as part of product configuration via routerData product code', () => {
+      setDataForProductConfiguration();
+      mockRouterData.productCode = PRODUCT_SUFFIX + PRODUCT_CODE;
       initialize();
 
       expect(productService.get).toHaveBeenCalledWith(
-        ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
+        mockRouterData.productCode,
         ProductScope.LIST
       );
     });
 
-    it('should get product name as part of product configuration, in case configuration is cart bound', () => {
+    it('should get product name as part of product configuration via config product code in case configuration is cart bound and product is not provided with routing data', () => {
+      setDataForCartEntry();
+      mockConfiguration.productCode = PRODUCT_CODE;
+      mockRouterData.productCode = undefined;
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration in case configuration is cart bound and product is provided with routing data', () => {
       setDataForCartEntry();
       initialize();
 
@@ -379,11 +421,58 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should not emit in case an order bound configuration does not have the OV aspect (yet)', () => {
-      setDataForOrderEntryWithoutOverview();
+    it('should get product name as part of product configuration via config product code in case configuration is saved cart bound and product code is not provided with routing data', () => {
+      setDataForSavedCartEntry();
+      mockConfiguration.productCode = PRODUCT_CODE;
+      mockRouterData.productCode = undefined;
       initialize();
-      const expected = cold('|');
-      expect(component.product$).toBeObservable(expected);
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration in case configuration is saved cart bound and product code is provided with routing data', () => {
+      setDataForSavedCartEntry();
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        SAVED_CART_ENTRY_SUFFIX + PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration via config product code in case configuration is quote bound and product code is not provided with routing data', () => {
+      setDataForQuoteEntry();
+      mockConfiguration.productCode = PRODUCT_CODE;
+      mockRouterData.productCode = undefined;
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration in case configuration is quote bound and product code is provided with routing data', () => {
+      setDataForQuoteEntry();
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        QUOTE_ENTRY_SUFFIX + PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product from overview in case configuration is order bound and product code is not provided with routing data', () => {
+      setDataForOrderEntry();
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
+        ProductScope.LIST
+      );
     });
   });
 

@@ -11,7 +11,8 @@
         } | cxUrl
       "
       [queryParams]="{
-        displayRestartDialog: isDisplayRestartDialog(product.configuratorType)
+        displayRestartDialog: isDisplayRestartDialog(product.configuratorType),
+        productCode: product.code
       }"
       class="btn btn-primary btn-block"
       cxAutoFocus

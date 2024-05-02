@@ -565,13 +565,16 @@ describe('ConfigTabBarComponent', () => {
       spyOn(routingService, 'go').and.callThrough();
       component['navigateToOverview'](mockRouterData);
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'configureOverview' + mockRouterData.owner.configuratorType,
-        params: {
-          entityKey: mockRouterData.owner.id,
-          ownerType: mockRouterData.owner.type,
+      expect(routingService.go).toHaveBeenCalledWith(
+        {
+          cxRoute: 'configureOverview' + mockRouterData.owner.configuratorType,
+          params: {
+            entityKey: mockRouterData.owner.id,
+            ownerType: mockRouterData.owner.type,
+          },
         },
-      });
+        { queryParams: { productCode: mockRouterData.productCode } }
+      );
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
@@ -581,13 +584,16 @@ describe('ConfigTabBarComponent', () => {
       spyOn(routingService, 'go').and.callThrough();
       component['navigateToConfiguration'](mockRouterData);
       tick(1); // needed because of delay(0) in focusConfigurationInTabBar
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'configure' + mockRouterData.owner.configuratorType,
-        params: {
-          entityKey: mockRouterData.owner.id,
-          ownerType: mockRouterData.owner.type,
+      expect(routingService.go).toHaveBeenCalledWith(
+        {
+          cxRoute: 'configure' + mockRouterData.owner.configuratorType,
+          params: {
+            entityKey: mockRouterData.owner.id,
+            ownerType: mockRouterData.owner.type,
+          },
         },
-      });
+        { queryParams: { productCode: mockRouterData.productCode } }
+      );
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
