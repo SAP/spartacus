@@ -228,11 +228,11 @@
   },
   "overrides": {
     "@nguniversal/builders": {
-      "qs": "6.2.4"
+      "qs": "6.12.0"
     }
   },
   "resolutions": {
-    "@nguniversal/builders/browser-sync/qs": "6.2.4",
+    "@nguniversal/builders/browser-sync/qs": "6.12.0",
     "@nguniversal/builders/browser-sync/ua-parser-js": "1.0.33"
   }
 }

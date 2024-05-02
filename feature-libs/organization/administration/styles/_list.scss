@@ -442,7 +442,20 @@
           }
         }
       }
+      // TODO: (CXSPA-6804) - Remove feature flag next major release
+      @include forFeature('a11yUnitsListKeyboardControls') {
+        cx-org-active-link-cell a,
+        cx-org-toggle-link-cell a {
+          color: var(--cx-color-primary);
+          text-decoration: underline;
+        }
+      }
       a {
+        // TODO: (CXSPA-6804) - Remove feature flag next major release
+        @include forFeature('a11yUnitsListKeyboardControls') {
+          color: inherit;
+          text-decoration: none;
+        }
         display: flex;
         align-items: center;
         width: 100%;
@@ -458,7 +471,7 @@
             padding-inline-start: 0;
           }
         }
-
+        // TODO: (CXSPA-6804) - Remove feature flag next major release
         &[tabindex='0'],
         &[tabindex='0']:hover {
           text-decoration: underline;
@@ -469,6 +482,19 @@
         &[tabindex='-1']:hover {
           color: inherit;
           text-decoration: none;
+        }
+        @include forFeature('a11yUnitsListKeyboardControls') {
+          &[tabindex='0'],
+          &[tabindex='0']:hover {
+            text-decoration: unset;
+            color: unset;
+          }
+
+          &[tabindex='-1'],
+          &[tabindex='-1']:hover {
+            color: unset;
+            text-decoration: unset;
+          }
         }
       }
     }
