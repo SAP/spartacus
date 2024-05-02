@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   ErrorModel,
   GlobalMessageService,
+  GlobalMessageType,
   HttpResponseStatus,
   Priority,
 } from '@spartacus/core';
@@ -122,7 +123,10 @@ describe('ConfiguratorBadRequestHandler', () => {
         mockMakeToStockIllegalStateErrorResponse
       );
 
-      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'configurator.httpHandlers.makeToStockBaseProductIssue' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 
