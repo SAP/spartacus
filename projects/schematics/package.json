@@ -30,7 +30,7 @@
     "@schematics/angular": "^17.0.5",
     "jsonc-parser": "^3.2.0",
     "parse5": "^7.1.2",
-    "typescript": "^5.2.2"
+    "typescript": "5.2"
   },
   "peerDependenciesMeta": {
     "canvas": {
@@ -68,7 +68,8 @@
       "@spartacus/digital-payments",
       "@spartacus/epd-visualization",
       "@spartacus/s4om",
-      "@spartacus/customer-ticketing"
+      "@spartacus/customer-ticketing",
+      "@spartacus/estimated-delivery-date"
     ]
   },
   "schematics": "./src/collection.json"

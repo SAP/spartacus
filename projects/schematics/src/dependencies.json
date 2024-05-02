@@ -21,7 +21,7 @@
     "@schematics/angular": "^17.0.5",
     "jsonc-parser": "^3.2.0",
     "parse5": "^7.1.2",
-    "typescript": "^5.2.2"
+    "typescript": "5.2"
   },
   "storefrontapp-e2e-cypress": {},
   "@spartacus/storefront": {
@@ -114,6 +114,18 @@
     "@angular/router": "^17.0.5",
     "@spartacus/cart": "2211.23.0-1",
     "@spartacus/core": "2211.23.0-1",
+    "@spartacus/schematics": "2211.23.0-1",
+    "@spartacus/storefront": "2211.23.0-1",
+    "@spartacus/styles": "2211.23.0-1",
+    "rxjs": "^7.8.0"
+  },
+  "@spartacus/estimated-delivery-date": {
+    "@angular-devkit/schematics": "^17.0.5",
+    "@angular/common": "^17.0.5",
+    "@angular/core": "^17.0.5",
+    "@spartacus/cart": "2211.23.0-1",
+    "@spartacus/core": "2211.23.0-1",
+    "@spartacus/order": "2211.23.0-1",
     "@spartacus/schematics": "2211.23.0-1",
     "@spartacus/storefront": "2211.23.0-1",
     "@spartacus/styles": "2211.23.0-1",
@@ -419,6 +431,7 @@
     "rxjs": "^7.8.0",
     "ts-loader": "^9.4.4",
     "tslib": "^2.6.2",
+    "typescript": "5.2",
     "zone.js": "0.14.2"
   }
 }
