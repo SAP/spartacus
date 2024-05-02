@@ -16,10 +16,8 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
-import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -249,31 +247,6 @@ function setDataForOrderEntry() {
   mockRouterData.productCode = undefined;
 }
 
-function setDataForOrderEntryWithoutOverview() {
-  mockConfiguration = {
-    ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
-      id: PRODUCT_CODE,
-      type: CommonConfigurator.OwnerType.ORDER_ENTRY,
-      key: ConfiguratorModelUtils.getOwnerKey(
-        CommonConfigurator.OwnerType.ORDER_ENTRY,
-        PRODUCT_CODE
-      ),
-      configuratorType: ConfiguratorType.VARIANT,
-    }),
-  };
-
-  mockRouterState.state.params = {
-    entityKey: ORDER_ENTRY_KEY,
-    ownerType: CommonConfigurator.OwnerType.ORDER_ENTRY,
-  };
-  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
-  mockRouterData.isOwnerCartEntry = false;
-  mockRouterData.owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
-  mockRouterData.owner.id = ORDER_ENTRY_KEY;
-  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
-  mockRouterData.displayOnly = true;
-}
-
 function setDataForCartEntry() {
   mockConfiguration = {
     ...ConfiguratorTestUtils.createConfiguration(
@@ -426,7 +399,7 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product configuration, in case configuration is cart bound via config product code', () => {
+    it('should get product name as part of product configuration via config product code in case configuration is cart bound and product is not provided with routing data', () => {
       setDataForCartEntry();
       mockConfiguration.productCode = PRODUCT_CODE;
       mockRouterData.productCode = undefined;
@@ -438,7 +411,7 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product configuration, in case configuration is cart bound via routerData product code', () => {
+    it('should get product name as part of product configuration in case configuration is cart bound and product is provided with routing data', () => {
       setDataForCartEntry();
       initialize();
 
@@ -448,7 +421,7 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product configuration, in case configuration is saved cart bound via config product code', () => {
+    it('should get product name as part of product configuration via config product code in case configuration is saved cart bound and product code is not provided with routing data', () => {
       setDataForSavedCartEntry();
       mockConfiguration.productCode = PRODUCT_CODE;
       mockRouterData.productCode = undefined;
@@ -460,7 +433,7 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product configuration, in case configuration is saved cart bound via routerData product code', () => {
+    it('should get product name as part of product configuration in case configuration is saved cart bound and product code is provided with routing data', () => {
       setDataForSavedCartEntry();
       initialize();
 
@@ -470,7 +443,7 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product configuration, in case configuration is quote bound via config routerData', () => {
+    it('should get product name as part of product configuration via config product code in case configuration is quote bound and product code is not provided with routing data', () => {
       setDataForQuoteEntry();
       mockConfiguration.productCode = PRODUCT_CODE;
       mockRouterData.productCode = undefined;
@@ -482,7 +455,7 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product configuration, in case configuration is quote bound via routerDate product code', () => {
+    it('should get product name as part of product configuration in case configuration is quote bound and product code is provided with routing data', () => {
       setDataForQuoteEntry();
       initialize();
 
@@ -492,7 +465,7 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it('should get product name as part of product from overview, in case configuration is order bound', () => {
+    it('should get product name as part of product from overview in case configuration is order bound and product code is not provided with routing data', () => {
       setDataForOrderEntry();
       initialize();
 
@@ -500,14 +473,6 @@ describe('ConfigProductTitleComponent', () => {
         ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
         ProductScope.LIST
       );
-    });
-
-    // TODO: fix this test
-    xit('should not emit in case an order bound configuration does not have the OV aspect (yet)', () => {
-      setDataForOrderEntryWithoutOverview();
-      initialize();
-      const expected = cold('|');
-      expect(component.product$).toBeObservable(expected);
     });
   });
 
