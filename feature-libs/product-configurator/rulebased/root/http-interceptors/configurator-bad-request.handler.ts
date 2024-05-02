@@ -46,7 +46,12 @@ export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
 
   protected handleIllegalArgumentIssues(message: string): void {
     if (this.isIllegalStateErrorRelatedToMakeToStock(message)) {
-      this.globalMessageService.add(message, GlobalMessageType.MSG_TYPE_ERROR);
+      this.globalMessageService.add(
+        {
+          key: 'configurator.httpHandlers.makeToStockBaseProductIssue',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     }
   }
 
