@@ -191,8 +191,8 @@
     a {
       text-decoration: none;
       cursor: pointer;
-
       font-weight: 800;
+      border-bottom: solid 1px var(--cx-color-light);
 
       .highlight,
       .search-results-highlight {
@@ -212,6 +212,7 @@
       list-style: none;
       padding-inline-start: 0;
       margin-bottom: 0;
+
       li,
       a {
         flex: 100%;
@@ -226,7 +227,7 @@
       list-style: none;
       padding-inline-start: 0;
       margin-bottom: 0;
-      border-top: solid 1px var(--cx-color-light);
+
       li,
       a {
         flex: 100%;
@@ -253,8 +254,6 @@
           grid-template-columns: 50px 1fr;
         }
 
-        border-top: solid 1px var(--cx-color-light);
-
         cx-media {
           grid-row: 1 / 3;
         }
@@ -273,6 +272,14 @@
           font-weight: normal;
         }
       }
+    }
+
+    .message {
+      border-bottom: solid 1px var(--cx-color-medium);
+      font-size: var(--cx-font-small, 0.90rem);
+      font-weight: 600;
+      padding-top: 16px;
+      padding-bottom: 5px;
     }
   }
 }
