@@ -78,7 +78,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
 
     this.watchAddEntrySuccessEvent();
     if (
-      !this.featureConfig.isEnabled('cartQuickOrderRemoveListenToFailEvent')
+      !this.featureConfig.isEnabled('cartQuickOrderRemoveListeningToFailEvent')
     ) {
       this.watchAddEntryFailEvent();
     }
@@ -150,11 +150,14 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * @deprecate since SPA_2406
+   * @deprecated since 2211.24
    *
    * This method is no longer needed since BadRequestHandler.handleUnknownIdentifierError was introduced.
    * If this method is used an unnecessary duplicated error message will appear in the UI.
    * Therefore this method will be removed.
+   *
+   * You can enable the Feature Toggle 'cartQuickOrderRemoveListenToFailEvent'
+   * to stop calling this method by default.
    */
   protected watchAddEntryFailEvent(): void {
     this.cartEventsSubscription.add(

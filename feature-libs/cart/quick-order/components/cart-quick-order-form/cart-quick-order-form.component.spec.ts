@@ -211,7 +211,7 @@ describe('CartQuickOrderFormComponent', () => {
   });
 
   describe('global error message', () => {
-    it('should not show global error message on add entry fail event in case cartQuickOrderRemoveListenToFailEvent is enabled', () => {
+    it('should not show global error message on add entry fail event in case cartQuickOrderRemoveListeningToFailEvent is enabled', () => {
       spyOn(globalMessageService, 'add').and.callThrough();
       component.ngOnInit();
       component.quickOrderForm.controls['productCode'].setValue('test');
@@ -221,7 +221,7 @@ describe('CartQuickOrderFormComponent', () => {
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
 
-    it('should show global error message on add entry fail event in case cartQuickOrderRemoveListenToFailEvent is disabled', () => {
+    it('should show global error message on add entry fail event in case cartQuickOrderRemoveListeningToFailEvent is disabled', () => {
       spyOn(globalMessageService, 'add').and.callThrough();
       spyOn(eventService, 'get').and.callThrough();
       component.ngOnInit();

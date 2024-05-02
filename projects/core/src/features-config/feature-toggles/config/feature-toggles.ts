@@ -173,10 +173,13 @@ export interface FeatureTogglesInterface {
   a11yFocusableCarouselControls?: boolean;
 
   /**
-   * Determines whether `watchAddEntryFailEvent` method is executed or not in `CartQuickOrderFormComponent` component.
-   * The `watchAddEntryFailEvent` method listens to CartAddEntryFailEvent event.
+   * In `CartQuickOrderFormComponent` it stops calling the deprecated method
+   * `watchAddEntryFailEvent()`, which listens to the `CartAddEntryFailEvent`.
+   *
+   * It avoids showing an unnecessary duplicated error message on the failure
+   * of adding to the cart.
    */
-  cartQuickOrderRemoveListenToFailEvent?: boolean;
+  cartQuickOrderRemoveListeningToFailEvent?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -209,5 +212,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUnitsListKeyboardControls: false,
   a11yCartItemsLinksStyles: false,
   a11yFocusableCarouselControls: false,
-  cartQuickOrderRemoveListenToFailEvent: false,
+  cartQuickOrderRemoveListeningToFailEvent: false,
 };

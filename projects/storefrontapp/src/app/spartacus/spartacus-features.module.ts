@@ -290,7 +290,7 @@ if (environment.requestedDeliveryDate) {
         a11yUnitsListKeyboardControls: true,
         a11yCartItemsLinksStyles: true,
         a11yFocusableCarouselControls: true,
-        cartQuickOrderRemoveListenToFailEvent: true,
+        cartQuickOrderRemoveListeningToFailEvent: true,
       };
       return appFeatureToggles;
     }),
