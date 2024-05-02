@@ -6,6 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { MultiErrorHandler, resolveApplicable } from '@spartacus/core';
+import { ENABLE_SSR_ERROR_HANDLING } from '../enable-ssr-error-handling';
 import { SERVER_ERROR_RESPONSE_FACTORY } from '../server-error-response-factory';
 import { PROPAGATE_SERVER_ERROR_RESPONSE } from '../server-error-response/propagate-server-error-response';
 
@@ -25,15 +26,18 @@ export class ServerRespondingErrorHandler implements MultiErrorHandler {
   protected propagateServerErrorResponse = inject(
     PROPAGATE_SERVER_ERROR_RESPONSE
   );
+  protected isSsrErrorHandlingEnabled = inject(ENABLE_SSR_ERROR_HANDLING);
 
   handleError(error: unknown): void {
-    const cxServerErrorResponse = resolveApplicable(
-      this.serverErrorResponseFactories,
-      [error]
-    )?.create(error);
+    if (this.isSsrErrorHandlingEnabled) {
+      const cxServerErrorResponse = resolveApplicable(
+        this.serverErrorResponseFactories,
+        [error]
+      )?.create(error);
 
-    if (cxServerErrorResponse) {
-      this.propagateServerErrorResponse(cxServerErrorResponse);
+      if (cxServerErrorResponse) {
+        this.propagateServerErrorResponse(cxServerErrorResponse);
+      }
     }
   }
 }

@@ -5,7 +5,7 @@
  */
 
 import { CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
-import { StateUtils, ErrorActionType } from '@spartacus/core';
+import { ErrorActionType, StateUtils } from '@spartacus/core';
 import {
   CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA,
   CUSTOMER_SEARCH_DATA,
@@ -32,9 +32,20 @@ export class CustomerSearch extends StateUtils.LoaderLoadAction {
   }
 }
 
+// possible ways of handling breaking changes in ALL actions:
+// - introduce CustomerSearchFailV2 and deprecate old class
+// - overload the constructor of CustomerSearchFail and handle the change there together with deprecating he old one
+
 export class CustomerSearchFail extends StateUtils.LoaderFailAction {
   readonly type = CUSTOMER_SEARCH_FAIL;
+  constructor(error: ErrorActionType);
+  /**
+   * @deprecated please use constructor(error: ErrorActionType) instead
+   */
+  //eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(error: any);
   constructor(public error: ErrorActionType) {
+    //do we consider changes in NgRx as breaking? if so, we  should handle it (somehow)
     super(CUSTOMER_SEARCH_DATA, error);
   }
 }
@@ -62,6 +73,12 @@ export class CustomerListCustomersSearch extends StateUtils.LoaderLoadAction {
 
 export class CustomerListCustomersSearchFail extends StateUtils.LoaderFailAction {
   readonly type = CUSTOMER_LIST_CUSTOMERS_SEARCH_FAIL;
+  constructor(payload: ErrorActionType);
+  /**
+   * @deprecated please use constructor(payload: ErrorActionType) instead
+   */
+  //eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(payload: any);
   constructor(public payload: ErrorActionType) {
     super(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA, payload);
   }

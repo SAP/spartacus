@@ -37,7 +37,15 @@ export class RenderingCache {
         this.renders.delete(this.renders.keys().next().value);
       }
     }
-    this.renders.set(key, entry);
+    // cache only if cachingStrategyResolver return true
+    // Fresh apps: use new default caching strategy == do not cache errors
+    // Legacy apps: do not provide new default caching strategy to keep the old behavior
+    if (
+      this.options?.cachingStrategyResolver &&
+      !this.options?.cachingStrategyResolver(entry)
+    ) {
+      this.renders.set(key, entry);
+    }
   }
 
   get(key: string): RenderingEntry | undefined {

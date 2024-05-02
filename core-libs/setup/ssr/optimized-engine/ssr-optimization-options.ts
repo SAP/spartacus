@@ -130,6 +130,20 @@ export interface SsrOptimizationOptions {
    * By default, the DefaultExpressServerLogger is used.
    */
   logger?: ExpressServerLogger;
+
+  /**
+   * WIP: Custom caching strategy resolver.
+   * By default, the caching strategy is based on the presence of an error.
+   */
+  cachingStrategyResolver?: (entry: {
+    error?: Error | unknown;
+    html?: string;
+  }) => boolean;
+
+  /**
+   * Toggle for enabling the SSR error handling.
+   */
+  ssrErrorHandling?: boolean;
 }
 
 export enum RenderingStrategy {
@@ -150,4 +164,6 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
     defaultRenderingStrategyResolverOptions
   ),
   logger: new DefaultExpressServerLogger(),
+  cachingStrategyResolver: (entry) => !entry.error,
+  ssrErrorHandling: true,
 };

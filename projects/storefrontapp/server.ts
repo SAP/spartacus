@@ -65,6 +65,8 @@ export function app(): express.Express {
     });
   });
 
+  // For fresh applications, it's going to be part of server.ts BY DEFAULT
+  // for migrated apps, we have to add docs that SPA provides basic error handling that has to be added manually
   server.use(defaultServerErrorResponseHandlers(indexHtmlContent));
 
   return server;

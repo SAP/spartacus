@@ -10,7 +10,6 @@ import { ConfigInitializerModule } from './config/config-initializer/config-init
 import { ConfigValidatorModule } from './config/config-validator/config-validator.module';
 import { ConfigModule } from './config/config.module';
 import { ErrorHandlingModule, HttpErrorHandlerModule } from './error-handling';
-import { EffectsErrorHandlerModule } from './error-handling/effects-error-handler/effects-error-handler.module';
 import { FeaturesConfigModule } from './features-config/features-config.module';
 import { GlobalMessageModule } from './global-message/global-message.module';
 import { HttpModule } from './http/http.module';
@@ -24,6 +23,7 @@ import { StateModule } from './state/state.module';
 
 @NgModule({
   imports: [
+    // breaking change - HttpErrorHandlerInterceptor may have featureService inside manipulate the behavior (implemented) OR we can inform in docs that this module has to be imported
     HttpErrorHandlerModule.forRoot(), // Import this module before any other interceptor to handle HTTP errors efficiently
     StateModule.forRoot(),
     ConfigModule.forRoot(),
@@ -40,7 +40,6 @@ import { StateModule } from './state/state.module';
     LazyLoadingModule.forRoot(),
     HttpModule.forRoot(),
     ErrorHandlingModule.forRoot(),
-    EffectsErrorHandlerModule.forRoot(),
   ],
 })
 export class BaseCoreModule {

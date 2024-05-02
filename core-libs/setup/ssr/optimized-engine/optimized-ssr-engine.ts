@@ -8,6 +8,7 @@
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import { ENABLE_SSR_ERROR_HANDLING } from '../error-handling/enable-ssr-error-handling';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import {
   EXPRESS_SERVER_LOGGER,
@@ -444,6 +445,19 @@ export class OptimizedSsrEngine {
         {
           provide: EXPRESS_SERVER_LOGGER,
           useValue: this.logger,
+        },
+        /*
+        For SSR error handling purposes, we could introduce new token responsible for toggling the error handling and use it across the application.
+        This means we introduce another standard for for toggling features:
+        Pros:
+        + it won't bother customers using CRS
+
+        Cons:
+        - inconsistency in the way of toggling features
+        */
+        {
+          provide: ENABLE_SSR_ERROR_HANDLING,
+          useValue: this.ssrOptions?.ssrErrorHandling,
         },
         ...(options?.providers ?? []),
       ],

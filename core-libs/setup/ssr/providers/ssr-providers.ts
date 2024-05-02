@@ -4,14 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Provider, StaticProvider } from '@angular/core';
+import { Provider, StaticProvider, inject } from '@angular/core';
 import {
   LoggerService,
   MULTI_ERROR_HANDLER,
   SERVER_REQUEST_ORIGIN,
   SERVER_REQUEST_URL,
+  provideFeatureTogglesFactory,
 } from '@spartacus/core';
 
+import { ENABLE_SSR_ERROR_HANDLING } from '../error-handling/enable-ssr-error-handling';
 import { ServerRespondingErrorHandler } from '../error-handling/multi-error-handlers';
 import { provideServerErrorResponseFactories } from '../error-handling/server-error-response-factory/provide-server-error-response-factories';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
@@ -40,11 +42,19 @@ export function provideServer(options?: ServerOptions): Provider[] {
       useFactory: serverLoggerServiceFactory,
     },
     {
-      provide: MULTI_ERROR_HANDLER,
+      provide: MULTI_ERROR_HANDLER, // we're going to provide it, but we'll enable this feature in other place
       useExisting: ServerRespondingErrorHandler,
       multi: true,
     },
-    provideServerErrorResponseFactories(),
+    provideServerErrorResponseFactories(), // we're going to provide it, but we'll enable this feature in other place
+    // TBD: to ensure that the necessary feature toggles are available if the feature is enabled
+    provideFeatureTogglesFactory(() => {
+      const isSsrErrorHandlingEnabled = inject(ENABLE_SSR_ERROR_HANDLING);
+      return {
+        ngrxErrorHandling: isSsrErrorHandlingEnabled,
+        httpErrorHandling: isSsrErrorHandlingEnabled,
+      };
+    }),
   ];
 }
 /**
