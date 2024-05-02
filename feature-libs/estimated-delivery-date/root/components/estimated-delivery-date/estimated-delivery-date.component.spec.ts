@@ -8,7 +8,7 @@ import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { EstimatedDeliveryDateComponent } from './estimated-delivery-date.component';
-import { arrivalSlots } from '../../model';
+import { ArrivalSlots } from '../../model';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -31,7 +31,7 @@ class MockLanguageService {
   template: '',
 })
 class MockConfigureEstimatedDeliveryDateComponent {
-  @Input() cartEntry: Partial<OrderEntry & Array<arrivalSlots>>;
+  @Input() cartEntry: Partial<OrderEntry & Array<ArrivalSlots>>;
 }
 
 describe('EstimatedDeliveryDateCartEntryComponent', () => {
@@ -74,9 +74,9 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
   });
 
   it('should expose orderEntry$', (done) => {
-    const orderEntry: Partial<OrderEntry & Array<arrivalSlots>> = {
+    const orderEntry: Partial<OrderEntry & Array<ArrivalSlots>> = {
       orderCode: '123',
-      arrivalSlots: [],
+      ArrivalSlots: [],
     };
     component.orderEntry$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(orderEntry);
@@ -95,7 +95,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
   describe('estimated delivery date', () => {
     it('should not be displayed if model provides empty array', () => {
       mockCartItemContext.item$.next({
-        arrivalSlots: undefined,
+        ArrivalSlots: undefined,
       });
 
       const htmlElem = fixture.nativeElement;
@@ -106,7 +106,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
 
     it('should be displayed if model provides data', () => {
       mockCartItemContext.item$.next({
-        arrivalSlots: [
+        ArrivalSlots: [
           {
             at: new Date('2022-05-22T00:00:00+0000'),
             quantity: 1,
@@ -128,7 +128,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
     describe('Accessibility', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
-          arrivalSlots: [
+          ArrivalSlots: [
             {
               at: new Date('2022-05-22T00:00:00+0000'),
               quantity: 1,

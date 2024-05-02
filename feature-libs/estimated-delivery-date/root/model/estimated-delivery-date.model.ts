@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface arrivalSlots {
+export interface ArrivalSlots {
   at?: Date;
   quantity?: number;
 }
-export interface arrivalSlot {
+export interface ArrivalSlot {
   at?: Date;
 }
