@@ -263,6 +263,7 @@ if (environment.requestedDeliveryDate) {
       const appFeatureToggles: Required<FeatureToggles> = {
         showPromotionsInPDP: false,
         recentSearches: false,
+        trendingSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
         productConfiguratorAttributeTypesV2: true,

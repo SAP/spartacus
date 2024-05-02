@@ -20,6 +20,11 @@ export interface FeatureTogglesInterface {
   recentSearches?: boolean;
 
   /**
+   * In `SearchBoxComponent` it shows the trending searches.
+   */
+  trendingSearches?: boolean;
+
+  /**
    * In `InvoicesListComponent` it sorts invoices by the date of the invoice itself.
    * Previously the sorting was done by the date of creating an invoice entry.
    */
@@ -171,6 +176,7 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showPromotionsInPDP: false,
   recentSearches: false,
+  trendingSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
   productConfiguratorAttributeTypesV2: false,
