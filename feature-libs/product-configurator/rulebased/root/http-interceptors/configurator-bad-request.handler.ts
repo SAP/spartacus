@@ -76,9 +76,8 @@ export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
   protected isRelatedToProductConfigurator(
     response: HttpErrorResponse
   ): boolean {
-    const isProductConfiguratorIllegalStateError = this.isNotEmpty(
+    return this.isNotEmpty(
       this.getIllegalStateErrorsRelatedToProductConfigurator(response)
     );
-    return isProductConfiguratorIllegalStateError;
   }
 }
