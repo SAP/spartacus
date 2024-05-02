@@ -76,7 +76,7 @@ describe('AddedToCartDialogEventListener', () => {
   });
 
   describe('onAddToCart', () => {
-    it('should open modal on event CartAddEntrySuccessEvent in case the toggle is active', () => {
+    it('should open modal on event CartAddEntrySuccessEvent in case toggle adddedToCartDialogDrivenBySuccessEvent is active', () => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
       listener = TestBed.inject(AddedToCartDialogEventListener);
       spyOn(listener as any, 'openModalAfterSuccess').and.stub();
@@ -86,7 +86,7 @@ describe('AddedToCartDialogEventListener', () => {
       );
     });
 
-    it('should not open modal on event CartAddEntrySuccessEvent in case the toggle is inactive', () => {
+    it('should not open modal on event CartAddEntrySuccessEvent in case toggle adddedToCartDialogDrivenBySuccessEvent is inactive', () => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
       listener = TestBed.inject(AddedToCartDialogEventListener);
       spyOn(listener as any, 'openModalAfterSuccess').and.stub();
@@ -94,7 +94,7 @@ describe('AddedToCartDialogEventListener', () => {
       expect(listener['openModalAfterSuccess']).not.toHaveBeenCalled();
     });
 
-    it('should open modal on event CartUiEventAddToCart in case the toggle is inactive', () => {
+    it('should open modal on event CartUiEventAddToCart in case toggle adddedToCartDialogDrivenBySuccessEvent is inactive', () => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
       listener = TestBed.inject(AddedToCartDialogEventListener);
       spyOn(listener as any, 'openModal').and.stub();
@@ -102,7 +102,7 @@ describe('AddedToCartDialogEventListener', () => {
       expect(listener['openModal']).toHaveBeenCalledWith(mockEvent);
     });
 
-    it('should not open modal on event CartUiEventAddToCart in case the toggle is active', () => {
+    it('should not open modal on event CartUiEventAddToCart in case toggle adddedToCartDialogDrivenBySuccessEvent is active', () => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
       listener = TestBed.inject(AddedToCartDialogEventListener);
       spyOn(listener as any, 'openModal').and.stub();
