@@ -135,6 +135,9 @@
       "restartButton": "Start New",
       "resumeButton": "Resume"
     },
+    "httpHandlers": {
+      "makeToStockBaseProductIssue": "This product is a base product and cannot be added to the cart; choose a product variant instead"
+    },
     "a11y": {
       "configureProduct": "Configure product",
       "showDetailsProduct": "Show details of the product",
