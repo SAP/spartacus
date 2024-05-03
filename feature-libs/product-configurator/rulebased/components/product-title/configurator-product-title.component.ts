@@ -63,9 +63,10 @@ export class ConfiguratorProductTitleComponent {
     routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
   }): string | undefined {
-    return !!container.routerData.productCode
-      ? container.routerData.productCode
-      : !!container.configuration.productCode
+    if (!!container.routerData.productCode) {
+      return container.routerData.productCode;
+    }
+    return !!container.configuration.productCode
       ? container.configuration.productCode
       : container.configuration.overview?.productCode;
   }
