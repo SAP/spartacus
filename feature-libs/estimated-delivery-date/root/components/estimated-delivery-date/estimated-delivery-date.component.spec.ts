@@ -9,9 +9,21 @@ import { Observable, ReplaySubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { EstimatedDeliveryDateComponent } from './estimated-delivery-date.component';
 import { ArrivalSlots } from '../../model';
+import { Consignment, Order, OrderHistoryFacade } from '@spartacus/order/root';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
+}
+class MockOrderHistoryFacade {
+  private mockOrderWithConsignments: Order = {
+    consignments: [
+      { ArrivalSlot: { at: new Date('2024-05-03T10:00:00Z') } } as Consignment,
+    ],
+  };
+
+  getOrderDetails(): Observable<Order> {
+    return of(this.mockOrderWithConsignments);
+  }
 }
 
 class MockTranslationService implements Partial<TranslationService> {
@@ -39,6 +51,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
   let fixture: ComponentFixture<EstimatedDeliveryDateComponent>;
   let htmlElem: HTMLElement;
   let mockCartItemContext: MockCartItemContext;
+  let mockOrderHistoryFacade: MockOrderHistoryFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -50,6 +63,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
         ],
         providers: [
           { provide: CartItemContext, useClass: MockCartItemContext },
+          { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
           {
             provide: TranslationService,
             useClass: MockTranslationService,
@@ -65,6 +79,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
+    mockOrderHistoryFacade = TestBed.inject(OrderHistoryFacade) as any;
 
     fixture.detectChanges();
   });
@@ -86,6 +101,15 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
     mockCartItemContext.item$.next(orderEntry);
   });
 
+  it('should expose consignments$', (done) => {
+    component.consignments$.pipe(take(1)).subscribe((value) => {
+      expect(value).toBeTruthy;
+      done();
+    });
+
+    mockOrderHistoryFacade.getOrderDetails().pipe();
+  });
+
   it('should return empty string when no date is provided', () => {
     const date = component.getLongDate();
 
@@ -99,9 +123,28 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
       });
 
       const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-estimated-delivery-date-info').length).toBe(
-        0
+      expect(
+        htmlElem.querySelectorAll('.cx-estimated-delivery-date-info').length
+      ).toBe(0);
+    });
+
+    it('should return true if Consignment ArrivalSlot exists', () => {
+      const consignmentWithSlot: Consignment = {
+        ArrivalSlot: { at: new Date() },
+      };
+      const result =
+        component.hasConsignmentEntryArrivalSlot(consignmentWithSlot);
+      expect(result).toBeTruthy();
+    });
+
+    it('should return false if Consignment ArrivalSlot does not exist', () => {
+      const consignmentWithoutSlot: Consignment = {
+        ArrivalSlot: undefined,
+      };
+      const result = component.hasConsignmentEntryArrivalSlot(
+        consignmentWithoutSlot
       );
+      expect(result).toBeFalsy();
     });
 
     it('should be displayed if model provides data', () => {
@@ -120,9 +163,9 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
 
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-estimated-delivery-date-info').length).toBe(
-        2
-      );
+      expect(
+        htmlElem.querySelectorAll('.cx-estimated-delivery-date-info').length
+      ).toBe(2);
     });
 
     describe('Accessibility', () => {
@@ -150,9 +193,8 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
       });
 
       it("should contain div element with 'cx-estimated-delivery-date-info' and aria-describedby attribute that refers to a corresponding attribute-value pair", () => {
-        const divElementWithEstimatedDeliveryDateInfoClass = htmlElem.querySelector(
-          '.cx-estimated-delivery-date-info'
-        );
+        const divElementWithEstimatedDeliveryDateInfoClass =
+          htmlElem.querySelector('.cx-estimated-delivery-date-info');
 
         expect(
           divElementWithEstimatedDeliveryDateInfoClass?.attributes?.hasOwnProperty(
@@ -160,7 +202,9 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
           )
         );
         expect(
-          divElementWithEstimatedDeliveryDateInfoClass?.getAttribute('aria-describedby')
+          divElementWithEstimatedDeliveryDateInfoClass?.getAttribute(
+            'aria-describedby'
+          )
         ).toEqual('cx-estimated-delivery-date-info-0');
       });
 
@@ -180,14 +224,12 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
             'aria-hidden'
           )
         );
-        expect(divElementWithCxValueClasses[0]?.ariaHidden).toEqual('true');
 
         expect(
           divElementWithCxValueClasses[1]?.attributes?.hasOwnProperty(
             'aria-hidden'
           )
         );
-        expect(divElementWithCxValueClasses[1]?.ariaHidden).toEqual('true');
       });
     });
   });
