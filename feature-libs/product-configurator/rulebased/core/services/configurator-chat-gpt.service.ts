@@ -21,13 +21,13 @@ const START_MSG =
   'You are an assistant designed to help the user with configuring a product. ' +
   'A configuration consists of list of groups, which have attributes. Each attribute has a list of selectable values.' +
   'Attributes for which property isSingleSelection is true can have only one value, while others can have multiple values.' +
-  'If a value has a price, selecting it, will increase the total price by its amount. '+
-  'If a value has no price, it is already included in the base price. '+
+  'If a value has a price, selecting it, will increase the total price by its amount. ' +
+  'If a value has no price, it is already included in the base price. ' +
   'The total price is the sum of the base price and all selected value prices. ' +
   'The configuration state of the current group is provided along with the user messages in JSON format. ' +
   'The state of the other groups can be accessed by navigating to these groups. ' +
   'To complete a configuration navigate through each group and make selections for those attributes. ' +
-  'You can only change attribute values of the current group. In order to change attributes of other groups you have to navigate to these groups first. '+
+  'You can only change attribute values of the current group. In order to change attributes of other groups you have to navigate to these groups first. ' +
   // 'When responding to the user please make suggestions which values to select in natural language as well as in JSON format.' +
   // 'The JSON should follow this format {"selections": [{ "attribute_id": "string", "value_ids": ["string"] } ] }. ' +
   // 'The JSON should be given without any announcement at the end of the response. ' +
@@ -220,8 +220,7 @@ export class ConfiguratorChatGptService {
   }
 
   addFunctionResultToConversation(functionName: string) {
-    let message: ChatGPT4.Message;
-    message = {
+    const message: ChatGPT4.Message = {
       role: ChatGPT4.Role.FUNCTION,
       name: functionName,
       content: '',
@@ -315,7 +314,7 @@ export class ConfiguratorChatGptService {
     config: Configurator.Configuration
   ): Observable<ChatGPT4.Response> {
     {
-      let updates: GptSelectionResponse = JSON.parse(functionCall.arguments);
+      const updates: GptSelectionResponse = JSON.parse(functionCall.arguments);
 
       this.updateConfig(updates, config);
       const lastTimeStamp = config.timestamp;
@@ -323,11 +322,16 @@ export class ConfiguratorChatGptService {
       return this.configWithProduct$.pipe(
         // better would be to check that there are no pending updates
         // so we can also handle cases were the updates failed properly.
-        filter(((configWithProduct) => configWithProduct[0].timestamp !== lastTimeStamp)),
+        filter(
+          (configWithProduct) =>
+            configWithProduct[0].timestamp !== lastTimeStamp
+        ),
         filter((configWithProduct) =>
           this.isLastUpdateApplied(updates, configWithProduct[0])
         ),
-        filter((configWithProduct) => this.isPricingMerged(configWithProduct[0])),
+        filter((configWithProduct) =>
+          this.isPricingMerged(configWithProduct[0])
+        ),
         take(1),
         tap(() =>
           this.addFunctionResultToConversation(FUNCTION_SELECT_VALUES.name)
@@ -341,7 +345,12 @@ export class ConfiguratorChatGptService {
 
   isPricingMerged(config: Configurator.Configuration): boolean {
     const pricingMerged = config.pricingMerged || !config.pricingEnabled;
-    console.log('pricing merged=' +config.pricingMerged +' pricingEnabled='+config.pricingEnabled);
+    console.log(
+      'pricing merged=' +
+        config.pricingMerged +
+        ' pricingEnabled=' +
+        config.pricingEnabled
+    );
     return pricingMerged;
   }
 
@@ -425,7 +434,8 @@ export class ConfiguratorChatGptService {
     attribute: Configurator.Attribute
   ): Configurator.Value | undefined {
     const value = attribute.values?.find(
-      (value) => value.name === valueName || value.valueDisplay === valueName
+      (foundValue) =>
+        foundValue.name === valueName || foundValue.valueDisplay === valueName
     );
     return value;
   }

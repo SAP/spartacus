@@ -115,7 +115,6 @@ export class ConfiguratorChatComponent {
   }
 
   onSend(event: { message: string }): void {
-    console.log('send message: ' + event.message);
     this.messageHistory.push(this.mapUserMessageToEvent(event.message));
     this.messageHistory.push(this.mapAnswerToMessageEvent(WAIT_MSG));
     this.messageEvents$.next(this.messageHistory);
