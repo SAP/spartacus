@@ -43,11 +43,7 @@ export class ConfiguratorProductTitleComponent {
         .pipe(map((configuration) => ({ routerData, configuration })))
         .pipe(
           map((container) => {
-            return !!container.routerData.productCode
-              ? container.routerData.productCode
-              : !!container.configuration.productCode
-              ? container.configuration.productCode
-              : container.configuration.overview?.productCode;
+            return this.getProductCode(container);
           }),
           switchMap((productCode) =>
             productCode
@@ -62,6 +58,17 @@ export class ConfiguratorProductTitleComponent {
         )
     )
   );
+
+  getProductCode(container: {
+    routerData: ConfiguratorRouter.Data;
+    configuration: Configurator.Configuration;
+  }): string | undefined {
+    return !!container.routerData.productCode
+      ? container.routerData.productCode
+      : !!container.configuration.productCode
+      ? container.configuration.productCode
+      : container.configuration.overview?.productCode;
+  }
 
   showMore = false;
   iconTypes = ICON_TYPE;
