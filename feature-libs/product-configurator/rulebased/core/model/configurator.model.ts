@@ -274,6 +274,7 @@ export namespace Configurator {
   export enum ValidationType {
     NONE = 'NONE',
     NUMERIC = 'NUMERIC',
+    SAP_DATE = 'SAP_DATE',
   }
   export enum OverviewFilter {
     VISIBLE = 'PRIMARY',

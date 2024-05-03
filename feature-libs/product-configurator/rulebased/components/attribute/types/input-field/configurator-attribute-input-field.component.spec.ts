@@ -422,5 +422,26 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
       component.attribute.uiType = Configurator.UiType.SAP_DATE;
       expect(component.inputType).toBe('date');
     });
+
+    it('should return "date" for UI type DDLB with additional value and validation type sap date', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
+      expect(component.inputType).toBe('date');
+    });
+
+    it('should return "date" for UI type RB with additional value and validation type sap date', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
+      expect(component.inputType).toBe('date');
+    });
+
+    it('should return "text" for UI type DDLB with additional value and validation type NONE', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      expect(component.inputType).toBe('text');
+    });
   });
 });
