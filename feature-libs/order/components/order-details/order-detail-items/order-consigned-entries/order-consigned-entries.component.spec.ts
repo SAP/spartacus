@@ -3,11 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PromotionLocation } from '@spartacus/cart/base/root';
-import {
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { Consignment, Order } from '@spartacus/order/root';
 import { CardModule, OutletModule } from '@spartacus/storefront';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';
@@ -91,7 +87,6 @@ describe('OrderConsignedEntriesComponent', () => {
         imports: [
           CardModule,
           I18nTestingModule,
-          FeaturesConfigModule,
           RouterTestingModule,
           OutletModule,
         ],

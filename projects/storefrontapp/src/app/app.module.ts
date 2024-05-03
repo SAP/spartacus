@@ -5,7 +5,11 @@
  */
 
 import { registerLocaleData } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
@@ -16,7 +20,6 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
-  FeaturesConfig,
   I18nConfig,
   OccConfig,
   RoutingConfig,
@@ -46,7 +49,6 @@ if (!environment.production) {
 @NgModule({
   imports: [
     BrowserModule,
-    HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
@@ -57,6 +59,7 @@ if (!environment.production) {
     ...devImports,
   ],
   providers: [
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideConfig(<OccConfig>{
       backend: {
         occ: {
@@ -84,12 +87,7 @@ if (!environment.production) {
         fallbackLang: 'en',
       },
     }),
-    provideConfig(<FeaturesConfig>{
-      // For the development environment and CI, feature level is always the highest.
-      features: {
-        level: '*',
-      },
-    }),
+    provideConfig({ features: { level: '*' } }), // For the development environment and CI, feature level is always the highest.
     provideConfig(<StoreFinderConfig>{
       // For security compliance, by default, google maps does not display.
       // Using special key value 'cx-development' allows google maps to display

@@ -71,6 +71,7 @@ export const EVENTS_MODULE = 'EventsModule';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
+export const PROVIDE_FEATURE_TOGGLES_FUNCTION = 'provideFeatureToggles';
 export const SITE_CONTEXT_CONFIG = 'SiteContextConfig';
 export const I18N_CONFIG = 'I18nConfig';
 export const OCC_CONFIG = 'OccConfig';
@@ -1144,3 +1145,19 @@ export const GENERIC_LINK_COMPONENT = 'GenericLinkComponent';
 export const GENERIC_LINK_COMPONENT_SERVICE = 'GenericLinkComponentService';
 
 export const CDC_JS_SERVICE = 'CdcJsService';
+
+export const SERVER_FILENAME = 'server.ts';
+export const SERVER_BAK_FILENAME = 'server.ts.bak';
+export const OLD_ZONE_IMPORT = 'zone.js/dist/zone-node';
+export const NEW_ZONE_IMPORT = 'zone.js/node';
+export const NGUNIVERSAL_IMPORT = '@nguniversal/express-engine';
+export const SSR_SETUP_IMPORT = '@spartacus/setup/ssr';
+export const EXPRESS_TOKENS = 'express.tokens';
+
+export const APP_ROUTING_MODULE = 'AppRoutingModule';
+export const APP_ROUTING_MODULE_LOCAL_PATH = './app-routing.module';
+export const APP_ROUTING_MODULE_LOCAL_FILENAME = 'app-routing.module.ts';
+export const BROWSER_MODULE = 'BrowserModule';
+
+export const FEATURE_TOGGLES_COPIED_FROM_CORE_LIB_PATH =
+  '../feature-toggles.copied-from-core-lib';

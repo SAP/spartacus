@@ -58,8 +58,8 @@ const orderConfirmationComponents = [
     FormErrorsModule,
     OutletModule.forChild(),
     PasswordVisibilityToggleModule,
-    FeaturesConfigModule,
     AbstractOrderContextModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

@@ -30,6 +30,7 @@ import {
   ICON_TYPE,
   IntersectionOptions,
   IntersectionService,
+  KeyboardFocusService,
 } from '@spartacus/storefront';
 import { Observable, Subscription, of } from 'rxjs';
 import {
@@ -57,6 +58,7 @@ const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
 export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
   protected multiCartFacade = inject(MultiCartFacade);
+  protected focusService = inject(KeyboardFocusService);
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
 
@@ -128,10 +130,31 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     configuratorType: string,
     owner: CommonConfigurator.Owner
   ): void {
-    this.routingService.go({
-      cxRoute: 'configureOverview' + configuratorType,
-      params: { ownerType: 'cartEntry', entityKey: owner.id },
-    });
+    this.routingService
+      .go({
+        cxRoute: 'configureOverview' + configuratorType,
+        params: { ownerType: 'cartEntry', entityKey: owner.id },
+      })
+      .then(() => {
+        this.focusOverviewInTabBar();
+      });
+  }
+
+  protected focusOverviewInTabBar(): void {
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
+        ),
+        filter((configuration) => configuration.overview != null),
+        take(1),
+        delay(0) //we need to consider the re-rendering of the page
+      )
+      .subscribe(() => {
+        this.focusService.clear();
+        this.configUtils.focusFirstActiveElement('cx-configurator-tab-bar');
+      });
   }
 
   protected displayConfirmationMessage(key: string): void {

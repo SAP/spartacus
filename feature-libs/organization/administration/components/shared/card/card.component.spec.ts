@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
 import { PopoverModule, SplitViewService } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { ViewComponent } from 'projects/storefrontlib/shared/components/split-view/view/view.component';
@@ -20,6 +20,10 @@ class MockItemService {
   launchDetails = createSpy('launchDetails');
 }
 
+class MockGlobalMessageService {
+  add() {}
+}
+
 describe('CardComponent', () => {
   let component: CardComponent<any>;
   let fixture: ComponentFixture<CardComponent<any>>;
@@ -34,7 +38,6 @@ describe('CardComponent', () => {
         RouterTestingModule,
         MessageTestingModule,
         PopoverModule,
-        FeaturesConfigModule,
       ],
       declarations: [CardComponent, ViewComponent],
       providers: [
@@ -42,6 +45,8 @@ describe('CardComponent', () => {
           provide: ItemService,
           useClass: MockItemService,
         },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+
         SplitViewService,
       ],
     }).compileComponents();

@@ -1,4 +1,8 @@
 <ng-container *ngIf="paymentMethods$ | async as paymentMethods">
+  <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
+    {{ 'formLegend.required' | cxTranslate }}
+  </p>
   <div class="cx-payment container">
     <div class="cx-header">
       <h2>
