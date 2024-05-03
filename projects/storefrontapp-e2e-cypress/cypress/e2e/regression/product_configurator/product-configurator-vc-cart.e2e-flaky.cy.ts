@@ -278,11 +278,11 @@ context('Product Configuration', () => {
 
   describe('Checkout process for configurable products', () => {
     it('should support configurable product', () => {
-      configuration.completeOrderProcess(testProductMultiLevel);
+      configuration.completeOrderProcess(testProductMultiLevel, true);
     });
 
     it('should support changeable configurable variant', () => {
-      configuration.completeOrderProcess(testProductVariant);
+      configuration.completeOrderProcess(testProductVariant, true);
     });
   });
 });

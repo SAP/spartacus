@@ -192,7 +192,8 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
-   * @deprecated use instead queryParams$
+   * @deprecated since 2211.24 use instead queryParams$
+   *
    * Compiles query parameters for the router link.
    * 'resolveIssues' is only set if the component is
    * rendered in the context of the message banner, and if issues exist at all

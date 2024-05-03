@@ -59,7 +59,7 @@ context('Product Configuration', () => {
         configurationOverview.clickCloseBtnOnOP(false, true);
       });
 
-      it('should add a product to the cart and display a product overview', () => {
+      it('should add a product directly to the cart and display a product overview', () => {
         common.goToPDPage(electronicsShop, testProduct);
         common.clickOnAddToCartBtnOnPD();
         common.clickOnViewCartBtnOnPD();
@@ -72,10 +72,7 @@ context('Product Configuration', () => {
 
     describe('support back navigation to the checkout page after clicking Display Configuration link', () => {
       it('should proceed to checkout and display a product overview', () => {
-        configuration.completeOrderProcess(testProduct);
-        configurationCart.clickOnDisplayConfigurationLink(0);
-        configurationOverview.checkConfigOverviewPageDisplayed();
-        configurationOverview.clickCloseBtnOnOP(false, false, true);
+        configuration.completeOrderProcess(testProduct, true);
       });
     });
   });

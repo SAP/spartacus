@@ -531,7 +531,10 @@ export function searchForProduct(productName: string): void {
  *
  * @param {string} productName - Product name
  */
-export function completeOrderProcess(productName: string): void {
+export function completeOrderProcess(
+  productName: string,
+  navigateToOrderDetails: boolean = false
+): void {
   login.registerUser();
   verifyGlobalMessageAfterRegistration();
   const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
@@ -541,7 +544,9 @@ export function completeOrderProcess(productName: string): void {
   common.clickOnAddToCartBtnOnPD();
   this.clickOnProceedToCheckoutBtnOnPD();
   configurationCartVc.completeCheckout();
-  configurationCart.navigateToOrderDetails();
+  if (navigateToOrderDetails) {
+    configurationCart.navigateToOrderDetails();
+  }
   //don't check the order history aspect because this part is flaky
   // configurationCart.selectOrderByOrderNumberAlias();
   const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
