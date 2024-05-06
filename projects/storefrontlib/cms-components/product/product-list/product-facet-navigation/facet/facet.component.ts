@@ -61,6 +61,12 @@ export class FacetComponent {
     optional: true,
   });
 
+  get isFacetKeyboardNavigationEnabled(): boolean {
+    return !!this.featureConfigService?.isEnabled(
+      'a11yFacetKeyboardNavigation'
+    );
+  }
+
   constructor(
     protected facetService: FacetService,
     protected elementRef: ElementRef<HTMLElement>,
@@ -117,7 +123,7 @@ export class FacetComponent {
 
   onKeydown(event: KeyboardEvent): void {
     // TODO: (CXSPA-6892) - Remove feature flag next major release.
-    if (!this.featureConfigService?.isEnabled('a11yFacetKeyboardNavigation')) {
+    if (!this.isFacetKeyboardNavigationEnabled) {
       return;
     }
     const targetIndex = this.values.toArray().findIndex((el) => {
