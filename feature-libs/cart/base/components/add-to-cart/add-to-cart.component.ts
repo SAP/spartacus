@@ -24,14 +24,15 @@ import {
 import {
   CmsAddToCartComponent,
   EventService,
-  isNotNullable,
   Product,
+  isNotNullable,
 } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
   ICON_TYPE,
   ProductListItemContext,
+  ProductQuantityChangedEvent,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
@@ -62,7 +63,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   quantity = 1;
 
-  subscription: Subscription;
+  subscription: Subscription = new Subscription();
 
   addToCartForm = new UntypedFormGroup({
     quantity: new UntypedFormControl(1, { updateOn: 'blur' }),
@@ -94,18 +95,33 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.hasStock = true;
       this.cd.markForCheck();
     } else {
-      this.subscription = (
-        this.productListItemContext
+      this.subscription.add(
+        (this.productListItemContext
           ? this.productListItemContext.product$
           : this.currentProductService.getProduct()
-      )
-        .pipe(filter(isNotNullable))
-        .subscribe((product) => {
-          this.productCode = product.code ?? '';
-          this.setStockInfo(product);
-          this.cd.markForCheck();
-        });
+        )
+          .pipe(filter(isNotNullable))
+          .subscribe((product) => {
+            this.productCode = product.code ?? '';
+            this.setStockInfo(product);
+            this.cd.markForCheck();
+          })
+      );
     }
+
+    this.listenOnQuantityChange();
+  }
+
+  protected listenOnQuantityChange(): void {
+    this.subscription.add(
+      this.addToCartForm.controls.quantity.valueChanges.subscribe(
+        (quantity: number) =>
+          this.eventService.dispatch(
+            { quantity: quantity, productCode: this.productCode },
+            ProductQuantityChangedEvent
+          )
+      )
+    );
   }
 
   protected setStockInfo(product: Product): void {

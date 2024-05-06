@@ -59,11 +59,11 @@ export enum CtaScriptsLocation {
   ORDER_HISTORY_PAYMENT_GUIDE = 'ORDER_HISTORY_PAYMENT_GUIDE',
 }
 
-export enum CmsPageLocation {
-  ORDER_CONFIRMATION_PAGE = 'orderConfirmationPage',
+export enum PageSemanticRoute {
+  ORDER_CONFIRMATION_PAGE = 'orderConfirmation',
   ORDER_PAGE = 'order',
-  PDP_PAGE = 'productDetails',
-  CART_PAGE = 'cartPage',
+  PDP_PAGE = 'product',
+  CART_PAGE = 'cart',
 }
 
 export interface CtaScriptsResponse {

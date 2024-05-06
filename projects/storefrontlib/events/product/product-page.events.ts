@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Category, Price } from '@spartacus/core';
+import { Category, CxEvent, Price } from '@spartacus/core';
 import { PageEvent } from '../page/page.events';
 
 /**
@@ -39,4 +39,14 @@ export class SearchPageResultsEvent extends PageEvent {
   static readonly type = 'SearchPageResultsEvent';
   searchTerm: string;
   numberOfResults: Number;
+}
+
+/**
+ * Indicates that product quantity was changed
+ */
+export class ProductQuantityChangedEvent extends CxEvent {
+  /** event's type */
+  static readonly type = 'ProductQuantityChangedEvent';
+  quantity: number;
+  productCode: string;
 }

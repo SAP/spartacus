@@ -5,7 +5,13 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { CmsService, Product, isNotNullable } from '@spartacus/core';
+import {
+  CmsService,
+  Product,
+  RoutingService,
+  WindowRef,
+  isNotNullable,
+} from '@spartacus/core';
 import { Order, OrderFacade, OrderHistoryFacade } from '@spartacus/order/root';
 import { Observable, from, of, throwError } from 'rxjs';
 import {
@@ -20,19 +26,23 @@ import {
 
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
-  CmsPageLocation,
   CtaScriptsLocation,
   CtaScriptsRequest,
   CtaScriptsResponse,
+  GlobalFunctionsDomain,
   OpfDynamicScript,
   OpfPaymentFacade,
   OpfResourceLoaderService,
+  PageSemanticRoute,
 } from '@spartacus/opf/base/root';
-import { CurrentProductService } from '@spartacus/storefront';
+import {
+  CurrentProductService,
+  ItemCounterService,
+} from '@spartacus/storefront';
+import { OpfGlobalFunctionsFacade } from '../../../../root/facade';
+import { OpfScriptIdentifierService } from './opf-cta-scripts-identifier.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class OpfCtaScriptsService {
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected orderDetailsService = inject(OrderFacade);
@@ -40,15 +50,32 @@ export class OpfCtaScriptsService {
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected cmsService = inject(CmsService);
   protected currentProductService = inject(CurrentProductService);
+  protected itemCounterService = inject(ItemCounterService);
+  protected opfScriptIdentifierService = inject(OpfScriptIdentifierService);
+  protected routingService = inject(RoutingService);
+  protected globalFunctionsService = inject(OpfGlobalFunctionsFacade);
+  protected winRef = inject(WindowRef);
 
-  getCtaHtmlslList(): Observable<string[]> {
-    console.log('Fetching Htmls...');
+  getCtaHtmlsList(): Observable<string[]> {
     return this.fillCtaScriptRequest().pipe(
       switchMap((ctaScriptsRequest) => this.fetchCtaScripts(ctaScriptsRequest)),
       switchMap((scriptslist) => this.runCtaScripts(scriptslist)),
       finalize(() => {
         this.clearResources();
       })
+    );
+  }
+
+  registerGlobalFns(): void {
+    this.globalFunctionsService.registerGlobalFunctions({
+      domain: GlobalFunctionsDomain.GLOBAL,
+      paymentSessionId: '',
+    });
+  }
+
+  removeGlobalFns(): void {
+    this.globalFunctionsService.removeGlobalFunctions(
+      GlobalFunctionsDomain.GLOBAL
     );
   }
 
@@ -59,7 +86,6 @@ export class OpfCtaScriptsService {
   protected fetchCtaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<OpfDynamicScript[]> {
-    console.log('Fetching scripts...');
     return this.opfPaymentFacade.getCtaScripts(ctaScriptsRequest).pipe(
       concatMap((ctaScriptsResponse: CtaScriptsResponse) => {
         if (!ctaScriptsResponse?.value?.length) {
@@ -79,12 +105,10 @@ export class OpfCtaScriptsService {
 
     return this.getPaymentAccountIds().pipe(
       concatMap((accIds) => {
-        console.log(accIds);
         paymentAccountIds = accIds;
         return this.getScriptLocation();
       }),
       concatMap((scriptsLocation: CtaScriptsLocation | undefined) => {
-        console.log(scriptsLocation);
         return this.fillRequestForTargetPage(
           scriptsLocation,
           paymentAccountIds
@@ -105,8 +129,7 @@ export class OpfCtaScriptsService {
       CtaScriptsLocation,
       () => Observable<CtaScriptsRequest>
     > = {
-      [CtaScriptsLocation.PDP_QUICK_BUY]: () =>
-        this.fillCtaRequestforPDP(scriptsLocation, paymentAccountIds),
+      [CtaScriptsLocation.PDP_QUICK_BUY]: toBeImplementedException,
       [CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE]: () =>
         this.fillCtaRequestforPagesWithOrder(scriptsLocation),
       [CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE]: () =>
@@ -114,7 +137,8 @@ export class OpfCtaScriptsService {
       [CtaScriptsLocation.CART_MESSAGING]: toBeImplementedException,
       [CtaScriptsLocation.CART_QUICK_BUY]: toBeImplementedException,
       [CtaScriptsLocation.CHECKOUT_QUICK_BUY]: toBeImplementedException,
-      [CtaScriptsLocation.PDP_MESSAGING]: toBeImplementedException,
+      [CtaScriptsLocation.PDP_MESSAGING]: () =>
+        this.fillCtaRequestForPDP(scriptsLocation, paymentAccountIds),
     };
 
     const selectedFunction = locationToFunctionMap[scriptsLocation];
@@ -127,11 +151,8 @@ export class OpfCtaScriptsService {
   protected fillCtaRequestforPagesWithOrder(
     scriptLocation: CtaScriptsLocation
   ): Observable<CtaScriptsRequest> {
-    console.log('Filling with order...');
     return this.getOrderDetails(scriptLocation).pipe(
       map((order) => {
-        console.log(order);
-
         const ctaScriptsRequest: CtaScriptsRequest = {
           cartId: '00299267',
           ctaProductItems: this.getProductItems(order as Order),
@@ -143,18 +164,32 @@ export class OpfCtaScriptsService {
     );
   }
 
-  protected fillCtaRequestforPDP(
+  protected fillCtaRequestForPDP(
     scriptLocation: CtaScriptsLocation,
-    paymentAccountIds: number[]
+    _paymentAccountIds: number[]
   ) {
     return this.currentProductService.getProduct().pipe(
       filter(isNotNullable),
       map((product: Product) => {
-        // TODO: For on-site messaging add here additional attributes
         return {
+          additionalData: [
+            {
+              key: 'locale',
+              value: 'en-GB',
+            },
+            {
+              key: 'scriptIdentifier',
+              value: this.opfScriptIdentifierService.newScriptIdentifier,
+            },
+          ],
           orderId: undefined,
-          ctaProductItems: [{ productId: product?.code, quantity: 1 }],
-          paymentAccountIds: paymentAccountIds,
+          ctaProductItems: [
+            {
+              productId: product?.code,
+              quantity: this.itemCounterService.getCounter(),
+            },
+          ],
+          paymentAccountIds: [59],
           scriptLocations: [scriptLocation],
         } as CtaScriptsRequest;
       })
@@ -180,19 +215,25 @@ export class OpfCtaScriptsService {
   }
 
   protected getScriptLocation(): Observable<CtaScriptsLocation | undefined> {
-    const cmsToCtaLocationMap: Record<CmsPageLocation, CtaScriptsLocation> = {
-      [CmsPageLocation.ORDER_PAGE]:
+    const semanticRouteLocationMap: Record<
+      PageSemanticRoute,
+      CtaScriptsLocation
+    > = {
+      [PageSemanticRoute.ORDER_PAGE]:
         CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE,
-      [CmsPageLocation.ORDER_CONFIRMATION_PAGE]:
+      [PageSemanticRoute.ORDER_CONFIRMATION_PAGE]:
         CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE,
-      [CmsPageLocation.PDP_PAGE]: CtaScriptsLocation.PDP_QUICK_BUY,
-      [CmsPageLocation.CART_PAGE]: CtaScriptsLocation.CART_QUICK_BUY,
+      [PageSemanticRoute.PDP_PAGE]: CtaScriptsLocation.PDP_MESSAGING,
+      [PageSemanticRoute.CART_PAGE]: CtaScriptsLocation.CART_QUICK_BUY,
     };
-    return this.cmsService.getCurrentPage().pipe(
+
+    return this.routingService.getRouterState().pipe(
       take(1),
-      map((page) =>
-        page.pageId
-          ? cmsToCtaLocationMap[page.pageId as CmsPageLocation]
+      map((route) =>
+        route?.state?.semanticRoute
+          ? semanticRouteLocationMap[
+              route.state.semanticRoute as PageSemanticRoute
+            ]
           : undefined
       )
     );

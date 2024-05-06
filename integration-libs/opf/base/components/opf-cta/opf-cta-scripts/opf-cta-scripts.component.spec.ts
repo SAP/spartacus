@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
-import { OpfCtaScriptsService } from './opf-cta-scripts.service';
+import { OpfCtaScriptsService } from './services/opf-cta-scripts.service';
 import createSpy = jasmine.createSpy;
 
 const mockHtmlsList = [
@@ -52,7 +52,7 @@ describe('OpfCtaScriptsComponent', () => {
   });
 
   beforeEach(() => {
-    opfCtaScriptsService.getCtaHtmlslList.and.returnValue(of(mockHtmlsList));
+    opfCtaScriptsService.getCtaHtmlsList.and.returnValue(of(mockHtmlsList));
     createComponentInstance();
   });
 
@@ -72,7 +72,7 @@ describe('OpfCtaScriptsComponent', () => {
   });
 
   it('should isError be true when error is thrown', (done) => {
-    opfCtaScriptsService.getCtaHtmlslList = createSpy().and.returnValue(
+    opfCtaScriptsService.getCtaHtmlsList = createSpy().and.returnValue(
       throwError('error')
     );
     createComponentInstance();
@@ -87,7 +87,7 @@ describe('OpfCtaScriptsComponent', () => {
   });
 
   it('should display spinner when html list is undefined', (done) => {
-    opfCtaScriptsService.getCtaHtmlslList = createSpy().and.returnValue(
+    opfCtaScriptsService.getCtaHtmlsList = createSpy().and.returnValue(
       of(undefined)
     );
     createComponentInstance();

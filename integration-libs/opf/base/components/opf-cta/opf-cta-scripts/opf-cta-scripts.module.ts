@@ -14,10 +14,16 @@ import {
 import { SpinnerModule } from '@spartacus/storefront';
 import { OpfCtaElementModule } from '../opf-cta-element';
 import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
+import { OpfCtaScriptEventBrokerService } from './services/opf-cta-scripts-event-broker.service';
+import { OpfScriptIdentifierService } from './services/opf-cta-scripts-identifier.service';
+import { OpfCtaScriptsService } from './services/opf-cta-scripts.service';
 
 @NgModule({
   declarations: [OpfCtaScriptsComponent],
   providers: [
+    OpfScriptIdentifierService,
+    OpfCtaScriptEventBrokerService,
+    OpfCtaScriptsService,
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
       cmsComponents: {
         OpfCtaScriptsComponent: {

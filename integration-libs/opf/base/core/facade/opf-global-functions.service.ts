@@ -58,6 +58,9 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerSubmitCompleteRedirect(domain, paymentSessionId, vcr);
         this.registerGetRedirectParams(domain, paramsMap ?? []);
         break;
+      case GlobalFunctionsDomain.GLOBAL:
+        this.registerScriptReady(domain);
+        break;
       default:
         break;
     }
@@ -328,5 +331,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         vcr
       );
     };
+  }
+
+  protected registerScriptReady(domain: GlobalFunctionsDomain): void {
+    this.getGlobalFunctionContainer(domain).scriptReady = (
+      _scriptIdentifier: string
+    ): void => {};
   }
 }

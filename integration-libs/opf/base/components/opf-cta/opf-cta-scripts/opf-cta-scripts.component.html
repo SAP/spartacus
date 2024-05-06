@@ -1,10 +1,7 @@
 Hello CTA
 <ng-container *ngIf="ctaHtmls$ | async as ctaHtmls; else loading">
   <ng-container *ngIf="ctaHtmls?.length">
-    <cx-opf-cta-element
-      *ngFor="let ctaHtml of ctaHtmls"
-      [ctaScriptHtml]="ctaHtml"
-    ></cx-opf-cta-element>
+    <cx-opf-cta-element *ngFor="let ctaHtml of ctaHtmls" [ctaScriptHtml]="ctaHtml"></cx-opf-cta-element>
   </ng-container>
 </ng-container>
 <ng-template #loading>

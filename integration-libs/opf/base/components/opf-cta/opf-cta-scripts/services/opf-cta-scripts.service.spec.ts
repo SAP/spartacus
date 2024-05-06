@@ -80,7 +80,7 @@ describe('OpfCtaScriptsService', () => {
   });
 
   it('should call orderHistoryFacade for CTA on ConfirmationPage', (done) => {
-    service.getCtaHtmlslList().subscribe((htmlsList) => {
+    service.getCtaHtmlsList().subscribe((htmlsList) => {
       expect(htmlsList[0]).toContain(
         'Thanks for purchasing our great products'
       );
@@ -95,7 +95,7 @@ describe('OpfCtaScriptsService', () => {
       of({ ...mockPage, pageId: 'order' })
     );
 
-    service.getCtaHtmlslList().subscribe((htmlsList) => {
+    service.getCtaHtmlsList().subscribe((htmlsList) => {
       expect(htmlsList[0]).toContain(
         'Thanks for purchasing our great products'
       );
@@ -110,7 +110,7 @@ describe('OpfCtaScriptsService', () => {
       of({ ...mockPage, pageId: 'productDetails' })
     );
 
-    service.getCtaHtmlslList().subscribe((htmlsList) => {
+    service.getCtaHtmlsList().subscribe((htmlsList) => {
       expect(htmlsList[0]).toContain(
         'Thanks for purchasing our great products'
       );
@@ -123,7 +123,7 @@ describe('OpfCtaScriptsService', () => {
   it('should throw an error when empty CTA scripts response from OPF server', (done) => {
     opfPaymentFacadeMock.getCtaScripts.and.returnValue(of({ value: [] }));
 
-    service.getCtaHtmlslList().subscribe({
+    service.getCtaHtmlsList().subscribe({
       error: (error) => {
         expect(error).toEqual('Invalid CTA Scripts Response');
 
@@ -137,7 +137,7 @@ describe('OpfCtaScriptsService', () => {
       of({ ...mockPage, pageId: 'testPage' })
     );
 
-    service.getCtaHtmlslList().subscribe({
+    service.getCtaHtmlsList().subscribe({
       error: (error) => {
         expect(error).toEqual('Invalid Script Location');
         done();
@@ -150,7 +150,7 @@ describe('OpfCtaScriptsService', () => {
       Promise.reject()
     );
 
-    service.getCtaHtmlslList().subscribe({
+    service.getCtaHtmlsList().subscribe({
       next: (htmlsList) => {
         expect(htmlsList.length).toEqual(0);
         done();
@@ -174,7 +174,7 @@ describe('OpfCtaScriptsService', () => {
       })
     );
 
-    service.getCtaHtmlslList().subscribe({
+    service.getCtaHtmlsList().subscribe({
       next: (htmlsList) => {
         expect(htmlsList.length).toEqual(0);
         done();
@@ -198,7 +198,7 @@ describe('OpfCtaScriptsService', () => {
       })
     );
 
-    service.getCtaHtmlslList().subscribe({
+    service.getCtaHtmlsList().subscribe({
       next: (htmlsList) => {
         expect(htmlsList[0]).not.toContain('<script>');
         done();

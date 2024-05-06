@@ -6,4 +6,6 @@
 
 export * from './opf-cta-scripts.component';
 export * from './opf-cta-scripts.module';
-export * from './opf-cta-scripts.service';
+export * from './services/opf-cta-scripts-event-broker.service';
+export * from './services/opf-cta-scripts-identifier.service';
+export * from './services/opf-cta-scripts.service';
