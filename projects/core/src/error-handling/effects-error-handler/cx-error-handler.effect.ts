@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -7,10 +6,10 @@
 
 import { Injectable } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
-import { filter, tap } from 'rxjs/operators';
-import { EffectsErrorHandlerService } from './effects-error-handler.service';
-import { ErrorAction } from '../../model/index';
 import { Observable } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
+import { ErrorAction } from '../../model/index';
+import { EffectsErrorHandlerService } from './effects-error-handler.service';
 
 @Injectable()
 export class CxErrorHandlerEffect {
