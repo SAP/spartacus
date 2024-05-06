@@ -99,6 +99,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { OppsFeatureModule } from './features/opps/opps-feature.module';
 
 const featureModules = [];
 
@@ -131,6 +132,9 @@ if (environment.epdVisualization) {
 }
 if (environment.pdfInvoices) {
   featureModules.push(PDFInvoicesFeatureModule);
+}
+if (environment.opps) {
+  featureModules.push(OppsFeatureModule);
 }
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
