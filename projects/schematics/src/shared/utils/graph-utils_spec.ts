@@ -10,6 +10,7 @@ import {
   SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
+  SPARTACUS_ESTIMATED_DELIVERY_DATE,
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
   SPARTACUS_PDF_INVOICES,
@@ -19,7 +20,6 @@ import {
   SPARTACUS_QUALTRICS,
   SPARTACUS_QUOTE,
   SPARTACUS_REQUESTED_DELIVERY_DATE,
-  SPARTACUS_ESTIMATED_DELIVERY_DATE,
   SPARTACUS_S4OM,
   SPARTACUS_SEGMENT_REFS,
   SPARTACUS_SMARTEDIT,
@@ -177,6 +177,7 @@ describe('Graph utils', () => {
           "Personalization",
           "TMS-AEPL",
           "TMS-GTM",
+          "Estimated-delivery-date",
           "PDF-Invoices",
           "Requested-Delivery-Date",
           "Customer-Ticketing",
@@ -207,7 +208,6 @@ describe('Graph utils', () => {
           "Bulk-Pricing",
           "Pickup-In-Store",
           "Quote",
-          "Estimated-delivery-date",
         ]
       `);
     });
