@@ -7,7 +7,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
 import {
-  CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
@@ -44,14 +43,7 @@ export class ConfiguratorProductTitleComponent {
         .pipe(map((configuration) => ({ routerData, configuration })))
         .pipe(
           map((container) => {
-            switch (container.configuration.owner.type) {
-              case CommonConfigurator.OwnerType.PRODUCT:
-                return container.configuration.owner.id;
-              case CommonConfigurator.OwnerType.CART_ENTRY:
-                return container.routerData.productCode;
-              case CommonConfigurator.OwnerType.ORDER_ENTRY:
-                return container.configuration.overview?.productCode;
-            }
+            return this.getProductCode(container);
           }),
           switchMap((productCode) =>
             productCode
@@ -66,6 +58,18 @@ export class ConfiguratorProductTitleComponent {
         )
     )
   );
+
+  getProductCode(container: {
+    routerData: ConfiguratorRouter.Data;
+    configuration: Configurator.Configuration;
+  }): string | undefined {
+    if (!!container.routerData.productCode) {
+      return container.routerData.productCode;
+    }
+    return !!container.configuration.productCode
+      ? container.configuration.productCode
+      : container.configuration.overview?.productCode;
+  }
 
   showMore = false;
   iconTypes = ICON_TYPE;
