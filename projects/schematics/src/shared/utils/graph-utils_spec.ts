@@ -19,6 +19,7 @@ import {
   SPARTACUS_QUALTRICS,
   SPARTACUS_QUOTE,
   SPARTACUS_REQUESTED_DELIVERY_DATE,
+  SPARTACUS_ESTIMATED_DELIVERY_DATE,
   SPARTACUS_S4OM,
   SPARTACUS_SEGMENT_REFS,
   SPARTACUS_SMARTEDIT,
@@ -141,6 +142,7 @@ describe('Graph utils', () => {
         SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
         SPARTACUS_SEGMENT_REFS,
+        SPARTACUS_ESTIMATED_DELIVERY_DATE,
         SPARTACUS_S4OM,
         SPARTACUS_EPD_VISUALIZATION,
         SPARTACUS_DIGITAL_PAYMENTS,
@@ -205,6 +207,7 @@ describe('Graph utils', () => {
           "Bulk-Pricing",
           "Pickup-In-Store",
           "Quote",
+          "Estimated-delivery-date",
         ]
       `);
     });
