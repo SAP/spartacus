@@ -97,6 +97,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     );
   }
 
+  // TODO: (CXSPA-6929) - Make dependencies no longer optional next major release
   @Optional() changeDetecorRef = inject(ChangeDetectorRef, { optional: true });
 
   @Optional() breakpointService = inject(BreakpointService, { optional: true });
