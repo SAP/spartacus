@@ -12,9 +12,7 @@ import { EstimatedDeliveryDateComponent } from './components/estimated-delivery-
 import { EstimatedDeliveryDateModule } from './components/estimated-delivery-date/estimated-delivery-date.module';
 
 @NgModule({
-  imports: [
-    EstimatedDeliveryDateModule
-  ],
+  imports: [EstimatedDeliveryDateModule],
   providers: [
     provideOutlet({
       id: CartOutlets.ITEM_DETAILS,

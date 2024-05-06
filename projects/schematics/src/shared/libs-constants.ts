@@ -158,7 +158,7 @@ export const SPARTACUS_REQUESTED_DELIVERY_DATE_ASSETS = `@spartacus/requested-de
 
 export const SPARTACUS_ESTIMATED_DELIVERY_DATE = `@spartacus/estimated-delivery-date`;
 export const SPARTACUS_ESTIMATED_DELIVERY_DATE_ROOT = `@spartacus/estimated-delivery-date/root`;
-export const SPARTACUS_ESTIMATED_DELIVERY_DATE_ASSETS= `@spartacus/estimated-delivery-date/assets`;
+export const SPARTACUS_ESTIMATED_DELIVERY_DATE_ASSETS = `@spartacus/estimated-delivery-date/assets`;
 
 export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
 export const SPARTACUS_SMARTEDIT_ROOT = `@spartacus/smartedit/root`;

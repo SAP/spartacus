@@ -8,9 +8,9 @@ import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from '@spartacus/core';
 import {
   estimatedDeliveryDateTranslationChunksConfig,
-  estimatedDeliveryDateTranslations
+  estimatedDeliveryDateTranslations,
 } from 'feature-libs/estimated-delivery-date/assets/public_api';
-import {EstimatedDeliveryDateRootModule} from 'feature-libs/estimated-delivery-date/root/public_api';
+import { EstimatedDeliveryDateRootModule } from 'feature-libs/estimated-delivery-date/root/public_api';
 
 @NgModule({
   imports: [EstimatedDeliveryDateRootModule],
