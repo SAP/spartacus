@@ -51,6 +51,7 @@
         (click)="navigateToGroup()"
         (keydown.enter)="navigateToGroup()"
         tabindex="0"
+        role="link"
         [attr.aria-label]="
           'configurator.a11y.navigateToConflict'
             | cxTranslate: { attribute: attribute.label }
@@ -84,6 +85,7 @@
     (click)="navigateToGroup()"
     (keydown.enter)="navigateToGroup()"
     tabindex="0"
+    role="link"
   >
     {{ getConflictMessageKey() | cxTranslate }}
   </a>
