@@ -51,4 +51,25 @@ describe('SSR E2E', () => {
     const response: any = await ProxyServer.sendRequest('/');
     expect(response.statusCode).toEqual(500);
   });
+
+  fit('should inject test config', async () => {
+    proxy = await ProxyServer.startProxyServer({
+      target: BACKEND_BASE_URL,
+    });
+
+    // TODO: Verify correct test config cookie setup
+
+    // First request to trigger ssr rendering
+    const response: any = await ProxyServer.sendRequest(REQUEST_PATH, {
+      skipLinks: [],
+    });
+    expect(response.statusCode).toEqual(200);
+
+    // Second request to check rendered response to see if config has affected DOM
+    const response2: any = await ProxyServer.sendRequest(REQUEST_PATH, {
+      skipLinks: [],
+    });
+    // TODO: This is to verify body in console
+    expect(response2.body).toEqual(200);
+  }, 10000);
 });

@@ -64,23 +64,51 @@ export async function startProxyServer(options: ProxyOptions) {
 /**
  * Send an http GET request to a given url.
  */
-export async function sendRequest(path: string) {
+export async function sendRequest(path: string, cxConfig?: any) {
   return new Promise((resolve, reject) => {
-    const req = http.get({ ...REQUEST_OPTIONS, path }, (res: any) => {
-      const bodyChunks: string[] = [];
+    const req = http.get(
+      {
+        ...REQUEST_OPTIONS,
+        path,
+        headers: {
+          Cookie: buildCxConfigE2ECookie(cxConfig),
+        },
+      },
+      (res: any) => {
+        const bodyChunks: any[] = [];
 
-      res
-        .on('data', (chunk: any) => {
-          bodyChunks.push(chunk);
-        })
-        .on('end', () => {
-          res.bodyChunks = bodyChunks;
-          return resolve(res);
-        });
-    });
+        res
+          .on('data', (chunk: any) => {
+            bodyChunks.push(chunk);
+          })
+          .on('end', () => {
+            const buffer = Buffer.concat(bodyChunks);
+            const data = buffer.toJSON().data;
+            // TODO: Slice is hack to avoid hitting maximum call stack error
+            res.body = String.fromCharCode(...data.slice(0, 105000));
+            return resolve(res);
+          });
+      }
+    );
 
     req.on('error', (e: Error) => {
       reject(e);
     });
   });
+}
+
+/**
+ *   * Builds a cookie string with key 'cxConfigE2E' and the given `cxConfig`
+ *     * object as a value that is stringified and URI-encoded.
+ *       *
+ *         * Note: `TestConfigModule` of Spartacus will read this cookie
+ *           * and inject the passed config chunk into Spartacus global config.
+ *             */
+function buildCxConfigE2ECookie(cxConfig?: object): string {
+  if (!cxConfig) {
+    return '{}';
+  }
+  const cookieKey = 'cxConfigE2E';
+  const cookieValue = encodeURIComponent(JSON.stringify(cxConfig));
+  return `${cookieKey}=${cookieValue}`;
 }
