@@ -199,7 +199,7 @@
     "http-proxy": "^1.18.1",
     "http-server": "^14.1.1",
     "i18n-lint": "^1.1.0",
-    "jasmine-core": "~4.6.0",
+    "jasmine-core": "~5.1.0",
     "jasmine-marbles": "^0.9.2",
     "jest": "^29.0.0",
     "jest-preset-angular": "13.1.4",
@@ -232,11 +232,11 @@
   },
   "overrides": {
     "@nguniversal/builders": {
-      "qs": "6.2.4"
+      "qs": "6.12.0"
     }
   },
   "resolutions": {
-    "@nguniversal/builders/browser-sync/qs": "6.2.4",
+    "@nguniversal/builders/browser-sync/qs": "6.12.0",
     "@nguniversal/builders/browser-sync/ua-parser-js": "1.0.33"
   }
 }
