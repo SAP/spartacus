@@ -162,7 +162,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     quantity: number,
     numberOfEntriesBeforeAdd: number,
     pickupStoreName?: string,
-    addedEntryWasMerged?: boolean
+    addedEntryWasMerged = false
   ): void {
     // Display last entry for new product code. This always corresponds to
     // our new item, independently of whether merging occured or not
@@ -173,7 +173,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     if (
       this.featureConfig.isEnabled('adddedToCartDialogDrivenBySuccessEvent')
     ) {
-      this.addedEntryWasMerged$ = of(addedEntryWasMerged ?? false);
+      this.addedEntryWasMerged$ = of(addedEntryWasMerged);
     } else {
       this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
         numberOfEntriesBeforeAdd
