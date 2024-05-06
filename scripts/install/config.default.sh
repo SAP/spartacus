@@ -37,6 +37,7 @@ SPARTACUS_PROJECTS=(
         "dist/cds:integration-libs/cds"
         "dist/cdc:integration-libs/cdc"
         "dist/cdp:integration-libs/cdp"
+        "dist/opps:integration-libs/opps"
         "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/product-configurator:feature-libs/product-configurator"
         "dist/pickup-in-store:feature-libs/pickup-in-store"

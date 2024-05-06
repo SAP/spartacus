@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { BEFORE_CMS_PAGE_GUARD } from '@spartacus/storefront';
 import { OppsLoginRequiredGuard } from './opps-login-required.guard';
 import { NgModule } from '@angular/core';
