@@ -42,7 +42,7 @@ export class EstimatedDeliveryDateComponent {
    * @returns {boolean} - whether the arrival slot information is present for the order
    */
   hasOrderEntryArrivalSlots(item: OrderEntry): boolean {
-    const arrivalSlots = item.ArrivalSlots;
+    const arrivalSlots = item.arrivalSlots;
     return arrivalSlots != null && arrivalSlots.length > 0;
   }
 
@@ -55,7 +55,7 @@ export class EstimatedDeliveryDateComponent {
    */
 
   hasConsignmentEntryArrivalSlot(item: Consignment): boolean {
-    const arrivalSlot = item.ArrivalSlot;
+    const arrivalSlot = item.arrivalSlot;
     return arrivalSlot != null && arrivalSlot.at != null;
   }
 

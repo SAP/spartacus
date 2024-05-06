@@ -9,12 +9,12 @@ import { ArrivalSlot, ArrivalSlots } from './estimated-delivery-date.model';
 
 declare module '@spartacus/cart/base/root' {
   interface OrderEntry {
-    ArrivalSlots?: ArrivalSlots[];
+    arrivalSlots?: ArrivalSlots[];
   }
 }
 
 declare module '@spartacus/order/root' {
   interface Consignment {
-    ArrivalSlot?: ArrivalSlot;
+    arrivalSlot?: ArrivalSlot;
   }
 }

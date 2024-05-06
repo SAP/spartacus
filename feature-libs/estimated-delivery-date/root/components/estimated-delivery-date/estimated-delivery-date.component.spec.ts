@@ -91,7 +91,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
   it('should expose orderEntry$', (done) => {
     const orderEntry: Partial<OrderEntry & Array<ArrivalSlots>> = {
       orderCode: '123',
-      ArrivalSlots: [],
+      arrivalSlots: [],
     };
     component.orderEntry$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(orderEntry);
@@ -119,7 +119,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
   describe('estimated delivery date', () => {
     it('should not be displayed if model provides empty array', () => {
       mockCartItemContext.item$.next({
-        ArrivalSlots: undefined,
+        arrivalSlots: undefined,
       });
 
       const htmlElem = fixture.nativeElement;
@@ -130,7 +130,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
 
     it('should return true if Consignment ArrivalSlot exists', () => {
       const consignmentWithSlot: Consignment = {
-        ArrivalSlot: { at: new Date() },
+        arrivalSlot: { at: new Date() },
       };
       const result =
         component.hasConsignmentEntryArrivalSlot(consignmentWithSlot);
@@ -139,7 +139,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
 
     it('should return false if Consignment ArrivalSlot does not exist', () => {
       const consignmentWithoutSlot: Consignment = {
-        ArrivalSlot: undefined,
+        arrivalSlot: undefined,
       };
       const result = component.hasConsignmentEntryArrivalSlot(
         consignmentWithoutSlot
@@ -149,7 +149,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
 
     it('should be displayed if model provides data', () => {
       mockCartItemContext.item$.next({
-        ArrivalSlots: [
+        arrivalSlots: [
           {
             at: new Date('2022-05-22T00:00:00+0000'),
             quantity: 1,
@@ -171,7 +171,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
     describe('Accessibility', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
-          ArrivalSlots: [
+          arrivalSlots: [
             {
               at: new Date('2022-05-22T00:00:00+0000'),
               quantity: 1,
