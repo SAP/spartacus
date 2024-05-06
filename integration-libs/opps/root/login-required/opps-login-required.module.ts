@@ -13,7 +13,7 @@ import { NgModule } from '@angular/core';
   providers: [
     {
       provide: BEFORE_CMS_PAGE_GUARD,
-      useValue: OppsLoginRequiredGuard,
+      useClass: OppsLoginRequiredGuard,
       multi: true,
     },
   ],
