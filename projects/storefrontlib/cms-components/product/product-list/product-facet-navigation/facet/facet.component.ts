@@ -140,37 +140,33 @@ export class FacetComponent {
   }
 
   onArrowRight(event: Event): void {
-    if (this.isExpanded) {
-      return;
+    if (!this.isExpanded) {
+      this.toggleGroup(event as UIEvent);
     }
-    this.toggleGroup(event as UIEvent);
   }
 
   onArrowLeft(event: Event): void {
-    if (!this.isExpanded) {
-      return;
+    if (this.isExpanded) {
+      this.toggleGroup(event as UIEvent);
+      this.facetHeader.nativeElement.focus();
     }
-    this.toggleGroup(event as UIEvent);
-    this.facetHeader.nativeElement.focus();
   }
 
   onArrowDown(event: Event, targetIndex: number): void {
-    if (!this.isExpanded) {
-      return;
+    if (this.isExpanded) {
+      event.preventDefault();
+      if (event.target === this.facetHeader.nativeElement) {
+        this.values?.first?.nativeElement.focus();
+        return;
+      }
+      this.values.get(targetIndex + 1)?.nativeElement.focus();
     }
-    event.preventDefault();
-    if (event.target === this.facetHeader.nativeElement) {
-      this.values?.first?.nativeElement.focus();
-      return;
-    }
-    this.values.get(targetIndex + 1)?.nativeElement.focus();
   }
 
   onArrowUp(event: Event, targetIndex: number): void {
-    if (!this.isExpanded) {
-      return;
+    if (this.isExpanded) {
+      event.preventDefault();
+      this.values.get(targetIndex - 1)?.nativeElement.focus();
     }
-    event.preventDefault();
-    this.values.get(targetIndex - 1)?.nativeElement.focus();
   }
 }
