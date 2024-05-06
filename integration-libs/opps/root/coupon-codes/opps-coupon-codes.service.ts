@@ -8,7 +8,7 @@ import { Injectable, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { OppsConfig } from '../config';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OppsCouponCodesService {
   protected winRef = inject(WindowRef);
   protected config = inject(OppsConfig);

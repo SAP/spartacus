@@ -4,15 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { LOCATION_INITIALIZED_MULTI } from '@spartacus/core';
 import { oppsCouponCodesInterceptors } from './http-interceptors';
 import { OppsCouponCodesService } from './opps-coupon-codes.service';
 
-export function saveCouponCodesFactory(
-  service: OppsCouponCodesService
-): () => void {
+export function saveCouponCodesFactory(): () => void {
   return () => {
+    const service = inject(OppsCouponCodesService);
     service.saveUrlCouponCodes();
   };
 }
@@ -20,11 +19,9 @@ export function saveCouponCodesFactory(
 @NgModule({
   providers: [
     ...oppsCouponCodesInterceptors,
-    OppsCouponCodesService,
     {
       provide: LOCATION_INITIALIZED_MULTI,
       useFactory: saveCouponCodesFactory,
-      deps: [OppsCouponCodesService],
       multi: true,
     },
   ],
