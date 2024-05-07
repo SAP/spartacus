@@ -5,6 +5,7 @@
       "complete": "Complete",
       "configId": "Configuration ID",
       "toconfig": "Configure",
+      "toConfigReadOnly": "Show details",
       "editConfiguration": "Edit Configuration",
       "displayConfiguration": "Display Configuration",
       "resolveIssues": "Resolve Issues",
@@ -134,8 +135,12 @@
       "restartButton": "Start New",
       "resumeButton": "Resume"
     },
+    "httpHandlers": {
+      "makeToStockBaseProductIssue": "This product is a base product and cannot be added to the cart; choose a product variant instead"
+    },
     "a11y": {
       "configureProduct": "Configure product",
+      "showDetailsProduct": "Show details of the product",
       "cartEntryBundleInfo": "There is an item ",
       "cartEntryBundleInfo_other": "There are {{items}} items ",
       "cartEntryBundleName": "Item {{ name }}",

@@ -44,6 +44,12 @@ export interface FeatureTogglesInterface {
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
+   * The addedToCart dialog is driven by 'CartAddEntrySuccessEvent'. Previously it was driven
+   * by 'CartUiEventAddToCart' event. Code changes affect 'AddedToCartDialogEventListener'
+   */
+  adddedToCartDialogDrivenBySuccessEvent?: boolean;
+
+  /**
    * Adds asterisks to required form fields in all components existing before v2211.20
    */
   a11yRequiredAsterisks?: boolean;
@@ -171,6 +177,15 @@ export interface FeatureTogglesInterface {
    * Determines whether the controls in the `CarouselComponent` are focusable and accessible from the keyboard.
    */
   a11yFocusableCarouselControls?: boolean;
+
+  /**
+   * In `CartQuickOrderFormComponent` it stops calling the deprecated method
+   * `watchAddEntryFailEvent()`, which listens to the `CartAddEntryFailEvent`.
+   *
+   * It avoids showing an unnecessary duplicated error message on the failure
+   * of adding to the cart.
+   */
+  cartQuickOrderRemoveListeningToFailEvent?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -179,6 +194,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
   productConfiguratorAttributeTypesV2: false,
+  adddedToCartDialogDrivenBySuccessEvent: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,
@@ -203,4 +219,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUnitsListKeyboardControls: false,
   a11yCartItemsLinksStyles: false,
   a11yFocusableCarouselControls: false,
+  cartQuickOrderRemoveListeningToFailEvent: false,
 };
