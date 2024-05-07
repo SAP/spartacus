@@ -11,7 +11,10 @@ import {
 import { Observable, of } from 'rxjs';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
-import { ConfiguratorType } from './../../core/model/common-configurator.model';
+import {
+  ConfiguratorType,
+  ReadOnlyPostfix,
+} from './../../core/model/common-configurator.model';
 import { ConfigureProductComponent } from './configure-product.component';
 
 const productCode = 'CONF_LAPTOP';
@@ -191,6 +194,120 @@ describe('ConfigureProductComponent', () => {
     component.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
       done();
+    });
+  });
+
+  describe('getAriaLabelTranslationKey', () => {
+    beforeEach(() => {
+      setupWithCurrentProductService(true);
+    });
+
+    it('should return configurator.a11y.configureProduct in case configurator type is undefined', () => {
+      expect(component.getAriaLabelTranslationKey(undefined)).toEqual(
+        'configurator.a11y.configureProduct'
+      );
+    });
+
+    it('should return configurator.a11y.configureProduct in case configurator type is CPQCONFIGURATOR', () => {
+      expect(
+        component.getAriaLabelTranslationKey(ConfiguratorType.VARIANT)
+      ).toEqual('configurator.a11y.configureProduct');
+    });
+
+    it('should return configurator.a11y.showDetailsProduct in case configurator type has postfix read only', () => {
+      expect(
+        component.getAriaLabelTranslationKey(
+          ConfiguratorType.VARIANT + ReadOnlyPostfix
+        )
+      ).toEqual('configurator.a11y.showDetailsProduct');
+    });
+  });
+
+  describe('getTranslationKey', () => {
+    beforeEach(() => {
+      setupWithCurrentProductService(true);
+    });
+
+    it('should return configurator.header.toconfig in case configurator type is undefined', () => {
+      expect(component.getTranslationKey(undefined)).toEqual(
+        'configurator.header.toconfig'
+      );
+    });
+
+    it('should return configurator.header.toconfig in case configurator type is CPQCONFIGURATOR', () => {
+      expect(component.getTranslationKey(ConfiguratorType.VARIANT)).toEqual(
+        'configurator.header.toconfig'
+      );
+    });
+
+    it('should return configurator.header.toConfigReadOnly in case configurator type has postfix read only', () => {
+      expect(
+        component.getTranslationKey(ConfiguratorType.VARIANT + ReadOnlyPostfix)
+      ).toEqual('configurator.header.toConfigReadOnly');
+    });
+  });
+
+  describe('isDisplayRestartDialog', () => {
+    beforeEach(() => {
+      setupWithCurrentProductService(true);
+    });
+
+    it('should return true in case configurator type is CPQCONFIGURATOR', () => {
+      expect(
+        component.isDisplayRestartDialog(ConfiguratorType.VARIANT)
+      ).toEqual('true');
+    });
+
+    it('should return false in case configurator type has postfix readOnly', () => {
+      expect(
+        component.isDisplayRestartDialog(
+          ConfiguratorType.VARIANT + ReadOnlyPostfix
+        )
+      ).toEqual('false');
+    });
+  });
+
+  describe('isConfiguratorTypeReadOnly', () => {
+    beforeEach(() => {
+      setupWithCurrentProductService(true);
+    });
+
+    it('should return false in case configurator type is undefined', () => {
+      expect(component['isConfiguratorTypeReadOnly'](undefined)).toBe(false);
+    });
+
+    it('should return false in case configurator type is null', () => {
+      expect(component['isConfiguratorTypeReadOnly'](null)).toBe(false);
+    });
+
+    it('should return false in case configurator type is empty string', () => {
+      expect(component['isConfiguratorTypeReadOnly']('')).toBe(false);
+    });
+
+    it('should return false in case configurator type is string with whitespace', () => {
+      expect(component['isConfiguratorTypeReadOnly']('   ')).toBe(false);
+    });
+
+    it('should return false in case configurator type is CPQCONFIGURATOR', () => {
+      expect(
+        component['isConfiguratorTypeReadOnly'](ConfiguratorType.VARIANT)
+      ).toBe(false);
+    });
+
+    it('should return false in case configurator type has prefix _READ_ONLY', () => {
+      expect(
+        component['isConfiguratorTypeReadOnly'](
+          ReadOnlyPostfix + ConfiguratorType.VARIANT
+        )
+      ).toBe(false);
+    });
+
+    it('should return true in case configurator type has postfix _READ_ONLY', () => {
+      expect(
+        component['isConfiguratorTypeReadOnly'](
+          ConfiguratorType.VARIANT + ReadOnlyPostfix
+        )
+      ).toBe(true);
     });
   });
 
