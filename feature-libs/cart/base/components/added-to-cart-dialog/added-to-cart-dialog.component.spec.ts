@@ -21,7 +21,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   ActivatedRouterStateSnapshot,
-  FeaturesConfig,
+  FeatureConfigService,
   I18nTestingModule,
   RouterState,
   RoutingService,
@@ -62,13 +62,18 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   }
 }
 
+const PRODUCT_CODE = 'CODE1111';
+const QUANTITY = 3;
+const NUMBER_ENTRIES_BEFORE_ADD = 2;
+const PICKUP_STORE_NAME = 'testStore';
+let numberOfEntriesBeforeAdd: number | undefined = NUMBER_ENTRIES_BEFORE_ADD;
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
     return of({
-      productCode: 'CODE1111',
-      quantity: 3,
-      numberOfEntriesBeforeAdd: 2,
-      pickupStoreName: 'test',
+      productCode: PRODUCT_CODE,
+      quantity: QUANTITY,
+      numberOfEntriesBeforeAdd: numberOfEntriesBeforeAdd,
+      pickupStoreName: PICKUP_STORE_NAME,
     });
   }
 
@@ -80,14 +85,14 @@ const mockOrderEntries: OrderEntry[] = [
     quantity: 1,
     entryNumber: 1,
     product: {
-      code: 'CODE1111',
+      code: PRODUCT_CODE,
     },
   },
   {
     quantity: 2,
     entryNumber: 1,
     product: {
-      code: 'CODE1111',
+      code: PRODUCT_CODE,
     },
   },
 ];
@@ -133,6 +138,7 @@ describe('AddedToCartDialogComponent', () => {
   let el: DebugElement;
   let activeCartFacade: ActiveCartFacade;
   let launchDialogService: LaunchDialogService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -160,12 +166,6 @@ describe('AddedToCartDialogComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.3' },
-          },
-        },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
@@ -178,6 +178,7 @@ describe('AddedToCartDialogComponent', () => {
     activeCartFacade = TestBed.inject(ActiveCartFacade);
 
     launchDialogService = TestBed.inject(LaunchDialogService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
 
     spyOn(activeCartFacade, 'updateEntry').and.callThrough();
 
@@ -377,5 +378,60 @@ describe('AddedToCartDialogComponent', () => {
 
     el.click();
     expect(component.dismissModal).toHaveBeenCalledWith('Cross click');
+  });
+
+  describe('init()', () => {
+    it('should compile addedCartEntryWasMerged$ from respective input attribute in case feature toggle adddedToCartDialogDrivenBySuccessEvent is active', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      component.init(
+        PRODUCT_CODE,
+        QUANTITY,
+        NUMBER_ENTRIES_BEFORE_ADD,
+        '',
+        true
+      );
+      expect(component.addedEntryWasMerged$).toBeObservable(
+        cold('(t|)', { t: true })
+      );
+    });
+    it('should compile addedCartEntryWasMerged$ handling undefined input in case feature toggle adddedToCartDialogDrivenBySuccessEvent is active', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      component.init(
+        PRODUCT_CODE,
+        QUANTITY,
+        NUMBER_ENTRIES_BEFORE_ADD,
+        '',
+        undefined
+      );
+      expect(component.addedEntryWasMerged$).toBeObservable(
+        cold('(t|)', { t: false })
+      );
+    });
+    it('should compile addedCartEntryWasMerged$ from quantity comparison in case feature toggle adddedToCartDialogDrivenBySuccessEvent is not active', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      spyOn(activeCartFacade, 'getEntries').and.returnValue(
+        cold('a', { a: mockOrderEntries })
+      );
+      component.loaded$ = cold('t', { t: true });
+      component.init(PRODUCT_CODE, QUANTITY, NUMBER_ENTRIES_BEFORE_ADD);
+      expect(component.addedEntryWasMerged$).toBeObservable(
+        cold('t', { t: true })
+      );
+    });
+  });
+
+  describe('ngOnInit()', () => {
+    it('should default numberOfEntriesBeforeAdd with zero in case it is not provided from outside', () => {
+      numberOfEntriesBeforeAdd = undefined;
+      spyOn(component, 'init').and.callThrough();
+      component.ngOnInit();
+      expect(component.init).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        QUANTITY,
+        0,
+        PICKUP_STORE_NAME,
+        undefined
+      );
+    });
   });
 });
