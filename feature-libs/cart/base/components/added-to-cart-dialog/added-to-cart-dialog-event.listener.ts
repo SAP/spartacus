@@ -12,8 +12,8 @@ import {
 } from '@spartacus/cart/base/root';
 import { EventService, FeatureConfigService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subscription, zip } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { AddedToCartDialogComponentData } from './added-to-cart-dialog.component';
 
 @Injectable({
@@ -35,10 +35,18 @@ export class AddedToCartDialogEventListener implements OnDestroy {
       this.featureConfig.isEnabled('adddedToCartDialogDrivenBySuccessEvent')
     ) {
       this.subscription.add(
-        this.eventService
-          .get(CartAddEntrySuccessEvent)
-          .subscribe((successEvent) => {
-            this.openModalAfterSuccess(successEvent);
+        zip(
+          this.eventService.get(CartUiEventAddToCart),
+          this.eventService.get(CartAddEntrySuccessEvent)
+        )
+          .pipe(
+            map(
+              ([_uiEventAddToCart, addEntrySuccessEvent]) =>
+                addEntrySuccessEvent
+            )
+          )
+          .subscribe((addEntrySuccessEvent) => {
+            this.openModalAfterSuccess(addEntrySuccessEvent);
           })
       );
     } else {
