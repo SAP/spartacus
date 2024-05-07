@@ -175,7 +175,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       .pipe(map((cart) => cart.quoteCode !== undefined));
   }
 
-  protected getTranslationKey(isAdd: boolean): string {
+  protected getTranslationKey(isAddToCart: boolean): string {
     let translationText = undefined;
     this.isQuoteCartActive()
       .pipe(take(1))
@@ -188,7 +188,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     if (translationText) {
       return translationText;
     } else {
-      return isAdd
+      return isAddToCart
         ? 'configurator.addToCart.confirmation'
         : 'configurator.addToCart.confirmationUpdate';
     }
