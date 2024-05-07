@@ -3,6 +3,14 @@
     <ng-container *ngIf="areButtonsRendered(quoteDetails.allowedActions)">
       <section [ngClass]="isFixedPosition ? 'fixed' : 'sticky'">
         <button
+          type="button"
+          class="btn btn-primary"
+          *ngIf="isAttachmentPresent(quoteDetails.sapAttachments)"
+          (click)="onDownloadAttachment(quoteDetails.code, quoteDetails.sapAttachments)"
+        >
+          {{ 'quote.summary.actions.DOWNLOAD' | cxTranslate }}
+        </button>
+        <button
           #element
           type="button"
           *ngFor="let action of quoteDetails.allowedActions"

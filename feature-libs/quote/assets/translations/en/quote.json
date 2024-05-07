@@ -221,7 +221,8 @@
         "REQUOTE": "Request new Quote",
         "SAVE": "Save Quote",
         "SUBMIT": "Submit Quote",
-        "VIEW": "View Quote"
+        "VIEW": "View Quote",
+        "DOWNLOAD": "Download Proposal"
       },
       "prices": {
         "title": "Order Summary",

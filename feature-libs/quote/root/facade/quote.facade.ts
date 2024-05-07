@@ -121,4 +121,12 @@ export abstract class QuoteFacade {
    * @param discount - Discount
    */
   abstract addDiscount(quoteCode: string, discount: QuoteDiscount): void;
+
+  /**
+   * Downloads attached proposal document of a quote.
+   *
+   * @param quoteCode - Unique quote code
+   * @param attachmentId - Unique attachment ID
+   */
+  abstract downloadAttachment(quoteCode: string, attachmentId: string): Observable<Blob>;
 }

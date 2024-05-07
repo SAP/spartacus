@@ -22,11 +22,13 @@ import {
   Quote,
   QuoteAction,
   QuoteActionType,
+  QuoteAttachment,
   QuoteFacade,
   QuoteRoleType,
   QuoteState,
 } from '@spartacus/quote/root';
 import {
+  FileDownloadService,
   IntersectionOptions,
   IntersectionService,
   LAUNCH_CALLER,
@@ -55,6 +57,7 @@ export class QuoteSummaryActionsComponent
   protected activeCartFacade = inject(ActiveCartFacade);
   protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
   protected intersectionService = inject(IntersectionService);
+  protected fileDownloadService = inject(FileDownloadService);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
@@ -218,6 +221,23 @@ export class QuoteSummaryActionsComponent
   }
 
   /**
+   * Click handler for download button.
+   *
+   * @param quoteCode - the quote ID (aka code)
+   * @param attachments - array of attachments belonnging to the quote
+   */
+  onDownloadAttachment(quoteCode: string, attachments: QuoteAttachment[]) {
+    // Extracting the attachment ID from the first entry in the array
+    // as there would be only one proposal document attached for each quote
+    const attachmentId = attachments[0].id;
+    const filename = attachments[0].filename || attachmentId;
+    this.quoteFacade.downloadAttachment(quoteCode, attachmentId).subscribe((res) => {
+      const url = window.URL.createObjectURL(new Blob([res], {type: res.type}));
+      this.fileDownloadService.download(url, `${filename}.pdf`);
+    });
+  }
+
+  /**
    * Generic click handler for quote action buttons.
    *
    * @param action - the action to be triggered
@@ -294,6 +314,16 @@ export class QuoteSummaryActionsComponent
 
   protected requote(quoteId: string) {
     this.quoteFacade.requote(quoteId);
+  }
+
+  /**
+   * Determines if there is any document attached with the quote.
+   *
+   * @param attachments - an array of attachments to the quote
+   * @returns - if the document is present, returns 'true', otherwise 'false'.
+   */
+  isAttachmentPresent(attachments: QuoteAttachment[]): boolean {
+    return attachments.length > 0;
   }
 
   /**

@@ -121,4 +121,14 @@ export abstract class QuoteAdapter {
     entryNumber: string,
     comment: QuoteComment
   ): Observable<unknown>;
+
+  /**
+   * Downloads the proposal document of a quote specified by its ID.
+   *
+   * @param userId - Quote user
+   * @param quoteCode - Quote code
+   * @param attachmentId - Attachment ID
+   * @returns Observable emitting a Blob response
+   */
+  abstract downloadAttachment(userId: string, quoteCode: string, attachmentId: string): Observable<Blob>;
 }
