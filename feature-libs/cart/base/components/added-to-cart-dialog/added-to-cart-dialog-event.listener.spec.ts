@@ -5,7 +5,12 @@ import {
   CartAddEntrySuccessEvent,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
-import { CxEvent, EventService, FeatureConfigService } from '@spartacus/core';
+import {
+  CxEvent,
+  EventService,
+  FeatureConfigService,
+  PointOfService,
+} from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
@@ -38,14 +43,23 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
-const entry: OrderEntry = { quantity: 0 };
+const PRODUCT_CODE = 'productCode';
+const STORE_NAME = 'storeName';
+const STORE_NAME_FROM_POS = 'storeNameFromPoS';
+const QUANTITY = 3;
+const deliveryPointOfService: PointOfService = { name: STORE_NAME_FROM_POS };
+const entry: OrderEntry = {
+  quantity: 0,
+};
 
 const mockEvent = new CartUiEventAddToCart();
 const mockSuccessEvent = new CartAddEntrySuccessEvent();
-mockEvent.productCode = 'test';
-mockEvent.quantity = 3;
+mockEvent.productCode = PRODUCT_CODE;
+mockEvent.quantity = QUANTITY;
 mockEvent.numberOfEntriesBeforeAdd = 1;
-mockEvent.pickupStoreName = 'testStore';
+mockEvent.pickupStoreName = STORE_NAME;
+mockSuccessEvent.productCode = PRODUCT_CODE;
+mockSuccessEvent.quantity = QUANTITY;
 mockSuccessEvent.entry = entry;
 
 const mockFailEvent = new CartAddEntryFailEvent();
@@ -73,6 +87,7 @@ describe('AddedToCartDialogEventListener', () => {
 
     featureConfigService = TestBed.inject(FeatureConfigService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    entry.deliveryPointOfService = deliveryPointOfService;
   });
 
   describe('onAddToCart', () => {
@@ -125,6 +140,44 @@ describe('AddedToCartDialogEventListener', () => {
       spyOn(launchDialogService, 'openDialog').and.callThrough();
       listener['openModal'](mockEvent);
       expect(launchDialogService.openDialog).toHaveBeenCalled();
+    });
+  });
+
+  describe('openModalAfterSuccess', () => {
+    beforeEach(() => {
+      listener = TestBed.inject(AddedToCartDialogEventListener);
+      spyOn(launchDialogService, 'openDialog').and.callThrough();
+    });
+
+    it('should retrieve pickup store name from point of service of new entry added to the cart', () => {
+      listener['openModalAfterSuccess'](mockSuccessEvent);
+      expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+        LAUNCH_CALLER.ADDED_TO_CART,
+        undefined,
+        undefined,
+        {
+          productCode: PRODUCT_CODE,
+          quantity: QUANTITY,
+          pickupStoreName: STORE_NAME_FROM_POS,
+          addedEntryWasMerged: true,
+        }
+      );
+    });
+
+    it('should forward pickup store name as undefined in case no point of service provided in success event', () => {
+      entry.deliveryPointOfService = undefined;
+      listener['openModalAfterSuccess'](mockSuccessEvent);
+      expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+        LAUNCH_CALLER.ADDED_TO_CART,
+        undefined,
+        undefined,
+        {
+          productCode: PRODUCT_CODE,
+          quantity: QUANTITY,
+          pickupStoreName: undefined,
+          addedEntryWasMerged: true,
+        }
+      );
     });
   });
 

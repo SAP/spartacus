@@ -47,8 +47,8 @@ export interface AddedToCartDialogComponentData {
   numberOfEntriesBeforeAdd?: number;
   pickupStoreName?: string;
   /**
-   * Was the product added to the cart merged into an existing cart entry (with increased quantity),
-   * or did the system create a new cart entry?
+   * Tells whether the product added to the cart was merged into an existing cart entry (with increased quantity),
+   * or the system created a new cart entry.
    */
   addedEntryWasMerged?: boolean;
 }

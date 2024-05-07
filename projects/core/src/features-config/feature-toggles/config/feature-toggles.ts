@@ -45,7 +45,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * The addedToCart dialog is driven by 'CartAddEntrySuccessEvent'. Previously it was driven
-   * by 'CartUiEventAddToCart event. Code changes affect 'AddedToCartDialogEventListener'
+   * by 'CartUiEventAddToCart' event. Code changes affect 'AddedToCartDialogEventListener'
    */
   adddedToCartDialogDrivenBySuccessEvent?: boolean;
 

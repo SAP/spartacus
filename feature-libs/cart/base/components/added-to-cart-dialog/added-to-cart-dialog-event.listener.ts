@@ -92,7 +92,7 @@ export class AddedToCartDialogEventListener implements OnDestroy {
     const addToCartData: AddedToCartDialogComponentData = {
       productCode: successEvent.productCode,
       quantity: successEvent.quantity,
-      pickupStoreName: successEvent.pickupStore,
+      pickupStoreName: successEvent.entry?.deliveryPointOfService?.name,
       addedEntryWasMerged: this.calculateEntryWasMerged(successEvent),
     };
 
@@ -107,13 +107,15 @@ export class AddedToCartDialogEventListener implements OnDestroy {
       dialog.pipe(take(1)).subscribe();
     }
   }
-
+  /**
+   * Calculates whether the previous addToCart resulted into an existing entries quantity being increased (new product was merged) or a new entry added.
+   * @param successEvent Event that reflects a successfull addToCart. In case the event's quantityAdded is undefined or zero,
+   * the system could have run into stock issues. Then we return true in order to not break the existing dialog behaviour
+   * @returns Result of addToCart is a quantity increase (i.e. product was merged)
+   */
   protected calculateEntryWasMerged(
     successEvent: CartAddEntrySuccessEvent
   ): boolean {
-    // In case quantityAdded zero, the system could have run into stock issues.
-    // Then we continue and still launch the dialogue in 'merge' mode in order
-    // to not break the existing behaviour.
     const quantityAdded = successEvent.quantityAdded ?? 0;
     return (
       quantityAdded === 0 ||
