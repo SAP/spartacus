@@ -59,7 +59,7 @@ export class ConfiguratorProductTitleComponent {
     )
   );
 
-  getProductCode(container: {
+  protected getProductCode(container: {
     routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
   }): string | undefined {
