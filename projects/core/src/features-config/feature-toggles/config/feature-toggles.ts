@@ -44,6 +44,12 @@ export interface FeatureTogglesInterface {
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
+   * The addedToCart dialog is driven by 'CartAddEntrySuccessEvent'. Previously it was driven
+   * by 'CartUiEventAddToCart' event. Code changes affect 'AddedToCartDialogEventListener'
+   */
+  adddedToCartDialogDrivenBySuccessEvent?: boolean;
+
+  /**
    * Adds asterisks to required form fields in all components existing before v2211.20
    */
   a11yRequiredAsterisks?: boolean;
@@ -188,6 +194,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
   productConfiguratorAttributeTypesV2: false,
+  adddedToCartDialogDrivenBySuccessEvent: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,
