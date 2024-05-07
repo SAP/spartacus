@@ -60,8 +60,9 @@ export class FacetComponent {
   @Optional() featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
+
   // TODO: (CXSPA-6892) - Remove getter next major release.
-  /** @deprecated Temporary getter, not ment for public use */
+  /** Temporary getter, not ment for public use */
   get isFacetKeyboardNavigationEnabled(): boolean {
     return !!this.featureConfigService?.isEnabled(
       'a11yFacetKeyboardNavigation'
