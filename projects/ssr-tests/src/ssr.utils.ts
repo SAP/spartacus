@@ -14,12 +14,12 @@ import * as Log from './log.utils';
 
 /**
  * Start an ssr server instance at the given port (default 4000).
- * The server will output a log file at the test project root named "ssr.log".
+ * The server will output a log file at the test project root named ".ssr.log".
  * Funtion finishes once the server is initialized.
  */
 export async function startSsrServer(port = 4000) {
   childProcess.exec(
-    `NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=${port} npm run serve:ssr --prefix ../../> ssr.log`
+    `NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log`
   );
   await Log.waitUntilLogContainsText(`Node Express server listening on `);
 }

@@ -15,7 +15,7 @@ import * as fs from 'fs';
 /**
  * Path where SSR log file from server will be generated and read from.
  */
-const SSR_LOG_PATH = './ssr.log';
+const SSR_LOG_PATH = './.ssr.log';
 
 /**
  * Writes no characters to log to clear log file.
