@@ -176,7 +176,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   }
 
   protected getTranslationKey(isAddToCart: boolean): string {
-    let translationText = undefined;
+    let translationText;
     this.isQuoteCartActive()
       .pipe(take(1))
       .subscribe((isQuoteActive) => {
