@@ -10,7 +10,7 @@ After the build, use the `npm run test:ssr` and `npm run test:ssr:ci` commands f
 
 ### Retesting after changes
 
-If we change something in the application itself such as and library code and even `SsrOptimizationEngine`, we need to rebuild libraries and application again in order to test the changes.
+If we change something in the application itself such as library code, we need to rebuild libraries and application again in order to test the changes.
 
 Note: Build time could be improved upon by only rebuilding libraries that have changes.
 
