@@ -12,7 +12,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { EventService, FeatureConfigService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddedToCartDialogComponentData } from './added-to-cart-dialog.component';
 
@@ -35,11 +35,12 @@ export class AddedToCartDialogEventListener implements OnDestroy {
       this.featureConfig.isEnabled('adddedToCartDialogDrivenBySuccessEvent')
     ) {
       this.subscription.add(
-        this.eventService
-          .get(CartAddEntrySuccessEvent)
-          .subscribe((successEvent) => {
-            this.openModalAfterSuccess(successEvent);
-          })
+        combineLatest([
+          this.eventService.get(CartAddEntrySuccessEvent),
+          this.eventService.get(CartUiEventAddToCart),
+        ]).subscribe(([event, _cartUiEventAddToCartEvent]) => {
+          this.openModalAfterSuccess(event);
+        })
       );
     } else {
       this.subscription.add(
