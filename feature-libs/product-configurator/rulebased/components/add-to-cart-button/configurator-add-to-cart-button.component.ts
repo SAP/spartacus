@@ -12,7 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MultiCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -59,6 +59,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
   protected multiCartFacade = inject(MultiCartFacade);
   protected focusService = inject(KeyboardFocusService);
+  protected activeCartFacade = inject(ActiveCartFacade);
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
 
@@ -168,6 +169,31 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     );
   }
 
+  protected isQuoteCartActive(): Observable<boolean> {
+    return this.activeCartFacade
+      .getActive()
+      .pipe(map((cart) => cart.quoteCode !== undefined));
+  }
+
+  protected getTranslationKey(isAdd: boolean): string {
+    let translationText = undefined;
+    this.isQuoteCartActive()
+      .pipe(take(1))
+      .subscribe((isQuoteActive) => {
+        if (isQuoteActive) {
+          translationText = 'configurator.addToCart.confirmationQuoteUpdate';
+        }
+      });
+
+    if (translationText) {
+      return translationText;
+    } else {
+      return isAdd
+        ? 'configurator.addToCart.confirmation'
+        : 'configurator.addToCart.confirmationUpdate';
+    }
+  }
+
   /**
    * Performs the navigation to the corresponding location (cart or overview pages).
    *
@@ -185,9 +211,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     showMessage: boolean,
     productCode?: string
   ): void {
-    const messageKey = isAdd
-      ? 'configurator.addToCart.confirmation'
-      : 'configurator.addToCart.confirmationUpdate';
+    const messageKey = this.getTranslationKey(isAdd);
     if (isOverview) {
       this.navigateToCart();
     } else {
@@ -208,10 +232,11 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
    */
   getButtonResourceKey(
     routerData: ConfiguratorRouter.Data,
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
+    isQuoteActive = false
   ): string {
     if (
-      routerData.isOwnerCartEntry &&
+      (routerData.isOwnerCartEntry || isQuoteActive) &&
       configuration.isCartEntryUpdateRequired
     ) {
       return 'configurator.addToCart.buttonUpdateCart';
@@ -219,7 +244,11 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       routerData.isOwnerCartEntry &&
       !configuration.isCartEntryUpdateRequired
     ) {
-      return 'configurator.addToCart.buttonAfterAddToCart';
+      if (isQuoteActive) {
+        return 'configurator.addToCart.buttonForQuote';
+      } else {
+        return 'configurator.addToCart.buttonAfterAddToCart';
+      }
     } else {
       return 'configurator.addToCart.button';
     }

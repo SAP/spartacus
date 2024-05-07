@@ -7,7 +7,12 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
-import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  MultiCartFacade,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   I18nTestingModule,
@@ -39,6 +44,7 @@ import { ConfiguratorQuantityService } from '../../core/services/configurator-qu
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
+import createSpy = jasmine.createSpy;
 
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '001+1';
@@ -382,7 +388,11 @@ class MockConfiguratorAddToCartButtonComponent {
   goToOrderDetails() {}
 }
 
-describe('ConfigAddToCartButtonComponent', () => {
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  getActive = createSpy().and.returnValue(of(cart));
+}
+
+fdescribe('ConfigAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let configuratorCommonsService: ConfiguratorCommonsService;
@@ -392,6 +402,8 @@ describe('ConfigAddToCartButtonComponent', () => {
   let intersectionService: IntersectionService;
   let configuratorQuantityService: ConfiguratorQuantityService;
   let keyboardFocusService: KeyboardFocusService;
+  //let activeCartFacade: ActiveCartFacade;
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -451,6 +463,7 @@ describe('ConfigAddToCartButtonComponent', () => {
             provide: MultiCartFacade,
             useClass: MockMultiCartFacade,
           },
+          { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         ],
       })
         .overrideComponent(ConfiguratorAddToCartButtonComponent, {
@@ -470,34 +483,17 @@ describe('ConfigAddToCartButtonComponent', () => {
     };
     pendingChangesObservable = of(false);
     initialize();
-    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-
-    globalMessageService = TestBed.inject(
-      GlobalMessageService as Type<GlobalMessageService>
-    );
-
-    configuratorQuantityService = TestBed.inject(
-      ConfiguratorQuantityService as Type<ConfiguratorQuantityService>
-    );
-
-    configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
-
+    routingService = TestBed.inject(RoutingService);
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    configuratorQuantityService = TestBed.inject(ConfiguratorQuantityService);
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
-
-    intersectionService = TestBed.inject(
-      IntersectionService as Type<IntersectionService>
-    );
-
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
+    intersectionService = TestBed.inject(IntersectionService);
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
+    //activeCartFacade = TestBed.inject(ActiveCartFacade);
 
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
