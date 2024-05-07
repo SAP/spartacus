@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as configurationOverview from './product-configurator-overview';
+import * as configurationVc from './product-configurator-vc';
+
 const cartItemQuantityStepperSelector = '.cx-value cx-item-counter';
 
 /**
@@ -24,7 +27,7 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
 }
 
 /**
- * Clicks on the 'Display Configuration' link in cart/order or quote for a certain item.
+ * Clicks on the 'Display Configuration' link in cart for a certain cart item.
  *
  * @param {number} cartItemIndex - Index of cart item
  */
@@ -36,7 +39,7 @@ export function clickOnDisplayConfigurationLink(cartItemIndex: number): void {
       force: true,
     })
     .then(() => {
-      cy.location('pathname').should('contain', '/entityKey/');
+      cy.location('pathname').should('contain', '/cartEntry/entityKey/');
     });
 }
 
@@ -81,7 +84,8 @@ export function navigateToOrderDetails(): void {
     .first()
     .click()
     .then(() => {
-      cy.get('cx-configurator-overview-form').should('be.visible');
+      configurationOverview.checkConfigOverviewPageDisplayed();
+      configurationVc.checkGhostAnimationNotDisplayed();
     });
 }
 
@@ -130,6 +134,17 @@ function changeQuantityValue(cartItemIndex: number, sign: string) {
     .find(cartItemQuantityStepperSelector + ' button')
     .contains(sign)
     .click();
+}
+
+/**
+ * Verifies how many items are in the cart
+ *
+ * @param items - number of items in the cart
+ */
+export function checkItemsList(items: number) {
+  cy.get('.cx-item-list-items').within(() => {
+    cy.get('.cx-item-list-row').should('have.length', items);
+  });
 }
 
 /**
