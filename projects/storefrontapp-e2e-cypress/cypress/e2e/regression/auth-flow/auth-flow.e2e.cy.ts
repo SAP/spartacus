@@ -35,7 +35,7 @@ context('Authentication Flows', () => {
       revokeEndpoint: '/oauth/revoke',
       loginUrl: '/oauth/authorize',
       OAuthLibConfig: {
-        responseType: 'code',
+        responseType: 'token',
         scope: '',
         customTokenParameters: ['token_type'],
         strictDiscoveryDocumentValidation: false,
@@ -55,7 +55,7 @@ context('Authentication Flows', () => {
       revokeEndpoint: '/oauth/revoke',
       loginUrl: '/oauth/authorize',
       OAuthLibConfig: {
-        responseType: 'token',
+        responseType: 'code',
         scope: '',
         customTokenParameters: ['token_type'],
         strictDiscoveryDocumentValidation: false,
