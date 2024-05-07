@@ -91,20 +91,22 @@ describe('AddedToCartDialogEventListener', () => {
   });
 
   describe('onAddToCart', () => {
-    it('should open modal on event CartAddEntrySuccessEvent in case toggle adddedToCartDialogDrivenBySuccessEvent is active', () => {
+    it('should open modal on events CartUiEventAddToCart and CartAddEntrySuccessEvent in case toggle adddedToCartDialogDrivenBySuccessEvent is active', () => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
       listener = TestBed.inject(AddedToCartDialogEventListener);
       spyOn(listener as any, 'openModalAfterSuccess').and.stub();
+      mockEventStream$.next(mockEvent);
       mockEventSuccessStream$.next(mockSuccessEvent);
       expect(listener['openModalAfterSuccess']).toHaveBeenCalledWith(
         mockSuccessEvent
       );
     });
 
-    it('should not open modal on event CartAddEntrySuccessEvent in case toggle adddedToCartDialogDrivenBySuccessEvent is inactive', () => {
+    it('should not open modal on events CartUiEventAddToCart and CartAddEntrySuccessEvent in case toggle adddedToCartDialogDrivenBySuccessEvent is inactive', () => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
       listener = TestBed.inject(AddedToCartDialogEventListener);
       spyOn(listener as any, 'openModalAfterSuccess').and.stub();
+      mockEventStream$.next(mockEvent);
       mockEventSuccessStream$.next(mockSuccessEvent);
       expect(listener['openModalAfterSuccess']).not.toHaveBeenCalled();
     });
