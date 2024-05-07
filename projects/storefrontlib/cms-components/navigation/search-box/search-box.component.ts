@@ -92,7 +92,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   // TODO: (CXSPA-6929) - Remove getter next major release.
-  /** @deprecated Temporary getter, not ment for public use */
+  /** Temporary getter, not ment for public use */
   get a11ySearchBoxMobileFocusEnabled(): boolean {
     return (
       this.featureConfigService?.isEnabled('a11ySearchBoxMobileFocus') || false
