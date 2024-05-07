@@ -173,7 +173,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     // Display last entry for new product code. This always corresponds to
     // our new item, independently of whether merging occured or not
     const productCode$: Observable<string> =
-      this.featureConfig.isEnabled('adddedToCartDialogDrivenBySuccessEvent') &&
+      this.featureConfig.isEnabled('addedToCartDialogUseBackendProductCode') &&
       addingEntryResult$
         ? // get the product code from the backend response, because it might be different
           // from the requested product code. It is the case e.g. when the product is a variant

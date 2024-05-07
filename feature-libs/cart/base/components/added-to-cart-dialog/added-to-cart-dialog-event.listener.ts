@@ -50,7 +50,7 @@ export class AddedToCartDialogEventListener implements OnDestroy {
    * @param event Signals that a product has been added to the cart.
    */
   protected openModal(event: CartUiEventAddToCart): void {
-    // We subscribes early to result events using ReplaySubject(1)
+    // We subscribe early to result events using ReplaySubject(1)
     // to ensure no missed emissions even if the modal subscribes late.
     const addingEntryResult$ = new ReplaySubject<
       CartAddEntrySuccessEvent | CartAddEntryFailEvent
