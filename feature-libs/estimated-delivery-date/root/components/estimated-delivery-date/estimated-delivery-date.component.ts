@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Optional } from '@angular/core';
+import { Component, Optional, inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CxDatePipe, TranslationService } from '@spartacus/core';
 import { OrderDetailsOrderEntriesContext } from '@spartacus/order/components';
@@ -18,13 +18,13 @@ import { map, switchMap } from 'rxjs/operators';
   providers: [CxDatePipe],
 })
 export class EstimatedDeliveryDateComponent {
-  constructor(
-    @Optional() protected cartItemContext: CartItemContext,
-    protected orderDetailsOrderEntriesContext: OrderDetailsOrderEntriesContext,
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected translationService: TranslationService,
-    protected datePipe: CxDatePipe
-  ) {}
+  @Optional() protected cartItemContext = inject(CartItemContext);
+  protected orderDetailsOrderEntriesContext = inject(
+    OrderDetailsOrderEntriesContext
+  );
+  protected orderHistoryFacade = inject(OrderHistoryFacade);
+  protected translationService = inject(TranslationService);
+  protected datePipe = inject(CxDatePipe);
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;

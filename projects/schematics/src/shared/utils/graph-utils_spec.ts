@@ -154,7 +154,7 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
         SPARTACUS_PICKUP_IN_STORE,
-        SPARTACUS_ESTIMATED_DELIVERY_DATE
+        SPARTACUS_ESTIMATED_DELIVERY_DATE,
       ]);
     });
   });
