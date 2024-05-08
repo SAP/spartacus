@@ -11,7 +11,7 @@ import {
   POWERTOOLS_BASESITE,
   USER_REQUEST_ENDPOINT,
   b2bAccountShipToUser,
-  order_type
+  order_type,
 } from '../../../sample-data/b2b-checkout';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
