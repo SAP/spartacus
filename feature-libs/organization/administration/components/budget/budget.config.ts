@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AuthGuard, CmsConfig } from '@spartacus/core';
+import { AuthGuard, CmsConfig, FeatureConfigService } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { TableConfig } from '@spartacus/storefront';
@@ -80,9 +80,56 @@ export const budgetCmsConfig: CmsConfig = {
   },
 };
 
-export function budgetTableConfigFactory(): TableConfig {
-  return budgetTableConfig;
+// TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
+export function budgetTableConfigFactory(
+  featureConfigService?: FeatureConfigService
+): TableConfig {
+  if (featureConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
+    return budgetTableConfig;
+  }
+  return legacyBudgetTableConfig;
 }
+
+export const legacyBudgetTableConfig: TableConfig = {
+  table: {
+    [OrganizationTableType.BUDGET]: {
+      cells: ['name', 'active', 'amount', 'dateRange', 'unit'],
+      options: {
+        cells: {
+          name: {
+            dataComponent: ActiveLinkCellComponent,
+          },
+          active: {
+            dataComponent: StatusCellComponent,
+          },
+          amount: {
+            dataComponent: AmountCellComponent,
+          },
+          dateRange: {
+            dataComponent: DateRangeCellComponent,
+          },
+          unit: {
+            dataComponent: UnitCellComponent,
+          },
+        },
+      },
+    },
+
+    [OrganizationTableType.BUDGET_ASSIGNED_COST_CENTERS]: {
+      cells: ['name'],
+      options: {
+        cells: {
+          name: {
+            dataComponent: CostCenterDetailsCellComponent,
+          },
+        },
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+      },
+    },
+  },
+};
 
 export const budgetTableConfig: TableConfig = {
   table: {
@@ -92,6 +139,7 @@ export const budgetTableConfig: TableConfig = {
         cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
+            linkable: true,
           },
           active: {
             dataComponent: StatusCellComponent,

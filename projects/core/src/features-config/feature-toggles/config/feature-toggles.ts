@@ -180,6 +180,8 @@ export interface FeatureTogglesInterface {
    * of adding to the cart.
    */
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
+
+  a11yOrganizationLinkableCells?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -213,4 +215,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartItemsLinksStyles: false,
   a11yFocusableCarouselControls: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yOrganizationLinkableCells: false,
 };

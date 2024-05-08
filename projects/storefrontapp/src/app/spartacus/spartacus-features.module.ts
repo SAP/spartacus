@@ -291,6 +291,7 @@ if (environment.requestedDeliveryDate) {
         a11yCartItemsLinksStyles: true,
         a11yFocusableCarouselControls: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yOrganizationLinkableCells: true,
       };
       return appFeatureToggles;
     }),

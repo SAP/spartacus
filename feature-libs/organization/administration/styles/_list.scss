@@ -191,6 +191,14 @@
       }
     }
   }
+  // TODO: (CXSPA-7155) - Remove feature flag next major release
+  @include forFeature('a11yOrganizationLinkableCells') {
+    cx-view {
+      &[position='0'] tr {
+        cursor: pointer;
+      }
+    }
+  }
 
   cx-view[position='0'] > cx-table.vertical {
     table {

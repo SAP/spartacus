@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
+  FeatureConfigService,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -34,7 +35,9 @@ import { unitsCmsConfig, unitsTableConfigFactory } from './units.config';
   ],
   providers: [
     provideDefaultConfig(unitsCmsConfig),
-    provideDefaultConfigFactory(unitsTableConfigFactory),
+    provideDefaultConfigFactory(unitsTableConfigFactory, [
+      FeatureConfigService,
+    ]),
   ],
 })
 export class UnitsComponentsModule {}
