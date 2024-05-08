@@ -176,22 +176,19 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   }
 
   protected getTranslationKey(isAddToCart: boolean): string {
-    let translationText;
+    let translationKey = 'configurator.addToCart.confirmation';
     this.isQuoteCartActive()
       .pipe(take(1))
       .subscribe((isQuoteActive) => {
         if (isQuoteActive) {
-          translationText = 'configurator.addToCart.confirmationQuoteUpdate';
+          translationKey = 'configurator.addToCart.confirmationQuoteUpdate';
+        } else {
+          if (!isAddToCart) {
+            translationKey = 'configurator.addToCart.confirmationUpdate';
+          }
         }
       });
-
-    if (translationText) {
-      return translationText;
-    } else {
-      return isAddToCart
-        ? 'configurator.addToCart.confirmation'
-        : 'configurator.addToCart.confirmationUpdate';
-    }
+    return translationKey;
   }
 
   /**
@@ -211,14 +208,14 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     showMessage: boolean,
     productCode?: string
   ): void {
-    const messageKey = this.getTranslationKey(isAdd);
+    const translationKey = this.getTranslationKey(isAdd);
     if (isOverview) {
       this.navigateToCart();
     } else {
       this.navigateToOverview(configuratorType, owner, productCode);
     }
     if (showMessage) {
-      this.displayConfirmationMessage(messageKey);
+      this.displayConfirmationMessage(translationKey);
     }
   }
 
@@ -226,14 +223,15 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
    * Decides on the resource key for the button. Depending on the business process (owner of the configuration) and the
    * need for a cart update, the text will differ.
    *
-   * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
-   * @param {Configurator.Configuration} configuration - Configuration
-   * @returns {string} The resource key that controls the button description
+   * @param routerData - Reflects the current router state
+   * @param configuration - Configuration
+   * @param isQuoteActive - Is quote active
+   * @returns - The resource key that controls the button description
    */
   getButtonResourceKey(
     routerData: ConfiguratorRouter.Data,
     configuration: Configurator.Configuration,
-    isQuoteActive = false
+    isQuoteActive?: boolean
   ): string {
     if (
       (routerData.isOwnerCartEntry || isQuoteActive) &&

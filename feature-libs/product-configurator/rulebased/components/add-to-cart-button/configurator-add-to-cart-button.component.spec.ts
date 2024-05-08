@@ -492,7 +492,6 @@ describe('ConfigAddToCartButtonComponent', () => {
     );
     intersectionService = TestBed.inject(IntersectionService);
     keyboardFocusService = TestBed.inject(KeyboardFocusService);
-    //activeCartFacade = TestBed.inject(ActiveCartFacade);
 
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
