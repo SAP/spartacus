@@ -50,10 +50,7 @@ export class CmsGuardsService {
         .map((guardClass) =>
           getLastValueSync(this.unifiedInjector.get<CanActivate>(guardClass))
         )
-        .filter(
-          (guardInstance): guardInstance is CanActivate =>
-            guardInstance !== undefined
-        );
+        .filter(isCanActivate);
       return this.guardsComposer.canActivate(guardsInstances, route, state);
     }
     // When the FeatureToggle 'cmsGuardsServiceUseGuardsComposer' is disabled,
