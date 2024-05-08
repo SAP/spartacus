@@ -17,6 +17,8 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
+  CartAddEntryFailEvent,
+  CartAddEntrySuccessEvent,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
@@ -47,10 +49,12 @@ export interface AddedToCartDialogComponentData {
   numberOfEntriesBeforeAdd?: number;
   pickupStoreName?: string;
   /**
-   * Tells whether the product added to the cart was merged into an existing cart entry (with increased quantity),
-   * or the system created a new cart entry.
+   * Observable emitting the result of adding an item to cart. It emits either
+   * {@link CartAddEntrySuccessEvent} or {@link CartAddEntryFailEvent)
    */
-  addedEntryWasMerged?: boolean;
+  addingEntryResult$?: Observable<
+    CartAddEntrySuccessEvent | CartAddEntryFailEvent
+  >;
 }
 @Component({
   selector: 'cx-added-to-cart-dialog',
@@ -108,7 +112,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
             //'adddedToCartDialogDrivenBySuccessEvent' is not active
             dialogData.numberOfEntriesBeforeAdd ?? 0,
             dialogData.pickupStoreName,
-            dialogData.addedEntryWasMerged
+            dialogData.addingEntryResult$
           );
         }
       )
@@ -162,30 +166,40 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     quantity: number,
     numberOfEntriesBeforeAdd: number,
     pickupStoreName?: string,
-    addedEntryWasMerged = false
+    addingEntryResult$?: Observable<
+      CartAddEntrySuccessEvent | CartAddEntryFailEvent
+    >
   ): void {
     // Display last entry for new product code. This always corresponds to
     // our new item, independently of whether merging occured or not
-    this.entry$ = this.activeCartFacade.getLastEntry(productCode);
+    const productCode$: Observable<string> =
+      this.featureConfig.isEnabled('adddedToCartDialogDrivenBySuccessEvent') &&
+      addingEntryResult$
+        ? // get the product code from the backend response, because it might be different
+          // from the requested product code. It is the case e.g. when the product is a variant
+          addingEntryResult$.pipe(
+            filter((event) => event instanceof CartAddEntrySuccessEvent),
+            map((event) => event.productCode)
+          )
+        : of(productCode);
+
+    this.entry$ = productCode$.pipe(
+      switchMap((_productCode) =>
+        this.activeCartFacade.getLastEntry(_productCode)
+      )
+    );
+
     this.quantity = quantity;
 
     this.pickupStoreName = pickupStoreName;
-    if (
-      this.featureConfig.isEnabled('adddedToCartDialogDrivenBySuccessEvent')
-    ) {
-      this.addedEntryWasMerged$ = of(addedEntryWasMerged);
-    } else {
-      this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
-        numberOfEntriesBeforeAdd
-      );
-    }
+
+    this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
+      numberOfEntriesBeforeAdd
+    );
   }
+
   /**
    * Determines if the added entry was merged with an existing one.
-   *
-   * @deprecated since 2211.24. With activation of feature toggle 'adddedToCartDialogDrivenBySuccessEvent'
-   * the method will no longer be called, instead the information whether the entry was merged
-   * or not will be handed over to this component.
    *
    * @param numberOfEntriesBeforeAdd Number of entries in cart before addToCart has been performed
    * @returns Has entry been merged?
