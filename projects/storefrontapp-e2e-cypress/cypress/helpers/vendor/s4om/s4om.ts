@@ -275,7 +275,7 @@ export function verifyArrivalSlotsInfo() {
   arrivalSlots = JSON.parse(arrivalSlots);
   cy.wrap('arrivalSlots').should('have.length.at.least', 1);
 
-  cy.contains('Qty-');
+  cy.contains('Estimated delivery date:');
 }
 
 export function proceedtoCheckOutS4Product() {
