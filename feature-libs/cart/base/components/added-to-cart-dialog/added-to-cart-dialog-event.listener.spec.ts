@@ -5,15 +5,12 @@ import {
   CartAddEntrySuccessEvent,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
-import {
-  CxEvent,
-  EventService,
-  PointOfService,
-} from '@spartacus/core';
+import { CxEvent, EventService, PointOfService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
 import { OrderEntry } from '../../root/models';
+import { cold } from 'jasmine-marbles';
 
 const mockEventStream$ = new BehaviorSubject<CxEvent>({});
 const mockEventSuccessStream$ = new BehaviorSubject<CxEvent>({});
@@ -46,6 +43,7 @@ const PRODUCT_CODE = 'productCode';
 const STORE_NAME = 'storeName';
 const STORE_NAME_FROM_POS = 'storeNameFromPoS';
 const QUANTITY = 3;
+const NUMBER_ENTRIES_BEFORE_ADD = 1;
 const deliveryPointOfService: PointOfService = { name: STORE_NAME_FROM_POS };
 const entry: OrderEntry = {
   quantity: 0,
@@ -55,7 +53,7 @@ const mockEvent = new CartUiEventAddToCart();
 const mockSuccessEvent = new CartAddEntrySuccessEvent();
 mockEvent.productCode = PRODUCT_CODE;
 mockEvent.quantity = QUANTITY;
-mockEvent.numberOfEntriesBeforeAdd = 1;
+mockEvent.numberOfEntriesBeforeAdd = NUMBER_ENTRIES_BEFORE_ADD;
 mockEvent.pickupStoreName = STORE_NAME;
 mockSuccessEvent.productCode = PRODUCT_CODE;
 mockSuccessEvent.quantity = QUANTITY;
@@ -95,7 +93,6 @@ describe('AddedToCartDialogEventListener', () => {
       expect(listener['openModal']).toHaveBeenCalledWith(mockEvent);
     });
 
-
     it('should close modal on fail event', () => {
       listener = TestBed.inject(AddedToCartDialogEventListener);
       spyOn(listener as any, 'closeModal').and.stub();
@@ -110,6 +107,17 @@ describe('AddedToCartDialogEventListener', () => {
       spyOn(launchDialogService, 'openDialog').and.callThrough();
       listener['openModal'](mockEvent);
       expect(launchDialogService.openDialog).toHaveBeenCalled();
+    });
+  });
+
+  describe('createCompletionObservable', () => {
+    it('should create observable that emits successEvent once that is fired', () => {
+      listener = TestBed.inject(AddedToCartDialogEventListener);
+      mockEventSuccessStream$.next(mockSuccessEvent);
+      const addingEntryResult$ = listener['createCompletionObservable']();
+      expect(addingEntryResult$).toBeObservable(
+        cold('s', { s: mockSuccessEvent })
+      );
     });
   });
 

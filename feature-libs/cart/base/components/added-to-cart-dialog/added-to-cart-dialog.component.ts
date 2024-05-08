@@ -21,7 +21,7 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import {  RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -173,9 +173,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
       : of(productCode);
 
     this.entry$ = productCode$.pipe(
-      switchMap((productCode) =>
-        this.activeCartFacade.getLastEntry(productCode)
-      )
+      switchMap((code) => this.activeCartFacade.getLastEntry(code))
     );
 
     this.quantity = quantity;

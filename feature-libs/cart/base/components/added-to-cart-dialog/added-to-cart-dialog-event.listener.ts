@@ -12,7 +12,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { ReplaySubject, Subscription, race } from 'rxjs';
+import { Observable, ReplaySubject, Subscription, race } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddedToCartDialogComponentData } from './added-to-cart-dialog.component';
 
@@ -46,22 +46,12 @@ export class AddedToCartDialogEventListener implements OnDestroy {
    * @param event Signals that a product has been added to the cart.
    */
   protected openModal(event: CartUiEventAddToCart): void {
-    // We subscribes early to result events using ReplaySubject(1)
-    // to ensure no missed emissions even if the modal subscribes late.
-    const addingEntryResult$ = new ReplaySubject<
-      CartAddEntrySuccessEvent | CartAddEntryFailEvent
-    >(1);
-    race([
-      this.eventService.get(CartAddEntrySuccessEvent),
-      this.eventService.get(CartAddEntryFailEvent),
-    ]).subscribe((event) => addingEntryResult$.next(event));
-
     const addToCartData: AddedToCartDialogComponentData = {
       productCode: event.productCode,
       quantity: event.quantity,
       numberOfEntriesBeforeAdd: event.numberOfEntriesBeforeAdd,
       pickupStoreName: event.pickupStoreName,
-      addingEntryResult$,
+      addingEntryResult$: this.createCompletionObservable(),
     };
 
     const dialog = this.launchDialogService.openDialog(
@@ -74,6 +64,21 @@ export class AddedToCartDialogEventListener implements OnDestroy {
     if (dialog) {
       dialog.pipe(take(1)).subscribe();
     }
+  }
+
+  protected createCompletionObservable(): Observable<
+    CartAddEntryFailEvent | CartAddEntrySuccessEvent
+  > {
+    // We subscribe early to result events using ReplaySubject(1)
+    // to ensure no missed emissions even if the modal subscribes late.
+    const addingEntryResult$ = new ReplaySubject<
+      CartAddEntrySuccessEvent | CartAddEntryFailEvent
+    >(1);
+    race([
+      this.eventService.get(CartAddEntrySuccessEvent),
+      this.eventService.get(CartAddEntryFailEvent),
+    ]).subscribe((completionEvent) => addingEntryResult$.next(completionEvent));
+    return addingEntryResult$;
   }
 
   protected closeModal(reason?: any): void {
