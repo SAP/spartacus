@@ -168,11 +168,13 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
         // from the requested product code. That can e.g. happen for certain kinds of product variants
         addingEntryResult$.pipe(
           filter((event) => event instanceof CartAddEntrySuccessEvent),
-          map(
-            (event) =>
-              (event as CartAddEntrySuccessEvent).entry?.product
-                ?.code as Required<string>
-          )
+          map((event) => {
+            const productCodeFromEntry = (event as CartAddEntrySuccessEvent)
+              .entry?.product?.code;
+            return productCodeFromEntry
+              ? productCodeFromEntry
+              : event.productCode;
+          })
         )
       : of(productCode);
 

@@ -404,8 +404,7 @@ describe('AddedToCartDialogComponent', () => {
       spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
       const mockSuccessEvent = new CartAddEntrySuccessEvent();
       const replacedProductCode = 'NEW_PRODUCT_CODE';
-      mockSuccessEvent.entry = { product: { code: replacedProductCode } };
-
+      mockSuccessEvent.entry = { product: { code: 'NEW_PRODUCT_CODE' } };
       component.init(
         PRODUCT_CODE,
         QUANTITY,
@@ -416,6 +415,24 @@ describe('AddedToCartDialogComponent', () => {
       component.entry$.subscribe(() => {
         expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
           replacedProductCode
+        );
+      });
+    });
+
+    it('should fallback to events product code from addingEntryResult in case entries product code does not exist', () => {
+      spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
+      const mockSuccessEvent = new CartAddEntrySuccessEvent();
+      mockSuccessEvent.productCode = PRODUCT_CODE;
+      component.init(
+        PRODUCT_CODE,
+        QUANTITY,
+        NUMBER_ENTRIES_BEFORE_ADD,
+        undefined,
+        of(mockSuccessEvent)
+      );
+      component.entry$.subscribe(() => {
+        expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
+          PRODUCT_CODE
         );
       });
     });
