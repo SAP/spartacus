@@ -103,9 +103,7 @@ function verifyCarouselItemRendered(
   index: number
 ): void {
   const product = STRATEGY_RESPONSE.products[index];
-cy.wait(8000)
   cy.wrap($carouselItem).within(() => {
-    // cy.wait(5000)
     cy.get('.data-cx-merchandising-product').should(($productMetadata) => {
       expect($productMetadata)
         .to.have.attr('data-cx-merchandising-product-slot')
@@ -119,25 +117,23 @@ cy.wait(8000)
         )
         .equal(product.metadata['cypress-test-product-metadata']);
     });
-
-    cy.get('a').within(() => {
-      // cy.wait(5000)
-      cy.root().should('have.attr', 'href');
-      // cy.wait(5000);
-      cy.get('h4').should('not.be.empty');
-      cy.get('.price').should('not.be.empty');
-    });
+      cy.get('a').within(() => {
+        cy.root().should('have.attr', 'href');
+        cy.get('h4').should('not.be.empty');
+        cy.get('.price').should('not.be.empty');
+      });
   });
 }
 
 function verifyCarouselItemsRendered(
   $merchandisingCarousel: JQuery<HTMLElement>
 ): void {
+  cy.wait(5000)
   cy.wrap($merchandisingCarousel)
     .get('.item')
     .should('have.length', STRATEGY_RESPONSE.products.length)
     .each(($carouselItem, index) => {
-      verifyCarouselItemRendered($carouselItem, index);
+      verifyCarouselItemRendered($carouselItem,index);
     });
 }
 
