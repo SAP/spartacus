@@ -165,7 +165,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     // our new item, independently of whether merging occured or not
     const productCode$: Observable<string> = addingEntryResult$
       ? // get the product code from the backend response, because it might be different
-        // from the requested product code. It is the case e.g. when the product is a variant
+        // from the requested product code. That can e.g. happen for certain kinds of product variants
         addingEntryResult$.pipe(
           filter((event) => event instanceof CartAddEntrySuccessEvent),
           map(
