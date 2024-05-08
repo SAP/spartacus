@@ -177,6 +177,15 @@ export interface FeatureTogglesInterface {
    * calling its own deprecated method `canActivateGuard()`.
    */
   cmsGuardsServiceUseGuardsComposer?: boolean;
+
+  /**
+   * In `CartQuickOrderFormComponent` it stops calling the deprecated method
+   * `watchAddEntryFailEvent()`, which listens to the `CartAddEntryFailEvent`.
+   *
+   * It avoids showing an unnecessary duplicated error message on the failure
+   * of adding to the cart.
+   */
+  cartQuickOrderRemoveListeningToFailEvent?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -210,4 +219,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartItemsLinksStyles: false,
   a11yFocusableCarouselControls: false,
   cmsGuardsServiceUseGuardsComposer: false,
+  cartQuickOrderRemoveListeningToFailEvent: false,
 };
