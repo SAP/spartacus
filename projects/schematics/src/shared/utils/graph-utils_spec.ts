@@ -142,7 +142,6 @@ describe('Graph utils', () => {
         SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
         SPARTACUS_SEGMENT_REFS,
-        SPARTACUS_ESTIMATED_DELIVERY_DATE,
         SPARTACUS_S4OM,
         SPARTACUS_EPD_VISUALIZATION,
         SPARTACUS_DIGITAL_PAYMENTS,
@@ -155,6 +154,7 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
         SPARTACUS_PICKUP_IN_STORE,
+        SPARTACUS_ESTIMATED_DELIVERY_DATE
       ]);
     });
   });
@@ -177,7 +177,6 @@ describe('Graph utils', () => {
           "Personalization",
           "TMS-AEPL",
           "TMS-GTM",
-          "Estimated-delivery-date",
           "PDF-Invoices",
           "Requested-Delivery-Date",
           "Customer-Ticketing",
@@ -201,6 +200,7 @@ describe('Graph utils', () => {
           "CDC-B2B",
           "CDC",
           "SmartEdit",
+          "Estimated-Delivery-Date",
           "Qualtrics",
           "Future-Stock",
           "Product-Variants",
