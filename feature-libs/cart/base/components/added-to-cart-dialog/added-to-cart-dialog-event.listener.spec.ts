@@ -7,13 +7,14 @@ import {
 } from '@spartacus/cart/base/root';
 import { CxEvent, EventService, PointOfService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, NEVER, Observable } from 'rxjs';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
 import { OrderEntry } from '../../root/models';
 import { cold } from 'jasmine-marbles';
 
 const mockEventStream$ = new BehaviorSubject<CxEvent>({});
 const mockEventSuccessStream$ = new BehaviorSubject<CxEvent>({});
+let successObs: Observable<CxEvent> = mockEventSuccessStream$.asObservable();
 
 class MockEventService implements Partial<EventService> {
   get<T>(eventType: AbstractType<T>): Observable<T> {
@@ -23,7 +24,7 @@ class MockEventService implements Partial<EventService> {
     ) {
       return mockEventStream$.asObservable() as Observable<T>;
     } else {
-      return mockEventSuccessStream$.asObservable() as Observable<T>;
+      return successObs as Observable<T>;
     }
   }
 }
@@ -117,6 +118,15 @@ describe('AddedToCartDialogEventListener', () => {
       const addingEntryResult$ = listener['createCompletionObservable']();
       expect(addingEntryResult$).toBeObservable(
         cold('s', { s: mockSuccessEvent })
+      );
+    });
+    it('should create observable that emits failEvent once that is fired while success did not fire', () => {
+      listener = TestBed.inject(AddedToCartDialogEventListener);
+      successObs = NEVER;
+      mockEventStream$.next(mockFailEvent);
+      const addingEntryResult$ = listener['createCompletionObservable']();
+      expect(addingEntryResult$).toBeObservable(
+        cold('s', { s: mockFailEvent })
       );
     });
   });
