@@ -266,6 +266,7 @@ if (environment.requestedDeliveryDate) {
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
         productConfiguratorAttributeTypesV2: true,
+        adddedToCartDialogDrivenBySuccessEvent: true,
         a11yRequiredAsterisks: true,
         a11yQuantityOrderTabbing: true,
         a11yNavigationUiKeyboardControls: true,
@@ -290,6 +291,8 @@ if (environment.requestedDeliveryDate) {
         a11yUnitsListKeyboardControls: true,
         a11yCartItemsLinksStyles: true,
         a11yHideSelectBtnForSelectedAddrOrPayment: true,
+        a11yFocusableCarouselControls: true,
+        cartQuickOrderRemoveListeningToFailEvent: true,
       };
       return appFeatureToggles;
     }),
