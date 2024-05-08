@@ -135,15 +135,18 @@ export interface SsrOptimizationOptions {
    * WIP: Custom caching strategy resolver.
    * By default, the caching strategy is based on the presence of an error.
    */
-  cachingStrategyResolver?: (entry: {
-    error?: Error | unknown;
-    html?: string;
-  }) => boolean;
+  cacheStrategyResolver?: (
+    config: SsrOptimizationOptions,
+    entry: {
+      error?: Error | unknown;
+      html?: string;
+    }
+  ) => boolean;
 
   /**
-   * Toggle for enabling the SSR error handling.
+   * Enable caching of errors. By default, errors are not cached.
    */
-  ssrErrorHandling?: boolean;
+  cacheErrors?: boolean;
 }
 
 export enum RenderingStrategy {
@@ -164,6 +167,7 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
     defaultRenderingStrategyResolverOptions
   ),
   logger: new DefaultExpressServerLogger(),
-  cachingStrategyResolver: (entry) => !entry.error,
-  ssrErrorHandling: true,
+  cacheStrategyResolver: (options, entry) =>
+    !!options.cacheErrors && !!entry.error,
+  cacheErrors: false,
 };

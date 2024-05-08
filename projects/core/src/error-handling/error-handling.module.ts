@@ -20,7 +20,7 @@ export class ErrorHandlingModule {
     return {
       ngModule: ErrorHandlingModule,
       providers: [
-        provideMultiErrorHandler(), // potentially not breaking change (?)
+        provideMultiErrorHandler(),
         {
           provide: ErrorHandler,
           useClass: CxErrorHandler,

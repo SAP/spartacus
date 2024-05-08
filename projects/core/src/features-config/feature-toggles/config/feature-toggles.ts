@@ -43,16 +43,15 @@ export interface FeatureTogglesInterface {
    */
   productConfiguratorAttributeTypesV2?: boolean;
 
-  /*
-  I have hard time thinking about how many feature toggles we should introduce:
-  i would say we need:
-  - separate flag for toggling HTTP error handling
-  - separate flag for NgRx error handling?
-  - separate flag for SSR error handling? OR EVENT IT SHOULD NOT BE A FEATURE TOGGLE? (see comment in OptimizedSsrEngine)
+  /**
+   * Enable strict error handling for errors occurred in HTTP calls and in NgRx failure actions.
+   */
+  strictHttpAndNgrxErrorHandling?: boolean;
 
-  */
-  ngrxErrorHandling?: boolean;
-  httpErrorHandling?: boolean;
+  /**
+   * Enable propagating errors occurred during server-side rendering to the server.
+   */
+  serverErrorPropagation?: boolean;
 
   /**
    * Adds asterisks to required form fields in all components existing before v2211.20
@@ -171,8 +170,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
   productConfiguratorAttributeTypesV2: false,
-  ngrxErrorHandling: false,
-  httpErrorHandling: false,
+  strictHttpAndNgrxErrorHandling: false,
+  serverErrorPropagation: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,
