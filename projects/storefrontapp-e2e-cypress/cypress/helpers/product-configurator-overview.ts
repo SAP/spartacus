@@ -26,13 +26,40 @@ export function checkContinueToCartBtnDisplayed(): void {
 }
 
 /**
- * Clicks on 'Continue to cart' on the product overview page.
+ * Clicks on 'Continue to cart' button on the product overview page and navigates to the cart page.
  */
 export function clickContinueToCartBtnOnOP(): void {
   cy.get(continueToCartButtonSelector)
     .click()
     .then(() => {
       cy.get('cx-cart-details').should('be.visible');
+    });
+}
+
+/**
+ * Clicks on 'Close' on the product overview page and navigates to the cart or the product details page.
+ *
+ * @param backToPDP - is flag 'backToPDP' enabled
+ * @param backToCart - is flag 'backToCart' enabled
+ * @param backToCheckout - is flag 'backToCheckout' enabled
+ */
+export function clickCloseBtnOnOP(
+  backToPDP: boolean = true,
+  backToCart: boolean = false,
+  backToCheckout: boolean = false
+): void {
+  cy.get(continueToCartButtonSelector)
+    .click()
+    .then(() => {
+      if (backToPDP) {
+        cy.get('.ProductDetailsPageTemplate').should('be.visible');
+      }
+      if (backToCart) {
+        cy.get('.CartPageTemplate').should('be.visible');
+      }
+      if (backToCheckout) {
+        cy.get('.MultiStepCheckoutSummaryPageTemplate').should('be.visible');
+      }
     });
 }
 
