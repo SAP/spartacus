@@ -9,8 +9,6 @@ import { CanActivateFn, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { CmsActivatedRouteSnapshot, wrapIntoObservable } from '@spartacus/core';
 import { Observable, concat, endWith, first, of, skipWhile } from 'rxjs';
 
-// Move it all to the service:
-
 /**
  * Replacement for the Angular's deprecated type `CanActivate`.
  */

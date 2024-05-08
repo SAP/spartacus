@@ -29,7 +29,7 @@ export function wrapIntoObservable<T>(
 }
 
 /**
- * Tells the given object has a `then` method.
+ * Tells whether the given object has a `then` method.
  */
 function isPromise(obj: any): obj is Promise<any> {
   return !!obj && typeof obj.then === 'function';

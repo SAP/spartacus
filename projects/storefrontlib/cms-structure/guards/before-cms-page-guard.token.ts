@@ -18,15 +18,6 @@ import { CanActivateFn } from '@angular/router';
  *   }
  * })
  * ```
- *
- * ---
- *
- * It supports multiple guards. Each is evaluated before executing `{@link CmsPageGuard}`'s main logic.
- *
- * - If any of those guards returns `false` or `UrlTree`, the `{@link CmsPageGuard}`'s main logic won't be executed,
- *    but this value (`false` or `UrlTree`) will be returned as a result of the `{@link CmsPageGuard}`.
- * - If all those guards return `true`, the `{@link CmsPageGuard}`'s main logic will be executed.
- *
  */
 export const BEFORE_CMS_PAGE_GUARD = new InjectionToken<
   { canActivate: CanActivateFn }[]
