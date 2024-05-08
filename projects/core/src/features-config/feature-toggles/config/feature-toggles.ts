@@ -187,6 +187,11 @@ export interface FeatureTogglesInterface {
    */
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
 
+  /**
+   * Sets 'linkable' property in 'CellComponent' to be false by default.
+   * Modifies all table configs to acomodate this change.
+   * This stops unnecessary anchor tags from being rendered in the table cells.
+   */
   a11yOrganizationLinkableCells?: boolean;
 }
 
