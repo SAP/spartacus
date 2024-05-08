@@ -403,7 +403,9 @@ describe('AddedToCartDialogComponent', () => {
     it('should determine product from addingEntryResult in case provided', () => {
       spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
       const mockSuccessEvent = new CartAddEntrySuccessEvent();
-      mockSuccessEvent.productCode = 'NEW_PRODUCT_CODE';
+      const replacedProductCode = 'NEW_PRODUCT_CODE';
+      mockSuccessEvent.entry = { product: { code: replacedProductCode } };
+
       component.init(
         PRODUCT_CODE,
         QUANTITY,
@@ -413,7 +415,7 @@ describe('AddedToCartDialogComponent', () => {
       );
       component.entry$.subscribe(() => {
         expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
-          mockSuccessEvent.productCode
+          replacedProductCode
         );
       });
     });
