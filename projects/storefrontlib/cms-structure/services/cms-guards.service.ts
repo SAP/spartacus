@@ -99,17 +99,6 @@ export class CmsGuardsService {
   }
 }
 
-function isCanActivate(guard: any): guard is {
-  canActivate: CanActivateFn;
-} {
-  return (
-    guard &&
-    isFunction<{
-      canActivate: CanActivateFn;
-    }>(guard.canActivate)
-  );
-}
-
-function isFunction<T>(v: any): v is T {
-  return typeof v === 'function';
+function isCanActivate(guard: any): guard is CanActivate {
+  return guard && typeof guard.canActivate === 'function';
 }
