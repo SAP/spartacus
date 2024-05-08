@@ -381,7 +381,7 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   describe('init()', () => {
-    it('should compile addedCartEntryWasMerged$ from respective input attribute in case feature toggle adddedToCartDialogDrivenBySuccessEvent is active', () => {
+    it('should compile addedCartEntryWasMerged$ from respective input attribute in case feature toggle addedToCartDialogDrivenBySuccessEvent is active', () => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
       component.init(
         PRODUCT_CODE,
@@ -394,7 +394,7 @@ describe('AddedToCartDialogComponent', () => {
         cold('(t|)', { t: true })
       );
     });
-    it('should compile addedCartEntryWasMerged$ handling undefined input in case feature toggle adddedToCartDialogDrivenBySuccessEvent is active', () => {
+    it('should compile addedCartEntryWasMerged$ handling undefined input in case feature toggle addedToCartDialogDrivenBySuccessEvent is active', () => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
       component.init(
         PRODUCT_CODE,
@@ -407,7 +407,7 @@ describe('AddedToCartDialogComponent', () => {
         cold('(t|)', { t: false })
       );
     });
-    it('should compile addedCartEntryWasMerged$ from quantity comparison in case feature toggle adddedToCartDialogDrivenBySuccessEvent is not active', () => {
+    it('should compile addedCartEntryWasMerged$ from quantity comparison in case feature toggle addedToCartDialogDrivenBySuccessEvent is not active', () => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
       spyOn(activeCartFacade, 'getEntries').and.returnValue(
         cold('a', { a: mockOrderEntries })

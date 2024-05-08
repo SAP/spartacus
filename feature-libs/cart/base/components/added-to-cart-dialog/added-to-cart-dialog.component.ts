@@ -41,7 +41,7 @@ export interface AddedToCartDialogComponentData {
   quantity: number;
   /**
    * Number of cart entries before addToCart was triggered.
-   * @deprecated since 2211.24. Enable feature toggle 'adddedToCartDialogDrivenBySuccessEvent'
+   * @deprecated since 2211.24. Enable feature toggle 'addedToCartDialogDrivenBySuccessEvent'
    * and use attribute addedEntryWasMerged instead.
    */
   numberOfEntriesBeforeAdd?: number;
@@ -105,7 +105,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
             dialogData.productCode,
             dialogData.quantity,
             //numberOfEntriesBeforeAdd is needed only in case
-            //'adddedToCartDialogDrivenBySuccessEvent' is not active
+            //'addedToCartDialogDrivenBySuccessEvent' is not active
             dialogData.numberOfEntriesBeforeAdd ?? 0,
             dialogData.pickupStoreName,
             dialogData.addedEntryWasMerged
@@ -171,7 +171,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
 
     this.pickupStoreName = pickupStoreName;
     if (
-      this.featureConfig.isEnabled('adddedToCartDialogDrivenBySuccessEvent')
+      this.featureConfig.isEnabled('addedToCartDialogDrivenBySuccessEvent')
     ) {
       this.addedEntryWasMerged$ = of(addedEntryWasMerged);
     } else {
@@ -183,7 +183,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   /**
    * Determines if the added entry was merged with an existing one.
    *
-   * @deprecated since 2211.24. With activation of feature toggle 'adddedToCartDialogDrivenBySuccessEvent'
+   * @deprecated since 2211.24. With activation of feature toggle 'addedToCartDialogDrivenBySuccessEvent'
    * the method will no longer be called, instead the information whether the entry was merged
    * or not will be handed over to this component.
    *

@@ -32,7 +32,7 @@ export class AddedToCartDialogEventListener implements OnDestroy {
 
   protected onAddToCart() {
     if (
-      this.featureConfig.isEnabled('adddedToCartDialogDrivenBySuccessEvent')
+      this.featureConfig.isEnabled('addedToCartDialogDrivenBySuccessEvent')
     ) {
       this.subscription.add(
         this.eventService
@@ -55,7 +55,7 @@ export class AddedToCartDialogEventListener implements OnDestroy {
     }
   }
   /**
-   * @deprecated since 2211.24. With activation of feature toggle 'adddedToCartDialogDrivenBySuccessEvent'
+   * @deprecated since 2211.24. With activation of feature toggle 'addedToCartDialogDrivenBySuccessEvent'
    * the method is no longer called, instead method openModalAfterSuccess takes care of launching
    * the addedToCart dialogue.
    *
