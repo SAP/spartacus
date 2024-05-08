@@ -6,14 +6,14 @@
 
 import { Provider, StaticProvider, inject } from '@angular/core';
 import {
+  FeatureToggles,
   LoggerService,
   MULTI_ERROR_HANDLER,
   SERVER_REQUEST_ORIGIN,
   SERVER_REQUEST_URL,
-  provideFeatureTogglesFactory,
+  provideDefaultConfigFactory,
 } from '@spartacus/core';
 
-import { ENABLE_SSR_ERROR_HANDLING } from '../error-handling/enable-ssr-error-handling';
 import { ServerRespondingErrorHandler } from '../error-handling/multi-error-handlers';
 import { provideServerErrorResponseFactories } from '../error-handling/server-error-response-factory/provide-server-error-response-factories';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
@@ -42,17 +42,18 @@ export function provideServer(options?: ServerOptions): Provider[] {
       useFactory: serverLoggerServiceFactory,
     },
     {
-      provide: MULTI_ERROR_HANDLER, // we're going to provide it, but we'll enable this feature in other place
+      provide: MULTI_ERROR_HANDLER,
       useExisting: ServerRespondingErrorHandler,
       multi: true,
     },
-    provideServerErrorResponseFactories(), // we're going to provide it, but we'll enable this feature in other place
-    // TBD: to ensure that the necessary feature toggles are available if the feature is enabled
-    provideFeatureTogglesFactory(() => {
-      const isSsrErrorHandlingEnabled = inject(ENABLE_SSR_ERROR_HANDLING);
+    provideServerErrorResponseFactories(),
+    // turn on necessary features if serverErrorPropagation (name TBD) is toggles
+    provideDefaultConfigFactory(() => {
+      const isServerErrorPropagationEnabled =
+        inject(FeatureToggles).serverErrorPropagation;
       return {
-        ngrxErrorHandling: isSsrErrorHandlingEnabled,
-        httpErrorHandling: isSsrErrorHandlingEnabled,
+        ngrxErrorHandling: isServerErrorPropagationEnabled,
+        httpErrorHandling: isServerErrorPropagationEnabled,
       };
     }),
   ];

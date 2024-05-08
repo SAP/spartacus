@@ -9,22 +9,22 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { FeatureConfigService } from '../../features-config';
 import { ErrorAction } from '../../model/index';
+import { ErrorHandlingConfig } from '../config/error-handling-config';
 import { EffectsErrorHandlerService } from './effects-error-handler.service';
 
 @Injectable()
 export class CxErrorHandlerEffect {
   protected actions$ = inject(Actions);
   protected effectErrorHandler = inject(EffectsErrorHandlerService);
-  protected featureConfigService = inject(FeatureConfigService);
+  protected config = inject(ErrorHandlingConfig);
 
   error$: Observable<ErrorAction> = createEffect(
     () =>
       this.actions$.pipe(
         filter(this.effectErrorHandler.filterActions),
         tap((errorAction) => {
-          if (this.featureConfigService.isEnabled('ngrxErrorHandling')) {
+          if (this.config.ngrxErrorHandling) {
             this.effectErrorHandler.handleError(errorAction);
           }
         })

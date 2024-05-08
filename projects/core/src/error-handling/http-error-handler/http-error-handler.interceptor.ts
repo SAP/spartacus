@@ -15,7 +15,7 @@ import {
 import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FeatureConfigService } from '../../features-config';
+import { ErrorHandlingConfig } from '../config/error-handling-config';
 
 /**
  * This interceptor forwards all HTTP errors (e.g. 5xx or 4xx status response from backend)
@@ -27,14 +27,14 @@ import { FeatureConfigService } from '../../features-config';
 @Injectable()
 export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   protected errorHandler = inject(ErrorHandler);
-  protected featureService = inject(FeatureConfigService);
+  protected config = inject(ErrorHandlingConfig);
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     //double-check whether it is good way of handling HTTP errors from api calls
-    if (!this.featureService.isEnabled('httpErrorHandling')) {
+    if (!this.config.httpErrorHandling) {
       return next.handle(request);
     }
     return next.handle(request).pipe(

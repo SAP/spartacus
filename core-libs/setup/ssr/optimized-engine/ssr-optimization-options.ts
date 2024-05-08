@@ -139,11 +139,6 @@ export interface SsrOptimizationOptions {
     error?: Error | unknown;
     html?: string;
   }) => boolean;
-
-  /**
-   * Toggle for enabling the SSR error handling.
-   */
-  ssrErrorHandling?: boolean;
 }
 
 export enum RenderingStrategy {
@@ -165,5 +160,4 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   ),
   logger: new DefaultExpressServerLogger(),
   cachingStrategyResolver: (entry) => !entry.error,
-  ssrErrorHandling: true,
 };
