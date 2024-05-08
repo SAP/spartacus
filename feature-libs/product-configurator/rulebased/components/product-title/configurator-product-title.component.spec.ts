@@ -1,22 +1,23 @@
-import { ChangeDetectorRef, Component, Input, Type } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterState } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   I18nTestingModule,
   Product,
+  ProductScope,
   ProductService,
+  RouterState,
   RoutingService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
-  ConfiguratorType,
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
-import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -24,24 +25,27 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
 
+const mockProductConfiguration = ConfigurationTestData.productConfiguration;
+const PRODUCT_CODE = ConfigurationTestData.PRODUCT_CODE;
 const PRODUCT_DESCRIPTION = 'Here is a product description';
-const PRODUCT_CODE = 'CONF_LAPTOP';
 const PRODUCT_NAME = 'productName';
 const CONFIG_ID = '12342';
-const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
+const ORDER_ENTRY_KEY = '001+1';
+const CART_ENTRY_KEY = ORDER_ENTRY_KEY;
+const SAVED_CART_ENTRY_KEY = ORDER_ENTRY_KEY;
+const QUOTE_ENTRY_KEY = ORDER_ENTRY_KEY;
+const PRODUCT_SUFFIX = 'PRODUCT_';
+const ORDER_ENTRY_SUFFIX = 'ORDER_ENTRY_';
+const CART_ENTRY_SUFFIX = 'CART_ENTRY_';
+const SAVED_CART_ENTRY_SUFFIX = 'SAVED_CART_ENTRY_';
+const QUOTE_ENTRY_SUFFIX = 'QUOTE_ENTRY_';
 
-const mockRouterState: any = {
-  state: {
-    params: {
-      entityKey: PRODUCT_CODE,
-      ownerType: CommonConfigurator.OwnerType.PRODUCT,
-    },
-    semanticRoute: CONFIGURATOR_ROUTE,
-  },
-};
+const ROUTE_CONFIGURATION = 'configureCPQCONFIGURATOR';
+const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
 
-const config: Configurator.Configuration = {
+let mockConfiguration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     CONFIG_ID,
     ConfiguratorModelUtils.createOwner(
@@ -49,7 +53,6 @@ const config: Configurator.Configuration = {
       PRODUCT_CODE
     )
   ),
-
   productCode: PRODUCT_CODE,
   kbKey: {
     kbName: PRODUCT_CODE + '_KB',
@@ -59,36 +62,17 @@ const config: Configurator.Configuration = {
   },
 };
 
-const orderEntryconfig: Configurator.Configuration = {
-  ...ConfiguratorTestUtils.createConfiguration(
-    CONFIG_ID,
-    ConfiguratorModelUtils.createOwner(
-      CommonConfigurator.OwnerType.ORDER_ENTRY,
-      PRODUCT_CODE
-    )
-  ),
-  overview: {
-    configId: CONFIG_ID,
-    productCode: PRODUCT_CODE,
-  },
-};
-
-const orderEntryconfigWoOverview: Configurator.Configuration = {
-  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.ORDER_ENTRY,
-    key: ConfiguratorModelUtils.getOwnerKey(
-      CommonConfigurator.OwnerType.ORDER_ENTRY,
-      PRODUCT_CODE
-    ),
-    configuratorType: ConfiguratorType.VARIANT,
-  }),
+const mockOwner = mockProductConfiguration.owner;
+const mockRouterData: ConfiguratorRouter.Data = {
+  pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+  isOwnerCartEntry: false,
+  owner: mockOwner,
 };
 
 const imageURL = 'some URL';
 const altText = 'some text';
 
-const product: Product = {
+const mockProduct: Product = {
   name: PRODUCT_NAME,
   code: PRODUCT_CODE,
   description: PRODUCT_DESCRIPTION,
@@ -112,27 +96,45 @@ const product: Product = {
     },
   },
 };
-let configuration: Configurator.Configuration;
+
+class MockConfiguratorRouterExtractorService {
+  extractRouterData(): Observable<ConfiguratorRouter.Data> {
+    return routerDataObservable;
+  }
+}
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+    return routerStateObservable;
   }
+
+  go = () => Promise.resolve(true);
 }
+
+const mockRouterState: any = {
+  state: {
+    semanticRoute: ROUTE_CONFIGURATION,
+    params: {
+      entityKey: PRODUCT_CODE,
+      ownerType: CommonConfigurator.OwnerType.PRODUCT,
+    },
+    queryParams: {},
+  },
+};
 
 class MockRouter {
   public events = of('');
 }
 
-class MockProductService {
+class MockProductService implements Partial<ProductService> {
   get(): Observable<Product> {
-    return of(product);
+    return productObservable;
   }
 }
 
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(configuration);
+    return productConfigurationObservable;
   }
 }
 
@@ -159,21 +161,165 @@ class MockMediaComponent {
 
 class MockConfiguratorExpertModeService {
   setExpModeRequested(): void {}
+
   getExpModeRequested() {}
+
   setExpModeActive(): void {}
+
   getExpModeActive(): Observable<boolean> {
     return of(true);
   }
 }
 
-describe('ConfigProductTitleComponent', () => {
-  let component: ConfiguratorProductTitleComponent;
-  let fixture: ComponentFixture<ConfiguratorProductTitleComponent>;
-  let changeDetectorRef: ChangeDetectorRef;
-  let configuratorUtils: CommonConfiguratorUtilsService;
-  let configExpertModeService: ConfiguratorExpertModeService;
-  let htmlElem: HTMLElement;
+let component: ConfiguratorProductTitleComponent;
+let fixture: ComponentFixture<ConfiguratorProductTitleComponent>;
+let changeDetectorRef: ChangeDetectorRef;
+let configExpertModeService: ConfiguratorExpertModeService;
+let productService: ProductService;
+let htmlElem: HTMLElement;
+let routerDataObservable: Observable<any>;
+let routerStateObservable: Observable<any>;
+let productConfigurationObservable: Observable<any>;
+let productObservable: Observable<any>;
 
+function initialize() {
+  routerDataObservable = of(mockRouterData);
+  routerStateObservable = of(mockRouterState);
+  productConfigurationObservable = of(mockConfiguration);
+  productObservable = of(mockProduct);
+  fixture = TestBed.createComponent(ConfiguratorProductTitleComponent);
+  changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
+  htmlElem = fixture.nativeElement;
+  component = fixture.componentInstance;
+  component.ghostStyle = false;
+  fixture.detectChanges();
+}
+
+function setDataForProductConfiguration() {
+  mockConfiguration = {
+    ...ConfiguratorTestUtils.createConfiguration(
+      CONFIG_ID,
+      ConfiguratorModelUtils.createOwner(
+        CommonConfigurator.OwnerType.PRODUCT,
+        PRODUCT_CODE
+      )
+    ),
+    productCode: PRODUCT_CODE,
+    kbKey: {
+      kbName: PRODUCT_CODE + '_KB',
+      kbBuildNumber: '2',
+      kbLogsys: 'RR5CLNT910',
+      kbVersion: '1',
+    },
+  };
+
+  mockRouterState.state.params = {
+    entityKey: PRODUCT_CODE,
+    ownerType: CommonConfigurator.OwnerType.PRODUCT,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_CONFIGURATION;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.PRODUCT;
+  mockRouterData.owner.id = PRODUCT_CODE;
+}
+
+function setDataForOrderEntry() {
+  mockConfiguration = {
+    ...ConfiguratorTestUtils.createConfiguration(
+      CONFIG_ID,
+      ConfiguratorModelUtils.createOwner(
+        CommonConfigurator.OwnerType.ORDER_ENTRY,
+        PRODUCT_CODE
+      )
+    ),
+    overview: {
+      configId: CONFIG_ID,
+      productCode: ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
+    },
+  };
+
+  mockRouterState.state.params = {
+    entityKey: ORDER_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.ORDER_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
+  mockRouterData.owner.id = ORDER_ENTRY_KEY;
+  mockRouterData.productCode = undefined;
+}
+
+function setDataForCartEntry() {
+  mockConfiguration = {
+    ...ConfiguratorTestUtils.createConfiguration(
+      CONFIG_ID,
+      ConfiguratorModelUtils.createOwner(
+        CommonConfigurator.OwnerType.CART_ENTRY,
+        '0'
+      )
+    ),
+    productCode: PRODUCT_CODE,
+  };
+
+  mockRouterState.state.params = {
+    entityKey: CART_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.CART_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_CONFIGURATION;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
+  mockRouterData.owner.id = CART_ENTRY_KEY;
+  mockRouterData.productCode = CART_ENTRY_SUFFIX + PRODUCT_CODE;
+}
+
+function setDataForSavedCartEntry() {
+  mockConfiguration = {
+    ...ConfiguratorTestUtils.createConfiguration(
+      CONFIG_ID,
+      ConfiguratorModelUtils.createOwner(
+        CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
+        PRODUCT_CODE
+      )
+    ),
+    overview: {
+      configId: CONFIG_ID,
+      productCode: PRODUCT_CODE,
+    },
+  };
+
+  mockRouterState.state.params = {
+    entityKey: SAVED_CART_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.SAVED_CART_ENTRY;
+  mockRouterData.owner.id = SAVED_CART_ENTRY_KEY;
+  mockRouterData.productCode = SAVED_CART_ENTRY_SUFFIX + PRODUCT_CODE;
+}
+
+function setDataForQuoteEntry() {
+  mockConfiguration = {
+    ...ConfiguratorTestUtils.createConfiguration(
+      CONFIG_ID,
+      ConfiguratorModelUtils.createOwner(
+        CommonConfigurator.OwnerType.QUOTE_ENTRY,
+        PRODUCT_CODE
+      )
+    ),
+    overview: {
+      configId: CONFIG_ID,
+      productCode: PRODUCT_CODE,
+    },
+  };
+
+  mockRouterState.state.params = {
+    entityKey: QUOTE_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.QUOTE_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.QUOTE_ENTRY;
+  mockRouterData.owner.id = QUOTE_ENTRY_KEY;
+  mockRouterData.productCode = QUOTE_ENTRY_SUFFIX + PRODUCT_CODE;
+}
+
+describe('ConfigProductTitleComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -193,6 +339,10 @@ describe('ConfigProductTitleComponent', () => {
             useClass: MockRoutingService,
           },
           {
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorService,
+          },
+          {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },
@@ -209,55 +359,126 @@ describe('ConfigProductTitleComponent', () => {
       });
     })
   );
+
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfiguratorProductTitleComponent);
-    changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
-    htmlElem = fixture.nativeElement;
-    component = fixture.componentInstance;
-    component.ghostStyle = false;
+    initialize();
 
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
-    configuratorUtils.setOwnerKey(config.owner);
-    configuratorUtils.setOwnerKey(orderEntryconfig.owner);
-    configuration = config;
-
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
     spyOn(configExpertModeService, 'setExpModeActive').and.callThrough();
 
-    fixture.detectChanges();
+    productService = TestBed.inject(ProductService);
+    spyOn(productService, 'get').and.returnValue(productObservable);
   });
 
   it('should create component', () => {
+    setDataForProductConfiguration();
+    initialize();
     expect(component).toBeDefined();
   });
 
   describe('product$', () => {
-    it('should get product name as part of product of configuration', () => {
-      component.product$.subscribe((data: Product | undefined) => {
-        expect(data?.name).toEqual(PRODUCT_NAME);
-      });
+    it('should get product name as part of product configuration via config product code', () => {
+      setDataForProductConfiguration();
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
     });
 
-    it('should get product name as part of product from overview, in case configuration is order bound', () => {
-      configuration = orderEntryconfig;
-      component.product$.subscribe((data: Product | undefined) => {
-        expect(data?.name).toEqual(PRODUCT_NAME);
-      });
+    it('should get product name as part of product configuration via routerData product code', () => {
+      setDataForProductConfiguration();
+      mockRouterData.productCode = PRODUCT_SUFFIX + PRODUCT_CODE;
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        mockRouterData.productCode,
+        ProductScope.LIST
+      );
     });
 
-    it('should not emit in case an order bound configuration does not have the OV aspect (yet)', () => {
-      configuration = orderEntryconfigWoOverview;
-      const expected = cold('|');
-      expect(component.product$).toBeObservable(expected);
+    it('should get product name as part of product configuration via config product code in case configuration is cart bound and product is not provided with routing data', () => {
+      setDataForCartEntry();
+      mockConfiguration.productCode = PRODUCT_CODE;
+      mockRouterData.productCode = undefined;
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration in case configuration is cart bound and product is provided with routing data', () => {
+      setDataForCartEntry();
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        CART_ENTRY_SUFFIX + PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration via config product code in case configuration is saved cart bound and product code is not provided with routing data', () => {
+      setDataForSavedCartEntry();
+      mockConfiguration.productCode = PRODUCT_CODE;
+      mockRouterData.productCode = undefined;
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration in case configuration is saved cart bound and product code is provided with routing data', () => {
+      setDataForSavedCartEntry();
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        SAVED_CART_ENTRY_SUFFIX + PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration via config product code in case configuration is quote bound and product code is not provided with routing data', () => {
+      setDataForQuoteEntry();
+      mockConfiguration.productCode = PRODUCT_CODE;
+      mockRouterData.productCode = undefined;
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product configuration in case configuration is quote bound and product code is provided with routing data', () => {
+      setDataForQuoteEntry();
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        QUOTE_ENTRY_SUFFIX + PRODUCT_CODE,
+        ProductScope.LIST
+      );
+    });
+
+    it('should get product name as part of product from overview in case configuration is order bound and product code is not provided with routing data', () => {
+      setDataForOrderEntry();
+      initialize();
+
+      expect(productService.get).toHaveBeenCalledWith(
+        ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
+        ProductScope.LIST
+      );
     });
   });
 
   it('should render initial content properly', () => {
+    setDataForProductConfiguration();
+    initialize();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -284,6 +505,8 @@ describe('ConfigProductTitleComponent', () => {
   });
 
   it('should render show more case - default', () => {
+    setDataForProductConfiguration();
+    initialize();
     component.triggerDetails();
     changeDetectorRef.detectChanges();
 
@@ -303,7 +526,8 @@ describe('ConfigProductTitleComponent', () => {
   });
 
   it('should render properly for navigation from order entry', () => {
-    configuration = orderEntryconfig;
+    setDataForOrderEntry();
+    initialize();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -318,6 +542,9 @@ describe('ConfigProductTitleComponent', () => {
   });
 
   it('should render kb key details properly', () => {
+    setDataForProductConfiguration();
+    initialize();
+
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -349,7 +576,7 @@ describe('ConfigProductTitleComponent', () => {
       expect,
       htmlElem,
       'span.cx-value',
-      configuration.kbKey?.kbName ?? '',
+      mockConfiguration.kbKey?.kbName ?? '',
       0
     );
 
@@ -357,7 +584,7 @@ describe('ConfigProductTitleComponent', () => {
       expect,
       htmlElem,
       'span.cx-value',
-      configuration.kbKey?.kbLogsys ?? '',
+      mockConfiguration.kbKey?.kbLogsys ?? '',
       1
     );
 
@@ -365,7 +592,7 @@ describe('ConfigProductTitleComponent', () => {
       expect,
       htmlElem,
       'span.cx-value',
-      configuration.kbKey?.kbVersion ?? '',
+      mockConfiguration.kbKey?.kbVersion ?? '',
       2
     );
 
@@ -373,12 +600,17 @@ describe('ConfigProductTitleComponent', () => {
       expect,
       htmlElem,
       'span.cx-value',
-      configuration.kbKey?.kbBuildNumber ?? '',
+      mockConfiguration.kbKey?.kbBuildNumber ?? '',
       3
     );
   });
 
   describe('Accessibility', () => {
+    beforeEach(() => {
+      setDataForProductConfiguration();
+      initialize();
+    });
+
     it("should contain div element with class name 'cx-toggle-details-link-text' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -427,7 +659,7 @@ describe('ConfigProductTitleComponent', () => {
         'cx-toggle-details-link-text',
         undefined,
         'aria-label',
-        'configurator.a11y.showLessProductInfo product:' + product.name,
+        'configurator.a11y.showLessProductInfo product:' + mockProduct.name,
         'configurator.header.showLess'
       );
     });
@@ -482,7 +714,7 @@ describe('ConfigProductTitleComponent', () => {
         2,
         'aria-label',
         'configurator.a11y.productName',
-        product.name
+        mockProduct.name
       );
     });
 
@@ -495,7 +727,7 @@ describe('ConfigProductTitleComponent', () => {
         3,
         'aria-label',
         'configurator.a11y.productCode',
-        product.code
+        mockProduct.code
       );
     });
 
@@ -508,7 +740,7 @@ describe('ConfigProductTitleComponent', () => {
         4,
         'aria-label',
         'configurator.a11y.productDescription',
-        product.description
+        mockProduct.description
       );
     });
 
@@ -520,7 +752,7 @@ describe('ConfigProductTitleComponent', () => {
         'cx-label',
         0,
         'aria-label',
-        'configurator.a11y.kbKeyName name:' + configuration.kbKey?.kbName,
+        'configurator.a11y.kbKeyName name:' + mockConfiguration.kbKey?.kbName,
         'configurator.header.kbKeyName'
       );
     });
@@ -533,7 +765,8 @@ describe('ConfigProductTitleComponent', () => {
         'cx-label',
         1,
         'aria-label',
-        'configurator.a11y.kbKeyLogsys logsys:' + configuration.kbKey?.kbLogsys,
+        'configurator.a11y.kbKeyLogsys logsys:' +
+          mockConfiguration.kbKey?.kbLogsys,
         'configurator.header.kbKeyLogsys'
       );
     });
@@ -547,7 +780,7 @@ describe('ConfigProductTitleComponent', () => {
         2,
         'aria-label',
         'configurator.a11y.kbKeyVersion version:' +
-          configuration.kbKey?.kbVersion,
+          mockConfiguration.kbKey?.kbVersion,
         'configurator.header.kbKeyVersion'
       );
     });
@@ -561,7 +794,7 @@ describe('ConfigProductTitleComponent', () => {
         3,
         'aria-label',
         'configurator.a11y.kbKeyBuildNr number:' +
-          configuration.kbKey?.kbBuildNumber,
+          mockConfiguration.kbKey?.kbBuildNumber,
         'configurator.header.kbKeyBuildNr'
       );
     });
