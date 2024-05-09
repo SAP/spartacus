@@ -226,14 +226,5 @@
     "typescript": "^5.2.2",
     "webpack": "~5.76.1",
     "webpack-cli": "^4.10.0"
-  },
-  "overrides": {
-    "@nguniversal/builders": {
-      "qs": "6.12.0"
-    }
-  },
-  "resolutions": {
-    "@nguniversal/builders/browser-sync/qs": "6.12.0",
-    "@nguniversal/builders/browser-sync/ua-parser-js": "1.0.33"
   }
 }
