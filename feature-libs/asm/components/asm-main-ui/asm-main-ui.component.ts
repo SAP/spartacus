@@ -169,7 +169,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
                   this.subscription.add(
                     this.launchDialogService?.dialogClose
-                      .pipe(filter((result) => Boolean(result)))
+                      .pipe(filter((closeContent) => Boolean(closeContent)))
                       .subscribe((event: AsmDialogActionEvent) => {
                         this.asmComponentService.handleAsmDialogAction(event);
                       })
