@@ -8,6 +8,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Action } from '@ngrx/store';
 import { HttpErrorModel } from './index';
 
+// Related to CXSPA-7198
+// revert usage of this interface and eventually remove it from source code.
 export type ErrorActionType = HttpErrorResponse | HttpErrorModel | Error;
 
 export interface ErrorAction extends Action {

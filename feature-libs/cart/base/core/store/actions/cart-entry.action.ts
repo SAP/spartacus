@@ -55,7 +55,8 @@ export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementActi
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
-
+//Related to CXSPA-7198
+//might be more actions implementing ErrorAction
 export class CartAddEntryFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction

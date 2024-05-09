@@ -82,7 +82,8 @@ export class EntityFailAction implements EntityLoaderAction, ErrorAction {
 
   error: any;
 
-  /**@deprecated */
+  // Related to CXSPA-7198
+  /**@deprecated ADD PROPER INFO*/
   constructor(entityType: string, id: EntityId);
   // eslint-disable-next-line @typescript-eslint/unified-signatures
   constructor(entityType: string, id: EntityId, error: any);
