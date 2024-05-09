@@ -24,7 +24,11 @@ export class CxErrorHandlerEffect {
       this.actions$.pipe(
         filter(this.effectErrorHandler.filterActions),
         tap((errorAction) => {
-          if (this.featureConfigService.isEnabled('ngrxErrorHandling')) {
+          if (
+            this.featureConfigService.isEnabled(
+              'strictHttpAndNgrxErrorHandling'
+            )
+          ) {
             this.effectErrorHandler.handleError(errorAction);
           }
         })

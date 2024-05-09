@@ -27,14 +27,16 @@ import { FeatureConfigService } from '../../features-config';
 @Injectable()
 export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   protected errorHandler = inject(ErrorHandler);
-  protected featureService = inject(FeatureConfigService);
+  protected featureConfigService = inject(FeatureConfigService);
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     //double-check whether it is good way of handling HTTP errors from api calls
-    if (!this.featureService.isEnabled('httpErrorHandling')) {
+    if (
+      !this.featureConfigService.isEnabled('strictHttpAndNgrxErrorHandling')
+    ) {
       return next.handle(request);
     }
     return next.handle(request).pipe(
