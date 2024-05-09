@@ -204,16 +204,11 @@ export function addB2bS4ProductToCart() {
         xhr.response &&
         xhr.response.body &&
         xhr.response.body.entry &&
-        xhr.response.body.entry.scheduleLines &&
-        xhr.response.body.entry.arrivalSlots
+        xhr.response.body.entry.scheduleLines
       ) {
         window.sessionStorage.setItem(
           'TG11-scheduleLines',
           JSON.stringify(xhr.response.body.entry.scheduleLines)
-        );
-        window.sessionStorage.setItem(
-          'TG11-arrivalSlots',
-          JSON.stringify(xhr.response.body.entry.arrivalSlots)
         );
       }
     })
@@ -266,16 +261,6 @@ export function verifyScheduleLineInfo() {
       }
     );
   }
-}
-
-export function verifyArrivalSlotsInfo() {
-  let arrivalSlots = window.sessionStorage.getItem('TG11-arrivalSlots');
-  cy.wrap('arrivalSlots').should('not.be.null');
-
-  arrivalSlots = JSON.parse(arrivalSlots);
-  cy.wrap('arrivalSlots').should('have.length.at.least', 1);
-
-  cy.contains('Estimated delivery date');
 }
 
 export function proceedtoCheckOutS4Product() {
