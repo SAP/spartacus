@@ -32,6 +32,7 @@ export class ServerRespondingErrorHandler implements MultiErrorHandler {
   private featureConfigService = inject(FeatureConfigService);
 
   handleError(error: unknown): void {
+    // Related to CXSPA-6890
     if (this.featureConfigService.isEnabled('serverErrorPropagation')) {
       const cxServerErrorResponse = resolveApplicable(
         this.serverErrorResponseFactories,

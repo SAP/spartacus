@@ -49,6 +49,7 @@ export interface FeatureTogglesInterface {
   strictHttpAndNgrxErrorHandling?: boolean;
 
   /**
+   * Related to CXSPA-6890
    * Enable propagating errors occurred during server-side rendering to the server.
    */
   serverErrorPropagation?: boolean;

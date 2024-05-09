@@ -132,6 +132,7 @@ export interface SsrOptimizationOptions {
   logger?: ExpressServerLogger;
 
   /**
+   * Related to CXSPA-6890
    * WIP: Custom caching strategy resolver.
    * By default, the caching strategy is based on the presence of an error.
    */
@@ -144,6 +145,7 @@ export interface SsrOptimizationOptions {
   ) => boolean;
 
   /**
+   * Related to CXSPA-6890
    * Avoid caching of errors. By default, this value is false.
    *
    * NOTE: adjust this JSDoc about the consequences, why we suggest to avoid caching errors and inform that this should be treated as a feature toggle
