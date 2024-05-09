@@ -155,7 +155,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
               result.actionType === CustomerListColumnActionType.C360
             ) {
               this.customer$
-                .pipe(filter((customer) => customer != null))
+                .pipe(
+                  filter((curCustomer) => !!curCustomer),
+                  take(1)
+                )
                 .subscribe((customer) => {
                   const data = { customer: customer };
                   this.launchDialogService?.openDialogAndSubscribe(
