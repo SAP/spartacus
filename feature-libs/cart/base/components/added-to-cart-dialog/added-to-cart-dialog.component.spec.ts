@@ -16,12 +16,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
+  CartAddEntrySuccessEvent,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
 import {
   ActivatedRouterStateSnapshot,
-  FeatureConfigService,
   I18nTestingModule,
   RouterState,
   RoutingService,
@@ -138,7 +138,6 @@ describe('AddedToCartDialogComponent', () => {
   let el: DebugElement;
   let activeCartFacade: ActiveCartFacade;
   let launchDialogService: LaunchDialogService;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -178,7 +177,6 @@ describe('AddedToCartDialogComponent', () => {
     activeCartFacade = TestBed.inject(ActiveCartFacade);
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
 
     spyOn(activeCartFacade, 'updateEntry').and.callThrough();
 
@@ -381,34 +379,7 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   describe('init()', () => {
-    it('should compile addedCartEntryWasMerged$ from respective input attribute in case feature toggle adddedToCartDialogDrivenBySuccessEvent is active', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
-      component.init(
-        PRODUCT_CODE,
-        QUANTITY,
-        NUMBER_ENTRIES_BEFORE_ADD,
-        '',
-        true
-      );
-      expect(component.addedEntryWasMerged$).toBeObservable(
-        cold('(t|)', { t: true })
-      );
-    });
-    it('should compile addedCartEntryWasMerged$ handling undefined input in case feature toggle adddedToCartDialogDrivenBySuccessEvent is active', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
-      component.init(
-        PRODUCT_CODE,
-        QUANTITY,
-        NUMBER_ENTRIES_BEFORE_ADD,
-        '',
-        undefined
-      );
-      expect(component.addedEntryWasMerged$).toBeObservable(
-        cold('(t|)', { t: false })
-      );
-    });
-    it('should compile addedCartEntryWasMerged$ from quantity comparison in case feature toggle adddedToCartDialogDrivenBySuccessEvent is not active', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+    it('should compile addedCartEntryWasMerged$ from quantity comparison', () => {
       spyOn(activeCartFacade, 'getEntries').and.returnValue(
         cold('a', { a: mockOrderEntries })
       );
@@ -418,20 +389,52 @@ describe('AddedToCartDialogComponent', () => {
         cold('t', { t: true })
       );
     });
-  });
+    it('should determine product from input in case addingEntryResult in not provided', () => {
+      spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
 
-  describe('ngOnInit()', () => {
-    it('should default numberOfEntriesBeforeAdd with zero in case it is not provided from outside', () => {
-      numberOfEntriesBeforeAdd = undefined;
-      spyOn(component, 'init').and.callThrough();
-      component.ngOnInit();
-      expect(component.init).toHaveBeenCalledWith(
+      component.init(PRODUCT_CODE, QUANTITY, NUMBER_ENTRIES_BEFORE_ADD);
+      component.entry$.subscribe(() => {
+        expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
+          PRODUCT_CODE
+        );
+      });
+    });
+
+    it('should determine product from addingEntryResult in case provided', () => {
+      spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
+      const mockSuccessEvent = new CartAddEntrySuccessEvent();
+      const replacedProductCode = 'NEW_PRODUCT_CODE';
+      mockSuccessEvent.entry = { product: { code: 'NEW_PRODUCT_CODE' } };
+      component.init(
         PRODUCT_CODE,
         QUANTITY,
-        0,
-        PICKUP_STORE_NAME,
-        undefined
+        NUMBER_ENTRIES_BEFORE_ADD,
+        undefined,
+        of(mockSuccessEvent)
       );
+      component.entry$.subscribe(() => {
+        expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
+          replacedProductCode
+        );
+      });
+    });
+
+    it('should fallback to events product code from addingEntryResult in case entries product code does not exist', () => {
+      spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
+      const mockSuccessEvent = new CartAddEntrySuccessEvent();
+      mockSuccessEvent.productCode = PRODUCT_CODE;
+      component.init(
+        PRODUCT_CODE,
+        QUANTITY,
+        NUMBER_ENTRIES_BEFORE_ADD,
+        undefined,
+        of(mockSuccessEvent)
+      );
+      component.entry$.subscribe(() => {
+        expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
+          PRODUCT_CODE
+        );
+      });
     });
   });
 });
