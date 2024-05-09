@@ -336,6 +336,8 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   protected registerScriptReady(domain: GlobalFunctionsDomain): void {
     this.getGlobalFunctionContainer(domain).scriptReady = (
       _scriptIdentifier: string
-    ): void => {};
+    ): void => {
+      console.log('ready');
+    };
   }
 }

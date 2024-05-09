@@ -1,12 +1,15 @@
 import { Injectable, inject } from '@angular/core';
 import {
+  ActiveCartFacade,
+  Cart,
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
   CreateCartEvent,
 } from '@spartacus/cart/base/root';
 import { EventService, WindowRef } from '@spartacus/core';
 import { ProductQuantityChangedEvent } from '@spartacus/storefront';
-import { Subject, merge, takeUntil } from 'rxjs';
+import { Subject, merge, switchMap, takeUntil } from 'rxjs';
+import { OpfScriptIdentifierService } from './opf-cta-scripts-identifier.service';
 
 @Injectable()
 export class OpfCtaScriptEventBrokerService {
@@ -14,6 +17,8 @@ export class OpfCtaScriptEventBrokerService {
 
   protected eventService = inject(EventService);
   protected winRef = inject(WindowRef);
+  protected scriptIdentifierService = inject(OpfScriptIdentifierService);
+  protected activeCartService = inject(ActiveCartFacade);
 
   public listenOnRelevantEvents() {
     this.onCartChanged();
@@ -26,50 +31,58 @@ export class OpfCtaScriptEventBrokerService {
   }
 
   protected onCartChanged(): void {
+    // ADD SCRIPT READY EVENT // SHOULD IT WORK ON PDP? PROBABLY NOT
     merge(
       this.eventService.get(CartAddEntrySuccessEvent),
       this.eventService.get(CartRemoveEntrySuccessEvent),
       this.eventService.get(CreateCartEvent)
     )
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((val) => this.dispatchCartChangedEvent(val));
+      .pipe(
+        switchMap(() => this.activeCartService.getActive()),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((cart: Cart) => {
+        this.dispatchCartChangedEvent(cart.totalUnitCount);
+      });
   }
 
   protected onQuantityChanged(): void {
+    // ADD SCRIPT READY EVENT
     this.eventService
       .get(ProductQuantityChangedEvent)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((val) => this.dispatchProductAmountChangedEvent(val));
+      .subscribe((eventDetails: ProductQuantityChangedEvent) =>
+        this.dispatchProductAmountChangedEvent(eventDetails.quantity)
+      );
   }
 
-  protected dispatchProductAmountChangedEvent(value: any): void {
+  protected dispatchProductAmountChangedEvent(totalAmount: number): void {
     const dispatchEvent = this.winRef?.nativeWindow?.dispatchEvent;
-    console.log(value);
-
+    console.log('dispatchProductAmountChangedEvent', totalAmount);
     if (dispatchEvent) {
       dispatchEvent(
         new CustomEvent('productTotalAmountChanged', {
-          // detail: {
-          //   productInfo: this.productItems?.map((item) => ({
-          //     ...item,
-          //     fulfillmentLocationId:
-          //       this.fulfillmentLocation?.fulfillmentLocationId,
-          //   })),
-          //   scriptIdentifiers,
-          // },
+          detail: {
+            totalAmount,
+            scriptIdentifiers:
+              this.scriptIdentifierService.allScriptIdentifiers,
+          },
         })
       );
     }
   }
 
-  protected dispatchCartChangedEvent(value: any): void {
+  protected dispatchCartChangedEvent(totalAmount: number | undefined): void {
     const dispatchEvent = this.winRef?.nativeWindow?.dispatchEvent;
-    console.log(value);
-
-    if (dispatchEvent) {
+    console.log('dispatchCartChangedEvent');
+    if (dispatchEvent && totalAmount) {
       dispatchEvent(
         new CustomEvent('cartChanged', {
-          // detail: { cart: this.cart, scriptIdentifiers },
+          detail: {
+            totalAmount,
+            scriptIdentifiers:
+              this.scriptIdentifierService.allScriptIdentifiers,
+          },
         })
       );
     }
