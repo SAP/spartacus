@@ -15,20 +15,20 @@ import { EffectsErrorHandlerService } from './effects-error-handler.service';
 @Injectable()
 export class CxErrorHandlerEffect {
   protected actions$ = inject(Actions);
-  protected effectErrorHandler = inject(EffectsErrorHandlerService);
+  protected effectsErrorHandlerService = inject(EffectsErrorHandlerService);
   protected featureConfigService = inject(FeatureConfigService);
 
   error$: Observable<ErrorAction> = createEffect(
     () =>
       this.actions$.pipe(
-        filter(this.effectErrorHandler.filterActions),
+        filter(this.effectsErrorHandlerService.filterActions),
         tap((errorAction) => {
           if (
             this.featureConfigService.isEnabled(
               'strictHttpAndNgrxErrorHandling'
             )
           ) {
-            this.effectErrorHandler.handleError(errorAction);
+            this.effectsErrorHandlerService.handleError(errorAction);
           }
         })
       ),
