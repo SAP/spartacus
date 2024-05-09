@@ -188,7 +188,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
         );
 
         expect(divElementWithVisuallyHiddenClass?.innerHTML).toContain(
-          'estimatedDeliveryDate.a11y.estimatedDeliveryDateEntryInfo'
+          'estimatedDeliveryDate.estimatedDeliveryDateEntryInfo'
         );
       });
 
