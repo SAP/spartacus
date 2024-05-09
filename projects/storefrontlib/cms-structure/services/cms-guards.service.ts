@@ -11,8 +11,9 @@ import {
   FeatureConfigService,
   UnifiedInjector,
   getLastValueSync,
+  wrapIntoObservable,
 } from '@spartacus/core';
-import { Observable, concat, from, isObservable, of } from 'rxjs';
+import { Observable, concat, of } from 'rxjs';
 import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsComponentsService } from './cms-components.service';
 import { CanActivate, GuardsComposer } from './guards-composer';
@@ -49,10 +50,7 @@ export class CmsGuardsService {
         .map((guardClass) =>
           getLastValueSync(this.unifiedInjector.get<CanActivate>(guardClass))
         )
-        .filter(
-          (guardInstance): guardInstance is CanActivate =>
-            guardInstance !== undefined
-        );
+        .filter(isCanActivate);
       return this.guardsComposer.canActivate(guardsInstances, route, state);
     }
     // When the FeatureToggle 'cmsGuardsServiceUseGuardsComposer' is disabled,
@@ -101,35 +99,6 @@ export class CmsGuardsService {
   }
 }
 
-function wrapIntoObservable<T>(
-  value: T | Promise<T> | Observable<T>
-): Observable<T> {
-  if (isObservable(value)) {
-    return value;
-  }
-
-  if (isPromise(value)) {
-    return from(Promise.resolve(value));
-  }
-
-  return of(value);
-}
-
-function isPromise(obj: any): obj is Promise<any> {
-  return !!obj && typeof obj.then === 'function';
-}
-
-function isCanActivate(guard: any): guard is {
-  canActivate: CanActivateFn;
-} {
-  return (
-    guard &&
-    isFunction<{
-      canActivate: CanActivateFn;
-    }>(guard.canActivate)
-  );
-}
-
-function isFunction<T>(v: any): v is T {
-  return typeof v === 'function';
+function isCanActivate(guard: any): guard is CanActivate {
+  return guard && typeof guard.canActivate === 'function';
 }
