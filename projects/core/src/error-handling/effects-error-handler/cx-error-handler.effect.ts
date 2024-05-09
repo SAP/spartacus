@@ -23,6 +23,7 @@ export class CxErrorHandlerEffect {
       this.actions$.pipe(
         filter(this.effectsErrorHandlerService.filterActions),
         tap((errorAction) => {
+          // Related to CXSPA-7197
           if (
             this.featureConfigService.isEnabled(
               'strictHttpAndNgrxErrorHandling'

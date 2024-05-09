@@ -44,6 +44,7 @@ export interface FeatureTogglesInterface {
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
+   * Related to CXSPA-7197
    * Enable strict error handling for errors occurred in HTTP calls and in NgRx failure actions.
    */
   strictHttpAndNgrxErrorHandling?: boolean;

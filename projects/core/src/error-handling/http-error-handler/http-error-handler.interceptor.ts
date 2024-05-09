@@ -34,6 +34,7 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     //double-check whether it is good way of handling HTTP errors from api calls
     if (
+      // Related to CXSPA-7197
       !this.featureConfigService.isEnabled('strictHttpAndNgrxErrorHandling')
     ) {
       return next.handle(request);
