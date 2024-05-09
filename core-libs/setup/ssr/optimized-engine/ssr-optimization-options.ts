@@ -144,7 +144,7 @@ export interface SsrOptimizationOptions {
   ) => boolean;
 
   /**
-   * Enable caching of errors. By default, errors are not cached.
+   * Avoid caching of errors. By default, this value is true.
    */
   avoidCachingErrors?: boolean;
 }
