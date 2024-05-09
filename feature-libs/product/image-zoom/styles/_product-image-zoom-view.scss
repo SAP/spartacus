@@ -91,4 +91,32 @@ cx-product-image-zoom-view {
       }
     }
   }
+  .cx-image-container {
+    position: relative;
+    .cx-indicator-container {
+      width: auto;
+      height: auto;
+      position: absolute;
+      padding: 2%;
+      top: 0;
+      right: 0;
+    }
+    .cx-zoom-btn {
+      position: relative;
+      padding: 0;
+      & > * {
+        text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+        font-size: 1.5rem;
+        opacity: 0.7;
+      }
+      &:focus {
+        box-shadow: none;
+      }
+      .cx-zoom-indicator {
+        position: absolute;
+        top: 17%;
+        right: 40%;
+      }
+    }
+  }
 }

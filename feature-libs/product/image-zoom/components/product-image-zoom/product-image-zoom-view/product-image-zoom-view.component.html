@@ -9,23 +9,32 @@
         <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
       </button>
     </div>
-    <cx-media
-      #defaultImage
-      class="cx-default-image-zoom"
-      *ngIf="!isZoomed"
-      [container]="main"
-    >
-    </cx-media>
-    <div #zoomContainer class="cx-zoom-container" *ngIf="isZoomed">
+    <div class="cx-image-container">
       <cx-media
-        #zoomedImage
-        class="cx-image-zoomed"
+        #defaultImage
+        class="cx-default-image-zoom"
+        *ngIf="!isZoomed"
         [container]="main"
-        (mousemove)="pointerMove($event)"
-        (touchmove)="touchMove($event)"
-        (touchend)="clearTouch()"
       >
       </cx-media>
+      <div #zoomContainer class="cx-zoom-container" *ngIf="isZoomed">
+        <cx-media
+          #zoomedImage
+          class="cx-image-zoomed"
+          [container]="main"
+          (mousemove)="pointerMove($event)"
+          (touchmove)="touchMove($event)"
+          (touchend)="clearTouch()"
+        >
+        </cx-media>
+      </div>
+      <div class="cx-indicator-container">
+        <button class="btn btn-link cx-zoom-btn" (click)="zoom()">
+          <span *ngIf="!isZoomed" class="cx-zoom-indicator">+</span>
+          <span *ngIf="isZoomed" class="cx-zoom-indicator">−</span>
+          <cx-icon [type]="iconType.SEARCH"></cx-icon>
+        </button>
+      </div>
     </div>
     <div class="cx-navigate-image">
       <button
