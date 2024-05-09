@@ -8,6 +8,6 @@ describe('Scss Styles', () => {
   );
 
   testFiles.forEach((file) =>
-    sassTrue.runSass({ file: file }, { describe, it })
+    sassTrue.runSass({ describe, it }, file)
   );
 });
