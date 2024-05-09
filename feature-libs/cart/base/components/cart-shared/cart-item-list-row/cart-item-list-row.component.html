@@ -70,7 +70,7 @@
         </div>
       </div>
     </ng-container>
-  </td>
+  </td> 
   <!-- Mobile Item Price -->
   <td role="cell" *ngIf="item.basePrice" class="cx-price cx-mobile-only">
     <div class="cx-mobile-header">
@@ -99,6 +99,16 @@
       </cx-item-counter>
     </div>
   </td>
+
+
+   <!-- Quote Discount -->
+   <td role="cell"  class="cx-total">
+  <ng-template [cxOutlet]="CartOutlets.CPQ_QUOTE_MODULE" [cxOutletContext]="{
+    items: item, 
+  }"></ng-template>
+  </td>
+ 
+
   <!-- Total -->
   <ng-container *ngIf="options.isSaveForLater; else total">
     <td role="cell" class="cx-total">
