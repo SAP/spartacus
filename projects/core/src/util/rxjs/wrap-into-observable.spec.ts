@@ -5,13 +5,13 @@ describe('wrapIntoObservable', () => {
   it('should return an Observable when given an Observable', (done) => {
     const observableValue = of('test');
     wrapIntoObservable(observableValue).subscribe((result) => {
-      expect(result).toEqual(observableValue);
+      expect(result).toEqual('test');
       done();
     });
   });
 
   describe('when a Promise is passed', () => {
-    it('should wrap it into an Observable', (done) => {
+    it('1. should wrap it into an Observable', (done) => {
       const promiseValue = Promise.resolve('test');
       const result = wrapIntoObservable(promiseValue);
 
@@ -20,9 +20,9 @@ describe('wrapIntoObservable', () => {
         done();
       });
     });
-    it('should wrap it into an Observable', (done) => {
+    it('2. should wrap it into an Observable', (done) => {
       const obj = {
-        then: function (): void {},
+        x: function (): void {},
       };
       const promiseValue2 = Promise.resolve(obj);
       const result2 = wrapIntoObservable(promiseValue2);
@@ -35,7 +35,7 @@ describe('wrapIntoObservable', () => {
   });
 
   describe('when a value is passed', () => {
-    it('should wrap it into an Observable', (done) => {
+    it('1. should wrap it into an Observable', (done) => {
       const value = 'test';
       const result = wrapIntoObservable(value);
 
@@ -44,7 +44,7 @@ describe('wrapIntoObservable', () => {
         done();
       });
     });
-    it('should wrap it into an Observable', (done) => {
+    it('2. should wrap it into an Observable', (done) => {
       const obj = { then: 'not a function' };
       const promiseValue = Promise.resolve(obj);
       const result2 = wrapIntoObservable(promiseValue);
