@@ -145,6 +145,9 @@ export interface SsrOptimizationOptions {
 
   /**
    * Avoid caching of errors. By default, this value is false.
+   *
+   * NOTE: adjust this JSDoc about the consequences, why we suggest to avoid caching errors and inform that this should be treated as a feature toggle
+   * and eventually will be removed in a future (probably in ~12 months)
    */
   avoidCachingErrors?: boolean;
 }
