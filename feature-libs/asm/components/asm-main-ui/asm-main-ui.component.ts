@@ -81,7 +81,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   @ViewChild('customerListLink') element: ElementRef;
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
-  @ViewChild('asmCustomer360Launcher') asmCustomer360LauncherElement: ElementRef;
+  @ViewChild('asmCustomer360Launcher')
+  asmCustomer360LauncherElement: ElementRef;
 
   constructor(
     protected authService: AuthService,
@@ -149,13 +150,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
               result.actionType === CustomerListColumnActionType.ACTIVE_CART
             ) {
               this.routingService.go({ cxRoute: 'cart' });
-            } else if(
+            } else if (
               'actionType' in result &&
               result.actionType === CustomerListColumnActionType.C360
             ) {
-              this.customer$.pipe(filter((customer) => customer != null)).
-              subscribe(
-                customer => {
+              this.customer$
+                .pipe(filter((customer) => customer != null))
+                .subscribe((customer) => {
                   const data = { customer: customer };
                   this.launchDialogService?.openDialogAndSubscribe(
                     LAUNCH_CALLER.ASM_CUSTOMER_360,
@@ -170,8 +171,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
                         this.asmComponentService.handleAsmDialogAction(event);
                       })
                   );
-                }
-              );
+                });
             }
           }
         })
