@@ -146,7 +146,7 @@ export interface SsrOptimizationOptions {
   /**
    * Enable caching of errors. By default, errors are not cached.
    */
-  cacheErrors?: boolean;
+  avoidCachingErrors?: boolean;
 }
 
 export enum RenderingStrategy {
@@ -168,6 +168,6 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   ),
   logger: new DefaultExpressServerLogger(),
   cacheStrategyResolver: (options, entry) =>
-    !!options.cacheErrors && !!entry.error,
-  cacheErrors: false,
+    !(options.avoidCachingErrors === true && Boolean(entry.error)),
+  avoidCachingErrors: false,
 };
