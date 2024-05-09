@@ -44,6 +44,7 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
+import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 interface CartTypeKey {
   [key: string]: string;
 }
@@ -80,6 +81,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   @ViewChild('customerListLink') element: ElementRef;
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
+  @ViewChild('asmCustomer360Launcher') asmCustomer360LauncherElement: ElementRef;
 
   constructor(
     protected authService: AuthService,
@@ -147,6 +149,29 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
               result.actionType === CustomerListColumnActionType.ACTIVE_CART
             ) {
               this.routingService.go({ cxRoute: 'cart' });
+            } else if(
+              'actionType' in result &&
+              result.actionType === CustomerListColumnActionType.C360
+            ) {
+              this.customer$.pipe(filter((customer) => customer != null)).
+              subscribe(
+                customer => {
+                  const data = { customer: customer };
+                  this.launchDialogService?.openDialogAndSubscribe(
+                    LAUNCH_CALLER.ASM_CUSTOMER_360,
+                    this.asmCustomer360LauncherElement,
+                    data
+                  );
+
+                  this.subscription.add(
+                    this.launchDialogService?.dialogClose
+                      .pipe(filter((result) => Boolean(result)))
+                      .subscribe((event: AsmDialogActionEvent) => {
+                        this.asmComponentService.handleAsmDialogAction(event);
+                      })
+                  );
+                }
+              );
             }
           }
         })

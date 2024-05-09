@@ -61,6 +61,14 @@ export const defaultAsmConfig: AsmConfig = {
           },
           actionType: CustomerListColumnActionType.ORDER_HISTORY,
         },
+        {
+          headerLocalizationKey: 'asm.customerList.tableHeader.view',
+          icon: {
+            symbol: ICON_TYPE.LINK_OUT,
+            captionLocalizationKey: 'asm.customerList.tableHeader.view',
+          },
+          actionType: CustomerListColumnActionType.C360,
+        },
       ],
     },
     userIdHttpHeader: {

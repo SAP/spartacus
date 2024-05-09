@@ -461,6 +461,22 @@ describe('AsmMainUiComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
   });
 
+  it('should be able to open c360 dialogy', () => {
+    component.showCustomList();
+    spyOn(launchDialogService, 'openDialogAndSubscribe');
+
+    dialogClose$.next({
+      selectedUser: {},
+      actionType: CustomerListColumnActionType.C360,
+    });
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ASM_CUSTOMER_360,
+      component.asmCustomer360LauncherElement,
+      // any parameter is accept
+      jasmine.any(Object)
+    );
+  });
+
   it('should be able to open create account dialog', () => {
     spyOn(launchDialogService, 'openDialogAndSubscribe');
     component.createCustomer();
