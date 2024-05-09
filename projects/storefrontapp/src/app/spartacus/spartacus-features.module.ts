@@ -297,6 +297,7 @@ if (environment.requestedDeliveryDate) {
         a11yFocusableCarouselControls: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yTruncatedTextForResponsiveView: true,
       };
       return appFeatureToggles;
     }),
