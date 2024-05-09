@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { waitForPage } from './checkout-flow';
 import { SampleProduct } from '../sample-data/checkout-flow';
 
