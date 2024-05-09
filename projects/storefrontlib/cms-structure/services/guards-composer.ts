@@ -9,8 +9,6 @@ import { CanActivateFn, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { CmsActivatedRouteSnapshot, wrapIntoObservable } from '@spartacus/core';
 import { Observable, concat, endWith, first, of, skipWhile } from 'rxjs';
 
-// Move it all to the service:
-
 /**
  * Replacement for the Angular's deprecated type `CanActivate`.
  */
@@ -87,13 +85,6 @@ export class GuardsComposer {
    * Tells whether the given object has a `canActivate` method.
    */
   protected isCanActivate(guard: any): guard is CanActivate {
-    return guard && this.isFunction<CanActivate>(guard.canActivate);
-  }
-
-  /**
-   * Tells whether the given object is a function.
-   */
-  protected isFunction<T>(v: any): v is T {
-    return typeof v === 'function';
+    return guard && typeof guard.canActivate === 'function';
   }
 }

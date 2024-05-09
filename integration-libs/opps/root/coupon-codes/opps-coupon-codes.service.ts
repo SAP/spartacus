@@ -34,9 +34,4 @@ export class OppsCouponCodesService {
       return this.winRef.localStorage?.getItem(this.localStorageKey);
     }
   }
-  clearCouponCodes(): void {
-    if (this.localStorageKey) {
-      this.winRef.localStorage?.removeItem(this.localStorageKey);
-    }
-  }
 }

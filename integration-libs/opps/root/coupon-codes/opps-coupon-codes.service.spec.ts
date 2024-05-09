@@ -51,12 +51,6 @@ describe('OppsCouponCodesService', () => {
       );
       expect(winRef.localStorage?.getItem).toHaveBeenCalledWith('test-key');
     });
-    it('should remove coupon codes from local storage', () => {
-      spyOn(winRef.localStorage, 'removeItem').and.callThrough();
-      service.clearCouponCodes();
-      expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith('test-key');
-      expect(service.getCouponCodes()).toBeNull();
-    });
   });
 
   describe('if local storage key and url parameter is not configured', () => {
@@ -88,11 +82,6 @@ describe('OppsCouponCodesService', () => {
       spyOn(winRef.localStorage, 'getItem').and.callThrough();
       service.getCouponCodes();
       expect(winRef.localStorage?.getItem).not.toHaveBeenCalled();
-    });
-    it('should not delete coupon from local storage', () => {
-      spyOn(winRef.localStorage, 'removeItem').and.callThrough();
-      service.clearCouponCodes();
-      expect(winRef.localStorage?.removeItem).not.toHaveBeenCalled();
     });
   });
 });

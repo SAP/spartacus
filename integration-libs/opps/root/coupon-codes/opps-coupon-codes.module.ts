@@ -10,8 +10,8 @@ import { oppsCouponCodesInterceptors } from './http-interceptors';
 import { OppsCouponCodesService } from './opps-coupon-codes.service';
 
 export function saveCouponCodesFactory(): () => void {
+  const service = inject(OppsCouponCodesService);
   return () => {
-    const service = inject(OppsCouponCodesService);
     service.saveUrlCouponCodes();
   };
 }
