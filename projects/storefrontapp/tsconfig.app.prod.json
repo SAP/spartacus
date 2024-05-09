@@ -266,6 +266,14 @@
       "@spartacus/product/variants": ["dist/product/variants"],
       "@spartacus/product/variants/occ": ["dist/product/variants/occ"],
       "@spartacus/product/variants/root": ["dist/product/variants/root"],
+      "@spartacus/product/multi-d": ["dist/product/multi-d"],
+      "@spartacus/product/multi-d/assets": ["dist/product/multi-d/assets"],
+      "@spartacus/product/multi-d/components": [
+        "dist/product/multi-d/components"
+      ],
+      "@spartacus/product/multi-d/core": ["dist/product/multi-d/core"],
+      "@spartacus/product/multi-d/occ": ["dist/product/multi-d/occ"],
+      "@spartacus/product/multi-d/root": ["dist/product/multi-d/root"],
       "@spartacus/qualtrics/components": ["dist/qualtrics/components"],
       "@spartacus/qualtrics": ["dist/qualtrics"],
       "@spartacus/qualtrics/root": ["dist/qualtrics/root"],

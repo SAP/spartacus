@@ -402,6 +402,24 @@
       "@spartacus/product/variants/root": [
         "../../feature-libs/product/variants/root/public_api"
       ],
+      "@spartacus/product/multi-d": [
+        "../../feature-libs/product/multi-d/public_api"
+      ],
+      "@spartacus/product/multi-d/assets": [
+        "../../feature-libs/product/multi-d/assets/public_api"
+      ],
+      "@spartacus/product/multi-d/components": [
+        "../../feature-libs/product/multi-d/components/public_api"
+      ],
+      "@spartacus/product/multi-d/core": [
+        "../../feature-libs/product/multi-d/core/public_api"
+      ],
+      "@spartacus/product/multi-d/occ": [
+        "../../feature-libs/product/multi-d/occ/public_api"
+      ],
+      "@spartacus/product/multi-d/root": [
+        "../../feature-libs/product/multi-d/root/public_api"
+      ],
       "@spartacus/qualtrics/components": [
         "../../feature-libs/qualtrics/components/public_api"
       ],

@@ -95,7 +95,8 @@
       "ProductSpecsTabComponent": "Specs",
       "ProductReviewsTabComponent": "Reviews",
       "deliveryTab": "Shipping",
-      "SparePartsTabComponent": " Spare Parts"
+      "SparePartsTabComponent": " Spare Parts",
+      "ProductOrderGridTabComponent": "Order Grid"
     },
     "tabPanelContainerRegion": "Tab group with more product details"
   },
