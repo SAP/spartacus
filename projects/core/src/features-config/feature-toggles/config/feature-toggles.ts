@@ -44,6 +44,18 @@ export interface FeatureTogglesInterface {
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
+   * Related to CXSPA-7197
+   * Enable strict error handling for errors occurred in HTTP calls and in NgRx failure actions.
+   */
+  strictHttpAndNgrxErrorHandling?: boolean;
+
+  /**
+   * Related to CXSPA-6890
+   * Enable propagating errors occurred during server-side rendering to the server.
+   */
+  serverErrorPropagation?: boolean;
+
+  /**
    * Adds asterisks to required form fields in all components existing before v2211.20
    */
   a11yRequiredAsterisks?: boolean;
@@ -160,6 +172,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
   productConfiguratorAttributeTypesV2: false,
+  strictHttpAndNgrxErrorHandling: false,
+  serverErrorPropagation: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,

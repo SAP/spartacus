@@ -130,6 +130,28 @@ export interface SsrOptimizationOptions {
    * By default, the DefaultExpressServerLogger is used.
    */
   logger?: ExpressServerLogger;
+
+  /**
+   * Related to CXSPA-6890
+   * WIP: Custom caching strategy resolver.
+   * By default, the caching strategy is based on the presence of an error.
+   */
+  cacheStrategyResolver?: (
+    config: SsrOptimizationOptions,
+    entry: {
+      error?: Error | unknown;
+      html?: string;
+    }
+  ) => boolean;
+
+  /**
+   * Related to CXSPA-6890
+   * Avoid caching of errors. By default, this value is false.
+   *
+   * NOTE: adjust this JSDoc about the consequences, why we suggest to avoid caching errors and inform that this should be treated as a feature toggle
+   * and eventually will be removed in a future (probably in ~12 months)
+   */
+  avoidCachingErrors?: boolean;
 }
 
 export enum RenderingStrategy {
@@ -150,4 +172,7 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
     defaultRenderingStrategyResolverOptions
   ),
   logger: new DefaultExpressServerLogger(),
+  cacheStrategyResolver: (options, entry) =>
+    !(options.avoidCachingErrors === true && Boolean(entry.error)),
+  avoidCachingErrors: false,
 };

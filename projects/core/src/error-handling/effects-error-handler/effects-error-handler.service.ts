@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorHandler, Injectable } from '@angular/core';
+import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { Action } from '@ngrx/store';
 import {
   ErrorAction,
@@ -15,7 +15,7 @@ import {
 
 @Injectable()
 export class EffectsErrorHandlerService {
-  constructor(protected errorHandler: ErrorHandler) {}
+  protected errorHandler = inject(ErrorHandler);
 
   handleError(action: ErrorAction): void {
     const error: ErrorActionType = action.error;

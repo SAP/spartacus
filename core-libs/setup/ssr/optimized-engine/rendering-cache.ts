@@ -37,7 +37,14 @@ export class RenderingCache {
         this.renders.delete(this.renders.keys().next().value);
       }
     }
-    this.renders.set(key, entry);
+    // Related to CXSPA-6890
+    // cache only if cachingStrategyResolver return true
+    if (
+      this.options?.cacheStrategyResolver &&
+      this.options?.cacheStrategyResolver(this.options, entry)
+    ) {
+      this.renders.set(key, entry);
+    }
   }
 
   get(key: string): RenderingEntry | undefined {

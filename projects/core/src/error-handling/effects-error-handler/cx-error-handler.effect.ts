@@ -4,28 +4,35 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
+import { FeatureConfigService } from '../../features-config';
 import { ErrorAction } from '../../model/index';
 import { EffectsErrorHandlerService } from './effects-error-handler.service';
 
 @Injectable()
 export class CxErrorHandlerEffect {
+  protected actions$ = inject(Actions);
+  protected effectsErrorHandlerService = inject(EffectsErrorHandlerService);
+  protected featureConfigService = inject(FeatureConfigService);
+
   error$: Observable<ErrorAction> = createEffect(
     () =>
       this.actions$.pipe(
-        filter(this.effectErrorHandler.filterActions),
-        tap((errorAction: ErrorAction) =>
-          this.effectErrorHandler.handleError(errorAction)
-        )
+        filter(this.effectsErrorHandlerService.filterActions),
+        tap((errorAction) => {
+          // Related to CXSPA-7197
+          if (
+            this.featureConfigService.isEnabled(
+              'strictHttpAndNgrxErrorHandling'
+            )
+          ) {
+            this.effectsErrorHandlerService.handleError(errorAction);
+          }
+        })
       ),
     { dispatch: false }
   );
-
-  constructor(
-    protected actions$: Actions,
-    protected effectErrorHandler: EffectsErrorHandlerService
-  ) {}
 }

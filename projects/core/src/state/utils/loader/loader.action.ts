@@ -76,6 +76,11 @@ export class LoaderFailAction implements LoaderAction, ErrorAction {
   error: ErrorActionType;
   readonly meta: LoaderMeta;
 
+  constructor(entityType: string, error: ErrorActionType);
+  /**
+   * @deprecated
+   */
+  constructor(entityType: string, error?: any);
   constructor(entityType: string, error: ErrorActionType) {
     this.meta = failMeta(entityType, error);
     this.error = error;

@@ -5,6 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../model';
 import { EntityId, entityMeta, EntityMeta } from '../entity/entity.action';
 import {
   failMeta,
@@ -75,11 +76,28 @@ export class EntityLoadAction implements EntityLoaderAction {
   }
 }
 
-export class EntityFailAction implements EntityLoaderAction {
+export class EntityFailAction implements EntityLoaderAction, ErrorAction {
   type = ENTITY_FAIL_ACTION;
   readonly meta: EntityLoaderMeta;
-  constructor(entityType: string, id: EntityId, public error?: any) {
+
+  error: any;
+
+  // Related to CXSPA-7198
+  /**@deprecated ADD PROPER INFO*/
+  constructor(entityType: string, id: EntityId);
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(entityType: string, id: EntityId, error: any);
+  constructor(entityType: string, id: EntityId, error?: any) {
     this.meta = entityFailMeta(entityType, id, error);
+    if (error) {
+      this.error = error;
+    } else {
+      // fallback needed only until we make the `error` property a required one
+      const stringId = Array.isArray(id) ? `[${id.join(',')}]` : id;
+      this.error = new Error(
+        `EntityFailAction - entityType: ${entityType}, id: ${stringId}`
+      );
+    }
   }
 }
 
