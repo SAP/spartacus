@@ -6,8 +6,9 @@
  */
 
 import { NgModule } from '@angular/core';
+import { EstimatedDeliveryDateComponentModule } from './components';
+
 @NgModule({
-  declarations: [],
-  imports: [],
+  imports: [EstimatedDeliveryDateComponentModule],
 })
 export class EstimatedDeliveryDateModule {}

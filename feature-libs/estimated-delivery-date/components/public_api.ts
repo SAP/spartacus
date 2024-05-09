@@ -5,7 +5,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
-
-@NgModule({})
-export class EstimatedDeliveryDateRootModule {}
+export * from './index';

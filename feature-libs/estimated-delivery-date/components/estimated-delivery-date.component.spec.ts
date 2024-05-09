@@ -8,8 +8,8 @@ import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { EstimatedDeliveryDateComponent } from './estimated-delivery-date.component';
-import { ArrivalSlots } from '../../model';
 import { Consignment, Order, OrderHistoryFacade } from '@spartacus/order/root';
+import { ArrivalSlots } from '../root/model';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
