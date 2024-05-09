@@ -5,3 +5,4 @@
  */
 
 export * from './opps-login-required.module';
+export * from './opps-login-required.guard';

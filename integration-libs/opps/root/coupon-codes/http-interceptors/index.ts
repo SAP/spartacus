@@ -15,3 +15,5 @@ export const oppsCouponCodesInterceptors: Provider[] = [
     multi: true,
   },
 ];
+
+export * from './occ-opps-coupon-codes.interceptor';
