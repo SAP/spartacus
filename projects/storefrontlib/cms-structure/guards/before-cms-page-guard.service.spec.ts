@@ -33,7 +33,7 @@ describe('BeforeCmsPageGuardService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call canActivate and return value', () => {
+  it('should call canActivate and return value', (done) => {
     const route: CmsActivatedRouteSnapshot = {} as CmsActivatedRouteSnapshot;
     const state: RouterStateSnapshot = {} as RouterStateSnapshot;
 
@@ -46,6 +46,7 @@ describe('BeforeCmsPageGuardService', () => {
         state
       );
       expect(value).toEqual(true);
+      done();
     });
   });
 });

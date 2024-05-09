@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterStateSnapshot, UrlTree } from '@angular/router';
 import { CmsActivatedRouteSnapshot } from '@spartacus/core';
-import { of } from 'rxjs';
+import { delay, of } from 'rxjs';
 import { CanActivate, GuardsComposer } from './guards-composer';
 const route = {} as CmsActivatedRouteSnapshot;
 const state = {} as RouterStateSnapshot;
@@ -67,25 +67,57 @@ describe('GuardsComposer', () => {
     });
   });
 
-  it('should return first encountered false / UrlTree', (done) => {
-    const guards1: CanActivate[] = [
-      { canActivate: () => of(true) },
-      { canActivate: () => of(urlTree) },
-      { canActivate: () => of(false) },
-    ];
+  describe('when guards returns mix of false / UrlTree / true', () => {
+    it('should return first encountered value - UrlTree in this case', (done) => {
+      const guards1: CanActivate[] = [
+        { canActivate: () => of(true) },
+        { canActivate: () => of(urlTree) },
+        { canActivate: () => of(false) },
+      ];
 
-    service.canActivate(guards1, route, state).subscribe((result) => {
-      expect(result).toEqual(urlTree);
+      service.canActivate(guards1, route, state).subscribe((result) => {
+        expect(result).toEqual(urlTree);
+        done();
+      });
     });
-    const guards2: CanActivate[] = [
-      { canActivate: () => of(true) },
-      { canActivate: () => of(false) },
-      { canActivate: () => of(urlTree) },
-    ];
 
-    service.canActivate(guards2, route, state).subscribe((result) => {
-      expect(result).toEqual(false);
-      done();
+    it('should return first encountered value - False in this case', (done) => {
+      const guards2: CanActivate[] = [
+        { canActivate: () => of(true) },
+        { canActivate: () => of(false) },
+        { canActivate: () => of(urlTree) },
+      ];
+
+      service.canActivate(guards2, route, state).subscribe((result) => {
+        expect(result).toEqual(false);
+        done();
+      });
+    });
+
+    it('should return first encountered result even if a delay is encountered - UrlTree in this case', (done) => {
+      const guards3: CanActivate[] = [
+        { canActivate: () => of(true) },
+        { canActivate: () => of(urlTree).pipe(delay(2)) },
+        { canActivate: () => of(false).pipe(delay(1)) },
+      ];
+
+      service.canActivate(guards3, route, state).subscribe((result) => {
+        expect(result).toEqual(urlTree);
+        done();
+      });
+    });
+
+    it('should return first encountered result even if a delay is encountered - UrlTree in this case', (done) => {
+      const guards4: CanActivate[] = [
+        { canActivate: () => of(true) },
+        { canActivate: () => of(urlTree).pipe(delay(1)) },
+        { canActivate: () => of(false).pipe(delay(2)) },
+      ];
+
+      service.canActivate(guards4, route, state).subscribe((result) => {
+        expect(result).toEqual(urlTree);
+        done();
+      });
     });
   });
 });
