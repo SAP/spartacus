@@ -17,6 +17,7 @@ import {
   loginUsingUserWithOrder,
   orderConfirmation,
   reviewAndPlaceOrder,
+  addProductToCart,
 } from '../../../helpers/estimated-delivery-date';
 import { viewportContext } from '../../../helpers/viewport-context';
 
@@ -31,6 +32,11 @@ describe('estimated delivery date', () => {
     it('should see estimated delivery date in cart and order pages', () => {
       goToCheapProductDetailsPage(cheapProduct);
       addCheapProductToCartAndBeginCheckoutForSignedInCustomer(cheapProduct);
+      checkoutShippingAddress();
+      checkoutDeliveryMode();
+      //going back to PDP and adding a product again to show Estimated delivery date in cart
+      goToCheapProductDetailsPage(cheapProduct);
+      addProductToCart(cheapProduct);
       checkoutShippingAddress();
       checkoutDeliveryMode();
       checkoutPaymentDetails();

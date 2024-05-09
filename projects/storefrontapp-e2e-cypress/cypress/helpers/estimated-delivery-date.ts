@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { waitForPage } from './checkout-flow';
+import { waitForPage, addCheapProductToCart } from './checkout-flow';
 import { SampleProduct } from '../sample-data/checkout-flow';
 
 export function loginUsingUserWithOrder() {
@@ -89,4 +89,20 @@ export function orderConfirmation() {
   });
   cy.get('cx-order-confirmation-thank-you-message');
   cy.contains('Estimated delivery date');
+}
+
+export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
+  sampleProduct: SampleProduct = cheapProduct
+) {
+  addCheapProductToCart(sampleProduct);
+
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryAddressPage'
+  );
+  cy.contains('Estimated delivery date');
+  cy.findByText(/proceed to checkout/i).click();
+  cy.wait(`@${deliveryAddressPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
