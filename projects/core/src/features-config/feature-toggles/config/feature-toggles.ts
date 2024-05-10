@@ -186,6 +186,13 @@ export interface FeatureTogglesInterface {
    * of adding to the cart.
    */
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
+
+  /**
+   * Stops the focus indicator from overflowing and being obstructed by other elements.
+   * Modifies the 'visible-focus' mixin. Includes style changes for:
+   * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent
+   */
+  a11yVisibleFocusOverflows?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -220,4 +227,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yVisibleFocusOverflows: false,
 };
