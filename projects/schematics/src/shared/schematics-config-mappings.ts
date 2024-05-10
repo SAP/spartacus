@@ -9,7 +9,11 @@ import {
   ASM_SCHEMATICS_CONFIG,
   ASM_CUSTOMER_360_SCHEMATICS_CONFIG,
 } from './lib-configs/asm-schematics-config';
-import { QUOTE_SCHEMATICS_CONFIG } from './lib-configs';
+import {
+  CDP_SCHEMATICS_CONFIG,
+  QUOTE_SCHEMATICS_CONFIG,
+  OPPS_SCHEMATICS_CONFIG,
+} from './lib-configs';
 import {
   CART_BASE_SCHEMATICS_CONFIG,
   CART_IMPORT_EXPORT_SCHEMATICS_CONFIG,
@@ -67,7 +71,6 @@ import {
   USER_PROFILE_SCHEMATICS_CONFIG,
 } from './lib-configs/user-schematics-config';
 import { Module, SchematicConfig } from './utils/lib-utils';
-import { CDP_SCHEMATICS_CONFIG } from './lib-configs';
 
 /**
  * A list of all schematics feature configurations.
@@ -139,6 +142,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   DIGITAL_PAYMENTS_SCHEMATICS_CONFIG,
 
   EPD_SCHEMATICS_CONFIG,
+
+  OPPS_SCHEMATICS_CONFIG,
 
   S4OM_SCHEMATICS_CONFIG,
 

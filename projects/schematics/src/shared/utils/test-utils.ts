@@ -14,6 +14,7 @@ import { findNodes } from '@schematics/angular/utility/ast-utils';
 import ts from 'typescript';
 import { findConstructor } from './file-utils';
 
+export const appModulePath = 'src/app/app.module.ts';
 export const spartacusFeaturesModulePath =
   'src/app/spartacus/spartacus-features.module.ts';
 
@@ -104,6 +105,8 @@ export const epdFeatureModulePath =
   'src/app/spartacus/features/epd-visualization/epd-visualization-feature.module.ts';
 export const segmentRefsFeatureModulePath =
   'src/app/spartacus/features/segment-refs/segment-refs-feature.module.ts';
+export const oppsFeatureModulePath =
+  'src/app/spartacus/features/opps/opps-feature.module.ts';
 
 export function writeFile(
   host: TempScopedNodeJsSyncHost,

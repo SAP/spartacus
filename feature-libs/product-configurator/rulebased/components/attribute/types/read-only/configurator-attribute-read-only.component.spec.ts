@@ -17,6 +17,16 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+}
+
 const priceDetails: Configurator.PriceDetails = {
   currencyIso: '$',
   formattedValue: '$3',
@@ -36,6 +46,7 @@ const myValues: Configurator.Value[] = [
     valueCode: 'val2',
     valueDisplay: 'val2',
     selected: true,
+    description: 'Here is a description at value level',
   },
   {
     valueCode: 'val3',
@@ -63,6 +74,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         declarations: [
           ConfiguratorAttributeReadOnlyComponent,
           MockConfiguratorPriceComponent,
+          MockConfiguratorShowMoreComponent,
         ],
         providers: [
           {
@@ -235,6 +247,26 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           '.cx-value-price'
         );
       });
+    });
+  });
+
+  describe('rendering description at value level', () => {
+    it('should not render description in case no desciption present on model', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
+    });
+
+    it('should render description in case description present on model', () => {
+      component.attribute.values = myValues;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
     });
   });
 

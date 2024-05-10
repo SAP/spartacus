@@ -9,15 +9,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
-  provideDefaultConfig,
   UrlModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
+import { OutletModule } from '../../../cms-structure';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { IconModule } from '../../misc/icon/icon.module';
 import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponent } from './search-box.component';
-import { OutletModule } from '../../../cms-structure';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { OutletModule } from '../../../cms-structure';
     UrlModule,
     I18nModule,
     OutletModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
