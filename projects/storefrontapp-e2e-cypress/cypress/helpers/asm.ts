@@ -476,14 +476,14 @@ export function asmCustomerListC360Link(): void {
 
   cy.log('--> click 360 view link');
   cy.get('cx-customer-list')
-  .find('.cx-btn-cell')
-  .find('.fa-external-link-alt')
-  .then(($rows) => {
-    cy.wrap($rows[0]).click();
-    cy.get('.cx-asm-customer-360').should('exist');
-    cy.get('.header-profile-details-log').should('exist');
-    cy.get('.cx-asm-customer-email').invoke('text').should('not.be.empty');
-  });
+    .find('.cx-btn-cell')
+    .find('.fa-external-link-alt')
+    .then(($rows) => {
+      cy.wrap($rows[0]).click();
+      cy.get('.cx-asm-customer-360').should('exist');
+      cy.get('.header-profile-details-log').should('exist');
+      cy.get('.cx-asm-customer-email').invoke('text').should('not.be.empty');
+    });
 }
 
 export function startCustomerEmulation(customer, b2b = false): void {

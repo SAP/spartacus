@@ -6,7 +6,13 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import {
@@ -473,16 +479,14 @@ describe('AsmMainUiComponent', () => {
       actionType: CustomerListColumnActionType.C360,
     });
 
-    tick(2000)
-      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
-        LAUNCH_CALLER.ASM_CUSTOMER_360,
-        component.element,
-        // any parameter is accept
-        jasmine.any(Object)
-      );
-    }
-  ));
-
+    tick(1000);
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ASM_CUSTOMER_360,
+      component.element,
+      // any parameter is accept
+      jasmine.any(Object)
+    );
+  }));
 
   it('should be able to open create account dialog', () => {
     spyOn(launchDialogService, 'openDialogAndSubscribe');
