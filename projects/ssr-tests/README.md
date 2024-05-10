@@ -22,7 +22,7 @@ The utilities described below will help you to write an ssr test.
 
 ### ssr.utils.ts
 
-Contains the methods we need to start and end our ssr servers. We will typically use these to start a server instance at the start of a test and kill that instance at the end of our test.
+Contains the methods we need to start and end our SSR servers. We will typically use these to start a server instance at the start of a test and kill that instance at the end of our test.
 
 ### proxy.utils.ts
 
