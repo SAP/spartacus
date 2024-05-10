@@ -6,7 +6,7 @@
  */
 
 export * from './components/estimated-delivery-date/estimated-delivery-date.component';
-export * from './components/estimated-delivery-date/estimated-delivery-date.component.module';
-export * from '../feature-name';
+export * from './components/estimated-delivery-date/estimated-delivery-date.module';
+export * from './feature-name';
 export * from './model';
 export * from './estimated-delivery-date-root.module';
