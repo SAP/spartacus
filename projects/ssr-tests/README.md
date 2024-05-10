@@ -34,4 +34,4 @@ We can use log utilities in order to verify the messages that are generated in t
 
 ## Other Notes
 
-- We exclude running ssr tests with application unit tests because they require a unique setup to run in a way we can test ssr.
+- We exclude running SSR tests with application unit tests because they require a unique setup to run in a way we can test SSR.
