@@ -6,7 +6,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import {
@@ -461,7 +461,7 @@ describe('AsmMainUiComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
   });
 
-  it('should be able to open c360 dialogy', (done) => {
+  it('should be able to open c360 dialogy', fakeAsync(() => {
     spyOn(launchDialogService, 'openDialogAndSubscribe');
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(userAccountFacade, 'get').and.returnValue(
@@ -472,16 +472,17 @@ describe('AsmMainUiComponent', () => {
       selectedUser: {},
       actionType: CustomerListColumnActionType.C360,
     });
-    setTimeout(() => {
+
+    tick(2000)
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.ASM_CUSTOMER_360,
-        component.asmCustomer360LauncherElement,
+        component.element,
         // any parameter is accept
         jasmine.any(Object)
       );
-      done();
-    }, 500);
-  });
+    }
+  ));
+
 
   it('should be able to open create account dialog', () => {
     spyOn(launchDialogService, 'openDialogAndSubscribe');

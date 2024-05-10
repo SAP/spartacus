@@ -81,8 +81,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   @ViewChild('customerListLink') element: ElementRef;
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
-  @ViewChild('asmCustomer360Launcher')
-  asmCustomer360LauncherElement: ElementRef;
 
   constructor(
     protected authService: AuthService,
@@ -160,26 +158,32 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
                   take(1)
                 )
                 .subscribe((customer) => {
-                  const data = { customer: customer };
-                  this.launchDialogService?.openDialogAndSubscribe(
-                    LAUNCH_CALLER.ASM_CUSTOMER_360,
-                    this.asmCustomer360LauncherElement,
-                    data
-                  );
-
-                  this.subscription.add(
-                    this.launchDialogService?.dialogClose
-                      .pipe(filter((closeContent) => Boolean(closeContent)))
-                      .subscribe((event: AsmDialogActionEvent) => {
-                        this.asmComponentService.handleAsmDialogAction(event);
-                      })
-                  );
+                  setTimeout(() => {
+                    this.showC360Dialog(customer);
+                  }, 500);
                 });
             }
           }
         })
     );
     this.subscribeForDeeplink();
+  }
+
+  protected showC360Dialog(customer: User): void {
+    const data = { customer: customer };
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CUSTOMER_360,
+      this.element,
+      data
+    );
+
+    this.subscription.add(
+      this.launchDialogService?.dialogClose
+        .pipe(filter((closeContent) => Boolean(closeContent)))
+        .subscribe((event: AsmDialogActionEvent) => {
+          this.asmComponentService.handleAsmDialogAction(event);
+        })
+    );
   }
 
   /**
