@@ -18,7 +18,7 @@ Note: Build time could be improved upon by only rebuilding libraries that have c
 
 In the `src` directory, you will find utility files and spec files, where spec files contain tests and utilities provide the functions in which we can test SSR. A typical test is comprised on setting up a server instance that runs the application in SSR mode and a proxy server instance for manipulating tests to and from the backend. By manipulating requests and responses between the application and the backend API using the proxy server, we can test that our application behaves correctly in different scenarios.
 
-The utilities described below will help you to write an ssr test.
+The utilities described below will help you to write an SSR test.
 
 ### ssr.utils.ts
 
