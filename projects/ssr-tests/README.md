@@ -30,7 +30,7 @@ In addition to our server instance, we will start a proxy server instance in ord
 
 ### log.utils.ts
 
-We can use log utilities in order to verify the messages that are generated in the server log. This can help us to assert that the server has done what we think it should do (eg. rendering completion, fallback to csr, etc).
+We can use log utilities in order to verify the messages that are generated in the server log. This can help us to assert that the server has done what we think it should do (eg. rendering completion, fallback to CSR, etc).
 
 ## Other Notes
 
