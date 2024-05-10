@@ -208,6 +208,11 @@ export interface FeatureTogglesInterface {
    * 4. `CheckoutProgressMobileTopComponent` - checkout step names do not have huge vertical white space
    */
   a11yTruncatedTextForResponsiveView?: boolean;
+
+  /**
+   * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
+   */
+  a11yMyAccountLinkOutline?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -245,4 +250,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
   a11yTruncatedTextForResponsiveView: false,
+  a11yMyAccountLinkOutline: false,
 };
