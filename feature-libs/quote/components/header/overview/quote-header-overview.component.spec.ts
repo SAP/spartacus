@@ -46,6 +46,7 @@ const mockQuote: Quote = {
   state: QuoteState.BUYER_DRAFT,
   name: 'Name',
   totalPrice: { value: 20, formattedValue: totalPriceFormattedValue },
+  sapAttachments: [],
 };
 
 @Component({

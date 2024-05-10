@@ -26,6 +26,7 @@ const quote: Quote = {
   description: 'Quote description',
   expirationTime: new Date('2017-01-11T10:14:39+0000'),
   isEditable: true,
+  sapAttachments: [],
 };
 
 const confirmationContext: ConfirmationContext = {

@@ -4,6 +4,7 @@
       <section [ngClass]="isFixedPosition ? 'fixed' : 'sticky'">
         <button
           type="button"
+          id="downloadBtn"
           class="btn btn-primary"
           *ngIf="isAttachmentPresent(quoteDetails.sapAttachments)"
           (click)="onDownloadAttachment(quoteDetails.code, quoteDetails.sapAttachments)"
