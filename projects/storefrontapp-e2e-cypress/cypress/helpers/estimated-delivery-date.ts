@@ -91,9 +91,7 @@ export function orderConfirmation() {
   cy.contains('Estimated delivery date');
 }
 
-export function addProductToCart(
-  sampleProduct: SampleProduct = cheapProduct
-) {
+export function addProductToCart(sampleProduct: SampleProduct = cheapProduct) {
   addCheapProductToCart(sampleProduct);
 
   const deliveryAddressPage = waitForPage(
