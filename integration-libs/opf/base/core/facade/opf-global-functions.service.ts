@@ -28,6 +28,7 @@ import {
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, lastValueFrom } from 'rxjs';
 import { finalize, take } from 'rxjs/operators';
+import { ScriptReadyNotificationService } from './script-ready-notification.service';
 
 @Injectable()
 export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
@@ -35,7 +36,9 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   protected ngZone = inject(NgZone);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected launchDialogService = inject(LaunchDialogService);
-
+  protected scriptReadyNotificationService = inject(
+    ScriptReadyNotificationService
+  );
   protected loaderSpinnerCpntRef: void | Observable<
     ComponentRef<any> | undefined
   >;
@@ -337,7 +340,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     this.getGlobalFunctionContainer(domain).scriptReady = (
       _scriptIdentifier: string
     ): void => {
-      console.log('ready');
+      this.scriptReadyNotificationService.notifyScriptReady();
     };
   }
 }

@@ -12,6 +12,7 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
+import { ScriptReadyNotificationService } from '../../../core/facade/script-ready-notification.service';
 import { OpfCtaElementModule } from '../opf-cta-element';
 import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 import { OpfCtaScriptEventBrokerService } from './services/opf-cta-scripts-event-broker.service';
@@ -22,6 +23,7 @@ import { OpfCtaScriptsService } from './services/opf-cta-scripts.service';
   declarations: [OpfCtaScriptsComponent],
   providers: [
     OpfScriptIdentifierService,
+    ScriptReadyNotificationService,
     OpfCtaScriptEventBrokerService,
     OpfCtaScriptsService,
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{

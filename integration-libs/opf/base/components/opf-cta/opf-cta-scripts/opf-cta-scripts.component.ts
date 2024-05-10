@@ -34,8 +34,8 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
-    this.opfCtaScriptEventBrokerService.listenOnRelevantEvents();
     this.opfCtaScriptService.registerGlobalFns();
+    this.opfCtaScriptEventBrokerService.listenOnRelevantEvents();
   }
 
   ngOnDestroy(): void {

@@ -18,6 +18,7 @@ import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 import { OpfOrderService } from './opf-order.service';
 import { OpfOtpService } from './opf-otp.service';
 import { OpfPaymentService } from './opf-payment.service';
+import { ScriptReadyNotificationService } from './script-ready-notification.service';
 
 export const facadeProviders: Provider[] = [
   OpfPaymentService,
@@ -26,6 +27,7 @@ export const facadeProviders: Provider[] = [
   OpfOrderService,
   OpfOtpService,
   OpfGlobalFunctionsService,
+  ScriptReadyNotificationService,
   {
     provide: OpfPaymentFacade,
     useExisting: OpfPaymentService,

@@ -5,13 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import {
-  CmsService,
-  Product,
-  RoutingService,
-  WindowRef,
-  isNotNullable,
-} from '@spartacus/core';
+import { Product, RoutingService, isNotNullable } from '@spartacus/core';
 import { Order, OrderFacade, OrderHistoryFacade } from '@spartacus/order/root';
 import { Observable, from, of, throwError } from 'rxjs';
 import {
@@ -48,13 +42,11 @@ export class OpfCtaScriptsService {
   protected orderDetailsService = inject(OrderFacade);
   protected orderHistoryService = inject(OrderHistoryFacade);
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
-  protected cmsService = inject(CmsService);
   protected currentProductService = inject(CurrentProductService);
   protected itemCounterService = inject(ItemCounterService);
   protected opfScriptIdentifierService = inject(OpfScriptIdentifierService);
   protected routingService = inject(RoutingService);
   protected globalFunctionsService = inject(OpfGlobalFunctionsFacade);
-  protected winRef = inject(WindowRef);
 
   getCtaHtmlsList(): Observable<string[]> {
     return this.fillCtaScriptRequest().pipe(
