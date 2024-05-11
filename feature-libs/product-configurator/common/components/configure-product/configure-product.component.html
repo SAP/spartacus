@@ -10,11 +10,16 @@
           }
         } | cxUrl
       "
-      [queryParams]="{ displayRestartDialog: 'true' }"
+      [queryParams]="{
+        displayRestartDialog: isDisplayRestartDialog(product.configuratorType),
+        productCode: product.code
+      }"
       class="btn btn-primary btn-block"
       cxAutoFocus
-      [attr.aria-label]="'configurator.a11y.configureProduct' | cxTranslate"
-      >{{ 'configurator.header.toconfig' | cxTranslate }}</a
+      [attr.aria-label]="
+        getAriaLabelTranslationKey(product.configuratorType) | cxTranslate
+      "
+      >{{ getTranslationKey(product.configuratorType) | cxTranslate }}</a
     >
   </ng-container>
 </ng-container>

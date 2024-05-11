@@ -17,6 +17,7 @@ import * as common from '../../../helpers/common';
 const electronicsShop = 'electronics-spa';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
 const testProduct = 'CONF_CAMERA_SL';
+const testProductVariant = 'CONF_CAMERA_SL-PROF-BLACK';
 
 // UI types
 const radioGroup = 'radioGroup';
@@ -275,9 +276,13 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Configuration process', () => {
-    it('should support configuration aspect in product search, cart, checkout and order history', () => {
-      configuration.completeOrderProcess(testProductMultiLevel);
+  describe('Checkout process for configurable products', () => {
+    it('should support configurable product', () => {
+      configuration.completeOrderProcess(testProductMultiLevel, true);
+    });
+
+    it('should support changeable configurable variant', () => {
+      configuration.completeOrderProcess(testProductVariant, true);
     });
   });
 });
