@@ -169,7 +169,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.subscribeForDeeplink();
   }
 
-  protected showC360Dialog(customer: User): void {
+  protected showC360Dialog(customer: User | undefined): void {
     const data = { customer: customer };
     this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CUSTOMER_360,
