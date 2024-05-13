@@ -205,6 +205,7 @@ export function asmCustomerLists(): void {
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
   const userDetailsRequestAlias = listenForUserDetailsRequest();
   const customerId = 'aaron.customer@hybris.com';
+
   cy.log('--> Starting customer list');
   asm.asmOpenCustomerList();
 
@@ -285,7 +286,7 @@ export function asmCustomerLists(): void {
     .find('.cx-btn-cell')
     .not('[aria-label="Order"]')
     .not('[aria-label="Cart"]')
-    .not('[title="360 View"]')
+    .not('[aria-label="360 View"]')
     .then(($rows) => {
       expect($rows.length).to.eq(5);
       cy.wrap($rows[0]).click();

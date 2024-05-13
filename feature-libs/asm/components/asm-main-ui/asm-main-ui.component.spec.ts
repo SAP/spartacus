@@ -467,7 +467,7 @@ describe('AsmMainUiComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
   });
 
-  it('should be able to open c360 dialogy', fakeAsync(() => {
+  it('should be able to open c360 dialog', fakeAsync(() => {
     spyOn(launchDialogService, 'openDialogAndSubscribe');
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(userAccountFacade, 'get').and.returnValue(

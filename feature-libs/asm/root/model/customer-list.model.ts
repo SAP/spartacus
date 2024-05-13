@@ -29,5 +29,5 @@ export enum CustomerListColumnActionType {
   START_SESSION = 'START_SESSION',
   ORDER_HISTORY = 'ORDER_HISTORY',
   ACTIVE_CART = 'ACTIVE_CART',
-  C360 = 'C360',
+  CUSTOMER_360 = 'CUSTOMER_360',
 }

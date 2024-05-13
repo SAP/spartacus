@@ -67,7 +67,7 @@ export const defaultAsmConfig: AsmConfig = {
             symbol: ICON_TYPE.LINK_OUT,
             captionLocalizationKey: 'asm.customerList.tableHeader.view',
           },
-          actionType: CustomerListColumnActionType.C360,
+          actionType: CustomerListColumnActionType.CUSTOMER_360,
         },
       ],
     },

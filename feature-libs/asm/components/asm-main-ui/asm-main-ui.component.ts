@@ -150,7 +150,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
               this.routingService.go({ cxRoute: 'cart' });
             } else if (
               'actionType' in result &&
-              result.actionType === CustomerListColumnActionType.C360
+              result.actionType === CustomerListColumnActionType.CUSTOMER_360
             ) {
               this.customer$
                 .pipe(
