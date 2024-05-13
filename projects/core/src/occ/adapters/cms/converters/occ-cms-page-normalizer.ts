@@ -121,9 +121,11 @@ export class OccCmsPageNormalizer
             uid: component.uid,
             typeCode: component.typeCode,
           };
-          if (component.properties) {
-            comp.properties = component.properties;
-          }
+
+          comp.properties = this.setComponentProperties(
+            comp.properties,
+            component.properties
+          );
 
           comp.flexType = this.getFlexTypeFromComponent(component);
 
@@ -138,6 +140,17 @@ export class OccCmsPageNormalizer
           }
         }
       }
+    }
+  }
+
+  protected setComponentProperties(
+    oldComponentProperties: any,
+    newComponentProperties: any
+  ): any {
+    if (newComponentProperties) {
+      return newComponentProperties;
+    } else {
+      return oldComponentProperties;
     }
   }
 
