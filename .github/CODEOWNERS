@@ -81,3 +81,8 @@
 # ================================================
 /feature-libs/pickup-in-store/         @SAP/spartacus-codeowners @SAP/spartacus-colossus
 
+# ================================================
+#  Estimated Delivery Date
+# ================================================
+/feature-libs/estimated-delivery-date/         @SAP/spartacus-codeowners
+
