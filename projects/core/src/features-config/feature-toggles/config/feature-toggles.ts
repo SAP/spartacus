@@ -31,6 +31,16 @@ export interface FeatureTogglesInterface {
    */
   storeFrontLibCardParagraphTruncated?: boolean;
 
+  /**
+   * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
+   * and in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
+   * to render read-only attribute with images and a long description at the value level accordingly.
+   *
+   * In `cx-configurator-price`, `cx-configurator-show-more`,`cx-configurator-attribute-drop-down`,
+   * `cx-configurator-attribute-selection-image`, `cx-configurator-attribute-single-selection-bundle-dropdown`,
+   * `cx-configurator-attribute-type` and `cx-configurator-form-group` some styling changes were done
+   * to render read-only attribute with images and a long description at the value level accordingly.
+   */
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
@@ -142,6 +152,48 @@ export interface FeatureTogglesInterface {
    * Corrects heading order inside 'OrderSummaryComponent' template.
    */
   a11yCartSummaryHeadingOrder?: boolean;
+
+  /**
+   * Allows users to navigate through the list of units using the arrow keys.
+   * Enables keyboard controls inside 'ToggleLinkCellComponent' and
+   * adjusts 'ListComponent' styles to accomodate.
+   */
+  a11yUnitsListKeyboardControls?: boolean;
+
+  /**
+   * When set to `true`, product titles in `CartItemComponent`, `QuickOrderItemComponent`, `WishListItemComponent`
+   * adopt a more link-like style, appearing blue with an underline. This enhances visual cues for clickable elements,
+   * providing a more intuitive user experience.
+   */
+  a11yCartItemsLinksStyles?: boolean;
+
+  /**
+   * If enabled, the "Select this address/payment" button
+   * will not be displayed in `CheckoutPaymentMethodComponent`
+   * and `CheckoutDeliveryAddressComponent` when the address
+   * or payment method is already selected.
+   */
+  a11yHideSelectBtnForSelectedAddrOrPayment?: boolean;
+
+  /**
+   * Determines whether the controls in the `CarouselComponent` are focusable and accessible from the keyboard.
+   */
+  a11yFocusableCarouselControls?: boolean;
+
+  /**
+   * In `CmsGuardsService`, it uses the `GuardsComposer` instead of
+   * calling its own deprecated method `canActivateGuard()`.
+   */
+  cmsGuardsServiceUseGuardsComposer?: boolean;
+
+  /**
+   * In `CartQuickOrderFormComponent` it stops calling the deprecated method
+   * `watchAddEntryFailEvent()`, which listens to the `CartAddEntryFailEvent`.
+   *
+   * It avoids showing an unnecessary duplicated error message on the failure
+   * of adding to the cart.
+   */
+  cartQuickOrderRemoveListeningToFailEvent?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -171,4 +223,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
   a11yCartSummaryHeadingOrder: false,
+  a11yUnitsListKeyboardControls: false,
+  a11yCartItemsLinksStyles: false,
+  a11yHideSelectBtnForSelectedAddrOrPayment: false,
+  a11yFocusableCarouselControls: false,
+  cmsGuardsServiceUseGuardsComposer: false,
+  cartQuickOrderRemoveListeningToFailEvent: false,
 };

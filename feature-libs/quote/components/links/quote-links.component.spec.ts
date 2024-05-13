@@ -6,8 +6,11 @@ import {
 } from '@angular/core/testing';
 import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, Price } from '@spartacus/core';
-import { CartUtilsService } from '@spartacus/quote/core';
+import { EventService, I18nTestingModule, Price } from '@spartacus/core';
+import {
+  CartUtilsService,
+  QuoteDetailsReloadQueryEvent,
+} from '@spartacus/quote/core';
 import {
   Quote,
   QuoteActionType,
@@ -59,6 +62,7 @@ describe('QuoteLinksComponent', () => {
   let component: QuoteLinksComponent;
   let cartUtilsService: CartUtilsService;
   let router: Router;
+  let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -85,6 +89,7 @@ describe('QuoteLinksComponent', () => {
     fixture = TestBed.createComponent(QuoteLinksComponent);
     htmlElem = fixture.nativeElement;
     cartUtilsService = TestBed.inject(CartUtilsService);
+    eventService = TestBed.inject(EventService);
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
     mockQuoteDetails$.next(mockQuote);
@@ -137,15 +142,18 @@ describe('QuoteLinksComponent', () => {
   });
 
   it('should fire `goToNewCart()` when "New Cart" button was clicked', () => {
-    spyOn(component, 'goToNewCart').and.callThrough();
+    spyOn(eventService, 'dispatch').and.callThrough();
     const link = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
       'a.link',
       0
     );
     link.click();
-    expect(component.goToNewCart).toHaveBeenCalled();
     expect(cartUtilsService.goToNewCart).toHaveBeenCalled();
+    expect(eventService.dispatch).toHaveBeenCalledWith(
+      {},
+      QuoteDetailsReloadQueryEvent
+    );
   });
 
   it('should redirect to Quotes list when "Quotes" button was clicked', fakeAsync(() => {

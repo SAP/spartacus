@@ -411,6 +411,8 @@
       "@spartacus/epd-visualization/root": [
         "../../dist/epd-visualization/root"
       ],
+      "@spartacus/opps": ["../../dist/opps"],
+      "@spartacus/opps/root": ["../../dist/opps/root"],
       "@spartacus/s4om/assets": ["../../dist/s4om/assets"],
       "@spartacus/s4om": ["../../dist/s4om"],
       "@spartacus/s4om/root": ["../../dist/s4om/root"],
