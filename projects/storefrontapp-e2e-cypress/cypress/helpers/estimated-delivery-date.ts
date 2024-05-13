@@ -7,23 +7,16 @@
 import { waitForPage, addCheapProductToCart } from './checkout-flow';
 import { SampleProduct } from '../sample-data/checkout-flow';
 
-export function loginUsingUserWithOrder() {
-  const username = 'magnus.carlsen@hybris.com';
-  const password = 'Welcome@1';
-  cy.login(username, password);
-
-  const homePage = waitForPage('homepage', 'getHomePage');
-
-  cy.visit('/');
-
-  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
-
-  cy.get('.cx-login-greet').should('contain', 'Magnus Carlsen');
-}
 
 export const cheapProduct: SampleProduct = {
   name: 'Coney Flare',
   code: 'M_CR_1015',
+};
+
+export const my_user = {
+  fullName: 'Magnus Carlsen',
+  email: 'magnus.carlsen@hybris.com',
+  password: 'Welcome@1'
 };
 
 export function checkoutShippingAddress() {
