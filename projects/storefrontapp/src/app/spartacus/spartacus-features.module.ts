@@ -297,6 +297,7 @@ if (environment.estimatedDeliveryDate) {
         a11yCartSummaryHeadingOrder: true,
         a11yUnitsListKeyboardControls: true,
         a11yCartItemsLinksStyles: true,
+        a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11yFocusableCarouselControls: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
