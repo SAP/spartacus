@@ -476,7 +476,7 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     dialogClose$.next({
       selectedUser: {},
-      actionType: CustomerListColumnActionType.C360,
+      actionType: CustomerListColumnActionType.CUSTOMER_360,
     });
 
     tick(1000);
