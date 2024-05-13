@@ -15,6 +15,7 @@ import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductSearchAdapter } from './occ-product-search.adapter';
 import createSpy = jasmine.createSpy;
+import { Router } from '@angular/router';
 
 class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
@@ -25,6 +26,10 @@ class MockOccEndpointsService {
 
 const queryText = 'test';
 const searchResults: ProductSearchPage = { products: [{ code: '123' }] };
+const searchResultsWithRedirectKeywords: ProductSearchPage = {
+  products: [{ code: '123' }],
+  keywordRedirectUrl: 'test',
+};
 const suggestionList: Occ.SuggestionList = { suggestions: [{ value: 'test' }] };
 const mockSearchConfig: SearchConfig = {
   pageSize: 5,
@@ -35,6 +40,7 @@ describe('OccProductSearchAdapter', () => {
   let httpMock: HttpTestingController;
   let endpoints: OccEndpointsService;
   let converter: ConverterService;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -51,6 +57,7 @@ describe('OccProductSearchAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     endpoints = TestBed.inject(OccEndpointsService);
+    router = TestBed.inject(Router);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -95,6 +102,18 @@ describe('OccProductSearchAdapter', () => {
       expect(converter.pipeable).toHaveBeenCalledWith(
         PRODUCT_SEARCH_PAGE_NORMALIZER
       );
+    });
+
+    it('should navigate to keywordRedirectUrl when it exists in the ProductSearchPage', () => {
+      service.search(queryText, mockSearchConfig).subscribe();
+      spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+      httpMock
+        .expectOne('productSearch')
+        .flush(searchResultsWithRedirectKeywords);
+
+      expect(router.navigate).toHaveBeenCalledWith([
+        searchResultsWithRedirectKeywords.keywordRedirectUrl,
+      ]);
     });
   });
 
