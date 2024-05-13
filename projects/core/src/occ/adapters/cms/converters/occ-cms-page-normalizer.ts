@@ -120,12 +120,8 @@ export class OccCmsPageNormalizer
           const comp: ContentSlotComponentData = {
             uid: component.uid,
             typeCode: component.typeCode,
+            properties: component.properties ? component.properties : undefined
           };
-
-          comp.properties = this.setComponentProperties(
-            comp.properties,
-            component.properties
-          );
 
           comp.flexType = this.getFlexTypeFromComponent(component);
 
@@ -140,17 +136,6 @@ export class OccCmsPageNormalizer
           }
         }
       }
-    }
-  }
-
-  protected setComponentProperties(
-    oldComponentProperties: any,
-    newComponentProperties: any
-  ): any {
-    if (newComponentProperties) {
-      return newComponentProperties;
-    } else {
-      return oldComponentProperties;
     }
   }
 
