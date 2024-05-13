@@ -37,6 +37,7 @@ SPARTACUS_PROJECTS=(
         "dist/cds:integration-libs/cds"
         "dist/cdc:integration-libs/cdc"
         "dist/cdp:integration-libs/cdp"
+        "dist/opps:integration-libs/opps"
         "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/product-configurator:feature-libs/product-configurator"
         "dist/pickup-in-store:feature-libs/pickup-in-store"
@@ -72,6 +73,7 @@ ADD_B2B_LIBS=false
 ADD_CPQ=false
 ADD_QUOTE=false
 ADD_CDC=false
+ADD_OPPS=false
 # config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false
 ADD_S4OM=false
