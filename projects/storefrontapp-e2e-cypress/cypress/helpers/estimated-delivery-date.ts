@@ -7,7 +7,6 @@
 import { waitForPage, addCheapProductToCart } from './checkout-flow';
 import { SampleProduct } from '../sample-data/checkout-flow';
 
-
 export const cheapProduct: SampleProduct = {
   name: 'Coney Flare',
   code: 'M_CR_1015',
@@ -16,7 +15,7 @@ export const cheapProduct: SampleProduct = {
 export const my_user = {
   fullName: 'Magnus Carlsen',
   email: 'magnus.carlsen@hybris.com',
-  password: 'Welcome@1'
+  password: 'Welcome@1',
 };
 
 export function checkoutShippingAddress() {
