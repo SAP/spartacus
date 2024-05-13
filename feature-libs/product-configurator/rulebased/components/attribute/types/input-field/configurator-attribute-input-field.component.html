@@ -22,6 +22,7 @@
     [formControl]="attributeInputForm"
     class="form-control"
     type="{{ inputType }}"
+    (keydown)="activateDebounceDate()"
     [ngClass]="{
       'cx-required-error-msg ': (showRequiredErrorMessage$ | async)
     }"

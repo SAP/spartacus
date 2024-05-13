@@ -11,6 +11,7 @@ export interface ProductConfiguratorUISettingsConfig {
   updateDebounceTime?: {
     quantity?: number;
     input?: number;
+    date?: number;
   };
   addRetractOption?: boolean;
   enableNavigationToConflict?: boolean;
