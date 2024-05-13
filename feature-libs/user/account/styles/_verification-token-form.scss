@@ -9,13 +9,13 @@
       .left-text {
         padding: 0;
         width: 50%;
-        text-align: var(--cx-text-align, left);
+        text-align: start;
       }
 
       .right-text {
         padding: 0;
         width: 50%;
-        text-align: var(--cx-text-align, right);
+        text-align: end;
       }
 
       a.disabled-link {

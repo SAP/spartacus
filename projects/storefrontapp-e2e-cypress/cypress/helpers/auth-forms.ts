@@ -50,6 +50,20 @@ export function fillLoginForm({ username, password }: LoginUser) {
   });
 }
 
+export function fillKymaLoginForm({ username, password }: LoginUser) {
+  cy.origin(
+    `${Cypress.env('API_URL')}`,
+    { args: { username, password } },
+    ({ username, password }) => {
+      cy.get('form[id="loginForm"]').within(() => {
+        cy.get('input[name="username"]').clear().type(username);
+        cy.get('input[name="password"]').clear().type(password);
+        cy.get('input[type=submit]').click();
+      });
+    }
+  );
+}
+
 export function register(
   user: SampleUser,
   giveRegistrationConsent = false,

@@ -166,6 +166,26 @@ export interface FeatureTogglesInterface {
    * providing a more intuitive user experience.
    */
   a11yCartItemsLinksStyles?: boolean;
+
+  /**
+   * Determines whether the controls in the `CarouselComponent` are focusable and accessible from the keyboard.
+   */
+  a11yFocusableCarouselControls?: boolean;
+
+  /**
+   * In `CmsGuardsService`, it uses the `GuardsComposer` instead of
+   * calling its own deprecated method `canActivateGuard()`.
+   */
+  cmsGuardsServiceUseGuardsComposer?: boolean;
+
+  /**
+   * In `CartQuickOrderFormComponent` it stops calling the deprecated method
+   * `watchAddEntryFailEvent()`, which listens to the `CartAddEntryFailEvent`.
+   *
+   * It avoids showing an unnecessary duplicated error message on the failure
+   * of adding to the cart.
+   */
+  cartQuickOrderRemoveListeningToFailEvent?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -197,4 +217,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartSummaryHeadingOrder: false,
   a11yUnitsListKeyboardControls: false,
   a11yCartItemsLinksStyles: false,
+  a11yFocusableCarouselControls: false,
+  cmsGuardsServiceUseGuardsComposer: false,
+  cartQuickOrderRemoveListeningToFailEvent: false,
 };
