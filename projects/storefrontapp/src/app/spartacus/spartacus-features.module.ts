@@ -300,6 +300,7 @@ if (environment.requestedDeliveryDate) {
         cartQuickOrderRemoveListeningToFailEvent: true,
         a11yTruncatedTextForResponsiveView: true,
         a11yMyAccountLinkOutline: true,
+        a11yCloseProductImageBtnFocus: true,
       };
       return appFeatureToggles;
     }),

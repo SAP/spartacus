@@ -213,6 +213,12 @@ export interface FeatureTogglesInterface {
    * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
    */
   a11yMyAccountLinkOutline?: boolean;
+
+  /**
+   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
+   * will be fully visible
+   */
+  a11yCloseProductImageBtnFocus?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -251,4 +257,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   cartQuickOrderRemoveListeningToFailEvent: false,
   a11yTruncatedTextForResponsiveView: false,
   a11yMyAccountLinkOutline: false,
+  a11yCloseProductImageBtnFocus: false,
 };
