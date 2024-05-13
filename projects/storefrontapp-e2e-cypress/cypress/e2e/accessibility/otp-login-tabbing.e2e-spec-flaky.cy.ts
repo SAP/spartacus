@@ -19,11 +19,11 @@ describe('Tabbing order for OTP login', () => {
         cy.get('cx-otp-login-form').should('exist');
         cy.get('cx-otp-login-form form').should('exist');
       });
-      it('should allow to navigate with tab key for otp login form(empty form)', () => {
+      it('should allow to navigate with tab key for otp login form(empty form) (CXSPA-6672)', () => {
         verifyTabbingOrder('cx-otp-login-form', config.otpLogin);
       });
 
-      it('should allow to navigate with tab key for otp login form(filled out form)', () => {
+      it('should allow to navigate with tab key for otp login form(filled out form) (CXSPA-6672)', () => {
         const { email: username, password } = user;
         cy.get('cx-otp-login-form form').within(() => {
           cy.get('[formcontrolname="userId"]').clear().type(username);
@@ -33,7 +33,7 @@ describe('Tabbing order for OTP login', () => {
       });
     });
 
-    it('should allow to navigate with tab key for otp verification token form', () => {
+    it('should allow to navigate with tab key for otp verification token form (CXSPA-6689)', () => {
       cy.visit('/login/verify-token');
       cy.get('cx-verification-token-form').should('exist');
       cy.get('cx-verification-token-form form').should('exist');
