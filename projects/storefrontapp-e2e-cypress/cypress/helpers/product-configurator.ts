@@ -5,6 +5,7 @@
  */
 
 import * as login from './login';
+import * as configurationCart from './product-configurator-cart';
 import * as configurationCartVc from './product-configurator-cart-vc';
 import * as productSearch from './product-search';
 import * as common from './common';
@@ -530,7 +531,10 @@ export function searchForProduct(productName: string): void {
  *
  * @param {string} productName - Product name
  */
-export function completeOrderProcess(productName: string): void {
+export function completeOrderProcess(
+  productName: string,
+  navigateToOrderDetails: boolean = false
+): void {
   login.registerUser();
   verifyGlobalMessageAfterRegistration();
   const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
@@ -540,10 +544,11 @@ export function completeOrderProcess(productName: string): void {
   common.clickOnAddToCartBtnOnPD();
   this.clickOnProceedToCheckoutBtnOnPD();
   configurationCartVc.completeCheckout();
-  //TODO: activate after 22.05
-  //configurationCart.navigateToOrderDetails();
+  if (navigateToOrderDetails) {
+    configurationCart.navigateToOrderDetails();
+  }
   //don't check the order history aspect because this part is flaky
-  //configuration.selectOrderByOrderNumberAlias();
+  // configurationCart.selectOrderByOrderNumberAlias();
   const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
   login.signOutUser();
   cy.wait(tokenRevocationRequestAlias);

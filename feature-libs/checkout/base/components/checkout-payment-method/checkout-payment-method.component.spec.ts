@@ -9,6 +9,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureConfigService,
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
@@ -162,6 +163,12 @@ class MockPaymentFormComponent {
 })
 class MockSpinnerComponent {}
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string) {
+    return true;
+  }
+}
+
 describe('CheckoutPaymentMethodComponent', () => {
   let component: CheckoutPaymentMethodComponent;
   let fixture: ComponentFixture<CheckoutPaymentMethodComponent>;
@@ -170,6 +177,7 @@ describe('CheckoutPaymentMethodComponent', () => {
   let mockActiveCartService: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
   let globalMessageService: GlobalMessageService;
+  let featureConfig: FeatureConfigService;
 
   beforeEach(
     waitForAsync(() => {
@@ -205,6 +213,10 @@ describe('CheckoutPaymentMethodComponent', () => {
               features: { level: '6.3' },
             },
           },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
         ],
       }).compileComponents();
 
@@ -215,6 +227,7 @@ describe('CheckoutPaymentMethodComponent', () => {
         CheckoutStepService as Type<CheckoutStepService>
       );
       globalMessageService = TestBed.inject(GlobalMessageService);
+      featureConfig = TestBed.inject(FeatureConfigService);
     })
   );
 
@@ -401,6 +414,7 @@ describe('CheckoutPaymentMethodComponent', () => {
     });
 
     it('should display credit card info correctly', () => {
+      spyOn(featureConfig, 'isEnabled').and.returnValue(false);
       const selectedPaymentMethod: PaymentDetails = {
         id: 'selected payment method',
         accountHolderName: 'Name',
@@ -436,6 +450,34 @@ describe('CheckoutPaymentMethodComponent', () => {
         header: 'Selected',
         label: 'paymentCard.defaultPaymentLabel',
       });
+    });
+
+    it('should not add select action for selected card', () => {
+      spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+      const selectedPaymentMethod: PaymentDetails = {
+        id: 'selected payment method',
+        accountHolderName: 'Name',
+        cardNumber: '123456789',
+        cardType: {
+          code: 'Visa',
+          name: 'Visa',
+        },
+        expiryMonth: '01',
+        expiryYear: '2022',
+        cvn: '123',
+        defaultPayment: true,
+      };
+      const card = component['createCard'](
+        selectedPaymentMethod,
+        {
+          textDefaultPaymentMethod: '✓ DEFAULT',
+          textExpires: 'Expires',
+          textUseThisPayment: 'Use this payment',
+          textSelected: 'Selected',
+        },
+        selectedPaymentMethod
+      );
+      expect(card.actions?.length).toBe(0);
     });
 
     it('should after each payment method selection change that in backend', () => {
