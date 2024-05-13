@@ -121,7 +121,7 @@ export class OccCmsPageNormalizer
             uid: component.uid,
             typeCode: component.typeCode,
             flexType: this.getFlexTypeFromComponent(component),
-            properties: component.properties ? component.properties : undefined
+            properties: component.properties ? component.properties : undefined,
           };
 
           if (slot.position) {
