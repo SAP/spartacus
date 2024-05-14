@@ -43,7 +43,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     RouterModule,
     UrlModule,
     AddToCartModule,
-    FeaturesConfigModule
+    FeaturesConfigModule,
   ],
   providers: [
     provideOutlet({

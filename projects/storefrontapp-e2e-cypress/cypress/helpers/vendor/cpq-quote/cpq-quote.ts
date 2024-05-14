@@ -21,7 +21,7 @@ export const STATUS_VENDOR_QUOTE = 'Vendor Quote';
 export const STATUS_BUYER_SUBMIT = 'status_buyer_submit';
 export const STATUS_BUYER_CANCEL = 'status_buyer_cancel';
 export const STATUS_BUYER_CHECKOUT = 'status_buyer_checkout';
-export const STATUS_SALES_REPORTER_SUBMIT = 'status_sales_reporter_submit'; 
+export const STATUS_SALES_REPORTER_SUBMIT = 'status_sales_reporter_submit';
 
 /**
  * Selectors
@@ -40,12 +40,11 @@ const defaultItemCounterComponentSelector = 'cx-item-counter';
 const confirmDialogComponentSelector = 'cx-quote-confirm-dialog';
 const defaultMessagingComponentSelector = 'cx-messaging';
 const summarySellerEditComponentSelector = 'cx-quote-summary-seller-edit';
- 
+
 import * as cart from '../../../helpers/cart';
 /**
  * Navigates to the mocked quote from vendor via my account.
  */
-
 
 /**
  * Creates a simple log with ##### comment <functionName> ######
@@ -66,38 +65,34 @@ export function navigateToVendorQuote() {
     navigateToVendorQuote.name
   );
   cy.get('.cx-status .quote-offer')
-    .should('contain.text', 'Vendor Quote').first()
+    .should('contain.text', 'Vendor Quote')
+    .first()
     .and('be.visible')
     .click()
     .then(() => {
       cy.wait(READ_QUOTE);
-      cy.get('h1')
-        .should('contain.text', 'Quote Details')
+      cy.get('h1').should('contain.text', 'Quote Details');
     });
 }
 
-
- 
 export function checkQuoteListContainsDis() {
   log(
     'Verifies whether the quote list cx-quote-items',
     checkQuoteListContainsDis.name
   );
   cy.get(itemsComponentSelector).should('be.visible');
-  cy.get('.cx-item-list-desc#cx-item-list-discount').then(($discountElement) => {
-    // If discount data is present, assert that it's displayed
-    if ($discountElement.text().trim() !== '') {
-      cy.wrap($discountElement).should('be.visible');
-    } else {
-      // If discount data is not present, assert that it's not displayed
-      cy.wrap($discountElement).should('not.exist');
+  cy.get('.cx-item-list-desc#cx-item-list-discount').then(
+    ($discountElement) => {
+      // If discount data is present, assert that it's displayed
+      if ($discountElement.text().trim() !== '') {
+        cy.wrap($discountElement).should('be.visible');
+      } else {
+        // If discount data is not present, assert that it's not displayed
+        cy.wrap($discountElement).should('not.exist');
+      }
     }
-});
+  );
 }
-
-
-
-
 
 // cy.get('cx-cpq-quote').then(($discountContainer) => {
 //       // If discount percentage container is present, check if the discount percentage is displayed
@@ -109,11 +104,6 @@ export function checkQuoteListContainsDis() {
 //         cy.wrap($discountContainer).should('not.exist');
 //       }
 //     });
-
-
-
-
-
 
 // export function navigateToVendorQuote(vendorQuote?: number) {
 //   log(
@@ -134,12 +124,14 @@ export function checkQuoteListContainsDis() {
 /**
  * Navigates to the mocked quote from vendor via my account.
  */
- 
 
 export function displayQuoteDiscount() {
-  log('Mocks quote list with one quote containing proposal document from CPQ.', navigateToVendorQuote.name); 
+  log(
+    'Mocks quote list with one quote containing proposal document from CPQ.',
+    navigateToVendorQuote.name
+  );
 
-  cy.get('cx-quote-items').contains('tr[cx-cart-item-list]')
+  cy.get('cx-quote-items').contains('tr[cx-cart-item-list]');
   // .contains('tr[cx-cart-item-list-row]', cart.entries[0].product.code)
   // .within(() => {
   //   cy.get('.cx-name').should('contain', cart.entries[0].cpqDiscounts);
@@ -148,8 +140,6 @@ export function displayQuoteDiscount() {
   // cy.get('cx-cart-item-list');
   // cy.get('#cx-item-list-discount')
   // .should('be.visible')
- 
-  
 
   // Check if "Discount Percentage" should be displayed based on cpqDiscounts
   // cy.get('@getVendorQuote').its('response.body.entries[0].cpqDiscounts').then((cpqDiscounts) => {
@@ -158,4 +148,3 @@ export function displayQuoteDiscount() {
   //   }
   // });
 }
- 

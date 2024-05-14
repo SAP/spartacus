@@ -13,7 +13,7 @@ import { CpqQuoteTbodyModule } from './components/cpq-quote-discount-tbody/cpq-q
 import { CpqQuoteDiscountComponent } from './components/cpq-quote-discount-tbody/cpq-quote.component';
 console.log('CpqQuoteHeadingComponent instantiated');
 @NgModule({
-  imports: [CpqQuoteHeadingModule,CpqQuoteTbodyModule],
+  imports: [CpqQuoteHeadingModule, CpqQuoteTbodyModule],
   providers: [
     provideOutlet({
       id: CartOutlets.CPQ_QUOTE_MODULE,
@@ -28,4 +28,3 @@ console.log('CpqQuoteHeadingComponent instantiated');
   ],
 })
 export class CpqQuoteRootdModule {}
-

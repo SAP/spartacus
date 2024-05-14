@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import {  CpqQuoteRootdModule } from '@spartacus/cpq-quote/root';
+import { CpqQuoteRootdModule } from '@spartacus/cpq-quote/root';
 
 @NgModule({
   imports: [CpqQuoteRootdModule],

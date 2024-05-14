@@ -6,13 +6,17 @@
     </ng-container> 
 </div> -->
 
-<ng-container *ngIf="quoteDiscountData && quoteDiscountData.cpqDiscounts && quoteDiscountData.cpqDiscounts.length > 0" class="cx-cpq-quote"> 
-  <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts" >
-    <td role="cell"  class="cx-total">
+<ng-container
+  *ngIf="
+    quoteDiscountData &&
+    quoteDiscountData.cpqDiscounts &&
+    quoteDiscountData.cpqDiscounts.length > 0
+  "
+  class="cx-cpq-quote"
+>
+  <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts">
+    <td role="cell" class="cx-total">
       {{ discount.appliedValue }}
-      </td>
-    
-  </ng-container>  
+    </td>
+  </ng-container>
 </ng-container>
-
- 

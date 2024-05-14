@@ -39,5 +39,5 @@ export const environment: Environment = {
   pdfInvoices: buildProcess.env.CX_PDF_INVOICES ?? false,
   myAccountV2: buildProcess.env.CX_MY_ACCOUNT_V2 ?? false,
 
-  cpqQuoteDiscount:buildProcess.env.CX_CPQ_QUOTE_DISCOUNT ?? false
+  cpqQuoteDiscount: buildProcess.env.CX_CPQ_QUOTE_DISCOUNT ?? false,
 };

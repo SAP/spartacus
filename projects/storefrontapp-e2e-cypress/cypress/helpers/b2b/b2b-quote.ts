@@ -1675,7 +1675,6 @@ export function clearSavedCarts() {
     });
 }
 
-
 /**
  * Navigates to the quote with status as Vendor Quote.
  */
@@ -1685,66 +1684,54 @@ export function navigateToVendorQuote() {
     navigateToVendorQuote.name
   );
   cy.get('.cx-status .quote-offer')
-    .should('contain.text', 'Vendor Quote').first()
+    .should('contain.text', 'Vendor Quote')
+    .first()
     .and('be.visible')
     .click()
     .then(() => {
       cy.wait(READ_QUOTE);
-      cy.get('h1')
-        .should('contain.text', 'Quote Details')
+      cy.get('h1').should('contain.text', 'Quote Details');
     });
 }
-
 
 /**
  * Discount Percentage Heading
  */
 export function DiscountPercentageQuote() {
-  log(
-    'Discount Percentage Heading',
-    DiscountPercentageQuote.name
-  );
+  log('Discount Percentage Heading', DiscountPercentageQuote.name);
   cy.get('#cx-item-list-discount')
     .should('contain.text', 'Discount Percentage')
     .and('be.visible');
-} 
+}
 
 export function DiscountPercentageQuoterow() {
-  log(
-    'Discount Percentage Row',
-    DiscountPercentageQuoterow.name
-  );
+  log('Discount Percentage Row', DiscountPercentageQuoterow.name);
 
   cy.get('cx-cart-item-list') // Locate the parent element containing the rows
-  .find('tr[cx-cart-item-list-row]')
-  .find('cx-cpq-quote').first() 
-  .should('be.visible')
-  .should('not.have.text', '')
-  
+    .find('tr[cx-cart-item-list-row]')
+    .find('cx-cpq-quote')
+    .first()
+    .should('be.visible')
+    .should('not.have.text', '');
 }
 
 /**
- * CPQ discount percentage 
+ * CPQ discount percentage
  */
 export function DiscountPercentageQuotej() {
-  log(
-    'CPQ discount percentage ',
-    DiscountPercentageQuote.name
-  );
+  log('CPQ discount percentage ', DiscountPercentageQuote.name);
   if (Cypress.$('#cx-item-list-discount').length > 0) {
     cy.get('#cx-item-list-discount')
       .should('contain.text', 'Discount Percentage')
       .and('be.visible');
-    cy.get('.cx-discount').first()
-      .and('be.visible');
+    cy.get('.cx-discount').first().and('be.visible');
   } else {
     // Handle the case when the element is not present
-    log('Element with id #cx-item-list-discount is not present',
-    DiscountPercentageQuote.name
+    log(
+      'Element with id #cx-item-list-discount is not present',
+      DiscountPercentageQuote.name
     );
   }
-
-   
 }
 
 /**
@@ -1773,10 +1760,15 @@ export function registerReadVendorQuoteRoute() {
  * Registers download attachment route.
  */
 export function registerDownloadAttachmentRoute() {
-  log('Registers download attachment route.', registerReadVendorQuoteRoute.name);
+  log(
+    'Registers download attachment route.',
+    registerReadVendorQuoteRoute.name
+  );
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${SHOP_NAME}/users/*/quotes/*/attachments/*`,
+    path: `${Cypress.env(
+      'OCC_PREFIX'
+    )}/${SHOP_NAME}/users/*/quotes/*/attachments/*`,
   }).as(DOWNLOAD_ATTACHMENT.substring(1)); // strip the '@'
 }
 

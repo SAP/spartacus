@@ -20,19 +20,16 @@ import { EMPTY, Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cx-cpq-quote',
   templateUrl: './cpq-quote.component.html',
-}
-)
+})
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   quoteDiscountData: OrderEntry;
   private subscription: Subscription;
-  constructor(
-    @Optional() protected cartItemContext: CartItemContext,
-  ) {}
+  constructor(@Optional() protected cartItemContext: CartItemContext) {}
 
   ngOnInit(): void {
-    console.log("cpq quote ngOnInit");
+    console.log('cpq quote ngOnInit');
     if (this.cartItemContext) {
-      this.subscription = this.orderEntry$.subscribe(data => {
+      this.subscription = this.orderEntry$.subscribe((data) => {
         this.quoteDiscountData = data;
         console.log('Order Entry Data:', this.quoteDiscountData);
       });

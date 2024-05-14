@@ -10,5 +10,3 @@
 
 export * from './root/public_api';
 export * from './cpq-quote-discount.module';
-
-

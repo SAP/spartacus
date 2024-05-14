@@ -9,9 +9,8 @@ describe('CpqQuoteHeadingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CpqQuoteHeadingComponent ]
-    })
-    .compileComponents();
+      declarations: [CpqQuoteHeadingComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -26,14 +25,18 @@ describe('CpqQuoteHeadingComponent', () => {
 
   it('should set dataAvailable to true when context$ emits data with cpqDiscounts', () => {
     const mockContext = [{ cpqDiscounts: ['Discount 1', 'Discount 2'] }];
-    (component as any).outlet = { context$: of(mockContext) } as OutletContextData<any>;
+    (component as any).outlet = {
+      context$: of(mockContext),
+    } as OutletContextData<any>;
     component.ngOnInit();
     expect(component.dataAvailable).toBeTruthy();
   });
 
   it('should set dataAvailable to false when context$ emits empty data', () => {
     const mockContext: any[] = [];
-    (component as any).outlet = { context$: of(mockContext) } as OutletContextData<any>;
+    (component as any).outlet = {
+      context$: of(mockContext),
+    } as OutletContextData<any>;
     component.ngOnInit();
     expect(component.dataAvailable).toBeFalsy();
   });
