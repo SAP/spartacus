@@ -129,22 +129,6 @@ describe('add-spartacus', () => {
       '/projects/schematics-test/src/app/app.module.ts'
     );
 
-<<<<<<< HEAD
-    const appModuleImports = [
-      `import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";`,
-      `import { AppRoutingModule } from "@spartacus/storefront";`,
-      `import { StoreModule } from "@ngrx/store";`,
-      `import { EffectsModule } from "@ngrx/effects";`,
-      `import { SpartacusModule } from './spartacus/spartacus.module';`,
-    ];
-
-    appModuleImports.forEach((appImport) =>
-      expect(appModule.includes(appImport)).toBe(true)
-    );
-    expect(appModule).toContain(
-      'provideHttpClient(withFetch(), withInterceptorsFromDi())'
-    );
-=======
     expect(appModule).toContain(
       `import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";`
     );
@@ -179,7 +163,6 @@ describe('add-spartacus', () => {
     expect(
       tree.exists('/projects/schematics-test/src/app/app-routing.module.ts')
     ).toBe(false);
->>>>>>> develop
   });
 
   describe('Setup configuration', () => {

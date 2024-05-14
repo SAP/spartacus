@@ -475,17 +475,6 @@ function updateAppModule(options: SpartacusOptions): Rule {
               ],
             },
             content: 'provideHttpClient(withFetch(), withInterceptorsFromDi())',
-<<<<<<< HEAD
-          });
-          addModuleImport(sourceFile, {
-            order: 2,
-            import: {
-              moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-              namedImports: ['AppRoutingModule'],
-            },
-            content: 'AppRoutingModule',
-=======
->>>>>>> develop
           });
 
           addAppRoutingModuleImport(tree, context, sourceFile);

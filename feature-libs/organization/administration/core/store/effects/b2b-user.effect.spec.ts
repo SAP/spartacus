@@ -6,16 +6,13 @@ import { StoreModule } from '@ngrx/store';
 import {
   AuthActions,
   B2BUser,
+  FeatureConfigService,
   LoggerService,
   OccConfig,
   RoutingService,
   SearchConfig,
   UserIdService,
   normalizeHttpError,
-<<<<<<< HEAD
-=======
-  FeatureConfigService,
->>>>>>> develop
 } from '@spartacus/core';
 import {
   OrganizationActions,
@@ -146,8 +143,6 @@ class MockUserIdService implements Partial<UserIdService> {
   getUserId = createSpy().and.returnValue(of('current'));
 }
 
-<<<<<<< HEAD
-=======
 // TODO (CXSPA-5630): Remove mock next major release
 class MockFeatureConfigService {
   isEnabled() {
@@ -155,7 +150,6 @@ class MockFeatureConfigService {
   }
 }
 
->>>>>>> develop
 const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('B2B User Effects', () => {
@@ -198,13 +192,10 @@ describe('B2B User Effects', () => {
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: LoggerService, useClass: MockLoggerService },
-<<<<<<< HEAD
-=======
         {
           provide: FeatureConfigService,
           useClass: MockFeatureConfigService,
         },
->>>>>>> develop
       ],
     });
 

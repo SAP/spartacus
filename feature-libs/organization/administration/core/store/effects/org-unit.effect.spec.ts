@@ -8,11 +8,13 @@ import {
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
-  EntitiesModel, FeatureConfigService, ListModel,
+  EntitiesModel,
+  FeatureConfigService,
+  ListModel,
   LoggerService,
   OccConfig,
   SearchConfig,
-  normalizeHttpError
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
   OrgUnitConnector,

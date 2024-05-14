@@ -183,7 +183,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
           {
             provide: FeatureConfigService,
             useClass: MockFeatureConfigService,
-          }
+          },
         ],
       })
         .overrideComponent(CheckoutDeliveryAddressComponent, {

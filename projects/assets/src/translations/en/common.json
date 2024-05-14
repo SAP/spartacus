@@ -205,12 +205,9 @@
   "generalErrors": {
     "pageFailure": "The page could not be loaded. Please try again later."
   },
-<<<<<<< HEAD
-=======
   "formLegend": {
     "required": "The following fields marked with \"*\" are required."
   },
->>>>>>> develop
   "chatMessaging": {
     "charactersLeft": "characters left: {{count}}",
     "addNewMessage": "Add New Message",

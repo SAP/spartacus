@@ -39,7 +39,7 @@ import {
   filter,
   map,
   switchMap,
-  take
+  take,
 } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

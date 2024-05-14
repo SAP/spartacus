@@ -60,7 +60,7 @@ import {
   TabParagraphContainerModule,
   USE_MY_ACCOUNT_V2_CONSENT,
   USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
-  VideoModule
+  VideoModule,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AsmCustomer360FeatureModule } from './features/asm/asm-customer-360-feature.module';
