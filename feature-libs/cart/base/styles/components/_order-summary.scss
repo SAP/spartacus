@@ -8,6 +8,7 @@
 
   .cx-summary-heading {
     text-transform: capitalize;
+    // TODO: (CXSPA-5987) Remove the following propery next major release
     @include type('3');
     font-weight: var(--cx-font-weight-semi);
     border-bottom: 1px solid var(--cx-color-medium);

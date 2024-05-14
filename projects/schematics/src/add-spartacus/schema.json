@@ -31,6 +31,7 @@
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",
           "Order",
+          "OPPS",
           "Digital-Payments",
           "EPD-Visualization",
           "OPF-Checkout",
@@ -50,6 +51,7 @@
           "CPQ-Configurator",
           "Qualtrics",
           "Requested-Delivery-Date",
+          "Estimated-Delivery-Date",
           "S4HANA-Order-Management",
           "SmartEdit",
           "Store-Finder",
@@ -219,6 +221,10 @@
             "label": "Requested Delivery Date"
           },
           {
+            "value": "Estimated-Delivery-Date",
+            "label": "Estimated Delivery Date"
+          },
+          {
             "value": "S4HANA-Order-Management",
             "label": "S/4HANA Order Management (b2b feature)"
           },
@@ -245,6 +251,10 @@
           {
             "value": "TMS-AEPL",
             "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
+          },
+          {
+            "value": "OPPS",
+            "label": "Omnichannel Promotion Pricing Service (OPPS) Integration"
           },
           {
             "value": "User-Account",

@@ -18,17 +18,18 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
+import { SearchBoxFeatures } from './search-box-features.model';
+import { SearchBoxOutlets } from './search-box-outlets.model';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
-import { SearchBoxOutlets } from './search-box-outlets.model';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
@@ -49,6 +50,7 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
   readonly searchBoxOutlets = SearchBoxOutlets;
+  readonly searchBoxFeatures = SearchBoxFeatures;
   @Input() config: SearchBoxConfig;
 
   /**

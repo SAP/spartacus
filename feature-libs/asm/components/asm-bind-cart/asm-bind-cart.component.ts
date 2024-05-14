@@ -27,15 +27,15 @@ import {
   OCC_CART_ID_CURRENT,
   RoutingService,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
   BehaviorSubject,
-  combineLatest,
-  defer,
   EMPTY,
-  iif,
   Observable,
   Subscription,
+  combineLatest,
+  defer,
+  iif,
 } from 'rxjs';
 import {
   concatMap,
@@ -296,7 +296,6 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
             this.asmComponentService?.setShowDeeplinkCartInfoAlert(true);
             this.asmComponentService?.handleDeepLinkNavigation();
           }
-          return;
         })
     );
   }

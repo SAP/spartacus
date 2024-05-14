@@ -42,7 +42,10 @@ describe('Spartacus Quote schematics: ng-add', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
+<<<<<<< HEAD
     routing: false,
+=======
+>>>>>>> develop
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',

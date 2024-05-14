@@ -10,4 +10,4 @@ export const defaultOpfConfig: OpfConfig = {
   opf: {
     baseUrl: '',
   },
-};
+}

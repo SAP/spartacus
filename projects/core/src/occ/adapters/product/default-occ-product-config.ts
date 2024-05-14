@@ -22,6 +22,8 @@ export const defaultOccProductConfig: OccConfig = {
           attributes: 'products/${productCode}?fields=classifications',
           price: 'products/${productCode}?fields=price(formattedValue)',
           stock: 'products/${productCode}?fields=stock(DEFAULT)',
+          list_item:
+            'products/${productCode}?fields=code,name,price(formattedValue),images(DEFAULT),baseProduct',
         },
 
         productReviews: 'products/${productCode}/reviews',
@@ -32,7 +34,7 @@ export const defaultOccProductConfig: OccConfig = {
           'products/${productCode}/references?fields=DEFAULT,references(target(images(FULL)))',
         /* eslint-disable max-len */
         productSearch:
-          'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery',
+          'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery,keywordRedirectUrl',
         /* eslint-enable */
         productSuggestions: 'products/suggestions',
       },

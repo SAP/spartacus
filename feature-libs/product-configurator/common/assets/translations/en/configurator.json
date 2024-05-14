@@ -5,6 +5,7 @@
       "complete": "Complete",
       "configId": "Configuration ID",
       "toconfig": "Configure",
+      "toConfigReadOnly": "Show details",
       "editConfiguration": "Edit Configuration",
       "displayConfiguration": "Display Configuration",
       "resolveIssues": "Resolve Issues",
@@ -134,8 +135,17 @@
       "restartButton": "Start New",
       "resumeButton": "Resume"
     },
+<<<<<<< HEAD
     "a11y": {
       "configureProduct": "Configure product",
+=======
+    "httpHandlers": {
+      "makeToStockBaseProductIssue": "This product is a base product and cannot be added to the cart; choose a product variant instead"
+    },
+    "a11y": {
+      "configureProduct": "Configure product",
+      "showDetailsProduct": "Show details of the product",
+>>>>>>> develop
       "cartEntryBundleInfo": "There is an item ",
       "cartEntryBundleInfo_other": "There are {{items}} items ",
       "cartEntryBundleName": "Item {{ name }}",
@@ -221,7 +231,12 @@
       "filterOverviewByMySelections": "Filter configuration overview by your selections",
       "filterOverviewByGroup": "Filter configuration overview by group {{groupName}}",
       "closeConflictSolverModal": "Close conflict solver modal",
+<<<<<<< HEAD
       "closeRestartDialog": "Close the \"Unfinished Configuration\" dialog and navigate back to the product details page"
+=======
+      "closeRestartDialog": "Close the \"Unfinished Configuration\" dialog and navigate back to the product details page",
+      "description": "Click to see a description for this value"
+>>>>>>> develop
     },
     "variantCarousel": {
       "title": "Pre-configured Versions"

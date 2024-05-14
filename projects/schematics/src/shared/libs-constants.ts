@@ -156,6 +156,10 @@ export const SPARTACUS_REQUESTED_DELIVERY_DATE = `@spartacus/requested-delivery-
 export const SPARTACUS_REQUESTED_DELIVERY_DATE_ROOT = `@spartacus/requested-delivery-date/root`;
 export const SPARTACUS_REQUESTED_DELIVERY_DATE_ASSETS = `@spartacus/requested-delivery-date/assets`;
 
+export const SPARTACUS_ESTIMATED_DELIVERY_DATE = `@spartacus/estimated-delivery-date`;
+export const SPARTACUS_ESTIMATED_DELIVERY_DATE_ROOT = `@spartacus/estimated-delivery-date/root`;
+export const SPARTACUS_ESTIMATED_DELIVERY_DATE_ASSETS = `@spartacus/estimated-delivery-date/assets`;
+
 export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
 export const SPARTACUS_SMARTEDIT_ROOT = `@spartacus/smartedit/root`;
 
@@ -229,6 +233,9 @@ export const SPARTACUS_OPF_BASE = `@spartacus/opf/base`;
 export const SPARTACUS_OPF_BASE_ROOT = `@spartacus/opf/base/root`;
 export const SPARTACUS_OPF_BASE_ASSETS = `@spartacus/opf/base/assets`;
 
+export const SPARTACUS_OPPS = '@spartacus/opps';
+export const SPARTACUS_OPPS_ROOT = '@spartacus/opps/root';
+
 export const SPARTACUS_SEGMENT_REFS = '@spartacus/segment-refs';
 export const SPARTACUS_SEGMENT_REFS_ROOT = `@spartacus/segment-refs/root`;
 
@@ -286,6 +293,8 @@ export const QUALTRICS_FEATURE_NAME = 'Qualtrics';
 
 export const REQUESTED_DELIVERY_DATE_FEATURE_NAME = 'Requested-Delivery-Date';
 
+export const ESTIMATED_DELIVERY_DATE_FEATURE_NAME = 'Estimated-Delivery-Date';
+
 export const SMARTEDIT_FEATURE_NAME = 'SmartEdit';
 
 export const STOREFINDER_FEATURE_NAME = 'Store-Finder';
@@ -315,6 +324,8 @@ export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 
 export const SEGMENT_REFS_FEATURE_NAME = 'Segment-Refs';
+
+export const OPPS_FEATURE_NAME = 'OPPS';
 
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 export const OPF_FEATURE_NAME = 'OPF';

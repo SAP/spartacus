@@ -8,12 +8,11 @@ import {
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
-  EntitiesModel,
-  ListModel,
+  EntitiesModel, FeatureConfigService, ListModel,
   LoggerService,
   OccConfig,
   SearchConfig,
-  normalizeHttpError,
+  normalizeHttpError
 } from '@spartacus/core';
 import {
   OrgUnitConnector,
@@ -81,6 +80,13 @@ class MockOrgUnitConnector {
   getTree = createSpy().and.returnValue(of(unitNode));
 }
 
+// TODO (CXSPA-5630): Remove mock next major release
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 class MockLoggerService {
   log(): void {}
   warn(): void {}
@@ -125,6 +131,10 @@ describe('OrgUnit Effects', () => {
         { provide: OrgUnitConnector, useClass: MockOrgUnitConnector },
         { provide: OccConfig, useValue: mockOccModuleConfig },
         { provide: LoggerService, useClass: MockLoggerService },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
         fromEffects.OrgUnitEffects,
         provideMockActions(() => actions$),
       ],
@@ -276,7 +286,7 @@ describe('OrgUnit Effects', () => {
       });
       const completion1 = new OrgUnitActions.CreateAddressSuccess(address);
       const completion2 = new OrgUnitActions.CreateAddressSuccess({
-        id: undefined,
+        id: address.id,
       });
       const completion3 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });

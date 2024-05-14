@@ -49,6 +49,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     SpinnerModule,
     StarRatingModule,
     UrlModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>defaultViewConfig),
