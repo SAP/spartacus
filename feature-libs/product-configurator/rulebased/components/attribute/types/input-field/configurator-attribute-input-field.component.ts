@@ -42,10 +42,23 @@ export class ConfiguratorAttributeInputFieldComponent
   showRequiredErrorMessage$: Observable<boolean> = of(false);
 
   /**
+   * Initially, changes to a date control are sent immediately
+   * (when using the date picker. Only after any key is pressed, the
+   * debounce time kicks in)
+   * )
+   */
+  protected debounceForDateActive = false;
+  /**
    * In case no config is injected, or when the debounce time is not configured at all,
    * this value will be used as fallback.
    */
   protected readonly FALLBACK_DEBOUNCE_TIME = 500;
+
+  /**
+   * In case no config is injected, or if the debounce time for dates is not configured at all,
+   * this value will be used as fallback.
+   */
+  protected readonly FALLBACK_DEBOUNCE_TIME_DATE = 1500;
 
   constructor(
     protected config: ConfiguratorUISettingsConfig,
@@ -76,7 +89,9 @@ export class ConfiguratorAttributeInputFieldComponent
     }
     this.sub = this.attributeInputForm.valueChanges
       .pipe(debounce(() => timer(this.calculateDebounceTime())))
-      .subscribe(() => this.onChange());
+      .subscribe(() => {
+        this.onChange();
+      });
   }
 
   onChange(): void {
@@ -125,6 +140,14 @@ export class ConfiguratorAttributeInputFieldComponent
   get inputType(): string {
     return this.isDateBased(this.attribute) ? 'date' : 'text';
   }
+  /**
+   * Activates a waiting period until date changes are sent. We only
+   * want to enable that once the user tries to enter something
+   * directly (when using date picker, changes should be sent instantly)
+   */
+  activateDebounceDate(): void {
+    this.debounceForDateActive = true;
+  }
 
   protected isDateBased(attribute: Configurator.Attribute) {
     return (
@@ -148,9 +171,15 @@ export class ConfiguratorAttributeInputFieldComponent
   }
 
   protected calculateDebounceTime(): number {
-    return (
-      this.config.productConfigurator?.updateDebounceTime?.input ??
-      this.FALLBACK_DEBOUNCE_TIME
-    );
+    if (this.isDateBased(this.attribute)) {
+      return this.debounceForDateActive
+        ? this.config.productConfigurator?.updateDebounceTime?.date ??
+            this.FALLBACK_DEBOUNCE_TIME_DATE
+        : 0;
+    } else
+      return (
+        this.config.productConfigurator?.updateDebounceTime?.input ??
+        this.FALLBACK_DEBOUNCE_TIME
+      );
   }
 }

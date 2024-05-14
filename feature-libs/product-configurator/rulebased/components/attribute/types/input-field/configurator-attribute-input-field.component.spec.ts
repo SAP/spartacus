@@ -39,6 +39,7 @@ class MockConfigUtilsService {
   }
 }
 const DEBOUNCE_TIME: number = 600;
+const DEBOUNCE_TIME_DATE: number = 1600;
 
 describe('ConfiguratorAttributeInputFieldComponent', () => {
   let component: ConfiguratorAttributeInputFieldComponent;
@@ -105,6 +106,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     defaultConfiguratorUISettingsConfig.productConfigurator = {
       updateDebounceTime: {
         input: DEBOUNCE_TIME,
+        date: DEBOUNCE_TIME_DATE,
       },
     };
 
@@ -410,6 +412,35 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
       expect(component['calculateDebounceTime']()).toBe(
         component['FALLBACK_DEBOUNCE_TIME']
       );
+    });
+
+    it('should return debounce time for dates in case provided', () => {
+      component['debounceForDateActive'] = true;
+      component.attribute.uiType = Configurator.UiType.SAP_DATE;
+      expect(component['calculateDebounceTime']()).toBe(DEBOUNCE_TIME_DATE);
+    });
+
+    it('should return zero if debounceForDateActive is false', () => {
+      component['debounceForDateActive'] = false;
+      component.attribute.uiType = Configurator.UiType.SAP_DATE;
+      expect(component['calculateDebounceTime']()).toBe(0);
+    });
+
+    it('should return fallback debounce time for dates in case not provided in configuration', () => {
+      component['debounceForDateActive'] = true;
+      component.attribute.uiType = Configurator.UiType.SAP_DATE;
+      component['config'].productConfigurator = {};
+      expect(component['calculateDebounceTime']()).toBe(
+        component['FALLBACK_DEBOUNCE_TIME_DATE']
+      );
+    });
+  });
+
+  describe('activateDebounceDate', () => {
+    it('should activate the debounce time for date input', () => {
+      expect(component['debounceForDateActive']).toBe(false);
+      component.activateDebounceDate();
+      expect(component['debounceForDateActive']).toBe(true);
     });
   });
 
