@@ -28,7 +28,6 @@ describe('Cpq Quote Discount Component', () => {
 
     fixture.detectChanges();
   });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });

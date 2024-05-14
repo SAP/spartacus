@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CpqQuoteHeadingComponent } from './cpq-quote-heading.component';
+import { OutletContextData } from '@spartacus/storefront';
+import { of } from 'rxjs';
 
 describe('CpqQuoteHeadingComponent', () => {
   let component: CpqQuoteHeadingComponent;
@@ -7,9 +9,9 @@ describe('CpqQuoteHeadingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CpqQuoteHeadingComponent]
+      declarations: [ CpqQuoteHeadingComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   });
 
   beforeEach(() => {
@@ -18,16 +20,21 @@ describe('CpqQuoteHeadingComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the component', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render the text "Discount Percentage"', () => {
-    const element: HTMLElement = fixture.nativeElement;
-    const textContent = element.textContent;
-    expect(textContent).not.toBeNull();
-    if (textContent) {
-      expect(textContent.trim()).toContain('Discount Percentage');
-    }
+  it('should set dataAvailable to true when context$ emits data with cpqDiscounts', () => {
+    const mockContext = [{ cpqDiscounts: ['Discount 1', 'Discount 2'] }];
+    (component as any).outlet = { context$: of(mockContext) } as OutletContextData<any>;
+    component.ngOnInit();
+    expect(component.dataAvailable).toBeTruthy();
+  });
+
+  it('should set dataAvailable to false when context$ emits empty data', () => {
+    const mockContext: any[] = [];
+    (component as any).outlet = { context$: of(mockContext) } as OutletContextData<any>;
+    component.ngOnInit();
+    expect(component.dataAvailable).toBeFalsy();
   });
 });
