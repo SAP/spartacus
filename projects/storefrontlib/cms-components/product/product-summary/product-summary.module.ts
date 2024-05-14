@@ -18,14 +18,11 @@ import { ProductSummaryComponent } from './product-summary.component';
 
 @NgModule({
   providers: [
-    provideDefaultConfig(<CmsConfig | FeaturesConfig>{
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductSummaryComponent: {
           component: ProductSummaryComponent,
         },
-      },
-      features: {
-        showPromotionsInPDP: false,
       },
     }),
   ],

@@ -109,8 +109,6 @@ export class OnNavigateService {
   }
 
   /**
-<<<<<<< HEAD
-=======
    * Focus on selectedHostElement if set in config.
    * Otherwise, focuses on hostComponent.
    */
@@ -123,7 +121,6 @@ export class OnNavigateService {
   }
 
   /**
->>>>>>> develop
    * Scrolls to a specified position or anchor based on the current route and configuration.
    * @param currentRoute The current route containing scroll information.
    * @param position The target scroll position as [x, y] coordinates, or null.
@@ -136,14 +133,7 @@ export class OnNavigateService {
       anchor: string | null,
       scrollPosition: [number, number]
     ) => {
-<<<<<<< HEAD
-      if (
-        anchor &&
-        (this.router as any).options?.anchorScrolling === 'enabled'
-      ) {
-=======
       if (anchor && this.routerConfiguration.anchorScrolling === 'enabled') {
->>>>>>> develop
         this.viewportScroller.scrollToAnchor(anchor);
       } else {
         this.viewportScroller.scrollToPosition(scrollPosition);
