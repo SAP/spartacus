@@ -1697,17 +1697,30 @@ export function navigateToVendorQuote() {
 
 
 /**
- * Downloads the proposal document attached to the quote.
+ * Discount Percentage Heading
  */
 export function DiscountPercentageQuote() {
   log(
-    'Downloads the proposal document attached to the quote',
+    'Discount Percentage Heading',
     DiscountPercentageQuote.name
   );
   cy.get('#cx-item-list-discount')
     .should('contain.text', 'Discount Percentage')
     .and('be.visible');
-    
+} 
+
+export function DiscountPercentageQuoterow() {
+  log(
+    'Discount Percentage Row',
+    DiscountPercentageQuoterow.name
+  );
+
+  cy.get('cx-cart-item-list') // Locate the parent element containing the rows
+  .find('tr[cx-cart-item-list-row]')
+  .find('cx-cpq-quote').first() 
+  .should('be.visible')
+  .should('not.have.text', '')
+  
 }
 
 /**

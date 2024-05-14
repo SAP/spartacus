@@ -33,6 +33,8 @@ context('CPQ Discount Percentage ', () => {
     quote.checkQuoteListDisplayed();
     quote.navigateToVendorQuote();
     quote.DiscountPercentageQuote();
+    quote.DiscountPercentageQuoterow();
+    
     // quote.logout();
   });
 });
