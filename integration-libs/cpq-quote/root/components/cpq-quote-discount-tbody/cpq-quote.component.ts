@@ -4,15 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'cx-cpq-quote',
-//   templateUrl: './cpq-quote.component.html',
-// })
-// export class CpqQuoteDiscountComponent {
-//   constructor() {}
-// }
 import { Component, Optional, OnDestroy, OnInit } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { EMPTY, Observable, Subscription } from 'rxjs';

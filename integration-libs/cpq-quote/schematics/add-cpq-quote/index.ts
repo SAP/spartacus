@@ -39,6 +39,5 @@ export function addCpqQuoteFeature(options: addCpqQuoteFeature): Rule {
 
       finalizeInstallation(options, features),
     ]);
-    return chain([]);
   };
 }
