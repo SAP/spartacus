@@ -101,7 +101,7 @@ import { StorefinderFeatureModule } from './features/storefinder/storefinder-fea
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 import { OppsFeatureModule } from './features/opps/opps-feature.module';
-import { CPQQUOTEFeatureModule } from './features/cdc-quote/cdc-quote-feature.module';
+import { CPQQUOTEFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 
 const featureModules = [];
 
