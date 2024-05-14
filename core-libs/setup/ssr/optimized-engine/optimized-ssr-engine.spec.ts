@@ -1226,11 +1226,7 @@ describe('OptimizedSsrEngine', () => {
               "maxRenderTime": 300000,
               "reuseCurrentRendering": true,
               "debug": false,
-<<<<<<< HEAD
-              "renderingStrategyResolver": "(request) => {\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}",
-=======
               "renderingStrategyResolver": "(request) => {\\n    if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {\\n        return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;\\n    }\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}",
->>>>>>> develop
               "logger": "DefaultExpressServerLogger"
             }
           }
