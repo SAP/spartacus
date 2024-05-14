@@ -22,15 +22,9 @@
     "build:customer-ticketing": "npm --prefix feature-libs/customer-ticketing run build:schematics && nx build customer-ticketing --configuration production",
     "build:digital-payments": "npm --prefix integration-libs/digital-payments run build:schematics && nx build digital-payments --configuration production",
     "build:epd-visualization": "npm --prefix integration-libs/epd-visualization run build:schematics && nx build epd-visualization --configuration production",
-<<<<<<< HEAD
-    "build:libs": "nx build core --configuration production && nx build storefrontlib --configuration production && concurrently --kill-others-on-fail npm:build:schematics npm:build:user && npm run build:cart && npm run build:pdf-invoices && npm run build:order && npm run build:storefinder && concurrently --kill-others-on-fail npm:build:checkout npm:build:asm npm:build:tracking npm:build:customer-ticketing && concurrently --kill-others-on-fail npm:build:organization npm:build:product npm:build:product-configurator npm:build:requested-delivery-date npm:build:pickup-in-store && concurrently --kill-others-on-fail npm:build:smartedit npm:build:qualtrics npm:build:assets npm:build:cds npm:build:cdc npm:build:cdp npm:build:digital-payments npm:build:epd-visualization npm:build:s4om npm:build:segment-refs npm:build:quote npm:build:opf && npm run build:setup",
-    "build:order": "npm --prefix feature-libs/order run build:schematics && nx build order --configuration production",
-    "build:opf": "npm --prefix integration-libs/opf run build:schematics && nx build opf --configuration production",
-=======
     "build:estimated-delivery-date": "npm --prefix feature-libs/estimated-delivery-date run build:schematics && nx build estimated-delivery-date --configuration production",
     "build:order": "npm --prefix feature-libs/order run build:schematics && nx build order --configuration production",
     "build:libs": "nx build core --configuration production && nx build storefrontlib --configuration production && concurrently --kill-others-on-fail npm:build:schematics npm:build:user && npm run build:cart && npm run build:pdf-invoices && npm run build:order && npm run build:storefinder && concurrently --kill-others-on-fail npm:build:checkout npm:build:asm npm:build:tracking npm:build:customer-ticketing && concurrently --kill-others-on-fail npm:build:organization npm:build:product npm:build:product-configurator npm:build:requested-delivery-date && concurrently --kill-others-on-fail npm:build:estimated-delivery-date && concurrently --kill-others-on-fail npm:build:smartedit npm:build:qualtrics npm:build:assets npm:build:cds npm:build:cdc npm:build:cdp npm:build:digital-payments npm:build:epd-visualization npm:build:s4om npm:build:segment-refs npm:build:opps npm:build:pickup-in-store npm:build:quote && npm run build:setup",
->>>>>>> develop
     "build:organization": "npm --prefix feature-libs/organization run build:schematics && nx build organization --configuration production",
     "build:pdf-invoices": "npm --prefix feature-libs/pdf-invoices run build:schematics && nx build pdf-invoices --configuration production",
     "build:pickup-in-store": "npm --prefix feature-libs/pickup-in-store run build:schematics && nx build pickup-in-store --configuration production",
@@ -38,6 +32,7 @@
     "build:product-configurator": "npm --prefix feature-libs/product-configurator run build:schematics && nx build product-configurator --configuration production",
     "build:s4om": "npm --prefix integration-libs/s4om run build:schematics && nx build s4om --configuration production",
     "build:segment-refs": "npm --prefix integration-libs/segment-refs run build:schematics && nx build segment-refs --configuration production",
+    "build:opf": "npm --prefix integration-libs/opf run build:schematics && nx build opf --configuration production",
     "build:opps": "npm --prefix integration-libs/opps run build:schematics && nx build opps --configuration production",
     "build:qualtrics": "npm --prefix feature-libs/qualtrics run build:schematics && nx build qualtrics --configuration production",
     "build:requested-delivery-date": "npm --prefix feature-libs/requested-delivery-date run build:schematics && nx build requested-delivery-date --configuration production",
@@ -104,11 +99,7 @@
     "start:pwa": "cd ./dist/storefrontapp/ && http-server --silent --proxy http://localhost:4200? -p 4200",
     "test": "nx test",
     "test:all-schematics": "npm --prefix ./projects/schematics test -- -u; for dir in feature-libs/* integration-libs/*; do (cd $dir && npm run test:schematics -- -u); done",
-<<<<<<< HEAD
-    "test:libs": "concurrently \"nx test core --code-coverage\" \"nx test storefrontlib --code-coverage\" \"nx test cart --code-coverage\" \"nx test organization --code-coverage\" \"nx test storefinder --code-coverage\" \"nx test smartedit --code-coverage\" \"nx test asm --code-coverage\" \"nx test qualtrics --code-coverage\" \"nx test product --code-coverage\" \"nx test product-configurator --code-coverage\" \"nx test customer-ticketing --code-coverage\" \"nx test cdc --code-coverage\" \"nx test cdp --code-coverage\" \"nx test setup --code-coverage\" \"nx test checkout --code-coverage\" \"nx test order --code-coverage\" \"nx test digital-payments --code-coverage\" \"nx test epd-visualization --code-coverage\" \"nx test pickup-in-store --code-coverage\" \"nx test s4om --code-coverage\" \"nx test requested-delivery-date --code-coverage\" \"nx test pdf-invoices --code-coverage\" \"nx test quote --code-coverage\"",
-=======
-    "test:libs": "concurrently \"nx test core --code-coverage\" \"nx test storefrontlib --code-coverage\" \"nx test cart --code-coverage\" \"nx test organization --code-coverage\" \"nx test storefinder --code-coverage\" \"nx test smartedit --code-coverage\" \"nx test asm --code-coverage\" \"nx test qualtrics --code-coverage\" \"nx test product --code-coverage\" \"nx test product-configurator --code-coverage\" \"nx test customer-ticketing --code-coverage\" \"nx test cdc --code-coverage\" \"nx test cdp --code-coverage\" \"nx test opps --code-coverage\" \"nx test setup --code-coverage\" \"nx test checkout --code-coverage\" \"nx test order --code-coverage\" \"nx test digital-payments --code-coverage\" \"nx test epd-visualization --code-coverage\" \"nx test pickup-in-store --code-coverage\" \"nx test s4om --code-coverage\" \"nx test requested-delivery-date --code-coverage\" \"nx test estimated-delivery-date --code-coverage\" \"nx test pdf-invoices --code-coverage\" \"nx test quote --code-coverage\"",
->>>>>>> develop
+    "test:libs": "concurrently \"nx test core --code-coverage\" \"nx test storefrontlib --code-coverage\" \"nx test cart --code-coverage\" \"nx test organization --code-coverage\" \"nx test storefinder --code-coverage\" \"nx test smartedit --code-coverage\" \"nx test asm --code-coverage\" \"nx test qualtrics --code-coverage\" \"nx test product --code-coverage\" \"nx test product-configurator --code-coverage\" \"nx test customer-ticketing --code-coverage\" \"nx test cdc --code-coverage\" \"nx test cdp --code-coverage\" \"nx test opps --code-coverage\" \"nx test setup --code-coverage\" \"nx test checkout --code-coverage\" \"nx test order --code-coverage\" \"nx test digital-payments --code-coverage\" \"nx test epd-visualization --code-coverage\" \"nx test pickup-in-store --code-coverage\" \"nx test s4om --code-coverage\" \"nx test requested-delivery-date --code-coverage\" \"nx test estimated-delivery-date --code-coverage\" \"nx test opf --code-coverage\" \"nx test pdf-invoices --code-coverage\" \"nx test quote --code-coverage\"",
     "test:storefront:lib": "nx test storefrontlib --source-map --code-coverage",
     "test:opf:lib": "nx test opf --source-map --code-coverage",
     "dev:ssr": "env-cmd --no-override -e dev,b2c,$SPA_ENV cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:serve-ssr",
@@ -145,13 +136,9 @@
     "@ngrx/effects": "^17.0.1",
     "@ngrx/router-store": "^17.0.1",
     "@ngrx/store": "^17.0.1",
-<<<<<<< HEAD
     "@types/applepayjs": "^14.0.3",
     "@types/google.maps": "^3.54.0",
     "@types/googlepay": "^0.7.4",
-=======
-    "@types/google.maps": "^3.54.0",
->>>>>>> develop
     "angular-oauth2-oidc": "^17.0.1",
     "bootstrap": "^4.6.2",
     "comment-json": "^4.2.3",
@@ -168,22 +155,14 @@
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^17.0.0",
-<<<<<<< HEAD
-    "@angular-devkit/build-angular": "^17.2.1",
-=======
     "@angular-devkit/build-angular": "^17.3.5",
->>>>>>> develop
     "@angular-devkit/core": "^17.0.5",
     "@angular-devkit/schematics": "^17.0.5",
     "@angular-eslint/builder": "^17.1.0",
     "@angular-eslint/eslint-plugin": "^17.0.1",
     "@angular-eslint/eslint-plugin-template": "^17.0.1",
     "@angular-eslint/schematics": "^17.1.0",
-<<<<<<< HEAD
-    "@angular-eslint/template-parser": "17.0.1",
-=======
     "@angular-eslint/template-parser": "17.2.1",
->>>>>>> develop
     "@angular-eslint/utils": "^17.1.0",
     "@angular/cli": "~17.0.0",
     "@angular/compiler-cli": "17.0.5",
@@ -205,11 +184,7 @@
     "@types/jasmine": "~5.1.0",
     "@types/jest": "^29.4.0",
     "@types/node": "^18.15.11",
-<<<<<<< HEAD
-    "@types/semver": "7.5.6",
-=======
     "@types/semver": "7.5.8",
->>>>>>> develop
     "@types/shelljs": "^0.8.12",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
@@ -231,11 +206,7 @@
     "glob": "^7.1.6",
     "http-server": "^14.1.1",
     "i18n-lint": "^1.1.0",
-<<<<<<< HEAD
-    "jasmine-core": "~4.6.0",
-=======
     "jasmine-core": "~5.1.0",
->>>>>>> develop
     "jasmine-marbles": "^0.9.2",
     "jest": "^29.0.0",
     "jest-preset-angular": "13.1.4",
@@ -267,3 +238,4 @@
     "webpack-cli": "^4.10.0"
   }
 }
+
