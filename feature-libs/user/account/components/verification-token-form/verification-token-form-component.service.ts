@@ -20,7 +20,6 @@ import { BehaviorSubject, from } from 'rxjs';
 import { tap, withLatestFrom } from 'rxjs/operators';
 
 const globalMsgShowTime: number = 10000;
-
 @Injectable()
 export class VerificationTokenFormComponentService {
   constructor(
