@@ -207,24 +207,21 @@
       "@spartacus/customer-ticketing/root": [
         "../../dist/customer-ticketing/root"
       ],
-      "@spartacus/order/assets": [
-        "../../dist/order/assets"
+      "@spartacus/estimated-delivery-date/assets": [
+        "../../dist/estimated-delivery-date/assets"
       ],
-      "@spartacus/order/components": [
-        "../../dist/order/components"
+      "@spartacus/estimated-delivery-date": [
+        "../../dist/estimated-delivery-date"
       ],
-      "@spartacus/order/core": [
-        "../../dist/order/core"
+      "@spartacus/estimated-delivery-date/root": [
+        "../../dist/estimated-delivery-date/root"
       ],
-      "@spartacus/order": [
-        "../../dist/order"
-      ],
-      "@spartacus/order/occ": [
-        "../../dist/order/occ"
-      ],
-      "@spartacus/order/root": [
-        "../../dist/order/root"
-      ],
+      "@spartacus/order/assets": ["../../dist/order/assets"],
+      "@spartacus/order/components": ["../../dist/order/components"],
+      "@spartacus/order/core": ["../../dist/order/core"],
+      "@spartacus/order": ["../../dist/order"],
+      "@spartacus/order/occ": ["../../dist/order/occ"],
+      "@spartacus/order/root": ["../../dist/order/root"],
       "@spartacus/organization/account-summary/assets": [
         "../../dist/organization/account-summary/assets"
       ],
@@ -639,30 +636,16 @@
       "@spartacus/epd-visualization/root": [
         "../../dist/epd-visualization/root"
       ],
-      "@spartacus/s4om/assets": [
-        "../../dist/s4om/assets"
-      ],
-      "@spartacus/s4om": [
-        "../../dist/s4om"
-      ],
-      "@spartacus/s4om/root": [
-        "../../dist/s4om/root"
-      ],
-      "@spartacus/segment-refs": [
-        "../../dist/segment-refs"
-      ],
-      "@spartacus/segment-refs/root": [
-        "../../dist/segment-refs/root"
-      ],
-      "@spartacus/assets": [
-        "../../dist/assets"
-      ],
-      "@spartacus/core": [
-        "../../dist/core"
-      ],
-      "@spartacus/storefront": [
-        "../../dist/storefrontlib"
-      ]
+      "@spartacus/opps": ["../../dist/opps"],
+      "@spartacus/opps/root": ["../../dist/opps/root"],
+      "@spartacus/s4om/assets": ["../../dist/s4om/assets"],
+      "@spartacus/s4om": ["../../dist/s4om"],
+      "@spartacus/s4om/root": ["../../dist/s4om/root"],
+      "@spartacus/segment-refs": ["../../dist/segment-refs"],
+      "@spartacus/segment-refs/root": ["../../dist/segment-refs/root"],
+      "@spartacus/assets": ["../../dist/assets"],
+      "@spartacus/core": ["../../dist/core"],
+      "@spartacus/storefront": ["../../dist/storefrontlib"]
     }
   }
 }

@@ -194,36 +194,23 @@
       "@spartacus/customer-ticketing/components": [
         "dist/customer-ticketing/components"
       ],
-      "@spartacus/customer-ticketing/core": [
-        "dist/customer-ticketing/core"
+      "@spartacus/customer-ticketing/core": ["dist/customer-ticketing/core"],
+      "@spartacus/customer-ticketing": ["dist/customer-ticketing"],
+      "@spartacus/customer-ticketing/occ": ["dist/customer-ticketing/occ"],
+      "@spartacus/customer-ticketing/root": ["dist/customer-ticketing/root"],
+      "@spartacus/estimated-delivery-date/assets": [
+        "dist/estimated-delivery-date/assets"
       ],
-      "@spartacus/customer-ticketing": [
-        "dist/customer-ticketing"
+      "@spartacus/estimated-delivery-date": ["dist/estimated-delivery-date"],
+      "@spartacus/estimated-delivery-date/root": [
+        "dist/estimated-delivery-date/root"
       ],
-      "@spartacus/customer-ticketing/occ": [
-        "dist/customer-ticketing/occ"
-      ],
-      "@spartacus/customer-ticketing/root": [
-        "dist/customer-ticketing/root"
-      ],
-      "@spartacus/order/assets": [
-        "dist/order/assets"
-      ],
-      "@spartacus/order/components": [
-        "dist/order/components"
-      ],
-      "@spartacus/order/core": [
-        "dist/order/core"
-      ],
-      "@spartacus/order": [
-        "dist/order"
-      ],
-      "@spartacus/order/occ": [
-        "dist/order/occ"
-      ],
-      "@spartacus/order/root": [
-        "dist/order/root"
-      ],
+      "@spartacus/order/assets": ["dist/order/assets"],
+      "@spartacus/order/components": ["dist/order/components"],
+      "@spartacus/order/core": ["dist/order/core"],
+      "@spartacus/order": ["dist/order"],
+      "@spartacus/order/occ": ["dist/order/occ"],
+      "@spartacus/order/root": ["dist/order/root"],
       "@spartacus/organization/account-summary/assets": [
         "dist/organization/account-summary/assets"
       ],
@@ -632,36 +619,18 @@
       "@spartacus/epd-visualization/epd-visualization-api": [
         "dist/epd-visualization/epd-visualization-api"
       ],
-      "@spartacus/epd-visualization": [
-        "dist/epd-visualization"
-      ],
-      "@spartacus/epd-visualization/root": [
-        "dist/epd-visualization/root"
-      ],
-      "@spartacus/s4om/assets": [
-        "dist/s4om/assets"
-      ],
-      "@spartacus/s4om": [
-        "dist/s4om"
-      ],
-      "@spartacus/s4om/root": [
-        "dist/s4om/root"
-      ],
-      "@spartacus/segment-refs": [
-        "dist/segment-refs"
-      ],
-      "@spartacus/segment-refs/root": [
-        "dist/segment-refs/root"
-      ],
-      "@spartacus/assets": [
-        "dist/assets"
-      ],
-      "@spartacus/core": [
-        "dist/core"
-      ],
-      "@spartacus/storefront": [
-        "dist/storefrontlib"
-      ]
+      "@spartacus/epd-visualization": ["dist/epd-visualization"],
+      "@spartacus/epd-visualization/root": ["dist/epd-visualization/root"],
+      "@spartacus/opps": ["dist/opps"],
+      "@spartacus/opps/root": ["dist/opps/root"],
+      "@spartacus/s4om/assets": ["dist/s4om/assets"],
+      "@spartacus/s4om": ["dist/s4om"],
+      "@spartacus/s4om/root": ["dist/s4om/root"],
+      "@spartacus/segment-refs": ["dist/segment-refs"],
+      "@spartacus/segment-refs/root": ["dist/segment-refs/root"],
+      "@spartacus/assets": ["dist/assets"],
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"]
     }
   }
 }
