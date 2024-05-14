@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/estimated-delivery-date",
-  "version": "2211.23.0-1",
+  "version": "2211.23.0",
   "description": "Estimated Delivery Date library for Spartacus",
   "keywords": [
     "spartacus",
