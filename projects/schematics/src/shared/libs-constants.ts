@@ -221,8 +221,6 @@ export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
-
-
 export const SPARTACUS_CPQ_QUOTE = '@spartacus/cpq-quote';
 export const SPARTACUS_CPQ_QUOTE_ROOT = `@spartacus/cpq-quote/root`;
 
@@ -316,10 +314,7 @@ export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 
 export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 
-
 export const CPQ_QUOTE_FEATURE_NAME = 'cpq-quote-discount';
-
-
 
 export const SEGMENT_REFS_FEATURE_NAME = 'Segment-Refs';
 

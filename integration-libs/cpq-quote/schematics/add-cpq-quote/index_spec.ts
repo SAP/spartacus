@@ -4,9 +4,7 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import {
-  Schema as ApplicationOptions,
-} from '@schematics/angular/application/schema';
+import { Schema as ApplicationOptions } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   LibraryOptions as CpqQuoteOptions,
