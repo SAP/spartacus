@@ -176,10 +176,11 @@ export class ConfiguratorAttributeInputFieldComponent
         ? this.config.productConfigurator?.updateDebounceTime?.date ??
             this.FALLBACK_DEBOUNCE_TIME_DATE
         : 0;
-    } else
+    } else {
       return (
         this.config.productConfigurator?.updateDebounceTime?.input ??
         this.FALLBACK_DEBOUNCE_TIME
       );
+    }
   }
 }
