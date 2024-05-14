@@ -171,14 +171,14 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   protected showC360Dialog(customer: User | undefined): void {
     const data = { customer: customer };
-    this.launchDialogService?.openDialogAndSubscribe(
+    this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CUSTOMER_360,
       this.element,
       data
     );
 
     this.subscription.add(
-      this.launchDialogService?.dialogClose
+      this.launchDialogService.dialogClose
         .pipe(filter((closeContent) => Boolean(closeContent)))
         .subscribe((event: AsmDialogActionEvent) => {
           this.asmComponentService.handleAsmDialogAction(event);
