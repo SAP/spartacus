@@ -61,14 +61,6 @@ export class ConfigureCartEntryComponent {
     }))
   );
 
-  abstractOrderContext = inject(AbstractOrderContext, { optional: true });
-
-  // we default to active cart as owner in case no context is provided
-  // in this case no id of abstract order is needed
-  abstractOrderKey$: Observable<AbstractOrderKey> = this.abstractOrderContext
-    ? this.abstractOrderContext.key$
-    : of({ type: AbstractOrderType.CART });
-
   /**
    * Verifies whether the entry has any issues.
    *
