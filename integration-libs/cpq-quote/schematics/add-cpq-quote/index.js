@@ -21,7 +21,6 @@ function addCpqQuoteFeature(options) {
             (0, schematics_2.addPackageJsonDependenciesForLibrary)(package_json_1.peerDependencies, options),
             (0, schematics_2.finalizeInstallation)(options, features),
         ]);
-        return (0, schematics_1.chain)([]);
     };
 }
 exports.addCpqQuoteFeature = addCpqQuoteFeature;
