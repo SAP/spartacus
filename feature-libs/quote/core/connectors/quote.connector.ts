@@ -153,7 +153,15 @@ export class QuoteConnector {
    * @param attachmentId - Attachment ID
    * @returns Observable emitting a Blob response
    */
-  downloadAttachment(userId: string, quoteCode: string, attachmentId: string): Observable<Blob> {
-    return this.quoteAdapter.downloadAttachment(userId, quoteCode, attachmentId);
+  downloadAttachment(
+    userId: string,
+    quoteCode: string,
+    attachmentId: string
+  ): Observable<Blob> {
+    return this.quoteAdapter.downloadAttachment(
+      userId,
+      quoteCode,
+      attachmentId
+    );
   }
 }

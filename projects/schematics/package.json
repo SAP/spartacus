@@ -13,8 +13,8 @@
   "scripts": {
     "build": "npm run clean && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\" && npm run copy-feature-toggles",
-    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js",
-    "copy-feature-toggles": "node copy-feature-toggles"
+    "copy-feature-toggles": "node copy-feature-toggles",
+    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
     "@angular/pwa": "^17.0.5",

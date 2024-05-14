@@ -556,12 +556,19 @@ export class QuoteService implements QuoteFacade {
     );
   }
 
-  downloadAttachment(quoteCode: string, attachmentId: string): Observable<Blob> {
+  downloadAttachment(
+    quoteCode: string,
+    attachmentId: string
+  ): Observable<Blob> {
     return this.authService.isUserLoggedIn().pipe(
       filter((isLoggedIn) => isLoggedIn),
       switchMap(() => this.userIdService.takeUserId()),
       mergeMap((userId) => {
-        return this.quoteConnector.downloadAttachment(userId, quoteCode, attachmentId);
+        return this.quoteConnector.downloadAttachment(
+          userId,
+          quoteCode,
+          attachmentId
+        );
       })
     );
   }

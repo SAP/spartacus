@@ -231,10 +231,14 @@ export class QuoteSummaryActionsComponent
     // as there would be only one proposal document attached for each quote
     const attachmentId = attachments[0].id;
     const filename = attachments[0].filename || attachmentId;
-    this.quoteFacade.downloadAttachment(quoteCode, attachmentId).subscribe((res) => {
-      const url = window.URL.createObjectURL(new Blob([res], {type: res.type}));
-      this.fileDownloadService.download(url, `${filename}.pdf`);
-    });
+    this.quoteFacade
+      .downloadAttachment(quoteCode, attachmentId)
+      .subscribe((res) => {
+        const url = window.URL.createObjectURL(
+          new Blob([res], { type: res.type })
+        );
+        this.fileDownloadService.download(url, `${filename}.pdf`);
+      });
   }
 
   /**

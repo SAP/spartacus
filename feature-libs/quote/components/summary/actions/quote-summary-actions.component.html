@@ -7,7 +7,9 @@
           id="downloadBtn"
           class="btn btn-primary"
           *ngIf="isAttachmentPresent(quoteDetails.sapAttachments)"
-          (click)="onDownloadAttachment(quoteDetails.code, quoteDetails.sapAttachments)"
+          (click)="
+            onDownloadAttachment(quoteDetails.code, quoteDetails.sapAttachments)
+          "
         >
           {{ 'quote.summary.actions.DOWNLOAD' | cxTranslate }}
         </button>

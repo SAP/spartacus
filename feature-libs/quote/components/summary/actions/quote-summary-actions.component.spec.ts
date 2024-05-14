@@ -149,7 +149,10 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
 
   requote = createSpy();
 
-  downloadAttachment(_quoteCode: string, _attachmentId: string): Observable<Blob> {
+  downloadAttachment(
+    _quoteCode: string,
+    _attachmentId: string
+  ): Observable<Blob> {
     return of(mockQuoteAttachment());
   }
 }
@@ -234,7 +237,7 @@ describe('QuoteSummaryActionsComponent', () => {
         },
         {
           provide: FileDownloadService,
-          useClass: MockFileDownloadService
+          useClass: MockFileDownloadService,
         },
       ],
     }).compileComponents();
@@ -1043,24 +1046,43 @@ describe('QuoteSummaryActionsComponent', () => {
       ...mockQuote,
       sapAttachments: [
         {
-          id: mockQuote.code
-        }
-      ]
+          id: mockQuote.code,
+        },
+      ],
     };
 
     it('should display Download button when there is a proposal document attached to the quote', () => {
       mockQuoteDetails$.next(vendorQuote);
       fixture.detectChanges();
-      const buttonContainerSection = CommonQuoteTestUtilsService.getHTMLElement(htmlElem, 'section');
-      CommonQuoteTestUtilsService.expectElementPresent(expect, buttonContainerSection, '#downloadBtn');
-      CommonQuoteTestUtilsService.expectElementToContainText(expect, htmlElem, '#downloadBtn', 'DOWNLOAD');
+      const buttonContainerSection = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        'section'
+      );
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        buttonContainerSection,
+        '#downloadBtn'
+      );
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '#downloadBtn',
+        'DOWNLOAD'
+      );
     });
 
     it('should not display Download button when there is no proposal document attached to the quote', () => {
       mockQuoteDetails$.next(mockQuote);
       fixture.detectChanges();
-      const buttonContainerSection = CommonQuoteTestUtilsService.getHTMLElement(htmlElem, 'section');
-      CommonQuoteTestUtilsService.expectElementNotPresent(expect, buttonContainerSection, '#downloadBtn');
+      const buttonContainerSection = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        'section'
+      );
+      CommonQuoteTestUtilsService.expectElementNotPresent(
+        expect,
+        buttonContainerSection,
+        '#downloadBtn'
+      );
     });
 
     it('should download the proposal document attached when Download button is clicked', () => {
@@ -1068,10 +1090,16 @@ describe('QuoteSummaryActionsComponent', () => {
       spyOn(fileDownloadService, 'download');
       mockQuoteDetails$.next(vendorQuote);
       fixture.detectChanges();
-      const downloadBtn = CommonQuoteTestUtilsService.getHTMLElement(htmlElem, '#downloadBtn');
+      const downloadBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        '#downloadBtn'
+      );
       downloadBtn.click();
       fixture.detectChanges();
-      expect(quoteFacade.downloadAttachment).toHaveBeenCalledWith(vendorQuote.code, vendorQuote.code);
+      expect(quoteFacade.downloadAttachment).toHaveBeenCalledWith(
+        vendorQuote.code,
+        vendorQuote.code
+      );
       fixture.whenStable().then(() => {
         fixture.detectChanges();
         expect(fileDownloadService.download).toHaveBeenCalled();

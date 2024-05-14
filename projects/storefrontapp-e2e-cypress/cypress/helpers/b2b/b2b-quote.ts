@@ -1675,7 +1675,6 @@ export function clearSavedCarts() {
     });
 }
 
-
 /**
  * Navigates to the quote with status as Vendor Quote.
  */
@@ -1685,16 +1684,15 @@ export function navigateToVendorQuote() {
     navigateToVendorQuote.name
   );
   cy.get('.cx-status .quote-offer')
-    .should('contain.text', 'Vendor Quote').first()
+    .should('contain.text', 'Vendor Quote')
+    .first()
     .and('be.visible')
     .click()
     .then(() => {
       cy.wait(READ_QUOTE);
-      cy.get('h1')
-        .should('contain.text', 'Quote Details')
+      cy.get('h1').should('contain.text', 'Quote Details');
     });
 }
-
 
 /**
  * Downloads the proposal document attached to the quote.
@@ -1710,9 +1708,7 @@ export function downloadVendorQuoteAttachment() {
     .and('be.visible')
     .click()
     .then(() => {
-      cy.wait(DOWNLOAD_ATTACHMENT)
-        .its('response.statusCode')
-        .should('eq', 200);
+      cy.wait(DOWNLOAD_ATTACHMENT).its('response.statusCode').should('eq', 200);
     });
 }
 
@@ -1742,10 +1738,15 @@ export function registerReadVendorQuoteRoute() {
  * Registers download attachment route.
  */
 export function registerDownloadAttachmentRoute() {
-  log('Registers download attachment route.', registerReadVendorQuoteRoute.name);
+  log(
+    'Registers download attachment route.',
+    registerReadVendorQuoteRoute.name
+  );
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${SHOP_NAME}/users/*/quotes/*/attachments/*`,
+    path: `${Cypress.env(
+      'OCC_PREFIX'
+    )}/${SHOP_NAME}/users/*/quotes/*/attachments/*`,
   }).as(DOWNLOAD_ATTACHMENT.substring(1)); // strip the '@'
 }
 
