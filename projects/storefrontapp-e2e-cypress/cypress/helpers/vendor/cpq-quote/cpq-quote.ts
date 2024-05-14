@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-  
 
 export const READ_QUOTE = '@READ_QUOTE';
 export const READ_VENDOR_QUOTE_LIST = '@READ_VENDOR_QUOTE_LIST';
