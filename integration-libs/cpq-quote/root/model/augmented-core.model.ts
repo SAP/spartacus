@@ -8,10 +8,10 @@
  * Identifiers of cpq-quote.
  */
 import '@spartacus/cart/base/root';
-import { cpqDiscounts } from './cpqDiscounts.model';
+import { CpqDiscounts } from './cpqDiscounts.model';
 
 declare module '@spartacus/cart/base/root' {
   interface OrderEntry {
-    cpqDiscounts?: cpqDiscounts[];
+    cpqDiscounts?: CpqDiscounts[];
   }
 }
