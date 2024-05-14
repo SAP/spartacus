@@ -6,13 +6,6 @@
 
 import { Injectable } from '@angular/core';
 import { MiniCartComponentService } from '@spartacus/cart/base/components/mini-cart';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import {
-  AuthService,
-  EventService,
-  SiteContextParamsService,
-  StatePersistenceService,
-} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -27,21 +20,6 @@ export class OpfMiniCartComponentService extends MiniCartComponentService {
 
   blockUpdate(decision: boolean) {
     this.isUpdateBlocked = decision;
-  }
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected authService: AuthService,
-    protected statePersistenceService: StatePersistenceService,
-    protected siteContextParamsService: SiteContextParamsService,
-    protected eventService: EventService
-  ) {
-    super(
-      activeCartFacade,
-      authService,
-      statePersistenceService,
-      siteContextParamsService,
-      eventService
-    );
   }
 
   getQuantity(): Observable<number> {

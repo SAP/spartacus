@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { OpfPaymentMetadata } from '../model';
@@ -14,9 +14,9 @@ import { OpfPaymentMetadataStoreService } from './opf-payment-metadata-store.ser
   providedIn: 'root',
 })
 export class OpfService {
-  constructor(
-    protected opfPaymentMetadataStoreService: OpfPaymentMetadataStoreService
-  ) {}
+  protected opfPaymentMetadataStoreService = inject(
+    OpfPaymentMetadataStoreService
+  );
 
   /**
    * Updates the state of the OPF metadata

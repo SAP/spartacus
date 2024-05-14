@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   PaymentInitiationConfig,
   PaymentSessionData,
@@ -15,7 +15,7 @@ import { OpfAdapter } from './opf.adapter';
 
 @Injectable()
 export class OpfCheckoutConnector {
-  constructor(protected adapter: OpfAdapter) {}
+  protected adapter = inject(OpfAdapter);
 
   public initiatePayment(
     paymentConfig: PaymentInitiationConfig

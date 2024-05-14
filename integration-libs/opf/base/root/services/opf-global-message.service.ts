@@ -5,11 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  StateWithGlobalMessage,
   Translatable,
 } from '@spartacus/core';
 import { timer } from 'rxjs';
@@ -22,9 +20,6 @@ export class OpfGlobalMessageService extends GlobalMessageService {
   protected isGlobalMessageDisabled = false;
   protected disabledKeys: string[] = [];
   protected defaultTimeout = 2000;
-  constructor(protected store: Store<StateWithGlobalMessage>) {
-    super(store);
-  }
   /**
    * Add one message into store
    * @param text: string | Translatable

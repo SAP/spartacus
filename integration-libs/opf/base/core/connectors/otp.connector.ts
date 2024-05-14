@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OtpAdapter } from './otp.adapter';
 
 @Injectable()
 export class OtpConnector {
-  constructor(protected adapter: OtpAdapter) {}
+  protected adapter = inject(OtpAdapter);
 
   public generateOtpKey(
     userId: string,

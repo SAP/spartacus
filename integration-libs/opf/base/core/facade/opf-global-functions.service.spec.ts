@@ -12,6 +12,7 @@ import {
   ElementRef,
   InjectionToken,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 
@@ -27,7 +28,7 @@ export const WINDOW = new InjectionToken<Window>('window');
   template: '',
 })
 class TestContainerComponent {
-  constructor(public vcr: ViewContainerRef) {}
+  public vcr = inject(ViewContainerRef);
 }
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: any) {}

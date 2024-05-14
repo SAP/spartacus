@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, ViewContainerRef } from '@angular/core';
+import { Injectable, ViewContainerRef, inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
   GlobalMessageService,
@@ -40,15 +40,13 @@ import { OpfResourceLoaderService } from '../../services/opf-resource-loader.ser
   providedIn: 'root',
 })
 export class OpfPaymentVerificationService {
-  constructor(
-    protected opfOrderFacade: OpfOrderFacade,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
-    protected opfPaymentService: OpfPaymentFacade,
-    protected opfService: OpfService,
-    protected opfResourceLoaderService: OpfResourceLoaderService,
-    protected globalFunctionsService: OpfGlobalFunctionsFacade
-  ) {}
+  protected opfOrderFacade = inject(OpfOrderFacade);
+  protected routingService = inject(RoutingService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected opfPaymentService = inject(OpfPaymentFacade);
+  protected opfService = inject(OpfService);
+  protected opfResourceLoaderService = inject(OpfResourceLoaderService);
+  protected globalFunctionsService = inject(OpfGlobalFunctionsFacade);
 
   defaultError: HttpErrorModel = {
     statusText: 'Payment Verification Error',

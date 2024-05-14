@@ -11,6 +11,7 @@ import {
   ElementRef,
   HostListener,
   OnInit,
+  inject,
 } from '@angular/core';
 import { ErrorDialogOptions } from '@spartacus/opf/base/root';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
@@ -24,6 +25,11 @@ import { OpfErrorModalService } from './opf-error-modal.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpfErrorModalComponent implements OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+  protected cd = inject(ChangeDetectorRef);
+  protected opfErrorModalService = inject(OpfErrorModalService);
+
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
@@ -40,12 +46,7 @@ export class OpfErrorModalComponent implements OnInit {
     }
   }
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef,
-    protected cd: ChangeDetectorRef,
-    protected opfErrorModalService: OpfErrorModalService
-  ) {
+  constructor() {
     // Mechanism needed to trigger the cpnt life cycle hooks.
     timer(1).subscribe({
       complete: () => {

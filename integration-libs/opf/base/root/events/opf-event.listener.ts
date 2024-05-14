@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { CreateCartEvent } from '@spartacus/cart/base/root';
 import { EventService, LoginEvent } from '@spartacus/core';
 import { OrderPlacedEvent } from '@spartacus/order/root';
@@ -15,12 +15,12 @@ import { OpfService } from '../services';
   providedIn: 'root',
 })
 export class OpfEventListenerService implements OnDestroy {
+  protected eventService = inject(EventService);
+  protected opfService = inject(OpfService);
+
   protected subscriptions = new Subscription();
 
-  constructor(
-    protected eventService: EventService,
-    protected opfService: OpfService
-  ) {
+  constructor() {
     this.onOpfPaymentMetadataResetConditionsMet();
   }
 

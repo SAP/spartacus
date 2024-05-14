@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import {
   ErrorDialogOptions,
@@ -17,7 +17,7 @@ import { map, switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class OpfErrorModalService {
-  constructor(protected translationService: TranslationService) {}
+  protected translationService = inject(TranslationService);
 
   getMessageAndConfirmTranslations(dialogOptions: ErrorDialogOptions) {
     return combineLatest([

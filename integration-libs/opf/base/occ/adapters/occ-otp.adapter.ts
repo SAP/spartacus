@@ -22,13 +22,10 @@ import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable()
 export class OccOtpAdapter implements OtpAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
+  protected converterService = inject(ConverterService);
   protected logger = inject(LoggerService);
-
-  constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
-  ) {}
 
   generateOtpKey(
     userId: string,

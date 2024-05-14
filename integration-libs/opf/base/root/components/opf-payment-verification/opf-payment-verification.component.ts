@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewContainerRef,
+  inject,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorModel } from '@spartacus/core';
 
@@ -19,14 +25,12 @@ import { OpfPaymentVerificationService } from './opf-payment-verification.servic
   templateUrl: './opf-payment-verification.component.html',
 })
 export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
+  protected route = inject(ActivatedRoute);
+  protected paymentService = inject(OpfPaymentVerificationService);
+  protected vcr = inject(ViewContainerRef);
+
   protected subscription?: Subscription;
   protected isHostedFieldPattern = false;
-
-  constructor(
-    protected route: ActivatedRoute,
-    protected paymentService: OpfPaymentVerificationService,
-    protected vcr: ViewContainerRef
-  ) {}
 
   ngOnInit(): void {
     this.paymentService.checkIfProcessingCartIdExist();
