@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   BaseSiteService,
   Config,
@@ -16,11 +16,12 @@ import {
   providedIn: 'root',
 })
 export class OpfEndpointsService {
-  private config = inject(Config);
-  private baseSiteService = inject(BaseSiteService);
   private _activeBaseSite: string;
 
-  constructor() {
+  constructor(
+    private config: Config,
+    private baseSiteService: BaseSiteService
+  ) {
     if (this.baseSiteService) {
       this.baseSiteService
         .getActive()
