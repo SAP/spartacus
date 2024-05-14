@@ -173,9 +173,23 @@ export interface FeatureTogglesInterface {
   a11yCartItemsLinksStyles?: boolean;
 
   /**
+   * If enabled, the "Select this address/payment" button
+   * will not be displayed in `CheckoutPaymentMethodComponent`
+   * and `CheckoutDeliveryAddressComponent` when the address
+   * or payment method is already selected.
+   */
+  a11yHideSelectBtnForSelectedAddrOrPayment?: boolean;
+
+  /**
    * Determines whether the controls in the `CarouselComponent` are focusable and accessible from the keyboard.
    */
   a11yFocusableCarouselControls?: boolean;
+
+  /**
+   * In `CmsGuardsService`, it uses the `GuardsComposer` instead of
+   * calling its own deprecated method `canActivateGuard()`.
+   */
+  cmsGuardsServiceUseGuardsComposer?: boolean;
 
   /**
    * In `CartQuickOrderFormComponent` it stops calling the deprecated method
@@ -217,6 +231,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetKeyboardNavigation: false,
   a11yUnitsListKeyboardControls: false,
   a11yCartItemsLinksStyles: false,
+  a11yHideSelectBtnForSelectedAddrOrPayment: false,
   a11yFocusableCarouselControls: false,
+  cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
 };
