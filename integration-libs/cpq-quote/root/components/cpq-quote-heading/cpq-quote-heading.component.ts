@@ -19,6 +19,7 @@ export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   constructor(@Optional() protected outlet: OutletContextData) {}
+  discountLabel: string = "Discount Percentage";
   dataAvailable: boolean = false;
   ngOnInit(): void {
     if (this.outlet?.context$) {
