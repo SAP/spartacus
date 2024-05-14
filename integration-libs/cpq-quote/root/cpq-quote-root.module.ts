@@ -10,8 +10,7 @@ import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { CpqQuoteHeadingComponent } from './components/cpq-quote-heading/cpq-quote-heading.component';
 import { CpqQuoteHeadingModule } from './components/cpq-quote-heading/cpq-quote.heading.module';
 import { CpqQuoteTbodyModule } from './components/cpq-quote-discount-tbody/cpq-quote.tbody.module';
-import { CpqQuoteDiscountComponent } from './components/cpq-quote-discount-tbody/cpq-quote.component';
-console.log('CpqQuoteHeadingComponent instantiated');
+import { CpqQuoteDiscountComponent } from './components/cpq-quote-discount-tbody/cpq-quote.component'; 
 @NgModule({
   imports: [CpqQuoteHeadingModule, CpqQuoteTbodyModule],
   providers: [
