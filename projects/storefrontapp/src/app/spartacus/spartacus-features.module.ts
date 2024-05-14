@@ -101,6 +101,7 @@ import { StorefinderFeatureModule } from './features/storefinder/storefinder-fea
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 import { OppsFeatureModule } from './features/opps/opps-feature.module';
+import { CPQQUOTEFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 
 const featureModules = [];
 
@@ -139,6 +140,9 @@ if (environment.opps) {
 }
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
+}
+if (environment.cpqQuoteDiscount) {
+  featureModules.push(CPQQUOTEFeatureModule);
 }
 if (environment.segmentRefs) {
   featureModules.push(SegmentRefsFeatureModule);

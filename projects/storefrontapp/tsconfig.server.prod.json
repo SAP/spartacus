@@ -400,6 +400,8 @@
       ],
       "@spartacus/cdp": ["../../dist/cdp"],
       "@spartacus/cds": ["../../dist/cds"],
+      "@spartacus/cpq-quote": ["../../dist/cpq-quote"],
+      "@spartacus/cpq-quote/root": ["../../dist/cpq-quote/root"],
       "@spartacus/digital-payments/assets": [
         "../../dist/digital-payments/assets"
       ],

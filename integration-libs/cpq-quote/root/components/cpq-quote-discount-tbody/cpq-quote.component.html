@@ -1,0 +1,22 @@
+<!-- <div *ngIf="item"> 
+    <ng-container *ngIf="item.cpqDiscounts && item.cpqDiscounts.length > 0">
+        <div *ngFor="let discount of item.cpqDiscounts">
+            {{ discount.appliedValue }}
+        </div>
+    </ng-container> 
+</div> -->
+
+<ng-container
+  *ngIf="
+    quoteDiscountData &&
+    quoteDiscountData.cpqDiscounts &&
+    quoteDiscountData.cpqDiscounts.length > 0
+  "
+  class="cx-cpq-quote"
+>
+  <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts">
+    <td role="cell" class="cx-total">
+      {{ discount.appliedValue }}
+    </td>
+  </ng-container>
+</ng-container>

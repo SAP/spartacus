@@ -1,0 +1,1 @@
+This library provides Discount percentage to Spartacus UI. 

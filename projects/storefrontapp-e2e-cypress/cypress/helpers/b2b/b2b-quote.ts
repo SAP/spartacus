@@ -11,6 +11,8 @@ import * as common from '../common';
 import * as productConfigurator from '../product-configurator';
 
 export const READ_QUOTE = '@READ_QUOTE';
+export const READ_VENDOR_QUOTE = '@READ_VENDOR_QUOTE';
+export const DOWNLOAD_ATTACHMENT = '@DOWNLOAD_ATTACHMENT';
 export const UPDATE_QUOTE_ITEM = '@UPDATE_QUOTE_ITEM';
 export const UPDATE_CART_ITEM = '@UPDATE_CART_ITEM';
 export const DELETE_QUOTE_ITEM = '@DELETE_QUOTE_ITEM';
@@ -867,6 +869,34 @@ export function navigateToQuoteListFromMyAccount() {
 }
 
 /**
+ * Navigates to the vendor quote list via my account.
+ */
+export function navigateToVendorQuoteListFromMyAccount() {
+  log(
+    'Navigates to the vendor quote list via my account',
+    navigateToVendorQuoteListFromMyAccount.name
+  );
+  cy.get('.accNavComponent')
+    .should('contain.text', 'My Account')
+    .and('be.visible')
+    .within(() => {
+      cy.get('nav > ul > li > button').first().focus().trigger('keydown', {
+        key: ' ',
+        code: 'Space',
+        force: true,
+      });
+      cy.get('cx-generic-link')
+        .contains('Quotes')
+        .should('be.visible')
+        .click()
+        .then(() => {
+          cy.wait(READ_VENDOR_QUOTE);
+          cy.url().should('include', 'quotes');
+        });
+    });
+}
+
+/**
  * Navigates to the quote list via the quote details.
  */
 export function navigateToQuoteListFromQuoteDetails() {
@@ -1646,6 +1676,65 @@ export function clearSavedCarts() {
 }
 
 /**
+ * Navigates to the quote with status as Vendor Quote.
+ */
+export function navigateToVendorQuote() {
+  log(
+    'Navigates to the quote with status as Vendor Quote',
+    navigateToVendorQuote.name
+  );
+  cy.get('.cx-status .quote-offer')
+    .should('contain.text', 'Vendor Quote')
+    .first()
+    .and('be.visible')
+    .click()
+    .then(() => {
+      cy.wait(READ_QUOTE);
+      cy.get('h1').should('contain.text', 'Quote Details');
+    });
+}
+
+/**
+ * Discount Percentage Heading
+ */
+export function DiscountPercentageQuote() {
+  log('Discount Percentage Heading', DiscountPercentageQuote.name);
+  cy.get('#cx-item-list-discount')
+    .should('contain.text', 'Discount Percentage')
+    .and('be.visible');
+}
+
+export function DiscountPercentageQuoterow() {
+  log('Discount Percentage Row', DiscountPercentageQuoterow.name);
+
+  cy.get('cx-cart-item-list') // Locate the parent element containing the rows
+    .find('tr[cx-cart-item-list-row]')
+    .find('cx-cpq-quote')
+    .first()
+    .should('be.visible')
+    .should('not.have.text', '');
+}
+
+/**
+ * CPQ discount percentage
+ */
+export function DiscountPercentageQuotej() {
+  log('CPQ discount percentage ', DiscountPercentageQuote.name);
+  if (Cypress.$('#cx-item-list-discount').length > 0) {
+    cy.get('#cx-item-list-discount')
+      .should('contain.text', 'Discount Percentage')
+      .and('be.visible');
+    cy.get('.cx-discount').first().and('be.visible');
+  } else {
+    // Handle the case when the element is not present
+    log(
+      'Element with id #cx-item-list-discount is not present',
+      DiscountPercentageQuote.name
+    );
+  }
+}
+
+/**
  * Registers read quote route.
  */
 export function registerReadQuoteRoute() {
@@ -1654,6 +1743,33 @@ export function registerReadQuoteRoute() {
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${SHOP_NAME}/users/*/quotes/*`,
   }).as(READ_QUOTE.substring(1)); // strip the '@'
+}
+
+/**
+ * Registers read vendor quote route.
+ */
+export function registerReadVendorQuoteRoute() {
+  log('Registers read vendor quote route.', registerReadVendorQuoteRoute.name);
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${SHOP_NAME}/users/*/quotes*`,
+  }).as(READ_VENDOR_QUOTE.substring(1)); // strip the '@'
+}
+
+/**
+ * Registers download attachment route.
+ */
+export function registerDownloadAttachmentRoute() {
+  log(
+    'Registers download attachment route.',
+    registerReadVendorQuoteRoute.name
+  );
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env(
+      'OCC_PREFIX'
+    )}/${SHOP_NAME}/users/*/quotes/*/attachments/*`,
+  }).as(DOWNLOAD_ATTACHMENT.substring(1)); // strip the '@'
 }
 
 /**

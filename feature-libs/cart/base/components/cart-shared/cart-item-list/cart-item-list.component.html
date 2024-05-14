@@ -12,6 +12,17 @@
       <th role="columnheader" class="cx-item-list-qty">
         {{ 'cartItems.quantity' | cxTranslate }}
       </th>
+      <th
+        role="columnheader"
+        class="cx-item-list-desc"
+        id="cx-item-list-discount"
+      >
+        <ng-template
+          [cxOutlet]="CartOutlets.CPQ_QUOTE_HEADING"
+          [cxOutletContext]="items"
+        ></ng-template>
+      </th>
+      <!-- {{items | json}} -->
       <ng-container *ngIf="options.isSaveForLater; else totalHeader">
         <th role="columnheader" class="cx-item-list-total">
           {{ 'saveForLaterItems.stock' | cxTranslate }}
