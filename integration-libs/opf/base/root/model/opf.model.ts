@@ -9,7 +9,7 @@ import { ViewContainerRef } from '@angular/core';
 export interface OpfPaymentMetadata {
   termsAndConditionsChecked: boolean;
   selectedPaymentOptionId: number | undefined;
-  defaultSelectedPaymentOptionId?: number | undefined;
+  defaultSelectedPaymentOptionId?: number;
   isPaymentInProgress: boolean;
   paymentSessionId: string | undefined;
 }

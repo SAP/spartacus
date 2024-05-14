@@ -4,10 +4,10 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { ApplePayObservableFactory } from './apple-pay-observable.factory';
-import { ApplePaySessionFactory } from '../apple-pay-session/apple-pay-session.factory';
-import { Observable, of, throwError } from 'rxjs';
 import { ApplePayObservableConfig } from '@spartacus/opf/base/root';
+import { Observable, of, throwError } from 'rxjs';
+import { ApplePaySessionFactory } from '../apple-pay-session/apple-pay-session.factory';
+import { ApplePayObservableFactory } from './apple-pay-observable.factory';
 
 class MockEventTarget implements EventTarget {
   _stubEventListeners: Array<{ type: string; listener: Function }> = [];
@@ -50,7 +50,10 @@ class MockEventTarget implements EventTarget {
   }
 }
 
-class MockApplePaySession extends MockEventTarget implements ApplePaySession {
+class MockApplePaySession
+  extends MockEventTarget
+  implements Partial<ApplePaySession>
+{
   static readonly STATUS_SUCCESS: number;
 
   static readonly STATUS_FAILURE: number;

@@ -206,12 +206,6 @@ class MockIntersectionService {
     return of(false);
   }
 }
-const cart: Cart = { quoteCode: QUOTE_CODE };
-class MockMultiCartFacade implements Partial<MultiCartFacade> {
-  getCart(): Observable<Cart> {
-    return of(cart);
-  }
-}
 
 const cart: Cart = { quoteCode: QUOTE_CODE };
 

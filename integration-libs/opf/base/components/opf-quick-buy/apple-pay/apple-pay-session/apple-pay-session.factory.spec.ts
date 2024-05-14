@@ -8,7 +8,10 @@ import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { ApplePaySessionFactory } from './apple-pay-session.factory';
 
-class MockApplePaySession extends EventTarget implements ApplePaySession {
+class MockApplePaySession
+  extends EventTarget
+  implements Partial<ApplePaySession>
+{
   static readonly STATUS_SUCCESS: number = 2;
 
   static readonly STATUS_FAILURE: number = 3;
