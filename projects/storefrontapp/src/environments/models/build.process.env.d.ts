@@ -26,5 +26,4 @@ interface Env {
   CX_REQUESTED_DELIVERY_DATE: boolean;
   CX_PDF_INVOICES: boolean;
   CX_MY_ACCOUNT_V2: boolean;
-  CX_ESTIMATED_DELIVERY_DATE: boolean;
 }

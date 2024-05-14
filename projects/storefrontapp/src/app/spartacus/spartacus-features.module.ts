@@ -151,9 +151,6 @@ if (environment.segmentRefs) {
 if (environment.requestedDeliveryDate) {
   featureModules.push(RequestedDeliveryDateFeatureModule);
 }
-if (environment.estimatedDeliveryDate) {
-  featureModules.push(EstimatedDeliveryDateFeatureModule);
-}
 
 @NgModule({
   imports: [
