@@ -93,12 +93,14 @@ import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.m
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
+import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { OppsFeatureModule } from './features/opps/opps-feature.module';
 
 const featureModules = [];
 
@@ -132,6 +134,9 @@ if (environment.epdVisualization) {
 if (environment.pdfInvoices) {
   featureModules.push(PDFInvoicesFeatureModule);
 }
+if (environment.opps) {
+  featureModules.push(OppsFeatureModule);
+}
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
 }
@@ -140,6 +145,9 @@ if (environment.segmentRefs) {
 }
 if (environment.requestedDeliveryDate) {
   featureModules.push(RequestedDeliveryDateFeatureModule);
+}
+if (environment.estimatedDeliveryDate) {
+  featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
 
 @NgModule({
@@ -290,7 +298,9 @@ if (environment.requestedDeliveryDate) {
         a11ySearchBoxMobileFocus: true,
         a11yUnitsListKeyboardControls: true,
         a11yCartItemsLinksStyles: true,
+        a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11yFocusableCarouselControls: true,
+        cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
       };
       return appFeatureToggles;
