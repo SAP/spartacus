@@ -2,10 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FocusDirective, LaunchDialogService } from '@spartacus/storefront';
-import {
-  VERIFICATION_TOKEN_DIALOG_ACTION,
-  VerificationTokenDialogComponent,
-} from './verification-token-dialog.component';
+import { VERIFICATION_TOKEN_DIALOG_ACTION } from '@spartacus/user/account/root';
+import { VerificationTokenDialogComponent } from './verification-token-dialog.component';
 
 @Pipe({
   name: 'cxTranslate',
