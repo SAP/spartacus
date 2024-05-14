@@ -14,3 +14,7 @@ export interface VerificationToken {
   expiresIn: string;
   tokenId: string;
 }
+
+export enum VERIFICATION_TOKEN_DIALOG_ACTION {
+  OK = 'OK',
+}

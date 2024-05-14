@@ -30,7 +30,7 @@ export class VerificationTokenFormComponent implements OnInit {
   constructor(
     protected service: VerificationTokenFormComponentService,
     protected launchDialogService: LaunchDialogService,
-    private cdr: ChangeDetectorRef
+    protected cdr: ChangeDetectorRef
   ) {}
 
   waitTime: number = 60;

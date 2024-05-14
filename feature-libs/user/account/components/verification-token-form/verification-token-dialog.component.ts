@@ -6,10 +6,7 @@
 
 import { Component } from '@angular/core';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
-
-export enum VERIFICATION_TOKEN_DIALOG_ACTION {
-  OK = 'OK',
-}
+import { VERIFICATION_TOKEN_DIALOG_ACTION } from '@spartacus/user/account/root';
 
 @Component({
   selector: 'cx-verification-token-dialog',

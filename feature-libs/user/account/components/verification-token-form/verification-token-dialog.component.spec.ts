@@ -18,7 +18,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: any) {}
 }
 
-describe('AsmBindCartDialogComponent', () => {
+describe('VerificationTokenDialogComponent', () => {
   let component: VerificationTokenDialogComponent;
   let fixture: ComponentFixture<VerificationTokenDialogComponent>;
 
