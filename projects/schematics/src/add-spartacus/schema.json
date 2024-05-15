@@ -50,7 +50,6 @@
           "CPQ-Configurator",
           "Qualtrics",
           "Requested-Delivery-Date",
-          "Estimated-Delivery-Date",
           "S4HANA-Order-Management",
           "SmartEdit",
           "Store-Finder",
@@ -214,10 +213,6 @@
           {
             "value": "Requested-Delivery-Date",
             "label": "Requested Delivery Date"
-          },
-          {
-            "value": "Estimated-Delivery-Date",
-            "label": "Estimated Delivery Date"
           },
           {
             "value": "S4HANA-Order-Management",
