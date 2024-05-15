@@ -1,11 +1,22 @@
 <div class="col-lg-8 col-md-9">
   <div class="row cx-btn-group">
     <div class="col-sm-6">
-      <a
-        [routerLink]="{ cxRoute: 'home' } | cxUrl"
-        class="btn btn-block btn-secondary"
-        >{{ 'common.cancel' | cxTranslate }}</a
-      >
+      <!-- TODO: (CXSPA-7252) - Remove feature flag next major release -->
+      <ng-container *cxFeature="'a11yUseButtonsForBtnLinks'">
+        <button
+          class="btn btn-block btn-secondary"
+          (click)="navigateTo('home')"
+        >
+          {{ 'common.cancel' | cxTranslate }}
+        </button>
+      </ng-container>
+      <ng-container *cxFeature="'!a11yUseButtonsForBtnLinks'">
+        <a
+          [routerLink]="{ cxRoute: 'home' } | cxUrl"
+          class="btn btn-block btn-secondary"
+          >{{ 'common.cancel' | cxTranslate }}</a
+        >
+      </ng-container>
     </div>
     <div class="col-sm-6">
       <button #element class="btn btn-block btn-primary" (click)="openModal()">
