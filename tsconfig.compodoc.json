@@ -668,12 +668,9 @@
       "@spartacus/s4om/root": [
         "integration-libs/s4om/root/public_api"
       ],
-      
-      
       "@spartacus/cpq-quote": [
         "integration-libs/cpq-quote/public_api"
-      ], 
-      
+      ],
       "@spartacus/cpq-quote/root": [
         "integration-libs/cpq-quote/root/public_api"
       ],
@@ -692,8 +689,6 @@
       "@spartacus/storefront": [
         "projects/storefrontlib/public_api"
       ],
-
-
     }
   },
   "exclude": [

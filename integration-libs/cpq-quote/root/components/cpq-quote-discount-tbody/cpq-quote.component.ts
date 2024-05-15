@@ -24,14 +24,12 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
       });
     }
   }
-
   ngOnDestroy(): void {
     // Unsubscribe from the observable to prevent memory leaks
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
-
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;
 }

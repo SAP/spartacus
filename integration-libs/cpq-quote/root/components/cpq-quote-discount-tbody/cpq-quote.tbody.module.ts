@@ -12,7 +12,6 @@ import { CpqQuoteDiscountComponent } from './cpq-quote.component';
 
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, IconModule],
-
   declarations: [CpqQuoteDiscountComponent],
   exports: [CpqQuoteDiscountComponent],
 })
