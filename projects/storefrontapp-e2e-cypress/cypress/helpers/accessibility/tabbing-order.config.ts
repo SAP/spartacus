@@ -2518,7 +2518,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   verifyToken: [
     { value: 'tokenCode', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'Resend', type: TabbingOrderTypes.LINK },
     { value: "Didn't receive the code?", type: TabbingOrderTypes.LINK },
     { value: 'Verify', type: TabbingOrderTypes.BUTTON },
     { value: 'Back', type: TabbingOrderTypes.LINK },
