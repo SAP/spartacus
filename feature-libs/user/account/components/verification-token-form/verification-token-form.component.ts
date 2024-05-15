@@ -12,6 +12,7 @@ import {
   HostBinding,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -27,11 +28,13 @@ import { VerificationTokenFormComponentService } from './verification-token-form
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VerificationTokenFormComponent implements OnInit {
-  constructor(
-    protected service: VerificationTokenFormComponentService,
-    protected launchDialogService: LaunchDialogService,
-    protected cdr: ChangeDetectorRef
-  ) {}
+  constructor() {}
+  protected service: VerificationTokenFormComponentService = inject(
+    VerificationTokenFormComponentService
+  );
+  protected launchDialogService: LaunchDialogService =
+    inject(LaunchDialogService);
+  protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   waitTime: number = 60;
 

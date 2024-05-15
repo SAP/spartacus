@@ -23,6 +23,10 @@
         color: var(--cx-color-dark);
       }
 
+      a.disabled-link:focus {
+        outline: none;
+      }
+
       a {
         color: var(--cx-color-primary);
         @include type(7);

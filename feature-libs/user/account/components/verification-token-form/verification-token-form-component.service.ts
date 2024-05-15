@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -22,12 +22,12 @@ import { tap, withLatestFrom } from 'rxjs/operators';
 const globalMsgShowTime: number = 10000;
 @Injectable()
 export class VerificationTokenFormComponentService {
-  constructor(
-    protected auth: AuthService,
-    protected globalMessage: GlobalMessageService,
-    protected verificationTokenFacade: VerificationTokenFacade
-  ) {}
-
+  constructor() {}
+  protected globalMessage: GlobalMessageService = inject(GlobalMessageService);
+  protected verificationTokenFacade: VerificationTokenFacade = inject(
+    VerificationTokenFacade
+  );
+  protected auth: AuthService = inject(AuthService);
   protected busy$ = new BehaviorSubject(false);
 
   isUpdating$ = this.busy$.pipe(
