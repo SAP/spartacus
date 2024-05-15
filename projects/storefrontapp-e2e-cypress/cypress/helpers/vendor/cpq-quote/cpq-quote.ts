@@ -1,6 +1,3 @@
-/*
- * Discount Percentage Heading
- */
 export function DiscountPercentageQuote() {
   log('Discount Percentage Heading', DiscountPercentageQuote.name);
   cy.get('#cx-item-list-discount')

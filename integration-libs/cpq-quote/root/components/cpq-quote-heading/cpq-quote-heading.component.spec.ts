@@ -9,17 +9,25 @@ describe('CpqQuoteHeadingComponent', () => {
   let fixture: ComponentFixture<CpqQuoteHeadingComponent>;
   let mockOutletContextData: BehaviorSubject<any[]>;
 
-  beforeEach(waitForAsync(() => {
-    mockOutletContextData = new BehaviorSubject<any[]>([]);
+  beforeEach(
+    waitForAsync(() => {
+      mockOutletContextData = new BehaviorSubject<any[]>([]);
 
-    TestBed.configureTestingModule({
-      declarations: [CpqQuoteHeadingComponent],
-      providers: [
-        { provide: TranslationService, useValue: { translate: () => of('Discount Percentage') } },
-        { provide: OutletContextData, useValue: { context$: mockOutletContextData } },
-      ],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [CpqQuoteHeadingComponent],
+        providers: [
+          {
+            provide: TranslationService,
+            useValue: { translate: () => of('Discount Percentage') },
+          },
+          {
+            provide: OutletContextData,
+            useValue: { context$: mockOutletContextData },
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CpqQuoteHeadingComponent);

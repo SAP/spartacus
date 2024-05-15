@@ -19,7 +19,8 @@ export const CPQ_QUOTE_FEATURE_NAME_CONSTANT = 'CPQ_QUOTE_FEATURE_NAME';
 export const CPQ_QUOTE_ROOT_MODULE = 'CpqQuoteRootdModule';
 export const CPQ_QUOTE_MODULE = 'CpqQuoteDiscountModule';
 export const CPQ_QUOTE_TRANSLATIONS = 'cpqquoteTranslations';
-export const CPQ_QUOTE_TRANSLATION_CHUNKS_CONFIG = 'cpqquoteTranslationChunksConfig';
+export const CPQ_QUOTE_TRANSLATION_CHUNKS_CONFIG =
+  'cpqquoteTranslationChunksConfig';
 
 export const CPQ_QUOTE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {

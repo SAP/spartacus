@@ -24,5 +24,5 @@ export enum CartOutlets {
 }
 export enum quoteOutlet {
   CPQ_QUOTE_MODULE = 'cx-cpq-quote',
- CPQ_QUOTE_HEADING = 'cx-cpq-quote-heading',
+  CPQ_QUOTE_HEADING = 'cx-cpq-quote-heading',
 }

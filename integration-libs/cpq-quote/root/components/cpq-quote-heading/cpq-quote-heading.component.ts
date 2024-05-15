@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, Optional, Inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  Inject,
+} from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
@@ -19,7 +26,7 @@ export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
     @Optional()
     @Inject(OutletContextData)
     protected outlet: OutletContextData,
-    protected translationService: TranslationService,
+    protected translationService: TranslationService
   ) {}
 
   // discountLabel: string = 'Discount Percentage';
@@ -27,7 +34,8 @@ export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.translationService.translate('cpqQuoteHeading')
+      this.translationService
+        .translate('cpqQuoteHeading')
         .subscribe((translation: string) => {
           this.discountLabel = translation;
         })
