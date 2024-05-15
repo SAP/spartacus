@@ -79,13 +79,6 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return configurationObs;
   }
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-
-  getConfigurationWithOverview(): Observable<Configurator.Configuration> {
-    return configurationWithOverviewObs;
-  }
 }
 
 class MockConfigUtilsService {
