@@ -15,7 +15,7 @@ export abstract class UserAddressAdapter {
   abstract update(
     userId: string,
     addressId: string,
-    address: Address
+    address: Address,
   ): Observable<{}>;
 
   abstract verify(
