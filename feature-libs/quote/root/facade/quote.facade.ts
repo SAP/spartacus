@@ -128,5 +128,8 @@ export abstract class QuoteFacade {
    * @param quoteCode - Unique quote code
    * @param attachmentId - Unique attachment ID
    */
-  abstract downloadAttachment(quoteCode: string, attachmentId: string): Observable<Blob>;
+  abstract downloadAttachment(
+    quoteCode: string,
+    attachmentId: string
+  ): Observable<Blob>;
 }

@@ -72,9 +72,10 @@ class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
         `addQuoteEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`
       )
   );
-  downloadAttachment = createSpy('CommerceQuotesAdapter.downloadAttachment').and.callFake(
-    (userId: string, quoteCode: string, attachmentId: string) =>
-      of(`downloadAttachment-${userId}-${quoteCode}-${attachmentId}`)
+  downloadAttachment = createSpy(
+    'CommerceQuotesAdapter.downloadAttachment'
+  ).and.callFake((userId: string, quoteCode: string, attachmentId: string) =>
+    of(`downloadAttachment-${userId}-${quoteCode}-${attachmentId}`)
   );
 }
 

@@ -130,5 +130,9 @@ export abstract class QuoteAdapter {
    * @param attachmentId - Attachment ID
    * @returns Observable emitting a Blob response
    */
-  abstract downloadAttachment(userId: string, quoteCode: string, attachmentId: string): Observable<Blob>;
+  abstract downloadAttachment(
+    userId: string,
+    quoteCode: string,
+    attachmentId: string
+  ): Observable<Blob>;
 }

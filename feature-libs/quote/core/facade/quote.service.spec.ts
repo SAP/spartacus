@@ -61,9 +61,9 @@ const vendorQuote: Quote = {
   ...quote,
   sapAttachments: [
     {
-      id: quote.code
-    }
-  ]
+      id: quote.code,
+    },
+  ],
 };
 const mockQuoteAttachment = (): File => {
   const blob = new Blob([''], { type: 'application/pdf' });

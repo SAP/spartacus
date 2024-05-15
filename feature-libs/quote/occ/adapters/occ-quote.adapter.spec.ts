@@ -41,9 +41,9 @@ const vendorQuote: Quote = {
   ...mockQuote,
   sapAttachments: [
     {
-      id: mockQuote.code
-    }
-  ]
+      id: mockQuote.code,
+    },
+  ],
 };
 const pagination = {
   currentPage: 1,
@@ -349,9 +349,11 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpTestingController.expectOne((req) =>
-      req.method === 'GET' &&
-      req.url === `users/${userId}/quotes/${vendorQuoteCode}/attachments/${vendorQuoteAttachmentId}`
+    const mockReq = httpTestingController.expectOne(
+      (req) =>
+        req.method === 'GET' &&
+        req.url ===
+          `users/${userId}/quotes/${vendorQuoteCode}/attachments/${vendorQuoteAttachmentId}`
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -366,21 +368,21 @@ describe(`OccQuoteAdapter`, () => {
     classUnderTest
       .downloadAttachment(userId, vendorQuoteCode, vendorQuoteAttachmentId)
       .pipe(take(1))
-      .subscribe(
-        {
-          next: () => {
-            fail('error expected');
-          },
-          error: (error) => {
-            expect(isErrorNormalized(error)).toBe(true);
-            done();
-          }
-        }
-      );
+      .subscribe({
+        next: () => {
+          fail('error expected');
+        },
+        error: (error) => {
+          expect(isErrorNormalized(error)).toBe(true);
+          done();
+        },
+      });
 
-    const mockReq = httpTestingController.expectOne((req) =>
-      req.method === 'GET' &&
-      req.url === `users/${userId}/quotes/${vendorQuoteCode}/attachments/${vendorQuoteAttachmentId}`
+    const mockReq = httpTestingController.expectOne(
+      (req) =>
+        req.method === 'GET' &&
+        req.url ===
+          `users/${userId}/quotes/${vendorQuoteCode}/attachments/${vendorQuoteAttachmentId}`
     );
     mockReq.flush(mockQuoteAttachment(), {
       status: 400,

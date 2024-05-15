@@ -232,9 +232,16 @@ export class OccQuoteAdapter implements QuoteAdapter {
     });
   }
 
-  downloadAttachment(userId: string, quoteCode: string, attachmentId: string): Observable<Blob> {
+  downloadAttachment(
+    userId: string,
+    quoteCode: string,
+    attachmentId: string
+  ): Observable<Blob> {
     return this.withErrorHandling(
-      this.httpClient.get<Blob>(this.getDownloadAttachmentEndpoint(userId, quoteCode, attachmentId), { responseType: 'blob' as 'json'})
+      this.httpClient.get<Blob>(
+        this.getDownloadAttachmentEndpoint(userId, quoteCode, attachmentId),
+        { responseType: 'blob' as 'json' }
+      )
     );
   }
 
