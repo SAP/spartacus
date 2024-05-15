@@ -154,6 +154,11 @@ export interface FeatureTogglesInterface {
   a11yCartSummaryHeadingOrder?: boolean;
 
   /**
+   * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
+   */
+  a11yFacetKeyboardNavigation?: boolean;
+
+  /**
    * Allows users to navigate through the list of units using the arrow keys.
    * Enables keyboard controls inside 'ToggleLinkCellComponent' and
    * adjusts 'ListComponent' styles to accomodate.
@@ -232,6 +237,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
   a11yCartSummaryHeadingOrder: false,
+  a11yFacetKeyboardNavigation: false,
   a11yUnitsListKeyboardControls: false,
   a11yCartItemsLinksStyles: false,
   a11yHideSelectBtnForSelectedAddrOrPayment: false,
