@@ -44,8 +44,8 @@ describe('OTP Login', () => {
         cy.wait(10000);
 
         const mailCCV2Url =
-          Cypress.env('mail_CCV2_URL') +
-          Cypress.env('mail_CCV2_PREFIX') +
+          Cypress.env('MAIL_CCV2_URL') +
+          Cypress.env('MAIL_CCV2_PREFIX') +
           '/search?query=' +
           user.email +
           '&kind=to&start=0&limit=2';
