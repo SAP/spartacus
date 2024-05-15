@@ -46,7 +46,7 @@
         [style]="node.styleAttributes"
         [class]="node.styleClasses"
         (click)="closeIfClickedTheSameLink(node)"
-        [tabindex]="depth > 0 && !node.children ? -1 : 0"
+        [tabindex]="getTabIndex(node, depth)"
         (focus)="depth || reinitializeMenu()"
         (keydown.space)="toggleOpen($any($event))"
       >

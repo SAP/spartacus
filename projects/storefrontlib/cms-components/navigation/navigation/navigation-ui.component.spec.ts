@@ -385,5 +385,17 @@ describe('Navigation UI Component', () => {
       navigationComponent['arrowControls'].next(arrowUpEvent);
       expect(document.activeElement).toEqual(firstChild.nativeElement);
     });
+
+    it('should restore default tabbing order for non flyout navigation', () => {
+      const childNode = {
+        title: 'Child',
+        url: '/child',
+      };
+      navigationComponent.flyout = true;
+      expect(navigationComponent.getTabIndex(childNode, 1)).toEqual(-1);
+
+      navigationComponent.flyout = false;
+      expect(navigationComponent.getTabIndex(childNode, 1)).toEqual(0);
+    });
   });
 });
