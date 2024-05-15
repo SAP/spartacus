@@ -45,6 +45,8 @@ export class VerificationTokenFormComponent implements OnInit {
 
   @ViewChild('noReceiveCodeLink') element: ElementRef;
 
+  @ViewChild('resendLink') resendLink: ElementRef;
+
   tokenId: string;
 
   tokenCode: string;
@@ -68,9 +70,9 @@ export class VerificationTokenFormComponent implements OnInit {
         },
         'verifyToken'
       );
+      this.startWaitTimeInterval();
+      this.service.displayMessage(this.target);
     }
-    this.startWaitTimeInterval();
-    this.service.displayMessage(this.target);
   }
 
   onSubmit(): void {
@@ -79,6 +81,7 @@ export class VerificationTokenFormComponent implements OnInit {
 
   resendOTP(): void {
     this.isResendDisabled = true;
+    this.resendLink.nativeElement.tabIndex = -1;
     this.waitTime = 60;
     this.startWaitTimeInterval();
     this.service
@@ -100,6 +103,7 @@ export class VerificationTokenFormComponent implements OnInit {
       if (this.waitTime <= 0) {
         clearInterval(interval);
         this.isResendDisabled = false;
+        this.resendLink.nativeElement.tabIndex = 0;
         this.cdr.detectChanges();
       }
     }, 1000);

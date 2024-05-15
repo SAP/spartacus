@@ -23,7 +23,8 @@
       <span role="timer" aria-live="polite" aria-atomic="true">
         <a
           aria-role="button"
-          href="javascript:void(0);"
+          tabindex="0"
+          #resendLink
           (click)="resendOTP()"
           class="btn-link"
           [ngClass]="{ 'disabled-link': isResendDisabled }"
@@ -41,7 +42,7 @@
     <div class="right-text">
       <a
         aria-role="button"
-        href="javascript:void(0);"
+        tabindex="0"
         #noReceiveCodeLink
         (click)="openInfoDailog()"
         class="btn-link"
