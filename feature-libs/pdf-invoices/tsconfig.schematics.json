@@ -572,6 +572,8 @@
       "@spartacus/epd-visualization/root": [
         "../../integration-libs/epd-visualization/root/public_api"
       ],
+      "@spartacus/opps": ["../../integration-libs/opps/public_api"],
+      "@spartacus/opps/root": ["../../integration-libs/opps/root/public_api"],
       "@spartacus/s4om/assets": [
         "../../integration-libs/s4om/assets/public_api"
       ],

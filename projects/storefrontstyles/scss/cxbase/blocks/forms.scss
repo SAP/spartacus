@@ -388,8 +388,9 @@ input {
 }
 
 .form-group {
-  input[type='text']::placeholder {
-    color: var(--cx-color-secondary);
+  input[type='text']::placeholder,
+  input[type='tel']::placeholder {
+    color: var(--cx-color-text);
     opacity: 1;
 
     @include forFeature('santoriniV2') {
@@ -397,7 +398,8 @@ input {
     }
   }
 
-  input[type='text']:-ms-input-placeholder {
+  input[type='text']:-ms-input-placeholder,
+  input[type='tel']:-ms-input-placeholder {
     color: var(--cx-color-secondary);
 
     @include forFeature('santoriniV2') {
@@ -405,7 +407,8 @@ input {
     }
   }
 
-  input[type='text']::-ms-input-placeholder {
+  input[type='text']::-ms-input-placeholder,
+  input[type='tel']::-ms-input-placeholder {
     color: var(--cx-color-secondary);
 
     @include forFeature('santoriniV2') {
