@@ -10,9 +10,11 @@ import {
   EventEmitter,
   Input,
   Output,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { PaginationModel } from '@spartacus/core';
+import { PaginationModel, TranslationService } from '@spartacus/core';
+import { Observable, combineLatest, map } from 'rxjs';
 import { PaginationBuilder } from './pagination.builder';
 import { PaginationItem, PaginationItemType } from './pagination.model';
 
@@ -54,6 +56,8 @@ export class PaginationComponent {
 
   pages: PaginationItem[] = [];
 
+  translationService = inject(TranslationService);
+
   constructor(
     private paginationBuilder: PaginationBuilder,
     private activatedRoute: ActivatedRoute
@@ -76,13 +80,28 @@ export class PaginationComponent {
    * @param type PaginationItemType
    * @returns string
    */
-  getAriaLabel(label?: string, type?: PaginationItemType): string {
+  getAriaLabel(item: PaginationItem): Observable<string> {
     // Convert 'Start' to First, and 'End' to Last for a more natural screen read.
+    let type = item.type;
     type = type === PaginationItemType.START ? PaginationItemType.FIRST : type;
     type = type === PaginationItemType.END ? PaginationItemType.LAST : type;
-    return type === PaginationItemType.PAGE
-      ? `${type} ${label}`
-      : `${type} ${PaginationItemType.PAGE}`;
+    const initialLabel =
+      type === PaginationItemType.PAGE
+        ? `${type} ${item.label}`
+        : `${type} ${PaginationItemType.PAGE}`;
+
+    return combineLatest([
+      this.translationService.translate('navigation.goTo', {
+        location: initialLabel,
+      }),
+      this.translationService.translate('common.selected'),
+    ]).pipe(
+      map(([goToTranslation, selectedTranslation]) => {
+        return this.isCurrent(item)
+          ? `${goToTranslation}, ${selectedTranslation}`
+          : goToTranslation;
+      })
+    );
   }
 
   /**

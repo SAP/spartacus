@@ -26,7 +26,8 @@
     "loaded": "Loaded",
     "results": "Results",
     "of": "of",
-    "required": "required"
+    "required": "required",
+    "selected": "Selected"
   },
   "pageMetaResolver": {
     "category": {

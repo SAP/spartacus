@@ -9,10 +9,7 @@
   [attr.aria-current]="isCurrent(item)"
   [attr.aria-disabled]="isInactive(item)"
   (click)="pageChange(item)"
-  [attr.aria-label]="
-    'navigation.goTo'
-      | cxTranslate: { location: getAriaLabel(item.label, item.type) }
-  "
+  [attr.aria-label]="getAriaLabel(item) | async"
 >
   {{ item.label }}
 </a>
