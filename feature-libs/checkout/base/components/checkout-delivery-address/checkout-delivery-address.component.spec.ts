@@ -9,6 +9,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureConfigService,
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
@@ -121,6 +122,12 @@ class MockCheckoutDeliveryModesFacade
   clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string) {
+    return true;
+  }
+}
+
 describe('CheckoutDeliveryAddressComponent', () => {
   let component: CheckoutDeliveryAddressComponent;
   let fixture: ComponentFixture<CheckoutDeliveryAddressComponent>;
@@ -130,6 +137,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
+  let featureConfig: FeatureConfigService;
 
   beforeEach(
     waitForAsync(() => {
@@ -161,6 +169,10 @@ describe('CheckoutDeliveryAddressComponent', () => {
               features: { level: '6.3' },
             },
           },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
         ],
       })
         .overrideComponent(CheckoutDeliveryAddressComponent, {
@@ -178,6 +190,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
       userAddressService = TestBed.inject(UserAddressService);
       checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
       globalMessageService = TestBed.inject(GlobalMessageService);
+      featureConfig = TestBed.inject(FeatureConfigService);
     })
   );
 
@@ -284,25 +297,56 @@ describe('CheckoutDeliveryAddressComponent', () => {
     expect(component['setAddress']).toHaveBeenCalledWith(mockAddress2);
   });
 
-  it('should be able to get card content', () => {
-    const card = component.getCardContent(
-      mockAddress1,
-      undefined,
-      'default',
-      'shipTo',
-      'selected',
-      'P',
-      'M'
-    );
-    expect(card.title).toEqual('');
-    expect(card.textBold).toEqual('John Doe');
-    expect(card.text).toEqual([
-      'first line',
-      'second line',
-      'town, JP-27, JP',
-      'zip',
-      undefined,
-    ]);
+  describe('getCardContent()', () => {
+    it('should be able to get card content', () => {
+      const card = component.getCardContent(
+        mockAddress1,
+        undefined,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+      expect(card.title).toEqual('');
+      expect(card.textBold).toEqual('John Doe');
+      expect(card.text).toEqual([
+        'first line',
+        'second line',
+        'town, JP-27, JP',
+        'zip',
+        undefined,
+      ]);
+    });
+
+    it('should not add select action for selected card', () => {
+      spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+      const card = component.getCardContent(
+        mockAddress1,
+        mockAddress1,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+      expect(featureConfig.isEnabled).toHaveBeenCalled();
+      expect(card.actions?.length).toBe(0);
+    });
+
+    it('should add select action for selected card if feature flag is disabled', () => {
+      spyOn(featureConfig, 'isEnabled').and.returnValue(false);
+      const card = component.getCardContent(
+        mockAddress1,
+        mockAddress1,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+      expect(card.actions?.length).toBe(1);
+    });
   });
 
   describe('UI continue button', () => {

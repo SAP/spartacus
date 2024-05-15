@@ -105,6 +105,8 @@ export const epdFeatureModulePath =
   'src/app/spartacus/features/epd-visualization/epd-visualization-feature.module.ts';
 export const segmentRefsFeatureModulePath =
   'src/app/spartacus/features/segment-refs/segment-refs-feature.module.ts';
+export const oppsFeatureModulePath =
+  'src/app/spartacus/features/opps/opps-feature.module.ts';
 
 export function writeFile(
   host: TempScopedNodeJsSyncHost,
