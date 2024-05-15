@@ -140,7 +140,7 @@ if (environment.opps) {
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
 }
-if (environment.cpqQuoteDiscount) {
+if (environment.cpq) {
   featureModules.push(CPQQUOTEFeatureModule);
 }
 if (environment.segmentRefs) {
