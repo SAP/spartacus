@@ -234,11 +234,11 @@ export class OccQuoteAdapter implements QuoteAdapter {
 
   downloadAttachment(userId: string, quoteCode: string, attachmentId: string): Observable<Blob> {
     return this.withErrorHandling(
-      this.httpClient.get<Blob>(this.downloadAttachmentEndpoint(userId, quoteCode, attachmentId), { responseType: 'blob' as 'json'})
+      this.httpClient.get<Blob>(this.getDownloadAttachmentEndpoint(userId, quoteCode, attachmentId), { responseType: 'blob' as 'json'})
     );
   }
 
-  protected downloadAttachmentEndpoint(userId: string, quoteCode: string, attachmentId: string): string {
+  protected getDownloadAttachmentEndpoint(userId: string, quoteCode: string, attachmentId: string): string {
     return this.occEndpointsService.buildUrl('downloadAttachment', {
       urlParams: { userId, quoteCode, attachmentId },
     });

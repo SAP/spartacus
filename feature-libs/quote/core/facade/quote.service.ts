@@ -557,9 +557,7 @@ export class QuoteService implements QuoteFacade {
   }
 
   downloadAttachment(quoteCode: string, attachmentId: string): Observable<Blob> {
-    return this.authService.isUserLoggedIn().pipe(
-      filter((isLoggedIn) => isLoggedIn),
-      switchMap(() => this.userIdService.takeUserId()),
+    return this.userIdService.takeUserId().pipe(
       mergeMap((userId) => {
         return this.quoteConnector.downloadAttachment(userId, quoteCode, attachmentId);
       })

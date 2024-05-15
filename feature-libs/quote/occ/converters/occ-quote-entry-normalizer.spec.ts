@@ -14,7 +14,6 @@ const quote = {
   entries: [{ product }],
   name: 'test name',
   totalPrice: price,
-  sapAttachments: [],
 };
 
 class MockConverterService {

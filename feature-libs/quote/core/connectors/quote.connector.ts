@@ -146,7 +146,7 @@ export class QuoteConnector {
   }
 
   /**
-   * Downloads the proposal document of a quote specified by its ID.
+   * Downloads the proposal document associated with a quote.
    *
    * @param userId - Quote user
    * @param quoteCode - Quote code

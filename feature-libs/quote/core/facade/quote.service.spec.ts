@@ -758,7 +758,7 @@ describe('QuoteService', () => {
     });
   });
 
-  it('should download proposal document after calling quoteConnector.downloadAttachment', () => {
+  it('should download proposal document after calling quoteConnector.downloadAttachment', (done) => {
     const vendorQuoteCode = vendorQuote.code;
     const vendorQuoteAttachmentId = vendorQuote.sapAttachments[0].id;
     classUnderTest
@@ -771,6 +771,7 @@ describe('QuoteService', () => {
           vendorQuoteAttachmentId
         );
         expect(response).toEqual(mockQuoteAttachment());
+        done();
       });
   });
 });

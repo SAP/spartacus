@@ -1048,7 +1048,7 @@ describe('QuoteSummaryActionsComponent', () => {
       ]
     };
 
-    it('should display Download button when there is a proposal document attached to the quote', () => {
+    it('should display download button if there is a proposal document attached to the quote', () => {
       mockQuoteDetails$.next(vendorQuote);
       fixture.detectChanges();
       const buttonContainerSection = CommonQuoteTestUtilsService.getHTMLElement(htmlElem, 'section');
@@ -1056,7 +1056,7 @@ describe('QuoteSummaryActionsComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(expect, htmlElem, '#downloadBtn', 'DOWNLOAD');
     });
 
-    it('should not display Download button when there is no proposal document attached to the quote', () => {
+    it('should not display download button if there is no proposal document attached to the quote', () => {
       mockQuoteDetails$.next(mockQuote);
       fixture.detectChanges();
       const buttonContainerSection = CommonQuoteTestUtilsService.getHTMLElement(htmlElem, 'section');

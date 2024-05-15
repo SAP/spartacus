@@ -6,7 +6,7 @@
           type="button"
           id="downloadBtn"
           class="btn btn-primary"
-          *ngIf="isAttachmentPresent(quoteDetails.sapAttachments)"
+          *ngIf="hasAttachment(quoteDetails.sapAttachments)"
           (click)="onDownloadAttachment(quoteDetails.code, quoteDetails.sapAttachments)"
         >
           {{ 'quote.summary.actions.DOWNLOAD' | cxTranslate }}

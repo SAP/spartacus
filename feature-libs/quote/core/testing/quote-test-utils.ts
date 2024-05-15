@@ -21,6 +21,5 @@ export function createEmptyQuote(): Quote {
     totalPrice: {},
     description: 'Quote description',
     isEditable: true,
-    sapAttachments: [],
   };
 }

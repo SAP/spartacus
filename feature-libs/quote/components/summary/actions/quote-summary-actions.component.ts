@@ -224,7 +224,7 @@ export class QuoteSummaryActionsComponent
    * Click handler for download button.
    *
    * @param quoteCode - the quote ID (aka code)
-   * @param attachments - array of attachments belonnging to the quote
+   * @param attachments - array of attachments belonging to the quote
    */
   onDownloadAttachment(quoteCode: string, attachments: QuoteAttachment[]) {
     // Extracting the attachment ID from the first entry in the array
@@ -232,7 +232,7 @@ export class QuoteSummaryActionsComponent
     const attachmentId = attachments[0].id;
     const filename = attachments[0].filename || attachmentId;
     this.quoteFacade.downloadAttachment(quoteCode, attachmentId).subscribe((res) => {
-      const url = window.URL.createObjectURL(new Blob([res], {type: res.type}));
+      const url = URL.createObjectURL(new Blob([res], {type: res.type}));
       this.fileDownloadService.download(url, `${filename}.pdf`);
     });
   }
@@ -322,8 +322,8 @@ export class QuoteSummaryActionsComponent
    * @param attachments - an array of attachments to the quote
    * @returns - if the document is present, returns 'true', otherwise 'false'.
    */
-  isAttachmentPresent(attachments: QuoteAttachment[]): boolean {
-    return attachments.length > 0;
+  hasAttachment(attachments: QuoteAttachment[]): boolean {
+    return attachments?.length > 0;
   }
 
   /**
