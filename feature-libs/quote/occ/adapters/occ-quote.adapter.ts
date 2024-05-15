@@ -245,7 +245,11 @@ export class OccQuoteAdapter implements QuoteAdapter {
     );
   }
 
-  protected getDownloadAttachmentEndpoint(userId: string, quoteCode: string, attachmentId: string): string {
+  protected getDownloadAttachmentEndpoint(
+    userId: string,
+    quoteCode: string,
+    attachmentId: string
+  ): string {
     return this.occEndpointsService.buildUrl('downloadAttachment', {
       urlParams: { userId, quoteCode, attachmentId },
     });

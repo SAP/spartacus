@@ -234,9 +234,7 @@ export class QuoteSummaryActionsComponent
     this.quoteFacade
       .downloadAttachment(quoteCode, attachmentId)
       .subscribe((res) => {
-        const url = URL.createObjectURL(
-          new Blob([res], { type: res.type })
-        );
+        const url = URL.createObjectURL(new Blob([res], { type: res.type }));
         this.fileDownloadService.download(url, `${filename}.pdf`);
       });
   }
