@@ -194,6 +194,15 @@ export interface FeatureTogglesInterface {
    * of adding to the cart.
    */
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
+
+  /**
+   * When enabled then on mobile(320px) responsive view:
+   * 1. `ProductListComponent` - grid view button is aligned correctly
+   * 2. `QuickOrderFormComponent` - search combobox options are not truncated
+   * 3. `BreadcrumbComponent` - breadcrumb heading is not truncated
+   * 4. `CheckoutProgressMobileTopComponent` - checkout step names do not have huge vertical white space
+   */
+  a11yTruncatedTextForResponsiveView?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -229,4 +238,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yTruncatedTextForResponsiveView: false,
 };
