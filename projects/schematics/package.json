@@ -68,8 +68,7 @@
       "@spartacus/digital-payments",
       "@spartacus/epd-visualization",
       "@spartacus/s4om",
-      "@spartacus/customer-ticketing",
-      "@spartacus/estimated-delivery-date"
+      "@spartacus/customer-ticketing"
     ]
   },
   "schematics": "./src/collection.json"
