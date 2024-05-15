@@ -3,7 +3,7 @@ import { CpqQuoteDiscountComponent } from './cpq-quote.component';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { cpqDiscounts } from '@spartacus/cpq-quote/root';
+import { CpqDiscounts } from '@spartacus/cpq-quote/root';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -33,7 +33,7 @@ describe('Cpq Quote Discount Component', () => {
   });
 
   it('should expose orderEntry$', (done) => {
-    const orderEntry: Partial<OrderEntry & Array<cpqDiscounts>> = {
+    const orderEntry: Partial<OrderEntry & Array<CpqDiscounts>> = {
       orderCode: '123',
       cpqDiscounts: [],
     };
