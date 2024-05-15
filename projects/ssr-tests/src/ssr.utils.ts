@@ -13,24 +13,32 @@ import * as childProcess from 'child_process';
 import * as Log from './log.utils';
 
 /**
+ * Used to track the spawned child process running the server.
+ */
+let child: childProcess.ChildProcess | any;
+
+/**
  * Start an ssr server instance at the given port (default 4000).
  * The server will output a log file at the test project root named ".ssr.log".
  * Funtion finishes once the server is initialized.
  */
 export async function startSsrServer(port = 4000) {
-  childProcess.exec(
-    `NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log`
+  child = childProcess.spawn(
+    `NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log`,
+    { detached: true, shell: true }
   );
+
   await Log.waitUntilLogContainsText(`Node Express server listening on `);
 }
 
 /**
- * Kills the ssr server process at the given port (default 4000).
+ * Kills the ssr server process that was started.
  * Promise resolves once the kill command is executed.
  */
-export function killSsrServer(port = 4000) {
+export function killSsrServer() {
   return new Promise((resolve) => {
-    childProcess.exec(`kill $(lsof -t -i:${port})`, () => {
+    process.kill(-child.pid);
+    child.on('exit', () => {
       resolve(true);
     });
   });
