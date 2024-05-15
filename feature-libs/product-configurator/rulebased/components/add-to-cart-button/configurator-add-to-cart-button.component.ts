@@ -175,16 +175,18 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       .pipe(map((cart) => cart.quoteCode !== undefined));
   }
 
-  protected getTranslationKey(isAddToCart: boolean): string {
-    let translationKey = 'configurator.addToCart.confirmation';
+  protected getTranslationKeyForAddToCart(
+    isAddToCart: boolean
+  ): Observable<string> {
+    let translationKey = of('configurator.addToCart.confirmation');
     this.isQuoteCartActive()
       .pipe(take(1))
       .subscribe((isQuoteActive) => {
         if (isQuoteActive) {
-          translationKey = 'configurator.addToCart.confirmationQuoteUpdate';
+          translationKey = of('configurator.addToCart.confirmationQuoteUpdate');
         } else {
           if (!isAddToCart) {
-            translationKey = 'configurator.addToCart.confirmationUpdate';
+            translationKey = of('configurator.addToCart.confirmationUpdate');
           }
         }
       });
@@ -208,14 +210,17 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     showMessage: boolean,
     productCode?: string
   ): void {
-    const translationKey = this.getTranslationKey(isAdd);
     if (isOverview) {
       this.navigateToCart();
     } else {
       this.navigateToOverview(configuratorType, owner, productCode);
     }
     if (showMessage) {
-      this.displayConfirmationMessage(translationKey);
+      this.getTranslationKeyForAddToCart(isAdd)
+        .pipe(take(1))
+        .subscribe((translationKey) => {
+          this.displayConfirmationMessage(translationKey);
+        });
     }
   }
 
@@ -231,7 +236,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   getButtonResourceKey(
     routerData: ConfiguratorRouter.Data,
     configuration: Configurator.Configuration,
-    isQuoteActive?: boolean
+    isQuoteActive = false
   ): string {
     if (
       (routerData.isOwnerCartEntry || isQuoteActive) &&

@@ -1103,7 +1103,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   });
 
   describe('isQuoteCartActive', () => {
-    it('should return `true` in case quote is active', () => {
+    it('should return `true` in case quote cart is active', () => {
       component['isQuoteCartActive']()
         .subscribe((isQuoteCartActive) => {
           expect(isQuoteCartActive).toBe(true);
@@ -1111,7 +1111,7 @@ describe('ConfigAddToCartButtonComponent', () => {
         .unsubscribe();
     });
 
-    it('should return `false` in case quote is not active', () => {
+    it('should return `false` in case quote cart is not active', () => {
       cart.quoteCode = undefined;
       component['isQuoteCartActive']()
         .subscribe((isQuoteCartActive) => {
@@ -1123,24 +1123,34 @@ describe('ConfigAddToCartButtonComponent', () => {
   });
 
   describe('getTranslationKey', () => {
-    it('should return `configurator.addToCart.confirmationQuoteUpdate` in case quote is active', () => {
-      expect(component['getTranslationKey'](true)).toBe(
-        'configurator.addToCart.confirmationQuoteUpdate'
-      );
+    it('should return `configurator.addToCart.confirmationQuoteUpdate` in case quote cart is active', () => {
+      component['getTranslationKeyForAddToCart'](true)
+        .subscribe((translationKey) => {
+          expect(translationKey).toBe(
+            'configurator.addToCart.confirmationQuoteUpdate'
+          );
+        })
+        .unsubscribe();
     });
 
     it('should return `configurator.addToCart.confirmation` in case `isAddToCart` is true', () => {
       cart.quoteCode = undefined;
-      expect(component['getTranslationKey'](true)).toBe(
-        'configurator.addToCart.confirmation'
-      );
+      component['getTranslationKeyForAddToCart'](true)
+        .subscribe((translationKey) => {
+          expect(translationKey).toBe('configurator.addToCart.confirmation');
+        })
+        .unsubscribe();
     });
 
     it('should return `configurator.addToCart.confirmationUpdate` in case `isAddToCart` is false', () => {
       cart.quoteCode = undefined;
-      expect(component['getTranslationKey'](false)).toBe(
-        'configurator.addToCart.confirmationUpdate'
-      );
+      component['getTranslationKeyForAddToCart'](false)
+        .subscribe((translationKey) => {
+          expect(translationKey).toBe(
+            'configurator.addToCart.confirmationUpdate'
+          );
+        })
+        .unsubscribe();
     });
   });
 });
