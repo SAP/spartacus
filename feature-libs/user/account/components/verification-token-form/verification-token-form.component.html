@@ -25,6 +25,7 @@
           role="button"
           tabindex="-1"
           #resendLink
+          (keydown.space)="resendOTP()"
           (click)="resendOTP()"
           class="btn-link"
           [ngClass]="{ 'disabled-link': isResendDisabled }"
@@ -44,6 +45,7 @@
         role="button"
         tabindex="0"
         #noReceiveCodeLink
+        (keydown.space)="openInfoDailog()"
         (click)="openInfoDailog()"
         class="btn-link"
       >
