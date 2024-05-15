@@ -542,6 +542,9 @@
       "@spartacus/cpq-quote/root": [
         "../../integration-libs/cpq-quote/root/public_api"
       ],
+      "@spartacus/cpq-quote/assets": [
+        "../../integration-libs/cpq-quote/assets/public_api"
+      ],
       "@spartacus/digital-payments/assets": [
         "../../integration-libs/digital-payments/assets/public_api"
       ],

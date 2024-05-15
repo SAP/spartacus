@@ -674,6 +674,9 @@
       "@spartacus/cpq-quote/root": [
         "integration-libs/cpq-quote/root/public_api"
       ],
+      "@spartacus/cpq-quote/assets": [
+        "integration-libs/cpq-quote/assets/public_api"
+      ],
       "@spartacus/segment-refs": [
         "integration-libs/segment-refs/public_api"
       ],

@@ -24,6 +24,7 @@ import {
   SelectiveCartFacade,
   CartOutlets,
   CartItemContext,
+  quoteOutlet,
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
@@ -91,6 +92,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
   readonly CartOutlets = CartOutlets;
+  readonly quoteOutlet = quoteOutlet;
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,

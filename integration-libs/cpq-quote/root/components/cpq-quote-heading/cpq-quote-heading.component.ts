@@ -1,11 +1,6 @@
-/*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Optional, Inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
+import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 
@@ -17,11 +12,27 @@ export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
   @Input()
   quoteDiscountData: OrderEntry;
   protected subscription = new Subscription();
+  discountLabel: string;
 
-  constructor(@Optional() protected outlet: OutletContextData) {}
-  discountLabel: string = 'Discount Percentage';
+  constructor(
+    // Inject OutletContextData dependency
+    @Optional()
+    @Inject(OutletContextData)
+    protected outlet: OutletContextData,
+    protected translationService: TranslationService,
+  ) {}
+
+  // discountLabel: string = 'Discount Percentage';
   dataAvailable: boolean = false;
+
   ngOnInit(): void {
+    this.subscription.add(
+      this.translationService.translate('cpqQuoteHeading')
+        .subscribe((translation: string) => {
+          this.discountLabel = translation;
+        })
+    );
+
     if (this.outlet?.context$) {
       this.subscription.add(
         this.outlet.context$.subscribe((context) => {

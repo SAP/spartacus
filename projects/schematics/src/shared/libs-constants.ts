@@ -218,6 +218,7 @@ export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
 export const SPARTACUS_CPQ_QUOTE = '@spartacus/cpq-quote';
+export const SPARTACUS_CPQ_QUOTE_ASSETS = `@spartacus/cpq-quote/assets`;
 export const SPARTACUS_CPQ_QUOTE_ROOT = `@spartacus/cpq-quote/root`;
 
 export const SPARTACUS_OPPS = '@spartacus/opps';

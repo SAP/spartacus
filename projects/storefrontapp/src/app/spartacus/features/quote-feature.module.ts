@@ -17,6 +17,7 @@ import {
   QUOTE_REQUEST_FEATURE,
   QuoteRootModule,
 } from '@spartacus/quote/root';
+// import { CPQ_QUOTE_FEATURE_NAME } from '@spartacus/schematics';
 
 @NgModule({
   imports: [QuoteRootModule],
@@ -54,6 +55,16 @@ import {
         },
       },
     }),
+    // provideConfig({
+    //   featureModules: {
+    //     [CPQ_QUOTE_FEATURE_NAME]: {
+    //       module: () =>
+    //         import('@spartacus/cpq-quote/root').then(
+    //           (m) => m.CpqQuoteRootdModule
+    //         ),
+    //     },
+    //   },
+    // }),
   ],
 })
 export class QuoteFeatureModule {}

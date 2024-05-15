@@ -1694,47 +1694,7 @@ export function navigateToVendorQuote() {
     });
 }
 
-/**
- * Discount Percentage Heading
- */
-export function DiscountPercentageQuote() {
-  log('Discount Percentage Heading', DiscountPercentageQuote.name);
-  cy.get('#cx-item-list-discount')
-    .should('contain.text', 'Discount Percentage')
-    .and('be.visible');
-}
-
-export function DiscountPercentageQuoterow() {
-  log('Discount Percentage Row', DiscountPercentageQuoterow.name);
-
-  cy.get('cx-cart-item-list') // Locate the parent element containing the rows
-    .find('tr[cx-cart-item-list-row]')
-    .find('cx-cpq-quote')
-    .first()
-    .should('be.visible')
-    .should('not.have.text', '');
-}
-
-/**
- * CPQ discount percentage
- */
-export function DiscountPercentageQuotej() {
-  log('CPQ discount percentage ', DiscountPercentageQuote.name);
-  if (Cypress.$('#cx-item-list-discount').length > 0) {
-    cy.get('#cx-item-list-discount')
-      .should('contain.text', 'Discount Percentage')
-      .and('be.visible');
-    cy.get('.cx-discount').first().and('be.visible');
-  } else {
-    // Handle the case when the element is not present
-    log(
-      'Element with id #cx-item-list-discount is not present',
-      DiscountPercentageQuote.name
-    );
-  }
-}
-
-/**
+/*
  * Registers read quote route.
  */
 export function registerReadQuoteRoute() {

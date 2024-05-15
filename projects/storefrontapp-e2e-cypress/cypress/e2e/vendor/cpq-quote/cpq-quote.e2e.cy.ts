@@ -5,6 +5,7 @@
  */
 
 import * as quote from '../../../helpers/b2b/b2b-quote';
+import * as quoteq from '../../../helpers/vendor/cpq-quote/cpq-quote';
 
 const BUYER_EMAIL = 'james.weber@harvestlive.inc';
 const BUYER_PASSWORD = 'welcome';
@@ -32,9 +33,8 @@ context('CPQ Discount Percentage ', () => {
     quote.navigateToVendorQuoteListFromMyAccount();
     quote.checkQuoteListDisplayed();
     quote.navigateToVendorQuote();
-    quote.DiscountPercentageQuote();
-    quote.DiscountPercentageQuoterow();
-
+    quoteq.DiscountPercentageQuote();
+    quoteq.DiscountPercentageQuoterow();
     // quote.logout();
   });
 });

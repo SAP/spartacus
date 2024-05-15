@@ -5,10 +5,23 @@
  */
 
 import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from '@spartacus/core';
+import {
+  cpqquoteTranslations,
+  cpqquoteTranslationChunksConfig,
+} from '@spartacus/cpq-quote/assets';
 import { CpqQuoteRootdModule } from '@spartacus/cpq-quote/root';
 
 @NgModule({
   imports: [CpqQuoteRootdModule],
-  providers: [],
+  providers: [
+    provideConfig(<I18nConfig>{
+      i18n: {
+        resources: cpqquoteTranslations,
+        chunks: cpqquoteTranslationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
+  ],
 })
 export class CPQQUOTEFeatureModule {}

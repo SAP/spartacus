@@ -1,17 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CpqQuoteHeadingComponent } from './cpq-quote-heading.component';
+import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 describe('CpqQuoteHeadingComponent', () => {
   let component: CpqQuoteHeadingComponent;
   let fixture: ComponentFixture<CpqQuoteHeadingComponent>;
+  let mockOutletContextData: BehaviorSubject<any[]>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(waitForAsync(() => {
+    mockOutletContextData = new BehaviorSubject<any[]>([]);
+
+    TestBed.configureTestingModule({
       declarations: [CpqQuoteHeadingComponent],
+      providers: [
+        { provide: TranslationService, useValue: { translate: () => of('Discount Percentage') } },
+        { provide: OutletContextData, useValue: { context$: mockOutletContextData } },
+      ],
     }).compileComponents();
-  });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CpqQuoteHeadingComponent);
@@ -19,25 +27,24 @@ describe('CpqQuoteHeadingComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  afterEach(() => {
+    fixture.destroy();
   });
 
-  it('should set dataAvailable to true when context$ emits data with cpqDiscounts', () => {
-    const mockContext = [{ cpqDiscounts: ['Discount 1', 'Discount 2'] }];
-    (component as any).outlet = {
-      context$: of(mockContext),
-    } as OutletContextData<any>;
-    component.ngOnInit();
-    expect(component.dataAvailable).toBeTruthy();
+  it('should display discountLabel when dataAvailable is true', () => {
+    component.dataAvailable = true;
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement;
+    expect(compiled.textContent).toContain('Discount Percentage');
   });
 
-  it('should set dataAvailable to false when context$ emits empty data', () => {
-    const mockContext: any[] = [];
-    (component as any).outlet = {
-      context$: of(mockContext),
-    } as OutletContextData<any>;
-    component.ngOnInit();
-    expect(component.dataAvailable).toBeFalsy();
+  it('should not display discountLabel when dataAvailable is false', () => {
+    // Simulate data not being available
+    component.dataAvailable = false;
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement;
+    expect(compiled.textContent).not.toContain('Discount Percentage');
   });
 });

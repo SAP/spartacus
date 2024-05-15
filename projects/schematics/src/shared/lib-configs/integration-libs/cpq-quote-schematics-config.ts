@@ -7,6 +7,7 @@
 import {
   CPQ_QUOTE_FEATURE_NAME,
   SPARTACUS_CPQ_QUOTE,
+  SPARTACUS_CPQ_QUOTE_ASSETS,
   SPARTACUS_CPQ_QUOTE_ROOT,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
@@ -14,9 +15,11 @@ import { SchematicConfig } from '../../utils/lib-utils';
 export const CPQ_QUOTE_FOLDER_NAME = 'cpq-quote';
 export const CPQ_QUOTE_FEATURE_MODULE_NAME = 'Cpq-quote';
 
-export const CPQ_QUOTE_FEATURE_NAME_CONSTANT = 'CPQ_QUOTE_DISCOUNT_FEATURE';
+export const CPQ_QUOTE_FEATURE_NAME_CONSTANT = 'CPQ_QUOTE_FEATURE_NAME';
 export const CPQ_QUOTE_ROOT_MODULE = 'CpqQuoteRootdModule';
 export const CPQ_QUOTE_MODULE = 'CpqQuoteDiscountModule';
+export const CPQ_QUOTE_TRANSLATIONS = 'cpqquoteTranslations';
+export const CPQ_QUOTE_TRANSLATION_CHUNKS_CONFIG = 'cpqquoteTranslationChunksConfig';
 
 export const CPQ_QUOTE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -37,5 +40,10 @@ export const CPQ_QUOTE_SCHEMATICS_CONFIG: SchematicConfig = {
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_CPQ_QUOTE_ROOT,
     namedImports: [CPQ_QUOTE_FEATURE_NAME_CONSTANT],
+  },
+  i18n: {
+    resources: CPQ_QUOTE_TRANSLATIONS,
+    chunks: CPQ_QUOTE_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_CPQ_QUOTE_ASSETS,
   },
 };

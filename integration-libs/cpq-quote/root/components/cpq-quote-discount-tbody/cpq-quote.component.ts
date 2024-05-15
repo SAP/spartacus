@@ -1,10 +1,4 @@
-/*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { Component, Optional, OnDestroy, OnInit } from '@angular/core';
+import { Component, Optional, OnDestroy, OnInit, Inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { EMPTY, Observable, Subscription } from 'rxjs';
 
@@ -15,8 +9,12 @@ import { EMPTY, Observable, Subscription } from 'rxjs';
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   quoteDiscountData: OrderEntry;
   private subscription: Subscription;
-  constructor(@Optional() protected cartItemContext: CartItemContext) {}
 
+  constructor(
+    @Optional()
+    @Inject(CartItemContext)
+    protected cartItemContext: CartItemContext
+  ) {}
   ngOnInit(): void {
     if (this.cartItemContext) {
       this.subscription = this.orderEntry$.subscribe((data) => {
