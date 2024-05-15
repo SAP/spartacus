@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "CpqQuoteSchematics",
+  "title": "cpq-quote Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName" 
+      }
+    },
+    "debug": {
+      "description": "Display Cpq Discount Percentage",
+      "type": "boolean",
+      "default": false
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "default": ["cpq-quote"]
+    }
+  },
+  "required": []
+}
