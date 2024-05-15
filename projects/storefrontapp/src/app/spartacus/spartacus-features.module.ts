@@ -299,6 +299,7 @@ if (environment.requestedDeliveryDate) {
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
         a11yTruncatedTextForResponsiveView: true,
+        a11yMyAccountLinkOutline: true,
       };
       return appFeatureToggles;
     }),
