@@ -38,6 +38,13 @@ cx-product-image-zoom-dialog {
         @media only screen and (max-width: 900px) and (orientation: landscape) {
           padding: 1rem;
         }
+
+        // TODO: (CXSPA-7212) - Remove feature flag next major release
+        @include forFeature('a11yCloseProductImageBtnFocus') {
+          .close {
+            outline-offset: -4px;
+          }
+        }
       }
       .cx-dialog-body {
         @extend .modal-body;

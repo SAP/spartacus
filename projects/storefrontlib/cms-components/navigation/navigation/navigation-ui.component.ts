@@ -355,4 +355,14 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
     this.isOpen = this.openNodes.length > 0;
   }
+
+  /**
+   * Resores default tabbing order for non flyout navigation.
+   */
+  getTabIndex(node: NavigationNode, depth: number): 0 | -1 {
+    if (!this.flyout) {
+      return 0;
+    }
+    return depth > 0 && !node?.children ? -1 : 0;
+  }
 }
