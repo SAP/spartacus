@@ -68,7 +68,7 @@ function saveCart(): void {
     cy.get('[formcontrolname="name"]').type('Entering a name');
     cy.get('[formcontrolname="description"]').type('Entering a description');
   });
-  cy.get('button[aria-label="Save"]').click();
+  cy.get('.cx-saved-cart-form-footer .btn-primary').click();
   cy.wait(1000);
 }
 
