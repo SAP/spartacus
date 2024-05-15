@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  inject,
+} from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -27,11 +32,9 @@ import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OneTimePasswordLoginFormComponent {
-  constructor(
-    protected routingService: RoutingService,
-    protected verificationTokenFacade: VerificationTokenFacade,
-    protected winRef: WindowRef
-  ) {}
+  protected routingService = inject(RoutingService);
+  protected verificationTokenFacade = inject(VerificationTokenFacade);
+  protected winRef = inject(WindowRef);
 
   protected busy$ = new BehaviorSubject(false);
 

@@ -43,12 +43,16 @@ describe('OTP Login', () => {
         cy.log('The email being sent is asynchronous, so waiting 10s');
         cy.wait(10000);
 
+        const mailCCV2Url =
+          Cypress.env('mail_CCV2_URL') +
+          Cypress.env('mail_CCV2_PREFIX') +
+          '/search?query=' +
+          user.email +
+          '&kind=to&start=0&limit=2';
+
         cy.request({
           method: 'GET',
-          url:
-            'http://mail-ccv2.westeurope.azurecontainer.io:8025/api/v2/search?query=' +
-            user.email +
-            '&kind=to&start=0&limit=2',
+          url: mailCCV2Url,
         }).then((response) => {
           const subject =
             '[Spartacus Electronics Site] Login Verification Code';
