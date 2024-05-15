@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import chalk from 'chalk';
 import { ChildProcess, exec, execSync } from 'child_process';
 import { prompt } from 'enquirer';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
+import {colorize} from "../color";
 
 const featureLibsFolders: string[] = [
   'asm',
@@ -87,7 +87,7 @@ function startVerdaccio(): ChildProcess {
     execSync(`npx wait-on ${verdaccioUrl} --timeout 10000`);
   } catch (_e) {
     console.log(
-      chalk.red(
+      colorize.red(
         `\n❌ Couldn't boot verdaccio. Make sure to install it globally: \n> npm i -g verdaccio@4`
       )
     );

@@ -12,7 +12,6 @@
  * - manage dependencies and their versions in libraries
  */
 
-import chalk from 'chalk';
 import { execSync } from 'child_process';
 import { Command } from 'commander';
 import { readFileSync } from 'fs';
@@ -20,6 +19,7 @@ import glob from 'glob';
 import { NG_PACKAGE_JSON, PACKAGE_JSON } from './const';
 import { manageDependencies } from './manage-dependencies';
 import { manageTsConfigs } from './tsconfig-paths';
+import {colorize} from "../color";
 
 // ------------ Utilities ------------
 
@@ -28,9 +28,9 @@ import { manageTsConfigs } from './tsconfig-paths';
  */
 export function success(message?: string): void {
   if (options.fix) {
-    console.log(chalk.green(message ?? ' ✔  Nothing to update'));
+    console.log(colorize.green(message ?? ' ✔  Nothing to update'));
   } else {
-    console.log(chalk.green(message ?? ' ✔  No problems found'));
+    console.log(colorize.green(message ?? ' ✔  No problems found'));
   }
 }
 
@@ -40,7 +40,7 @@ export function success(message?: string): void {
  * @param path updated file path
  */
 export function logUpdatedFile(path: string): void {
-  console.log(chalk.green(` ✔  File \`${chalk.bold(path)}\` updated`));
+  console.log(colorize.green(` ✔  File \`${colorize.bold(path)}\` updated`));
 }
 
 /**
@@ -57,15 +57,15 @@ function logViolation(
 ): void {
   const minLength = 76;
   console.log(`
-${chalk.gray(
+${colorize.gray(
   `--- ${file} ${`-`.repeat(Math.max(0, minLength - file.length - 1))}`
 )}
 ${violation}
 
-${chalk.blue(`${chalk.bold(' i  ')}${help}`)}${extraHelp
-    .map((help) => chalk.blue(`\n    ${help}`))
+${colorize.blue(`${colorize.bold(' i  ')}${help}`)}${extraHelp
+    .map((help) => colorize.blue(`\n    ${help}`))
     .join('')}
-${chalk.gray(`----${`-`.repeat(Math.max(file.length, minLength))}`)}
+${colorize.gray(`----${`-`.repeat(Math.max(file.length, minLength))}`)}
 `);
 }
 
@@ -80,7 +80,7 @@ export function error(file: string, errors: string[], help: string[]): void {
   errorsCount += errors.length;
   logViolation(
     file,
-    errors.map((error) => chalk.red(` ✖  ${error}`)).join('\n'),
+    errors.map((error) => colorize.red(` ✖  ${error}`)).join('\n'),
     help
   );
 }
@@ -100,7 +100,7 @@ export function warning(
   warningsCount += warnings.length;
   logViolation(
     file,
-    warnings.map((warning) => chalk.yellow(` ⚠  ${warning}`)).join('\n'),
+    warnings.map((warning) => colorize.yellow(` ⚠  ${warning}`)).join('\n'),
     help
   );
 }
@@ -296,15 +296,15 @@ if (options.generateDeps) {
 if (options.fix) {
   console.log('\nFormatting files (might take some time)...\n');
   execSync('npm run prettier:fix');
-  console.log(`✨ ${chalk.green('Update completed')}`);
+  console.log(`✨ ${colorize.green('Update completed')}`);
 }
 
 /**
  * Log total number of errors and warnings when there are some
  */
 if (!options.fix && (errorsCount > 0 || warningsCount > 0)) {
-  console.log(chalk.red(`\nErrors: ${errorsCount}`));
-  console.log(chalk.yellow(`Warnings: ${warningsCount}\n`));
+  console.log(colorize.red(`\nErrors: ${errorsCount}`));
+  console.log(colorize.yellow(`Warnings: ${warningsCount}\n`));
 }
 
 // Fail script when there are some errors

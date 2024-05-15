@@ -18,7 +18,6 @@
  * - schematics should also have version synced from the root package.json and library list of dependencies (should be done in schematics)
  */
 
-import chalk from 'chalk';
 import { execSync } from 'child_process';
 import fs, { readFileSync } from 'fs';
 import glob from 'glob';
@@ -44,6 +43,7 @@ import {
   reportProgress,
   success,
 } from './index';
+import {colorize} from "../color";
 
 // ------------ Utilities ------------
 
@@ -398,7 +398,7 @@ function filterNativeNodeAPIs(
                     error(
                       file,
                       [
-                        `Node.js API \`${chalk.bold(
+                        `Node.js API \`${colorize.bold(
                           imp.importPath
                         )}\` is referenced.`,
                       ],
@@ -457,7 +457,7 @@ function filterLocalAbsolutePathFiles(
                   error(
                     file,
                     [
-                      `Absolute import should not be used outside of spec files.\n    Referenced \`${chalk.bold(
+                      `Absolute import should not be used outside of spec files.\n    Referenced \`${colorize.bold(
                         imp.importPath
                       )}\``,
                     ],
@@ -541,11 +541,11 @@ function checkRxInternalImports(
             errorsFound = true;
             error(
               file,
-              [`\`${chalk.bold(imp.importPath)}\` internal import used.`],
+              [`\`${colorize.bold(imp.importPath)}\` internal import used.`],
               [
-                `To import from rxjs library you should use \`${chalk.bold(
+                `To import from rxjs library you should use \`${colorize.bold(
                   'rxjs'
-                )}\` or \`${chalk.bold('rxjs/operators')}\` imports.`,
+                )}\` or \`${colorize.bold('rxjs/operators')}\` imports.`,
               ]
             );
           });
@@ -659,9 +659,9 @@ function checkIfWeHaveAllDependenciesInPackageJson(
           !Object.keys(allDeps).includes(dep.dependency)
         ) {
           errors.push(
-            `Missing \`${chalk.bold(
+            `Missing \`${colorize.bold(
               dep.dependency
-            )}\` dependency that is used directly in \`${chalk.bold(
+            )}\` dependency that is used directly in \`${colorize.bold(
               lib.name
             )}\`.`
           );
@@ -670,10 +670,10 @@ function checkIfWeHaveAllDependenciesInPackageJson(
     });
     if (errors.length) {
       error(PACKAGE_JSON, errors, [
-        `All dependencies that are directly referenced should be specified as \`${chalk.bold(
+        `All dependencies that are directly referenced should be specified as \`${colorize.bold(
           'dependencies'
-        )}\` or \`${chalk.bold('devDependencies')}\`.`,
-        `Install them with \`${chalk.bold(
+        )}\` or \`${colorize.bold('devDependencies')}\`.`,
+        `Install them with \`${colorize.bold(
           'npm install <dependency-name> [--save-dev]'
         )}\`.`,
       ]);
@@ -767,7 +767,7 @@ function addMissingDependenciesToPackageJson(
             // Work around mismatch between package name (@sapui5/ts-types-esm) and module names (sap/...) for UI5 type definitions
           } else {
             errors.push(
-              `Missing \`${chalk.bold(
+              `Missing \`${colorize.bold(
                 dep.dependency
               )}\` dependency that is directly referenced in library.`
             );
@@ -778,13 +778,13 @@ function addMissingDependenciesToPackageJson(
     if (errors.length) {
       errorsFound = true;
       error(pathToPackageJson, errors, [
-        `All dependencies that are directly referenced should be specified as \`${chalk.bold(
+        `All dependencies that are directly referenced should be specified as \`${colorize.bold(
           'dependencies'
-        )}\` or \`${chalk.bold('peerDependencies')}\`.`,
-        `Adding new \`${chalk.bold(
+        )}\` or \`${colorize.bold('peerDependencies')}\`.`,
+        `Adding new \`${colorize.bold(
           'peerDependency'
         )}\` might be a breaking change!`,
-        `This can be automatically fixed by running \`${chalk.bold(
+        `This can be automatically fixed by running \`${colorize.bold(
           'npm run config:update'
         )}\`.`,
       ]);
@@ -855,9 +855,9 @@ function removeNotUsedDependenciesFromPackageJson(
           }
         } else {
           errors.push(
-            `Dependency \`${chalk.bold(
+            `Dependency \`${colorize.bold(
               dep
-            )}\` is not used in the \`${chalk.bold(lib.name)}\`.`
+            )}\` is not used in the \`${colorize.bold(lib.name)}\`.`
           );
         }
       }
@@ -865,10 +865,10 @@ function removeNotUsedDependenciesFromPackageJson(
     if (errors.length > 0) {
       errorsFound = true;
       error(pathToPackageJson, errors, [
-        `Dependencies that are not used should not be specified in package list of \`${chalk.bold(
+        `Dependencies that are not used should not be specified in package list of \`${colorize.bold(
           'dependencies'
-        )}\` or \`${chalk.bold('peerDependencies')}\`.`,
-        `This can be automatically fixed by running \`${chalk.bold(
+        )}\` or \`${colorize.bold('peerDependencies')}\`.`,
+        `This can be automatically fixed by running \`${colorize.bold(
           'npm run config:update'
         )}\`.`,
       ]);
@@ -904,12 +904,12 @@ function checkEmptyDevDependencies(
         error(
           pathToPackageJson,
           [
-            `Libraries should not have \`${chalk.bold(
+            `Libraries should not have \`${colorize.bold(
               'devDependencies'
             )}\` specified in their ${PACKAGE_JSON}.`,
           ],
           [
-            `You should use \`${chalk.bold(
+            `You should use \`${colorize.bold(
               'devDependencies'
             )}\` from root ${PACKAGE_JSON} file.`,
             `You should remove this section from this ${PACKAGE_JSON}.`,
@@ -953,7 +953,7 @@ function checkTsLibDep(
           updates.add(pathToPackageJson);
         } else {
           errors.push(
-            `Missing \`${chalk.bold(tsLibName)}\` dependency in \`${chalk.bold(
+            `Missing \`${colorize.bold(tsLibName)}\` dependency in \`${colorize.bold(
               'dependencies'
             )}\` list.`
           );
@@ -966,11 +966,11 @@ function checkTsLibDep(
           updates.add(pathToPackageJson);
         } else {
           errors.push(
-            `Dependency \`${chalk.bold(
+            `Dependency \`${colorize.bold(
               tsLibName
-            )}\` should be in \`${chalk.bold(
+            )}\` should be in \`${colorize.bold(
               'dependencies'
-            )}\` list. Not in the \`${chalk.bold('peerDependencies')}\`.`
+            )}\` list. Not in the \`${colorize.bold('peerDependencies')}\`.`
           );
         }
       }
@@ -981,21 +981,21 @@ function checkTsLibDep(
           updates.add(pathToPackageJson);
         } else {
           errors.push(
-            `Dependency \`${chalk.bold(
+            `Dependency \`${colorize.bold(
               tsLibName
-            )}\` should be in \`${chalk.bold(
+            )}\` should be in \`${colorize.bold(
               'dependencies'
-            )}\` list. Not in the \`${chalk.bold('optionalDependency')}\`.`
+            )}\` list. Not in the \`${colorize.bold('optionalDependency')}\`.`
           );
         }
       }
       if (errors.length > 0) {
         errorsFound = true;
         error(pathToPackageJson, errors, [
-          `Each TS package should have \`${chalk.bold(
+          `Each TS package should have \`${colorize.bold(
             tsLibName
-          )}\` specified as \`${chalk.bold('dependency')}.`,
-          `This can be automatically fixed by running \`${chalk.bold(
+          )}\` specified as \`${colorize.bold('dependency')}.`,
+          `This can be automatically fixed by running \`${colorize.bold(
             'npm run config:update'
           )}\`.`,
         ]);
@@ -1029,16 +1029,16 @@ function checkForLockFile(
         error(
           lockFile[0],
           [
-            `Library \`${chalk.bold(
+            `Library \`${colorize.bold(
               lib.name
-            )}\` should not have its own \`${chalk.bold(
+            )}\` should not have its own \`${colorize.bold(
               'package-lock.json'
             )}\`.`,
           ],
           [
-            `Libraries should use packages from root \`${chalk.bold(
+            `Libraries should use packages from root \`${colorize.bold(
               PACKAGE_JSON
-            )}\` and root \`${chalk.bold('node_modules')}\`.`,
+            )}\` and root \`${colorize.bold('node_modules')}\`.`,
           ]
         );
       }
@@ -1096,7 +1096,7 @@ function updateDependenciesVersions(
             error(
               pathToPackageJson,
               [
-                `Package \`${chalk.bold(
+                `Package \`${colorize.bold(
                   packageJson[type]?.[dep]
                 )}\` version is not correct.`,
               ],
@@ -1112,11 +1112,11 @@ function updateDependenciesVersions(
               updates.add(pathToPackageJson);
             } else {
               internalErrors.push(
-                `Dependency \`${chalk.bold(
+                `Dependency \`${colorize.bold(
                   dep
-                )}\` have different version \`${chalk.bold(
+                )}\` have different version \`${colorize.bold(
                   packageJson[type]?.[dep]
-                )}\` than the package in repository \`${chalk.bold(
+                )}\` than the package in repository \`${colorize.bold(
                   libraries[dep].version
                 )}\`.`
               );
@@ -1141,13 +1141,13 @@ function updateDependenciesVersions(
               updates.add(pathToPackageJson);
             } else {
               errors.push(
-                `Dependency \`${chalk.bold(
+                `Dependency \`${colorize.bold(
                   dep
-                )}\` have different version \`${chalk.bold(
+                )}\` have different version \`${colorize.bold(
                   packageJson[type]?.[dep]
-                )}\` than the package in root \`${chalk.bold(
+                )}\` than the package in root \`${colorize.bold(
                   PACKAGE_JSON
-                )}\` file \`${chalk.bold(rootDeps[dep])}\`.`
+                )}\` file \`${colorize.bold(rootDeps[dep])}\`.`
               );
             }
           } else {
@@ -1157,13 +1157,13 @@ function updateDependenciesVersions(
               updates.add(pathToPackageJson);
             } else if (!options.fix) {
               breakingErrors.push(
-                `Dependency \`${chalk.bold(
+                `Dependency \`${colorize.bold(
                   dep
-                )}\` have different version \`${chalk.bold(
+                )}\` have different version \`${colorize.bold(
                   packageJson[type]?.[dep]
-                )}\` than the package in root \`${chalk.bold(
+                )}\` than the package in root \`${colorize.bold(
                   PACKAGE_JSON
-                )}\` file \`${chalk.bold(rootDeps[dep])}\`.`
+                )}\` file \`${colorize.bold(rootDeps[dep])}\`.`
               );
             }
           }
@@ -1174,12 +1174,12 @@ function updateDependenciesVersions(
       errorsFound = true;
       error(pathToPackageJson, internalErrors, [
         `All spartacus dependencies should be version synchronized.`,
-        `Version of the package in \`${chalk.bold(
+        `Version of the package in \`${colorize.bold(
           'peerDependencies'
-        )}\` should match package \`${chalk.bold(
+        )}\` should match package \`${colorize.bold(
           'version'
         )}\` from repository.`,
-        `This can be automatically fixed by running \`${chalk.bold(
+        `This can be automatically fixed by running \`${colorize.bold(
           'npm run config:update'
         )}\`.`,
       ]);
@@ -1187,10 +1187,10 @@ function updateDependenciesVersions(
     if (errors.length > 0) {
       errorsFound = true;
       error(pathToPackageJson, errors, [
-        `All external dependencies should have the same version as in the root \`${chalk.bold(
+        `All external dependencies should have the same version as in the root \`${colorize.bold(
           PACKAGE_JSON
         )}\`.`,
-        `This can be automatically fixed by running \`${chalk.bold(
+        `This can be automatically fixed by running \`${colorize.bold(
           'npm run config:update'
         )}\`.`,
       ]);
@@ -1198,12 +1198,12 @@ function updateDependenciesVersions(
     if (breakingErrors.length > 0) {
       errorsFound = true;
       error(pathToPackageJson, breakingErrors, [
-        `All external dependencies should have the same version as in the root \`${chalk.bold(
+        `All external dependencies should have the same version as in the root \`${colorize.bold(
           PACKAGE_JSON
         )}\`.`,
         `Bumping to a higher dependency version should be only done in major releases!`,
         `We want to specify everywhere the lowest compatible dependency version with Spartacus.`,
-        `This can be automatically fixed by running \`${chalk.bold(
+        `This can be automatically fixed by running \`${colorize.bold(
           'npm run config:update --bump-versions'
         )}\`.`,
       ]);
