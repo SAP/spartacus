@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import * as authentication from '../../auth-forms';
 
 export const READ_QUOTE = '@READ_QUOTE';
