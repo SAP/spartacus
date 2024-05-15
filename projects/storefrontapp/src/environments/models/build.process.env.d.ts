@@ -26,5 +26,4 @@ interface Env {
   CX_PDF_INVOICES: boolean;
   CX_MY_ACCOUNT_V2: boolean;
   CX_CPQ_QUOTE_DISCOUNT: boolean;
-  CX_ESTIMATED_DELIVERY_DATE: boolean;
 }

@@ -22,5 +22,4 @@ export interface Environment {
   pdfInvoices: boolean;
   myAccountV2: boolean;
   cpqQuoteDiscount: boolean;
-  estimatedDeliveryDate: boolean;
 }

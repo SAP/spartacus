@@ -166,12 +166,6 @@ function add_requested_delivery_date {
     fi
 }
 
-function add_estimated_delivery_date {
-  if [ "$ADD_ESTIMATED_DELIVERY_DATE" = true ] ; then
-        ng add --skip-confirmation @spartacus/estimated-delivery-date@${SPARTACUS_VERSION} --interactive false
-    fi
-}
-
 function add_pdf_invoices {
   if [ "$ADD_PDF_INVOICES" = true ] ; then
         ng add --skip-confirmation @spartacus/pdf-invoices@${SPARTACUS_VERSION} --interactive false
@@ -207,7 +201,6 @@ function add_spartacus_csr {
     add_quote
     add_s4om
     add_requested_delivery_date
-    add_estimated_delivery_date
     add_pdf_invoices
     remove_npmrc
     add_cpq_quote
@@ -234,7 +227,6 @@ function add_spartacus_ssr {
     add_quote
     add_s4om
     add_requested_delivery_date
-    add_estimated_delivery_date
     add_pdf_invoices
     remove_npmrc
     add_cpq_quote
@@ -259,7 +251,6 @@ function add_spartacus_ssr_pwa {
     add_product_configurator
     add_s4om
     add_requested_delivery_date
-    add_estimated_delivery_date
     add_pdf_invoices
     remove_npmrc
     add_cpq_quote
@@ -803,11 +794,6 @@ function parseInstallArgs {
             rdd)
                 ADD_REQUESTED_DELIVERY_DATE=true
                 echo "➖ Added Requested Delivery Date"
-                shift
-                ;;
-            edd)
-                ADD_ESTIMATED_DELIVERY_DATE=true
-                echo "➖ Added Estimated Delivery Date"
                 shift
                 ;;
             invoices)
