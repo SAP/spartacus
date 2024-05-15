@@ -291,12 +291,14 @@ if (environment.requestedDeliveryDate) {
         a11yListOversizedFocus: true,
         a11yStoreFinderOverflow: true,
         a11yCartSummaryHeadingOrder: true,
+        a11yFacetKeyboardNavigation: true,
         a11yUnitsListKeyboardControls: true,
         a11yCartItemsLinksStyles: true,
         a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11yFocusableCarouselControls: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yTruncatedTextForResponsiveView: true,
       };
       return appFeatureToggles;
     }),
