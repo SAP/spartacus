@@ -103,6 +103,9 @@
       "@spartacus/estimated-delivery-date/assets": [
         "dist/estimated-delivery-date/assets"
       ],
+      "@spartacus/estimated-delivery-date/components": [
+        "dist/estimated-delivery-date/components"
+      ],
       "@spartacus/estimated-delivery-date": ["dist/estimated-delivery-date"],
       "@spartacus/estimated-delivery-date/root": [
         "dist/estimated-delivery-date/root"

@@ -6,4 +6,4 @@
  */
 
 export * from './estimated-delivery-date.component.module';
-export * from './estimated-delivery-date.component';
+export * from './estimated-delivery-date/estimated-delivery-date.component';
