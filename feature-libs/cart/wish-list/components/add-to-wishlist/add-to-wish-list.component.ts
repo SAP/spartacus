@@ -7,7 +7,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
-import { AuthService, isNotNullable, Product } from '@spartacus/core';
+import {
+  AuthService,
+  Product,
+  isNotNullable,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
@@ -42,7 +47,9 @@ export class AddToWishListComponent {
     protected wishListFacade: WishListFacade,
     protected currentProductService: CurrentProductService,
     protected authService: AuthService
-  ) {}
+  ) {
+    useFeatureStyles('a11yVisibleFocusOverflows');
+  }
 
   add(product: Product): void {
     if (product.code) {
