@@ -26,7 +26,9 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
       this.subscription = this.orderEntry$.subscribe((data) => {
         this.quoteDiscountData = data;
       });
-    }else{this.quoteDiscountData = null;}
+    } else {
+      this.quoteDiscountData = null;
+    }
   }
   ngOnDestroy(): void {
     // Unsubscribe from the observable to prevent memory leaks

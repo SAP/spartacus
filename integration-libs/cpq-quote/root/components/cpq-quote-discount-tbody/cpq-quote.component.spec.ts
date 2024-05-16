@@ -24,20 +24,22 @@ describe('Cpq Quote Discount Component', () => {
   let fixture: ComponentFixture<CpqQuoteDiscountComponent>;
   let mockCartItemContext: MockCartItemContext;
 
-  beforeEach(waitForAsync(() => {
-    mockCartItemContext = new MockCartItemContext();
+  beforeEach(
+    waitForAsync(() => {
+      mockCartItemContext = new MockCartItemContext();
 
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [
-        CpqQuoteDiscountComponent,
-        MockConfigureCpqDiscountsComponent,
-      ],
-      providers: [
-        { provide: CartItemContext, useValue: mockCartItemContext },
-      ],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [
+          CpqQuoteDiscountComponent,
+          MockConfigureCpqDiscountsComponent,
+        ],
+        providers: [
+          { provide: CartItemContext, useValue: mockCartItemContext },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CpqQuoteDiscountComponent);
@@ -75,9 +77,7 @@ describe('Cpq Quote Discount Component', () => {
 
     it('should be displayed if model provides data', () => {
       mockCartItemContext.item$.next({
-        cpqDiscounts: [
-          { appliedValue: 30, isoCode: 'USD', value: 15 }
-        ],
+        cpqDiscounts: [{ appliedValue: 30, isoCode: 'USD', value: 15 }],
       });
 
       fixture.detectChanges();
@@ -86,7 +86,7 @@ describe('Cpq Quote Discount Component', () => {
     });
     it('Display  appliedValue data', () => {
       const discounts: CpqDiscounts[] = [
-        { appliedValue: 30, isoCode: 'USD', value: 15 }
+        { appliedValue: 30, isoCode: 'USD', value: 15 },
       ];
       mockCartItemContext.item$.next({
         cpqDiscounts: discounts,
@@ -98,8 +98,12 @@ describe('Cpq Quote Discount Component', () => {
       expect(discountsDisplayed.length).toBe(discounts.length);
 
       for (let i = 0; i < discountsDisplayed.length; i++) {
-        expect(discountsDisplayed[i].textContent).toContain(discounts[i].appliedValue);
-        expect(discountsDisplayed[i].textContent).toContain(discounts[i].appliedValue);
+        expect(discountsDisplayed[i].textContent).toContain(
+          discounts[i].appliedValue
+        );
+        expect(discountsDisplayed[i].textContent).toContain(
+          discounts[i].appliedValue
+        );
       }
     });
   });
