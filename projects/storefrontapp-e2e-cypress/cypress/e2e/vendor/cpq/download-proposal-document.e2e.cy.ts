@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as quoteHelper from '../../../helpers/b2b/b2b-quote'
+import * as quoteHelper from '../../../helpers/b2b/b2b-quote';
 import * as quote from '../../../helpers/vendor/cpq/quote-download';
 
 const BUYER_EMAIL = 'james.weber@harvestlive.inc';

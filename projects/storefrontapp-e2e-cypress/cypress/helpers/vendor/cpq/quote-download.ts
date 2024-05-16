@@ -53,7 +53,8 @@ export function navigateToVendorQuote() {
  */
 export function downloadVendorQuoteAttachment() {
   cy.get('cx-quote-summary-actions section button.btn.btn-primary')
-    .should('contain.text', 'Download Proposal').first()
+    .should('contain.text', 'Download Proposal')
+    .first()
     .scrollIntoView()
     .and('be.visible')
     .click()
