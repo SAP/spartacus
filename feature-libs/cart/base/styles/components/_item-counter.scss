@@ -43,10 +43,7 @@
       max-width: 46%;
 
       @include forFeature('santoriniV2') {
-        border-left: solid 1px var(--cx-color-medium);
-        border-right: solid 1px var(--cx-color-medium);
-        border-bottom: none;
-        border-top: none;
+        border-color: var(--cx-color-medium);
       }
 
       &:focus {
