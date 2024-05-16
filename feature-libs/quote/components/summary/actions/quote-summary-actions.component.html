@@ -6,7 +6,10 @@
           type="button"
           id="downloadBtn"
           class="btn btn-primary"
-          *ngIf="hasAttachment(quoteDetails.sapAttachments) && hasDownloadFeatureEnabled()"
+          *ngIf="
+            hasAttachment(quoteDetails.sapAttachments) &&
+            hasDownloadFeatureEnabled()
+          "
           (click)="
             onDownloadAttachment(quoteDetails.code, quoteDetails.sapAttachments)
           "
