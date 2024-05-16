@@ -7,6 +7,10 @@
 import { Component, Optional, inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CxDatePipe, TranslationService } from '@spartacus/core';
+import {
+  ArrivalSlot,
+  ArrivalSlots,
+} from '@spartacus/estimated-delivery-date/root';
 import { OrderDetailsOrderEntriesContext } from '@spartacus/order/components';
 import { Consignment, Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { EMPTY, Observable } from 'rxjs';
@@ -42,7 +46,7 @@ export class EstimatedDeliveryDateComponent {
    * @returns {boolean} - whether the arrival slot information is present for the order
    */
   hasOrderEntryArrivalSlots(item: OrderEntry): boolean {
-    const arrivalSlots = item.arrivalSlots;
+    const arrivalSlots: ArrivalSlots[] | undefined = item.arrivalSlots;
     return arrivalSlots != null && arrivalSlots.length > 0;
   }
 
@@ -55,7 +59,7 @@ export class EstimatedDeliveryDateComponent {
    */
 
   hasConsignmentEntryArrivalSlot(item: Consignment): boolean {
-    const arrivalSlot = item.arrivalSlot;
+    const arrivalSlot: ArrivalSlot | undefined = item.arrivalSlot;
     return arrivalSlot != null && arrivalSlot.at != null;
   }
 
