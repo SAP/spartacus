@@ -16,7 +16,7 @@ import {
   inject,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
@@ -82,6 +82,10 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
   protected featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
+
+  constructor() {
+    useFeatureStyles('a11yVisibleFocusOverflows');
+  }
 
   // TODO: (CXSPA-6034) Remove HostListener next major release
   @HostListener('click') handleClick() {
