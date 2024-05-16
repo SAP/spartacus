@@ -158,7 +158,7 @@ export interface FeatureTogglesInterface {
    * On mobile, search box will no longer open on focus.
    */
   a11ySearchBoxMobileFocus?: boolean;
-  
+
   /**
    * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
    */
