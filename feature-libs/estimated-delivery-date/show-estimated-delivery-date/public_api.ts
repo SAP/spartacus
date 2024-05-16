@@ -7,4 +7,3 @@
 
 export * from './show-estimated-delivery-date.module';
 export * from './components/estimated-delivery-date.component';
-export * from './config/index';
