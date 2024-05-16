@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -17,7 +16,6 @@ import {
 } from '@spartacus/quote/root';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import {
-  FileDownloadService,
   IntersectionService,
   LAUNCH_CALLER,
   LaunchDialogService,
@@ -57,10 +55,6 @@ const mockQuote: Quote = {
   code: mockCode,
   threshold: threshold,
   totalPrice: totalPrice,
-};
-const mockQuoteAttachment = (): File => {
-  const blob = new Blob([''], { type: 'application/pdf' });
-  return blob as File;
 };
 
 const testMappings: ConfirmActionDialogMappingConfig = {
@@ -149,13 +143,6 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   }
 
   requote = createSpy();
-
-  downloadAttachment(
-    _quoteCode: string,
-    _attachmentId: string
-  ): Observable<Blob> {
-    return of(mockQuoteAttachment());
-  }
 }
 
 class MockTranslationService implements Partial<TranslationService> {
@@ -194,16 +181,6 @@ class MockQuoteStorefrontUtilsService {
   getWindowHeight() {}
 }
 
-class MockFileDownloadService {
-  download(_url: string, _fileName?: string): void {}
-}
-
-class MockFeatureConfigService {
-  isEnabled(_feature: string): boolean {
-    return true;
-  }
-}
-
 describe('QuoteSummaryActionsComponent', () => {
   let fixture: ComponentFixture<QuoteSummaryActionsComponent>;
   let htmlElem: HTMLElement;
@@ -213,7 +190,6 @@ describe('QuoteSummaryActionsComponent', () => {
   let globalMessageService: GlobalMessageService;
   let quoteStorefrontUtilsService: QuoteStorefrontUtilsService;
   let intersectionService: IntersectionService;
-  let fileDownloadService: FileDownloadService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -242,14 +218,6 @@ describe('QuoteSummaryActionsComponent', () => {
           provide: IntersectionService,
           useClass: MockIntersectionService,
         },
-        {
-          provide: FileDownloadService,
-          useClass: MockFileDownloadService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
     }).compileComponents();
   });
@@ -263,7 +231,6 @@ describe('QuoteSummaryActionsComponent', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     quoteStorefrontUtilsService = TestBed.inject(QuoteStorefrontUtilsService);
     intersectionService = TestBed.inject(IntersectionService);
-    fileDownloadService = TestBed.inject(FileDownloadService);
     mockQuoteDetails$.next(mockQuote);
     dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
     spyOn(quoteStorefrontUtilsService, 'changeStyling').and.callThrough();
@@ -1048,72 +1015,6 @@ describe('QuoteSummaryActionsComponent', () => {
         component.ngAfterViewInit();
 
         expect(component.isFixedPosition).toBe(true);
-      });
-    });
-  });
-
-  describe('Download proposal document', () => {
-    const vendorQuote: Quote = {
-      ...mockQuote,
-      sapAttachments: [
-        {
-          id: mockQuote.code,
-        },
-      ],
-    };
-
-    it('should display download button if there is a proposal document attached to the quote', () => {
-      mockQuoteDetails$.next(vendorQuote);
-      fixture.detectChanges();
-      const buttonContainerSection = CommonQuoteTestUtilsService.getHTMLElement(
-        htmlElem,
-        'section'
-      );
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        buttonContainerSection,
-        '#downloadBtn'
-      );
-      CommonQuoteTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '#downloadBtn',
-        'DOWNLOAD'
-      );
-    });
-
-    it('should not display download button if there is no proposal document attached to the quote', () => {
-      mockQuoteDetails$.next(mockQuote);
-      fixture.detectChanges();
-      const buttonContainerSection = CommonQuoteTestUtilsService.getHTMLElement(
-        htmlElem,
-        'section'
-      );
-      CommonQuoteTestUtilsService.expectElementNotPresent(
-        expect,
-        buttonContainerSection,
-        '#downloadBtn'
-      );
-    });
-
-    it('should download the proposal document attached when Download button is clicked', () => {
-      spyOn(quoteFacade, 'downloadAttachment');
-      spyOn(fileDownloadService, 'download');
-      mockQuoteDetails$.next(vendorQuote);
-      fixture.detectChanges();
-      const downloadBtn = CommonQuoteTestUtilsService.getHTMLElement(
-        htmlElem,
-        '#downloadBtn'
-      );
-      downloadBtn.click();
-      fixture.detectChanges();
-      expect(quoteFacade.downloadAttachment).toHaveBeenCalledWith(
-        vendorQuote.code,
-        vendorQuote.code
-      );
-      fixture.whenStable().then(() => {
-        fixture.detectChanges();
-        expect(fileDownloadService.download).toHaveBeenCalled();
       });
     });
   });

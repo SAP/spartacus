@@ -17,7 +17,6 @@ import {
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
@@ -26,13 +25,11 @@ import {
   Quote,
   QuoteAction,
   QuoteActionType,
-  QuoteAttachment,
   QuoteFacade,
   QuoteRoleType,
   QuoteState,
 } from '@spartacus/quote/root';
 import {
-  FileDownloadService,
   IntersectionOptions,
   IntersectionService,
   LAUNCH_CALLER,
@@ -61,8 +58,6 @@ export class QuoteSummaryActionsComponent
   protected activeCartFacade = inject(ActiveCartFacade);
   protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
   protected intersectionService = inject(IntersectionService);
-  protected fileDownloadService = inject(FileDownloadService);
-  private featureConfig = inject(FeatureConfigService);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
@@ -226,23 +221,6 @@ export class QuoteSummaryActionsComponent
   }
 
   /**
-   * Click handler for download button.
-   *
-   * @param quoteCode - The quote ID (aka code)
-   * @param attachments - Array of attachments belonging to the quote. It is expected to contain only 1 entry.
-   */
-  onDownloadAttachment(quoteCode: string, attachments: QuoteAttachment[]) {
-    const attachmentId = attachments[0].id;
-    const filename = attachments[0].filename || attachmentId;
-    this.quoteFacade
-      .downloadAttachment(quoteCode, attachmentId)
-      .subscribe((res) => {
-        const url = URL.createObjectURL(new Blob([res], { type: res.type }));
-        this.fileDownloadService.download(url, `${filename}.pdf`);
-      });
-  }
-
-  /**
    * Generic click handler for quote action buttons.
    *
    * @param action - the action to be triggered
@@ -319,25 +297,6 @@ export class QuoteSummaryActionsComponent
 
   protected requote(quoteId: string) {
     this.quoteFacade.requote(quoteId);
-  }
-
-  /**
-   * Determines if there is any document attached with the quote.
-   *
-   * @param attachments - an array of attachments to the quote
-   * @returns - if the document is present, returns 'true', otherwise 'false'.
-   */
-  hasAttachment(attachments: QuoteAttachment[]): boolean {
-    return attachments?.length > 0;
-  }
-
-  /**
-   * Determines if the feature for showing the download button is enabled.
-   *
-   * @returns - if the feature is enabled, returns 'true', otherwise 'false'.
-   */
-  hasDownloadFeatureEnabled(): boolean {
-    return this.featureConfig.isEnabled('showProposalDownloadButton');
   }
 
   /**

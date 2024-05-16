@@ -52,10 +52,8 @@ export function navigateToVendorQuote() {
  * Downloads the proposal document attached to the quote.
  */
 export function downloadVendorQuoteAttachment() {
-  cy.get('cx-quote-summary-actions section button.btn.btn-primary')
+  cy.get('cx-quote-links button')
     .should('contain.text', 'Download Proposal')
-    .first()
-    .scrollIntoView()
     .and('be.visible')
     .click()
     .then(() => {

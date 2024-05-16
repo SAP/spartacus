@@ -20,6 +20,21 @@
           {{ 'quote.links.quotes' | cxTranslate }}
         </a>
       </li>
+      <li>
+        <button
+          type="button"
+          class="link cx-action-link"
+          *ngIf="
+            hasAttachment(quoteDetails.sapAttachments!) &&
+            hasDownloadFeatureEnabled()
+          "
+          (click)="
+            onDownloadAttachment(quoteDetails.code, quoteDetails.sapAttachments!)
+          "
+        >
+          {{ 'quote.links.download' | cxTranslate }}
+        </button>
+      </li>
     </ul>
   </section>
 </ng-container>
