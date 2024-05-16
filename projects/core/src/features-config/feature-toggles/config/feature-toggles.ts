@@ -154,6 +154,12 @@ export interface FeatureTogglesInterface {
   a11yCartSummaryHeadingOrder?: boolean;
 
   /**
+   * Improves focus behaviour of 'SearchBoxComponent'.
+   * On mobile, search box will no longer open on focus.
+   */
+  a11ySearchBoxMobileFocus?: boolean;
+
+  /**
    * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
    */
   a11yFacetKeyboardNavigation?: boolean;
@@ -248,6 +254,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
   a11yCartSummaryHeadingOrder: false,
+  a11ySearchBoxMobileFocus: false,
   a11yFacetKeyboardNavigation: false,
   a11yUnitsListKeyboardControls: false,
   a11yCartItemsLinksStyles: false,
