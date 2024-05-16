@@ -52,6 +52,6 @@ describe('Cpq Quote Discount Component', () => {
 
     fixture.detectChanges();
 
-    expect(htmlElem.querySelectorAll('.cx-cpq-quote').length).toBe(0);
+    expect(htmlElem.querySelectorAll('.cpq-quote-discount').length).toBe(0);
   });
 });
