@@ -4,39 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as authentication from '../../auth-forms';
-
 export const READ_QUOTE = '@READ_QUOTE';
 export const READ_VENDOR_QUOTE = '@READ_VENDOR_QUOTE';
 export const DOWNLOAD_ATTACHMENT = '@DOWNLOAD_ATTACHMENT';
 const SHOP_NAME = Cypress.env('BASE_SITE'); //Powertools-spa
-
-/**
- * Uses a cx-login-form to login a user.
- *
- * @param email Email for the login
- * @param password Password for the login
- * @param name Name of the user
- */
-export function login(email: string, password: string, name: string): void {
-  cy.get('cx-login [role="link"]')
-    .click()
-    .then(() => {
-      cy.get('cx-login-form').should('be.visible');
-    });
-  authentication.login(email, password);
-  cy.get('.cx-login-greet').should('contain', name);
-  cy.get('cx-login').should('not.contain', 'Sign In');
-}
-
-/**
- * Uses a cx-login-form to log out a user.
- */
-export function logout(): void {
-  cy.visit(`${SHOP_NAME}/en/USD/logout`).then(() => {
-    cy.get('cx-login [role="link"]');
-  });
-}
 
 /**
  * Navigates to the vendor quote list via my account.
@@ -63,13 +34,6 @@ export function navigateToVendorQuoteListFromMyAccount() {
 }
 
 /**
- * Verifies whether the quote list is displayed.
- */
-export function checkQuoteListDisplayed() {
-  cy.get('cx-quote-list').should('be.visible');
-}
-
-/**
  * Navigates to the quote with status as Vendor Quote.
  */
 export function navigateToVendorQuote() {
@@ -88,24 +52,14 @@ export function navigateToVendorQuote() {
  * Downloads the proposal document attached to the quote.
  */
 export function downloadVendorQuoteAttachment() {
-  cy.get('#downloadBtn')
+  cy.get('cx-quote-summary-actions section button.btn.btn-primary')
+    .should('contain.text', 'Download Proposal').first()
     .scrollIntoView()
-    .should('contain.text', 'Download Proposal')
     .and('be.visible')
     .click()
     .then(() => {
       cy.wait(DOWNLOAD_ATTACHMENT).its('response.statusCode').should('eq', 200);
     });
-}
-
-/**
- * Registers read quote route.
- */
-export function registerReadQuoteRoute() {
-  cy.intercept({
-    method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${SHOP_NAME}/users/*/quotes/*`,
-  }).as(READ_QUOTE.substring(1)); // strip the '@'
 }
 
 /**

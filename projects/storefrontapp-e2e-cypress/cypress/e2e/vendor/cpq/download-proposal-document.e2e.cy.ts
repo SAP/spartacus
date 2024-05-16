@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as quoteHelper from '../../../helpers/b2b/b2b-quote'
 import * as quote from '../../../helpers/vendor/cpq/quote-download';
 
 const BUYER_EMAIL = 'james.weber@harvestlive.inc';
@@ -23,17 +24,17 @@ context('Download proposal document', () => {
     };
     cy.cxConfig(globalMessageSettings);
     cy.visit('/');
-    quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
+    quoteHelper.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
     quote.registerReadVendorQuoteRoute();
-    quote.registerReadQuoteRoute();
+    quoteHelper.registerReadQuoteRoute();
     quote.registerDownloadAttachmentRoute();
   });
 
   it('should download proposal document', () => {
     quote.navigateToVendorQuoteListFromMyAccount();
-    quote.checkQuoteListDisplayed();
+    quoteHelper.checkQuoteListDisplayed();
     quote.navigateToVendorQuote();
     quote.downloadVendorQuoteAttachment();
-    quote.logout();
+    quoteHelper.logout();
   });
 });
