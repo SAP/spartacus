@@ -4,10 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  user as sampleUser,
-  getSampleUser,
-} from '../sample-data/checkout-flow';
+import { user, getSampleUser } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import { waitForPage } from './checkout-flow';
 import * as alerts from './global-message';
@@ -34,9 +31,9 @@ export function registerUserFromLoginPage(uniqueUser?: boolean) {
     .click();
   cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
 
-  const user = uniqueUser ? getSampleUser() : sampleUser;
-  register(user);
-  return user;
+  const loginUser = uniqueUser ? getSampleUser() : user;
+  register(loginUser);
+  return loginUser;
 }
 
 /**
