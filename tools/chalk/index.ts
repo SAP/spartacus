@@ -24,7 +24,7 @@ function paint(text: string | undefined, color: string): string {
 }
 
 /**
- * A collection of functions to apply various text styles using the paint function.
+ * A utility function for terminal string styling. 
  *
  *  Previously, we were using `chalk@4` for text styling, but it became outdated.
  *   When we attempted to upgrade to `chalk@5`, the process proved challenging.
