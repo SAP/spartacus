@@ -1,0 +1,59 @@
+%cx-verification-token-dialog {
+  .cx-modal-content {
+    max-width: 32rem;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+  }
+
+  .cx-dialog-header {
+    padding-top: 0.9rem;
+    padding-inline-end: 1rem;
+    padding-bottom: 0.9rem;
+    padding-inline-start: 1rem;
+    border-width: 0;
+    display: flex;
+    border-color: var(--cx-color-light);
+
+    .info-icon {
+      cx-icon {
+        font-size: 1.4rem;
+        color: var(--cx-color-info);
+      }
+    }
+
+    .title {
+      @include type('4');
+    }
+  }
+
+  .spliter {
+    margin: 0;
+  }
+
+  .cx-dialog-body {
+    padding: 1rem;
+    @include type();
+
+    .cx-dialog-row {
+      margin: 0;
+      display: flex;
+      padding-top: 0;
+      padding-inline-end: 0.875rem;
+      padding-bottom: 0.85rem;
+      padding-inline-start: 2.875rem;
+      max-width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .cx-dialog-item {
+      padding: 0.2rem;
+    }
+  }
+
+  .cx-dialog-footer {
+    padding-top: 0;
+    padding-inline-end: 1rem;
+    padding-bottom: 0;
+    padding-inline-start: 1rem;
+  }
+}

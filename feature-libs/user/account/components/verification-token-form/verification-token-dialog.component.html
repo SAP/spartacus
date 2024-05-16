@@ -1,0 +1,50 @@
+<div
+  class="cx-verification-token-dialog cx-modal-container cx-asm-dialog"
+  [cxFocus]="focusConfig"
+  (esc)="closeModal(VERIFICATION_TOKEN_DIALOG_ACTION.OK)"
+>
+  <div class="cx-modal-content">
+    <!-- Modal Header -->
+    <div class="cx-dialog-header modal-header">
+      <div>
+        <span class="info-icon">
+          <cx-icon type="INFO"></cx-icon>
+        </span>
+        <span id="verification-token-dialog-title" class="title modal-title">
+          {{ 'verificationTokenDialog.title' | cxTranslate }}
+        </span>
+      </div>
+    </div>
+    <hr class="spliter" />
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="cx-dialog-row">
+        <div class="cx-dialog-item">
+          {{ 'verificationTokenDialog.noReceiveCode' | cxTranslate }}
+        </div>
+        <div class="cx-dialog-item">
+          {{ 'verificationTokenDialog.contentLine1' | cxTranslate }}
+        </div>
+        <div class="cx-dialog-item">
+          {{ 'verificationTokenDialog.contentLine2' | cxTranslate }}
+        </div>
+        <div class="cx-dialog-item">
+          {{ 'verificationTokenDialog.contentLine3' | cxTranslate }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="cx-dialog-footer modal-footer">
+      <button
+        (click)="closeModal(VERIFICATION_TOKEN_DIALOG_ACTION.OK)"
+        [attr.aria-label]="'verificationTokenDialog.ok' | cxTranslate"
+        class="btn btn-primary"
+        type="button"
+      >
+        {{ 'verificationTokenDialog.close' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</div>
