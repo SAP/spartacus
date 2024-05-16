@@ -20,7 +20,6 @@
  * - all entry points are `.ts` files
  */
 
-import chalk from 'chalk';
 import { assign, parse, stringify } from 'comment-json';
 import fs from 'fs';
 import glob from 'glob';
@@ -35,6 +34,7 @@ import {
   reportProgress,
   success,
 } from './index';
+import {chalk} from "../chalk";
 
 function readTsConfigFile(path: string): any {
   return parse(fs.readFileSync(path, 'utf-8'));
