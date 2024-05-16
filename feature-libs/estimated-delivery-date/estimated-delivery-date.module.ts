@@ -6,9 +6,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { EstimatedDeliveryDateComponentModule } from './public_api';
+import { ShowEstimatedDeliveryDateModule } from './show-estimated-delivery-date/show-estimated-delivery-date.module';
 
 @NgModule({
-  imports: [EstimatedDeliveryDateComponentModule],
+  imports: [ShowEstimatedDeliveryDateModule],
 })
 export class EstimatedDeliveryDateModule {}

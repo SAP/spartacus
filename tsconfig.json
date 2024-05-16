@@ -240,6 +240,9 @@
       "@spartacus/estimated-delivery-date/root": [
         "feature-libs/estimated-delivery-date/root/public_api"
       ],
+      "@spartacus/estimated-delivery-date/show-estimated-delivery-date": [
+        "feature-libs/estimated-delivery-date/show-estimated-delivery-date/public_api"
+      ],
       "@spartacus/order/assets": [
         "feature-libs/order/assets/public_api"
       ],

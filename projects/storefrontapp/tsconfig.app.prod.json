@@ -107,6 +107,9 @@
       "@spartacus/estimated-delivery-date/root": [
         "dist/estimated-delivery-date/root"
       ],
+      "@spartacus/estimated-delivery-date/show-estimated-delivery-date": [
+        "dist/estimated-delivery-date/show-estimated-delivery-date"
+      ],
       "@spartacus/order/assets": ["dist/order/assets"],
       "@spartacus/order/components": ["dist/order/components"],
       "@spartacus/order/core": ["dist/order/core"],
