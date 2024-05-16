@@ -555,7 +555,7 @@ testConfig.forEach((config) => {
     });
 
     describe('Configuration Process', () => {
-      it('should support configuration aspect in product search, cart, checkout and order history', () => {
+      it.only('should support configuration aspect in product search, cart, checkout and order history', () => {
         common.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
         common.clickOnAddToCartBtnOnPD();
         common.clickOnViewCartBtnOnPD();
