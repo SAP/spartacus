@@ -21,6 +21,9 @@ context('Download proposal document', () => {
           timeout: 10000,
         },
       },
+      features: {
+        showProposalDownloadButton: true,
+      },
     };
     cy.cxConfig(globalMessageSettings);
     cy.visit('/');

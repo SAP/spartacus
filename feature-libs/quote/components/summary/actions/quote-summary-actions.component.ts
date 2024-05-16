@@ -16,7 +16,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { FeatureConfigService, GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { QuoteStorefrontUtilsService } from '@spartacus/quote/core';
 import {
   Quote,
@@ -58,6 +58,7 @@ export class QuoteSummaryActionsComponent
   protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
   protected intersectionService = inject(IntersectionService);
   protected fileDownloadService = inject(FileDownloadService);
+  private featureConfig = inject(FeatureConfigService);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
@@ -326,6 +327,15 @@ export class QuoteSummaryActionsComponent
    */
   hasAttachment(attachments: QuoteAttachment[]): boolean {
     return attachments?.length > 0;
+  }
+
+  /**
+   * Determines if the feature for showing the download button is enabled.
+   *
+   * @returns - if the feature is enabled, returns 'true', otherwise 'false'.
+   */
+  hasDownloadFeatureEnabled(): boolean {
+    return this.featureConfig.isEnabled('showProposalDownloadButton');
   }
 
   /**
