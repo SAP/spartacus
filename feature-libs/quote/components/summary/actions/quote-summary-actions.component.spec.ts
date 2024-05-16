@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -197,6 +198,12 @@ class MockFileDownloadService {
   download(_url: string, _fileName?: string): void {}
 }
 
+class MockFeatureConfigService {
+  isEnabled(_feature: string): boolean {
+    return true;
+  }
+}
+
 describe('QuoteSummaryActionsComponent', () => {
   let fixture: ComponentFixture<QuoteSummaryActionsComponent>;
   let htmlElem: HTMLElement;
@@ -239,6 +246,10 @@ describe('QuoteSummaryActionsComponent', () => {
           provide: FileDownloadService,
           useClass: MockFileDownloadService,
         },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService
+        }
       ],
     }).compileComponents();
   });

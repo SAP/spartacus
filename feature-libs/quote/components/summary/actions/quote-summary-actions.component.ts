@@ -228,12 +228,10 @@ export class QuoteSummaryActionsComponent
   /**
    * Click handler for download button.
    *
-   * @param quoteCode - the quote ID (aka code)
-   * @param attachments - array of attachments belonging to the quote
+   * @param quoteCode - The quote ID (aka code)
+   * @param attachments - Array of attachments belonging to the quote. It is expected to contain only 1 entry.
    */
   onDownloadAttachment(quoteCode: string, attachments: QuoteAttachment[]) {
-    // Extracting the attachment ID from the first entry in the array
-    // as there would be only one proposal document attached for each quote
     const attachmentId = attachments[0].id;
     const filename = attachments[0].filename || attachmentId;
     this.quoteFacade
