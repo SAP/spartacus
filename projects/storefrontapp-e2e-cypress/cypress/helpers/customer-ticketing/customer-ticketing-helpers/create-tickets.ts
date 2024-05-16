@@ -60,6 +60,15 @@ export function verifyTicketSubjectAndMessageDoNotExceedCharacterLimit() {
   });
 }
 
+export function addFileSelect(filename: string) {
+  cy.get('input[type=file]').selectFile(
+    '../storefrontapp-e2e-cypress/cypress/helpers/customer-ticketing/files-to-upload/' +
+      filename,
+    { force: true }
+  );
+  cy.get('p').contains(filename);
+}
+
 export function addFile(filename: string) {
   cy.get('cx-file-upload input[type="file"]').attachFile(
     { filePath: '../helpers/customer-ticketing/files-to-upload/' + filename },
