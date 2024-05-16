@@ -154,6 +154,12 @@ export interface FeatureTogglesInterface {
   a11yCartSummaryHeadingOrder?: boolean;
 
   /**
+   * Improves focus behaviour of 'SearchBoxComponent'.
+   * On mobile, search box will no longer open on focus.
+   */
+  a11ySearchBoxMobileFocus?: boolean;
+
+  /**
    * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
    */
   a11yFacetKeyboardNavigation?: boolean;
@@ -199,6 +205,13 @@ export interface FeatureTogglesInterface {
    * of adding to the cart.
    */
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
+
+  /**
+   * Stops the focus indicator from overflowing and being obstructed by other elements.
+   * Modifies the 'visible-focus' mixin. Includes style changes for:
+   * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent
+   */
+  a11yVisibleFocusOverflows?: boolean;
 
   /**
    * When enabled then on mobile(320px) responsive view:
@@ -248,6 +261,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
   a11yCartSummaryHeadingOrder: false,
+  a11ySearchBoxMobileFocus: false,
   a11yFacetKeyboardNavigation: false,
   a11yUnitsListKeyboardControls: false,
   a11yCartItemsLinksStyles: false,
@@ -255,6 +269,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yVisibleFocusOverflows: false,
   a11yTruncatedTextForResponsiveView: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,

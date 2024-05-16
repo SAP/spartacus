@@ -1,0 +1,10 @@
+%cx-otp-login-form {
+  &.user-form {
+    cx-spinner {
+      display: none;
+    }
+    button {
+      flex: 100%;
+    }
+  }
+}
