@@ -3,35 +3,34 @@ import { CpqQuoteHeadingComponent } from './cpq-quote-heading.component';
 import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
-
 describe('CpqQuoteHeadingComponent', () => {
   let component: CpqQuoteHeadingComponent;
   let fixture: ComponentFixture<CpqQuoteHeadingComponent>;
   let mockOutletContextData: BehaviorSubject<any[]>;
+  let translationService: TranslationService;
 
-  beforeEach(
-    waitForAsync(() => {
-      mockOutletContextData = new BehaviorSubject<any[]>([]);
+  beforeEach(waitForAsync(() => {
+    mockOutletContextData = new BehaviorSubject<any[]>([]);
 
-      TestBed.configureTestingModule({
-        declarations: [CpqQuoteHeadingComponent],
-        providers: [
-          {
-            provide: TranslationService,
-            useValue: { translate: () => of('Discount Percentage') },
-          },
-          {
-            provide: OutletContextData,
-            useValue: { context$: mockOutletContextData },
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      declarations: [CpqQuoteHeadingComponent],
+      providers: [
+        {
+          provide: TranslationService,
+          useValue: { translate: () => of('Discount Percentage') },
+        },
+        {
+          provide: OutletContextData,
+          useValue: { context$: mockOutletContextData },
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CpqQuoteHeadingComponent);
     component = fixture.componentInstance;
+    translationService = TestBed.inject(TranslationService);
     fixture.detectChanges();
   });
 
@@ -39,20 +38,30 @@ describe('CpqQuoteHeadingComponent', () => {
     fixture.destroy();
   });
 
-  it('should display discountLabel when dataAvailable is true', () => {
-    component.dataAvailable = true;
-    fixture.detectChanges();
-
-    const compiled = fixture.nativeElement;
-    expect(compiled.textContent).toContain('Discount Percentage');
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should not display discountLabel when dataAvailable is false', () => {
-    // Simulate data not being available
-    component.dataAvailable = false;
-    fixture.detectChanges();
+  it('should set discountLabel on translationService subscription', () => {
+    translationService.translate('cpqQuoteHeading').subscribe(() => {
+      expect(component.discountLabel).toBe('Discount Percentage');
+    });
+  });
 
-    const compiled = fixture.nativeElement;
-    expect(compiled.textContent).not.toContain('Discount Percentage');
+  it('should set dataAvailable to true if context contains cpqDiscounts', () => {
+    mockOutletContextData.next([{ cpqDiscounts: ['discount1', 'discount2'] }]);
+    expect(component.dataAvailable).toBe(true);
+  });
+
+  it('should set dataAvailable to false if context does not contain cpqDiscounts', () => {
+    mockOutletContextData.next([]);
+    expect(component.dataAvailable).toBe(false);
+  });
+
+  it('should unsubscribe from subscriptions on ngOnDestroy', () => {
+    spyOn(component, 'ngOnDestroy').and.callThrough();
+    component.ngOnDestroy();
+    expect(component['subscription'].closed).toBe(true);
   });
 });
+
