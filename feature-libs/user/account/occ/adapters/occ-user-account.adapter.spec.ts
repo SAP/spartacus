@@ -10,8 +10,15 @@ import {
   OccConfig,
   OccEndpointsService,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
-import { USER_ACCOUNT_NORMALIZER } from '@spartacus/user/account/core';
+import {
+  USER_ACCOUNT_NORMALIZER,
+  VERIFICATION_TOKEN_NORMALIZER,
+} from '@spartacus/user/account/core';
+import {
+  User,
+  VerificationToken,
+  VerificationTokenCreation,
+} from '@spartacus/user/account/root';
 import { OccUserAccountAdapter } from './occ-user-account.adapter';
 
 export const mockOccModuleConfig: OccConfig = {
@@ -52,6 +59,17 @@ const password = '1234';
 const user: User = {
   customerId: username,
   displayUid: password,
+};
+
+const verificationTokenCreation: VerificationTokenCreation = {
+  purpose: 'LOGIN',
+  loginId: 'test@email.com',
+  password: password,
+};
+
+const verificationToken: VerificationToken = {
+  expiresIn: '300',
+  tokenId: 'mockTokenId',
 };
 
 describe('OccUserAccountAdapter', () => {
@@ -113,6 +131,41 @@ describe('OccUserAccountAdapter', () => {
         })
         .flush(user);
       expect(converter.pipeable).toHaveBeenCalledWith(USER_ACCOUNT_NORMALIZER);
+    });
+  });
+
+  describe('create verification token', () => {
+    it('should create verification token for given email and password', () => {
+      occUserAccountAdapter
+        .createVerificationToken(verificationTokenCreation)
+        .subscribe((result) => {
+          expect(result).toEqual(verificationToken);
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'POST';
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'createVerificationToken'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(verificationToken);
+    });
+
+    it('should use converter', () => {
+      occUserAccountAdapter
+        .createVerificationToken(verificationTokenCreation)
+        .subscribe();
+      httpMock
+        .expectOne((req) => {
+          return req.method === 'POST';
+        })
+        .flush(verificationToken);
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        VERIFICATION_TOKEN_NORMALIZER
+      );
     });
   });
 });
