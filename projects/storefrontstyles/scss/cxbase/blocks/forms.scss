@@ -17,15 +17,15 @@
       border-color: var(--cx-color-text);
       box-shadow: 0 0 0 0.2em var(--cx-color-border-medium);
     }
-    
-    &::placeholder{
+
+    &::placeholder {
       color: var(--cx-color-dark);
     }
 
     &::-webkit-input-placeholder {
       color: var(--cx-color-dark);
     }
-    
+
     &:-ms-input-placeholder {
       color: var(--cx-color-dark);
     }
@@ -45,7 +45,7 @@ cx-form-errors {
     word-break: break-word;
 
     @include forFeature('santoriniV2') {
-      @include type('7')
+      @include type('7');
     }
 
     &::before,
@@ -242,6 +242,9 @@ legend {
 .form-control[type='text'] {
   &:focus {
     background-color: var(--cx-color-background);
+    @include forFeature('santoriniV2') {
+      background-color: var(--cx-color-inverse);
+    }
     box-shadow: none;
     -webkit-box-shadow: none;
   }
