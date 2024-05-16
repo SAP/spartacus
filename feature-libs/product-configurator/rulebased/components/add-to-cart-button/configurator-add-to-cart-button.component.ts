@@ -236,7 +236,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   getButtonResourceKey(
     routerData: ConfiguratorRouter.Data,
     configuration: Configurator.Configuration,
-    isQuoteActive = false
+    isQuoteActive: boolean | null = false
   ): string {
     if (
       (routerData.isOwnerCartEntry || isQuoteActive) &&
