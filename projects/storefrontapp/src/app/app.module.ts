@@ -101,8 +101,8 @@ if (!environment.production) {
     provideConfig({
       features: {
         santoriniV2: true,
-      }
-    })
+      },
+    }),
   ],
   bootstrap: [StorefrontComponent],
 })

@@ -163,6 +163,15 @@
           padding-bottom: 22px;
           padding-inline-start: 0;
           padding-inline-end: 0;
+          @include forFeature('santoriniV2') {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-inline-start: 5px;
+            padding-top: 10px;
+            padding-bottom: 12px;
+            padding-inline-end: 8px;
+            padding-inline-start: 8px;
+          }
         }
         // first level headings will be bold in desktop
         ul > li > span,
@@ -200,6 +209,13 @@
       padding: 5px 0;
     }
     @include forFeature('santoriniV2') {
+      li > cx-generic-link > a {
+        padding-top: 10px;
+        padding-bottom: 12px;
+        padding-inline-start: 0;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
       ul.childs > li > button:hover {
         color: var(--cx-color-text);
       }
@@ -222,6 +238,10 @@
       padding-inline-start: 7px;
       &:before {
         font-size: 1rem;
+      }
+
+      @include forFeature('santoriniV2') {
+        padding-inline-start: 0;
       }
     }
   }
