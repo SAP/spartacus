@@ -1,5 +1,10 @@
 %cx-star-rating {
   padding: 15px 0;
+  // TODO: (CXSPA-7208) Remove feature flag next major
+  @include forFeature('a11yVisibleFocusOverflows') {
+    padding: unset;
+    margin: 15px 0;
+  }
 
   &:not([disabled='true']) {
     cursor: pointer;
