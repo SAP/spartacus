@@ -59,7 +59,6 @@ import {
 } from './lib-configs/product-schematics-config';
 import { QUALTRICS_SCHEMATICS_CONFIG } from './lib-configs/qualtrics-schematics-config';
 import { REQUESTED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/requested-delivery-date-schematics-config';
-import { ESTIMATED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/estimated-delivery-date-schematics-config';
 import { SMARTEDIT_SCHEMATICS_CONFIG } from './lib-configs/smartedit-schematics-config';
 import { STOREFINDER_SCHEMATICS_CONFIG } from './lib-configs/storefinder-schematics-config';
 import {
@@ -118,8 +117,6 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   QUALTRICS_SCHEMATICS_CONFIG,
 
   REQUESTED_DELIVERY_DATE_SCHEMATICS_CONFIG,
-
-  ESTIMATED_DELIVERY_DATE_SCHEMATICS_CONFIG,
 
   SMARTEDIT_SCHEMATICS_CONFIG,
 

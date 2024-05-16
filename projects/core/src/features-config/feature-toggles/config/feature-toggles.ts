@@ -158,6 +158,11 @@ export interface FeatureTogglesInterface {
    * On mobile, search box will no longer open on focus.
    */
   a11ySearchBoxMobileFocus?: boolean;
+  
+  /**
+   * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
+   */
+  a11yFacetKeyboardNavigation?: boolean;
 
   /**
    * Allows users to navigate through the list of units using the arrow keys.
@@ -200,6 +205,26 @@ export interface FeatureTogglesInterface {
    * of adding to the cart.
    */
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
+
+  /**
+   * When enabled then on mobile(320px) responsive view:
+   * 1. `ProductListComponent` - grid view button is aligned correctly
+   * 2. `QuickOrderFormComponent` - search combobox options are not truncated
+   * 3. `BreadcrumbComponent` - breadcrumb heading is not truncated
+   * 4. `CheckoutProgressMobileTopComponent` - checkout step names do not have huge vertical white space
+   */
+  a11yTruncatedTextForResponsiveView?: boolean;
+
+  /**
+   * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
+   */
+  a11yMyAccountLinkOutline?: boolean;
+
+  /**
+   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
+   * will be fully visible
+   */
+  a11yCloseProductImageBtnFocus?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -230,10 +255,14 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderOverflow: false,
   a11yCartSummaryHeadingOrder: false,
   a11ySearchBoxMobileFocus: false,
+  a11yFacetKeyboardNavigation: false,
   a11yUnitsListKeyboardControls: false,
   a11yCartItemsLinksStyles: false,
   a11yHideSelectBtnForSelectedAddrOrPayment: false,
   a11yFocusableCarouselControls: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yTruncatedTextForResponsiveView: false,
+  a11yMyAccountLinkOutline: false,
+  a11yCloseProductImageBtnFocus: false,
 };

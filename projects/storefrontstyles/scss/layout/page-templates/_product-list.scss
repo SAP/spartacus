@@ -17,6 +17,13 @@
       width: 100%;
       max-width: none;
     }
+
+    // TODO: (CXSPA-6003) Remove feature flags next major
+    @include forFeature('a11yTruncatedTextForResponsiveView') {
+      @include media-breakpoint-only(xs) {
+        padding-top: 35px;
+      }
+    }
   }
   .ProductListSlot,
   .ProductGridSlot {
@@ -25,6 +32,15 @@
     @include media-breakpoint-down(md) {
       width: 100%;
       max-width: none;
+    }
+
+    // TODO: (CXSPA-6003) Remove feature flags next major
+    @include forFeature('a11yTruncatedTextForResponsiveView') {
+      .cx-page-section {
+        @include media-breakpoint-only(xs) {
+          padding-top: 0;
+        }
+      }
     }
   }
 }

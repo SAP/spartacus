@@ -611,13 +611,13 @@ describe('ConfigProductTitleComponent', () => {
       initialize();
     });
 
-    it("should contain div element with class name 'cx-toggle-details-link-text' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+    it("should contain cx-icon element with an 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
-        'div',
-        'cx-toggle-details-link-text',
+        'cx-icon',
         undefined,
+        0,
         'aria-label',
         'configurator.a11y.showMoreProductInfo product:productName'
       );
@@ -648,19 +648,18 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it("should contain div element with class name 'cx-toggle-details-link-text' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+    it("should contain cx-icon element with an 'aria-label' attribute that defines an accessible name to label the current element", () => {
       component.triggerDetails();
       changeDetectorRef.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
-        'div',
-        'cx-toggle-details-link-text',
+        'cx-icon',
         undefined,
+        0,
         'aria-label',
-        'configurator.a11y.showLessProductInfo product:' + mockProduct.name,
-        'configurator.header.showLess'
+        'configurator.a11y.showLessProductInfo product:' + mockProduct.name
       );
     });
 
