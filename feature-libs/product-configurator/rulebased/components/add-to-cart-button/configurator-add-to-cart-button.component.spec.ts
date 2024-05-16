@@ -329,6 +329,7 @@ function performAddToCartOnOverview() {
   setRouterTestDataProductBoundAndConfigPage();
   mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+  mockRouterData.productCode = mockProductConfiguration.productCode;
   initialize();
   component.onAddToCart(mockProductConfiguration, mockRouterData);
 }
@@ -392,7 +393,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(of(cart));
 }
 
-describe('ConfigAddToCartButtonComponent', () => {
+fdescribe('ConfigAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let configuratorCommonsService: ConfiguratorCommonsService;
