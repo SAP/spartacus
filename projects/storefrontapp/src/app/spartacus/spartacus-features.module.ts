@@ -76,6 +76,7 @@ import { CheckoutFeatureModule } from './features/checkout/checkout-feature.modu
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
+import { OppsFeatureModule } from './features/opps/opps-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
@@ -131,6 +132,9 @@ if (environment.epdVisualization) {
 }
 if (environment.pdfInvoices) {
   featureModules.push(PDFInvoicesFeatureModule);
+}
+if (environment.opps) {
+  featureModules.push(OppsFeatureModule);
 }
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
@@ -287,11 +291,18 @@ if (environment.requestedDeliveryDate) {
         a11yListOversizedFocus: true,
         a11yStoreFinderOverflow: true,
         a11yCartSummaryHeadingOrder: true,
+        a11ySearchBoxMobileFocus: true,
+        a11yFacetKeyboardNavigation: true,
         a11yUnitsListKeyboardControls: true,
         a11yCartItemsLinksStyles: true,
+        a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11yFocusableCarouselControls: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yVisibleFocusOverflows: true,
+        a11yTruncatedTextForResponsiveView: true,
+        a11yMyAccountLinkOutline: true,
+        a11yCloseProductImageBtnFocus: true,
       };
       return appFeatureToggles;
     }),
