@@ -15,6 +15,26 @@
     },
     "wrongEmailFormat": "This is not a valid email format."
   },
+  "verificationTokenForm": {
+    "createVerificationToken": "Verification code sent to {{target}}. Please check and enter the code.",
+    "sendRateLime": "in {{waitTime}} seconds",
+    "resend": "Resend",
+    "verificationCode": {
+      "label": "Verification Code",
+      "placeholder": "Enter Verification Code"
+    },
+    "noReceiveCode": "Didn't receive the code?",
+    "verify": "Verify",
+    "back": "Back"
+  },
+  "verificationTokenDialog": {
+    "title": "Didn’t receive the code",
+    "noReceiveCode": "If you don't receive the code, the reasons might be:",
+    "contentLine1": "1. The email hasn't come yet.",
+    "contentLine2": "2. The received email has been treated as junk email.",
+    "contentLine3": "3. Either the email address or the password you entered is incorrect.",
+    "close": "Close"
+  },
   "miniLogin": {
     "userGreeting": "Hi, {{name}}",
     "signInRegister": "Sign In / Register"
