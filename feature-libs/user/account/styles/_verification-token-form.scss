@@ -1,0 +1,45 @@
+%cx-verification-token-form {
+  &.user-form {
+    .resend-link-text {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      margin: auto;
+
+      .left-text {
+        padding: 0;
+        width: 50%;
+        text-align: start;
+      }
+
+      .right-text {
+        padding: 0;
+        width: 50%;
+        text-align: end;
+      }
+
+      a.disabled-link {
+        pointer-events: none;
+        color: var(--cx-color-dark);
+      }
+
+      a {
+        color: var(--cx-color-primary);
+        @include type(7);
+      }
+    }
+
+    .verify-container {
+      width: 100%;
+      margin-top: 2.5rem;
+    }
+
+    cx-spinner {
+      display: none;
+    }
+
+    button {
+      flex: 100%;
+    }
+  }
+}
