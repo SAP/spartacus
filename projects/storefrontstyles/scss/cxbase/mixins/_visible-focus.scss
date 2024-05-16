@@ -4,6 +4,10 @@
   outline-width: var(--cx-visual-focus-width, 2px);
   outline-offset: 4px;
   transition: none;
+  // TODO: (CXSPA-7208) Remove feature flag next major
+  @include forFeature('a11yVisibleFocusOverflows') {
+    z-index: 1000;
+  }
 
   // TODO: (CXSPA-5912) Remove feature flag next major
   @include forFeature('a11yMobileVisibleFocus') {
