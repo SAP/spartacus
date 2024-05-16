@@ -10,13 +10,10 @@ import { CartOutlets } from '@spartacus/cart/base/root';
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { EstimatedDeliveryDateComponent } from './components/estimated-delivery-date/estimated-delivery-date.component';
 import { EstimatedDeliveryDateModule } from './components/estimated-delivery-date/estimated-delivery-date.module';
-import { defaultOccCartWithEddConfig } from './occ/default-occ-cart-with-edd.config';
-import { provideDefaultConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [EstimatedDeliveryDateModule],
   providers: [
-    provideDefaultConfig(defaultOccCartWithEddConfig),
     provideOutlet({
       id: CartOutlets.ITEM_DETAILS,
       position: OutletPosition.AFTER,

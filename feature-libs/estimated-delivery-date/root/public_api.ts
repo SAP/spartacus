@@ -10,4 +10,3 @@ export * from './components/estimated-delivery-date/estimated-delivery-date.modu
 export * from './feature-name';
 export * from './model';
 export * from './estimated-delivery-date-root.module';
-export * from './occ/model';
