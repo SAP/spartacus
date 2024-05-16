@@ -12,8 +12,8 @@ import {
   OutletPosition,
   provideOutlet,
 } from '@spartacus/storefront';
-import { EstimatedDeliveryDateComponent } from './estimated-delivery-date/estimated-delivery-date.component';
-import { defaultOccCartWithEddConfig } from '../config/default-occ-cart-with-edd.config';
+import { EstimatedDeliveryDateComponent } from './components/estimated-delivery-date.component';
+import { defaultOccCartWithEddConfig } from './config/default-occ-cart-with-edd.config';
 import { CartOutlets } from '@spartacus/cart/base/root';
 
 @NgModule({
@@ -30,4 +30,4 @@ import { CartOutlets } from '@spartacus/cart/base/root';
     }),
   ],
 })
-export class EstimatedDeliveryDateComponentModule {}
+export class ShowEstimatedDeliveryDateModule {}
