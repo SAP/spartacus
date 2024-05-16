@@ -179,17 +179,15 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     isAddToCart: boolean
   ): Observable<string> {
     let translationKey = of('configurator.addToCart.confirmation');
-    this.isQuoteCartActive()
-      .pipe(take(1))
-      .subscribe((isQuoteActive) => {
-        if (isQuoteActive) {
-          translationKey = of('configurator.addToCart.confirmationQuoteUpdate');
-        } else {
-          if (!isAddToCart) {
-            translationKey = of('configurator.addToCart.confirmationUpdate');
-          }
+    this.isQuoteCartActive().subscribe((isQuoteActive) => {
+      if (isQuoteActive) {
+        translationKey = of('configurator.addToCart.confirmationQuoteUpdate');
+      } else {
+        if (!isAddToCart) {
+          translationKey = of('configurator.addToCart.confirmationUpdate');
         }
-      });
+      }
+    });
     return translationKey;
   }
 
