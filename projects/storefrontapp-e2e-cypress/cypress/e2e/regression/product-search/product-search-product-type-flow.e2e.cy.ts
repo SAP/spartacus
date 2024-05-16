@@ -25,7 +25,7 @@ context('Product search product type flow', () => {
 
     describe('Product search', () => {
       it('should be able to search with specific product type', () => {
-        const category = 'sony';
+        const category = 'son';
 
         createProductQuery(
           QUERY_ALIAS.SONY,

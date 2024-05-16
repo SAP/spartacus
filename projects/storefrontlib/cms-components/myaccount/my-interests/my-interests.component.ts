@@ -21,6 +21,7 @@ import {
   ProductService,
   TranslationService,
   UserInterestsService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -67,7 +68,9 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
     private translationService: TranslationService,
     private productService: ProductService,
     private globalMessageService: GlobalMessageService
-  ) {}
+  ) {
+    useFeatureStyles('a11yCartItemsLinksStyles');
+  }
 
   ngOnInit() {
     this.interests$ = this.productInterestService
