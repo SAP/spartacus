@@ -9,7 +9,7 @@ import { prompt } from 'enquirer';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
-import {colorize} from "../color";
+import {chalk} from "../chalk";
 
 const featureLibsFolders: string[] = [
   'asm',
@@ -87,7 +87,7 @@ function startVerdaccio(): ChildProcess {
     execSync(`npx wait-on ${verdaccioUrl} --timeout 10000`);
   } catch (_e) {
     console.log(
-      colorize.red(
+      chalk.red(
         `\n❌ Couldn't boot verdaccio. Make sure to install it globally: \n> npm i -g verdaccio@4`
       )
     );

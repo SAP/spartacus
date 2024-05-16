@@ -34,7 +34,7 @@ import {
   reportProgress,
   success,
 } from './index';
-import {colorize} from "../color";
+import {chalk} from "../chalk";
 
 function readTsConfigFile(path: string): any {
   return parse(fs.readFileSync(path, 'utf-8'));
@@ -107,7 +107,7 @@ function comparePathsConfigs(
   Object.keys(currentPaths).forEach((key) => {
     if (typeof targetPaths[key] === 'undefined') {
       errors.push(
-        `Key ${colorize.bold(key)} should not be present in ${colorize.bold(
+        `Key ${chalk.bold(key)} should not be present in ${chalk.bold(
           `compilerOptions.paths`
         )}.`
       );
@@ -116,21 +116,21 @@ function comparePathsConfigs(
   Object.entries(targetPaths).forEach(([key, value]) => {
     if (typeof currentPaths[key] === 'undefined') {
       errors.push(
-        `Property ${colorize.bold(
+        `Property ${chalk.bold(
           `"${key}": ["${value[0]}"]`
-        )} is missing in ${colorize.bold('compilerOptions.paths')}.`
+        )} is missing in ${chalk.bold('compilerOptions.paths')}.`
       );
     } else if (value[0] !== currentPaths[key][0]) {
       errors.push(
-        `Key ${colorize.bold(key)} should have value ${colorize.bold(
+        `Key ${chalk.bold(key)} should have value ${chalk.bold(
           `[${value[0]}]`
-        )} in ${colorize.bold('compilerOptions.paths')}.`
+        )} in ${chalk.bold('compilerOptions.paths')}.`
       );
     }
   });
   if (!silent && errors.length > 0) {
     error(tsConfigPath, errors, [
-      `This can be automatically fixed by running \`${colorize.bold(
+      `This can be automatically fixed by running \`${chalk.bold(
         `npm run config:update`
       )}\`.`,
     ]);
