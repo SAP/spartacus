@@ -29,7 +29,10 @@
             hasDownloadFeatureEnabled()
           "
           (click)="
-            onDownloadAttachment(quoteDetails.code, quoteDetails.sapAttachments!)
+            onDownloadAttachment(
+              quoteDetails.code,
+              quoteDetails.sapAttachments!
+            )
           "
         >
           {{ 'quote.links.download' | cxTranslate }}

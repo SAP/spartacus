@@ -16,10 +16,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { QuoteStorefrontUtilsService } from '@spartacus/quote/core';
 import {
   Quote,

@@ -6,7 +6,12 @@ import {
 } from '@angular/core/testing';
 import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EventService, I18nTestingModule, Price, FeatureConfigService } from '@spartacus/core';
+import {
+  EventService,
+  I18nTestingModule,
+  Price,
+  FeatureConfigService,
+} from '@spartacus/core';
 import {
   CartUtilsService,
   QuoteDetailsReloadQueryEvent,
@@ -249,7 +254,9 @@ describe('QuoteLinksComponent', () => {
     });
 
     it('should download the proposal document attached when Download button is clicked', () => {
-      spyOn(quoteFacade, 'downloadAttachment').and.returnValue(of(mockQuoteAttachment()));
+      spyOn(quoteFacade, 'downloadAttachment').and.returnValue(
+        of(mockQuoteAttachment())
+      );
       spyOn(fileDownloadService, 'download');
       mockQuoteDetails$.next(vendorQuote);
       fixture.detectChanges();
