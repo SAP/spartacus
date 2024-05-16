@@ -248,8 +248,8 @@ describe('QuoteSummaryActionsComponent', () => {
         },
         {
           provide: FeatureConfigService,
-          useClass: MockFeatureConfigService
-        }
+          useClass: MockFeatureConfigService,
+        },
       ],
     }).compileComponents();
   });
