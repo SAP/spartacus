@@ -232,7 +232,6 @@ export interface FeatureTogglesInterface {
    * will be fully visible
    */
   a11yCloseProductImageBtnFocus?: boolean;
-
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
