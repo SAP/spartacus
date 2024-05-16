@@ -8,3 +8,4 @@
  * Public API Surface of estimated-delivery-date
  */
 export * from './estimated-delivery-date.module';
+export * from './components/estimated-delivery-date/public_api';

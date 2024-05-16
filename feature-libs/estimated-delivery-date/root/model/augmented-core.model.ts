@@ -5,6 +5,7 @@
  */
 
 import '@spartacus/cart/base/root';
+import '@spartacus/order/root';
 import { ArrivalSlot, ArrivalSlots } from './estimated-delivery-date.model';
 
 declare module '@spartacus/cart/base/root' {

@@ -8,7 +8,7 @@ import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { EstimatedDeliveryDateComponent } from './estimated-delivery-date.component';
-import { ArrivalSlots } from '../../model';
+import { ArrivalSlots } from '../../root/model';
 import { Consignment, Order, OrderHistoryFacade } from '@spartacus/order/root';
 
 class MockCartItemContext implements Partial<CartItemContext> {

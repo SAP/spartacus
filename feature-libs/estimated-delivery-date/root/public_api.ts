@@ -5,9 +5,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './components/estimated-delivery-date/estimated-delivery-date.component';
-export * from './components/estimated-delivery-date/estimated-delivery-date.module';
-export * from './feature-name';
-export * from './model';
+export * from './model/index';
 export * from './estimated-delivery-date-root.module';
 export * from './occ/model';
