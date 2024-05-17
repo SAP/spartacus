@@ -36,6 +36,7 @@ context('Download proposal document', () => {
   it('should download proposal document', () => {
     quoteHelper.navigateToQuotesList();
     quote.navigateToVendorQuote();
+    quoteHelper.defineQuoteIdAlias();
     quote.downloadVendorQuoteAttachment();
     quoteHelper.logout();
   });

@@ -362,6 +362,18 @@ function waitUntilQuoteExists(
 }
 
 /**
+ * Defines a quote ID alias.
+ */
+export function defineQuoteIdAlias(): void {
+  cy.url().then((url) => {
+    const currentURL = url.split('/');
+    const quoteId = currentURL[currentURL.length - 1];
+    cy.log('quote ID: ' + quoteId);
+    cy.wrap(quoteId).as('quoteId');
+  });
+}
+
+/**
  * Requests a quote from cart and verifies the quote page is visible.
  *
  * @param productName Name of the product that should be used for the quote
