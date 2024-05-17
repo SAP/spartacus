@@ -31,6 +31,10 @@
             &:hover {
               color: var(--cx-color-background-dark);
             }
+
+            &:focus {
+              border-color: var(--cx-color-primary);
+            }
           }
         }
       }

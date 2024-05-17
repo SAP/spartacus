@@ -20,15 +20,16 @@
           {{ 'quote.links.quotes' | cxTranslate }}
         </a>
       </li>
-      <li>
+      <li
+        *ngIf="
+          hasAttachment(quoteDetails.sapAttachments!) &&
+          hasDownloadFeatureEnabled()
+        "
+      >
         <button
           [attr.aria-label]="'quote.links.a11y.download' | cxTranslate"
           type="button"
           class="link cx-action-link"
-          *ngIf="
-            hasAttachment(quoteDetails.sapAttachments!) &&
-            hasDownloadFeatureEnabled()
-          "
           (click)="
             onDownloadAttachment(
               quoteDetails.code,
