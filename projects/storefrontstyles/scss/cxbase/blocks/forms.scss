@@ -10,9 +10,10 @@
     box-shadow: none;
     -webkit-box-shadow: none;
   }
-  border: 1px solid var(--cx-color-medium);
 
   @include forFeature('santoriniV2') {
+    border: 1px solid var(--cx-color-dark);
+
     &:focus {
       border-color: var(--cx-color-text);
       background-color: var(--cx-color-inverse);
@@ -318,6 +319,9 @@ input[type='radio'] {
     padding: 0.6875rem 0;
     line-height: 1.6;
     height: unset;
+    @include forFeature('santoriniV2') {
+      border: 1px solid var(--cx-color-dark);
+    }
 
     .ng-value-container {
       padding-inline-start: 10px;

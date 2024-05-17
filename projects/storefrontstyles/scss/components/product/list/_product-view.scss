@@ -10,7 +10,7 @@
     border: 1px solid var(--cx-color-light);
 
     @include forFeature('santoriniV2') {
-      border: 1px solid var(--cx-color-medium);
+      border: 1px solid var(--cx-color-dark);
     }
 
     &.cx-product-grid {
