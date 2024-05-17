@@ -72,12 +72,12 @@ if (environment.b2b) {
         chunks: checkoutTranslationChunksConfig,
       },
     }),
-    ...extensionProviders,
     provideConfig({
       checkout: {
-        guest: true
+        guest: true,
       },
     }),
+    ...extensionProviders,
   ],
 })
 export class CheckoutFeatureModule {}
