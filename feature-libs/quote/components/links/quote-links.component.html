@@ -22,8 +22,9 @@
       </li>
       <li>
         <button
+          [attr.aria-label]="'quote.links.a11y.download' | cxTranslate"
           type="button"
-          class="link cx-static-action-link"
+          class="link cx-action-link"
           *ngIf="
             hasAttachment(quoteDetails.sapAttachments!) &&
             hasDownloadFeatureEnabled()

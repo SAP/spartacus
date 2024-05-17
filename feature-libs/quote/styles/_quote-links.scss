@@ -24,6 +24,14 @@
             border: none;
             padding-inline-end: 0;
           }
+
+          button {
+            color: var(--cx-color-background-dark);
+
+            &:hover {
+              color: var(--cx-color-background-dark);
+            }
+          }
         }
       }
     }

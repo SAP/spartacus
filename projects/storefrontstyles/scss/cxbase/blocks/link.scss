@@ -30,16 +30,3 @@ a {
     text-decoration: none;
   }
 }
-
-.cx-static-action-link {
-  @include type('6');
-  text-transform: var(--cx-button-text-transform);
-  text-decoration: underline;
-  cursor: pointer;
-  display: inline-block;
-  color: var(--cx-color-text);
-  &:hover {
-    color: var(--cx-color-background-dark);
-    text-decoration: none;
-  }
-}
