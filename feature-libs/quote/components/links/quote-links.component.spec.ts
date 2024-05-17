@@ -254,9 +254,10 @@ describe('QuoteLinksComponent', () => {
     });
 
     it('should download the proposal document attached when Download button is clicked', () => {
-      const spyDownloadAttachment = spyOn(quoteFacade, 'downloadAttachment').and.returnValue(
-        of(mockQuoteAttachment())
-      );
+      const spyDownloadAttachment = spyOn(
+        quoteFacade,
+        'downloadAttachment'
+      ).and.returnValue(of(mockQuoteAttachment()));
       const spyDownload = spyOn(fileDownloadService, 'download');
       mockQuoteDetails$.next(vendorQuote);
       fixture.detectChanges();
