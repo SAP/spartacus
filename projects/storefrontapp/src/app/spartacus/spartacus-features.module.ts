@@ -299,6 +299,7 @@ if (environment.requestedDeliveryDate) {
         a11yFocusableCarouselControls: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yVisibleFocusOverflows: true,
         a11yTruncatedTextForResponsiveView: true,
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,

@@ -207,6 +207,13 @@ export interface FeatureTogglesInterface {
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
 
   /**
+   * Stops the focus indicator from overflowing and being obstructed by other elements.
+   * Modifies the 'visible-focus' mixin. Includes style changes for:
+   * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent
+   */
+  a11yVisibleFocusOverflows?: boolean;
+
+  /**
    * When enabled then on mobile(320px) responsive view:
    * 1. `ProductListComponent` - grid view button is aligned correctly
    * 2. `QuickOrderFormComponent` - search combobox options are not truncated
@@ -268,6 +275,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yVisibleFocusOverflows: false,
   a11yTruncatedTextForResponsiveView: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,

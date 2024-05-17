@@ -89,11 +89,13 @@
     "addToCart": {
       "button": "Add to Cart",
       "buttonAfterAddToCart": "Continue to Cart",
+      "buttonForQuote": "Continue to Quote",
       "buttonUpdateCart": "Done",
       "buttonDisplayOnly": "Done",
       "buttonClose": "Close",
       "confirmation": "Configuration has been added to the cart",
       "confirmationUpdate": "Cart has been updated with configuration",
+      "confirmationQuoteUpdate": "Quote has been updated with configuration",
       "quantity": "Qty"
     },
     "overviewForm": {
