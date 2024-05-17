@@ -73,6 +73,11 @@ if (environment.b2b) {
       },
     }),
     ...extensionProviders,
+    provideConfig({
+      checkout: {
+        guest: true
+      },
+    }),
   ],
 })
 export class CheckoutFeatureModule {}
