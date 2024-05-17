@@ -337,56 +337,58 @@ describe(`OccQuoteAdapter`, () => {
     );
   });
 
-  it('downloadAttachment should download proposal document based on provided quoteCode and attachmentId', (done) => {
-    const vendorQuoteCode = vendorQuote.code;
-    const vendorQuoteAttachmentId = vendorQuote.sapAttachments[0].id;
+  describe('downloadAttachment', () => {
+    it('should download proposal document based on provided quoteCode and attachmentId', (done) => {
+      const vendorQuoteCode = vendorQuote.code;
+      const vendorQuoteAttachmentId = vendorQuote.sapAttachments[0].id;
 
-    classUnderTest
-      .downloadAttachment(userId, vendorQuoteCode, vendorQuoteAttachmentId)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(mockQuoteAttachment());
-        done();
-      });
-
-    const mockReq = httpTestingController.expectOne(
-      (req) =>
-        req.method === 'GET' &&
-        req.url ===
-          `users/${userId}/quotes/${vendorQuoteCode}/attachments/${vendorQuoteAttachmentId}`
-    );
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('blob');
-    mockReq.flush(mockQuoteAttachment());
-  });
-
-  it('downloadAttachment should call httpErrorHandler on error', (done) => {
-    const vendorQuoteCode = vendorQuote.code;
-    const vendorQuoteAttachmentId = vendorQuote.sapAttachments[0].id;
-
-    classUnderTest
-      .downloadAttachment(userId, vendorQuoteCode, vendorQuoteAttachmentId)
-      .pipe(take(1))
-      .subscribe({
-        next: () => {
-          fail('error expected');
-        },
-        error: (error) => {
-          expect(isErrorNormalized(error)).toBe(true);
+      classUnderTest
+        .downloadAttachment(userId, vendorQuoteCode, vendorQuoteAttachmentId)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockQuoteAttachment());
           done();
-        },
-      });
+        });
 
-    const mockReq = httpTestingController.expectOne(
-      (req) =>
-        req.method === 'GET' &&
-        req.url ===
-          `users/${userId}/quotes/${vendorQuoteCode}/attachments/${vendorQuoteAttachmentId}`
-    );
-    mockReq.flush(mockQuoteAttachment(), {
-      status: 400,
-      statusText: 'Bad request',
+      const mockReq = httpTestingController.expectOne(
+        (req) =>
+          req.method === 'GET' &&
+          req.url ===
+            `users/${userId}/quotes/${vendorQuoteCode}/attachments/${vendorQuoteAttachmentId}`
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('blob');
+      mockReq.flush(mockQuoteAttachment());
+    });
+
+    it('should call httpErrorHandler on error', (done) => {
+      const vendorQuoteCode = vendorQuote.code;
+      const vendorQuoteAttachmentId = vendorQuote.sapAttachments[0].id;
+
+      classUnderTest
+        .downloadAttachment(userId, vendorQuoteCode, vendorQuoteAttachmentId)
+        .pipe(take(1))
+        .subscribe({
+          next: () => {
+            fail('error expected');
+          },
+          error: (error) => {
+            expect(isErrorNormalized(error)).toBe(true);
+            done();
+          },
+        });
+
+      const mockReq = httpTestingController.expectOne(
+        (req) =>
+          req.method === 'GET' &&
+          req.url ===
+            `users/${userId}/quotes/${vendorQuoteCode}/attachments/${vendorQuoteAttachmentId}`
+      );
+      mockReq.flush(mockQuoteAttachment(), {
+        status: 400,
+        statusText: 'Bad request',
+      });
     });
   });
 

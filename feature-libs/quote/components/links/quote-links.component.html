@@ -23,7 +23,7 @@
       <li
         *ngIf="
           hasAttachment(quoteDetails.sapAttachments!) &&
-          hasDownloadFeatureEnabled()
+          isShowDownloadProposalButtonFeatureEnabled()
         "
       >
         <button
