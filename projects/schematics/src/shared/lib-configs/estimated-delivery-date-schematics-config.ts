@@ -15,6 +15,7 @@ import {
   SPARTACUS_ESTIMATED_DELIVERY_DATE_ROOT,
 } from '../libs-constants';
 import { SchematicConfig } from '../utils/lib-utils';
+import { CART_BASE_MODULE } from './cart-schematics-config';
 
 export const ESTIMATED_DELIVERY_DATE_FEATURE_NAME_CONSTANT =
   'ESTIMATED_DELIVERY_DATE_FEATURE';
@@ -62,5 +63,11 @@ export const ESTIMATED_DELIVERY_DATE_SCHEMATICS_CONFIG: SchematicConfig = {
     CART_BASE_FEATURE_NAME,
     CHECKOUT_BASE_FEATURE_NAME,
     ORDER_FEATURE_NAME,
+  ],
+  importAfter: [
+    {
+      markerModuleName: CART_BASE_MODULE,
+      featureModuleName: ESTIMATED_DELIVERY_DATE_MODULE,
+    },
   ],
 };
