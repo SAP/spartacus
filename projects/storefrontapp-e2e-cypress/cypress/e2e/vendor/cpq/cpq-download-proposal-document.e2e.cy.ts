@@ -22,7 +22,7 @@ context('Download proposal document', () => {
         },
       },
       features: {
-        showProposalDownloadButton: true,
+        showDownloadProposalButton: true,
       },
     };
     cy.cxConfig(globalMessageSettings);

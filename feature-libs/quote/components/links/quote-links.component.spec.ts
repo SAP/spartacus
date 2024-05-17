@@ -254,10 +254,10 @@ describe('QuoteLinksComponent', () => {
     });
 
     it('should download the proposal document attached when Download button is clicked', () => {
-      spyOn(quoteFacade, 'downloadAttachment').and.returnValue(
+      const spyDownloadAttachment = spyOn(quoteFacade, 'downloadAttachment').and.returnValue(
         of(mockQuoteAttachment())
       );
-      spyOn(fileDownloadService, 'download');
+      const spyDownload = spyOn(fileDownloadService, 'download');
       mockQuoteDetails$.next(vendorQuote);
       fixture.detectChanges();
       const downloadBtn = CommonQuoteTestUtilsService.getHTMLElement(
@@ -266,13 +266,13 @@ describe('QuoteLinksComponent', () => {
       );
       downloadBtn.click();
       fixture.detectChanges();
-      expect(quoteFacade.downloadAttachment).toHaveBeenCalledWith(
+      expect(spyDownloadAttachment).toHaveBeenCalledWith(
         vendorQuote.code,
         vendorQuote.code
       );
       fixture.whenStable().then(() => {
         fixture.detectChanges();
-        expect(fileDownloadService.download).toHaveBeenCalled();
+        expect(spyDownload).toHaveBeenCalled();
       });
     });
   });

@@ -71,6 +71,6 @@ export class QuoteLinksComponent {
    * @returns - if the feature is enabled, returns 'true', otherwise 'false'.
    */
   hasDownloadFeatureEnabled(): boolean {
-    return this.featureConfig.isEnabled('showProposalDownloadButton');
+    return this.featureConfig.isEnabled('showDownloadProposalButton');
   }
 }
