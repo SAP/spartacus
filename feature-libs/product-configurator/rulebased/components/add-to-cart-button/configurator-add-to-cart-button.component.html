@@ -41,16 +41,22 @@
           class="cx-btn btn btn-block btn-primary cx-add-to-cart-btn"
           (click)="onAddToCart(container.configuration, container.routerData)"
           [attr.aria-label]="
-            (getButtonResourceKey(container.routerData, container.configuration)
-              | cxTranslate) +
+            (getButtonResourceKey(
+              container.routerData,
+              container.configuration,
+              isQuoteCartActive() | async
+            ) | cxTranslate) +
             ' ' +
             ('configurator.a11y.addToCartPrices'
               | cxTranslate: extractConfigPrices(container.configuration))
           "
         >
           {{
-            getButtonResourceKey(container.routerData, container.configuration)
-              | cxTranslate
+            getButtonResourceKey(
+              container.routerData,
+              container.configuration,
+              isQuoteCartActive() | async
+            ) | cxTranslate
           }}
         </button>
       </ng-container>
