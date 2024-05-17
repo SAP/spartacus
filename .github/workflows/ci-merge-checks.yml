@@ -32,7 +32,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `# Merge Check has failed.
+              body: `# Merge cannot be done due to failing E2Es.
                 Please push a commit to re-trigger the build. 
                 To push an empty commit you can use \`git commit --allow-empty -m "Trigger Build"\``
             })
