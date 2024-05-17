@@ -26,6 +26,7 @@ describe('SSR', () => {
   }
 
   it('should render homepage', () => {
+    cy.contains("Sorry, something went wrong").should('not.exist')
     cy.visit('/');
 
     seoChecks();

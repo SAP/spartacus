@@ -179,6 +179,7 @@ jobs:
                 Please push a commit to re-trigger the build. 
                 To push an empty commit you can use \`git commit --allow-empty -m "Trigger Build"\``
             })
+            core.setFailed('Please push a commit to re-trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
           if: |
             needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
             needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
