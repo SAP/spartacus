@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import chalk from 'chalk';
 import { ChildProcess, exec, execSync } from 'child_process';
 import { prompt } from 'enquirer';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
+import {chalk} from "../chalk";
 
 const featureLibsFolders: string[] = [
   'asm',

@@ -1,0 +1,72 @@
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <label>
+    <span class="label-content">
+      {{ 'verificationTokenForm.verificationCode.label' | cxTranslate }}
+    </span>
+    <input
+      required="true"
+      class="form-control"
+      formControlName="tokenCode"
+      placeholder="{{
+        'verificationTokenForm.verificationCode.placeholder' | cxTranslate
+      }}"
+    />
+    <cx-form-errors [control]="form.get('tokenCode')"></cx-form-errors>
+  </label>
+
+  <input type="hidden" formControlName="tokenId" [(ngModel)]="tokenId" />
+
+  <div class="resend-link-text">
+    <div class="left-text">
+      <span role="timer" aria-live="polite" aria-atomic="true">
+        <a
+          role="button"
+          tabindex="-1"
+          #resendLink
+          (keydown.space)="resendOTP()"
+          (click)="resendOTP()"
+          class="btn-link"
+          [ngClass]="{ 'disabled-link': isResendDisabled }"
+        >
+          {{ 'verificationTokenForm.resend' | cxTranslate }}
+        </a>
+        <ng-container *ngIf="isResendDisabled">
+          {{
+            'verificationTokenForm.sendRateLime'
+              | cxTranslate: { waitTime: waitTime }
+          }}
+        </ng-container>
+      </span>
+    </div>
+    <div class="right-text">
+      <a
+        role="button"
+        tabindex="0"
+        #noReceiveCodeLink
+        (keydown.space)="openInfoDailog()"
+        (click)="openInfoDailog()"
+        class="btn-link"
+      >
+        {{ 'verificationTokenForm.noReceiveCode' | cxTranslate }}
+      </a>
+    </div>
+  </div>
+
+  <div class="verify-container">
+    <button
+      type="submit"
+      class="btn btn-block btn-primary"
+      [disabled]="form.disabled"
+    >
+      {{ 'verificationTokenForm.verify' | cxTranslate }}
+    </button>
+    <button
+      [routerLink]="{ cxRoute: 'login' } | cxUrl"
+      class="btn btn-block btn-secondary btn-register"
+    >
+      {{ 'verificationTokenForm.back' | cxTranslate }}
+    </button>
+  </div>
+</form>
