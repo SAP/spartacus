@@ -156,12 +156,6 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
-      - name: Forcefully fail build if jobs are all retried
-        uses: actions/github-script@v7
-        with:
-          script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
-        if: ${{ github.run_attempt > 1 }}
       - name: Aggregate Required Job Results
         run: |
             exit 1
