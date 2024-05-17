@@ -163,8 +163,11 @@ jobs:
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
       - name: Aggregate Required Job Results
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         run: |
-            gh pr ready --undo ${{github.event.number}} -R ${{ github.repository }} 
             exit 1
         if: |
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
