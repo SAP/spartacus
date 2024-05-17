@@ -177,7 +177,7 @@ jobs:
               repo: context.repo.repo,
               body: `# Merge Checks Failed
                 Please push a commit to re-trigger the build. 
-                To push an empty commit you can use \`git commit --allow-empty -m "Trigger Build"\``
+                To push an empty commit you can use 'git commit --allow-empty -m "Trigger Build"'`
             })
           if: |
             needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
