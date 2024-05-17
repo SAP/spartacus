@@ -38,6 +38,12 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
   }
 
   nav {
+    @include forFeature('santoriniV2') {
+      // complements reboot to remove focus-ring from unfocused elements
+      &[tabindex='-1']:focus {
+        box-shadow: 0 0 0 0 !important;
+      }
+    }
     padding: 5px 0;
     display: flex;
     justify-content: center;
@@ -65,7 +71,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
           text-transform: capitalize;
           color: inherit;
           padding: 0px 5px;
-          
+
           @include forFeature('santoriniV2') {
             color: var(--cx-color-primary);
           }

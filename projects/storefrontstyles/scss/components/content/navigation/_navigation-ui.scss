@@ -95,7 +95,7 @@
 
       @include forFeature('santoriniV2') {
         &:hover {
-          color: var(--cx-color-light);
+          color: var(--cx-color-text);
         }
       }
 
@@ -111,6 +111,15 @@
           z-index: 1;
           position: relative;
         }
+      }
+    }
+
+    @include forFeature('santoriniV2') {
+      // arrow down caret to stay white on desktop
+      // adding outline to convey button's definition
+      button:hover {
+        color: var(--cx-color-inverse);
+        outline: 1px solid var(--cx-color-inverse);
       }
     }
 
@@ -145,9 +154,11 @@
         padding: 1rem;
 
         @include forFeature('santoriniV2') {
+          // adjust style for mobile menu, has diff background colour
           &:hover {
             color: var(--cx-color-primary);
             text-decoration: none;
+            outline: 0;
           }
         }
       }
@@ -164,11 +175,11 @@
           padding-inline-start: 0;
           padding-inline-end: 0;
           @include forFeature('santoriniV2') {
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-top: 2px;
+            margin-bottom: 2px;
             margin-inline-start: 5px;
-            padding-top: 10px;
-            padding-bottom: 12px;
+            padding-top: 18px;
+            padding-bottom: 20px;
             padding-inline-end: 8px;
             padding-inline-start: 8px;
           }
@@ -429,6 +440,14 @@
 
     &.accNavComponent {
       background-color: transparent;
+
+      @include forFeature('santoriniV2') {
+        // my account button has text, this fixes white hover on desktop
+        button:hover {
+          color: var(--cx-color-primary);
+          outline: 0;
+        }
+      }
 
       nav {
         li.is-open {
