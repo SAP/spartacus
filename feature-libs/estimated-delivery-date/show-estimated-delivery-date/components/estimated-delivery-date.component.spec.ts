@@ -209,7 +209,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
       });
 
       it('should contain div elements for label and value with corresponding content', () => {
-        const divElementWithCxLabelClass = htmlElem.querySelector('.cx-label');
+        const divElementWithCxLabelClass = htmlElem.querySelector('.cx-value');
 
         expect(
           divElementWithCxLabelClass?.attributes?.hasOwnProperty('aria-hidden')
