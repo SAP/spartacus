@@ -203,6 +203,11 @@ export interface FeatureTogglesInterface {
    * 4. `CheckoutProgressMobileTopComponent` - checkout step names do not have huge vertical white space
    */
   a11yTruncatedTextForResponsiveView?: boolean;
+
+  /**
+   * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
+   */
+  a11ySemanticPaginationLabel?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -239,4 +244,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
   a11yTruncatedTextForResponsiveView: false,
+  a11ySemanticPaginationLabel: false,
 };

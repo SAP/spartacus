@@ -7,12 +7,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { defaultPaginationConfig } from './config/index';
 import { PaginationComponent } from './pagination.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, I18nModule],
+  imports: [CommonModule, RouterModule, I18nModule, FeaturesConfigModule],
   providers: [provideDefaultConfig(defaultPaginationConfig)],
   declarations: [PaginationComponent],
   exports: [PaginationComponent],
