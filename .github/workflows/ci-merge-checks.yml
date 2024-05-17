@@ -32,9 +32,9 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `# Merge cannot be done due to failing E2Es.
+              body: "# Merge Checks Failed
                 Please push a commit to re-trigger the build. 
-                To push an empty commit you can use \`git commit --allow-empty -m "Trigger Build"\``
+                To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`"
             })
       - name: Forcefully fail build if jobs are all retried
         uses: actions/github-script@v7
