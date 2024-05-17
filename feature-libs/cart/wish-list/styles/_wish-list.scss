@@ -21,6 +21,10 @@
     }
   }
 
+  .cx-empty-wish-list {
+    @include type('2', 'normal');
+  }
+
   @include media-breakpoint-down(md) {
     --cx-max-width: 75%;
 
