@@ -31,6 +31,7 @@
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",
           "Order",
+          "OPPS",
           "Digital-Payments",
           "EPD-Visualization",
           "Customer-Ticketing",
@@ -240,6 +241,10 @@
           {
             "value": "TMS-AEPL",
             "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
+          },
+          {
+            "value": "OPPS",
+            "label": "Omnichannel Promotion Pricing Service (OPPS) Integration"
           },
           {
             "value": "User-Account",

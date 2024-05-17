@@ -1,7 +1,9 @@
 <ng-container *ngIf="state$ | async as state">
   <button
     class="heading"
+    #facetHeader
     (click)="toggleGroup($event)"
+    (keydown)="onKeydown($event)"
     [attr.aria-expanded]="isExpanded"
     [attr.aria-label]="
       'productFacetNavigation.filterBy.name' | cxTranslate: { name: facet.name }
@@ -13,14 +15,17 @@
   </button>
 
   <div>
+    <!-- TODO: (CXSPA-6892) - Remove feature flag next major release. -->
     <a
       *ngFor="let value of facet.values | slice: 0:state.topVisible"
       #facetValue
       routerLink="./"
       [queryParams]="getLinkParams(value)"
       class="value"
+      [tabindex]="isFacetKeyboardNavigationEnabled ? -1 : 0"
       [class.selected]="value.selected"
       [cxFocus]="{ key: value.name }"
+      (keydown)="onKeydown($event)"
       (keydown.space)="openLink($any($event))"
       [attr.role]="facet.multiSelect ? 'checkbox' : null"
       [attr.aria-checked]="facet.multiSelect ? value.selected : null"
@@ -43,10 +48,12 @@
         "
         #facetValue
         routerLink="./"
+        [tabindex]="isFacetKeyboardNavigationEnabled ? -1 : 0"
         [queryParams]="getLinkParams(value)"
         class="value"
         [class.selected]="value.selected"
         [cxFocus]="{ key: value.name }"
+        (keydown)="onKeydown($event)"
         (keydown.space)="openLink($any($event))"
       >
         <span

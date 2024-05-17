@@ -45,6 +45,22 @@
         }
       }
     }
+
+    // TODO: (CXSPA-6003) Remove feature flags next major
+    @include forFeature('a11yTruncatedTextForResponsiveView') {
+      @include media-breakpoint-only(xs) {
+        .row {
+          .col-auto:first-of-type {
+            padding-inline-start: 0;
+            padding-inline-end: 10px;
+          }
+          .col-auto:last-of-type {
+            padding-inline-end: 10px;
+            padding-inline-start: 0;
+          }
+        }
+      }
+    }
   }
 
   .cx-pagination {
@@ -60,6 +76,15 @@
     height: 48px;
     align-items: center;
     display: flex;
+
+    // TODO: (CXSPA-6003) Remove feature flags next major
+    @include forFeature('a11yTruncatedTextForResponsiveView') {
+      @include media-breakpoint-only(xs) {
+        display: unset;
+        height: 80px;
+      }
+    }
+
     span {
       margin-inline-end: 0.5rem;
       flex: none;
