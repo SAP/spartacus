@@ -34,8 +34,7 @@ context('Download proposal document', () => {
   });
 
   it('should download proposal document', () => {
-    quote.navigateToVendorQuoteListFromMyAccount();
-    quoteHelper.checkQuoteListDisplayed();
+    quoteHelper.navigateToQuotesList();
     quote.navigateToVendorQuote();
     quote.downloadVendorQuoteAttachment();
     quoteHelper.logout();

@@ -10,30 +10,6 @@ export const DOWNLOAD_ATTACHMENT = '@DOWNLOAD_ATTACHMENT';
 const SHOP_NAME = Cypress.env('BASE_SITE'); //Powertools-spa
 
 /**
- * Navigates to the vendor quote list via my account.
- */
-export function navigateToVendorQuoteListFromMyAccount() {
-  cy.get('.accNavComponent')
-    .should('contain.text', 'My Account')
-    .and('be.visible')
-    .within(() => {
-      cy.get('nav > ul > li > button').first().focus().trigger('keydown', {
-        key: ' ',
-        code: 'Space',
-        force: true,
-      });
-      cy.get('cx-generic-link')
-        .contains('Quotes')
-        .should('be.visible')
-        .click()
-        .then(() => {
-          cy.wait(READ_VENDOR_QUOTE);
-          cy.url().should('include', 'quotes');
-        });
-    });
-}
-
-/**
  * Navigates to the quote with status as Vendor Quote.
  */
 export function navigateToVendorQuote() {
