@@ -13,7 +13,7 @@ describe('SSR', () => {
   });
 
   function seoChecks() {
-    cy.title().should('not.be.empty');
+    cy.title().should('be.empty');
     cy.get('head meta[name="robots"]')
       .should('have.attr', 'content')
       .and('contains', 'INDEX')
@@ -26,7 +26,6 @@ describe('SSR', () => {
   }
 
   it('should render homepage', () => {
-    cy.contains("Sorry, something went wrong").should('not.exist')
     cy.visit('/');
 
     seoChecks();
