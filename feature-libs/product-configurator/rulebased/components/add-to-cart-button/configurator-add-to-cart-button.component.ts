@@ -185,7 +185,9 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         } else {
           if (!isAddToCart) {
             return 'configurator.addToCart.confirmationUpdate';
-          } else return 'configurator.addToCart.confirmation';
+          } else {
+            return 'configurator.addToCart.confirmation';
+          }
         }
       })
     );
