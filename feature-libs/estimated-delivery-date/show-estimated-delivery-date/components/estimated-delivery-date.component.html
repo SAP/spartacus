@@ -20,7 +20,7 @@
           {{ 'estimatedDeliveryDate.ETA' | cxTranslate }}
           {{ arrivalSlot?.at | cxDate: 'M/d/yyyy' }}
         </div>
-        <div class="cx-value " aria-hidden="true" *ngIf="arrivalSlot?.quantity">
+        <div class="cx-value" aria-hidden="true" *ngIf="arrivalSlot?.quantity">
           {{ 'estimatedDeliveryDate.quantity' | cxTranslate }}
           {{ arrivalSlot?.quantity }}
         </div>
