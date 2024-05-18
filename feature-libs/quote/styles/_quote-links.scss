@@ -19,18 +19,6 @@
           border-style: solid;
           border-color: var(--cx-color-light);
           border-width: 0 1px 0 0;
-
-          button {
-            color: var(--cx-color-background-dark);
-
-            &:hover {
-              color: var(--cx-color-background-dark);
-            }
-
-            &:focus {
-              border-color: var(--cx-color-primary);
-            }
-          }
         }
       }
     }
