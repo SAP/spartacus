@@ -26,7 +26,7 @@ import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
   cartBaseFeatureModulePath,
-  cartWrapperModulePath,
+  cartBaseWrapperModulePath,
   checkoutFeatureModulePath,
   checkoutWrapperModulePath,
   digitalPaymentsFeatureModulePath,
@@ -145,7 +145,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
         cartBaseFeatureModulePath
       );
       const cartWrapperModule = program.getSourceFileOrThrow(
-        cartWrapperModulePath
+        cartBaseWrapperModulePath
       );
 
       expect(cartFeatureModule.print()).toMatchSnapshot();
