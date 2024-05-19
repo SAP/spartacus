@@ -50,7 +50,7 @@ export class CheckoutBillingAddressFormService {
     this.getBillingAddressForm().markAllAsTouched();
   }
 
-  getBillingAddress(): Address | undefined {
+  getBillingAddress(): Address {
     if (this.billingAddress) { // billing address same as delivery address
       return this.billingAddress;
     } else { // billing address and delivery address are different

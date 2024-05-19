@@ -34,7 +34,7 @@ import {
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
 
 @Component({
-  selector: 'cx-billing-address',
+  selector: 'cx-checkout-billing-address',
   templateUrl: './checkout-billing-address-form.component.html',
 })
 export class CheckoutBillingAddressFormComponent implements OnInit {

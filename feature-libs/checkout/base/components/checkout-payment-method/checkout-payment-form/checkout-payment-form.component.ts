@@ -11,6 +11,7 @@ import {
   Input,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import {
   UntypedFormBuilder,
@@ -81,7 +82,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     cvn: ['', Validators.required],
     defaultPayment: [false],
   });
-
+  protected billingAddressService = inject(CheckoutBillingAddressFormService);
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -91,7 +92,6 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService,
     protected translationService: TranslationService,
-    protected billingAddressService: CheckoutBillingAddressFormService
   ) {}
 
   ngOnInit(): void {

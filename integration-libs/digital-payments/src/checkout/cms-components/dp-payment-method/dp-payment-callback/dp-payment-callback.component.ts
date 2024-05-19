@@ -7,9 +7,15 @@
 import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
 import { DP_CARD_REGISTRATION_STATUS } from '../../../../utils/dp-constants';
 import { ActivatedRoute } from '@angular/router';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  Address,
+  FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { DpCheckoutPaymentService } from '../../../facade';
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, inject } from '@angular/core';
+import { CheckoutBillingAddressFormService } from '@spartacus/checkout/base/components';
 
 @Component({
   selector: 'cx-dp-payment-callback',
@@ -20,6 +26,9 @@ export class DpPaymentCallbackComponent implements OnInit {
   closeCallback = new EventEmitter<any>();
   @Output()
   paymentDetailsAdded = new EventEmitter<any>();
+  protected featureConfig = inject(FeatureConfigService);
+  protected billingAddressService = inject(CheckoutBillingAddressFormService);
+  showBillingAddressForm = false;
 
   constructor(
     protected dpPaymentService: DpCheckoutPaymentService,
@@ -33,7 +42,11 @@ export class DpPaymentCallbackComponent implements OnInit {
       DP_CARD_REGISTRATION_STATUS
     );
     if (dpResponse?.toLowerCase() === 'successful') {
-      this.fetchPaymentDetails();
+      if (this.featureConfig.isEnabled('showBillingAddressInDigitalPayments')) {
+        this.showBillingAddressForm = true;
+      } else {
+        this.fetchPaymentDetails();
+      }
     } else {
       this.globalMsgService.add(
         { key: 'dpPaymentForm.cancelledOrFailed' },
@@ -43,14 +56,31 @@ export class DpPaymentCallbackComponent implements OnInit {
     }
   }
 
-  private fetchPaymentDetails() {
+  next(): void {
+    if (this.billingAddressService.isBillingAddressSameAsDeliveryAddress()) {
+      const billingAddress: Address =
+        this.billingAddressService.getBillingAddress();
+      this.fetchPaymentDetails(billingAddress);
+    } else {
+      if (this.billingAddressService.isBillingAddressFormValid()) {
+        const billingAddress: Address =
+          this.billingAddressService.getBillingAddress();
+        this.fetchPaymentDetails(billingAddress);
+      } else {
+        this.billingAddressService.markAllAsTouched();
+      }
+    }
+  }
+
+  private fetchPaymentDetails(billingAddress?: Address) {
     const paymentRequest = this.dpStorageService.readCardRegistrationState();
 
     if (paymentRequest?.sessionId && paymentRequest?.signature) {
       this.dpPaymentService
         .createPaymentDetails(
           paymentRequest.sessionId,
-          paymentRequest.signature
+          paymentRequest.signature,
+          billingAddress
         )
         .subscribe((details) => {
           if (details?.id) {

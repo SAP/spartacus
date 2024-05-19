@@ -6,6 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import {
+  Address,
   Command,
   CommandService,
   CommandStrategy,
@@ -86,8 +87,10 @@ export class DpCheckoutPaymentService {
 
   createPaymentDetails(
     sessionId: string,
-    signature: string
+    signature: string,
+    billingAddress?: Address
   ): Observable<PaymentDetails> {
+    console.log(billingAddress);
     return this.createPaymentDetailsCommand.execute({ sessionId, signature });
   }
 }
