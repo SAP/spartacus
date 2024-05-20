@@ -1,0 +1,43 @@
+{
+  "name": "@spartacus/estimated-delivery-date",
+  "version": "2211.23.0",
+  "description": "Estimated Delivery Date library for Spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "estimated-delivery-date"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/estimated-delivery-date",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss"
+    }
+  },
+  "scripts": {
+    "build:schematics": "npm run clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf --glob \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "test:schematics": "npm --prefix ../../projects/schematics/ run clean && npm run clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^17.0.5",
+    "@angular/common": "^17.0.5",
+    "@angular/core": "^17.0.5",
+    "@spartacus/cart": "2211.23.0",
+    "@spartacus/core": "2211.23.0",
+    "@spartacus/order": "2211.23.0",
+    "@spartacus/schematics": "2211.23.0",
+    "@spartacus/storefront": "2211.23.0",
+    "@spartacus/styles": "2211.23.0",
+    "rxjs": "^7.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json"
+}

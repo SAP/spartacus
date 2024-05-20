@@ -1,16 +1,23 @@
 <div [attr.aria-label]="'searchBox.productSearch' | cxTranslate" role="search">
   <label class="searchbox" [class.dirty]="!!searchInput.value">
+    <!-- TODO: (CXSPA-6929) - Remove feature flag next major release -->
     <input
       #searchInput
       [placeholder]="'searchBox.placeholder' | cxTranslate"
       autocomplete="off"
       aria-describedby="initialDescription"
       aria-controls="results"
+      [attr.tabindex]="
+        a11ySearchBoxMobileFocusEnabled ? getTabIndex(isMobile | async) : null
+      "
       [attr.aria-label]="'searchBox.placeholder' | cxTranslate"
-      (focus)="open()"
+      (focus)="a11ySearchBoxMobileFocusEnabled ? null : open()"
       (click)="open()"
       (input)="search(searchInput.value)"
       (blur)="close($any($event))"
+      (keydown.tab)="
+        a11ySearchBoxMobileFocusEnabled ? close($any($event)) : null
+      "
       (keydown.escape)="close($any($event))"
       (keydown.enter)="
         close($any($event), true);
@@ -40,6 +47,7 @@
     </div>
 
     <button
+      #searchButton
       [attr.aria-label]="'common.search' | cxTranslate"
       [title]="'common.search' | cxTranslate"
       class="search"

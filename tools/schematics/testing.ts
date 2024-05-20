@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import chalk from 'chalk';
 import { ChildProcess, exec, execSync } from 'child_process';
 import { prompt } from 'enquirer';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
+import {chalk} from "../chalk";
 
 const featureLibsFolders: string[] = [
   'asm',
@@ -23,6 +23,7 @@ const featureLibsFolders: string[] = [
   'product-configurator',
   'qualtrics',
   'requested-delivery-date',
+  'estimated-delivery-date',
   'smartedit',
   'storefinder',
   'tracking',
@@ -63,6 +64,7 @@ const commands = [
   'build opps/schematics',
   'build qualtrics/schematics',
   'build requested-delivery-date/schematics',
+  'build estimated-delivery-date/schematics',
   'build smartedit/schematics',
   'build storefinder/schematics',
   'build tracking/schematics',
@@ -212,6 +214,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build product-configurator/schematics':
     case 'build qualtrics/schematics':
     case 'build requested-delivery-date/schematics':
+    case 'build estimated-delivery-date/schematics':
     case 'build s4om/schematics':
     case 'build segment-refs/schematics':
     case 'build opps/schematics':
