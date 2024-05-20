@@ -42,7 +42,6 @@ SPARTACUS_PROJECTS=(
         "dist/product-configurator:feature-libs/product-configurator"
         "dist/pickup-in-store:feature-libs/pickup-in-store"
         "dist/pdf-invoices:feature-libs/pdf-invoices"
-        "dist/estimated-delivery-date:feature-libs/estimated-delivery-date"
         "projects/storefrontstyles:projects/storefrontstyles"
         "projects/schematics:projects/schematics"
         )
