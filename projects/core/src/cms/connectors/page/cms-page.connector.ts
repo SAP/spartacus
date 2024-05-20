@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { PageContext } from '../../../routing/models/page-context.model';
 import { CmsStructureModel } from '../../model/page.model';
@@ -41,7 +41,7 @@ export class CmsPageConnector {
                 ) {
                   return of({});
                 } else {
-                  return throwError(error);
+                  throw error;
                 }
               })
             );

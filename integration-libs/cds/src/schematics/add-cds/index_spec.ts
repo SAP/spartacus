@@ -10,12 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  cdsFeatureModulePath,
   CDS_FEATURE_NAME,
-  SpartacusCdsOptions,
-  SpartacusOptions,
   SPARTACUS_CDS,
   SPARTACUS_SCHEMATICS,
+  SpartacusCdsOptions,
+  SpartacusOptions,
+  cdsFeatureModulePath,
   trackingPersonalizationFeatureModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
@@ -41,10 +41,10 @@ describe('Spartacus CDS schematics: ng-add', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

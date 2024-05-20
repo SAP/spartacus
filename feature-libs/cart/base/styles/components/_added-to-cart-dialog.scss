@@ -125,4 +125,11 @@
       margin: 0 0 0.625rem 0;
     }
   }
+
+  .cx-dialog-pickup-store {
+    padding-inline-start: 4.063rem;
+    .cx-dialog-pickup-store-name {
+      font-weight: var(--cx-font-weight-semi);
+    }
+  }
 }

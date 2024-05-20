@@ -1,11 +1,22 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Injector, isDevMode, OnDestroy } from '@angular/core';
-import { CxEvent, EventService, WindowRef } from '@spartacus/core';
+import {
+  inject,
+  Injectable,
+  Injector,
+  isDevMode,
+  OnDestroy,
+} from '@angular/core';
+import {
+  CxEvent,
+  EventService,
+  LoggerService,
+  WindowRef,
+} from '@spartacus/core';
 import { merge, Observable, Subscription } from 'rxjs';
 import { TmsConfig } from '../config/tms-config';
 import { TmsCollector } from '../model/tms.model';
@@ -19,6 +30,8 @@ export class TmsService implements OnDestroy {
    * Stores subscriptions to events.
    */
   protected subscription = new Subscription();
+
+  protected logger = inject(LoggerService);
 
   constructor(
     protected eventsService: EventService,
@@ -45,7 +58,7 @@ export class TmsService implements OnDestroy {
 
       if (!collectorConfig.collector) {
         if (isDevMode()) {
-          console.warn(
+          this.logger.warn(
             `Skipping the '${tmsCollectorConfig}', as the collector is not defined.`
           );
         }
@@ -64,7 +77,7 @@ export class TmsService implements OnDestroy {
       this.subscription.add(
         this.mapEvents(events).subscribe((event) => {
           if (collectorConfig.debug) {
-            console.log(
+            this.logger.log(
               `🎤 Pushing the following event to ${tmsCollectorConfig}: `,
               event
             );

@@ -184,7 +184,7 @@ describe('ConfiguratorExitButton', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-config-exit-button',
+        'button',
         'configurator.button.exitMobile'
       );
     });
@@ -198,7 +198,7 @@ describe('ConfiguratorExitButton', () => {
         expect,
         htmlElem,
         'button',
-        'cx-config-exit-button',
+        'btn-tertiary',
         0,
         'title',
         'configurator.button.exit'
@@ -213,7 +213,7 @@ describe('ConfiguratorExitButton', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-config-exit-button',
+        'button',
         'configurator.button.exit'
       );
     });
@@ -226,7 +226,7 @@ describe('ConfiguratorExitButton', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-config-exit-button',
+        'button',
         'configurator.button.exit'
       );
     });
@@ -239,7 +239,7 @@ describe('ConfiguratorExitButton', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-config-exit-button',
+        'button',
         'configurator.button.cancelConfigurationMobile'
       );
     });
@@ -253,7 +253,7 @@ describe('ConfiguratorExitButton', () => {
         expect,
         htmlElem,
         'button',
-        'cx-config-exit-button',
+        'btn-tertiary',
         0,
         'title',
         'configurator.button.cancelConfiguration'
@@ -268,7 +268,7 @@ describe('ConfiguratorExitButton', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-config-exit-button',
+        'button',
         'configurator.button.cancelConfiguration'
       );
     });
@@ -282,7 +282,7 @@ describe('ConfiguratorExitButton', () => {
         expect,
         htmlElem,
         'button',
-        'cx-config-exit-button',
+        'btn-tertiary',
         0,
         'title',
         'configurator.button.cancelConfiguration'

@@ -1,15 +1,15 @@
-import { Component, DebugElement, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeaturesConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   PaymentDetails,
   UserPaymentService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { FocusDirective } from '@spartacus/storefront';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
@@ -23,6 +23,13 @@ class MockGlobalMessageService {
   selector: 'cx-spinner',
 })
 class MockCxSpinnerComponent {}
+
+@Directive({
+  selector: '[cxAtMessage]',
+})
+class MockAtMessageDirective {
+  @Input() cxAtMessage: string | string[] | undefined;
+}
 
 const mockPayment: PaymentDetails = {
   defaultPayment: true,
@@ -46,7 +53,7 @@ class MockCxIconComponent {
 
 class MockUserPaymentService {
   getPaymentMethodsLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return of([mockPayment]);
@@ -65,12 +72,14 @@ describe('PaymentMethodsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, FeaturesConfigModule],
+        imports: [I18nTestingModule],
         declarations: [
           PaymentMethodsComponent,
           MockCxSpinnerComponent,
           CardComponent,
           MockCxIconComponent,
+          MockAtMessageDirective,
+          FocusDirective,
         ],
         providers: [
           { provide: UserPaymentService, useClass: MockUserPaymentService },

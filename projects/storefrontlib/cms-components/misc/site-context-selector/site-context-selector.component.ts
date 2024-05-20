@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,9 @@ import { SiteContextType } from './site-context.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SiteContextSelectorComponent {
+  /**
+   * @deprecated since 2011.21 removed unused property
+   */
   siteContextService: SiteContext<any>;
   iconTypes = ICON_TYPE;
   /**

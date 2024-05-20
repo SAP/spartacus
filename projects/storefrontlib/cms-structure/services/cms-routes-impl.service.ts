@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,7 +40,7 @@ export class CmsRoutesImplService {
       return false;
     }
 
-    const routePath = url.substr(1);
+    const routePath = url.substring(1);
 
     return (
       isCmsDrivenRoute &&
@@ -99,7 +99,7 @@ export class CmsRoutesImplService {
       );
 
       const newRoute: CmsRoute = {
-        path: pageLabel.substr(1),
+        path: pageLabel.substring(1),
         component: PageLayoutComponent,
         children: children,
         data: deepMerge({}, childRoutesConfig?.parent?.data ?? {}, {

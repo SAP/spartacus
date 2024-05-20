@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,13 +8,15 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { Config, Product, WindowRef } from '@spartacus/core';
+import { Config, Product, WindowRef, useFeatureStyles } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
@@ -41,6 +43,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   @Input() limit: number;
 
+  @ViewChild('quickOrderInput') quickOrderInput: ElementRef;
+
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
 
@@ -49,7 +53,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     protected quickOrderService: QuickOrderFacade,
     protected winRef: WindowRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yTruncatedTextForResponsiveView');
+  }
 
   ngOnInit(): void {
     this.buildForm();
@@ -99,6 +105,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     }
 
     this.quickOrderService.addProduct(product);
+    this.quickOrderInput.nativeElement.focus();
   }
 
   addProduct(event: Event): void {

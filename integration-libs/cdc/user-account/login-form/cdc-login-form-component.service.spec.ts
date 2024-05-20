@@ -10,7 +10,7 @@ import {
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
-import { LoginFormComponentService } from 'feature-libs/user/account/components/login-form/login-form-component.service';
+import { LoginFormComponentService } from '@spartacus/user/account/components';
 import { FormErrorsModule } from 'projects/storefrontlib/shared';
 import { of, throwError } from 'rxjs';
 import { CdcLoginFormComponentService } from './cdc-login-form-component.service';
@@ -108,7 +108,7 @@ describe('CdcLoginComponentService', () => {
     it('should handle a failed request through CDC SDK', () => {
       cdcJsService.didLoad = createSpy().and.returnValue(of(true));
       (cdcJsService.loginUserWithoutScreenSet as jasmine.Spy).and.returnValue(
-        throwError('test error: such email does not exist!')
+        throwError(() => 'test error: such email does not exist!')
       );
       cdcLoginService.login();
       expect(cdcLoginService['busy$'].value).toBe(false);

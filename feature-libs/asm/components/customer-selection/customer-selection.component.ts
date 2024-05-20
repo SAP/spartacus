@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,12 @@ import { AsmService } from '@spartacus/asm/core';
 import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
 
 import { User } from '@spartacus/core';
-import { DirectionMode, DirectionService } from '@spartacus/storefront';
+import {
+  DirectionMode,
+  DirectionService,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -47,6 +52,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   @ViewChild('resultList') resultList: ElementRef;
   @ViewChild('searchTerm') searchTerm: ElementRef;
+
+  @ViewChild('createCustomerLink') createCustomerLink: ElementRef;
   @ViewChildren('searchResultItem') searchResultItems: QueryList<
     ElementRef<HTMLElement>
   >;
@@ -57,7 +64,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     protected fb: UntypedFormBuilder,
     protected asmService: AsmService,
     protected config: AsmConfig,
-    protected directionService: DirectionService
+    protected directionService: DirectionService,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -221,6 +229,14 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
    */
   updateItemIndex(selectedIndex: number): void {
     this.searchResultItems.toArray()?.[selectedIndex]?.nativeElement.focus();
+  }
+
+  createCustomer(): void {
+    this.asmService.customerSearchReset();
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      this.createCustomerLink
+    );
   }
   /**
    * Verifies whether the user navigates into a subgroup of the main group menu.

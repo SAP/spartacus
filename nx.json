@@ -1,0 +1,20 @@
+{
+  "workspaceLayout": {
+    "appsDir": "projects/storefrontapp",
+    "libsDir": "feature-libs"
+  },
+  "targetDefaults": {
+    "build": {
+      "cache": true
+    },
+    "lint": {
+      "cache": true
+    },
+    "test": {
+      "cache": true
+    },
+    "e2e": {
+      "cache": true
+    }
+  }
+}

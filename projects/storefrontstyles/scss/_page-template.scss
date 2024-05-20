@@ -14,7 +14,8 @@ $page-template-allowlist: LandingPage2Template, ContentPage1Template,
   CategoryPageTemplate, ProductListPageTemplate, ProductGridPageTemplate,
   SearchResultsListPageTemplate, ProductDetailsPageTemplate, LoginPageTemplate,
   MultiStepCheckoutSummaryPageTemplate, ErrorPageTemplate,
-  CheckoutLoginPageTemplate, AccountPageTemplate, OrderConfirmationPageTemplate !default;
+  CheckoutLoginPageTemplate, AccountPageTemplate, OrderConfirmationPageTemplate,
+  MyAccountViewPageTemplate !default;
 
 @each $selector in $page-template-allowlist {
   cx-page-layout.#{$selector} {

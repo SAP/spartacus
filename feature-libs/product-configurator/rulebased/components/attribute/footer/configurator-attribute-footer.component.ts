@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,8 +10,8 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 @Component({
@@ -43,11 +43,27 @@ export class ConfiguratorAttributeFooterComponent
   ngOnInit(): void {
     /**
      * Show message that indicates that attribute is required in case attribute is a
-     * free input field
+     * free input field or a drop-dow list
      */
     this.showRequiredMessageForUserInput$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(map((result) => (result ? this.needsUserInputMessage() : false)));
+      .pipe(
+        map((result) =>
+          result ? this.needsRequiredAttributeErrorMsg() : false
+        )
+      );
+  }
+
+  protected needsRequiredAttributeErrorMsg(): boolean {
+    return this.needsUserInputMsg() || this.needsDropDownMsg();
+  }
+
+  protected needsDropDownMsg(): boolean {
+    return (
+      this.isRequiredErrorMsg(this.attribute) &&
+      this.isDropDown(this.attribute) &&
+      this.isNoValueSelected(this.attribute)
+    );
   }
 
   /**
@@ -59,14 +75,11 @@ export class ConfiguratorAttributeFooterComponent
     return input !== undefined && (!input.trim() || 0 === input.length);
   }
 
-  protected needsUserInputMessage(): boolean {
-    const uiType = this.attribute.uiType;
-    const needsMessage =
-      this.attribute.required &&
-      this.attribute.incomplete &&
-      (uiType === Configurator.UiType.STRING ||
-        uiType === Configurator.UiType.NUMERIC) &&
-      this.isUserInputEmpty(this.attribute.userInput);
-    return needsMessage ?? false;
+  protected needsUserInputMsg(): boolean {
+    return (
+      this.isRequiredErrorMsg(this.attribute) &&
+      this.isUserInput(this.attribute) &&
+      this.isUserInputEmpty(this.attribute.userInput)
+    );
   }
 }

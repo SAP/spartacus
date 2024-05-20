@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -130,7 +130,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
       if (!schematicsConfiguration) {
         throw new SchematicsException(
           `[Internal] No feature config found for ${feature}. ` +
-            `Please check if  the schematics config is added to projects/schematics/src/shared/schematics-config-mappings.ts`
+            `Please check if the schematics config is added to projects/schematics/src/shared/schematics-config-mappings.ts`
         );
       }
 

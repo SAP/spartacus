@@ -10,7 +10,7 @@ import {
   HamburgerMenuService,
   BreakpointService,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -155,6 +155,11 @@ describe('ConfigurationGroupTitleComponent', () => {
     );
 
     spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
+    spyOn(configuratorStorefrontUtilsService, 'removeStyling');
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'focusFirstActiveElement'
+    ).and.stub();
 
     hamburgerMenuService = TestBed.inject(
       HamburgerMenuService as Type<HamburgerMenuService>
@@ -171,6 +176,9 @@ describe('ConfigurationGroupTitleComponent', () => {
     expect(
       configuratorStorefrontUtilsService.changeStyling
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'block');
+    expect(
+      configuratorStorefrontUtilsService.focusFirstActiveElement
+    ).toHaveBeenCalledWith('cx-hamburger-menu');
   });
 
   it('should create component with hamburger menu icon', () => {
@@ -186,6 +194,9 @@ describe('ConfigurationGroupTitleComponent', () => {
     expect(
       configuratorStorefrontUtilsService.changeStyling
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'none');
+    expect(
+      configuratorStorefrontUtilsService.focusFirstActiveElement
+    ).toHaveBeenCalledWith('.cx-group-title');
   });
 
   it('should get group id as part of group', () => {
@@ -253,6 +264,17 @@ describe('ConfigurationGroupTitleComponent', () => {
         htmlElem,
         'cx-hamburger-menu'
       );
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should unsubscribe and remove styling on ngOnDestroy', () => {
+      const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
+      component.ngOnDestroy();
+      expect(spyUnsubscribe).toHaveBeenCalled();
+      expect(
+        configuratorStorefrontUtilsService.removeStyling
+      ).toHaveBeenCalledWith(component['PRE_HEADER'], 'display');
     });
   });
 });

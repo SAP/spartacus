@@ -11,9 +11,13 @@
             }
     }}
   </label>
+
   <select
     id="{{ createAttributeIdForConfigurator(attribute) }}"
     class="form-control"
+    [ngClass]="{
+      'cx-required-error-msg ': (showRequiredErrorMessage$ | async)
+    }"
     [formControl]="attributeDropDownForm"
     [cxFocus]="{ key: attribute.name }"
     (change)="onSelect(attributeDropDownForm.value)"
@@ -25,7 +29,7 @@
       [selected]="item.selected"
       [value]="item.valueCode"
       [attr.aria-label]="
-        item.valueCode === '0'
+        isRetractValue(item.valueCode)
           ? ('configurator.a11y.forAttribute'
             | cxTranslate
               : { value: item.valueDisplay, attribute: attribute.label })
@@ -35,7 +39,7 @@
               : {
                   value: item.valueDisplay,
                   attribute: attribute.label,
-                  price: item.valuePriceTotal.formattedValue
+                  price: item.valuePriceTotal?.formattedValue ?? 0
                 })
           : ('configurator.a11y.selectedValueOfAttributeFull'
             | cxTranslate
@@ -49,11 +53,11 @@
 </div>
 
 <cx-configurator-attribute-product-card
-  *ngIf="selectionValue !== undefined && selectionValue?.valueCode !== '0'"
+  *ngIf="isNotRetractValue()"
   id="{{
-    createAttributeValueIdForConfigurator(attribute, selectionValue.valueCode)
+    createAttributeValueIdForConfigurator(attribute, selectedValue.valueCode)
   }}"
-  (handleDeselect)="onSelect('0')"
+  (handleDeselect)="onSelect(RETRACT_VALUE_CODE)"
   [productCardOptions]="extractProductCardParameters()"
 >
 </cx-configurator-attribute-product-card>

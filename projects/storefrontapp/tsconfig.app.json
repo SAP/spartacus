@@ -8,5 +8,8 @@
     "skipLibCheck": true // Needed due to @sapui5/ts-types-esm dependency (used by @spartacus/epd-visualization)
   },
   "files": ["src/main.ts", "src/environments/models/build.process.env.d.ts"],
-  "include": ["projects/storefrontapp/src/**/*.d.ts"]
+  "include": ["projects/storefrontapp/src/**/*.d.ts"],
+  "angularCompilerOptions": {
+    "strictTemplates": false
+  }
 }

@@ -31,19 +31,24 @@ SPARTACUS_PROJECTS=(
         "dist/storefinder:feature-libs/storefinder"
         "dist/tracking:feature-libs/tracking"
         "dist/qualtrics:feature-libs/qualtrics"
+        "dist/quote:feature-libs/quote"
         "dist/smartedit:feature-libs/smartedit"
         "dist/customer-ticketing:feature-libs/customer-ticketing"
         "dist/cds:integration-libs/cds"
         "dist/cdc:integration-libs/cdc"
+        "dist/cdp:integration-libs/cdp"
+        "dist/opps:integration-libs/opps"
         "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/product-configurator:feature-libs/product-configurator"
-        "dist/pickup-in-store:feature-libs/pickup-in-store",
+        "dist/pickup-in-store:feature-libs/pickup-in-store"
+        "dist/pdf-invoices:feature-libs/pdf-invoices"
+        "dist/estimated-delivery-date:feature-libs/estimated-delivery-date"
         "projects/storefrontstyles:projects/storefrontstyles"
         "projects/schematics:projects/schematics"
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop'
+BRANCH='develop-next-major'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
@@ -53,7 +58,7 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='^15.2.0'
+ANGULAR_CLI_VERSION='^17.0.5'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"
@@ -67,7 +72,9 @@ SSR_PWA_APP_NAME="ssr-pwa"
 ADD_B2B_LIBS=false
 
 ADD_CPQ=false
+ADD_QUOTE=false
 ADD_CDC=false
+ADD_OPPS=false
 # config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false
 ADD_S4OM=false

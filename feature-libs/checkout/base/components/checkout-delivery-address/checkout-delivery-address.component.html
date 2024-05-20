@@ -18,15 +18,14 @@
       <p class="cx-checkout-text">
         {{ 'checkoutAddress.selectYourDeliveryAddress' | cxTranslate }}
       </p>
-      <div class="cx-checkout-btns row">
-        <div class="col-sm-12 col-md-12 col-lg-6">
-          <button
-            class="btn btn-block btn-secondary"
-            (click)="showNewAddressForm()"
-          >
-            {{ 'checkoutAddress.addNewAddress' | cxTranslate }}
-          </button>
-        </div>
+
+      <div class="cx-checkout-btns cx-checkout-btns-top">
+        <button
+          class="btn btn-block btn-secondary"
+          (click)="showNewAddressForm()"
+        >
+          {{ 'checkoutAddress.addNewAddress' | cxTranslate }}
+        </button>
       </div>
 
       <div class="cx-checkout-body row">
@@ -47,6 +46,15 @@
             ></cx-card>
           </div>
         </div>
+      </div>
+
+      <div class="cx-checkout-btns cx-checkout-btns-bottom">
+        <button
+          class="btn btn-block btn-secondary"
+          (click)="showNewAddressForm()"
+        >
+          {{ 'checkoutAddress.addNewAddress' | cxTranslate }}
+        </button>
       </div>
 
       <div class="cx-checkout-btns row">
@@ -78,6 +86,7 @@
         <cx-address-form
           [showTitleCode]="true"
           [setAsDefaultField]="!isGuestCheckout"
+          [addressData]="selectedAddress"
           cancelBtnLabel="{{ backBtnText | cxTranslate }}"
           (backToAddress)="hideNewAddressForm(true)"
           (submitAddress)="addAddress($event)"

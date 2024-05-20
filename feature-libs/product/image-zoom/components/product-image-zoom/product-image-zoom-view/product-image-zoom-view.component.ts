@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,14 +9,14 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
-  EventEmitter,
 } from '@angular/core';
-import { ImageGroup, isNotNullable, Product } from '@spartacus/core';
+import { ImageGroup, Product, isNotNullable } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
   BREAKPOINT,
@@ -26,12 +26,12 @@ import {
 } from '@spartacus/storefront';
 import {
   BehaviorSubject,
+  Observable,
+  Subscription,
   combineLatest,
   fromEvent,
   merge,
-  Observable,
   of,
-  Subscription,
 } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -39,7 +39,6 @@ import {
   map,
   shareReplay,
   switchMap,
-  switchMapTo,
   tap,
 } from 'rxjs/operators';
 
@@ -294,11 +293,11 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   private clickOrDoubleClick(element: ElementRef): Observable<any>[] {
     return [
       fromEvent(element.nativeElement, 'click').pipe(
-        switchMapTo(this.breakpointService.isUp(BREAKPOINT.md)),
+        switchMap(() => this.breakpointService.isUp(BREAKPOINT.md)),
         filter(Boolean)
       ),
       fromEvent(element.nativeElement, 'dblclick').pipe(
-        switchMapTo(this.breakpointService.isDown(BREAKPOINT.lg)),
+        switchMap(() => this.breakpointService.isDown(BREAKPOINT.lg)),
         filter(Boolean)
       ),
     ];
@@ -312,7 +311,8 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     if (
       !product.images ||
       !product.images.GALLERY ||
-      product.images.GALLERY.length < 2
+      (Array.isArray(product.images.GALLERY) &&
+        product.images.GALLERY.length < 2)
     ) {
       return [];
     }

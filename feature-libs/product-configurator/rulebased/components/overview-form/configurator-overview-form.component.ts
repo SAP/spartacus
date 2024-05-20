@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,8 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-form',
   templateUrl: './configurator-overview-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ConfiguratorOverviewFormComponent {
   @HostBinding('class.ghost') ghostStyle = true;
@@ -67,8 +68,8 @@ export class ConfiguratorOverviewFormComponent {
   ): boolean {
     if (groups) {
       let hasAttributes =
-        groups.find((group) =>
-          group.attributes ? group.attributes.length : 0 > 0
+        groups.find(
+          (group) => (group.attributes ? group.attributes.length : 0) > 0
         ) !== undefined;
       if (!hasAttributes) {
         hasAttributes =

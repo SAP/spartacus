@@ -1,15 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
   I18nTestingModule,
+  PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
 import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card, CmsComponentData } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponent } from './order-overview.component';
 
@@ -112,7 +113,7 @@ const mockFormattedAddress = 'test1, test2, test3, test4';
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -399,16 +400,27 @@ describe('OrderOverviewComponent', () => {
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
-          expect(data.textBold).toEqual(
-            mockOrder.paymentInfo.accountHolderName
-          );
-          expect(data.text).toEqual([mockOrder.paymentInfo.cardNumber, 'test']);
+          expect(data.text).toEqual([
+            mockOrder.paymentInfo?.cardType?.name,
+            mockOrder.paymentInfo?.accountHolderName,
+            mockOrder.paymentInfo?.cardNumber,
+            'test',
+          ]);
         })
         .unsubscribe();
 
       expect(component.getPaymentInfoCardContent).toHaveBeenCalledWith(
         mockOrder.paymentInfo
       );
+    });
+
+    it('should isPaymentInfoCardFull be falsy when paymentInfo is partial', () => {
+      expect(
+        component.isPaymentInfoCardFull({
+          ...mockOrder.paymentInfo,
+          expiryMonth: undefined,
+        })
+      ).toBeFalsy();
     });
 
     it('should call getBillingAddressCardContent(billingAddress: Address)', () => {

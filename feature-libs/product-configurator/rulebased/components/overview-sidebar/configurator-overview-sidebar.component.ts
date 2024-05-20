@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,7 @@ export class ConfiguratorOverviewSidebarComponent {
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
 
-  config$: Observable<Configurator.Configuration> =
+  configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getConfiguration(routerData.owner)

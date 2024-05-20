@@ -1,16 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import {
   isNotUndefined,
   Product,
@@ -28,7 +23,7 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductVariantsGuard implements CanActivate {
+export class ProductVariantsGuard {
   constructor(
     protected productService: ProductService,
     protected semanticPathService: SemanticPathService,

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -58,6 +58,15 @@ export function verifyTicketSubjectAndMessageDoNotExceedCharacterLimit() {
       });
     cy.get('cx-form-errors').should('not.be.visible');
   });
+}
+
+export function addFileSelect(filename: string) {
+  cy.get('input[type=file]').selectFile(
+    '../storefrontapp-e2e-cypress/cypress/helpers/customer-ticketing/files-to-upload/' +
+      filename,
+    { force: true }
+  );
+  cy.get('p').contains(filename);
 }
 
 export function addFile(filename: string) {

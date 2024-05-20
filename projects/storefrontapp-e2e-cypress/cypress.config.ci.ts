@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,7 @@ export default defineConfig({
 
   requestTimeout: 30000,
   projectId: 'k3nmep',
-  numTestsKeptInMemory: 1,
+  numTestsKeptInMemory: 100,
   chromeWebSecurity: false,
   video: true,
   retries: {
@@ -29,6 +29,8 @@ export default defineConfig({
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
+    MAIL_CCV2_URL: 'http://mail-ccv2.westeurope.azurecontainer.io:8025',
+    MAIL_CCV2_PREFIX: '/api/v2',
   },
   e2e: {
     // We've imported your old cypress plugins here.

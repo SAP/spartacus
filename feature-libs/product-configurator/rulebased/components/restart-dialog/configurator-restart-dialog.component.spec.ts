@@ -13,8 +13,8 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { BehaviorSubject, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorRestartDialogComponent } from './configurator-restart-dialog.component';
@@ -171,13 +171,20 @@ describe('ConfiguratorRestartDialogComponent', () => {
     expect(
       mockConfigCommonsService.forceNewConfiguration
     ).not.toHaveBeenCalled();
-    expect(mockRoutingService.go).toHaveBeenCalledWith({
-      cxRoute: 'configure' + product.configuratorType,
-      params: {
-        ownerType: CommonConfigurator.OwnerType.PRODUCT,
-        entityKey: product.code,
+    expect(mockRoutingService.go).toHaveBeenCalledWith(
+      {
+        cxRoute: 'configure' + product.configuratorType,
+        params: {
+          ownerType: CommonConfigurator.OwnerType.PRODUCT,
+          entityKey: product.code,
+        },
       },
-    });
+      {
+        queryParams: {
+          productCode: product.code,
+        },
+      }
+    );
   });
 
   it('should create a new default config on restart', () => {
@@ -245,6 +252,17 @@ describe('ConfiguratorRestartDialogComponent', () => {
         0,
         'aria-describedby',
         'cx-configurator-restart-dialog-description'
+      );
+    });
+    it("should contain 'role' and 'aria-modal' attributes that indicate that the appeared pop-up is a modal dialog", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-modal-container',
+        0,
+        'aria-modal',
+        'true'
       );
     });
   });

@@ -1,4 +1,3 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   Component,
   EventEmitter,
@@ -7,24 +6,28 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
 import {
   I18nTestingModule,
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import { TicketList } from '@spartacus/customer-ticketing/root';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import {
+  CustomerTicketingFacade,
+  TicketList,
+} from '@spartacus/customer-ticketing/root';
+import { EMPTY, Observable, of } from 'rxjs';
+import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
 
 const mockTicketList: TicketList = {
   pagination: {
     currentPage: 0,
-    pageSize: 5,
+    pageSize: 2,
     sort: 'byId',
-    totalPages: 1,
-    totalResults: 2,
+    totalPages: 2,
+    totalResults: 3,
   },
   sorts: [
     { code: 'byId', selected: true },
@@ -96,6 +99,54 @@ const mockTicketList: TicketList = {
     },
   ],
 };
+
+const mockTicketList2: TicketList = {
+  pagination: {
+    currentPage: 1,
+    pageSize: 2,
+    sort: 'byId',
+    totalPages: 2,
+    totalResults: 3,
+  },
+  sorts: [
+    { code: 'byId', selected: true },
+    { code: 'byChangedDate', selected: false },
+  ],
+  tickets: [
+    {
+      availableStatusTransitions: [
+        {
+          id: 'CLOSED',
+          name: 'Closed',
+        },
+      ],
+      id: '0000003',
+      createdAt: '2021-01-14T10:06:57+0000',
+      modifiedAt: '2021-01-14T10:06:57+0000',
+      status: {
+        id: 'OPEN',
+        name: 'Open',
+      },
+      subject: 'Lawnmower blade gone',
+      ticketCategory: {
+        id: 'ENQUIRY',
+        name: 'Enquiry',
+      },
+      ticketEvents: [
+        {
+          author: 'Bob',
+          createdAt: '2021-01-14T10:06:57+0000',
+          message: 'Mower missing blade',
+          toStatus: {
+            id: 'OPEN',
+            name: 'Open',
+          },
+        },
+      ],
+    },
+  ],
+};
+
 @Component({
   template: '',
   selector: 'cx-pagination',
@@ -129,28 +180,31 @@ class MockRoutingService {
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
-class MockcustomerTicketingFacade {
+class MockCustomerTicketingFacade {
   getTickets(
     _pageSize: number,
     _currentPage?: number,
     _sort?: string
   ): Observable<TicketList> {
-    return mockTicketList$.asObservable();
+    return of(mockTicketList);
   }
 
   clearTicketList() {}
 }
-
-const mockTicketList$ = new BehaviorSubject<TicketList>(mockTicketList);
+@Component({
+  selector: 'cx-customer-ticketing-create',
+})
+class MockCustomerTicketingCreateComponent {}
 
 describe('CustomerTicketingListComponent', () => {
   let component: CustomerTicketingListComponent;
   let fixture: ComponentFixture<CustomerTicketingListComponent>;
   let routingService: RoutingService;
+  let customerTicketingFacade: CustomerTicketingFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -161,20 +215,34 @@ describe('CustomerTicketingListComponent', () => {
           MockPaginationComponent,
           MockSortingComponent,
           MockUrlPipe,
+          MockCustomerTicketingCreateComponent,
         ],
         providers: [
           {
-            provide: 'CustomerTicketingFacade',
-            useClass: MockcustomerTicketingFacade,
+            provide: CustomerTicketingFacade,
+            useClass: MockCustomerTicketingFacade,
           },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: TranslationService, useClass: MockTranslationService },
         ],
       }).compileComponents();
 
+      const translationService = TestBed.inject(TranslationService);
+      spyOn(translationService, 'translate').and.callFake((input) => {
+        switch (input) {
+          case 'customerTicketing.ticketId':
+            return of('ticket-id');
+          case 'customerTicketing.changedOn':
+            return of(new Date(0).toISOString());
+          default:
+            return EMPTY;
+        }
+      });
+
+      customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
+
       fixture = TestBed.createComponent(CustomerTicketingListComponent);
       component = fixture.componentInstance;
-      component.tickets$ = of(mockTicketList);
       routingService = TestBed.inject(RoutingService);
       fixture.detectChanges();
     })
@@ -185,7 +253,7 @@ describe('CustomerTicketingListComponent', () => {
   });
 
   it('should display tickets', () => {
-    const TWO_TICKETS = '(2)';
+    const TWO_TICKETS = '(3)';
 
     const ticketsCount = fixture.debugElement.query(
       By.css('.cx-ticketing-list-title-text')
@@ -212,10 +280,24 @@ describe('CustomerTicketingListComponent', () => {
 
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'supportTicketDetails',
-      params:
-        mockTicketList && mockTicketList.tickets
-          ? { ticketCode: mockTicketList.tickets[1].id }
-          : {},
+      params: mockTicketList?.tickets
+        ? { ticketCode: mockTicketList.tickets[1].id }
+        : {},
     });
+  });
+
+  it('should display next page', () => {
+    spyOn(customerTicketingFacade, 'getTickets').and.returnValue(
+      of(mockTicketList2)
+    );
+
+    component.pageChange(1);
+
+    fixture.detectChanges();
+    const idElements = fixture.debugElement
+      .queryAll(By.css('.cx-ticketing-list-id a.cx-ticketing-list-value'))
+      .map((debugElement) => debugElement.nativeElement as HTMLElement);
+    expect(idElements.length).toBe(1);
+    expect(idElements[0].textContent?.includes('0000003')).toBe(true);
   });
 });

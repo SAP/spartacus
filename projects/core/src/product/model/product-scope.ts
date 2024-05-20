@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,4 +12,6 @@ export const enum ProductScope {
   PRICE = 'price',
   /** Fetch the default stock information. */
   STOCK = 'stock',
+  PROMOTIONS = 'promotions',
+  LIST_ITEM = 'list_item',
 }

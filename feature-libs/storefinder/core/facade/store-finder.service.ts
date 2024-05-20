@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,9 +16,9 @@ import {
   SearchConfig,
   WindowRef,
 } from '@spartacus/core';
+import { StoreEntities } from '@spartacus/storefinder/root';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
-import { StoreEntities } from '../model';
 import { StoreFinderActions } from '../store/actions/index';
 import { StoreFinderSelectors } from '../store/selectors/index';
 import { StateWithStoreFinder } from '../store/store-finder-state';
@@ -56,6 +56,7 @@ export class StoreFinderService implements OnDestroy {
 
   /**
    * Returns observable for store's entities
+   * CXSPA-4871: The return value of this method signature is wrong, should be StoreFinderSearchPage.
    */
   getFindStoresEntities(): Observable<StoreEntities> {
     return this.store.pipe(

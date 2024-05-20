@@ -1,15 +1,16 @@
 /// <reference types="jest" />
 
 import { fakeAsync, flush, tick } from '@angular/core/testing';
-import { Application, Request } from 'express';
+import { Application, Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
-  defaultSsrOptimizationOptions,
   RenderingStrategy,
   SsrOptimizationOptions,
+  defaultSsrOptimizationOptions,
 } from './ssr-optimization-options';
 
 const defaultRenderTime = 100;
@@ -19,6 +20,12 @@ jest.mock('fs', () => ({
   readFileSync: () => '',
 }));
 const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
+
+class MockExpressServerLogger implements Partial<ExpressServerLogger> {
+  log(message: string, context: ExpressServerLoggerContext): void {
+    console.log(message, context);
+  }
+}
 
 /**
  * Helper class to easily create and test engine wrapper against mocked engine.
@@ -88,9 +95,10 @@ class TestEngineRunner {
         },
         app,
         connection: <Partial<Socket>>{},
-      },
-      res: <Partial<Response>>{
-        set: (key: string, value: any) => (response[key] = value),
+        res: <Partial<Response>>{
+          set: (key: string, value: any) => (response[key] = value),
+          locals: {},
+        },
       },
     };
 
@@ -130,6 +138,19 @@ describe('OptimizedSsrEngine', () => {
     });
   });
   describe('logOptions', () => {
+    let dateSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      const mockDate = new Date('2023-01-01');
+      dateSpy = jest
+        .spyOn(global, 'Date')
+        .mockImplementationOnce(() => mockDate);
+    });
+
+    afterEach(() => {
+      dateSpy.mockReset();
+    });
+
     it('should log the provided options', () => {
       new TestEngineRunner({
         timeout: 50,
@@ -138,14 +159,22 @@ describe('OptimizedSsrEngine', () => {
 
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
         [
-          "[spartacus] SSR optimization engine initialized with the following options: {
-          "concurrency": 10,
-          "timeout": 50,
-          "forcedSsrTimeout": 60000,
-          "maxRenderTime": 300000,
-          "reuseCurrentRendering": true,
-          "debug": false,
-          "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR"
+          "{
+          "message": "[spartacus] SSR optimization engine initialized",
+          "context": {
+            "timestamp": "2023-01-01T00:00:00.000Z",
+            "options": {
+              "cacheSize": 3000,
+              "concurrency": 10,
+              "timeout": 50,
+              "forcedSsrTimeout": 60000,
+              "maxRenderTime": 300000,
+              "reuseCurrentRendering": true,
+              "debug": false,
+              "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR",
+              "logger": "DefaultExpressServerLogger"
+            }
+          }
         }",
         ]
       `);
@@ -650,7 +679,8 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.renderCount).toEqual(0);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
-        false
+        false,
+        { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
 
       tick(101);
@@ -674,7 +704,8 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.renderCount).toEqual(0);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
-        false
+        false,
+        { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
 
       tick(50);
@@ -703,7 +734,9 @@ describe('OptimizedSsrEngine', () => {
       tick(1);
       // while the concurrency slot is busy rendering the first hanging request, the second request gets the CSR version
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-        `CSR fallback: Concurrency limit exceeded (1)`
+        `CSR fallback: Concurrency limit exceeded (1)`,
+        true,
+        { request: expect.objectContaining({ originalUrl: csrRequest }) }
       );
       expect(engineRunner.renderCount).toEqual(0);
       expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -713,7 +746,8 @@ describe('OptimizedSsrEngine', () => {
       tick(maxRenderTime);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${hangingRequest} was not able to complete. This might cause memory leaks!`,
-        false
+        false,
+        { request: expect.objectContaining({ originalUrl: hangingRequest }) }
       );
       expect(engineRunner.renderCount).toEqual(0);
 
@@ -721,7 +755,9 @@ describe('OptimizedSsrEngine', () => {
       engineRunner.request(ssrRequest);
       tick(1);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-        `Rendering started (${ssrRequest})`
+        `Rendering started (${ssrRequest})`,
+        true,
+        { request: expect.objectContaining({ originalUrl: ssrRequest }) }
       );
       expect(getCurrentConcurrency(engineRunner)).toEqual({
         currentConcurrency: 1,
@@ -746,7 +782,8 @@ describe('OptimizedSsrEngine', () => {
       tick(fiveMinutes + 101);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} completed after the specified maxRenderTime, therefore it was ignored.`,
-        false
+        false,
+        { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
       expect(engineRunner.renders).toEqual(['']);
 
@@ -795,12 +832,16 @@ describe('OptimizedSsrEngine', () => {
         });
 
         tick(100);
+
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-          `CSR fallback: rendering in progress (${requestUrl})`
+          `CSR fallback: rendering in progress (${requestUrl})`,
+          true,
+          { request: expect.objectContaining({ originalUrl: requestUrl }) }
         );
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-          false
+          false,
+          { request: expect.objectContaining({ originalUrl: requestUrl }) }
         );
         expect(engineRunner.renders).toEqual(['', '']);
 
@@ -826,7 +867,8 @@ describe('OptimizedSsrEngine', () => {
           tick(100);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-            false
+            false,
+            { request: expect.objectContaining({ originalUrl: requestUrl }) }
           );
 
           tick(100);
@@ -952,7 +994,8 @@ describe('OptimizedSsrEngine', () => {
           tick(100);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-            false
+            false,
+            { request: expect.objectContaining({ originalUrl: requestUrl }) }
           );
           expect(engineRunner.renders).toEqual(['']); // the first request fallback to CSR due to timeout
           expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -1082,7 +1125,8 @@ describe('OptimizedSsrEngine', () => {
           tick(maxRenderTime);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `Rendering of ${hangingRequest} was not able to complete. This might cause memory leaks!`,
-            false
+            false,
+            { request: expect.objectContaining({ originalUrl: requestUrl }) }
           );
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 0,
@@ -1097,7 +1141,9 @@ describe('OptimizedSsrEngine', () => {
           engineRunner.request(ssrRequest);
           tick(1);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-            `Rendering started (${ssrRequest})`
+            `Rendering started (${ssrRequest})`,
+            true,
+            { request: expect.objectContaining({ originalUrl: ssrRequest }) }
           );
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 1,
@@ -1133,11 +1179,13 @@ describe('OptimizedSsrEngine', () => {
 
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-          false
+          false,
+          { request: expect.objectContaining({ originalUrl: requestUrl }) }
         );
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${differentUrl}`,
-          false
+          false,
+          { request: expect.objectContaining({ originalUrl: differentUrl }) }
         );
 
         expect(engineRunner.renderCount).toEqual(1);
@@ -1145,6 +1193,77 @@ describe('OptimizedSsrEngine', () => {
 
         flush();
       }));
+    });
+  });
+
+  describe('logger option', () => {
+    let dateSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      const mockDate = new Date('2023-01-01');
+      dateSpy = jest
+        .spyOn(global, 'Date')
+        .mockImplementationOnce(() => mockDate);
+    });
+
+    afterEach(() => {
+      dateSpy.mockReset();
+    });
+
+    it('should use the default server logger, if custom logger is not specified', () => {
+      new TestEngineRunner({});
+      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
+        [
+          "{
+          "message": "[spartacus] SSR optimization engine initialized",
+          "context": {
+            "timestamp": "2023-01-01T00:00:00.000Z",
+            "options": {
+              "cacheSize": 3000,
+              "concurrency": 10,
+              "timeout": 3000,
+              "forcedSsrTimeout": 60000,
+              "maxRenderTime": 300000,
+              "reuseCurrentRendering": true,
+              "debug": false,
+              "renderingStrategyResolver": "(request) => {\\n    if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {\\n        return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;\\n    }\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}",
+              "logger": "DefaultExpressServerLogger"
+            }
+          }
+        }",
+        ]
+      `);
+    });
+
+    it('should use the provided logger', () => {
+      new TestEngineRunner({
+        logger: new MockExpressServerLogger() as ExpressServerLogger,
+      });
+      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
+            [
+              "[spartacus] SSR optimization engine initialized",
+              {
+                "options": {
+                  "cacheSize": 3000,
+                  "concurrency": 10,
+                  "debug": false,
+                  "forcedSsrTimeout": 60000,
+                  "logger": "MockExpressServerLogger",
+                  "maxRenderTime": 300000,
+                  "renderingStrategyResolver": "(request) => {
+                if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
+                    return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;
+                }
+                return shouldFallbackToCsr(request, options)
+                    ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
+                    : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
+            }",
+                  "reuseCurrentRendering": true,
+                  "timeout": 3000,
+                },
+              },
+            ]
+                  `);
     });
   });
 });

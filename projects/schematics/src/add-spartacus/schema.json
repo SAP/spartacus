@@ -17,10 +17,13 @@
       "items": {
         "enum": [
           "ASM",
+          "ASM-Customer-360",
           "Import-Export",
           "Saved-Cart",
           "Quick-Order",
           "CDC",
+          "CDC-B2B",
+          "CDP",
           "CDS",
           "Cart",
           "WishList",
@@ -28,6 +31,7 @@
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",
           "Order",
+          "OPPS",
           "Digital-Payments",
           "EPD-Visualization",
           "Customer-Ticketing",
@@ -39,25 +43,31 @@
           "Bulk-Pricing",
           "Image-Zoom",
           "Future-Stock",
+          "PDF-Invoices",
           "Product-Variants",
           "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
+          "Requested-Delivery-Date",
+          "Estimated-Delivery-Date",
           "S4HANA-Order-Management",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
+          "Segment-Refs",
           "TMS-GTM",
           "TMS-AEPL",
           "Pickup-In-Store",
           "User-Account",
-          "User-Profile"
+          "User-Profile",
+          "Quote"
         ],
         "type": "string"
       },
       "default": [
         "ASM",
+        "ASM-Customer-360",
         "Cart",
         "WishList",
         "Checkout",
@@ -82,6 +92,10 @@
             "label": "Assisted Services Module"
           },
           {
+            "value": "ASM-Customer-360",
+            "label": "ASM Customer 360"
+          },
+          {
             "value": "Import-Export",
             "label": "Import/Export"
           },
@@ -95,7 +109,15 @@
           },
           {
             "value": "CDC",
-            "label": "Customer Data Cloud Integration"
+            "label": "Customer Data Cloud Integration - B2C"
+          },
+          {
+            "value": "CDC-B2B",
+            "label": "Customer Data Cloud Integration - B2B"
+          },
+          {
+            "value": "CDP",
+            "label": "Customer Data Platform Integration"
           },
           {
             "value": "CDS",
@@ -182,8 +204,20 @@
             "label": "Product Configurator - CPQ Configurator (b2b feature)"
           },
           {
+            "value": "PDF-Invoices",
+            "label": "PDF Invoices"
+          },
+          {
             "value": "Qualtrics",
             "label": "Qualtrics"
+          },
+          {
+            "value": "Requested-Delivery-Date",
+            "label": "Requested Delivery Date"
+          },
+          {
+            "value": "Estimated-Delivery-Date",
+            "label": "Estimated Delivery Date"
           },
           {
             "value": "S4HANA-Order-Management",
@@ -202,12 +236,20 @@
             "label": "Tracking - Personalization"
           },
           {
+            "value": "Segment-Refs",
+            "label": "Segment Reference"
+          },
+          {
             "value": "TMS-GTM",
             "label": "Tracking - Tag Management System - Google Tag Manager"
           },
           {
             "value": "TMS-AEPL",
             "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
+          },
+          {
+            "value": "OPPS",
+            "label": "Omnichannel Promotion Pricing Service (OPPS) Integration"
           },
           {
             "value": "User-Account",
@@ -218,12 +260,16 @@
             "label": "User - Profile"
           },
           {
+            "value": "Quote",
+            "label": "Quote"
+          },
+          {
             "value": "Customer-Ticketing",
             "label": "Customer Ticketing"
           },
           {
             "value": "Pickup-In-Store",
-            "label": "Pickup In Store"
+            "label": "Pickup in Store"
           }
         ]
       }

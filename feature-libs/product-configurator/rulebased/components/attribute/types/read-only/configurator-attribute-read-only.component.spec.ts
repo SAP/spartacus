@@ -4,10 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -15,6 +15,16 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
 }
 
 const priceDetails: Configurator.PriceDetails = {
@@ -36,6 +46,7 @@ const myValues: Configurator.Value[] = [
     valueCode: 'val2',
     valueDisplay: 'val2',
     selected: true,
+    description: 'Here is a description at value level',
   },
   {
     valueCode: 'val3',
@@ -63,6 +74,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         declarations: [
           ConfiguratorAttributeReadOnlyComponent,
           MockConfiguratorPriceComponent,
+          MockConfiguratorShowMoreComponent,
         ],
         providers: [
           {
@@ -152,7 +164,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     it('should display price component of selected value for attribute with domain', () => {
       component.attribute.values = myValues;
       fixture.detectChanges();
-      console.log('html:  ' + htmlElem);
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -239,6 +250,26 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     });
   });
 
+  describe('rendering description at value level', () => {
+    it('should not render description in case no desciption present on model', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
+    });
+
+    it('should render description in case description present on model', () => {
+      component.attribute.values = myValues;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
+    });
+  });
+
   describe('Accessibility', () => {
     describe('with staticDomain', () => {
       it('should return aria label for valuePriceTotal', () => {
@@ -286,6 +317,30 @@ describe('ConfigAttributeReadOnlyComponent', () => {
             attributeLabel +
             ' price:' +
             myValues[2].valuePrice?.formattedValue +
+            ' value:' +
+            valueName
+        );
+      });
+
+      it('should return aria label without valuePrice', () => {
+        myValues[0].selected = false;
+        myValues[1].selected = true;
+        myValues[2].selected = false;
+        component.attribute.values = myValues;
+        fixture.detectChanges();
+        let attributeLabel = component.attribute.label;
+        let valueName = myValues[1].valueCode;
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-visually-hidden'
+        );
+        expect(
+          component.getAriaLabel(component.attribute, myValues[1])
+        ).toEqual(
+          'configurator.a11y.readOnlyValueOfAttributeFull' +
+            ' attribute:' +
+            attributeLabel +
             ' value:' +
             valueName
         );

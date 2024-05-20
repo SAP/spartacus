@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -132,7 +132,6 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
     this.pickupLocationsSearchService.toggleHideOutOfStock();
   }
 
-  // TODO check the logic of CLOSE_WITHOUT_SELECTION on PDP and cart
   /**
    * Close the dialog window. This has additional side effects based upon whether
    * we are making a selection on the PDP or in the cart/during checkout.

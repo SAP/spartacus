@@ -1,0 +1,50 @@
+{
+  "name": "opps",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "integration-libs/opps",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "integration-libs/opps/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "integration-libs/opps/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "integration-libs/opps/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "integration-libs/opps/test.ts",
+        "tsConfig": "integration-libs/opps/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "integration-libs/opps/karma.conf.js"
+      }
+    },
+    "test-jest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test:schematics",
+        "cwd": "integration-libs/opps"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "integration-libs/opps/**/*.ts",
+          "integration-libs/opps/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature", "type:integration"]
+}

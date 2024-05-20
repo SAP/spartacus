@@ -8,10 +8,11 @@ import {
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { CustomerTicketingReopenComponent } from './customer-ticketing-reopen.component';
+import { CustomerTicketingReopenComponentService } from './customer-ticketing-reopen-component.service';
 
 describe('CustomerTicketingReopenComponent', () => {
   let component: CustomerTicketingReopenComponent;
@@ -24,7 +25,7 @@ describe('CustomerTicketingReopenComponent', () => {
       _openElement?: ElementRef,
       _vcr?: ViewContainerRef
     ) {
-      return of();
+      return EMPTY;
     }
   }
 
@@ -56,6 +57,7 @@ describe('CustomerTicketingReopenComponent', () => {
       imports: [I18nTestingModule],
       declarations: [CustomerTicketingReopenComponent],
       providers: [
+        CustomerTicketingReopenComponentService,
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
           provide: CustomerTicketingFacade,

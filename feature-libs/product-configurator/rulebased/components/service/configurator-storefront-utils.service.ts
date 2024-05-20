@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { WindowRef } from '@spartacus/core';
+import { LoggerService, WindowRef } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -28,6 +28,8 @@ export class ConfiguratorStorefrontUtilsService {
    * See _configurator-add-to-cart-button.scss
    */
   protected readonly ADD_TO_CART_BUTTON_HEIGHT = 82;
+
+  protected logger = inject(LoggerService);
 
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
@@ -82,7 +84,7 @@ export class ConfiguratorStorefrontUtilsService {
         localAssembledValues.push(localAttributeValue);
       } else {
         if (isDevMode()) {
-          console.warn(
+          this.logger.warn(
             'ControlArray does not match values, at least one value could not been found'
           );
         }
@@ -123,13 +125,22 @@ export class ConfiguratorStorefrontUtilsService {
    * Focus the first attribute in the form.
    */
   focusFirstAttribute(): void {
+    this.focusFirstActiveElement('cx-configurator-form');
+  }
+
+  /**
+   * Focus the first active element inside the given host element
+   *
+   * @param selector - query selector of the host element
+   */
+  focusFirstActiveElement(selector: string) {
     if (!this.windowRef.isBrowser()) {
       return;
     }
-    const form = this.getElement('cx-configurator-form');
-    if (form) {
+    const element = this.getElement(selector);
+    if (element) {
       const focusableElements: HTMLElement[] =
-        this.keyboardFocusService.findFocusable(form);
+        this.keyboardFocusService.findFocusable(element);
       if (focusableElements && focusableElements.length > 0) {
         focusableElements[0].focus();
       }
@@ -458,8 +469,7 @@ export class ConfiguratorStorefrontUtilsService {
     if (element && container) {
       if (element.offsetTop > container.scrollTop) {
         const offsetBottom = element.offsetTop + element.offsetHeight;
-        const containerBottom = container.scrollTop + container.offsetHeight;
-        if (offsetBottom > containerBottom) {
+        if (offsetBottom > container.scrollTop) {
           container.scrollTop = offsetBottom - container.offsetHeight;
         }
       } else {

@@ -7,9 +7,9 @@
   tabindex="-1"
 >
   {{
-    (!cartValidationInProgress
-      ? 'cartDetails.proceedToCheckout'
-      : 'validation.inProgress'
+    (cartValidationInProgress
+      ? 'validation.inProgress'
+      : 'cartDetails.proceedToCheckout'
     ) | cxTranslate
   }}
 </cx-progress-button>

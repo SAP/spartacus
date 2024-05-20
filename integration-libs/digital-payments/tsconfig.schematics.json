@@ -12,6 +12,24 @@
         "../../feature-libs/asm/components/public_api"
       ],
       "@spartacus/asm/core": ["../../feature-libs/asm/core/public_api"],
+      "@spartacus/asm/customer-360/assets": [
+        "../../feature-libs/asm/customer-360/assets/public_api"
+      ],
+      "@spartacus/asm/customer-360/components": [
+        "../../feature-libs/asm/customer-360/components/public_api"
+      ],
+      "@spartacus/asm/customer-360/core": [
+        "../../feature-libs/asm/customer-360/core/public_api"
+      ],
+      "@spartacus/asm/customer-360": [
+        "../../feature-libs/asm/customer-360/public_api"
+      ],
+      "@spartacus/asm/customer-360/occ": [
+        "../../feature-libs/asm/customer-360/occ/public_api"
+      ],
+      "@spartacus/asm/customer-360/root": [
+        "../../feature-libs/asm/customer-360/root/public_api"
+      ],
       "@spartacus/asm": ["../../feature-libs/asm/public_api"],
       "@spartacus/asm/occ": ["../../feature-libs/asm/occ/public_api"],
       "@spartacus/asm/root": ["../../feature-libs/asm/root/public_api"],
@@ -169,6 +187,18 @@
       "@spartacus/customer-ticketing/root": [
         "../../feature-libs/customer-ticketing/root/public_api"
       ],
+      "@spartacus/estimated-delivery-date/assets": [
+        "../../feature-libs/estimated-delivery-date/assets/public_api"
+      ],
+      "@spartacus/estimated-delivery-date": [
+        "../../feature-libs/estimated-delivery-date/public_api"
+      ],
+      "@spartacus/estimated-delivery-date/root": [
+        "../../feature-libs/estimated-delivery-date/root/public_api"
+      ],
+      "@spartacus/estimated-delivery-date/show-estimated-delivery-date": [
+        "../../feature-libs/estimated-delivery-date/show-estimated-delivery-date/public_api"
+      ],
       "@spartacus/order/assets": ["../../feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
         "../../feature-libs/order/components/public_api"
@@ -258,6 +288,22 @@
       ],
       "@spartacus/organization/user-registration/root": [
         "../../feature-libs/organization/user-registration/root/public_api"
+      ],
+      "@spartacus/pdf-invoices/assets": [
+        "../../feature-libs/pdf-invoices/assets/public_api"
+      ],
+      "@spartacus/pdf-invoices/components": [
+        "../../feature-libs/pdf-invoices/components/public_api"
+      ],
+      "@spartacus/pdf-invoices/core": [
+        "../../feature-libs/pdf-invoices/core/public_api"
+      ],
+      "@spartacus/pdf-invoices": ["../../feature-libs/pdf-invoices/public_api"],
+      "@spartacus/pdf-invoices/occ": [
+        "../../feature-libs/pdf-invoices/occ/public_api"
+      ],
+      "@spartacus/pdf-invoices/root": [
+        "../../feature-libs/pdf-invoices/root/public_api"
       ],
       "@spartacus/pickup-in-store/assets": [
         "../../feature-libs/pickup-in-store/assets/public_api"
@@ -372,6 +418,35 @@
       "@spartacus/qualtrics/root": [
         "../../feature-libs/qualtrics/root/public_api"
       ],
+      "@spartacus/quote/assets": ["../../feature-libs/quote/assets/public_api"],
+      "@spartacus/quote/components/cart-guard": [
+        "../../feature-libs/quote/components/cart-guard/public_api"
+      ],
+      "@spartacus/quote/components": [
+        "../../feature-libs/quote/components/public_api"
+      ],
+      "@spartacus/quote/components/request-button": [
+        "../../feature-libs/quote/components/request-button/public_api"
+      ],
+      "@spartacus/quote/core": ["../../feature-libs/quote/core/public_api"],
+      "@spartacus/quote": ["../../feature-libs/quote/public_api"],
+      "@spartacus/quote/occ": ["../../feature-libs/quote/occ/public_api"],
+      "@spartacus/quote/root": ["../../feature-libs/quote/root/public_api"],
+      "@spartacus/requested-delivery-date/assets": [
+        "../../feature-libs/requested-delivery-date/assets/public_api"
+      ],
+      "@spartacus/requested-delivery-date/core": [
+        "../../feature-libs/requested-delivery-date/core/public_api"
+      ],
+      "@spartacus/requested-delivery-date": [
+        "../../feature-libs/requested-delivery-date/public_api"
+      ],
+      "@spartacus/requested-delivery-date/occ": [
+        "../../feature-libs/requested-delivery-date/occ/public_api"
+      ],
+      "@spartacus/requested-delivery-date/root": [
+        "../../feature-libs/requested-delivery-date/root/public_api"
+      ],
       "@spartacus/smartedit/core": [
         "../../feature-libs/smartedit/core/public_api"
       ],
@@ -448,6 +523,7 @@
       "@spartacus/user/profile/root": [
         "../../feature-libs/user/profile/root/public_api"
       ],
+      "@spartacus/cdc/assets": ["../../integration-libs/cdc/assets/public_api"],
       "@spartacus/cdc/components": [
         "../../integration-libs/cdc/components/public_api"
       ],
@@ -456,6 +532,9 @@
       "@spartacus/cdc/organization/administration": [
         "../../integration-libs/cdc/organization/administration/public_api"
       ],
+      "@spartacus/cdc/organization/user-registration": [
+        "../../integration-libs/cdc/organization/user-registration/public_api"
+      ],
       "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cdc/user-account": [
         "../../integration-libs/cdc/user-account/public_api"
@@ -463,6 +542,10 @@
       "@spartacus/cdc/user-profile": [
         "../../integration-libs/cdc/user-profile/public_api"
       ],
+      "@spartacus/cdp/customer-ticketing": [
+        "../../integration-libs/cdp/customer-ticketing/public_api"
+      ],
+      "@spartacus/cdp": ["../../integration-libs/cdp/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/digital-payments/assets": [
         "../../integration-libs/digital-payments/assets/public_api"
@@ -488,11 +571,19 @@
       "@spartacus/epd-visualization/root": [
         "../../integration-libs/epd-visualization/root/public_api"
       ],
+      "@spartacus/opps": ["../../integration-libs/opps/public_api"],
+      "@spartacus/opps/root": ["../../integration-libs/opps/root/public_api"],
       "@spartacus/s4om/assets": [
         "../../integration-libs/s4om/assets/public_api"
       ],
       "@spartacus/s4om": ["../../integration-libs/s4om/public_api"],
       "@spartacus/s4om/root": ["../../integration-libs/s4om/root/public_api"],
+      "@spartacus/segment-refs": [
+        "../../integration-libs/segment-refs/public_api"
+      ],
+      "@spartacus/segment-refs/root": [
+        "../../integration-libs/segment-refs/root/public_api"
+      ],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,21 +7,21 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   isDevMode,
   OnInit,
 } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
-import {
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-} from '../../../core';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 @Component({
@@ -43,6 +43,8 @@ export class ConfiguratorAttributeHeaderComponent
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
 
+  protected logger = inject(LoggerService);
+
   constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -59,7 +61,7 @@ export class ConfiguratorAttributeHeaderComponent
       Configurator.GroupType.ATTRIBUTE_GROUP;
     this.expMode = attributeComponentContext.expMode;
     this.isNavigationToGroupEnabled =
-      attributeComponentContext.isNavigationToGroupEnabled;
+      attributeComponentContext.isNavigationToGroupEnabled ?? false;
   }
 
   ngOnInit(): void {
@@ -68,7 +70,7 @@ export class ConfiguratorAttributeHeaderComponent
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(map((result) => result && this.isRequiredAttributeWithDomain()));
+      .pipe(map((result) => result && this.needsRequiredAttributeErrorMsg()));
   }
 
   /**
@@ -83,7 +85,6 @@ export class ConfiguratorAttributeHeaderComponent
     } else if (this.isMultiSelection) {
       return 'configurator.attribute.multiSelectRequiredMessage';
     } else {
-      //input attribute types
       return 'configurator.attribute.singleSelectRequiredMessage';
     }
   }
@@ -105,9 +106,7 @@ export class ConfiguratorAttributeHeaderComponent
       case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
       case Configurator.UiType.RADIOBUTTON_PRODUCT:
       case Configurator.UiType.CHECKBOX:
-      case Configurator.UiType.DROPDOWN:
       case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
-      case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         return true;
       }
@@ -115,15 +114,30 @@ export class ConfiguratorAttributeHeaderComponent
     return false;
   }
 
-  protected isRequiredAttributeWithDomain(): boolean {
-    const uiType = this.attribute.uiType;
+  protected isAttributeWithoutErrorMsg(
+    uiType: Configurator.UiType | undefined
+  ): boolean {
+    switch (uiType) {
+      case Configurator.UiType.NOT_IMPLEMENTED:
+      case Configurator.UiType.STRING:
+      case Configurator.UiType.NUMERIC:
+      case Configurator.UiType.CHECKBOX:
+      case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.DROPDOWN_PRODUCT: {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  protected needsRequiredAttributeErrorMsg(): boolean {
+    return this.isRequiredAttributeWithoutErrorMsg();
+  }
+
+  protected isRequiredAttributeWithoutErrorMsg(): boolean {
     return (
-      (this.attribute.required &&
-        this.attribute.incomplete &&
-        uiType !== Configurator.UiType.NOT_IMPLEMENTED &&
-        uiType !== Configurator.UiType.STRING &&
-        uiType !== Configurator.UiType.NUMERIC) ??
-      false
+      this.isRequiredErrorMsg(this.attribute) &&
+      this.isAttributeWithoutErrorMsg(this.attribute.uiType)
     );
   }
 
@@ -238,7 +252,7 @@ export class ConfiguratorAttributeHeaderComponent
 
   protected logError(text: string): void {
     if (isDevMode()) {
-      console.error(text);
+      this.logger.error(text);
     }
   }
 
@@ -281,9 +295,21 @@ export class ConfiguratorAttributeHeaderComponent
   isNavigationToConflictEnabled(): boolean {
     return (
       (this.isNavigationToGroupEnabled &&
-        this.configuratorUiSettings.productConfigurator
+        this.configuratorUISettingsConfig.productConfigurator
           ?.enableNavigationToConflict) ??
       false
+    );
+  }
+
+  /**
+   * Retrieves the length of the attribute description.
+   *
+   * @returns - the length of the attribute description
+   */
+  getAttributeDescriptionLength(): number {
+    return (
+      this.configuratorUISettingsConfig.productConfigurator?.descriptions
+        ?.attributeDescriptionLength ?? 100
     );
   }
 }

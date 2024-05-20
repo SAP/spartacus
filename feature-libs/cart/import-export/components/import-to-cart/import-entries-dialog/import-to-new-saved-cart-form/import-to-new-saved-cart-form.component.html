@@ -1,4 +1,8 @@
-<form *ngIf="form" [formGroup]="form" (submit)="formSubmitSubject$.next()">
+<form
+  *ngIf="form"
+  [formGroup]="form"
+  (submit)="formSubmitSubject$.next(undefined)"
+>
   <p class="cx-import-entries-subtitle">
     {{ 'importEntriesDialog.importProductsNewSavedCartSubtitle' | cxTranslate }}
   </p>

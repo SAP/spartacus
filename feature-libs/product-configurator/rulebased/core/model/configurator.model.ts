@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -226,6 +226,8 @@ export namespace Configurator {
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',
     READ_ONLY = 'readonly',
+    READ_ONLY_SINGLE_SELECTION_IMAGE = 'read_only_single_selection_image',
+    READ_ONLY_MULTI_SELECTION_IMAGE = 'read_only_multi_selection_image',
     STRING = 'string',
     NUMERIC = 'numeric',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
@@ -281,4 +283,5 @@ export namespace Configurator {
   export const ConflictIdPrefix = 'CONFLICT';
   export const ConflictHeaderId = 'CONFLICT_HEADER';
   export const CustomUiTypeIndicator = '___';
+  export const RetractValueCode = '###RETRACT_VALUE_CODE###';
 }

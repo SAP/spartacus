@@ -12,12 +12,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CustomerCoupon,
   FeaturesConfig,
-  FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
-import { BehaviorSubject, combineLatest, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { LAUNCH_CALLER, LaunchDialogService } from '../../../../layout/index';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 import { CouponCardComponent } from './coupon-card.component';
 
@@ -76,7 +75,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -93,11 +92,7 @@ describe('CouponCardComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
-        imports: [
-          I18nTestingModule,
-          RouterTestingModule,
-          FeaturesConfigModule.forRoot(),
-        ],
+        imports: [I18nTestingModule, RouterTestingModule],
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           {

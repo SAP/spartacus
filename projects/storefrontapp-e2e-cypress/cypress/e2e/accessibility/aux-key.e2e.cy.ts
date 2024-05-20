@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,6 +37,11 @@ context('Auxiliary Keys', () => {
               .should('have.length', 7)
               .first()
               .should('be.visible');
+            cy.focused().trigger('keydown', {
+              key: ' ',
+              code: 'Space',
+              force: true,
+            });
             cy.focused().trigger('keydown', {
               key: ' ',
               code: 'Space',

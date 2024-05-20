@@ -39,10 +39,10 @@
     <span class="result-name">{{ result.name }}</span>
     <span class="result-id">{{ result.uid }}</span>
   </button>
+
   <button
     #searchResultItem
-    (click)="closeResults($event)"
-    (keydown.enter)="closeResults($event)"
+    (click)="createCustomer()"
     (keydown.escape)="closeResults($event)"
     (keydown.arrowright)="focusInputText($event)"
     (keydown.arrowleft)="focusInputText($event)"
@@ -57,7 +57,10 @@
       results.entries.length <= 0
     "
   >
-    {{ 'asm.customerSearch.noMatch' | cxTranslate }}
+    <span>{{ 'asm.customerSearch.noMatchResult' | cxTranslate }}</span>
+    <span #createCustomerLink class="linkStyleLabel">{{
+      'asm.customerSearch.createCustomer' | cxTranslate
+    }}</span>
   </button>
 </div>
 

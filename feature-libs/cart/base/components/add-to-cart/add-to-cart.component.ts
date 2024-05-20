@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,10 +9,12 @@ import {
   ChangeDetectorRef,
   Component,
   ComponentRef,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
@@ -24,8 +26,9 @@ import {
 import {
   CmsAddToCartComponent,
   EventService,
-  isNotNullable,
+  FeatureConfigService,
   Product,
+  isNotNullable,
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -74,6 +77,29 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   iconTypes = ICON_TYPE;
 
+  @Optional() featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
+  /**
+   * We disable the dialog launch on quantity input,
+   * as it causes an unexpected change of context.
+   * The expectation is only for the quantity to get updated in the Qty field.
+   */
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    // TODO: (CXSPA-6034) Remove Feature flag next major release
+    if (!this.featureConfigService?.isEnabled('a11yQuantityOrderTabbing')) {
+      return;
+    }
+    const eventTarget = event.target as HTMLElement;
+    const isQuantityInput =
+      eventTarget.ariaLabel === 'Quantity' && eventTarget.tagName === 'INPUT';
+    if (event.key === 'Enter' && isQuantityInput) {
+      event.preventDefault();
+    }
+  }
+
   constructor(
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
@@ -110,6 +136,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   protected setStockInfo(product: Product): void {
     this.quantity = 1;
+
+    this.addToCartForm.controls['quantity'].setValue(1);
+
     this.hasStock = Boolean(product.stock?.stockLevelStatus !== 'outOfStock');
 
     this.inventoryThreshold = product.stock?.isValueRounded ?? false;

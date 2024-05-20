@@ -22,10 +22,9 @@
     class="set-preferred-heading"
   >
     {{
-      (pointOfServiceName.name === (storeSelected$ | async)?.name
-        ? 'setPreferredStore.myStore'
-        : 'setPreferredStore.makeThisMyStore'
-      ) | cxTranslate
+      pointOfServiceName.name === (storeSelected$ | async)?.name
+        ? ('setPreferredStore.myStore' | cxTranslate)
+        : ('setPreferredStore.makeThisMyStore' | cxTranslate)
     }}
   </button>
 </div>

@@ -1,10 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Request } from 'express';
+import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
+import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
+import { defaultRenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
 
 export interface SsrOptimizationOptions {
   /**
@@ -30,6 +33,8 @@ export interface SsrOptimizationOptions {
    * Can also be use when `cache` option is set to false. It will then limit the
    * number of renders that timeouts and are kept in temporary cache, waiting
    * to be served with next request.
+   *
+   * Default value is set to 3000.
    */
   cacheSize?: number;
 
@@ -53,7 +58,10 @@ export interface SsrOptimizationOptions {
   renderKeyResolver?: (req: Request) => string;
 
   /**
-   * Allows defining custom rendering strategy per request
+   * This function allows for the definition of a custom rendering strategy on a per-request basis.
+   * By default, we provide a defaultRenderingStrategyResolver,
+   * which has a default parameter defaultRenderingStrategyResolverOptions.
+   * This default option disables server-side rendering (SSR) on pages such as 'checkout' and 'my-account'.
    *
    * @param req
    */
@@ -109,6 +117,19 @@ export interface SsrOptimizationOptions {
    * Enable detailed logs for troubleshooting problems
    */
   debug?: boolean;
+
+  /**
+   * Config for improving logged messages with context and JSON structure.
+   *
+   * It enhances the logs in SSR by adding context, including the request's details,
+   * and structuring them as JSON.
+   *
+   * The `logger` property is optional and accepts:
+   * - `ExpressServerLogger`: Interprets the given `ExpressServerLogger` as a custom logger
+   *
+   * By default, the DefaultExpressServerLogger is used.
+   */
+  logger?: ExpressServerLogger;
 }
 
 export enum RenderingStrategy {
@@ -118,10 +139,15 @@ export enum RenderingStrategy {
 }
 
 export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
+  cacheSize: 3000,
   concurrency: 10,
   timeout: 3_000,
   forcedSsrTimeout: 60_000,
   maxRenderTime: 300_000,
   reuseCurrentRendering: true,
   debug: false,
+  renderingStrategyResolver: defaultRenderingStrategyResolver(
+    defaultRenderingStrategyResolverOptions
+  ),
+  logger: new DefaultExpressServerLogger(),
 };

@@ -1,17 +1,30 @@
 import { Component, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   ActiveCartFacade,
+  Cart,
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { I18nTestingModule, QueryState } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  QueryState,
+} from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
@@ -37,11 +50,11 @@ class MockCheckoutDeliveryModeService
   implements Partial<CheckoutDeliveryModesFacade>
 {
   loadSupportedDeliveryModes = createSpy();
-  setDeliveryMode = createSpy().and.returnValue(of());
+  setDeliveryMode = createSpy().and.returnValue(EMPTY);
   getSupportedDeliveryModes = () => supportedDeliveryModes$.asObservable();
   getSelectedDeliveryModeState = () =>
     selectedDeliveryModeState$.asObservable();
-  getLoadSupportedDeliveryModeProcess = createSpy().and.returnValue(of());
+  getLoadSupportedDeliveryModeProcess = createSpy().and.returnValue(EMPTY);
 }
 
 const preferredDeliveryMode$ = new BehaviorSubject<string | undefined>('');
@@ -54,6 +67,14 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   back = createSpy();
   getBackBntText = createSpy().and.returnValue('common.back');
 }
+
+const mockCart: Cart = {
+  code: '123456789',
+  description: 'testCartDescription',
+  name: 'testCartName',
+};
+
+const cart$ = new BehaviorSubject<Cart>(mockCart);
 
 const mockActivatedRoute = {
   snapshot: {
@@ -86,6 +107,17 @@ class MockCartService implements Partial<ActiveCartFacade> {
   getDeliveryEntries = () => deliveryEntries$.asObservable();
   hasPickupItems = () => hasPickupItems$.asObservable();
   getPickupEntries = createSpy().and.returnValue(of([]));
+  getActive = () => cart$.asObservable();
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add() {}
+}
+
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
 }
 
 describe('CheckoutDeliveryModeComponent', () => {
@@ -93,6 +125,8 @@ describe('CheckoutDeliveryModeComponent', () => {
   let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
   let checkoutConfigService: CheckoutConfigService;
   let checkoutStepService: CheckoutStepService;
+  let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(
     waitForAsync(() => {
@@ -111,10 +145,14 @@ describe('CheckoutDeliveryModeComponent', () => {
           },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: ActiveCartFacade, useClass: MockCartService },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         ],
       }).compileComponents();
 
       checkoutConfigService = TestBed.inject(CheckoutConfigService);
+      checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
+      globalMessageService = TestBed.inject(GlobalMessageService);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
@@ -151,6 +189,25 @@ describe('CheckoutDeliveryModeComponent', () => {
     );
     expect(component.mode.controls['deliveryModeId'].value).toBe(
       mockDeliveryMode1.code
+    );
+  });
+
+  it('should show error message if setDeliveryMode fail', () => {
+    const showErrorMessageSpy = spyOn(
+      globalMessageService,
+      'add'
+    ).and.callThrough();
+    checkoutDeliveryModesFacade.setDeliveryMode = createSpy().and.returnValue(
+      throwError('error')
+    );
+
+    component.changeMode('pickup');
+
+    expect(showErrorMessageSpy).toHaveBeenCalledWith(
+      {
+        key: 'setDeliveryMode.unknownError',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
     );
   });
 
@@ -203,6 +260,28 @@ describe('CheckoutDeliveryModeComponent', () => {
     expect(invalid).toBe(false);
   });
 
+  it('should refocus on the keyboard selected option after they are updated', fakeAsync(() => {
+    const lastFocusedId = 'standard-gross';
+    const mockEvent = new MouseEvent('click');
+    const mockElement = {
+      focus: jasmine.createSpy('focus'),
+      classList: { remove: jasmine.createSpy('remove') },
+    } as any;
+    component.isUpdating$ = of(false);
+    spyOn(document, 'querySelector').and.returnValue(mockElement);
+    spyOn(document, 'getElementById').and.returnValue(mockElement);
+    spyOn(component.mode, 'setValue');
+
+    component.changeMode(lastFocusedId, mockEvent);
+    tick();
+
+    expect(mockElement.classList.remove).toHaveBeenCalledWith('mouse-focus');
+    expect(mockElement.focus).toHaveBeenCalled();
+    expect(component.mode.setValue).toHaveBeenCalledWith({
+      deliveryModeId: lastFocusedId,
+    });
+  }));
+
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
@@ -225,6 +304,18 @@ describe('CheckoutDeliveryModeComponent', () => {
 
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
+    });
+
+    it('should be disabled when setDeliveryMode failed', () => {
+      checkoutDeliveryModesFacade.setDeliveryMode = createSpy().and.returnValue(
+        throwError('error')
+      );
+
+      component.changeMode('pickup');
+
+      fixture.detectChanges();
+
+      expect(getContinueBtn().nativeElement.disabled).toBe(true);
     });
 
     it('should call "next" function after being clicked', () => {

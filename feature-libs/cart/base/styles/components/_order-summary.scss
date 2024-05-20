@@ -7,9 +7,17 @@
   margin: 0;
 
   .cx-summary-heading {
-    text-transform: uppercase;
-    @include type('4');
+    text-transform: capitalize;
+    // TODO: (CXSPA-5987) Remove the following propery next major release
+    @include type('3');
     font-weight: var(--cx-font-weight-semi);
+    border-bottom: 1px solid var(--cx-color-medium);
+    padding-bottom: 1.625rem;
+
+    @include media-breakpoint-down(md) {
+      margin-bottom: 0.438rem;
+      padding-bottom: 0.938rem;
+    }
   }
 
   .cx-summary-label {

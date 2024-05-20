@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,13 +12,13 @@ import {
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { Observable, Subscription, of, timer } from 'rxjs';
+import { debounce, map } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { Subscription, timer } from 'rxjs';
-import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
@@ -35,8 +35,11 @@ export class ConfiguratorAttributeInputFieldComponent
 
   attribute: Configurator.Attribute;
   group: string;
+  owner: CommonConfigurator.Owner;
   ownerKey: string;
   ownerType: CommonConfigurator.OwnerType;
+
+  showRequiredErrorMessage$: Observable<boolean> = of(false);
 
   /**
    * In case no config is injected, or when the debounce time is not configured at all,
@@ -47,13 +50,27 @@ export class ConfiguratorAttributeInputFieldComponent
   constructor(
     protected config: ConfiguratorUISettingsConfig,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
     super();
+
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
+    this.owner = attributeComponentContext.owner;
     this.ownerKey = attributeComponentContext.owner.key;
     this.ownerType = attributeComponentContext.owner.type;
+
+    this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
+      .isCartEntryOrGroupVisited(this.owner, this.group)
+      .pipe(
+        map((result) =>
+          result
+            ? this.isRequiredErrorMsg(this.attribute) &&
+              this.isUserInput(this.attribute)
+            : false
+        )
+      );
   }
 
   ngOnInit() {
@@ -99,14 +116,23 @@ export class ConfiguratorAttributeInputFieldComponent
   }
 
   /**
+   * Verifies if the user input has a non-blank value.
+   * @returns {boolean} - 'True' if the user input is undefined, empty or contains only blanks, otherwise 'false'.
+   */
+  get isUserInputEmpty(): boolean {
+    return (
+      !this.attribute.userInput || this.attribute.userInput.trim().length === 0
+    );
+  }
+
+  /**
    * Checks if the component needs to be marked as required.
    * This is never the case if it is used as sub component for an attribute type which allows an additional value
    * @returns Required?
    */
   get isRequired(): boolean {
-    const isNonDomainAttributeType =
-      this.attribute.uiType === Configurator.UiType.STRING ||
-      this.attribute.uiType === Configurator.UiType.NUMERIC;
-    return isNonDomainAttributeType ? this.attribute.required ?? false : false;
+    return this.isUserInput(this.attribute)
+      ? this.attribute.required ?? false
+      : false;
   }
 }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,7 +28,7 @@ export class ConfigModule {
   static withConfig(config: Config): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
-      // eslint-disable-next-line @spartacus-eslint/use-default-provide-config
+      // eslint-disable-next-line @nx/workspace/use-provide-default-config
       providers: [provideConfig(config)],
     };
   }
@@ -47,6 +47,7 @@ export class ConfigModule {
   ): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
+      // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory
       providers: [provideConfigFactory(configFactory, deps)],
     };
   }
@@ -59,7 +60,7 @@ export class ConfigModule {
   static forRoot(config: Config = {}): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
-      // eslint-disable-next-line @spartacus-eslint/use-default-provide-config
+      // eslint-disable-next-line @nx/workspace/use-provide-default-config
       providers: [provideConfig(config)],
     };
   }

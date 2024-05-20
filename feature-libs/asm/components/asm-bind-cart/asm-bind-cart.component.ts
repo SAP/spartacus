@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,13 +14,18 @@ import {
 } from '@angular/core';
 import { FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
-import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
   OCC_CART_ID_CURRENT,
+  RoutingService,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import {
@@ -42,6 +47,8 @@ import {
   tap,
 } from 'rxjs/operators';
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
+import { SAVE_CART_DIALOG_ACTION } from '../asm-save-cart-dialog/asm-save-cart-dialog.component';
+import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
   selector: 'cx-asm-bind-cart',
@@ -52,6 +59,10 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   activeCartValidator: ValidatorFn = (control) => {
     if (control.value === this.activeCartId) {
       return { activeCartError: true };
+    }
+
+    if (!!this.deepLinkCartId && control.value !== this.deepLinkCartId) {
+      this.resetDeeplinkCart();
     }
     return null;
   };
@@ -70,8 +81,14 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   );
 
   activeCartId = '';
+  deepLinkCartId = '';
+
+  displayBindCartBtn$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  displaySaveCartBtn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   @ViewChild('bindToCart') bindToCartElemRef: ElementRef<HTMLButtonElement>;
+  @ViewChild('saveInactiveCart')
+  saveInactiveCartElemRef: ElementRef<HTMLButtonElement>;
 
   protected subscription = new Subscription();
 
@@ -81,15 +98,18 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     protected multiCartFacade: MultiCartFacade,
     protected asmBindCartFacade: AsmBindCartFacade,
     protected launchDialogService: LaunchDialogService,
-    protected savedCartFacade: SavedCartFacade
+    protected savedCartFacade: SavedCartFacade,
+    protected asmComponentService?: AsmComponentService,
+    protected routing?: RoutingService
   ) {}
 
   ngOnInit(): void {
+    this.subscribeForDeeplinkCart();
+
     this.subscription.add(
       this.activeCartFacade.getActiveCartId().subscribe((response) => {
         this.activeCartId = response ?? '';
-
-        this.cartId.setValue(this.activeCartId);
+        this.cartId.setValue(this.deepLinkCartId || this.activeCartId);
       })
     );
   }
@@ -129,26 +149,58 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
         ),
         finalize(() => this.loading$.next(false))
       )
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.globalMessageService.add(
             { key: 'asm.bindCart.success' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
         },
-        (error: HttpErrorModel) => {
+        error: (error: HttpErrorModel) => {
           this.globalMessageService.add(
             error.details?.[0].message ?? '',
             GlobalMessageType.MSG_TYPE_ERROR
           );
-        }
-      );
+        },
+      });
 
     this.subscription.add(subscription);
   }
 
+  onSaveInactiveCart() {
+    this.asmComponentService?.setShowDeeplinkCartInfoAlert(false);
+    const customerId =
+      this.asmComponentService?.getSearchParameter('customerId');
+    this.multiCartFacade.loadCart({
+      cartId: this.deepLinkCartId,
+      userId: customerId as string,
+    });
+
+    this.multiCartFacade
+      .getCartEntity(this.deepLinkCartId)
+      .pipe(
+        filter((state) => state.loading === false && state.success === true),
+        take(1),
+        map((state) => state.value as Cart),
+        filter((cart) => !!cart)
+      )
+      .subscribe((cart) => {
+        this.openASMSaveCartDialog(cart);
+      });
+
+    this.afterCloseASMSaveCartDialog();
+  }
+
   clearText() {
     this.cartId.setValue('');
+    this.resetDeeplinkCart();
+  }
+
+  protected resetDeeplinkCart(): void {
+    this.deepLinkCartId = '';
+    this.displayBindCartBtn$.next(true);
+    this.displaySaveCartBtn$.next(false);
+    this.asmComponentService?.setShowDeeplinkCartInfoAlert(false);
   }
 
   ngOnDestroy(): void {
@@ -218,5 +270,79 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
         });
       })
     );
+  }
+
+  protected subscribeForDeeplinkCart(): void {
+    this.subscription.add(
+      this.asmComponentService
+        ?.isEmulatedByDeepLink()
+        .pipe(
+          filter(
+            (emulated) =>
+              emulated &&
+              !!this.asmComponentService?.getSearchParameter('cartId')
+          )
+        )
+        .subscribe(() => {
+          const cartType =
+            this.asmComponentService?.getSearchParameter('cartType');
+          if (cartType === 'inactive' || cartType === 'active') {
+            this.displayBindCartBtn$.next(false);
+            this.displaySaveCartBtn$.next(cartType === 'inactive');
+            this.deepLinkCartId = this.asmComponentService?.getSearchParameter(
+              'cartId'
+            ) as string;
+            this.cartId.setValue(this.deepLinkCartId);
+            this.asmComponentService?.setShowDeeplinkCartInfoAlert(true);
+            this.asmComponentService?.handleDeepLinkNavigation();
+          }
+        })
+    );
+  }
+
+  protected openASMSaveCartDialog(inactiveCart: Cart): void {
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_SAVE_CART,
+      this.saveInactiveCartElemRef,
+      inactiveCart
+    );
+  }
+
+  protected afterCloseASMSaveCartDialog(): void {
+    this.launchDialogService.dialogClose
+      .pipe(
+        filter((result) => result === SAVE_CART_DIALOG_ACTION.SAVE),
+        take(1),
+        tap(() => this.loading$.next(true))
+      )
+      .subscribe();
+
+    this.savedCartFacade
+      .getSaveCartProcessSuccess()
+      .pipe(
+        filter((success) => success),
+        take(1),
+        tap(() => this.loading$.next(false))
+      )
+      .subscribe(() => {
+        this.goToSavedCartDetails(this.deepLinkCartId);
+        this.displaySaveCartBtn$.next(false);
+      });
+
+    this.savedCartFacade
+      .getSaveCartProcessError()
+      .pipe(
+        filter((error) => error),
+        take(1),
+        tap(() => this.loading$.next(false))
+      )
+      .subscribe();
+  }
+
+  protected goToSavedCartDetails(cartId: string): void {
+    this.routing?.go({
+      cxRoute: 'savedCartsDetails',
+      params: { savedCartId: cartId },
+    });
   }
 }

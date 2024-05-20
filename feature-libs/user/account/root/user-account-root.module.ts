@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,7 +20,10 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
         cmsComponents: [
           'LoginComponent',
           'ReturningCustomerLoginComponent',
+          'VerifyOTPTokenComponent',
           'ReturningCustomerRegisterComponent',
+          'MyAccountViewUserComponent',
+          'ReturningCustomerOTPLoginComponent',
         ],
       },
       // by default core is bundled together with components

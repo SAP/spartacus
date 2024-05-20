@@ -2,10 +2,10 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { EMPTY, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailReorderComponent } from './order-detail-reorder.component';
 
@@ -20,7 +20,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _vcr?: ViewContainerRef,
     _data?: any
   ) {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -38,7 +38,7 @@ describe('Order detail reorder component', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, FeaturesConfigModule],
+        imports: [I18nTestingModule],
         declarations: [OrderDetailReorderComponent],
         providers: [
           RouterTestingModule,

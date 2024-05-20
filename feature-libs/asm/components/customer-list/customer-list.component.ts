@@ -1,10 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
 import {
   AsmConfig,
   AsmCustomerListFacade,
@@ -13,13 +20,19 @@ import {
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
-import { SortModel, TranslationService, User } from '@spartacus/core';
+import {
+  SortModel,
+  TranslationService,
+  User,
+  OccConfig,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
@@ -75,14 +88,23 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   listsEmpty = false;
 
+  enableAsmB2bCustomerList = false;
+
+  customerListColumnActionType = CustomerListColumnActionType;
+
+  searchBox: UntypedFormControl = new UntypedFormControl();
+
   protected teardown: Subscription = new Subscription();
+
+  @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected breakpointService: BreakpointService,
     protected asmConfig: AsmConfig,
     protected translation: TranslationService,
-    protected asmCustomerListFacade: AsmCustomerListFacade
+    protected asmCustomerListFacade: AsmCustomerListFacade,
+    protected occConfig?: OccConfig
   ) {
     this.breakpoint$ = this.getBreakpoint();
   }
@@ -146,7 +168,23 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.teardown.unsubscribe();
   }
 
+  changePage(page: number): void {
+    const options: CustomerSearchOptions = {
+      customerListId: this.selectedUserGroupId,
+      pageSize: this.pageSize,
+      currentPage: page,
+      sort: this.sortCode,
+    };
+    if (this.searchBox?.value) {
+      options.query = this.searchBox.value;
+    }
+
+    this.asmCustomerListFacade.customerListCustomersSearch(options);
+  }
+
   fetchCustomers(): void {
+    this.enableAsmB2bCustomerList =
+      this.selectedUserGroupId === 'b2bCustomerList';
     if (this.selectedUserGroupId) {
       const options: CustomerSearchOptions = {
         customerListId: this.selectedUserGroupId,
@@ -156,10 +194,30 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       if (this.sortCode) {
         options.sort = this.sortCode;
       }
+      if (this.searchBox?.value) {
+        options.query = this.searchBox.value;
+      }
 
       this.asmCustomerListFacade.customerListCustomersSearchReset();
 
       this.asmCustomerListFacade.customerListCustomersSearch(options);
+    }
+    this.updateCustomerListColumns();
+  }
+
+  private updateCustomerListColumns(): void {
+    const columns = this.customerListConfig?.columns || [];
+
+    for (const column of columns) {
+      if (
+        column.headerLocalizationKey ===
+          'asm.customerList.tableHeader.account' ||
+        column.headerLocalizationKey === 'hideHeaders'
+      ) {
+        column.headerLocalizationKey = this.enableAsmB2bCustomerList
+          ? 'asm.customerList.tableHeader.account'
+          : 'hideHeaders';
+      }
     }
   }
 
@@ -197,6 +255,32 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       selectedUser: customerEntry,
     };
     this.closeModal(closeValue);
+  }
+
+  onKey(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.searchCustomers();
+    }
+  }
+  searchCustomers(): void {
+    this.currentPage = 0;
+    this.fetchCustomers();
+  }
+
+  isRequired(customerEntry: User, type: string): boolean {
+    if (
+      type === CustomerListColumnActionType.ACTIVE_CART &&
+      !customerEntry.lastCartId
+    ) {
+      return true;
+    }
+    if (
+      type === CustomerListColumnActionType.ORDER_HISTORY &&
+      customerEntry.hasOrder !== true
+    ) {
+      return true;
+    }
+    return false;
   }
 
   changeSortCode(sortCode: string): void {
@@ -239,32 +323,50 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     byDateDesc: string;
   }> {
     return combineLatest([
+      this.translation.translate('asm.customerList.tableSort.byName'),
       this.translation.translate('asm.customerList.tableSort.byNameAsc'),
       this.translation.translate('asm.customerList.tableSort.byNameDesc'),
       this.translation.translate('asm.customerList.tableSort.byDateAsc'),
       this.translation.translate('asm.customerList.tableSort.byDateDesc'),
       this.translation.translate('asm.customerList.tableSort.byOrderDateAsc'),
       this.translation.translate('asm.customerList.tableSort.byOrderDateDesc'),
+      this.translation.translate('asm.customerList.tableSort.byUnit'),
+      this.translation.translate('asm.customerList.tableSort.byUnitDesc'),
     ]).pipe(
       map(
         ([
+          textByName,
           textByNameAsc,
           textByNameDesc,
-          textByOrderDateAsc,
-          textByOrderDateDesc,
           textByDateAsc,
           textByDateDesc,
+          textByOrderDateAsc,
+          textByOrderDateDesc,
+          textByUnit,
+          textByUnitDesc,
         ]) => {
           return {
+            byName: textByName,
             byNameAsc: textByNameAsc,
             byNameDesc: textByNameDesc,
             byOrderDateAsc: textByOrderDateAsc,
             byOrderDateDesc: textByOrderDateDesc,
             byDateAsc: textByDateAsc,
             byDateDesc: textByDateDesc,
+            byUnit: textByUnit,
+            byUnitDesc: textByUnitDesc,
           };
         }
       )
+    );
+  }
+
+  createCustomer(): void {
+    this.launchDialogService.closeDialog('Create customer click');
+
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      this.addNewCustomerLink
     );
   }
 

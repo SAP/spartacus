@@ -1,9 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import {
-  ActiveCartFacade,
-  CardType,
-  PaymentDetails,
-} from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
@@ -11,12 +7,14 @@ import {
   CheckoutState,
 } from '@spartacus/checkout/base/root';
 import {
+  CardType,
   EventService,
   OCC_USER_ID_CURRENT,
+  PaymentDetails,
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkout-payment.connector';
 import { CheckoutPaymentService } from './checkout-payment.service';
@@ -49,7 +47,7 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(of());
+  get = createSpy().and.returnValue(EMPTY);
   dispatch = createSpy();
 }
 

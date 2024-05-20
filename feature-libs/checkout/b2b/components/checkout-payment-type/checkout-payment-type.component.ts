@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,9 +18,22 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { getLastValueSync, isNotUndefined } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import {
+  getLastValueSync,
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorModel,
+  isNotUndefined,
+  OccHttpErrorType,
+} from '@spartacus/core';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  tap,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'cx-payment-type',
@@ -34,6 +47,7 @@ export class CheckoutPaymentTypeComponent {
   protected busy$ = new BehaviorSubject<boolean>(false);
 
   typeSelected?: string;
+  paymentTypesError = false;
 
   isUpdating$ = combineLatest([
     this.busy$,
@@ -45,8 +59,23 @@ export class CheckoutPaymentTypeComponent {
     distinctUntilChanged()
   );
 
-  paymentTypes$: Observable<PaymentType[]> =
-    this.checkoutPaymentTypeFacade.getPaymentTypes();
+  paymentTypes$: Observable<PaymentType[]> = this.checkoutPaymentTypeFacade
+    .getPaymentTypes()
+    .pipe(
+      tap(() => (this.paymentTypesError = false)),
+      catchError((error: HttpErrorModel) => {
+        if (
+          error.details?.[0]?.type === OccHttpErrorType.CLASS_MISMATCH_ERROR
+        ) {
+          this.globalMessageService.add(
+            { key: 'httpHandlers.forbidden' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          this.paymentTypesError = true;
+        }
+        return of([]);
+      })
+    );
 
   typeSelected$: Observable<PaymentType> = combineLatest([
     this.checkoutPaymentTypeFacade.getSelectedPaymentTypeState().pipe(
@@ -108,7 +137,8 @@ export class CheckoutPaymentTypeComponent {
   constructor(
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   changeType(code: string): void {

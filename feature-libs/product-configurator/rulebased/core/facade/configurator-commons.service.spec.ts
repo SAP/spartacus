@@ -16,8 +16,8 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
-  ConfiguratorState,
   CONFIGURATOR_FEATURE,
+  ConfiguratorState,
   StateWithConfigurator,
 } from '../state/configurator-state';
 import { getConfiguratorReducers } from '../state/reducers/index';
@@ -86,6 +86,7 @@ const configurationStateWoLoading: ConfiguratorState = {
 
 let configCartObservable: Observable<Configurator.Configuration>;
 let configOrderObservable: Observable<Configurator.Configuration>;
+let configQuoteObservable: Observable<Configurator.Configuration>;
 let isStableObservable: Observable<boolean>;
 let cartObs: Observable<Cart>;
 
@@ -120,6 +121,9 @@ class MockConfiguratorCartService {
   readConfigurationForOrderEntry() {
     return configOrderObservable;
   }
+  readConfigurationForQuoteEntry() {
+    return configQuoteObservable;
+  }
 }
 
 function callGetOrCreate(
@@ -151,6 +155,7 @@ describe('ConfiguratorCommonsService', () => {
   let configuratorCartService: ConfiguratorCartService;
   let configurationWithOverview: Configurator.Configuration;
   configOrderObservable = of(productConfiguration);
+  configQuoteObservable = of(productConfiguration);
   configCartObservable = of(productConfiguration);
   isStableObservable = of(true);
   const cart: Cart = {};
@@ -195,14 +200,17 @@ describe('ConfiguratorCommonsService', () => {
     configuratorUtilsService = TestBed.inject(
       ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
     );
+
     OWNER_PRODUCT = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     );
+
     OWNER_CART_ENTRY = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.CART_ENTRY,
       '3'
     );
+
     OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.ORDER_ENTRY,
       configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER)
@@ -393,21 +401,40 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('getConfigurationWithOverview', () => {
-    beforeEach(() => {
-      configurationWithOverview = {
-        ...ConfiguratorTestUtils.createConfiguration(
-          CONFIG_ID,
-          ConfiguratorModelUtils.createInitialOwner()
-        ),
-        overview: { configId: CONFIG_ID, productCode: PRODUCT_CODE },
+    configurationWithOverview = {
+      ...ConfiguratorTestUtils.createConfiguration(
+        CONFIG_ID,
+        ConfiguratorModelUtils.createInitialOwner()
+      ),
+      overview: { configId: CONFIG_ID, productCode: PRODUCT_CODE },
+    };
+    const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+      {
+        loading: false,
+        value: productConfiguration,
       };
-    });
+    const productConfigurationLoaderStateLoading: StateUtils.LoaderState<Configurator.Configuration> =
+      {
+        loading: true,
+        value: productConfiguration,
+      };
+    const productConfigurationLoaderStateWithOv: StateUtils.LoaderState<Configurator.Configuration> =
+      {
+        loading: false,
+        value: configurationWithOverview,
+      };
 
     it('should read OV by triggering respective action if that is not present', (done) => {
       expect(productConfiguration.overview).toBeUndefined();
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfiguration, configurationWithOverview)
+        () => () =>
+          of(
+            productConfigurationLoaderState,
+            productConfigurationLoaderStateLoading,
+            productConfigurationLoaderStateWithOv
+          )
       );
+
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
         .getConfigurationWithOverview(productConfiguration)
@@ -421,11 +448,26 @@ describe('ConfiguratorCommonsService', () => {
         })
         .unsubscribe();
     });
+    describe('through filterNotLoadingAndCreatedConfiguration', () => {
+      it('should not emit as long as loader state is `loading`', () => {
+        expect(
+          serviceUnderTest['filterNotLoadingAndCreatedConfiguration'](
+            cold('a-a-b', {
+              a: productConfigurationLoaderStateLoading,
+              b: productConfigurationLoaderState,
+            })
+          )
+        ).toBeObservable(
+          cold('----b', { b: productConfigurationLoaderState.value })
+        );
+      });
+    });
 
     it('should not dispatch an action if overview is already present', (done) => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(configurationWithOverview)
+        () => () => of(productConfigurationLoaderStateWithOv)
       );
+
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
         .getConfigurationWithOverview(productConfiguration)
@@ -438,7 +480,7 @@ describe('ConfiguratorCommonsService', () => {
 
     it('should return configuration with OV if that is already present in store', (done) => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(configurationWithOverview)
+        () => () => of(productConfigurationLoaderStateWithOv)
       );
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
@@ -683,7 +725,7 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('forceNewConfiguration', () => {
-    it('should call matching action', () => {
+    it('should call create action', () => {
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest.forceNewConfiguration(OWNER_PRODUCT);
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -691,6 +733,16 @@ describe('ConfiguratorCommonsService', () => {
           owner: OWNER_PRODUCT,
           configIdTemplate: undefined,
           forceReset: true,
+        })
+      );
+    });
+
+    it('should remove configuration from state', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest.forceNewConfiguration(OWNER_PRODUCT);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.RemoveConfiguration({
+          ownerKey: OWNER_PRODUCT.key,
         })
       );
     });

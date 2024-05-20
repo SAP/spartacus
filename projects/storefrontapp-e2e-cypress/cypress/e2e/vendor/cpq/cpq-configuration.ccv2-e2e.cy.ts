@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,8 +8,7 @@ import * as configuration from '../../../helpers/product-configurator';
 import * as configurationCpq from '../../../helpers/product-configurator-cpq';
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
-import * as configurationCart from '../../../helpers/product-configurator-cart';
-import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
+import * as common from '../../../helpers/common';
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 
 const POWERTOOLS = 'powertools-spa';
@@ -71,7 +70,7 @@ const VAL_CAM_PROF_Y = '8953';
 /** Insurance */
 const ATTR_CAM_INS = '2899';
 /** No Option Selcted */
-const VAL_NO_OPT_SEL = '0';
+const VAL_NO_OPT_SEL = '###RETRACT_VALUE_CODE###';
 /** Insurance Select 2 years */
 const VAL_CB_INS_Y2 = '8735';
 /** Insurance Pro 4 years */
@@ -109,14 +108,14 @@ context('CPQ Configuration', () => {
     });
 
     it('should be able to navigate from the product details page', () => {
-      configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
+      common.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configurationCpq.clickOnConfigureBtnInCatalog();
     });
   });
 
   describe('Handling different UI type', () => {
     it('should support radio button attribute type', () => {
-      configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_COF);
+      common.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configurationCpq.clickOnConfigureBtnInCatalog();
 
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
@@ -137,7 +136,7 @@ context('CPQ Configuration', () => {
     });
 
     it('should support checkbox list attribute type', () => {
-      configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_COF);
+      common.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configurationCpq.clickOnConfigureBtnInCatalog();
 
       configuration.checkAttributeDisplayed(ATTR_COF_MODE, CHKBOX);

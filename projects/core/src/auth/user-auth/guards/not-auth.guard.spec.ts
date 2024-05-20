@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { AuthService } from '../facade/auth.service';
 import { NotAuthGuard } from './not-auth.guard';
 
 class AuthServiceStub implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
 }
 

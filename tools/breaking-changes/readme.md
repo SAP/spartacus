@@ -4,13 +4,13 @@ To make sure we get an accurate diff, do not update the dependencies of this too
 
 # Configuration
 
-Set the current (new) major version of Spartacus in the `common.ts` file.
+Set the new version of Spartacus in the `common.ts` file.
 
 ```
-export const NEW_MAJOR_VERSION = '6';
+export const NEW_VERSION = '2211.19';
 ```
 
-This major version number will dictate, among other things, various input and output file paths for the files implicated in the process.
+This new version number will dictate, among other things, various input and output file paths for the files implicated in the process.
 
 # Produce the breaking change list
 
@@ -19,7 +19,7 @@ This major version number will dictate, among other things, various input and ou
 - run clone.sh
 This will clone the Spartacus repo in 2 folders ./src/old and ./src/new
 
-- checkout the approproate commit in ./src/old and ./src/new  
+- checkout the appropriate commit in ./src/old and ./src/new  
 These will be the 2 versions compared for breaking changes.
 
 - Build Spartacus libs
@@ -42,9 +42,14 @@ Run `npm run compare`.  This compares both ./src/*/public-api.json files to crea
 
 Note: Some of the doc/schematics generators below read from the manual input files as well as the breaking change file.
 Thes input files should be present:
-- tools/breaking-changes/data/*_0/breaking-changes.json (created by comparing the API between 2 versions)
-- docs/migration/*_0/deleted-api.json (developer manual input)
-- docs/migration/*_0/deleted-renamed-api-members.json (developer manual input)
+- tools/breaking-changes/data/*_0/breaking-changes.json   (created by comparing the API between 2 versions)
+- docs/migration/*_0/migration-comments-api-elements.json (structured manual doc input for top level api elements, mainly for deleted ones.)
+- docs/migration/*_0/migration-comments-members.json      (structured manual doc input for deleted or renamed class members)
+- docs/migration/*_0/renamed-api-mappings.json            (structured manual doc input for renamed public api elements)
+
+The 6.0 migration files can be taken as a template or en example: https://github.com/SAP/spartacus/tree/release/6.0.x/docs/migration/6_0
+
+The full documentation about those files can be found here: https://wiki.one.int.sap/wiki/x/9WSWtQ
 
 `gen-const` : generates the array of migration data for the constructor migration schematic in `projects/schematics/src/migrations/*_0/constructor-deprecations`
 
@@ -68,9 +73,9 @@ Some cases requires manual review to complete.  The preferable way to deal with 
 
 ## Manual review of the deprecated constructors.
 
-The deprecated construtors must define all the overloaded signatures as well as the constructor implementation. (as shown in the documentation https://sap.github.io/spartacus-docs/breaking-changes/#adding-new-constructor-dependencies-in-minor-versions)
+The deprecated constructors must define all the overloaded signatures as well as the constructor implementation. (as shown in the documentation https://sap.github.io/spartacus-docs/breaking-changes/#adding-new-constructor-dependencies-in-minor-versions)
 
-When overloaded signatures are defined in a class, the only thing that the api extractor will see are the overloaaded siignatures, and not the actual construtcor implementation. It can be good to manually review the constructor deprecations of the previous version to see if we have instances of constructors that don't list the overloaded signature.  If we do, we might need to add the missing constructor change in `breaking-changes.json`.
+When overloaded signatures are defined in a class, the only thing that the api extractor will see are the overloaded signatures, and not the actual constructor implementation. It can be good to manually review the constructor deprecations of the previous version to see if we have instances of constructors that don't list the overloaded signature.  If we do, we might need to add the missing constructor change in `breaking-changes.json`.
 
 If the constructor deprecation was done as expected, the script should handle them well and no manual update should be required.
 

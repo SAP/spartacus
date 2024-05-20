@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -121,6 +121,7 @@ function verifyCarouselItemRendered(
 
     cy.get('a').within(() => {
       cy.root().should('have.attr', 'href');
+      cy.wait(5000);
       cy.get('h4').should('not.be.empty');
       cy.get('.price').should('not.be.empty');
     });

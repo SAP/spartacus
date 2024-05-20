@@ -1,8 +1,8 @@
 # Creating a Spartacus library
 
-An easy way to create a new Spartacus library is to run: `ng g library <lib-name>` where the `lib-name` is the name of the new library.
+An easy way to create a new Spartacus library is to run: `nx g @schematics/angular:library <lib-name> --prefix=cx` where the `lib-name` is the name of the new library.
 
-The library will be generated in the `feature-libs` folder by default. You need to manually move the generated files to an appropriate directory (if necessary) and modify `angular.json` to reflect the new location.
+The library will be generated in the `root of the project` folder by default. You need to manually move the generated folder, which is under the `<lib-name>` you entered to the appropriate directory (if necessary). The entire generated folder should be moved either under `feature-libs` or `integration-libs`.
 
 This document can also serve as the guideline for the future schematic that can automate this process.
 
@@ -34,19 +34,20 @@ These are some naming guidelines for libraries:
 
 ## Generating a library
 
-Run `ng g library <lib-name>` and commit.
+Run `nx g @schematics/angular:library <lib-name> --prefix=cx`, move it to the appropriate directory (`feature-libs` or `integration-libs`), and commit.
 
 ## Aligning with the other libs
 
-In order to be 100% aligned with the existing Spartacus library there are some generated files that should be updated and there are some files that need to be additionally created
+In order to be 100% aligned with the existing Spartacus library there are some generated files that should be updated and there are some files that need to be additionally created. Make sure that the `src` folder would not exist in the newly generated library.
+
+If you are generating a library, which purpose is to be a `single-entry point library`, then you can follow the file structure as done in `feature-libs/customer-ticketing`
+If you are generating a library, which purpose is to be a `multi-entry point library`, then you can follow the file structure as done in `feature-libs/checkout`
 
 ### Modifying the generated files
 
 The list of the files that need to modified:
 
 - `README.md` - replace the default content with some relevant information about the library.
-
-- `angular.json` - change the `prefix` property to `cx`.
 
 - `karma.conf.js`
 
@@ -59,9 +60,8 @@ Just copy paste the following and and make sure to rename `TODO:` to you lib's n
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
-      require('karma-parallel'),
       require('karma-jasmine'),
       require('karma-coverage'),
       require('karma-chrome-launcher'),
@@ -69,12 +69,8 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-junit-reporter'),
     ],
-    parallelOptions: {
-      executors: 2,
-      shardStrategy: 'round-robin',
-    },
     client: {
-      clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      clearContext: true, // close Jasmine Spec Runner output in browser to avoid 'Some of your tests did a full page reload!' error when '--no-watch' is active
     },
     reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
@@ -104,6 +100,69 @@ module.exports = function (config) {
   });
 };
 ```
+
+- `project.json`
+
+  - add the lint `targets > lint`
+
+    replace the TODO: with the library name. Please remember it can either be a feature-libs or integration-libs.
+
+    ```json
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "integration-libs/TODO:/**/*.ts",
+          "integration-libs/TODO:/**/*.html"
+        ]
+      }
+    }
+    ```
+  - add the test-jest `targets > test-jest`
+
+    replace the TODO: with the library name. Please remember it can either be a feature-libs or integration-libs.
+
+    ```json
+    "test-jest": {
+      "executor": "nx:run-commands",,
+      "options": {
+        "command": "npm run test:schematics",
+        "cwd": "feature-libs/TODO:
+      }
+    }
+    ```
+
+  - add the tag(s)
+    - type:feature
+    - type:integration `IF AND ONLY IF` it is an integration lib.
+
+    ```json
+    {
+      "name": "some-library-name",
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "projectType": "library",
+      "sourceRoot": "feature-libs/some-library-name",
+      "prefix": "cx",
+      "targets": {
+        ...
+        ...
+        ...
+        "lint": {
+          "executor": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "integration-libs/some-library-name/**/*.ts",
+              "integration-libs/some-library-name/**/*.html"
+            ]
+          }
+        }
+        ...
+        ...
+        ...
+      },
+      "tags": ["type:feature"]
+    }
+    ```
 
 - `public-api.ts`
 
@@ -156,7 +215,7 @@ Use the following template:
   "peerDependencies": {
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
-    "rxjs": "^6.6.0",
+    "rxjs": "^7.8.0",
     "@spartacus/core": "3.0.0-next.0",
     "@spartacus/storefront": "3.0.0-next.0"
   }
@@ -171,11 +230,25 @@ If your library doesn't expose any SCSS styles, remove the section `exports`/`sa
 
 - `test.ts`
 
-  - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved one level up from `lib-name/src/test.ts` to `lib-name/test.ts`.
+  - in order to run the tests for _all_ the entry points, you can to create the `test.ts` file in `lib-name/test.ts`.
 
   This change requires an update in:
 
-  1. `angular.json` - change the `projects -> lib-name -> architect -> test -> options -> main` value to reflect the new file path
+  1. `project.json` - change the `targets -> test -> options -> main` value to reflect the new file path
+    Just copy paste the following and and make sure to rename `TODO:` to you lib's name:
+
+    ```json
+      "test": {
+        "executor": "@angular-devkit/build-angular:karma",
+        "options": {
+          "main": "feature-libs/TODO:/test.ts",
+          "tsConfig": "feature-libs/TODO:/tsconfig.spec.json",
+          "polyfills": ["zone.js", "zone.js/testing"],
+          "karmaConfig": "feature-libs/TODO:/karma.conf.js"
+        }
+      },
+    ```
+
   2. `feature-libs/<lib-name>/tsconfig.lib.json` - update the path in `exclude`
   3. `feature-libs/<lib-name>/tsconfig.spec.json` - update the path in `files`
 
@@ -189,8 +262,8 @@ Use the following template:
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "forceConsistentCasingInFileNames": true,
-    "target": "es2020",
-    "module": "es2020",
+    "target": "es2022",
+    "module": "es2022",
     "moduleResolution": "node",
     "declaration": true,
     "declarationMap": true,
@@ -219,15 +292,15 @@ Use the following template:
 }
 ```
 
-- `tsconfig.spec.json` - add `"target": "es2020", "module": "es2020"` in `"compilerOptions"`:
+- `tsconfig.spec.json` - add `"target": "es2022", "module": "es2022"` in `"compilerOptions"`:
 
 ```json
 {
   /* ... */
   "compilerOptions": {
     /* ... */
-    "target": "es2020",
-    "module": "es2020"
+    "target": "es2022",
+    "module": "es2022"
   }
 }
 ```
@@ -263,37 +336,17 @@ The following files should be modified:
 Add the following scripts:
 
 ```json
-"build:asm": "npm --prefix feature-libs/asm run build:schematics && ng build asm --configuration production",
-"release:asm:with-changelog": "cd feature-libs/asm && release-it && cd ../..",
+"build:asm": "npm --prefix feature-libs/asm run build:schematics && npx nx build asm --configuration production"
 ```
 
 And replace `asm` instances with the name of yours lib.
 
 Also, add the new lib to the `build:libs` and `test:libs` scripts.
 
-- `.github/ISSUE_TEMPLATE/new-release.md`
-
-Replace `TODO:` with the appropriate name.
-Optionally, adjust the `path` property with the `peerDependencies` to match the peer dependencies defined in the `package.json`.
-
 - `projects/schematics/package.json` - add the library to the package group
 
 - `ci-scripts/unit-tests.sh`
 
-Add the library unit tests with code coverage
-
-```sh
-echo "Running unit tests and code coverage for TODO:"
-exec 5>&1
-output=$(ng test TODO: --source-map --no-watch --code-coverage --browsers ChromeHeadless | tee /dev/fd/5)
-coverage=$(echo $output | grep -i "does not meet global threshold" || true)
-if [[ -n "$coverage" ]]; then
-    echo "Error: Tests did not meet coverage expectations"
-    exit 1
-fi
-```
-
-Replace `TODO:` with the appropriate name.
 
 ### Sample data release entry ONLY if applicable
 
@@ -315,7 +368,7 @@ Sources:
 
 If adding multiple entry points to the generated library, make sure to do the following changes:
 
-- `angular.json` - change the `projects -> lib-name -> sourceRoot` to have the same value as the `root` property. This will enable code coverage report to be properly generated for all the entry points.
+- `project.json` - make sure `sourceRoot` does not contain `src`, and just the library name
 
 - make sure to follow the general folder structure, as seen in e.g. `feature-libs/product` library
 - add `ng-package.json` to each of the feature folders
@@ -325,9 +378,9 @@ If adding multiple entry points to the generated library, make sure to do the fo
 
 Don't forget to:
 
-- run the tests for the generated library - `ng test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/my-account/lcov-report/index.html`
-- build the generated library _with Ivy enabled_ - `ng build <lib-name>`
-- build the generated library (without Ivy) - `ng build <lib-name> --configuration production`
+- run the tests for the generated library - `npx nx test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/my-account/lcov-report/index.html`
+- build the generated library _with Ivy enabled_ - `npx nx build <lib-name>`
+- build the generated library (without Ivy) - `npx nx build <lib-name> --configuration production`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
   - `npm run build:libs` (build all the libs)
   - `npm run build`

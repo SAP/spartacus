@@ -4,7 +4,7 @@ import {
   TicketEvent,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingAdapter } from './customer-ticketing.adapter';
 import { CustomerTicketingConnector } from './customer-ticketing.connector';
@@ -28,13 +28,13 @@ class MockCustomerTicketingAdapter
   implements Partial<CustomerTicketingAdapter>
 {
   getTicket = createSpy().and.returnValue(of(mockTicketDetails));
-  getTickets = createSpy().and.returnValue(of());
-  getTicketCategories = createSpy().and.returnValue(of());
-  getTicketAssociatedObjects = createSpy().and.returnValue(of());
+  getTickets = createSpy().and.returnValue(EMPTY);
+  getTicketCategories = createSpy().and.returnValue(EMPTY);
+  getTicketAssociatedObjects = createSpy().and.returnValue(EMPTY);
   createTicketEvent = createSpy().and.returnValue(of(mockTicketEvent));
-  uploadAttachment = createSpy().and.returnValue(of());
-  downloadAttachment = createSpy().and.returnValue(of());
-  createTicket = createSpy().and.returnValue(of());
+  uploadAttachment = createSpy().and.returnValue(EMPTY);
+  downloadAttachment = createSpy().and.returnValue(EMPTY);
+  createTicket = createSpy().and.returnValue(EMPTY);
 }
 
 describe('CustomerTicketingConnentor', () => {

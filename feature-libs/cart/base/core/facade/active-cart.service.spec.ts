@@ -8,8 +8,9 @@ import {
   OCC_USER_ID_GUEST,
   StateUtils,
   UserIdService,
+  WindowRef,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ActiveCartService } from './active-cart.service';
 
@@ -26,14 +27,14 @@ export class MultiCartFacadeStub {
   deleteCart() {}
   initAddEntryProcess() {}
   getCartEntity() {
-    return of();
+    return EMPTY;
   }
   assignEmail() {}
   getEntry() {
-    return of();
+    return EMPTY;
   }
   getLastEntry() {
-    return of();
+    return EMPTY;
   }
   updateEntry() {}
   removeEntry() {}
@@ -50,6 +51,26 @@ export class MultiCartFacadeStub {
   }
 }
 
+const store = {};
+const MockWindowRef = {
+  localStorage: {
+    getItem: (key: string): string => {
+      return key in store ? store[key] : null;
+    },
+    setItem: (key: string, value: string) => {
+      store[key] = `${value}`;
+    },
+    removeItem: (key: string): void => {
+      if (key in store) {
+        store[key] = undefined;
+      }
+    },
+  },
+  isBrowser(): boolean {
+    return true;
+  },
+};
+
 const mockCartEntry: OrderEntry = {
   entryNumber: 0,
   product: { code: 'code' },
@@ -58,6 +79,7 @@ const mockCartEntry: OrderEntry = {
 
 describe('ActiveCartService', () => {
   let service: ActiveCartService;
+  let winRef: WindowRef;
   let multiCartFacade: MultiCartFacade;
 
   beforeEach(() => {
@@ -66,10 +88,12 @@ describe('ActiveCartService', () => {
         ActiveCartService,
         { provide: MultiCartFacade, useClass: MultiCartFacadeStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
+        { provide: WindowRef, useValue: MockWindowRef },
       ],
     });
     service = TestBed.inject(ActiveCartService);
     multiCartFacade = TestBed.inject(MultiCartFacade);
+    winRef = TestBed.inject(WindowRef);
   });
 
   describe('getActive', () => {
@@ -308,6 +332,28 @@ describe('ActiveCartService', () => {
     });
   });
 
+  describe('detectUserChange', () => {
+    it('should change loading flag to false if logged in with code flow', () => {
+      winRef.localStorage?.setItem('oAuthRedirectCodeFlow', 'true');
+
+      service['detectUserChange']();
+
+      expect(service['shouldLoadCartOnCodeFlow']).toBeFalsy();
+    });
+
+    it('should remove oAuth flow key from local storage', () => {
+      winRef.localStorage?.setItem('oAuthRedirectCodeFlow', 'true');
+
+      service['detectUserChange']();
+
+      const storedOauthFlowKey = winRef.localStorage?.getItem(
+        'oAuthRedirectCodeFlow'
+      );
+
+      expect(storedOauthFlowKey).toBeUndefined();
+    });
+  });
+
   describe('loadOrMerge', () => {
     it('should load cart when cartId is default "current"', () => {
       spyOn(multiCartFacade, 'loadCart').and.callThrough();
@@ -324,6 +370,15 @@ describe('ActiveCartService', () => {
           active: true,
         },
       });
+    });
+
+    it('should be called if user is logged in with code flow', () => {
+      spyOn<any>(service, 'loadOrMerge').and.callFake(() => {});
+      winRef.localStorage?.setItem('oAuthRedirectCodeFlow', 'true');
+
+      service['detectUserChange']();
+
+      expect(service['loadOrMerge']).toHaveBeenCalled();
     });
 
     it('should merge guest cart', () => {
@@ -797,7 +852,7 @@ describe('ActiveCartService', () => {
             code: 'code',
           },
         });
-        return of();
+        return EMPTY;
       });
 
       service['cartEntity$'] = cart$.asObservable();
@@ -833,7 +888,7 @@ describe('ActiveCartService', () => {
             code: 'code',
           },
         });
-        return of();
+        return EMPTY;
       });
 
       userId$.next(OCC_USER_ID_ANONYMOUS);
@@ -854,8 +909,8 @@ describe('ActiveCartService', () => {
   });
 
   describe('hasPickupItems and hasDeliveryItems', () => {
-    it('should be able to get whether cart has pickup items', (done) => {
-      let mockCart: Cart = {
+    it('cart has pickup items', (done) => {
+      const mockCart: Cart = {
         pickupItemsQuantity: 1,
       };
       service.getActive = jasmine
@@ -866,8 +921,10 @@ describe('ActiveCartService', () => {
         expect(hasPickup).toBeTruthy();
         done();
       });
+    });
 
-      mockCart = {
+    it('cart does not have pickup items', (done) => {
+      const mockCart = {
         code: 'test',
       };
       service.getActive = jasmine
@@ -902,7 +959,6 @@ describe('ActiveCartService', () => {
 
       service.hasDeliveryItems().subscribe((hasPickup) => {
         expect(hasPickup).toBeFalsy();
-        done();
       });
     });
   });

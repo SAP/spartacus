@@ -1,32 +1,36 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
-import { productConfiguration } from '../../testing/configurator-test-data';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-group',
@@ -162,6 +166,10 @@ class MockLaunchDialogService {
   openDialogAndSubscribe() {}
 }
 
+class MockGlobalMessageService {
+  add(): void {}
+}
+
 function checkConfigurationObs(
   routerMarbels: string,
   configurationServiceMarbels: string,
@@ -241,6 +249,7 @@ function mockRouterStateWithQueryParams(queryParams: {}): Observable<RouterState
 }
 
 let configuratorCommonsService: ConfiguratorCommonsService;
+let globalMessageService: GlobalMessageService;
 let configuratorGroupsService: ConfiguratorGroupsService;
 let launchDialogService: LaunchDialogService;
 let fixture: ComponentFixture<ConfiguratorFormComponent>;
@@ -263,7 +272,7 @@ describe('ConfigurationFormComponent', () => {
             provide: RoutingService,
             useClass: MockRoutingService,
           },
-
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
@@ -323,6 +332,11 @@ describe('ConfigurationFormComponent', () => {
       configuratorCommonsService,
       'checkConflictSolverDialog'
     ).and.callThrough();
+
+    globalMessageService = TestBed.inject(
+      GlobalMessageService as Type<GlobalMessageService>
+    );
+    spyOn(globalMessageService, 'add').and.callThrough();
 
     isConfigurationLoadingObservable = of(false);
 
@@ -545,5 +559,54 @@ describe('ConfigurationFormComponent', () => {
       tick(0);
       expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
     }));
+  });
+
+  describe('listenForConflictResolution()', () => {
+    it('should raise message in case a conflict has been resolved', () => {
+      hasConfigurationConflictsObservable = of(true, false);
+      createComponentWithData();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not raise a message in case the configuration has no issues (as we skipped the first submission)', () => {
+      hasConfigurationConflictsObservable = of(false);
+      createComponentWithData();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+    });
+
+    it('should only emit on status changes', () => {
+      hasConfigurationConflictsObservable = of(
+        true,
+        true,
+        true,
+        false,
+        false,
+        false
+      );
+      createComponentWithData();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+    });
+
+    it('should emit on every status change from conflicting to non-conflicting', () => {
+      hasConfigurationConflictsObservable = of(
+        false,
+        true,
+        false,
+        true,
+        false,
+        true,
+        false
+      );
+      createComponentWithData();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(3);
+    });
+  });
+
+  describe('displayConflictResolvedMessage()', () => {
+    it('should call global message service', () => {
+      createComponentWithoutData();
+      component['displayConflictResolvedMessage']();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+    });
   });
 });

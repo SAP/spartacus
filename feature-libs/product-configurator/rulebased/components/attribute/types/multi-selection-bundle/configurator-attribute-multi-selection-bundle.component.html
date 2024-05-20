@@ -17,9 +17,7 @@
   </div>
 
   <cx-configurator-attribute-product-card
-    id="{{
-      createAttributeValueIdForConfigurator(attribute, value?.valueCode)
-    }}"
+    id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
     (handleDeselect)="onDeselect($event)"
     (handleQuantity)="onChangeValueQuantity($event)"
     (handleSelect)="onSelect($event)"

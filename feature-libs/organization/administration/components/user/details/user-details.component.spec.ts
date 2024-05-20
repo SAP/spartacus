@@ -12,16 +12,18 @@ import {
   Budget,
 } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
+import { DisableInfoModule } from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
+import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { ItemService } from '../../shared/item.service';
 import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { MessageService } from '../../shared/message/services/message.service';
-import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { UserDetailsComponent } from './user-details.component';
 import createSpy = jasmine.createSpy;
-import { DisableInfoModule } from '../../shared';
+import { Directive, Input } from '@angular/core';
+import { FocusConfig } from '@spartacus/storefront';
 
 const mockCode = 'c1';
 
@@ -35,7 +37,7 @@ const mockB2BUserWithoutRight: B2BUser = {
 
 class MockUserItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
 }
 
@@ -64,6 +66,14 @@ class MockB2BUserService implements Partial<B2BUserService> {
   }
 }
 
+@Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: '[cxFocus]',
+})
+export class MockKeyboadFocusDirective {
+  @Input('cxFocus') config: FocusConfig = {};
+}
+
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
   let fixture: ComponentFixture<UserDetailsComponent>;
@@ -82,7 +92,11 @@ describe('UserDetailsComponent', () => {
         ToggleStatusModule,
         DisableInfoModule,
       ],
-      declarations: [UserDetailsComponent, ItemExistsDirective],
+      declarations: [
+        UserDetailsComponent,
+        ItemExistsDirective,
+        MockKeyboadFocusDirective,
+      ],
       providers: [
         { provide: ItemService, useClass: MockUserItemService },
         { provide: B2BUserService, useClass: MockB2BUserService },

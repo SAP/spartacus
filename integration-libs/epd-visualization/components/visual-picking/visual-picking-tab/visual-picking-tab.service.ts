@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -97,6 +97,15 @@ export class VisualPickingTabService implements OnDestroy {
   private visualizationLoadInfoChangeSubscription: Subscription;
   private getProductReferencesSubscription: Subscription;
   private getFilteredProductReferencesSubscription: Subscription;
+
+  private _selectedProductCodes: string[] = [];
+  public get selectedProductCodes() {
+    return this._selectedProductCodes;
+  }
+  public set selectedProductCodes(selectedProducts: string[]) {
+    this._selectedProductCodes = selectedProducts;
+    this.changeDetectorRef.detectChanges();
+  }
 
   /**
    * When true, error messages will be shown when visualization load/lookup failures occur.

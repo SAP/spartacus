@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,7 @@ import {
   PointOfServiceNames,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import { StoreFinderService } from '@spartacus/storefinder/core';
+import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
@@ -44,7 +44,7 @@ export class MyPreferredStoreComponent implements OnInit {
     private preferredStoreFacade: PreferredStoreFacade,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected routingService: RoutingService,
-    protected storeFinderService: StoreFinderService,
+    protected storeFinderService: StoreFinderFacade,
     protected cmsService: CmsService
   ) {
     this.preferredStore$ = this.preferredStoreFacade.getPreferredStore$().pipe(
@@ -105,6 +105,6 @@ export class MyPreferredStoreComponent implements OnInit {
     const linkToDirections: string = this.storeFinderService.getDirections(
       this.pointOfService
     );
-    window.open(linkToDirections, '_blank');
+    window.open(linkToDirections, '_blank', 'noopener,noreferrer');
   }
 }

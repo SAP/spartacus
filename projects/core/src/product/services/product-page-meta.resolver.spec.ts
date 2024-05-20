@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import {
   BasePageMetaResolver,
   CanonicalUrlOptions,
@@ -84,7 +84,7 @@ class MockBasePageMetaResolver {
     return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
   }
   resolveCanonicalUrl(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 

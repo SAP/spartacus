@@ -1,22 +1,25 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
+  LoggerService,
   normalizeHttpError,
   OccEndpointsService,
   PointOfService,
 } from '@spartacus/core';
 import { PickupLocationAdapter } from '@spartacus/pickup-in-store/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccPickupLocationAdapter implements PickupLocationAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService
@@ -32,6 +35,10 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
           queryParams: { fields: 'FULL' },
         })
       )
-      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error: any) => {
+          throw normalizeHttpError(error, this.logger);
+        })
+      );
   }
 }

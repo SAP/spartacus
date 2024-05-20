@@ -1,17 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
   ChangeDetectorRef,
+  inject,
   isDevMode,
   OnDestroy,
   Pipe,
   PipeTransform,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { LoggerService } from '../logger';
 import { ObjectComparisonUtils } from '../util/object-comparison-utils';
 import {
   isTranslatable,
@@ -27,6 +29,8 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   private translatedValue: string;
   private sub: Subscription;
 
+  protected logger = inject(LoggerService);
+
   constructor(
     protected service: TranslationService,
     protected cd: ChangeDetectorRef
@@ -38,7 +42,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   ): string {
     if (!input) {
       if (isDevMode()) {
-        console.error(
+        this.logger.error(
           `The given input for the cxTranslate pipe (${input}) is invalid and cannot be translated`
         );
       }

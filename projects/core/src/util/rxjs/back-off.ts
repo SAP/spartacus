@@ -1,19 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Observable,
-  of,
-  OperatorFunction,
-  range,
-  throwError,
-  timer,
-  zip,
-} from 'rxjs';
-import { map, mergeMap, retryWhen } from 'rxjs/operators';
+import { OperatorFunction, timer } from 'rxjs';
+import { retry } from 'rxjs/operators';
 import { HttpErrorModel } from '../../model/misc.model';
 
 /**
@@ -41,7 +33,6 @@ export interface BackOffOptions {
  *
  * Source: https://angular.io/guide/practical-observable-usage#exponential-backoff
  *
- * @param errFn for which to perform exponential back-off
  * @param options such as defining `maxTries`, or `delay`
  * @returns either the original error (if the given `errFn` return `false`), or the
  */
@@ -50,28 +41,22 @@ export function backOff<T>(options?: BackOffOptions): OperatorFunction<T, T> {
   const maxTries = options?.maxTries ?? 3;
   const delay = options?.delay ?? 300;
 
-  // creates a range of maximum retries - starting from 1, up until the given `maxTries`
-  const retry$ = range(1, maxTries + 1);
   return (source$) =>
     source$.pipe(
       // retries the source stream in case of an error.
-      retryWhen<T>((attempts$: Observable<HttpErrorModel | Error>) =>
-        // emits only when both emit at the same time. In practice, this means: emit when error happens again and retried
-        zip(attempts$, retry$).pipe(
-          mergeMap(([attemptError, currentRetry]) => {
-            // if we've re-tried more than the maxTries, OR
-            // if the source error is not the one we want to exponentially retry
-            if (currentRetry > maxTries || !shouldRetry(attemptError)) {
-              return throwError(attemptError);
-            }
+      retry({
+        delay: (attemptError: HttpErrorModel | Error, currentRetry) => {
+          // if we've re-tried more than the maxTries, OR
+          // if the source error is not the one we want to exponentially retry
+          if (currentRetry > maxTries || !shouldRetry(attemptError)) {
+            throw attemptError;
+          }
 
-            return of(currentRetry);
-          }),
           // exponential
-          map((currentRetry) => currentRetry * currentRetry),
+          const exponent = currentRetry * currentRetry;
           // back-off
-          mergeMap((exponent) => timer(exponent * delay))
-        )
-      )
+          return timer(exponent * delay);
+        },
+      })
     );
 }

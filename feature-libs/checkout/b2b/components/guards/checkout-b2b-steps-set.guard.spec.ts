@@ -3,7 +3,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   DeliveryMode,
-  PaymentDetails,
   PaymentType,
 } from '@spartacus/cart/base/root';
 import {
@@ -21,6 +20,8 @@ import {
 import {
   Address,
   CostCenter,
+  LoggerService,
+  PaymentDetails,
   QueryState,
   RouteConfig,
   RoutingConfigService,
@@ -330,11 +331,15 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
 
     describe('PAYMENT_DETAILS is not valid any more', () => {
       it('go to step3 (payment details), should return to checkout', (done) => {
-        spyOn(console, 'warn');
+        const logger = TestBed.inject(LoggerService);
+        spyOn(logger, 'warn');
         guard
           .canActivate(<any>{ url: ['checkout', 'route3'] })
           .subscribe((result) => {
             expect(result.toString()).toEqual('/checkout');
+            expect(logger.warn).toHaveBeenCalledWith(
+              `Missing step with route '/checkout/route3' in checkout configuration or this step is disabled.`
+            );
             done();
           });
       });

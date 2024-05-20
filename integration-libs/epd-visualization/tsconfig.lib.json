@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
-    "module": "es2020",
+    "module": "es2022",
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
@@ -84,7 +84,8 @@
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "enableResourceInlining": false
+    "enableResourceInlining": false,
+    "strictTemplates": false
   },
   "exclude": ["test.ts", "setup-jest.ts", "**/*.spec.ts"]
 }

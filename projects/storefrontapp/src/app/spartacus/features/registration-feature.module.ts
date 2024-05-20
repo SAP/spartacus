@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,9 +22,9 @@ import {
       featureModules: {
         [ORGANIZATION_USER_REGISTRATION_FEATURE]: {
           module: () =>
-            import('@spartacus/organization/user-registration').then(
-              (m) => m.OrganizationUserRegistrationModule
-            ),
+            import(
+              './organization/organization-user-registration-wrapper.module'
+            ).then((m) => m.OrganizationUserRegistrationWrapperModule),
         },
       },
     }),

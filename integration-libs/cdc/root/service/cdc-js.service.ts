@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import {
 import {
   AuthService,
   BaseSiteService,
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
   LanguageService,
@@ -23,6 +24,7 @@ import {
   User,
   WindowRef,
 } from '@spartacus/core';
+import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
 import {
   combineLatest,
@@ -32,8 +34,11 @@ import {
   Subscription,
   throwError,
 } from 'rxjs';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
+import { CdcConsentsLocalStorageService } from '../consent-management';
+import { CdcSiteConsentTemplate } from '../consent-management/model/index';
+import { CdcReConsentEvent } from '../events';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
 const defaultSessionTimeOut = 3600;
@@ -58,7 +63,9 @@ export class CdcJsService implements OnDestroy {
     protected zone: NgZone,
     protected userProfileFacade: UserProfileFacade,
     @Inject(PLATFORM_ID) protected platform: any,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected eventService: EventService,
+    protected consentStore: CdcConsentsLocalStorageService
   ) {}
 
   /**
@@ -105,6 +112,7 @@ export class CdcJsService implements OnDestroy {
                 attributes: { type: 'text/javascript' },
                 callback: () => {
                   this.registerEventListeners(baseSite);
+                  this.getSiteConsentDetails(true).subscribe(); //fetch CDC consents and persist to local storage
                   this.loaded$.next(true);
                   this.errorLoading$.next(false);
                 },
@@ -117,7 +125,7 @@ export class CdcJsService implements OnDestroy {
                 (this.winRef.nativeWindow as { [key: string]: any })[
                   '__gigyaConf'
                 ] = {
-                  include: 'id_token',
+                  include: 'id_token, missing-required-fields',
                 };
               }
             }
@@ -193,7 +201,7 @@ export class CdcJsService implements OnDestroy {
     user: UserSignUp
   ): Observable<{ status: string }> {
     if (!user.uid || !user.password) {
-      return throwError(null);
+      return throwError(() => null);
     } else {
       return this.invokeAPI('accounts.initRegistration', {}).pipe(
         switchMap((response) => this.onInitRegistrationHandler(user, response))
@@ -212,7 +220,7 @@ export class CdcJsService implements OnDestroy {
     response: any
   ): Observable<{ status: string }> {
     if (!response?.regToken || !user?.uid || !user?.password) {
-      return throwError(null);
+      return throwError(() => null);
     } else {
       const regSource: string = this.winRef.nativeWindow?.location?.href || '';
       return this.invokeAPI('accounts.register', {
@@ -222,6 +230,7 @@ export class CdcJsService implements OnDestroy {
           firstName: user.firstName,
           lastName: user.lastName,
         },
+        preferences: user.preferences,
         regSource: regSource,
         regToken: response.regToken,
         finalizeRegistration: true,
@@ -246,22 +255,94 @@ export class CdcJsService implements OnDestroy {
     password: string,
     context?: any
   ): Observable<{ status: string }> {
+    const missingConsentErrorCode = 206001;
+    let ignoreInterruptions = false;
+    const channel = this.getCurrentBaseSiteChannel();
+    if (channel && channel === 'B2C') {
+      ignoreInterruptions = true;
+    }
     return this.getSessionExpirationValue().pipe(
       switchMap((sessionExpiration) => {
         return this.invokeAPI('accounts.login', {
           loginID: email,
           password: password,
+          ignoreInterruptions: ignoreInterruptions,
           ...(context && { context: context }),
           sessionExpiry: sessionExpiration,
         }).pipe(
           take(1),
           tap({
-            error: (response) => this.handleLoginError(response),
+            error: (response) => {
+              if (response.errorCode !== missingConsentErrorCode) {
+                this.handleLoginError(response);
+              } else {
+                this.raiseCdcReconsentEvent(
+                  email,
+                  password,
+                  response.missingRequiredFields,
+                  response.errorMessage,
+                  response.regToken
+                );
+              }
+            },
           })
         );
       })
     );
   }
+
+  /**
+   * Trigger CDC Organisation registration using CDC APIs.
+   *
+   * @param orgInfo
+   */
+  registerOrganisationWithoutScreenSet(
+    orgInfo: OrganizationUserRegistrationForm
+  ): Observable<{ status: string }> {
+    if (
+      !orgInfo?.companyName ||
+      !orgInfo?.email ||
+      !orgInfo?.firstName ||
+      !orgInfo?.lastName
+    ) {
+      return throwError('Organization details not provided');
+    } else {
+      const regSource: string = this.winRef.nativeWindow?.location?.href || '';
+      const message = orgInfo.message;
+      let department = null;
+      let position = null;
+      if (message) {
+        ({ department, position } = this.parseMessage(message));
+      }
+
+      return this.invokeAPI('accounts.b2b.registerOrganization', {
+        organization: {
+          name: orgInfo.companyName,
+          street_address: orgInfo.addressLine1 + ' ' + orgInfo.addressLine2,
+          city: orgInfo.town,
+          state: orgInfo.region,
+          zip_code: orgInfo.postalCode,
+          country: orgInfo.country,
+        },
+        requester: {
+          firstName: orgInfo.firstName,
+          lastName: orgInfo.lastName,
+          email: orgInfo.email,
+          ...(orgInfo.phoneNumber &&
+            orgInfo.phoneNumber.length > 0 && { phone: orgInfo.phoneNumber }),
+          department: department,
+          jobFunction: position,
+        },
+        regSource: regSource,
+      }).pipe(
+        take(1),
+        tap({
+          error: (errorResponse) => this.handleRegisterError(errorResponse),
+        })
+      );
+    }
+  }
+
   /**
    * Retrieves the organization selected by the logged in user
    *
@@ -335,6 +416,23 @@ export class CdcJsService implements OnDestroy {
     return of(defaultSessionTimeOut);
   }
 
+  private parseMessage(message: string): {
+    department: string;
+    position: string;
+  } {
+    const msgList = message.replace('\n', '').split(';');
+    let department = '';
+    let position = '';
+    for (const msg of msgList) {
+      if (msg.trim().toLowerCase().search('department') === 0) {
+        department = msg.split(':')[1].trim();
+      } else if (msg.trim().toLowerCase().search('position') === 0) {
+        position = msg.split(':')[1].trim();
+      }
+    }
+    return { department, position };
+  }
+
   private getCurrentBaseSite(): string {
     let baseSite: string = '';
     this.baseSiteService
@@ -344,6 +442,16 @@ export class CdcJsService implements OnDestroy {
     return baseSite;
   }
 
+  private getCurrentBaseSiteChannel(): string {
+    let channel: string = '';
+    const baseSiteUid: string = this.getCurrentBaseSite();
+    this.baseSiteService
+      .get(baseSiteUid)
+      .pipe(take(1))
+      .subscribe((data) => (channel = data?.channel ?? ''));
+    return channel;
+  }
+
   /**
    * Trigger CDC forgot password using CDC APIs.
    *
@@ -351,7 +459,7 @@ export class CdcJsService implements OnDestroy {
    */
   resetPasswordWithoutScreenSet(email: string): Observable<{ status: string }> {
     if (!email || email?.length === 0) {
-      return throwError('No email provided');
+      return throwError(() => 'No email provided');
     } else {
       return this.invokeAPI('accounts.resetPassword', {
         loginID: email,
@@ -375,10 +483,11 @@ export class CdcJsService implements OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     } else {
+      const errorMessage = response?.errorMessage || {
+        key: 'httpHandlers.unknownError',
+      };
       this.globalMessageService.add(
-        {
-          key: 'httpHandlers.unknownError',
-        },
+        errorMessage,
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }
@@ -397,7 +506,7 @@ export class CdcJsService implements OnDestroy {
       !user?.lastName ||
       user?.lastName?.length === 0
     ) {
-      return throwError('User details not provided');
+      return throwError(() => 'User details not provided');
     } else {
       const profileObj = {
         profile: {
@@ -434,7 +543,7 @@ export class CdcJsService implements OnDestroy {
       !newPassword ||
       newPassword?.length === 0
     ) {
-      return throwError('No passwords provided');
+      return throwError(() => 'No passwords provided');
     } else {
       return this.invokeAPI(setAccountInfoAPI, {
         password: oldPassword,
@@ -457,10 +566,44 @@ export class CdcJsService implements OnDestroy {
       const userDetails: User = {};
       userDetails.firstName = response.profile.firstName;
       userDetails.lastName = response.profile.lastName;
-      this.userProfileFacade.update(userDetails);
+      userDetails.uid = response.profile.email;
+      //logout the user only in case of email update.
+      this.getLoggedInUserEmail().subscribe((user) => {
+        const currentEmail = user?.uid;
+        this.userProfileFacade.update(userDetails).subscribe(() => {
+          if (currentEmail !== userDetails.uid) {
+            this.logoutUser();
+          }
+          this.handleProfileUpdateResponse(response);
+        });
+      });
+    } else {
+      this.handleProfileUpdateResponse(response);
     }
   }
 
+  /**
+   * handle toast message on profile update
+   * @param response
+   *
+   */
+  protected handleProfileUpdateResponse(response?: any) {
+    if (response?.response?.errorCode === 0) {
+      this.globalMessageService.add(
+        {
+          key: 'cdcProfile.profileUpdateSuccess',
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    } else {
+      this.globalMessageService.add(
+        {
+          key: 'cdcProfile.profileUpdateFailure',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
+  }
   /**
    * Trigger CDC user email update.
    *
@@ -477,14 +620,14 @@ export class CdcJsService implements OnDestroy {
       !newEmail ||
       newEmail?.length === 0
     ) {
-      return throwError('Email or password not provided');
+      return throwError(() => 'Email or password not provided');
     } else {
       //Verify the password by attempting to login
       return this.getLoggedInUserEmail().pipe(
         switchMap((user) => {
           const email = user?.uid;
           if (!email || email?.length === 0) {
-            return throwError('Email or password not provided');
+            return throwError(() => 'Email or password not provided');
           }
           // Verify the password by attempting to login
           // - CDC doesn't require to verify password before changing an email, but the default Spartacus requires it.
@@ -509,15 +652,13 @@ export class CdcJsService implements OnDestroy {
                       tap({
                         error: (error) => of(error),
                         complete: () => {
-                          this.auth.coreLogout();
-                          this.invokeAPI('accounts.logout', {});
+                          this.logoutUser();
                         },
                       })
                     ),
                 })
               )
-            ),
-            catchError((error) => of(error))
+            )
           );
         })
       );
@@ -547,7 +688,7 @@ export class CdcJsService implements OnDestroy {
     country?: string
   ): Observable<{ status: string }> {
     if (!formattedAddress || formattedAddress?.length === 0) {
-      return throwError('No address provided');
+      return throwError(() => 'No address provided');
     } else {
       const profileObj = {
         address: formattedAddress,
@@ -608,6 +749,102 @@ export class CdcJsService implements OnDestroy {
         },
       });
     });
+  }
+
+  /**
+   * Retrieves consent statements for logged in CDC site (based on CDC site API Key)
+   * @param persistToLocalStorage - set this to true, if you want to save the fetched CDC consents to a local storage
+   * @returns - Observable with site consent details
+   */
+  getSiteConsentDetails(
+    persistToLocalStorage: boolean = false
+  ): Observable<CdcSiteConsentTemplate> {
+    const baseSite: string = this.getCurrentBaseSite();
+    const javascriptURL: string = this.getJavascriptUrlForCurrentSite(baseSite);
+    const queryParams = new URLSearchParams(
+      javascriptURL.substring(javascriptURL.indexOf('?'))
+    );
+    const siteApiKey: string | null = queryParams.get('apikey');
+    return this.invokeAPI('accounts.getSiteConsentDetails', {
+      apiKey: siteApiKey,
+    }).pipe(
+      tap({
+        next: (response) => {
+          if (persistToLocalStorage) {
+            this.consentStore.persistCdcConsentsToStorage(response);
+          }
+        },
+      })
+    );
+  }
+
+  /**
+   * Triggers the update (give/withdraw) of a CDC consent for a user
+   * @param uid - user ID of the logged in user
+   * @param lang - current storefront language
+   * @param preferences - object containing the preference details
+   * @param regToken - optional parameter, which is necessary when reconsent is provided during login scenario
+   * @returns - returns Observable with error code and status
+   */
+  setUserConsentPreferences(
+    uid: string,
+    lang: string,
+    preferences: any,
+    regToken?: string
+  ): Observable<{ errorCode: number; errorMessage: string }> {
+    const regSource: string = this.winRef.nativeWindow?.location?.href || '';
+    return this.invokeAPI(setAccountInfoAPI, {
+      uid: uid,
+      lang: lang,
+      preferences: preferences,
+      regSource: regSource,
+      regToken: regToken,
+    }).pipe(
+      tap({
+        error: (error) => {
+          throwError(error);
+        },
+      })
+    );
+  }
+
+  /**
+   * Dispatch an event when reconsent is required during login. This will be listened
+   * by reconsent module to show reconsent pop-up
+   * @param user - user ID provided in login screen
+   * @param password - password provided in login screen
+   * @param reconsentIds - missing required cdc consent IDs
+   * @param errorMessage - error message indicating that reconsent is required
+   * @param regToken - token of the login session
+   */
+  raiseCdcReconsentEvent(
+    user: string,
+    password: string,
+    reconsentIds: string[],
+    errorMessage: string,
+    regToken: string
+  ): void {
+    const consentIds: string[] = [];
+    reconsentIds.forEach((template) => {
+      const removePreference = template.replace('preferences.', '');
+      const removeIsConsentGranted = removePreference.replace(
+        '.isConsentGranted',
+        ''
+      );
+      consentIds.push(removeIsConsentGranted);
+    });
+    const newReConsentEvent = new CdcReConsentEvent();
+    newReConsentEvent.user = user;
+    newReConsentEvent.password = password;
+    newReConsentEvent.consentIds = consentIds;
+    newReConsentEvent.errorMessage = errorMessage;
+    newReConsentEvent.regToken = regToken;
+    this.eventService.dispatch(newReConsentEvent);
+  }
+
+  protected logoutUser() {
+    this.auth.logout();
+    this.invokeAPI('accounts.logout', {});
   }
 
   ngOnDestroy(): void {

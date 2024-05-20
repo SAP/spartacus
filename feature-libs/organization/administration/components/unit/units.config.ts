@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 import { AuthGuard, CmsConfig } from '@spartacus/core';
 import {
   AdminGuard,
+  OrgUnitGuard,
   UserGuard,
 } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
@@ -74,6 +75,7 @@ export const unitsCmsConfig: CmsConfig = {
           {
             path: 'create',
             component: UnitFormComponent,
+            canActivate: [OrgUnitGuard],
           },
           {
             path: `:${ROUTE_PARAMS.unitCode}`,
@@ -85,10 +87,12 @@ export const unitsCmsConfig: CmsConfig = {
               {
                 path: 'edit',
                 component: UnitFormComponent,
+                canActivate: [OrgUnitGuard],
               },
               {
                 path: 'children',
                 component: UnitChildrenComponent,
+                canActivate: [OrgUnitGuard],
                 data: {
                   cxPageMeta: { breadcrumb: 'orgUnit.breadcrumbs.children' },
                 },

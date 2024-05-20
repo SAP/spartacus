@@ -1,12 +1,12 @@
 /*
  * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
-import { Address } from '@spartacus/core';
+import { DeliveryMode } from '@spartacus/cart/base/root';
+import { Address, PaymentDetails } from '@spartacus/core';
 import { Card, getAddressNumbers } from '@spartacus/storefront';
 
 /**
@@ -33,10 +33,18 @@ export function deliveryAddressCard(
   }
 
   const numbers = getAddressNumbers(deliveryAddress, textPhone, textMobile);
+  let fullName;
+  if (deliveryAddress.firstName && deliveryAddress.lastName) {
+    fullName = deliveryAddress.firstName + ' ' + deliveryAddress.lastName;
+  } else if (deliveryAddress.firstName) {
+    fullName = deliveryAddress.firstName;
+  } else if (deliveryAddress.lastName) {
+    fullName = deliveryAddress.lastName;
+  }
 
   return {
     title: textTitle,
-    textBold: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+    textBold: fullName,
     text: [
       deliveryAddress.line1,
       deliveryAddress.line2,

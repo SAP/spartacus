@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ImageGroup, isNotNullable, Product } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { ImageGroup, Product, isNotNullable } from '@spartacus/core';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
@@ -84,7 +84,8 @@ export class ProductImagesComponent {
     if (
       !product.images ||
       !product.images.GALLERY ||
-      product.images.GALLERY.length < 2
+      (Array.isArray(product.images.GALLERY) &&
+        product.images.GALLERY.length < 2)
     ) {
       return [];
     }

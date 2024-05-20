@@ -38,6 +38,12 @@
               ) | async
             "
           ></cx-card>
+
+          <ng-template
+            [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
+            [cxOutletContext]="{ item: order, readonly: true }"
+          >
+          </ng-template>
         </div>
       </ng-container>
 
@@ -56,6 +62,12 @@
           <cx-card
             [content]="getOrderStatusCardContent(order.statusDisplay) | async"
           ></cx-card>
+
+          <ng-template
+            [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
+            [cxOutletContext]="{ item: order, readonly: true }"
+          >
+          </ng-template>
         </div>
       </ng-template>
 
@@ -96,10 +108,18 @@
       </div>
 
       <ng-container *ngIf="order.paymentInfo">
-        <div class="cx-summary-card">
-          <cx-card
-            [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
-          ></cx-card>
+        <div
+          class="cx-summary-card"
+          *ngIf="
+            order?.paymentInfo?.billingAddress ||
+            isPaymentInfoCardFull(order?.paymentInfo)
+          "
+        >
+          <ng-container *ngIf="isPaymentInfoCardFull(order?.paymentInfo)">
+            <cx-card
+              [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
+            ></cx-card>
+          </ng-container>
 
           <cx-card
             [content]="
@@ -126,8 +146,19 @@
         <cx-card
           [content]="getOrderStatusCardContent(order.statusDisplay) | async"
         ></cx-card>
+
+        <ng-template
+          [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
+          [cxOutletContext]="{ item: order, readonly: true }"
+        >
+        </ng-template>
       </div>
-      <cx-order-detail-billing></cx-order-detail-billing>
+      <cx-order-detail-billing
+        *ngIf="
+          isPaymentInfoCardFull(order?.paymentInfo) ||
+          order?.paymentInfo?.billingAddress
+        "
+      ></cx-order-detail-billing>
     </div>
   </ng-container>
 </div>

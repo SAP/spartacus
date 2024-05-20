@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,16 +7,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   isDevMode,
   OnInit,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { LoggerService } from '@spartacus/core';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox-list',
@@ -30,6 +32,8 @@ export class ConfiguratorAttributeCheckBoxListComponent
   attributeCheckBoxForms = new Array<UntypedFormControl>();
 
   group: string;
+
+  protected logger = inject(LoggerService);
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
@@ -104,7 +108,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
     if (!value) {
       if (isDevMode()) {
-        console.warn('no value for event:', eventObject);
+        this.logger.warn('no value for event:', eventObject);
       }
 
       return;

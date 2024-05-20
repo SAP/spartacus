@@ -1,32 +1,41 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   EntitiesModel,
-  normalizeHttpError,
+  FeatureConfigService,
+  LoggerService,
   StateUtils,
+  normalizeHttpError,
 } from '@spartacus/core';
-import { from, Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import {
   B2BUserActions,
-  OrganizationActions,
   OrgUnitActions,
+  OrganizationActions,
 } from '../actions/index';
 
 @Injectable()
 export class OrgUnitEffects {
+  protected logger = inject(LoggerService);
+
+  // TODO (CXSPA-5630): Remove service in next major.
+  protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
   loadOrgUnit$: Observable<
     | OrgUnitActions.LoadOrgUnitSuccess
     | OrgUnitActions.LoadAddressSuccess
@@ -53,7 +62,7 @@ export class OrgUnitEffects {
             of(
               new OrgUnitActions.LoadOrgUnitFail({
                 orgUnitId,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )
@@ -77,7 +86,7 @@ export class OrgUnitEffects {
           catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.LoadOrgUnitNodesFail({
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )
@@ -104,7 +113,7 @@ export class OrgUnitEffects {
             from([
               new OrgUnitActions.CreateUnitFail({
                 unitCode: payload.unit.uid ?? '',
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               }),
               new OrganizationActions.OrganizationClearData(),
             ])
@@ -135,7 +144,7 @@ export class OrgUnitEffects {
               from([
                 new OrgUnitActions.UpdateUnitFail({
                   unitCode: payload.unit.uid ?? '',
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -160,7 +169,7 @@ export class OrgUnitEffects {
           catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.LoadTreeFail({
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )
@@ -185,7 +194,7 @@ export class OrgUnitEffects {
           catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.LoadApprovalProcessesFail({
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )
@@ -232,7 +241,7 @@ export class OrgUnitEffects {
                       orgUnitId,
                       roleId,
                       params,
-                      error: normalizeHttpError(error),
+                      error: normalizeHttpError(error, this.logger),
                     })
                   )
                 )
@@ -263,7 +272,7 @@ export class OrgUnitEffects {
             of(
               new OrgUnitActions.AssignRoleFail({
                 orgCustomerId,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )
@@ -292,7 +301,7 @@ export class OrgUnitEffects {
             of(
               new OrgUnitActions.UnassignRoleFail({
                 orgCustomerId,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )
@@ -325,7 +334,7 @@ export class OrgUnitEffects {
               from([
                 new OrgUnitActions.AssignApproverFail({
                   orgCustomerId,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -359,7 +368,7 @@ export class OrgUnitEffects {
               from([
                 new OrgUnitActions.UnassignApproverFail({
                   orgCustomerId,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -383,14 +392,21 @@ export class OrgUnitEffects {
           .pipe(
             switchMap((data) => [
               new OrgUnitActions.CreateAddressSuccess(data),
-              new OrgUnitActions.CreateAddressSuccess({ id: undefined }),
+              new OrgUnitActions.CreateAddressSuccess(
+                // TODO (CXSPA-5630): Remove feature flag in next major.
+                this.featureConfigService?.isEnabled(
+                  'fixMyCompanyUnitAddressCreation'
+                )
+                  ? { id: payload.address.id }
+                  : { id: undefined }
+              ),
               new OrganizationActions.OrganizationClearData(),
             ]),
             catchError((error: HttpErrorResponse) =>
               from([
                 new OrgUnitActions.CreateAddressFail({
                   addressId: payload.address.id ?? '',
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -422,7 +438,7 @@ export class OrgUnitEffects {
               from([
                 new OrgUnitActions.UpdateAddressFail({
                   addressId: address.id ?? '',
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -454,7 +470,7 @@ export class OrgUnitEffects {
               from([
                 new OrgUnitActions.DeleteAddressFail({
                   addressId: payload.addressId,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])

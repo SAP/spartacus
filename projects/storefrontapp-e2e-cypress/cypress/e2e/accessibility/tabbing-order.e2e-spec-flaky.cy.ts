@@ -36,9 +36,12 @@ import {
 import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/change-password';
 import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/close-account';
 import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/consent-management';
+import { myAccountV2consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-account-v2-consent-management';
+import { myAccountV2PasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-account-v2-password';
 import { checkoutMyCouponsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-coupons';
 import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
 import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import { myAccountV2notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-account-v2-notification-preference';
 import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/order-details';
 import {
   orderHistoryNoOrdersTabbingOrder,
@@ -265,21 +268,6 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
       stockNotificationNotLoginTabbingOrder(config.stockNotificationNotLogin);
     });
   });
-
-  // TODO: Fix helpers and renable
-  // context('ASM', () => {
-  //   it('should allow to navigate with tab key (not logged in)', () => {
-  //     asmTabbingOrderNotLoggedIn(config.asmNotLoggedIn);
-  //   });
-
-  //   it('should allow to navigate with tab key (no user selected)', () => {
-  //     asmTabbingOrderNoSelectedUser(config.asmNoSelectedUser);
-  //   });
-
-  //   it('should allow to navigate with tab key (with user selected)', () => {
-  //     asmTabbingOrderWithSelectedUser(config.asmWithSelectedUser);
-  //   });
-  // });
 });
 
 describe('Tabbing order - tests do require user to be logged in', () => {
@@ -383,6 +371,14 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
+  context('My acoount V2 notification preference', () => {
+    it('should allow to navigate with tab key', () => {
+      myAccountV2notificationPreferenceTabbingOrder(
+        config.myAccountV2NotificationPreference
+      );
+    });
+  });
+
   context('Change password', () => {
     it('should allow to navigate with tab key', () => {
       changePasswordTabbingOrder(config.changePassword);
@@ -410,6 +406,22 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Consent Management', () => {
     it('should allow to navigate with tab key', () => {
       consentManagementTabbingOrder(config.consentManagement);
+    });
+  });
+
+  context('My Account V2 Consent Management(CXSPA-4491)', () => {
+    it('should allow to navigate with tab key', () => {
+      cy.requireLoggedIn();
+      myAccountV2consentManagementTabbingOrder(
+        config.myAccountV2ConsentManagement
+      );
+    });
+  });
+
+  context('My Account V2 Password(CXSPA-4455)', () => {
+    it('should allow to navigate with tab key', () => {
+      cy.requireLoggedIn();
+      myAccountV2PasswordTabbingOrder(config.myAccountV2Password);
     });
   });
 

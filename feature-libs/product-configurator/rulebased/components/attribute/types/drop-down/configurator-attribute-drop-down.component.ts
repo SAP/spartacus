@@ -1,17 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 
+import { UntypedFormControl } from '@angular/forms';
+import { Config, TranslationService, useFeatureStyles } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { UntypedFormControl } from '@angular/forms';
-import { TranslationService } from '@spartacus/core';
 
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
@@ -27,19 +33,25 @@ export class ConfiguratorAttributeDropDownComponent
   attributeDropDownForm = new UntypedFormControl('');
   group: string;
 
+  protected config = inject(Config);
+
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
     super(
       quantityService,
       translation,
       attributeComponentContext,
-      configuratorCommonsService
+      configuratorCommonsService,
+      configuratorStorefrontUtilsService
     );
+
     this.group = attributeComponentContext.group.id;
+    useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
   ngOnInit() {
@@ -48,5 +60,14 @@ export class ConfiguratorAttributeDropDownComponent
 
   getSelectedValue(): Configurator.Value | undefined {
     return this.attribute.values?.find((value) => value?.selected);
+  }
+
+  /**
+   * Retrieves a selected value description.
+   *
+   * @returns - if a selected value description is defined then it will be returned, otherwise an empty string
+   */
+  getSelectedValueDescription(): string {
+    return this.getSelectedValue()?.description ?? '';
   }
 }

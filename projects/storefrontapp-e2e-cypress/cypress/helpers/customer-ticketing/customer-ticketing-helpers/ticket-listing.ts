@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -181,7 +181,7 @@ export function verifyCertainNumberOfTicketsSortedById(
   }
 }
 
-function getIdInRow(rowNumber: number) {
+export function getIdInRow(rowNumber: number) {
   return cy
     .get('cx-customer-ticketing-list')
     .get('tbody')

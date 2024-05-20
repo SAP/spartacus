@@ -1,16 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, isDevMode, OnDestroy } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  UrlTree,
-} from '@angular/router';
+import { inject, Injectable, isDevMode, OnDestroy } from '@angular/core';
+import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
@@ -19,7 +14,7 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { RoutingConfigService } from '@spartacus/core';
+import { LoggerService, RoutingConfigService } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -33,8 +28,9 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutStepsSetGuard implements CanActivate, OnDestroy {
+export class CheckoutStepsSetGuard implements OnDestroy {
   protected subscription: Subscription;
+  protected logger = inject(LoggerService);
 
   constructor(
     protected checkoutStepService: CheckoutStepService,
@@ -92,7 +88,7 @@ export class CheckoutStepsSetGuard implements CanActivate, OnDestroy {
           return this.isStepSet(steps[currentIndex - 1]);
         } else {
           if (isDevMode()) {
-            console.warn(
+            this.logger.warn(
               `Missing step with route '${currentRouteUrl}' in checkout configuration or this step is disabled.`
             );
           }

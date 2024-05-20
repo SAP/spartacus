@@ -1,12 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
+  LoggerService,
   normalizeHttpError,
   OccEndpointsService,
   Stock,
@@ -14,7 +15,7 @@ import {
 } from '@spartacus/core';
 import { StockAdapter } from '@spartacus/pickup-in-store/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 /**
@@ -22,6 +23,8 @@ import { catchError } from 'rxjs/operators';
  */
 @Injectable()
 export class OccStockAdapter implements StockAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService
@@ -40,7 +43,11 @@ export class OccStockAdapter implements StockAdapter {
           queryParams: { ...location, fields: 'FULL' },
         })
       )
-      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error: any) => {
+          throw normalizeHttpError(error, this.logger);
+        })
+      );
   }
 
   loadStockLevelAtStore(
@@ -53,6 +60,10 @@ export class OccStockAdapter implements StockAdapter {
           urlParams: { productCode, storeName },
         })
       )
-      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error: any) => {
+          throw normalizeHttpError(error, this.logger);
+        })
+      );
   }
 }

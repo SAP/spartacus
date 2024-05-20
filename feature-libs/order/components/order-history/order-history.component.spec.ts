@@ -10,7 +10,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
   TranslationService,
@@ -21,7 +20,7 @@ import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
 
 const mockOrders: OrderHistoryList = {
@@ -134,7 +133,7 @@ class MockRoutingService {
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -155,7 +154,7 @@ describe('OrderHistoryComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule, FeaturesConfigModule],
+        imports: [RouterTestingModule, I18nTestingModule],
         declarations: [
           OrderHistoryComponent,
           MockUrlPipe,

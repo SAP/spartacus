@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
@@ -13,20 +13,34 @@ import {
   AuthRedirectService,
   AuthService,
   CmsConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
-  provideDefaultConfig,
   RoutingService,
   UrlModule,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
+  MessageComponentModule,
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
+
+import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
+import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
+
+const myAccountV2PasswordMapping: CmsConfig = {
+  cmsComponents: {
+    UpdatePasswordComponent: {
+      component: MyAccountV2PasswordComponent,
+    },
+  },
+};
 
 @NgModule({
   imports: [
@@ -39,6 +53,8 @@ import { UpdatePasswordComponent } from './update-password.component';
     UrlModule,
     RouterModule,
     PasswordVisibilityToggleModule,
+    FeaturesConfigModule,
+    MessageComponentModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -62,7 +78,11 @@ import { UpdatePasswordComponent } from './update-password.component';
         },
       },
     }),
+    provideDefaultConfigFactory(() =>
+      inject(USE_MY_ACCOUNT_V2_PASSWORD) ? myAccountV2PasswordMapping : {}
+    ),
   ],
-  declarations: [UpdatePasswordComponent],
+  declarations: [UpdatePasswordComponent, MyAccountV2PasswordComponent],
+  exports: [UpdatePasswordComponent, MyAccountV2PasswordComponent],
 })
 export class UpdatePasswordModule {}

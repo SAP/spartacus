@@ -1,12 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpParams, HttpParamsOptions } from '@angular/common/http';
-import { Injectable, isDevMode, Optional } from '@angular/core';
+import { Injectable, Optional, inject, isDevMode } from '@angular/core';
 import { StringTemplate } from '../../config/utils/string-template';
+import { LoggerService } from '../../logger';
 import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
@@ -39,6 +40,8 @@ export class OccEndpointsService {
       getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID)
     );
   }
+
+  protected logger = inject(LoggerService);
 
   constructor(
     private config: OccConfig,
@@ -208,7 +211,7 @@ export class OccEndpointsService {
         return endpointConfig;
       }
       if (isDevMode()) {
-        console.warn(
+        this.logger.warn(
           `${endpoint} endpoint configuration missing for scope "${scope}"`
         );
       }

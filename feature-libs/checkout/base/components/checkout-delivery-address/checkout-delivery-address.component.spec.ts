@@ -9,12 +9,14 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureConfigService,
+  FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
@@ -33,7 +35,7 @@ class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
   createAndSetAddress = createSpy().and.returnValue(of({}));
-  setDeliveryAddress = createSpy().and.returnValue(of());
+  setDeliveryAddress = createSpy().and.returnValue(EMPTY);
   getDeliveryAddressState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
@@ -90,6 +92,7 @@ class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
   @Input() showTitleCode: boolean;
   @Input() setAsDefaultField: boolean;
+  @Input() addressData: Address;
 }
 
 @Component({
@@ -109,12 +112,20 @@ class MockCardComponent {
   content: Card;
   @Input()
   fitToContainer: boolean;
+  @Input()
+  index: number;
 }
 
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  clearCheckoutDeliveryMode = createSpy().and.returnValue(of());
+  clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string) {
+    return true;
+  }
 }
 
 describe('CheckoutDeliveryAddressComponent', () => {
@@ -126,6 +137,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
+  let featureConfig: FeatureConfigService;
 
   beforeEach(
     waitForAsync(() => {
@@ -151,6 +163,16 @@ describe('CheckoutDeliveryAddressComponent', () => {
             provide: CheckoutDeliveryModesFacade,
             useClass: MockCheckoutDeliveryModesFacade,
           },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '6.3' },
+            },
+          },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
         ],
       })
         .overrideComponent(CheckoutDeliveryAddressComponent, {
@@ -168,6 +190,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
       userAddressService = TestBed.inject(UserAddressService);
       checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
       globalMessageService = TestBed.inject(GlobalMessageService);
+      featureConfig = TestBed.inject(FeatureConfigService);
     })
   );
 
@@ -274,25 +297,56 @@ describe('CheckoutDeliveryAddressComponent', () => {
     expect(component['setAddress']).toHaveBeenCalledWith(mockAddress2);
   });
 
-  it('should be able to get card content', () => {
-    const card = component.getCardContent(
-      mockAddress1,
-      undefined,
-      'default',
-      'shipTo',
-      'selected',
-      'P',
-      'M'
-    );
-    expect(card.title).toEqual('');
-    expect(card.textBold).toEqual('John Doe');
-    expect(card.text).toEqual([
-      'first line',
-      'second line',
-      'town, JP-27, JP',
-      'zip',
-      undefined,
-    ]);
+  describe('getCardContent()', () => {
+    it('should be able to get card content', () => {
+      const card = component.getCardContent(
+        mockAddress1,
+        undefined,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+      expect(card.title).toEqual('');
+      expect(card.textBold).toEqual('John Doe');
+      expect(card.text).toEqual([
+        'first line',
+        'second line',
+        'town, JP-27, JP',
+        'zip',
+        undefined,
+      ]);
+    });
+
+    it('should not add select action for selected card', () => {
+      spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+      const card = component.getCardContent(
+        mockAddress1,
+        mockAddress1,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+      expect(featureConfig.isEnabled).toHaveBeenCalled();
+      expect(card.actions?.length).toBe(0);
+    });
+
+    it('should add select action for selected card if feature flag is disabled', () => {
+      spyOn(featureConfig, 'isEnabled').and.returnValue(false);
+      const card = component.getCardContent(
+        mockAddress1,
+        mockAddress1,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+      expect(card.actions?.length).toBe(1);
+    });
   });
 
   describe('UI continue button', () => {

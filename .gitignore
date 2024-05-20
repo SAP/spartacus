@@ -38,6 +38,7 @@ scripts/install/config.sh
 *.launch
 .settings/
 *.sublime-workspace
+*.swp
 
 # IDE - VSCode
 .vscode/settings.json
@@ -61,10 +62,13 @@ npm-debug.log
 yarn-error.log
 testem.log
 debug.log
+prettier.log
 
 # System Files
 .DS_Store
 Thumbs.db
 
 **/git-ignore
+
+.nx/cache
 

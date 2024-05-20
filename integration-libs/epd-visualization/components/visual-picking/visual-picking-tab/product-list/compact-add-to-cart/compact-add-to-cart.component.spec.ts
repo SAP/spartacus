@@ -10,18 +10,27 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { CmsComponent, I18nTestingModule, Product } from '@spartacus/core';
+import {
+  ActiveCartFacade,
+  Cart,
+  CartUiEventAddToCart,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
+import {
+  CmsComponent,
+  EventService,
+  I18nTestingModule,
+  Product,
+} from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
   IconModule,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { AddedToCartDialogEventListener } from 'feature-libs/cart/base/components/added-to-cart-dialog';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';
 
 const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
@@ -49,25 +58,25 @@ const mockNoStockProduct: Product = {
 class MockActiveCartService {
   addEntry(_productCode: string, _quantity: number): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return EMPTY;
   }
   isStable(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getActive(): Observable<Cart> {
-    return of();
+    return EMPTY;
   }
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
   }
   getLastEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -77,9 +86,13 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
   closeDialog(_reason: string): void {}
+}
+
+class MockEventService implements Partial<EventService> {
+  dispatch<T extends object>(_event: T): void {}
 }
 
 @Component({
@@ -99,7 +112,7 @@ describe('CompactAddToCartComponent', () => {
   let service: ActiveCartFacade;
   let currentProductService: CurrentProductService;
   let el: DebugElement;
-  let listener: AddedToCartDialogEventListener;
+  let eventService: EventService;
 
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
@@ -129,7 +142,7 @@ describe('CompactAddToCartComponent', () => {
             provide: CmsComponentData,
             useValue: MockCmsComponentData,
           },
-          AddedToCartDialogEventListener,
+          { provide: EventService, useClass: MockEventService },
         ],
       }).compileComponents();
     })
@@ -140,10 +153,9 @@ describe('CompactAddToCartComponent', () => {
     addToCartComponent = fixture.componentInstance;
     service = TestBed.inject(ActiveCartFacade);
     currentProductService = TestBed.inject(CurrentProductService);
-    listener = TestBed.inject(AddedToCartDialogEventListener);
-    el = fixture.debugElement;
+    eventService = TestBed.inject(EventService);
 
-    spyOn(listener as any, 'openModal').and.stub();
+    el = fixture.debugElement;
 
     fixture.detectChanges();
   });
@@ -176,12 +188,18 @@ describe('CompactAddToCartComponent', () => {
     spyOn(service, 'addEntry').and.callThrough();
     spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
     spyOn(service, 'isStable').and.returnValue(of(true));
+    spyOn(eventService, 'dispatch').and.callThrough();
     addToCartComponent.quantity = 1;
+    const uiEvent: CartUiEventAddToCart = new CartUiEventAddToCart();
+    uiEvent.productCode = productCode;
+    uiEvent.numberOfEntriesBeforeAdd = 1;
+    uiEvent.quantity = 1;
+    uiEvent.pickupStoreName = undefined;
 
     addToCartComponent.addToCart();
 
     expect(service.addEntry).toHaveBeenCalledWith(productCode, 1, undefined);
-    expect(listener['openModal']).toHaveBeenCalledTimes(1);
+    expect(eventService.dispatch).toHaveBeenCalledWith(uiEvent);
   });
 
   describe('UI', () => {

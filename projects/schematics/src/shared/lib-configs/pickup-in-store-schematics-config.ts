@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,7 @@ import {
 import { SchematicConfig } from '../utils/lib-utils';
 
 export const PICKUP_IN_STORE_FOLDER_NAME = 'pickup-in-store';
-export const PICKUP_IN_STORE_FEATURE_MODULE_NAME = 'Pickup-In-Store';
+export const PICKUP_IN_STORE_MODULE_NAME = 'PickupInStore';
 
 export const PICKUP_IN_STORE_FEATURE_NAME_CONSTANT = 'PICKUP_IN_STORE_FEATURE';
 export const PICKUP_IN_STORE_MODULE = 'PickupInStoreModule';
@@ -33,7 +33,7 @@ export const PICKUP_IN_STORE_SCHEMATICS_CONFIG: SchematicConfig = {
     mainScope: SPARTACUS_PICKUP_IN_STORE,
   },
   folderName: PICKUP_IN_STORE_FOLDER_NAME,
-  moduleName: PICKUP_IN_STORE_FEATURE_MODULE_NAME,
+  moduleName: PICKUP_IN_STORE_MODULE_NAME,
   featureModule: {
     name: PICKUP_IN_STORE_MODULE,
     importPath: SPARTACUS_PICKUP_IN_STORE,

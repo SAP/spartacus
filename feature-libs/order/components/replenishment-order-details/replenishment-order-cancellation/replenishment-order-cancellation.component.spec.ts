@@ -14,7 +14,7 @@ import {
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { ReplenishmentOrderCancellationComponent } from './replenishment-order-cancellation.component';
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
@@ -50,7 +50,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 

@@ -3,7 +3,8 @@ on:
     types: [opened, synchronize]
     branches:
       - develop
-      - release/**
+      - develop-*
+      - release-*
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
 

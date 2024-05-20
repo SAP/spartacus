@@ -1,12 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import * as configuration from './product-configurator';
+import * as common from './common';
+import { registerCartRefreshRoute, removeCartItem } from './cart';
 
-const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
+const addToCartButtonSelector =
+  'cx-configurator-add-to-cart-button button.cx-add-to-cart-btn';
 
 const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
@@ -93,21 +96,6 @@ export function registerCreateConfigurationRoute() {
 }
 
 /**
- * Navigates to the product detail page.
- *
- * @param {string} shopName - shop name
- * @param {string} productId - Product ID
- */
-export function goToPDPage(shopName: string, productId: string): void {
-  const location = `${shopName}/en/USD/product/${productId}/${productId}`;
-  cy.visit(location).then(() => {
-    checkLoadingMsgNotDisplayed();
-    cy.location('pathname').should('contain', location);
-    cy.get('.ProductDetailsPageTemplate').should('be.visible');
-  });
-}
-
-/**
  * Navigates to the cart page.
  *
  * @param {string} shopName - shop name
@@ -120,12 +108,12 @@ export function goToCart(shopName: string) {
   });
 }
 
-/**
- * Verifies whether the loading message is not displayed.
- */
-export function checkLoadingMsgNotDisplayed(): void {
-  cy.log('Wait until the loading notification is not displayed anymore');
-  cy.get('cx-storefront').should('not.contain.value', 'Loading');
+export function removeAllItemsFromCart(products) {
+  registerCartRefreshRoute();
+  products.forEach((product) => {
+    removeCartItem(product);
+  });
+  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 }
 
 /**
@@ -136,16 +124,37 @@ export function checkGlobalMessageNotDisplayed(): void {
 }
 
 /**
- * Clicks on 'Add to Cart' button in catalog list.
+ * Verifies whether the global message is displayed and contains a text
+ * @param {string} text - We expect this text to appear in the global message
+ */
+export function checkGlobalMessageContains(text: string): void {
+  cy.get('cx-global-message').should('contain', text);
+}
+
+/**
+ * Clicks on 'Configure' button in catalog list.
+ *
+ * @param productName - product name
  */
 export function clickOnConfigureBtnInCatalog(productName: string): void {
-  cy.get(
-    `cx-configure-product a[href*='/configure/vc/product/entityKey/${productName}'`
-  )
+  cy.get(`cx-configure-product a[href*='/vc/product/entityKey/${productName}'`)
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/product/entityKey/');
-      this.checkConfigPageDisplayed();
+      checkConfigPageDisplayed();
+    });
+}
+
+/**
+ * Clicks on 'Show details' button in the catalog list or the product details page.
+ *
+ * @param productName - product name
+ */
+export function clickOnShowDetailsBtn(productName: string): void {
+  cy.get(`cx-configure-product a[href*='/vc/product/entityKey/${productName}'`)
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/product/entityKey/');
     });
 }
 
@@ -162,7 +171,7 @@ export function checkGhostAnimationNotDisplayed(): void {
  */
 export function checkConfigPageDisplayed(): void {
   checkGhostAnimationNotDisplayed();
-  checkLoadingMsgNotDisplayed();
+  common.checkLoadingMsgNotDisplayed();
   checkGlobalMessageNotDisplayed();
   configuration.checkTabBarDisplayed();
   configuration.checkGroupTitleDisplayed();
@@ -255,7 +264,11 @@ export function checkConflictDetectedMsgNotDisplayed(
   attributeName: string
 ): void {
   const attributeId = configuration.getAttributeLabelId(attributeName);
-  cy.get(`#${attributeId}`).next().should('not.exist');
+  cy.get(`#${attributeId}`)
+    .parent()
+    .within(() => {
+      cy.get('.cx-conflict-msg').should('not.exist');
+    });
 }
 
 /**

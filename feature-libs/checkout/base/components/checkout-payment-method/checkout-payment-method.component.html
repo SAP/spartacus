@@ -18,15 +18,14 @@
     <p class="cx-checkout-text">
       {{ 'paymentForm.choosePaymentMethod' | cxTranslate }}
     </p>
-    <div class="cx-checkout-btns row">
-      <div class="col-md-12 col-lg-6">
-        <button
-          class="btn btn-block btn-secondary"
-          (click)="showNewPaymentForm()"
-        >
-          {{ 'paymentForm.addNewPayment' | cxTranslate }}
-        </button>
-      </div>
+
+    <div class="cx-checkout-btns cx-checkout-btns-top">
+      <button
+        class="btn btn-block btn-secondary"
+        (click)="showNewPaymentForm()"
+      >
+        {{ 'paymentForm.addNewPayment' | cxTranslate }}
+      </button>
     </div>
 
     <div class="cx-checkout-body row">
@@ -47,6 +46,15 @@
           ></cx-card>
         </div>
       </div>
+    </div>
+
+    <div class="cx-checkout-btns cx-checkout-btns-bottom">
+      <button
+        class="btn btn-block btn-secondary"
+        (click)="showNewPaymentForm()"
+      >
+        {{ 'paymentForm.addNewPayment' | cxTranslate }}
+      </button>
     </div>
 
     <div class="row cx-checkout-btns">

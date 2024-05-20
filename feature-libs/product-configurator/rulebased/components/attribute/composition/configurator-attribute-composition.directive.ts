@@ -1,17 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
   Directive,
+  inject,
   Injector,
   Input,
   isDevMode,
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { ConfiguratorAttributeCompositionConfig } from './configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionContext } from './configurator-attribute-composition.model';
 
@@ -21,6 +23,8 @@ import { ConfiguratorAttributeCompositionContext } from './configurator-attribut
 export class ConfiguratorAttributeCompositionDirective implements OnInit {
   @Input('cxConfiguratorAttributeComponent')
   context: ConfiguratorAttributeCompositionContext;
+
+  protected logger = inject(LoggerService);
 
   constructor(
     protected vcr: ViewContainerRef,
@@ -45,7 +49,7 @@ export class ConfiguratorAttributeCompositionDirective implements OnInit {
       });
     } else {
       if (isDevMode()) {
-        console.warn(
+        this.logger.warn(
           'No attribute type component available for: ' + componentKey
         );
       }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -91,7 +91,7 @@ export class ConfiguratorGroupComponent {
    *
    * @returns {Observable<boolean> | undefined } - 'True' if the expert mode is active, otherwise 'false'.
    */
-  get expMode(): Observable<boolean> | undefined {
+  get expMode(): Observable<boolean> {
     return this.configExpertModeService.getExpModeActive();
   }
 

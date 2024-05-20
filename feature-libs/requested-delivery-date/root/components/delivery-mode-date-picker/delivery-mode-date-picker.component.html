@@ -1,0 +1,30 @@
+<ng-container *ngIf="isEarliestRetrievalDatePresent()">
+  <ng-container *ngIf="isDatePickerReadOnly; else datePickerEnabled">
+    <cx-card
+      [content]="
+        getRequestedDeliveryDateCardContent(requestedRetrievalAt | cxDate)
+          | async
+      "
+    ></cx-card>
+  </ng-container>
+  <ng-template #datePickerEnabled>
+    <div class="form-check">
+      <form [formGroup]="form">
+        <label class="row">
+          <div class="pl-4 col-8">
+            {{ 'requestedDeliveryDate.datePickerLabel' | cxTranslate }}
+          </div>
+          <div class="col-4">
+            <cx-date-picker
+              [control]="$any(form.get('requestDeliveryDate'))"
+              [min]="earliestRetrievalAt"
+              [required]="true"
+              (update)="setRequestedDeliveryDate()"
+            >
+            </cx-date-picker>
+          </div>
+        </label>
+      </form>
+    </div>
+  </ng-template>
+</ng-container>
