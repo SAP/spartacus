@@ -21,16 +21,16 @@ import {
 @NgModule({
   imports: [QuoteRootModule],
   providers: [
-    provideConfig({
-      featureModules: {
-        ['']: {
-          module: () =>
-            import('../features/cpq-quote/cpq-quote-feature.module').then(
-              (m) => m.CPQQUOTEFeatureModule
-            ),
-        },
-      },
-    }),
+    // provideConfig({
+    //   featureModules: {
+    //     ['']: {
+    //       module: () =>
+    //         import('../features/cpq-quote/cpq-quote-feature.module').then(
+    //           (m) => m.CPQQUOTEFeatureModule
+    //         ),
+    //     },
+    //   },
+    // }),
     provideConfig({
       featureModules: {
         [QUOTE_FEATURE]: {

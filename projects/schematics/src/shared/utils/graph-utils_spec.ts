@@ -206,14 +206,14 @@ describe('Graph utils', () => {
           "CDC",
           "SmartEdit",
           "Estimated-Delivery-Date",
+          "cpq-quote",
           "Qualtrics",
           "Future-Stock",
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",
           "Pickup-In-Store",
-          "Quote",
-          "cpq-quote"
+          "Quote"
         ]
       `);
     });
