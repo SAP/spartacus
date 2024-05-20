@@ -1,0 +1,36 @@
+<div
+  class="cx-review-summary"
+  *ngIf="paymentDetails$ | async as paymentDetails"
+>
+  <div class="cx-review-summary-card cx-review-summary-payment-card">
+    <div>
+      <cx-card
+        [content]="getBillingAddressCard(paymentDetails) | async"
+      ></cx-card>
+    </div>
+    <div class="cx-review-summary-edit-step">
+      <a
+        [attr.aria-label]="'checkoutReview.editPaymentDetails' | cxTranslate"
+        [routerLink]="{ cxRoute: paymentDetailsStepRoute } | cxUrl"
+      >
+        <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
+      </a>
+    </div>
+  </div>
+
+  <div class="cx-review-summary-card cx-review-summary-payment-card">
+    <div>
+      <cx-card
+        [content]="getPaymentMethodCard(paymentDetails) | async"
+      ></cx-card>
+    </div>
+    <div class="cx-review-summary-edit-step">
+      <a
+        [attr.aria-label]="'checkoutReview.editPaymentDetails' | cxTranslate"
+        [routerLink]="{ cxRoute: paymentDetailsStepRoute } | cxUrl"
+      >
+        <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
+      </a>
+    </div>
+  </div>
+</div>

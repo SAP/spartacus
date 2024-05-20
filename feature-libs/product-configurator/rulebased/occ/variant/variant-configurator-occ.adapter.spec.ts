@@ -5,16 +5,16 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  CartModification,
   CART_MODIFICATION_NORMALIZER,
+  CartModification,
 } from '@spartacus/cart/base/root';
 import {
   BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
+  OCC_HTTP_TOKEN,
   OccEndpointsService,
   TranslationService,
-  OCC_HTTP_TOKEN,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -24,10 +24,11 @@ import {
 } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
 import {
-  VariantConfiguratorOccAdapter,
   VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
+  VariantConfiguratorOccAdapter,
 } from '.';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { OccConfiguratorTestUtils } from '../../testing/occ-configurator-test-utils';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
@@ -39,7 +40,6 @@ import {
   VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 class MockOccEndpointsService {
   buildUrl(
@@ -64,6 +64,7 @@ class MockTranslationService {
 const productCode = 'CONF_LAPTOP';
 const kbLogSys = 'RR5CLNT910';
 let expMode = true;
+let forceReset = false;
 const cartEntryNo = '1';
 const configId = '1234-56-7890';
 const CONFIG_ID_TEMPLATE = '1234-56-abcd';
@@ -213,7 +214,7 @@ describe('OccConfigurationVariantAdapter', () => {
           urlParams: {
             productCode,
           },
-          queryParams: { expMode },
+          queryParams: { expMode, forceReset },
         }
       );
 
@@ -245,7 +246,11 @@ describe('OccConfigurationVariantAdapter', () => {
           urlParams: {
             productCode,
           },
-          queryParams: { configIdTemplate: CONFIG_ID_TEMPLATE, expMode },
+          queryParams: {
+            configIdTemplate: CONFIG_ID_TEMPLATE,
+            expMode,
+            forceReset,
+          },
         }
       );
       mockReq.flush(productConfigurationOcc);
@@ -281,7 +286,7 @@ describe('OccConfigurationVariantAdapter', () => {
           urlParams: {
             productCode,
           },
-          queryParams: { expMode },
+          queryParams: { expMode, forceReset },
         }
       );
 
@@ -290,6 +295,36 @@ describe('OccConfigurationVariantAdapter', () => {
       expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
         sendUserIdAsHeader: true,
       });
+      mockReq.flush(productConfigurationOcc);
+    });
+
+    it('should set forceReset flag if requested', (done) => {
+      forceReset = true;
+      spyOn(converterService, 'pipeable').and.callThrough();
+
+      occConfiguratorVariantAdapter
+        .createConfiguration(configuration.owner, undefined, true)
+        .subscribe((resultConfiguration) => {
+          expect(resultConfiguration.configId).toEqual(configId);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET' && req.url === 'createVariantConfiguration';
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'createVariantConfiguration',
+        {
+          urlParams: {
+            productCode,
+          },
+          queryParams: {
+            expMode,
+            forceReset,
+          },
+        }
+      );
       mockReq.flush(productConfigurationOcc);
     });
   });
@@ -639,6 +674,96 @@ describe('OccConfigurationVariantAdapter', () => {
           userId,
           orderId: documentId,
           orderEntryNumber: documentEntryNumber,
+        },
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+    );
+    mockReq.flush(overviewOcc);
+  });
+
+  it('should call readVariantConfigurationOverviewForQuoteEntry endpoint in case ownwer is quote', (done) => {
+    spyOn(converterService, 'pipeable').and.callThrough();
+    const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+      {
+        owner: {
+          ...configuration.owner,
+          type: CommonConfigurator.OwnerType.QUOTE_ENTRY,
+        },
+        userId: userId,
+        orderId: documentId,
+        orderEntryNumber: documentEntryNumber,
+      };
+    occConfiguratorVariantAdapter
+      .readConfigurationForOrderEntry(params)
+      .subscribe((resultConfiguration) => {
+        expect(resultConfiguration.configId).toEqual(configId);
+        done();
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readVariantConfigurationOverviewForQuoteEntry'
+      );
+    });
+
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+      'readVariantConfigurationOverviewForQuoteEntry',
+      {
+        urlParams: {
+          userId,
+          quoteId: documentId,
+          quoteEntryNumber: documentEntryNumber,
+        },
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+    );
+    mockReq.flush(overviewOcc);
+  });
+
+  it('should call readVariantConfigurationOverviewForSavedCartEntry endpoint in case ownwer is savedCart', (done) => {
+    spyOn(converterService, 'pipeable').and.callThrough();
+    const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+      {
+        owner: {
+          ...configuration.owner,
+          type: CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
+        },
+        userId: userId,
+        orderId: documentId,
+        orderEntryNumber: documentEntryNumber,
+      };
+    occConfiguratorVariantAdapter
+      .readConfigurationForOrderEntry(params)
+      .subscribe((resultConfiguration) => {
+        expect(resultConfiguration.configId).toEqual(configId);
+        done();
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readVariantConfigurationOverviewForSavedCartEntry'
+      );
+    });
+
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+      'readVariantConfigurationOverviewForSavedCartEntry',
+      {
+        urlParams: {
+          userId,
+          cartId: documentId,
+          cartEntryNumber: documentEntryNumber,
         },
       }
     );

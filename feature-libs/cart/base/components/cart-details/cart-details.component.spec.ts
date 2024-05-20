@@ -12,7 +12,6 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   AuthService,
-  FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -25,7 +24,7 @@ class MockActiveCartService {
   loadDetails(): void {}
   updateEntry(): void {}
   getActive(): Observable<Cart> {
-    return of<Cart>({ code: '123', totalItems: 1 });
+    return of({ code: '123', totalItems: 1 } as Cart);
   }
   getEntries(): Observable<OrderEntry[]> {
     return of([{}]);
@@ -66,6 +65,12 @@ class MockCartCouponComponent {
   cartIsLoading = false;
 }
 
+@Component({
+  selector: 'cx-cart-validation-warnings',
+  template: '',
+})
+class MockCartValidationWarningsComponent {}
+
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
@@ -92,16 +97,12 @@ describe('CartDetailsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          PromotionsModule,
-          I18nTestingModule,
-          FeaturesConfigModule,
-        ],
+        imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
         declarations: [
           CartDetailsComponent,
           MockCartItemListComponent,
           MockCartCouponComponent,
+          MockCartValidationWarningsComponent,
         ],
         providers: [
           { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },

@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { ConfigInitializerService } from '../../../config/config-initializer/config-initializer.service';
@@ -17,7 +17,7 @@ import { RoutingConfig } from '../config/routing-config';
 @Injectable({ providedIn: 'root' })
 export class SecurePortalConfigInitializer implements ConfigInitializer {
   readonly scopes = ['routing'];
-  readonly configFactory = () => this.resolveConfig().toPromise();
+  readonly configFactory = () => lastValueFrom(this.resolveConfig());
 
   constructor(
     protected baseSiteService: BaseSiteService,

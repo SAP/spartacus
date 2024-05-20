@@ -24,7 +24,7 @@ import {
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
-import { Observable, of, Subject } from 'rxjs';
+import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
@@ -69,7 +69,7 @@ class MockGlobalMessageService {
   add = createSpy();
   remove = createSpy();
   get() {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -79,10 +79,10 @@ class MockRoutingService {
 
 class MockAnonymousConsentsService {
   getConsent(_templateCode: string): Observable<AnonymousConsent> {
-    return of();
+    return EMPTY;
   }
   getTemplate(_templateCode: string): Observable<ConsentTemplate> {
-    return of();
+    return EMPTY;
   }
   withdrawConsent(_templateCode: string): void {}
   giveConsent(_templateCode: string): void {}
@@ -110,6 +110,8 @@ class MockRegisterComponentService
   getTitles = createSpy().and.returnValue(of(mockTitlesList));
   register = createSpy().and.returnValue(of(undefined));
   postRegisterMessage = createSpy();
+  getAdditionalConsents = createSpy();
+  generateAdditionalConsentsFormControl = createSpy();
 }
 
 describe('RegisterComponent', () => {
@@ -200,15 +202,6 @@ describe('RegisterComponent', () => {
 
   describe('ngOnInit', () => {
     it('should load titles', () => {
-      spyOn(globalMessageService, 'get').and.returnValue(
-        of({
-          [GlobalMessageType.MSG_TYPE_ERROR]: ['This field is required.'],
-        } as GlobalMessageEntities)
-      );
-      component.ngOnInit();
-    });
-    [];
-    it('should load titles', () => {
       component.ngOnInit();
 
       let titleList: Title[];
@@ -218,6 +211,27 @@ describe('RegisterComponent', () => {
         })
         .unsubscribe();
       expect(titleList).toEqual(mockTitlesList);
+    });
+
+    it('should handle error when title code is required from the backend config', () => {
+      spyOn(globalMessageService, 'get').and.returnValue(
+        of({
+          [GlobalMessageType.MSG_TYPE_ERROR]: [
+            { raw: 'This field is required.' },
+          ],
+        } as GlobalMessageEntities)
+      );
+      component.ngOnInit();
+
+      expect(globalMessageService.remove).toHaveBeenCalledWith(
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'register.titleRequired',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
 
     it('should show spinner when loading = true', () => {

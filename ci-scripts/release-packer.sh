@@ -10,7 +10,7 @@ function configure_project {
     mkdir sub-folder
     mv !(sub-folder) sub-folder
     cd sub-folder
-    yarn --frozen-lockfile
+    npm ci && npm run build:libs
 }
 
 # Clear root containing the old package so the next package can be published 
@@ -19,11 +19,17 @@ function clear_root {
     cp -r sub-folder/.pipeline .
     cp sub-folder/.npmignore .
 }
+# Append root's .nmpignore into module's .nmpignore file so it contains all paths.
+function append_npmignore {
+    $(cd $1 && echo "\n$2" >> .npmignore);
+}
 
 # Package is built and set at the root level
 function pack {
     PACKAGE=$1
     cd sub-folder
+
+    local CONTENT="$(cat .npmignore)"
 
     if [[ -z "$PACKAGE" ]]; then
         echo "Package cannot be empty"
@@ -31,10 +37,12 @@ function pack {
     elif [[ $PACKAGE == 'styles' ]]; then
         cp -r projects/storefrontstyles/* ../.
     elif [[ $PACKAGE == 'schematics' ]]; then
-        yarn build:schematics
         cp -r projects/schematics/* ../.
+    elif [[ $PACKAGE == 'storefront' ]]; then
+        append_npmignore "dist/storefrontlib" "$CONTENT"
+        cp -r dist/storefrontlib/* ../.
     else
-        yarn build:$PACKAGE
+        append_npmignore "dist/$PACKAGE/" "$CONTENT"
         cp -r dist/$PACKAGE/* ../.
     fi
 }

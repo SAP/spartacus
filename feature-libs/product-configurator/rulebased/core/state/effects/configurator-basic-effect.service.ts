@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,7 @@ import { Configurator } from '../../model/configurator.model';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorBasicEffectService {
   /**
-   * Finds first attribute group with attributes for a configuration (ignores conflict groups).
+   * Finds first attribute group with attributes for a configuration (ignores conflict groups per default).
    * If optional parameter 'includeConflicts' is set to true it finds first group with attributes including conflict groups.
    * Throws error if such a group does not exist, as this is an illegal state
    * @param configuration

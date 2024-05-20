@@ -1,20 +1,20 @@
 import { Component, Input, Type } from '@angular/core';
-import { I18nTestingModule } from '@spartacus/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-sidebar.component';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-sidebar.component';
 
 const OWNER: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -43,6 +43,10 @@ function initTestComponent() {
 
   spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
   spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
+  spyOn(
+    configuratorStorefrontUtilsService,
+    'getSpareViewportHeight'
+  ).and.callThrough();
 }
 
 class MockConfiguratorCommonsService {
@@ -58,9 +62,14 @@ class MockConfiguratorRouterExtractorService {
 }
 
 class MockConfiguratorStorefrontUtilsService {
-  getHeight() {}
-  changeStyling() {}
-  getElement() {}
+  getElement(): void {}
+  getElements(): void {}
+  getPrefixId(): void {}
+  changeStyling(): void {}
+  removeStyling(): void {}
+  createOvMenuItemId(): void {}
+  getSpareViewportHeight(): void {}
+  getVerticallyScrolledPixels(): void {}
 }
 
 @Component({

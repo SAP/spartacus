@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,12 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import {
+  EntitiesModel,
+  PaginationModel,
+  Translatable,
+  useFeatureStyles,
+} from '@spartacus/core';
 import {
   ICON_TYPE,
   Table,
@@ -21,7 +26,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { OrganizationTableType } from '../organization.model';
-import { ListService } from './list.service';
+import { CreateButtonType, ListService } from './list.service';
 
 @Component({
   selector: 'cx-org-list',
@@ -36,7 +41,10 @@ export class ListComponent<T = any, P = PaginationModel> {
   constructor(
     protected service: ListService<T, P>,
     protected organizationItemService: ItemService<T>
-  ) {}
+  ) {
+    useFeatureStyles('a11yOrganizationListHeadingOrder');
+    useFeatureStyles('a11yListOversizedFocus');
+  }
 
   @HostBinding('class')
   viewType: OrganizationTableType = this.service.viewType;
@@ -46,6 +54,10 @@ export class ListComponent<T = any, P = PaginationModel> {
   sortCode: string | undefined;
 
   iconTypes = ICON_TYPE;
+
+  createButtonAllTypes = CreateButtonType;
+
+  createButtonType = this.service.getCreateButtonType();
 
   /**
    * The current key represents the current selected item from the dataset.
@@ -102,5 +114,19 @@ export class ListComponent<T = any, P = PaginationModel> {
         ...({ sort: this.sortCode } as PaginationModel),
       });
     }
+  }
+
+  /**
+   * Function to call when 'Manage Users' button is clicked
+   */
+  onCreateButtonClick(): void {
+    this.service.onCreateButtonClick();
+  }
+
+  /**
+   * Returns the label for Create button
+   */
+  getCreateButtonLabel(): Translatable {
+    return this.service.getCreateButtonLabel();
   }
 }

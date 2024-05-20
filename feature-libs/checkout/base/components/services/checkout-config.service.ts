@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -74,6 +74,10 @@ export class CheckoutConfigService {
     return lastMode
       ? deliveryModes[0].code
       : this.findMatchingDeliveryMode(deliveryModes, index + 1);
+  }
+
+  shouldUseAddressSavedInCart(): boolean {
+    return !!this.checkoutConfig?.checkout?.guestUseSavedAddress;
   }
 
   getPreferredDeliveryMode(deliveryModes: DeliveryMode[]): string | undefined {

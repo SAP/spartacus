@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -69,7 +69,7 @@ interface VisualContentChangesFinishedEvent {
 interface VisualContentLoadFinishedEvent {}
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class VisualViewerService implements OnDestroy {
   constructor(
@@ -839,14 +839,14 @@ export class VisualViewerService implements OnDestroy {
       const nodeRefsToExclude: NodeRef[] = topLevelHotspotNodeRefs.filter(
         (nodeRef: NodeRef) => !nodeRefsToIncludeSet.has(nodeRef)
       );
-      this.viewport.showHotspots(nodeRefsToExclude, false, null);
+      this.viewport.showHotspots(nodeRefsToExclude, false, 0);
       this.viewport.showHotspots(
         nodeRefsToInclude,
         true,
         this.getCSSColor(this._showAllHotspotsColor)
       );
     } else {
-      this.viewport.showHotspots(topLevelHotspotNodeRefs, false, null);
+      this.viewport.showHotspots(topLevelHotspotNodeRefs, false, 0);
     }
   }
 
@@ -1104,17 +1104,22 @@ export class VisualViewerService implements OnDestroy {
       this.windowRef.document
         .getElementsByTagName('head')[0]
         .appendChild(script);
-      script.onload = () => {
+
+      (this.windowRef.document as any).onUi5Bootstrapped = () => {
         subscriber.next();
         subscriber.complete();
       };
+
       script.onerror = (error: any) => {
         subscriber.error(error);
         subscriber.complete();
       };
+
       script.id = 'sap-ui-bootstrap';
       script.type = 'text/javascript';
       script.setAttribute('data-sap-ui-compatVersion', 'edge');
+      script.setAttribute('data-sap-ui-async', 'true');
+      script.setAttribute('data-sap-ui-onInit', 'document.onUi5Bootstrapped()');
       script.src = ui5Config.bootstrapUrl;
     });
   }
@@ -1143,6 +1148,11 @@ export class VisualViewerService implements OnDestroy {
       return;
     }
 
+    this.destroyContentConnector(core, viewport);
+    this.destroyViewManagers(core, viewport);
+  }
+
+  private destroyContentConnector(core: Core, viewport: Viewport): void {
     const contentConnectorId = viewport.getContentConnector();
     if (contentConnectorId) {
       const contentConnector = core.byId(contentConnectorId);
@@ -1150,7 +1160,9 @@ export class VisualViewerService implements OnDestroy {
         contentConnector.destroy();
       }
     }
+  }
 
+  private destroyViewManagers(core: Core, viewport: Viewport): void {
     const viewStateManagerId = viewport.getViewStateManager();
 
     if (viewStateManagerId && core.byId(viewStateManagerId)) {
@@ -1294,7 +1306,9 @@ export class VisualViewerService implements OnDestroy {
           sap_ui_vk_DrawerToolbar: any
         ) => {
           const core: Core = this.getCore();
-          const uiArea: UIArea = core.getUIArea(this.elementRef.nativeElement);
+          const uiArea: UIArea | null | undefined = core.getUIArea(
+            this.elementRef.nativeElement
+          );
           if (uiArea) {
             const oldViewport = uiArea.getContent()[0] as Viewport;
             this.destroyViewportAssociations(oldViewport);

@@ -21,7 +21,7 @@ $useAccordionOnly: false !default;
         bottom: 5px;
         position: absolute;
         inset-inline-end: 0;
-        color: var(--cx-color-text);
+        color: var(--cx-color-secondary);
       }
     }
     &:after {
@@ -86,7 +86,7 @@ $useAccordionOnly: false !default;
       margin-bottom: 0;
       &.active,
       &:hover {
-        color: var(--cx-color-primary);
+        color: var(--cx-color-primary-accent);
       }
       &:focus {
         z-index: 1;
@@ -106,8 +106,8 @@ $useAccordionOnly: false !default;
         margin-inline-end: auto;
         margin-bottom: auto;
         margin-inline-start: auto;
-        height: 5px;
-        background: var(--cx-color-primary);
+        height: 3px;
+        background: var(--cx-color-primary-accent);
 
         // the tab hover effect uses a border in the :after pseudo
         // that is animated from 0% to 100% width

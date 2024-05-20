@@ -7,7 +7,7 @@ import * as ngrxStore from '@ngrx/store';
 import { StoreModule } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -15,7 +15,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { CONFIG_ID } from '../../../testing/configurator-test-data';
+import { CONFIG_ID, GROUP_ID_1 } from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
@@ -89,7 +89,20 @@ const productConfigurationWithConflict: Configurator.Configuration = {
   ...productConfiguration,
   groups: [
     {
-      id: GROUP_ID_CONFLICT,
+      id: 'CONFLICT_HEADER',
+      groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+      subGroups: [
+        {
+          id: GROUP_ID_CONFLICT,
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+          subGroups: [],
+          attributes: [{ name: ATTRIBUTE_NAME }],
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_1,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       subGroups: [],
       attributes: [{ name: ATTRIBUTE_NAME }],
     },
@@ -121,6 +134,14 @@ let entitiesInConfigurationState: {
 let configurationState: any;
 
 let readFromCartEntryObs: Observable<Configurator.Configuration>;
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 describe('ConfiguratorCartEffect', () => {
   let addToCartMock: jasmine.Spy;
@@ -165,6 +186,7 @@ describe('ConfiguratorCartEffect', () => {
           provide: ConfiguratorUtilsService,
           useClass: ConfiguratorUtilsService,
         },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -390,32 +412,49 @@ describe('ConfiguratorCartEffect', () => {
       );
     });
 
-    it('should trigger the price update without group specified in case service is not present', () => {
-      readFromCartEntryObs = of(productConfiguration);
-      const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary({
-        ...productConfiguration,
-      });
+    it('should trigger the price action for the first non-conflict attribute group if immediateConflictResolution is active', () => {
+      const productConfigImmediateConflictResolution: Configurator.Configuration =
+        {
+          ...productConfigurationWithConflict,
+          immediateConflictResolution: true,
+        };
+      readFromCartEntryObs = of(productConfigImmediateConflictResolution);
+
+      const updatePriceActionForConflict =
+        new ConfiguratorActions.UpdatePriceSummary({
+          ...productConfigImmediateConflictResolution,
+          interactionState: { currentGroup: GROUP_ID_1 },
+        });
+
+      const readCartEntrySuccessActionForConflict =
+        new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+          productConfigImmediateConflictResolution
+        );
+
+      const searchVariantsActionForConflict =
+        new ConfiguratorActions.SearchVariants(
+          productConfigImmediateConflictResolution
+        );
 
       actions$ = cold('-a', { a: action });
       const expected = cold('-(bcd)', {
-        b: readCartEntrySuccessAction,
-        c: updatePriceAction,
-        d: searchVariantsAction,
+        b: readCartEntrySuccessActionForConflict,
+        c: updatePriceActionForConflict,
+        d: searchVariantsActionForConflict,
       });
 
-      configCartEffects['configuratorBasicEffectService'] = undefined;
       expect(configCartEffects.readConfigurationForCartEntry$).toBeObservable(
         expected
       );
     });
 
     it('should emit a fail action if something goes wrong', () => {
-      readFromCartEntryObs = throwError(errorResponse);
+      readFromCartEntryObs = throwError(() => errorResponse);
 
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse),
+          error: normalizeHttpError(errorResponse, new MockLoggerService()),
         }
       );
       actions$ = cold('-a', { a: action });
@@ -454,7 +493,7 @@ describe('ConfiguratorCartEffect', () => {
 
     it('should emit a fail action if something goes wrong', () => {
       readConfigurationForOrderEntryMock.and.returnValue(
-        throwError(errorResponse)
+        throwError(() => errorResponse)
       );
       const readFromOrderEntry: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
         {
@@ -467,7 +506,7 @@ describe('ConfiguratorCartEffect', () => {
       const completion =
         new ConfiguratorActions.ReadOrderEntryConfigurationFail({
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse),
+          error: normalizeHttpError(errorResponse, new MockLoggerService()),
         });
       actions$ = cold('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -543,7 +582,7 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should emit CartAddEntryFail in case add to cart call is not successful', () => {
-      addToCartMock.and.returnValue(throwError(errorResponse));
+      addToCartMock.and.returnValue(throwError(() => errorResponse));
       const payloadInput: Configurator.AddToCartParameters = {
         userId: userId,
         cartId: cartId,
@@ -558,7 +597,7 @@ describe('ConfiguratorCartEffect', () => {
         cartId,
         productCode,
         quantity,
-        error: normalizeHttpError(errorResponse),
+        error: normalizeHttpError(errorResponse, new MockLoggerService()),
       });
 
       actions$ = cold('-a', { a: action });
@@ -590,7 +629,7 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should emit AddToCartFail in case update cart entry call is not successful', () => {
-      updateCartEntryMock.and.returnValue(throwError(errorResponse));
+      updateCartEntryMock.and.returnValue(throwError(() => errorResponse));
 
       const action = new ConfiguratorActions.UpdateCartEntry(
         payloadInputUpdateConfiguration
@@ -599,7 +638,7 @@ describe('ConfiguratorCartEffect', () => {
         userId,
         cartId,
         entryNumber: entryNumber.toString(),
-        error: normalizeHttpError(errorResponse),
+        error: normalizeHttpError(errorResponse, new MockLoggerService()),
       });
 
       actions$ = cold('-a', { a: action });

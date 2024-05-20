@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,6 @@
  * - schematics should also have version synced from the root package.json and library list of dependencies (should be done in schematics)
  */
 
-import chalk from 'chalk';
 import { execSync } from 'child_process';
 import fs, { readFileSync } from 'fs';
 import glob from 'glob';
@@ -35,15 +34,16 @@ import {
   SPARTACUS_SCOPE,
 } from './const';
 import {
-  error,
   Library,
-  logUpdatedFile,
   PackageJson,
   ProgramOptions,
-  reportProgress,
   Repository,
+  error,
+  logUpdatedFile,
+  reportProgress,
   success,
 } from './index';
+import {chalk} from "../chalk";
 
 // ------------ Utilities ------------
 
@@ -162,7 +162,7 @@ export function manageDependencies(
         const sourceFile = ts.createSourceFile(
           fileName,
           readFileSync(fileName).toString(),
-          ts.ScriptTarget.ES2020,
+          ts.ScriptTarget.ES2022,
           true
         );
 
@@ -674,7 +674,7 @@ function checkIfWeHaveAllDependenciesInPackageJson(
           'dependencies'
         )}\` or \`${chalk.bold('devDependencies')}\`.`,
         `Install them with \`${chalk.bold(
-          'yarn add <dependency-name> [--dev]'
+          'npm install <dependency-name> [--save-dev]'
         )}\`.`,
       ]);
     } else {
@@ -785,7 +785,7 @@ function addMissingDependenciesToPackageJson(
           'peerDependency'
         )}\` might be a breaking change!`,
         `This can be automatically fixed by running \`${chalk.bold(
-          'yarn config:update'
+          'npm run config:update'
         )}\`.`,
       ]);
     }
@@ -811,7 +811,7 @@ function removeNotUsedDependenciesFromPackageJson(
   options: ProgramOptions
 ): void {
   // Keep these dependencies in schematics as these are used as external schematics
-  const externalSchematics = ['@angular/pwa', '@nguniversal/express-engine'];
+  const externalSchematics = ['@angular/pwa', '@angular/ssr'];
 
   if (options.fix) {
     reportProgress('Removing unused dependencies');
@@ -869,7 +869,7 @@ function removeNotUsedDependenciesFromPackageJson(
           'dependencies'
         )}\` or \`${chalk.bold('peerDependencies')}\`.`,
         `This can be automatically fixed by running \`${chalk.bold(
-          'yarn config:update'
+          'npm run config:update'
         )}\`.`,
       ]);
     }
@@ -996,7 +996,7 @@ function checkTsLibDep(
             tsLibName
           )}\` specified as \`${chalk.bold('dependency')}.`,
           `This can be automatically fixed by running \`${chalk.bold(
-            'yarn config:update'
+            'npm run config:update'
           )}\`.`,
         ]);
       }
@@ -1020,10 +1020,10 @@ function checkForLockFile(
   options: ProgramOptions
 ): void {
   if (!options.fix) {
-    reportProgress('Checking for unnecessary `yarn.lock` files');
+    reportProgress('Checking for unnecessary `package-lock.json` files');
     let errorsFound = false;
     Object.values(libraries).forEach((lib) => {
-      const lockFile = glob.sync(`${lib.directory}/yarn.lock`);
+      const lockFile = glob.sync(`${lib.directory}/package-lock.json`);
       if (lockFile.length > 0) {
         errorsFound = true;
         error(
@@ -1031,7 +1031,9 @@ function checkForLockFile(
           [
             `Library \`${chalk.bold(
               lib.name
-            )}\` should not have its own \`${chalk.bold('yarn.lock')}\`.`,
+            )}\` should not have its own \`${chalk.bold(
+              'package-lock.json'
+            )}\`.`,
           ],
           [
             `Libraries should use packages from root \`${chalk.bold(
@@ -1178,7 +1180,7 @@ function updateDependenciesVersions(
           'version'
         )}\` from repository.`,
         `This can be automatically fixed by running \`${chalk.bold(
-          'yarn config:update'
+          'npm run config:update'
         )}\`.`,
       ]);
     }
@@ -1189,7 +1191,7 @@ function updateDependenciesVersions(
           PACKAGE_JSON
         )}\`.`,
         `This can be automatically fixed by running \`${chalk.bold(
-          'yarn config:update'
+          'npm run config:update'
         )}\`.`,
       ]);
     }
@@ -1202,7 +1204,7 @@ function updateDependenciesVersions(
         `Bumping to a higher dependency version should be only done in major releases!`,
         `We want to specify everywhere the lowest compatible dependency version with Spartacus.`,
         `This can be automatically fixed by running \`${chalk.bold(
-          'yarn config:update --bump-versions'
+          'npm run config:update --bump-versions'
         )}\`.`,
       ]);
     }

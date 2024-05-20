@@ -11,7 +11,7 @@ import {
   ReplenishmentOrderScheduledEvent,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { ScheduledReplenishmentOrderConnector } from '../connectors/scheduled-replenishment-order.connector';
 import { ScheduledReplenishmentOrderService } from './scheduled-replenishment-order.service';
 
@@ -37,7 +37,7 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(of());
+  get = createSpy().and.returnValue(EMPTY);
   dispatch = createSpy();
 }
 

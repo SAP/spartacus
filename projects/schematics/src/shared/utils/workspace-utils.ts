@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -111,9 +111,7 @@ export function getProjectFromWorkspace<
 export function getDefaultProjectNameFromWorkspace(tree: Tree): string {
   const workspace = getWorkspace(tree).workspace;
 
-  return workspace.defaultProject !== undefined
-    ? workspace.defaultProject
-    : Object.keys(workspace.projects)[0];
+  return Object.keys(workspace.projects)[0];
 }
 
 export function getProjectTargets(project: WorkspaceProject): WorkspaceTargets;
@@ -185,6 +183,7 @@ export function validateSpartacusInstallation(packageJson: any): void {
 }
 
 export function scaffoldStructure(options: SpartacusOptions): Rule {
+  const APP_PATH = 'app/spartacus';
   return (_tree: Tree, _context: SchematicContext) => {
     return chain([
       debugLogRule(
@@ -194,19 +193,19 @@ export function scaffoldStructure(options: SpartacusOptions): Rule {
 
       ensureModuleExists({
         name: SPARTACUS_MODULE,
-        path: 'app/spartacus',
+        path: APP_PATH,
         module: 'app',
         project: options.project,
       }),
       ensureModuleExists({
         name: SPARTACUS_FEATURES_MODULE,
-        path: 'app/spartacus',
+        path: APP_PATH,
         module: 'spartacus',
         project: options.project,
       }),
       ensureModuleExists({
         name: SPARTACUS_CONFIGURATION_MODULE,
-        path: 'app/spartacus',
+        path: APP_PATH,
         module: 'spartacus',
         project: options.project,
       }),

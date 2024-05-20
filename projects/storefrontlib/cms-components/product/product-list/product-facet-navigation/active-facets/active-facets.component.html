@@ -1,7 +1,10 @@
 <ng-container *ngIf="facetList$ | async as facetList">
-  <h4 *ngIf="facetList.activeFacets && facetList.activeFacets.length > 0">
+  <div
+    id="cx-active-facets-groupName"
+    *ngIf="facetList.activeFacets && facetList.activeFacets.length > 0"
+  >
     {{ 'productList.appliedFilter' | cxTranslate }}
-  </h4>
+  </div>
 
   <a
     *ngFor="let facet of facetList?.activeFacets"

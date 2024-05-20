@@ -1,15 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import {
@@ -26,7 +21,8 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-form',
   templateUrl: './configurator-overview-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ConfiguratorOverviewFormComponent {
   @HostBinding('class.ghost') ghostStyle = true;
@@ -52,28 +48,10 @@ export class ConfiguratorOverviewFormComponent {
       })
     );
 
-  //TODO(CXSPA-1014): make ConfiguratorStorefrontUtilsService a required dependency
-  constructor(
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    configUtils: ConfiguratorStorefrontUtilsService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  );
-
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    configUtils: ConfiguratorStorefrontUtilsService
-  );
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    @Optional()
-    protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
 
   /**
@@ -90,8 +68,8 @@ export class ConfiguratorOverviewFormComponent {
   ): boolean {
     if (groups) {
       let hasAttributes =
-        groups.find((group) =>
-          group.attributes ? group.attributes.length : 0 > 0
+        groups.find(
+          (group) => (group.attributes ? group.attributes.length : 0) > 0
         ) !== undefined;
       if (!hasAttributes) {
         hasAttributes =
@@ -191,6 +169,20 @@ export class ConfiguratorOverviewFormComponent {
   }
 
   /**
+   * Retrieves a unique prefix ID.
+   *
+   * @param {string | undefined} prefix - prefix that we need to make the ID unique
+   * @param {string} groupId - group ID
+   * @returns {string} - prefix ID
+   */
+  getPrefixId(idPrefix: string | undefined, groupId: string): string {
+    return this.configuratorStorefrontUtilsService.getPrefixId(
+      idPrefix,
+      groupId
+    );
+  }
+
+  /**
    * Retrieves the ids for the overview group headers
    *
    * @param {string} idPrefix - Prefix (reflects the parent groups in the hierarchy)
@@ -198,11 +190,9 @@ export class ConfiguratorOverviewFormComponent {
    * @return {string} - unique group id
    */
   getGroupId(idPrefix: string, groupId: string): string {
-    return this.configuratorStorefrontUtilsService
-      ? this.configuratorStorefrontUtilsService.createOvGroupId(
-          idPrefix,
-          groupId
-        )
-      : `id${idPrefix}${groupId}-ovGroup`;
+    return this.configuratorStorefrontUtilsService.createOvGroupId(
+      idPrefix,
+      groupId
+    );
   }
 }

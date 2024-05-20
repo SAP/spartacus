@@ -16,22 +16,10 @@
           col-sm-12 col-md-4 col-lg-4
         "
       >
-        <ng-container *cxFeatureLevel="'5.1'">
-          <label>
-            <span class="cx-visually-hidden">{{
-              'orderHistory.sortOrders' | cxTranslate
-            }}</span>
-            <cx-sorting
-              [sortOptions]="orderApprovals.sorts"
-              [sortLabels]="sortLabels$ | async"
-              (sortListEvent)="changeSortCode($event)"
-              [selectedOption]="orderApprovals.pagination.sort"
-              [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
-              ariaControls="order-approval-table"
-            ></cx-sorting>
-          </label>
-        </ng-container>
-        <ng-container *cxFeatureLevel="'!5.1'">
+        <label>
+          <span class="cx-visually-hidden">{{
+            'orderHistory.sortOrders' | cxTranslate
+          }}</span>
           <cx-sorting
             [sortOptions]="orderApprovals.sorts"
             [sortLabels]="sortLabels$ | async"
@@ -40,7 +28,7 @@
             [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
             ariaControls="order-approval-table"
           ></cx-sorting>
-        </ng-container>
+        </label>
       </div>
       <div class="cx-order-approval-pagination">
         <cx-pagination
@@ -55,7 +43,7 @@
       id="order-approval-table"
       class="table cx-order-approval-table"
     >
-      <caption *cxFeatureLevel="'5.1'" class="cx-visually-hidden">
+      <caption class="cx-visually-hidden">
         {{
           'orderApprovalList.orderApprovalList' | cxTranslate
         }}
@@ -190,29 +178,19 @@
           col-sm-12 col-md-4 col-lg-4
         "
       >
-        <ng-container *cxFeatureLevel="'5.1'">
-          <label>
-            <span class="cx-visually-hidden">{{
-              'orderHistory.sortOrders' | cxTranslate
-            }}</span>
-            <cx-sorting
-              [sortOptions]="orderApprovals.sorts"
-              [sortLabels]="sortLabels$ | async"
-              (sortListEvent)="changeSortCode($event)"
-              [selectedOption]="orderApprovals.pagination.sort"
-              [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
-              ariaControls="order-approval-table"
-            ></cx-sorting>
-          </label>
-        </ng-container>
-        <ng-container *cxFeatureLevel="'!5.1'">
+        <label>
+          <span class="cx-visually-hidden">{{
+            'orderHistory.sortOrders' | cxTranslate
+          }}</span>
           <cx-sorting
             [sortOptions]="orderApprovals.sorts"
             [sortLabels]="sortLabels$ | async"
             (sortListEvent)="changeSortCode($event)"
             [selectedOption]="orderApprovals.pagination.sort"
+            [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
+            ariaControls="order-approval-table"
           ></cx-sorting>
-        </ng-container>
+        </label>
       </div>
       <div class="cx-order-approval-pagination">
         <cx-pagination

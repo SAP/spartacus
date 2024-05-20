@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,21 +20,21 @@
  * - all entry points are `.ts` files
  */
 
-import chalk from 'chalk';
 import { assign, parse, stringify } from 'comment-json';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
 import { SPARTACUS_SCHEMATICS, SPARTACUS_SCOPE } from './const';
 import {
-  error,
   Library,
-  logUpdatedFile,
   ProgramOptions,
-  reportProgress,
   Repository,
+  error,
+  logUpdatedFile,
+  reportProgress,
   success,
 } from './index';
+import {chalk} from "../chalk";
 
 function readTsConfigFile(path: string): any {
   return parse(fs.readFileSync(path, 'utf-8'));
@@ -131,7 +131,7 @@ function comparePathsConfigs(
   if (!silent && errors.length > 0) {
     error(tsConfigPath, errors, [
       `This can be automatically fixed by running \`${chalk.bold(
-        `yarn config:update`
+        `npm run config:update`
       )}\`.`,
     ]);
   }
@@ -165,7 +165,7 @@ function handleTestConfigs(
   options: ProgramOptions
 ): void {
   if (options.fix) {
-    reportProgress('Updating test tsconig json files');
+    reportProgress('Updating test tsconfig json files');
   } else {
     reportProgress('Checking test tsconfig json files');
   }

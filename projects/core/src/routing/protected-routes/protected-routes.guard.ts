@@ -1,17 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthGuard } from '../../auth/user-auth/guards/auth.guard';
 import { ProtectedRoutesService } from './protected-routes.service';
 
 @Injectable({ providedIn: 'root' })
-export class ProtectedRoutesGuard implements CanActivate {
+export class ProtectedRoutesGuard {
   constructor(
     protected service: ProtectedRoutesService,
     protected authGuard: AuthGuard

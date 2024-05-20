@@ -12,16 +12,18 @@ import {
   Budget,
 } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
+import { DisableInfoModule } from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
+import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { ItemService } from '../../shared/item.service';
 import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { MessageService } from '../../shared/message/services/message.service';
-import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { UserDetailsComponent } from './user-details.component';
 import createSpy = jasmine.createSpy;
-import { DisableInfoModule } from '../../shared';
+import { Directive, Input } from '@angular/core';
+import { FocusConfig } from '@spartacus/storefront';
 
 const mockCode = 'c1';
 
@@ -35,7 +37,7 @@ const mockB2BUserWithoutRight: B2BUser = {
 
 class MockUserItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
 }
 
@@ -59,6 +61,17 @@ class MockB2BUserService implements Partial<B2BUserService> {
   getAllRights() {
     return [B2BUserRight.UNITORDERVIEWER];
   }
+  isUpdatingUserAllowed() {
+    return true;
+  }
+}
+
+@Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: '[cxFocus]',
+})
+export class MockKeyboadFocusDirective {
+  @Input('cxFocus') config: FocusConfig = {};
 }
 
 describe('UserDetailsComponent', () => {
@@ -79,7 +92,11 @@ describe('UserDetailsComponent', () => {
         ToggleStatusModule,
         DisableInfoModule,
       ],
-      declarations: [UserDetailsComponent, ItemExistsDirective],
+      declarations: [
+        UserDetailsComponent,
+        ItemExistsDirective,
+        MockKeyboadFocusDirective,
+      ],
       providers: [
         { provide: ItemService, useClass: MockUserItemService },
         { provide: B2BUserService, useClass: MockB2BUserService },
@@ -103,6 +120,7 @@ describe('UserDetailsComponent', () => {
 
     spyOn(b2bUserService, 'getAllRights').and.callThrough();
     spyOn(b2bUserService, 'getAllRoles').and.callThrough();
+    spyOn(b2bUserService, 'isUpdatingUserAllowed').and.callThrough();
 
     fixture = TestBed.createComponent(UserDetailsComponent);
     component = fixture.componentInstance;
@@ -111,6 +129,10 @@ describe('UserDetailsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should check if updating user details is allowed', () => {
+    expect(b2bUserService.isUpdatingUserAllowed).toHaveBeenCalled();
   });
 
   it('should load list of rights', () => {

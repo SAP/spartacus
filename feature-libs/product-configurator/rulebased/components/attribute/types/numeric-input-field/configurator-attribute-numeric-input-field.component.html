@@ -4,8 +4,11 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}" class="form-group">
   <input
     [formControl]="attributeInputForm"
-    [required]="isRequired"
     class="form-control"
+    [ngClass]="{
+      'cx-required-error-msg ': (showRequiredErrorMessage$ | async)
+    }"
+    [class.ng-invalid]="isRequired && isUserInputEmpty"
     [attr.aria-describedby]="
       mustDisplayValidationMessage()
         ? createAttributeUiKey('label', attribute.name) +
@@ -31,9 +34,20 @@
   aria-atomic="true"
   role="alert"
 >
-  <cx-icon [type]="iconType.WARNING"></cx-icon>
+  <cx-icon [type]="iconType.ERROR"></cx-icon>
   {{
-    'configurator.attribute.wrongNumericFormat'
+    'configurator.attribute.wrongNumericFormatMessage'
       | cxTranslate: { pattern: numericFormatPattern }
   }}
+</div>
+<div
+  class="cx-validation-msg"
+  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
+  *ngIf="mustDisplayIntervalMessage()"
+  aria-live="assertive"
+  aria-atomic="true"
+  role="alert"
+>
+  <cx-icon [type]="iconType.ERROR"></cx-icon>
+  {{ 'configurator.attribute.wrongIntervalFormat' | cxTranslate }}
 </div>

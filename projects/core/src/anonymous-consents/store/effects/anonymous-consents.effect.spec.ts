@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import {
   AuthActions,
   AuthService,
@@ -33,7 +33,7 @@ class MockUserConsentService {
     return of(true);
   }
   getConsents(): Observable<ConsentTemplate[]> {
-    return of();
+    return EMPTY;
   }
   loadConsents(): void {}
   isConsentWithdrawn(_consent: Consent): boolean {
@@ -44,7 +44,7 @@ class MockUserConsentService {
 class MockAnonymousConsentTemplatesConnector {
   loadAnonymousConsents = () => loadAnonymousConsentsBehavior;
   loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -56,7 +56,7 @@ class MockAuthService implements Partial<AuthService> {
 
 class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -76,12 +76,12 @@ class MockAnonymousConsentsService {
     return false;
   }
   getAnonymousConsent(_templateCode: string): Observable<AnonymousConsent> {
-    return of();
+    return EMPTY;
   }
   getAnonymousConsentTemplate(
     _templateCode: string
   ): Observable<ConsentTemplate> {
-    return of();
+    return EMPTY;
   }
   isConsentGiven(_consent: AnonymousConsent) {
     return true;

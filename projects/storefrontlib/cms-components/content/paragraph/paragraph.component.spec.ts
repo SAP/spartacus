@@ -1,16 +1,12 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By, DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CmsComponent, CmsParagraphComponent } from '@spartacus/core';
+import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
-import { CmsComponentData } from '@spartacus/storefront';
-import {
-  CmsParagraphComponent,
-  CmsComponent,
-  FeatureConfigService,
-} from '@spartacus/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
 
 @Pipe({ name: 'cxSupplementHashAnchors' })
 export class MockAnchorPipe implements PipeTransform {
@@ -19,20 +15,12 @@ export class MockAnchorPipe implements PipeTransform {
   }
 }
 
-/**
- * TODO: (#CXSPA-778) Remove MockFeatureConfigService in 6.0
- */
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
-
 describe('CmsParagraphComponent in CmsLib', () => {
   let paragraphComponent: ParagraphComponent;
   let fixture: ComponentFixture<ParagraphComponent>;
   let el: DebugElement;
   let router: Router;
+  let domSanitizer: DomSanitizer;
 
   const componentData: CmsParagraphComponent = {
     uid: '001',
@@ -50,6 +38,12 @@ describe('CmsParagraphComponent in CmsLib', () => {
     data$: data$.asObservable(),
   };
 
+  class MockDomSanitizer {
+    bypassSecurityTrustHtml(html = '') {
+      return html;
+    }
+  }
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -60,10 +54,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
             provide: CmsComponentData,
             useValue: MockCmsComponentData,
           },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
+          { provide: DomSanitizer, useClass: MockDomSanitizer },
         ],
       }).compileComponents();
     })
@@ -73,6 +64,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
     fixture = TestBed.createComponent(ParagraphComponent);
     paragraphComponent = fixture.componentInstance;
     router = TestBed.inject(Router);
+    domSanitizer = TestBed.inject(DomSanitizer);
 
     el = fixture.debugElement;
   });
@@ -151,6 +143,30 @@ describe('CmsParagraphComponent in CmsLib', () => {
       const link = setupLink(url);
       link.click();
       expect(router.navigateByUrl).not.toHaveBeenCalled();
+    });
+
+    it('should call DOM sanitizer', () => {
+      const bypassSecurityTrustHtmlSpy = spyOn(
+        domSanitizer,
+        'bypassSecurityTrustHtml'
+      ).and.callThrough();
+
+      data$.next(componentData);
+      fixture.detectChanges();
+
+      expect(bypassSecurityTrustHtmlSpy).toHaveBeenCalled();
+    });
+
+    it('should not pass root url to router navigation for internal links ', () => {
+      const url = window.location.href + '#001';
+      const link = setupLink(url);
+      link.click();
+
+      const documentUrlObject = new URL(window.location.href + '#001');
+
+      expect(router.navigateByUrl).toHaveBeenCalledWith(
+        documentUrlObject.pathname + documentUrlObject.hash
+      );
     });
 
     function setupLink(url: string): HTMLLinkElement {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,8 @@ export namespace OccConfigurator {
     kbKey?: KB;
     pricingEnabled?: boolean;
     hideBasePriceAndSelectedOptions?: boolean;
+    immediateConflictResolution?: boolean;
+    newConfiguration?: boolean;
   }
 
   export interface KB {
@@ -92,6 +94,7 @@ export namespace OccConfigurator {
   export interface Attribute {
     name: string;
     langDepName?: string;
+    longText?: string;
     type?: UiType;
     domainValues?: Value[];
     required?: boolean;
@@ -115,6 +118,7 @@ export namespace OccConfigurator {
     key: string;
     name?: string;
     langDepName?: string;
+    longText?: string;
     readonly?: boolean;
     selected?: boolean;
     images?: Image[];
@@ -202,6 +206,8 @@ export namespace OccConfigurator {
     DROPDOWN = 'DROPDOWN',
     DROPDOWN_ADDITIONAL_INPUT = 'DROPDOWN_ADDITIONAL_INPUT',
     READ_ONLY = 'READ_ONLY',
+    READ_ONLY_SINGLE_SELECTION_IMAGE = 'READ_ONLY_SINGLE_SELECTION_IMAGE',
+    READ_ONLY_MULTI_SELECTION_IMAGE = 'READ_ONLY_MULTI_SELECTION_IMAGE',
     NOT_IMPLEMENTED = 'NOT_IMPLEMENTED',
     SINGLE_SELECTION_IMAGE = 'SINGLE_SELECTION_IMAGE',
     MULTI_SELECTION_IMAGE = 'MULTI_SELECTION_IMAGE',

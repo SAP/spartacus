@@ -1,0 +1,113 @@
+@import './_configurator-form.scss';
+
+%cx-configurator-conflict-solver-dialog {
+  &:not(:empty) {
+    z-index: 2000;
+    $modal-max-width: 1140px !important;
+    $modal-min-width: 1140px !important;
+    $modal-max-width-md: 992px !important;
+    $modal-min-width-md: 992px !important;
+    $modal-max-width-sm: 100% !important;
+    $modal-min-width-sm: 100% !important;
+    $modal-dialog-margin-sm: 0 !important;
+
+    .cx-modal-container {
+      height: auto !important;
+      margin-block-start: 80px;
+      overflow-x: hidden;
+
+      @include media-breakpoint-down(md) {
+        margin: $modal-dialog-margin-sm;
+        min-width: $modal-max-width-sm;
+        max-width: $modal-min-width-sm;
+      }
+
+      @include media-breakpoint-up(lg) {
+        max-width: $modal-max-width-md;
+        min-width: $modal-min-width-md;
+      }
+
+      @include media-breakpoint-up(xl) {
+        max-width: $modal-max-width;
+        min-width: $modal-min-width;
+      }
+
+      .cx-modal-content {
+        @include media-breakpoint-down(md) {
+          height: 100vh !important;
+        }
+
+        .cx-dialog-header {
+          outline: 0;
+          padding-inline-start: 16px;
+          padding-inline-end: 0px;
+          padding-block-start: 12px;
+          padding-block-end: 0px;
+
+          @include media-breakpoint-down(md) {
+            padding-inline-end: 0px;
+            padding-block-end: 5px;
+          }
+
+          .cx-dialog-title {
+            @include type('3');
+            align-self: flex-start;
+          }
+
+          .close {
+            @include media-breakpoint-down(md) {
+              padding-block-end: 0px;
+            }
+          }
+        }
+
+        .cx-dialog-body {
+          padding: 0;
+
+          @include media-breakpoint-down(md) {
+            padding-block-end: 5px;
+          }
+
+          .cx-msg-warning {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-inline-start: 0px;
+            padding-inline-end: 5px;
+            margin-block-start: 12px;
+            margin-block-end: 12px;
+            background-color: rgba(245, 206, 206, 1);
+
+            cx-icon {
+              color: var(--cx-color-danger);
+              align-self: center;
+              font-size: 30px;
+              padding-inline-start: 15px;
+              padding-inline-end: 18px;
+              padding-block-start: 5px;
+              padding-block-end: 15px;
+            }
+          }
+
+          cx-configurator-conflict-description {
+            padding-inline-start: 0px;
+            padding-block-start: 0px;
+            padding-block-end: 0px;
+          }
+        }
+
+        .cx-modal-footer {
+          display: flex;
+          justify-content: center;
+          margin-block-start: 15px;
+          padding-inline-start: 16px;
+          padding-inline-end: 16px;
+          padding-block-start: 16px;
+          padding-block-end: 16px;
+        }
+      }
+    }
+
+    @extend %cx-configurator-form !optional;
+  }
+}

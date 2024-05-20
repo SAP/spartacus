@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,9 @@ export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration>
 {
+  /**
+   * @deprecated since 6.2
+   */
   static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
 
   constructor(
@@ -43,6 +46,8 @@ export class OccConfiguratorVariantNormalizer
       kbKey: source.kbKey ?? undefined,
       pricingEnabled: source.pricingEnabled ?? true,
       hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
+      immediateConflictResolution: source.immediateConflictResolution ?? false,
+      newConfiguration: source.newConfiguration, // we need a trinary state true, false, undefined!
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
@@ -129,6 +134,7 @@ export class OccConfiguratorVariantNormalizer
       label: sourceAttribute.langDepName,
       required: sourceAttribute.required,
       uiType: uiType,
+      uiTypeVariation: sourceAttribute.type,
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
       userInput:
         uiType === Configurator.UiType.NUMERIC ||
@@ -151,6 +157,7 @@ export class OccConfiguratorVariantNormalizer
       key: sourceAttribute.key,
       validationType: sourceAttribute.validationType,
       visible: sourceAttribute.visible,
+      description: sourceAttribute.longText,
     };
 
     this.setSelectedSingleValue(attribute);
@@ -186,7 +193,8 @@ export class OccConfiguratorVariantNormalizer
   ) {
     if (
       attributeType === Configurator.UiType.DROPDOWN ||
-      attributeType === Configurator.UiType.RADIOBUTTON
+      attributeType === Configurator.UiType.RADIOBUTTON ||
+      attributeType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
       if (attributeType === Configurator.UiType.DROPDOWN && value.selected) {
         this.translation
@@ -213,7 +221,13 @@ export class OccConfiguratorVariantNormalizer
   protected isSourceAttributeTypeReadOnly(
     sourceAttribute: OccConfigurator.Attribute
   ): boolean {
-    return sourceAttribute.type === OccConfigurator.UiType.READ_ONLY;
+    return (
+      sourceAttribute.type === OccConfigurator.UiType.READ_ONLY ||
+      sourceAttribute.type ===
+        OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE ||
+      sourceAttribute.type ===
+        OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
+    );
   }
 
   protected isRetractBlocked(
@@ -239,10 +253,11 @@ export class OccConfiguratorVariantNormalizer
         const attributeType = this.convertAttributeType(sourceAttribute);
         if (
           attributeType === Configurator.UiType.RADIOBUTTON ||
-          attributeType === Configurator.UiType.DROPDOWN
+          attributeType === Configurator.UiType.DROPDOWN ||
+          attributeType === Configurator.UiType.SINGLE_SELECTION_IMAGE
         ) {
           const value: Configurator.Value = {
-            valueCode: OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE,
+            valueCode: Configurator.RetractValueCode,
             selected: this.isRetractValueSelected(sourceAttribute),
           };
 
@@ -271,6 +286,7 @@ export class OccConfiguratorVariantNormalizer
       name: occValue.name,
       selected: occValue.selected,
       images: valueImages,
+      description: occValue.longText,
     };
 
     values.push(value);
@@ -300,11 +316,11 @@ export class OccConfiguratorVariantNormalizer
     images.push(image);
   }
 
-  convertAttributeType(
-    sourceAttribute: OccConfigurator.Attribute
+  protected getSingleSelectionUiType(
+    coreSourceType: string,
+    uiType: Configurator.UiType
   ): Configurator.UiType {
-    let uiType: Configurator.UiType;
-    switch (sourceAttribute.type) {
+    switch (coreSourceType) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
         uiType = Configurator.UiType.RADIOBUTTON;
         break;
@@ -321,14 +337,41 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
         break;
       }
-      case OccConfigurator.UiType.STRING: {
-        uiType = Configurator.UiType.STRING;
+      case OccConfigurator.UiType.CHECK_BOX: {
+        uiType = Configurator.UiType.CHECKBOX;
         break;
       }
-      case OccConfigurator.UiType.NUMERIC: {
-        uiType = Configurator.UiType.NUMERIC;
+      case OccConfigurator.UiType.SINGLE_SELECTION_IMAGE: {
+        uiType = Configurator.UiType.SINGLE_SELECTION_IMAGE;
         break;
       }
+    }
+    return uiType;
+  }
+
+  protected getMultiSelectionUiType(
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
+    switch (coreSourceType) {
+      case OccConfigurator.UiType.CHECK_BOX_LIST: {
+        uiType = Configurator.UiType.CHECKBOXLIST;
+        break;
+      }
+      case OccConfigurator.UiType.MULTI_SELECTION_IMAGE: {
+        uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
+        break;
+      }
+    }
+    return uiType;
+  }
+
+  protected getReadOnlyUiType(
+    sourceAttribute: OccConfigurator.Attribute,
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
+    switch (coreSourceType) {
       case OccConfigurator.UiType.READ_ONLY: {
         uiType =
           !sourceAttribute.retractBlocked &&
@@ -337,27 +380,65 @@ export class OccConfiguratorVariantNormalizer
             : Configurator.UiType.READ_ONLY;
         break;
       }
-      case OccConfigurator.UiType.CHECK_BOX_LIST: {
-        uiType = Configurator.UiType.CHECKBOXLIST;
+      case OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE: {
+        uiType =
+          !sourceAttribute.retractBlocked &&
+          this.hasSourceAttributeConflicts(sourceAttribute)
+            ? Configurator.UiType.SINGLE_SELECTION_IMAGE
+            : Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
         break;
       }
-      case OccConfigurator.UiType.CHECK_BOX: {
-        uiType = Configurator.UiType.CHECKBOX;
+      case OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE: {
+        uiType =
+          !sourceAttribute.retractBlocked &&
+          this.hasSourceAttributeConflicts(sourceAttribute)
+            ? Configurator.UiType.MULTI_SELECTION_IMAGE
+            : Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
         break;
-      }
-      case OccConfigurator.UiType.MULTI_SELECTION_IMAGE: {
-        uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
-        break;
-      }
-      case OccConfigurator.UiType.SINGLE_SELECTION_IMAGE: {
-        uiType = Configurator.UiType.SINGLE_SELECTION_IMAGE;
-        break;
-      }
-      default: {
-        uiType = Configurator.UiType.NOT_IMPLEMENTED;
       }
     }
     return uiType;
+  }
+
+  protected getInputUiType(
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
+    switch (coreSourceType) {
+      case OccConfigurator.UiType.STRING: {
+        uiType = Configurator.UiType.STRING;
+        break;
+      }
+      case OccConfigurator.UiType.NUMERIC: {
+        uiType = Configurator.UiType.NUMERIC;
+        break;
+      }
+    }
+    return uiType;
+  }
+
+  convertAttributeType(
+    sourceAttribute: OccConfigurator.Attribute
+  ): Configurator.UiType {
+    let uiType = Configurator.UiType.NOT_IMPLEMENTED;
+    const sourceType: string = sourceAttribute.type?.toString() ?? '';
+    const coreSourceType = this.determineCoreUiType(sourceType);
+
+    uiType = this.getSingleSelectionUiType(coreSourceType, uiType);
+    uiType = this.getMultiSelectionUiType(coreSourceType, uiType);
+    uiType = this.getInputUiType(coreSourceType, uiType);
+    uiType = this.getReadOnlyUiType(sourceAttribute, coreSourceType, uiType);
+
+    return uiType;
+  }
+
+  protected determineCoreUiType(sourceType: string) {
+    const indexCustomSeparator = sourceType.indexOf(
+      Configurator.CustomUiTypeIndicator
+    );
+    return indexCustomSeparator > 0
+      ? sourceType.substring(0, indexCustomSeparator)
+      : sourceType;
   }
 
   convertGroupType(
@@ -441,8 +522,7 @@ export class OccConfiguratorVariantNormalizer
       case Configurator.UiType.DROPDOWN: {
         if (
           !attribute.selectedSingleValue ||
-          attribute.selectedSingleValue ===
-            OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+          attribute.selectedSingleValue === Configurator.RetractValueCode
         ) {
           attribute.incomplete = true;
         }

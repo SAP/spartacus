@@ -12,7 +12,8 @@
           options: {
             displayAddToCart: true,
             addToCartString: (buyItAgainTranslation$ | async),
-            optionalBtn: addToCartBtn
+            optionalBtn: addToCartBtn,
+            cartType: CartType.SELECTIVE
           }
         }"
       >
@@ -32,6 +33,7 @@
     [product]="ctx.item.product"
     [showQuantity]="false"
     [options]="ctx.options"
+    [pickupStore]="ctx.item.deliveryPointOfService?.name"
   >
   </cx-add-to-cart>
 </ng-template>

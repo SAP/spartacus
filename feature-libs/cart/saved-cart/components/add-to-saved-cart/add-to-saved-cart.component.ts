@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,9 +14,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { AuthService, RoutingService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { AuthService, RoutingService, useFeatureStyles } from '@spartacus/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -43,7 +43,9 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
-  ) {}
+  ) {
+    useFeatureStyles('a11yExpandedFocusIndicator');
+  }
 
   ngOnInit(): void {
     this.cart$ = combineLatest([
@@ -60,11 +62,19 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
   }
 
   saveCart(cart: Cart): void {
-    if (this.loggedIn) {
-      this.openDialog(cart);
-    } else {
-      this.routingService.go({ cxRoute: 'login' });
-    }
+    this.subscription.add(
+      this.disableSaveCartForLater$.subscribe((isDisabled) => {
+        if (isDisabled) {
+          return;
+        }
+
+        if (this.loggedIn) {
+          this.openDialog(cart);
+        } else {
+          this.routingService.go({ cxRoute: 'login' });
+        }
+      })
+    );
   }
 
   openDialog(cart: Cart) {

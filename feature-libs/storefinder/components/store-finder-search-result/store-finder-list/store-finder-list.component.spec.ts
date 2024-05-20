@@ -1,19 +1,19 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, PointOfService } from '@spartacus/core';
-import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
-import { StoreFinderListComponent } from './store-finder-list.component';
 import {
   GoogleMapRendererService,
   StoreFinderService,
 } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
+import { EMPTY } from 'rxjs';
+import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
+import { StoreFinderListComponent } from './store-finder-list.component';
 import { LocationDisplayMode } from './store-finder-list.model';
+import createSpy = jasmine.createSpy;
 
 const location: PointOfService = {
   displayName: 'Test Store',
@@ -24,7 +24,7 @@ const displayModes = LocationDisplayMode;
 
 class StoreFinderServiceMock implements Partial<StoreFinderService> {
   getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
-    of()
+    EMPTY
   );
   getStoresLoading = createSpy('getStoresLoading');
   callFindStoresAction = createSpy('callFindStoresAction');

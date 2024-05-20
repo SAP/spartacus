@@ -117,8 +117,8 @@ class MockProductService {
 }
 
 class MockProfileTagEventService {
-  notifyProfileTagOfEventOccurence = createSpy(
-    'ProfileTagEventService.notifyProfileTagOfEventOccurence'
+  notifyProfileTagOfEventOccurrence = createSpy(
+    'ProfileTagEventService.notifyProfileTagOfEventOccurrence'
   ).and.callFake((_) => {});
 }
 
@@ -272,7 +272,7 @@ describe('MerchandisingCarouselComponentService', () => {
 
       expect(actualCarouselModel).toEqual(mockMerchandisingCarouselModel);
       expect(
-        profileTagEventService.notifyProfileTagOfEventOccurence
+        profileTagEventService.notifyProfileTagOfEventOccurrence
       ).toHaveBeenCalledWith(expectedCarouselViewEvent);
     });
 
@@ -289,7 +289,7 @@ describe('MerchandisingCarouselComponentService', () => {
 
       expect(actualCarouselModel).toBeNull();
       expect(
-        profileTagEventService.notifyProfileTagOfEventOccurence
+        profileTagEventService.notifyProfileTagOfEventOccurrence
       ).toHaveBeenCalledTimes(0);
     });
   });
@@ -326,7 +326,7 @@ describe('MerchandisingCarouselComponentService', () => {
       );
 
       expect(
-        profileTagEventService.notifyProfileTagOfEventOccurence
+        profileTagEventService.notifyProfileTagOfEventOccurrence
       ).toHaveBeenCalledWith(expectedCarouselClickedEvent);
     });
   });

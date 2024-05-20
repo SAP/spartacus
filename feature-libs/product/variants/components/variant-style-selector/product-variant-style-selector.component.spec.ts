@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   BaseOption,
@@ -13,7 +13,7 @@ import {
   VariantQualifier,
   VariantType,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ProductVariantStyleSelectorComponent } from './product-variant-style-selector.component';
 
 const mockOccBackendUrl = 'https://base.com';
@@ -75,7 +75,7 @@ class MockRoutingService {
     });
   }
   go() {
-    return of();
+    return EMPTY;
   }
 }
 class MockProductService {

@@ -1,0 +1,35 @@
+@import './pickup-info';
+@import './pickup-option-dialog';
+@import './pickup-options';
+@import './store-schedule';
+@import './store-search';
+@import './store';
+@import './set-preferred-store';
+@import './my-preferred-store';
+@import './pick-up-in-store-items-details';
+@import './pickup-in-store-order-consignment.scss';
+
+$pickup-in-store-components-allowlist: cx-store, cx-store-search,
+  cx-store-schedule, cx-set-preferred-store, cx-pickup-options,
+  cx-pickup-option-dialog, cx-pickup-info, cx-pickup-in-store-order-consignment,
+  cx-pick-up-in-store-items-details, cx-my-preferred-store !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $pickup-in-store-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $pickup-in-store-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

@@ -3,18 +3,19 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
-  Address,
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
+  Address,
   ConverterService,
   HttpErrorModel,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   OccEndpoints,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -63,7 +64,19 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
-const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const mockNormalizedJaloError = normalizeHttpError(
+  mockJaloError,
+  new MockLoggerService()
+);
 
 describe(`OccCheckoutDeliveryAddressAdapter`, () => {
   let service: OccCheckoutDeliveryAddressAdapter;
@@ -77,6 +90,7 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
       providers: [
         OccCheckoutDeliveryAddressAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
     service = TestBed.inject(OccCheckoutDeliveryAddressAdapter);
@@ -127,7 +141,9 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
 
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
+        spyOn(httpClient, 'post').and.returnValue(
+          throwError(() => mockJaloError)
+        );
 
         let result: HttpErrorModel | undefined;
         const subscription = service
@@ -151,7 +167,7 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
             if (calledTimes === 3) {
               return of(mockAddress);
             }
-            return throwError(mockJaloError);
+            return throwError(() => mockJaloError);
           })
         );
 
@@ -205,7 +221,9 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
 
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
+        spyOn(httpClient, 'put').and.returnValue(
+          throwError(() => mockJaloError)
+        );
 
         let result: HttpErrorModel | undefined;
         const subscription = service
@@ -229,7 +247,7 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
             if (calledTimes === 3) {
               return of(cartData);
             }
-            return throwError(mockJaloError);
+            return throwError(() => mockJaloError);
           })
         );
 
@@ -283,7 +301,9 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
 
   describe(`back-off`, () => {
     it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-      spyOn(httpClient, 'delete').and.returnValue(throwError(mockJaloError));
+      spyOn(httpClient, 'delete').and.returnValue(
+        throwError(() => mockJaloError)
+      );
 
       let result: HttpErrorModel | undefined;
       const subscription = service
@@ -307,7 +327,7 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
           if (calledTimes === 3) {
             return of(checkoutData);
           }
-          return throwError(mockJaloError);
+          return throwError(() => mockJaloError);
         })
       );
 

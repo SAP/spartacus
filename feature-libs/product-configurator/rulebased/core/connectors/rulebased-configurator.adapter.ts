@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,10 +14,12 @@ export abstract class RulebasedConfiguratorAdapter {
    * Abstract method used to create a configuration
    *
    * @param productCode Root product code
+   * @param forceReset optional - if true, creation of a new default configuration will be enforced, instead of returning a product bound configuration
    */
   abstract createConfiguration(
     owner: CommonConfigurator.Owner,
-    configIdTemplate?: string
+    configIdTemplate?: string,
+    forceReset?: boolean
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -110,12 +112,15 @@ export abstract class RulebasedConfiguratorAdapter {
   ): Observable<Configurator.Overview>;
 
   /**
-   * Abstract method to get configuration overview
+   * Abstract method to get the supported configurator type
    *
-   * @param configId configuration id
-   * @param owner configuration owner
    */
   abstract getConfiguratorType(): string;
+
+  /**
+   * Abstract method to check if the adapter supports to call CPQ over OCC. Only relevant for adapters supporting @see ConfiguratorType.CPQ
+   */
+  abstract supportsCpqOverOcc?(): boolean;
 
   /**
    * Searches for variants that are matching the configuration identified by its id.

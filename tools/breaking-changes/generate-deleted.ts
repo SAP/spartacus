@@ -1,15 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import * as common from './common';
+import { SCHEMATICS_COMMENT_PREFIX } from './common';
 
 /**
  * This script generates deleted api elements schematics code.
  *
- * Input: Breaking change data returned by readBreakingChangeFile().  Likely is is ./data/X_0/breaking-change.json.  The folder depends on the major version config.`
+ * Input: Breaking change data returned by readBreakingChangeFile().  Likely is is ./data/X_0/breaking-change.json.  The folder depends on the new version config.`
  * Output: A file whose path is in OUTPUT_FILE_PATH const.  The file is a ts file that contains migration data ready to be imported by the schematics.
  *
  */
@@ -54,7 +55,7 @@ function getSchematicsData(apiElement: any): any {
   const schematicsData: any = {};
   schematicsData.node = apiElement.name;
   schematicsData.importPath = apiElement.entryPoint;
-  schematicsData.comment = `${common.generateTopLevelApiDeletedComment(
+  schematicsData.comment = `${SCHEMATICS_COMMENT_PREFIX} ${common.generateTopLevelApiDeletedComment(
     apiElement
   )} ${migrationComment}`;
   return schematicsData;

@@ -7,9 +7,9 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { EventListenerUtils } from '@spartacus/epd-visualization/root';
+import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { DirectionMode } from '../../../../../../projects/storefrontlib/layout/direction/config/direction.model';
-import { DirectionService } from '../../../../../../projects/storefrontlib/layout/direction/direction.service';
+import { first } from 'rxjs/operators';
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
 
 class MockRenderer2 {}
@@ -1420,10 +1420,12 @@ describe('VisualViewerAnimationSliderService', () => {
         'handleMaxPosition'
       ).and.returnValue(45);
 
-      visualViewerAnimationSliderService.valueChange.subscribe((value) => {
-        expect(value).toEqual(1);
-        done();
-      });
+      visualViewerAnimationSliderService.valueChange
+        .pipe(first())
+        .subscribe((value) => {
+          expect(value).toEqual(1);
+          done();
+        });
 
       applyValue(1.2);
     });

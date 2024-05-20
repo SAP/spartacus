@@ -13,6 +13,7 @@ import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import {
@@ -21,6 +22,8 @@ import {
 } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -54,6 +57,10 @@ function getSelected(
 ): boolean | undefined {
   const values = component.attribute.values;
   return values ? values[index].selected : false;
+}
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
 }
 
 describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
@@ -107,6 +114,16 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           MockProductCardComponent,
           MockConfiguratorAttributeQuantityComponent,
           MockConfiguratorPriceComponent,
+        ],
+        providers: [
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
         ],
       })
         .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
@@ -207,8 +224,11 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     expect(getSelected(component, 3)).toEqual(false);
   });
 
-  it('should call selectionChange on event onChangeValueQuantity', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
+  it('should call facade update onChangeValueQuantity', () => {
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
 
     component.ngOnInit();
 
@@ -217,118 +237,129 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       quantity: 2,
     });
 
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          ...component.attribute,
-          values: [
-            {
-              name: 'valueName',
-              quantity: 2,
-              selected: true,
-              valueCode: '1111',
-            },
-          ],
-        }),
-        ownerKey: component.ownerKey,
-        updateType: Configurator.UpdateType.VALUE_QUANTITY,
-      })
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledWith(
+      component.ownerKey,
+      {
+        ...component.attribute,
+        values: [
+          {
+            name: 'valueName',
+            quantity: 2,
+            selected: true,
+            valueCode: '1111',
+          },
+        ],
+      },
+      Configurator.UpdateType.VALUE_QUANTITY
     );
   });
 
-  it('should call selectionChange on event onDeselect', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
+  it('should call facade update on event onDeselect', () => {
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
 
     component.ngOnInit();
 
     component.onDeselect('1111');
 
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          ...component.attribute,
-          values: [
-            {
-              name: 'valueName',
-              quantity: 1,
-              selected: false,
-              valueCode: '1111',
-            },
-            {
-              name: 'valueName',
-              quantity: 1,
-              selected: true,
-              valueCode: '2222',
-            },
-            {
-              name: 'valueName',
-              quantity: 1,
-              selected: false,
-              valueCode: '3333',
-            },
-            {
-              name: 'valueName',
-              quantity: 1,
-              selected: false,
-              valueCode: '4444',
-            },
-          ],
-        }),
-        ownerKey: component.ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE,
-      })
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledWith(
+      component.ownerKey,
+      {
+        ...component.attribute,
+        values: [
+          {
+            name: 'valueName',
+            quantity: 1,
+            selected: false,
+            valueCode: '1111',
+          },
+          {
+            name: 'valueName',
+            quantity: 1,
+            selected: true,
+            valueCode: '2222',
+          },
+          {
+            name: 'valueName',
+            quantity: 1,
+            selected: false,
+            valueCode: '3333',
+          },
+          {
+            name: 'valueName',
+            quantity: 1,
+            selected: false,
+            valueCode: '4444',
+          },
+        ],
+      },
+      Configurator.UpdateType.ATTRIBUTE
     );
   });
 
   it('should call selectionChange on event onSelect', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
 
     component.ngOnInit();
 
     component.onSelect('3333');
 
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          ...component.attribute,
-          values: [
-            {
-              name: 'valueName',
-              quantity: 1,
-              selected: true,
-              valueCode: '1111',
-            },
-            {
-              name: 'valueName',
-              quantity: 1,
-              selected: true,
-              valueCode: '2222',
-            },
-            {
-              name: 'valueName',
-              quantity: 1,
-              selected: true,
-              valueCode: '3333',
-            },
-            {
-              name: 'valueName',
-              quantity: 1,
-              selected: false,
-              valueCode: '4444',
-            },
-          ],
-        }),
-        ownerKey: component.ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE,
-      })
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledWith(
+      component.ownerKey,
+      {
+        ...component.attribute,
+        values: [
+          {
+            name: 'valueName',
+            quantity: 1,
+            selected: true,
+            valueCode: '1111',
+          },
+          {
+            name: 'valueName',
+            quantity: 1,
+            selected: true,
+            valueCode: '2222',
+          },
+          {
+            name: 'valueName',
+            quantity: 1,
+            selected: true,
+            valueCode: '3333',
+          },
+          {
+            name: 'valueName',
+            quantity: 1,
+            selected: false,
+            valueCode: '4444',
+          },
+        ],
+      },
+      Configurator.UpdateType.ATTRIBUTE
     );
   });
 
-  it('should call selectionChange on event onDeselectAll', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
+  it('should call facade update onDeselectAll', () => {
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
     component.ngOnInit();
     component.onDeselectAll();
-    expect(component.selectionChange.emit).toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalled();
   });
 
   it('should call onHandleAttributeQuantity of event onChangeAttributeQuantity', () => {

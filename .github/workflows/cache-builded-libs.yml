@@ -2,8 +2,9 @@ on:
   push:
     branches:
       - develop
+      - develop-*
       - 'epic/**'
-      - 'release/**'
+      - release-*
 name: Cache libs (dist)
 jobs:
   cacheBuildedLibs:

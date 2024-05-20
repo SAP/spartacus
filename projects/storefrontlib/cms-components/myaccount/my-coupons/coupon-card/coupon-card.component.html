@@ -25,15 +25,7 @@
           </div>
         </div>
       </div>
-      <!-- TODO:(CXSPA-1695) for next major releasee remove below anchor tag and feature level check from the button tag-->
-      <a
-        *cxFeatureLevel="'!5.1'"
-        (click)="readMore()"
-        class="cx-card-read-more"
-        >{{ 'myCoupons.readMore' | cxTranslate }}</a
-      >
       <button
-        *cxFeatureLevel="'5.1'"
         class="cx-card-read-more link cx-action-link"
         (click)="readMore()"
       >
@@ -57,7 +49,7 @@
         </div>
 
         <div class="cx-coupon-find-product col-lg-6 col-md-12 col-sm-6">
-          <button class="btn btn-block btn-action" (click)="findProducts()">
+          <button class="btn btn-block btn-secondary" (click)="findProducts()">
             {{ 'myCoupons.findProducts' | cxTranslate }}
           </button>
         </div>

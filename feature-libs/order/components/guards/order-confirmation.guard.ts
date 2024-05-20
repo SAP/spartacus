@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderConfirmationGuard implements CanActivate {
+export class OrderConfirmationGuard {
   constructor(
     protected orderFacade: OrderFacade,
     protected router: Router,

@@ -31,7 +31,7 @@ const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
 let hasPendingChanges = false;
-let waitingTime = 1000;
+let waitingTime: number | undefined = 1000;
 
 class MockConfiguratorCommonsService {
   hasPendingChanges(): Observable<boolean> {
@@ -108,7 +108,7 @@ describe('ConfigurationUpdateMessageComponent', () => {
     );
   });
 
-  it('should show update banner if pending changes is true', fakeAsync(() => {
+  it('should show update banner after delay time if pending changes is true', fakeAsync(() => {
     //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
@@ -126,14 +126,14 @@ describe('ConfigurationUpdateMessageComponent', () => {
     expect(htmlElem.querySelectorAll('div').length).toBe(2);
   }));
 
-  it('should consider the configured timeout', fakeAsync(() => {
+  it('should show update banner after default delay time if pending changes is true and no delay time configured', fakeAsync(() => {
     //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
     );
     hasPendingChanges = true;
-    waitingTime = 100;
     fixture.detectChanges();
+    waitingTime = undefined;
 
     //Should appear after a bit
     tick(2000);
@@ -142,7 +142,23 @@ describe('ConfigurationUpdateMessageComponent', () => {
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       1
     );
+  }));
 
-    expect(htmlElem.querySelectorAll('div').length).toBe(2);
+  it('should not show update banner if pending changes is true but delay time not reached', fakeAsync(() => {
+    //Should be hidden first
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      0
+    );
+    hasPendingChanges = true;
+    fixture.detectChanges();
+
+    //Wait a bit, but don't reach delay time
+    tick(500);
+
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      0
+    );
+    tick(1000);
   }));
 });

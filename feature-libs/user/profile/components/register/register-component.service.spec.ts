@@ -1,4 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { UntypedFormBuilder } from '@angular/forms';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
@@ -18,11 +19,13 @@ describe('RegisterComponentService', () => {
   let service: RegisterComponentService;
   let userRegisterFacade: UserRegisterFacade;
   let globalMessageService: GlobalMessageService;
+  let fb: UntypedFormBuilder;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         RegisterComponentService,
+        UntypedFormBuilder,
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
@@ -30,6 +33,7 @@ describe('RegisterComponentService', () => {
 
     globalMessageService = TestBed.inject(GlobalMessageService);
     userRegisterFacade = TestBed.inject(UserRegisterFacade);
+    fb = TestBed.inject(UntypedFormBuilder);
     service = TestBed.inject(RegisterComponentService);
   });
 
@@ -71,5 +75,16 @@ describe('RegisterComponentService', () => {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });
+  });
+
+  it('generateAdditionalConsentsFormControl', () => {
+    spyOn(fb, 'array').and.callThrough();
+    service.generateAdditionalConsentsFormControl();
+    expect(fb.array).toHaveBeenCalled();
+  });
+
+  it('getAdditionalConsents', () => {
+    let result = service.getAdditionalConsents();
+    expect(result).toEqual([]);
   });
 });

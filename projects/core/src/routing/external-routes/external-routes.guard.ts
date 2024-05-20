@@ -1,20 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({ providedIn: 'root' })
-export class ExternalRoutesGuard implements CanActivate {
+export class ExternalRoutesGuard {
   constructor(
     protected winRef: WindowRef,
     @Inject(PLATFORM_ID) protected platformId: Object

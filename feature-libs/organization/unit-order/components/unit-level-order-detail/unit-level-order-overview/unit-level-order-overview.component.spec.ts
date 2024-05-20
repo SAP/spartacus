@@ -1,15 +1,16 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   I18nTestingModule,
-  TranslationService,
+  PaymentDetails,
   RequiredPick,
+  TranslationService,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
 import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.component';
 
@@ -109,7 +110,7 @@ const mockFormattedAddress = 'test1, test2, test3, test4';
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -125,21 +126,20 @@ describe('UnitLevelOrderOverviewComponent', () => {
   let translationService: TranslationService;
   let orderDetailService: UnitLevelOrderDetailService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [UnitLevelOrderOverviewComponent, MockCardComponent],
-        providers: [
-          { provide: TranslationService, useClass: MockTranslationService },
-          {
-            provide: UnitLevelOrderDetailService,
-            useClass: MockOrderDetailsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  //TODO: investigate why 'waitForAsync' is not working in the spare time
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [UnitLevelOrderOverviewComponent, MockCardComponent],
+      providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: UnitLevelOrderDetailService,
+          useClass: MockOrderDetailsService,
+        },
+      ],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitLevelOrderOverviewComponent);

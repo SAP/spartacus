@@ -1,13 +1,39 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import * as isDevModeFunc from '@angular/core';
+import { LoggerService } from '../logger';
 import { HttpErrorModel } from '../model/index';
 import { normalizeHttpError } from './normalize-http-error';
+
+const logger = new LoggerService();
 
 describe('normalizeHttpError', () => {
   describe(`when the provided argument is not HttpError`, () => {
     it('should return undefined', () => {
       const error = 'xxx';
-      const result = normalizeHttpError(error);
+      const result = normalizeHttpError(error, logger);
       expect(result).toEqual(undefined);
+    });
+
+    it('should log an error to the console in dev mode if logger is not provided', () => {
+      spyOnProperty(isDevModeFunc, 'isDevMode').and.returnValue(() => true);
+      spyOn(console, 'error');
+      const error = 'xxx';
+      normalizeHttpError(error, logger);
+      expect(console.error).toHaveBeenCalledWith(
+        'Error passed to normalizeHttpError is not HttpErrorResponse instance',
+        error
+      );
+    });
+
+    it('should log an error to the logger in dev mode if logger is provided', () => {
+      spyOnProperty(isDevModeFunc, 'isDevMode').and.returnValue(() => true);
+      spyOn(logger, 'error');
+      const error = 'xxx';
+      normalizeHttpError(error, logger);
+      expect(logger.error).toHaveBeenCalledWith(
+        'Error passed to normalizeHttpError is not HttpErrorResponse instance',
+        error
+      );
     });
   });
 
@@ -21,7 +47,7 @@ describe('normalizeHttpError', () => {
         url: '/xxx',
       });
 
-      const result = normalizeHttpError(mockError);
+      const result = normalizeHttpError(mockError, logger);
       expect(result).toEqual(
         jasmine.objectContaining({
           message: mockError.message,
@@ -41,7 +67,7 @@ describe('normalizeHttpError', () => {
         statusText: 'Unknown error',
         url: '/xxx',
       });
-      const result = normalizeHttpError(mockError);
+      const result = normalizeHttpError(mockError, logger);
       expect(result).toEqual(
         jasmine.objectContaining({
           message: mockError.message,
@@ -66,7 +92,7 @@ describe('normalizeHttpError', () => {
         statusText: 'Unknown error',
         url: '/xxx',
       });
-      const result = normalizeHttpError(mockError);
+      const result = normalizeHttpError(mockError, logger);
       expect(result).toEqual(
         jasmine.objectContaining({
           message: mockError.message,
@@ -90,7 +116,7 @@ describe('normalizeHttpError', () => {
       const normalizedError = new HttpErrorModel();
       normalizedError.status = 400;
 
-      const result = normalizeHttpError(normalizedError);
+      const result = normalizeHttpError(normalizedError, logger);
       expect(result).toEqual(normalizedError);
     });
   });

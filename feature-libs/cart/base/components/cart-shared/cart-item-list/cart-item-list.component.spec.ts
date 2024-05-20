@@ -11,12 +11,7 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import {
-  FeatureConfigService,
-  FeaturesConfigModule,
-  I18nTestingModule,
-  UserIdService,
-} from '@spartacus/core';
+import { I18nTestingModule, UserIdService } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CartItemListComponent } from './cart-item-list.component';
@@ -101,12 +96,6 @@ class MockCartItemComponent {
   };
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
-
 const mockContext = {
   readonly: true,
   hasHeader: true,
@@ -136,7 +125,6 @@ describe('CartItemListComponent', () => {
         RouterTestingModule,
         PromotionsModule,
         I18nTestingModule,
-        FeaturesConfigModule,
       ],
       declarations: [CartItemListComponent, MockCartItemComponent],
       providers: [
@@ -144,10 +132,6 @@ describe('CartItemListComponent', () => {
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
         { provide: MultiCartFacade, useClass: MockMultiCartService },
         { provide: UserIdService, useClass: MockUserIdService },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
     });
   }
@@ -419,19 +403,45 @@ describe('CartItemListComponent', () => {
       TestBed.compileComponents();
       stubSeviceAndCreateComponent();
 
-      const setItems = spyOnProperty(component, 'items', 'set');
+      spyOn(<any>component, '_setItems').and.callThrough();
       const setLoading = spyOnProperty(component, 'setLoading', 'set');
       component.ngOnInit();
 
       expect(component.cartId).toEqual(mockContext.cartId);
       expect(component.hasHeader).toEqual(mockContext.hasHeader);
-      expect(setItems).toHaveBeenCalledWith(mockContext.items);
+      expect(component['_setItems']).toHaveBeenCalledWith(mockContext.items, {
+        forceRerender: false,
+      });
       expect(component.options).toEqual(mockContext.options);
       expect(component.promotionLocation).toEqual(
         mockContext.promotionLocation
       );
       expect(component.readonly).toEqual(mockContext.readonly);
       expect(setLoading).toHaveBeenCalledWith(mockContext.cartIsLoading);
+    });
+
+    it('should mark view for check and force re-creation of item controls when outlet context emits with changed read-only flag', () => {
+      const secondMockContext = structuredClone(mockContext);
+      secondMockContext.readonly = false;
+      const context$ = of(mockContext, secondMockContext);
+      configureTestingModule().overrideProvider(OutletContextData, {
+        useValue: { context$ },
+      });
+      TestBed.compileComponents();
+      stubSeviceAndCreateComponent();
+      const control0 = component.form.get(mockItem0.entryNumber.toString());
+      const control1 = component.form.get(mockItem1.entryNumber.toString());
+      spyOn(component['cd'], 'markForCheck').and.callThrough();
+
+      component.ngOnInit();
+
+      expect(component['cd'].markForCheck).toHaveBeenCalled();
+      expect(control0).not.toBe(
+        component.form.get(mockItem0.entryNumber.toString())
+      );
+      expect(control1).not.toBe(
+        component.form.get(mockItem1.entryNumber.toString())
+      );
     });
   });
 });

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,8 +14,8 @@ import {
 import { Injectable } from '@angular/core';
 import { MultiCartFacade } from '@spartacus/cart/base/root';
 import { RouterState, RoutingService } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs/operators';
 
 /**
  * Interceptor that handles "Cart not found" errors while a user is in a checkout step.
@@ -38,21 +38,22 @@ export class CheckoutCartInterceptor implements HttpInterceptor {
       take(1),
       switchMap((state: RouterState) => {
         return next.handle(request).pipe(
-          catchError((response) => {
-            if (
-              response instanceof HttpErrorResponse &&
-              this.isUserInCheckoutRoute(state.state?.semanticRoute)
-            ) {
-              if (this.isCartNotFoundError(response)) {
-                this.routingService.go({ cxRoute: 'cart' });
+          tap({
+            error: (response) => {
+              if (
+                response instanceof HttpErrorResponse &&
+                this.isUserInCheckoutRoute(state.state?.semanticRoute)
+              ) {
+                if (this.isCartNotFoundError(response)) {
+                  this.routingService.go({ cxRoute: 'cart' });
 
-                const cartCode = this.getCartIdFromError(response);
-                if (cartCode) {
-                  this.multiCartFacade.reloadCart(cartCode);
+                  const cartCode = this.getCartIdFromError(response);
+                  if (cartCode) {
+                    this.multiCartFacade.reloadCart(cartCode);
+                  }
                 }
               }
-            }
-            return throwError(response);
+            },
           })
         );
       })

@@ -1,9 +1,9 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { AnonymousConsentOpenDialogComponent } from './anonymous-consent-open-dialog.component';
 import { ElementRef, ViewContainerRef } from '@angular/core';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { EMPTY } from 'rxjs';
+import { AnonymousConsentOpenDialogComponent } from './anonymous-consent-open-dialog.component';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -11,7 +11,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 

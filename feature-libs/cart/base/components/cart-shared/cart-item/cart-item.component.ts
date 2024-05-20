@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
+import { useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-item',
@@ -42,7 +43,9 @@ export class CartItemComponent implements OnChanges {
   iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
 
-  constructor(protected cartItemContextSource: CartItemContextSource) {}
+  constructor(protected cartItemContextSource: CartItemContextSource) {
+    useFeatureStyles('a11yCartItemsLinksStyles');
+  }
 
   ngOnChanges(changes?: SimpleChanges) {
     if (changes?.compact) {

@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -15,44 +15,28 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 
 @Injectable()
 export class UpdatePasswordComponentService {
-  // TODO(CXSPA-1697): make AuthRedirectService and AuthService a required dependency
-  constructor(
-    userPasswordService: UserPasswordFacade,
-    routingService: RoutingService,
-    globalMessageService: GlobalMessageService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    authRedirectService: AuthRedirectService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    authService: AuthService
-  );
-
-  /*
-   * @deprecated since 5.1
-   */
-  constructor(
-    userPasswordService: UserPasswordFacade,
-    routingService: RoutingService,
-    globalMessageService: GlobalMessageService
-  );
-
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    @Optional() protected authRedirectService?: AuthRedirectService,
-    @Optional() protected authService?: AuthService
+    protected authRedirectService?: AuthRedirectService,
+    protected authService?: AuthService
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
+
+  private usingV2 = inject(USE_MY_ACCOUNT_V2_PASSWORD);
 
   isUpdating$ = this.busy$.pipe(
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
@@ -91,13 +75,17 @@ export class UpdatePasswordComponentService {
 
     this.userPasswordService.update(oldPassword, newPassword).subscribe({
       next: () => this.onSuccess(),
-      error: (error: Error) => this.onError(error),
+      error: (error: HttpErrorModel | Error) => this.onError(error),
     });
   }
 
   protected onSuccess(): void {
     this.globalMessageService.add(
-      { key: 'updatePasswordForm.passwordUpdateSuccess' },
+      {
+        key: this.usingV2
+          ? 'myAccountV2PasswordForm.passwordUpdateSuccess'
+          : 'updatePasswordForm.passwordUpdateSuccess',
+      },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
     this.busy$.next(false);
@@ -113,7 +101,20 @@ export class UpdatePasswordComponentService {
     });
   }
 
-  protected onError(_error: Error): void {
+  protected onError(_error: HttpErrorModel | Error): void {
+    if (
+      _error instanceof HttpErrorModel &&
+      _error.details?.[0].type === 'AccessDeniedError'
+    ) {
+      this.globalMessageService.add(
+        {
+          key: this.usingV2
+            ? 'myAccountV2PasswordForm.accessDeniedError'
+            : 'updatePasswordForm.accessDeniedError',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
     this.busy$.next(false);
     this.form.reset();
   }

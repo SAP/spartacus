@@ -1,11 +1,46 @@
-<cx-icon
-  *ngFor="let i of [1, 2, 3, 4, 5]"
-  [type]="icon"
-  class="star"
-  (mouseover)="setRate(i)"
-  (click)="saveRate(i)"
-  (keydown.space)="saveRate(i)"
-  [attr.tabindex]="disabled ? null : 0"
-  role="button"
-  attr.aria-label="{{ 'productReview.addRate' | cxTranslate: { count: i } }}"
-></cx-icon>
+<ng-container *cxFeature="'a11yStarRating'">
+  <div
+    *ngIf="disabled; else starRating"
+    role="img"
+    [title]="
+      'productReview.ratedOutOf' | cxTranslate: { rating: rating.toFixed(1) }
+    "
+    [attr.aria-label]="
+      'productReview.ratedOutOf' | cxTranslate: { rating: rating.toFixed(1) }
+    "
+  >
+    <ng-container *ngTemplateOutlet="starRating"></ng-container>
+  </div>
+
+  <ng-template #starRating>
+    <cx-icon
+      *ngFor="let i of [1, 2, 3, 4, 5]"
+      [type]="icon"
+      class="star"
+      (mouseover)="setRate(i)"
+      (click)="saveRate(i)"
+      (keydown.space)="saveRate(i)"
+      [attr.tabindex]="disabled ? null : 0"
+      [attr.role]="disabled ? null : 'button'"
+      [attr.aria-label]="
+        !disabled ? ('productReview.addRate' | cxTranslate: { count: i }) : null
+      "
+      [attr.aria-hidden]="disabled"
+    ></cx-icon>
+  </ng-template>
+</ng-container>
+
+<!-- TODO: (CXSPA-5707) Remove feature flag next major -->
+<ng-container *cxFeature="'!a11yStarRating'">
+  <cx-icon
+    *ngFor="let i of [1, 2, 3, 4, 5]"
+    [type]="icon"
+    class="star"
+    (mouseover)="setRate(i)"
+    (click)="saveRate(i)"
+    (keydown.space)="saveRate(i)"
+    [attr.tabindex]="disabled ? null : 0"
+    role="button"
+    attr.aria-label="{{ 'productReview.addRate' | cxTranslate: { count: i } }}"
+  ></cx-icon>
+</ng-container>

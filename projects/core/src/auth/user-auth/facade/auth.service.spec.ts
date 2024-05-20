@@ -1,13 +1,13 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
-import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { OCC_USER_ID_CURRENT } from '../../../occ';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthToken } from '../models/auth-token.model';
-import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
+import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions';
@@ -179,6 +179,30 @@ describe('AuthService', () => {
       expect(
         oAuthLibWrapperService.authorizeWithPasswordFlow
       ).toHaveBeenCalledWith('username', 'pass');
+      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+      expect(authRedirectService.redirect).toHaveBeenCalled();
+    });
+  });
+
+  describe('otpLoginWithCredentials()', () => {
+    it('should login user', async () => {
+      spyOn(
+        oAuthLibWrapperService,
+        'authorizeWithPasswordFlow'
+      ).and.callThrough();
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(authRedirectService, 'redirect').and.callThrough();
+      spyOn(store, 'dispatch').and.callThrough();
+
+      const tokenId = '<LGN[OZ8Ijx92S7pf3KcqtuUxOvM0l2XmZQX+4TUEzXcJyjI=]>';
+      const tokenCode = 'XD2iuP';
+
+      await service.otpLoginWithCredentials(tokenId, tokenCode);
+
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith(tokenId, tokenCode);
       expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
       expect(authRedirectService.redirect).toHaveBeenCalled();

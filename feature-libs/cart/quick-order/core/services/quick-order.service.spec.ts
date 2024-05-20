@@ -1,5 +1,5 @@
 import { AbstractType } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
   ActiveCartFacade,
   CartAddEntrySuccessEvent,
@@ -8,14 +8,13 @@ import {
 import { defaultQuickOrderConfig } from '@spartacus/cart/quick-order/root';
 import {
   EventService,
-  FeatureConfigService,
   Product,
   ProductSearchConnector,
   ProductSearchPage,
   SearchConfig,
 } from '@spartacus/core';
 import { Observable, of, queueScheduler } from 'rxjs';
-import { delay, observeOn, switchMap, take, tap } from 'rxjs/operators';
+import { observeOn, take, tap } from 'rxjs/operators';
 import { QuickOrderService } from './quick-order.service';
 
 const mockProduct1Code: string = 'mockCode1';
@@ -89,6 +88,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   isStable(): Observable<boolean> {
     return of(true);
   }
+
   addEntries(_cartEntries: OrderEntry[]): void {}
 }
 
@@ -98,15 +98,6 @@ class MockEventService implements Partial<EventService> {
     event.productCode = mockProduct1Code;
     event.quantity = 4;
     return of(event) as any;
-  }
-}
-
-/**
- * TODO: (#CXSPA-612) Remove MockFeatureConfigService in 6.0
- */
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
   }
 }
 
@@ -130,10 +121,6 @@ describe('QuickOrderService', () => {
         {
           provide: ProductSearchConnector,
           useClass: MockProductSearchConnector,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     });
@@ -339,24 +326,32 @@ describe('QuickOrderService', () => {
       });
   });
 
-  it('should add deleted entry and after 7s delete it', (done) => {
+  it('should add deleted entry and after 7s delete it', fakeAsync(() => {
     service.loadEntries(mockEntries);
     service.softDeleteEntry(0);
+
+    let softDeletedEntries: any;
+    let shouldCheck = true;
 
     service
       .getSoftDeletedEntries()
       .pipe(
-        tap((softDeletedEntries) => {
-          expect(softDeletedEntries).toEqual({ mockCode1: mockEntry1 });
-        }),
-        delay(7000),
-        switchMap(() => service.getSoftDeletedEntries())
+        tap((entries) => {
+          if (shouldCheck) {
+            expect(entries).toEqual({ mockCode1: mockEntry1 });
+
+            shouldCheck = false;
+          }
+        })
       )
       .subscribe((result) => {
-        expect(result).toEqual({});
+        softDeletedEntries = result;
       });
-    done();
-  });
+
+    tick(7000);
+
+    expect(softDeletedEntries).toEqual({});
+  }));
 
   it('should not add deleted entry', (done) => {
     service.loadEntries([mockEmptyEntry]);

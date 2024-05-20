@@ -8,6 +8,7 @@ import {
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
+import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 
 describe('CSAgentLoginFormComponent', () => {
   let component: CSAgentLoginFormComponent;
@@ -28,7 +29,7 @@ describe('CSAgentLoginFormComponent', () => {
           FormErrorsModule,
           PasswordVisibilityToggleModule,
         ],
-        declarations: [CSAgentLoginFormComponent],
+        declarations: [CSAgentLoginFormComponent, DotSpinnerComponent],
       }).compileComponents();
     })
   );
@@ -88,7 +89,7 @@ describe('CSAgentLoginFormComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(el.query(By.css('div.spinner'))).toBeTruthy();
+    expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();
     expect(el.query(By.css('form'))).toBeFalsy();
   });
   it('should not display spinner when login is not running', () => {

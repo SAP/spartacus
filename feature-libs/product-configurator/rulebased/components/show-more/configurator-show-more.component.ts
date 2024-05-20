@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,8 +9,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   Input,
 } from '@angular/core';
+import { Config, useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-show-more',
@@ -23,11 +25,16 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   textToShow: string;
   textNormalized: string;
 
+  protected config = inject(Config);
+
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
+  @Input() tabIndex = -1;
 
-  constructor(protected cdRef: ChangeDetectorRef) {}
+  constructor(protected cdRef: ChangeDetectorRef) {
+    useFeatureStyles('productConfiguratorAttributeTypesV2');
+  }
 
   ngAfterViewInit(): void {
     this.textNormalized = this.normalize(this.text);

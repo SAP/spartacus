@@ -5,7 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -13,11 +13,11 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import {
+  ATTRIBUTE_1_CHECKBOX,
   CONFIG_ID,
-  GROUP_ID_CONFLICT_HEADER,
   GROUP_ID_CONFLICT_1,
   GROUP_ID_CONFLICT_2,
-  ATTRIBUTE_1_CHECKBOX,
+  GROUP_ID_CONFLICT_HEADER,
 } from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
@@ -158,6 +158,14 @@ const searchVariantsAction = new ConfiguratorActions.SearchVariants(
   productConfiguration
 );
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('ConfiguratorEffect', () => {
   let createMock: jasmine.Spy;
   let readMock: jasmine.Spy;
@@ -214,6 +222,7 @@ describe('ConfiguratorEffect', () => {
           provide: ConfiguratorUtilsService,
           useClass: ConfiguratorUtilsService,
         },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -265,7 +274,32 @@ describe('ConfiguratorEffect', () => {
       });
 
       expect(configEffects.createConfiguration$).toBeObservable(expected);
-      expect(createMock).toHaveBeenCalledWith(owner, CONFIG_ID_TEMPLATE);
+      expect(createMock).toHaveBeenCalledWith(
+        owner,
+        CONFIG_ID_TEMPLATE,
+        undefined
+      );
+    });
+
+    it('should forward configuration forceReset flag', () => {
+      const action = new ConfiguratorActions.CreateConfiguration({
+        owner: productConfiguration.owner,
+        forceReset: true,
+      });
+
+      const configurationSuccessAction =
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          productConfiguration
+        );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: configurationSuccessAction,
+        c: searchVariantsAction,
+      });
+
+      expect(configEffects.createConfiguration$).toBeObservable(expected);
+      expect(createMock).toHaveBeenCalledWith(owner, undefined, true);
     });
 
     it('must not emit anything in case source action is not covered', () => {
@@ -280,7 +314,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      createMock.and.returnValue(throwError(errorResponse));
+      createMock.and.returnValue(throwError(() => errorResponse));
 
       const action = new ConfiguratorActions.CreateConfiguration({
         owner: productConfiguration.owner,
@@ -289,7 +323,7 @@ describe('ConfiguratorEffect', () => {
       const completionFailure = new ConfiguratorActions.CreateConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse),
+          error: normalizeHttpError(errorResponse, new MockLoggerService()),
         }
       );
       actions$ = hot('-a', { a: action });
@@ -319,7 +353,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case connector raises an error', () => {
-      readMock.and.returnValue(throwError(errorResponse));
+      readMock.and.returnValue(throwError(() => errorResponse));
       const action = new ConfiguratorActions.ReadConfiguration({
         configuration: productConfiguration,
         groupId: '',
@@ -328,7 +362,7 @@ describe('ConfiguratorEffect', () => {
       const readConfigurationFailAction =
         new ConfiguratorActions.ReadConfigurationFail({
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse),
+          error: normalizeHttpError(errorResponse, new MockLoggerService()),
         });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: readConfigurationFailAction });
@@ -373,14 +407,14 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      overviewMock.and.returnValue(throwError(errorResponse));
+      overviewMock.and.returnValue(throwError(() => errorResponse));
       const overviewAction = new ConfiguratorActions.GetConfigurationOverview(
         productConfiguration
       );
 
       const failAction = new ConfiguratorActions.GetConfigurationOverviewFail({
         ownerKey: productConfiguration.owner.key,
-        error: normalizeHttpError(errorResponse),
+        error: normalizeHttpError(errorResponse, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: overviewAction });
       const expected = cold('-b', { b: failAction });
@@ -413,7 +447,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      updateOverviewMock.and.returnValue(throwError(errorResponse));
+      updateOverviewMock.and.returnValue(throwError(() => errorResponse));
       const overviewAction =
         new ConfiguratorActions.UpdateConfigurationOverview(
           productConfiguration
@@ -422,7 +456,7 @@ describe('ConfiguratorEffect', () => {
       const failAction =
         new ConfiguratorActions.UpdateConfigurationOverviewFail({
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse),
+          error: normalizeHttpError(errorResponse, new MockLoggerService()),
         });
       actions$ = hot('-a', { a: overviewAction });
       const expected = cold('-b', { b: failAction });
@@ -455,13 +489,13 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      updateConfigurationMock.and.returnValue(throwError(errorResponse));
+      updateConfigurationMock.and.returnValue(throwError(() => errorResponse));
       const payloadInput = productConfiguration;
       const action = new ConfiguratorActions.UpdateConfiguration(payloadInput);
 
       const failAction = new ConfiguratorActions.UpdateConfigurationFail({
         configuration: productConfiguration,
-        error: normalizeHttpError(errorResponse),
+        error: normalizeHttpError(errorResponse, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: failAction });
@@ -485,14 +519,14 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      readPriceSummaryMock.and.returnValue(throwError(errorResponse));
+      readPriceSummaryMock.and.returnValue(throwError(() => errorResponse));
       const payloadInput = productConfiguration;
       const updatePriceSummaryAction =
         new ConfiguratorActions.UpdatePriceSummary(payloadInput);
 
       const failAction = new ConfiguratorActions.UpdatePriceSummaryFail({
         ownerKey: productConfiguration.owner.key,
-        error: normalizeHttpError(errorResponse),
+        error: normalizeHttpError(errorResponse, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: updatePriceSummaryAction });
       const expected = cold('-b', { b: failAction });
@@ -773,7 +807,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit ReadConfigurationFail in case read call is not successful', () => {
-      readMock.and.returnValue(throwError(errorResponse));
+      readMock.and.returnValue(throwError(() => errorResponse));
       const payloadInput: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(configId, owner),
         productCode: productCode,
@@ -786,7 +820,7 @@ describe('ConfiguratorEffect', () => {
       const readConfigurationFail =
         new ConfiguratorActions.ReadConfigurationFail({
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse),
+          error: normalizeHttpError(errorResponse, new MockLoggerService()),
         });
 
       actions$ = hot('-a', { a: action });

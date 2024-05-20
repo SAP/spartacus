@@ -1,4 +1,4 @@
-<cx-org-list>
+<cx-org-list [hideAddButton]="!isUpdatingUnitAllowed">
   <ng-container actions>
     <button class="link" (click)="expandAll()">
       {{ 'orgUnit.tree.expandAll' | cxTranslate }}

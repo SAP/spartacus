@@ -1,19 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpHeaders, HttpContext } from '@angular/common/http';
-import { Injectable, Optional } from '@angular/core';
+import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import {
-  CartModification,
   CART_MODIFICATION_NORMALIZER,
+  CartModification,
 } from '@spartacus/cart/base/root';
 import {
   ConverterService,
-  OccEndpointsService,
   OCC_HTTP_TOKEN,
+  OccEndpointsService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -24,6 +24,7 @@ import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import {
   VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   VARIANT_CONFIGURATOR_NORMALIZER,
@@ -34,36 +35,16 @@ import {
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Injectable()
 export class VariantConfiguratorOccAdapter
   implements RulebasedConfiguratorAdapter
 {
-  //TODO(CXSPA-1014): make ConfiguratorExpertModeService a required dependency
-  constructor(
-    http: HttpClient,
-    occEndpointsService: OccEndpointsService,
-    converterService: ConverterService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configExpertModeService: ConfiguratorExpertModeService
-  );
-
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    http: HttpClient,
-    occEndpointsService: OccEndpointsService,
-    converterService: ConverterService
-  );
-
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService,
-    @Optional()
-    protected configExpertModeService?: ConfiguratorExpertModeService
+    protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
   getConfiguratorType(): string {
@@ -73,19 +54,20 @@ export class VariantConfiguratorOccAdapter
   protected getExpModeRequested(): boolean {
     let expMode = false;
     this.configExpertModeService
-      ?.getExpModeRequested()
+      .getExpModeRequested()
       .pipe(take(1))
       .subscribe((mode) => (expMode = mode));
     return expMode;
   }
 
   protected setExpModeActive(expMode: boolean) {
-    this.configExpertModeService?.setExpModeActive(expMode);
+    this.configExpertModeService.setExpModeActive(expMode);
   }
 
   createConfiguration(
     owner: CommonConfigurator.Owner,
-    configIdTemplate?: string
+    configIdTemplate?: string,
+    forceReset: boolean = false
   ): Observable<Configurator.Configuration> {
     const productCode = owner.id;
     const expMode = this.getExpModeRequested();
@@ -94,8 +76,8 @@ export class VariantConfiguratorOccAdapter
         this.occEndpointsService.buildUrl('createVariantConfiguration', {
           urlParams: { productCode },
           queryParams: configIdTemplate
-            ? { configIdTemplate, expMode }
-            : { expMode },
+            ? { configIdTemplate, expMode, forceReset }
+            : { expMode, forceReset },
         }),
         { context: this.indicateSendUserForAsm() }
       )
@@ -136,6 +118,7 @@ export class VariantConfiguratorOccAdapter
           return {
             ...resultConfiguration,
             owner: configurationOwner,
+            newConfiguration: false,
           };
         })
       );
@@ -259,16 +242,42 @@ export class VariantConfiguratorOccAdapter
   readConfigurationForOrderEntry(
     parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Configurator.Configuration> {
-    const url = this.occEndpointsService.buildUrl(
-      'readVariantConfigurationOverviewForOrderEntry',
-      {
-        urlParams: {
-          userId: parameters.userId,
-          orderId: parameters.orderId,
-          orderEntryNumber: parameters.orderEntryNumber,
-        },
-      }
-    );
+    const ownerType = parameters.owner.type;
+    let url;
+    if (ownerType === CommonConfigurator.OwnerType.QUOTE_ENTRY) {
+      url = this.occEndpointsService.buildUrl(
+        'readVariantConfigurationOverviewForQuoteEntry',
+        {
+          urlParams: {
+            userId: parameters.userId,
+            quoteId: parameters.orderId,
+            quoteEntryNumber: parameters.orderEntryNumber,
+          },
+        }
+      );
+    } else if (ownerType === CommonConfigurator.OwnerType.SAVED_CART_ENTRY) {
+      url = this.occEndpointsService.buildUrl(
+        'readVariantConfigurationOverviewForSavedCartEntry',
+        {
+          urlParams: {
+            userId: parameters.userId,
+            cartId: parameters.orderId,
+            cartEntryNumber: parameters.orderEntryNumber,
+          },
+        }
+      );
+    } else {
+      url = this.occEndpointsService.buildUrl(
+        'readVariantConfigurationOverviewForOrderEntry',
+        {
+          urlParams: {
+            userId: parameters.userId,
+            orderId: parameters.orderId,
+            orderEntryNumber: parameters.orderEntryNumber,
+          },
+        }
+      );
+    }
 
     return this.http.get<OccConfigurator.Overview>(url).pipe(
       this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER),

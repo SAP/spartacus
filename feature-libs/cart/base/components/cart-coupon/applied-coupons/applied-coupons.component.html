@@ -4,17 +4,7 @@
       {{ 'voucher.vouchersApplied' | cxTranslate }}
     </div>
   </div>
-  <!-- TODO:(CXSPA-1695) for next major release update below feature flags; removed role attribute -->
-  <ng-container *cxFeatureLevel="'!5.1'">
-    <div
-      *ngFor="let voucher of sortedVouchers"
-      class="coupon-summary cx-coupon-card textonly"
-      role="filter"
-    >
-      <span class="cx-applied-coupon-code">{{ voucher.voucherCode }}</span>
-    </div>
-  </ng-container>
-  <ng-container *cxFeatureLevel="'5.1'">
+  <ng-container>
     <div
       *ngFor="let voucher of sortedVouchers"
       class="coupon-summary cx-coupon-card textonly"
@@ -26,31 +16,7 @@
 
 <ng-template #editableCoupons>
   <div class="row">
-    <!-- TODO:(CXSPA-1695) for next major release update below feature flags; removed role attribute -->
-    <ng-container *cxFeatureLevel="'!5.1'">
-      <div
-        *ngFor="let voucher of sortedVouchers"
-        class="col-sm-12 col-md-6 col-lg-12 cx-coupon-card-grid"
-        role="filter"
-      >
-        <div class="cx-coupon-apply cx-coupon-card cx-coupon-list-wrap">
-          <span class="cx-cart-coupon-code">{{ voucher.voucherCode }}</span>
-          <button
-            type="button"
-            class="close"
-            [attr.aria-label]="'common.close' | cxTranslate"
-            (click)="removeVoucher(voucher.voucherCode)"
-            [disabled]="cartIsLoading"
-            [class.disabled]="cartIsLoading"
-          >
-            <span aria-hidden="true">
-              <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-            </span>
-          </button>
-        </div>
-      </div>
-    </ng-container>
-    <ng-container *cxFeatureLevel="'5.1'">
+    <ng-container>
       <div
         *ngFor="let voucher of sortedVouchers"
         class="col-sm-12 col-md-6 col-lg-12 cx-coupon-card-grid"

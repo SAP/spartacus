@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,11 @@ if (environment.production) {
 function bootstrap() {
   platformBrowserDynamic()
     .bootstrapModule(AppModule)
+    /* eslint-disable-next-line no-console
+    --
+    It's just an example application file. This message is not crucial
+    to be logged using any special logger. Moreover, we don't have
+    any special logger available in this context. */
     .catch((err) => console.error(err));
 }
 

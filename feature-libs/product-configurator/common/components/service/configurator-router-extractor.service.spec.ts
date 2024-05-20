@@ -141,6 +141,18 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
+    it('should map the navigationId', () => {
+      mockRouterState.navigationId = 3;
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.navigationId).toBe(3);
+        })
+        .unsubscribe();
+    });
+
     it('should tell from the URL if we need to enforce a reload of a configuration', () => {
       mockRouterState.state.queryParams = { forceReload: 'true' };
       let routerData: ConfiguratorRouter.Data;
@@ -241,6 +253,93 @@ describe('ConfigRouterExtractorService', () => {
         .subscribe((data) => {
           routerData = data;
           expect(routerData.configIdTemplate).toBe(undefined);
+        })
+        .unsubscribe();
+    });
+
+    it('should set displayRestartDialog to true if requested via query parameter', () => {
+      mockRouterState.state.queryParams = {
+        displayRestartDialog: 'true',
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.displayRestartDialog).toBe(true);
+        })
+        .unsubscribe();
+    });
+
+    it('should set displayRestartDialog to false if the corresponding query parameter is missing', () => {
+      mockRouterState.state.queryParams = {};
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.displayRestartDialog).toBe(false);
+        })
+        .unsubscribe();
+    });
+
+    it('should check whether navigateToCheckout was set via query parameter', () => {
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.navigateToCheckout).toBe(false);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if the navigation to the checkout is relevant', () => {
+      mockRouterState.state.queryParams = { navigateToCheckout: 'true' };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.navigateToCheckout).toBe(true);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if the navigation to the checkout is not relevant', () => {
+      mockRouterState.state.queryParams = { navigateToCheckout: 'false' };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.navigateToCheckout).toBe(false);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL that a product code has been passed', () => {
+      mockRouterState.state.queryParams = {
+        productCode: PRODUCT_CODE,
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.productCode).toBe(PRODUCT_CODE);
+        })
+        .unsubscribe();
+    });
+
+    it('should be fine with a product code not provided', () => {
+      mockRouterState.state.queryParams = {};
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.productCode).toBe(undefined);
         })
         .unsubscribe();
     });

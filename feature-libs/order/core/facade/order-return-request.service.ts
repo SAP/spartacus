@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -61,7 +61,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    * Gets order return request list
    */
   getOrderReturnRequestList(
-    pageSize: number
+    pageSize?: number
   ): Observable<ReturnRequestList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getOrderReturnRequestListState),
@@ -100,12 +100,12 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    * @param sort sort
    */
   loadOrderReturnRequestList(
-    pageSize: number,
+    pageSize?: number,
     currentPage?: number,
     sort?: string
   ): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         this.store.dispatch(
           new OrderActions.LoadOrderReturnRequestList({
             userId,
@@ -115,10 +115,10 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
           })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**

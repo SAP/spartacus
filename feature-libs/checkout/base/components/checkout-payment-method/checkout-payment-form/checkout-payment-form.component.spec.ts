@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -11,9 +10,11 @@ import {
 import {
   Address,
   AddressValidation,
+  CardType,
   Country,
   GlobalMessageService,
   I18nTestingModule,
+  PaymentDetails,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
@@ -21,8 +22,9 @@ import {
   FormErrorsModule,
   ICON_TYPE,
   LaunchDialogService,
+  NgSelectA11yModule,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 import createSpy = jasmine.createSpy;
 
@@ -117,7 +119,7 @@ class MockCxIconComponent {
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   loadSupportedCardTypes = createSpy();
-  getPaymentCardTypes = createSpy().and.returnValue(of());
+  getPaymentCardTypes = createSpy().and.returnValue(EMPTY);
   getSetPaymentDetailsResultProcess = createSpy().and.returnValue(
     of({ loading: false })
   );
@@ -129,7 +131,7 @@ class MockCheckoutDeliveryService
   getDeliveryAddressState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
-  getAddressVerificationResults = createSpy().and.returnValue(of());
+  getAddressVerificationResults = createSpy().and.returnValue(EMPTY);
   verifyAddress = createSpy();
   clearAddressVerificationResults = createSpy();
 }
@@ -147,7 +149,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe() {
-    return of();
+    return EMPTY;
   }
 }
 class MockUserAddressService implements Partial<UserAddressService> {
@@ -180,6 +182,7 @@ describe('CheckoutPaymentFormComponent', () => {
         imports: [
           ReactiveFormsModule,
           NgSelectModule,
+          NgSelectA11yModule,
           I18nTestingModule,
           FormErrorsModule,
         ],
@@ -359,16 +362,18 @@ describe('CheckoutPaymentFormComponent', () => {
     expect(component.closeForm.emit).toHaveBeenCalled();
   });
 
-  it('should call getAddressCardContent(address)', () => {
-    const card = component.getAddressCardContent(mockAddress);
-    expect(card.textBold).toEqual('John Doe');
-    expect(card.text).toEqual([
-      'Toyosaki 2 create on cart',
-      'line2',
-      'town, JP-27, JP',
-      'zip',
-      undefined,
-    ]);
+  it('should call getAddressCardContent(address)', (done) => {
+    component.getAddressCardContent(mockAddress).subscribe((card) => {
+      expect(card?.textBold).toEqual('John Doe');
+      expect(card?.text).toEqual([
+        'Toyosaki 2 create on cart',
+        'line2',
+        'town, JP-27, JP',
+        'zip',
+        undefined,
+      ]);
+      done();
+    });
   });
 
   it('should call toggleSameAsDeliveryAddress()', () => {
@@ -504,7 +509,8 @@ describe('CheckoutPaymentFormComponent', () => {
   });
 
   describe('UI close/back button', () => {
-    const getBackBtn = () => fixture.debugElement.query(By.css('.btn-action'));
+    const getBackBtn = () =>
+      fixture.debugElement.query(By.css('.btn-secondary'));
 
     it('should call "back" function after being clicked', () => {
       component.paymentMethodsCount = 0;

@@ -48,7 +48,7 @@
           class="table cx-replenishment-order-history-table"
           role="table"
         >
-          <caption *cxFeatureLevel="'5.1'" class="cx-visually-hidden">
+          <caption class="cx-visually-hidden">
             {{
               'orderHistory.orderHistory' | cxTranslate
             }}
@@ -85,10 +85,7 @@
               </span>
             </th>
             <th scope="col">
-              <span
-                *cxFeatureLevel="'5.1'"
-                class="cx-replenishment-order-history-ellipses"
-              >
+              <span class="cx-replenishment-order-history-ellipses">
                 {{ 'orderHistory.actions' | cxTranslate }}
               </span>
             </th>
@@ -215,7 +212,7 @@
                 ></div>
                 <button
                   (click)="openDialog($event, order?.replenishmentOrderCode)"
-                  class="cx-order-cancel btn btn-link"
+                  class="cx-order-cancel btn btn-secondary"
                   #element
                   *ngIf="order?.active"
                 >

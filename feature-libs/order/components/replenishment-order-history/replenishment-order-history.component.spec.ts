@@ -12,17 +12,13 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  FeaturesConfigModule,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   ReplenishmentOrderHistoryFacade,
   ReplenishmentOrderList,
 } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
 
 const mockReplenishmentOrders: ReplenishmentOrderList = {
@@ -114,7 +110,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -129,7 +125,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule, FeaturesConfigModule],
+        imports: [RouterTestingModule, I18nTestingModule],
         declarations: [
           ReplenishmentOrderHistoryComponent,
           MockUrlPipe,

@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { select, Store } from '@ngrx/store';
-import { normalizeHttpError } from '@spartacus/core';
+import { Store, select } from '@ngrx/store';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -19,7 +19,6 @@ import {
   map,
   mergeMap,
   switchMap,
-  switchMapTo,
   take,
 } from 'rxjs/operators';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
@@ -43,6 +42,8 @@ type updateConfigurationSuccessResultType =
  * and CPQ
  */
 export class ConfiguratorBasicEffects {
+  protected logger = inject(LoggerService);
+
   createConfiguration$: Observable<
     | ConfiguratorActions.CreateConfigurationSuccess
     | ConfiguratorActions.SearchVariants
@@ -54,7 +55,8 @@ export class ConfiguratorBasicEffects {
         return this.configuratorCommonsConnector
           .createConfiguration(
             action.payload.owner,
-            action.payload.configIdTemplate
+            action.payload.configIdTemplate,
+            action.payload.forceReset
           )
           .pipe(
             switchMap((configuration: Configurator.Configuration) => {
@@ -79,7 +81,7 @@ export class ConfiguratorBasicEffects {
             catchError((error) => [
               new ConfiguratorActions.CreateConfigurationFail({
                 ownerKey: action.payload.owner.key,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               }),
             ])
           );
@@ -108,7 +110,7 @@ export class ConfiguratorBasicEffects {
             catchError((error) => [
               new ConfiguratorActions.ReadConfigurationFail({
                 ownerKey: action.payload.configuration.owner.key,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               }),
             ])
           );
@@ -140,7 +142,7 @@ export class ConfiguratorBasicEffects {
               });
             }),
             catchError((error) => {
-              const errorPayload = normalizeHttpError(error);
+              const errorPayload = normalizeHttpError(error, this.logger);
               return [
                 new ConfiguratorActions.UpdateConfigurationFail({
                   configuration: payload,
@@ -172,7 +174,7 @@ export class ConfiguratorBasicEffects {
             );
           }),
           catchError((error) => {
-            const errorPayload = normalizeHttpError(error);
+            const errorPayload = normalizeHttpError(error, this.logger);
             return [
               new ConfiguratorActions.UpdatePriceSummaryFail({
                 ownerKey: payload.owner.key,
@@ -205,7 +207,7 @@ export class ConfiguratorBasicEffects {
               });
             }),
             catchError((error) => {
-              const errorPayload = normalizeHttpError(error);
+              const errorPayload = normalizeHttpError(error, this.logger);
               return [
                 new ConfiguratorActions.GetConfigurationOverviewFail({
                   ownerKey: payload.owner.key,
@@ -241,7 +243,7 @@ export class ConfiguratorBasicEffects {
               );
             }),
             catchError((error) => {
-              const errorPayload = normalizeHttpError(error);
+              const errorPayload = normalizeHttpError(error, this.logger);
               return [
                 new ConfiguratorActions.UpdateConfigurationOverviewFail({
                   ownerKey: payload.owner.key,
@@ -267,7 +269,7 @@ export class ConfiguratorBasicEffects {
             select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
             take(1),
             filter((hasPendingChanges) => hasPendingChanges === false),
-            switchMapTo(
+            switchMap(() =>
               this.store.pipe(
                 select(
                   ConfiguratorSelectors.getCurrentGroup(payload.owner.key)
@@ -435,7 +437,7 @@ export class ConfiguratorBasicEffects {
                 catchError((error) => [
                   new ConfiguratorActions.ReadConfigurationFail({
                     ownerKey: action.payload.configuration.owner.key,
-                    error: normalizeHttpError(error),
+                    error: normalizeHttpError(error, this.logger),
                   }),
                 ])
               );

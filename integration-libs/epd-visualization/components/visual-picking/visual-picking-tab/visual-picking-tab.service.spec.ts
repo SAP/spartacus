@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
 import { CurrentProductService } from '@spartacus/storefront';
-import { Observable, of, Subject, Subscription } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { SceneLoadInfo } from '../../visual-viewer/models/scene-load-info';
 import {
@@ -197,13 +197,8 @@ describe('VisualPickingTabService', () => {
 
   describe('initialize', () => {
     it('should call visualViewerService.loadVisualization when product references available', () => {
-      const mockVisualizationLoadInfoChange = {
-        subscribe: (
-          _next?: (value: string[]) => void,
-          _error?: (error: any) => void,
-          _complete?: () => void
-        ) => Subscription,
-      };
+      const mockVisualizationLoadInfoChange =
+        new EventEmitter<VisualizationLoadInfo>();
 
       const getVisualViewerServiceVisualizationLoadInfoChangePropertySpy =
         spyOnProperty(
@@ -266,13 +261,8 @@ describe('VisualPickingTabService', () => {
     });
 
     it('should not call visualViewerService.loadVisualization when no product references available', () => {
-      const mockVisualizationLoadInfoChange = {
-        subscribe: (
-          _next?: (value: string[]) => void,
-          _error?: (error: any) => void,
-          _complete?: () => void
-        ) => Subscription,
-      };
+      const mockVisualizationLoadInfoChange =
+        new EventEmitter<VisualizationLoadInfo>();
 
       const getVisualViewerServiceVisualizationLoadInfoChangePropertySpy =
         spyOnProperty(

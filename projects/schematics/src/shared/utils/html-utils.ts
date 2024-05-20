@@ -1,14 +1,9 @@
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
-import {
-  DefaultTreeDocument,
-  DefaultTreeElement,
-  DefaultTreeNode,
-  parse as parseHtml,
-} from 'parse5';
+import { DefaultTreeAdapterMap, parse as parseHtml } from 'parse5';
 
 /*
  * Copyright Google LLC All Rights Reserved.
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,10 +39,16 @@ export function appendHtmlElementToHead(
   // We always have access to the source code location here because the `getHeadTagElement`
   // function explicitly has the `sourceCodeLocationInfo` option enabled.
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const endTagOffset = headTag.sourceCodeLocation!.endTag.startOffset;
+  const endTagOffset = headTag.sourceCodeLocation!.endTag?.startOffset;
+
+  if (!endTagOffset) {
+    throw Error(
+      `Could not find end offset of '<head>' element in HTML file: ${htmlFileBuffer}`
+    );
+  }
+
   const indentationOffset = getChildElementIndentation(headTag);
   const insertion = `${' '.repeat(indentationOffset)}${elementHtml}`;
-
   const recordedChange = host
     .beginUpdate(htmlFilePath)
     .insertRight(endTagOffset, `${insertion}\n`);
@@ -55,21 +56,23 @@ export function appendHtmlElementToHead(
   host.commitUpdate(recordedChange);
 }
 /** Parses the given HTML file and returns the head element if available. */
-function getHtmlHeadTagElement(htmlContent: string): DefaultTreeElement | null {
+function getHtmlHeadTagElement(
+  htmlContent: string
+): DefaultTreeAdapterMap['element'] | null {
   return getElementByTagName('head', htmlContent);
 }
 /** Finds an element by its tag name. */
 function getElementByTagName(
   tagName: string,
   htmlContent: string
-): DefaultTreeElement | null {
+): DefaultTreeAdapterMap['element'] | null {
   const document = parseHtml(htmlContent, {
     sourceCodeLocationInfo: true,
-  }) as DefaultTreeDocument;
+  });
   const nodeQueue = [...document.childNodes];
 
   while (nodeQueue.length) {
-    const node = nodeQueue.shift() as DefaultTreeElement;
+    const node = nodeQueue.shift() as DefaultTreeAdapterMap['element'];
 
     if (node.nodeName.toLowerCase() === tagName) {
       return node;
@@ -91,10 +94,10 @@ function getElementByTagName(
  * See https://github.com/angular/components/blob/master/src/cdk/schematics/utils/parse5-element.ts
  */
 /** Determines the indentation of child elements for the given Parse5 element. */
-function getChildElementIndentation(element: DefaultTreeElement) {
-  const childElement = element.childNodes.find((node: DefaultTreeNode) => {
+function getChildElementIndentation(element: DefaultTreeAdapterMap['element']) {
+  const childElement = element.childNodes.find((node) => {
     return !!(node as any).tagName;
-  }) as DefaultTreeElement | null;
+  }) as DefaultTreeAdapterMap['element'] | null;
 
   if (
     (childElement && !childElement.sourceCodeLocation) ||

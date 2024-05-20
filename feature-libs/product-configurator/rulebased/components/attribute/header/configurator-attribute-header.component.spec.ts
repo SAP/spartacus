@@ -1,53 +1,63 @@
-import { ChangeDetectionStrategy, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import {
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-  ConfiguratorUISettingsConfig,
-} from '@spartacus/product-configurator/rulebased';
-import {
+  ICON_TYPE,
   IconLoaderService,
   IconModule,
-  ICON_TYPE,
 } from '@spartacus/storefront';
-import { cold } from 'jasmine-marbles';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { getTestScheduler } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { TestScheduler } from 'rxjs/testing';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
+import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
+
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+}
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
     return false;
   }
+
   getStyleClasses(_iconType: ICON_TYPE): string {
     return 'fas fa-exclamation-circle';
   }
+
   addLinkResource() {}
+
   getHtml(_iconType: ICON_TYPE) {}
+
   getFlipDirection(): void {}
 }
 
 let isCartEntryOrGroupVisited = true;
+
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
     return of(isCartEntryOrGroupVisited);
   }
 
   focusValue(): void {}
+
   scrollToConfigurationElement(): void {}
 }
 
@@ -79,7 +89,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   let configurationGroupsService: ConfiguratorGroupsService;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
-  let uiConfig: ConfiguratorUISettingsConfig;
+  let configuratorUISettingsConfig: ConfiguratorUISettingsConfig;
 
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
@@ -108,16 +118,20 @@ describe('ConfigAttributeHeaderComponent', () => {
   const TestConfiguratorUISettings: ConfiguratorUISettingsConfig = {
     productConfigurator: {
       enableNavigationToConflict: false,
+      descriptions: {
+        attributeDescriptionLength: 100,
+        valueDescriptionLength: 70,
+      },
     },
   };
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule, FeaturesConfigModule],
+        imports: [I18nTestingModule, IconModule],
         declarations: [
           ConfiguratorAttributeHeaderComponent,
-          MockFeatureLevelDirective,
+          MockConfiguratorShowMoreComponent,
         ],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
@@ -137,10 +151,15 @@ describe('ConfigAttributeHeaderComponent', () => {
             provide: ConfiguratorUISettingsConfig,
             useValue: TestConfiguratorUISettings,
           },
+
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
           {
             provide: FeaturesConfig,
             useValue: {
-              features: { level: '5.1' },
+              features: { level: '*' },
             },
           },
         ],
@@ -169,6 +188,8 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute.incomplete = true;
     component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+    component.isNavigationToGroupEnabled = true;
+    component['logError'] = () => {};
     fixture.detectChanges();
 
     configurationGroupsService = TestBed.inject(
@@ -180,7 +201,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
-    uiConfig = TestBed.inject(
+    configuratorUISettingsConfig = TestBed.inject(
       ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
     );
   });
@@ -318,6 +339,27 @@ describe('ConfigAttributeHeaderComponent', () => {
         '.cx-attribute-img'
       );
     });
+
+    it('should render a label without description', () => {
+      component.attribute.description = undefined;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
+    });
+
+    it('should render a label with description', () => {
+      component.attribute.description =
+        'Here is a description for the attribute.';
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
+    });
   });
 
   describe('getRequiredMessageKey', () => {
@@ -343,20 +385,6 @@ describe('ConfigAttributeHeaderComponent', () => {
 
     it('should return a single-select message key for simple checkbox attribute type', () => {
       component.attribute.uiType = Configurator.UiType.CHECKBOX;
-      expect(component.getRequiredMessageKey()).toContain(
-        'singleSelectRequiredMessage'
-      );
-    });
-
-    it('should return a single-select message key for ddlb attribute type', () => {
-      component.attribute.uiType = Configurator.UiType.DROPDOWN;
-      expect(component.getRequiredMessageKey()).toContain(
-        'singleSelectRequiredMessage'
-      );
-    });
-
-    it('should return a single-select message key for ddlb-product attribute type', () => {
-      component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
       expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
       );
@@ -485,6 +513,19 @@ describe('ConfigAttributeHeaderComponent', () => {
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'div.cx-conflict-msg a.link.cx-action-link'
+      );
+    });
+
+    it('should not display a conflict text as a link to a configuration group if this is disabled', () => {
+      component.attribute.hasConflicts = true;
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         'div.cx-conflict-msg a.link.cx-action-link'
@@ -627,10 +668,34 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
+  describe('isConflictResolutionActive', () => {
+    it("should return 'false' because the navigation to the group is not enabled", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      fixture.detectChanges();
+      expect(component.isConflictResolutionActive()).toBe(false);
+    });
+
+    it("should return 'false' because the group type is a conflict group", () => {
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      fixture.detectChanges();
+      expect(component.isConflictResolutionActive()).toBe(false);
+    });
+
+    it("should return 'true'", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = true;
+      fixture.detectChanges();
+      expect(component.isConflictResolutionActive()).toBe(true);
+    });
+  });
+
   describe('Get conflict message key', () => {
     it("should return 'configurator.conflict.conflictDetected' conflict message key", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
-      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = false;
+      (configuratorUISettingsConfig.productConfigurator ??=
+        {}).enableNavigationToConflict = false;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
         'configurator.conflict.conflictDetected'
@@ -639,7 +704,8 @@ describe('ConfigAttributeHeaderComponent', () => {
 
     it("should return 'configurator.conflict.viewConflictDetails' conflict message key", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
-      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
+      (configuratorUISettingsConfig.productConfigurator ??=
+        {}).enableNavigationToConflict = true;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
         'configurator.conflict.viewConflictDetails'
@@ -745,52 +811,105 @@ describe('ConfigAttributeHeaderComponent', () => {
         );
       });
 
-      it("should contain div element with 'role' attribute that is set to notify as soon as a conflict message occurs", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-conflict-msg',
-          0,
-          'role',
-          'alert'
-        );
-      });
+      describe('Conflict resolution', () => {
+        describe('Enabled', () => {
+          beforeEach(() => {
+            component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+            component.isNavigationToGroupEnabled = true;
+            fixture.detectChanges();
+          });
 
-      it("should contain div element with class name 'cx-conflict-msg' and 'aria-live' attribute that enables the screen reader to read out a conflict message as soon as it occurs", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-conflict-msg',
-          0,
-          'aria-live',
-          'assertive'
-        );
-      });
+          it("should contain div element with 'role' attribute that is set to notify as soon as a conflict message occurs", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'role',
+              'alert'
+            );
+          });
 
-      it("should contain div element with class name 'cx-conflict-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-conflict-msg',
-          0,
-          'aria-atomic',
-          'true'
-        );
-      });
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-live' attribute that enables the screen reader to read out a conflict message as soon as it occurs", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-live',
+              'assertive'
+            );
+          });
 
-      it("should contain div element with class name 'cx-conflict-msg' and 'aria-label' attribute for a conflicted attribute type that defines an accessible name to label the current element", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-conflict-msg',
-          0,
-          'aria-label',
-          'configurator.a11y.conflictDetected'
-        );
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-atomic',
+              'true'
+            );
+          });
+
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-label' attribute for a conflicted attribute type that defines an accessible name to label the current element", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-label',
+              'configurator.a11y.conflictDetected'
+            );
+          });
+        });
+
+        describe('Disabled', () => {
+          beforeEach(() => {
+            component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+            component.isNavigationToGroupEnabled = false;
+            fixture.detectChanges();
+          });
+
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-live' attribute that is set to off", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-live',
+              'off'
+            );
+          });
+
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-atomic' attribute that is set to false", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-atomic',
+              'false'
+            );
+          });
+
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-label' attribute for a conflicted attribute type that is not defined", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-label'
+            );
+          });
+        });
       });
 
       it("should contain cx-icon element with 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
@@ -881,12 +1000,9 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('Focus selected value', () => {
     it('should call focusValue with attribute', () => {
-      const testScheduler = new TestScheduler((actual, expected) => {
-        expect(actual).toEqual(expected);
-      });
       //we need to run the test in a test scheduler
       //because of the delay() in method focusAttribute
-      testScheduler.run(() => {
+      getTestScheduler().run(({ cold, flush }) => {
         component.groupType = Configurator.GroupType.CONFLICT_GROUP;
         component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
         const configurationLoading = cold('-a-b', {
@@ -902,22 +1018,21 @@ describe('ConfigAttributeHeaderComponent', () => {
 
         fixture.detectChanges();
         component['focusValue'](component.attribute);
-      });
 
-      expect(
-        configuratorStorefrontUtilsService.focusValue
-      ).toHaveBeenCalledTimes(1);
+        flush();
+
+        expect(
+          configuratorStorefrontUtilsService.focusValue
+        ).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
   describe('Scroll to configuration element', () => {
     it('should call scrollToConfigurationElement', () => {
-      const testScheduler = new TestScheduler((actual, expected) => {
-        expect(actual).toEqual(expected);
-      });
       //we need to run the test in a test scheduler
       //because of the delay() in method focusAttribute
-      testScheduler.run(() => {
+      getTestScheduler().run(({ cold, flush }) => {
         component.groupType = Configurator.GroupType.CONFLICT_GROUP;
         component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
 
@@ -938,11 +1053,13 @@ describe('ConfigAttributeHeaderComponent', () => {
         fixture.detectChanges();
 
         component['scrollToAttribute'](ConfigurationTestData.GROUP_ID_2);
-      });
 
-      expect(
-        configuratorStorefrontUtilsService.scrollToConfigurationElement
-      ).toHaveBeenCalledTimes(1);
+        flush();
+
+        expect(
+          configuratorStorefrontUtilsService.scrollToConfigurationElement
+        ).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
@@ -962,21 +1079,144 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('isNavigationToConflictEnabled', () => {
     it('should return false if productConfigurator setting is not provided', () => {
-      uiConfig.productConfigurator = undefined;
+      configuratorUISettingsConfig.productConfigurator = undefined;
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
+
     it('should return false if enableNavigationToConflict setting is not provided', () => {
-      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict =
-        undefined;
+      (configuratorUISettingsConfig.productConfigurator ??=
+        {}).enableNavigationToConflict = undefined;
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
+
     it('should return true if enableNavigationToConflict setting is true', () => {
-      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
-      expect(component.isNavigationToConflictEnabled()).toBeTruthy();
+      (configuratorUISettingsConfig.productConfigurator ??=
+        {}).enableNavigationToConflict = true;
+      expect(component.isNavigationToConflictEnabled()).toBe(true);
     });
+
     it('should return false if enableNavigationToConflict setting is false', () => {
-      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = false;
-      expect(component.isNavigationToConflictEnabled()).toBeFalsy();
+      (configuratorUISettingsConfig.productConfigurator ??=
+        {}).enableNavigationToConflict = false;
+      expect(component.isNavigationToConflictEnabled()).toBe(false);
+    });
+
+    it('should return false if enableNavigationToConflict setting is true and isNavigationToGroupEnabled is false', () => {
+      (configuratorUISettingsConfig.productConfigurator ??=
+        {}).enableNavigationToConflict = true;
+      component.isNavigationToGroupEnabled = false;
+      fixture.detectChanges();
+      expect(component.isNavigationToConflictEnabled()).toBe(false);
+    });
+  });
+
+  describe('getAttributeDescriptionLength', () => {
+    it('should return default value if productConfigurator setting is not provided', () => {
+      configuratorUISettingsConfig.productConfigurator = undefined;
+      expect(component.getAttributeDescriptionLength()).toEqual(100);
+    });
+
+    it('should return default value if descriptions setting is not provided', () => {
+      (configuratorUISettingsConfig.productConfigurator ??= {}).descriptions ??=
+        {};
+      expect(component.getAttributeDescriptionLength()).toEqual(100);
+    });
+
+    it('should return default value if attributeDescriptionLength setting is not provided', () => {
+      ((configuratorUISettingsConfig.productConfigurator ??=
+        {}).descriptions ??= {}).attributeDescriptionLength = undefined;
+      expect(component.getAttributeDescriptionLength()).toEqual(100);
+    });
+
+    it('should return set value if attributeDescriptionLength setting is 110', () => {
+      ((configuratorUISettingsConfig.productConfigurator ??=
+        {}).descriptions ??= {}).attributeDescriptionLength = 110;
+      expect(component.getAttributeDescriptionLength()).toEqual(110);
+    });
+  });
+
+  describe('isAttributeWithoutErrorMsg', () => {
+    it('should return `false` because attribute UI type is `Configurator.UiType.NOT_IMPLEMENTED`', () => {
+      component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
+      fixture.detectChanges();
+      expect(
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
+      ).toBe(false);
+    });
+
+    it('should return `false` because attribute UI type is `Configurator.UiType.STRING`', () => {
+      component.attribute.uiType = Configurator.UiType.STRING;
+      fixture.detectChanges();
+      expect(
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
+      ).toBe(false);
+    });
+
+    it('should return `false` because attribute UI type is `Configurator.UiType.NUMERIC`', () => {
+      component.attribute.uiType = Configurator.UiType.NUMERIC;
+      fixture.detectChanges();
+      expect(
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
+      ).toBe(false);
+    });
+
+    it('should return `false` because attribute UI type is `Configurator.UiType.DROPDOWN`', () => {
+      component.attribute.uiType = Configurator.UiType.DROPDOWN;
+      fixture.detectChanges();
+      expect(
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
+      ).toBe(false);
+    });
+
+    it('should return `false` because attribute UI type is `Configurator.UiType.DROPDOWN_PRODUCT`', () => {
+      component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
+      fixture.detectChanges();
+      expect(
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
+      ).toBe(false);
+    });
+
+    it('should return `true` because attribute UI type is `RADIOBUTTON`', () => {
+      expect(
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
+      ).toBe(true);
+    });
+  });
+
+  describe('isRequiredAttributeWithoutErrorMsg', () => {
+    it('should return `false` because because required attribute is `undefined`', () => {
+      component.attribute.required = undefined;
+      fixture.detectChanges();
+      expect(component['isRequiredAttributeWithoutErrorMsg']()).toBe(false);
+    });
+
+    it('should return `false` because definition of attribute incompleteness is `undefined`', () => {
+      component.attribute.incomplete = undefined;
+      fixture.detectChanges();
+      expect(component['isRequiredAttributeWithoutErrorMsg']()).toBe(false);
+    });
+
+    it('should return `false` because attribute attribute UI type is `Configurator.UiType.DROPDOWN`', () => {
+      component.attribute.required = true;
+      component.attribute.uiType = Configurator.UiType.DROPDOWN;
+      fixture.detectChanges();
+      expect(component['isRequiredAttributeWithoutErrorMsg']()).toBe(false);
+    });
+
+    it('should return `true` because attribute attribute UI type is `Configurator.UiType.RADIOBUTTON`', () => {
+      component.attribute.required = true;
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      fixture.detectChanges();
+      expect(component['isRequiredAttributeWithoutErrorMsg']()).toBe(true);
+    });
+  });
+
+  describe('needsRequiredAttributeErrorMsg', () => {
+    it('should return `true` because the newest release is active', () => {
+      component.attribute.required = true;
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      fixture.detectChanges();
+      expect(component['needsRequiredAttributeErrorMsg']()).toBe(true);
     });
   });
 });

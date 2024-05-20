@@ -24,7 +24,7 @@
         height: 0;
         overflow: hidden;
       }
-      color: #000;
+      color: var(--cx-color-text);
     }
     @include media-breakpoint-up(lg) {
       .wrapper {
@@ -34,7 +34,7 @@
       }
       > nav > ul > li > .wrapper {
         padding: 15px 20px;
-        background: #fff;
+        background: var(--cx-color-inverse);
         box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px 0px;
       }
     }
@@ -51,7 +51,6 @@
         display: initial;
         button {
           border: none;
-          border-bottom: 1px solid var(--cx-color-light);
           background-color: transparent;
           text-transform: capitalize;
           justify-content: flex-start;
@@ -88,7 +87,6 @@
       display: flex;
       align-items: center;
       white-space: nowrap;
-
       color: currentColor;
 
       &:hover {
@@ -129,7 +127,7 @@
       span,
       button,
       cx-generic-link {
-        border-bottom: 1px solid var(--cx-color-light);
+        border-bottom: 1px solid var(--cx-color-medium);
         display: flex;
         justify-content: space-between;
 
@@ -255,6 +253,10 @@
 %cx-navigation-ui {
   display: flex;
 
+  @include media-breakpoint-up(lg) {
+    background-color: var(--cx-color-text);
+  }
+
   @extend %nav-heading;
   @extend %nav-icon;
   @extend %nav-wrapper;
@@ -297,6 +299,7 @@
         }
         li.is-open {
           display: initial;
+          background-color: var(--cx-color-medium);
 
           > .wrapper {
             height: auto;
@@ -373,6 +376,19 @@
       > nav > ul > li {
         > .wrapper {
           transition: opacity 0.4s;
+        }
+      }
+    }
+
+    &.accNavComponent {
+      background-color: transparent;
+
+      nav {
+        li.is-open {
+          @include media-breakpoint-down(md) {
+            background-color: var(--cx-color-medium);
+            display: block;
+          }
         }
       }
     }

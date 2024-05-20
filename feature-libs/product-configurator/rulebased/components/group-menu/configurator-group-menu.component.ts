@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,9 +8,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Optional,
   QueryList,
   ViewChildren,
+  inject,
 } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import {
@@ -22,15 +22,17 @@ import {
   DirectionService,
   HamburgerMenuService,
   ICON_TYPE,
+  BREAKPOINT,
+  BreakpointService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
   selector: 'cx-configurator-group-menu',
@@ -39,6 +41,8 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 })
 export class ConfiguratorGroupMenuComponent {
   @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;
+
+  protected breakpointService = inject(BreakpointService);
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
@@ -109,34 +113,6 @@ export class ConfiguratorGroupMenuComponent {
   WARNING = ' WARNING';
   ICON = 'ICON';
 
-  //TODO(CXSPA-1014): make ConfiguratorExpertModeService a required dependency
-  constructor(
-    configCommonsService: ConfiguratorCommonsService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    hamburgerMenuService: HamburgerMenuService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    configUtils: ConfiguratorStorefrontUtilsService,
-    configGroupMenuService: ConfiguratorGroupMenuService,
-    directionService: DirectionService,
-    translation: TranslationService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configExpertModeService: ConfiguratorExpertModeService
-  );
-
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    configCommonsService: ConfiguratorCommonsService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    hamburgerMenuService: HamburgerMenuService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    configUtils: ConfiguratorStorefrontUtilsService,
-    configGroupMenuService: ConfiguratorGroupMenuService,
-    directionService: DirectionService,
-    translation: TranslationService
-  );
-
   constructor(
     protected configCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
@@ -146,11 +122,16 @@ export class ConfiguratorGroupMenuComponent {
     protected configGroupMenuService: ConfiguratorGroupMenuService,
     protected directionService: DirectionService,
     protected translation: TranslationService,
-    @Optional()
-    protected configExpertModeService?: ConfiguratorExpertModeService
+    protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
-  click(group: Configurator.Group): void {
+  /**
+   * Selects group or navigates to sub-group depending on clicked group
+   *
+   * @param {Configurator.Group} group - Target Group
+   * @param {Configurator.Group} currentGroup - Current group
+   */
+  click(group: Configurator.Group, currentGroup?: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (configuration.interactionState.currentGroup === group.id) {
         return;
@@ -167,11 +148,19 @@ export class ConfiguratorGroupMenuComponent {
           configuration.owner,
           group.id
         );
+        if (currentGroup) {
+          this.setFocusForSubGroup(group, currentGroup.id);
+        }
       }
     });
   }
 
-  navigateUp(): void {
+  /**
+   * Navigate up and set focus if current group information is provided
+   *
+   * @param {Configurator.Group} currentGroup - Current group
+   */
+  navigateUp(currentGroup?: Configurator.Group): void {
     this.displayedParentGroup$
       .pipe(take(1))
       .subscribe((displayedParentGroup) => {
@@ -188,6 +177,9 @@ export class ConfiguratorGroupMenuComponent {
           });
         }
       });
+    if (currentGroup) {
+      this.setFocusForMainMenu(currentGroup.id);
+    }
   }
 
   /**
@@ -297,8 +289,10 @@ export class ConfiguratorGroupMenuComponent {
    * @param {Configurator.GroupType} groupType - Group type
    * @return {boolean} - 'True' if the current group is conflict one, otherwise 'false'.
    */
-  isConflictGroupType(groupType: Configurator.GroupType): boolean {
-    return this.configuratorGroupsService.isConflictGroupType(groupType);
+  isConflictGroupType(groupType: Configurator.GroupType | undefined): boolean {
+    return groupType
+      ? this.configuratorGroupsService.isConflictGroupType(groupType)
+      : false;
   }
 
   /**
@@ -410,6 +404,7 @@ export class ConfiguratorGroupMenuComponent {
     targetGroup: Configurator.Group,
     currentGroup: Configurator.Group
   ): void {
+    this.handleFocusLoopInMobileMode(event);
     if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
       this.configGroupMenuService.switchGroupOnArrowPress(
         event,
@@ -418,15 +413,42 @@ export class ConfiguratorGroupMenuComponent {
       );
     } else if (this.isForwardsNavigation(event)) {
       if (targetGroup && this.hasSubGroups(targetGroup)) {
-        this.click(targetGroup);
-        this.setFocusForSubGroup(targetGroup, currentGroup.id);
+        this.click(targetGroup, currentGroup);
       }
     } else if (this.isBackNavigation(event)) {
       if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
-        this.navigateUp();
-        this.setFocusForMainMenu(currentGroup.id);
+        this.navigateUp(currentGroup);
       }
     }
+  }
+
+  /**
+   * In mobile mode the focus should be set to the first element of the menu ('X') if tab is pressed on the active group menu item.
+   * If the focus is currently on the back-button it needs to be checked if the active group is currently in the list of displayed groups.
+   * Only if the active group is not in the list of displayed groups, the focus should be set to the first element of the menu ('X') otherwise
+   * the focus is set to the active group menu item.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  protected handleFocusLoopInMobileMode(event: KeyboardEvent): void {
+    this.breakpointService
+      .isDown(BREAKPOINT.md)
+      .pipe(take(1))
+      .subscribe((isMobile) => {
+        if (isMobile && event.code === 'Tab' && !event.shiftKey) {
+          if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
+            if (
+              !this.configGroupMenuService.isActiveGroupInGroupList(this.groups)
+            ) {
+              event.preventDefault();
+              this.configUtils.focusFirstActiveElement('cx-hamburger-menu');
+            }
+          } else {
+            event.preventDefault();
+            this.configUtils.focusFirstActiveElement('cx-hamburger-menu');
+          }
+        }
+      });
   }
 
   /**
@@ -532,7 +554,7 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Generates aria-label for group menu item
    *
-   * @param {string} groupId - group ID
+   * @param {Configurator.Group} group - group
    * @returns {string | undefined} - generated group ID
    */
   getAriaLabel(group: Configurator.Group): string {
@@ -562,7 +584,7 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Generates an id for icons.
    *
-   * @param {string} prefix - prefix for type of icon
+   * @param {ICON_TYPE} type - icon type
    * @param {string} groupId - group id
    * @returns {string | undefined} - generated icon id
    */
@@ -627,7 +649,7 @@ export class ConfiguratorGroupMenuComponent {
     let title = group.description;
     if (!this.isConflictHeader(group) && !this.isConflictGroup(group)) {
       this.configExpertModeService
-        ?.getExpModeActive()
+        .getExpModeActive()
         .pipe(take(1))
         .subscribe((expMode) => {
           if (expMode) {
@@ -636,5 +658,29 @@ export class ConfiguratorGroupMenuComponent {
         });
     }
     return title;
+  }
+
+  displayMenuItem(group: Configurator.Group): Observable<boolean> {
+    return this.configuration$.pipe(
+      map((configuration) => {
+        let displayMenuItem = true;
+        if (
+          configuration.immediateConflictResolution &&
+          group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+        ) {
+          displayMenuItem = false;
+        }
+        return displayMenuItem;
+      })
+    );
+  }
+
+  /**
+   * Checks if conflict solver dialog is active
+   * @param configuration
+   * @returns Conflict solver dialog active?
+   */
+  isDialogActive(configuration: Configurator.Configuration): boolean {
+    return configuration.interactionState.showConflictSolverDialog ?? false;
   }
 }

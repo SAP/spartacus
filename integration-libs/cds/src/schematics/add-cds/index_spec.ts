@@ -10,12 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  cdsFeatureModulePath,
   CDS_FEATURE_NAME,
-  SpartacusCdsOptions,
-  SpartacusOptions,
   SPARTACUS_CDS,
   SPARTACUS_SCHEMATICS,
+  SpartacusCdsOptions,
+  SpartacusOptions,
+  cdsFeatureModulePath,
   trackingPersonalizationFeatureModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
@@ -41,10 +41,10 @@ describe('Spartacus CDS schematics: ng-add', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -72,36 +72,34 @@ describe('Spartacus CDS schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        libraryNoFeaturesOptions,
+        appTree
+      );
     });
 
     it('should not create any of the feature modules', () => {
@@ -138,9 +136,11 @@ describe('Spartacus CDS schematics: ng-add', () => {
     describe('without Profile tag', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', cdsFeatureOptions, appTree)
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            cdsFeatureOptions,
+            appTree
+          );
         });
 
         it('should create the feature module', async () => {
@@ -162,17 +162,15 @@ describe('Spartacus CDS schematics: ng-add', () => {
 
     describe('with Profile tag configured', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...cdsFeatureOptions,
-              profileTagConfigUrl: 'profile-tag-config-url.com',
-              profileTagLoadUrl: 'profile-tag-load-url.com',
-            },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          {
+            ...cdsFeatureOptions,
+            profileTagConfigUrl: 'profile-tag-config-url.com',
+            profileTagLoadUrl: 'profile-tag-load-url.com',
+          },
+          appTree
+        );
       });
 
       describe('general setup', () => {

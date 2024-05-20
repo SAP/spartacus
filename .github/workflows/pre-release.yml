@@ -16,13 +16,13 @@ jobs:
     name: Deploy compodocs to github
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Generate and publish compodocs
         if: ${{ github.event.inputs.compodoc == 'true' }}
         run: |
           git remote set-url origin https://git:${{ secrets.GH_TEMPORARY_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
   
-          yarn generate:publish:docs -- -u "github-actions-bot <support+actions@github.com>"
+          npm run generate:publish:docs -- -u "github-actions-bot <support+actions@github.com>"
   tag_sampledata:
     name: Tagging sample data
     runs-on: ubuntu-latest
@@ -33,7 +33,7 @@ jobs:
         id: current-run-major-version
         run: echo "MAJOR_VERSION=${SPARTACUS_VERSION%%.*}" >> $GITHUB_OUTPUT
       - name: Tagging the branch of release/${{ steps.current-run-major-version.outputs.MAJOR_VERSION}}.x
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           github-server-url: 'https://github.tools.sap'
           repository: 'cx-commerce/spartacussampledata'
@@ -47,7 +47,7 @@ jobs:
     name: Publishing Spartacus Sample Data
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: create release with sample data assets

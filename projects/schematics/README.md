@@ -19,7 +19,7 @@ To run all the schematics unit tests:
 To run schematics tests for a specific library:
 
 1. navigate to the library / project you want to test - e.g. `$ cd feature-libs/asm`
-2. Run `$ yarn test:schematics`. _NOTE_ that when testing `projects/schematics`, the command which to run is `$ yarn test`.
+2. Run `$ npm run test:schematics`. _NOTE_ that when testing `projects/schematics`, the command which to run is `$ npm run test`.
 
 The schematics already have unit tests to cover the migration tasks they were designed to perform. However, you might want to test if the new schematics configuration you added will produce the expected result when a user will perform a migration with the help of the schematics without running a full migration on an app, which would be very time consuming. A convenient way to test your new config is to temporarily modify a schematics unit test case and use an example that will use your new config instead. After you assess your migration scenario plays out as expected, you can revert the changes you did in the unit test.
 
@@ -200,3 +200,29 @@ It's also important to note that after we release a Spartacus _next.x_, or an _r
 E.g. if Spartacus _2.0.0-next.1_ has been released, then the _new_ migration scripts (added after it _2.0.0-next.1_) should specify the next version (e.g. _2.0.0-next.2_).
 This is required for clients that upgrade frequently and it will make angular to run only the new migration scripts for them, avoiding the same scripts to run twice.
 However, there are exceptions from this rule - as we have data-driven generic mechanisms for e.g. constructor deprecation, we have to bump the version in `migrations.json` for those scripts.
+
+Update the migration script `version` only for new major releases, such as 6.0.0. This means that if you are performing a release like 6.3.2, the version should remain unchanged.
+Example for 6.3.2 release:
+```   
+ "09-migration-v6-angular-json-styling": {
+      "version": "6.0.0",
+      "factory": "./6_0/angular-json-styles/angular-json-styles#migrate",
+      "description": "Update the angular.json with the style preprocessor options"
+    }
+```
+version remains unchanged
+
+## FeatureToggles copying
+The installation schematics generates a list of available feature toggles in a customer's app.
+It's to help customers to see what feature toggles are available in Spartacus.
+
+Moreover, each feature toggle is explicitly enabled in customer's app, to help customers start with the most up-to-date configuration (without a technical debt of any feature toggles disabled). Of course, they can disable any feature toggle they don't want to use.
+
+**Technical notes:**
+During running the `build` and `test` commands in the schematics project,
+the file `feature-toggles.ts` is copied temporarily from the `@spartacus/core` project location
+to the file `src/feature-toggles.copied-from-core-lib.ts` file in the `@spartacus/schematics` project location. The file is git-ignored.
+
+In particular, this TS file is copied to schematics project. Then the  `build` command compiles it into a JS file. Then the JS file will be shipped with all other JS files in the schematics project to customers, and it will be used in runtime of schematics to generate a list of feature toggles in customer's app.
+
+Note: We copy the TS file to the schematics project location (instead of directly importing it from the core project) to avoid a direct dependency in `@spartacus/schematics` on the lib `@spartacus/core`.

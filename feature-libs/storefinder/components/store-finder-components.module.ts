@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,11 +8,17 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule,
+} from '@spartacus/core';
 import { StoreFinderCoreModule } from '@spartacus/storefinder/core';
 import {
   IconModule,
   ListNavigationModule,
+  OutletModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { ScheduleComponent } from './schedule-component/schedule.component';
@@ -39,6 +45,8 @@ import { StoreFinderComponent } from './store-finder/store-finder.component';
     StoreFinderCoreModule,
     I18nModule,
     IconModule,
+    OutletModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig({

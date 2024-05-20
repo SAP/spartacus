@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,7 +23,7 @@ export function fillRegistrationForm(
   cy.log(`🛒 Registering user ${email} from the registration page`);
   cy.get('cx-register form').should('be.visible');
   cy.get('cx-register form').within(() => {
-    cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
+    cy.get('[formcontrolname="titleCode"]').ngSelect('Mr');
     cy.get('[formcontrolname="firstName"]').type(firstName);
     cy.get('[formcontrolname="lastName"]').type(lastName);
     cy.get('[formcontrolname="email"]').type(email);
@@ -48,6 +48,20 @@ export function fillLoginForm({ username, password }: LoginUser) {
     cy.get('[formcontrolname="password"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
+}
+
+export function fillKymaLoginForm({ username, password }: LoginUser) {
+  cy.origin(
+    `${Cypress.env('API_URL')}`,
+    { args: { username, password } },
+    ({ username, password }) => {
+      cy.get('form[id="loginForm"]').within(() => {
+        cy.get('input[name="username"]').clear().type(username);
+        cy.get('input[name="password"]').clear().type(password);
+        cy.get('input[type=submit]').click();
+      });
+    }
+  );
 }
 
 export function register(

@@ -43,7 +43,7 @@ describe('OccCartEntryAdapter', () => {
   let occCartEntryAdapter: OccCartEntryAdapter;
   let httpMock: HttpTestingController;
   let converterService: ConverterService;
-  let occEnpointsService: OccEndpointsService;
+  let occEndpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,10 +57,10 @@ describe('OccCartEntryAdapter', () => {
     occCartEntryAdapter = TestBed.inject(OccCartEntryAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     converterService = TestBed.inject(ConverterService);
-    occEnpointsService = TestBed.inject(OccEndpointsService);
+    occEndpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -85,7 +85,7 @@ describe('OccCartEntryAdapter', () => {
         quantity: 5,
       });
 
-      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('addEntries', {
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('addEntries', {
         urlParams: {
           userId,
           cartId,
@@ -100,6 +100,29 @@ describe('OccCartEntryAdapter', () => {
       expect(converterService.pipeable).toHaveBeenCalledWith(
         CART_MODIFICATION_NORMALIZER
       );
+    });
+
+    it('should handle pickupStore', () => {
+      occCartEntryAdapter
+        .add(userId, cartId, '147852', 5, 'pickupStore')
+        .subscribe()
+        .unsubscribe();
+
+      const mockReq = httpMock.expectOne({ method: 'POST', url: 'addEntries' });
+
+      expect(mockReq.request.body).toEqual({
+        product: { code: '147852' },
+        quantity: 5,
+        deliveryPointOfService: { name: 'pickupStore' },
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('addEntries', {
+        urlParams: {
+          userId,
+          cartId,
+          quantity: 5,
+        },
+      });
     });
   });
 
@@ -121,7 +144,7 @@ describe('OccCartEntryAdapter', () => {
 
       expect(mockReq.request.body).toEqual({ quantity: 5 });
 
-      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
         'updateEntries',
         {
           urlParams: {
@@ -159,7 +182,34 @@ describe('OccCartEntryAdapter', () => {
         deliveryPointOfService: { name: pickupStore },
       });
 
-      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'updateEntries',
+        {
+          urlParams: {
+            userId,
+            cartId,
+            entryNumber: '12345',
+          },
+        }
+      );
+    });
+
+    it(`should be able to switch from pickup to delivery`, () => {
+      occCartEntryAdapter
+        .update(userId, cartId, '12345', 5, undefined, true)
+        .subscribe()
+        .unsubscribe();
+
+      const mockReq = httpMock.expectOne({
+        method: 'PUT',
+        url: 'updateEntries',
+      });
+
+      expect(mockReq.request.body).toEqual({
+        quantity: 5,
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
         'updateEntries',
         {
           urlParams: {
@@ -184,7 +234,7 @@ describe('OccCartEntryAdapter', () => {
         url: 'removeEntries',
       });
 
-      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
         'removeEntries',
         {
           urlParams: {

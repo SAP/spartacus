@@ -1,10 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { generateMail, randomString } from '../helpers/user';
+
+export interface SampleOrg {
+  companyName?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+}
 
 export interface SampleUser {
   titleCode?: string;
@@ -14,6 +23,7 @@ export interface SampleUser {
   password?: string;
   email?: string;
   phone?: string;
+  cellphone?: string;
   address?: {
     city?: string;
     line1?: string;
@@ -58,7 +68,8 @@ export function getSampleUser() {
     fullName: 'Cypress customer',
     password: 'Password123.',
     email: generateMail(randomString(), true),
-    phone: '555 555 555',
+    phone: '+919555555555',
+    cellphone: '123 456 7899',
     address: {
       city: 'Los Angeles',
       line1: '1111 S Figueroa St',
@@ -76,6 +87,19 @@ export function getSampleUser() {
       },
       cvv: '123',
     },
+  };
+}
+
+export const organisation = getSampleOrg();
+
+export function getSampleOrg() {
+  return {
+    companyName: randomString(),
+    address: '1111 S Figueroa St',
+    city: 'Los Angeles',
+    state: 'California',
+    zipCode: '90015',
+    country: 'United States',
   };
 }
 

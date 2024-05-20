@@ -9,10 +9,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 
 @Directive({
@@ -30,6 +32,20 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+}
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+}
+
 describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
@@ -41,10 +57,20 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         declarations: [
           ConfiguratorAttributeCheckBoxComponent,
           MockFocusDirective,
-          MockFeatureLevelDirective,
           MockConfiguratorPriceComponent,
+          MockConfiguratorShowMoreComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+        providers: [
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+        ],
       })
         .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
           set: {
@@ -64,6 +90,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     };
     return value;
   }
+
   const value1 = createValue('1', 'val1', false);
   beforeEach(() => {
     const values: Configurator.Value[] = [value1];
@@ -90,6 +117,17 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     expect(component.attributeCheckBoxForm.value).toBeFalsy();
   });
 
+  describe('getValueFromAttribute', () => {
+    it('should find value in case values present on attribute', () => {
+      expect(component['getValueFromAttribute']()).toBe(value1);
+    });
+
+    it('should return empty value if no values are present', () => {
+      component.attribute.values = undefined;
+      expect(component['getValueFromAttribute']()).toEqual({ valueCode: '' });
+    });
+  });
+
   it('should select and deselect a checkbox value', () => {
     const checkboxId =
       '#cx-configurator--checkBox--' +
@@ -108,6 +146,27 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     valueToSelect.click();
     fixture.detectChanges();
     expect(valueToSelect.checked).toBeFalsy();
+  });
+
+  describe('rendering description at value level', () => {
+    it('should not render description in case description not present on model', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
+    });
+
+    it('should render description in case description present on model', () => {
+      (component.attribute.values ?? [{ description: '' }])[0].description =
+        'Here is a description at value level';
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
+    });
   });
 
   describe('Accessibility', () => {

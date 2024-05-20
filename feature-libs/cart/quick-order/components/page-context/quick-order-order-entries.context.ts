@@ -1,21 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, isDevMode, Optional } from '@angular/core';
-import { merge, Observable, of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mergeAll,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { Injectable, inject, isDevMode } from '@angular/core';
 import {
   AddOrderEntriesContext,
   GetOrderEntriesContext,
@@ -26,11 +16,17 @@ import {
   ProductImportStatus,
 } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import { LoggerService, Product, ProductConnector } from '@spartacus/core';
+import { Observable, merge, of } from 'rxjs';
 import {
-  FeatureConfigService,
-  Product,
-  ProductConnector,
-} from '@spartacus/core';
+  catchError,
+  filter,
+  map,
+  mergeAll,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -39,12 +35,11 @@ export class QuickOrderOrderEntriesContext
   implements AddOrderEntriesContext, GetOrderEntriesContext
 {
   readonly type = OrderEntriesSource.QUICK_ORDER;
+  protected logger = inject(LoggerService);
 
   constructor(
     protected quickOrderService: QuickOrderFacade,
-    protected productConnector: ProductConnector,
-    // TODO: (CXSPA-612) Remove FeatureConfigService for 6.0
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected productConnector: ProductConnector
   ) {}
 
   getEntries(): Observable<OrderEntry[]> {
@@ -55,11 +50,7 @@ export class QuickOrderOrderEntriesContext
     return merge(
       productsData.map((productData) =>
         this.quickOrderService
-          .canAdd(
-            productData.productCode,
-            // TODO: (CXSPA-612) Remove feature flag and use productsData parameter for 6.0
-            this.featureConfigService?.isLevel('5.2') ? productsData : undefined
-          )
+          .canAdd(productData.productCode, productsData)
           .pipe(
             switchMap((canAdd) => {
               if (canAdd) {
@@ -130,7 +121,7 @@ export class QuickOrderOrderEntriesContext
       };
     } else {
       if (isDevMode()) {
-        console.warn(
+        this.logger.warn(
           'Unrecognized cart add entry action type while mapping messages',
           response
         );

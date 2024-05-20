@@ -21,12 +21,12 @@ import {
 } from '../shared/libs-constants';
 import { findDynamicImport } from '../shared/utils/import-utils';
 import { LibraryOptions } from '../shared/utils/lib-utils';
-import { addModuleImport, Import } from '../shared/utils/new-module-utils';
+import { Import, addModuleImport } from '../shared/utils/new-module-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
   cartBaseFeatureModulePath,
-  cartWrapperModulePath,
+  cartBaseWrapperModulePath,
   checkoutFeatureModulePath,
   checkoutWrapperModulePath,
   digitalPaymentsFeatureModulePath,
@@ -55,10 +55,10 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const defaultOptions: SpartacusOptions = {
@@ -73,21 +73,18 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
   };
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
 
     buildPath = getProjectTsConfigPaths(appTree, BASE_OPTIONS.project)
       .buildPaths[0];
@@ -95,17 +92,15 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
 
   describe('One dynamic import in the file', () => {
     it('should generate appropriate feature module', async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            features: [CHECKOUT_B2B_FEATURE_NAME],
-            name: 'schematics-test',
-          },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...defaultOptions,
+          features: [CHECKOUT_B2B_FEATURE_NAME],
+          name: 'schematics-test',
+        },
+        appTree
+      );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
@@ -123,25 +118,26 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
 
   describe('Multiple dynamic imports in the file', () => {
     it('should generate appropriate feature module', async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            features: [CART_BASE_FEATURE_NAME],
-            name: 'schematics-test',
-          },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...defaultOptions,
+          features: [CART_BASE_FEATURE_NAME],
+          name: 'schematics-test',
+        },
+        appTree
+      );
+
       const options: SpartacusWrapperOptions = {
         project: 'schematics-test',
         markerModuleName: CART_BASE_MODULE,
         featureModuleName: CART_BASE_MODULE,
       };
-      appTree = await schematicRunner
-        .runSchematicAsync('wrapper-module', options, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'wrapper-module',
+        options,
+        appTree
+      );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
@@ -149,7 +145,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
         cartBaseFeatureModulePath
       );
       const cartWrapperModule = program.getSourceFileOrThrow(
-        cartWrapperModulePath
+        cartBaseWrapperModulePath
       );
 
       expect(cartFeatureModule.print()).toMatchSnapshot();
@@ -160,17 +156,15 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
   describe('Double execution', () => {
     it('should not change anything', async () => {
       // first execution happens under the hood
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            features: [CHECKOUT_BASE_FEATURE_NAME],
-            name: 'schematics-test',
-          },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...defaultOptions,
+          features: [CHECKOUT_BASE_FEATURE_NAME],
+          name: 'schematics-test',
+        },
+        appTree
+      );
 
       const options: SpartacusWrapperOptions = {
         project: 'schematics-test',
@@ -178,9 +172,11 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
         featureModuleName: CHECKOUT_BASE_MODULE,
       };
       // the second execution
-      appTree = await schematicRunner
-        .runSchematicAsync('wrapper-module', options, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'wrapper-module',
+        options,
+        appTree
+      );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
@@ -198,17 +194,15 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
 
   describe('Checkout Scheduled Replenishment', () => {
     it('should create the checkout wrapper module and import Checkout features', async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...defaultOptions,
+          name: 'schematics-test',
+          features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
+        },
+        appTree
+      );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
@@ -226,17 +220,15 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
 
   describe('Digital Payments', () => {
     it('should create the checkout wrapper module and import Base Checkout and DP', async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            features: [DIGITAL_PAYMENTS_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...defaultOptions,
+          name: 'schematics-test',
+          features: [DIGITAL_PAYMENTS_FEATURE_NAME],
+        },
+        appTree
+      );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
@@ -257,56 +249,81 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
   });
 
   describe('Checkout and DP', () => {
-    it('Should order the imports in the wrapper and Spartacus features modules', async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            features: [
-              CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
-              DIGITAL_PAYMENTS_FEATURE_NAME,
-            ],
-          },
-          appTree
-        )
-        .toPromise();
+    let program: any;
 
-      const { program } = createProgram(appTree, appTree.root.path, buildPath);
+    beforeEach(async () => {
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...defaultOptions,
+          name: 'schematics-test',
+          features: [
+            CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
+            DIGITAL_PAYMENTS_FEATURE_NAME,
+          ],
+        },
+        appTree
+      );
 
+      program = createProgram(appTree, appTree.root.path, buildPath).program;
+    });
+
+    it('Should order the imports in the Spartacus features module - DP after checkout', async () => {
       const spartacusFeaturesModule = program.getSourceFileOrThrow(
         spartacusFeaturesModulePath
       );
-      const checkoutFeatureModule = program.getSourceFileOrThrow(
-        checkoutFeatureModulePath
+
+      const spartacusFeaturesModuleContent = spartacusFeaturesModule.getText();
+      const importsArrayStart =
+        spartacusFeaturesModuleContent.indexOf('imports: [');
+
+      const checkoutFeatureModuleIndex = spartacusFeaturesModuleContent.indexOf(
+        'CheckoutFeatureModule',
+        importsArrayStart
       );
+      const dpFeatureModuleIndex = spartacusFeaturesModuleContent.indexOf(
+        'DigitalPaymentsFeatureModule',
+        importsArrayStart
+      );
+      expect(checkoutFeatureModuleIndex).toBeLessThan(dpFeatureModuleIndex);
+    });
+
+    it('Should order the imports in the wrapper module - DP after Checkout', async () => {
       const checkoutWrapperModule = program.getSourceFileOrThrow(
         checkoutWrapperModulePath
       );
+
+      expect(checkoutWrapperModule.print()).toMatchSnapshot();
+    });
+
+    it('Should create DP feature module', async () => {
       const dpFeaturesModule = program.getSourceFileOrThrow(
         digitalPaymentsFeatureModulePath
       );
-      expect(spartacusFeaturesModule.print()).toMatchSnapshot();
-      expect(checkoutFeatureModule.print()).toMatchSnapshot();
-      expect(checkoutWrapperModule.print()).toMatchSnapshot();
+
       expect(dpFeaturesModule.print()).toMatchSnapshot();
+    });
+
+    it('Should create checkout feature module', async () => {
+      const checkoutFeatureModule = program.getSourceFileOrThrow(
+        checkoutFeatureModulePath
+      );
+
+      expect(checkoutFeatureModule.print()).toMatchSnapshot();
     });
   });
 
   describe('wrapper module already exists', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            features: [CHECKOUT_BASE_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...defaultOptions,
+          name: 'schematics-test',
+          features: [CHECKOUT_BASE_FEATURE_NAME],
+        },
+        appTree
+      );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
@@ -338,30 +355,46 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
       cleanupConfig(spartacusProvider);
       saveAndFormat(checkoutFeatureModule);
 
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            features: [DIGITAL_PAYMENTS_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...defaultOptions,
+          name: 'schematics-test',
+          features: [DIGITAL_PAYMENTS_FEATURE_NAME],
+        },
+        appTree
+      );
     });
 
     it('should append the feature module after it, and not add a dynamic import to the feature module', () => {
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
-      const spartacusFeaturesModule = program.getSourceFileOrThrow(
-        spartacusFeaturesModulePath
-      );
       const checkoutFeatureModule = program.getSourceFileOrThrow(
         checkoutFeatureModulePath
       );
       expect(program.getSourceFile(checkoutWrapperModulePath)).toBeFalsy();
-      expect(spartacusFeaturesModule.print()).toMatchSnapshot();
       expect(checkoutFeatureModule.print()).toMatchSnapshot();
+    });
+
+    it('Should order the imports in the Spartacus features module - DP after checkout', async () => {
+      const { program } = createProgram(appTree, appTree.root.path, buildPath);
+
+      const spartacusFeaturesModule = program.getSourceFileOrThrow(
+        spartacusFeaturesModulePath
+      );
+
+      const spartacusFeaturesModuleContent = spartacusFeaturesModule.getText();
+      const importsArrayStart =
+        spartacusFeaturesModuleContent.indexOf('imports: [');
+
+      const checkoutFeatureModuleIndex = spartacusFeaturesModuleContent.indexOf(
+        'CheckoutFeatureModule',
+        importsArrayStart
+      );
+      const dpFeatureModuleIndex = spartacusFeaturesModuleContent.indexOf(
+        'DigitalPaymentsFeatureModule',
+        importsArrayStart
+      );
+      expect(checkoutFeatureModuleIndex).toBeLessThan(dpFeatureModuleIndex);
     });
   });
 });

@@ -15,11 +15,6 @@
       "schema": "./add-spartacus/schema.json",
       "aliases": ["spa"]
     },
-    "add-pwa": {
-      "description": "Add PWA to project.",
-      "factory": "./add-pwa/index#addPWA",
-      "aliases": ["pwa"]
-    },
     "add-ssr": {
       "description": "Add server-side rendering.",
       "factory": "./add-ssr/index#addSSR",

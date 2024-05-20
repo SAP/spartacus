@@ -15,6 +15,7 @@ import {
   DirectionService,
   HamburgerMenuService,
   ICON_TYPE,
+  BreakpointService,
 } from '@spartacus/storefront';
 import { NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -22,6 +23,7 @@ import { CommonConfiguratorTestUtilsService } from '../../../common/testing/comm
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import {
   ATTRIBUTE_1_CHECKBOX,
   CONFIGURATOR_ROUTE,
@@ -30,16 +32,15 @@ import {
   GROUP_ID_4,
   GROUP_ID_5,
   GROUP_ID_7,
+  PRODUCT_CODE,
   mockRouterState,
   productConfiguration,
-  PRODUCT_CODE,
+  productConfigurationWithConflicts,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import * as ConfigurationTestData from '../../testing/configurator-test-data';
 
 let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
@@ -174,6 +175,12 @@ class MockDirectionService {
   }
 }
 
+class MockBreakpointService {
+  isDown(): Observable<boolean> {
+    return breakpointObservable;
+  }
+}
+
 @Directive({
   selector: '[cxFocus]',
 })
@@ -204,6 +211,7 @@ let directionService: DirectionService;
 let direction: DirectionMode;
 let configUtils: ConfiguratorStorefrontUtilsService;
 let configExpertModeService: ConfiguratorExpertModeService;
+let breakpointObservable: Observable<boolean>;
 
 function initialize() {
   groupVisitedObservable = of(mockGroupVisited);
@@ -246,6 +254,10 @@ describe('ConfigurationGroupMenuComponent', () => {
             provide: DirectionService,
             useClass: MockDirectionService,
           },
+          {
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
+          },
         ],
       });
     })
@@ -272,6 +284,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
     );
     spyOn(configUtils, 'setFocus').and.stub();
+    spyOn(configUtils, 'focusFirstActiveElement').and.stub();
 
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
@@ -380,28 +393,6 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
-  it('should set current group in case of clicking on a different group', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-
-    component.click(mockProductConfiguration.groups[0]);
-
-    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
-    expect(hamburgerMenuService.toggle).toHaveBeenCalled();
-  });
-
-  it('should not set current group and not execute navigation in case of clicking on same group', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-
-    component.click(mockProductConfiguration.groups[1]);
-
-    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(0);
-    expect(hamburgerMenuService.toggle).toHaveBeenCalledTimes(0);
-  });
-
   it('should condense groups', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
@@ -432,46 +423,106 @@ describe('ConfigurationGroupMenuComponent', () => {
       });
   });
 
-  it('should navigate up', () => {
-    spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-      of(mockProductConfiguration.groups[0])
-    );
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
-      mockProductConfiguration.groups[0]
-    );
-    initialize();
-    component.navigateUp();
-    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
-    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+  describe('navigateUp', () => {
+    it('should navigate up (and not set focus)', () => {
+      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        of(mockProductConfiguration.groups[0])
+      );
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+        mockProductConfiguration.groups[0]
+      );
+      initialize();
+      component.navigateUp();
+      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalledTimes(0);
+    });
+
+    it('should navigate up and set focus if current group is provided', () => {
+      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        of(mockProductConfiguration.groups[0])
+      );
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+        mockProductConfiguration.groups[0]
+      );
+      initialize();
+
+      component.navigateUp(mockProductConfiguration.groups[0]);
+      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalled();
+    });
+
+    it('should navigate up, parent group null', () => {
+      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        of(mockProductConfiguration.groups[0])
+      );
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+      initialize();
+      component.navigateUp();
+      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+    });
   });
 
-  it('should navigate up, parent group null', () => {
-    spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-      of(mockProductConfiguration.groups[0])
-    );
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
-    initialize();
-    component.navigateUp();
-    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
-    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
-  });
+  describe('click', () => {
+    it('should call correct methods for groups with and without subgroups', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+      //Set group
+      component.click(mockProductConfiguration.groups[2].subGroups[0]);
+      expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
+      expect(hamburgerMenuService.toggle).toHaveBeenCalled();
 
-  it('should call correct methods for groups with and without subgroups', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-    //Set group
-    component.click(mockProductConfiguration.groups[2].subGroups[0]);
-    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
-    expect(hamburgerMenuService.toggle).toHaveBeenCalled();
+      //Display subgroups
+      component.click(mockProductConfiguration.groups[2]);
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalledTimes(0);
+    });
 
-    //Display subgroups
-    component.click(mockProductConfiguration.groups[2]);
-    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+    it('should call correct methods for subgroups and set focus if current group is provided', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component.click(
+        mockProductConfiguration.groups[2],
+        mockProductConfiguration.groups[0]
+      );
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalled();
+    });
+
+    it('should set current group in case of clicking on a different group', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component.click(mockProductConfiguration.groups[0]);
+
+      expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
+      expect(hamburgerMenuService.toggle).toHaveBeenCalled();
+    });
+
+    it('should not set current group and not execute navigation in case of clicking on same group', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component.click(mockProductConfiguration.groups[1]);
+
+      expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        0
+      );
+      expect(hamburgerMenuService.toggle).toHaveBeenCalledTimes(0);
+    });
   });
 
   it('should return number of conflicts only for conflict header group', () => {
@@ -924,6 +975,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     beforeEach(() => {
       productConfigurationObservable = of(mockProductConfiguration);
       routerStateObservable = of(mockRouterState);
+      breakpointObservable = of(false);
       initialize();
     });
 
@@ -1554,8 +1606,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
         of(true)
       );
-      const configForExpMode =
-        ConfigurationTestData.productConfigurationWithConflicts;
+      const configForExpMode = productConfigurationWithConflicts;
       initialize();
 
       expect(component.getGroupMenuTitle(configForExpMode.groups[0])).toEqual(
@@ -1567,8 +1618,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
         of(true)
       );
-      const configForExpMode =
-        ConfigurationTestData.productConfigurationWithConflicts;
+      const configForExpMode = productConfigurationWithConflicts;
       initialize();
 
       expect(
@@ -1617,6 +1667,136 @@ describe('ConfigurationGroupMenuComponent', () => {
         'title',
         'configurator.icon.groupConflict'
       );
+    });
+  });
+
+  describe('displayMenuItem', () => {
+    it('should display conflict header menu item', (done) => {
+      let configurationWithConflicts = productConfigurationWithConflicts;
+
+      productConfigurationObservable = of(configurationWithConflicts);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component
+        .displayMenuItem(configurationWithConflicts.groups[0])
+        .pipe(take(1))
+        .subscribe((displayMenuItem) => {
+          expect(displayMenuItem).toBe(true);
+          done();
+        });
+    });
+
+    it('should not display conflict header menu item', (done) => {
+      let configurationWithConflicts = structuredClone(
+        productConfigurationWithConflicts
+      );
+      configurationWithConflicts.immediateConflictResolution = true;
+
+      productConfigurationObservable = of(configurationWithConflicts);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component
+        .displayMenuItem(configurationWithConflicts.groups[0])
+        .pipe(take(1))
+        .subscribe((displayMenuItem) => {
+          expect(displayMenuItem).toBe(false);
+          done();
+        });
+    });
+  });
+
+  describe('isConflictGroupType', () => {
+    it('should know conflict group ', () => {
+      isConflictGroupType = true;
+      expect(
+        component.isConflictGroupType(
+          Configurator.GroupType.CONFLICT_HEADER_GROUP
+        )
+      ).toBe(true);
+    });
+
+    it('should return false for undefined input', () => {
+      expect(component.isConflictGroupType(undefined)).toBe(false);
+    });
+  });
+
+  describe('handleFocusLoopInMobileMode', () => {
+    it('should not execute focus loop code if tab-key is pressed and we are not in mobile mode', () => {
+      breakpointObservable = of(false);
+      const event = new KeyboardEvent('keydown', {
+        code: 'Tab',
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configGroupMenuService.isBackBtnFocused).not.toHaveBeenCalled();
+    });
+
+    it('should not execute focus loop code if a key different from tab-key is pressed and we are in mobile mode', () => {
+      breakpointObservable = of(true);
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowUp',
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configGroupMenuService.isBackBtnFocused).not.toHaveBeenCalled();
+    });
+
+    it('should not execute focus loop code if shift-tab-key is pressed and we are in mobile mode', () => {
+      breakpointObservable = of(true);
+      const event = new KeyboardEvent('keydown', {
+        code: 'Tab',
+        shiftKey: true,
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configGroupMenuService.isBackBtnFocused).not.toHaveBeenCalled();
+    });
+
+    it('should execute focusFirstActiveElement if tab-key is pressed in mobile mode and focus was on back button and there is no active groups in the group list', () => {
+      breakpointObservable = of(true);
+      const event = new KeyboardEvent('keydown', {
+        code: 'Tab',
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
+      spyOn(configGroupMenuService, 'isActiveGroupInGroupList').and.returnValue(
+        false
+      );
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configUtils.focusFirstActiveElement).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not execute focusFirstActiveElement if tab-key is pressed in mobile mode and focus was on back button and there is the active groups in the group list', () => {
+      breakpointObservable = of(true);
+      const event = new KeyboardEvent('keydown', {
+        code: 'Tab',
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
+      spyOn(configGroupMenuService, 'isActiveGroupInGroupList').and.returnValue(
+        true
+      );
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configUtils.focusFirstActiveElement).toHaveBeenCalledTimes(0);
+    });
+
+    it('should execute focusFirstActiveElement if tab-key is pressed in mobile mode and focus was not on back button', () => {
+      breakpointObservable = of(true);
+      const event = new KeyboardEvent('keydown', {
+        code: 'Tab',
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(false);
+      spyOn(configGroupMenuService, 'isActiveGroupInGroupList').and.returnValue(
+        true
+      );
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configUtils.focusFirstActiveElement).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { ProductImportStatus } from '@spartacus/cart/base/root';
+import { LoggerService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { ProductImportInfoService } from './product-import-info.service';
 
@@ -11,6 +12,7 @@ const mockUserId = 'current';
 
 describe('ProductImportInfoService', () => {
   let service: ProductImportInfoService;
+  let logger: LoggerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,6 +22,7 @@ describe('ProductImportInfoService', () => {
       ],
     });
     service = TestBed.inject(ProductImportInfoService);
+    logger = TestBed.inject(LoggerService);
   });
 
   it('should be created', () => {
@@ -119,7 +122,7 @@ describe('ProductImportInfoService', () => {
     });
 
     it('should return unknown error action', () => {
-      spyOn(console, 'warn').and.stub();
+      spyOn(logger, 'warn');
       let result;
       const payload = {
         userId: mockUserId,
@@ -139,7 +142,7 @@ describe('ProductImportInfoService', () => {
         productCode: '693923',
         statusCode: ProductImportStatus.UNKNOWN_ERROR,
       });
-      expect(console.warn).toHaveBeenCalledWith(
+      expect(logger.warn).toHaveBeenCalledWith(
         'Unrecognized cart add entry action type while mapping messages',
         new CartActions.CartAddEntrySuccess(payload)
       );

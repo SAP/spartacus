@@ -1,11 +1,9 @@
 <!-- Item Start Outlet -->
 <ng-template [cxOutlet]="CartOutlets.ITEM">
   <ng-template [cxOutlet]="CartOutlets.ITEM_CONFIGURATOR_ISSUES"></ng-template>
-  <ng-container *cxFeatureLevel="'4.2'">
-    <cx-cart-item-validation-warning
-      [code]="item.product?.code"
-    ></cx-cart-item-validation-warning>
-  </ng-container>
+  <cx-cart-item-validation-warning
+    [code]="item.product?.code"
+  ></cx-cart-item-validation-warning>
   <div [ngClass]="compact ? 'cx-compact row' : 'row'">
     <!-- Item Image -->
     <div class="col-2 cx-image-container">
@@ -158,7 +156,7 @@
             [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
             [disabled]="quantityControl.disabled"
             attr.aria-label="{{ 'addToCart.removeFromCart' | cxTranslate }}"
-            class="link cx-action-link"
+            class="btn btn-tertiary"
           >
             {{ 'common.remove' | cxTranslate }}
           </button>

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -93,6 +93,8 @@ function configureSpartacusModules(
         'BreadcrumbModule,',
         'ScrollToTopModule,',
         'PageTitleModule',
+        'VideoModule',
+        'PDFModule',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
@@ -112,6 +114,8 @@ function configureSpartacusModules(
                 'BreadcrumbModule',
                 'ScrollToTopModule',
                 'PageTitleModule',
+                'VideoModule',
+                'PDFModule',
               ],
             },
           ],
@@ -122,10 +126,10 @@ function configureSpartacusModules(
       [
         'UserModule,',
         'UserOccModule,',
-        'AddressBookModule,',
         'PaymentMethodsModule,',
         'NotificationPreferenceModule,',
         'MyInterestsModule,',
+        'MyAccountV2Module',
         'StockNotificationModule,',
         'ConsentManagementModule,',
         'MyCouponsModule,',
@@ -139,10 +143,10 @@ function configureSpartacusModules(
             {
               moduleSpecifier: SPARTACUS_STOREFRONTLIB,
               namedImports: [
-                'AddressBookModule',
                 'PaymentMethodsModule',
                 'NotificationPreferenceModule',
                 'MyInterestsModule',
+                'MyAccountV2Module',
                 'StockNotificationModule',
                 'ConsentManagementModule',
                 'MyCouponsModule',

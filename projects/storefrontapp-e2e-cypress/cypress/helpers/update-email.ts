@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,19 +20,18 @@ export function registerAndLogin() {
 export function testUpdateEmailAndLogin() {
   it('should update his email address and login', () => {
     const newUid = generateMail(randomString(), true);
-    cy.get('cx-update-email').within(() => {
+    cy.get('cx-update-email, cx-my-account-v2-email').within(() => {
       cy.get('[formcontrolname="email"]').type(newUid);
       cy.get('[formcontrolname="confirmEmail"]').type(newUid);
       cy.get('[formcontrolname="password"]').type(password);
-
       cy.get('button.btn-primary').click();
     });
-    cy.get('cx-login-form').should('exist');
 
     alerts
       .getSuccessAlert()
       .should('contain', `Success. Please sign in with ${newUid}`);
 
+    cy.get('cx-login-form').should('exist');
     login(newUid, password);
 
     cy.get('cx-login .cx-login-greet').should('exist');

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,11 @@ export namespace Configurator {
     required?: boolean;
     incomplete?: boolean;
     uiType?: UiType;
+    /** Allows to work with a custom variation of an uiType, in order to register a specific component for rendering an attribute.
+     * In case a custom variation exist, it is of format <OCC uiType>___<X>, e.g. RADIO_BUTTON___CUSTOM.
+     * The normalizers do not change it and just use the first portion of it to find the uiType the SPA business logic
+     * is attached to. Per default, if no customization is present, this attribute matches the OCC uiType */
+    uiTypeVariation?: string;
     dataType?: DataType;
     quantity?: number;
     values?: Value[];
@@ -98,6 +103,8 @@ export namespace Configurator {
     kbKey?: KB;
     pricingEnabled?: boolean;
     hideBasePriceAndSelectedOptions?: boolean;
+    immediateConflictResolution?: boolean;
+    newConfiguration?: boolean;
   }
 
   export interface ConfigurationWithOverview extends Configuration {
@@ -112,6 +119,8 @@ export namespace Configurator {
     };
     issueNavigationDone?: boolean;
     isConflictResolutionMode?: boolean;
+    showConflictSolverDialog?: boolean;
+    newConfiguration?: boolean;
   }
 
   export interface Overview {
@@ -217,6 +226,8 @@ export namespace Configurator {
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',
     READ_ONLY = 'readonly',
+    READ_ONLY_SINGLE_SELECTION_IMAGE = 'read_only_single_selection_image',
+    READ_ONLY_MULTI_SELECTION_IMAGE = 'read_only_multi_selection_image',
     STRING = 'string',
     NUMERIC = 'numeric',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
@@ -271,4 +282,6 @@ export namespace Configurator {
 
   export const ConflictIdPrefix = 'CONFLICT';
   export const ConflictHeaderId = 'CONFLICT_HEADER';
+  export const CustomUiTypeIndicator = '___';
+  export const RetractValueCode = '###RETRACT_VALUE_CODE###';
 }

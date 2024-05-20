@@ -6,11 +6,15 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
+        <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+        <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
+          {{ 'formLegend.required' | cxTranslate }}
+        </p>
         <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
           <div class="form-group">
             <label>
               <span class="label-content">{{
-                'register.title' | cxTranslate
+                'register.titleOptional' | cxTranslate
               }}</span>
               <ng-select
                 [clearable]="false"
@@ -31,9 +35,10 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.firstName.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.firstName.label' | cxTranslate }}
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -55,9 +60,10 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.lastName.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.lastName.label' | cxTranslate }}
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -79,9 +85,10 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.emailAddress.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.emailAddress.label' | cxTranslate }}
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -103,9 +110,10 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.password.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.password.label' | cxTranslate }}
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -118,8 +126,12 @@
                 [attr.aria-label]="
                   'register.password.placeholder' | cxTranslate
                 "
+                aria-describedby="password-input-hint"
                 cxPasswordVisibilitySwitch
               />
+              <p class="input-hint" id="password-input-hint">
+                {{ 'register.passwordMinRequirements' | cxTranslate }}
+              </p>
               <cx-form-errors
                 [translationParams]="{
                   label: 'register.password.label' | cxTranslate
@@ -131,9 +143,10 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.confirmPassword.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.confirmPassword.label' | cxTranslate }}
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -174,6 +187,33 @@
             </div>
           </div>
 
+          <div
+            formArrayName="additionalConsents"
+            class="form-group"
+            *ngIf="additionalRegistrationConsents as consents"
+          >
+            <div
+              class="form-check"
+              *ngFor="let control of additionalConsents.controls; let i = index"
+            >
+              <div *ngIf="consents[i]?.template?.id as id">
+                <label>
+                  <input
+                    type="checkbox"
+                    [required]="consents[i].required"
+                    [name]="id"
+                    (change)="updateAdditionalConsents($any($event), i)"
+                    [formControlName]="i"
+                  />
+                  <span class="form-check-label">
+                    {{ consents[i].template.description }}
+                  </span>
+                  <cx-form-errors [control]="control"></cx-form-errors>
+                </label>
+              </div>
+            </div>
+          </div>
+
           <div class="form-group">
             <div class="form-check">
               <label>
@@ -192,6 +232,9 @@
                   >
                     {{ 'register.termsAndConditions' | cxTranslate }}
                   </a>
+                  <ng-template
+                    [ngTemplateOutlet]="requiredAsterisk"
+                  ></ng-template>
                 </span>
                 <cx-form-errors
                   [translationParams]="{
@@ -215,6 +258,15 @@
     </div>
   </div>
 </section>
+
+<ng-template #requiredAsterisk>
+  <abbr
+    *cxFeature="'a11yRequiredAsterisks'"
+    class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
+</ng-template>
 
 <ng-template #loading>
   <div class="cx-spinner"><cx-spinner></cx-spinner></div>

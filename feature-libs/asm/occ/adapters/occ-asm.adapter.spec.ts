@@ -5,13 +5,15 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
-  AsmConfig,
-  CustomerSearchOptions,
-  CustomerSearchPage,
   CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
-import { CustomerListsPage } from '@spartacus/asm/root';
+import {
+  AsmConfig,
+  CustomerListsPage,
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '@spartacus/asm/root';
 import {
   BaseOccUrlProperties,
   BaseSiteService,
@@ -327,8 +329,8 @@ describe('OccAsmAdapter', () => {
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return (
         req.url === 'asmBindCart' &&
-        req.params.get('cartId') === 'cart001' &&
-        req.params.get('customerId') === 'customer001' &&
+        req.body.get('cartId') === 'cart001' &&
+        req.body.get('customerId') === 'customer001' &&
         req.headers.get(USE_CUSTOMER_SUPPORT_AGENT_TOKEN) === 'true' &&
         req.method === 'POST'
       );

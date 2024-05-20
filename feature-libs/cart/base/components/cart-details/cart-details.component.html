@@ -1,9 +1,7 @@
 <ng-container *ngIf="cart$ | async as cart">
   <ng-container *ngIf="entries$ | async as entries">
     <div *ngIf="cart.totalItems > 0" class="cart-details-wrapper">
-      <ng-container *cxFeatureLevel="'4.2'">
-        <cx-cart-validation-warnings></cx-cart-validation-warnings>
-      </ng-container>
+      <cx-cart-validation-warnings></cx-cart-validation-warnings>
 
       <h2 class="cx-total">
         {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
@@ -33,7 +31,7 @@
 <ng-template let-ctx #saveForLaterBtn>
   <button
     *ngIf="selectiveCartEnabled"
-    class="link cx-action-link cx-sfl-btn"
+    class="btn btn-tertiary cx-sfl-btn"
     [disabled]="ctx.loading"
     (click)="saveForLater(ctx.item)"
     type="button"

@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ImageGroup, Product, I18nTestingModule } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { I18nTestingModule, ImageGroup, Product } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
-import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
+import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
 
 const firstImage = {
   zoom: {
@@ -59,7 +59,7 @@ const mockDataWitoutPrimaryPictures: Product = {
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -68,7 +68,7 @@ class MockCurrentProductService {
   template: '',
 })
 class MockMediaComponent {
-  @Input() container;
+  @Input() container: any;
 }
 
 @Component({
@@ -82,10 +82,20 @@ class MockMediaComponent {
   `,
 })
 class MockCarouselComponent {
-  @Input() items;
-  @Input() itemWidth;
-  @Input() template;
-  @Input() hideIndicators;
+  @Input() items: any;
+  @Input() itemWidth: any;
+  @Input() template: any;
+  @Input() hideIndicators: any;
+}
+
+@Component({
+  selector: 'cx-product-image-zoom-trigger',
+  template: ``,
+})
+class MockProductImageZoomTriggerComponent {
+  @Input() expandImage: any;
+  @Input() galleryIndex: any;
+  @Output() dialogClose = new EventEmitter<void>();
 }
 
 describe('ProductImagesComponent', () => {
@@ -101,6 +111,7 @@ describe('ProductImagesComponent', () => {
           ProductImageZoomProductImagesComponent,
           MockMediaComponent,
           MockCarouselComponent,
+          MockProductImageZoomTriggerComponent,
         ],
         providers: [
           {

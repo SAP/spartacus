@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,6 +47,7 @@ export class ConfiguratorTextfieldConnector {
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.adapter.readConfigurationForOrderEntry(parameters);
   }
+
   /**
    * Updates a configuration that is attached to a cart entry
    * @param parameters Attributes needed to update a cart entries' configuration
