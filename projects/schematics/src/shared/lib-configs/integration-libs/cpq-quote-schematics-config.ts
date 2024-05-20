@@ -40,7 +40,7 @@ export const CPQ_QUOTE_SCHEMATICS_CONFIG: SchematicConfig = {
   },
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_CPQ_QUOTE_ROOT,
-    namedImports: [CPQ_QUOTE_FEATURE_NAME_CONSTANT],
+    namedImports: [CPQ_QUOTE_FEATURE_NAME],
   },
   i18n: {
     resources: CPQ_QUOTE_TRANSLATIONS,

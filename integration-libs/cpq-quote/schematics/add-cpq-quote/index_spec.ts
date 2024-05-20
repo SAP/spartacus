@@ -20,7 +20,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
   'src/app/spartacus/features/cpq-quote/cpq-quote-feature.module.ts';
 
-describe('Spartacus S4OM schematics: ng-add', () => {
+describe('Spartacus CPQ-QUOTE schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
   let appTree: UnitTestTree;

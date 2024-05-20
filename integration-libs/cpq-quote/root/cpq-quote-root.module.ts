@@ -11,6 +11,22 @@ import { CpqQuoteHeadingComponent } from './components/cpq-quote-heading/cpq-quo
 import { CpqQuoteHeadingModule } from './components/cpq-quote-heading/cpq-quote.heading.module';
 import { CpqQuoteTbodyModule } from './components/cpq-quote-discount-tbody/cpq-quote.tbody.module';
 import { CpqQuoteDiscountComponent } from './components/cpq-quote-discount-tbody/cpq-quote.component';
+import { CPQ_QUOTE_FEATURE_NAME } from './feature-name';
+import { provideDefaultConfigFactory } from '@spartacus/core';
+
+export function defaultCpqQuoteComponentsConfig() {
+  return {
+    featureModules: {
+      [CPQ_QUOTE_FEATURE_NAME]: {
+        cmsComponents: [
+          'CpqQuoteHeadingComponent',
+          'CpqQuoteDiscountComponent',
+        ],
+      },
+    },
+  };
+}
+
 @NgModule({
   imports: [CpqQuoteHeadingModule, CpqQuoteTbodyModule],
   providers: [
@@ -24,6 +40,8 @@ import { CpqQuoteDiscountComponent } from './components/cpq-quote-discount-tbody
       position: OutletPosition.AFTER,
       component: CpqQuoteHeadingComponent,
     }),
+
+    provideDefaultConfigFactory(defaultCpqQuoteComponentsConfig),
   ],
 })
 export class CpqQuoteRootdModule {}

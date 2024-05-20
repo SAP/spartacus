@@ -23,6 +23,16 @@ import {
   providers: [
     provideConfig({
       featureModules: {
+        ['']: {
+          module: () =>
+            import('../features/cpq-quote/cpq-quote-feature.module').then(
+              (m) => m.CPQQUOTEFeatureModule
+            ),
+        },
+      },
+    }),
+    provideConfig({
+      featureModules: {
         [QUOTE_FEATURE]: {
           module: () => import('@spartacus/quote').then((m) => m.QuoteModule),
         },

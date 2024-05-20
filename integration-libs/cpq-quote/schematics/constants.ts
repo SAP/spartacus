@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SPARTACUS_S4OM } from '@spartacus/schematics';
+import { SPARTACUS_CPQ_QUOTE } from '@spartacus/schematics';
 
-export const S4OM_FOLDER_NAME = 's4om';
-export const S4OM_MODULE_NAME = 'S4om';
+export const CPQ_QUOTE_FOLDER_NAME = 'cpq-quote';
+export const CPQ_QUOTE_MODULE_NAME = 'CpqQuoteDiscountModule';
 
-export const S4OM_FEATURE_CONSTANT = 'S4OM_FEATURE';
-export const S4OM_CONFIG = 'S4omConfig';
+export const CPQ_QUOTE_FEATURE_NAME_CONSTANT = 'CPQ_QUOTE_FEATURE_NAME';
+export const CPQ_QUOTE_CONFIG = 'cpq-quoteConfig';
 
-export const S4OM_TRANSLATIONS = 's4omTranslations';
-export const S4OM_TRANSLATION_CHUNKS_CONFIG = 's4omTranslationChunksConfig';
-export const SPARTACUS_S4OM_ASSETS = `${SPARTACUS_S4OM}/assets`;
+export const CPQ_QUOTE_TRANSLATIONS = 'cpqquoteTranslations';
+export const CPQ_QUOTE_TRANSLATION_CHUNKS_CONFIG =
+  'cpqquoteTranslationChunksConfig';
+export const SPARTACUS_CPQ_QUOTE_ASSETS = `${SPARTACUS_CPQ_QUOTE}/assets`;
