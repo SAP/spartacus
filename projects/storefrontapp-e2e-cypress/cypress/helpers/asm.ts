@@ -284,9 +284,9 @@ export function asmCustomerLists(): void {
 
   cy.get('cx-customer-list')
     .find('.cx-btn-cell')
-    .not('[aria-label="Order"]')
-    .not('[aria-label="Cart"]')
-    .not('[aria-label="360 View"]')
+    .not('[aria-label="Orders"]')
+    .not('[aria-label="Active Cart"]')
+    .not('[aria-label="Customer 360°"]')
     .then(($rows) => {
       expect($rows.length).to.eq(5);
       cy.wrap($rows[0]).click();
@@ -478,7 +478,7 @@ export function asmCustomerListC360Link(): void {
   cy.log('--> click 360 view link');
   cy.get('cx-customer-list')
     .find('.cx-btn-cell')
-    .find('.fa-external-link-alt')
+    .find('.fa-circle-user')
     .then(($rows) => {
       cy.wrap($rows[0]).click();
       cy.get('.cx-asm-customer-360').should('exist');
