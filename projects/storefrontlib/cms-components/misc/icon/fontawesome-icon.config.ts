@@ -69,9 +69,8 @@ export const fontawesomeIconConfig: IconConfig = {
       ARROW_RIGHT: 'fas  fa-arrow-right',
       ARROW_DOWN: 'fas  fa-arrow-down',
       ARROW_UP: 'fas  fa-arrow-up',
-      C360_CART: 'fa-solid fa-cart-shopping',
-      C360_INVOICE: 'fa-solid fa-file-invoice',
-      C360_CIRCLE_USER: 'fa-solid fa-circle-user',
+      C360_INVOICE: 'fas fa-file-invoice',
+      C360_CIRCLE_USER: 'fas fa-circle-user',
     },
     resources: [
       {
