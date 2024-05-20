@@ -547,13 +547,6 @@
       ],
       "@spartacus/cdp": ["../../integration-libs/cdp/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
-      "@spartacus/cpq-quote/assets": [
-        "../../integration-libs/cpq-quote/assets/public_api"
-      ],
-      "@spartacus/cpq-quote": ["../../integration-libs/cpq-quote/public_api"],
-      "@spartacus/cpq-quote/root": [
-        "../../integration-libs/cpq-quote/root/public_api"
-      ],
       "@spartacus/digital-payments/assets": [
         "../../integration-libs/digital-payments/assets/public_api"
       ],
@@ -593,7 +586,15 @@
       ],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
-      "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]
+      "@spartacus/storefront": ["../../projects/storefrontlib/public_api"],
+
+      "@spartacus/cpq-quote/assets": [
+        "../../integration-libs/cpq-quote/assets/public_api"
+      ],
+      "@spartacus/cpq-quote": ["../../integration-libs/cpq-quote/public_api"],
+      "@spartacus/cpq-quote/root": [
+        "../../integration-libs/cpq-quote/root/public_api"
+      ]
     },
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,

@@ -154,11 +154,6 @@ function add_s4om {
         ng add --skip-confirmation @spartacus/s4om@${SPARTACUS_VERSION} --interactive false
     fi
 }
-function add_cpq_quote {
-  if [ "$ADD_CPQ_QUOTE" = true ] ; then
-        ng add --skip-confirmation @spartacus/cpq-quote@${SPARTACUS_VERSION} --interactive false
-    fi
-}
 
 function add_requested_delivery_date {
   if [ "$ADD_REQUESTED_DELIVERY_DATE" = true ] ; then
@@ -1028,4 +1023,10 @@ function compareSemver() {
     # If all parts are equal, the versions are equal
     echo 0
     return
+}
+
+function add_cpq_quote {
+  if [ "$ADD_CPQ_QUOTE" = true ] ; then
+        ng add --skip-confirmation @spartacus/cpq-quote@${SPARTACUS_VERSION} --interactive false
+    fi
 }
