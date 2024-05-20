@@ -5,7 +5,7 @@
  */
 
 import { Inject, inject, Injectable, isDevMode } from '@angular/core';
-import { i18n } from 'i18next';
+import { i18n, TOptions } from 'i18next';
 import { Observable } from 'rxjs';
 import { LoggerService } from '../../logger';
 import { I18nConfig } from '../config/i18n-config';
@@ -68,7 +68,9 @@ export class I18nextTranslationService implements TranslationService {
           () => {
             namespacesLoaded = true;
             if (this.i18next.exists(namespacedKeys, options)) {
-              subscriber.next(this.i18next.t(namespacedKeys, options));
+              subscriber.next(
+                this.i18next.t(namespacedKeys, options as TOptions)
+              );
             } else {
               this.reportMissingKey(chunkNamesByKeys);
               subscriber.next(this.getFallbackValue(namespacedKeys));
