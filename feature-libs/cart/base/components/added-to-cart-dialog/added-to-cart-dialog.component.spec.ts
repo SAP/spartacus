@@ -16,12 +16,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
+  CartAddEntrySuccessEvent,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
 import {
   ActivatedRouterStateSnapshot,
-  FeaturesConfig,
   I18nTestingModule,
   RouterState,
   RoutingService,
@@ -62,13 +62,18 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   }
 }
 
+const PRODUCT_CODE = 'CODE1111';
+const QUANTITY = 3;
+const NUMBER_ENTRIES_BEFORE_ADD = 2;
+const PICKUP_STORE_NAME = 'testStore';
+let numberOfEntriesBeforeAdd: number | undefined = NUMBER_ENTRIES_BEFORE_ADD;
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
     return of({
-      productCode: 'CODE1111',
-      quantity: 3,
-      numberOfEntriesBeforeAdd: 2,
-      pickupStoreName: 'test',
+      productCode: PRODUCT_CODE,
+      quantity: QUANTITY,
+      numberOfEntriesBeforeAdd: numberOfEntriesBeforeAdd,
+      pickupStoreName: PICKUP_STORE_NAME,
     });
   }
 
@@ -80,14 +85,14 @@ const mockOrderEntries: OrderEntry[] = [
     quantity: 1,
     entryNumber: 1,
     product: {
-      code: 'CODE1111',
+      code: PRODUCT_CODE,
     },
   },
   {
     quantity: 2,
     entryNumber: 1,
     product: {
-      code: 'CODE1111',
+      code: PRODUCT_CODE,
     },
   },
 ];
@@ -159,12 +164,6 @@ describe('AddedToCartDialogComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
-        },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.3' },
-          },
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
@@ -377,5 +376,65 @@ describe('AddedToCartDialogComponent', () => {
 
     el.click();
     expect(component.dismissModal).toHaveBeenCalledWith('Cross click');
+  });
+
+  describe('init()', () => {
+    it('should compile addedCartEntryWasMerged$ from quantity comparison', () => {
+      spyOn(activeCartFacade, 'getEntries').and.returnValue(
+        cold('a', { a: mockOrderEntries })
+      );
+      component.loaded$ = cold('t', { t: true });
+      component.init(PRODUCT_CODE, QUANTITY, NUMBER_ENTRIES_BEFORE_ADD);
+      expect(component.addedEntryWasMerged$).toBeObservable(
+        cold('t', { t: true })
+      );
+    });
+    it('should determine product from input in case addingEntryResult in not provided', () => {
+      spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
+
+      component.init(PRODUCT_CODE, QUANTITY, NUMBER_ENTRIES_BEFORE_ADD);
+      component.entry$.subscribe(() => {
+        expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
+          PRODUCT_CODE
+        );
+      });
+    });
+
+    it('should determine product from addingEntryResult in case provided', () => {
+      spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
+      const mockSuccessEvent = new CartAddEntrySuccessEvent();
+      const replacedProductCode = 'NEW_PRODUCT_CODE';
+      mockSuccessEvent.entry = { product: { code: 'NEW_PRODUCT_CODE' } };
+      component.init(
+        PRODUCT_CODE,
+        QUANTITY,
+        NUMBER_ENTRIES_BEFORE_ADD,
+        undefined,
+        of(mockSuccessEvent)
+      );
+      component.entry$.subscribe(() => {
+        expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
+          replacedProductCode
+        );
+      });
+    });
+
+    it('should fallback to events product code from addingEntryResult in case entries product code does not exist', () => {
+      spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
+      const mockSuccessEvent = new CartAddEntrySuccessEvent();
+      mockSuccessEvent.productCode = PRODUCT_CODE;
+      component.init(
+        PRODUCT_CODE,
+        QUANTITY,
+        NUMBER_ENTRIES_BEFORE_ADD,
+        undefined,
+        of(mockSuccessEvent)
+      );
+      component.entry$.subscribe(() => {
+        expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
+          PRODUCT_CODE
+        );
+      });
+    });
   });
 });

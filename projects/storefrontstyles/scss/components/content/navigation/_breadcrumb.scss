@@ -23,6 +23,14 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
     text-overflow: ellipsis;
     text-align: center;
     text-transform: capitalize;
+
+    // TODO: (CXSPA-6003) Remove feature flags next major
+    @include forFeature('a11yTruncatedTextForResponsiveView') {
+      @include media-breakpoint-only(xs) {
+        white-space: wrap;
+        @include type('4');
+      }
+    }
   }
 
   nav {

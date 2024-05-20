@@ -230,4 +230,18 @@ describe('ItemCounterComponent', () => {
       ).toBeTruthy();
     });
   });
+
+  describe('a11y', () => {
+    it('should update value on enter', () => {
+      const input: HTMLInputElement = fixture.debugElement.query(
+        By.css('input')
+      ).nativeElement;
+      input.focus();
+      input.value = '10';
+      input.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter' }));
+      fixture.detectChanges();
+
+      expect(component.control.value).toEqual('10');
+    });
+  });
 });

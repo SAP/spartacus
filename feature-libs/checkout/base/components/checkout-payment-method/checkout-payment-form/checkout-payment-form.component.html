@@ -147,6 +147,9 @@
                   placement="right"
                   title="{{ 'paymentForm.securityCodeTitle' | cxTranslate }}"
                   alt=""
+                  [attr.aria-label]="
+                    'paymentForm.securityCodeTitle' | cxTranslate
+                  "
                 ></cx-icon>
               </span>
               <input

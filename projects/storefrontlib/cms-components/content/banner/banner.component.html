@@ -5,7 +5,8 @@
       <cx-generic-link
         [url]="routerLink"
         [target]="getTarget(data)"
-        [ariaLabel]="data.headline"
+        [ariaLabel]="getLinkAriaLabel(data)"
+        [attr.title]="!data.headline ? getImageAltText(data) : null"
       >
       </cx-generic-link>
       <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>

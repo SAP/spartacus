@@ -111,5 +111,17 @@
         padding: 0 1.375rem;
       }
     }
+
+    // TODO: (CXSPA-6003) Remove feature flags next major
+    @include forFeature('a11yTruncatedTextForResponsiveView') {
+      .cx-list-media {
+        line-height: unset;
+      }
+
+      .cx-title {
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+      }
+    }
   }
 }
