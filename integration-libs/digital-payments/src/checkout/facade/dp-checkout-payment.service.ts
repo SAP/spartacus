@@ -39,12 +39,12 @@ export class DpCheckoutPaymentService {
       this.userIdService.takeUserId(),
       this.activeCartService.getActive(),
     ]).pipe(
-      switchMap(([userId, cart]) => {
-        if (userId === OCC_USER_ID_ANONYMOUS) {
-          return this.dpAdapter.createPaymentRequest(userId, cart.guid);
-        }
-        return this.dpAdapter.createPaymentRequest(userId);
-      })
+      switchMap(([userId, cart]) =>
+        this.dpAdapter.createPaymentRequest(
+          userId,
+          userId === OCC_USER_ID_ANONYMOUS ? cart.guid : CURRENT_CART
+        )
+      )
     );
   });
 

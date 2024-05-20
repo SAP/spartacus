@@ -46,6 +46,6 @@ export const defaultB2BCheckoutConfig: CheckoutConfig = {
     ],
     express: false,
     defaultDeliveryMode: [DeliveryModePreferences.FREE],
-    guest: true,
+    guest: false,
   },
 };
