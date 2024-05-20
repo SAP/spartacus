@@ -69,7 +69,11 @@
       "@spartacus/epd-visualization",
       "@spartacus/s4om",
       "@spartacus/customer-ticketing",
+<<<<<<< HEAD
       "@spartacus/cpq-quote"
+=======
+      "@spartacus/estimated-delivery-date"
+>>>>>>> 11540c328d590d39701e0c676e679bfc1a9acf99
     ]
   },
   "schematics": "./src/collection.json"

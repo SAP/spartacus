@@ -7,7 +7,12 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
-import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  MultiCartFacade,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   I18nTestingModule,
@@ -39,6 +44,7 @@ import { ConfiguratorQuantityService } from '../../core/services/configurator-qu
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
+import createSpy = jasmine.createSpy;
 
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '001+1';
@@ -323,6 +329,7 @@ function performAddToCartOnOverview() {
   setRouterTestDataProductBoundAndConfigPage();
   mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+  mockRouterData.productCode = mockProductConfiguration.productCode;
   initialize();
   component.onAddToCart(mockProductConfiguration, mockRouterData);
 }
@@ -382,6 +389,10 @@ class MockConfiguratorAddToCartButtonComponent {
   goToOrderDetails() {}
 }
 
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  getActive = createSpy().and.returnValue(of(cart));
+}
+
 describe('ConfigAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
@@ -392,6 +403,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   let intersectionService: IntersectionService;
   let configuratorQuantityService: ConfiguratorQuantityService;
   let keyboardFocusService: KeyboardFocusService;
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -451,6 +463,7 @@ describe('ConfigAddToCartButtonComponent', () => {
             provide: MultiCartFacade,
             useClass: MockMultiCartFacade,
           },
+          { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         ],
       })
         .overrideComponent(ConfiguratorAddToCartButtonComponent, {
@@ -470,34 +483,16 @@ describe('ConfigAddToCartButtonComponent', () => {
     };
     pendingChangesObservable = of(false);
     initialize();
-    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-
-    globalMessageService = TestBed.inject(
-      GlobalMessageService as Type<GlobalMessageService>
-    );
-
-    configuratorQuantityService = TestBed.inject(
-      ConfiguratorQuantityService as Type<ConfiguratorQuantityService>
-    );
-
-    configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
-
+    routingService = TestBed.inject(RoutingService);
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    configuratorQuantityService = TestBed.inject(ConfiguratorQuantityService);
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
-
-    intersectionService = TestBed.inject(
-      IntersectionService as Type<IntersectionService>
-    );
-
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
+    intersectionService = TestBed.inject(IntersectionService);
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
 
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
@@ -950,7 +945,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       ).toEqual(result);
     });
 
-    it("should contain add to cart button element with 'aria-label' attribute that contains prices of the configuration", () => {
+    it('should contain add to cart button element with `aria-label` attribute that contains prices of the configuration', () => {
       let basePrice =
         mockProductConfiguration.priceSummary?.basePrice?.formattedValue;
       let selectedOptions =
@@ -995,21 +990,35 @@ describe('ConfigAddToCartButtonComponent', () => {
       config.isCartEntryUpdateRequired = isCartEntryUpdateRequired;
     }
 
-    it('should return configurator.addToCart.buttonUpdateCart', () => {
+    it('should return `configurator.addToCart.buttonUpdateCart` for cart', () => {
       prepareTestData(true, true);
       expect(component.getButtonResourceKey(routerData, config)).toBe(
         'configurator.addToCart.buttonUpdateCart'
       );
     });
 
-    it('should return configurator.addToCart.buttonAfterAddToCart', () => {
+    it('should return `configurator.addToCart.buttonUpdateCart` for quote', () => {
+      prepareTestData(true, true);
+      expect(component.getButtonResourceKey(routerData, config, true)).toBe(
+        'configurator.addToCart.buttonUpdateCart'
+      );
+    });
+
+    it('should return `configurator.addToCart.buttonAfterAddToCart`', () => {
       prepareTestData(true, false);
       expect(component.getButtonResourceKey(routerData, config)).toBe(
         'configurator.addToCart.buttonAfterAddToCart'
       );
     });
 
-    it('should return configurator.addToCart.button', () => {
+    it('should return `configurator.addToCart.buttonForQuote` for quote', () => {
+      prepareTestData(true, false);
+      expect(component.getButtonResourceKey(routerData, config, true)).toBe(
+        'configurator.addToCart.buttonForQuote'
+      );
+    });
+
+    it('should return `configurator.addToCart.button`', () => {
       prepareTestData(false, false);
 
       expect(component.getButtonResourceKey(routerData, config)).toBe(
@@ -1019,7 +1028,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   });
 
   describe('isCartEntry', () => {
-    it("should return 'false' because isOwnerCartEntry is undefined", () => {
+    it('should return `false` because isOwnerCartEntry is undefined', () => {
       const routerData: ConfiguratorRouter.Data = {
         pageType: ConfiguratorRouter.PageType.CONFIGURATION,
         owner: mockOwner,
@@ -1028,7 +1037,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(component.isCartEntry(routerData)).toBe(false);
     });
 
-    it("should return 'false' because it is not a cart entry", () => {
+    it('should return `false` because it is not a cart entry', () => {
       const routerData: ConfiguratorRouter.Data = {
         pageType: ConfiguratorRouter.PageType.CONFIGURATION,
         owner: mockOwner,
@@ -1038,7 +1047,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(component.isCartEntry(routerData)).toBe(false);
     });
 
-    it("should return 'true' because it is a cart entry", () => {
+    it('should return `true` because it is a cart entry', () => {
       const routerData: ConfiguratorRouter.Data = {
         pageType: ConfiguratorRouter.PageType.OVERVIEW,
         owner: mockOwner,
@@ -1092,5 +1101,57 @@ describe('ConfigAddToCartButtonComponent', () => {
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
     }));
+  });
+
+  describe('isQuoteCartActive', () => {
+    it('should return `true` in case quote cart is active', () => {
+      component['isQuoteCartActive']()
+        .subscribe((isQuoteCartActive) => {
+          expect(isQuoteCartActive).toBe(true);
+        })
+        .unsubscribe();
+    });
+
+    it('should return `false` in case quote cart is not active', () => {
+      cart.quoteCode = undefined;
+      component['isQuoteCartActive']()
+        .subscribe((isQuoteCartActive) => {
+          expect(isQuoteCartActive).toBe(false);
+        })
+        .unsubscribe();
+      cart.quoteCode = QUOTE_CODE;
+    });
+  });
+
+  describe('getTranslationKey', () => {
+    it('should return `configurator.addToCart.confirmationQuoteUpdate` in case quote cart is active', () => {
+      component['getTranslationKeyForAddToCart'](true)
+        .subscribe((translationKey) => {
+          expect(translationKey).toBe(
+            'configurator.addToCart.confirmationQuoteUpdate'
+          );
+        })
+        .unsubscribe();
+    });
+
+    it('should return `configurator.addToCart.confirmation` in case `isAddToCart` is true', () => {
+      cart.quoteCode = undefined;
+      component['getTranslationKeyForAddToCart'](true)
+        .subscribe((translationKey) => {
+          expect(translationKey).toBe('configurator.addToCart.confirmation');
+        })
+        .unsubscribe();
+    });
+
+    it('should return `configurator.addToCart.confirmationUpdate` in case `isAddToCart` is false', () => {
+      cart.quoteCode = undefined;
+      component['getTranslationKeyForAddToCart'](false)
+        .subscribe((translationKey) => {
+          expect(translationKey).toBe(
+            'configurator.addToCart.confirmationUpdate'
+          );
+        })
+        .unsubscribe();
+    });
   });
 });
