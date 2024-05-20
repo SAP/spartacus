@@ -32,7 +32,6 @@ export interface FeatureToggles {
      */
     storeFrontLibCardParagraphTruncated?: boolean;
     showPromotionsInPDP?: boolean;
-    showBillingAddressInDigitalPayments?: boolean;
     recentSearches?: boolean;
   };
 }
