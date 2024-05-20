@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { I18nModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
 import { NgModule } from '@angular/core';
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 import { CheckoutBillingAddressFormModule } from '@spartacus/checkout/base/components';
 
 @NgModule({
-  imports: [CommonModule, SpinnerModule, I18nModule, CheckoutBillingAddressFormModule],
+  imports: [CommonModule, SpinnerModule, I18nModule, CheckoutBillingAddressFormModule, FeaturesConfigModule,],
   declarations: [DpPaymentCallbackComponent],
   exports: [DpPaymentCallbackComponent],
 })

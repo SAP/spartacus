@@ -10,6 +10,10 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * In `DpPaymentCallbackComponent` it shows the billing address form.
+   */
+  showBillingAddressInDigitalPayments?: boolean;
+  /**
    * In `ProductSummaryComponent` it shows the promotions info.
    */
   showPromotionsInPDP?: boolean;
@@ -235,6 +239,7 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  showBillingAddressInDigitalPayments: false,
   showPromotionsInPDP: false,
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,

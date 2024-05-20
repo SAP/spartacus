@@ -57,18 +57,15 @@ export class DpPaymentCallbackComponent implements OnInit {
   }
 
   next(): void {
-    if (this.billingAddressService.isBillingAddressSameAsDeliveryAddress()) {
+    if (
+      this.billingAddressService.isBillingAddressSameAsDeliveryAddress() ||
+      this.billingAddressService.isBillingAddressFormValid()
+    ) {
       const billingAddress: Address =
         this.billingAddressService.getBillingAddress();
       this.fetchPaymentDetails(billingAddress);
     } else {
-      if (this.billingAddressService.isBillingAddressFormValid()) {
-        const billingAddress: Address =
-          this.billingAddressService.getBillingAddress();
-        this.fetchPaymentDetails(billingAddress);
-      } else {
-        this.billingAddressService.markAllAsTouched();
-      }
+      this.billingAddressService.markAllAsTouched();
     }
   }
 

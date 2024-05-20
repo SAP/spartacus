@@ -21,6 +21,7 @@ import { switchMap } from 'rxjs/operators';
 import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
 import { DpPaymentRequest } from '../models/dp-checkout.model';
 import { ActiveCartService } from '@spartacus/cart/base/core';
+import { CURRENT_CART } from '../../utils/dp-constants';
 @Injectable({
   providedIn: 'root',
 })
@@ -55,6 +56,7 @@ export class DpCheckoutPaymentService {
     {
       sessionId: string;
       signature: string;
+      billingAddress?: Address;
     },
     PaymentDetails
   > = this.command.create(
@@ -64,20 +66,13 @@ export class DpCheckoutPaymentService {
         this.activeCartService.getActive(),
       ]).pipe(
         switchMap(([userId, cart]) => {
-          if (userId === OCC_USER_ID_ANONYMOUS) {
-            return this.dpAdapter.createPaymentDetails(
-              payload.sessionId,
-              payload.signature,
-              userId,
-              cart.guid
-            );
-          } else {
-            return this.dpAdapter.createPaymentDetails(
-              payload.sessionId,
-              payload.signature,
-              userId
-            );
-          }
+          return this.dpAdapter.createPaymentDetails(
+            payload.sessionId,
+            payload.signature,
+            userId,
+            userId === OCC_USER_ID_ANONYMOUS ? cart.guid : CURRENT_CART,
+            payload?.billingAddress
+          );
         })
       ),
     {
@@ -90,7 +85,10 @@ export class DpCheckoutPaymentService {
     signature: string,
     billingAddress?: Address
   ): Observable<PaymentDetails> {
-    console.log(billingAddress);
-    return this.createPaymentDetailsCommand.execute({ sessionId, signature });
+    return this.createPaymentDetailsCommand.execute({
+      sessionId,
+      signature,
+      billingAddress,
+    });
   }
 }
