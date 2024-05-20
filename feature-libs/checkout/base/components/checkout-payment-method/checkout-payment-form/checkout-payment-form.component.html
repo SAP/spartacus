@@ -34,6 +34,9 @@
                 >
                 </ng-select>
                 <cx-form-errors
+                  [translationParams]="{
+                    label: 'paymentForm.paymentType' | cxTranslate
+                  }"
                   [control]="paymentForm.get('cardType.code')"
                 ></cx-form-errors>
               </label>
@@ -57,6 +60,9 @@
               formControlName="accountHolderName"
             />
             <cx-form-errors
+              [translationParams]="{
+                label: 'paymentForm.accountHolderName.label' | cxTranslate
+              }"
               [control]="paymentForm.get('accountHolderName')"
             ></cx-form-errors>
           </label>
@@ -75,6 +81,9 @@
               formControlName="cardNumber"
             />
             <cx-form-errors
+              [translationParams]="{
+                label: 'paymentForm.cardNumber' | cxTranslate
+              }"
               [control]="paymentForm.get('cardNumber')"
             ></cx-form-errors>
           </label>
@@ -107,6 +116,9 @@
                 >
                 </ng-select>
                 <cx-form-errors
+                  [translationParams]="{
+                    label: 'paymentForm.expirationDate' | cxTranslate
+                  }"
                   [control]="paymentForm.get('expiryMonth')"
                 ></cx-form-errors>
               </label>
@@ -128,6 +140,9 @@
                 >
                 </ng-select>
                 <cx-form-errors
+                  [translationParams]="{
+                    label: 'paymentForm.expirationDate' | cxTranslate
+                  }"
                   [control]="paymentForm.get('expiryYear')"
                 ></cx-form-errors>
               </label>
@@ -160,6 +175,9 @@
                 formControlName="cvn"
               />
               <cx-form-errors
+                [translationParams]="{
+                  label: 'paymentForm.securityCode' | cxTranslate
+                }"
                 [control]="paymentForm.get('cvn')"
               ></cx-form-errors>
             </label>
@@ -251,6 +269,9 @@
                       >
                       </ng-select>
                       <cx-form-errors
+                        [translationParams]="{
+                          label: 'addressForm.country' | cxTranslate
+                        }"
                         [control]="billingAddressForm.get('country.isocode')"
                       ></cx-form-errors>
                     </label>
@@ -272,6 +293,9 @@
                     formControlName="firstName"
                   />
                   <cx-form-errors
+                    [translationParams]="{
+                      label: 'addressForm.firstName.label' | cxTranslate
+                    }"
                     [control]="billingAddressForm.get('firstName')"
                   ></cx-form-errors>
                 </label>
@@ -291,6 +315,9 @@
                     formControlName="lastName"
                   />
                   <cx-form-errors
+                    [translationParams]="{
+                      label: 'addressForm.lastName.label' | cxTranslate
+                    }"
                     [control]="billingAddressForm.get('lastName')"
                   ></cx-form-errors>
                 </label>
@@ -310,6 +337,9 @@
                     formControlName="line1"
                   />
                   <cx-form-errors
+                    [translationParams]="{
+                      label: 'addressForm.address1' | cxTranslate
+                    }"
                     [control]="billingAddressForm.get('line1')"
                   ></cx-form-errors>
                 </label>
@@ -343,6 +373,9 @@
                       formControlName="town"
                     />
                     <cx-form-errors
+                      [translationParams]="{
+                        label: 'addressForm.city.label' | cxTranslate
+                      }"
                       [control]="billingAddressForm.get('town')"
                     ></cx-form-errors>
                   </label>
@@ -362,6 +395,9 @@
                       formControlName="postalCode"
                     />
                     <cx-form-errors
+                      [translationParams]="{
+                        label: 'addressForm.zipCode.label' | cxTranslate
+                      }"
                       [control]="billingAddressForm.get('postalCode')"
                     ></cx-form-errors>
                   </label>
@@ -399,6 +435,9 @@
                         >
                         </ng-select>
                         <cx-form-errors
+                          [translationParams]="{
+                            label: 'addressForm.state' | cxTranslate
+                          }"
                           [control]="
                             billingAddressForm.get('region.isocodeShort')
                           "

@@ -30,14 +30,14 @@ export class UserChangePasswordFormService extends FormService<any> {
       'password',
       new UntypedFormControl('', [
         Validators.required,
-        CustomFormValidators.passwordValidator,
+        ...CustomFormValidators.passwordValidators,
       ])
     );
     form.setControl(
       'confirmPassword',
       new UntypedFormControl('', [
         Validators.required,
-        CustomFormValidators.passwordValidator,
+        ...CustomFormValidators.passwordValidators,
       ])
     );
     form.setValidators(

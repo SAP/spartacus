@@ -15,6 +15,9 @@
         }}"
       />
       <cx-form-errors
+        [translationParams]="{
+          label: 'checkoutLogin.emailAddress.label' | cxTranslate
+        }"
         [control]="checkoutLoginForm.get('email')"
       ></cx-form-errors>
     </label>
@@ -36,6 +39,9 @@
         }}"
       />
       <cx-form-errors
+        [translationParams]="{
+          label: 'checkoutLogin.confirmEmail.label' | cxTranslate
+        }"
         [control]="checkoutLoginForm.get('emailConfirmation')"
       ></cx-form-errors>
     </label>

@@ -11,6 +11,9 @@
       (keydown.end)="setSelectionEnd($event)"
     />
     <cx-form-errors
+      [translationParams]="{
+        label: 'asm.customerSearch.searchTerm.label' | cxTranslate
+      }"
       [control]="customerSelectionForm.get('searchTerm')"
     ></cx-form-errors>
   </label>

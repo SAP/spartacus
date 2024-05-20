@@ -3,7 +3,10 @@
     <label class="cx-account-summary-document-filter-form-item">
       <span>{{ 'orgAccountSummary.filter.startRange' | cxTranslate }}</span>
       <ng-container *ngIf="type === 'date'; else inputFrom">
-        <cx-date-picker [control]="formGroup.controls.from"></cx-date-picker>
+        <cx-date-picker
+          [control]="formGroup.controls.from"
+          label="orgAccountSummary.filter.startRange"
+        ></cx-date-picker>
       </ng-container>
       <ng-template #inputFrom>
         <input
@@ -11,14 +14,22 @@
           [type]="type"
           formControlName="from"
         />
-        <cx-form-errors [control]="formGroup.controls.from"></cx-form-errors>
+        <cx-form-errors
+          [translationParams]="{
+            label: 'orgAccountSummary.filter.startRange' | cxTranslate
+          }"
+          [control]="formGroup.controls.from"
+        ></cx-form-errors>
       </ng-template>
     </label>
 
     <label class="cx-account-summary-document-filter-form-item">
       <span>{{ 'orgAccountSummary.filter.endRange' | cxTranslate }}</span>
       <ng-container *ngIf="type === 'date'; else inputTo">
-        <cx-date-picker [control]="formGroup.controls.to"></cx-date-picker>
+        <cx-date-picker
+          [control]="formGroup.controls.to"
+          label="orgAccountSummary.filter.endRange"
+        ></cx-date-picker>
       </ng-container>
       <ng-template #inputTo>
         <input
@@ -26,7 +37,12 @@
           [type]="type"
           formControlName="to"
         />
-        <cx-form-errors [control]="formGroup.controls.to"></cx-form-errors>
+        <cx-form-errors
+          [translationParams]="{
+            label: 'orgAccountSummary.filter.endRange' | cxTranslate
+          }"
+          [control]="formGroup.controls.to"
+        ></cx-form-errors>
       </ng-template>
       <cx-form-errors
         [control]="formGroup"
@@ -56,7 +72,12 @@
         }"
       >
       </ng-select>
-      <cx-form-errors [control]="filterForm.controls.status"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'orgAccountSummary.filter.status' | cxTranslate
+        }"
+        [control]="filterForm.controls.status"
+      ></cx-form-errors>
     </label>
 
     <label class="cx-account-summary-document-filter-form-item">
@@ -74,7 +95,12 @@
         }"
       >
       </ng-select>
-      <cx-form-errors [control]="filterForm.controls.filterBy"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'orgAccountSummary.filter.filterBy' | cxTranslate
+        }"
+        [control]="filterForm.controls.filterBy"
+      ></cx-form-errors>
     </label>
 
     <label
@@ -92,6 +118,9 @@
       >
       </ng-select>
       <cx-form-errors
+        [translationParams]="{
+          label: 'orgAccountSummary.filter.documentType' | cxTranslate
+        }"
         [control]="filterForm.controls.documentType"
       ></cx-form-errors>
     </label>
@@ -106,6 +135,9 @@
         formControlName="documentNumber"
       />
       <cx-form-errors
+        [translationParams]="{
+          label: 'orgAccountSummary.filter.documentNumber' | cxTranslate
+        }"
         [control]="filterForm.controls.documentNumber"
       ></cx-form-errors>
     </label>

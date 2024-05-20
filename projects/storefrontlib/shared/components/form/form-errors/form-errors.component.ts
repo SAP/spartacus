@@ -52,7 +52,12 @@ export class FormErrorsComponent implements DoCheck {
   /**
    * Prefix prepended to the translation key.
    */
-  @Input() prefix = 'formErrors';
+  @Input() prefix = 'formErrors.labeled';
+
+  /**
+   * Fallback prefix prepended to the translation key.
+   */
+  @Input() fallbackPrefix = 'formErrors';
 
   /**
    * Translation params to enrich the error details object.

@@ -10,7 +10,14 @@ import {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-import { EMAIL_PATTERN, PASSWORD_PATTERN } from '@spartacus/core';
+import {
+  EMAIL_PATTERN,
+  MIN_ONE_DIGIT_PATTERN,
+  MIN_ONE_SPECIAL_CHARACTER_PATTERN,
+  MIN_ONE_UPPER_CASE_CHARACTER_PATTERN,
+  MIN_SIX_CHARACTERS_PATTERN,
+  PASSWORD_PATTERN,
+} from '@spartacus/core';
 
 export class CustomFormValidators {
   /**
@@ -48,6 +55,106 @@ export class CustomFormValidators {
       ? null
       : { cxInvalidPassword: true };
   }
+
+  /**
+   * Checks control's value with predefined  at least one upper case character regexp
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses 'cxMinOneUpperCaseCharacter' validator error
+   * @memberof CustomFormValidators
+   */
+  static minOneUpperCaseCharacterValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.value as string;
+
+    return password &&
+      (!password.length || password.match(MIN_ONE_UPPER_CASE_CHARACTER_PATTERN))
+      ? null
+      : { cxMinOneUpperCaseCharacter: true };
+  }
+
+  /**
+   * Checks control's value with predefined  at least one upper case character regexp
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses 'cxMinOneDigit' validator error
+   * @memberof CustomFormValidators
+   */
+  static minOneDigitValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.value as string;
+
+    return password &&
+      (!password.length || password.match(MIN_ONE_DIGIT_PATTERN))
+      ? null
+      : { cxMinOneDigit: true };
+  }
+
+  /**
+   * Checks control's value with predefined  at least one upper case character regexp
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses 'cxMinOneSpecialCharacter' validator error
+   * @memberof CustomFormValidators
+   */
+  static minOneSpecialCharacterValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.value as string;
+
+    return password &&
+      (!password.length || password.match(MIN_ONE_SPECIAL_CHARACTER_PATTERN))
+      ? null
+      : { cxMinOneSpecialCharacter: true };
+  }
+
+  /**
+   * Checks control's value with predefined  at least one upper case character regexp
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses 'cxMinSixCharactersLength' validator error
+   * @memberof CustomFormValidators
+   */
+  static minSixCharactersLengthValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.value as string;
+
+    return password &&
+      (!password.length || password.match(MIN_SIX_CHARACTERS_PATTERN))
+      ? null
+      : { cxMinSixCharactersLength: true };
+  }
+
+  /**
+   * Pack of predefined password validators:
+   * - at least one upper case character
+   * - at least one digit
+   * - at least one special character
+   * - at least six characters length
+   *
+   * @memberof CustomFormValidators
+   */
+  static passwordValidators = [
+    this.minOneDigitValidator,
+    this.minOneUpperCaseCharacterValidator,
+    this.minOneSpecialCharacterValidator,
+    this.minSixCharactersLengthValidator,
+  ];
 
   /**
    * Checks if control's value is between 1 and 5

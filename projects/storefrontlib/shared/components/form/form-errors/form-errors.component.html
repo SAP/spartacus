@@ -2,7 +2,8 @@
   <ng-container *ngIf="!hidden">
     <p *ngFor="let error of errorDetails">
       {{
-        prefix + '.' + error[0] | cxTranslate: getTranslationParams(error[1])
+        [prefix + '.' + error[0], fallbackPrefix + '.' + error[0]]
+          | cxTranslate: getTranslationParams(error[1])
       }}
     </p>
   </ng-container>
