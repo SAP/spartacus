@@ -7,6 +7,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  Address,
   ConverterService,
   HttpParamsURIEncoder,
   Occ,
@@ -46,16 +47,39 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     sessionId: string,
     signature: string,
     userId: string,
-    cartId = CURRENT_CART
+    cartId = CURRENT_CART,
+    billingAddress?: Address
   ): Observable<PaymentDetails> {
-    let params = new HttpParams({ encoder: this.paramEncoder });
-    params = params.append('sid', sessionId);
-    params = params.append('sign', signature);
+    const params = this.getDpHttpParams(sessionId, signature, billingAddress);
     const url = this.occEndpoints.buildUrl('paymentDetails', {
       urlParams: { userId, cartId },
     });
     return this.http
       .post<Occ.PaymentDetails>(url, null, { params: params })
       .pipe(this.converter.pipeable(DP_DETAILS_NORMALIZER));
+  }
+
+  protected getDpHttpParams(
+    sessionId: string,
+    signature: string,
+    billingAddress?: Address
+  ): HttpParams {
+    let params = new HttpParams({ encoder: this.paramEncoder });
+    params = params.append('sid', sessionId);
+    params = params.append('sign', signature);
+    if (billingAddress) {
+      params = params.append('country', billingAddress?.country?.isocode ?? '');
+      params = params.append('firstName', billingAddress?.firstName ?? '');
+      params = params.append('lastName', billingAddress?.lastName ?? '');
+      params = params.append('line1', billingAddress?.line1 ?? '');
+      params = params.append('line2', billingAddress?.line2 ?? '');
+      params = params.append('town', billingAddress?.town ?? '');
+      params = params.append(
+        'region',
+        billingAddress?.region?.isocodeShort ?? ''
+      );
+      params = params.append('postalCode', billingAddress?.postalCode ?? '');
+    }
+    return params;
   }
 }
