@@ -68,6 +68,7 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     params = params.append('sid', sessionId);
     params = params.append('sign', signature);
     if (billingAddress) {
+      params = params.append('billingAddress', true);
       params = params.append('country', billingAddress?.country?.isocode ?? '');
       params = params.append('firstName', billingAddress?.firstName ?? '');
       params = params.append('lastName', billingAddress?.lastName ?? '');
