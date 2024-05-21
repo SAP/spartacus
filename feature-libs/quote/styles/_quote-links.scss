@@ -19,29 +19,25 @@
           border-style: solid;
           border-color: var(--cx-color-light);
           border-width: 0 1px 0 0;
-
-          &:last-child {
-            border: none;
-            padding-inline-end: 0;
-          }
         }
       }
     }
   }
 }
 
-html[dir='rtl'] cx-quote-actions-link {
+html[dir='ltr'] cx-quote-links {
   ul li {
-    border-width: 0 1px 0 0;
+    &:last-child {
+      border: none;
+      padding-inline-end: 0;
+    }
+  }
+}
 
+html[dir='rtl'] cx-quote-links {
+  ul li {
     &:first-child {
       border-width: 0;
-    }
-
-    &:last-child {
-      border-width: 0 1px 0 0;
-      border-style: solid;
-      border-color: var(--cx-color-light);
     }
   }
 }

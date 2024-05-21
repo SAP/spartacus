@@ -17,6 +17,7 @@ import createSpy = jasmine.createSpy;
 const userId = 'user1';
 const cartId = 'cart1';
 const quoteCode = 'quote1';
+const attachmentId = 'attachment1';
 const quoteEntryNumber = 'entryNumber1';
 const pagination = {
   currentPage: 1,
@@ -70,6 +71,11 @@ class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
       of(
         `addQuoteEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`
       )
+  );
+  downloadAttachment = createSpy(
+    'CommerceQuotesAdapter.downloadAttachment'
+  ).and.callFake((userId: string, quoteCode: string, attachmentId: string) =>
+    of(`downloadAttachment-${userId}-${quoteCode}-${attachmentId}`)
   );
 }
 
@@ -212,6 +218,22 @@ describe('QuoteConnector', () => {
       quoteCode,
       'entryNumber1',
       comment
+    );
+  });
+
+  it('downloadAttachment should call adapter', () => {
+    let result;
+    classUnderTest
+      .downloadAttachment(userId, quoteCode, attachmentId)
+      .pipe(take(1))
+      .subscribe((res) => (result = res));
+    expect(result).toBe(
+      `downloadAttachment-${userId}-${quoteCode}-${attachmentId}`
+    );
+    expect(quoteAdapter.downloadAttachment).toHaveBeenCalledWith(
+      userId,
+      quoteCode,
+      attachmentId
     );
   });
 });
