@@ -6,11 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  CmsConfig,
-  FeaturesConfig,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { OpfApplePayModule } from './apple-pay/apple-pay.module';
 import { OpfGooglePayModule } from './google-pay/google-pay.module';
 import { OpfQuickBuyComponent } from './opf-quick-buy.component';
@@ -18,7 +14,7 @@ import { OpfQuickBuyComponent } from './opf-quick-buy.component';
 @NgModule({
   declarations: [OpfQuickBuyComponent],
   providers: [
-    provideDefaultConfig(<CmsConfig | FeaturesConfig>{
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         OpfQuickBuyComponent: {
           component: OpfQuickBuyComponent,

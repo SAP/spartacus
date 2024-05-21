@@ -6,11 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  CmsConfig,
-  FeaturesConfig,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { OpfCtaElementModule } from '../opf-cta-element';
 import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
@@ -18,7 +14,7 @@ import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 @NgModule({
   declarations: [OpfCtaScriptsComponent],
   providers: [
-    provideDefaultConfig(<CmsConfig | FeaturesConfig>{
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         OpfCtaScriptsComponent: {
           component: OpfCtaScriptsComponent,

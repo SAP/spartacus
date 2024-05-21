@@ -228,7 +228,7 @@ export class ApplePayService {
   ): Observable<boolean> {
     if (product.code) {
       return this.cartHandlerService.addProductToCart(
-        product.code as string,
+        product.code,
         quantity,
         this.transactionDetails.deliveryInfo?.pickupDetails?.name
       );
