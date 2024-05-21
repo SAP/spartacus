@@ -1,0 +1,40 @@
+{
+  "name": "estimated-delivery-date",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "feature-libs/estimated-delivery-date",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "./tools/build-lib:augmented-types",
+      "options": {
+        "tsConfig": "feature-libs/estimated-delivery-date/tsconfig.lib.json",
+        "project": "feature-libs/estimated-delivery-date/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/estimated-delivery-date/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/estimated-delivery-date/test.ts",
+        "tsConfig": "feature-libs/estimated-delivery-date/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "feature-libs/estimated-delivery-date/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/estimated-delivery-date/**/*.ts",
+          "feature-libs/estimated-delivery-date/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature"]
+}
