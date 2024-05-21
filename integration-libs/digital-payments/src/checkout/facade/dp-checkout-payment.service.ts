@@ -17,11 +17,10 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
 import { DpPaymentRequest } from '../models/dp-checkout.model';
-import { ActiveCartService } from '@spartacus/cart/base/core';
-import { CURRENT_CART } from '../../utils/dp-constants';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 @Injectable({
   providedIn: 'root',
 })
@@ -32,18 +31,12 @@ export class DpCheckoutPaymentService {
     protected query: QueryService,
     protected userIdService: UserIdService
   ) {}
-  protected activeCartService = inject(ActiveCartService);
+  protected activeCartFacade = inject(ActiveCartFacade);
 
   protected RequestUrlQuery: Query<DpPaymentRequest> = this.query.create(() => {
-    return combineLatest([
-      this.userIdService.takeUserId(),
-      this.activeCartService.getActive(),
-    ]).pipe(
-      switchMap(([userId, cart]) =>
-        this.dpAdapter.createPaymentRequest(
-          userId,
-          userId === OCC_USER_ID_ANONYMOUS ? cart.guid : CURRENT_CART
-        )
+    return this.checkoutPreconditions().pipe(
+      switchMap(([userId, cartId]) =>
+        this.dpAdapter.createPaymentRequest(userId, cartId)
       )
     );
   });
@@ -61,16 +54,13 @@ export class DpCheckoutPaymentService {
     PaymentDetails
   > = this.command.create(
     (payload) =>
-      combineLatest([
-        this.userIdService.takeUserId(),
-        this.activeCartService.getActive(),
-      ]).pipe(
-        switchMap(([userId, cart]) => {
+      this.checkoutPreconditions().pipe(
+        switchMap(([userId, cartId]) => {
           return this.dpAdapter.createPaymentDetails(
             payload.sessionId,
             payload.signature,
             userId,
-            userId === OCC_USER_ID_ANONYMOUS ? cart.guid : CURRENT_CART,
+            cartId,
             payload?.billingAddress
           );
         })
@@ -90,5 +80,28 @@ export class DpCheckoutPaymentService {
       signature,
       billingAddress,
     });
+  }
+
+  /**
+   * Performs the necessary checkout preconditions.
+   */
+  protected checkoutPreconditions(): Observable<[string, string]> {
+    return combineLatest([
+      this.userIdService.takeUserId(),
+      this.activeCartFacade.takeActiveCartId(),
+      this.activeCartFacade.isGuestCart(),
+    ]).pipe(
+      take(1),
+      map(([userId, cartId, isGuestCart]) => {
+        if (
+          !userId ||
+          !cartId ||
+          (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
+        ) {
+          throw new Error('Checkout conditions not met');
+        }
+        return [userId, cartId];
+      })
+    );
   }
 }
