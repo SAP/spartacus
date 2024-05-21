@@ -317,6 +317,10 @@ describe('ConfigureProductComponent', () => {
   });
 
   describe('isConfiguratorTypeReadOnly', () => {
+    beforeEach(() => {
+      setupWithCurrentProductService(true);
+    });
+
     it('should return false in case configurator type is undefined', () => {
       expect(component['isConfiguratorTypeReadOnly'](undefined)).toBe(false);
     });

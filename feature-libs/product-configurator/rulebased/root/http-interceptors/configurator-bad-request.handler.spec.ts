@@ -75,7 +75,7 @@ describe('ConfiguratorBadRequestHandler', () => {
   });
 
   it('should carry high priority', () => {
-    expect(classUnderTest.getPriority()).toBe(Priority.HIGH);
+    expect(classUnderTest.getPriority()).toBe(Priority.NORMAL);
   });
 
   describe('hasMatch', () => {

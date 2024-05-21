@@ -154,6 +154,17 @@ export interface FeatureTogglesInterface {
   a11yCartSummaryHeadingOrder?: boolean;
 
   /**
+   * Improves focus behaviour of 'SearchBoxComponent'.
+   * On mobile, search box will no longer open on focus.
+   */
+  a11ySearchBoxMobileFocus?: boolean;
+
+  /**
+   * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
+   */
+  a11yFacetKeyboardNavigation?: boolean;
+
+  /**
    * Allows users to navigate through the list of units using the arrow keys.
    * Enables keyboard controls inside 'ToggleLinkCellComponent' and
    * adjusts 'ListComponent' styles to accomodate.
@@ -168,9 +179,59 @@ export interface FeatureTogglesInterface {
   a11yCartItemsLinksStyles?: boolean;
 
   /**
+   * If enabled, the "Select this address/payment" button
+   * will not be displayed in `CheckoutPaymentMethodComponent`
+   * and `CheckoutDeliveryAddressComponent` when the address
+   * or payment method is already selected.
+   */
+  a11yHideSelectBtnForSelectedAddrOrPayment?: boolean;
+
+  /**
    * Determines whether the controls in the `CarouselComponent` are focusable and accessible from the keyboard.
    */
   a11yFocusableCarouselControls?: boolean;
+
+  /**
+   * In `CmsGuardsService`, it uses the `GuardsComposer` instead of
+   * calling its own deprecated method `canActivateGuard()`.
+   */
+  cmsGuardsServiceUseGuardsComposer?: boolean;
+
+  /**
+   * In `CartQuickOrderFormComponent` it stops calling the deprecated method
+   * `watchAddEntryFailEvent()`, which listens to the `CartAddEntryFailEvent`.
+   *
+   * It avoids showing an unnecessary duplicated error message on the failure
+   * of adding to the cart.
+   */
+  cartQuickOrderRemoveListeningToFailEvent?: boolean;
+
+  /**
+   * Stops the focus indicator from overflowing and being obstructed by other elements.
+   * Modifies the 'visible-focus' mixin. Includes style changes for:
+   * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent
+   */
+  a11yVisibleFocusOverflows?: boolean;
+
+  /**
+   * When enabled then on mobile(320px) responsive view:
+   * 1. `ProductListComponent` - grid view button is aligned correctly
+   * 2. `QuickOrderFormComponent` - search combobox options are not truncated
+   * 3. `BreadcrumbComponent` - breadcrumb heading is not truncated
+   * 4. `CheckoutProgressMobileTopComponent` - checkout step names do not have huge vertical white space
+   */
+  a11yTruncatedTextForResponsiveView?: boolean;
+
+  /**
+   * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
+   */
+  a11yMyAccountLinkOutline?: boolean;
+
+  /**
+   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
+   * will be fully visible
+   */
+  a11yCloseProductImageBtnFocus?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -200,7 +261,16 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
   a11yCartSummaryHeadingOrder: false,
+  a11ySearchBoxMobileFocus: false,
+  a11yFacetKeyboardNavigation: false,
   a11yUnitsListKeyboardControls: false,
   a11yCartItemsLinksStyles: false,
+  a11yHideSelectBtnForSelectedAddrOrPayment: false,
   a11yFocusableCarouselControls: false,
+  cmsGuardsServiceUseGuardsComposer: false,
+  cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yVisibleFocusOverflows: false,
+  a11yTruncatedTextForResponsiveView: false,
+  a11yMyAccountLinkOutline: false,
+  a11yCloseProductImageBtnFocus: false,
 };

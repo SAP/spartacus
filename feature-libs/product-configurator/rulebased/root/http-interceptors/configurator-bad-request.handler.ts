@@ -26,7 +26,7 @@ export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
   }
 
   getPriority(): Priority {
-    return Priority.HIGH;
+    return Priority.NORMAL;
   }
 
   hasMatch(errorResponse: HttpErrorResponse): boolean {
