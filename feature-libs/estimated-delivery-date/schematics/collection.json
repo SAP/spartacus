@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-estimated-delivery-date/index#addEstimatedDeliveryDateFeature",
+      "description": "Add Estimated Delivery Date feature",
+      "schema": "./add-estimated-delivery-date/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-estimated-delivery-date/index#addEstimatedDeliveryDateFeature",
+      "description": "Add and configure Estimated Delivery Date feature",
+      "schema": "./add-estimated-delivery-date/schema.json"
+    }
+  }
+}

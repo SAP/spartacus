@@ -77,7 +77,6 @@ import { CustomerTicketingFeatureModule } from './features/customer-ticketing/cu
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
 import { QuoteFeatureModule } from './features/quote-feature.module';
-
 import { OpfFeatureModule } from './features/opf/opf-feature.module';
 import { OppsFeatureModule } from './features/opps/opps-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
@@ -96,12 +95,14 @@ import { VariantsFeatureModule } from './features/product/product-variants-featu
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
+import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+
 const featureModules = [];
 
 if (environment.b2b) {
@@ -148,6 +149,9 @@ if (environment.segmentRefs) {
 }
 if (environment.requestedDeliveryDate) {
   featureModules.push(RequestedDeliveryDateFeatureModule);
+}
+if (environment.estimatedDeliveryDate) {
+  featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
 
 @NgModule({
@@ -269,6 +273,7 @@ if (environment.requestedDeliveryDate) {
     // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        showDownloadProposalButton: false,
         showPromotionsInPDP: false,
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
@@ -295,12 +300,18 @@ if (environment.requestedDeliveryDate) {
         a11yListOversizedFocus: true,
         a11yStoreFinderOverflow: true,
         a11yCartSummaryHeadingOrder: true,
+        a11ySearchBoxMobileFocus: true,
+        a11yFacetKeyboardNavigation: true,
         a11yUnitsListKeyboardControls: true,
         a11yCartItemsLinksStyles: true,
         a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11yFocusableCarouselControls: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yVisibleFocusOverflows: true,
+        a11yTruncatedTextForResponsiveView: true,
+        a11yMyAccountLinkOutline: true,
+        a11yCloseProductImageBtnFocus: true,
       };
       return appFeatureToggles;
     }),

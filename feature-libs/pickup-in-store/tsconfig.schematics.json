@@ -203,6 +203,18 @@
       "@spartacus/customer-ticketing/root": [
         "../../feature-libs/customer-ticketing/root/public_api"
       ],
+      "@spartacus/estimated-delivery-date/assets": [
+        "../../feature-libs/estimated-delivery-date/assets/public_api"
+      ],
+      "@spartacus/estimated-delivery-date": [
+        "../../feature-libs/estimated-delivery-date/public_api"
+      ],
+      "@spartacus/estimated-delivery-date/root": [
+        "../../feature-libs/estimated-delivery-date/root/public_api"
+      ],
+      "@spartacus/estimated-delivery-date/show-estimated-delivery-date": [
+        "../../feature-libs/estimated-delivery-date/show-estimated-delivery-date/public_api"
+      ],
       "@spartacus/order/assets": ["../../feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
         "../../feature-libs/order/components/public_api"

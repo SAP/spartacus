@@ -2,7 +2,7 @@
 set -e
 set -o pipefail
 
-EXCLUDE_APPLICATIONS=storefrontapp
+EXCLUDE_APPLICATIONS=storefrontapp,ssr-tests
 EXCLUDE_JEST=storefrontstyles,schematics,setup
 EXCLUDE_INTEGRATION_LIBS=cdc,cds,digital-payments,epd-visualization,s4om
 

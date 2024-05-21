@@ -159,6 +159,7 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
         SPARTACUS_PICKUP_IN_STORE,
+        SPARTACUS_ESTIMATED_DELIVERY_DATE,
       ]);
     });
   });
@@ -207,6 +208,7 @@ describe('Graph utils', () => {
           "CDC-B2B",
           "CDC",
           "SmartEdit",
+          "Estimated-Delivery-Date",
           "Qualtrics",
           "Future-Stock",
           "Product-Variants",
