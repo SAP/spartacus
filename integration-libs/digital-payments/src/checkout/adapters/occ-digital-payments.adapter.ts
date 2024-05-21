@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Address,
   ConverterService,
@@ -20,10 +20,12 @@ import { DpPaymentRequest } from '../models/dp-checkout.model';
 import { DP_DETAILS_NORMALIZER, DP_REQUEST_NORMALIZER } from './converters';
 import { DigitalPaymentsAdapter } from './digital-payments.adapter';
 import { OccDpPaymentRequest } from './occ.models';
+import { DigitalPaymentsConfig } from './config';
 
 @Injectable()
 export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
   private readonly paramEncoder = new HttpParamsURIEncoder();
+  protected config = inject(DigitalPaymentsConfig);
 
   constructor(
     protected http: HttpClient,
@@ -65,21 +67,40 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     billingAddress?: Address
   ): HttpParams {
     let params = new HttpParams({ encoder: this.paramEncoder });
-    params = params.append('sid', sessionId);
-    params = params.append('sign', signature);
+    let paramName = this.config.digitalPayments?.occQueryParams;
+    params = params.append(paramName?.sessionId ?? '', sessionId);
+    params = params.append(paramName?.signature ?? '', signature);
     if (billingAddress) {
-      params = params.append('billingAddress', true);
-      params = params.append('country', billingAddress?.country?.isocode ?? '');
-      params = params.append('firstName', billingAddress?.firstName ?? '');
-      params = params.append('lastName', billingAddress?.lastName ?? '');
-      params = params.append('line1', billingAddress?.line1 ?? '');
-      params = params.append('line2', billingAddress?.line2 ?? '');
-      params = params.append('town', billingAddress?.town ?? '');
+      params = params.append(paramName?.billingAddress ?? '', true);
       params = params.append(
-        'region',
+        paramName?.country ?? '',
+        billingAddress?.country?.isocode ?? ''
+      );
+      params = params.append(
+        paramName?.firstName ?? '',
+        billingAddress?.firstName ?? ''
+      );
+      params = params.append(
+        paramName?.lastName ?? '',
+        billingAddress?.lastName ?? ''
+      );
+      params = params.append(
+        paramName?.line1 ?? '',
+        billingAddress?.line1 ?? ''
+      );
+      params = params.append(
+        paramName?.line2 ?? '',
+        billingAddress?.line2 ?? ''
+      );
+      params = params.append(paramName?.town ?? '', billingAddress?.town ?? '');
+      params = params.append(
+        paramName?.region ?? '',
         billingAddress?.region?.isocodeShort ?? ''
       );
-      params = params.append('postalCode', billingAddress?.postalCode ?? '');
+      params = params.append(
+        paramName?.postalCode ?? '',
+        billingAddress?.postalCode ?? ''
+      );
     }
     return params;
   }
