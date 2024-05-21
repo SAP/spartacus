@@ -269,6 +269,7 @@ if (environment.estimatedDeliveryDate) {
     // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        showDownloadProposalButton: false,
         showPromotionsInPDP: false,
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
