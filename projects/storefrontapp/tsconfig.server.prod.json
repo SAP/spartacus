@@ -121,6 +121,18 @@
       "@spartacus/customer-ticketing/root": [
         "../../dist/customer-ticketing/root"
       ],
+      "@spartacus/estimated-delivery-date/assets": [
+        "../../dist/estimated-delivery-date/assets"
+      ],
+      "@spartacus/estimated-delivery-date": [
+        "../../dist/estimated-delivery-date"
+      ],
+      "@spartacus/estimated-delivery-date/root": [
+        "../../dist/estimated-delivery-date/root"
+      ],
+      "@spartacus/estimated-delivery-date/show-estimated-delivery-date": [
+        "../../dist/estimated-delivery-date/show-estimated-delivery-date"
+      ],
       "@spartacus/order/assets": ["../../dist/order/assets"],
       "@spartacus/order/components": ["../../dist/order/components"],
       "@spartacus/order/core": ["../../dist/order/core"],
