@@ -82,6 +82,7 @@ export class VerificationTokenFormComponent implements OnInit {
   resendOTP(): void {
     this.isResendDisabled = true;
     this.resendLink.nativeElement.tabIndex = -1;
+    this.resendLink.nativeElement.blur();
     this.waitTime = 60;
     this.startWaitTimeInterval();
     this.service
@@ -114,5 +115,12 @@ export class VerificationTokenFormComponent implements OnInit {
       LAUNCH_CALLER.ACCOUNT_VERIFICATION_TOKEN,
       this.element
     );
+  }
+
+  onOpenInfoDailogKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.openInfoDailog();
+    }
   }
 }

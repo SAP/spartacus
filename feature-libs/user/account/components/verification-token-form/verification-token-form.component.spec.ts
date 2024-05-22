@@ -154,6 +154,15 @@ describe('VerificationTokenFormComponent', () => {
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
     });
 
+    it('should display info dialog when keydown', () => {
+      const event = {
+        key: 'Enter',
+        preventDefault: () => {},
+      };
+      component.onOpenInfoDailogKeyDown(event as KeyboardEvent);
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
+    });
+
     it('should resend OTP', () => {
       component.target = 'example@example.com';
       component.password = 'password';
