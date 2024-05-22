@@ -45,7 +45,7 @@ import {
   SPARTACUS_ORDER,
   SPARTACUS_S4OM,
   CPQ_QUOTE_FEATURE_NAME,
-  SPARTACUS_CPQ_QUOTE
+  SPARTACUS_CPQ_QUOTE,
 } from './libs-constants';
 import {
   generateMappings,
@@ -152,7 +152,9 @@ describe('schematics-config-mappings', () => {
       expect(result.get(CDC_B2B_FEATURE_NAME)).toEqual([CDC_ROOT_MODULE]);
       expect(result.get(DIGITAL_PAYMENTS_FEATURE_NAME)).toEqual([]);
       expect(result.get(S4OM_FEATURE_NAME)).toEqual([S4OM_ROOT_MODULE]);
-      expect(result.get(CPQ_QUOTE_FEATURE_NAME)).toEqual([CPQ_QUOTE_ROOT_MODULE]);
+      expect(result.get(CPQ_QUOTE_FEATURE_NAME)).toEqual([
+        CPQ_QUOTE_ROOT_MODULE,
+      ]);
     });
   });
 

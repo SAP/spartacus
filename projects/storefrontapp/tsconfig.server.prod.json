@@ -403,6 +403,10 @@
       ],
       "@spartacus/cdp": ["../../dist/cdp"],
       "@spartacus/cds": ["../../dist/cds"],
+      "@spartacus/cpq-quote/assets": ["../../dist/cpq-quote/assets"],
+      "@spartacus/cpq-quote/discount": ["../../dist/cpq-quote/discount"],
+      "@spartacus/cpq-quote": ["../../dist/cpq-quote"],
+      "@spartacus/cpq-quote/root": ["../../dist/cpq-quote/root"],
       "@spartacus/digital-payments/assets": [
         "../../dist/digital-payments/assets"
       ],
@@ -432,10 +436,7 @@
       "@spartacus/segment-refs/root": ["../../dist/segment-refs/root"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
-      "@spartacus/storefront": ["../../dist/storefrontlib"],
-      "@spartacus/cpq-quote": ["../../dist/cpq-quote"],
-      "@spartacus/cpq-quote/root": ["../../dist/cpq-quote/root"],
-      "@spartacus/cpq-quote/assets": ["../../dist/cpq-quote/assets"]
+      "@spartacus/storefront": ["../../dist/storefrontlib"]
     }
   }
 }

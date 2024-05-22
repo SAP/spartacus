@@ -20,7 +20,9 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
     @Optional()
     @Inject(CartItemContext)
     protected cartItemContext: CartItemContext
-  ) {}
+  ) {
+    console.log("cpq-quo table body");
+  }
   ngOnInit(): void {
     if (this.cartItemContext) {
       this.subscription = this.orderEntry$.subscribe((data) => {

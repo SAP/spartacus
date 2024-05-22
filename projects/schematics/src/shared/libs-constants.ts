@@ -311,8 +311,6 @@ export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 
 export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 
-export const CPQ_QUOTE_FEATURE_NAME = 'cpq-quote';
-
 export const SEGMENT_REFS_FEATURE_NAME = 'Segment-Refs';
 
 export const OPPS_FEATURE_NAME = 'OPPS';
@@ -330,3 +328,4 @@ export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
 export const SPARTACUS_CPQ_QUOTE = '@spartacus/cpq-quote';
 export const SPARTACUS_CPQ_QUOTE_ASSETS = `@spartacus/cpq-quote/assets`;
 export const SPARTACUS_CPQ_QUOTE_ROOT = `@spartacus/cpq-quote/root`;
+export const CPQ_QUOTE_FEATURE_NAME = 'cpq-quote';

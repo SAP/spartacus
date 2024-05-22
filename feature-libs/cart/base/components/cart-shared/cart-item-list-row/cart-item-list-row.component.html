@@ -101,15 +101,14 @@
   </td>
 
   <!-- Quote Discount -->
-  <td role="cell" class="cx-discount" id="cx-discount">
-    <ng-template
+ <td role="cell" class="cx-discount" id="cx-discount" >
+    <ng-template role="cell"
       [cxOutlet]="quoteOutlet.CPQ_QUOTE_MODULE"
       [cxOutletContext]="{
-    items: item, 
+    items: item,
   }"
     ></ng-template>
   </td>
-
   <!-- Total -->
   <ng-container *ngIf="options.isSaveForLater; else total">
     <td role="cell" class="cx-total">

@@ -7,11 +7,11 @@ import {
   SPARTACUS_CDP,
   SPARTACUS_CDS,
   SPARTACUS_CHECKOUT,
-  SPARTACUS_CPQ_QUOTE,
   SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_ESTIMATED_DELIVERY_DATE,
+  SPARTACUS_CPQ_QUOTE,
   SPARTACUS_OPPS,
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
@@ -158,7 +158,7 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT,
         SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_ESTIMATED_DELIVERY_DATE,
-        SPARTACUS_CPQ_QUOTE
+        SPARTACUS_CPQ_QUOTE,
       ]);
     });
   });
@@ -213,7 +213,7 @@ describe('Graph utils', () => {
           "Image-Zoom",
           "Bulk-Pricing",
           "Pickup-In-Store",
-          "Quote"
+          "Quote",
         ]
       `);
     });

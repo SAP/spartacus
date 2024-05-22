@@ -5,9 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CpqQuoteRootdModule } from './root/cpq-quote-root.module';
+import { CpqDiscountModule } from './discount/cpq-discount.module';
 @NgModule({
-  declarations: [],
-  imports: [CpqQuoteRootdModule],
+  imports: [CpqDiscountModule],
 })
-export class CpqQuoteDiscountModule {}
+export class CpqQuoteModule {}
