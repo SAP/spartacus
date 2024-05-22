@@ -26,6 +26,7 @@ import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
+const scssFilePath = 'src/styles/spartacus/estimated-delivery-date.scss';
 
 describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
@@ -176,6 +177,19 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
         const wrapperModule = appTree.readContent(cartBaseWrapperModulePath);
         expect(wrapperModule).toMatchSnapshot();
       });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
+      });
+    });
     });
 
     describe('eager loading', () => {
@@ -203,4 +217,3 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
       });
     });
   });
-});
