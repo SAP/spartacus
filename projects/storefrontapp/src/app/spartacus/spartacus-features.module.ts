@@ -91,7 +91,7 @@ import { FutureStockFeatureModule } from './features/product/product-future-stoc
 import { ImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
-import { QuoteFeatureModule } from './features/quote-feature.module';
+import { QuoteFeatureModule } from './features/quote/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
 import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
@@ -101,7 +101,8 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-
+import { CPQQUOTEFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
+// import { CPQQUOTEFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 const featureModules = [];
 
 if (environment.b2b) {
@@ -148,6 +149,9 @@ if (environment.requestedDeliveryDate) {
 }
 if (environment.estimatedDeliveryDate) {
   featureModules.push(EstimatedDeliveryDateFeatureModule);
+}
+if (environment.cpq) {
+  featureModules.push(CPQQUOTEFeatureModule);
 }
 
 @NgModule({

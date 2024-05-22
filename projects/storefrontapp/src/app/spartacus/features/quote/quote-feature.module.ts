@@ -24,7 +24,8 @@ import {
     provideConfig({
       featureModules: {
         [QUOTE_FEATURE]: {
-          module: () => import('@spartacus/quote').then((m) => m.QuoteModule),
+          module: () =>
+            import('./quote-wrapper.module').then((m) => m.QuoteWrapperModule),
         },
       },
     }),

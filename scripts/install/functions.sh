@@ -205,6 +205,7 @@ function add_spartacus_csr {
     add_estimated_delivery_date
     add_pdf_invoices
     remove_npmrc
+    add_cpq_quote
     )
 }
 
@@ -231,6 +232,7 @@ function add_spartacus_ssr {
     add_estimated_delivery_date
     add_pdf_invoices
     remove_npmrc
+    add_cpq_quote
     )
 }
 
@@ -255,6 +257,7 @@ function add_spartacus_ssr_pwa {
     add_estimated_delivery_date
     add_pdf_invoices
     remove_npmrc
+    add_cpq_quote
     )
 }
 
@@ -786,6 +789,11 @@ function parseInstallArgs {
                 ADD_S4OM=true
                 echo "➖ Added S4OM"
                 shift
+                ;; 
+                cpq-quote)
+                ADD_CPQ_QUOTE=true
+                echo "➖ Added CPQ QUOTE"
+                shift
                 ;;
             rdd)
                 ADD_REQUESTED_DELIVERY_DATE=true
@@ -1015,4 +1023,10 @@ function compareSemver() {
     # If all parts are equal, the versions are equal
     echo 0
     return
+}
+
+function add_cpq_quote {
+  if [ "$ADD_CPQ_QUOTE" = true ] ; then
+        ng add --skip-confirmation @spartacus/cpq-quote@${SPARTACUS_VERSION} --interactive false
+    fi
 }

@@ -39,7 +39,8 @@ const integrationLibsFolders: string[] = [
   'epd-visualization',
   's4om',
   'segment-refs',
-  'opps'
+  'opps',
+  'cpq-quote',
 ];
 
 const commands = [
@@ -65,6 +66,7 @@ const commands = [
   'build qualtrics/schematics',
   'build requested-delivery-date/schematics',
   'build estimated-delivery-date/schematics',
+  'build cpq-quote/schematics',
   'build smartedit/schematics',
   'build storefinder/schematics',
   'build tracking/schematics',
@@ -216,6 +218,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build requested-delivery-date/schematics':
     case 'build estimated-delivery-date/schematics':
     case 'build s4om/schematics':
+    case 'build cpq-quote/schematics':
     case 'build segment-refs/schematics':
     case 'build opps/schematics':
     case 'build smartedit/schematics':

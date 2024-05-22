@@ -69,7 +69,8 @@
       "@spartacus/epd-visualization",
       "@spartacus/s4om",
       "@spartacus/customer-ticketing",
-      "@spartacus/estimated-delivery-date"
+      "@spartacus/estimated-delivery-date",
+      "@spartacus/cpq-quote"
     ]
   },
   "schematics": "./src/collection.json"
