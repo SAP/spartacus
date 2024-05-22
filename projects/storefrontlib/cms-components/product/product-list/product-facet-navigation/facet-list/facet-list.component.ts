@@ -11,13 +11,19 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  Optional,
   Output,
   Renderer2,
+  ViewChild,
+  inject,
 } from '@angular/core';
-import { Facet } from '@spartacus/core';
+import { Facet, FeatureConfigService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
+import { map, tap } from 'rxjs/operators';
+import {
+  FocusConfig,
+  KeyboardFocusService,
+} from '../../../../../layout/a11y/keyboard-focus/index';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetGroupCollapsedState, FacetList } from '../facet.model';
 import { FacetComponent } from '../facet/facet.component';
@@ -30,6 +36,10 @@ import { FacetService } from '../services/facet.service';
 })
 export class FacetListComponent {
   private _isDialog: boolean;
+
+  @ViewChild('backToResultsBtn')
+  backToResultsBtn: ElementRef<HTMLButtonElement>;
+
   /**
    * Indicates that the facet navigation is rendered in dialog.
    */
@@ -49,7 +59,18 @@ export class FacetListComponent {
   @Output() closeList = new EventEmitter();
 
   /** The list of all facet and values related to the products in the list */
-  facetList$: Observable<FacetList> = this.facetService.facetList$;
+  facetList$: Observable<FacetList> = this.facetService.facetList$.pipe(
+    tap((facetList) => {
+      // TODO: (CXSPA-7321) - Remove feature flag next major release
+      const isFeatureEnabled = this.featureConfigService?.isEnabled(
+        'a11yFacetsDialogFocusHandling'
+      );
+      if (!isFeatureEnabled) {
+        return;
+      }
+      this.handleDialogFocus(facetList.facets);
+    })
+  );
 
   iconTypes = ICON_TYPE;
 
@@ -57,12 +78,16 @@ export class FacetListComponent {
     trap: true,
     block: true,
     focusOnEscape: true,
-    autofocus: 'cx-facet',
+    autofocus: 'cx-facet > button',
   };
 
   @HostListener('click') handleClick() {
     this.close();
   }
+  @Optional() focusService = inject(KeyboardFocusService, { optional: true });
+  @Optional() featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   constructor(
     protected facetService: FacetService,
@@ -108,5 +133,30 @@ export class FacetListComponent {
 
   block(event?: MouseEvent) {
     event?.stopPropagation();
+  }
+
+  handleDialogFocus(facets: Facet[]): void {
+    // Only apply new focus for the dialog view
+    if (!this.isDialog) return;
+
+    const focusKey = this.focusService?.get();
+    if (!focusKey) return;
+
+    const focusedFacet = facets.find((facet) =>
+      facet.values?.some((value) => {
+        return value.name === focusKey;
+      })
+    );
+    if (focusedFacet) return;
+
+    if (!facets?.length) {
+      // If there are no facets to display then focus on the "Back To Results" button
+      this.backToResultsBtn?.nativeElement.focus();
+      this.focusService?.clear();
+      return;
+    }
+
+    const firstAvailableFacet = facets[0];
+    this.focusService?.set(firstAvailableFacet.name);
   }
 }
