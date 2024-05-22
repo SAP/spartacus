@@ -10,6 +10,7 @@ import {
   SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
+  SPARTACUS_ESTIMATED_DELIVERY_DATE,
   SPARTACUS_OPPS,
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
@@ -155,6 +156,7 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
         SPARTACUS_PICKUP_IN_STORE,
+        SPARTACUS_ESTIMATED_DELIVERY_DATE,
       ]);
     });
   });
@@ -201,6 +203,7 @@ describe('Graph utils', () => {
           "CDC-B2B",
           "CDC",
           "SmartEdit",
+          "Estimated-Delivery-Date",
           "Qualtrics",
           "Future-Stock",
           "Product-Variants",

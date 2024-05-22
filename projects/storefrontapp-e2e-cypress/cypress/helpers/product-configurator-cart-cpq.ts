@@ -216,38 +216,6 @@ function checkShipToThisAddressDisplayed(): void {
     cy.get('.cx-card-body').should('be.visible');
     cy.get('.cx-card-container').should('be.visible');
     cy.get('.cx-card-actions').should('be.visible');
-    cy.get('.cx-card-actions').within(() => {
-      checkLoadingSpinnerNotDisplayed();
-      cy.get('button.link.cx-action-link').should('exist');
-      cy.get('button.link.cx-action-link').should('be.visible');
-      cy.get('button.link.cx-action-link').contains('Ship');
-      checkLoadingSpinnerNotDisplayed();
-    });
-  });
-}
-
-/**
- * Clicks on 'Ship to this address' button.
- */
-function clickOnShipToThisAddressBtn(): void {
-  cy.log("🛒 Click to the link 'Ship to this address'");
-  cy.get('.cx-delivery-address-card').should('be.visible');
-  cy.get('.cx-delivery-address-card').within(() => {
-    checkLoadingSpinnerNotDisplayed();
-    cy.get('.cx-card-actions').should('be.visible');
-    cy.get('.cx-card-actions').within(() => {
-      checkLoadingSpinnerNotDisplayed();
-      cy.get('button.link.cx-action-link').should('exist');
-      cy.get('button.link.cx-action-link').should('be.visible');
-      cy.get('button.link.cx-action-link').contains('Ship');
-      checkLoadingSpinnerNotDisplayed();
-      cy.get('button.link.cx-action-link')
-        .wait(Cypress.config('defaultCommandTimeout'))
-        .click()
-        .then(() => {
-          checkLoadingSpinnerNotDisplayed();
-        });
-    });
   });
 }
 
@@ -267,7 +235,6 @@ function proceedWithDeliveryAddress(): void {
       checkCostCenterDisplayed();
       checkDeliveryAddressDisplayed();
       checkShipToThisAddressDisplayed();
-      clickOnShipToThisAddressBtn();
     });
 }
 
