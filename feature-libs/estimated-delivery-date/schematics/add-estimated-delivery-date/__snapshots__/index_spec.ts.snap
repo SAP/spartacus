@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery-Date feature eager loading should import appropriate modules 1`] = `""`;
-
 exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery-Date feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
 
 exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery-Date feature general setup should add the feature using the lazy loading syntax 2`] = `
