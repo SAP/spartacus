@@ -190,30 +190,30 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
         });
       });
     });
+  });
+
+  describe('eager loading', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        { ...cartBaseFeatureOptions, lazy: false },
+        appTree
+      );
+
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        { ...estimatedDeliveryDateFeatureOptions, lazy: false },
+        appTree
+      );
     });
 
-    describe('eager loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner.runSchematic(
-          'ng-add',
-          { ...cartBaseFeatureOptions, lazy: false },
-          appTree
-        );
+    it('should import appropriate modules', async () => {
+      const module = appTree.readContent(
+        estimatedDeliveryDateFeatureModulePath
+      );
+      expect(module).toMatchSnapshot();
 
-        appTree = await schematicRunner.runSchematic(
-          'ng-add',
-          { ...estimatedDeliveryDateFeatureOptions, lazy: false },
-          appTree
-        );
-      });
-
-      it('should import appropriate modules', async () => {
-        const module = appTree.readContent(
-          estimatedDeliveryDateFeatureModulePath
-        );
-        expect(module).toMatchSnapshot();
-
-        expect(appTree.readContent(cartBaseWrapperModulePath)).toBeFalsy();
-      });
+      expect(appTree.readContent(cartBaseWrapperModulePath)).toBeFalsy();
     });
   });
+});
