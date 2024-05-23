@@ -75,6 +75,11 @@ extensionModules.push(OpfCheckoutRootModule);
         chunks: checkoutTranslationChunksConfig,
       },
     }),
+    provideConfig({
+      checkout: {
+        guest: true,
+      },
+    }),
     ...extensionProviders,
   ],
 })
