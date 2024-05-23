@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # uncomment below for local testing
-export ENDPOINT_URL_PUBLIC_SPARTACUS=https://spartacusstore.cg79x9wuu9-eccommerc1-d3-public.model-t.myhybris.cloud
-export ENDPOINT_URL_PUBLIC_API=https://api.cg79x9wuu9-eccommerc1-d3-public.model-t.myhybris.cloud
+# export ENDPOINT_URL_PUBLIC_SPARTACUS=https://spartacusstore.cg79x9wuu9-eccommerc1-d3-public.model-t.myhybris.cloud
+# export ENDPOINT_URL_PUBLIC_API=https://api.cg79x9wuu9-eccommerc1-d3-public.model-t.myhybris.cloud
 
 CYPRESS_ROOT_FOLDER="cypress/e2e"
 CYPRESS_OTP_FOLDER="$CYPRESS_ROOT_FOLDER/regression/user_access"
