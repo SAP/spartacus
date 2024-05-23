@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { B2BUnit } from '.';
 import { Address } from './address.model';
+import { B2BUnit } from '.';
 
 export interface Currency {
   active?: boolean;
