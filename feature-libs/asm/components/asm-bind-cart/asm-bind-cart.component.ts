@@ -27,15 +27,15 @@ import {
   OCC_CART_ID_CURRENT,
   RoutingService,
 } from '@spartacus/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import {
   BehaviorSubject,
-  EMPTY,
-  Observable,
-  Subscription,
   combineLatest,
   defer,
+  EMPTY,
   iif,
+  Observable,
+  Subscription,
 } from 'rxjs';
 import {
   concatMap,
