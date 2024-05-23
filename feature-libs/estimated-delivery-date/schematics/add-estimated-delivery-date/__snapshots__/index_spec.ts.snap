@@ -1,16 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Estimated Delivery Date schematics: ng-add Estimated Delivery Date feature eager loading should import appropriate modules 1`] = `""`;
+exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery-Date feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
 
-exports[`Spartacus Estimated Delivery Date schematics: ng-add Estimated Delivery Date feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
+exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery-Date feature general setup should add the feature using the lazy loading syntax 2`] = `
+"import { NgModule } from '@angular/core';
+import { CartBaseModule } from "@spartacus/cart/base";
+import { EstimatedDeliveryDateModule } from "@spartacus/estimated-delivery-date";
 
-exports[`Spartacus Estimated Delivery Date schematics: ng-add Estimated Delivery Date feature general setup styling should create a proper scss file 1`] = `
+@NgModule({
+  declarations: [],
+  imports: [
+    CartBaseModule,
+    EstimatedDeliveryDateModule
+  ]
+})
+export class CartBaseWrapperModule { }
+"
+`;
+
+exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery-Date feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/estimated-delivery-date";
 "
 `;
 
-exports[`Spartacus Estimated Delivery Date schematics: ng-add Estimated Delivery Date feature general setup styling should update angular.json 1`] = `
+exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery-Date feature general setup styling should update angular.json 1`] = `
 "{
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
@@ -51,6 +65,7 @@ exports[`Spartacus Estimated Delivery Date schematics: ng-add Estimated Delivery
             ],
             "styles": [
               "src/styles.scss",
+              "src/styles/spartacus/cart.scss",
               "src/styles/spartacus/estimated-delivery-date.scss"
             ],
             "scripts": [],
@@ -117,6 +132,7 @@ exports[`Spartacus Estimated Delivery Date schematics: ng-add Estimated Delivery
             ],
             "styles": [
               "src/styles.scss",
+              "src/styles/spartacus/cart.scss",
               "src/styles/spartacus/estimated-delivery-date.scss"
             ],
             "scripts": [],
@@ -132,3 +148,5 @@ exports[`Spartacus Estimated Delivery Date schematics: ng-add Estimated Delivery
   }
 }"
 `;
+
+exports[`Spartacus Estimated-Delivery-Date schematics: ng-add eager loading should import appropriate modules 1`] = `""`;
