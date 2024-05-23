@@ -22,7 +22,7 @@
   }
 
   .cx-empty-wish-list {
-    @include type('2', 'normal');
+    text-align: center;
   }
 
   @include media-breakpoint-down(md) {
