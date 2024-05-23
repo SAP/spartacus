@@ -10,6 +10,12 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * In `QuoteLinksComponent` it shows the download button.
+   * API for this button is available in commerce 2211.16 and above
+   */
+  showDownloadProposalButton?: boolean;
+
+  /**
    * In `ProductSummaryComponent` it shows the promotions info.
    */
   showPromotionsInPDP?: boolean;
@@ -207,6 +213,13 @@ export interface FeatureTogglesInterface {
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
 
   /**
+   * Stops the focus indicator from overflowing and being obstructed by other elements.
+   * Modifies the 'visible-focus' mixin. Includes style changes for:
+   * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent
+   */
+  a11yVisibleFocusOverflows?: boolean;
+
+  /**
    * When enabled then on mobile(320px) responsive view:
    * 1. `ProductListComponent` - grid view button is aligned correctly
    * 2. `QuickOrderFormComponent` - search combobox options are not truncated
@@ -228,6 +241,7 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  showDownloadProposalButton: false,
   showPromotionsInPDP: false,
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
@@ -262,6 +276,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yVisibleFocusOverflows: false,
   a11yTruncatedTextForResponsiveView: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
