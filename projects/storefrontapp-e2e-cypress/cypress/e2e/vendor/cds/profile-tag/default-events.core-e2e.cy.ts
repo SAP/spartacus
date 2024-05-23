@@ -439,7 +439,7 @@ describe('Consent Changed', () => {
             win,
             profileTagHelper.EventNames.CONSENT_CHANGED
           )
-        ).to.equal(1);
+        ).to.equal(2);
         const consentRejected = profileTagHelper.getEvent(
           win,
           profileTagHelper.EventNames.CONSENT_CHANGED
@@ -455,11 +455,11 @@ describe('Consent Changed', () => {
           win,
           profileTagHelper.EventNames.CONSENT_CHANGED
         )
-      ).to.equal(2);
+      ).to.equal(3);
       const consentAccepted = profileTagHelper.getEvent(
         win,
         profileTagHelper.EventNames.CONSENT_CHANGED
-      )[1];
+      )[2];
       expect(consentAccepted.data.granted).to.eq(true);
     });
   });

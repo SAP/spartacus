@@ -53,8 +53,8 @@ describe('Custom header additions to occ calls', () => {
           win,
           profileTagHelper.EventNames.CONSENT_CHANGED
         );
-        expect(consentAccepted.length).to.equal(2);
-        expect(consentAccepted[1].data.granted).to.eq(true);
+        expect(consentAccepted.length).to.equal(3);
+        expect(consentAccepted[2].data.granted).to.eq(true);
       });
       cy.get('.Section4 cx-banner').first().find('a').click({ force: true });
       cy.wait(`@${productPage}`)
@@ -85,8 +85,8 @@ describe('Custom header additions to occ calls', () => {
           win,
           profileTagHelper.EventNames.CONSENT_CHANGED
         );
-        expect(consentAccepted.length).to.equal(2);
-        expect(consentAccepted[1].data.granted).to.eq(true);
+        expect(consentAccepted.length).to.equal(3);
+        expect(consentAccepted[2].data.granted).to.eq(true);
       });
       // search for cameras
       createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
