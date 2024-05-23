@@ -7,6 +7,7 @@ on:
       - release-*
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
+
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   GH_TOKEN: ${{ github.token }}
