@@ -415,7 +415,7 @@ describe('Navigation UI Component', () => {
       expect(firstFocusableElement.focus).toHaveBeenCalled();
     }));
 
-    it('return focus to node header after navigationg back', fakeAsync(() => {
+    it('return focus to node header after navigating back', fakeAsync(() => {
       const mockNode = document.createElement('li');
       const mockHeader = document.createElement('a');
       mockHeader.setAttribute('tabindex', '0');

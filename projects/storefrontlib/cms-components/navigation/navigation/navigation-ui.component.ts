@@ -286,7 +286,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       ) {
         const removedNode = this.openNodes.pop();
         setTimeout(() => {
-          console.log(removedNode?.querySelector('[tabindex="0"]'));
           (removedNode?.querySelector('[tabindex="0"]') as HTMLElement).focus();
         }, 0);
       } else {
