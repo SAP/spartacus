@@ -25,6 +25,8 @@ export const defaultOccQuoteConfig: OccConfig = {
         addDiscount: 'users/${userId}/quotes/${quoteCode}/discounts',
         addQuoteEntryComment:
           'users/${userId}/quotes/${quoteCode}/entries/${entryNumber}/comments',
+        downloadAttachment:
+          'users/${userId}/quotes/${quoteCode}/attachments/${attachmentId}',
       },
     },
   },
