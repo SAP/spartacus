@@ -11,15 +11,17 @@ import {
   LoggerService,
   normalizeHttpError,
 } from '@spartacus/core';
-import { OPF_CC_OTP_KEY } from '@spartacus/opf/base/root';
+import {
+  OPF_CC_OTP_KEY,
+  OPF_CC_PUBLIC_KEY,
+  OpfConfig,
+} from '@spartacus/opf/base/root';
 import {
   OPF_PAYMENT_CONFIG_SERIALIZER,
   OpfAdapter,
   OpfEndpointsService,
 } from '@spartacus/opf/checkout/core';
 import {
-  OPF_CC_PUBLIC_KEY,
-  OpfConfig,
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';

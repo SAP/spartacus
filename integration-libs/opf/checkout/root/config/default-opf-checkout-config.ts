@@ -37,7 +37,7 @@ const opfCheckoutSteps = [
 export const defaultOpfCheckoutConfig: CheckoutConfig = {
   checkout: {
     flows: {
-      OPF: {
+      'spa-opf': {
         steps: opfCheckoutSteps,
         guest: false,
       },
