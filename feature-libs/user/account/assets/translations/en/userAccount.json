@@ -25,7 +25,8 @@
     },
     "noReceiveCode": "Didn't receive the code?",
     "verify": "Verify",
-    "back": "Back"
+    "back": "Back",
+    "tokenInputHint": "You can request a new code. A timer starts indicating the seconds left until you can resend your request."
   },
   "verificationTokenDialog": {
     "title": "Didn’t receive the code",
