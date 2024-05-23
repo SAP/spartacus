@@ -9,12 +9,16 @@
       required="true"
       class="form-control"
       formControlName="tokenCode"
-      placeholder="{{
+      [placeholder]="
         'verificationTokenForm.verificationCode.placeholder' | cxTranslate
-      }}"
+      "
+      aria-describedby="tokenInputHint"
     />
     <cx-form-errors [control]="form.get('tokenCode')"></cx-form-errors>
   </label>
+  <span id="tokenInputHint" class="cx-visually-hidden">
+    {{ 'verificationTokenForm.tokenInputHint' | cxTranslate }}
+  </span>
 
   <input type="hidden" formControlName="tokenId" [(ngModel)]="tokenId" />
 
@@ -25,6 +29,7 @@
           role="button"
           tabindex="-1"
           #resendLink
+          (keydown.enter)="resendOTP()"
           (keydown.space)="resendOTP()"
           (click)="resendOTP()"
           class="btn-link"
@@ -45,7 +50,7 @@
         role="button"
         tabindex="0"
         #noReceiveCodeLink
-        (keydown.space)="openInfoDailog()"
+        (keydown)="onOpenInfoDailogKeyDown($event)"
         (click)="openInfoDailog()"
         class="btn-link"
       >
