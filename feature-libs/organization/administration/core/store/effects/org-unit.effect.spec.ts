@@ -3,13 +3,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
+import { FeatureConfigService } from '@spartacus/core';
 import {
   Address,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   EntitiesModel,
-  FeatureConfigService,
   ListModel,
   LoggerService,
   OccConfig,

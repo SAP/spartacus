@@ -12,7 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
+import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -59,7 +59,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
   protected multiCartFacade = inject(MultiCartFacade);
   protected focusService = inject(KeyboardFocusService);
-  protected activeCartFacade = inject(ActiveCartFacade);
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
 
@@ -169,30 +168,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected isQuoteCartActive(): Observable<boolean> {
-    return this.activeCartFacade
-      .getActive()
-      .pipe(map((cart) => cart.quoteCode !== undefined));
-  }
-
-  protected getTranslationKeyForAddToCart(
-    isAddToCart: boolean
-  ): Observable<string> {
-    return this.isQuoteCartActive().pipe(
-      map((isActive) => {
-        if (isActive) {
-          return 'configurator.addToCart.confirmationQuoteUpdate';
-        } else {
-          if (!isAddToCart) {
-            return 'configurator.addToCart.confirmationUpdate';
-          } else {
-            return 'configurator.addToCart.confirmation';
-          }
-        }
-      })
-    );
-  }
-
   /**
    * Performs the navigation to the corresponding location (cart or overview pages).
    *
@@ -210,17 +185,16 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     showMessage: boolean,
     productCode?: string
   ): void {
+    const messageKey = isAdd
+      ? 'configurator.addToCart.confirmation'
+      : 'configurator.addToCart.confirmationUpdate';
     if (isOverview) {
       this.navigateToCart();
     } else {
       this.navigateToOverview(configuratorType, owner, productCode);
     }
     if (showMessage) {
-      this.getTranslationKeyForAddToCart(isAdd)
-        .pipe(take(1))
-        .subscribe((translationKey) => {
-          this.displayConfirmationMessage(translationKey);
-        });
+      this.displayConfirmationMessage(messageKey);
     }
   }
 
@@ -228,18 +202,16 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
    * Decides on the resource key for the button. Depending on the business process (owner of the configuration) and the
    * need for a cart update, the text will differ.
    *
-   * @param routerData - Reflects the current router state
-   * @param configuration - Configuration
-   * @param isQuoteActive - Is quote active
-   * @returns - The resource key that controls the button description
+   * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @returns {string} The resource key that controls the button description
    */
   getButtonResourceKey(
     routerData: ConfiguratorRouter.Data,
-    configuration: Configurator.Configuration,
-    isQuoteActive: boolean | null = false
+    configuration: Configurator.Configuration
   ): string {
     if (
-      (routerData.isOwnerCartEntry || isQuoteActive) &&
+      routerData.isOwnerCartEntry &&
       configuration.isCartEntryUpdateRequired
     ) {
       return 'configurator.addToCart.buttonUpdateCart';
@@ -247,11 +219,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       routerData.isOwnerCartEntry &&
       !configuration.isCartEntryUpdateRequired
     ) {
-      if (isQuoteActive) {
-        return 'configurator.addToCart.buttonForQuote';
-      } else {
-        return 'configurator.addToCart.buttonAfterAddToCart';
-      }
+      return 'configurator.addToCart.buttonAfterAddToCart';
     } else {
       return 'configurator.addToCart.button';
     }
@@ -473,6 +441,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       params: { quoteId: entryKeys.documentId },
     });
   }
+
   /**
    * Navigates to the quote that is attached to the saved cart. At the moment we
    * only support saved carts if linked to quotes.

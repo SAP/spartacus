@@ -11,11 +11,11 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
-  BreakpointService,
   DirectionMode,
   DirectionService,
   HamburgerMenuService,
   ICON_TYPE,
+  BreakpointService,
 } from '@spartacus/storefront';
 import { NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';

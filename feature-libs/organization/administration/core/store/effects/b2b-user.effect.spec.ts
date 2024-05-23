@@ -6,13 +6,13 @@ import { StoreModule } from '@ngrx/store';
 import {
   AuthActions,
   B2BUser,
-  FeatureConfigService,
   LoggerService,
   OccConfig,
   RoutingService,
   SearchConfig,
   UserIdService,
   normalizeHttpError,
+  FeatureConfigService,
 } from '@spartacus/core';
 import {
   OrganizationActions,
