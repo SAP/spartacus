@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,7 +32,12 @@ export class VisualPickingTabComponent implements AfterViewInit {
     );
   }
 
-  selectedProductCodes: string[] = [];
+  public get selectedProductCodes() {
+    return this.visualPickingTabService.selectedProductCodes;
+  }
+  public set selectedProductCodes(selectedProducts: string[]) {
+    this.visualPickingTabService.selectedProductCodes = selectedProducts;
+  }
 
   @ViewChild(VisualViewerComponent, { read: VisualViewerService })
   visualViewerService: VisualViewerService;

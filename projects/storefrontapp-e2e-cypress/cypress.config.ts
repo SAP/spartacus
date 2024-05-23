@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,8 @@ export default defineConfig({
     RECAPTCHA_PUBLIC_KEY: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
     BACK_OFFICE_URL: 'https://40.76.109.9:9002',
     BACK_OFFICE_PREFIX: '/backoffice',
+    MAIL_CCV2_URL: 'http://mail-ccv2.westeurope.azurecontainer.io:8025',
+    MAIL_CCV2_PREFIX: '/api/v2',
   },
   e2e: {
     // We've imported your old cypress plugins here.

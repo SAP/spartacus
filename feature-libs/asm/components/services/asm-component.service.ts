@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
@@ -12,8 +12,12 @@ import {
   AsmDeepLinkService,
   AsmEnablerService,
 } from '@spartacus/asm/root';
-import { AuthService, WindowRef } from '@spartacus/core';
+import { AuthService, RoutingService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  AsmDialogActionEvent,
+  AsmDialogActionType,
+} from '@spartacus/asm/customer-360/root';
 
 @Injectable({
   providedIn: 'root',
@@ -24,43 +28,21 @@ export class AsmComponentService {
   protected showDeeplinkCartInfoAlert$: BehaviorSubject<boolean> =
     new BehaviorSubject(false);
 
-  constructor(
-    authService: AuthService,
-    csAgentAuthService: CsAgentAuthService,
-    winRef: WindowRef,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    asmEnablerService: AsmEnablerService,
-    asmDeepLinkService: AsmDeepLinkService
-  );
-  /**
-   * @deprecated since 7.0 (CXSPA-3090)
-   */
-  constructor(
-    authService: AuthService,
-    csAgentAuthService: CsAgentAuthService,
-    winRef: WindowRef
-  );
+  protected routingService = inject(RoutingService);
+
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
     protected winRef: WindowRef,
-    // TODO(CXSPA-3090): Remove optional flag in 7.0 where service is used
-    @Optional() protected asmEnablerService?: AsmEnablerService,
-    @Optional() protected asmDeepLinkService?: AsmDeepLinkService
-  ) {
-    // TODO(CXSPA-3090): We can remove this in 7.0 and use asmDeepLinkService instead.
-    this.searchparam = new URLSearchParams(this.winRef?.location?.search);
-  }
+    protected asmEnablerService?: AsmEnablerService,
+    protected asmDeepLinkService?: AsmDeepLinkService
+  ) {}
 
   /**
    * Returns a deep link parameter value if it is in the url.
    */
   getSearchParameter(key: string): string | undefined | null {
-    // TODO(CXSPA-3090): Use asmDeepLinkService only in 7.0
-    return (
-      this.asmDeepLinkService?.getSearchParameter(key) ??
-      this.searchparam.get(key)
-    );
+    return this.asmDeepLinkService?.getSearchParameter(key);
   }
 
   isEmulatedByDeepLink(): BehaviorSubject<boolean> {
@@ -108,12 +90,7 @@ export class AsmComponentService {
    * check whether try to emulate customer from deeplink
    */
   isEmulateInURL(): boolean {
-    // TODO(CXSPA-3090): Use asmDeepLinkService only in 7.0
-    return (
-      (this.asmDeepLinkService?.isEmulateInURL() ??
-        this.asmEnablerService?.isEmulateInURL()) ||
-      false
-    );
+    return this.asmDeepLinkService?.isEmulateInURL() || false;
   }
 
   /**
@@ -129,5 +106,14 @@ export class AsmComponentService {
    */
   handleDeepLinkNavigation(parameters = this.getDeepLinkUrlParams()): void {
     this.asmDeepLinkService?.handleNavigation(parameters);
+  }
+
+  handleAsmDialogAction(event: AsmDialogActionEvent | string): void {
+    if (
+      typeof event === 'object' &&
+      event.actionType === AsmDialogActionType.NAVIGATE
+    ) {
+      this.routingService.go(event.route);
+    }
   }
 }

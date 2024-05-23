@@ -15,12 +15,15 @@ import {
 } from '@spartacus/cart/saved-cart/root';
 import {
   FeaturesConfig,
-  FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SiteContextComponentService,
+} from '@spartacus/storefront';
+import { EMPTY, Observable, Subscription, interval, map, of, take } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 const mockCart1: Cart = {
@@ -74,6 +77,16 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+class MockSiteContextComponentService
+  implements Partial<SiteContextComponentService>
+{
+  getActiveItem = () =>
+    interval(100).pipe(
+      map(() => 'en'),
+      take(2)
+    );
+}
+
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
@@ -90,15 +103,20 @@ describe('SavedCartListComponent', () => {
   let savedCartFacade: SavedCartFacade | MockSavedCartFacade;
   let routingService: RoutingService | MockRoutingService;
   let launchDialogService: LaunchDialogService;
+  let siteContextComponentService: SiteContextComponentService;
   let el: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, FeaturesConfigModule],
+      imports: [I18nTestingModule, RouterTestingModule],
       declarations: [SavedCartListComponent, MockUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
+        {
+          provide: SiteContextComponentService,
+          useClass: MockSiteContextComponentService,
+        },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
           provide: FeaturesConfig,
@@ -114,6 +132,7 @@ describe('SavedCartListComponent', () => {
     savedCartFacade = TestBed.inject(SavedCartFacade);
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    siteContextComponentService = TestBed.inject(SiteContextComponentService);
 
     spyOn(launchDialogService, 'openDialog').and.stub();
 
@@ -181,5 +200,61 @@ describe('SavedCartListComponent', () => {
         layoutOption: SavedCartFormType.RESTORE,
       }
     );
+  });
+
+  describe('observeAndReloadSavedCartOnContextChange()', () => {
+    it('should not call getActiveItem() if context is empty array', () => {
+      spyOn(Object, 'values').and.returnValue([]);
+      const getActiveItemSpy = spyOn(
+        siteContextComponentService,
+        'getActiveItem'
+      ).and.callThrough();
+
+      component.ngOnInit();
+
+      expect(getActiveItemSpy).not.toHaveBeenCalled();
+    });
+
+    it('should add subscription if context is not empty array', () => {
+      const subSpy = spyOn(Subscription.prototype, 'add').and.callThrough();
+
+      component.ngOnInit();
+
+      expect(subSpy).toHaveBeenCalled();
+    });
+
+    it('should not add subscription if context is empty array', () => {
+      spyOn(Object, 'values').and.returnValue([]);
+      const subSpy = spyOn(Subscription.prototype, 'add').and.callThrough();
+
+      component.ngOnInit();
+
+      expect(subSpy).not.toHaveBeenCalled();
+    });
+
+    it('should reload saved carts if context changed', () => {
+      const loadSavedCartsSpy = spyOn(
+        savedCartFacade,
+        'loadSavedCarts'
+      ).and.callThrough();
+
+      component.ngOnInit();
+
+      fixture.detectChanges();
+
+      expect(loadSavedCartsSpy).toHaveBeenCalledTimes(2);
+    });
+
+    it('should not reload saved carts if context did not changed', () => {
+      spyOn(siteContextComponentService, 'getActiveItem').and.returnValue(of());
+      const loadSavedCartsSpy = spyOn(
+        savedCartFacade,
+        'loadSavedCarts'
+      ).and.callThrough();
+
+      component.ngOnInit();
+
+      expect(loadSavedCartsSpy).toHaveBeenCalledTimes(1);
+    });
   });
 });

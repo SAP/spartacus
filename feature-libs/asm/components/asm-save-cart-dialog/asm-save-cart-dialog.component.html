@@ -38,31 +38,37 @@
 
       <div class="cx-dialog-content">
         <div class="cx-dialog-row row">
-          <div class="cx-dialog-item col-sm-6 col-md-6 item-left-text">
+          <div
+            class="cx-dialog-item col-sm-6 col-md-6 text-right item-left-text"
+          >
             {{ 'asm.saveCart.dialog.row.id' | cxTranslate }}
           </div>
           <div
-            class="cx-dialog-item col-sm-6 col-md-6 text-right item-right-text"
+            class="cx-dialog-item col-sm-6 col-md-6 text-left item-right-text"
           >
             {{ cart.code }}
           </div>
         </div>
         <div class="cx-dialog-row row">
-          <div class="cx-dialog-item col-sm-6 col-md-6 item-left-text">
+          <div
+            class="cx-dialog-item col-sm-6 col-md-6 text-right item-left-text"
+          >
             {{ 'asm.saveCart.dialog.row.qty' | cxTranslate }}
           </div>
           <div
-            class="cx-dialog-item col-sm-6 col-md-6 text-right item-right-text"
+            class="cx-dialog-item col-sm-6 col-md-6 text-left item-right-text"
           >
             {{ cartQty }}
           </div>
         </div>
         <div class="cx-dialog-row row">
-          <div class="cx-dialog-item col-sm-6 col-md-6 item-left-text">
+          <div
+            class="cx-dialog-item col-sm-6 col-md-6 text-right item-left-text"
+          >
             {{ 'asm.saveCart.dialog.row.total' | cxTranslate }}
           </div>
           <div
-            class="cx-dialog-item col-sm-6 col-md-6 text-right item-right-text"
+            class="cx-dialog-item col-sm-6 col-md-6 text-left item-right-text"
           >
             {{ cart.totalPriceWithTax?.formattedValue }}
           </div>

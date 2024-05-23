@@ -6,7 +6,11 @@ import { PaymentType } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { I18nTestingModule, QueryState } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  I18nTestingModule,
+  QueryState,
+} from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
@@ -18,6 +22,9 @@ import createSpy = jasmine.createSpy;
 })
 class MockSpinnerComponent {}
 
+class MockGlobalMessageService {
+  add = createSpy();
+}
 class MockCheckoutPaymentTypeService
   implements Partial<CheckoutPaymentTypeFacade>
 {
@@ -92,6 +99,10 @@ describe('CheckoutOnePaymentTypeComponent', () => {
             useClass: MockCheckoutStepService,
           },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+          },
         ],
       }).compileComponents();
 
@@ -145,6 +156,10 @@ describe('CheckoutPaymentTypeComponent', () => {
             useClass: MockCheckoutStepService,
           },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+          },
         ],
       }).compileComponents();
 

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import { isNotUndefined, StateUtils, UserIdService } from '@spartacus/core';
-import { EMPTY, Observable, timer } from 'rxjs';
+import { Observable, of, timer } from 'rxjs';
 import {
   debounce,
   distinctUntilChanged,
@@ -76,7 +76,7 @@ export class MultiCartService implements MultiCartFacade {
       // This flickering should only be avoided when switching from false to true
       // Start of loading should be showed instantly (no debounce)
       // Extra actions are only dispatched after some loading
-      debounce((isStable) => (isStable ? timer(0) : EMPTY)),
+      debounce((isStable) => (isStable ? timer(0) : of(undefined))),
       distinctUntilChanged()
     );
   }

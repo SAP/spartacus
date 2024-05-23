@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,6 +34,10 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator/configuration',
           readCpqConfigurationForOrderEntryFull:
             'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/cpqconfigurator/configuration',
+          readCpqConfigurationForQuoteEntryFull:
+            'users/${userId}/quotes/${quoteId}/entries/${quoteEntryNumber}/cpqconfigurator/configuration',
+          readCpqConfigurationForSavedCartEntryFull:
+            'users/${userId}/savedCarts/${savedCartId}/entries/${entryNumber}/cpqconfigurator/configuration',
         },
       },
     },

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { LoggerService } from '@spartacus/core';
+import { REQUEST } from '../../tokens/express.tokens';
 import { EXPRESS_SERVER_LOGGER, ExpressServerLogger } from '../loggers';
 import { ExpressLoggerService } from './express-logger.service';
 import { PrerenderingLoggerService } from './prerendering-logger.service';

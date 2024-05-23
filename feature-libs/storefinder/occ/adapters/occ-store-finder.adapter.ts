@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -79,9 +79,12 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     if (longitudeLatitude) {
       params['longitude'] = String(longitudeLatitude.longitude);
       params['latitude'] = String(longitudeLatitude.latitude);
-      params['radius'] = String(radius);
     } else {
       params['query'] = query;
+    }
+
+    if (radius) {
+      params['radius'] = String(radius);
     }
 
     if (searchConfig?.pageSize) {

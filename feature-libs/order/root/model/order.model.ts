@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,6 @@ import {
   DeliveryMode,
   DeliveryOrderEntryGroup,
   OrderEntry,
-  PaymentDetails,
   PickupOrderEntryGroup,
   PromotionResult,
   Voucher,
@@ -20,6 +19,7 @@ import {
   B2BUser,
   CostCenter,
   PaginationModel,
+  PaymentDetails,
   PointOfService,
   Price,
   Principal,

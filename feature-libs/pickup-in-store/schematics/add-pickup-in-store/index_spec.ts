@@ -10,14 +10,14 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  cartBaseFeatureModulePath,
-  LibraryOptions as SpartacusPickupInStoreOptions,
-  orderFeatureModulePath,
-  pickupInStoreFeatureModulePath,
   PICKUP_IN_STORE_FEATURE_NAME,
-  SpartacusOptions,
   SPARTACUS_PICKUP_IN_STORE,
   SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
+  LibraryOptions as SpartacusPickupInStoreOptions,
+  cartBaseFeatureModulePath,
+  orderFeatureModulePath,
+  pickupInStoreFeatureModulePath,
   storeFinderFeatureModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
@@ -44,10 +44,10 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

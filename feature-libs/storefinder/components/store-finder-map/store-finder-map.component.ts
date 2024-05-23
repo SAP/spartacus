@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { useFeatureStyles } from '@spartacus/core';
 import { GoogleMapRendererService } from '@spartacus/storefinder/core';
 
 @Component({
@@ -28,7 +29,9 @@ export class StoreFinderMapComponent implements OnChanges {
   @Output()
   selectedStoreItem: EventEmitter<number> = new EventEmitter();
 
-  constructor(private googleMapRendererService: GoogleMapRendererService) {}
+  constructor(private googleMapRendererService: GoogleMapRendererService) {
+    useFeatureStyles('a11yStoreFinderOverflow');
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.locations && this.locations) {

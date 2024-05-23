@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { StockConnector } from '../../connectors/index';
@@ -21,6 +21,14 @@ class MockStockConnector {
   loadStockLevelAtStore = () => of({});
 }
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('StockEffect', () => {
   let stockEffects: StockEffect;
   let actions$: Observable<any>;
@@ -35,6 +43,7 @@ describe('StockEffect', () => {
           provide: StockConnector,
           useClass: MockStockConnector,
         },
+        { provide: LoggerService, useClass: MockLoggerService },
         StockEffect,
 
         provideMockActions(() => actions$),
@@ -68,9 +77,13 @@ describe('StockEffect', () => {
       statusText: 'Not Found',
       error: 'Error',
     });
-    spyOn(stockConnector, 'loadStockLevels').and.returnValue(throwError(error));
+    spyOn(stockConnector, 'loadStockLevels').and.returnValue(
+      throwError(() => error)
+    );
     const action = new StockLevel({ productCode: 'P0001', location: '' });
-    const actionFail = new StockLevelFail(normalizeHttpError(error));
+    const actionFail = new StockLevelFail(
+      normalizeHttpError(error, new MockLoggerService())
+    );
 
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: actionFail });

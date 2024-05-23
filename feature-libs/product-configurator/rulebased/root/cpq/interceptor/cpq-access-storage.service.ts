@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,15 +35,18 @@ export class CpqAccessStorageService implements OnDestroy {
   ngOnDestroy(): void {
     this.currentCpqAccessSubscription?.unsubscribe();
     this.currentAuthServiceSubscription?.unsubscribe();
+    this._cpqAccessDataErrorSubscription?.unsubscribe();
   }
 
   protected cpqAccessData$: Observable<CpqAccessData>;
   protected currentCpqAccessSubscription: Subscription;
   protected currentAuthServiceSubscription: Subscription;
   protected _cpqAccessData$: BehaviorSubject<CpqAccessData>;
+  protected _cpqAccessDataError = false;
+  protected _cpqAccessDataErrorSubscription: Subscription | undefined;
 
   getCpqAccessData(): Observable<CpqAccessData> {
-    if (!this.cpqAccessData$ || this._cpqAccessData$.hasError) {
+    if (!this.cpqAccessData$ || this._cpqAccessDataError) {
       this.initCpqAccessData();
     }
     return this.cpqAccessData$;
@@ -73,6 +76,11 @@ export class CpqAccessStorageService implements OnDestroy {
 
   protected initCpqAccessData() {
     this._cpqAccessData$ = new BehaviorSubject(this.EXPIRED_TOKEN);
+    this._cpqAccessDataError = false;
+    this._cpqAccessDataErrorSubscription?.unsubscribe();
+    this._cpqAccessDataErrorSubscription = this._cpqAccessData$.subscribe({
+      error: () => (this._cpqAccessDataError = true),
+    });
     this.cpqAccessData$ = this._cpqAccessData$.pipe(
       // Never expose expired tokens - either cache was invalidated with expired token,
       // or the cached one expired before a new one was fetched.

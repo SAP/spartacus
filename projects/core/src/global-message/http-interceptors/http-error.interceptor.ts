@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,8 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, shareReplay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { shareReplay, tap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { resolveApplicable } from '../../util/applicable';
 import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
@@ -32,11 +32,12 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
-      catchError((response: any) => {
-        if (response instanceof HttpErrorResponse) {
-          this.handleErrorResponse(request, response);
-        }
-        return throwError(response);
+      tap({
+        error: (response: any) => {
+          if (response instanceof HttpErrorResponse) {
+            this.handleErrorResponse(request, response);
+          }
+        },
       })
     );
   }

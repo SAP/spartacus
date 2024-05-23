@@ -1,8 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { PopoverService } from './popover.service';
 import { Component, ElementRef } from '@angular/core';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { FeatureConfigService } from '@spartacus/core';
 import { PopoverEvent } from '@spartacus/storefront';
+import { PopoverService } from './popover.service';
 
 const focusConfig = {
   trap: true,
@@ -14,13 +20,25 @@ const focusConfig = {
 @Component({ template: '<div id="a"></div><div id="b" tabindex="5"></div>' })
 class MockComponent {}
 
+class mockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 describe('PopoverService', () => {
   let service: PopoverService;
   let fixture: ComponentFixture<MockComponent>;
   let el: ElementRef<HTMLElement>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PopoverService],
+      providers: [
+        PopoverService,
+        {
+          provide: FeatureConfigService,
+          useClass: mockFeatureConfigService,
+        },
+      ],
     });
     service = TestBed.inject(PopoverService);
     fixture = TestBed.createComponent(MockComponent);
@@ -51,24 +69,10 @@ describe('PopoverService', () => {
   });
 
   describe('setFocusOnElement', () => {
-    it('should focus on Element with config', () => {
-      service.setFocusOnElement(el, focusConfig, true);
+    it('should restore focus to the element', fakeAsync(() => {
+      service.setFocusOnElement(el);
+      tick();
       expect(el.nativeElement.focus).toHaveBeenCalled();
-    });
-
-    it('should focus on Element with empty config', () => {
-      service.setFocusOnElement(el, {}, true);
-      expect(el.nativeElement.focus).toHaveBeenCalled();
-    });
-
-    it('should not focus on Element without config', () => {
-      service.setFocusOnElement(el, undefined, true);
-      expect(el.nativeElement.focus).not.toHaveBeenCalled();
-    });
-
-    it('should not focus on Element with appendToBody flag set as false', () => {
-      service.setFocusOnElement(el, {}, false);
-      expect(el.nativeElement.focus).not.toHaveBeenCalled();
-    });
+    }));
   });
 });

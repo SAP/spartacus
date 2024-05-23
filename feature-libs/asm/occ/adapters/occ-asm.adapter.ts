@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,7 +29,7 @@ import {
   User,
   normalizeHttpError,
 } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -75,7 +75,9 @@ export class OccAsmAdapter implements AsmAdapter {
     );
 
     return this.http.get<CustomerListsPage>(url, { headers, params }).pipe(
-      catchError((error) => throwError(normalizeHttpError(error, this.logger))),
+      catchError((error) => {
+        throw normalizeHttpError(error, this.logger);
+      }),
       this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER)
     );
   }
@@ -123,7 +125,9 @@ export class OccAsmAdapter implements AsmAdapter {
     );
 
     return this.http.get<CustomerSearchPage>(url, { headers, params }).pipe(
-      catchError((error) => throwError(normalizeHttpError(error, this.logger))),
+      catchError((error) => {
+        throw normalizeHttpError(error, this.logger);
+      }),
       this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER)
     );
   }
@@ -132,12 +136,16 @@ export class OccAsmAdapter implements AsmAdapter {
     const headers = InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,
-      new HttpHeaders()
+      new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     );
-    const params: HttpParams = new HttpParams()
-      .set('baseSite', this.activeBaseSite)
-      .set('cartId', cartId)
-      .set('customerId', customerId);
+    const params: HttpParams = new HttpParams().set(
+      'baseSite',
+      this.activeBaseSite
+    );
+
+    const body = new URLSearchParams();
+    body.set('cartId', cartId);
+    body.set('customerId', customerId);
 
     const url = this.occEndpointsService.buildUrl(
       'asmBindCart',
@@ -148,13 +156,11 @@ export class OccAsmAdapter implements AsmAdapter {
       }
     );
 
-    return this.http
-      .post<void>(url, {}, { headers, params })
-      .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        )
-      );
+    return this.http.post<void>(url, body, { headers, params }).pipe(
+      catchError((error) => {
+        throw normalizeHttpError(error, this.logger);
+      })
+    );
   }
 
   createCustomer(user: CustomerRegistrationForm): Observable<User> {
@@ -172,12 +178,10 @@ export class OccAsmAdapter implements AsmAdapter {
         prefix: false,
       }
     );
-    return this.http
-      .post<User>(url, user, { headers, params })
-      .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        )
-      );
+    return this.http.post<User>(url, user, { headers, params }).pipe(
+      catchError((error) => {
+        throw normalizeHttpError(error, this.logger);
+      })
+    );
   }
 }

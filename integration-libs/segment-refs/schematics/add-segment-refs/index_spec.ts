@@ -10,14 +10,14 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  LibraryOptions as SegmentRefsOptions,
-  segmentRefsFeatureModulePath,
   SEGMENT_REFS_FEATURE_NAME,
-  SpartacusOptions,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SEGMENT_REFS,
-  trackingPersonalizationFeatureModulePath,
+  LibraryOptions as SegmentRefsOptions,
+  SpartacusOptions,
   TRACKING_PERSONALIZATION_FEATURE_NAME,
+  segmentRefsFeatureModulePath,
+  trackingPersonalizationFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -41,10 +41,10 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

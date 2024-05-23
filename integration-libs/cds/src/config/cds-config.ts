@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import { ProfileTagConfig } from './profile-tag.config';
 })
 export abstract class CdsConfig {
   cds?: {
+    baseSite?: string[];
     tenant?: string;
     baseUrl?: string;
     consentTemplateId?: string;

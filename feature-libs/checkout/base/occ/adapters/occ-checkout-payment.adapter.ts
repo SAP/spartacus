@@ -1,29 +1,30 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentAdapter,
   PAYMENT_CARD_TYPE_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/checkout/base/core';
 import {
+  CardType,
   ConverterService,
   HttpParamsURIEncoder,
   LoggerService,
   Occ,
   OccEndpointsService,
   PAYMENT_DETAILS_NORMALIZER,
+  PaymentDetails,
   backOff,
   isJaloError,
   normalizeHttpError,
 } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
@@ -79,9 +80,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
               cartId,
               fromPaymentProvider
             ).pipe(
-              catchError((error) =>
-                throwError(normalizeHttpError(error, this.logger))
-              ),
+              catchError((error) => {
+                throw normalizeHttpError(error, this.logger);
+              }),
               backOff({
                 shouldRetry: isJaloError,
               }),
@@ -104,9 +105,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         {}
       )
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isJaloError,
         })
@@ -128,9 +129,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     return this.http
       .get<Occ.CardTypeList>(this.getPaymentCardTypesEndpoint())
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isJaloError,
         }),
@@ -150,9 +151,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     return this.http
       .get(this.getPaymentProviderSubInfoEndpoint(userId, cartId))
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isJaloError,
         })
@@ -190,9 +191,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         responseType: 'text',
       })
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isJaloError,
         })
@@ -220,9 +221,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         { headers }
       )
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isJaloError,
         })

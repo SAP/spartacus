@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
@@ -24,7 +25,15 @@ const mockUserOrders: OrderHistoryList = {
   sorts: [],
 };
 
-const mockError = 'test-error';
+const mockError = new HttpErrorResponse({ error: 'test-error' });
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 describe('Orders effect', () => {
   let ordersEffect: UnitOrderEffect;
@@ -71,7 +80,7 @@ describe('Orders effect', () => {
 
       it('should handle failures for load user Orders', () => {
         spyOn(orderHistoryConnector, 'getUnitOrderHistory').and.returnValue(
-          throwError(mockError)
+          throwError(() => mockError)
         );
 
         const action = new UnitOrderActions.LoadUnitOrders({
@@ -80,7 +89,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new UnitOrderActions.LoadUnitOrdersFail(
-          normalizeHttpError(mockError)
+          normalizeHttpError(mockError, new MockLoggerService())
         );
         actions$ = hot('-a', { a: action });
 
@@ -126,15 +135,21 @@ describe('Orders effect', () => {
       });
 
       it('should handle failures for load order details', () => {
+        const mockNormalizedError = normalizeHttpError(
+          mockError,
+          new MockLoggerService()
+        );
         spyOn(orderHistoryConnector, 'getUnitOrderDetail').and.returnValue(
-          throwError('Error')
+          throwError(() => mockError)
         );
 
         const action = new UnitOrderActions.LoadOrderDetails(
           mockOrderDetailsParams
         );
 
-        const completion = new UnitOrderActions.LoadOrderDetailsFail(undefined);
+        const completion = new UnitOrderActions.LoadOrderDetailsFail(
+          mockNormalizedError
+        );
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });

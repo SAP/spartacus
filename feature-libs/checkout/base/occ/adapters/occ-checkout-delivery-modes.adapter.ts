@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,7 +20,7 @@ import {
   isJaloError,
   normalizeHttpError,
 } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
@@ -43,9 +43,9 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .put(this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId), {})
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isJaloError,
         })
@@ -73,14 +73,13 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .get<Occ.DeliveryModeList>(this.getDeliveryModesEndpoint(userId, cartId))
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isJaloError,
         }),
-        map((listResponse) => listResponse.deliveryModes),
-        map((modes) => modes ?? []),
+        map((listResponse) => listResponse.deliveryModes ?? []),
         this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER)
       );
   }
@@ -98,9 +97,9 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .delete<unknown>(this.getClearDeliveryModeEndpoint(userId, cartId))
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isJaloError,
         })

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@
 
 export declare const enum OccHttpErrorType {
   NOT_FOUND_ERROR = 'NotFoundError',
+  CLASS_MISMATCH_ERROR = 'ClassMismatchError',
 }
 
 export declare const enum OccHttpErrorReason {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,8 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
-  CartUiEventAddToCart,
+  CartAddEntryFailEvent,
+  CartAddEntrySuccessEvent,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
@@ -26,7 +27,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import {
   filter,
   map,
@@ -36,6 +37,19 @@ import {
   tap,
 } from 'rxjs/operators';
 
+export interface AddedToCartDialogComponentData {
+  productCode: string;
+  quantity: number;
+  numberOfEntriesBeforeAdd: number;
+  pickupStoreName?: string;
+  /**
+   * Observable emitting the result of adding an item to cart. It emits either
+   * {@link CartAddEntrySuccessEvent} or {@link CartAddEntryFailEvent)
+   */
+  addingEntryResult$?: Observable<
+    CartAddEntrySuccessEvent | CartAddEntryFailEvent
+  >;
+}
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
@@ -83,12 +97,13 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
       this.launchDialogService.data$.subscribe(
-        (dialogData: CartUiEventAddToCart) => {
+        (dialogData: AddedToCartDialogComponentData) => {
           this.init(
             dialogData.productCode,
             dialogData.quantity,
             dialogData.numberOfEntriesBeforeAdd,
-            dialogData.pickupStoreName
+            dialogData.pickupStoreName,
+            dialogData.addingEntryResult$
           );
         }
       )
@@ -141,18 +156,46 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     productCode: string,
     quantity: number,
     numberOfEntriesBeforeAdd: number,
-    pickupStoreName?: string
+    pickupStoreName?: string,
+    addingEntryResult$?: Observable<
+      CartAddEntrySuccessEvent | CartAddEntryFailEvent
+    >
   ): void {
     // Display last entry for new product code. This always corresponds to
     // our new item, independently of whether merging occured or not
-    this.entry$ = this.activeCartFacade.getLastEntry(productCode);
+    const productCode$: Observable<string> = addingEntryResult$
+      ? // get the product code from the backend response, because it might be different
+        // from the requested product code. That can e.g. happen for certain kinds of product variants
+        addingEntryResult$.pipe(
+          filter((event) => event instanceof CartAddEntrySuccessEvent),
+          map((event) => {
+            const productCodeFromEntry = (event as CartAddEntrySuccessEvent)
+              .entry?.product?.code;
+            return productCodeFromEntry
+              ? productCodeFromEntry
+              : event.productCode;
+          })
+        )
+      : of(productCode);
+
+    this.entry$ = productCode$.pipe(
+      switchMap((code) => this.activeCartFacade.getLastEntry(code))
+    );
+
     this.quantity = quantity;
+
+    this.pickupStoreName = pickupStoreName;
+
     this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
       numberOfEntriesBeforeAdd
     );
-    this.pickupStoreName = pickupStoreName;
   }
-
+  /**
+   * Determines if the added entry was merged with an existing one.
+   *
+   * @param numberOfEntriesBeforeAdd Number of entries in cart before addToCart has been performed
+   * @returns Has entry been merged?
+   */
   protected getAddedEntryWasMerged(
     numberOfEntriesBeforeAdd: number
   ): Observable<boolean> {

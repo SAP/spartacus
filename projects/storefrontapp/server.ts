@@ -1,43 +1,38 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { APP_BASE_HREF } from '@angular/common';
-import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
   defaultSsrOptimizationOptions,
+  ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
 
-import { Express } from 'express';
-import { existsSync } from 'fs';
+import express from 'express';
+import { existsSync } from 'node:fs';
 import { join } from 'path';
 import 'zone.js/node';
-import { AppServerModule } from './src/main.server';
-
-// Require is used here, because we can't use `import * as express` together with TS esModuleInterop option.
-// And we need to use esModuleInterop option in ssr dev mode, because i18next enforce usage of this option for cjs module.
-const express = require('express');
+import AppServerModule from './src/main.server';
 
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
-  logger: true,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 
 // The Express app is exported so that it can be used by serverless Functions.
-export function app() {
-  const server: Express = express();
+export function app(): express.Express {
+  const server = express();
   const distFolder = join(process.cwd(), 'dist/storefrontapp');
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
-    ? 'index.original.html'
-    : 'index';
+    ? join(distFolder, 'index.original.html')
+    : join(distFolder, 'index.html');
 
   server.set('trust proxy', 'loopback');
 
@@ -96,4 +91,4 @@ if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
   run();
 }
 
-export * from './src/main.server';
+export default AppServerModule;

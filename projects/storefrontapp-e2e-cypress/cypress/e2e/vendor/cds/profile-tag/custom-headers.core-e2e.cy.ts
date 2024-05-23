@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,15 +8,14 @@ import * as anonymousConsents from '../../../../helpers/anonymous-consents';
 import * as checkoutFlow from '../../../../helpers/checkout-flow';
 import { navigation } from '../../../../helpers/navigation';
 import {
+  QUERY_ALIAS,
+  createProductQuery,
+} from '../../../../helpers/product-search';
+import {
   cdsHelper,
   strategyRequestAlias,
 } from '../../../../helpers/vendor/cds/cds';
-import {
-  createProductQuery,
-  QUERY_ALIAS,
-} from '../../../../helpers/product-search';
 import { profileTagHelper } from '../../../../helpers/vendor/cds/profile-tag';
-import _ from 'cypress/types/lodash';
 
 describe('Custom header additions to occ calls', () => {
   describe('verifying X-Consent-Reference header addition to occ calls', () => {
@@ -38,7 +37,7 @@ describe('Custom header additions to occ calls', () => {
     });
 
     it('should not send CR header when consent is not granted initially', () => {
-      cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+      cy.get('.Section4 cx-banner').first().find('a').click({ force: true });
       cy.wait(`@${productPage}`)
         .its('request.headers')
         .should('not.have.deep.property', X_CONSENT_REFERENCE_HEADER);
@@ -57,7 +56,7 @@ describe('Custom header additions to occ calls', () => {
         expect(consentAccepted.length).to.equal(2);
         expect(consentAccepted[1].data.granted).to.eq(true);
       });
-      cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+      cy.get('.Section4 cx-banner').first().find('a').click({ force: true });
       cy.wait(`@${productPage}`)
         .its('request.headers')
         .should('have.deep.property', X_CONSENT_REFERENCE_HEADER);
@@ -70,7 +69,7 @@ describe('Custom header additions to occ calls', () => {
           onBeforeLoad: profileTagHelper.interceptProfileTagJs,
         },
       });
-      cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+      cy.get('.Section4 cx-banner').first().find('a').click({ force: true });
       cy.wait(`@${productPage}`)
         .its('request.headers')
         .should('not.have.deep.property', X_CONSENT_REFERENCE_HEADER);

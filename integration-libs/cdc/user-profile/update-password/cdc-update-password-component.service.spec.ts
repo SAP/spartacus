@@ -129,7 +129,10 @@ describe('CDCUpdatePasswordComponentService', () => {
       beforeEach(() => {
         cdcJsService.updateUserPasswordWithoutScreenSet =
           createSpy().and.returnValue(
-            throwError({ status: 'ERROR', errorDetails: 'Error occured' })
+            throwError(() => ({
+              status: 'ERROR',
+              errorDetails: 'Error occured',
+            }))
           );
         TestBed.compileComponents();
       });

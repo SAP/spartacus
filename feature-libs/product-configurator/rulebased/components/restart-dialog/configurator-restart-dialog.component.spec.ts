@@ -171,13 +171,20 @@ describe('ConfiguratorRestartDialogComponent', () => {
     expect(
       mockConfigCommonsService.forceNewConfiguration
     ).not.toHaveBeenCalled();
-    expect(mockRoutingService.go).toHaveBeenCalledWith({
-      cxRoute: 'configure' + product.configuratorType,
-      params: {
-        ownerType: CommonConfigurator.OwnerType.PRODUCT,
-        entityKey: product.code,
+    expect(mockRoutingService.go).toHaveBeenCalledWith(
+      {
+        cxRoute: 'configure' + product.configuratorType,
+        params: {
+          ownerType: CommonConfigurator.OwnerType.PRODUCT,
+          entityKey: product.code,
+        },
       },
-    });
+      {
+        queryParams: {
+          productCode: product.code,
+        },
+      }
+    );
   });
 
   it('should create a new default config on restart', () => {
@@ -245,6 +252,17 @@ describe('ConfiguratorRestartDialogComponent', () => {
         0,
         'aria-describedby',
         'cx-configurator-restart-dialog-description'
+      );
+    });
+    it("should contain 'role' and 'aria-modal' attributes that indicate that the appeared pop-up is a modal dialog", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-modal-container',
+        0,
+        'aria-modal',
+        'true'
       );
     });
   });

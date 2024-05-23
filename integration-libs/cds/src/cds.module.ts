@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,9 +13,15 @@ import {
   ProfileTagPushEventsService,
   TrackingModule,
 } from './profiletag';
+import { RecentSearchesModule } from './recent-searches/recent-searches.module';
 
 @NgModule({
-  imports: [ProfileTagModule, TrackingModule, MerchandisingModule],
+  imports: [
+    ProfileTagModule,
+    TrackingModule,
+    MerchandisingModule,
+    RecentSearchesModule,
+  ],
 })
 export class CdsModule {
   static forRoot(config?: CdsConfig): ModuleWithProviders<CdsModule> {

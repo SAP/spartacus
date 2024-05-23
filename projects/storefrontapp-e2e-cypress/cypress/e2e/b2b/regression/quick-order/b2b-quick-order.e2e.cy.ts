@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -193,6 +193,7 @@ context('B2B - Quick Order', () => {
       it('should conform to tabbing order for quick order page', () => {
         quickOrder.visitQuickOrderPage();
         quickOrder.addProductToTheList(sampleData.b2bProduct.code);
+        quickOrder.verifyInputHasFocus();
         quickOrder.verifyQuickOrderListQuantity(1);
         quickOrder.verifyQuickOrderPageTabbingOrder();
       });

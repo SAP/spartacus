@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,4 +19,6 @@ export enum CartOutlets {
   ADD_TO_CART_CONTAINER = 'cx-add-to-cart-container',
   PICKUP_INFO = 'cx-pickup-info',
   ADD_TO_CART_PICKUP_OPTION = 'cx-add-to-cart-pickup-option',
+  DELIVERY_MODE = 'cx-delivery-mode',
+  ORDER_OVERVIEW = 'cx-order-overview',
 }
