@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import {
@@ -73,7 +73,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
                 next
               );
             }
-            return throwError(errResponse);
+            throw errResponse;
           })
         );
       })

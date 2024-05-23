@@ -1,13 +1,29 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
-  rule as useDefaultProvideConfig,
-  RULE_NAME as useDefaultProvideConfigName,
-} from './rules/use-default-provide-config';
+  rule as useProvideDefaultConfig,
+  RULE_NAME as useProvideDefaultConfigName,
+} from './rules/use-provide-default-config';
+
+import {
+  rule as useProvideDefaultConfigFactory,
+  RULE_NAME as useProvideDefaultConfigFactoryName,
+} from './rules/use-provide-default-config-factory';
+
+import {
+  rule as useProvideDefaultFeatureToggles,
+  RULE_NAME as useProvideDefaultFeatureTogglesName,
+} from './rules/use-provide-default-feature-toggles';
+
+import {
+  rule as useProvideDefaultFeatureTogglesFactory,
+  RULE_NAME as useProvideDefaultFeatureTogglesFactoryName,
+} from './rules/use-provide-default-feature-toggles-factory';
+
 /**
  * Import your custom workspace rules at the top of this file.
  *
@@ -33,5 +49,11 @@ module.exports = {
    *  [myCustomRuleName]: myCustomRule
    * }
    */
-  rules: { [useDefaultProvideConfigName]: useDefaultProvideConfig },
+  rules: {
+    [useProvideDefaultConfigName]: useProvideDefaultConfig,
+    [useProvideDefaultConfigFactoryName]: useProvideDefaultConfigFactory,
+    [useProvideDefaultFeatureTogglesName]: useProvideDefaultFeatureToggles,
+    [useProvideDefaultFeatureTogglesFactoryName]:
+      useProvideDefaultFeatureTogglesFactory,
+  },
 };

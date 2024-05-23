@@ -11,12 +11,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  epdFeatureModulePath,
   EPD_VISUALIZATION_FEATURE_NAME,
-  SpartacusEpdVisualizationOptions,
-  SpartacusOptions,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_SCHEMATICS,
+  SpartacusEpdVisualizationOptions,
+  SpartacusOptions,
+  epdFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -41,10 +41,10 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

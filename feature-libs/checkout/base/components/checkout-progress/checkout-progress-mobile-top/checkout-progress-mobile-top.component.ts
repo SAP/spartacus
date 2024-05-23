@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import { CheckoutStep } from '@spartacus/checkout/base/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
+import { useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-progress-mobile-top',
@@ -24,7 +25,9 @@ export class CheckoutProgressMobileTopComponent {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService
-  ) {}
+  ) {
+    useFeatureStyles('a11yTruncatedTextForResponsiveView');
+  }
 
   activeStepIndex: number;
   activeStepIndex$: Observable<number> =

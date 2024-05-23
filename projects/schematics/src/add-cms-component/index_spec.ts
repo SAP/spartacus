@@ -18,9 +18,9 @@ import {
 } from '../shared/constants';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 import {
+  InsertDirection,
   commitChanges,
   getTsSourceFile,
-  InsertDirection,
 } from '../shared/utils/file-utils';
 import { CxCmsComponentSchema } from './schema';
 
@@ -95,10 +95,10 @@ describe('add-cms-component', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const defaultOptions: SpartacusOptions = {
@@ -229,6 +229,7 @@ describe('add-cms-component', () => {
         name: 'dummy',
         module: moduleName,
         export: true,
+        standalone: false,
       };
       const modifiedOptions: CxCmsComponentSchema = {
         ...commonCmsOptions,

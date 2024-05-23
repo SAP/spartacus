@@ -12,8 +12,11 @@
       {{ 'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate }}
     </p>
   </div>
-
-  <div *ngIf="isGuestCustomer">
+  <div
+    *ngIf="
+      isGuestCustomer && orderGuid && order?.paymentInfo?.billingAddress?.email
+    "
+  >
     <cx-guest-register-form
       [guid]="orderGuid"
       [email]="order.paymentInfo.billingAddress.email"

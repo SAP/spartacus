@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator
 import { ConfiguratorAttributeInputFieldModule } from '../input-field/configurator-attribute-input-field.module';
 import { ConfiguratorAttributeNumericInputFieldModule } from '../numeric-input-field/configurator-attribute-numeric-input-field.module';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
+import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attrib
     ConfiguratorPriceModule,
     ConfiguratorAttributeNumericInputFieldModule,
     ConfiguratorAttributeInputFieldModule,
+    ConfiguratorShowMoreModule,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{

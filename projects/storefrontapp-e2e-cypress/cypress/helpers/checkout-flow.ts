@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import {
   SampleUser,
   user,
 } from '../sample-data/checkout-flow';
+import { interceptPost } from '../support/utils/intercept';
 import { addProductToCart as addToCart } from './applied-promotions';
 import { login, register } from './auth-forms';
 import {
@@ -172,9 +173,9 @@ export function signOutUser() {
 export function goToProductDetailsPage() {
   cy.visit('/');
   // click big banner
-  cy.get('.Section1 cx-banner').first().find('img').click({ force: true });
+  cy.get('.Section1 cx-banner').first().find('a').click({ force: true });
   // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-banner:nth-of-type(6) img').click({ force: true });
+  cy.get('.Section2 cx-banner:nth-of-type(6) a').click({ force: true });
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', product.code);
   });
@@ -187,13 +188,18 @@ export function addProductToCart() {
   cy.get('cx-item-counter').findByText('+').click();
   addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('.cx-name .cx-link').should('contain', product.name);
-    cy.findByText(/proceed to checkout/i).click();
+    cy.get('div.cx-name a.cx-link').should('contain', product.name);
   });
 }
 
 export function loginUser(sampleUser: SampleUser = user) {
+  const succsesfulLogin = interceptPost(
+    'succsesfulLogin',
+    '/authorizationserver/oauth/token',
+    false
+  );
   login(sampleUser.email, sampleUser.password);
+  cy.wait(succsesfulLogin).its('response.statusCode').should('eq', 200);
 }
 
 export function fillAddressForm(shippingAddressData: AddressData = user) {
@@ -322,7 +328,7 @@ export function goToPaymentDetails() {
 }
 
 export function clickAddNewPayment() {
-  cy.findByText('Add New Payment').click();
+  cy.contains('Add New Payment').click();
 }
 
 export function goToCheapProductDetailsPage(
@@ -336,7 +342,7 @@ export function clickCheapProductDetailsFromHomePage(
   sampleProduct: SampleProduct = cheapProduct
 ) {
   const productPage = waitForProductPage(sampleProduct.code, 'getProductPage');
-  cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+  cy.get('.Section4 cx-banner').first().find('a').click({ force: true });
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', sampleProduct.code);

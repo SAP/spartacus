@@ -8,6 +8,8 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { defaultFeatureToggles } from '../../../core/src/features-config/feature-toggles/config/feature-toggles';
 import {
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
@@ -20,40 +22,40 @@ import { Schema as SpartacusOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
+const schematicRunner = new SchematicTestRunner(
+  SPARTACUS_SCHEMATICS,
+  collectionPath
+);
+
+let appTree: UnitTestTree;
+
+const workspaceOptions: WorkspaceOptions = {
+  name: 'workspace',
+  newProjectRoot: 'projects',
+  version: '0.5.0',
+};
+
+const appOptions: ApplicationOptions = {
+  name: 'schematics-test',
+  inlineStyle: false,
+  inlineTemplate: false,
+  style: Style.Scss,
+  skipTests: false,
+  standalone: false,
+};
+
+const defaultOptions: SpartacusOptions = {
+  project: 'schematics-test',
+  occPrefix: 'xxx',
+  baseSite: 'electronics',
+  baseUrl: 'https://localhost:9002',
+  lazy: true,
+  features: [],
+};
+
+const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;
+
 describe('add-spartacus', () => {
-  const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
-    collectionPath
-  );
-
-  let appTree: UnitTestTree;
-
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    newProjectRoot: 'projects',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    routing: false,
-    style: Style.Scss,
-    skipTests: false,
-  };
-
-  const defaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    occPrefix: 'xxx',
-    baseSite: 'electronics',
-    baseUrl: 'https://localhost:9002',
-    lazy: true,
-    features: [],
-  };
-
-  const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;
-
   beforeEach(async () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
@@ -67,6 +69,38 @@ describe('add-spartacus', () => {
       appOptions,
       appTree
     );
+  });
+
+  it('should throw an error if app.module.ts not found', async () => {
+    let standaloneAppTree: UnitTestTree;
+
+    standaloneAppTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+    standaloneAppTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      { ...appOptions, standalone: true },
+      standaloneAppTree
+    );
+
+    await expect(
+      schematicRunner.runSchematic(
+        'add-spartacus',
+        defaultOptions,
+        standaloneAppTree
+      )
+    ).rejects.toMatchInlineSnapshot(`
+      [Error: File "app.module.ts" not found. Please re-create your application:
+      1. remove your application code
+      2. make sure to pass the flag "--standalone=false" to the command "ng new". For more, see https://angular.io/cli/new#options
+      3. try again installing Spartacus with a command "ng add @spartacus/schematics" ...
+              
+      Note: Since version 17, Angular's command "ng new" by default creates an app without a file "app.module.ts" (in a so-called "standalone" mode). But Spartacus installer requires this file to be present.
+      ]
+    `);
   });
 
   it('should add spartacus deps', async () => {
@@ -84,7 +118,7 @@ describe('add-spartacus', () => {
     expect(depPackageList.includes(SPARTACUS_STYLES)).toBe(true);
   });
 
-  it('Import necessary modules in app.module', async () => {
+  it('should import necessary modules in app.module', async () => {
     const tree = await schematicRunner.runSchematic(
       'add-spartacus',
       defaultOptions,
@@ -95,17 +129,40 @@ describe('add-spartacus', () => {
       '/projects/schematics-test/src/app/app.module.ts'
     );
 
-    const appModuleImports = [
-      `import { HttpClientModule } from "@angular/common/http";`,
-      `import { AppRoutingModule } from "@spartacus/storefront";`,
-      `import { StoreModule } from "@ngrx/store";`,
-      `import { EffectsModule } from "@ngrx/effects";`,
-      `import { SpartacusModule } from './spartacus/spartacus.module';`,
-    ];
-
-    appModuleImports.forEach((appImport) =>
-      expect(appModule.includes(appImport)).toBe(true)
+    expect(appModule).toContain(
+      `import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";`
     );
+    expect(appModule).toContain(
+      `import { AppRoutingModule } from "@spartacus/storefront";`
+    );
+    expect(appModule).toContain(`import { StoreModule } from "@ngrx/store";`);
+    expect(appModule).toContain(
+      `import { EffectsModule } from "@ngrx/effects";`
+    );
+    expect(appModule).toContain(
+      `import { SpartacusModule } from './spartacus/spartacus.module';`
+    );
+
+    expect(appModule).toContain(
+      'provideHttpClient(withFetch(), withInterceptorsFromDi())'
+    );
+  });
+
+  it('should remove local app-routing.module generated by Angular schematics', async () => {
+    const tree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
+
+    const appModule = tree.readContent(
+      '/projects/schematics-test/src/app/app.module.ts'
+    );
+
+    expect(appModule).not.toContain(`./app-routing.module`);
+    expect(
+      tree.exists('/projects/schematics-test/src/app/app-routing.module.ts')
+    ).toBe(false);
   });
 
   describe('Setup configuration', () => {
@@ -425,6 +482,25 @@ describe('add-spartacus', () => {
     });
   });
 
+  it('Should add provideFeatureToggles in SpartacusFeaturesModule', async () => {
+    const tree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
+
+    const featureModuleContent = tree.readContent(
+      `/projects/schematics-test/${spartacusFeaturesModulePath}`
+    );
+
+    expect(featureModuleContent).toContain(`provideFeatureToggles({`);
+
+    const featureTogglesKeys = Object.keys(defaultFeatureToggles);
+    featureTogglesKeys.forEach((key) => {
+      expect(featureModuleContent).toContain(`"${key}": true`);
+    });
+  });
+
   it('Import Spartacus styles to styles.scss', async () => {
     const tree = await schematicRunner.runSchematic(
       'add-spartacus',
@@ -611,5 +687,69 @@ describe('add-spartacus', () => {
           ?.length ?? -1;
       expect(nonProvideConfigOccurrences).toBe(1);
     });
+  });
+});
+
+describe('add-spartacus on Angular app without routing', () => {
+  beforeEach(async () => {
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      { ...appOptions, routing: false }, // disable "routing" for `ng new`
+      appTree
+    );
+  });
+
+  it('should import necessary modules in app.module', async () => {
+    const tree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
+
+    const appModule = tree.readContent(
+      '/projects/schematics-test/src/app/app.module.ts'
+    );
+
+    expect(appModule).toContain(
+      `import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";`
+    );
+    expect(appModule).toContain(
+      `import { AppRoutingModule } from "@spartacus/storefront";`
+    );
+    expect(appModule).toContain(`import { StoreModule } from "@ngrx/store";`);
+    expect(appModule).toContain(
+      `import { EffectsModule } from "@ngrx/effects";`
+    );
+    expect(appModule).toContain(
+      `import { SpartacusModule } from './spartacus/spartacus.module';`
+    );
+
+    expect(appModule).toContain(
+      'provideHttpClient(withFetch(), withInterceptorsFromDi())'
+    );
+  });
+
+  it('should remove local app-routing.module generated by Angular schematics', async () => {
+    const tree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
+
+    const appModule = tree.readContent(
+      '/projects/schematics-test/src/app/app.module.ts'
+    );
+
+    expect(appModule).not.toContain(`./app-routing.module`);
+    expect(
+      tree.exists('/projects/schematics-test/src/app/app-routing.module.ts')
+    ).toBe(false);
   });
 });

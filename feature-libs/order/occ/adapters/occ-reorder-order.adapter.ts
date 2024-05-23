@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,7 @@ import {
 } from '@spartacus/core';
 import { ReorderOrderAdapter } from '@spartacus/order/core';
 import { REORDER_ORDER_NORMALIZER } from '@spartacus/order/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -34,9 +34,9 @@ export class OccReorderOrderAdapter implements ReorderOrderAdapter {
     return this.http
       .post(this.getReorderOrderEndpoint(orderId, userId), {}, { headers })
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         this.converter.pipeable(REORDER_ORDER_NORMALIZER)
       );
   }

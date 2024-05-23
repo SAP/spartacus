@@ -1,15 +1,23 @@
 import { Component, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   ActiveCartFacade,
+  Cart,
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -60,6 +68,14 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   getBackBntText = createSpy().and.returnValue('common.back');
 }
 
+const mockCart: Cart = {
+  code: '123456789',
+  description: 'testCartDescription',
+  name: 'testCartName',
+};
+
+const cart$ = new BehaviorSubject<Cart>(mockCart);
+
 const mockActivatedRoute = {
   snapshot: {
     url: ['checkout', 'delivery-mode'],
@@ -91,10 +107,17 @@ class MockCartService implements Partial<ActiveCartFacade> {
   getDeliveryEntries = () => deliveryEntries$.asObservable();
   hasPickupItems = () => hasPickupItems$.asObservable();
   getPickupEntries = createSpy().and.returnValue(of([]));
+  getActive = () => cart$.asObservable();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
+}
+
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
 }
 
 describe('CheckoutDeliveryModeComponent', () => {
@@ -123,6 +146,7 @@ describe('CheckoutDeliveryModeComponent', () => {
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: ActiveCartFacade, useClass: MockCartService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         ],
       }).compileComponents();
 
@@ -235,6 +259,28 @@ describe('CheckoutDeliveryModeComponent', () => {
     const invalid = component.deliveryModeInvalid;
     expect(invalid).toBe(false);
   });
+
+  it('should refocus on the keyboard selected option after they are updated', fakeAsync(() => {
+    const lastFocusedId = 'standard-gross';
+    const mockEvent = new MouseEvent('click');
+    const mockElement = {
+      focus: jasmine.createSpy('focus'),
+      classList: { remove: jasmine.createSpy('remove') },
+    } as any;
+    component.isUpdating$ = of(false);
+    spyOn(document, 'querySelector').and.returnValue(mockElement);
+    spyOn(document, 'getElementById').and.returnValue(mockElement);
+    spyOn(component.mode, 'setValue');
+
+    component.changeMode(lastFocusedId, mockEvent);
+    tick();
+
+    expect(mockElement.classList.remove).toHaveBeenCalledWith('mouse-focus');
+    expect(mockElement.focus).toHaveBeenCalled();
+    expect(component.mode.setValue).toHaveBeenCalledWith({
+      deliveryModeId: lastFocusedId,
+    });
+  }));
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>

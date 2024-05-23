@@ -4,16 +4,13 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  Country,
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-  Region,
-  Title,
-} from '@spartacus/core';
+import { Country, I18nTestingModule, Region, Title } from '@spartacus/core';
 import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserRegistrationFormComponent } from './user-registration-form.component';
 import { UserRegistrationFormService } from './user-registration-form.service';
@@ -127,20 +124,17 @@ describe('UserRegistrationFormComponent', () => {
           I18nTestingModule,
           FormErrorsModule,
           RouterTestingModule,
-          FeaturesConfigModule,
         ],
-        declarations: [UserRegistrationFormComponent, MockUrlPipe],
+        declarations: [
+          UserRegistrationFormComponent,
+          MockUrlPipe,
+          NgSelectA11yDirective,
+          SpinnerComponent,
+        ],
         providers: [
           {
             provide: UserRegistrationFormService,
             useClass: MockUserRegistrationFormService,
-          },
-          // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.2' },
-            },
           },
         ],
       });

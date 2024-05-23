@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,7 @@ import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { take } from 'rxjs/operators';
-import { ConfiguratorStorefrontUtilsService } from '../service';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-conflict-solver-dialog',

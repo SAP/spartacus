@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,21 +22,27 @@ context('Password Visibility', () => {
       cy.get('button[aria-label="Show password"]').should('be.visible');
 
       //type password and assert
-      cy.get('input[aria-label="Password"]').should(
+      cy.get('input[aria-label="Enter Your Password"]').should(
         'have.attr',
         'type',
         'password'
       );
-      cy.get('input[aria-label="Password"]').type('abc');
-      cy.get('input[aria-label="Password"]').should('have.value', 'abc');
+      cy.get('input[aria-label="Enter Your Password"]').type('abc');
+      cy.get('input[aria-label="Enter Your Password"]').should(
+        'have.value',
+        'abc'
+      );
 
       cy.get('button[aria-label="Show password"]').click();
-      cy.get('input[aria-label="Password"]').should(
+      cy.get('input[aria-label="Enter Your Password"]').should(
         'have.attr',
         'type',
         'text'
       );
-      cy.get('input[aria-label="Password"]').should('have.value', 'abc');
+      cy.get('input[aria-label="Enter Your Password"]').should(
+        'have.value',
+        'abc'
+      );
       cy.get('button[aria-label="Hide password"]').should('be.visible');
     });
 

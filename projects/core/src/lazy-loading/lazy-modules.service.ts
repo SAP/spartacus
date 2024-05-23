@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,24 +14,17 @@ import {
   inject,
 } from '@angular/core';
 import {
-  ConnectableObservable,
+  Connectable,
   Observable,
+  ReplaySubject,
   Subscription,
   combineLatest,
+  connectable,
   from,
   of,
   queueScheduler,
-  throwError,
 } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  map,
-  observeOn,
-  publishReplay,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { concatMap, map, observeOn, switchMap, tap } from 'rxjs/operators';
 import { EventService } from '../event/event.service';
 import { LoggerService } from '../logger';
 import { CombinedInjector } from '../util/combined-injector';
@@ -51,12 +44,15 @@ export class LazyModulesService implements OnDestroy {
   /**
    * Expose lazy loaded module references
    */
-  readonly modules$: Observable<NgModuleRef<any>> = this.events
-    .get(ModuleInitializedEvent)
-    .pipe(
-      map((event) => event.moduleRef),
-      publishReplay()
-    );
+  readonly modules$: Observable<NgModuleRef<any>> = connectable(
+    this.events
+      .get(ModuleInitializedEvent)
+      .pipe(map((event) => event.moduleRef)),
+    {
+      connector: () => new ReplaySubject(),
+      resetOnDisconnect: false,
+    }
+  );
 
   private readonly dependencyModules = new Map<any, NgModuleRef<any>>();
   private readonly eventSubscription: Subscription;
@@ -67,7 +63,7 @@ export class LazyModulesService implements OnDestroy {
     protected events: EventService
   ) {
     this.eventSubscription = (
-      this.modules$ as ConnectableObservable<NgModuleRef<any>>
+      this.modules$ as Connectable<NgModuleRef<any>>
     ).connect();
   }
 
@@ -163,12 +159,13 @@ export class LazyModulesService implements OnDestroy {
       this.runModuleInitializerFunctions(moduleInits);
     if (asyncInitPromises.length) {
       return from(Promise.all(asyncInitPromises)).pipe(
-        catchError((error) => {
-          this.logger.error(
-            'MODULE_INITIALIZER promise was rejected while lazy loading a module.',
-            error
-          );
-          return throwError(error);
+        tap({
+          error: (error) => {
+            this.logger.error(
+              'MODULE_INITIALIZER promise was rejected while lazy loading a module.',
+              error
+            );
+          },
         }),
         switchMap(() => of(moduleRef))
       );

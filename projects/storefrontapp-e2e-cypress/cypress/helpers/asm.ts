@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -144,6 +144,29 @@ export function listenForCustomerCreateRequest(): string {
   );
 }
 
+export function removeCustomerCoupon(
+  customer: string,
+  pwd: string,
+  couponCode: string
+): void {
+  cy.login(customer, pwd).then(() => {
+    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    // remove customer coupon
+    cy.request({
+      method: 'DELETE',
+      url: `${Cypress.env('API_URL')}/${Cypress.env(
+        'OCC_PREFIX'
+      )}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/customercoupons/${couponCode}/claim`,
+      headers: {
+        Authorization: `bearer ${auth.token.access_token}`,
+      },
+      failOnStatusCode: false,
+    });
+  });
+}
+
 export function agentLogin(user, pwd): void {
   cy.get('cx-storefront cx-csagent-login-form').then(($element) => {
     if ($element.length > 0) {
@@ -152,8 +175,14 @@ export function agentLogin(user, pwd): void {
         cy.get('cx-csagent-login-form').should('exist');
         cy.get('cx-customer-selection').should('not.exist');
         cy.get('cx-csagent-login-form form').within(() => {
-          cy.get('[formcontrolname="userId"]').clear().type(user);
-          cy.get('[formcontrolname="password"]').clear().type(pwd);
+          cy.get('[formcontrolname="userId"]')
+            .clear()
+            .type(user, { force: true })
+            .should('have.value', user);
+          cy.get('[formcontrolname="password"]')
+            .clear()
+            .type(pwd, { force: true })
+            .should('have.value', pwd);
           cy.get('button[type="submit"]').click();
         });
       });
@@ -479,6 +508,7 @@ export function loginCustomerInStorefront(customer) {
   cy.wait(authRequest).its('response.statusCode').should('eq', 200);
 }
 
+// It is not recommended to use agentSignOut as it can cause failure in E2E tests related to ASM in the pipeline
 export function agentSignOut() {
   const tokenRevocationAlias = loginHelper.listenForTokenRevocationRequest();
   cy.get('button[title="Sign Out"]').click();
@@ -557,7 +587,7 @@ export function testCustomerEmulation() {
 
     cy.log('--> Stop customer emulation');
     cy.get('cx-customer-emulation')
-      .findByText(/End Emulation/i)
+      .findByText(/End Session/i)
       .click();
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
@@ -580,7 +610,7 @@ export function testCustomerEmulation() {
       '--> Stop customer emulation using the end emulation button in the ASM UI'
     );
     cy.get('cx-customer-emulation')
-      .findByText(/End Emulation/i)
+      .findByText(/End Session/i)
       .click();
     cy.get('cx-customer-emulation').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');

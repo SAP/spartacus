@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,8 +22,8 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
       featureModules: {
         [CUSTOMER_TICKETING_FEATURE]: {
           module: () =>
-            import('@spartacus/customer-ticketing').then(
-              (m) => m.CustomerTicketingModule
+            import('./customer-ticketing-wrapper.module').then(
+              (m) => m.CustomerTicketingWrapperModule
             ),
         },
       },

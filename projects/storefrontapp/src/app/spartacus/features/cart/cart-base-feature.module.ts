@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,9 @@ import { provideConfig } from '@spartacus/core';
       featureModules: {
         [CART_BASE_FEATURE]: {
           module: () =>
-            import('@spartacus/cart/base').then((m) => m.CartBaseModule),
+            import('./cart-base-wrapper.module').then(
+              (m) => m.CartBaseWrapperModule
+            ),
         },
       },
     }),

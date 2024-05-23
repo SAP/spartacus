@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "5.0.0",
+  "version": "2211.23.0",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -12,24 +12,25 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run clean && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
-    "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
+    "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\" && npm run copy-feature-toggles",
+    "copy-feature-toggles": "node copy-feature-toggles",
     "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "@angular/pwa": "^15.2.4",
-    "@nguniversal/express-engine": "^15.2.0",
-    "semver": "^7.5.0",
+    "@angular/pwa": "^17.0.5",
+    "@angular/ssr": "^17.0.5",
+    "semver": "^7.5.2",
     "ts-morph": "^9.1.0",
-    "tslib": "^2.4.0"
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular-devkit/core": "^15.2.4",
-    "@angular-devkit/schematics": "^15.2.4",
-    "@angular/compiler": "^15.2.4",
-    "@schematics/angular": "^15.2.4",
+    "@angular-devkit/core": "^17.0.5",
+    "@angular-devkit/schematics": "^17.0.5",
+    "@angular/compiler": "^17.0.5",
+    "@schematics/angular": "^17.0.5",
     "jsonc-parser": "^3.2.0",
-    "parse5": "^6.0.1",
-    "typescript": "^4.8.2"
+    "parse5": "^7.1.2",
+    "typescript": "^5.2.2"
   },
   "peerDependenciesMeta": {
     "canvas": {
@@ -52,9 +53,11 @@
       "@spartacus/checkout",
       "@spartacus/order",
       "@spartacus/organization",
+      "@spartacus/pdf-invoices",
       "@spartacus/product",
       "@spartacus/product-configurator",
       "@spartacus/qualtrics",
+      "@spartacus/requested-delivery-date",
       "@spartacus/smartedit",
       "@spartacus/storefinder",
       "@spartacus/tracking",
@@ -64,7 +67,9 @@
       "@spartacus/cds",
       "@spartacus/digital-payments",
       "@spartacus/epd-visualization",
-      "@spartacus/customer-ticketing"
+      "@spartacus/s4om",
+      "@spartacus/customer-ticketing",
+      "@spartacus/estimated-delivery-date"
     ]
   },
   "schematics": "./src/collection.json"

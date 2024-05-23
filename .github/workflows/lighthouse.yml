@@ -4,12 +4,12 @@ on:
     branches:
       - develop
       - develop-*
-      - release/**
+      - release-*
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  NODE_VERSION: '16'
+  NODE_VERSION: '20'
 
 concurrency: 
   group: lighthouse-${{ github.head_ref || github.run_id }}
@@ -21,14 +21,14 @@ jobs:
     name: Lighthouse score validation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: | 
             node_modules

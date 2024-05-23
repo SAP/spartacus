@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,27 +12,22 @@ import {
   isDevMode,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import {
-  FeatureConfigService,
-  LoggerService,
-  TranslationService,
-} from '@spartacus/core';
+import { LoggerService, TranslationService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 class DefaultSettings {
   numDecimalPlaces: number;
@@ -58,39 +53,12 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   protected logger = inject(LoggerService);
 
   constructor(
-    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    config: ConfiguratorUISettingsConfig,
-    translation: TranslationService,
-    attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    configuratorCommonsService: ConfiguratorCommonsService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService: FeatureConfigService
-  );
-
-  /**
-   * @deprecated since 6.2
-   */
-  constructor(
-    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    config: ConfiguratorUISettingsConfig,
-    translation: TranslationService,
-    attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    configuratorCommonsService: ConfiguratorCommonsService
-  );
-
-  // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
-  constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
     protected config: ConfiguratorUISettingsConfig,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    @Optional()
-    protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService,
-    // TODO:(CXSPA-3392) for next major release remove feature config service
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
     super(
       config,
@@ -191,20 +159,17 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         negativeAllowed
       );
 
-    // TODO (CXSPA-3392): for next major release remove feature level
-    const validatorArray = this.featureConfigService?.isLevel('6.2')
-      ? [
-          numberFormatValidator,
-          this.configAttributeNumericInputFieldService.getIntervalValidator(
-            this.locale,
-            numDecimalPlaces,
-            numTotalLength,
-            negativeAllowed,
-            this.intervals,
-            this.attribute.userInput
-          ),
-        ]
-      : [numberFormatValidator];
+    const validatorArray = [
+      numberFormatValidator,
+      this.configAttributeNumericInputFieldService.getIntervalValidator(
+        this.locale,
+        numDecimalPlaces,
+        numTotalLength,
+        negativeAllowed,
+        this.intervals,
+        this.attribute.userInput
+      ),
+    ];
 
     this.attributeInputForm = new UntypedFormControl('', validatorArray);
 

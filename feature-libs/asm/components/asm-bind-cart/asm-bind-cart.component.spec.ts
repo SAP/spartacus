@@ -1,5 +1,12 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  Injectable,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AsmBindCartFacade, CsAgentAuthService } from '@spartacus/asm/root';
 import {
@@ -18,7 +25,11 @@ import {
   RoutingService,
   Translatable,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { ProcessesLoaderState } from 'projects/core/src/state/utils/processes-loader';
 import {
   BehaviorSubject,
@@ -30,9 +41,18 @@ import {
 } from 'rxjs';
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { SAVE_CART_DIALOG_ACTION } from '../asm-save-cart-dialog/asm-save-cart-dialog.component';
+import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
 import createSpy = jasmine.createSpy;
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
@@ -107,7 +127,7 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
     return EMPTY;
   }
 }
-
+@Injectable()
 class MockAsmComponentService extends AsmComponentService {
   logoutCustomerSupportAgentAndCustomer(): void {}
   unload() {}
@@ -143,7 +163,13 @@ describe('AsmBindCartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AsmBindCartComponent, MockTranslatePipe],
+      imports: [FormsModule, ReactiveFormsModule],
+      declarations: [
+        AsmBindCartComponent,
+        MockTranslatePipe,
+        MockCxIconComponent,
+        DotSpinnerComponent,
+      ],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
@@ -299,7 +325,9 @@ describe('AsmBindCartComponent', () => {
       it('should alert through global messsages when the bind cart fails', () => {
         const expectedErrorMessage = 'mock-error-message';
         (asmBindCartFacade.bindCart as jasmine.Spy).and.returnValue(
-          throwError({ details: [{ message: expectedErrorMessage }] })
+          throwError(() => ({
+            details: [{ message: expectedErrorMessage }],
+          }))
         );
 
         component.bindCartToCustomer();

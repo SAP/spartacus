@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -548,7 +548,7 @@ function goToProductPage(): Cypress.Chainable<number> {
     productCode,
     'getProductPage'
   );
-  cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+  cy.get('.Section4 cx-banner').first().find('a').click({ force: true });
   return cy
     .wait(`@${productPage}`)
     .its('response.statusCode')

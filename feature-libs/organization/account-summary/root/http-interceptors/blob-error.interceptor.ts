@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,16 +11,18 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
 import { FileReaderService } from '@spartacus/storefront';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BlobErrorInterceptor implements HttpInterceptor {
-  constructor(private fileReaderService: FileReaderService) {}
+  protected readonly fileReaderService = inject(FileReaderService);
+  protected readonly windowRef = inject(WindowRef);
 
   intercept(
     request: HttpRequest<any>,
@@ -29,6 +31,7 @@ export class BlobErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((errResponse: any) => {
         if (
+          this.windowRef.isBrowser() &&
           errResponse instanceof HttpErrorResponse &&
           errResponse.error instanceof Blob &&
           errResponse.error.type === 'application/json'
@@ -38,17 +41,15 @@ export class BlobErrorInterceptor implements HttpInterceptor {
             .pipe(
               switchMap((errorString: any) => {
                 const error = JSON.parse(errorString);
-                return throwError(
-                  new HttpErrorResponse({
-                    ...errResponse,
-                    error,
-                    url: errResponse.url ?? undefined,
-                  })
-                );
+                throw new HttpErrorResponse({
+                  ...errResponse,
+                  error,
+                  url: errResponse.url ?? undefined,
+                });
               })
             );
         } else {
-          return throwError(errResponse);
+          throw errResponse;
         }
       })
     );

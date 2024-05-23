@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable, inject } from '@angular/core';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { LoggerService } from '@spartacus/core';
 import { formatWithOptions } from 'util';
+import { REQUEST } from '../../tokens/express.tokens';
 import { EXPRESS_SERVER_LOGGER } from '../loggers';
 
 /**

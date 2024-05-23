@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -110,10 +110,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
     { value: 'Cost Center', type: TabbingOrderTypes.SELECT },
     { type: TabbingOrderTypes.GENERIC_ELEMENT },
-    {
-      value: 'Ship to this address',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
-    },
     backButton,
     continueButton,
   ],
@@ -517,6 +513,64 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Already registered? Go to Sign in',
       type: TabbingOrderTypes.LINK,
+    },
+  ],
+  quoteDetailsPage: [
+    {
+      value: 'New Cart',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Quotes',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Contact',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'All Products',
+      type: TabbingOrderTypes.SELECT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: 'Send',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cart',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '-',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    {
+      value: 'Remove',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Submit Quote',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel Quote',
+      type: TabbingOrderTypes.BUTTON,
     },
   ],
 };

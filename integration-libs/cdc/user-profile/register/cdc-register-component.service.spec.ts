@@ -25,7 +25,7 @@ import {
   UserRegisterFacade,
   UserSignUp,
 } from '@spartacus/user/profile/root';
-import { Observable, of, throwError } from 'rxjs';
+import { config, Observable, of, throwError } from 'rxjs';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
 import createSpy = jasmine.createSpy;
 
@@ -105,6 +105,22 @@ describe('CdcRegisterComponentService', () => {
   let cdcConsentManagementService: CdcConsentManagementComponentService;
   let fb: UntypedFormBuilder;
   let anonymousConsentsService: AnonymousConsentsService;
+
+  // TODO: CXSPA-4870 verify if can be avoided
+  let originalOnUnhandledError: ((err: any) => void) | null;
+
+  beforeAll(() => {
+    // configure rxjs to not crash node instance with thrown errors
+    // TODO: CXSPA-4870 verify if can be avoided
+    originalOnUnhandledError = config.onUnhandledError;
+    config.onUnhandledError = () => {};
+  });
+
+  afterAll(() => {
+    // reset rxjs configuration
+    // TODO: CXSPA-4870 verify if can be avoided
+    config.onUnhandledError = originalOnUnhandledError;
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -233,7 +249,7 @@ describe('CdcRegisterComponentService', () => {
 
     it('should not do anything when CDC registration fails', (done) => {
       cdcJsService.registerUserWithoutScreenSet = createSpy().and.returnValue(
-        throwError('ERROR')
+        throwError(() => 'ERROR')
       );
       cdcUserRegisterService.generatePreferencesObject =
         createSpy().and.returnValue({});

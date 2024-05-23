@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,6 +29,8 @@ export default defineConfig({
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
+    MAIL_CCV2_URL: 'http://mail-ccv2.westeurope.azurecontainer.io:8025',
+    MAIL_CCV2_PREFIX: '/api/v2',
     RECAPTCHA_PUBLIC_KEY: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
     BACK_OFFICE_URL: 'https://20.83.184.244:9002',
     BACK_OFFICE_PREFIX: '/backoffice',

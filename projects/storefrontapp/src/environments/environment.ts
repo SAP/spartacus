@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,9 +26,15 @@ export const environment: Environment = {
   cds: buildProcess.env.CX_CDS ?? false,
   b2b: buildProcess.env.CX_B2B ?? false,
   cdc: buildProcess.env.CX_CDC ?? false,
+  cdp: buildProcess.env.CX_CDP ?? false,
   cpq: buildProcess.env.CX_CPQ ?? false,
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS ?? false,
   epdVisualization: buildProcess.env.CX_EPD_VISUALIZATION ?? false,
   s4om: buildProcess.env.CX_S4OM ?? false,
   segmentRefs: buildProcess.env.CX_SEGMENT_REFS ?? false,
+  opps: buildProcess.env.CX_OPPS ?? false,
+  requestedDeliveryDate: buildProcess.env.CX_REQUESTED_DELIVERY_DATE ?? false,
+  estimatedDeliveryDate: buildProcess.env.CX_ESTIMATED_DELIVERY_DATE ?? false,
+  pdfInvoices: buildProcess.env.CX_PDF_INVOICES ?? false,
+  myAccountV2: buildProcess.env.CX_MY_ACCOUNT_V2 ?? false,
 };

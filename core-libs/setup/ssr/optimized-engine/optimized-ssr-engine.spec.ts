@@ -138,6 +138,19 @@ describe('OptimizedSsrEngine', () => {
     });
   });
   describe('logOptions', () => {
+    let dateSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      const mockDate = new Date('2023-01-01');
+      dateSpy = jest
+        .spyOn(global, 'Date')
+        .mockImplementationOnce(() => mockDate);
+    });
+
+    afterEach(() => {
+      dateSpy.mockReset();
+    });
+
     it('should log the provided options', () => {
       new TestEngineRunner({
         timeout: 50,
@@ -146,14 +159,22 @@ describe('OptimizedSsrEngine', () => {
 
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
         [
-          "[spartacus] SSR optimization engine initialized with the following options: {
-          "concurrency": 10,
-          "timeout": 50,
-          "forcedSsrTimeout": 60000,
-          "maxRenderTime": 300000,
-          "reuseCurrentRendering": true,
-          "debug": false,
-          "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR"
+          "{
+          "message": "[spartacus] SSR optimization engine initialized",
+          "context": {
+            "timestamp": "2023-01-01T00:00:00.000Z",
+            "options": {
+              "cacheSize": 3000,
+              "concurrency": 10,
+              "timeout": 50,
+              "forcedSsrTimeout": 60000,
+              "maxRenderTime": 300000,
+              "reuseCurrentRendering": true,
+              "debug": false,
+              "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR",
+              "logger": "DefaultExpressServerLogger"
+            }
+          }
         }",
         ]
       `);
@@ -1176,66 +1197,73 @@ describe('OptimizedSsrEngine', () => {
   });
 
   describe('logger option', () => {
-    it('should use ExpressServerLogger if logger is true', () => {
-      jest.useFakeTimers().setSystemTime(new Date('2023-05-26'));
-      new TestEngineRunner({
-        logger: true,
-      });
+    let dateSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      const mockDate = new Date('2023-01-01');
+      dateSpy = jest
+        .spyOn(global, 'Date')
+        .mockImplementationOnce(() => mockDate);
+    });
+
+    afterEach(() => {
+      dateSpy.mockReset();
+    });
+
+    it('should use the default server logger, if custom logger is not specified', () => {
+      new TestEngineRunner({});
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
         [
           "{
           "message": "[spartacus] SSR optimization engine initialized",
           "context": {
-            "timestamp": "2023-05-26T00:00:00.000Z",
+            "timestamp": "2023-01-01T00:00:00.000Z",
             "options": {
+              "cacheSize": 3000,
               "concurrency": 10,
               "timeout": 3000,
               "forcedSsrTimeout": 60000,
               "maxRenderTime": 300000,
               "reuseCurrentRendering": true,
               "debug": false,
-              "logger": true
+              "renderingStrategyResolver": "(request) => {\\n    if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {\\n        return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;\\n    }\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}",
+              "logger": "DefaultExpressServerLogger"
             }
           }
         }",
         ]
       `);
     });
+
     it('should use the provided logger', () => {
       new TestEngineRunner({
         logger: new MockExpressServerLogger() as ExpressServerLogger,
       });
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-              [
-                "[spartacus] SSR optimization engine initialized",
-                {
-                  "options": {
-                    "concurrency": 10,
-                    "debug": false,
-                    "forcedSsrTimeout": 60000,
-                    "logger": "MockExpressServerLogger",
-                    "maxRenderTime": 300000,
-                    "reuseCurrentRendering": true,
-                    "timeout": 3000,
-                  },
+            [
+              "[spartacus] SSR optimization engine initialized",
+              {
+                "options": {
+                  "cacheSize": 3000,
+                  "concurrency": 10,
+                  "debug": false,
+                  "forcedSsrTimeout": 60000,
+                  "logger": "MockExpressServerLogger",
+                  "maxRenderTime": 300000,
+                  "renderingStrategyResolver": "(request) => {
+                if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
+                    return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;
+                }
+                return shouldFallbackToCsr(request, options)
+                    ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
+                    : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
+            }",
+                  "reuseCurrentRendering": true,
+                  "timeout": 3000,
                 },
-              ]
-            `);
-    });
-    it('should use the legacy server logger, if logger option not specified', () => {
-      new TestEngineRunner({});
-      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-        [
-          "[spartacus] SSR optimization engine initialized with the following options: {
-          "concurrency": 10,
-          "timeout": 3000,
-          "forcedSsrTimeout": 60000,
-          "maxRenderTime": 300000,
-          "reuseCurrentRendering": true,
-          "debug": false
-        }",
-        ]
-      `);
+              },
+            ]
+                  `);
     });
   });
 });

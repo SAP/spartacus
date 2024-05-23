@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ export * from './configurable-routes/index';
 export * from './external-routes/index';
 export * from './facade/routing-params.service';
 export * from './facade/routing.service';
+export * from './location-initialized-multi/location-initialized-multi';
 export * from './models/cms-route';
 export * from './models/page-context.model';
 export * from './protected-routes/index';

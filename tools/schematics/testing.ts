@@ -1,15 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import chalk from 'chalk';
 import { ChildProcess, exec, execSync } from 'child_process';
 import { prompt } from 'enquirer';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
+import {chalk} from "../chalk";
 
 const featureLibsFolders: string[] = [
   'asm',
@@ -17,14 +17,18 @@ const featureLibsFolders: string[] = [
   'order',
   'checkout',
   'organization',
+  'pdf-invoices',
   'pickup-in-store',
   'product',
   'product-configurator',
   'qualtrics',
+  'requested-delivery-date',
+  'estimated-delivery-date',
   'smartedit',
   'storefinder',
   'tracking',
   'user',
+  'quote',
   'customer-ticketing',
 ];
 
@@ -35,6 +39,7 @@ const integrationLibsFolders: string[] = [
   'epd-visualization',
   's4om',
   'segment-refs',
+  'opps'
 ];
 
 const commands = [
@@ -44,17 +49,22 @@ const commands = [
   'build cart/schematics',
   'build order/schematics',
   'build checkout/schematics',
+  'build quote/schematics',
   'build cdc/schematics',
   'build cds/schematics',
   'build digital-payments/schematics',
   'build epd-visualization/schematics',
   'build organization/schematics',
+  'build pdf-invoices/schematics',
   'build pickup-in-store/schematics',
   'build product/schematics',
   'build product-configurator/schematics',
   'build s4om/schematics',
   'build segment-refs/schematics',
+  'build opps/schematics',
   'build qualtrics/schematics',
+  'build requested-delivery-date/schematics',
+  'build estimated-delivery-date/schematics',
   'build smartedit/schematics',
   'build storefinder/schematics',
   'build tracking/schematics',
@@ -192,17 +202,22 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build cart/schematics':
     case 'build order/schematics':
     case 'build checkout/schematics':
+    case 'build quote/schematics':
     case 'build cdc/schematics':
     case 'build cds/schematics':
     case 'build digital-payments/schematics':
     case 'build epd-visualization/schematics':
     case 'build organization/schematics':
+    case 'build pdf-invoices/schematics':
     case 'build pickup-in-store/schematics':
     case 'build product/schematics':
     case 'build product-configurator/schematics':
     case 'build qualtrics/schematics':
+    case 'build requested-delivery-date/schematics':
+    case 'build estimated-delivery-date/schematics':
     case 'build s4om/schematics':
     case 'build segment-refs/schematics':
+    case 'build opps/schematics':
     case 'build smartedit/schematics':
     case 'build storefinder/schematics':
     case 'build tracking/schematics':

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import {
   map,
   mergeMap,
   switchMap,
+  take,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -205,6 +206,7 @@ export class AnonymousConsentsEffects {
       ),
       concatMap(() =>
         this.userConsentService.getConsentsResultSuccess().pipe(
+          take(1),
           withLatestFrom(
             this.userIdService.getUserId(),
             this.userConsentService.getConsents(),

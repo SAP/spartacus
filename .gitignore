@@ -70,3 +70,5 @@ Thumbs.db
 
 **/git-ignore
 
+.nx/cache
+
