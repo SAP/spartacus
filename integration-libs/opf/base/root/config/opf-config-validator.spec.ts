@@ -1,4 +1,4 @@
-import { OpfConfig } from './opf-config-b';
+import { OpfConfig } from './opf-config';
 import { opfConfigValidator } from './opf-config-validator';
 
 describe('opfConfigValidator', () => {

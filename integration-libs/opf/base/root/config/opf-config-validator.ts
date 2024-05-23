@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OpfConfig } from './opf-config-b';
+import { OpfConfig } from './opf-config';
 
 export function opfConfigValidator(config: OpfConfig): string | void {
   if (!config.opf) {
