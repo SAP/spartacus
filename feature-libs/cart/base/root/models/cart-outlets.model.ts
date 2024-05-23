@@ -22,3 +22,7 @@ export enum CartOutlets {
   DELIVERY_MODE = 'cx-delivery-mode',
   ORDER_OVERVIEW = 'cx-order-overview',
 }
+export enum quoteOutlet {
+  CPQ_QUOTE_MODULE = 'cx-cpq-quote',
+  CPQ_QUOTE_HEADING = 'cx-cpq-quote-heading',
+}
