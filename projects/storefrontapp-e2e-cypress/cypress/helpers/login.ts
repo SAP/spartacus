@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { user } from '../sample-data/checkout-flow';
+import { user, getSampleUser } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import { waitForPage } from './checkout-flow';
 import * as alerts from './global-message';
@@ -21,31 +21,34 @@ export const defaultUser = {
  * Use only if you already are on the `/login` page.
  * Redirects to `/register` page and registers the user.
  *
+ * @param uniqueUser if true creates a unique user, otherwise the default sample user is used.
  * @returns Newly registered user
  */
-export function registerUserFromLoginPage() {
+export function registerUserFromLoginPage(uniqueUser?: boolean) {
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.get('cx-page-layout > cx-page-slot > cx-login-register')
     .findByText('Register')
     .click();
   cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
 
-  register(user);
-  return user;
+  const loginUser = uniqueUser ? getSampleUser() : user;
+  register(loginUser);
+  return loginUser;
 }
 
 /**
  * Use only if you are outside of `/login` page.
  * Redirects to `/login` page, then uses `registerUserFromLoginPage()` helper function.
  *
+ * @param uniqueUser if true creates a unique user, otherwise the default sample user is used.
  * @returns Newly registered user
  */
-export function registerUser() {
+export function registerUser(uniqueUser?: boolean) {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
   cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
-  return registerUserFromLoginPage();
+  return registerUserFromLoginPage(uniqueUser);
 }
 
 export function signOutUser() {

@@ -57,6 +57,18 @@ const quote: Quote = {
   cartId: cartId,
   code: '333333',
 };
+const vendorQuote: Quote = {
+  ...quote,
+  sapAttachments: [
+    {
+      id: quote.code,
+    },
+  ],
+};
+const mockQuoteAttachment = (): File => {
+  const blob = new Blob([''], { type: 'application/pdf' });
+  return blob as File;
+};
 const quoteWithoutCartId: Quote = {
   ...quote,
   cartId: undefined,
@@ -136,6 +148,7 @@ class MockQuoteConnector implements Partial<QuoteConnector> {
   addQuoteEntryComment = createSpy().and.returnValue(of(EMPTY));
   performQuoteAction = createSpy().and.returnValue(of(EMPTY));
   addDiscount = createSpy().and.returnValue(of(EMPTY));
+  downloadAttachment = createSpy().and.returnValue(of(mockQuoteAttachment()));
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
@@ -743,5 +756,22 @@ describe('QuoteService', () => {
       classUnderTest['saveActiveCart']();
       expect(savedCartFacade.editSavedCart).not.toHaveBeenCalled();
     });
+  });
+
+  it('should download proposal document after calling quoteConnector.downloadAttachment', (done) => {
+    const vendorQuoteCode = vendorQuote.code;
+    const vendorQuoteAttachmentId = vendorQuote.sapAttachments[0].id;
+    classUnderTest
+      .downloadAttachment(vendorQuoteCode, vendorQuoteAttachmentId)
+      .pipe(take(1))
+      .subscribe((response) => {
+        expect(quoteConnector.downloadAttachment).toHaveBeenCalledWith(
+          userId,
+          vendorQuoteCode,
+          vendorQuoteAttachmentId
+        );
+        expect(response).toEqual(mockQuoteAttachment());
+        done();
+      });
   });
 });
