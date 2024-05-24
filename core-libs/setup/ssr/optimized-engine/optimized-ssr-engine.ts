@@ -285,7 +285,15 @@ export class OptimizedSsrEngine {
     }
 
     const renderingKey = this.getRenderingKey(request);
+
     const renderCallback: SsrCallbackFn = (err, html): void => {
+      /* Instead of providing another middleware for handling errors, we can handle it here.
+       * We still don't have access to the Config and OccEndpointsService so we still suffer from lack of information
+       * to check if we should map to CmsPageNotFoundServerErrorResponse
+       *
+       * IT IS RATHER BAD IDEA
+       */
+      //const mappedErr = mapErrorToServerErrorResponse(err);
       if (requestTimeout) {
         // if request is still waiting for render, return it
         clearTimeout(requestTimeout);

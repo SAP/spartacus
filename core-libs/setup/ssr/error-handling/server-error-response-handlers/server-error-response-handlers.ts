@@ -4,33 +4,36 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { CmsPageNotFoundHttpErrorResponse } from '@spartacus/core';
 import { ErrorRequestHandler } from 'express';
-import {
-  CmsPageNotFoundServerErrorResponse,
-  UnknownServerErrorResponse,
-} from '../server-error-response/cx-server-error-response';
 
 /**
  * Returns default handlers which results in a fallback to client side rendering.
- * - If CmsPageNotFOundServerErrorResponse occurred, the document content is sent to the client with the appropriate 404 status code.
- * - If UnknownServerErrorResponse occurred, the document content is sent to the client with the appropriate status 500 code.
+ * - If cms page not found, the document content is sent to the client with the appropriate 404 status code.
+ * - For rest of errors, the document content is sent to the client with the appropriate status 500 code.
  *
  * @param documentContent The document content to be sent to the client.
  * @returns The error request handler.
  */
 export const defaultServerErrorResponseHandlers =
   (documentContent: string): ErrorRequestHandler =>
-  (err, _req, res, next) => {
-    if (!res.headersSent && err instanceof UnknownServerErrorResponse) {
-      res.set('Cache-Control', 'no-store');
-      res.status(500).send(documentContent);
-    } else if (
-      !res.headersSent &&
-      err instanceof CmsPageNotFoundServerErrorResponse
-    ) {
+  (err, _req, res, _next) => {
+    console.log('error in defaultServerErrorResponseHandlers', err);
+    if (!res.headersSent && isCmsPageNotFoundError(err)) {
       res.set('Cache-Control', 'no-store');
       res.status(404).send(documentContent);
     } else {
-      next(err);
+      res.set('Cache-Control', 'no-store');
+      res.status(500).send(documentContent);
     }
   };
+
+export function isCmsPageNotFoundError(error: unknown): boolean {
+  return isCmsPageNotFoundHttpErrorResponse(error) && error.cxCmsPageNotFound;
+}
+
+export function isCmsPageNotFoundHttpErrorResponse(
+  error: unknown
+): error is CmsPageNotFoundHttpErrorResponse {
+  return error instanceof Object && 'cxCmsPageNotFound' in error;
+}

@@ -5,8 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { MultiErrorHandler, resolveApplicable } from '@spartacus/core';
-import { SERVER_ERROR_RESPONSE_FACTORY } from '../server-error-response-factory';
+import { MultiErrorHandler } from '@spartacus/core';
 import { PROPAGATE_SERVER_ERROR_RESPONSE } from '../server-error-response/propagate-server-error-response';
 
 /**
@@ -19,21 +18,11 @@ import { PROPAGATE_SERVER_ERROR_RESPONSE } from '../server-error-response/propag
   providedIn: 'root',
 })
 export class ServerRespondingErrorHandler implements MultiErrorHandler {
-  protected serverErrorResponseFactories = inject(
-    SERVER_ERROR_RESPONSE_FACTORY
-  );
   protected propagateServerErrorResponse = inject(
     PROPAGATE_SERVER_ERROR_RESPONSE
   );
 
   handleError(error: unknown): void {
-    const cxServerErrorResponse = resolveApplicable(
-      this.serverErrorResponseFactories,
-      [error]
-    )?.create(error);
-
-    if (cxServerErrorResponse) {
-      this.propagateServerErrorResponse(cxServerErrorResponse);
-    }
+    this.propagateServerErrorResponse(error);
   }
 }
