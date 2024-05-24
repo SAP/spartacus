@@ -292,8 +292,10 @@ export class OptimizedSsrEngine {
        * to check if we should map to CmsPageNotFoundServerErrorResponse
        *
        * IT IS RATHER BAD IDEA
+       *
+       * const mappedErr = mapErrorToServerErrorResponse(err);
        */
-      //const mappedErr = mapErrorToServerErrorResponse(err);
+
       if (requestTimeout) {
         // if request is still waiting for render, return it
         clearTimeout(requestTimeout);

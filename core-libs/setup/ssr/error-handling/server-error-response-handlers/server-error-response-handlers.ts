@@ -18,7 +18,6 @@ import { ErrorRequestHandler } from 'express';
 export const defaultServerErrorResponseHandlers =
   (documentContent: string): ErrorRequestHandler =>
   (err, _req, res, _next) => {
-    console.log('error in defaultServerErrorResponseHandlers', err);
     if (!res.headersSent && isCmsPageNotFoundError(err)) {
       res.set('Cache-Control', 'no-store');
       res.status(404).send(documentContent);

@@ -41,10 +41,10 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       tap({
-        error: (error: HttpErrorResponse) => {
+        error: (error) => {
           this.handleError(
             this.isCmsPageNotFound(error)
-              ? <CmsPageNotFoundHttpErrorResponse>{
+              ? {
                   ...error,
                   cxCmsPageNotFound: true,
                 }
