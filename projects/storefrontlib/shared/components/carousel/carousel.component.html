@@ -73,9 +73,14 @@
           *ngIf="i % size === 0"
           (click)="activeSlide = i"
           [disabled]="i === activeSlide"
+          [attr.aria-current]="i === activeSlide"
           [attr.aria-label]="
             'carousel.slideNumber'
-              | cxTranslate: { currentSlideNumber: getSlideNumber(size, i) }
+              | cxTranslate
+                : {
+                    currentSlideNumber: getSlideNumber(size, i),
+                    numberOfSlides: size
+                  }
           "
           [attr.title]="
             'carousel.slideNumber'
@@ -90,9 +95,14 @@
           *ngIf="i % size === 0"
           (click)="activeSlide = i"
           [disabled]="i === activeSlide"
+          [attr.aria-current]="i === activeSlide"
           [attr.aria-label]="
             'carousel.slideNumber'
-              | cxTranslate: { currentSlideNumber: getSlideNumber(size, i) }
+              | cxTranslate
+                : {
+                    currentSlideNumber: getSlideNumber(size, i),
+                    numberOfSlides: size
+                  }
           "
           [attr.title]="
             'carousel.slideNumber'
