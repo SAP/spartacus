@@ -1,14 +1,15 @@
 {
   "name": "ssr-tests",
+  "version": "2211.24.0-1",
+  "private": true,
   "description": "Spartacus SSR Tests",
   "keywords": [
     "spartacus",
     "ssr",
     "tests"
   ],
-  "author": "SAP, Spartacus team",
   "license": "Apache-2.0",
-  "private": true,
+  "author": "SAP, Spartacus team",
   "scripts": {
     "test": "../../node_modules/.bin/jest --config ./jest.config.js"
   },
