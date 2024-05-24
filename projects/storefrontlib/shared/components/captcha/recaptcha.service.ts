@@ -18,12 +18,11 @@ import {
   forkJoin,
   Observable,
   ReplaySubject,
-  Subject,
   Subscription,
 } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
-import { CaptchaProvider, RenderParams } from '../captcha.model';
-import { GoogleRecaptchaApiConfig } from './config/google-recaptcha-api-config';
+import { CaptchaProvider, RenderParams } from './captcha.model';
+import { RecaptchaApiConfig } from './mockRecaptcha/config/recaptcha-api-config';
 
 /**
  * Global function to be passes as "onload" url param for captcha <script>, to be
@@ -38,14 +37,14 @@ declare global {
 @Injectable({
   providedIn: 'root',
 })
-export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
+export abstract class RecaptchaService implements CaptchaProvider, OnDestroy {
   protected token: string;
   protected subscription = new Subscription();
   protected captchaConfigSubject$ = new ReplaySubject<CaptchaConfig>(1);
 
   constructor(
     protected adapter: SiteAdapter,
-    protected apiConfig: GoogleRecaptchaApiConfig,
+    protected apiConfig: RecaptchaApiConfig,
     protected languageService: LanguageService,
     protected scriptLoader: ScriptLoader,
     protected baseSiteService: BaseSiteService
@@ -58,8 +57,6 @@ export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
    * call @function loadScript with active language
    */
   initialize(): void {
-    let captchaConfig: CaptchaConfig;
-
     this.subscription.add(
       forkJoin([
         this.languageService.getActive().pipe(take(1)),
@@ -70,25 +67,26 @@ export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
       ]).subscribe((result) => {
         const lang = result[0] as string;
         const baseSite = result[1] as BaseSite;
-        if (
-          baseSite?.captchaConfig?.enabled &&
-          baseSite?.captchaConfig?.publicKey
-        ) {
-          captchaConfig = baseSite.captchaConfig;
+        // -- test code starts
+        if (baseSite) {
+          baseSite.captchaConfig = {
+            enabled: true
+          };
+        }
+        // -- test code ends
+
+        if (baseSite?.captchaConfig?.enabled) {
           this.loadScript({
             onload: 'onCaptchaLoad',
             render: 'explicit',
             hl: lang,
           });
+          this.captchaConfigSubject$.next(baseSite.captchaConfig);
         } else {
           this.captchaConfigSubject$.next({ enabled: false });
         }
       })
     );
-
-    window.onCaptchaLoad = () => {
-      this.captchaConfigSubject$.next(captchaConfig);
-    };
   }
 
   getCaptchaConfig(): Observable<CaptchaConfig> {
@@ -96,25 +94,11 @@ export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
   }
 
   /**
-   * Trigger rendering function configured in GoogleRecaptchaApiConfig
+   * Trigger rendering function configured in RecaptchaApiConfig
    * @param {HTMLElement} elem - HTML element to render captcha widget within.
    * @param {string} pubKey - public key to be used for the widget
    */
-  renderCaptcha(renderParams: RenderParams): Observable<string> {
-    const retVal = new Subject<string>();
-
-    // @ts-ignore Global object created when captcha script is loaded
-    grecaptcha.render(renderParams.element, {
-      sitekey: renderParams.publicKey,
-      callback: (response: string) => {
-        this.token = response;
-        retVal.next(response);
-        retVal.complete();
-      },
-    });
-
-    return retVal.asObservable();
-  }
+  abstract renderCaptcha(renderParams: RenderParams): Observable<string> 
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -129,19 +113,6 @@ export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
    * @param {string} lang - Language used by api in the script
    */
   loadScript(params?: { [key: string]: string }): void {
-    if (this.apiConfig?.apiUrl) {
-      if (params) {
-        this.scriptLoader.embedScript({
-          src: this.apiConfig.apiUrl,
-          params: params,
-          attributes: { type: 'text/javascript' },
-        });
-      } else {
-        this.scriptLoader.embedScript({
-          src: this.apiConfig.apiUrl,
-          attributes: { type: 'text/javascript' },
-        });
-      }
-    }
+    console.log(params);
   }
 }

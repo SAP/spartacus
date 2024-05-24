@@ -14,13 +14,12 @@ import {
   Injector,
   OnDestroy,
   Output,
-  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
-import { GoogleRecaptchaApiConfig } from './google-recaptchaV2/config/google-recaptcha-api-config';
+import { RecaptchaApiConfig } from './mockRecaptcha/config/recaptcha-api-config';
 import { CaptchaProvider } from './captcha.model';
 
 @Component({
@@ -37,28 +36,16 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    protected config: GoogleRecaptchaApiConfig,
+    protected config: RecaptchaApiConfig,
     protected injector: Injector,
-    private renderer: Renderer2
   ) {}
 
   /**
-   * Add fields from GoogleRecaptchaApiConfig. Call backend to get captcha
+   * Add fields from RecaptchaApiConfig. Call backend to get captcha
    * config.
    */
   ngAfterViewInit(): void {
-    const fields = this.config?.fields;
-    if (fields) {
-      Object.keys(fields).forEach((key) => {
-        if (fields[key]) {
-          this.renderer.setAttribute(
-            this.captchaRef.nativeElement,
-            key,
-            fields[key]
-          );
-        }
-      });
-    }
+
 
     if (this.config?.captchaProvider) {
       const captchaProvider = this.injector.get<CaptchaProvider>(
@@ -69,7 +56,7 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
           .getCaptchaConfig()
           .pipe(
             concatMap((captchaConfig) => {
-              if (captchaConfig?.enabled && captchaConfig?.publicKey) {
+              if (captchaConfig?.enabled) {
                 return captchaProvider.renderCaptcha({
                   element: this.captchaRef.nativeElement,
                   publicKey: captchaConfig.publicKey,

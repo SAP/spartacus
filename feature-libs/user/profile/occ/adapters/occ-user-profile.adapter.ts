@@ -28,7 +28,7 @@ import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import {
-  GoogleRecaptchaApiConfig,
+  RecaptchaApiConfig,
   CaptchaProvider,
 } from '@spartacus/storefront';
 
@@ -45,7 +45,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService,
-    protected captchaConfig?: GoogleRecaptchaApiConfig,
+    protected captchaConfig?: RecaptchaApiConfig,
     protected injector?: Injector
   ) {}
 

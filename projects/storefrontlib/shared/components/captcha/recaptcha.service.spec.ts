@@ -7,15 +7,15 @@ import {
   ScriptLoader,
   SiteAdapter,
 } from '@spartacus/core';
-import { defaultGoogleRecaptchaApiConfig } from './config/default-google-recaptcha-api-config';
+import { MockRecaptchaApiConfig } from './mockRecaptcha/config/mock-recaptcha-api-config';
 import { Observable, of } from 'rxjs';
-import { GoogleRecaptchaV2Service } from './google-recaptchaV2.service';
+import { MockRecaptchaService } from './mockRecaptcha/mock-recaptcha.service';
 
 const mockLang = 'mock-lang';
 const mockKey = 'mock-key';
 
 const mockEmbedParams = {
-  src: 'https://www.google.com/recaptcha/api.js',
+  src: 'https://www..com/recaptcha/api.js',
   params: { onload: 'onCaptchaLoad', render: 'explicit', hl: mockLang },
   attributes: { type: 'text/javascript' },
 };
@@ -48,18 +48,18 @@ class MockSiteAdapter {
   }
 }
 
-describe('GoogleRecaptchaV2Service Service', () => {
+describe('RecaptchaService Service', () => {
   let scriptLoader: ScriptLoader;
   let languageService: LanguageService;
   let baseSiteService: BaseSiteService;
   let siteAdapter: SiteAdapter;
-  let service: GoogleRecaptchaV2Service;
+  let service: MockRecaptchaService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        GoogleRecaptchaV2Service,
-        provideDefaultConfig(defaultGoogleRecaptchaApiConfig),
+        MockRecaptchaService,
+        provideDefaultConfig(MockRecaptchaApiConfig),
         { provide: SiteAdapter, useClass: MockSiteAdapter },
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: LanguageService, useClass: MockLanguageService },
@@ -67,7 +67,7 @@ describe('GoogleRecaptchaV2Service Service', () => {
       ],
     });
 
-    service = TestBed.inject(GoogleRecaptchaV2Service);
+    service = TestBed.inject(MockRecaptchaService);
     languageService = TestBed.inject(LanguageService);
     baseSiteService = TestBed.inject(BaseSiteService);
     siteAdapter = TestBed.inject(SiteAdapter);
