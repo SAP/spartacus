@@ -84,12 +84,12 @@
     @include forFeature('santoriniV2') {
       font-size: var(--cx-font-size, 2rem);
       line-height: 0;
-      color: var(--cx-color-secondary);
+      color: var(--cx-color-text);
       &:focus {
         box-shadow: 0 0 0 0;
       }
       &:disabled {
-        color: var(--cx-color-medium);
+        color: var(--cx-color-dark);
       }
     }
   }

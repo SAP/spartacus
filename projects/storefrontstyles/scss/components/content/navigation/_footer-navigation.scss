@@ -35,5 +35,11 @@
         margin: 3vw;
       }
     }
+
+    @include forFeature('santoriniV2') {
+      nav ul.childs > li > cx-generic-link > a:hover {
+        color: var(--cx-color-inverse);
+      }
+    }
   }
 }

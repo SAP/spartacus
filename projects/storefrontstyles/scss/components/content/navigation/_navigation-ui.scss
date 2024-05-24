@@ -121,6 +121,9 @@
         color: var(--cx-color-inverse);
         outline: 1px solid var(--cx-color-inverse);
       }
+      cx-generic-link:hover {
+        color: var(--cx-color-inverse);
+      }
     }
 
     @include media-breakpoint-down(md) {
@@ -157,7 +160,6 @@
           // adjust style for mobile menu, has diff background colour
           &:hover {
             color: var(--cx-color-primary);
-            text-decoration: none;
             outline: 0;
           }
         }
@@ -268,6 +270,12 @@
       @include media-breakpoint-up(lg) {
         .childs {
           padding: 0;
+        }
+      }
+
+      @include forFeature('santoriniV2') {
+        cx-generic-link:hover {
+          color: var(--cx-color-text);
         }
       }
     }
