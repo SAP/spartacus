@@ -4,7 +4,11 @@
   (click)="toggle()"
   [class.is-active]="isExpanded | async"
   [attr.aria-expanded]="isExpanded | async"
-  [attr.aria-label]="'common.menu' | cxTranslate"
+  [attr.aria-label]="
+    (isExpanded | async)
+      ? ('common.close' | cxTranslate)
+      : ('common.menu' | cxTranslate)
+  "
   aria-controls="cx-header"
 >
   <span class="hamburger-box">
