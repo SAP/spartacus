@@ -41,6 +41,8 @@ export class MockRecaptchaService extends RecaptchaService {
     super.initialize();
     // creating mock elements for captcha.
     this.container = document.createElement('div');
+    this.container.className = 'form-check';
+
     this.checkbox = document.createElement('input');
     this.checkbox.type = 'checkbox';
 
@@ -56,7 +58,8 @@ export class MockRecaptchaService extends RecaptchaService {
     let succeed = Math.random() > 0.8;
     setTimeout(() => {
       if (succeed) {
-        this.retVal.next('');
+        this.retVal.next('succeed');
+        this.retVal.complete();
         this.token = 'my token';
         this.checkbox.disabled = true;
         this.label.textContent = "Verified";
@@ -70,15 +73,12 @@ export class MockRecaptchaService extends RecaptchaService {
   }
 
   /**
-   * Trigger rendering function configured in RecaptchaApiConfig
+   * Add element to page.
    * @param {HTMLElement} element - HTML element to render captcha widget within.
-   * @param {string} pubKey - public key to be used for the widget
    */
   renderCaptcha(renderParams: RenderParams): Observable<string> {
     if (renderParams.element instanceof HTMLElement) {
-      let targetElement: HTMLElement = renderParams.element;
-
-      targetElement.appendChild(this.container);
+      renderParams.element.appendChild(this.container);
     }
 
     return this.retVal.asObservable();

@@ -41,6 +41,7 @@ export abstract class RecaptchaService implements CaptchaProvider, OnDestroy {
   protected token: string;
   protected subscription = new Subscription();
   protected captchaConfigSubject$ = new ReplaySubject<CaptchaConfig>(1);
+  protected captchaConfig: CaptchaConfig;
 
   constructor(
     protected adapter: SiteAdapter,
@@ -76,12 +77,11 @@ export abstract class RecaptchaService implements CaptchaProvider, OnDestroy {
         // -- test code ends
 
         if (baseSite?.captchaConfig?.enabled) {
-          this.loadScript({
-            onload: 'onCaptchaLoad',
-            render: 'explicit',
-            hl: lang,
+          this.captchaConfig = baseSite.captchaConfig;
+          this.loadResource({
+            lang: lang,
+            config: this.captchaConfig,
           });
-          this.captchaConfigSubject$.next(baseSite.captchaConfig);
         } else {
           this.captchaConfigSubject$.next({ enabled: false });
         }
@@ -96,9 +96,8 @@ export abstract class RecaptchaService implements CaptchaProvider, OnDestroy {
   /**
    * Trigger rendering function configured in RecaptchaApiConfig
    * @param {HTMLElement} elem - HTML element to render captcha widget within.
-   * @param {string} pubKey - public key to be used for the widget
    */
-  abstract renderCaptcha(renderParams: RenderParams): Observable<string> 
+  abstract renderCaptcha(renderParams: RenderParams): Observable<string>;
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -109,10 +108,11 @@ export abstract class RecaptchaService implements CaptchaProvider, OnDestroy {
   }
 
   /**
-   * Load external script with dependencies to be added to <head>.
-   * @param {string} lang - Language used by api in the script
+   * Load external resource if needed with dependencies to be added to <head>.
+   * @param - Language and configuration read from server
    */
-  loadScript(params?: { [key: string]: string }): void {
+  loadResource(params?: { lang: string; config: CaptchaConfig }): void {
     console.log(params);
+    this.captchaConfigSubject$.next(this.captchaConfig);
   }
 }

@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import { CaptchaConfig } from '@spartacus/core';
 import { CaptchaComponent, CaptchaProvider } from '@spartacus/storefront';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { GoogleRecaptchaApiConfig } from './google-recaptchaV2/config/google-recaptcha-api-config';
+import { RecaptchaApiConfig } from './mockRecaptcha/config/recaptcha-api-config';
 
 class MockCaptchaService implements CaptchaProvider {
   getCaptchaConfig(): Observable<CaptchaConfig> {
@@ -21,16 +21,13 @@ class MockCaptchaService implements CaptchaProvider {
   }
 }
 
-const mockCaptchaApiConfig: GoogleRecaptchaApiConfig = {
-  apiUrl: 'mock-url',
-  fields: { 'mock-field-key': 'mock-field-value' },
+const mockCaptchaApiConfig: RecaptchaApiConfig = {
   captchaProvider: MockCaptchaService,
 };
 
 describe('Captcha Component', () => {
   let component: CaptchaComponent;
   let fixture: ComponentFixture<CaptchaComponent>;
-  let config: GoogleRecaptchaApiConfig;
   let service: CaptchaProvider;
 
   beforeEach(
@@ -38,7 +35,7 @@ describe('Captcha Component', () => {
       TestBed.configureTestingModule({
         declarations: [CaptchaComponent],
         providers: [
-          { provide: GoogleRecaptchaApiConfig, useValue: mockCaptchaApiConfig },
+          { provide: RecaptchaApiConfig, useValue: mockCaptchaApiConfig },
           MockCaptchaService,
         ],
       }).compileComponents();
@@ -48,7 +45,6 @@ describe('Captcha Component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CaptchaComponent);
     component = fixture.componentInstance;
-    config = TestBed.inject(GoogleRecaptchaApiConfig);
     service = TestBed.inject(MockCaptchaService);
   });
 
@@ -64,8 +60,5 @@ describe('Captcha Component', () => {
 
     expect(service.getCaptchaConfig).toHaveBeenCalledTimes(1);
     expect(service.renderCaptcha).toHaveBeenCalledTimes(1);
-    expect(
-      component.captchaRef.nativeElement.getAttribute('mock-field-key')
-    ).toEqual(config.fields['mock-field-key']);
   });
 });
