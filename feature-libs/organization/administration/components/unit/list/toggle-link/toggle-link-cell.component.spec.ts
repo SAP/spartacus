@@ -14,7 +14,7 @@ import {
 import { ToggleLinkCellComponent } from '@spartacus/organization/administration/components';
 import { IconModule, OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { UnitTreeService } from '../../services/unit-tree.service';
 import createSpy = jasmine.createSpy;
 
@@ -31,6 +31,7 @@ const mockContext = {
 
 class MockUnitTreeService implements Partial<UnitTreeService> {
   toggle = createSpy('toggle');
+  treeToggle$ = new BehaviorSubject(new Map());
 }
 
 class MockRoutingService implements Partial<RoutingService> {

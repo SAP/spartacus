@@ -37,10 +37,18 @@
       }}"
       formControlName="firstName"
     />
+      
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
+      *cxFeature="'descriptiveErrorMessages'"
       [translationParams]="{
         label: 'updateProfileForm.firstName.label' | cxTranslate
       }"
+      [control]="form.get('firstName')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!descriptiveErrorMessages'"
       [control]="form.get('firstName')"
     ></cx-form-errors>
   </label>
@@ -58,10 +66,18 @@
       placeholder="{{ 'updateProfileForm.lastName.placeholder' | cxTranslate }}"
       formControlName="lastName"
     />
+      
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
+      *cxFeature="'descriptiveErrorMessages'"
       [translationParams]="{
         label: 'updateProfileForm.lastName.label' | cxTranslate
       }"
+      [control]="form.get('lastName')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!descriptiveErrorMessages'"
       [control]="form.get('lastName')"
     ></cx-form-errors>
   </label>
@@ -78,10 +94,18 @@
       formControlName="customerId"
       readonly
     />
+      
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
+      *cxFeature="'descriptiveErrorMessages'"
       [translationParams]="{
         label: 'updateProfileForm.customerId' | cxTranslate
       }"
+      [control]="form.get('lastName')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!descriptiveErrorMessages'"
       [control]="form.get('lastName')"
     ></cx-form-errors>
   </label>

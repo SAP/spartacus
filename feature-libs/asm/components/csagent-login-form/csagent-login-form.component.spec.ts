@@ -7,8 +7,9 @@ import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
-import { CSAgentLoginFormComponent } from './csagent-login-form.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
+import { CSAgentLoginFormComponent } from './csagent-login-form.component';
 
 describe('CSAgentLoginFormComponent', () => {
   let component: CSAgentLoginFormComponent;
@@ -29,7 +30,11 @@ describe('CSAgentLoginFormComponent', () => {
           FormErrorsModule,
           PasswordVisibilityToggleModule,
         ],
-        declarations: [CSAgentLoginFormComponent, DotSpinnerComponent],
+        declarations: [
+          CSAgentLoginFormComponent,
+          DotSpinnerComponent,
+          MockFeatureDirective,
+        ],
       }).compileComponents();
     })
   );

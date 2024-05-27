@@ -5,7 +5,7 @@
  */
 
 import { Pipe, PipeTransform } from '@angular/core';
-import { isTranslatable, Translatable } from '../translatable';
+import { Translatable, isTranslatable } from '../translatable';
 import { mockTranslate } from './mock-translate';
 
 @Pipe({ name: 'cxTranslate' })
@@ -14,6 +14,10 @@ export class MockTranslatePipe implements PipeTransform {
     input: Translatable | string | string[],
     options: object = {}
   ): string | undefined {
+    if (!input) {
+      return '';
+    }
+
     if (isTranslatable(input) && input.raw) {
       return input.raw;
     }

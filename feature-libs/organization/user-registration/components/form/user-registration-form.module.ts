@@ -10,16 +10,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  ConfigModule,
   CmsConfig,
+  ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
-  UrlModule,
   NotAuthGuard,
+  UrlModule,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  SpinnerModule,
   NgSelectA11yModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { UserRegistrationFormComponent } from './user-registration-form.component';
 import { UserRegistrationFormService } from './user-registration-form.service';
@@ -43,6 +44,7 @@ import { UserRegistrationFormService } from './user-registration-form.service';
         },
       },
     }),
+    FeaturesConfigModule,
   ],
   declarations: [UserRegistrationFormComponent],
   exports: [UserRegistrationFormComponent],

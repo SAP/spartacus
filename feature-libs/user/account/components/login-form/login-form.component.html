@@ -17,12 +17,17 @@
       formControlName="userId"
       placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
     />
+      
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
+      *cxFeature="'descriptiveErrorMessages'"
       [translationParams]="{
         label: 'loginForm.emailAddress.label' | cxTranslate
       }"
       [control]="form.get('userId')"
     ></cx-form-errors>
+
+    <cx-form-errors *cxFeature="'!descriptiveErrorMessages'" [control]="form.get('userId')"></cx-form-errors>
   </label>
 
   <label>
@@ -39,12 +44,17 @@
       [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
       cxPasswordVisibilitySwitch
     />
+      
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
+      *cxFeature="'descriptiveErrorMessages'"
       [translationParams]="{
         label: 'loginForm.password.label' | cxTranslate
       }"
       [control]="form.get('password')"
     ></cx-form-errors>
+
+    <cx-form-errors *cxFeature="'!descriptiveErrorMessages'" [control]="form.get('password')"></cx-form-errors>
   </label>
 
   <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">

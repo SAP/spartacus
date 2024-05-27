@@ -2,6 +2,7 @@ import * as AngularCore from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { i18n } from 'i18next';
 import { first, take } from 'rxjs/operators';
+import { FeatureConfigService } from '../../features-config';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
 import { I18NEXT_INSTANCE } from './i18next-instance';
@@ -31,6 +32,7 @@ const getNamespacedKeys = (key: string | string[]) => {
 describe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
   let i18next: i18n;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     const mockTranslationChunk = {
@@ -49,11 +51,13 @@ describe('I18nextTranslationService', () => {
           useValue: mockTranslationChunk,
         },
         I18nextTranslationService,
+        FeatureConfigService,
       ],
     });
 
     service = TestBed.inject(I18nextTranslationService);
     i18next = TestBed.inject(I18NEXT_INSTANCE);
+    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   describe('loadChunks', () => {
@@ -160,6 +164,8 @@ describe('I18nextTranslationService', () => {
           });
 
           it('should emit key in brackets for non-production', () => {
+            spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+
             let result;
             service
               .translate(key, testOptions)

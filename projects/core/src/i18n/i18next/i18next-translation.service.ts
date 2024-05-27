@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, inject, Injectable, isDevMode } from '@angular/core';
+import { Inject, inject, Injectable, isDevMode, Optional } from '@angular/core';
 import { i18n, TOptions } from 'i18next';
 import { Observable } from 'rxjs';
+import { FeatureConfigService } from '../../features-config';
 import { LoggerService } from '../../logger';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
@@ -17,6 +18,9 @@ import { I18NEXT_INSTANCE } from './i18next-instance';
 export class I18nextTranslationService implements TranslationService {
   private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
   protected readonly NAMESPACE_SEPARATOR = ':';
+  @Optional() protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   protected logger = inject(LoggerService);
 
@@ -96,16 +100,38 @@ export class I18nextTranslationService implements TranslationService {
 
   /**
    * Returns a fallback value in case when the given key is missing
+   * @param key
+   * @deprecated Use getFallbackValue(keys: string[]) instead. Will be removed in the next major
+   */
+  protected getFallbackValue(key: string): string;
+
+  /**
+   * Returns a fallback value in case when the given keys are missing
    * @param keys
    */
-  protected getFallbackValue(keys: string[]): string {
-    return isDevMode() ? `[${keys.join(', ')}]` : this.NON_BREAKING_SPACE;
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  protected getFallbackValue(keys: string[]): string;
+
+  protected getFallbackValue(keyOrKeys: string | string[]): string {
+    // TODO: (CXSPA-7315) Remove feature toggle in the next major
+    const descriptiveErrorMessagesEnabled =
+      this.featureConfigService?.isEnabled('descriptiveErrorMessages');
+
+    if (Array.isArray(keyOrKeys) && descriptiveErrorMessagesEnabled) {
+      return isDevMode()
+        ? `[${keyOrKeys.join(', ')}]`
+        : this.NON_BREAKING_SPACE;
+    } else {
+      return isDevMode() && descriptiveErrorMessagesEnabled
+        ? `[${keyOrKeys}]`
+        : this.NON_BREAKING_SPACE;
+    }
   }
 
   private reportMissingKey(chunkNamesByKeys: Map<string, string>) {
     const keys = [...chunkNamesByKeys.keys()];
     if (isDevMode()) {
-      console.warn(
+      this.logger.warn(
         `Translation keys missing [${keys.join(', ')}]. Attempted to load ${[
           ...chunkNamesByKeys,
         ]

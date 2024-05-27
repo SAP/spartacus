@@ -5,13 +5,14 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { I18nTestingModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
 import {
   DocumentQueryParams,
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
+import { FormErrorsModule } from '@spartacus/storefront';
 
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
 
 const mockQueryParams: DocumentQueryParams = {
@@ -44,6 +45,7 @@ describe('AccountSummaryDocumentFilterComponent', () => {
       declarations: [
         AccountSummaryDocumentFilterComponent,
         MockDatePickerComponent,
+        MockFeatureDirective,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [],

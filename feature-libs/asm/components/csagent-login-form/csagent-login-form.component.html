@@ -13,10 +13,18 @@
       formControlName="userId"
       [attr.aria-label]="'asm.loginForm.userId.label' | cxTranslate"
     />
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
+      *cxFeature="'descriptiveErrorMessages'"
       [translationParams]="{
         label: 'asm.loginForm.userId.label' | cxTranslate
       }"
+      [control]="csAgentLoginForm.get('userId')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!descriptiveErrorMessages'"
       [control]="csAgentLoginForm.get('userId')"
     ></cx-form-errors>
   </label>

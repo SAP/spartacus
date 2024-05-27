@@ -21,6 +21,7 @@ import {
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UserItemService } from '../services/user-item.service';
@@ -88,7 +89,11 @@ describe('UserFormComponent', () => {
         NgSelectModule,
         FormTestingModule,
       ],
-      declarations: [UserFormComponent, FormErrorsComponent],
+      declarations: [
+        UserFormComponent,
+        FormErrorsComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: UserItemService, useClass: MockItemService },

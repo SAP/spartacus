@@ -23,6 +23,7 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 import { CustomerSelectionComponent } from './customer-selection.component';
@@ -118,7 +119,11 @@ describe('CustomerSelectionComponent', () => {
 
       TestBed.configureTestingModule({
         imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-        declarations: [CustomerSelectionComponent, DotSpinnerComponent],
+        declarations: [
+          CustomerSelectionComponent,
+          DotSpinnerComponent,
+          MockFeatureDirective,
+        ],
         providers: [
           { provide: AsmService, useClass: MockAsmService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },

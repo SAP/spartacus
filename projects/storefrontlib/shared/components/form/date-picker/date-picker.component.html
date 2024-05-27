@@ -9,12 +9,25 @@
   [placeholder]="placeholder"
   [pattern]="pattern"
 />
+    
+<!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
 <cx-form-errors
+  *cxFeature="'descriptiveErrorMessages'"
   [control]="control"
   prefix="formErrors.labeled.date"
   fallbackPrefix="formErrors.date"
   [translationParams]="{
     label: label ?? '' | cxTranslate,
+    max: getDate(max) | cxDate,
+    min: getDate(min) | cxDate
+  }"
+></cx-form-errors>
+
+<cx-form-errors
+  *cxFeature="'!descriptiveErrorMessages'"
+  [control]="control"
+  prefix="formErrors.date"
+  [translationParams]="{
     max: getDate(max) | cxDate,
     min: getDate(min) | cxDate
   }"
