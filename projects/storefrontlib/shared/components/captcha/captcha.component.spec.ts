@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import { CaptchaConfig } from '@spartacus/core';
 import { CaptchaComponent, CaptchaProvider } from '@spartacus/storefront';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RecaptchaApiConfig } from './mockRecaptcha/config/recaptcha-api-config';
+import { CaptchaApiConfig } from './mockCaptcha/config/captcha-api-config';
 
 class MockCaptchaService implements CaptchaProvider {
   getCaptchaConfig(): Observable<CaptchaConfig> {
@@ -21,7 +21,7 @@ class MockCaptchaService implements CaptchaProvider {
   }
 }
 
-const mockCaptchaApiConfig: RecaptchaApiConfig = {
+const mockCaptchaApiConfig: CaptchaApiConfig = {
   captchaProvider: MockCaptchaService,
 };
 
@@ -35,7 +35,7 @@ describe('Captcha Component', () => {
       TestBed.configureTestingModule({
         declarations: [CaptchaComponent],
         providers: [
-          { provide: RecaptchaApiConfig, useValue: mockCaptchaApiConfig },
+          { provide: CaptchaApiConfig, useValue: mockCaptchaApiConfig },
           MockCaptchaService,
         ],
       }).compileComponents();

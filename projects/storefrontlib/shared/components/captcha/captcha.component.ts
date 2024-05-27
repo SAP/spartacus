@@ -19,7 +19,7 @@ import {
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
-import { RecaptchaApiConfig } from './mockRecaptcha/config/recaptcha-api-config';
+import { CaptchaApiConfig } from './mockCaptcha/config/captcha-api-config';
 import { CaptchaProvider } from './captcha.model';
 
 @Component({
@@ -36,12 +36,12 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    protected config: RecaptchaApiConfig,
+    protected config: CaptchaApiConfig,
     protected injector: Injector,
   ) {}
 
   /**
-   * Add fields from RecaptchaApiConfig. Call backend to get captcha
+   * Add fields from CaptchaApiConfig. Call backend to get captcha
    * config.
    */
   ngAfterViewInit(): void {
@@ -58,8 +58,7 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
             concatMap((captchaConfig) => {
               if (captchaConfig?.enabled) {
                 return captchaProvider.renderCaptcha({
-                  element: this.captchaRef.nativeElement,
-                  publicKey: captchaConfig.publicKey,
+                  element: this.captchaRef.nativeElement
                 });
               } else {
                 return of(null);

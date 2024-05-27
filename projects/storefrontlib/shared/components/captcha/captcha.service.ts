@@ -22,7 +22,7 @@ import {
 } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 import { CaptchaProvider, RenderParams } from './captcha.model';
-import { RecaptchaApiConfig } from './mockRecaptcha/config/recaptcha-api-config';
+import { CaptchaApiConfig } from './mockCaptcha/config/captcha-api-config';
 
 /**
  * Global function to be passes as "onload" url param for captcha <script>, to be
@@ -37,7 +37,7 @@ declare global {
 @Injectable({
   providedIn: 'root',
 })
-export abstract class RecaptchaService implements CaptchaProvider, OnDestroy {
+export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
   protected token: string;
   protected subscription = new Subscription();
   protected captchaConfigSubject$ = new ReplaySubject<CaptchaConfig>(1);
@@ -45,7 +45,7 @@ export abstract class RecaptchaService implements CaptchaProvider, OnDestroy {
 
   constructor(
     protected adapter: SiteAdapter,
-    protected apiConfig: RecaptchaApiConfig,
+    protected apiConfig: CaptchaApiConfig,
     protected languageService: LanguageService,
     protected scriptLoader: ScriptLoader,
     protected baseSiteService: BaseSiteService
@@ -94,7 +94,7 @@ export abstract class RecaptchaService implements CaptchaProvider, OnDestroy {
   }
 
   /**
-   * Trigger rendering function configured in RecaptchaApiConfig
+   * Trigger rendering function configured in CaptchaApiConfig
    * @param {HTMLElement} elem - HTML element to render captcha widget within.
    */
   abstract renderCaptcha(renderParams: RenderParams): Observable<string>;

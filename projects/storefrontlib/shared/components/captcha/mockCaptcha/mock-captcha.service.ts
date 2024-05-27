@@ -11,7 +11,7 @@ import {
   Observable,
   Subject,
 } from 'rxjs';
-import { RecaptchaService } from '../recaptcha.service';
+import { CaptchaService } from '../captcha.service';
 import { RenderParams } from '../captcha.model';
 
 /**
@@ -27,7 +27,7 @@ declare global {
 @Injectable({
   providedIn: 'root',
 })
-export class MockRecaptchaService extends RecaptchaService {
+export class MockCaptchaService extends CaptchaService {
 
   protected retVal = new Subject<string>();
 
@@ -36,6 +36,10 @@ export class MockRecaptchaService extends RecaptchaService {
   protected checkbox: HTMLInputElement;
 
   protected label: HTMLLabelElement;
+
+  protected spinner: HTMLElement;
+
+  protected targetElement;
 
   initialize() {
     super.initialize();
@@ -51,23 +55,29 @@ export class MockRecaptchaService extends RecaptchaService {
     this.container.appendChild(this.checkbox);
     this.container.appendChild(this.label);
 
+    this.spinner = document.createElement('icon');
+    this.spinner.className = 'fa-solid fa-spinner'
+
     this.checkbox.addEventListener('change', this.onCheckBoxClicked.bind(this));
   }
 
-  onCheckBoxClicked() {
-    let succeed = Math.random() > 0.8;
+  onCheckBoxClicked(): void {
+    this.label.textContent = '';
+    this.container.appendChild(this.spinner);
+    this.checkbox.disabled = true;
+
     setTimeout(() => {
+      this.container.removeChild(this.spinner);
+      let succeed = Math.random() > 0.5;
       if (succeed) {
         this.retVal.next('succeed');
         this.retVal.complete();
         this.token = 'my token';
-        this.checkbox.disabled = true;
         this.label.textContent = "Verified";
 
       } else {
         this.retVal.error('can not fetch token ');
-        this.label.textContent = "Can not verified";
-        this.checkbox.checked = false;
+        this.label.textContent = "can not fetch token";
       }
     }, 500);
   }
@@ -78,6 +88,7 @@ export class MockRecaptchaService extends RecaptchaService {
    */
   renderCaptcha(renderParams: RenderParams): Observable<string> {
     if (renderParams.element instanceof HTMLElement) {
+     this.targetElement = renderParams.element;
       renderParams.element.appendChild(this.container);
     }
 

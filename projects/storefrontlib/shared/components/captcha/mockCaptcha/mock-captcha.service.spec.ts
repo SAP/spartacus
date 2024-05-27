@@ -4,11 +4,12 @@ import {
   BaseSiteService,
   LanguageService,
   provideDefaultConfig,
+  ScriptLoader,
   SiteAdapter,
 } from '@spartacus/core';
-import { MockRecaptchaApiConfig } from './mockRecaptcha/config/mock-recaptcha-api-config';
+import { MockCaptchaApiConfig } from './config/mock-captcha-api-config';
 import { Observable, of } from 'rxjs';
-import { MockRecaptchaService } from './mockRecaptcha/mock-recaptcha.service';
+import { MockCaptchaService } from './mock-captcha.service';
 
 const mockLang = 'mock-lang';
 const mockKey = 'mock-key';
@@ -25,6 +26,10 @@ class MockLanguageService {
   }
 }
 
+class MockScriptLoader {
+  public embedScript(): void {}
+}
+
 class MockSiteAdapter {
   public loadBaseSite(siteUid?: string): Observable<BaseSite> {
     return of<BaseSite>({
@@ -37,24 +42,25 @@ class MockSiteAdapter {
   }
 }
 
-describe('RecaptchaService Service', () => {
+describe('CaptchaService Service', () => {
   let languageService: LanguageService;
   let baseSiteService: BaseSiteService;
   let siteAdapter: SiteAdapter;
-  let service: MockRecaptchaService;
+  let service: MockCaptchaService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockRecaptchaService,
-        provideDefaultConfig(MockRecaptchaApiConfig),
+        MockCaptchaService,
+        provideDefaultConfig(MockCaptchaApiConfig),
         { provide: SiteAdapter, useClass: MockSiteAdapter },
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: LanguageService, useClass: MockLanguageService },
+        { provide: ScriptLoader, useClass: MockScriptLoader },
       ],
     });
 
-    service = TestBed.inject(MockRecaptchaService);
+    service = TestBed.inject(MockCaptchaService);
     languageService = TestBed.inject(LanguageService);
     baseSiteService = TestBed.inject(BaseSiteService);
     siteAdapter = TestBed.inject(SiteAdapter);

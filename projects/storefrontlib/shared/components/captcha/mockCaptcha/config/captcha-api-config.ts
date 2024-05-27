@@ -13,10 +13,10 @@ import { CaptchaProvider } from '../../captcha.model';
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class RecaptchaApiConfig {
+export abstract class CaptchaApiConfig {
   captchaProvider?: Type<CaptchaProvider>;
 }
 
 declare module '@spartacus/core' {
-  interface Config extends RecaptchaApiConfig {}
+  interface Config extends CaptchaApiConfig {}
 }
