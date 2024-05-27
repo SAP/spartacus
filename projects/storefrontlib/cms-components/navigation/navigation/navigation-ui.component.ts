@@ -122,11 +122,11 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    */
   focusOnMenuExpansion(): void {
     this.subscriptions.add(
-      this.hamburgerMenuService?.isExpanded.pipe().subscribe((isExpanded) => {
+      this.hamburgerMenuService?.isExpanded.subscribe((isExpanded) => {
         if (isExpanded && this.navAriaLabel?.includes('menu')) {
           setTimeout(() => {
             this.elemRef.nativeElement.querySelector('[tabindex="0"]').focus();
-          }, 0);
+          });
         }
       })
     );
