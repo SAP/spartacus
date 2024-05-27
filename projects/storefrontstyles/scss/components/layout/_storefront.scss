@@ -30,10 +30,6 @@
     :focus,
     .ng-select-focused {
       --cx-visual-focus-width: 0;
-      @include forFeature('santoriniV2') {
-        // this change is not kicking-in, minor issue, it does work work when unwraping, unwrap in next major
-        box-shadow: 0 0 0 0;
-      }
     }
   }
 }

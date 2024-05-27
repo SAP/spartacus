@@ -25,10 +25,6 @@
     font-size: var(--cx-font-size, 0.92rem);
     background: var(--cx-color-background);
 
-    @include forFeature('santoriniV2') {
-      @include type('7');
-    }
-
     &:hover {
       background: var(--cx-color-light);
       color: var(--cx-color-primary);

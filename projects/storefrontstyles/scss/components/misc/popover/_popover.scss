@@ -29,11 +29,6 @@
   border-radius: var(--cx-popover-border-radius);
   padding: 1rem 0.938rem;
   box-shadow: 0px 1px 11px 2px var(--cx-popover-box-shadow-color);
-
-  @include forFeature('santoriniV2') {
-    @include type('7');
-  }
-
   > .arrow {
     position: absolute;
     display: block;

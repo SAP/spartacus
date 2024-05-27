@@ -27,10 +27,6 @@
       position: absolute;
       right: 6px;
       top: 4px;
-
-      @include forFeature('santoriniV2') {
-        color: var(--cx-color-secondary);
-      }
     }
 
     .quick-order-form-reset-icon {

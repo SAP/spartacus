@@ -14,10 +14,6 @@
     font-size: var(--cx-font-size, 1.188rem);
     font-weight: var(--cx-font-weight-bold);
 
-    @include forFeature('santoriniV2') {
-      @include type('4');
-    }
-
     .loader-container {
       position: relative;
       margin-inline-end: 10px;

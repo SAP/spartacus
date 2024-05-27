@@ -13,10 +13,6 @@
       font-weight: $font-weight-semi;
       text-transform: uppercase;
       color: theme-color('secondary');
-
-      @include forFeature('santoriniV2') {
-        @include type('6');
-      }
     }
   }
 
