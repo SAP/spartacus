@@ -238,11 +238,6 @@ export interface FeatureTogglesInterface {
    * will be fully visible
    */
   a11yCloseProductImageBtnFocus?: boolean;
-
-  /**
-   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
-   */
-  a11yNotificationPreferenceFieldset?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -285,5 +280,4 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTruncatedTextForResponsiveView: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
-  a11yNotificationPreferenceFieldset: false,
 };
