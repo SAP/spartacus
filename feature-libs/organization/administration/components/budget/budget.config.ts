@@ -85,12 +85,12 @@ export function budgetTableConfigFactory(
   featureConfigService?: FeatureConfigService
 ): TableConfig {
   if (featureConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
-    return budgetTableConfig;
+    return newBudgetTableConfig;
   }
-  return legacyBudgetTableConfig;
+  return budgetTableConfig;
 }
 
-export const legacyBudgetTableConfig: TableConfig = {
+export const budgetTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.BUDGET]: {
       cells: ['name', 'active', 'amount', 'dateRange', 'unit'],
@@ -131,7 +131,7 @@ export const legacyBudgetTableConfig: TableConfig = {
   },
 };
 
-export const budgetTableConfig: TableConfig = {
+export const newBudgetTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.BUDGET]: {
       cells: ['name', 'active', 'amount', 'dateRange', 'unit'],
