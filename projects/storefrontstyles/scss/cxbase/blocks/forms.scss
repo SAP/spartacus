@@ -10,6 +10,31 @@
     box-shadow: none;
     -webkit-box-shadow: none;
   }
+
+  @include forFeature('santoriniV2') {
+    border: 1px solid var(--cx-color-dark);
+
+    &:focus {
+      border-color: var(--cx-color-text);
+      background-color: var(--cx-color-inverse);
+    }
+
+    &::placeholder {
+      color: var(--cx-color-secondary);
+    }
+
+    &::-webkit-input-placeholder {
+      color: var(--cx-color-secondary);
+    }
+
+    &:-ms-input-placeholder {
+      color: var(--cx-color-secondary);
+    }
+
+    &::-ms-input-placeholder {
+      color: var(--cx-color-secondary);
+    }
+  }
 }
 
 cx-form-errors {
@@ -19,6 +44,10 @@ cx-form-errors {
     padding-inline-start: 25px;
     position: relative;
     word-break: break-word;
+
+    @include forFeature('santoriniV2') {
+      @include type('7');
+    }
 
     &::before,
     &::after {
@@ -183,6 +212,10 @@ legend {
     border-width: 2px;
     border-color: var(--cx-color-medium);
 
+    @include forFeature('santoriniV2') {
+      border-color: var(--cx-color-text);
+    }
+
     &:checked {
       font-style: normal;
       border-color: var(--cx-color-primary);
@@ -210,6 +243,9 @@ legend {
 .form-control[type='text'] {
   &:focus {
     background-color: var(--cx-color-background);
+    @include forFeature('santoriniV2') {
+      background-color: var(--cx-color-inverse);
+    }
     box-shadow: none;
     -webkit-box-shadow: none;
   }
@@ -222,6 +258,10 @@ input[type='radio'] {
   border-width: 2px;
   border-color: var(--cx-color-medium);
   position: absolute;
+
+  @include forFeature('santoriniV2') {
+    border-color: var(--cx-color-text);
+  }
 
   &::after {
     content: '';
@@ -263,6 +303,13 @@ input[type='radio'] {
     .ng-dropdown-panel-items {
       .ng-option.ng-option-marked {
         background-color: var(--cx-color-light);
+        @include forFeature('santoriniV2') {
+          outline: 2px solid var(--cx-color-visual-focus);
+          margin-top: 2px;
+          margin-bottom: 2px;
+          margin-inline-start: 2px;
+          margin-inline-end: 2px;
+        }
       }
     }
   }
@@ -279,6 +326,9 @@ input[type='radio'] {
     padding: 0.6875rem 0;
     line-height: 1.6;
     height: unset;
+    @include forFeature('santoriniV2') {
+      border: 1px solid var(--cx-color-dark);
+    }
 
     .ng-value-container {
       padding-inline-start: 10px;
@@ -354,8 +404,12 @@ input {
 .form-group {
   input[type='text']::placeholder,
   input[type='tel']::placeholder {
-    color: var(--cx-color-text);
+    color: var(--cx-color-secondary);
     opacity: 1;
+
+    @include forFeature('santoriniV2') {
+      color: var(--cx-color-secondary);
+    }
   }
 
   input[type='text']:-ms-input-placeholder,

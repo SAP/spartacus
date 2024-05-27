@@ -5,31 +5,50 @@
   align-content: center;
   align-items: stretch;
 
+  @include forFeature('santoriniV2') {
+    align-items: center;
+  }
+
   a {
     color: var(--cx-color-text);
     width: 48px;
     height: 46px;
     font-size: var(--cx-font-size, 1.188rem);
-
     border: solid 1px var(--cx-color-light);
     box-sizing: content-box;
-
     border-inline-end: none;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     transition: background-color 0.3s, color 0.3s;
+
+    @include forFeature('santoriniV2') {
+      @include type('7');
+      border: solid 1px var(--cx-color-medium);
+    }
 
     &:first-child {
       border-top-left-radius: 0.25rem;
       border-bottom-left-radius: 0.25rem;
+
+      @include forFeature('santoriniV2') {
+        color: var(--cx-color-secondary);
+        font-size: var(--cx-font-size, 2rem);
+        line-height: 0;
+      }
     }
+
     &:last-child {
       border-inline-end: solid 1px var(--cx-color-light);
       border-top-right-radius: 0.25rem;
       border-bottom-right-radius: 0.25rem;
+
+      @include forFeature('santoriniV2') {
+        border-inline-end: solid 1px var(--cx-color-medium);
+        color: var(--cx-color-secondary);
+        font-size: var(--cx-font-size, 2rem);
+        line-height: 0;
+      }
     }
 
     &.current {

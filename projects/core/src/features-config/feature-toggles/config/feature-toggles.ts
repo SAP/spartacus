@@ -238,6 +238,11 @@ export interface FeatureTogglesInterface {
    * will be fully visible
    */
   a11yCloseProductImageBtnFocus?: boolean;
+
+  /**
+   * Enables the updated Santorini theme.
+   */
+  santoriniV2?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -280,4 +285,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTruncatedTextForResponsiveView: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
+  santoriniV2: false,
 };
