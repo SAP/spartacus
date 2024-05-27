@@ -309,6 +309,7 @@ if (environment.estimatedDeliveryDate) {
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
         santoriniV2: true,
+        a11yNotificationPreferenceFieldset: true,
       };
       return appFeatureToggles;
     }),

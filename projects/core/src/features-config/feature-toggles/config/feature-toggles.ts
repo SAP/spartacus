@@ -243,6 +243,11 @@ export interface FeatureTogglesInterface {
    * Enables the updated Santorini theme.
    */
   santoriniV2?: boolean;
+
+  /**
+   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
+   */
+  a11yNotificationPreferenceFieldset?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -286,4 +291,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
   santoriniV2: false,
+  a11yNotificationPreferenceFieldset: false,
 };
