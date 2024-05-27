@@ -5,8 +5,4 @@
   color: var(--cx-color-dark);
   background-color: var(--cx-color-inverse);
   margin-bottom: -1.5rem;
-
-  @include forFeature('santoriniV2') {
-    color: var(--cx-color-text);
-  }
 }

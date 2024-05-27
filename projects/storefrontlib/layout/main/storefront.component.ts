@@ -13,7 +13,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { RoutingService, useFeatureStyles } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   FocusConfig,
@@ -61,9 +61,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     private routingService: RoutingService,
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
-  ) {
-    useFeatureStyles('santoriniV2');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.navigateSubscription = this.routingService

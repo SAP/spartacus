@@ -9,11 +9,6 @@
     display: flex;
     border: 1px solid var(--cx-color-light);
     font-size: var(--cx-font-size, 2rem);
-
-    @include forFeature('santoriniV2') {
-      @include type('1');
-      border: 1px solid var(--cx-color-medium);
-    }
   }
 
   .right-align {

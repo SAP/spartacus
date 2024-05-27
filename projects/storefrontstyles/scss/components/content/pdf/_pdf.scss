@@ -2,18 +2,11 @@
   .pdf-container {
     padding-top: 0.938rem;
     font-size: var(--cx-font-size, 0.875rem);
-    @include forFeature('santoriniV2') {
-      @include type('7');
-    }
     a {
       color: var(--cx-color-text);
       line-height: 1.1875rem;
       text-decoration: underline;
       font-weight: 600;
-
-      @include forFeature('santoriniV2') {
-        @include type('3');
-      }
     }
     cx-icon {
       margin-inline-start: 0.3rem;

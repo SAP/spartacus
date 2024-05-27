@@ -76,7 +76,6 @@ import { CheckoutFeatureModule } from './features/checkout/checkout-feature.modu
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
-import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
 import { OppsFeatureModule } from './features/opps/opps-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
@@ -95,6 +94,7 @@ import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.m
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
+import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
@@ -308,7 +308,6 @@ if (environment.estimatedDeliveryDate) {
         a11yTruncatedTextForResponsiveView: true,
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
-        santoriniV2: true,
       };
       return appFeatureToggles;
     }),
