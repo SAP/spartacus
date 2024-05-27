@@ -26,10 +26,6 @@
       margin-top: 1rem;
       margin-bottom: 0;
       color: var(--cx-color-primary);
-
-      @include forFeature('santoriniV2') {
-        @include type('2');
-      }
     }
     [data-test-id='preferredStoreAddressBook'] .cx-store-name {
       font-weight: 700;

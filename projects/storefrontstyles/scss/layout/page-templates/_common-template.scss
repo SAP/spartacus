@@ -20,11 +20,7 @@ cx-page-layout {
   }
 
   &.footer {
-    background-color: var(--cx-color-dark);
-    @include forFeature('santoriniV2') {
-      background-color: var(--cx-color-secondary);
-    }
-
+    background-color: var(--cx-background-color, var(--cx-color-dark));
     color: var(--cx-color, var(--cx-color-inverse));
   }
 }

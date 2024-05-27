@@ -10,10 +10,6 @@
     border-color: var(--cx-color-light);
     margin: 0 0 25px 0;
 
-    @include forFeature('santoriniV2') {
-      border-color: var(--cx-color-medium);
-    }
-
     &:last-of-type {
       border: none;
     }
@@ -26,10 +22,6 @@
   .cx-sorting {
     border-style: solid;
     border-color: var(--cx-color-light);
-
-    @include forFeature('santoriniV2') {
-      border-color: var(--cx-color-medium);
-    }
 
     @include media-breakpoint-down(md) {
       border: none;

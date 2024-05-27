@@ -18,10 +18,6 @@
   display: flex;
   justify-content: center;
 
-  @include media-breakpoint-down(sm) {
-    @include type('6');
-  }
-
   &-icon {
     height: var(--cx-height, 25px);
     margin-inline-end: var(--cx-margin-right, spacer(2));
