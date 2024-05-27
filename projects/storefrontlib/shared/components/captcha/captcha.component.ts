@@ -37,7 +37,7 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     protected config: CaptchaApiConfig,
-    protected injector: Injector,
+    protected injector: Injector
   ) {}
 
   /**
@@ -45,8 +45,6 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
    * config.
    */
   ngAfterViewInit(): void {
-
-
     if (this.config?.captchaProvider) {
       const captchaProvider = this.injector.get<CaptchaProvider>(
         this.config.captchaProvider
@@ -58,7 +56,7 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
             concatMap((captchaConfig) => {
               if (captchaConfig?.enabled) {
                 return captchaProvider.renderCaptcha({
-                  element: this.captchaRef.nativeElement
+                  element: this.captchaRef.nativeElement,
                 });
               } else {
                 return of(null);

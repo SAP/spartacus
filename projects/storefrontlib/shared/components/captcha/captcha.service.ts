@@ -14,12 +14,7 @@ import {
   ScriptLoader,
   SiteAdapter,
 } from '@spartacus/core';
-import {
-  forkJoin,
-  Observable,
-  ReplaySubject,
-  Subscription,
-} from 'rxjs';
+import { forkJoin, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 import { CaptchaProvider, RenderParams } from './captcha.model';
 import { CaptchaApiConfig } from './mockCaptcha/config/captcha-api-config';
@@ -71,7 +66,7 @@ export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
         // -- test code starts
         if (baseSite) {
           baseSite.captchaConfig = {
-            enabled: true
+            enabled: true,
           };
         }
         // -- test code ends

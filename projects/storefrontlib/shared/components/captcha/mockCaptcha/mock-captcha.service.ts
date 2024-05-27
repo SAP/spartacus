@@ -7,10 +7,7 @@
 
 import { Injectable } from '@angular/core';
 
-import {
-  Observable,
-  Subject,
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { CaptchaService } from '../captcha.service';
 import { RenderParams } from '../captcha.model';
 
@@ -28,7 +25,6 @@ declare global {
   providedIn: 'root',
 })
 export class MockCaptchaService extends CaptchaService {
-
   protected retVal = new Subject<string>();
 
   protected container: HTMLDivElement;
@@ -57,7 +53,7 @@ export class MockCaptchaService extends CaptchaService {
     this.container.appendChild(this.label);
 
     this.spinner = document.createElement('icon');
-    this.spinner.className = 'fa-solid fa-spinner'
+    this.spinner.className = 'fa-solid fa-spinner';
 
     this.checkbox.addEventListener('change', this.onCheckBoxClicked.bind(this));
   }
@@ -69,11 +65,10 @@ export class MockCaptchaService extends CaptchaService {
 
     setTimeout(() => {
       this.container.removeChild(this.spinner);
-        this.retVal.next('succeed');
-        this.retVal.complete();
-        this.token = 'my token';
-        this.label.textContent = "Verified";
-
+      this.retVal.next('succeed');
+      this.retVal.complete();
+      this.token = 'my token';
+      this.label.textContent = 'Verified';
     }, 500);
   }
 
@@ -83,7 +78,7 @@ export class MockCaptchaService extends CaptchaService {
    */
   renderCaptcha(renderParams: RenderParams): Observable<string> {
     if (renderParams.element instanceof HTMLElement) {
-     this.targetElement = renderParams.element;
+      this.targetElement = renderParams.element;
       renderParams.element.appendChild(this.container);
     }
 

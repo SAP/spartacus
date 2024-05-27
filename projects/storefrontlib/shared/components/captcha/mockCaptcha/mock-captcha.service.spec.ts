@@ -79,5 +79,4 @@ describe('CaptchaService Service', () => {
     expect(baseSiteService.getActive).toHaveBeenCalledTimes(1);
     expect(siteAdapter.loadBaseSite).toHaveBeenCalledTimes(1);
   });
-
 });
