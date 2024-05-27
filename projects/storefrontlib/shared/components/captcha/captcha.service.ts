@@ -61,7 +61,6 @@ export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
           take(1)
         ),
       ]).subscribe((result) => {
-        const lang = result[0] as string;
         const baseSite = result[1] as BaseSite;
         // -- test code starts
         if (baseSite) {
@@ -73,10 +72,7 @@ export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
 
         if (baseSite?.captchaConfig?.enabled) {
           this.captchaConfig = baseSite.captchaConfig;
-          this.loadResource({
-            lang: lang,
-            config: this.captchaConfig,
-          });
+          this.loadResource();
         } else {
           this.captchaConfigSubject$.next({ enabled: false });
         }
@@ -106,8 +102,7 @@ export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
    * Load external resource if needed with dependencies to be added to <head>.
    * @param - Language and configuration read from server
    */
-  loadResource(params?: { lang: string; config: CaptchaConfig }): void {
-    console.log(params);
+  loadResource(): void {
     this.captchaConfigSubject$.next(this.captchaConfig);
   }
 }

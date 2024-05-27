@@ -23,8 +23,7 @@ describe('Register', () => {
         req.continue((res) => {
           res?.body?.baseSites?.forEach((baseSite) => {
             baseSite.captchaConfig = {
-              enabled: true,
-              publicKey: Cypress.env('RECAPTCHA_PUBLIC_KEY'),
+              enabled: true
             };
           });
           res.send(res.body);
