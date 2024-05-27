@@ -26,7 +26,7 @@
     background: var(--cx-color-background);
 
     @include forFeature('santoriniV2') {
-      @include type('7')
+      @include type('7');
     }
 
     &:hover {

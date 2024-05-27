@@ -30,7 +30,7 @@
     text-align: var(--cx-text-align, center);
 
     @include forFeature('santoriniV2') {
-      @include type('6')
+      @include type('6');
     }
   }
 
@@ -56,7 +56,7 @@
     padding: 0 12px;
 
     @include forFeature('santoriniV2') {
-      @include type('8')
+      @include type('8');
     }
   }
 

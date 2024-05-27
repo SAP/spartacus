@@ -31,9 +31,9 @@
   box-shadow: 0px 1px 11px 2px var(--cx-popover-box-shadow-color);
 
   @include forFeature('santoriniV2') {
-    @include type('7')
+    @include type('7');
   }
-  
+
   > .arrow {
     position: absolute;
     display: block;

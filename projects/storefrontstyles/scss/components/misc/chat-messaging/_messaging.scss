@@ -25,7 +25,7 @@
       label {
         margin-bottom: 0;
         font-size: var(--cx-font-size, 0.875rem);
-        
+
         @include forFeature('santoriniV2') {
           @include type('4');
         }
