@@ -49,6 +49,7 @@ export class MockCaptchaService extends CaptchaService {
 
     this.checkbox = document.createElement('input');
     this.checkbox.type = 'checkbox';
+    this.checkbox.className = 'mock-captcha';
 
     this.label = document.createElement('label');
     this.label.textContent = "I'm not a robot";
@@ -68,17 +69,11 @@ export class MockCaptchaService extends CaptchaService {
 
     setTimeout(() => {
       this.container.removeChild(this.spinner);
-      let succeed = Math.random() > 0.5;
-      if (succeed) {
         this.retVal.next('succeed');
         this.retVal.complete();
         this.token = 'my token';
         this.label.textContent = "Verified";
 
-      } else {
-        this.retVal.error('can not fetch token ');
-        this.label.textContent = "can not fetch token";
-      }
     }, 500);
   }
 

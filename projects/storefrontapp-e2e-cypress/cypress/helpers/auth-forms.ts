@@ -87,15 +87,9 @@ export function registerWithCaptcha(
   cy.get('button[type="submit"]').click();
   // Register a user without confirming captcha will have an error.
   cy.get('cx-form-errors').should('contain', 'This field is required');
-  cy.intercept('POST', /\.*\/userverify\?k=.*/).as('confirm');
   // Confirming captcha
-  cy.get('iframe')
-    .first()
-    .then((recaptchaIframe) => {
-      const body = recaptchaIframe.contents();
-      cy.wrap(body).find('#recaptcha-anchor').click();
-    });
-  cy.wait('@confirm');
+  cy.get('.mock-captcha').click();
+  cy.contains('label', 'Verified', { timeout: 10000 }).should('be.visible');
   cy.get('button[type="submit"]').click();
   cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 }

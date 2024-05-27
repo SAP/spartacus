@@ -35,10 +35,7 @@ describe('Register', () => {
       });
       cy.findByText(/Sign in \/ Register/i).click();
 
-      cy.intercept('GET', /\.*\/bframe\?hl=.*/).as('getIFrame');
       cy.get('cx-login-register').findByText('Register').click();
-      cy.wait('@getIFrame').its('response.statusCode').should('eq', 200);
-      cy.get('cx-captcha').find('iframe').should('exist');
       registerWithCaptcha(user);
       verifyGlobalMessageAfterRegistration();
     });
