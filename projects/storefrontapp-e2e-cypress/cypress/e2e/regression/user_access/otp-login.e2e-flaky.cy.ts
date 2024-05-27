@@ -124,7 +124,7 @@ describe('OTP Login', () => {
         cy.get('cx-verification-token-form').should('exist');
 
         cy.get('cx-verification-token-form form').within(() => {
-          cy.get('div.verify-container a').click();
+          cy.get('div.verify-container button').contains('Back').click();
         });
 
         cy.get('cx-verification-token-form').should('not.exist');
