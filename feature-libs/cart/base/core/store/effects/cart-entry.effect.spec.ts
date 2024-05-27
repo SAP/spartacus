@@ -11,8 +11,6 @@ import { CartActions } from '../actions/index';
 import * as fromEffects from './cart-entry.effect';
 import createSpy = jasmine.createSpy;
 
-const replacedProductCode = 'replacedProduct';
-
 const MockOccModuleConfig: OccConfig = {
   backend: {
     occ: {
@@ -33,7 +31,7 @@ describe('Cart effect', () => {
   beforeEach(() => {
     mockCartModification = {
       deliveryModeChanged: true,
-      entry: { product: { code: replacedProductCode } },
+      entry: {},
       quantity: 1,
       quantityAdded: 1,
       statusCode: 'statusCode',
@@ -70,7 +68,7 @@ describe('Cart effect', () => {
       const completion = new CartActions.CartAddEntrySuccess({
         userId,
         cartId,
-        productCode: replacedProductCode,
+        productCode: 'testProductCode',
         ...mockCartModification,
       });
 
@@ -91,7 +89,7 @@ describe('Cart effect', () => {
       const completion = new CartActions.CartAddEntrySuccess({
         userId,
         cartId,
-        productCode: replacedProductCode,
+        productCode: 'testProductCode',
         pickupStore: 'pickupStore',
         ...mockCartModification,
       });
