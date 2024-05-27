@@ -12,7 +12,7 @@
             {{ 'notificationPreference.message' | cxTranslate }}
           </legend>
           <ng-container *ngFor="let preference of preferences">
-            <div *ngIf="preference.visible" class="form-check">
+            <div *ngIf="preference.visible" class="form-check pref-channel">
               <input
                 class="form-check-input cx-np-checkbox"
                 role="checkbox"
@@ -31,7 +31,7 @@
             </div>
           </ng-container>
         </fieldset>
-        <p>
+        <p class="pref-note">
           <strong>{{ 'notificationPreference.note' | cxTranslate }}</strong
           >{{ 'notificationPreference.noteMessage' | cxTranslate }}
         </p>
