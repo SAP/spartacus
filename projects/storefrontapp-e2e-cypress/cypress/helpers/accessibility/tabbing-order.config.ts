@@ -185,7 +185,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.FORM_FIELD,
     },
     { value: 'Terms & Conditions', type: TabbingOrderTypes.LINK },
-    { value: 'reCAPTCHA', type: TabbingOrderTypes.CX_CAPTCHA },
+    { value: 'captcha', type: TabbingOrderTypes.CX_CAPTCHA },
     { value: 'Register', type: TabbingOrderTypes.BUTTON },
     {
       value: 'I already have an account. Sign In',
