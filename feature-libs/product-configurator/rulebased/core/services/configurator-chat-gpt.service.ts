@@ -442,11 +442,10 @@ export class ConfiguratorChatGptService {
     valueName: string,
     attribute: Configurator.Attribute
   ): Configurator.Value | undefined {
-    const value = attribute.values?.find(
+    return attribute.values?.find(
       (foundValue) =>
         foundValue.name === valueName || foundValue.valueDisplay === valueName
     );
-    return value;
   }
 
   protected findAttribute(
