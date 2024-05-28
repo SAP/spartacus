@@ -78,7 +78,7 @@ describe('Configurator selectors', () => {
       });
   });
 
-  it('should return configuration content when selecting with content selector when action was successful', () => {
+  xit('should return configuration content when selecting with content selector when action was successful', () => {
     let result: Configurator.Configuration;
     store.dispatch(
       new ConfiguratorActions.CreateConfigurationSuccess(

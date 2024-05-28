@@ -3,7 +3,20 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConfiguratorChatComponent } from './configurator-chat.component';
 import { ConfiguratorSpeechTextRecognitionService } from '../../core/services/configurator-speech-text-recognition.service';
-import { ConfiguratorChatGptService } from '@spartacus/product-configurator/rulebased';
+import {
+  Configurator,
+  ConfiguratorChatGptService,
+  ConfiguratorCommonsService,
+} from '@spartacus/product-configurator/rulebased';
+import { GlobalMessageService, LoggerService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 
 @Component({
   selector: 'cx-icon',
@@ -18,6 +31,42 @@ class MockConfiguratorChatGptService {
   ask() {}
 }
 
+const router: ConfiguratorRouter.Data = {
+  pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+  isOwnerCartEntry: true,
+  owner: ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    '3',
+    ConfiguratorType.VARIANT
+  ),
+};
+
+class MockConfigRouterExtractorService {
+  extractRouterData() {
+    return of(router);
+  }
+}
+
+let configurationObs: any;
+class MockConfiguratorCommonsService {
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return configurationObs;
+  }
+}
+
+class MockGlobalMessageService {
+  add() {}
+  remove() {}
+}
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('ConfiguratorChatComponent', () => {
   let component: ConfiguratorChatComponent;
   let fixture: ComponentFixture<ConfiguratorChatComponent>;
@@ -30,9 +79,22 @@ describe('ConfiguratorChatComponent', () => {
         declarations: [ConfiguratorChatComponent, MockCxIconComponent],
         providers: [
           ConfiguratorSpeechTextRecognitionService,
+          { provide: LoggerService, useClass: MockLoggerService },
           {
             provide: ConfiguratorChatGptService,
             useClass: MockConfiguratorChatGptService,
+          },
+          {
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfigRouterExtractorService,
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
           },
         ],
       });
@@ -61,14 +123,6 @@ describe('ConfiguratorChatComponent', () => {
       configuratorSpeechRecognitionService,
       'stopRecording'
     ).and.callThrough();
-    spyOn(
-      configuratorSpeechRecognitionService,
-      'getRecordedText'
-    ).and.callThrough();
-    spyOn(
-      configuratorSpeechRecognitionService,
-      'resetRecordedText'
-    ).and.callThrough();
   });
 
   it('should create component', () => {
@@ -76,19 +130,16 @@ describe('ConfiguratorChatComponent', () => {
   });
 
   it('should call startRecording', () => {
-    component.startRecording();
+    component['startRecording']();
     expect(
       configuratorSpeechRecognitionService.startRecording
     ).toHaveBeenCalled();
   });
 
   it('should call stopRecording', () => {
-    component.stopRecording();
+    component['stopRecording']();
     expect(
       configuratorSpeechRecognitionService.stopRecording
-    ).toHaveBeenCalled();
-    expect(
-      configuratorSpeechRecognitionService.getRecordedText
     ).toHaveBeenCalled();
   });
 });
