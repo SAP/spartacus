@@ -271,6 +271,7 @@ if (environment.estimatedDeliveryDate) {
       const appFeatureToggles: Required<FeatureToggles> = {
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
+        showDownloadProposalButton: false,
         showPromotionsInPDP: false,
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,

@@ -144,4 +144,24 @@ export class QuoteConnector {
       comment
     );
   }
+
+  /**
+   * Downloads the proposal document associated with a quote.
+   *
+   * @param userId - Quote user
+   * @param quoteCode - Quote code
+   * @param attachmentId - Attachment ID
+   * @returns Observable emitting a Blob response
+   */
+  downloadAttachment(
+    userId: string,
+    quoteCode: string,
+    attachmentId: string
+  ): Observable<Blob> {
+    return this.quoteAdapter.downloadAttachment(
+      userId,
+      quoteCode,
+      attachmentId
+    );
+  }
 }

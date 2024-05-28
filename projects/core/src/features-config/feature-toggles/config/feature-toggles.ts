@@ -13,10 +13,18 @@ export interface FeatureTogglesInterface {
    * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
    */
   useExtractedBillingAddressComponent?: boolean;
+  
   /**
    * In `DpPaymentCallbackComponent` it shows the billing address form.
    */
   showBillingAddressInDigitalPayments?: boolean;
+  
+  /**
+   * In `QuoteLinksComponent` it shows the download button.
+   * API for this button is available in commerce 2211.16 and above
+   */
+  showDownloadProposalButton?: boolean;
+  
   /**
    * In `ProductSummaryComponent` it shows the promotions info.
    */
@@ -245,6 +253,7 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,
+  showDownloadProposalButton: false,
   showPromotionsInPDP: false,
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,

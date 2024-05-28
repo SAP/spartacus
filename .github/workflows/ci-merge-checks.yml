@@ -157,9 +157,18 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Aggregate Required Job Results
-        run: |
-            gh pr ready --undo ${{github.event.number}} -R ${{ github.repository }} 
-            exit 1
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `# Merge Checks Failed
+                Please push a commit to re-trigger the build. 
+                To push an empty commit you can use \`git commit --allow-empty -m "Trigger Build"\``
+            })
+            core.setFailed('Please push a commit to re-trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: |
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
