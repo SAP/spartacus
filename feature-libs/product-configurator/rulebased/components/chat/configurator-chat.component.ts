@@ -4,8 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  ViewChild,
+} from '@angular/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  LoggerService,
+} from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -34,6 +43,8 @@ const WAIT_MSG = 'Please wait a moment - I will reply as soon as possible :-)';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorChatComponent {
+  protected logger = inject(LoggerService);
+
   @ViewChild(MessagingComponent) commentsComponent: MessagingComponent;
   iconTypes = ICON_TYPE;
 
@@ -133,7 +144,7 @@ export class ConfiguratorChatComponent {
     answer$
       .pipe(
         take(1),
-        tap((answer) => console.log('GPT answered: ', answer)),
+        tap((answer) => this.logger.log('GPT answered: ', answer)),
         map((answer) => this.mapAnswerToMessageEvent(answer.content))
       )
       .subscribe((event) => {
@@ -187,7 +198,7 @@ export class ConfiguratorChatComponent {
     this.configSpeechTextRecognitionService.recordedText
       .pipe(take(1))
       .subscribe((recordedText) => {
-        console.log('recorded text: ' + recordedText);
+        this.logger.log('recorded text: ' + recordedText);
         if (this.isNotEmpty(recordedText)) {
           this.commentsComponent.form.get('message')?.setValue(recordedText);
 

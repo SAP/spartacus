@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { inject, Injectable } from '@angular/core';
+import { LoggerService, Product } from '@spartacus/core';
 import { ChatGPT4 } from '../model/chat-gpt-4.model';
 import { Configurator } from '../model/configurator.model';
+
 const multiValuedUiTypes: Configurator.UiType[] = [
   Configurator.UiType.CHECKBOXLIST,
   Configurator.UiType.CHECKBOXLIST_PRODUCT,
@@ -21,6 +22,8 @@ const multiValuedUiTypes: Configurator.UiType[] = [
   providedIn: 'root',
 })
 export class ConfiguratorChatGptMapperService {
+  protected logger = inject(LoggerService);
+
   constructor() {}
 
   serializeConfiguration(
@@ -58,7 +61,7 @@ export class ConfiguratorChatGptMapperService {
       );
       simplified.basePrice = this.mapPrice(config.priceSummary.basePrice);
     }
-    console.log('Config context for GPT:', simplified);
+    this.logger.log('Config context for GPT:', simplified);
     return JSON.stringify(simplified);
   }
 

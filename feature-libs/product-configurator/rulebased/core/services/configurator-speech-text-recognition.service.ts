@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, inject, Injectable } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API
 declare let webkitSpeechRecognition: any;
@@ -13,6 +14,8 @@ declare let webkitSpeechRecognition: any;
   providedIn: 'root',
 })
 export class ConfiguratorSpeechTextRecognitionService {
+  protected logger = inject(LoggerService);
+
   private static DEFAULT_LANGUAGE = 'en-US';
 
   speechRecognition: any;
@@ -37,17 +40,17 @@ export class ConfiguratorSpeechTextRecognitionService {
 
       this.speechRecognition.addEventListener('result', (event: any) => {
         const transcript = event.results[0][0].transcript;
-        console.log('After event has been fired: ' + transcript);
+        this.logger.log('After event has been fired: ' + transcript);
         this.recordedText.emit(transcript);
       });
 
       this.speechRecognition.addEventListener('nomatch', () => {
-        console.error('Speech not recognized');
+        this.logger.error('Speech not recognized');
         this.errorMsg.emit("Please, repeat again. I don't understand you.");
       });
 
       this.speechRecognition.addEventListener('error', (event: any) => {
-        console.error(`Speech recognition error detected: ${event.error}`);
+        this.logger.error(`Speech recognition error detected: ${event.error}`);
         this.errorMsg.emit(
           'Something went wrong. Could you repeat again what you have said?'
         );
@@ -56,12 +59,12 @@ export class ConfiguratorSpeechTextRecognitionService {
   }
 
   startRecording() {
-    console.log('Speech recognition started');
+    this.logger.log('Speech recognition started');
     this.speechRecognition.start();
   }
 
   stopRecording() {
-    console.log('Speech recognition ended');
+    this.logger.log('Speech recognition ended');
     this.speechRecognition.stop();
   }
 
