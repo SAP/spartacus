@@ -20,7 +20,7 @@ describe('Tabbing order for Captcha', () => {
           req.continue((res) => {
             res?.body?.baseSites?.forEach((baseSite) => {
               baseSite.captchaConfig = {
-                enabled: true
+                enabled: true,
               };
             });
             res.send(res.body);
