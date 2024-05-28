@@ -13,6 +13,7 @@ import {
 } from '@spartacus/organization/administration/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UnitItemService } from '../services/unit-item.service';
@@ -63,7 +64,11 @@ describe('UnitFormComponent', () => {
         NgSelectModule,
         FormTestingModule,
       ],
-      declarations: [UnitFormComponent, FormErrorsComponent],
+      declarations: [
+        UnitFormComponent,
+        FormErrorsComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: UnitItemService, useClass: MockItemService },

@@ -19,10 +19,18 @@
       }}"
       class="form-control"
     />
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
+      *cxFeature="'descriptiveErrorMessages'"
       [translationParams]="{
         label: 'updateEmailForm.newEmailAddress.label' | cxTranslate
       }"
+      [control]="form.get('email')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!descriptiveErrorMessages'"
       [control]="form.get('email')"
     ></cx-form-errors>
   </label>
@@ -42,10 +50,18 @@
       }}"
       class="form-control"
     />
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
+      *cxFeature="'descriptiveErrorMessages'"
       [translationParams]="{
         label: 'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate
       }"
+      [control]="form.get('confirmEmail')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!descriptiveErrorMessages'"
       [control]="form.get('confirmEmail')"
     ></cx-form-errors>
   </label>
@@ -66,10 +82,18 @@
       [attr.aria-label]="'updateEmailForm.password.placeholder' | cxTranslate"
       cxPasswordVisibilitySwitch
     />
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
+      *cxFeature="'descriptiveErrorMessages'"
       [translationParams]="{
         label: 'updateEmailForm.password.label' | cxTranslate
       }"
+      [control]="form.get('password')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!descriptiveErrorMessages'"
       [control]="form.get('password')"
     ></cx-form-errors>
   </label>

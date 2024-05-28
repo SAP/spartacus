@@ -232,6 +232,11 @@ export interface FeatureTogglesInterface {
    * will be fully visible
    */
   a11yCloseProductImageBtnFocus?: boolean;
+
+  /**
+   * When enabled use translation fallback keys enabling to use descriptive error message in non-destructive way
+   */
+  descriptiveErrorMessages?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -273,4 +278,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTruncatedTextForResponsiveView: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
+  descriptiveErrorMessages: false,
 };

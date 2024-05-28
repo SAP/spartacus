@@ -13,5 +13,6 @@ export function mockTranslate(
     .sort()
     .map((optionName) => `${optionName}:${options[optionName]}`)
     .join(' ');
+
   return optionsString ? `${keyString} ${optionsString}` : keyString;
 }

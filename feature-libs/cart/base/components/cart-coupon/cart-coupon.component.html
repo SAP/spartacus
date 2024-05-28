@@ -32,10 +32,18 @@
         >
           {{ 'voucher.apply' | cxTranslate }}
         </button>
+
+        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
+          *cxFeature="'descriptiveErrorMessages'"
           [translationParams]="{
             label: 'voucher.placeholder' | cxTranslate
           }"
+          [control]="couponForm.get('couponCode')"
+        ></cx-form-errors>
+
+        <cx-form-errors
+          *cxFeature="'!descriptiveErrorMessages'"
           [control]="couponForm.get('couponCode')"
         ></cx-form-errors>
       </div>

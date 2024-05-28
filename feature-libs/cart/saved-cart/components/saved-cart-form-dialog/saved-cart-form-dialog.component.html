@@ -201,10 +201,18 @@
                   required
                   type="text"
                 />
+
+                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
+                  *cxFeature="'descriptiveErrorMessages'"
                   [translationParams]="{
                     label: 'savedCartDialog.savedCartName' | cxTranslate
                   }"
+                  [control]="form.get('name')"
+                ></cx-form-errors>
+
+                <cx-form-errors
+                  *cxFeature="'!descriptiveErrorMessages'"
                   [control]="form.get('name')"
                 ></cx-form-errors>
               </label>
@@ -225,10 +233,18 @@
                 formControlName="description"
                 rows="5"
               ></textarea>
+
+              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
+                *cxFeature="'descriptiveErrorMessages'"
                 [translationParams]="{
                   label: 'savedCartDialog.savedCartDescription' | cxTranslate
                 }"
+                [control]="form.get('description')"
+              ></cx-form-errors>
+
+              <cx-form-errors
+                *cxFeature="'!descriptiveErrorMessages'"
                 [control]="form.get('description')"
               ></cx-form-errors>
 

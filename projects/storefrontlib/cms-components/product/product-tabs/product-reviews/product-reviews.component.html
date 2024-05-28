@@ -76,10 +76,18 @@
             class="form-control"
             formControlName="title"
           />
+
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
+            *cxFeature="'descriptiveErrorMessages'"
             [translationParams]="{
               label: 'productReview.reviewTitle' | cxTranslate
             }"
+            [control]="reviewForm.get('title')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!descriptiveErrorMessages'"
             [control]="reviewForm.get('title')"
           ></cx-form-errors>
         </label>
@@ -96,10 +104,18 @@
             rows="3"
             formControlName="comment"
           ></textarea>
+
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
+            *cxFeature="'descriptiveErrorMessages'"
             [translationParams]="{
               label: 'productReview.writeYourComments' | cxTranslate
             }"
+            [control]="reviewForm.get('comment')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!descriptiveErrorMessages'"
             [control]="reviewForm.get('comment')"
           ></cx-form-errors>
         </label>
@@ -122,10 +138,18 @@
             (change)="setRating($event)"
             [disabled]="false"
           ></cx-star-rating>
+
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
+            *cxFeature="'descriptiveErrorMessages'"
             [translationParams]="{
               label: 'productReview.rating' | cxTranslate
             }"
+            [control]="reviewForm.get('rating')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!descriptiveErrorMessages'"
             [control]="reviewForm.get('rating')"
           ></cx-form-errors>
         </label>

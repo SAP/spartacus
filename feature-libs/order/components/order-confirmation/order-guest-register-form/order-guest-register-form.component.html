@@ -52,10 +52,18 @@
             "
             cxPasswordVisibilitySwitch
           />
+
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
+            *cxFeature="'descriptiveErrorMessages'"
             [translationParams]="{
               label: 'register.confirmPassword.label' | cxTranslate
             }"
+            [control]="guestRegisterForm.get('passwordconf')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!descriptiveErrorMessages'"
             [control]="guestRegisterForm.get('passwordconf')"
           ></cx-form-errors>
         </label>

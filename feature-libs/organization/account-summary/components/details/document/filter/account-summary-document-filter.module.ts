@@ -6,15 +6,15 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
-import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import {
   DatePickerModule,
   FormErrorsModule,
   NgSelectA11yModule,
 } from '@spartacus/storefront';
+import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
 
 @NgModule({
   declarations: [AccountSummaryDocumentFilterComponent],
@@ -26,6 +26,7 @@ import {
     ReactiveFormsModule,
     DatePickerModule,
     FormErrorsModule,
+    FeaturesConfigModule,
   ],
   exports: [AccountSummaryDocumentFilterComponent],
 })

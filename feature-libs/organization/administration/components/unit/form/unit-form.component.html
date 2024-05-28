@@ -31,10 +31,18 @@
         placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
         formControlName="uid"
       />
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'descriptiveErrorMessages'"
         [translationParams]="{
           label: 'orgUnit.uid' | cxTranslate
         }"
+        [control]="form.get('uid')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
         [control]="form.get('uid')"
       ></cx-form-errors>
     </label>
@@ -54,10 +62,18 @@
         [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
       >
       </ng-select>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'descriptiveErrorMessages'"
         [translationParams]="{
           label: 'orgUnit.approvalProcess' | cxTranslate
         }"
+        [control]="form.get('approvalProcess.code')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
         [control]="form.get('approvalProcess.code')"
       ></cx-form-errors>
     </label>
@@ -78,10 +94,18 @@
           [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
         >
         </ng-select>
+
+        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
+          *cxFeature="'descriptiveErrorMessages'"
           [translationParams]="{
             label: 'orgUnit.form.parentOrgUnit' | cxTranslate
           }"
+          [control]="form.get('parentOrgUnit.uid')"
+        ></cx-form-errors>
+
+        <cx-form-errors
+          *cxFeature="'!descriptiveErrorMessages'"
           [control]="form.get('parentOrgUnit.uid')"
         ></cx-form-errors>
       </label>

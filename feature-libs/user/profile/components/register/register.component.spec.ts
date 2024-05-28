@@ -5,10 +5,10 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENT_STATUS,
   AuthConfigService,
   ConsentTemplate,
   GlobalMessageEntities,
@@ -24,7 +24,8 @@ import {
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
-import { EMPTY, Observable, of, Subject } from 'rxjs';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
@@ -138,7 +139,12 @@ describe('RegisterComponent', () => {
           PasswordVisibilityToggleModule,
           NgSelectA11yModule,
         ],
-        declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
+        declarations: [
+          RegisterComponent,
+          MockUrlPipe,
+          MockSpinnerComponent,
+          MockFeatureDirective,
+        ],
         providers: [
           {
             provide: RegisterComponentService,

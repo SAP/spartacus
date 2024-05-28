@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
 import {
   UntypedFormArray,
   UntypedFormBuilder,
@@ -18,6 +18,7 @@ import {
   AnonymousConsentsService,
   AuthConfigService,
   ConsentTemplate,
+  FeatureConfigService,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
@@ -26,7 +27,7 @@ import {
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { RegisterComponentService } from './register-component.service';
 
@@ -35,6 +36,17 @@ import { RegisterComponentService } from './register-component.service';
   templateUrl: './register.component.html',
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+  // TODO: (CXSPA-7315) Remove feature toggle in the next major
+  @Optional() featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
+  private passwordValidators = this.featureConfigService?.isEnabled(
+    'descriptiveErrorMessages'
+  )
+    ? [CustomFormValidators.passwordValidator]
+    : CustomFormValidators.passwordValidators;
+
   titles$: Observable<Title[]>;
 
   isLoading$ = new BehaviorSubject(false);
@@ -52,10 +64,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
-      password: [
-        '',
-        [Validators.required, ...CustomFormValidators.passwordValidators],
-      ],
+      password: ['', [Validators.required, ...this.passwordValidators]],
       passwordconf: ['', Validators.required],
       newsletter: new UntypedFormControl({
         value: false,

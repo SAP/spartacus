@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   FormErrorsModule,
   KeyboardFocusModule,
@@ -30,6 +30,7 @@ import { UserChangePasswordFormComponent } from './user-change-password-form.com
     CardModule,
     KeyboardFocusModule,
     PasswordVisibilityToggleModule,
+    FeaturesConfigModule,
   ],
   declarations: [UserChangePasswordFormComponent],
 })

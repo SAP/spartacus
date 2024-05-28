@@ -57,10 +57,18 @@
         placeholder="{{ 'orgUnitAddress.firstName' | cxTranslate }}"
         formControlName="firstName"
       />
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'descriptiveErrorMessages'"
         [translationParams]="{
           label: 'orgUnitAddress.firstName' | cxTranslate
         }"
+        [control]="form.get('firstName')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
         [control]="form.get('firstName')"
       ></cx-form-errors>
     </label>
@@ -75,8 +83,16 @@
         placeholder="{{ 'orgUnitAddress.lastName' | cxTranslate }}"
         formControlName="lastName"
       />
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'descriptiveErrorMessages'"
         [translationParams]="{ label: 'orgUnitAddress.lastName' | cxTranslate }"
+        [control]="form.get('lastName')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
         [control]="form.get('lastName')"
       ></cx-form-errors>
     </label>
@@ -92,8 +108,16 @@
         placeholder="{{ 'orgUnitAddress.streetAddress' | cxTranslate }}"
         formControlName="line1"
       />
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'descriptiveErrorMessages'"
         [translationParams]="{ label: 'orgUnitAddress.address1' | cxTranslate }"
+        [control]="form.get('line1')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
         [control]="form.get('line1')"
       ></cx-form-errors>
     </label>
@@ -133,8 +157,16 @@
         placeholder="{{ 'orgUnitAddress.city' | cxTranslate }}"
         formControlName="town"
       />
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'descriptiveErrorMessages'"
         [translationParams]="{ label: 'orgUnitAddress.city' | cxTranslate }"
+        [control]="form.get('town')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
         [control]="form.get('town')"
       ></cx-form-errors>
     </label>
@@ -150,8 +182,16 @@
         placeholder="{{ 'orgUnitAddress.zipCode' | cxTranslate }}"
         formControlName="postalCode"
       />
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'descriptiveErrorMessages'"
         [translationParams]="{ label: 'orgUnitAddress.zipCode' | cxTranslate }"
+        [control]="form.get('postalCode')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
         [control]="form.get('postalCode')"
       ></cx-form-errors>
     </label>
@@ -180,8 +220,16 @@
           appendTo="cx-org-list"
         >
         </ng-select>
+
+        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
+          *cxFeature="'descriptiveErrorMessages'"
           [translationParams]="{ label: 'orgUnitAddress.state' | cxTranslate }"
+          [control]="form.get('region.isocode')"
+        ></cx-form-errors>
+
+        <cx-form-errors
+          *cxFeature="'!descriptiveErrorMessages'"
           [control]="form.get('region.isocode')"
         ></cx-form-errors>
       </label>

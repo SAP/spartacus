@@ -12,10 +12,18 @@
         formControlName="name"
         (blur)="createCodeWithName(form.get('name'), form.get('code'))"
       />
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'descriptiveErrorMessages'"
         [translationParams]="{
           label: 'orgCostCenter.name' | cxTranslate
         }"
+        [control]="form.get('name')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
         [control]="form.get('name')"
       ></cx-form-errors>
     </label>
@@ -31,10 +39,18 @@
         placeholder="{{ 'orgCostCenter.code' | cxTranslate }}"
         formControlName="code"
       />
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'descriptiveErrorMessages'"
         [translationParams]="{
           label: 'orgCostCenter.code' | cxTranslate
         }"
+        [control]="form.get('code')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
         [control]="form.get('code')"
       ></cx-form-errors>
     </label>
@@ -56,10 +72,18 @@
         [placeholder]="'orgCostCenter.currency' | cxTranslate"
       >
       </ng-select>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'descriptiveErrorMessages'"
         [translationParams]="{
           label: 'orgCostCenter.currency' | cxTranslate
         }"
+        [control]="form.get('currency.isocode')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
         [control]="form.get('currency.isocode')"
       ></cx-form-errors>
     </label>
@@ -81,10 +105,18 @@
         [placeholder]="'orgCostCenter.unit' | cxTranslate"
       >
       </ng-select>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'descriptiveErrorMessages'"
         [translationParams]="{
           label: 'orgCostCenter.unit' | cxTranslate
         }"
+        [control]="form.get('unit.uid')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
         [control]="form.get('unit.uid')"
       ></cx-form-errors>
     </label>

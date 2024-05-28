@@ -10,16 +10,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
-  provideDefaultConfig,
   RoutingService,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  SpinnerModule,
   PasswordVisibilityToggleModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { ResetPasswordComponentService } from './reset-password-component.service';
@@ -35,6 +36,7 @@ import { ResetPasswordComponent } from './reset-password.component';
     FormErrorsModule,
     SpinnerModule,
     PasswordVisibilityToggleModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
