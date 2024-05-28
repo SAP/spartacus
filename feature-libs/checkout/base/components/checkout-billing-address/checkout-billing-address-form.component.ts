@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import { UntypedFormGroup } from '@angular/forms';
 import {
-  CheckoutPaymentFacade,
   CheckoutDeliveryAddressFacade,
 } from '@spartacus/checkout/base/root';
 import {
@@ -50,17 +49,13 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
   countries$: Observable<Country[]>;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  constructor(
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected userPaymentService: UserPaymentService,
-    protected globalMessageService: GlobalMessageService,
-    protected fb: UntypedFormBuilder,
-    protected userAddressService: UserAddressService,
-    protected launchDialogService: LaunchDialogService,
-    protected translationService: TranslationService,
-    protected billingAddressFormService: CheckoutBillingAddressFormService
-  ) {}
+  protected checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressFacade);
+  protected userPaymentService = inject(UserPaymentService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected userAddressService = inject(UserAddressService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected translationService = inject(TranslationService);
+  protected billingAddressFormService = inject(CheckoutBillingAddressFormService);
   ngOnInit(): void {
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
       tap((countries) => {

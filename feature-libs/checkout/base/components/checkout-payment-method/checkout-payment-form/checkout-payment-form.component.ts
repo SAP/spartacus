@@ -364,22 +364,18 @@ export class CheckoutPaymentFormComponent implements OnInit {
             billingAddress: billingAddressFormvalue,
           });
         } else {
-          if (!this.useExtractedBillingAddressComponent) {
-            this.billingAddressForm.markAllAsTouched();
-          } else {
-            this.billingAddressService.markAllAsTouched();
-          }
+          this.useExtractedBillingAddressComponent
+          ? this.billingAddressService.markAllAsTouched()
+          : this.billingAddressForm.markAllAsTouched();
         }
       }
     } else {
       this.paymentForm.markAllAsTouched();
 
       if (!sameAsDeliveryAddress) {
-        if (!this.useExtractedBillingAddressComponent) {
-          this.billingAddressForm.markAllAsTouched();
-        } else {
-          this.billingAddressService.markAllAsTouched();
-        }
+        this.useExtractedBillingAddressComponent
+          ? this.billingAddressService.markAllAsTouched()
+          : this.billingAddressForm.markAllAsTouched();
       }
     }
   }
