@@ -12,7 +12,13 @@ import { CommonModule } from '@angular/common';
 import { CheckoutBillingAddressFormModule } from '@spartacus/checkout/base/components';
 
 @NgModule({
-  imports: [CommonModule, SpinnerModule, I18nModule, CheckoutBillingAddressFormModule, FeaturesConfigModule,],
+  imports: [
+    CommonModule,
+    SpinnerModule,
+    I18nModule,
+    CheckoutBillingAddressFormModule,
+    FeaturesConfigModule,
+  ],
   declarations: [DpPaymentCallbackComponent],
   exports: [DpPaymentCallbackComponent],
 })

@@ -10,6 +10,10 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
+   */
+  useExtractedBillingAddressComponent?: boolean;
+  /**
    * In `DpPaymentCallbackComponent` it shows the billing address form.
    */
   showBillingAddressInDigitalPayments?: boolean;
@@ -239,6 +243,7 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,
   showPromotionsInPDP: false,
   recentSearches: false,

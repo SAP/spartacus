@@ -31,19 +31,19 @@ export const occDigitalPaymentsConfig: OccConfig = {
 })
 export abstract class DigitalPaymentsConfig {
   digitalPayments?: {
-      occQueryParams?: {
-        sessionId?: string;
-        signature?: string;
-        billingAddress?: string;
-        country?: string;
-        firstName?: string;
-        lastName?: string;
-        line1?: string;
-        line2?: string;
-        town?: string;
-        region?: string;
-        postalCode?: string;
-      };
+    occQueryParams?: {
+      sessionId?: string;
+      signature?: string;
+      billingAddress?: string;
+      country?: string;
+      firstName?: string;
+      lastName?: string;
+      line1?: string;
+      line2?: string;
+      town?: string;
+      region?: string;
+      postalCode?: string;
+    };
   };
 }
 

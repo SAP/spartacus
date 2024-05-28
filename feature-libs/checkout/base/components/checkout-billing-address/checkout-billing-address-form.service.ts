@@ -57,9 +57,11 @@ export class CheckoutBillingAddressFormService {
   }
 
   getBillingAddress(): Address {
-    if (this.billingAddress) { // billing address same as delivery address
+    if (this.billingAddress) {
+      // billing address same as delivery address
       return this.billingAddress;
-    } else { // billing address and delivery address are different
+    } else {
+      // billing address and delivery address are different
       return this.getBillingAddressForm().value;
     }
   }

@@ -8,7 +8,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CheckoutPaymentMethodModule as CorePaymentMethodModule } from '@spartacus/checkout/base/components';
-import { ConfigModule, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  ConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { DpPaymentCallbackModule } from './dp-payment-callback/dp-payment-callback.module';
 import { DpPaymentFormModule } from './dp-payment-form/dp-payment-form.module';
@@ -35,6 +39,6 @@ import { defaultDigitalPaymentsConfig } from '../../adapters/config/default-digi
   ],
   declarations: [DpPaymentMethodComponent],
   exports: [DpPaymentMethodComponent],
- providers:[provideDefaultConfig(defaultDigitalPaymentsConfig)],
+  providers: [provideDefaultConfig(defaultDigitalPaymentsConfig)],
 })
 export class DpPaymentMethodModule extends CorePaymentMethodModule {}

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   CheckoutPaymentFacade,
@@ -44,8 +44,6 @@ import { CheckoutBillingAddressFormService } from './checkout-billing-address-fo
   templateUrl: './checkout-billing-address-form.component.html',
 })
 export class CheckoutBillingAddressFormComponent implements OnInit {
-  // @Output()
-  // setBillingAddress = new EventEmitter<any>();
   showSameAsDeliveryAddressCheckbox$: Observable<boolean>;
   sameAsDeliveryAddress = true;
   deliveryAddress$: Observable<Address | undefined>;
@@ -122,10 +120,14 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
     this.sameAsDeliveryAddress = !this.sameAsDeliveryAddress;
     if (this.sameAsDeliveryAddress) {
       this.deliveryAddress$.subscribe((address) => {
-        this.billingAddressFormService.setDeliveryAddressAsBillingAddress(address);
+        this.billingAddressFormService.setDeliveryAddressAsBillingAddress(
+          address
+        );
       });
     } else {
-      this.billingAddressFormService.setDeliveryAddressAsBillingAddress(undefined);
+      this.billingAddressFormService.setDeliveryAddressAsBillingAddress(
+        undefined
+      );
     }
   }
   /**
