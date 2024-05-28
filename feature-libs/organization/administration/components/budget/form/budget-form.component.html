@@ -22,7 +22,10 @@
         [control]="form.get('name')"
       ></cx-form-errors>
 
-      <cx-form-errors *cxFeature="'!descriptiveErrorMessages'" [control]="form.get('name')"></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
+        [control]="form.get('name')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -36,7 +39,7 @@
         placeholder="{{ 'orgBudget.code' | cxTranslate }}"
         formControlName="code"
       />
-      
+
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'descriptiveErrorMessages'"
@@ -46,7 +49,10 @@
         [control]="form.get('code')"
       ></cx-form-errors>
 
-      <cx-form-errors *cxFeature="'!descriptiveErrorMessages'" [control]="form.get('code')"></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
+        [control]="form.get('code')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -120,7 +126,10 @@
         }"
         [control]="form.get('currency.isocode')"
       ></cx-form-errors>
-      <cx-form-errors *cxFeature="'!descriptiveErrorMessages'" [control]="form.get('currency.isocode')"></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
+        [control]="form.get('currency.isocode')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -143,7 +152,10 @@
         [control]="form.get('budget')"
       ></cx-form-errors>
 
-      <cx-form-errors *cxFeature="'!descriptiveErrorMessages'" [control]="form.get('budget')"></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
+        [control]="form.get('budget')"
+      ></cx-form-errors>
     </label>
 
     <label
@@ -176,7 +188,10 @@
         [control]="form.get('orgUnit.uid')"
       ></cx-form-errors>
 
-      <cx-form-errors *cxFeature="'!descriptiveErrorMessages'" [control]="form.get('orgUnit.uid')"></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
+        [control]="form.get('orgUnit.uid')"
+      ></cx-form-errors>
     </label>
   </ng-container>
 </cx-org-form>

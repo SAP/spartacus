@@ -12,7 +12,7 @@
         formControlName="name"
         (blur)="createUidWithName(form.get('name'), form.get('uid'))"
       />
-      
+
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'descriptiveErrorMessages'"
@@ -37,7 +37,7 @@
         placeholder="{{ 'orgUserGroup.uid' | cxTranslate }}"
         formControlName="uid"
       />
-      
+
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'descriptiveErrorMessages'"
@@ -68,7 +68,7 @@
         [placeholder]="'orgUserGroup.orgUnit' | cxTranslate"
       >
       </ng-select>
-      
+
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'descriptiveErrorMessages'"

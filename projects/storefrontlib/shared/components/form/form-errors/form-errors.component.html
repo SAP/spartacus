@@ -3,10 +3,9 @@
     <p *ngFor="let error of errorDetails">
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <ng-container *cxFeature="'descriptiveErrorMessages'">
-        
         {{
           [prefix + '.' + error[0], fallbackPrefix + '.' + error[0]]
-          | cxTranslate: getTranslationParams(error[1])
+            | cxTranslate: getTranslationParams(error[1])
         }}
       </ng-container>
       <ng-container *cxFeature="'!descriptiveErrorMessages'">

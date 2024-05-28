@@ -3,7 +3,6 @@
     <label class="cx-account-summary-document-filter-form-item">
       <span>{{ 'orgAccountSummary.filter.startRange' | cxTranslate }}</span>
       <ng-container *ngIf="type === 'date'; else inputFrom">
-        
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-date-picker
           *cxFeature="'descriptiveErrorMessages'"
@@ -11,7 +10,10 @@
           label="orgAccountSummary.filter.startRange"
         ></cx-date-picker>
 
-        <cx-date-picker *cxFeature="'!descriptiveErrorMessages'" [control]="formGroup.controls.from"></cx-date-picker>
+        <cx-date-picker
+          *cxFeature="'!descriptiveErrorMessages'"
+          [control]="formGroup.controls.from"
+        ></cx-date-picker>
       </ng-container>
       <ng-template #inputFrom>
         <input
@@ -29,14 +31,16 @@
           [control]="formGroup.controls.from"
         ></cx-form-errors>
 
-        <cx-form-errors *cxFeature="'!descriptiveErrorMessages'" [control]="formGroup.controls.from"></cx-form-errors>
+        <cx-form-errors
+          *cxFeature="'!descriptiveErrorMessages'"
+          [control]="formGroup.controls.from"
+        ></cx-form-errors>
       </ng-template>
     </label>
 
     <label class="cx-account-summary-document-filter-form-item">
       <span>{{ 'orgAccountSummary.filter.endRange' | cxTranslate }}</span>
       <ng-container *ngIf="type === 'date'; else inputTo">
-
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-date-picker
           *cxFeature="'descriptiveErrorMessages'"
@@ -44,7 +48,10 @@
           label="orgAccountSummary.filter.endRange"
         ></cx-date-picker>
 
-        <cx-date-picker *cxFeature="'!descriptiveErrorMessages'" [control]="formGroup.controls.to"></cx-date-picker>
+        <cx-date-picker
+          *cxFeature="'!descriptiveErrorMessages'"
+          [control]="formGroup.controls.to"
+        ></cx-date-picker>
       </ng-container>
       <ng-template #inputTo>
         <input
@@ -62,7 +69,10 @@
           [control]="formGroup.controls.to"
         ></cx-form-errors>
 
-        <cx-form-errors *cxFeature="'!descriptiveErrorMessages'" [control]="formGroup.controls.to"></cx-form-errors>
+        <cx-form-errors
+          *cxFeature="'!descriptiveErrorMessages'"
+          [control]="formGroup.controls.to"
+        ></cx-form-errors>
       </ng-template>
       <cx-form-errors
         [control]="formGroup"
@@ -102,7 +112,10 @@
         [control]="filterForm.controls.status"
       ></cx-form-errors>
 
-      <cx-form-errors *cxFeature="'descriptiveErrorMessages'" [control]="filterForm.controls.status"></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'descriptiveErrorMessages'"
+        [control]="filterForm.controls.status"
+      ></cx-form-errors>
     </label>
 
     <label class="cx-account-summary-document-filter-form-item">
@@ -130,7 +143,10 @@
         [control]="filterForm.controls.filterBy"
       ></cx-form-errors>
 
-      <cx-form-errors *cxFeature="'!descriptiveErrorMessages'" [control]="filterForm.controls.filterBy"></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!descriptiveErrorMessages'"
+        [control]="filterForm.controls.filterBy"
+      ></cx-form-errors>
     </label>
 
     <label
