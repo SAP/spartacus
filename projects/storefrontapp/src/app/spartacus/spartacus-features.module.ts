@@ -269,6 +269,7 @@ if (environment.estimatedDeliveryDate) {
     // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        showDownloadProposalButton: false,
         showPromotionsInPDP: false,
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
@@ -308,6 +309,7 @@ if (environment.estimatedDeliveryDate) {
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
         descriptiveErrorMessages: false,
+        a11yEmptyWishlistHeading: true,
       };
       return appFeatureToggles;
     }),

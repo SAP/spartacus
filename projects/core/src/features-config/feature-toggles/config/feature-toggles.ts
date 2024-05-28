@@ -10,6 +10,12 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * In `QuoteLinksComponent` it shows the download button.
+   * API for this button is available in commerce 2211.16 and above
+   */
+  showDownloadProposalButton?: boolean;
+
+  /**
    * In `ProductSummaryComponent` it shows the promotions info.
    */
   showPromotionsInPDP?: boolean;
@@ -237,9 +243,16 @@ export interface FeatureTogglesInterface {
    * When enabled use translation fallback keys enabling to use descriptive error message in non-destructive way
    */
   descriptiveErrorMessages?: boolean;
+
+  /**
+   * Modifies the template of 'WishListComponent'.
+   * Empty wishlist notification will be displayed in a paragraph instead of a heading.
+   */
+  a11yEmptyWishlistHeading?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  showDownloadProposalButton: false,
   showPromotionsInPDP: false,
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
@@ -279,4 +292,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
   descriptiveErrorMessages: false,
+  a11yEmptyWishlistHeading: false,
 };

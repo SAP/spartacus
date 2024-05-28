@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -35,6 +36,7 @@ import { WishListComponent } from './wish-list/wish-list.component';
     RouterModule,
     StarRatingModule,
     UrlModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

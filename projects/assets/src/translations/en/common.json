@@ -161,7 +161,7 @@
   "carousel": {
     "previousSlide": "Previous slide",
     "nextSlide": "Next slide",
-    "slideNumber": "Slide {{currentSlideNumber}}",
+    "slideNumber": "Slide {{currentSlideNumber}} contains {{numberOfSlides}} items",
     "carouselForProduct": "Carousel, Images for {{product}}"
   },
   "formErrors": {
