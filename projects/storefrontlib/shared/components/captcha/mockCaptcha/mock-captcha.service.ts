@@ -35,8 +35,6 @@ export class MockCaptchaService extends CaptchaService {
 
   protected spinner: HTMLElement;
 
-  protected targetElement;
-
   initialize() {
     super.initialize();
     // creating mock elements for captcha.
@@ -78,7 +76,6 @@ export class MockCaptchaService extends CaptchaService {
    */
   renderCaptcha(renderParams: RenderParams): Observable<string> {
     if (renderParams.element instanceof HTMLElement) {
-      this.targetElement = renderParams.element;
       renderParams.element.appendChild(this.container);
     }
 
