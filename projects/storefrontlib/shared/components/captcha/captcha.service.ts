@@ -17,7 +17,7 @@ import {
 import { forkJoin, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 import { CaptchaProvider, RenderParams } from './captcha.model';
-import { CaptchaApiConfig } from './mockCaptcha/config/captcha-api-config';
+import { CaptchaApiConfig } from './captcha-api-config';
 
 /**
  * Global function to be passes as "onload" url param for captcha <script>, to be

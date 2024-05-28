@@ -6,7 +6,7 @@
  */
 
 import { MockCaptchaService } from '../mock-captcha.service';
-import { CaptchaApiConfig } from './captcha-api-config';
+import { CaptchaApiConfig } from '../../captcha-api-config';
 
 export const MockCaptchaApiConfig: CaptchaApiConfig = {
   captchaProvider: MockCaptchaService,

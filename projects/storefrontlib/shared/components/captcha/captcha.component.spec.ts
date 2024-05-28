@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import { CaptchaConfig } from '@spartacus/core';
 import { CaptchaComponent, CaptchaProvider } from '@spartacus/storefront';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CaptchaApiConfig } from './mockCaptcha/config/captcha-api-config';
+import { CaptchaApiConfig } from './captcha-api-config';
 
 class MockCaptchaService implements CaptchaProvider {
   getCaptchaConfig(): Observable<CaptchaConfig> {
@@ -22,6 +22,8 @@ class MockCaptchaService implements CaptchaProvider {
 }
 
 const mockCaptchaApiConfig: CaptchaApiConfig = {
+  apiUrl: 'mock-url',
+  fields: { 'mock-field-key': 'mock-field-value' },
   captchaProvider: MockCaptchaService,
 };
 

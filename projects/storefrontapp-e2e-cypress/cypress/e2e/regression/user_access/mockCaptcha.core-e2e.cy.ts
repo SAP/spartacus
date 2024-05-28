@@ -17,7 +17,7 @@ describe('Register', () => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    it('should register and redirect to login page (CXSPA-805)', () => {
+    it('should register and redirect to login page (CXSPA-4006)', () => {
       cy.visit('/');
       cy.intercept('GET', /\.*\/basesites\?fields=.*/, (req) => {
         req.continue((res) => {
@@ -33,7 +33,7 @@ describe('Register', () => {
         clickHamburger();
       });
       cy.findByText(/Sign in \/ Register/i).click();
-
+      cy.get('cx-captcha').find('iframe').should('exist');
       cy.get('cx-login-register').findByText('Register').click();
       registerWithCaptcha(user);
       verifyGlobalMessageAfterRegistration();

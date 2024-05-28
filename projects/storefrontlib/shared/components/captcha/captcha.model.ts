@@ -10,6 +10,7 @@ import { CaptchaConfig } from '@spartacus/core';
 
 export interface RenderParams {
   element?: HTMLElement | string;
+  publicKey?: string;
 }
 
 export interface CaptchaProvider {

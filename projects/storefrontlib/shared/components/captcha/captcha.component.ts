@@ -19,7 +19,7 @@ import {
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
-import { CaptchaApiConfig } from './mockCaptcha/config/captcha-api-config';
+import { CaptchaApiConfig } from './captcha-api-config';
 import { CaptchaProvider } from './captcha.model';
 
 @Component({

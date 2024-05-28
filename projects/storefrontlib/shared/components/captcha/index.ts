@@ -8,4 +8,4 @@
 export * from './captcha.component';
 export * from './captcha.module';
 export * from './captcha.model';
-export * from './mockCaptcha/config/captcha-api-config';
+export * from './captcha-api-config';

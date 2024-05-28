@@ -86,6 +86,8 @@ class MockCaptchaService implements CaptchaProvider {
 }
 
 const mockCaptchaApiConfig: CaptchaApiConfig = {
+  apiUrl: 'mock-url',
+  fields: { 'mock-field-key': 'mock-field-value' },
   captchaProvider: MockCaptchaService,
 };
 
