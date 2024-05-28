@@ -33,8 +33,8 @@ describe('Register', () => {
         clickHamburger();
       });
       cy.findByText(/Sign in \/ Register/i).click();
-      cy.get('cx-captcha').find('iframe').should('exist');
       cy.get('cx-login-register').findByText('Register').click();
+      cy.get('cx-captcha').should('exist');
       registerWithCaptcha(user);
       verifyGlobalMessageAfterRegistration();
     });
