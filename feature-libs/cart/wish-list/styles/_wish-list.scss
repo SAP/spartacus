@@ -21,6 +21,10 @@
     }
   }
 
+  .cx-empty-wish-list {
+    text-align: center;
+  }
+
   @include media-breakpoint-down(md) {
     --cx-max-width: 75%;
 

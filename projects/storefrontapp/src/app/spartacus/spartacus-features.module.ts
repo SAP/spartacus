@@ -308,6 +308,7 @@ if (environment.estimatedDeliveryDate) {
         a11yTruncatedTextForResponsiveView: true,
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
+        a11yEmptyWishlistHeading: true,
       };
       return appFeatureToggles;
     }),
