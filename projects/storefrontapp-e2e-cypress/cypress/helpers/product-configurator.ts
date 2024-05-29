@@ -4,11 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as common from './common';
+import * as authForm from './auth-forms';
 import * as login from './login';
+import * as configurationCart from './product-configurator-cart';
 import * as configurationCartVc from './product-configurator-cart-vc';
 import * as productSearch from './product-search';
-import * as common from './common';
 import { verifyGlobalMessageAfterRegistration } from './register';
+import { SampleUser } from '../sample-data/checkout-flow';
 
 const nextBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Next")';
@@ -530,20 +533,24 @@ export function searchForProduct(productName: string): void {
  *
  * @param {string} productName - Product name
  */
-export function completeOrderProcess(productName: string): void {
-  login.registerUser();
+export function completeOrderProcess(
+  productName: string,
+  navigateToOrderDetails: boolean = false
+): void {
+  const user: SampleUser = login.registerUser(true);
   verifyGlobalMessageAfterRegistration();
   const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
-  login.loginUser();
+  authForm.login(user.email, user.password);
   cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
   this.searchForProduct(productName);
   common.clickOnAddToCartBtnOnPD();
   this.clickOnProceedToCheckoutBtnOnPD();
-  configurationCartVc.completeCheckout();
-  //TODO: activate after 22.05
-  //configurationCart.navigateToOrderDetails();
+  configurationCartVc.completeCheckout(user);
+  if (navigateToOrderDetails) {
+    configurationCart.navigateToOrderDetails();
+  }
   //don't check the order history aspect because this part is flaky
-  //configuration.selectOrderByOrderNumberAlias();
+  // configurationCart.selectOrderByOrderNumberAlias();
   const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
   login.signOutUser();
   cy.wait(tokenRevocationRequestAlias);
