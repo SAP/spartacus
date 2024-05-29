@@ -10,6 +10,7 @@ import createSpy = jasmine.createSpy;
 const initialPaymentRequestState: DpPaymentRequest | undefined = {};
 const initialPaymentDetailsState: PaymentDetails | undefined = {};
 const cartId = 'cartId';
+const userId = 'userId';
 
 class MockDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
   createPaymentRequest = createSpy('createPaymentRequest').and.returnValue(
@@ -21,7 +22,7 @@ class MockDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
 }
 class MockUserIdService {
   takeUserId() {
-    return of('current');
+    return of(userId);
   }
 }
 class MockActiveCartFacade {
@@ -37,7 +38,6 @@ describe('DpCheckoutPaymentService', () => {
   let dpAdapter: DigitalPaymentsAdapter;
   const signature = 'mockSignature';
   const sessionId = 'mockSessionId';
-  const userId = 'userId';
 
   beforeEach(() => {
     TestBed.configureTestingModule({

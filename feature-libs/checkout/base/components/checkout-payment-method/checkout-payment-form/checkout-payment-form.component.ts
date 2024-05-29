@@ -358,7 +358,6 @@ export class CheckoutPaymentFormComponent implements OnInit {
         });
       } else {
         if (isBillingAddressFormValid) {
-          console.log('billingAddressFormvalue', billingAddressFormvalue);
           this.setPaymentDetails.emit({
             paymentDetails: this.paymentForm.value,
             billingAddress: billingAddressFormvalue,

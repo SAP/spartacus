@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccConfig } from '@spartacus/core';
+import { OccConfig, Config } from '@spartacus/core';
 import { DigitalPaymentsOccEndpoints } from './index';
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
 
 const occDigitalPaymentsEndpoints: DigitalPaymentsOccEndpoints = {
   paymentRequest:
