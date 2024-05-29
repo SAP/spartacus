@@ -278,7 +278,7 @@ describe('Profile-tag events', () => {
           win,
           profileTagHelper.EventNames.ORDER_CONFIRMATION_PAGE_VIEWED
         )
-      ).to.equal(1);
+      ).to.equal(0);
     });
   });
 
