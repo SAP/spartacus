@@ -17,11 +17,11 @@ export function listenForCreateVerificationToken(): string {
 
 export function listenForUserVerficationCodeEmailReceive (customerEmail: string) {  
   const mailCCV2Url =
-  Cypress.env('MAIL_CCV2_URL') +
-  Cypress.env('MAIL_CCV2_PREFIX') +
-  '/search?query=' +
-  customerEmail +
-  '&kind=to';
+    Cypress.env('MAIL_CCV2_URL') +
+    Cypress.env('MAIL_CCV2_PREFIX') +
+    '/search?query=' +
+    customerEmail +
+    '&kind=to';
 
   cy.request({
     method: 'GET',
