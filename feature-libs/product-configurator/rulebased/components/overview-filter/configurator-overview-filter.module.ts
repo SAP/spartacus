@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { ConfiguratorOverviewFilterBarModule } from '../overview-filter-bar/configurator-overview-filter-bar.module';
 import { ConfiguratorOverviewFilterComponent } from './configurator-overview-filter.component';
 
@@ -18,7 +18,6 @@ import { ConfiguratorOverviewFilterComponent } from './configurator-overview-fil
     FormsModule,
     ReactiveFormsModule,
     ConfiguratorOverviewFilterBarModule,
-    FeaturesConfigModule,
   ],
   declarations: [ConfiguratorOverviewFilterComponent],
   exports: [ConfiguratorOverviewFilterComponent],
