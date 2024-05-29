@@ -67,7 +67,7 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     billingAddress?: Address
   ): HttpParams {
     let params = new HttpParams({ encoder: this.paramEncoder });
-    let paramName = this.config.digitalPayments?.occQueryParams;
+    const paramName = this.config.digitalPayments?.occQueryParams;
     params = params.append(paramName?.sessionId ?? '', sessionId);
     params = params.append(paramName?.signature ?? '', signature);
     if (billingAddress) {

@@ -7,6 +7,8 @@ import {
 } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import {
+  Address,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
@@ -17,6 +19,7 @@ import { DpCheckoutPaymentService } from './../../../facade/dp-checkout-payment.
 import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
 import { DpPaymentRequest } from './../../../models/dp-checkout.model';
 import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
+import { CheckoutBillingAddressFormService } from '@spartacus/checkout/base/components';
 
 class MockDpCheckoutPaymentService
   implements Partial<DpCheckoutPaymentService>
@@ -29,6 +32,27 @@ class MockDpCheckoutPaymentService
 class MockDpLocalStorageService implements Partial<DpLocalStorageService> {
   readCardRegistrationState(): DpPaymentRequest {
     return {};
+  }
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string) {
+    return false;
+  }
+}
+
+class MockCheckoutBillingAddressFormService
+  implements Partial<CheckoutBillingAddressFormService>
+{
+  markAllAsTouched(): void {}
+  isBillingAddressSameAsDeliveryAddress(): boolean {
+    return true;
+  }
+  getBillingAddress(): Address {
+    return {};
+  }
+  isBillingAddressFormValid(): boolean {
+    return true;
   }
 }
 
@@ -66,6 +90,8 @@ describe('DpPaymentCallbackComponent with success query param', () => {
   let dpPaymentService: DpCheckoutPaymentService;
   let dpStorageService: DpLocalStorageService;
   let msgService: GlobalMessageService;
+  let featureConfig: FeatureConfigService;
+  let billingAddressService: CheckoutBillingAddressFormService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -79,6 +105,10 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         {
           provide: DpPaymentCallbackComponent,
           useClass: DpPaymentCallbackComponent,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
         {
           provide: ActivatedRoute,
@@ -96,13 +126,18 @@ describe('DpPaymentCallbackComponent with success query param', () => {
           provide: GlobalMessageService,
           useClass: GlobalMessageService,
         },
+        {
+          provide: CheckoutBillingAddressFormService,
+          useClass: MockCheckoutBillingAddressFormService,
+        },
       ],
     }).compileComponents();
 
     dpPaymentService = TestBed.inject(DpCheckoutPaymentService);
     dpStorageService = TestBed.inject(DpLocalStorageService);
     msgService = TestBed.inject(GlobalMessageService);
-
+    featureConfig = TestBed.inject(FeatureConfigService);
+    billingAddressService = TestBed.inject(CheckoutBillingAddressFormService);
     spyOn(msgService, 'add').and.stub();
   });
 
@@ -137,7 +172,8 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
         mockSessionId,
-        mockSignature
+        mockSignature,
+        undefined
       );
     });
 
@@ -156,7 +192,8 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
         mockSessionId,
-        mockSignature
+        mockSignature,
+        undefined
       );
       expect(msgService.add).toHaveBeenCalledWith(
         { key: 'dpPaymentForm.error.paymentFetch' },
@@ -194,11 +231,78 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
         mockSessionId,
-        mockSignature
+        mockSignature,
+        undefined
       );
       expect(component.paymentDetailsAdded.emit).toHaveBeenCalledWith(
         mockPaymentDetails
       );
+    });
+  });
+
+  describe('Billing Address Form', () => {
+    beforeEach(() => {
+      const mockDpPaymentRequest: DpPaymentRequest = {
+        sessionId: mockSessionId,
+        signature: mockSignature,
+      };
+      spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue(
+        mockDpPaymentRequest
+      );
+      spyOn(dpPaymentService, 'createPaymentDetails').and.returnValue(
+        of(mockPaymentDetails)
+      );
+    });
+    it('should show billing address when feature flag is set and card added successfully', () => {
+      spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+      component.ngOnInit();
+      expect(component.showBillingAddressForm).toEqual(true);
+      expect(dpStorageService.readCardRegistrationState).not.toHaveBeenCalled();
+      expect(dpPaymentService.createPaymentDetails).not.toHaveBeenCalledWith(
+        mockSessionId,
+        mockSignature,
+        undefined
+      );
+    });
+    it('should not show billing address when feature flag is not set', () => {
+      spyOn(featureConfig, 'isEnabled').and.returnValue(false);
+      component.ngOnInit();
+      expect(component.showBillingAddressForm).toEqual(false);
+      expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
+      expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
+        mockSessionId,
+        mockSignature,
+        undefined
+      );
+    });
+    it('should send billing address if form is valid/billing address same as delivery address', () => {
+      spyOn(
+        billingAddressService,
+        'isBillingAddressSameAsDeliveryAddress'
+      ).and.returnValue(true);
+      spyOn(billingAddressService, 'isBillingAddressFormValid').and.returnValue(
+        true
+      );
+      spyOn(billingAddressService, 'getBillingAddress').and.returnValue({});
+      component.next();
+      expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
+      expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
+        mockSessionId,
+        mockSignature,
+        {}
+      );
+    });
+    it('should not send billing address if form is not valid & billing address is not same as delivery address', () => {
+      spyOn(
+        billingAddressService,
+        'isBillingAddressSameAsDeliveryAddress'
+      ).and.returnValue(false);
+      spyOn(billingAddressService, 'isBillingAddressFormValid').and.returnValue(
+        false
+      );
+      component.next();
+      expect(dpStorageService.readCardRegistrationState).not.toHaveBeenCalled();
+      expect(dpPaymentService.createPaymentDetails).not.toHaveBeenCalled();
     });
   });
 });
@@ -236,6 +340,10 @@ describe('DpPaymentCallbackComponent without query param', () => {
         {
           provide: GlobalMessageService,
           useClass: GlobalMessageService,
+        },
+        {
+          provide: CheckoutBillingAddressFormService,
+          useClass: MockCheckoutBillingAddressFormService,
         },
       ],
     }).compileComponents();

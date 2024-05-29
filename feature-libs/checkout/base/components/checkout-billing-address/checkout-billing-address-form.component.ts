@@ -6,9 +6,7 @@
 
 import { Component, OnInit, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import {
-  CheckoutDeliveryAddressFacade,
-} from '@spartacus/checkout/base/root';
+import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
   Address,
   AddressValidation,
@@ -39,7 +37,7 @@ import {
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
 
 @Component({
-  selector: 'cx-checkout-billing-address',
+  selector: 'cx-checkout-billing-address-form',
   templateUrl: './checkout-billing-address-form.component.html',
 })
 export class CheckoutBillingAddressFormComponent implements OnInit {
@@ -49,13 +47,17 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
   countries$: Observable<Country[]>;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  protected checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressFacade);
+  protected checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
   protected userPaymentService = inject(UserPaymentService);
   protected globalMessageService = inject(GlobalMessageService);
   protected userAddressService = inject(UserAddressService);
   protected launchDialogService = inject(LaunchDialogService);
   protected translationService = inject(TranslationService);
-  protected billingAddressFormService = inject(CheckoutBillingAddressFormService);
+  protected billingAddressFormService = inject(
+    CheckoutBillingAddressFormService
+  );
   ngOnInit(): void {
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
       tap((countries) => {
@@ -131,8 +133,7 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
    * See ticket CXSPA-1276
    */
   verifyAddress(): void {
-    if (this.sameAsDeliveryAddress) {
-    } else {
+    if (!this.sameAsDeliveryAddress) {
       this.userAddressService
         .verifyAddress(this.billingAddressForm.value)
         .subscribe((result) => {

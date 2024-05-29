@@ -365,8 +365,8 @@ export class CheckoutPaymentFormComponent implements OnInit {
           });
         } else {
           this.useExtractedBillingAddressComponent
-          ? this.billingAddressService.markAllAsTouched()
-          : this.billingAddressForm.markAllAsTouched();
+            ? this.billingAddressService.markAllAsTouched()
+            : this.billingAddressForm.markAllAsTouched();
         }
       }
     } else {
