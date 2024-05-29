@@ -245,6 +245,12 @@ export interface FeatureTogglesInterface {
    * will be fully visible
    */
   a11yCloseProductImageBtnFocus?: boolean;
+
+  /**
+   * Modifies the template of 'WishListComponent'.
+   * Empty wishlist notification will be displayed in a paragraph instead of a heading.
+   */
+  a11yEmptyWishlistHeading?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -288,4 +294,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTruncatedTextForResponsiveView: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
+  a11yEmptyWishlistHeading: false,
 };
