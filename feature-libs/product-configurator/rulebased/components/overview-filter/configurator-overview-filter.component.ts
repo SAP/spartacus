@@ -6,7 +6,12 @@
 
 import { Component, inject, Input, OnChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { ProductScope, ProductService, RoutingService } from '@spartacus/core';
+import {
+  Config,
+  ProductScope,
+  ProductService,
+  RoutingService,
+} from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -19,6 +24,7 @@ import { Configurator } from '../../core/model/configurator.model';
 export class ConfiguratorOverviewFilterComponent implements OnChanges {
   protected productService = inject(ProductService);
   protected routingService = inject(RoutingService);
+  protected _config = inject(Config);
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService

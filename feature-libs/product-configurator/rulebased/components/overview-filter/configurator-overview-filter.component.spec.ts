@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
+  Config,
   I18nTestingModule,
   Product,
   ProductService,
@@ -25,9 +26,10 @@ const configId = '1234-56-7890';
 let component: ConfiguratorOverviewFilterComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterComponent>;
 let htmlElem: HTMLElement;
+let config: Config;
 
 let mockConfigCommonsService: ConfiguratorCommonsService;
-let ovConfig: Configurator.ConfigurationWithOverview;
+let overview: Configurator.ConfigurationWithOverview;
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 const mockRouterState: any = {
@@ -59,12 +61,16 @@ class MockProductService {
   }
 }
 
+class MockConfig {
+  features = [{ productConfiguratorHideMySelectionsFilterOptions: false }];
+}
+
 function initTestData() {
-  ovConfig = structuredClone({
+  overview = structuredClone({
     ...ConfiguratorTestUtils.createConfiguration(configId, owner),
     overview: ConfigurationTestData.productConfiguration.overview,
   });
-  ovConfig.overview.possibleGroups = structuredClone(ovConfig.overview.groups);
+  overview.overview.possibleGroups = structuredClone(overview.overview.groups);
 }
 
 function initMocks() {
@@ -77,9 +83,14 @@ function initTestComponent() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFilterComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
-  component.config = ovConfig;
+  component.config = overview;
   component.ngOnChanges();
+  product = undefined;
   fixture.detectChanges();
+
+  config = TestBed.inject(Config);
+  (config.features ?? {}).productConfiguratorHideMySelectionsFilterOptions =
+    false;
 }
 
 @Component({
@@ -114,6 +125,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
+        { provide: Config, useClass: MockConfig },
       ],
     });
   }
@@ -130,6 +142,30 @@ describe('ConfiguratorOverviewFilterComponent', () => {
   describe('in a component test environment', () => {
     it('should create component', () => {
       expect(component).toBeDefined();
+    });
+
+    it('should not render `My Selections` filter option in case `productConfiguratorHideMySelectionsFilterOptions` feature flag is enabled', () => {
+      mockRouterState.state.params.displayOnly = true;
+      mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
+      product = {
+        baseProduct: 'BASE' + PRODUCT_CODE,
+      };
+      (config.features ?? {}).productConfiguratorHideMySelectionsFilterOptions =
+        true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '#cx-configurator-overview-filter-option-mySelections'
+      );
+    });
+
+    it('should render `My Selections` filter option in case `productConfiguratorHideMySelectionsFilterOptions` feature flag is disabled', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '#cx-configurator-overview-filter-option-mySelections'
+      );
     });
 
     it('should render filter options', () => {
@@ -151,7 +187,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should render always default options', () => {
-      ovConfig.overview.possibleGroups = [];
+      overview.overview.possibleGroups = [];
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
@@ -258,35 +294,35 @@ describe('ConfiguratorOverviewFilterComponent', () => {
 
   describe('in a unit test environment', () => {
     it('extractAttrFilterState should extract attribute filters state', () => {
-      ovConfig.overview.attributeFilters = [
+      overview.overview.attributeFilters = [
         Configurator.OverviewFilter.PRICE_RELEVANT,
       ];
-      component['extractAttrFilterState'](ovConfig);
+      component['extractAttrFilterState'](overview);
       expect(component.priceFilter.value).toBeTruthy();
       expect(component.mySelectionsFilter.value).toBeFalsy();
     });
 
     describe('extractGroupFilterState', () => {
       it('should extract group filters state when all groups are selected', () => {
-        ovConfig.overview.groupFilters = ['1', '2'];
-        component['extractGroupFilterState'](ovConfig);
+        overview.overview.groupFilters = ['1', '2'];
+        component['extractGroupFilterState'](overview);
         expect(component.groupFilters.length).toBe(2);
         expect(component.groupFilters[0].value).toBeTruthy();
         expect(component.groupFilters[1].value).toBeTruthy();
       });
 
       it('should extract group filters state when no group is available', () => {
-        ovConfig.overview.possibleGroups = [];
-        component['extractGroupFilterState'](ovConfig);
+        overview.overview.possibleGroups = [];
+        component['extractGroupFilterState'](overview);
         expect(component.groupFilters.length).toBe(0);
       });
     });
 
     it('ngOnChanges should extract filters state', () => {
-      ovConfig.overview.attributeFilters = [
+      overview.overview.attributeFilters = [
         Configurator.OverviewFilter.USER_INPUT,
       ];
-      ovConfig.overview.groupFilters = ['1'];
+      overview.overview.groupFilters = ['1'];
       component.ngOnChanges();
       expect(component.priceFilter.value).toBeFalsy();
       expect(component.mySelectionsFilter.value).toBeTruthy();
@@ -314,7 +350,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
 
     describe('collectGroupFilters', () => {
       it('should collect group filters when nothing selected', () => {
-        let groupFilters = component['collectGroupFilters'](ovConfig.overview);
+        let groupFilters = component['collectGroupFilters'](overview.overview);
         expect(groupFilters).toEqual([]);
       });
 
@@ -323,7 +359,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           new UntypedFormControl(false),
           new UntypedFormControl(true),
         ];
-        let groupFilters = component['collectGroupFilters'](ovConfig.overview);
+        let groupFilters = component['collectGroupFilters'](overview.overview);
         expect(groupFilters).toEqual(['2']);
       });
     });
@@ -334,41 +370,41 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         new UntypedFormControl(false),
         new UntypedFormControl(true),
       ];
-      component.onFilter(ovConfig);
+      component.onFilter(overview);
       expect(
         mockConfigCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledWith({
-        ...ovConfig,
+        ...overview,
         overview: {
-          configId: ovConfig.configId,
-          productCode: ovConfig.productCode,
+          configId: overview.configId,
+          productCode: overview.productCode,
           attributeFilters: [Configurator.OverviewFilter.USER_INPUT],
           groupFilters: ['2'],
-          possibleGroups: ovConfig.overview.possibleGroups,
+          possibleGroups: overview.overview.possibleGroups,
         },
       });
     });
 
     it('createInputConfig should create input config', () => {
       let inputConfig = component['createInputConfig'](
-        ovConfig,
+        overview,
         [Configurator.OverviewFilter.PRICE_RELEVANT],
         ['3', '5']
       );
       expect(inputConfig).toEqual({
-        ...ovConfig,
+        ...overview,
         overview: {
-          configId: ovConfig.configId,
-          productCode: ovConfig.productCode,
+          configId: overview.configId,
+          productCode: overview.productCode,
           attributeFilters: [Configurator.OverviewFilter.PRICE_RELEVANT],
           groupFilters: ['3', '5'],
-          possibleGroups: ovConfig.overview.possibleGroups,
+          possibleGroups: overview.overview.possibleGroups,
         },
       });
     });
 
     describe('isDisplayOnlyVariant', () => {
-      it('should return `false` in case the product is undefined', () => {
+      it('should return `false` in case the product is `undefined`', () => {
         mockRouterState.state.params.displayOnly = true;
         mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
         fixture.detectChanges();
