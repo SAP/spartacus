@@ -27,6 +27,7 @@ export const ESTIMATED_DELIVERY_DATE_TRANSLATION_CHUNKS_CONFIG =
 export const ESTIMATED_DELIVERY_DATE_ROOT_MODULE =
   'EstimatedDeliveryDateRootModule';
 export const ESTIMATED_DELIVERY_DATE_MODULE = 'EstimatedDeliveryDateModule';
+export const ESTIMATED_DELIVERY_DATE_MODULE_NAME = 'EstimatedDeliveryDate';
 
 export const ESTIMATED_DELIVERY_DATE_SCSS_FILE_NAME =
   'estimated-delivery-date.scss';
@@ -37,7 +38,7 @@ export const ESTIMATED_DELIVERY_DATE_SCHEMATICS_CONFIG: SchematicConfig = {
     mainScope: SPARTACUS_ESTIMATED_DELIVERY_DATE,
   },
   folderName: ESTIMATED_DELIVERY_DATE_FOLDER_NAME,
-  moduleName: ESTIMATED_DELIVERY_DATE_MODULE,
+  moduleName: ESTIMATED_DELIVERY_DATE_MODULE_NAME,
   featureModule: {
     name: ESTIMATED_DELIVERY_DATE_MODULE,
     importPath: SPARTACUS_ESTIMATED_DELIVERY_DATE,
