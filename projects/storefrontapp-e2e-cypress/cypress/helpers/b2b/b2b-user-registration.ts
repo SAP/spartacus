@@ -106,8 +106,9 @@ export function verifyTabbingOrder() {
 }
 
 export function verifyFormErrors() {
-  const requiredFieldMessage = 'This field is required';
-  const notValidEmailMessage = 'This is not a valid email format';
+  const requiredFieldMessage = 'Field is required';
+  const notValidEmailMessage =
+    'Field  has not a valid email format.  Match pattern: example@yourdomain.com';
 
   cy.get(form).within(() => {
     cy.get('[formcontrolname="firstName"] + cx-form-errors').contains(
