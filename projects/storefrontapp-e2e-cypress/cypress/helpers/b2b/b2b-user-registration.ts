@@ -126,7 +126,7 @@ export function verifyFormErrors() {
 
     cy.get('[formcontrolname="email"] + cx-form-errors').within(() => {
       cy.get('p').contains(requiredFieldMessage);
-      cy.get('p+p').contains(notValidEmailMessage);
+      cy.get('p+p').should('contain', notValidEmailMessage);
     });
 
     cy.get('cx-form-errors p').should('have.length', 5);
