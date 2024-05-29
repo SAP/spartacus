@@ -16,14 +16,21 @@ export function listenForCreateVerificationToken(): string {
 }
 
 export function listenForUserVerficationCodeEmailReceive (customerEmail: string) {  
-      cy.request({
-          method: 'GET',
-          url: "http://mail-ccv2.westeurope.azurecontainer.io:8025/api/v2/search" + "?query=" + customerEmail + "&kind=to",
-      }).then((response)=>{
-          if ((response.body.total) != 2) {
-            listenForUserVerficationCodeEmailReceive(customerEmail)
-          }
-      })
+  const mailCCV2Url =
+  Cypress.env('MAIL_CCV2_URL') +
+  Cypress.env('MAIL_CCV2_PREFIX') +
+  '/search?query=' +
+  customerEmail +
+  '&kind=to';
+
+  cy.request({
+    method: 'GET',
+    url: mailCCV2Url,
+    }).then((response)=>{
+      if ((response.body.total) != 2) {
+        listenForUserVerficationCodeEmailReceive(customerEmail)
+      }
+  })
 }
 
 describe('OTP Login', () => {
