@@ -1,6 +1,22 @@
 {
-  "plugins": ["stylelint-scss"],
+  "extends": "stylelint-config-recommended-scss",
   "rules": {
+    "block-no-empty": null,
+    "declaration-block-no-duplicate-properties": null,
+    "declaration-block-no-shorthand-property-overrides": null,
+    "font-family-no-missing-generic-family-keyword": null,
+    "no-invalid-position-at-import-rule": null,
+    "no-descending-specificity": null,
+    "no-duplicate-selectors": null,
+    "selector-class-pattern": null,
+    "scss/at-if-no-null": null,
+    "scss/at-import-partial-extension": null,
+    "scss/at-extend-no-missing-placeholder": null,
+    "scss/comment-no-empty": null,
+    "scss/load-no-partial-leading-underscore": null,
+    "scss/no-global-function-names": null,
+    "scss/operator-no-unspaced": null,
+    "scss/operator-no-newline-after": null,
     "property-disallowed-list": [
       "margin-left",
       "margin-right",
