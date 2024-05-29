@@ -15,7 +15,9 @@ export function listenForCreateVerificationToken(): string {
   );
 }
 
-export function listenForUserVerficationCodeEmailReceive (customerEmail: string) {  
+export function listenForUserVerficationCodeEmailReceive(
+  customerEmail: string
+) {
   const mailCCV2Url =
     Cypress.env('MAIL_CCV2_URL') +
     Cypress.env('MAIL_CCV2_PREFIX') +
@@ -26,11 +28,11 @@ export function listenForUserVerficationCodeEmailReceive (customerEmail: string)
   cy.request({
     method: 'GET',
     url: mailCCV2Url,
-    }).then((response)=>{
-      if ((response.body.total) != 2) {
-        listenForUserVerficationCodeEmailReceive(customerEmail)
-      }
-  })
+  }).then((response) => {
+    if (response.body.total != 2) {
+      listenForUserVerficationCodeEmailReceive(customerEmail);
+    }
+  });
 }
 
 describe('OTP Login', () => {
