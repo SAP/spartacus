@@ -116,12 +116,12 @@ export function userGroupTableConfigFactory(
 ): TableConfig {
   // TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
   if (featureConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
-    return userGroupTableConfig;
+    return newUserGroupTableConfig;
   }
-  return legacyUserGroupTableConfig;
+  return userGroupTableConfig;
 }
 
-export const userGroupTableConfig: TableConfig = {
+export const newUserGroupTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.USER_GROUP]: {
       cells: ['name', 'uid', 'unit'],
@@ -203,7 +203,7 @@ export const userGroupTableConfig: TableConfig = {
   },
 };
 
-export const legacyUserGroupTableConfig: TableConfig = {
+export const userGroupTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.USER_GROUP]: {
       cells: ['name', 'uid', 'unit'],

@@ -77,12 +77,12 @@ export function permissionTableConfigFactory(
 ): TableConfig {
   // TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
   if (featureConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
-    return permissionTableConfig;
+    return newPermissionTableConfig;
   }
-  return legacyPermisionTableConfig;
+  return permisionTableConfig;
 }
 
-export const permissionTableConfig: TableConfig = {
+export const newPermissionTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.PERMISSION]: {
       cells: ['code', 'active', 'limit', 'unit'],
@@ -107,7 +107,7 @@ export const permissionTableConfig: TableConfig = {
   },
 };
 
-export const legacyPermisionTableConfig: TableConfig = {
+export const permisionTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.PERMISSION]: {
       cells: ['code', 'active', 'limit', 'unit'],

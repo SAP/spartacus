@@ -146,9 +146,9 @@ export function userTableConfigFactory(
 ): TableConfig {
   // TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
   if (featureConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
-    return userTableConfig;
+    return newUserTableConfig;
   }
-  return legacyUserTableConfig;
+  return userTableConfig;
 }
 
 const actions = {
@@ -159,7 +159,7 @@ const pagination = {
   pageSize: MAX_OCC_INTEGER_VALUE,
 };
 
-export const userTableConfig: TableConfig = {
+export const newUserTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.USER]: {
       cells: ['name', 'active', 'uid', 'roles', 'unit'],
@@ -256,7 +256,7 @@ export const userTableConfig: TableConfig = {
   },
 };
 
-export const legacyUserTableConfig: TableConfig = {
+export const userTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.USER]: {
       cells: ['name', 'active', 'uid', 'roles', 'unit'],

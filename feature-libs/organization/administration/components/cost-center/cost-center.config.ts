@@ -98,12 +98,12 @@ export function costCenterTableConfigFactory(
 ): TableConfig {
   // TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
   if (featureConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
-    return costCenterTableConfig;
+    return newCostCenterTableConfig;
   }
-  return legacyCostCenterTableConfig;
+  return costCenterTableConfig;
 }
 
-export const costCenterTableConfig: TableConfig = {
+export const newCostCenterTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.COST_CENTER]: {
       cells: ['name', 'active', 'currency', 'unit'],
@@ -158,7 +158,7 @@ export const costCenterTableConfig: TableConfig = {
     },
   },
 };
-export const legacyCostCenterTableConfig: TableConfig = {
+export const costCenterTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.COST_CENTER]: {
       cells: ['name', 'active', 'currency', 'unit'],
