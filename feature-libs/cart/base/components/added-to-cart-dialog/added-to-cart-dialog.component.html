@@ -80,21 +80,41 @@
 
             <!-- Actions -->
             <div class="cx-dialog-buttons">
-              <a
-                [class.disabled]="form.dirty"
-                [routerLink]="{ cxRoute: 'cart' } | cxUrl"
-                (click)="dismissModal('View Cart click')"
-                class="btn btn-primary"
-                autofocus
-                >{{ 'addToCart.viewCart' | cxTranslate }}</a
-              >
-              <a
-                [class.disabled]="form.dirty"
-                [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
-                (click)="dismissModal('Proceed To Checkout click')"
-                class="btn btn-secondary"
-                >{{ 'addToCart.proceedToCheckout' | cxTranslate }}</a
-              >
+              <!-- TODO: (CXSPA-7252) - Remove feature flag next major release -->
+              <ng-container *cxFeature="'a11yUseButtonsForBtnLinks'">
+                <button
+                  [class.disabled]="form.dirty"
+                  (click)="onAction('viewCart')"
+                  class="btn btn-primary"
+                  autofocus
+                >
+                  {{ 'addToCart.viewCart' | cxTranslate }}
+                </button>
+                <button
+                  [class.disabled]="form.dirty"
+                  (click)="onAction('checkout')"
+                  class="btn btn-secondary"
+                >
+                  {{ 'addToCart.proceedToCheckout' | cxTranslate }}
+                </button>
+              </ng-container>
+              <ng-container *cxFeature="'!a11yUseButtonsForBtnLinks'">
+                <a
+                  [class.disabled]="form.dirty"
+                  [routerLink]="{ cxRoute: 'cart' } | cxUrl"
+                  (click)="dismissModal('View Cart click')"
+                  class="btn btn-primary"
+                  autofocus
+                  >{{ 'addToCart.viewCart' | cxTranslate }}</a
+                >
+                <a
+                  [class.disabled]="form.dirty"
+                  [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
+                  (click)="dismissModal('Proceed To Checkout click')"
+                  class="btn btn-secondary"
+                  >{{ 'addToCart.proceedToCheckout' | cxTranslate }}</a
+                >
+              </ng-container>
             </div>
           </div>
         </div>
