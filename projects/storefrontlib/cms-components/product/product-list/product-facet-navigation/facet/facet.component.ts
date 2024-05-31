@@ -5,6 +5,7 @@
  */
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -29,11 +30,10 @@ import { FacetService } from '../services/facet.service';
   templateUrl: './facet.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FacetComponent {
+export class FacetComponent implements AfterViewInit {
   protected _facet: Facet;
 
   state$: Observable<FacetCollapseState>;
-
   /** configurable icon that is used to collapse the facet group  */
   @Input() expandIcon: ICON_TYPE = ICON_TYPE.EXPAND;
   @Input() collapseIcon: ICON_TYPE = ICON_TYPE.COLLAPSE;
@@ -74,6 +74,11 @@ export class FacetComponent {
     protected elementRef: ElementRef<HTMLElement>,
     protected cd: ChangeDetectorRef
   ) {}
+
+  ngAfterViewInit(): void {
+    // Update the value of `this.isExpanded` after `this.values` was initialized
+    this.cd.detectChanges();
+  }
 
   /**
    * Handles clicking the heading of the facet group, which means toggling
