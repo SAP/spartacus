@@ -231,6 +231,23 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     this.launchDialogService.closeDialog(reason);
   }
 
+  onAction(action: 'viewCart' | 'checkout'): void {
+    const actionDetails = {
+      viewCart: {
+        reason: 'View Cart click',
+        cxRoute: 'cart',
+      },
+      checkout: {
+        reason: 'Proceed To Checkout click',
+        cxRoute: 'checkout',
+      },
+    };
+
+    const { reason, cxRoute } = actionDetails[action];
+    this.routingService.go({ cxRoute });
+    this.dismissModal(reason);
+  }
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }

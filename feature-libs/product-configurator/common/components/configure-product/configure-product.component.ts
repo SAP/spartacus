@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
-import { Product } from '@spartacus/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Optional,
+  inject,
+} from '@angular/core';
+import { Product, RoutingService } from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
@@ -39,6 +44,9 @@ export class ConfigureProductComponent {
 
   ownerTypeProduct: CommonConfigurator.OwnerType =
     CommonConfigurator.OwnerType.PRODUCT;
+  @Optional() protected routingService = inject(RoutingService, {
+    optional: true,
+  });
 
   /**
    * Retrieves a translation key for aria-label depending on the condition.
@@ -74,6 +82,26 @@ export class ConfigureProductComponent {
    */
   isDisplayRestartDialog(configuratorType?: string): string {
     return this.isConfiguratorTypeReadOnly(configuratorType) ? 'false' : 'true';
+  }
+
+  navigateToConfigurator(product: Product): void {
+    this.routingService?.go(
+      {
+        cxRoute: 'configure' + product.configuratorType,
+        params: {
+          ownerType: this.ownerTypeProduct,
+          entityKey: product.code,
+        },
+      },
+      {
+        queryParams: {
+          displayRestartDialog: this.isDisplayRestartDialog(
+            product.configuratorType
+          ),
+          productCode: product.code,
+        },
+      }
+    );
   }
 
   protected isConfiguratorTypeReadOnly(configuratorType?: string): boolean {
