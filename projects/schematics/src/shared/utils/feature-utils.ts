@@ -500,7 +500,7 @@ export function getFeaturesOptions<OPTIONS extends LibraryOptions>(
 
 export function getArrayOptions(values: string[] | string): string[] {
   let optionsArray: string[] = [];
-  if (values && Array.isArray(values)) {
+  if (Array.isArray(values)) {
     optionsArray = values;
   } else if (values.includes(',')) {
     optionsArray = values.split(',');
