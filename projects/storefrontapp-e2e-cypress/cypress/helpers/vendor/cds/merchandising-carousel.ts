@@ -117,23 +117,23 @@ function verifyCarouselItemRendered(
         )
         .equal(product.metadata['cypress-test-product-metadata']);
     });
-      cy.get('a').within(() => {
-        cy.root().should('have.attr', 'href');
-        cy.get('h4').should('not.be.empty');
-        cy.get('.price').should('not.be.empty');
-      });
+    cy.get('a').within(() => {
+      cy.root().should('have.attr', 'href');
+      cy.get('h4').should('not.be.empty');
+      cy.get('.price').should('not.be.empty');
+    });
   });
 }
 
 function verifyCarouselItemsRendered(
   $merchandisingCarousel: JQuery<HTMLElement>
 ): void {
-  cy.wait(5000)
+  cy.wait(5000);
   cy.wrap($merchandisingCarousel)
     .get('.item')
     .should('have.length', STRATEGY_RESPONSE.products.length)
     .each(($carouselItem, index) => {
-      verifyCarouselItemRendered($carouselItem,index);
+      verifyCarouselItemRendered($carouselItem, index);
     });
 }
 

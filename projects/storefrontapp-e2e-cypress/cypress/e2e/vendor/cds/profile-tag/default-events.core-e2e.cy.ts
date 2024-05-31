@@ -406,9 +406,7 @@ describe('Profile-tag events', () => {
 
   it('should not send a Navigated event when merchandising banner is clicked', () => {
     const categoryPage = checkoutFlow.waitForCategoryPage('578', 'getCategory');
-    cy.get(
-      '.Section1 cx-banner cx-generic-link a'
-    ).first().click();
+    cy.get('.Section1 cx-banner cx-generic-link a').first().click();
     cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
     cy.window().should((win) => {
       expect(
