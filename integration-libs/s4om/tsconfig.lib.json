@@ -61,6 +61,12 @@
       "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
       "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
       "@spartacus/core": ["dist/core"],
+      "@spartacus/pdf-invoices/assets": ["dist/pdf-invoices/assets"],
+      "@spartacus/pdf-invoices/components": ["dist/pdf-invoices/components"],
+      "@spartacus/pdf-invoices/core": ["dist/pdf-invoices/core"],
+      "@spartacus/pdf-invoices": ["dist/pdf-invoices"],
+      "@spartacus/pdf-invoices/occ": ["dist/pdf-invoices/occ"],
+      "@spartacus/pdf-invoices/root": ["dist/pdf-invoices/root"],
       "@spartacus/requested-delivery-date/assets": [
         "dist/requested-delivery-date/assets"
       ],
@@ -88,6 +94,18 @@
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["dist/user/profile/root"],
+      "@spartacus/quote/assets": ["dist/quote/assets"],
+      "@spartacus/quote/components/cart-guard": [
+        "dist/quote/components/cart-guard"
+      ],
+      "@spartacus/quote/components": ["dist/quote/components"],
+      "@spartacus/quote/components/request-button": [
+        "dist/quote/components/request-button"
+      ],
+      "@spartacus/quote/core": ["dist/quote/core"],
+      "@spartacus/quote": ["dist/quote"],
+      "@spartacus/quote/occ": ["dist/quote/occ"],
+      "@spartacus/quote/root": ["dist/quote/root"],
       "@spartacus/checkout/b2b/assets": ["dist/checkout/b2b/assets"],
       "@spartacus/checkout/b2b/components": ["dist/checkout/b2b/components"],
       "@spartacus/checkout/b2b/core": ["dist/checkout/b2b/core"],
@@ -118,13 +136,7 @@
       "@spartacus/order/core": ["dist/order/core"],
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/occ": ["dist/order/occ"],
-      "@spartacus/order/root": ["dist/order/root"],
-      "@spartacus/pdf-invoices/assets": ["dist/pdf-invoices/assets"],
-      "@spartacus/pdf-invoices/components": ["dist/pdf-invoices/components"],
-      "@spartacus/pdf-invoices/core": ["dist/pdf-invoices/core"],
-      "@spartacus/pdf-invoices": ["dist/pdf-invoices"],
-      "@spartacus/pdf-invoices/occ": ["dist/pdf-invoices/occ"],
-      "@spartacus/pdf-invoices/root": ["dist/pdf-invoices/root"]
+      "@spartacus/order/root": ["dist/order/root"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

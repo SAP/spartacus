@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 import { CartItemContext } from '@spartacus/cart/base/root';
 import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemContextSource } from '../cart-item/model/cart-item-context-source.model';
+import { QuoteOutlet } from '@spartacus/quote/root';
 
 @Component({
   selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
@@ -17,4 +18,6 @@ import { CartItemContextSource } from '../cart-item/model/cart-item-context-sour
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],
 })
-export class CartItemListRowComponent extends CartItemComponent {}
+export class CartItemListRowComponent extends CartItemComponent {
+  readonly quoteOutlet = QuoteOutlet;
+}

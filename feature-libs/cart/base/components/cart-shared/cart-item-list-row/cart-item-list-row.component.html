@@ -99,6 +99,15 @@
       </cx-item-counter>
     </div>
   </td>
+  <!-- <td role="cell" class="cx-discount" id="cx-discount" > -->
+  <ng-template
+    role="cell"
+    [cxOutlet]="quoteOutlet.CPQ_QUOTE_MODULE"
+    [cxOutletContext]="{
+  items: item,
+}"
+  ></ng-template>
+  <!-- </td> -->
   <!-- Total -->
   <ng-container *ngIf="options.isSaveForLater; else total">
     <td role="cell" class="cx-total">

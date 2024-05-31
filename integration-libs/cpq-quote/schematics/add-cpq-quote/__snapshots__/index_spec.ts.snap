@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus Cpq-quote CPQ-QUOTE feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
+
+exports[`Spartacus Cpq-quote CPQ-QUOTE feature general setup should add the feature using the lazy loading syntax 2`] = `
+"import { NgModule } from '@angular/core';
+import { CartBaseModule } from "@spartacus/cart/base";
+import { CpqQuoteModule } from "@spartacus/cpq-quote";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CartBaseModule,
+    CpqQuoteModule
+  ]
+})
+export class CartBaseWrapperModule { }
+"
+`;
+
+exports[`Spartacus Cpq-quote eager loading should import appropriate modules 1`] = `""`;

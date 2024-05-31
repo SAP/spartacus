@@ -138,3 +138,7 @@ export interface QuoteAttachment {
   id: string;
   filename?: string;
 }
+export enum QuoteOutlet {
+  CPQ_QUOTE_MODULE = 'cx-cpq-quote',
+  CPQ_QUOTE_HEADING = 'cx-cpq-quote-heading',
+}

@@ -72,6 +72,7 @@ import {
   USER_PROFILE_SCHEMATICS_CONFIG,
 } from './lib-configs/user-schematics-config';
 import { Module, SchematicConfig } from './utils/lib-utils';
+import { CPQ_QUOTE_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cpq-quote-schematics-config';
 
 /**
  * A list of all schematics feature configurations.
@@ -151,6 +152,7 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   S4OM_SCHEMATICS_CONFIG,
 
   SEGMENT_REFS_SCHEMATICS_CONFIG,
+  CPQ_QUOTE_SCHEMATICS_CONFIG,
 ];
 
 /**

@@ -61,7 +61,8 @@
           "Pickup-In-Store",
           "User-Account",
           "User-Profile",
-          "Quote"
+          "Quote",
+          "cpq-quote"
         ],
         "type": "string"
       },
@@ -222,6 +223,10 @@
           {
             "value": "S4HANA-Order-Management",
             "label": "S/4HANA Order Management (b2b feature)"
+          },
+          {
+            "value": "cpq-quote",
+            "label": "cpq-quote display discount (b2b feature)"
           },
           {
             "value": "SmartEdit",
