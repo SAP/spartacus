@@ -17,6 +17,7 @@ import {
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
   readPackageJson,
+  getFeaturesOptions,
   LibraryOptions as SpartacusCdpOptions,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -26,6 +27,7 @@ export function addCdpFeature(options: SpartacusCdpOptions): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
+    options.features = getFeaturesOptions(options);
 
     const features = analyzeCrossFeatureDependencies(
       options.features as string[]

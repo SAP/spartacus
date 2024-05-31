@@ -23,7 +23,7 @@
       "default": true
     },
     "features": {
-      "type": "array",
+      "type": ["array", "string"],
       "uniqueItems": true,
       "items": {
         "enum": ["User-Account", "User-Profile"],

@@ -17,6 +17,7 @@ import {
   analyzeApplication,
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
+  getFeaturesOptions,
   LibraryOptions as SpartacusPDFInvoicesOptions,
   readPackageJson,
   validateSpartacusInstallation,
@@ -29,6 +30,7 @@ export function addPDFInvoicesFeature(
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
+    options.features = getFeaturesOptions(options);
 
     const features = analyzeCrossFeatureDependencies(
       options.features as string[]

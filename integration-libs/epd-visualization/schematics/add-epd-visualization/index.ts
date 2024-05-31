@@ -16,6 +16,7 @@ import {
   analyzeApplication,
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
+  getFeaturesOptions,
   readPackageJson,
   SpartacusEpdVisualizationOptions,
   validateSpartacusInstallation,
@@ -28,6 +29,7 @@ export function addEpdVisualizationFeature(
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
+    options.features = getFeaturesOptions(options);
 
     const features = analyzeCrossFeatureDependencies(
       options.features as string[]

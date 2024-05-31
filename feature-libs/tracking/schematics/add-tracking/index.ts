@@ -16,6 +16,7 @@ import {
   analyzeApplication,
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
+  getFeaturesOptions,
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
   validateSpartacusInstallation,
@@ -26,6 +27,7 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
+    options.features = getFeaturesOptions(options);
 
     const features = analyzeCrossFeatureDependencies(
       options.features as string[]

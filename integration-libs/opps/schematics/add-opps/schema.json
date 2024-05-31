@@ -17,7 +17,7 @@
       "default": false
     },
     "features": {
-      "type": "array",
+      "type": ["array", "string"],
       "uniqueItems": true,
       "default": ["OPPS"]
     }

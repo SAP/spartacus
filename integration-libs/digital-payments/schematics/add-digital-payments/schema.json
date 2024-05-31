@@ -22,7 +22,7 @@
       "default": true
     },
     "features": {
-      "type": "array",
+      "type": ["array", "string"],
       "uniqueItems": true,
       "default": ["Digital-Payments"]
     }

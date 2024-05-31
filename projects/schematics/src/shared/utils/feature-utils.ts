@@ -484,3 +484,29 @@ function createDependentFeaturesLog(
     ', '
   )}: ${notSelectedFeatures.join(', ')}\n`;
 }
+
+/**
+ * This function is a workaround for the GitHub issue
+ * https://github.com/angular/angular-cli/issues/16320.
+ * Using `ng add` with options of type array (--features)
+ * may not work correctly in some situations, and might only work on the
+ * second attempt.
+ */
+export function getFeaturesOptions<OPTIONS extends LibraryOptions>(
+  options: OPTIONS
+): string[] {
+  return getArrayOptions(options.features ?? []);
+}
+
+export function getArrayOptions(values: string[] | string): string[] {
+  let optionsArray: string[] = [];
+  if (values && Array.isArray(values)) {
+    optionsArray = values;
+  } else if (values.includes(',')) {
+    optionsArray = values.split(',');
+  } else {
+    optionsArray = [values];
+  }
+
+  return optionsArray;
+}

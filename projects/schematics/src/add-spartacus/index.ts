@@ -28,7 +28,11 @@ import {
   analyzeCrossFeatureDependencies,
   analyzeCrossLibraryDependenciesByFeatures,
 } from '../shared/utils/dependency-utils';
-import { addFeatures, analyzeApplication } from '../shared/utils/feature-utils';
+import {
+  addFeatures,
+  analyzeApplication,
+  getFeaturesOptions,
+} from '../shared/utils/feature-utils';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -328,7 +332,7 @@ function verifyAppModuleExists(options: SpartacusOptions): Rule {
 1. remove your application code
 2. make sure to pass the flag "--standalone=false" to the command "ng new". For more, see https://angular.io/cli/new#options
 3. try again installing Spartacus with a command "ng add @spartacus/schematics" ...
-        
+
 Note: Since version 17, Angular's command "ng new" by default creates an app without a file "app.module.ts" (in a so-called "standalone" mode). But Spartacus installer requires this file to be present.
 `
       );
@@ -557,7 +561,9 @@ function addAppRoutingModuleImport(
 
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const features = analyzeCrossFeatureDependencies(options.features ?? []);
+    const features = analyzeCrossFeatureDependencies(
+      getFeaturesOptions(options)
+    );
     const dependencies = prepareDependencies(features);
     const spartacusRxjsDependency: NodeDependency[] = [
       dependencies.find((dep) => dep.name === RXJS) as NodeDependency,

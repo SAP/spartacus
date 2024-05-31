@@ -12,7 +12,7 @@
       }
     },
     "features": {
-      "type": "array",
+      "type": ["array", "string"],
       "uniqueItems": true,
       "items": {
         "enum": [
