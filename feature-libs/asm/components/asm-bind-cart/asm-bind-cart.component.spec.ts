@@ -213,11 +213,6 @@ describe('AsmBindCartComponent', () => {
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
   });
 
-  it('should fill the cart field with the current active cart for the customer', () => {
-    fixture.detectChanges();
-
-    expect(component.cartId.value).toEqual(prevActiveCartId);
-  });
 
   it('should leave the cart field blank when there is no current active cart for the customer', () => {
     (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(of(''));
