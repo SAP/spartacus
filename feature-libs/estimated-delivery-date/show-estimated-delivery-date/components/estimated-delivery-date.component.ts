@@ -11,7 +11,6 @@ import {
   ArrivalSlot,
   ArrivalSlots,
 } from '@spartacus/estimated-delivery-date/root';
-import { OrderDetailsOrderEntriesContext } from '@spartacus/order/components';
 import { Consignment, Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { EMPTY, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -23,9 +22,6 @@ import { map, switchMap } from 'rxjs/operators';
 })
 export class EstimatedDeliveryDateComponent {
   @Optional() protected cartItemContext = inject(CartItemContext);
-  protected orderDetailsOrderEntriesContext = inject(
-    OrderDetailsOrderEntriesContext
-  );
   protected orderHistoryFacade = inject(OrderHistoryFacade);
   protected translationService = inject(TranslationService);
   protected datePipe = inject(CxDatePipe);
