@@ -211,6 +211,11 @@ $useAccordionOnly: false !default;
 }
 
 %cx-tab-paragraph-container {
+  @if $useTabsOnPDP == true {
+    @extend %pdpTabs !optional;
+  } @else {
+    @extend %pdpFlat !optional;
+  }
   @extend %cx-tab !optional;
 
   .active {

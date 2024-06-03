@@ -251,6 +251,11 @@ export interface FeatureTogglesInterface {
    * `LoginRegisterComponent`, `ConfigureProductComponent`
    */
   a11yUseButtonsForBtnLinks?: boolean;
+
+  /**
+   *
+   */
+  a11yTabComponent?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -295,4 +300,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCloseProductImageBtnFocus: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yTabComponent: false,
 };

@@ -24,13 +24,6 @@ import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { Tab, TabConfig } from '../tab/Tab';
 
-export class TabParagraphContainerComponent {
-  tabConfig: TabConfig = {
-    openTabs: [0],
-    breakpoint: BREAKPOINT.md,
-  };
-}
-
 @Component({
   selector: 'cx-tab-paragraph-container',
   templateUrl: './tab-paragraph-container.component.html',
@@ -44,6 +37,11 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   children!: QueryList<ComponentWrapperDirective>;
 
   tabTitleParams: (Observable<any> | null)[] = [];
+
+  tabConfig: TabConfig = {
+    openTabs: [0],
+    breakpoint: BREAKPOINT.md,
+  };
 
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
@@ -62,8 +60,6 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
           this.cmsService.getComponentData<any>(component).pipe(
             distinctUntilChanged(),
             map((tab) => {
-              console.log(data);
-
               if (!tab) {
                 return undefined;
               }
