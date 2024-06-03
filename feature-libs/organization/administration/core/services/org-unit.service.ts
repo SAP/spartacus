@@ -40,16 +40,16 @@ import { getItemStatus } from '../utils/get-item-status';
 export class OrgUnitService {
   constructor(
     protected store: Store<StateWithOrganization>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   clearAssignedUsersList(
     orgUnitId: string,
     roleId: string,
-    params: SearchConfig
+    params: SearchConfig,
   ): void {
     this.store.dispatch(
-      new OrgUnitActions.ClearAssignedUsers({ orgUnitId, roleId, params })
+      new OrgUnitActions.ClearAssignedUsers({ orgUnitId, roleId, params }),
     );
   }
 
@@ -57,7 +57,7 @@ export class OrgUnitService {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
         this.store.dispatch(
-          new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
+          new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -89,7 +89,7 @@ export class OrgUnitService {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
         this.store.dispatch(
-          new OrgUnitActions.LoadApprovalProcesses({ userId })
+          new OrgUnitActions.LoadApprovalProcesses({ userId }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -106,7 +106,7 @@ export class OrgUnitService {
             orgUnitId,
             roleId,
             params,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -122,7 +122,7 @@ export class OrgUnitService {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
         this.store.dispatch(
-          new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
+          new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -131,7 +131,7 @@ export class OrgUnitService {
   }
 
   private getOrgUnit(
-    orgUnitId: string
+    orgUnitId: string,
   ): Observable<StateUtils.LoaderState<B2BUnit>> {
     return this.store.select(getOrgUnit(orgUnitId));
   }
@@ -151,13 +151,13 @@ export class OrgUnitService {
   }
 
   private getAddressesState(
-    orgUnitId: string
+    orgUnitId: string,
   ): Observable<StateUtils.LoaderState<EntitiesModel<Address>>> {
     return this.store.select(getB2BAddresses(orgUnitId));
   }
 
   private getAddressState(
-    addressId: string
+    addressId: string,
   ): Observable<StateUtils.LoaderState<Address>> {
     return this.store.select(getB2BAddress(addressId));
   }
@@ -165,7 +165,7 @@ export class OrgUnitService {
   private getAssignedUsers(
     orgUnitId: string,
     roleId: string,
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<StateUtils.LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(getAssignedUsers(orgUnitId, roleId, params));
   }
@@ -183,12 +183,12 @@ export class OrgUnitService {
         if (!(state.loading || state.success || state.error)) {
           this.load(orgUnitId);
         }
-      })
+      }),
     );
 
     return using(
       () => loading$.subscribe(),
-      () => this.getOrgUnitValue(orgUnitId)
+      () => this.getOrgUnitValue(orgUnitId),
     );
   }
 
@@ -196,18 +196,18 @@ export class OrgUnitService {
     return this.get(orgUnitId).pipe(
       map((orgUnit) => ({
         values: orgUnit.costCenters ?? [],
-      }))
+      })),
     );
   }
 
   protected findUnitChildrenInTree(
     orginitId: string,
-    unit: B2BUnitNode
+    unit: B2BUnitNode,
   ): B2BUnitNode[] {
     return unit.id === orginitId
       ? unit.children ?? []
       : (unit.children ?? []).flatMap((child) =>
-          this.findUnitChildrenInTree(orginitId, child)
+          this.findUnitChildrenInTree(orginitId, child),
         );
   }
 
@@ -215,7 +215,7 @@ export class OrgUnitService {
     return this.getTree().pipe(
       map((tree) => ({
         values: tree ? this.findUnitChildrenInTree(orgUnitId, tree) : [],
-      }))
+      })),
     );
   }
 
@@ -228,9 +228,9 @@ export class OrgUnitService {
         }
       }),
       filter((process: StateUtils.LoaderState<B2BUnitNode>) =>
-        Boolean(process.success || process.error)
+        Boolean(process.success || process.error),
       ),
-      map((result) => result.value)
+      map((result) => result.value),
     );
   }
 
@@ -243,9 +243,9 @@ export class OrgUnitService {
         }
       }),
       filter((process: StateUtils.LoaderState<B2BApprovalProcess[]>) =>
-        Boolean(process.success || process.error)
+        Boolean(process.success || process.error),
       ),
-      map((result) => result.value)
+      map((result) => result.value),
     );
   }
 
@@ -258,16 +258,16 @@ export class OrgUnitService {
         }
       }),
       filter((process: StateUtils.LoaderState<B2BUnitNode[]>) =>
-        Boolean(process.success || process.error)
+        Boolean(process.success || process.error),
       ),
-      map((result) => result.value)
+      map((result) => result.value),
     );
   }
 
   getActiveUnitList(): Observable<B2BUnitNode[] | undefined> {
     return this.getList().pipe(
       map((units) => units?.filter((unit) => unit.active)),
-      map((units) => units?.sort(this.sortUnitList))
+      map((units) => units?.sort(this.sortUnitList)),
     );
   }
 
@@ -275,14 +275,14 @@ export class OrgUnitService {
     return (a.id ?? '').toLowerCase() < (b.id ?? '').toLowerCase()
       ? -1
       : (a.id ?? '').toLowerCase() > (b.id ?? '').toLowerCase()
-      ? 1
-      : 0;
+        ? 1
+        : 0;
   }
 
   getUsers(
     orgUnitId: string,
     roleId: string,
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<EntitiesModel<B2BUser> | undefined> {
     return this.getAssignedUsers(orgUnitId, roleId, params).pipe(
       observeOn(queueScheduler),
@@ -292,15 +292,15 @@ export class OrgUnitService {
         }
       }),
       filter((process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) =>
-        Boolean(process.success || process.error)
+        Boolean(process.success || process.error),
       ),
-      map((result) => result.value)
+      map((result) => result.value),
     );
   }
 
   getErrorState(orgCustomerId: string): Observable<boolean> {
     return this.getOrgUnitState(orgCustomerId).pipe(
-      map((state) => state.error ?? false)
+      map((state) => state.error ?? false),
     );
   }
 
@@ -318,7 +318,7 @@ export class OrgUnitService {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
         this.store.dispatch(
-          new OrgUnitActions.UpdateUnit({ userId, unitCode, unit })
+          new OrgUnitActions.UpdateUnit({ userId, unitCode, unit }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -327,7 +327,7 @@ export class OrgUnitService {
   }
 
   getLoadingStatus(
-    orgUnitId: string
+    orgUnitId: string,
   ): Observable<OrganizationItemStatus<B2BUnit>> {
     return getItemStatus(this.getOrgUnit(orgUnitId));
   }
@@ -340,7 +340,7 @@ export class OrgUnitService {
             userId,
             orgCustomerId,
             roleId,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -356,7 +356,7 @@ export class OrgUnitService {
             userId,
             orgCustomerId,
             roleId,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -367,7 +367,7 @@ export class OrgUnitService {
   assignApprover(
     orgUnitId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): void {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
@@ -377,7 +377,7 @@ export class OrgUnitService {
             userId,
             orgCustomerId,
             roleId,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -388,7 +388,7 @@ export class OrgUnitService {
   unassignApprover(
     orgUnitId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): void {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
@@ -398,7 +398,7 @@ export class OrgUnitService {
             userId,
             orgCustomerId,
             roleId,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -414,7 +414,7 @@ export class OrgUnitService {
             userId,
             orgUnitId,
             address,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -423,7 +423,7 @@ export class OrgUnitService {
   }
 
   getAddresses(
-    orgUnitId: string
+    orgUnitId: string,
   ): Observable<EntitiesModel<Address> | undefined> {
     return this.getAddressesState(orgUnitId).pipe(
       observeOn(queueScheduler),
@@ -433,13 +433,13 @@ export class OrgUnitService {
         }
       }),
       filter((state) => Boolean(state.success || state.error)),
-      map((state) => state.value)
+      map((state) => state.value),
     );
   }
 
   getAddress(
     orgUnitId: string,
-    addressId: string
+    addressId: string,
   ): Observable<Address | undefined> {
     return this.getAddressState(addressId).pipe(
       observeOn(queueScheduler),
@@ -449,7 +449,7 @@ export class OrgUnitService {
         }
       }),
       filter((state) => Boolean(state.success || state.error)),
-      map((state) => state.value)
+      map((state) => state.value),
     );
   }
 
@@ -462,7 +462,7 @@ export class OrgUnitService {
             orgUnitId,
             addressId,
             address,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -471,7 +471,7 @@ export class OrgUnitService {
   }
 
   getAddressLoadingStatus(
-    addressId: string
+    addressId: string,
   ): Observable<OrganizationItemStatus<Address>> {
     return getItemStatus(this.getAddressState(addressId));
   }
@@ -484,7 +484,7 @@ export class OrgUnitService {
             userId,
             orgUnitId,
             addressId,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -493,7 +493,7 @@ export class OrgUnitService {
   }
 
   private getOrgUnitState(
-    orgUnitId: string
+    orgUnitId: string,
   ): Observable<StateUtils.LoaderState<B2BUnit>> {
     return this.store.select(getOrgUnitState(orgUnitId));
   }

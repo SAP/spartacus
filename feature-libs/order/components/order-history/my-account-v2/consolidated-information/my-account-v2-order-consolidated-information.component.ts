@@ -27,7 +27,7 @@ import { OrderCriticalStatus } from '../my-account-v2-order-history.model';
 })
 export class MyAccountV2OrderConsolidatedInformationComponent {
   protected orderConsignmentsService = inject(
-    MyAccountV2OrderConsignmentsService
+    MyAccountV2OrderConsignmentsService,
   );
   protected criticalStatuses = Object.values(OrderCriticalStatus);
   @Input()
@@ -51,7 +51,7 @@ export class MyAccountV2OrderConsolidatedInformationComponent {
 
   isStatusCritical(status: string): boolean {
     return this.criticalStatuses.includes(
-      status.toUpperCase() as OrderCriticalStatus
+      status.toUpperCase() as OrderCriticalStatus,
     );
   }
   getPickupConsignments(consignments: ConsignmentView[]): ConsignmentView[] {
@@ -68,12 +68,12 @@ export class MyAccountV2OrderConsolidatedInformationComponent {
     return (
       this.orderConsignmentsService.getGroupedConsignments(
         orderDetail,
-        false
+        false,
       ) ?? []
     );
   }
   getDeliveryUnconsignedEntries(
-    unconsignedEntries: OrderEntry[]
+    unconsignedEntries: OrderEntry[],
   ): OrderEntry[] {
     const orderDetail: OrderView = {};
     orderDetail.unconsignedEntries = unconsignedEntries;

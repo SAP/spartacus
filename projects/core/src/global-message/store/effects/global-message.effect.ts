@@ -39,20 +39,20 @@ export class GlobalMessageEffect {
               this.store.pipe(
                 select(
                   GlobalMessageSelectors.getGlobalMessageEntitiesByType(
-                    message.type
-                  )
-                )
-              )
+                    message.type,
+                  ),
+                ),
+              ),
             ),
             filter(
               ([text, messages]: [Translatable, Translatable[]]) =>
                 ObjectComparisonUtils.countOfDeepEqualObjects(text, messages) >
-                1
+                1,
             ),
             map(([text, messages]: [Translatable, Translatable[]]) => {
               const index = ObjectComparisonUtils.indexOfFirstOccurrence(
                 text,
-                messages
+                messages,
               );
               if (index !== undefined) {
                 return new GlobalMessageActions.RemoveMessage({
@@ -61,10 +61,10 @@ export class GlobalMessageEffect {
                 });
               }
             }),
-            filter(isNotUndefined)
-          )
-        )
-      )
+            filter(isNotUndefined),
+          ),
+        ),
+      ),
     );
 
   hideAfterDelay$:
@@ -78,14 +78,16 @@ export class GlobalMessageEffect {
             const config = this.config.globalMessages?.[message.type];
             return this.store.pipe(
               select(
-                GlobalMessageSelectors.getGlobalMessageCountByType(message.type)
+                GlobalMessageSelectors.getGlobalMessageCountByType(
+                  message.type,
+                ),
               ),
               take(1),
               filter(
                 (count: number) =>
                   ((config && config.timeout !== undefined) ||
                     message.timeout !== undefined) &&
-                  count > 0
+                  count > 0,
               ),
               delay((message.timeout as number) || (config?.timeout as number)),
               switchMap(() =>
@@ -93,22 +95,22 @@ export class GlobalMessageEffect {
                   new GlobalMessageActions.RemoveMessage({
                     type: message.type,
                     index: 0,
-                  })
-                )
-              )
+                  }),
+                ),
+              ),
             );
-          })
+          }),
         )
       : // workaround is required due to NGRX mutating a global static
         // observable EMPTY, causing to throw an error if we have
         // effect registered on the same observable twice
-        () => EMPTY
+        () => EMPTY,
   );
 
   constructor(
     private actions$: Actions,
     private store: Store<StateWithGlobalMessage>,
     private config: GlobalMessageConfig,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) {}
 }

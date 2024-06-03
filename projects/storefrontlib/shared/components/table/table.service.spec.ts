@@ -84,7 +84,7 @@ describe('TableService', () => {
       describe('merge fields', () => {
         it('should return fields for xs screen', () => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(BREAKPOINT.xs)
+            of(BREAKPOINT.xs),
           );
           let result: TableStructure;
           tableService
@@ -95,7 +95,7 @@ describe('TableService', () => {
 
         it('should return fields for sm screen', () => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(BREAKPOINT.sm)
+            of(BREAKPOINT.sm),
           );
           let result: TableStructure;
           tableService
@@ -106,7 +106,7 @@ describe('TableService', () => {
 
         it('should return fields for md screen', () => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(BREAKPOINT.md)
+            of(BREAKPOINT.md),
           );
           let result: TableStructure;
           tableService
@@ -117,7 +117,7 @@ describe('TableService', () => {
 
         it('should return fields for lg screen', () => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(BREAKPOINT.lg)
+            of(BREAKPOINT.lg),
           );
           let result: TableStructure;
           tableService
@@ -128,7 +128,7 @@ describe('TableService', () => {
 
         it('should return fields for xl screen', () => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(BREAKPOINT.xl)
+            of(BREAKPOINT.xl),
           );
           let result: TableStructure;
           tableService
@@ -139,7 +139,7 @@ describe('TableService', () => {
 
         it('should return default fields for md screen', () => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(BREAKPOINT.md)
+            of(BREAKPOINT.md),
           );
           let result: TableStructure;
           tableService
@@ -152,7 +152,7 @@ describe('TableService', () => {
       describe('merge options', () => {
         it('should return default options for md screen', () => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(BREAKPOINT.md)
+            of(BREAKPOINT.md),
           );
           let result: TableStructure;
           tableService
@@ -163,7 +163,7 @@ describe('TableService', () => {
 
         it('should merge options for xl screen', () => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(BREAKPOINT.xl)
+            of(BREAKPOINT.xl),
           );
           let result: TableStructure;
           tableService
@@ -176,7 +176,7 @@ describe('TableService', () => {
       describe('lg breakpoint', () => {
         beforeEach(() => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(BREAKPOINT.lg)
+            of(BREAKPOINT.lg),
           );
         });
 
@@ -195,7 +195,7 @@ describe('TableService', () => {
       describe('xs breakpoint', () => {
         beforeEach(() => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(BREAKPOINT.xs)
+            of(BREAKPOINT.xs),
           );
         });
 
@@ -240,7 +240,7 @@ describe('TableService', () => {
 
           expect(result.cells.length).toEqual(5);
           expect(logger.warn).toHaveBeenCalledWith(
-            'No data available for "unknown", a random structure is generated (with hidden table headers).'
+            'No data available for "unknown", a random structure is generated (with hidden table headers).',
           );
         });
       });

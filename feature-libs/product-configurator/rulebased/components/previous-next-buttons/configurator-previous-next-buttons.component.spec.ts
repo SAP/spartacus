@@ -59,8 +59,8 @@ const configWithSingleGroup: Configurator.Configuration = {
     'CONFIG_ID',
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
-    )
+      PRODUCT_CODE,
+    ),
   ),
   productCode: PRODUCT_CODE,
   totalNumberOfIssues: 0,
@@ -103,65 +103,63 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      routerStateObservable = of(ConfigurationTestData.mockRouterState);
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ConfiguratorPreviousNextButtonsComponent,
-          MockFocusDirective,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    routerStateObservable = of(ConfigurationTestData.mockRouterState);
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ConfiguratorPreviousNextButtonsComponent,
+        MockFocusDirective,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>,
     );
     configurationGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>,
     );
     fixture.detectChanges();
     configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>,
     );
     configuratorUtils.setOwnerKey(config.owner);
 
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>,
     );
     spyOn(
       configuratorStorefrontUtilsService,
-      'focusFirstAttribute'
+      'focusFirstAttribute',
     ).and.callThrough();
   });
 
@@ -171,7 +169,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   it("should not display 'previous' & 'next' buttons in case configuration contains one group", () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(configWithSingleGroup)
+      of(configWithSingleGroup),
     );
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
@@ -181,44 +179,44 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   it('should display previous button as disabled if it is the first group', () => {
     spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
-      of(null)
+      of(null),
     );
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
-      By.css('.cx-previous')
+      By.css('.cx-previous'),
     ).nativeElement;
     expect(prevBtn.disabled).toBe(true);
   });
 
   it('should display previous button as enabled if it is not the first group', () => {
     spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
-      of('anyGroupId')
+      of('anyGroupId'),
     );
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
-      By.css('.cx-previous')
+      By.css('.cx-previous'),
     ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
 
   it('should display next button as disabled if it is the last group', () => {
     spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
-      of(null)
+      of(null),
     );
     fixture.detectChanges();
     const lastBtn = fixture.debugElement.query(
-      By.css('.cx-next')
+      By.css('.cx-next'),
     ).nativeElement;
     expect(lastBtn.disabled).toBe(true);
   });
 
   it('should display next button as enabled if it is not the last group', () => {
     spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
-      of('anyGroupId')
+      of('anyGroupId'),
     );
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
-      By.css('.cx-next')
+      By.css('.cx-next'),
     ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
@@ -231,7 +229,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     });
 
     spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
-      nextGroup
+      nextGroup,
     );
 
     expect(classUnderTest.isLastGroup(config.owner)).toBeObservable(
@@ -239,7 +237,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         a: false,
         b: false,
         c: true,
-      })
+      }),
     );
   });
 
@@ -253,7 +251,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     });
 
     spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
-      previousGroup
+      previousGroup,
     );
 
     expect(classUnderTest.isFirstGroup(config.owner)).toBeObservable(
@@ -263,7 +261,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         c: true,
         d: true,
         e: false,
-      })
+      }),
     );
   });
 
@@ -274,7 +272,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     });
 
     spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
-      previousGroup
+      previousGroup,
     );
     spyOn(configurationGroupsService, 'navigateToGroup');
 
@@ -282,7 +280,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     previousGroup.subscribe({
       complete: () => {
         expect(
-          configurationGroupsService.navigateToGroup
+          configurationGroupsService.navigateToGroup,
         ).toHaveBeenCalledTimes(1);
       },
     });
@@ -295,7 +293,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     });
 
     spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
-      nextGroup
+      nextGroup,
     );
     spyOn(configurationGroupsService, 'navigateToGroup');
 
@@ -303,7 +301,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     nextGroup.subscribe({
       complete: () => {
         expect(
-          configurationGroupsService.navigateToGroup
+          configurationGroupsService.navigateToGroup,
         ).toHaveBeenCalledTimes(1);
       },
     });
@@ -319,12 +317,12 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       });
       spyOn(
         configuratorCommonsService,
-        'isConfigurationLoading'
+        'isConfigurationLoading',
       ).and.returnValue(configurationLoading);
       classUnderTest['focusFirstAttribute']();
       flush();
       expect(
-        configuratorStorefrontUtilsService.focusFirstAttribute
+        configuratorStorefrontUtilsService.focusFirstAttribute,
       ).toHaveBeenCalledTimes(1);
     });
   });
@@ -339,7 +337,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         0,
         'aria-label',
         'configurator.a11y.previous',
-        'configurator.button.previous'
+        'configurator.button.previous',
       );
     });
 
@@ -352,7 +350,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         0,
         'aria-label',
         'configurator.a11y.next',
-        'configurator.button.next'
+        'configurator.button.next',
       );
     });
   });

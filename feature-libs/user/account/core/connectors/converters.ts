@@ -13,11 +13,11 @@ import {
 } from '@spartacus/user/account/root';
 
 export const USER_ACCOUNT_NORMALIZER = new InjectionToken<Converter<any, User>>(
-  'UserAccountNormalizer'
+  'UserAccountNormalizer',
 );
 
 export const USER_ACCOUNT_SERIALIZER = new InjectionToken<Converter<User, any>>(
-  'UserAccountSerializer'
+  'UserAccountSerializer',
 );
 
 export const VERIFICATION_TOKEN_NORMALIZER = new InjectionToken<

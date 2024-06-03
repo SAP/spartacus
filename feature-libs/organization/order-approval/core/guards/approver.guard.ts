@@ -23,7 +23,7 @@ export class ApproverGuard {
   constructor(
     protected userAccountFacade: UserAccountFacade,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   canActivate(): Observable<boolean> {
@@ -43,12 +43,12 @@ export class ApproverGuard {
             {
               key: 'orderApprovalGlobal.notification.noSufficientPermissions',
             },
-            GlobalMessageType.MSG_TYPE_WARNING
+            GlobalMessageType.MSG_TYPE_WARNING,
           );
         }
 
         return hasRole;
-      })
+      }),
     );
   }
 }

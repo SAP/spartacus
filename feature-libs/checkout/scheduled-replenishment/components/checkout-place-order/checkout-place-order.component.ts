@@ -48,7 +48,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
-    protected scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade
+    protected scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade,
   ) {
     super(orderFacade, routingService, fb, launchDialogService, vcr);
   }
@@ -57,22 +57,22 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
     if (this.checkoutSubmitForm.valid && !!this.currentOrderType) {
       this.placedOrder = this.launchDialogService.launch(
         LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-        this.vcr
+        this.vcr,
       );
       merge(
         this.currentOrderType === ORDER_TYPE.PLACE_ORDER
           ? this.orderFacade.placeOrder(this.checkoutSubmitForm.valid)
           : this.scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder(
               this.scheduleReplenishmentFormData,
-              this.checkoutSubmitForm.valid
-            )
+              this.checkoutSubmitForm.valid,
+            ),
       ).subscribe({
         error: () => {
           if (this.placedOrder) {
             this.placedOrder
               .subscribe((component) => {
                 this.launchDialogService.clear(
-                  LAUNCH_CALLER.PLACE_ORDER_SPINNER
+                  LAUNCH_CALLER.PLACE_ORDER_SPINNER,
                 );
                 if (component) {
                   component.destroy();
@@ -94,7 +94,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
     this.subscriptions.add(
       this.checkoutReplenishmentFormService
         .getOrderType()
-        .subscribe((orderType) => (this.currentOrderType = orderType))
+        .subscribe((orderType) => (this.currentOrderType = orderType)),
     );
 
     this.subscriptions.add(
@@ -105,9 +105,9 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
 
           this.daysOfWeekNotChecked$.next(
             data.daysOfWeek?.length === 0 &&
-              data.recurrencePeriod === recurrencePeriod.WEEKLY
+              data.recurrencePeriod === recurrencePeriod.WEEKLY,
           );
-        })
+        }),
     );
   }
 

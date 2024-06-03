@@ -51,24 +51,22 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
   let el: DebugElement;
   let event: EventService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nModule, RouterTestingModule],
-        providers: [
-          { provide: TranslationService, useClass: MockTranslationService },
-          { provide: OrderDetailsService, useClass: MockOrderDetailsService },
-          { provide: RoutingService, useClass: MockRoutingService },
-        ],
-        declarations: [
-          MyAccountV2OrderDetailsActionsComponent,
-          MockUrlPipe,
-          MockOrderDetailActionsComponent,
-        ],
-      }).compileComponents();
-      event = TestBed.inject(EventService);
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nModule, RouterTestingModule],
+      providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
+        { provide: OrderDetailsService, useClass: MockOrderDetailsService },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
+      declarations: [
+        MyAccountV2OrderDetailsActionsComponent,
+        MockUrlPipe,
+        MockOrderDetailActionsComponent,
+      ],
+    }).compileComponents();
+    event = TestBed.inject(EventService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2OrderDetailsActionsComponent);
@@ -101,7 +99,7 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
     component.order$ = of(mockOrder1);
     fixture.detectChanges();
     let download_button = fixture.debugElement.nativeElement.querySelector(
-      '#download-invoices-btn'
+      '#download-invoices-btn',
     );
     download_button.click(mockOrder1);
     expect(component.showDialog).toHaveBeenCalledWith(mockOrder1);

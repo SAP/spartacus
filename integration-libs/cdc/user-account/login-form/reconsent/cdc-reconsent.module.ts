@@ -32,7 +32,7 @@ import { defaultCdcReconsentLayoutConfig } from './default-cdc-reconsent-layout.
 })
 export class CdcReconsentModule {
   constructor(
-    _cdcReconsentDialogEventListener: CdcReconsentDialogEventListener
+    _cdcReconsentDialogEventListener: CdcReconsentDialogEventListener,
   ) {
     // Intentional empty constructor
   }

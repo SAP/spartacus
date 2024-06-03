@@ -21,7 +21,7 @@ export class OccProductReferencesListNormalizer
 
   convert(
     source: Occ.ProductReferenceList,
-    target: ProductReference[] = []
+    target: ProductReference[] = [],
   ): ProductReference[] {
     if (target === undefined) {
       target = { ...(source as any) };

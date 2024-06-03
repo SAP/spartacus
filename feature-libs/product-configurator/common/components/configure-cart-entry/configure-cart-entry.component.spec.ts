@@ -95,7 +95,7 @@ describe('ConfigureCartEntryComponent', () => {
         fixture = TestBed.createComponent(ConfigureCartEntryComponent);
         component = fixture.componentInstance;
         expect(component.abstractOrderKey$).toBeObservable(
-          cold('(a|)', { a: { type: AbstractOrderType.CART } })
+          cold('(a|)', { a: { type: AbstractOrderType.CART } }),
         );
       });
     });
@@ -210,7 +210,7 @@ describe('ConfigureCartEntryComponent', () => {
     describe('initialization', () => {
       it('should provide abstractOrderKey from context', () => {
         expect(component.abstractOrderKey$).toBeObservable(
-          cold('(a|)', { a: { id: quoteCode, type: AbstractOrderType.QUOTE } })
+          cold('(a|)', { a: { id: quoteCode, type: AbstractOrderType.QUOTE } }),
         );
       });
     });
@@ -218,14 +218,14 @@ describe('ConfigureCartEntryComponent', () => {
     describe('getOwnerType', () => {
       it('should find correct default owner type', () => {
         expect(component.getOwnerType()).toBe(
-          CommonConfigurator.OwnerType.CART_ENTRY
+          CommonConfigurator.OwnerType.CART_ENTRY,
         );
       });
 
       it('should find correct owner type for entry belonging to order', () => {
         component.cartEntry.orderCode = orderCode;
         expect(component.getOwnerType()).toBe(
-          CommonConfigurator.OwnerType.ORDER_ENTRY
+          CommonConfigurator.OwnerType.ORDER_ENTRY,
         );
       });
     });
@@ -237,7 +237,7 @@ describe('ConfigureCartEntryComponent', () => {
           component.retrieveOwnerTypeFromAbstractOrderType({
             type: AbstractOrderType.ORDER,
             id: orderCode,
-          })
+          }),
         ).toBe(CommonConfigurator.OwnerType.ORDER_ENTRY);
       });
 
@@ -247,7 +247,7 @@ describe('ConfigureCartEntryComponent', () => {
           component.retrieveOwnerTypeFromAbstractOrderType({
             type: AbstractOrderType.QUOTE,
             id: quoteCode,
-          })
+          }),
         ).toBe(CommonConfigurator.OwnerType.QUOTE_ENTRY);
       });
 
@@ -255,7 +255,7 @@ describe('ConfigureCartEntryComponent', () => {
         expect(
           component.retrieveOwnerTypeFromAbstractOrderType({
             type: AbstractOrderType.CART,
-          })
+          }),
         ).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
       });
 
@@ -265,7 +265,7 @@ describe('ConfigureCartEntryComponent', () => {
           component.retrieveOwnerTypeFromAbstractOrderType({
             type: AbstractOrderType.SAVED_CART,
             id: savedCartCode,
-          })
+          }),
         ).toBe(CommonConfigurator.OwnerType.SAVED_CART_ENTRY);
       });
     });
@@ -277,7 +277,7 @@ describe('ConfigureCartEntryComponent', () => {
           component.retrieveEntityKey({
             type: AbstractOrderType.ORDER,
             id: orderCode,
-          })
+          }),
         ).toBe(orderCode + '+0');
       });
 
@@ -287,7 +287,7 @@ describe('ConfigureCartEntryComponent', () => {
           component.retrieveEntityKey({
             type: AbstractOrderType.QUOTE,
             id: quoteCode,
-          })
+          }),
         ).toBe(quoteCode + '+0');
       });
 
@@ -298,7 +298,7 @@ describe('ConfigureCartEntryComponent', () => {
           component.retrieveEntityKey({
             type: AbstractOrderType.SAVED_CART,
             id: savedCartCode,
-          })
+          }),
         ).toBe(savedCartCode + '+0');
       });
 
@@ -308,7 +308,7 @@ describe('ConfigureCartEntryComponent', () => {
         expect(
           component.retrieveEntityKey({
             type: AbstractOrderType.CART,
-          })
+          }),
         ).toBe('0');
       });
 
@@ -317,7 +317,7 @@ describe('ConfigureCartEntryComponent', () => {
         expect(() =>
           component.retrieveEntityKey({
             type: AbstractOrderType.CART,
-          })
+          }),
         ).toThrowError();
       });
     });
@@ -373,7 +373,7 @@ describe('ConfigureCartEntryComponent', () => {
           expect,
           htmlElem,
           'a',
-          'configurator.header.displayConfiguration'
+          'configurator.header.displayConfiguration',
         );
       });
 
@@ -390,7 +390,7 @@ describe('ConfigureCartEntryComponent', () => {
           expect,
           htmlElem,
           'a',
-          'configurator.header.editConfiguration'
+          'configurator.header.editConfiguration',
         );
       });
 
@@ -406,7 +406,7 @@ describe('ConfigureCartEntryComponent', () => {
           expect,
           htmlElem,
           'a',
-          'configurator.header.resolveIssues'
+          'configurator.header.resolveIssues',
         );
       });
     });
@@ -423,13 +423,13 @@ describe('ConfigureCartEntryComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          'label.disabled-link'
+          'label.disabled-link',
         );
 
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
-          'a.link'
+          'a.link',
         );
       });
 
@@ -443,13 +443,13 @@ describe('ConfigureCartEntryComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          'a.link'
+          'a.link',
         );
 
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
-          'label.disabled-link'
+          'label.disabled-link',
         );
       });
     });
@@ -475,7 +475,7 @@ describe('ConfigureCartEntryComponent', () => {
         };
         fixture.detectChanges();
         expect(component.getResolveIssuesA11yDescription()).toEqual(
-          'cx-error-msg-0'
+          'cx-error-msg-0',
         );
       });
     });
@@ -561,7 +561,7 @@ describe('ConfigureCartEntryComponent', () => {
           'cx-action-link',
           undefined,
           'aria-describedby',
-          'cx-error-msg-0'
+          'cx-error-msg-0',
         );
       });
     });

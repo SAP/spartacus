@@ -58,7 +58,7 @@ export function verifyMessageWasPosted(message: string) {
   const POSITION_OF_LAST_POSTED_MESSAGE = 1;
   cy.get('.cx-message-left-align-text', { timeout: 100000 }).should(
     'have.length',
-    COUNT_OF_MESSAGE_AFTER_POST
+    COUNT_OF_MESSAGE_AFTER_POST,
   );
   cy.get('.cx-message-left-align-text')
     .eq(POSITION_OF_LAST_POSTED_MESSAGE)
@@ -66,7 +66,7 @@ export function verifyMessageWasPosted(message: string) {
 }
 
 export function verifyTicketDetailsAreDisplayedInTicketHeader(
-  ticketDetails: TestTicketDetails
+  ticketDetails: TestTicketDetails,
 ) {
   cy.get(TICKET_HEADER)
     .eq(ID_IN_HEADER)
@@ -74,7 +74,7 @@ export function verifyTicketDetailsAreDisplayedInTicketHeader(
   cy.get(TICKET_HEADER)
     .eq(STATUS_IN_HEADER)
     .then((status) =>
-      cy.wrap(status).should('include.text', ticketDetails.status)
+      cy.wrap(status).should('include.text', ticketDetails.status),
     );
 }
 

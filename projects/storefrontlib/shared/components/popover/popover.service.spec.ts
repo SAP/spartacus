@@ -53,13 +53,13 @@ describe('PopoverService', () => {
   describe('getFocusConfig', () => {
     it(`should return config for pressing ${PopoverEvent.OPEN_BY_KEYBOARD}`, () => {
       expect(
-        service.getFocusConfig(PopoverEvent.OPEN_BY_KEYBOARD, true)
+        service.getFocusConfig(PopoverEvent.OPEN_BY_KEYBOARD, true),
       ).toEqual(focusConfig);
     });
 
     it(`should return empty config for pressing ${PopoverEvent.OPEN_BY_KEYBOARD} with appendToBody flag set as false`, () => {
       expect(
-        service.getFocusConfig(PopoverEvent.OPEN_BY_KEYBOARD, false)
+        service.getFocusConfig(PopoverEvent.OPEN_BY_KEYBOARD, false),
       ).toEqual({});
     });
 

@@ -44,7 +44,7 @@ export function createTest(config: MyCompanyConfig) {
       cy.url().should('contain', `${config.baseUrl}/create`);
 
       cy.get('cx-org-form div.header h3').contains(
-        ignoreCaseSensivity(`Create ${config.name}`)
+        ignoreCaseSensivity(`Create ${config.name}`),
       );
 
       if (config.selectOptionsEndpoint) {
@@ -57,10 +57,10 @@ export function createTest(config: MyCompanyConfig) {
       completeForm(config.rows, FormType.CREATE);
 
       cy.intercept({ method: 'POST', path: `**${config.apiEndpoint}**` }).as(
-        'saveEntityData'
+        'saveEntityData',
       );
       cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
-        'loadEntityData'
+        'loadEntityData',
       );
       cy.get('div.header button').contains('Save').click();
       cy.wait('@saveEntityData').then((xhr) => {

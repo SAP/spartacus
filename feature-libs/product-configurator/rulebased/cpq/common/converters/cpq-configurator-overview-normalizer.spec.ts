@@ -156,7 +156,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     });
 
     serviceUnderTest = TestBed.inject(
-      CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>
+      CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>,
     );
   });
 
@@ -175,7 +175,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should set configuration id if provided', () => {
     expect(
       serviceUnderTest.convert({ ...input, configurationId: configurationId })
-        .configId
+        .configId,
     ).toBe(configurationId);
   });
 
@@ -185,18 +185,18 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
 
   it('should have zero issues if complete and consistent', () => {
     expect(
-      serviceUnderTest.convert(completeAndConsistentInput).totalNumberOfIssues
+      serviceUnderTest.convert(completeAndConsistentInput).totalNumberOfIssues,
     ).toBe(0);
   });
 
   it('should prepare price summary', () => {
     const convertedPriceSummary = serviceUnderTest.convert(input).priceSummary;
     expect(convertedPriceSummary?.currentTotal?.formattedValue).toBe(
-      '$3,333.33'
+      '$3,333.33',
     );
     expect(convertedPriceSummary?.basePrice?.formattedValue).toBe('$1,000.00');
     expect(convertedPriceSummary?.selectedOptions?.formattedValue).toBe(
-      '$2,333.33'
+      '$2,333.33',
     );
   });
 
@@ -210,7 +210,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
 
   it('should map tab description', () => {
     expect(serviceUnderTest['convertTab'](tab, CURRENCY).groupDescription).toBe(
-      GRP_DESCR
+      GRP_DESCR,
     );
   });
 
@@ -219,19 +219,19 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       id: 0,
     };
     expect(
-      serviceUnderTest['convertTab'](generalTab, CURRENCY).groupDescription
+      serviceUnderTest['convertTab'](generalTab, CURRENCY).groupDescription,
     ).toBe(GENERAL_GRP_DESCR);
   });
 
   it('should convert attributes', () => {
     expect(
-      serviceUnderTest['convertTab'](tab, CURRENCY).attributes?.length
+      serviceUnderTest['convertTab'](tab, CURRENCY).attributes?.length,
     ).toBe(2);
   });
 
   it('should map attribute name', () => {
     expect(
-      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].attribute
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].attribute,
     ).toEqual(ATTR_NAME);
   });
 
@@ -247,14 +247,14 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should map attribute type GENREAL', () => {
     attr.values = singleSelectionValues;
     expect(
-      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].type
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].type,
     ).toEqual(Configurator.AttributeOverviewType.GENERAL);
   });
 
   it('should map attribute type BUNDLE', () => {
     attr.values = singleSelectionProductValues;
     expect(
-      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].type
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].type,
     ).toEqual(Configurator.AttributeOverviewType.BUNDLE);
   });
 
@@ -270,7 +270,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     ];
     attr.values = mixedValues;
     expect(
-      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].type
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].type,
     ).toEqual(Configurator.AttributeOverviewType.BUNDLE);
   });
 
@@ -367,7 +367,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.LIST_BOX;
     expect(
-      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].value
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].value,
     ).toEqual('NOT_IMPLEMENTED');
   });
 
@@ -375,7 +375,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.LIST_BOX_MULTI;
     expect(
-      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].value
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].value,
     ).toEqual('NOT_IMPLEMENTED');
   });
 
@@ -383,7 +383,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.AUTO_COMPLETE_CUSTOM;
     expect(
-      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].value
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].value,
     ).toEqual('NOT_IMPLEMENTED');
   });
 
@@ -446,7 +446,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       const attributeOverview = serviceUnderTest['extractValue'](
         valuepCode1,
         attr,
-        CURRENCY
+        CURRENCY,
       );
       expect(attributeOverview.value).toBe(valuepCode1.valueDisplay);
     });
@@ -455,10 +455,10 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       const attributeOverview = serviceUnderTest['extractValue'](
         valuepCode1WoValueDisplay,
         attr,
-        CURRENCY
+        CURRENCY,
       );
       expect(attributeOverview.value).toBe(
-        valuepCode1WoValueDisplay.paV_ID.toString()
+        valuepCode1WoValueDisplay.paV_ID.toString(),
       );
     });
   });
@@ -468,7 +468,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       attr.userInput = 'Hullo';
       const attributeOverview = serviceUnderTest['extractValueUserInput'](
         attr,
-        CURRENCY
+        CURRENCY,
       );
       expect(attributeOverview.value).toBe(attr.userInput);
     });
@@ -480,7 +480,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       attr.stdAttrCode = 23;
       const attributeOverview = serviceUnderTest['extractValueUserInput'](
         attr,
-        CURRENCY
+        CURRENCY,
       );
       expect(attributeOverview.value).toBe(attr.stdAttrCode.toString());
     });

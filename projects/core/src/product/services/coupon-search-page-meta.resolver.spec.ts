@@ -102,7 +102,7 @@ describe('CouponSearchPageResolver', () => {
     describe('without coupon', () => {
       beforeEach(() => {
         spyOnProperty(route, 'snapshot').and.returnValue(
-          {} as ActivatedRouteSnapshot
+          {} as ActivatedRouteSnapshot,
         );
       });
 
@@ -136,7 +136,7 @@ describe('CouponSearchPageResolver', () => {
         .subscribe((title) => (result = title))
         .unsubscribe();
       expect(result).toEqual(
-        'pageMetaResolver.search.findProductTitle count:3 coupon:coupon1'
+        'pageMetaResolver.search.findProductTitle count:3 coupon:coupon1',
       );
     });
 

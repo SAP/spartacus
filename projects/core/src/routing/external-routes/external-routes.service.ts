@@ -20,7 +20,7 @@ export class ExternalRoutesService {
   constructor(
     protected config: ExternalRoutesConfig,
     protected urlMatcherService: UrlMatcherService,
-    protected injector: Injector
+    protected injector: Injector,
   ) {}
 
   protected get internalUrlPatterns(): string[] {
@@ -64,7 +64,7 @@ export class ExternalRoutesService {
    */
   protected getUrlMatcher(): UrlMatcher {
     const matcher = this.urlMatcherService.getFromGlob(
-      this.internalUrlPatterns
+      this.internalUrlPatterns,
     );
     return this.urlMatcherService.getOpposite(matcher); // the external route should be activated only when it's NOT an internal route
   }

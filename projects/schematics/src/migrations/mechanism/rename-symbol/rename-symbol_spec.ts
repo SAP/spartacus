@@ -87,7 +87,7 @@ describe('renamed symbols', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../test/migrations-test.json')
+      require.resolve('../../test/migrations-test.json'),
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -99,7 +99,7 @@ describe('renamed symbols', () => {
         compilerOptions: {
           lib: ['es2015'],
         },
-      })
+      }),
     );
 
     writeFile(
@@ -114,7 +114,7 @@ describe('renamed symbols', () => {
             },
           },
         },
-      })
+      }),
     );
 
     previousWorkingDir = shx.pwd();
@@ -175,12 +175,12 @@ describe('renamed symbols', () => {
       appTree = await runMigration(
         appTree,
         schematicRunner,
-        MIGRATION_SCRIPT_NAME
+        MIGRATION_SCRIPT_NAME,
       );
       appTree = await runMigration(
         appTree,
         schematicRunner,
-        '01-migration-v4-constructor-deprecations'
+        '01-migration-v4-constructor-deprecations',
       );
 
       const content = appTree.readContent('/src/index.ts');

@@ -17,7 +17,7 @@ import { BaseItem } from '../organization.model';
 
 @Injectable()
 export abstract class SubListService<
-  T extends BaseItem
+  T extends BaseItem,
 > extends ListService<T> {
   /**
    * The default table structure for sub lists is only showing tables with vertical layout.
@@ -47,7 +47,7 @@ export abstract class SubListService<
    * As we can't filter with the backend API, we do this client side.
    */
   protected filterSelected(
-    list: EntitiesModel<T> | undefined
+    list: EntitiesModel<T> | undefined,
   ): EntitiesModel<T> | undefined {
     if (!list) {
       return list;

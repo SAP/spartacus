@@ -105,7 +105,7 @@ context('Auxiliary Keys', () => {
       cy.intercept({
         method: 'GET',
         pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/products/search`,
       }).as('query');
       cy.get('cx-searchbox input').type('dsa');
@@ -194,7 +194,7 @@ function loadPageWithComponenents(pageUrl: string) {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/cms/components`,
   }).as('getComponents');
   cy.visit(pageUrl);

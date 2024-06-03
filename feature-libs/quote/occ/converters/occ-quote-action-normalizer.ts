@@ -31,11 +31,11 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
       target.allowedActions = this.getOrderedActions(
         source.state,
         source.allowedActions,
-        source.code
+        source.code,
       ).map((action) => this.getActionCategory(action));
     }
     const switchToEditModeRequired = target.allowedActions?.find(
-      (quoteAction) => quoteAction.type === QuoteActionType.EDIT
+      (quoteAction) => quoteAction.type === QuoteActionType.EDIT,
     );
 
     target.isEditable =
@@ -55,7 +55,7 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
   protected getOrderedActions(
     state: QuoteState,
     list: QuoteActionType[],
-    quoteId: string
+    quoteId: string,
   ) {
     const order =
       this.quoteCoreConfig.quote?.actions?.actionsOrderByState?.[state];
@@ -82,7 +82,7 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
       return list
         .filter((item) => clonedActionList.includes(item))
         .sort(
-          (a, b) => clonedActionList.indexOf(a) - clonedActionList.indexOf(b)
+          (a, b) => clonedActionList.indexOf(a) - clonedActionList.indexOf(b),
         );
     } else {
       return list;

@@ -134,11 +134,11 @@ describe('VisualViewerService', () => {
           'sap.ui.vk',
           'sap.ui.richtexteditor',
         ].forEach((libraryName) =>
-          expect(getCore().getLoadedLibraries()[libraryName]).toBeTruthy()
+          expect(getCore().getLoadedLibraries()[libraryName]).toBeTruthy(),
         );
 
         expect(containerDiv.getAttribute('data-sap-ui-area')).toEqual(
-          visualViewerContainerId
+          visualViewerContainerId,
         );
 
         done();
@@ -152,7 +152,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.backgroundTopColor).toEqual('red');
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
 
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
@@ -167,7 +167,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.backgroundTopColor).toEqual('red');
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       visualViewerService.backgroundTopColor = 'red';
       expect(visualViewerService.backgroundTopColor).toEqual('red');
@@ -183,7 +183,7 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const mockViewport = {
@@ -192,22 +192,22 @@ describe('VisualViewerService', () => {
 
       const getCSSColorSpy = spyOn<any>(
         visualViewerService,
-        'getCSSColor'
+        'getCSSColor',
       ).and.returnValue('#ffffff');
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
-        'get'
+        'get',
       ).and.returnValue(mockViewport);
       const viewportSetBackgroundColorTopSpy = spyOn(
         mockViewport,
-        'setBackgroundColorTop'
+        'setBackgroundColorTop',
       );
 
       visualViewerService.backgroundTopColor = '--cx-color-inverse';
 
       expect(visualViewerService.backgroundTopColor).toEqual(
-        '--cx-color-inverse'
+        '--cx-color-inverse',
       );
       expect(getCSSColorSpy).toHaveBeenCalledTimes(1);
       expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(1);
@@ -223,7 +223,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.backgroundBottomColor).toEqual('red');
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
 
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
@@ -238,7 +238,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.backgroundBottomColor).toEqual('red');
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       visualViewerService.backgroundBottomColor = 'red';
       expect(visualViewerService.backgroundBottomColor).toEqual('red');
@@ -254,7 +254,7 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const mockViewport = {
@@ -263,22 +263,22 @@ describe('VisualViewerService', () => {
 
       const getCSSColorSpy = spyOn<any>(
         visualViewerService,
-        'getCSSColor'
+        'getCSSColor',
       ).and.returnValue('#ffffff');
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
-        'get'
+        'get',
       ).and.returnValue(mockViewport);
       const viewportSetBackgroundColorBottomSpy = spyOn(
         mockViewport,
-        'setBackgroundColorBottom'
+        'setBackgroundColorBottom',
       );
 
       visualViewerService.backgroundBottomColor = '--cx-color-inverse';
 
       expect(visualViewerService.backgroundBottomColor).toEqual(
-        '--cx-color-inverse'
+        '--cx-color-inverse',
       );
       expect(getCSSColorSpy).toHaveBeenCalledTimes(1);
       expect(getCSSColorSpy).toHaveBeenCalledWith('--cx-color-inverse');
@@ -286,7 +286,7 @@ describe('VisualViewerService', () => {
       expect(getViewportPropertySpy).toHaveBeenCalledTimes(1);
       expect(viewportSetBackgroundColorBottomSpy).toHaveBeenCalledTimes(1);
       expect(viewportSetBackgroundColorBottomSpy).toHaveBeenCalledWith(
-        '#ffffff'
+        '#ffffff',
       );
     });
   });
@@ -297,7 +297,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.hotspotSelectionColor).toEqual('red');
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
 
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
@@ -313,7 +313,7 @@ describe('VisualViewerService', () => {
 
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       visualViewerService.hotspotSelectionColor = 'red';
       expect(visualViewerService.hotspotSelectionColor).toEqual('red');
@@ -330,7 +330,7 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const mockViewStateManager = {
@@ -341,17 +341,17 @@ describe('VisualViewerService', () => {
       const getViewStateManagerPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewStateManager',
-        'get'
+        'get',
       ).and.returnValue(mockViewStateManager);
       const viewStateManagerSetHighlightColorSpy = spyOn(
         mockViewStateManager,
-        'setHighlightColor'
+        'setHighlightColor',
       );
 
       visualViewerService.hotspotSelectionColor = '--cx-color-inverse';
 
       expect(visualViewerService.hotspotSelectionColor).toEqual(
-        '--cx-color-inverse'
+        '--cx-color-inverse',
       );
       expect(getCSSColorSpy).toHaveBeenCalledTimes(1);
       expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(1);
@@ -366,7 +366,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.showAllHotspotsEnabled).toEqual(false);
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
       visualViewerService.showAllHotspotsEnabled = true;
@@ -380,7 +380,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.showAllHotspotsEnabled).toEqual(false);
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       visualViewerService.showAllHotspotsEnabled = false;
       expect(visualViewerService.showAllHotspotsEnabled).toEqual(false);
@@ -396,12 +396,12 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const applyInclusionStyleSpy = spyOn<any>(
         visualViewerService,
-        'applyInclusionStyle'
+        'applyInclusionStyle',
       );
 
       visualViewerService.showAllHotspotsEnabled = true;
@@ -418,7 +418,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.showAllHotspotsColor).toEqual('red');
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
       visualViewerService.showAllHotspotsColor = 'blue';
@@ -432,7 +432,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.showAllHotspotsColor).toEqual('red');
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       visualViewerService.showAllHotspotsColor = 'red';
       expect(visualViewerService.showAllHotspotsColor).toEqual('red');
@@ -448,7 +448,7 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const mockViewport = {
@@ -459,17 +459,17 @@ describe('VisualViewerService', () => {
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
-        'get'
+        'get',
       ).and.returnValue(mockViewport);
       const viewportSetShowAllHotspotsTintColorSpy = spyOn(
         mockViewport,
-        'setShowAllHotspotsTintColor'
+        'setShowAllHotspotsTintColor',
       );
 
       visualViewerService.showAllHotspotsColor = '--cx-color-inverse';
 
       expect(visualViewerService.showAllHotspotsColor).toEqual(
-        '--cx-color-inverse'
+        '--cx-color-inverse',
       );
       expect(getCSSColorSpy).toHaveBeenCalledTimes(1);
       expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(1);
@@ -484,7 +484,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.outlineColor).toEqual('red');
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
       visualViewerService.outlineColor = 'blue';
@@ -498,7 +498,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.outlineColor).toEqual('red');
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       visualViewerService.outlineColor = 'red';
       expect(visualViewerService.outlineColor).toEqual('red');
@@ -514,7 +514,7 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const mockViewStateManager = {
@@ -525,11 +525,11 @@ describe('VisualViewerService', () => {
       const getViewStateManagerPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewStateManager',
-        'get'
+        'get',
       ).and.returnValue(mockViewStateManager);
       const viewStateManagerSetOutlineColorSpy = spyOn(
         mockViewStateManager,
-        'setOutlineColor'
+        'setOutlineColor',
       );
 
       visualViewerService.outlineColor = '--cx-color-inverse';
@@ -548,7 +548,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.outlineWidth).toEqual(4);
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
       visualViewerService.outlineWidth = 8;
@@ -562,7 +562,7 @@ describe('VisualViewerService', () => {
       expect(visualViewerService.outlineWidth).toEqual(4);
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
 
       visualViewerService.outlineWidth = 4;
@@ -580,7 +580,7 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const mockViewStateManager = {
@@ -590,11 +590,11 @@ describe('VisualViewerService', () => {
       const getViewStateManagerPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewStateManager',
-        'get'
+        'get',
       ).and.returnValue(mockViewStateManager);
       const viewStateManagerSetOutlineWidthSpy = spyOn(
         mockViewStateManager,
-        'setOutlineWidth'
+        'setOutlineWidth',
       );
 
       visualViewerService.outlineWidth = 10;
@@ -610,17 +610,17 @@ describe('VisualViewerService', () => {
     it('should do nothing when not running in browser', () => {
       visualViewerService['_selectionMode'] = SelectionMode.Exclusive;
       expect(visualViewerService.selectionMode).toEqual(
-        SelectionMode.Exclusive
+        SelectionMode.Exclusive,
       );
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
       visualViewerService.selectionMode = SelectionMode.Sticky;
       expect(isBrowserSpy).toHaveBeenCalledTimes(1);
       expect(visualViewerService.selectionMode).toEqual(
-        SelectionMode.Exclusive
+        SelectionMode.Exclusive,
       );
       expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
     });
@@ -628,15 +628,15 @@ describe('VisualViewerService', () => {
     it('should do nothing when value has not changed', () => {
       visualViewerService['_selectionMode'] = SelectionMode.Exclusive;
       expect(visualViewerService.selectionMode).toEqual(
-        SelectionMode.Exclusive
+        SelectionMode.Exclusive,
       );
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       visualViewerService.selectionMode = SelectionMode.Exclusive;
       expect(visualViewerService.selectionMode).toEqual(
-        SelectionMode.Exclusive
+        SelectionMode.Exclusive,
       );
       expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
     });
@@ -644,7 +644,7 @@ describe('VisualViewerService', () => {
     it('should call setSelectionMode on viewport (after scene has loaded) when value has changed', () => {
       visualViewerService['_selectionMode'] = SelectionMode.Exclusive;
       expect(visualViewerService.selectionMode).toEqual(
-        SelectionMode.Exclusive
+        SelectionMode.Exclusive,
       );
 
       const mockExecuteWhenSceneLoaded = (callback: () => void) => {
@@ -652,7 +652,7 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const mockViewPort = {
@@ -662,11 +662,11 @@ describe('VisualViewerService', () => {
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
-        'get'
+        'get',
       ).and.returnValue(mockViewPort);
       const viewportSetSelectionModeSpy = spyOn(
         mockViewPort,
-        'setSelectionMode'
+        'setSelectionMode',
       );
 
       visualViewerService.selectionMode = SelectionMode.Sticky;
@@ -692,12 +692,12 @@ describe('VisualViewerService', () => {
       const sceneNodeToProductLookupServicePropertySpy = spyOnProperty<any>(
         visualViewerService,
         'sceneNodeToProductLookupService',
-        'get'
+        'get',
       ).and.returnValue(mockSceneNodeToProductLookupService);
 
       const lookupNodeIdsSpy = spyOn(
         mockSceneNodeToProductLookupService,
-        'lookupNodeIds'
+        'lookupNodeIds',
       ).and.callThrough();
 
       const selectedNodeIds$ = visualViewerService['selectedNodeIds$'];
@@ -713,7 +713,7 @@ describe('VisualViewerService', () => {
         'productCode2',
       ]);
       expect(sceneNodeToProductLookupServicePropertySpy).toHaveBeenCalledTimes(
-        1
+        1,
       );
       expect(lookupNodeIdsSpy).toHaveBeenCalledTimes(1);
       expect(selectedNodeIdsNextSpy).toHaveBeenCalledTimes(1);
@@ -733,12 +733,12 @@ describe('VisualViewerService', () => {
       const sceneNodeToProductLookupServicePropertySpy = spyOnProperty<any>(
         visualViewerService,
         'sceneNodeToProductLookupService',
-        'get'
+        'get',
       ).and.returnValue(mockSceneNodeToProductLookupService);
 
       const lookupNodeIdsSpy = spyOn(
         mockSceneNodeToProductLookupService,
-        'lookupNodeIds'
+        'lookupNodeIds',
       ).and.callThrough();
 
       const selectedNodeIds$ = visualViewerService['selectedNodeIds$'];
@@ -754,7 +754,7 @@ describe('VisualViewerService', () => {
       expect(isBrowserSpy).toHaveBeenCalledTimes(1);
       expect(visualViewerService.selectedProductCodes).toEqual([]);
       expect(sceneNodeToProductLookupServicePropertySpy).toHaveBeenCalledTimes(
-        0
+        0,
       );
       expect(lookupNodeIdsSpy).toHaveBeenCalledTimes(0);
       expect(selectedNodeIdsNextSpy).toHaveBeenCalledTimes(0);
@@ -771,12 +771,12 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const applyInclusionStyleSpy = spyOn<any>(
         visualViewerService,
-        'applyInclusionStyle'
+        'applyInclusionStyle',
       );
 
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
@@ -799,12 +799,12 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const applyInclusionStyleSpy = spyOn<any>(
         visualViewerService,
-        'applyInclusionStyle'
+        'applyInclusionStyle',
       );
 
       visualViewerService.includedProductCodes = [
@@ -829,12 +829,12 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const applyInclusionStyleSpy = spyOn<any>(
         visualViewerService,
-        'applyInclusionStyle'
+        'applyInclusionStyle',
       );
 
       visualViewerService.includedProductCodes = [
@@ -854,7 +854,7 @@ describe('VisualViewerService', () => {
   describe('excludedOpacity', () => {
     it('should store passed value in private field', () => {
       expect(visualViewerService.excludedOpacity).toEqual(
-        visualViewerService['DEFAULT_EXCLUDED_OPACITY']
+        visualViewerService['DEFAULT_EXCLUDED_OPACITY'],
       );
       visualViewerService.excludedOpacity = 0.75;
       expect(visualViewerService.excludedOpacity).toEqual(0.75);
@@ -878,7 +878,7 @@ describe('VisualViewerService', () => {
 
       const getAnimationPlayerPropertySpy = spyOnProperty<any>(
         visualViewerService,
-        'animationPlayer'
+        'animationPlayer',
       ).and.returnValue(mockAnimationPlayer);
 
       const animationTotalDuration = visualViewerService.animationTotalDuration;
@@ -894,7 +894,7 @@ describe('VisualViewerService', () => {
 
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
       visualViewerService.animationPosition = 1;
@@ -908,7 +908,7 @@ describe('VisualViewerService', () => {
 
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
 
       visualViewerService.animationPosition = 0;
@@ -926,7 +926,7 @@ describe('VisualViewerService', () => {
       const animationPlayerPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'animationPlayer',
-        'get'
+        'get',
       ).and.returnValue(mockAnimationPlayer);
 
       const mockExecuteWhenSceneLoaded = (callback: () => void) => {
@@ -934,12 +934,12 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const animationPlayerSetTimeSpy = spyOn<any>(
         visualViewerService,
-        'animationPlayerSetTime'
+        'animationPlayerSetTime',
       );
 
       visualViewerService.animationPosition = 0.5;
@@ -958,7 +958,7 @@ describe('VisualViewerService', () => {
 
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
       visualViewerService.animationPlaying = true;
@@ -972,7 +972,7 @@ describe('VisualViewerService', () => {
 
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
 
       visualViewerService.animationPlaying = false;
@@ -988,18 +988,18 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const getAnimationPositionPropertySpy = spyOnProperty(
         visualViewerService,
         'animationPosition',
-        'get'
+        'get',
       ).and.returnValue(1); // at end position
 
       const getAnimationPlayerSetTimeSpy = spyOn<any>(
         visualViewerService,
-        'animationPlayerSetTime'
+        'animationPlayerSetTime',
       );
 
       const mockAnimationPlayer = {
@@ -1010,7 +1010,7 @@ describe('VisualViewerService', () => {
       const getAnimationPlayerProperty = spyOnProperty<any>(
         visualViewerService,
         'animationPlayer',
-        'get'
+        'get',
       ).and.returnValue(mockAnimationPlayer);
 
       const playSpy = spyOn(mockAnimationPlayer, 'play');
@@ -1018,7 +1018,7 @@ describe('VisualViewerService', () => {
 
       const animationPlayingChangeEmitSpy = spyOn(
         visualViewerService.animationPlayingChange,
-        'emit'
+        'emit',
       );
 
       visualViewerService.animationPlaying = true;
@@ -1042,18 +1042,18 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const getAnimationPositionPropertySpy = spyOnProperty(
         visualViewerService,
         'animationPosition',
-        'get'
+        'get',
       ).and.returnValue(0.75);
 
       const getAnimationPlayerSetTimeSpy = spyOn<any>(
         visualViewerService,
-        'animationPlayerSetTime'
+        'animationPlayerSetTime',
       );
 
       const mockAnimationPlayer = {
@@ -1064,7 +1064,7 @@ describe('VisualViewerService', () => {
       const getAnimationPlayerProperty = spyOnProperty<any>(
         visualViewerService,
         'animationPlayer',
-        'get'
+        'get',
       ).and.returnValue(mockAnimationPlayer);
 
       const playSpy = spyOn(mockAnimationPlayer, 'play');
@@ -1072,7 +1072,7 @@ describe('VisualViewerService', () => {
 
       const animationPlayingChangeEmitSpy = spyOn(
         visualViewerService.animationPlayingChange,
-        'emit'
+        'emit',
       );
 
       visualViewerService.animationPlaying = true;
@@ -1097,18 +1097,18 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const getAnimationPositionPropertySpy = spyOnProperty(
         visualViewerService,
         'animationPosition',
-        'get'
+        'get',
       ).and.returnValue(0.75);
 
       const getAnimationPlayerSetTimeSpy = spyOn<any>(
         visualViewerService,
-        'animationPlayerSetTime'
+        'animationPlayerSetTime',
       );
 
       const mockAnimationPlayer = {
@@ -1119,7 +1119,7 @@ describe('VisualViewerService', () => {
       const getAnimationPlayerProperty = spyOnProperty<any>(
         visualViewerService,
         'animationPlayer',
-        'get'
+        'get',
       ).and.returnValue(mockAnimationPlayer);
 
       const playSpy = spyOn(mockAnimationPlayer, 'play');
@@ -1127,7 +1127,7 @@ describe('VisualViewerService', () => {
 
       const animationPlayingChangeEmitSpy = spyOn(
         visualViewerService.animationPlayingChange,
-        'emit'
+        'emit',
       );
 
       visualViewerService.animationPlaying = false;
@@ -1151,13 +1151,13 @@ describe('VisualViewerService', () => {
 
       const spyOnExecuteWhenSceneLoaded = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
       visualViewerService.navigationMode = NavigationMode.Pan;
       expect(isBrowserSpy).toHaveBeenCalledTimes(1);
       expect(visualViewerService['_navigationMode']).toEqual(
-        NavigationMode.Zoom
+        NavigationMode.Zoom,
       );
       expect(spyOnExecuteWhenSceneLoaded).toHaveBeenCalledTimes(0);
     });
@@ -1168,7 +1168,7 @@ describe('VisualViewerService', () => {
 
       const spyOnExecuteWhenSceneLoaded = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
       visualViewerService.navigationMode = NavigationMode.Zoom;
       expect(visualViewerService.navigationMode).toEqual(NavigationMode.Zoom);
@@ -1185,13 +1185,13 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const mockDrawerToolbar = {
         _activateGesture: (
           _viewport: any,
-          _navigationMode: NavigationMode
+          _navigationMode: NavigationMode,
         ) => {},
       };
 
@@ -1205,18 +1205,18 @@ describe('VisualViewerService', () => {
       const getDrawerToolbarPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'drawerToolbar',
-        'get'
+        'get',
       ).and.returnValue(mockDrawerToolbar);
 
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
-        'get'
+        'get',
       ).and.returnValue(mockViewport);
 
       const mockDrawerToolbar_activateGestureSpy = spyOn(
         mockDrawerToolbar,
-        '_activateGesture'
+        '_activateGesture',
       );
 
       visualViewerService.navigationMode = NavigationMode.Pan;
@@ -1228,7 +1228,7 @@ describe('VisualViewerService', () => {
       expect(mockDrawerToolbar_activateGestureSpy).toHaveBeenCalledTimes(1);
       expect(mockDrawerToolbar_activateGestureSpy).toHaveBeenCalledWith(
         mockViewportImplementation,
-        NavigationMode.Pan
+        NavigationMode.Pan,
       );
     });
   });
@@ -1239,7 +1239,7 @@ describe('VisualViewerService', () => {
 
       const visualViewerServiceExecuteWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
 
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
@@ -1248,7 +1248,7 @@ describe('VisualViewerService', () => {
 
       expect(visualViewerService.isolateModeEnabled).toEqual(false);
       expect(
-        visualViewerServiceExecuteWhenSceneLoadedSpy
+        visualViewerServiceExecuteWhenSceneLoadedSpy,
       ).toHaveBeenCalledTimes(0);
     });
 
@@ -1257,14 +1257,14 @@ describe('VisualViewerService', () => {
 
       const visualViewerServiceExecuteWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       );
 
       visualViewerService.isolateModeEnabled = false;
 
       expect(visualViewerService.isolateModeEnabled).toEqual(false);
       expect(
-        visualViewerServiceExecuteWhenSceneLoadedSpy
+        visualViewerServiceExecuteWhenSceneLoadedSpy,
       ).toHaveBeenCalledTimes(0);
     });
 
@@ -1276,7 +1276,7 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const mockViewInfo = {};
@@ -1310,25 +1310,25 @@ describe('VisualViewerService', () => {
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
-        'get'
+        'get',
       ).and.returnValue(mockViewport);
 
       const getViewInfoSpy = spyOn(
         mockViewport,
-        'getViewInfo'
+        'getViewInfo',
       ).and.callThrough();
 
       const setVisualViewerServiceViewPriorToIsolateViewInfoSpy =
         spyOnProperty<any>(
           visualViewerService,
           'viewPriorToIsolateViewInfo',
-          'set'
+          'set',
         );
 
       const is2DPropertySpy = spyOnProperty(
         visualViewerService,
         'is2D',
-        'get'
+        'get',
       ).and.returnValue(true);
 
       const mockNodeRef1 = {};
@@ -1346,12 +1346,12 @@ describe('VisualViewerService', () => {
       const getViewStateManagerPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewStateManager',
-        'get'
+        'get',
       ).and.returnValue(mockViewStateManager);
 
       const isolateModeEnabledChangeEmitSpy = spyOn(
         visualViewerService['isolateModeEnabledChange'],
-        'emit'
+        'emit',
       );
 
       visualViewerService.isolateModeEnabled = true;
@@ -1361,10 +1361,10 @@ describe('VisualViewerService', () => {
       expect(getViewportPropertySpy).toHaveBeenCalledTimes(1);
       expect(getViewInfoSpy).toHaveBeenCalledTimes(1);
       expect(
-        setVisualViewerServiceViewPriorToIsolateViewInfoSpy
+        setVisualViewerServiceViewPriorToIsolateViewInfoSpy,
       ).toHaveBeenCalledTimes(1);
       expect(
-        setVisualViewerServiceViewPriorToIsolateViewInfoSpy
+        setVisualViewerServiceViewPriorToIsolateViewInfoSpy,
       ).toHaveBeenCalledWith(mockViewInfo);
       expect(is2DPropertySpy).toHaveBeenCalledTimes(1);
       expect(getViewStateManagerPropertySpy).toHaveBeenCalledTimes(1);
@@ -1381,7 +1381,7 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const mockViewInfo = {};
@@ -1415,25 +1415,25 @@ describe('VisualViewerService', () => {
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
-        'get'
+        'get',
       ).and.returnValue(mockViewport);
 
       const getViewInfoSpy = spyOn(
         mockViewport,
-        'getViewInfo'
+        'getViewInfo',
       ).and.callThrough();
 
       const setVisualViewerServiceViewPriorToIsolateViewInfoSpy =
         spyOnProperty<any>(
           visualViewerService,
           'viewPriorToIsolateViewInfo',
-          'set'
+          'set',
         );
 
       const is2DPropertySpy = spyOnProperty(
         visualViewerService,
         'is2D',
-        'get'
+        'get',
       ).and.returnValue(false);
 
       const mockNodeRef1 = {};
@@ -1442,7 +1442,7 @@ describe('VisualViewerService', () => {
 
       const mockViewStateManager = {
         enumerateOutlinedNodes: (
-          callback: (nodeRef: NodeRef) => void
+          callback: (nodeRef: NodeRef) => void,
         ): void => {
           outlinedNodeRefs.forEach(callback);
         },
@@ -1453,12 +1453,12 @@ describe('VisualViewerService', () => {
       const getViewStateManagerPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewStateManager',
-        'get'
+        'get',
       ).and.returnValue(mockViewStateManager);
 
       const isolateModeEnabledChangeEmitSpy = spyOn(
         visualViewerService['isolateModeEnabledChange'],
-        'emit'
+        'emit',
       );
 
       visualViewerService.isolateModeEnabled = true;
@@ -1468,10 +1468,10 @@ describe('VisualViewerService', () => {
       expect(getViewportPropertySpy).toHaveBeenCalledTimes(1);
       expect(getViewInfoSpy).toHaveBeenCalledTimes(1);
       expect(
-        setVisualViewerServiceViewPriorToIsolateViewInfoSpy
+        setVisualViewerServiceViewPriorToIsolateViewInfoSpy,
       ).toHaveBeenCalledTimes(1);
       expect(
-        setVisualViewerServiceViewPriorToIsolateViewInfoSpy
+        setVisualViewerServiceViewPriorToIsolateViewInfoSpy,
       ).toHaveBeenCalledWith(mockViewInfo);
       expect(is2DPropertySpy).toHaveBeenCalledTimes(1);
       expect(getViewStateManagerPropertySpy).toHaveBeenCalledTimes(1);
@@ -1489,7 +1489,7 @@ describe('VisualViewerService', () => {
       };
       const executeWhenSceneLoadedSpy = spyOn<any>(
         visualViewerService,
-        'executeWhenSceneLoaded'
+        'executeWhenSceneLoaded',
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const mockViewInfo = {};
@@ -1503,18 +1503,18 @@ describe('VisualViewerService', () => {
       const getViewPriorToIsolateViewInfoPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewPriorToIsolateViewInfo',
-        'get'
+        'get',
       ).and.returnValue(mockViewInfo);
 
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
-        'get'
+        'get',
       ).and.returnValue(mockViewport);
 
       const isolateModeEnabledChangeEmitSpy = spyOn(
         visualViewerService['isolateModeEnabledChange'],
-        'emit'
+        'emit',
       );
 
       visualViewerService.isolateModeEnabled = false;
@@ -1526,7 +1526,7 @@ describe('VisualViewerService', () => {
       expect(setViewInfoSpy).toHaveBeenCalledTimes(1);
       expect(setViewInfoSpy).toHaveBeenCalledWith(
         mockViewInfo,
-        visualViewerService['DEFAULT_FLY_TO_DURATION']
+        visualViewerService['DEFAULT_FLY_TO_DURATION'],
       );
       expect(isolateModeEnabledChangeEmitSpy).toHaveBeenCalledTimes(1);
     });
@@ -1568,7 +1568,7 @@ describe('VisualViewerService', () => {
 
       const viewportReadyChangeEmitSpy = spyOn(
         visualViewerService.viewportReadyChange,
-        'emit'
+        'emit',
       );
       setViewportReady(false);
 
@@ -1583,7 +1583,7 @@ describe('VisualViewerService', () => {
 
       const viewportReadyChangeEmitSpy = spyOn(
         visualViewerService.viewportReadyChange,
-        'emit'
+        'emit',
       );
       setViewportReady(true);
 
@@ -1597,7 +1597,7 @@ describe('VisualViewerService', () => {
       const getIs2DPropertySpy = spyOnProperty(
         visualViewerService,
         'is2D',
-        'get'
+        'get',
       ).and.returnValue(true);
 
       const mockViewport = {
@@ -1605,12 +1605,12 @@ describe('VisualViewerService', () => {
           what: ZoomTo | ZoomTo[],
           nodeRef: any,
           crossFadeSeconds: float,
-          margin: float
+          margin: float,
         ) => {
           expect(what).toEqual(ZoomTo.All);
           expect(nodeRef).toEqual(null);
           expect(crossFadeSeconds).toEqual(
-            visualViewerService['flyToDurationInSeconds']
+            visualViewerService['flyToDurationInSeconds'],
           );
           expect(margin).toEqual(visualViewerService['zoomToMargin']);
         },
@@ -1619,7 +1619,7 @@ describe('VisualViewerService', () => {
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
-        'get'
+        'get',
       ).and.returnValue(mockViewport);
 
       const zoomToSpy = spyOn(mockViewport, 'zoomTo').and.callThrough();
@@ -1627,14 +1627,14 @@ describe('VisualViewerService', () => {
       const getIsolateModeEnabledPropertySpy = spyOnProperty(
         visualViewerService,
         'isolateModeEnabled',
-        'get'
+        'get',
       ).and.returnValue(false);
 
       const isolateModeEnabledChange =
         visualViewerService['isolateModeEnabledChange'];
       const isolateModeEnabledChangeEmitSpy = spyOn(
         isolateModeEnabledChange,
-        'emit'
+        'emit',
       );
 
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
@@ -1652,7 +1652,7 @@ describe('VisualViewerService', () => {
       const getIs2DPropertySpy = spyOnProperty(
         visualViewerService,
         'is2D',
-        'get'
+        'get',
       ).and.returnValue(true);
 
       const mockViewport = {
@@ -1660,12 +1660,12 @@ describe('VisualViewerService', () => {
           what: ZoomTo | ZoomTo[],
           nodeRef: any,
           crossFadeSeconds: float,
-          margin: float
+          margin: float,
         ) => {
           expect(what).toEqual(ZoomTo.All);
           expect(nodeRef).toEqual(null);
           expect(crossFadeSeconds).toEqual(
-            visualViewerService['flyToDurationInSeconds']
+            visualViewerService['flyToDurationInSeconds'],
           );
           expect(margin).toEqual(visualViewerService['zoomToMargin']);
         },
@@ -1674,7 +1674,7 @@ describe('VisualViewerService', () => {
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
-        'get'
+        'get',
       ).and.returnValue(mockViewport);
 
       const zoomToSpy = spyOn(mockViewport, 'zoomTo').and.callThrough();
@@ -1683,14 +1683,14 @@ describe('VisualViewerService', () => {
       const getIsolateModeEnabledPropertySpy = spyOnProperty(
         visualViewerService,
         'isolateModeEnabled',
-        'get'
+        'get',
       ).and.returnValue(false);
 
       const isolateModeEnabledChange =
         visualViewerService['isolateModeEnabledChange'];
       const isolateModeEnabledChangeEmitSpy = spyOn(
         isolateModeEnabledChange,
-        'emit'
+        'emit',
       );
 
       visualViewerService.activateHomeView();
@@ -1706,7 +1706,7 @@ describe('VisualViewerService', () => {
       const getIs2DPropertySpy = spyOnProperty(
         visualViewerService,
         'is2D',
-        'get'
+        'get',
       ).and.returnValue(false);
 
       const mockViewport = {
@@ -1716,18 +1716,18 @@ describe('VisualViewerService', () => {
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
-        'get'
+        'get',
       ).and.returnValue(mockViewport);
 
       const mockInitialViewInfo = {};
       const getInitialViewInfoPropertySpy = spyOnProperty<any>(
         visualViewerService,
-        'initialViewInfo'
+        'initialViewInfo',
       ).and.returnValue(mockInitialViewInfo);
       const getFlyToDurationInSecondsPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'flyToDurationInSeconds',
-        'get'
+        'get',
       ).and.callThrough();
 
       const setViewInfoSpy = spyOn(mockViewport, 'setViewInfo');
@@ -1735,14 +1735,14 @@ describe('VisualViewerService', () => {
       const getIsolateModeEnabledPropertySpy = spyOnProperty(
         visualViewerService,
         'isolateModeEnabled',
-        'get'
+        'get',
       ).and.returnValue(false);
 
       const isolateModeEnabledChange =
         visualViewerService['isolateModeEnabledChange'];
       const isolateModeEnabledChangeEmitSpy = spyOn(
         isolateModeEnabledChange,
-        'emit'
+        'emit',
       );
 
       visualViewerService.activateHomeView();
@@ -1760,7 +1760,7 @@ describe('VisualViewerService', () => {
       const getIs2DPropertySpy = spyOnProperty(
         visualViewerService,
         'is2D',
-        'get'
+        'get',
       ).and.returnValue(false);
 
       const mockViewport = {
@@ -1770,17 +1770,17 @@ describe('VisualViewerService', () => {
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
-        'get'
+        'get',
       ).and.returnValue(mockViewport);
 
       const mockInitialViewInfo = {};
       const getInitialViewInfoPropertySpy = spyOnProperty<any>(
         visualViewerService,
-        'initialViewInfo'
+        'initialViewInfo',
       ).and.returnValue(mockInitialViewInfo);
       const getFlyToDurationInSecondsPropertySpy = spyOnProperty<any>(
         visualViewerService,
-        'flyToDurationInSeconds'
+        'flyToDurationInSeconds',
       ).and.callThrough();
 
       const setViewInfoSpy = spyOn(mockViewport, 'setViewInfo');
@@ -1788,14 +1788,14 @@ describe('VisualViewerService', () => {
       const getIsolateModeEnabledPropertySpy = spyOnProperty(
         visualViewerService,
         'isolateModeEnabled',
-        'get'
+        'get',
       ).and.returnValue(true);
 
       const isolateModeEnabledChange =
         visualViewerService['isolateModeEnabledChange'];
       const isolateModeEnabledChangeEmitSpy = spyOn(
         isolateModeEnabledChange,
-        'emit'
+        'emit',
       );
 
       visualViewerService.activateHomeView();
@@ -1817,7 +1817,7 @@ describe('VisualViewerService', () => {
       const setAnimationPlayingPropertySpy = spyOnProperty(
         visualViewerService,
         'animationPlaying',
-        'set'
+        'set',
       );
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
       visualViewerService.playAnimation();
@@ -1829,7 +1829,7 @@ describe('VisualViewerService', () => {
       const setAnimationPlayingPropertySpy = spyOnProperty(
         visualViewerService,
         'animationPlaying',
-        'set'
+        'set',
       );
 
       visualViewerService.playAnimation();
@@ -1844,7 +1844,7 @@ describe('VisualViewerService', () => {
       const setAnimationPlayingPropertySpy = spyOnProperty(
         visualViewerService,
         'animationPlaying',
-        'set'
+        'set',
       );
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
       visualViewerService.pauseAnimation();
@@ -1856,7 +1856,7 @@ describe('VisualViewerService', () => {
       const setAnimationPlayingPropertySpy = spyOnProperty(
         visualViewerService,
         'animationPlaying',
-        'set'
+        'set',
       );
 
       visualViewerService.pauseAnimation();
@@ -1884,7 +1884,7 @@ describe('VisualViewerService', () => {
       const setVisualViewerServiceBackgroundTopColorPropertySpy = spyOnProperty(
         visualViewerService,
         'backgroundTopColor',
-        'set'
+        'set',
       );
       const setVisualViewerServiceBackgroundBottomColorPropertySpy =
         spyOnProperty(visualViewerService, 'backgroundBottomColor', 'set');
@@ -1895,74 +1895,74 @@ describe('VisualViewerService', () => {
       const setVisualViewerServiceOutlineColorPropertySpy = spyOnProperty(
         visualViewerService,
         'outlineColor',
-        'set'
+        'set',
       );
       const setVisualViewerServiceOutlineWidthPropertySpy = spyOnProperty(
         visualViewerService,
         'outlineWidth',
-        'set'
+        'set',
       );
       const setVisualViewerServiceSelectionModePropertySpy = spyOnProperty(
         visualViewerService,
         'selectionMode',
-        'set'
+        'set',
       );
       const setVisualViewerServiceShowAllHotspotsEnabledPropertySpy =
         spyOnProperty(visualViewerService, 'showAllHotspotsEnabled', 'set');
       const setVisualViewerServiceNavigationModePropertySpy = spyOnProperty(
         visualViewerService,
         'navigationMode',
-        'set'
+        'set',
       );
       const setVisualViewerServiceSelectedProductCodesPropertySpy =
         spyOnProperty(visualViewerService, 'selectedProductCodes', 'set');
 
       const setInitialPropertyValues =
         visualViewerService['setInitialPropertyValues'].bind(
-          visualViewerService
+          visualViewerService,
         );
 
       setInitialPropertyValues();
 
       expect(
-        setVisualViewerServiceBackgroundTopColorPropertySpy
+        setVisualViewerServiceBackgroundTopColorPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_BACKGROUND_TOP_COLOR']
+        visualViewerService['DEFAULT_BACKGROUND_TOP_COLOR'],
       );
       expect(
-        setVisualViewerServiceBackgroundBottomColorPropertySpy
+        setVisualViewerServiceBackgroundBottomColorPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_BACKGROUND_BOTTOM_COLOR']
+        visualViewerService['DEFAULT_BACKGROUND_BOTTOM_COLOR'],
       );
       expect(
-        setVisualViewerServiceHotspotSelectionColorPropertySpy
+        setVisualViewerServiceHotspotSelectionColorPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_HOTSPOT_SELECTION_HIGHLIGHT_COLOR']
+        visualViewerService['DEFAULT_HOTSPOT_SELECTION_HIGHLIGHT_COLOR'],
       );
       expect(
-        setVisualViewerServiceShowAllHotspotsColorPropertySpy
+        setVisualViewerServiceShowAllHotspotsColorPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_SHOW_ALL_HOTSPOTS_COLOR']
+        visualViewerService['DEFAULT_SHOW_ALL_HOTSPOTS_COLOR'],
       );
       expect(
-        setVisualViewerServiceOutlineColorPropertySpy
+        setVisualViewerServiceOutlineColorPropertySpy,
       ).toHaveBeenCalledWith(visualViewerService['DEFAULT_OUTLINE_COLOR']);
       expect(
-        setVisualViewerServiceOutlineWidthPropertySpy
+        setVisualViewerServiceOutlineWidthPropertySpy,
       ).toHaveBeenCalledWith(visualViewerService['DEFAULT_OUTLINE_WIDTH']);
       expect(
-        setVisualViewerServiceSelectionModePropertySpy
+        setVisualViewerServiceSelectionModePropertySpy,
       ).toHaveBeenCalledWith(visualViewerService['DEFAULT_SELECTION_MODE']);
       expect(
-        setVisualViewerServiceShowAllHotspotsEnabledPropertySpy
+        setVisualViewerServiceShowAllHotspotsEnabledPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_SHOW_ALL_HOTSPOTS_ENABLED']
+        visualViewerService['DEFAULT_SHOW_ALL_HOTSPOTS_ENABLED'],
       );
       expect(
-        setVisualViewerServiceNavigationModePropertySpy
+        setVisualViewerServiceNavigationModePropertySpy,
       ).toHaveBeenCalledWith(NavigationMode.Turntable);
       expect(
-        setVisualViewerServiceSelectedProductCodesPropertySpy
+        setVisualViewerServiceSelectedProductCodesPropertySpy,
       ).toHaveBeenCalledWith([]);
     });
 
@@ -1974,7 +1974,7 @@ describe('VisualViewerService', () => {
       const setVisualViewerServiceBackgroundTopColorPropertySpy = spyOnProperty(
         visualViewerService,
         'backgroundTopColor',
-        'set'
+        'set',
       );
       const setVisualViewerServiceBackgroundBottomColorPropertySpy =
         spyOnProperty(visualViewerService, 'backgroundBottomColor', 'set');
@@ -1985,74 +1985,74 @@ describe('VisualViewerService', () => {
       const setVisualViewerServiceOutlineColorPropertySpy = spyOnProperty(
         visualViewerService,
         'outlineColor',
-        'set'
+        'set',
       );
       const setVisualViewerServiceOutlineWidthPropertySpy = spyOnProperty(
         visualViewerService,
         'outlineWidth',
-        'set'
+        'set',
       );
       const setVisualViewerServiceSelectionModePropertySpy = spyOnProperty(
         visualViewerService,
         'selectionMode',
-        'set'
+        'set',
       );
       const setVisualViewerServiceShowAllHotspotsEnabledPropertySpy =
         spyOnProperty(visualViewerService, 'showAllHotspotsEnabled', 'set');
       const setVisualViewerServiceNavigationModePropertySpy = spyOnProperty(
         visualViewerService,
         'navigationMode',
-        'set'
+        'set',
       );
       const setVisualViewerServiceSelectedProductCodesPropertySpy =
         spyOnProperty(visualViewerService, 'selectedProductCodes', 'set');
 
       const setInitialPropertyValues =
         visualViewerService['setInitialPropertyValues'].bind(
-          visualViewerService
+          visualViewerService,
         );
 
       setInitialPropertyValues();
 
       expect(
-        setVisualViewerServiceBackgroundTopColorPropertySpy
+        setVisualViewerServiceBackgroundTopColorPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_BACKGROUND_TOP_COLOR']
+        visualViewerService['DEFAULT_BACKGROUND_TOP_COLOR'],
       );
       expect(
-        setVisualViewerServiceBackgroundBottomColorPropertySpy
+        setVisualViewerServiceBackgroundBottomColorPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_BACKGROUND_BOTTOM_COLOR']
+        visualViewerService['DEFAULT_BACKGROUND_BOTTOM_COLOR'],
       );
       expect(
-        setVisualViewerServiceHotspotSelectionColorPropertySpy
+        setVisualViewerServiceHotspotSelectionColorPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_HOTSPOT_SELECTION_HIGHLIGHT_COLOR']
+        visualViewerService['DEFAULT_HOTSPOT_SELECTION_HIGHLIGHT_COLOR'],
       );
       expect(
-        setVisualViewerServiceShowAllHotspotsColorPropertySpy
+        setVisualViewerServiceShowAllHotspotsColorPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_SHOW_ALL_HOTSPOTS_COLOR']
+        visualViewerService['DEFAULT_SHOW_ALL_HOTSPOTS_COLOR'],
       );
       expect(
-        setVisualViewerServiceOutlineColorPropertySpy
+        setVisualViewerServiceOutlineColorPropertySpy,
       ).toHaveBeenCalledWith(visualViewerService['DEFAULT_OUTLINE_COLOR']);
       expect(
-        setVisualViewerServiceOutlineWidthPropertySpy
+        setVisualViewerServiceOutlineWidthPropertySpy,
       ).toHaveBeenCalledWith(visualViewerService['DEFAULT_OUTLINE_WIDTH']);
       expect(
-        setVisualViewerServiceSelectionModePropertySpy
+        setVisualViewerServiceSelectionModePropertySpy,
       ).toHaveBeenCalledWith(visualViewerService['DEFAULT_SELECTION_MODE']);
       expect(
-        setVisualViewerServiceShowAllHotspotsEnabledPropertySpy
+        setVisualViewerServiceShowAllHotspotsEnabledPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_SHOW_ALL_HOTSPOTS_ENABLED']
+        visualViewerService['DEFAULT_SHOW_ALL_HOTSPOTS_ENABLED'],
       );
       expect(
-        setVisualViewerServiceNavigationModePropertySpy
+        setVisualViewerServiceNavigationModePropertySpy,
       ).toHaveBeenCalledWith(NavigationMode.Pan);
       expect(
-        setVisualViewerServiceSelectedProductCodesPropertySpy
+        setVisualViewerServiceSelectedProductCodesPropertySpy,
       ).toHaveBeenCalledWith([]);
     });
 
@@ -2064,7 +2064,7 @@ describe('VisualViewerService', () => {
       const setVisualViewerServiceBackgroundTopColorPropertySpy = spyOnProperty(
         visualViewerService,
         'backgroundTopColor',
-        'set'
+        'set',
       );
       const setVisualViewerServiceBackgroundBottomColorPropertySpy =
         spyOnProperty(visualViewerService, 'backgroundBottomColor', 'set');
@@ -2075,74 +2075,74 @@ describe('VisualViewerService', () => {
       const setVisualViewerServiceOutlineColorPropertySpy = spyOnProperty(
         visualViewerService,
         'outlineColor',
-        'set'
+        'set',
       );
       const setVisualViewerServiceOutlineWidthPropertySpy = spyOnProperty(
         visualViewerService,
         'outlineWidth',
-        'set'
+        'set',
       );
       const setVisualViewerServiceSelectionModePropertySpy = spyOnProperty(
         visualViewerService,
         'selectionMode',
-        'set'
+        'set',
       );
       const setVisualViewerServiceShowAllHotspotsEnabledPropertySpy =
         spyOnProperty(visualViewerService, 'showAllHotspotsEnabled', 'set');
       const setVisualViewerServiceNavigationModePropertySpy = spyOnProperty(
         visualViewerService,
         'navigationMode',
-        'set'
+        'set',
       );
       const setVisualViewerServiceSelectedProductCodesPropertySpy =
         spyOnProperty(visualViewerService, 'selectedProductCodes', 'set');
 
       const setInitialPropertyValues =
         visualViewerService['setInitialPropertyValues'].bind(
-          visualViewerService
+          visualViewerService,
         );
 
       setInitialPropertyValues();
 
       expect(
-        setVisualViewerServiceBackgroundTopColorPropertySpy
+        setVisualViewerServiceBackgroundTopColorPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_BACKGROUND_TOP_COLOR']
+        visualViewerService['DEFAULT_BACKGROUND_TOP_COLOR'],
       );
       expect(
-        setVisualViewerServiceBackgroundBottomColorPropertySpy
+        setVisualViewerServiceBackgroundBottomColorPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_BACKGROUND_BOTTOM_COLOR']
+        visualViewerService['DEFAULT_BACKGROUND_BOTTOM_COLOR'],
       );
       expect(
-        setVisualViewerServiceHotspotSelectionColorPropertySpy
+        setVisualViewerServiceHotspotSelectionColorPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_HOTSPOT_SELECTION_HIGHLIGHT_COLOR']
+        visualViewerService['DEFAULT_HOTSPOT_SELECTION_HIGHLIGHT_COLOR'],
       );
       expect(
-        setVisualViewerServiceShowAllHotspotsColorPropertySpy
+        setVisualViewerServiceShowAllHotspotsColorPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_SHOW_ALL_HOTSPOTS_COLOR']
+        visualViewerService['DEFAULT_SHOW_ALL_HOTSPOTS_COLOR'],
       );
       expect(
-        setVisualViewerServiceOutlineColorPropertySpy
+        setVisualViewerServiceOutlineColorPropertySpy,
       ).toHaveBeenCalledWith(visualViewerService['DEFAULT_OUTLINE_COLOR']);
       expect(
-        setVisualViewerServiceOutlineWidthPropertySpy
+        setVisualViewerServiceOutlineWidthPropertySpy,
       ).toHaveBeenCalledWith(visualViewerService['DEFAULT_OUTLINE_WIDTH']);
       expect(
-        setVisualViewerServiceSelectionModePropertySpy
+        setVisualViewerServiceSelectionModePropertySpy,
       ).toHaveBeenCalledWith(visualViewerService['DEFAULT_SELECTION_MODE']);
       expect(
-        setVisualViewerServiceShowAllHotspotsEnabledPropertySpy
+        setVisualViewerServiceShowAllHotspotsEnabledPropertySpy,
       ).toHaveBeenCalledWith(
-        visualViewerService['DEFAULT_SHOW_ALL_HOTSPOTS_ENABLED']
+        visualViewerService['DEFAULT_SHOW_ALL_HOTSPOTS_ENABLED'],
       );
       expect(
-        setVisualViewerServiceNavigationModePropertySpy
+        setVisualViewerServiceNavigationModePropertySpy,
       ).toHaveBeenCalledWith(NavigationMode.Pan);
       expect(
-        setVisualViewerServiceSelectedProductCodesPropertySpy
+        setVisualViewerServiceSelectedProductCodesPropertySpy,
       ).toHaveBeenCalledWith([]);
     });
 
@@ -2163,7 +2163,7 @@ describe('VisualViewerService', () => {
       const setVisualViewerServiceBackgroundTopColorPropertySpy = spyOnProperty(
         visualViewerService,
         'backgroundTopColor',
-        'set'
+        'set',
       );
       const setVisualViewerServiceBackgroundBottomColorPropertySpy =
         spyOnProperty(visualViewerService, 'backgroundBottomColor', 'set');
@@ -2174,64 +2174,64 @@ describe('VisualViewerService', () => {
       const setVisualViewerServiceOutlineColorPropertySpy = spyOnProperty(
         visualViewerService,
         'outlineColor',
-        'set'
+        'set',
       );
       const setVisualViewerServiceOutlineWidthPropertySpy = spyOnProperty(
         visualViewerService,
         'outlineWidth',
-        'set'
+        'set',
       );
       const setVisualViewerServiceSelectionModePropertySpy = spyOnProperty(
         visualViewerService,
         'selectionMode',
-        'set'
+        'set',
       );
       const setVisualViewerServiceShowAllHotspotsEnabledPropertySpy =
         spyOnProperty(visualViewerService, 'showAllHotspotsEnabled', 'set');
       const setVisualViewerServiceNavigationModePropertySpy = spyOnProperty(
         visualViewerService,
         'navigationMode',
-        'set'
+        'set',
       );
       const setVisualViewerServiceSelectedProductCodesPropertySpy =
         spyOnProperty(visualViewerService, 'selectedProductCodes', 'set');
 
       const setInitialPropertyValues =
         visualViewerService['setInitialPropertyValues'].bind(
-          visualViewerService
+          visualViewerService,
         );
 
       setInitialPropertyValues();
 
       expect(
-        setVisualViewerServiceBackgroundTopColorPropertySpy
+        setVisualViewerServiceBackgroundTopColorPropertySpy,
       ).toHaveBeenCalledTimes(0);
       expect(
-        setVisualViewerServiceBackgroundBottomColorPropertySpy
+        setVisualViewerServiceBackgroundBottomColorPropertySpy,
       ).toHaveBeenCalledTimes(0);
       expect(
-        setVisualViewerServiceHotspotSelectionColorPropertySpy
+        setVisualViewerServiceHotspotSelectionColorPropertySpy,
       ).toHaveBeenCalledTimes(0);
       expect(
-        setVisualViewerServiceShowAllHotspotsColorPropertySpy
+        setVisualViewerServiceShowAllHotspotsColorPropertySpy,
       ).toHaveBeenCalledTimes(0);
       expect(
-        setVisualViewerServiceOutlineColorPropertySpy
+        setVisualViewerServiceOutlineColorPropertySpy,
       ).toHaveBeenCalledTimes(0);
       expect(
-        setVisualViewerServiceOutlineWidthPropertySpy
+        setVisualViewerServiceOutlineWidthPropertySpy,
       ).toHaveBeenCalledTimes(0);
       expect(
-        setVisualViewerServiceSelectionModePropertySpy
+        setVisualViewerServiceSelectionModePropertySpy,
       ).toHaveBeenCalledTimes(0);
       expect(
-        setVisualViewerServiceShowAllHotspotsEnabledPropertySpy
+        setVisualViewerServiceShowAllHotspotsEnabledPropertySpy,
       ).toHaveBeenCalledTimes(0);
       expect(
-        setVisualViewerServiceNavigationModePropertySpy
+        setVisualViewerServiceNavigationModePropertySpy,
       ).toHaveBeenCalledTimes(0);
       expect(
-        setVisualViewerServiceSelectedProductCodesPropertySpy
+        setVisualViewerServiceSelectedProductCodesPropertySpy,
       ).toHaveBeenCalledTimes(0);
     });
   });
@@ -2259,14 +2259,14 @@ describe('VisualViewerService', () => {
       const getSceneLoadInfoPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'sceneLoadInfo$',
-        'get'
+        'get',
       ).and.returnValue(from(sceneLoadInfos));
 
       visualViewerService['executeWhenSceneLoaded'](
         (loadedSceneLoadInfo: LoadedSceneInfo) => {
           expect(loadedSceneLoadInfo).toEqual(loadedSceneLoadInfo);
           done();
-        }
+        },
       );
 
       expect(getSceneLoadInfoPropertySpy).toHaveBeenCalledTimes(1);
@@ -2291,13 +2291,13 @@ describe('VisualViewerService', () => {
       const getSceneLoadInfoPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'sceneLoadInfo$',
-        'get'
+        'get',
       ).and.returnValue(from(sceneLoadInfos));
 
       visualViewerService['executeWhenSceneLoaded'](
         (_loadedSceneLoadInfo: LoadedSceneInfo) => {
           fail('not expecting callback to be invoked');
-        }
+        },
       );
 
       expect(getSceneLoadInfoPropertySpy).toHaveBeenCalledTimes(1);
@@ -2358,13 +2358,13 @@ describe('VisualViewerService', () => {
       spyOnProperty<any>(
         visualViewerService,
         'nodeHierarchy',
-        'get'
+        'get',
       ).and.returnValue(mockNodeHierarchy);
 
       const leafNodeRefs: FakeNodeRef[] = [];
       const descendentLeafNodesRefs = visualViewerService['getLeafDescendants'](
         mockNodeRef,
-        leafNodeRefs
+        leafNodeRefs,
       );
 
       expect(descendentLeafNodesRefs).toEqual(leafNodeRefs);
@@ -2427,13 +2427,13 @@ describe('VisualViewerService', () => {
       spyOnProperty<any>(
         visualViewerService,
         'nodeHierarchy',
-        'get'
+        'get',
       ).and.returnValue(mockNodeHierarchy);
 
       const leafNodeRefs: FakeNodeRef[] = [];
       const descendentLeafNodesRefs = visualViewerService['getLeafDescendants'](
         mockNodeRef,
-        leafNodeRefs
+        leafNodeRefs,
       );
 
       expect(descendentLeafNodesRefs).toEqual(leafNodeRefs);
@@ -2504,7 +2504,7 @@ describe('VisualViewerService', () => {
       spyOnProperty<any>(
         visualViewerService,
         'nodeHierarchy',
-        'get'
+        'get',
       ).and.returnValue(mockNodeHierarchy);
 
       const descendentLeafNodesRefs =
@@ -2521,7 +2521,7 @@ describe('VisualViewerService', () => {
     it('should invoke persistentIdToNodeRef on scene', () => {
       const mockScene = {
         persistentIdToNodeRef: (
-          _nodeIds: string | string[]
+          _nodeIds: string | string[],
         ): NodeRef | NodeRef[] => {
           return [];
         },
@@ -2533,17 +2533,17 @@ describe('VisualViewerService', () => {
       const getScenePropertySpy = spyOnProperty<any>(
         visualViewerService,
         'scene',
-        'get'
+        'get',
       ).and.returnValue(mockScene);
       const persistentIdToNodeRefSpy = spyOn(
         mockScene,
-        'persistentIdToNodeRef'
+        'persistentIdToNodeRef',
       ).and.returnValue(nodeRefs);
 
       const persistentIdToNodeRef = visualViewerService[
         'persistentIdToNodeRef'
       ].bind(visualViewerService) as (
-        nodeRefs: string | string[]
+        nodeRefs: string | string[],
       ) => NodeRef | NodeRef[];
 
       const nodeRefsReturned = persistentIdToNodeRef(sceneIds);
@@ -2559,7 +2559,7 @@ describe('VisualViewerService', () => {
     it('should invoke nodeRefToPersistentId on scene', () => {
       const mockScene = {
         nodeRefToPersistentId: (
-          _nodeRefs: NodeRef | NodeRef[]
+          _nodeRefs: NodeRef | NodeRef[],
         ): string | string[] => {
           return [];
         },
@@ -2571,17 +2571,17 @@ describe('VisualViewerService', () => {
       const getScenePropertySpy = spyOnProperty<any>(
         visualViewerService,
         'scene',
-        'get'
+        'get',
       ).and.returnValue(mockScene);
       const nodeRefToPersistentIdSpy = spyOn(
         mockScene,
-        'nodeRefToPersistentId'
+        'nodeRefToPersistentId',
       ).and.returnValue(sceneIds);
 
       const nodeRefToPersistentId = visualViewerService[
         'nodeRefToPersistentId'
       ].bind(visualViewerService) as (
-        nodeRefs: NodeRef | NodeRef[]
+        nodeRefs: NodeRef | NodeRef[],
       ) => string | string[];
 
       const nodeIds = nodeRefToPersistentId(nodeRefs);
@@ -2603,12 +2603,12 @@ describe('VisualViewerService', () => {
 
       const getViewStateManagerPropertySpy = spyOnProperty<any>(
         visualViewerService,
-        'viewStateManager'
+        'viewStateManager',
       ).and.returnValue(mockViewStateManager);
 
       const viewStateManagerGetImplementationSpy = spyOn(
         mockViewStateManager,
-        'getImplementation'
+        'getImplementation',
       );
 
       const getViewStateManagerImplementation = visualViewerService[
@@ -2630,34 +2630,34 @@ describe('VisualViewerService', () => {
 
       const visualViewerServicePersistentIdToNodeRefSpy = spyOn<any>(
         visualViewerService,
-        'persistentIdToNodeRef'
+        'persistentIdToNodeRef',
       ).and.returnValue(selectedNodeRefs);
 
       spyOnProperty(visualViewerService, 'is2D').and.returnValue(true);
 
       const visualViewerServiceHandleSelectedNodes2D = spyOn<any>(
         visualViewerService,
-        'handleSelectedNodes2D'
+        'handleSelectedNodes2D',
       );
 
       const visualViewerServiceHandleSelectedNodes3D = spyOn<any>(
         visualViewerService,
-        'handleSelectedNodes3D'
+        'handleSelectedNodes3D',
       );
 
       const visualViewerServiceSetShouldRenderFrame = spyOn<any>(
         visualViewerService,
-        'setShouldRenderFrame'
+        'setShouldRenderFrame',
       );
 
       const visualViewerServiceIsolateModeEnabled = spyOnProperty<any>(
         visualViewerService,
-        'isolateModeEnabled'
+        'isolateModeEnabled',
       ).and.returnValue(false);
 
       const visualViewerServiceIsolateNodesSpy = spyOn<any>(
         visualViewerService,
-        'isolateNodes'
+        'isolateNodes',
       );
 
       const handleSelectedNodeIds = visualViewerService[
@@ -2667,11 +2667,11 @@ describe('VisualViewerService', () => {
       handleSelectedNodeIds(['nodeId1', 'nodeId2']);
 
       expect(visualViewerServicePersistentIdToNodeRefSpy).toHaveBeenCalledTimes(
-        1
+        1,
       );
       expect(visualViewerServiceHandleSelectedNodes2D).toHaveBeenCalledTimes(1);
       expect(visualViewerServiceHandleSelectedNodes2D).toHaveBeenCalledWith(
-        selectedNodeRefs
+        selectedNodeRefs,
       );
       expect(visualViewerServiceHandleSelectedNodes3D).toHaveBeenCalledTimes(0);
       expect(visualViewerServiceIsolateModeEnabled).toHaveBeenCalledTimes(1);
@@ -2688,34 +2688,34 @@ describe('VisualViewerService', () => {
 
       const visualViewerServicePersistentIdToNodeRefSpy = spyOn<any>(
         visualViewerService,
-        'persistentIdToNodeRef'
+        'persistentIdToNodeRef',
       ).and.returnValue(selectedNodeRefs);
 
       spyOnProperty(visualViewerService, 'is2D').and.returnValue(false);
 
       const visualViewerServiceHandleSelectedNodes2D = spyOn<any>(
         visualViewerService,
-        'handleSelectedNodes2D'
+        'handleSelectedNodes2D',
       );
 
       const visualViewerServiceHandleSelectedNodes3D = spyOn<any>(
         visualViewerService,
-        'handleSelectedNodes3D'
+        'handleSelectedNodes3D',
       );
 
       const visualViewerServiceSetShouldRenderFrame = spyOn<any>(
         visualViewerService,
-        'setShouldRenderFrame'
+        'setShouldRenderFrame',
       );
 
       const visualViewerServiceIsolateModeEnabledSpy = spyOnProperty<any>(
         visualViewerService,
-        'isolateModeEnabled'
+        'isolateModeEnabled',
       ).and.returnValue(false);
 
       const visualViewerServiceIsolateNodesSpy = spyOn<any>(
         visualViewerService,
-        'isolateNodes'
+        'isolateNodes',
       );
 
       const handleSelectedNodeIds = visualViewerService[
@@ -2725,12 +2725,12 @@ describe('VisualViewerService', () => {
       handleSelectedNodeIds(['nodeId1', 'nodeId2']);
 
       expect(visualViewerServicePersistentIdToNodeRefSpy).toHaveBeenCalledTimes(
-        1
+        1,
       );
       expect(visualViewerServiceHandleSelectedNodes2D).toHaveBeenCalledTimes(0);
       expect(visualViewerServiceHandleSelectedNodes3D).toHaveBeenCalledTimes(1);
       expect(visualViewerServiceHandleSelectedNodes3D).toHaveBeenCalledWith(
-        selectedNodeRefs
+        selectedNodeRefs,
       );
       expect(visualViewerServiceIsolateModeEnabledSpy).toHaveBeenCalledTimes(1);
       expect(visualViewerServiceIsolateNodesSpy).toHaveBeenCalledTimes(0);
@@ -2742,34 +2742,34 @@ describe('VisualViewerService', () => {
 
       const visualViewerServicePersistentIdToNodeRefSpy = spyOn<any>(
         visualViewerService,
-        'persistentIdToNodeRef'
+        'persistentIdToNodeRef',
       ).and.returnValue(selectedNodeRefs);
 
       spyOnProperty(visualViewerService, 'is2D').and.returnValue(false);
 
       const visualViewerServiceHandleSelectedNodes2D = spyOn<any>(
         visualViewerService,
-        'handleSelectedNodes2D'
+        'handleSelectedNodes2D',
       );
 
       const visualViewerServiceHandleSelectedNodes3D = spyOn<any>(
         visualViewerService,
-        'handleSelectedNodes3D'
+        'handleSelectedNodes3D',
       );
 
       const visualViewerServiceSetShouldRenderFrame = spyOn<any>(
         visualViewerService,
-        'setShouldRenderFrame'
+        'setShouldRenderFrame',
       );
 
       const visualViewerServiceIsolateModeEnabled = spyOnProperty<any>(
         visualViewerService,
-        'isolateModeEnabled'
+        'isolateModeEnabled',
       ).and.returnValue(true);
 
       const visualViewerServiceIsolateNodesSpy = spyOn<any>(
         visualViewerService,
-        'isolateNodes'
+        'isolateNodes',
       );
 
       const handleSelectedNodeIds = visualViewerService[
@@ -2779,12 +2779,12 @@ describe('VisualViewerService', () => {
       handleSelectedNodeIds(['nodeId1', 'nodeId2']);
 
       expect(visualViewerServicePersistentIdToNodeRefSpy).toHaveBeenCalledTimes(
-        1
+        1,
       );
       expect(visualViewerServiceHandleSelectedNodes2D).toHaveBeenCalledTimes(0);
       expect(visualViewerServiceHandleSelectedNodes3D).toHaveBeenCalledTimes(1);
       expect(visualViewerServiceHandleSelectedNodes3D).toHaveBeenCalledWith(
-        selectedNodeRefs
+        selectedNodeRefs,
       );
       expect(visualViewerServiceIsolateModeEnabled).toHaveBeenCalledTimes(1);
       expect(visualViewerServiceIsolateNodesSpy).toHaveBeenCalledTimes(0);
@@ -2799,34 +2799,34 @@ describe('VisualViewerService', () => {
 
       const visualViewerServicePersistentIdToNodeRefSpy = spyOn<any>(
         visualViewerService,
-        'persistentIdToNodeRef'
+        'persistentIdToNodeRef',
       ).and.returnValue(selectedNodeRefs);
 
       spyOnProperty(visualViewerService, 'is2D').and.returnValue(false);
 
       const visualViewerServiceHandleSelectedNodes2D = spyOn<any>(
         visualViewerService,
-        'handleSelectedNodes2D'
+        'handleSelectedNodes2D',
       );
 
       const visualViewerServiceHandleSelectedNodes3D = spyOn<any>(
         visualViewerService,
-        'handleSelectedNodes3D'
+        'handleSelectedNodes3D',
       );
 
       const visualViewerServiceSetShouldRenderFrame = spyOn<any>(
         visualViewerService,
-        'setShouldRenderFrame'
+        'setShouldRenderFrame',
       );
 
       const visualViewerServiceIsolateModeEnabled = spyOnProperty<any>(
         visualViewerService,
-        'isolateModeEnabled'
+        'isolateModeEnabled',
       ).and.returnValue(true);
 
       const visualViewerServiceIsolateNodesSpy = spyOn<any>(
         visualViewerService,
-        'isolateNodes'
+        'isolateNodes',
       );
 
       const handleSelectedNodeIds = visualViewerService[
@@ -2836,12 +2836,12 @@ describe('VisualViewerService', () => {
       handleSelectedNodeIds(['nodeId1', 'nodeId2']);
 
       expect(visualViewerServicePersistentIdToNodeRefSpy).toHaveBeenCalledTimes(
-        1
+        1,
       );
       expect(visualViewerServiceHandleSelectedNodes2D).toHaveBeenCalledTimes(0);
       expect(visualViewerServiceHandleSelectedNodes3D).toHaveBeenCalledTimes(1);
       expect(visualViewerServiceHandleSelectedNodes3D).toHaveBeenCalledWith(
-        selectedNodeRefs
+        selectedNodeRefs,
       );
       expect(visualViewerServiceIsolateModeEnabled).toHaveBeenCalledTimes(1);
       expect(visualViewerServiceIsolateNodesSpy).toHaveBeenCalledTimes(1);
@@ -2869,19 +2869,19 @@ describe('VisualViewerService', () => {
           _nodeRefsToAdd: NodeRef[],
           _nodeRefsToRemove: NodeRef[],
           _recursive: boolean,
-          _blockEvents: boolean
+          _blockEvents: boolean,
         ) => {},
       };
 
       const getVisualViewerServiceViewStateManagerPropertySpy =
         spyOnProperty<any>(
           visualViewerService,
-          'viewStateManager'
+          'viewStateManager',
         ).and.returnValue(viewStateManager);
 
       const viewStateManagerSetSelectionStatesSpy = spyOn(
         viewStateManager,
-        'setSelectionStates'
+        'setSelectionStates',
       );
 
       const handleSelectedNodes2D = visualViewerService[
@@ -2891,7 +2891,7 @@ describe('VisualViewerService', () => {
       handleSelectedNodes2D(selectedNodeRefs);
 
       expect(
-        getVisualViewerServiceViewStateManagerPropertySpy
+        getVisualViewerServiceViewStateManagerPropertySpy,
       ).toHaveBeenCalled();
       const recursive = false;
       const blockEvents = true;
@@ -2900,13 +2900,13 @@ describe('VisualViewerService', () => {
         [],
         previouslySelectedNodeRefs,
         recursive,
-        blockEvents
+        blockEvents,
       );
       expect(viewStateManagerSetSelectionStatesSpy).toHaveBeenCalledWith(
         selectedNodeRefs,
         [],
         recursive,
-        blockEvents
+        blockEvents,
       );
     });
   });
@@ -2923,11 +2923,11 @@ describe('VisualViewerService', () => {
 
       const viewStateManager = {
         enumerateOutlinedNodes: (
-          callback: (nodeRef: NodeRef) => void
+          callback: (nodeRef: NodeRef) => void,
         ): void => {
           previouslyOutlinedNodeRefs.forEach(
             (previouslyOutlinedNodeRef: NodeRef) =>
-              callback(previouslyOutlinedNodeRef)
+              callback(previouslyOutlinedNodeRef),
           );
         },
 
@@ -2935,24 +2935,24 @@ describe('VisualViewerService', () => {
           _nodeRefsToAdd: NodeRef[],
           _nodeRefsToRemove: NodeRef[],
           _recursive: boolean,
-          _blockEvents: boolean
+          _blockEvents: boolean,
         ) => {},
       };
 
       const getVisualViewerServiceViewStateManagerPropertySpy =
         spyOnProperty<any>(
           visualViewerService,
-          'viewStateManager'
+          'viewStateManager',
         ).and.returnValue(viewStateManager);
       const visualViewerServiceGetViewStateManagerImplementationSpy =
         spyOn<any>(
           visualViewerService,
-          'getViewStateManagerImplementation'
+          'getViewStateManagerImplementation',
         ).and.returnValue(viewStateManager);
 
       const viewStateManagerSetOutliningStatesSpy = spyOn(
         viewStateManager,
-        'setOutliningStates'
+        'setOutliningStates',
       );
 
       const handleSelectedNodes3D = visualViewerService[
@@ -2962,10 +2962,10 @@ describe('VisualViewerService', () => {
       handleSelectedNodes3D(selectedNodeRefs);
 
       expect(
-        getVisualViewerServiceViewStateManagerPropertySpy
+        getVisualViewerServiceViewStateManagerPropertySpy,
       ).toHaveBeenCalled();
       expect(
-        visualViewerServiceGetViewStateManagerImplementationSpy
+        visualViewerServiceGetViewStateManagerImplementationSpy,
       ).toHaveBeenCalled();
       const recursive = false;
       const blockEvents = true;
@@ -2974,13 +2974,13 @@ describe('VisualViewerService', () => {
         [],
         previouslyOutlinedNodeRefs,
         recursive,
-        blockEvents
+        blockEvents,
       );
       expect(viewStateManagerSetOutliningStatesSpy).toHaveBeenCalledWith(
         selectedNodeRefs,
         [],
         recursive,
-        blockEvents
+        blockEvents,
       );
     });
   });
@@ -2992,11 +2992,11 @@ describe('VisualViewerService', () => {
       };
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
-        'viewport'
+        'viewport',
       ).and.returnValue(mockViewport);
       const viewportSetShouldRenderFrameSpy = spyOn<any>(
         mockViewport,
-        'setShouldRenderFrame'
+        'setShouldRenderFrame',
       );
 
       const setShouldRenderFrame = visualViewerService[
@@ -3013,14 +3013,14 @@ describe('VisualViewerService', () => {
   describe('is2DContentType', () => {
     it('should return true for "2DDrawing"', () => {
       const is2DContentType = visualViewerService['is2DContentType'].bind(
-        this
+        this,
       ) as (contentType: ContentType) => boolean;
       expect(is2DContentType(ContentType.Drawing2D)).toEqual(true);
     });
 
     it('should return false for "3DModel"', () => {
       const is2DContentType = visualViewerService['is2DContentType'].bind(
-        this
+        this,
       ) as (contentType: ContentType) => boolean;
       expect(is2DContentType(ContentType.Model3D)).toEqual(false);
     });
@@ -3050,7 +3050,7 @@ describe('VisualViewerService', () => {
 
       const nodeRefToPersistentIdSpy = spyOn<any>(
         visualViewerService,
-        'nodeRefToPersistentId'
+        'nodeRefToPersistentId',
       ).and.returnValue(fakeNodeSids);
 
       mockSceneNodeToProductLookupService.lookupProductCodes$ =
@@ -3058,24 +3058,24 @@ describe('VisualViewerService', () => {
 
       const lookupProductCodesSpy = spyOn(
         sceneNodeToProductLookupService,
-        'lookupProductCodes'
+        'lookupProductCodes',
       ).and.callThrough();
 
       const selectedProductCodesChangeEmitSpy = spyOn(
         selectedProductCodesChange,
-        'emit'
+        'emit',
       ).and.callThrough();
 
       selectedProductCodesChange.subscribe((productCodes: string[]) => {
         expect(selectedProductCodesChangeEmitSpy).toHaveBeenCalledTimes(1);
         expect(selectedProductCodesChangeEmitSpy).toHaveBeenCalledWith(
-          productCodes
+          productCodes,
         );
         done();
       });
 
       const onSelectionChanged = visualViewerService['onSelectionChanged'].bind(
-        visualViewerService
+        visualViewerService,
       ) as () => void;
 
       onSelectionChanged();
@@ -3094,7 +3094,7 @@ describe('VisualViewerService', () => {
 
       const viewStateManager = <ViewStateManager>{
         enumerateOutlinedNodes: (
-          callback: (nodeRef: NodeRef) => void
+          callback: (nodeRef: NodeRef) => void,
         ): void => {
           fakeNodeRefs.forEach((fakeNodeRef: NodeRef) => callback(fakeNodeRef));
         },
@@ -3111,7 +3111,7 @@ describe('VisualViewerService', () => {
 
       const nodeRefToPersistentIdSpy = spyOn<any>(
         visualViewerService,
-        'nodeRefToPersistentId'
+        'nodeRefToPersistentId',
       ).and.returnValue(fakeNodeSids);
 
       mockSceneNodeToProductLookupService.lookupProductCodes$ =
@@ -3119,24 +3119,24 @@ describe('VisualViewerService', () => {
 
       const lookupProductCodesSpy = spyOn(
         sceneNodeToProductLookupService,
-        'lookupProductCodes'
+        'lookupProductCodes',
       ).and.callThrough();
 
       const selectedProductCodesChangeEmitSpy = spyOn(
         selectedProductCodesChange,
-        'emit'
+        'emit',
       ).and.callThrough();
 
       selectedProductCodesChange.subscribe((productCodes: string[]) => {
         expect(selectedProductCodesChangeEmitSpy).toHaveBeenCalledTimes(1);
         expect(selectedProductCodesChangeEmitSpy).toHaveBeenCalledWith(
-          productCodes
+          productCodes,
         );
         done();
       });
 
       const onOutliningChanged = visualViewerService['onOutliningChanged'].bind(
-        visualViewerService
+        visualViewerService,
       ) as () => void;
 
       onOutliningChanged();

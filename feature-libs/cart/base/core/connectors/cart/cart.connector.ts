@@ -26,7 +26,7 @@ export class CartConnector {
   public create(
     userId: string,
     oldCartId?: string,
-    toMergeCartGuid?: string
+    toMergeCartGuid?: string,
   ): Observable<Cart> {
     return this.adapter.create(userId, oldCartId, toMergeCartGuid);
   }
@@ -39,7 +39,7 @@ export class CartConnector {
     userId: string,
     cartId: string,
     saveCartName?: string,
-    saveCartDescription?: string
+    saveCartDescription?: string,
   ): Observable<Cart> {
     return this.adapter.save(userId, cartId, saveCartName, saveCartDescription);
   }
@@ -47,7 +47,7 @@ export class CartConnector {
   public addEmail(
     userId: string,
     cartId: string,
-    email: string
+    email: string,
   ): Observable<{}> {
     return this.adapter.addEmail(userId, cartId, email);
   }

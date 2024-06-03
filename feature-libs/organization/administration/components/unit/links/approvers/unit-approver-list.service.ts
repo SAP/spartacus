@@ -31,14 +31,14 @@ export class UnitApproverListService extends SubListService<B2BUser> {
   constructor(
     protected tableService: TableService,
     protected unitService: OrgUnitService,
-    protected userService: B2BUserService
+    protected userService: B2BUserService,
   ) {
     super(tableService);
   }
 
   protected load(
     pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<B2BUser> | undefined> {
     return this.unitService.getUsers(code, B2BUserRole.APPROVER, pagination);
   }
@@ -49,7 +49,7 @@ export class UnitApproverListService extends SubListService<B2BUser> {
    */
   assign(
     unitId: string,
-    customerId: string
+    customerId: string,
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.unitService.assignApprover(unitId, customerId, B2BUserRole.APPROVER);
     return this.userService.getLoadingStatus(customerId);
@@ -61,7 +61,7 @@ export class UnitApproverListService extends SubListService<B2BUser> {
    */
   unassign(
     unitId: string,
-    customerId: string
+    customerId: string,
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.unitService.unassignApprover(unitId, customerId, B2BUserRole.APPROVER);
     return this.userService.getLoadingStatus(customerId);

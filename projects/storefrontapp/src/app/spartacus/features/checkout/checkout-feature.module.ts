@@ -32,7 +32,7 @@ const extensionProviders: Provider[] = [];
 if (environment.b2b) {
   extensionModules.push(
     CheckoutB2BRootModule,
-    CheckoutScheduledReplenishmentRootModule
+    CheckoutScheduledReplenishmentRootModule,
   );
 
   extensionProviders.push(
@@ -41,7 +41,7 @@ if (environment.b2b) {
         resources: checkoutB2BTranslations,
         chunks: checkoutB2BTranslationChunksConfig,
       },
-    })
+    }),
   );
   extensionProviders.push(
     provideConfig({
@@ -49,7 +49,7 @@ if (environment.b2b) {
         resources: checkoutScheduledReplenishmentTranslations,
         chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
       },
-    })
+    }),
   );
 }
 
@@ -61,7 +61,7 @@ if (environment.b2b) {
         [CHECKOUT_FEATURE]: {
           module: () =>
             import('./checkout-wrapper.module').then(
-              (m) => m.CheckoutWrapperModule
+              (m) => m.CheckoutWrapperModule,
             ),
         },
       },

@@ -25,19 +25,19 @@ export class DpPaymentCallbackComponent implements OnInit {
     protected dpPaymentService: DpCheckoutPaymentService,
     protected dpStorageService: DpLocalStorageService,
     protected globalMsgService: GlobalMessageService,
-    protected route: ActivatedRoute
+    protected route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
     const dpResponse = this.route.snapshot.queryParamMap.get(
-      DP_CARD_REGISTRATION_STATUS
+      DP_CARD_REGISTRATION_STATUS,
     );
     if (dpResponse?.toLowerCase() === 'successful') {
       this.fetchPaymentDetails();
     } else {
       this.globalMsgService.add(
         { key: 'dpPaymentForm.cancelledOrFailed' },
-        GlobalMessageType.MSG_TYPE_WARNING
+        GlobalMessageType.MSG_TYPE_WARNING,
       );
       this.closeCallback.emit();
     }
@@ -50,7 +50,7 @@ export class DpPaymentCallbackComponent implements OnInit {
       this.dpPaymentService
         .createPaymentDetails(
           paymentRequest.sessionId,
-          paymentRequest.signature
+          paymentRequest.signature,
         )
         .subscribe((details) => {
           if (details?.id) {
@@ -58,7 +58,7 @@ export class DpPaymentCallbackComponent implements OnInit {
           } else if (details) {
             this.globalMsgService.add(
               { key: 'dpPaymentForm.error.paymentFetch' },
-              GlobalMessageType.MSG_TYPE_ERROR
+              GlobalMessageType.MSG_TYPE_ERROR,
             );
             this.closeCallback.emit();
           }
@@ -66,7 +66,7 @@ export class DpPaymentCallbackComponent implements OnInit {
     } else {
       this.globalMsgService.add(
         { key: 'dpPaymentForm.error.unknown' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
       this.closeCallback.emit();
     }

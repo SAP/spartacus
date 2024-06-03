@@ -23,7 +23,7 @@ export const getConfigurationsState: MemoizedSelector<
   StateWithConfigurationTextfield,
   ConfigurationTextfieldState
 > = createFeatureSelector<ConfigurationTextfieldState>(
-  CONFIGURATION_TEXTFIELD_FEATURE
+  CONFIGURATION_TEXTFIELD_FEATURE,
 );
 
 export const getConfigurationContent: MemoizedSelector<

@@ -44,11 +44,11 @@ export class ConfiguratorExitButtonComponent {
                 routerData: cont.routerData,
                 configuration: cont.configuration,
                 product,
-              }))
-            )
-          )
-        )
-    )
+              })),
+            ),
+          ),
+        ),
+    ),
   );
 
   constructor(
@@ -58,7 +58,7 @@ export class ConfiguratorExitButtonComponent {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected breakpointService: BreakpointService,
     protected windowRef: WindowRef,
-    protected location: Location
+    protected location: Location,
   ) {}
 
   protected navigateToCart(): void {

@@ -60,7 +60,7 @@ describe('PDFInvoicesDateBadRequestHandler', () => {
 
   it('should register 400 responseStatus ', () => {
     expect(pdfInvoicesBRHandler.responseStatus).toEqual(
-      HttpResponseStatus.BAD_REQUEST
+      HttpResponseStatus.BAD_REQUEST,
     );
   });
 
@@ -68,14 +68,14 @@ describe('PDFInvoicesDateBadRequestHandler', () => {
     spyOn(globalMessageService, 'add');
     pdfInvoicesBRHandler.handleError(
       MockRequest,
-      MockNoOrderIdBadRequestResponse
+      MockNoOrderIdBadRequestResponse,
     );
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
         key: 'pdfInvoices.invoicesLoadingError',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -83,14 +83,14 @@ describe('PDFInvoicesDateBadRequestHandler', () => {
     spyOn(globalMessageService, 'add');
     pdfInvoicesBRHandler.handleError(
       MockRequest,
-      MockDownloadPDFBadRequestResponse
+      MockDownloadPDFBadRequestResponse,
     );
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
         key: 'pdfInvoices.downloadPDFError',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 });

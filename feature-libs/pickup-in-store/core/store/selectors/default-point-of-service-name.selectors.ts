@@ -16,5 +16,5 @@ export const getPreferredStore: MemoizedSelector<
   PickupLocationsState['defaultPointOfService']
 > = createSelector(
   getPickupLocationsState,
-  (pickupLocationsState) => pickupLocationsState.defaultPointOfService
+  (pickupLocationsState) => pickupLocationsState.defaultPointOfService,
 );

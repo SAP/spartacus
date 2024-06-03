@@ -11,11 +11,11 @@ import createSpy = jasmine.createSpy;
 
 class MockCmsComponentAdapter implements CmsComponentAdapter {
   load = createSpy('CmsComponentAdapter.load').and.callFake((id) =>
-    of('component' + id)
+    of('component' + id),
   );
 
   findComponentsByIds = createSpy(
-    'CmsComponentAdapter.findComponentsByIds'
+    'CmsComponentAdapter.findComponentsByIds',
   ).and.callFake((idList) => of(idList.map((id) => 'component' + id)));
 }
 
@@ -28,7 +28,7 @@ const context: PageContext = {
 class MockCmsStructureConfigService {
   getComponentFromConfig = createSpy().and.returnValue(of(undefined));
   getComponentsFromConfig = createSpy().and.returnValue(
-    of([undefined, undefined, 'config-component'])
+    of([undefined, undefined, 'config-component']),
   );
 }
 
@@ -65,7 +65,7 @@ describe('CmsComponentConnector', () => {
       it('should use CmsStructureConfigService', () => {
         service.get('333', context).subscribe();
         expect(
-          structureConfigService.getComponentFromConfig
+          structureConfigService.getComponentFromConfig,
         ).toHaveBeenCalledWith('333');
       });
     });
@@ -134,7 +134,7 @@ describe('CmsComponentConnector', () => {
 
   function cmsStructureConfigService() {
     expect(structureConfigService.getComponentsFromConfig).toHaveBeenCalledWith(
-      ids
+      ids,
     );
   }
 });

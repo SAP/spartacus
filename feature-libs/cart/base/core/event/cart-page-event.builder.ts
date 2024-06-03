@@ -29,8 +29,8 @@ export class CartPageEventBuilder {
       map((navigationEvent) =>
         createFrom(CartPageEvent, {
           navigation: navigationEvent,
-        })
-      )
+        }),
+      ),
     );
   }
 }

@@ -98,7 +98,7 @@ describe('AsmEnablerService', () => {
 
     it('should add UI when assisted-service/emulate? shows in the url', () => {
       spyOn(location, 'path').and.returnValue(
-        '/any/assisted-service/emulate?customerId=1234'
+        '/any/assisted-service/emulate?customerId=1234',
       );
       spyOn(<any>asmEnablerService, 'addUi').and.stub();
       asmEnablerService.load();

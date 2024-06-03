@@ -22,7 +22,7 @@ class MockVisualizationAdapter extends VisualizationAdapter {
 
   lookupVisualization(
     _visualizationUsageId: UsageId,
-    _folderUsageId: UsageId
+    _folderUsageId: UsageId,
   ): Observable<LookupVisualizationsResponse> {
     return of({
       visualizations: this.visualizationInfos,

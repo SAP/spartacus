@@ -42,7 +42,7 @@ describe('User Addresses Actions', () => {
 
     it('should create the action', () => {
       const action = new UserActions.LoadUserAddressesSuccess(
-        mockUserAddresses
+        mockUserAddresses,
       );
 
       expect({ ...action }).toEqual({

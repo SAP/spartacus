@@ -37,24 +37,24 @@ export class UserProfileConnector {
   updateEmail(
     userId: string,
     currentPassword: string,
-    newUserId: string
+    newUserId: string,
   ): Observable<unknown> {
     return this.userProfileAdapter.updateEmail(
       userId,
       currentPassword,
-      newUserId
+      newUserId,
     );
   }
 
   updatePassword(
     userId: string,
     oldPassword: string,
-    newPassword: string
+    newPassword: string,
   ): Observable<unknown> {
     return this.userProfileAdapter.updatePassword(
       userId,
       oldPassword,
-      newPassword
+      newPassword,
     );
   }
 

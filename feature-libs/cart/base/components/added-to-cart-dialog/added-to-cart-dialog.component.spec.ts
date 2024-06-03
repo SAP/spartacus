@@ -200,7 +200,7 @@ describe('AddedToCartDialogComponent', () => {
       component.entry$ = EMPTY;
       component.addedEntryWasMerged$ = EMPTY;
       spyOn(activeCartFacade, 'getLastEntry').and.returnValue(
-        cold('a', { a: mockOrderEntries[0] })
+        cold('a', { a: mockOrderEntries[0] }),
       );
 
       spyOn(component as any, 'getAddedEntryWasMerged').and.stub();
@@ -208,10 +208,10 @@ describe('AddedToCartDialogComponent', () => {
 
       expect(component.quantity).toEqual(3);
       expect((component as any)['getAddedEntryWasMerged']).toHaveBeenCalledWith(
-        2
+        2,
       );
       expect(component.entry$).toBeObservable(
-        cold('r', { r: mockOrderEntries[0] })
+        cold('r', { r: mockOrderEntries[0] }),
       );
     });
 
@@ -229,20 +229,20 @@ describe('AddedToCartDialogComponent', () => {
   describe('getAddedEntryWasMerged()', () => {
     it('should return observable<true> when entry was merged.', () => {
       spyOn(activeCartFacade, 'getEntries').and.returnValue(
-        cold('a', { a: mockOrderEntries })
+        cold('a', { a: mockOrderEntries }),
       );
       component.loaded$ = cold('t', { t: true });
       expect(component['getAddedEntryWasMerged'](2)).toBeObservable(
-        cold('t', { t: true })
+        cold('t', { t: true }),
       );
     });
     it('should return observable<false> when a new entry is added.', () => {
       spyOn(activeCartFacade, 'getEntries').and.returnValue(
-        cold('a', { a: mockOrderEntries })
+        cold('a', { a: mockOrderEntries }),
       );
       component.loaded$ = cold('t', { t: true });
       expect(component['getAddedEntryWasMerged'](3)).toBeObservable(
-        cold('f', { f: false })
+        cold('f', { f: false }),
       );
     });
   });
@@ -251,7 +251,7 @@ describe('AddedToCartDialogComponent', () => {
     component.loaded$ = of(false);
     fixture.detectChanges();
     expect(
-      el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
+      el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim(),
     ).toEqual('addToCart.updatingCart');
     expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
   });
@@ -259,7 +259,7 @@ describe('AddedToCartDialogComponent', () => {
   it('should display quantity', () => {
     fixture.detectChanges();
     expect(
-      el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
+      el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim(),
     ).toEqual('addToCart.itemsAddedToYourCart');
   });
 
@@ -281,7 +281,7 @@ describe('AddedToCartDialogComponent', () => {
     fixture.detectChanges();
     const cartTotalEl = el.query(By.css('.cx-dialog-total')).nativeElement;
     expect(cartTotalEl.children[0].textContent).toEqual(
-      ' cartItems.cartTotal count:1 '
+      ' cartItems.cartTotal count:1 ',
     );
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
   });
@@ -329,7 +329,7 @@ describe('AddedToCartDialogComponent', () => {
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(
-      ' addToCart.itemsAddedToYourCart '
+      ' addToCart.itemsAddedToYourCart ',
     );
   });
 
@@ -341,7 +341,7 @@ describe('AddedToCartDialogComponent', () => {
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(
-      ' addToCart.itemsIncrementedInYourCart '
+      ' addToCart.itemsIncrementedInYourCart ',
     );
   });
 
@@ -386,12 +386,12 @@ describe('AddedToCartDialogComponent', () => {
   describe('init()', () => {
     it('should compile addedCartEntryWasMerged$ from quantity comparison', () => {
       spyOn(activeCartFacade, 'getEntries').and.returnValue(
-        cold('a', { a: mockOrderEntries })
+        cold('a', { a: mockOrderEntries }),
       );
       component.loaded$ = cold('t', { t: true });
       component.init(PRODUCT_CODE, QUANTITY, NUMBER_ENTRIES_BEFORE_ADD);
       expect(component.addedEntryWasMerged$).toBeObservable(
-        cold('t', { t: true })
+        cold('t', { t: true }),
       );
     });
     it('should determine product from input in case addingEntryResult in not provided', () => {
@@ -400,7 +400,7 @@ describe('AddedToCartDialogComponent', () => {
       component.init(PRODUCT_CODE, QUANTITY, NUMBER_ENTRIES_BEFORE_ADD);
       component.entry$.subscribe(() => {
         expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
-          PRODUCT_CODE
+          PRODUCT_CODE,
         );
       });
     });
@@ -415,11 +415,11 @@ describe('AddedToCartDialogComponent', () => {
         QUANTITY,
         NUMBER_ENTRIES_BEFORE_ADD,
         undefined,
-        of(mockSuccessEvent)
+        of(mockSuccessEvent),
       );
       component.entry$.subscribe(() => {
         expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
-          replacedProductCode
+          replacedProductCode,
         );
       });
     });
@@ -433,11 +433,11 @@ describe('AddedToCartDialogComponent', () => {
         QUANTITY,
         NUMBER_ENTRIES_BEFORE_ADD,
         undefined,
-        of(mockSuccessEvent)
+        of(mockSuccessEvent),
       );
       component.entry$.subscribe(() => {
         expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
-          PRODUCT_CODE
+          PRODUCT_CODE,
         );
       });
     });
@@ -449,7 +449,7 @@ describe('AddedToCartDialogComponent', () => {
       spyOn(component, 'dismissModal');
       fixture.detectChanges();
       const viewCartBtn = el.query(
-        By.css('.cx-dialog-buttons button.btn-primary')
+        By.css('.cx-dialog-buttons button.btn-primary'),
       );
       viewCartBtn.triggerEventHandler('click');
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
@@ -461,12 +461,12 @@ describe('AddedToCartDialogComponent', () => {
       spyOn(component, 'dismissModal');
       fixture.detectChanges();
       const checkoutBtn = el.query(
-        By.css('.cx-dialog-buttons button.btn-secondary')
+        By.css('.cx-dialog-buttons button.btn-secondary'),
       );
       checkoutBtn.triggerEventHandler('click');
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'checkout' });
       expect(component.dismissModal).toHaveBeenCalledWith(
-        'Proceed To Checkout click'
+        'Proceed To Checkout click',
       );
     });
   });

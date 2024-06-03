@@ -19,5 +19,5 @@ export const browserLocationReducer = createReducer(
     ...state,
     latitude: payload.latitude,
     longitude: payload.longitude,
-  }))
+  })),
 );

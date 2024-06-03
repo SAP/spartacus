@@ -61,7 +61,7 @@ describe('ProductImageZoomTriggerComponent', () => {
   describe('expandImage', () => {
     beforeEach(() => {
       spyOn(launchDialogService, 'launch').and.returnValue(
-        of(testDialogComponent)
+        of(testDialogComponent),
       );
     });
 
@@ -70,7 +70,7 @@ describe('ProductImageZoomTriggerComponent', () => {
 
       expect(launchDialogService.launch).toHaveBeenCalledWith(
         LAUNCH_CALLER.PRODUCT_IMAGE_ZOOM,
-        component['vcr']
+        component['vcr'],
       );
     });
 
@@ -80,7 +80,7 @@ describe('ProductImageZoomTriggerComponent', () => {
       component.triggerZoom();
 
       expect(launchDialogService.clear).toHaveBeenCalledWith(
-        LAUNCH_CALLER.PRODUCT_IMAGE_ZOOM
+        LAUNCH_CALLER.PRODUCT_IMAGE_ZOOM,
       );
     });
 

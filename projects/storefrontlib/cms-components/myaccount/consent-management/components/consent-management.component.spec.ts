@@ -67,14 +67,14 @@ class UserConsentServiceMock {
   }
   giveConsent(
     _consentTemplateId: string,
-    _consentTemplateVersion: number
+    _consentTemplateVersion: number,
   ): void {}
   resetGiveConsentProcessState(): void {}
   withdrawConsent(_consentCode: string): void {}
   resetWithdrawConsentProcessState(): void {}
   filterConsentTemplates(
     _templateList: ConsentTemplate[],
-    _hideTemplateIds: string[] = []
+    _hideTemplateIds: string[] = [],
   ): ConsentTemplate[] {
     return [];
   }
@@ -120,39 +120,37 @@ describe('ConsentManagementComponent', () => {
   let anonymousConsentsConfig: AnonymousConsentsConfig;
   let anonymousConsentsService: AnonymousConsentsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      const mockAnonymousConsentsConfig = {
-        anonymousConsents: {},
-      };
+  beforeEach(waitForAsync(() => {
+    const mockAnonymousConsentsConfig = {
+      anonymousConsents: {},
+    };
 
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          MockCxSpinnerComponent,
-          MockConsentManagementFormComponent,
-          ConsentManagementComponent,
-        ],
-        providers: [
-          ConsentManagementComponentService,
-          { provide: UserConsentService, useClass: UserConsentServiceMock },
-          { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
-          {
-            provide: AnonymousConsentsService,
-            useClass: AnonymousConsentsServiceMock,
-          },
-          {
-            provide: AuthService,
-            useClass: AuthServiceMock,
-          },
-          {
-            provide: AnonymousConsentsConfig,
-            useValue: mockAnonymousConsentsConfig,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        MockCxSpinnerComponent,
+        MockConsentManagementFormComponent,
+        ConsentManagementComponent,
+      ],
+      providers: [
+        ConsentManagementComponentService,
+        { provide: UserConsentService, useClass: UserConsentServiceMock },
+        { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
+        {
+          provide: AnonymousConsentsService,
+          useClass: AnonymousConsentsServiceMock,
+        },
+        {
+          provide: AuthService,
+          useClass: AuthServiceMock,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConsentManagementComponent);
@@ -183,13 +181,13 @@ describe('ConsentManagementComponent', () => {
     describe('ngOnInit', () => {
       it('should combine all loading flags into one', () => {
         spyOn(userService, 'getConsentsResultLoading').and.returnValue(
-          of(true)
+          of(true),
         );
         spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
-          of(false)
+          of(false),
         );
         spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-          of(false)
+          of(false),
         );
 
         component.ngOnInit();
@@ -221,7 +219,7 @@ describe('ConsentManagementComponent', () => {
         const mockTemplateList = [] as ConsentTemplate[];
         it('should trigger the loadConsents method', () => {
           spyOn(userService, 'getConsents').and.returnValue(
-            of(mockTemplateList)
+            of(mockTemplateList),
           );
           spyOn<any>(component, consentsExistsMethod).and.returnValue(false);
           spyOn(userService, 'loadConsents').and.stub();
@@ -234,7 +232,7 @@ describe('ConsentManagementComponent', () => {
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
-            mockTemplateList
+            mockTemplateList,
           );
           expect(userService.loadConsents).toHaveBeenCalled();
         });
@@ -243,7 +241,7 @@ describe('ConsentManagementComponent', () => {
         const mockTemplateList: ConsentTemplate[] = [mockConsentTemplate];
         it('should not trigger loading of consents and should return consent template list', () => {
           spyOn(userService, 'getConsents').and.returnValue(
-            of(mockTemplateList)
+            of(mockTemplateList),
           );
           spyOn<any>(component, consentsExistsMethod).and.returnValue(true);
           spyOn(userService, 'loadConsents').and.stub();
@@ -256,7 +254,7 @@ describe('ConsentManagementComponent', () => {
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
-            mockTemplateList
+            mockTemplateList,
           );
           expect(userService.loadConsents).not.toHaveBeenCalled();
         });
@@ -265,16 +263,16 @@ describe('ConsentManagementComponent', () => {
         it(`should call ${hideAnonymousConsentsMethod} method`, () => {
           const mockTemplateList: ConsentTemplate[] = [mockConsentTemplate];
           spyOn(userService, 'getConsents').and.returnValue(
-            of(mockTemplateList)
+            of(mockTemplateList),
           );
           spyOn<any>(component, hideAnonymousConsentsMethod).and.returnValue(
-            mockTemplateList
+            mockTemplateList,
           );
           const mockAnonymousConsentTemplates: ConsentTemplate[] = [
             { id: 'MARKETING' },
           ];
           spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
-            of(mockAnonymousConsentTemplates)
+            of(mockAnonymousConsentTemplates),
           );
           anonymousConsentsConfig.anonymousConsents.consentManagementPage = {};
 
@@ -288,7 +286,7 @@ describe('ConsentManagementComponent', () => {
           expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();
           expect(component[hideAnonymousConsentsMethod]).toHaveBeenCalledWith(
             mockTemplateList,
-            mockAnonymousConsentTemplates
+            mockAnonymousConsentTemplates,
           );
         });
       });
@@ -303,13 +301,13 @@ describe('ConsentManagementComponent', () => {
       it(`should call ${onConsentGivenSuccessMethod}`, () => {
         const success = true;
         spyOn(userService, 'getGiveConsentResultSuccess').and.returnValue(
-          of(success)
+          of(success),
         );
         spyOn<any>(component, onConsentGivenSuccessMethod).and.stub();
 
         component[giveConsentInitMethod]();
         expect(component[onConsentGivenSuccessMethod]).toHaveBeenCalledWith(
-          success
+          success,
         );
       });
     });
@@ -323,10 +321,10 @@ describe('ConsentManagementComponent', () => {
       it(`should load all consents if the withdrawal was successful and call ${onConsentWithdrawnSuccessMethod}`, () => {
         const withdrawalSuccess = true;
         spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-          of(false)
+          of(false),
         );
         spyOn(userService, 'getWithdrawConsentResultSuccess').and.returnValue(
-          of(withdrawalSuccess)
+          of(withdrawalSuccess),
         );
         spyOn(userService, 'loadConsents').and.stub();
         spyOn<any>(component, onConsentWithdrawnSuccessMethod).and.stub();
@@ -335,15 +333,15 @@ describe('ConsentManagementComponent', () => {
 
         expect(userService.loadConsents).toHaveBeenCalled();
         expect(component[onConsentWithdrawnSuccessMethod]).toHaveBeenCalledWith(
-          withdrawalSuccess
+          withdrawalSuccess,
         );
       });
       it('should NOT load all consents if the withdrawal was NOT successful', () => {
         spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-          of(false)
+          of(false),
         );
         spyOn(userService, 'getWithdrawConsentResultSuccess').and.returnValue(
-          of(false)
+          of(false),
         );
         spyOn(userService, 'loadConsents').and.stub();
 
@@ -363,7 +361,7 @@ describe('ConsentManagementComponent', () => {
         it('should return false', () => {
           const consentTemplateList = {} as ConsentTemplate[];
           expect(component[consentsExistsMethod](consentTemplateList)).toEqual(
-            false
+            false,
           );
         });
       });
@@ -371,7 +369,7 @@ describe('ConsentManagementComponent', () => {
         it('should return false', () => {
           const consentTemplateList: ConsentTemplate[] = [];
           expect(component[consentsExistsMethod](consentTemplateList)).toEqual(
-            false
+            false,
           );
         });
       });
@@ -379,7 +377,7 @@ describe('ConsentManagementComponent', () => {
         it('should return true', () => {
           const consentTemplateList: ConsentTemplate[] = [mockConsentTemplate];
           expect(component[consentsExistsMethod](consentTemplateList)).toEqual(
-            true
+            true,
           );
         });
       });
@@ -398,7 +396,7 @@ describe('ConsentManagementComponent', () => {
 
           expect(userService.giveConsent).toHaveBeenCalledWith(
             mockConsentTemplate.id,
-            mockConsentTemplate.version
+            mockConsentTemplate.version,
           );
           expect(userService.withdrawConsent).not.toHaveBeenCalled();
         });
@@ -415,7 +413,7 @@ describe('ConsentManagementComponent', () => {
 
           expect(userService.withdrawConsent).toHaveBeenCalledWith(
             mockConsentTemplate.currentConsent.code,
-            mockConsentTemplate.id
+            mockConsentTemplate.id,
           );
           expect(userService.giveConsent).not.toHaveBeenCalled();
         });
@@ -431,7 +429,7 @@ describe('ConsentManagementComponent', () => {
           component[onConsentGivenSuccessMethod](false);
 
           expect(
-            userService.resetGiveConsentProcessState
+            userService.resetGiveConsentProcessState,
           ).not.toHaveBeenCalled();
           expect(globalMessageService.add).not.toHaveBeenCalled();
         });
@@ -446,7 +444,7 @@ describe('ConsentManagementComponent', () => {
           expect(userService.resetGiveConsentProcessState).toHaveBeenCalled();
           expect(globalMessageService.add).toHaveBeenCalledWith(
             { key: 'consentManagementForm.message.success.given' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
+            GlobalMessageType.MSG_TYPE_CONFIRMATION,
           );
         });
       });
@@ -461,7 +459,7 @@ describe('ConsentManagementComponent', () => {
           component[onConsentWithdrawnSuccessMethod](false);
 
           expect(
-            userService.resetWithdrawConsentProcessState
+            userService.resetWithdrawConsentProcessState,
           ).not.toHaveBeenCalled();
           expect(globalMessageService.add).not.toHaveBeenCalled();
         });
@@ -474,11 +472,11 @@ describe('ConsentManagementComponent', () => {
           component[onConsentWithdrawnSuccessMethod](true);
 
           expect(
-            userService.resetWithdrawConsentProcessState
+            userService.resetWithdrawConsentProcessState,
           ).toHaveBeenCalled();
           expect(globalMessageService.add).toHaveBeenCalledWith(
             { key: 'consentManagementForm.message.success.withdrawn' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
+            GlobalMessageType.MSG_TYPE_CONFIRMATION,
           );
         });
       });
@@ -521,14 +519,14 @@ describe('ConsentManagementComponent', () => {
           spyOn(userService, 'withdrawConsent').and.stub();
           spyOn(userService, 'isConsentGiven').and.returnValue(true);
           spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-            of(false)
+            of(false),
           );
 
           component.rejectAll([mockConsentTemplate]);
 
           expect(userService.withdrawConsent).toHaveBeenCalledWith(
             mockConsentTemplate.currentConsent.code,
-            mockConsentTemplate.id
+            mockConsentTemplate.id,
           );
           expect(userService.withdrawConsent).toHaveBeenCalledTimes(1);
         });
@@ -564,14 +562,14 @@ describe('ConsentManagementComponent', () => {
           spyOn(userService, 'giveConsent').and.stub();
           spyOn(userService, 'isConsentWithdrawn').and.returnValue(true);
           spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
-            of(false)
+            of(false),
           );
 
           component.allowAll([mockConsentTemplate]);
 
           expect(userService.giveConsent).toHaveBeenCalledWith(
             mockConsentTemplate.id,
-            mockConsentTemplate.version
+            mockConsentTemplate.version,
           );
           expect(userService.giveConsent).toHaveBeenCalledTimes(1);
         });
@@ -618,17 +616,17 @@ describe('ConsentManagementComponent', () => {
             hideConsents,
           };
           spyOn(userService, 'filterConsentTemplates').and.returnValue(
-            mockConsentTemplates
+            mockConsentTemplates,
           );
 
           const result = component[hideAnonymousConsentsMethod](
             mockConsentTemplates,
-            anonymousTemplates
+            anonymousTemplates,
           );
           expect(result).toEqual(mockConsentTemplates);
           expect(userService.filterConsentTemplates).toHaveBeenCalledWith(
             mockConsentTemplates,
-            hideConsents
+            hideConsents,
           );
         });
       });
@@ -639,21 +637,21 @@ describe('ConsentManagementComponent', () => {
             hideConsents,
           };
           spyOn(userService, 'filterConsentTemplates').and.returnValue(
-            mockConsentTemplates
+            mockConsentTemplates,
           );
 
           const result = component[hideAnonymousConsentsMethod](
             mockConsentTemplates,
-            anonymousTemplates
+            anonymousTemplates,
           );
           expect(result).toEqual(mockConsentTemplates);
           expect(userService.filterConsentTemplates).toHaveBeenCalledWith(
             mockConsentTemplates,
-            hideConsents
+            hideConsents,
           );
           expect(userService.filterConsentTemplates).toHaveBeenCalledWith(
             mockConsentTemplates,
-            hideConsents
+            hideConsents,
           );
         });
       });
@@ -665,13 +663,13 @@ describe('ConsentManagementComponent', () => {
       describe('when consents are loading', () => {
         it('should show spinner', () => {
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
-            of(true)
+            of(true),
           );
           spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
-            of(false)
+            of(false),
           );
           spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-            of(false)
+            of(false),
           );
           spyOn<any>(component, consentListInitMethod).and.stub();
           spyOn<any>(component, giveConsentInitMethod).and.stub();
@@ -686,13 +684,13 @@ describe('ConsentManagementComponent', () => {
       describe('when a consent is being given', () => {
         it('should show spinner', () => {
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
-            of(false)
+            of(false),
           );
           spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
-            of(true)
+            of(true),
           );
           spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-            of(false)
+            of(false),
           );
           spyOn<any>(component, consentListInitMethod).and.stub();
           spyOn<any>(component, giveConsentInitMethod).and.stub();
@@ -707,13 +705,13 @@ describe('ConsentManagementComponent', () => {
       describe('when a consent is being withdrawn', () => {
         it('should show spinner', () => {
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
-            of(false)
+            of(false),
           );
           spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
-            of(false)
+            of(false),
           );
           spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-            of(true)
+            of(true),
           );
           spyOn<any>(component, consentListInitMethod).and.stub();
           spyOn<any>(component, giveConsentInitMethod).and.stub();
@@ -729,20 +727,20 @@ describe('ConsentManagementComponent', () => {
       describe('when nothing is being loaded', () => {
         it('should NOT show the spinner but rather diplay a checkbox for each consent', () => {
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
-            of(false)
+            of(false),
           );
           spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
-            of(false)
+            of(false),
           );
           spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
-            of(false)
+            of(false),
           );
           spyOn(userService, 'getConsents').and.returnValue(
             of([
               mockConsentTemplate,
               mockConsentTemplate,
               mockConsentTemplate,
-            ] as ConsentTemplate[])
+            ] as ConsentTemplate[]),
           );
 
           component.ngOnInit();
@@ -751,8 +749,8 @@ describe('ConsentManagementComponent', () => {
           expect(el.query(By.css('cx-spinner'))).toBeFalsy();
           expect(
             (el.nativeElement as HTMLElement).querySelectorAll(
-              'cx-consent-management-form'
-            ).length
+              'cx-consent-management-form',
+            ).length,
           ).toEqual(3);
         });
       });

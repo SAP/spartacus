@@ -23,7 +23,7 @@ import {
         [ORGANIZATION_ACCOUNT_SUMMARY_FEATURE]: {
           module: () =>
             import('@spartacus/organization/account-summary').then(
-              (m) => m.AccountSummaryModule
+              (m) => m.AccountSummaryModule,
             ),
         },
       },

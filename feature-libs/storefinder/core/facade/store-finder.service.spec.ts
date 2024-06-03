@@ -173,11 +173,11 @@ describe('StoreFinderService', () => {
   const storeLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   const storeLoaded$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   const storeEntities$: BehaviorSubject<FindStoresState> = new BehaviorSubject(
-    mockStoreEntities
+    mockStoreEntities,
   );
 
   const mockSelect = (
-    selector: MemoizedSelector<StateWithStoreFinder, FindStoresState | boolean>
+    selector: MemoizedSelector<StateWithStoreFinder, FindStoresState | boolean>,
   ) => {
     switch (selector) {
       case StoreFinderSelectors.getStoresLoading:
@@ -199,7 +199,7 @@ describe('StoreFinderService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           STORE_FINDER_FEATURE,
-          fromStoreReducers.getReducers()
+          fromStoreReducers.getReducers(),
         ),
       ],
       providers: [
@@ -219,11 +219,11 @@ describe('StoreFinderService', () => {
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(
       winRef.nativeWindow.navigator.geolocation,
-      'watchPosition'
+      'watchPosition',
     ).and.callThrough();
     spyOn(
       winRef.nativeWindow.navigator.geolocation,
-      'clearWatch'
+      'clearWatch',
     ).and.callThrough();
     spyOn(routingService, 'getParams').and.returnValue(EMPTY);
   });
@@ -232,7 +232,7 @@ describe('StoreFinderService', () => {
     [StoreFinderService],
     (storeFinderService: StoreFinderService) => {
       expect(storeFinderService).toBeTruthy();
-    }
+    },
   ));
 
   it('should create', () => {
@@ -253,7 +253,7 @@ describe('StoreFinderService', () => {
         queryText,
         { currentPage: 0 },
         undefined,
-        undefined
+        undefined,
       );
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -265,7 +265,7 @@ describe('StoreFinderService', () => {
           longitudeLatitude: undefined,
           countryIsoCode: undefined,
           radius: undefined,
-        })
+        }),
       );
     });
   });
@@ -277,15 +277,15 @@ describe('StoreFinderService', () => {
         { currentPage: 0 },
         undefined,
         undefined,
-        true
+        true,
       );
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new StoreFinderActions.FindStoresOnHold()
+        new StoreFinderActions.FindStoresOnHold(),
       );
 
       expect(
-        winRef.nativeWindow.navigator.geolocation.watchPosition
+        winRef.nativeWindow.navigator.geolocation.watchPosition,
       ).toHaveBeenCalled();
     });
   });
@@ -295,7 +295,7 @@ describe('StoreFinderService', () => {
       service.viewStoreById(storeId);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new StoreFinderActions.FindStoreById({ storeId })
+        new StoreFinderActions.FindStoreById({ storeId }),
       );
     });
   });
@@ -305,7 +305,7 @@ describe('StoreFinderService', () => {
       service.viewAllStores();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new StoreFinderActions.ViewAllStores()
+        new StoreFinderActions.ViewAllStores(),
       );
     });
   });
@@ -328,7 +328,7 @@ describe('StoreFinderService', () => {
           longitudeLatitude: undefined,
           countryIsoCode: 'US',
           radius: undefined,
-        })
+        }),
       );
     });
 
@@ -336,7 +336,7 @@ describe('StoreFinderService', () => {
       routerParam$.next({ store: storeId });
       storeEntities$.next({ findStoresEntities: {}, findStoreEntityById: {} });
       expect(store.dispatch).toHaveBeenCalledWith(
-        new StoreFinderActions.FindStoreById({ storeId })
+        new StoreFinderActions.FindStoreById({ storeId }),
       );
     });
   });

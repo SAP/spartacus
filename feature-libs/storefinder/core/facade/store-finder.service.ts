@@ -35,7 +35,7 @@ export class StoreFinderService implements OnDestroy {
     protected winRef: WindowRef,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    @Inject(PLATFORM_ID) protected platformId: any
+    @Inject(PLATFORM_ID) protected platformId: any,
   ) {
     this.reloadStoreEntitiesOnContextChange();
   }
@@ -61,7 +61,7 @@ export class StoreFinderService implements OnDestroy {
   getFindStoresEntities(): Observable<StoreEntities> {
     return this.store.pipe(
       select(StoreFinderSelectors.getFindStoresEntities),
-      map((data) => data.findStoresEntities)
+      map((data) => data.findStoresEntities),
     );
   }
 
@@ -71,7 +71,7 @@ export class StoreFinderService implements OnDestroy {
   getFindStoreEntityById(): Observable<StoreEntities> {
     return this.store.pipe(
       select(StoreFinderSelectors.getFindStoresEntities),
-      map((data) => data.findStoreEntityById)
+      map((data) => data.findStoreEntityById),
     );
   }
 
@@ -80,7 +80,7 @@ export class StoreFinderService implements OnDestroy {
    */
   getViewAllStoresLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(StoreFinderSelectors.getViewAllStoresLoading)
+      select(StoreFinderSelectors.getViewAllStoresLoading),
     );
   }
 
@@ -90,7 +90,7 @@ export class StoreFinderService implements OnDestroy {
   getViewAllStoresEntities(): Observable<StoreEntities> {
     return this.store.pipe(
       select(StoreFinderSelectors.getViewAllStoresEntities),
-      map((data) => data.viewAllStoresEntities)
+      map((data) => data.viewAllStoresEntities),
     );
   }
 
@@ -109,7 +109,7 @@ export class StoreFinderService implements OnDestroy {
     longitudeLatitude?: GeoPoint,
     countryIsoCode?: string,
     useMyLocation?: boolean,
-    radius?: number
+    radius?: number,
   ) {
     if (useMyLocation && this.winRef.nativeWindow) {
       this.clearWatchGeolocation(new StoreFinderActions.FindStoresOnHold());
@@ -128,16 +128,16 @@ export class StoreFinderService implements OnDestroy {
                 longitudeLatitude: position,
                 countryIsoCode: countryIsoCode,
                 radius: radius,
-              })
+              }),
             );
           },
           () => {
             this.globalMessageService.add(
               { key: 'storeFinder.geolocationNotEnabled' },
-              GlobalMessageType.MSG_TYPE_ERROR
+              GlobalMessageType.MSG_TYPE_ERROR,
             );
             this.routingService.go(['/store-finder']);
-          }
+          },
         );
     } else {
       this.clearWatchGeolocation(
@@ -147,7 +147,7 @@ export class StoreFinderService implements OnDestroy {
           longitudeLatitude: longitudeLatitude,
           countryIsoCode: countryIsoCode,
           radius: radius,
-        })
+        }),
       );
     }
   }
@@ -165,14 +165,14 @@ export class StoreFinderService implements OnDestroy {
    */
   viewStoreById(storeId: string) {
     this.clearWatchGeolocation(
-      new StoreFinderActions.FindStoreById({ storeId })
+      new StoreFinderActions.FindStoreById({ storeId }),
     );
   }
 
   private clearWatchGeolocation(callbackAction: Action) {
     if (this.geolocationWatchId !== null) {
       this.winRef.nativeWindow?.navigator.geolocation.clearWatch(
-        this.geolocationWatchId
+        this.geolocationWatchId,
       );
       this.geolocationWatchId = null;
     }
@@ -196,8 +196,8 @@ export class StoreFinderService implements OnDestroy {
           withLatestFrom(
             this.getStoresLoading(),
             this.getStoresLoaded(),
-            this.routingService.getParams()
-          )
+            this.routingService.getParams(),
+          ),
         )
         .subscribe(([, loading, loaded, routeParams]) => {
           if (!loading && !loaded) {
@@ -219,7 +219,7 @@ export class StoreFinderService implements OnDestroy {
         pageSize: -1,
       },
       undefined,
-      routeParams.country
+      routeParams.country,
     );
   }
 

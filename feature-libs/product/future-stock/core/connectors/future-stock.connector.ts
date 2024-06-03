@@ -18,14 +18,14 @@ export class FutureStockConnector {
 
   public getFutureStock(
     userId: string,
-    productCode: string
+    productCode: string,
   ): Observable<ProductFutureStock> {
     return this.adapter.getFutureStock(userId, productCode);
   }
 
   public getFutureStocks(
     userId: string,
-    productCodes: string
+    productCodes: string,
   ): Observable<ProductFutureStockList> {
     return this.adapter.getFutureStocks(userId, productCodes);
   }

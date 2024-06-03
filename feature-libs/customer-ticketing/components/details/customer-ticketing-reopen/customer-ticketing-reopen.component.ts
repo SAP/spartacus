@@ -25,7 +25,7 @@ import { CustomerTicketingReopenComponentService } from './customer-ticketing-re
 export class CustomerTicketingReopenComponent implements OnDestroy {
   protected subscription = new Subscription();
   protected CustomerTicketingReopenComponentService = inject(
-    CustomerTicketingReopenComponentService
+    CustomerTicketingReopenComponentService,
   );
 
   @ViewChild('element') element: ElementRef;
@@ -36,14 +36,14 @@ export class CustomerTicketingReopenComponent implements OnDestroy {
   constructor(
     protected customerTicketingFacade: CustomerTicketingFacade,
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
   ) {}
 
   openDialog() {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CUSTOMER_TICKETING_REOPEN,
       this.element,
-      this.vcr
+      this.vcr,
     );
 
     if (dialog) {

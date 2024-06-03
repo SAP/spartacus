@@ -84,7 +84,7 @@ describe('ProductImageZoomDialogComponent', () => {
 
       component.close('cross clicked');
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-        'cross clicked'
+        'cross clicked',
       );
     });
     it('should call close dialog without the close reason', () => {

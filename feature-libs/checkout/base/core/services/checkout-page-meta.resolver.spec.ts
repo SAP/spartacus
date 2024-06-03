@@ -60,7 +60,7 @@ describe('CheckoutPageMetaResolver', () => {
     let result: string | undefined;
 
     basePageMetaResolver.resolveTitle = createSpy().and.returnValue(
-      of('Checkout Delivery Mode')
+      of('Checkout Delivery Mode'),
     );
 
     service
@@ -88,7 +88,7 @@ describe('CheckoutPageMetaResolver', () => {
     let result: string | undefined;
 
     basePageMetaResolver.resolveDescription = createSpy().and.returnValue(
-      of('Page description')
+      of('Page description'),
     );
 
     service
@@ -104,7 +104,7 @@ describe('CheckoutPageMetaResolver', () => {
   it(`should resolve robots for page data`, () => {
     let result: PageRobotsMeta[] | undefined;
     basePageMetaResolver.resolveRobots = createSpy().and.returnValue(
-      of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX] as PageRobotsMeta[])
+      of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX] as PageRobotsMeta[]),
     );
 
     service

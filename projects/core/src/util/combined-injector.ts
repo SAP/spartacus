@@ -31,13 +31,13 @@ export class CombinedInjector implements Injector {
    */
   constructor(
     private mainInjector: Injector,
-    private complementaryInjectors: Injector[]
+    private complementaryInjectors: Injector[],
   ) {}
 
   get<T>(
     token: Type<T> | InjectionToken<T> | AbstractType<T>,
     notFoundValue?: T,
-    optional?: InjectOptions
+    optional?: InjectOptions,
   ): T;
   get(token: any, notFoundValue?: any): any;
   get(token: any, notFoundValue?: any, optional?: InjectOptions): any {
@@ -47,7 +47,7 @@ export class CombinedInjector implements Injector {
         return notFoundValue;
       }
       throw new Error(
-        "CombinedInjector should be used as a parent injector / doesn't support self dependencies"
+        "CombinedInjector should be used as a parent injector / doesn't support self dependencies",
       );
     }
 

@@ -96,21 +96,21 @@ export function getReducers(): ActionReducerMap<OrganizationState, any> {
     [BUDGET_FEATURE]: combineReducers({
       entities: StateUtils.entityLoaderReducer<Budget, any>(
         BUDGET_ENTITIES,
-        budgetsEntitiesReducer
+        budgetsEntitiesReducer,
       ),
       list: StateUtils.entityLoaderReducer<ListModel, any>(
         BUDGET_LIST,
-        budgetsListReducer
+        budgetsListReducer,
       ),
     }),
     [PERMISSION_FEATURE]: combineReducers({
       entities: StateUtils.entityLoaderReducer<Permission, any>(
         PERMISSION_ENTITIES,
-        permissionsEntitiesReducer
+        permissionsEntitiesReducer,
       ),
       list: StateUtils.entityLoaderReducer<ListModel, any>(
         PERMISSION_LIST,
-        permissionsListReducer
+        permissionsListReducer,
       ),
       permissionTypes: StateUtils.entityLoaderReducer<
         OrderApprovalPermissionType[]
@@ -119,78 +119,78 @@ export function getReducers(): ActionReducerMap<OrganizationState, any> {
     [ORG_UNIT_FEATURE]: combineReducers({
       entities: StateUtils.entityLoaderReducer<B2BUnit, any>(
         ORG_UNIT_ENTITIES,
-        orgUnitEntitiesReducer
+        orgUnitEntitiesReducer,
       ),
       availableOrgUnitNodes:
         StateUtils.entityLoaderReducer<B2BUnitNode[]>(ORG_UNIT_NODE_LIST),
       tree: StateUtils.entityLoaderReducer<B2BUnitNode>(ORG_UNIT_TREE_ENTITY),
       approvalProcesses: StateUtils.entityLoaderReducer<B2BApprovalProcess[]>(
-        ORG_UNIT_APPROVAL_PROCESSES_ENTITIES
+        ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
       ),
       users: StateUtils.entityLoaderReducer<ListModel, any>(
         ORG_UNIT_ASSIGNED_USERS,
-        orgUnitUserListReducer
+        orgUnitUserListReducer,
       ),
       addressList: StateUtils.entityLoaderReducer<ListModel, any>(
         ADDRESS_LIST,
-        orgUnitAddressListReducer
+        orgUnitAddressListReducer,
       ),
       addressEntities: StateUtils.entityLoaderReducer<Address, any>(
-        ADDRESS_ENTITIES
+        ADDRESS_ENTITIES,
       ),
     }),
     [USER_GROUP_FEATURE]: combineReducers({
       entities: StateUtils.entityLoaderReducer<UserGroup, any>(
         USER_GROUP_ENTITIES,
-        userGroupEntitiesReducer
+        userGroupEntitiesReducer,
       ),
       list: StateUtils.entityLoaderReducer<ListModel, any>(
         USER_GROUP_LIST,
-        userGroupsListReducer
+        userGroupsListReducer,
       ),
       permissions: StateUtils.entityLoaderReducer<ListModel, any>(
         USER_GROUP_PERMISSIONS,
-        userGroupAvailableOrderApprovalPermissionsListReducer
+        userGroupAvailableOrderApprovalPermissionsListReducer,
       ),
       customers: StateUtils.entityLoaderReducer<ListModel, any>(
         USER_GROUP_AVAILABLE_CUSTOMERS,
-        userGroupAvailablOrgCustomersListReducer
+        userGroupAvailablOrgCustomersListReducer,
       ),
     }),
     [COST_CENTER_FEATURE]: combineReducers({
       entities: StateUtils.entityLoaderReducer<CostCenter, any>(
         COST_CENTER_ENTITIES,
-        costCentersEntitiesReducer
+        costCentersEntitiesReducer,
       ),
       list: StateUtils.entityLoaderReducer<ListModel, any>(
         COST_CENTER_LIST,
-        costCentersListReducer
+        costCentersListReducer,
       ),
       budgets: StateUtils.entityLoaderReducer<ListModel, any>(
         COST_CENTER_ASSIGNED_BUDGETS,
-        costCenterAssignedBudgetsListReducer
+        costCenterAssignedBudgetsListReducer,
       ),
     }),
     [B2B_USER_FEATURE]: combineReducers({
       entities: StateUtils.entityLoaderReducer<B2BUser, any>(
         B2B_USER_ENTITIES,
-        b2bUserEntitiesReducer
+        b2bUserEntitiesReducer,
       ),
       list: StateUtils.entityLoaderReducer<ListModel, any>(
         USER_LIST,
-        userListReducer
+        userListReducer,
       ),
       approvers: StateUtils.entityLoaderReducer<ListModel, any>(
         B2B_USER_APPROVERS,
-        b2bUserApproverListReducer
+        b2bUserApproverListReducer,
       ),
       permissions: StateUtils.entityLoaderReducer<ListModel, any>(
         B2B_USER_PERMISSIONS,
-        b2bUserPermissionListReducer
+        b2bUserPermissionListReducer,
       ),
       userGroups: StateUtils.entityLoaderReducer<ListModel, any>(
         B2B_USER_USER_GROUPS,
-        b2bUserUserGroupListReducer
+        b2bUserUserGroupListReducer,
       ),
     }),
   };
@@ -198,7 +198,7 @@ export function getReducers(): ActionReducerMap<OrganizationState, any> {
 
 export const reducerToken: InjectionToken<ActionReducerMap<OrganizationState>> =
   new InjectionToken<ActionReducerMap<OrganizationState>>(
-    'OrganizationReducers'
+    'OrganizationReducers',
   );
 
 export const reducerProvider: Provider = {
@@ -207,7 +207,7 @@ export const reducerProvider: Provider = {
 };
 
 export function clearOrganizationState(
-  reducer: ActionReducer<OrganizationState, Action>
+  reducer: ActionReducer<OrganizationState, Action>,
 ): ActionReducer<OrganizationState, Action> {
   return function (state, action) {
     if (action.type === OrganizationActions.CLEAR_ORGANIZATION_DATA) {

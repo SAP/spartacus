@@ -19,7 +19,7 @@ describe('intendedPickupLocationsReducer', () => {
     });
     const newState = intendedPickupLocationsReducer(
       intendedPickupLocationsInitialState,
-      action
+      action,
     );
     const expected: IntendedPickupLocationsState = {
       P0001: { name: 'Store Name', pickupOption: 'pickup' },
@@ -37,7 +37,7 @@ describe('intendedPickupLocationsReducer', () => {
     const newState: IntendedPickupLocationsState =
       intendedPickupLocationsReducer(
         intendedPickupLocationsInitialState,
-        action
+        action,
       );
     const expected: IntendedPickupLocationsState = {
       P0001: { pickupOption: 'delivery' },
@@ -55,7 +55,7 @@ describe('intendedPickupLocationsReducer', () => {
 
     const received = intendedPickupLocationsReducer(
       intendedPickupLocationsInitialState,
-      action
+      action,
     );
     const expected: IntendedPickupLocationsState = {
       P0001: { pickupOption: 'pickup' },

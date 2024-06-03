@@ -14,7 +14,7 @@ class MockUserIdService implements Partial<UserIdService> {
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
   updateEmail = createSpy().and.callFake(
     (_userId: string, _currentPassword: string, _newUserId: string) =>
-      of(undefined)
+      of(undefined),
   );
 }
 
@@ -40,7 +40,7 @@ describe('UserEmailService', () => {
     [UserEmailService],
     (service: UserEmailService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 
   describe('update()', () => {
@@ -52,7 +52,7 @@ describe('UserEmailService', () => {
       expect(connector.updateEmail).toHaveBeenCalledWith(
         OCC_USER_ID_CURRENT,
         password,
-        newUid
+        newUid,
       );
     });
   });

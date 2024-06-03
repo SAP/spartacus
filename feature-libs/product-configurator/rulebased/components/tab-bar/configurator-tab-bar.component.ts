@@ -49,9 +49,9 @@ export class ConfiguratorTabBarComponent {
         this.configuratorCommonsService.getConfiguration(routerData.owner).pipe(
           tap(() => {
             this.ghostStyle = false;
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
 
   /**
@@ -61,8 +61,8 @@ export class ConfiguratorTabBarComponent {
   isOverviewPage$: Observable<boolean> = this.routerData$.pipe(
     map(
       (routerData) =>
-        routerData.pageType === ConfiguratorRouter.PageType.OVERVIEW
-    )
+        routerData.pageType === ConfiguratorRouter.PageType.OVERVIEW,
+    ),
   );
   /**
    * Retrieves current page type.
@@ -70,11 +70,11 @@ export class ConfiguratorTabBarComponent {
    * @returns - page type
    */
   pageType$: Observable<ConfiguratorRouter.PageType> = this.routerData$.pipe(
-    map((routerData) => this.determinePageFromRouterData(routerData))
+    map((routerData) => this.determinePageFromRouterData(routerData)),
   );
 
   protected determinePageFromRouterData(
-    routerData: ConfiguratorRouter.Data
+    routerData: ConfiguratorRouter.Data,
   ): ConfiguratorRouter.PageType {
     return routerData.pageType ?? ConfiguratorRouter.PageType.CONFIGURATION;
   }
@@ -104,7 +104,7 @@ export class ConfiguratorTabBarComponent {
             ownerType: routerData.owner.type,
           },
         },
-        { queryParams: { productCode: routerData.productCode } }
+        { queryParams: { productCode: routerData.productCode } },
       )
       .then(() => {
         this.focusOverviewInTabBar();
@@ -126,7 +126,7 @@ export class ConfiguratorTabBarComponent {
             ownerType: routerData.owner.type,
           },
         },
-        { queryParams: { productCode: routerData.productCode } }
+        { queryParams: { productCode: routerData.productCode } },
       )
       .then(() => {
         this.focusConfigurationInTabBar();
@@ -138,16 +138,16 @@ export class ConfiguratorTabBarComponent {
       .extractRouterData()
       .pipe(
         switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
+          this.configuratorCommonsService.getConfiguration(routerData.owner),
         ),
         filter((configuration) => configuration.overview != null),
         take(1),
-        delay(0) //we need to consider the re-rendering of the page
+        delay(0), //we need to consider the re-rendering of the page
       )
       .subscribe(() => {
         this.focusService.clear();
         this.configUtils.focusFirstActiveElement(
-          ConfiguratorTabBarComponent.TAB_BAR_QUERY_SELECTOR
+          ConfiguratorTabBarComponent.TAB_BAR_QUERY_SELECTOR,
         );
       });
   }
@@ -158,20 +158,20 @@ export class ConfiguratorTabBarComponent {
       .pipe(
         filter(
           (routerData) =>
-            routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
+            routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION,
         ),
         switchMap((routerData) => {
           return this.configuratorCommonsService.getConfiguration(
-            routerData.owner
+            routerData.owner,
           );
         }),
         take(1),
-        delay(0) //we need to consider the re-rendering of the page
+        delay(0), //we need to consider the re-rendering of the page
       )
       .subscribe(() => {
         this.focusService.clear();
         this.configUtils.focusFirstActiveElement(
-          ConfiguratorTabBarComponent.TAB_BAR_QUERY_SELECTOR
+          ConfiguratorTabBarComponent.TAB_BAR_QUERY_SELECTOR,
         );
       });
   }
@@ -250,6 +250,6 @@ export class ConfiguratorTabBarComponent {
 
   constructor(
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
   ) {}
 }

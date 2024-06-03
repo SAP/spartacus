@@ -59,7 +59,7 @@ describe('AnonymousConsentsService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ANONYMOUS_CONSENTS_STORE_FEATURE,
-          fromStoreReducers.getReducers()
+          fromStoreReducers.getReducers(),
         ),
       ],
       providers: [{ provide: AuthService, useClass: MockAuthService }],
@@ -78,7 +78,7 @@ describe('AnonymousConsentsService', () => {
   it('loadTemplates should dispatch LoadAnonymousConsentTemplates action', () => {
     service.loadTemplates();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AnonymousConsentsActions.LoadAnonymousConsentTemplates()
+      new AnonymousConsentsActions.LoadAnonymousConsentTemplates(),
     );
   });
 
@@ -88,8 +88,8 @@ describe('AnonymousConsentsService', () => {
         spyOn(service, 'loadTemplates').and.stub();
         store.dispatch(
           new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-            mockConsentTemplates
-          )
+            mockConsentTemplates,
+          ),
         );
 
         let result: ConsentTemplate[];
@@ -121,8 +121,8 @@ describe('AnonymousConsentsService', () => {
         spyOn(service, 'getLoadTemplatesLoading').and.returnValue(of(false));
         store.dispatch(
           new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-            mockConsentTemplates
-          )
+            mockConsentTemplates,
+          ),
         );
 
         service.getTemplates(true).subscribe().unsubscribe();
@@ -134,8 +134,8 @@ describe('AnonymousConsentsService', () => {
   it('getTemplate should call getAnonymousConsentTemplate selector', () => {
     store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-        mockConsentTemplates
-      )
+        mockConsentTemplates,
+      ),
     );
 
     let result: ConsentTemplate;
@@ -148,7 +148,7 @@ describe('AnonymousConsentsService', () => {
 
   it('getLoadTemplatesLoading should call getAnonymousConsentTemplatesLoading selector', () => {
     store.dispatch(
-      new AnonymousConsentsActions.LoadAnonymousConsentTemplates()
+      new AnonymousConsentsActions.LoadAnonymousConsentTemplates(),
     );
 
     let result = false;
@@ -162,8 +162,8 @@ describe('AnonymousConsentsService', () => {
   it('getLoadTemplatesSuccess should call getAnonymousConsentTemplatesSuccess selector', () => {
     store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-        mockConsentTemplates
-      )
+        mockConsentTemplates,
+      ),
     );
 
     let result = false;
@@ -176,7 +176,9 @@ describe('AnonymousConsentsService', () => {
 
   it('getLoadTemplatesError should call getAnonymousConsentTemplatesError selector', () => {
     store.dispatch(
-      new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail('an error')
+      new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
+        'an error',
+      ),
     );
 
     let result = false;
@@ -190,13 +192,13 @@ describe('AnonymousConsentsService', () => {
   it('resetLoadTemplatesState should dispatch ResetLoadAnonymousConsentTemplates action', () => {
     service.resetLoadTemplatesState();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AnonymousConsentsActions.ResetLoadAnonymousConsentTemplates()
+      new AnonymousConsentsActions.ResetLoadAnonymousConsentTemplates(),
     );
   });
 
   it('getConsents should call getAnonymousConsents selector', () => {
     store.dispatch(
-      new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
+      new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents),
     );
 
     let result: AnonymousConsent[];
@@ -210,7 +212,7 @@ describe('AnonymousConsentsService', () => {
   it('setConsents should dispatch ResetLoadAnonymousConsentTemplates action', () => {
     service.setConsents(mockAnonymousConsents);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
+      new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents),
     );
   });
 
@@ -219,12 +221,12 @@ describe('AnonymousConsentsService', () => {
       it('should call getAnonymousConsentByTemplateCode selector', () => {
         spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
         spyOn(service, 'getTemplates').and.returnValue(
-          of(mockConsentTemplates)
+          of(mockConsentTemplates),
         );
         store.dispatch(
           new AnonymousConsentsActions.SetAnonymousConsents(
-            mockAnonymousConsents
-          )
+            mockAnonymousConsents,
+          ),
         );
 
         let result: AnonymousConsent;
@@ -250,7 +252,7 @@ describe('AnonymousConsentsService', () => {
   it('giveConsent should dispatch GiveAnonymousConsent action', () => {
     service.giveConsent(mockTemplateId);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AnonymousConsentsActions.GiveAnonymousConsent(mockTemplateId)
+      new AnonymousConsentsActions.GiveAnonymousConsent(mockTemplateId),
     );
   });
 
@@ -262,7 +264,7 @@ describe('AnonymousConsentsService', () => {
 
     expect(service.getTemplates).toHaveBeenCalled();
     expect(service.giveConsent).toHaveBeenCalledTimes(
-      mockConsentTemplates.length
+      mockConsentTemplates.length,
     );
   });
 
@@ -284,7 +286,7 @@ describe('AnonymousConsentsService', () => {
   it('withdrawAnonymousConsent should dispatch WithdrawAnonymousConsent action', () => {
     service.withdrawConsent(mockTemplateId);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AnonymousConsentsActions.WithdrawAnonymousConsent(mockTemplateId)
+      new AnonymousConsentsActions.WithdrawAnonymousConsent(mockTemplateId),
     );
   });
 
@@ -296,7 +298,7 @@ describe('AnonymousConsentsService', () => {
 
     expect(service.getTemplates).toHaveBeenCalled();
     expect(service.withdrawConsent).toHaveBeenCalledTimes(
-      mockConsentTemplates.length
+      mockConsentTemplates.length,
     );
   });
 
@@ -366,8 +368,8 @@ describe('AnonymousConsentsService', () => {
       service.toggleBannerDismissed(false);
       expect(store.dispatch).toHaveBeenCalledWith(
         new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
-          false
-        )
+          false,
+        ),
       );
     });
     it('should dispatch ToggleAnonymousConsentsBannerDissmissed action and call toggleTemplatesUpdated(false) when showing', () => {
@@ -375,8 +377,8 @@ describe('AnonymousConsentsService', () => {
       service.toggleBannerDismissed(true);
       expect(store.dispatch).toHaveBeenCalledWith(
         new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
-          true
-        )
+          true,
+        ),
       );
       expect(service.toggleTemplatesUpdated).toHaveBeenCalledWith(false);
     });
@@ -385,8 +387,8 @@ describe('AnonymousConsentsService', () => {
   it('isBannerDismissed should call getAnonymousConsentsBannerDismissed selector', () => {
     store.dispatch(
       new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
-        false
-      )
+        false,
+      ),
     );
 
     let result = true;
@@ -402,8 +404,8 @@ describe('AnonymousConsentsService', () => {
       spyOn(service, 'getTemplates').and.returnValue(of([]));
       store.dispatch(
         new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
-          false
-        )
+          false,
+        ),
       );
 
       let result = true;
@@ -419,14 +421,16 @@ describe('AnonymousConsentsService', () => {
   it('toggleTemplatesUpdated should dispatch AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated', () => {
     service.toggleTemplatesUpdated(false);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(false)
+      new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
+        false,
+      ),
     );
   });
 
   describe('detectUpdatedTemplates', () => {
     it('should return true when the lengths do not match', () => {
       expect(service.detectUpdatedTemplates(mockConsentTemplates, [])).toEqual(
-        true
+        true,
       );
     });
     it('should return true when a version was updated', () => {
@@ -437,16 +441,16 @@ describe('AnonymousConsentsService', () => {
       expect(
         service.detectUpdatedTemplates(
           mockConsentTemplates,
-          updatedMockConsentTemplates
-        )
+          updatedMockConsentTemplates,
+        ),
       ).toEqual(true);
     });
     it('should return false when the versions did not not update', () => {
       expect(
         service.detectUpdatedTemplates(
           mockConsentTemplates,
-          mockConsentTemplates
-        )
+          mockConsentTemplates,
+        ),
       ).toEqual(false);
     });
   });
@@ -458,7 +462,7 @@ describe('AnonymousConsentsService', () => {
     it('should return stringify and encode the provided consents', () => {
       const result = service.serializeAndEncode(mockAnonymousConsents);
       expect(result).toEqual(
-        encodeURIComponent(JSON.stringify(mockAnonymousConsents))
+        encodeURIComponent(JSON.stringify(mockAnonymousConsents)),
       );
     });
   });
@@ -466,7 +470,7 @@ describe('AnonymousConsentsService', () => {
   describe('decodeAndDeserialize', () => {
     it('should decode and unserialize the provided value', () => {
       const mockRawConsents = encodeURIComponent(
-        JSON.stringify(mockAnonymousConsents)
+        JSON.stringify(mockAnonymousConsents),
       );
 
       const result = service.decodeAndDeserialize(mockRawConsents);

@@ -78,7 +78,7 @@ describe('ProductEventModule', () => {
           valueCode: 'otherFacetValue',
           valueName: 'otherFacetValueName',
           selected: true,
-        } as FacetChangedEvent)
+        } as FacetChangedEvent),
       );
     });
 
@@ -101,7 +101,7 @@ describe('ProductEventModule', () => {
           valueCode: 'otherFacetValue',
           valueName: 'otherFacetValueName',
           selected: false,
-        } as FacetChangedEvent)
+        } as FacetChangedEvent),
       );
     });
   });

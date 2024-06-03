@@ -19,7 +19,7 @@ export abstract class StockAdapter {
    */
   abstract loadStockLevels(
     productCode: string,
-    location: LocationSearchParams
+    location: LocationSearchParams,
   ): Observable<StoreFinderStockSearchPage>;
 
   /**
@@ -29,6 +29,6 @@ export abstract class StockAdapter {
    */
   abstract loadStockLevelAtStore(
     productCode: string,
-    storeName: string
+    storeName: string,
   ): Observable<Stock>;
 }

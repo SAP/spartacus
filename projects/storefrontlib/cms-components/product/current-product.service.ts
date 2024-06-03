@@ -21,7 +21,7 @@ import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 export class CurrentProductService {
   constructor(
     private routingService: RoutingService,
-    private productService: ProductService
+    private productService: ProductService,
   ) {}
 
   protected readonly DEFAULT_PRODUCT_SCOPE = ProductScope.DETAILS;
@@ -34,7 +34,7 @@ export class CurrentProductService {
    * @param scopes
    */
   getProduct(
-    scopes?: (ProductScope | string)[] | ProductScope | string
+    scopes?: (ProductScope | string)[] | ProductScope | string,
   ): Observable<Product | null> {
     return this.getCode().pipe(
       distinctUntilChanged(),
@@ -42,11 +42,11 @@ export class CurrentProductService {
         return productCode
           ? this.productService.get(
               productCode,
-              scopes || this.DEFAULT_PRODUCT_SCOPE
+              scopes || this.DEFAULT_PRODUCT_SCOPE,
             )
           : of(null);
       }),
-      filter(isNotUndefined)
+      filter(isNotUndefined),
     );
   }
 

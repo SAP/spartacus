@@ -15,7 +15,7 @@ import { Observable, from, isObservable, of } from 'rxjs';
  *    that immediately emits the given value.
  */
 export function wrapIntoObservable<T>(
-  value: T | Promise<T> | Observable<T>
+  value: T | Promise<T> | Observable<T>,
 ): Observable<T> {
   if (isObservable(value)) {
     return value;

@@ -281,7 +281,7 @@ export class VisualViewerComponent {
    * @returns An observable that returns a single VisualizationLoadInfo value.
    */
   public loadVisualization(
-    productCode: string
+    productCode: string,
   ): Observable<VisualizationLoadInfo> {
     return this.visualViewerService.loadVisualization(productCode);
   }

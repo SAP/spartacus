@@ -17,7 +17,7 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
 export class ConfiguratorCartEntryInfoComponent {
   constructor(
     @Optional() protected cartItemContext: CartItemContext,
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
@@ -59,7 +59,7 @@ export class ConfiguratorCartEntryInfoComponent {
 
     return configurationInfos
       ? this.commonConfigUtilsService.isAttributeBasedConfigurator(
-          configurationInfos[0]?.configuratorType
+          configurationInfos[0]?.configuratorType,
         )
       : false;
   }

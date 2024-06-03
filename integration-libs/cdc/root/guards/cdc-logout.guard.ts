@@ -30,7 +30,7 @@ export class CdcLogoutGuard extends LogoutGuard {
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
     protected router: Router,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {
     super(auth, cms, semanticPathService, protectedRoutes, router);
   }

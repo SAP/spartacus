@@ -152,7 +152,7 @@ export class PopoverDirective implements OnInit {
       this.isOpen = true;
       this.focusConfig = this.popoverService.getFocusConfig(
         event,
-        this.cxPopoverOptions?.appendToBody || false
+        this.cxPopoverOptions?.appendToBody || false,
       );
       this.renderPopover();
       this.openPopover.emit();
@@ -191,7 +191,7 @@ export class PopoverDirective implements OnInit {
           this.popoverService.setFocusOnElement(
             this.element,
             this.focusConfig,
-            this.cxPopoverOptions?.appendToBody
+            this.cxPopoverOptions?.appendToBody,
           );
         }
       }
@@ -227,7 +227,7 @@ export class PopoverDirective implements OnInit {
       if (this.cxPopoverOptions?.appendToBody) {
         this.renderer.appendChild(
           this.winRef.document.body,
-          this.popoverContainer.location.nativeElement
+          this.popoverContainer.location.nativeElement,
         );
       }
 
@@ -246,6 +246,6 @@ export class PopoverDirective implements OnInit {
     protected renderer: Renderer2,
     protected changeDetectorRef: ChangeDetectorRef,
     protected popoverService: PopoverService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {}
 }

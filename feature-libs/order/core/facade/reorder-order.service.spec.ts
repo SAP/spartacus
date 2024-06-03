@@ -91,7 +91,7 @@ describe(`ReorderOrderService`, () => {
     [ReorderOrderService],
     (reorderOrderService: ReorderOrderService) => {
       expect(reorderOrderService).toBeTruthy();
-    }
+    },
   ));
 
   describe(`reorderOrder`, () => {
@@ -106,7 +106,7 @@ describe(`ReorderOrderService`, () => {
 
         expect(multiCartFacade.deleteCart).toHaveBeenCalledWith(
           mockCartId,
-          mockUserId
+          mockUserId,
         );
       });
 

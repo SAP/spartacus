@@ -18,5 +18,5 @@ export const getAnonymousConsentsBannerDismissed: MemoizedSelector<
   boolean
 > = createSelector(
   getAnonymousConsentState,
-  (state) => state.ui.bannerDismissed
+  (state) => state.ui.bannerDismissed,
 );

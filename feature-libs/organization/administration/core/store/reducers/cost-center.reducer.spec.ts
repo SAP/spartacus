@@ -63,7 +63,7 @@ describe('Cost Center Assigned Budgets List Reducer', () => {
       const action = new CostCenterActions.LoadAssignedBudgetsSuccess(payload);
       const result = costCenterAssignedBudgetsListReducer(
         costCentersInitialState,
-        action
+        action,
       );
 
       expect(result).toEqual(payload.page);

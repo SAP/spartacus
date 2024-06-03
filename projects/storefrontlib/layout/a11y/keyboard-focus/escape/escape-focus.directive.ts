@@ -49,7 +49,7 @@ export class EscapeFocusDirective
 
   constructor(
     protected elementRef: ElementRef,
-    protected service: EscapeFocusService
+    protected service: EscapeFocusService,
   ) {
     super(elementRef, service);
   }

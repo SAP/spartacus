@@ -27,8 +27,8 @@ export class ProductEffects {
   private contextChange$: Observable<Action> = this.actions$.pipe(
     ofType(
       SiteContextActions.CURRENCY_CHANGE,
-      SiteContextActions.LANGUAGE_CHANGE
-    )
+      SiteContextActions.LANGUAGE_CHANGE,
+    ),
   );
 
   loadProduct$ = createEffect(
@@ -49,15 +49,15 @@ export class ProductEffects {
             merge(
               ...this.productConnector
                 .getMany(products)
-                .map((productLoad) => this.productLoadEffect(productLoad))
-            )
+                .map((productLoad) => this.productLoadEffect(productLoad)),
+            ),
           ),
-          withdrawOn(this.contextChange$)
-        )
+          withdrawOn(this.contextChange$),
+        ),
   );
 
   private productLoadEffect(
-    productLoad: ScopedProductData
+    productLoad: ScopedProductData,
   ): Observable<
     ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
   > {
@@ -67,25 +67,25 @@ export class ProductEffects {
           (data) =>
             new ProductActions.LoadProductSuccess(
               { code: productLoad.code, ...data },
-              productLoad.scope
-            )
+              productLoad.scope,
+            ),
         ),
         catchError((error) => {
           return of(
             new ProductActions.LoadProductFail(
               productLoad.code,
               normalizeHttpError(error, this.logger),
-              productLoad.scope
-            )
+              productLoad.scope,
+            ),
           );
-        })
+        }),
       ) ??
       of(
         new ProductActions.LoadProductFail(
           productLoad.code,
           'Scoped product data does not exist',
-          productLoad.scope
-        )
+          productLoad.scope,
+        ),
       )
     );
   }
@@ -94,12 +94,12 @@ export class ProductEffects {
     createEffect(() =>
       this.actions$.pipe(
         ofType(AuthActions.LOGOUT, AuthActions.LOGIN),
-        map(() => new ProductActions.ClearProductPrice())
-      )
+        map(() => new ProductActions.ClearProductPrice()),
+      ),
     );
 
   constructor(
     private actions$: Actions,
-    private productConnector: ProductConnector
+    private productConnector: ProductConnector,
   ) {}
 }

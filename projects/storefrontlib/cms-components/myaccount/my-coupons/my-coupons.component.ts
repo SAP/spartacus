@@ -66,7 +66,7 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
 
   constructor(
     protected couponService: CustomerCouponService,
-    protected myCouponsComponentService: MyCouponsComponentService
+    protected myCouponsComponentService: MyCouponsComponentService,
   ) {}
 
   ngOnInit(): void {
@@ -81,15 +81,15 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
               totalPages: coupons.pagination?.totalPages,
               totalResults: coupons.pagination?.totalCount,
               sort: this.sort,
-            })
-        )
+            }),
+        ),
       );
     this.couponsLoading$ = this.couponService.getCustomerCouponsLoading();
     this.couponSubscriptionLoading$ = combineLatest([
       this.couponService.getSubscribeCustomerCouponResultLoading(),
       this.couponService.getUnsubscribeCustomerCouponResultLoading(),
     ]).pipe(
-      map(([subscribing, unsubscribing]) => subscribing || unsubscribing)
+      map(([subscribing, unsubscribing]) => subscribing || unsubscribing),
     );
     this.sortLabels = this.myCouponsComponentService.getSortLabels();
 
@@ -98,14 +98,14 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
         .getSubscribeCustomerCouponResultError()
         .subscribe((error) => {
           this.subscriptionFail(error);
-        })
+        }),
     );
     this.subscriptions.add(
       this.couponService
         .getUnsubscribeCustomerCouponResultError()
         .subscribe((error) => {
           this.subscriptionFail(error);
-        })
+        }),
     );
   }
 
@@ -121,7 +121,7 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
     this.couponService.loadCustomerCoupons(
       this.PAGE_SIZE,
       this.pagination.currentPage,
-      this.sortMapping[sort]
+      this.sortMapping[sort],
     );
   }
 
@@ -129,7 +129,7 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
     this.couponService.loadCustomerCoupons(
       this.PAGE_SIZE,
       page,
-      this.sortMapping[this.sort]
+      this.sortMapping[this.sort],
     );
   }
 

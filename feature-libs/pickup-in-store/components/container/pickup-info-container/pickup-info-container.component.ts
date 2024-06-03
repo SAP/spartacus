@@ -20,7 +20,7 @@ export class PickupInfoContainerComponent implements OnInit {
 
   constructor(
     protected activeCartService: ActiveCartFacade,
-    protected storeDetails: PickupLocationsSearchFacade
+    protected storeDetails: PickupLocationsSearchFacade,
   ) {}
 
   ngOnInit(): void {
@@ -32,33 +32,33 @@ export class PickupInfoContainerComponent implements OnInit {
         map((entries) =>
           entries
             .map((entry) => entry.deliveryPointOfService?.name)
-            .filter((name): name is string => !!name)
+            .filter((name): name is string => !!name),
         ),
         tap((storeNames) =>
           storeNames.forEach((storeName) =>
-            this.storeDetails.loadStoreDetails(storeName)
-          )
+            this.storeDetails.loadStoreDetails(storeName),
+          ),
         ),
         mergeMap((storeNames) =>
           combineLatest(
             storeNames.map((storeName) =>
               this.storeDetails
                 .getStoreDetails(storeName)
-                .pipe(filter((details) => !!details))
-            )
-          )
+                .pipe(filter((details) => !!details)),
+            ),
+          ),
         ),
         map((pointOfService) =>
           pointOfService.map(({ address, displayName, openingHours }) => ({
             address,
             displayName,
             openingHours,
-          }))
+          })),
         ),
         tap(
-          (storesDetailsData) => (this.storesDetailsData = storesDetailsData)
+          (storesDetailsData) => (this.storesDetailsData = storesDetailsData),
         ),
-        take(1)
+        take(1),
       )
       .subscribe();
   }

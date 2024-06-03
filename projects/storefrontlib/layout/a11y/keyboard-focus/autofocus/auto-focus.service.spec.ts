@@ -37,25 +37,23 @@ describe('AutoFocusService', () => {
 
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent],
-        providers: [
-          AutoFocusService,
-          {
-            provide: SelectFocusUtility,
-            useClass: MockSelectFocusUtility,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent],
+      providers: [
+        AutoFocusService,
+        {
+          provide: SelectFocusUtility,
+          useClass: MockSelectFocusUtility,
+        },
+      ],
+    }).compileComponents();
 
-      service = TestBed.inject(AutoFocusService);
-      focusUtility = TestBed.inject(SelectFocusUtility);
+    service = TestBed.inject(AutoFocusService);
+    focusUtility = TestBed.inject(SelectFocusUtility);
 
-      fixture = TestBed.createComponent(MockComponent);
-    })
-  );
+    fixture = TestBed.createComponent(MockComponent);
+  }));
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
@@ -65,7 +63,7 @@ describe('AutoFocusService', () => {
     it('should find host element', () => {
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
       expect(service.findFirstFocusable(host, { autofocus: ':host' })).toEqual(
-        host
+        host,
       );
     });
 
@@ -94,7 +92,7 @@ describe('AutoFocusService', () => {
       const host = fixture.debugElement.query(By.css('#e')).nativeElement;
       spyOn(focusUtility, 'findFirstFocusable').and.returnValue(null);
       expect(service.findFirstFocusable(host, { autofocus: true })).toEqual(
-        host
+        host,
       );
     });
   });
@@ -115,7 +113,7 @@ describe('AutoFocusService', () => {
       service.set('b2', 'group-b');
       const host = fixture.debugElement.query(By.css('#b')).nativeElement;
       expect(service.hasPersistedFocus(host, { group: 'group-b' })).toEqual(
-        true
+        true,
       );
     });
 

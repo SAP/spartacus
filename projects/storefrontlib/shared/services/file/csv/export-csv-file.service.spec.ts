@@ -60,11 +60,11 @@ describe('ExportCsvFileService', () => {
     expect(URL.createObjectURL).toHaveBeenCalledWith(
       new Blob([mockCsvString], {
         type: fileOptions.type,
-      })
+      }),
     );
     expect(fileDownloadService.download).toHaveBeenCalledWith(
       fakeUrl,
-      'data.csv'
+      'data.csv',
     );
   });
 });

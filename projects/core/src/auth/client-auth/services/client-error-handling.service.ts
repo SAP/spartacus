@@ -29,13 +29,13 @@ export class ClientErrorHandlingService {
    */
   public handleExpiredClientToken(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<any> {
     return this.clientTokenService.refreshClientToken().pipe(
       take(1),
       switchMap((token: ClientToken) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
-      })
+      }),
     );
   }
 
@@ -47,7 +47,7 @@ export class ClientErrorHandlingService {
    */
   protected createNewRequestWithNewToken(
     request: HttpRequest<any>,
-    token: ClientToken
+    token: ClientToken,
   ): HttpRequest<any> {
     request = request.clone({
       setHeaders: {

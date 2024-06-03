@@ -29,7 +29,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
     protected breakpointService: BreakpointService,
     protected translation: TranslationService,
-    @Optional() protected cartItemContext?: CartItemContext
+    @Optional() protected cartItemContext?: CartItemContext,
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
@@ -45,12 +45,12 @@ export class ConfiguratorCartEntryBundleInfoComponent {
 
   lineItems$: Observable<LineItem[]> = this.orderEntry$.pipe(
     map((entry) =>
-      this.configCartEntryBundleInfoService.retrieveLineItems(entry)
-    )
+      this.configCartEntryBundleInfoService.retrieveLineItems(entry),
+    ),
   );
 
   numberOfLineItems$: Observable<number> = this.lineItems$.pipe(
-    map((items) => items.length)
+    map((items) => items.length),
   );
 
   /**
@@ -70,7 +70,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     const configInfos = entry.configurationInfos;
     return configInfos
       ? this.commonConfigUtilsService.isBundleBasedConfigurator(
-          configInfos[0]?.configuratorType
+          configInfos[0]?.configuratorType,
         )
       : false;
   }

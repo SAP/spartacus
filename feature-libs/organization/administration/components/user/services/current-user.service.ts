@@ -17,12 +17,12 @@ import { CurrentItemService } from '../../shared/current-item.service';
 })
 export class CurrentUserService extends CurrentItemService<B2BUser> {
   readonly name$: Observable<string | undefined> = this.item$.pipe(
-    map((user: B2BUser | undefined) => user?.name)
+    map((user: B2BUser | undefined) => user?.name),
   );
 
   constructor(
     protected routingService: RoutingService,
-    protected b2bUserService: B2BUserService
+    protected b2bUserService: B2BUserService,
   ) {
     super(routingService);
   }

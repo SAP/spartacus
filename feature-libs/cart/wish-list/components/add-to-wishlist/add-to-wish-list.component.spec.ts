@@ -105,31 +105,29 @@ describe('AddToWishListComponent', () => {
   let wishListFacade: WishListFacade;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [
-          AddToWishListComponent,
-          MockIconComponent,
-          MockUrlPipe,
-          MockAtMessageDirective,
-        ],
-        providers: [
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: WishListFacade, useClass: MockWishListService },
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-        ],
-      })
-        .overrideComponent(AddToWishListComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        AddToWishListComponent,
+        MockIconComponent,
+        MockUrlPipe,
+        MockAtMessageDirective,
+      ],
+      providers: [
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: WishListFacade, useClass: MockWishListService },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+      ],
     })
-  );
+      .overrideComponent(AddToWishListComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToWishListComponent);
@@ -170,7 +168,7 @@ describe('AddToWishListComponent', () => {
     it('should return "undefined" if product is NOT in the wish list', () => {
       const result = component.getProductInWishList(
         { code: 'not_in_wish_list' },
-        entries
+        entries,
       );
 
       expect(result).toBe(undefined);
@@ -209,7 +207,7 @@ describe('AddToWishListComponent', () => {
         component.userLoggedIn$ = of(false);
         fixture.detectChanges();
         expect(
-          el.query(By.css('.button-add-link')).nativeElement
+          el.query(By.css('.button-add-link')).nativeElement,
         ).toBeDefined();
       });
 
@@ -231,7 +229,7 @@ describe('AddToWishListComponent', () => {
     });
     it('should return an empty list if entries are falsy', (done) => {
       spyOn(wishListFacade, 'getWishList').and.returnValue(
-        of({ ...mockWishList, entries: undefined })
+        of({ ...mockWishList, entries: undefined }),
       );
       component['getWishListEntries']().subscribe((wishList) => {
         expect(wishList).toEqual([]);

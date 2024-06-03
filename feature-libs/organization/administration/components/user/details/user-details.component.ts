@@ -28,7 +28,7 @@ export class UserDetailsComponent {
   userGuardSubscription: Subscription;
   model$: Observable<B2BUser> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
-    startWith({})
+    startWith({}),
   );
   isInEditMode$ = this.itemService.isInEditMode$;
 
@@ -43,12 +43,12 @@ export class UserDetailsComponent {
 
   constructor(
     protected itemService: ItemService<B2BUser>,
-    protected b2bUserService: B2BUserService
+    protected b2bUserService: B2BUserService,
   ) {}
 
   hasRight(model: B2BUser): boolean {
     return (model.roles ?? []).some((role: string) =>
-      this.availableRights.includes(role)
+      this.availableRights.includes(role),
     );
   }
 }

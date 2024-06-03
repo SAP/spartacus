@@ -112,7 +112,7 @@ describe('AsmCustomer360PromotionListingComponent', () => {
     fixture = TestBed.createComponent(TestHostComponent);
     testHost = fixture.componentInstance;
     component = fixture.debugElement.query(
-      By.directive(AsmCustomer360PromotionListingComponent)
+      By.directive(AsmCustomer360PromotionListingComponent),
     ).componentInstance;
     el = fixture.debugElement;
   });
@@ -127,7 +127,7 @@ describe('AsmCustomer360PromotionListingComponent', () => {
     fixture.detectChanges();
 
     const header = el.query(
-      By.css('.cx-asm-customer-360-promotion-listing-heading-text')
+      By.css('.cx-asm-customer-360-promotion-listing-heading-text'),
     );
     expect(header.nativeElement.innerText).toBe(mockHeaderText);
   });
@@ -137,14 +137,14 @@ describe('AsmCustomer360PromotionListingComponent', () => {
     fixture.detectChanges();
 
     const entriesList = el.query(
-      By.css('.cx-asm-customer-360-promotion-listing')
+      By.css('.cx-asm-customer-360-promotion-listing'),
     );
     expect(entriesList).toBeTruthy();
 
     const listTableBody = el.query(By.css('table'));
 
     const rows = listTableBody.queryAll(
-      By.css('.cx-asm-customer-360-promotion-listing-row')
+      By.css('.cx-asm-customer-360-promotion-listing-row'),
     );
     expect(rows.length).toBe(mockEntries.length);
   });
@@ -155,7 +155,7 @@ describe('AsmCustomer360PromotionListingComponent', () => {
     fixture.detectChanges();
 
     const emptyMessage = el.query(
-      By.css('.cx-asm-customer-360-promotion-listing-empty')
+      By.css('.cx-asm-customer-360-promotion-listing-empty'),
     );
 
     expect(emptyMessage).toBeTruthy();
@@ -178,10 +178,10 @@ describe('AsmCustomer360PromotionListingComponent', () => {
     testHost.entries = mockEntries;
     fixture.detectChanges();
     const ngContainer = el.query(
-      By.css('table .cx-asm-customer-360-promotion-listing-applied')
+      By.css('table .cx-asm-customer-360-promotion-listing-applied'),
     );
     expect(ngContainer.nativeElement.textContent).toContain(
-      'Promotion Applied'
+      'Promotion Applied',
     );
   });
 });

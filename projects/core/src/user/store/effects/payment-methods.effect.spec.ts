@@ -35,13 +35,13 @@ describe('Payment methods effect', () => {
     });
 
     userPaymentMethodsEffect = TestBed.inject(
-      fromPaymentMethodsEffect.UserPaymentMethodsEffects
+      fromPaymentMethodsEffect.UserPaymentMethodsEffects,
     );
     userPaymentConnector = TestBed.inject(UserPaymentConnector);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
     spyOn(userPaymentConnector, 'getAll').and.returnValue(
-      of(mockPaymentMethods)
+      of(mockPaymentMethods),
     );
     spyOn(userPaymentConnector, 'setDefault').and.returnValue(of({}));
 
@@ -52,14 +52,14 @@ describe('Payment methods effect', () => {
     it('should load user payment methods', () => {
       const action = new UserActions.LoadUserPaymentMethods('3710178129845');
       const completion = new UserActions.LoadUserPaymentMethodsSuccess(
-        mockPaymentMethods
+        mockPaymentMethods,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(userPaymentMethodsEffect.loadUserPaymentMethods$).toBeObservable(
-        expected
+        expected,
       );
     });
   });
@@ -72,12 +72,12 @@ describe('Payment methods effect', () => {
       });
       const completion = new UserActions.SetDefaultUserPaymentMethodSuccess({});
       const completion2 = new UserActions.LoadUserPaymentMethods(
-        OCC_USER_ID_CURRENT
+        OCC_USER_ID_CURRENT,
       );
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion, c: completion2 });
       expect(
-        userPaymentMethodsEffect.setDefaultUserPaymentMethod$
+        userPaymentMethodsEffect.setDefaultUserPaymentMethod$,
       ).toBeObservable(expected);
     });
   });
@@ -90,16 +90,16 @@ describe('Payment methods effect', () => {
       });
       const completion = new UserActions.DeleteUserPaymentMethodSuccess({});
       const completion2 = new UserActions.LoadUserPaymentMethods(
-        OCC_USER_ID_CURRENT
+        OCC_USER_ID_CURRENT,
       );
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion, c: completion2 });
       expect(userPaymentMethodsEffect.deleteUserPaymentMethod$).toBeObservable(
-        expected
+        expected,
       );
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'paymentCard.deletePaymentSuccess' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
   });

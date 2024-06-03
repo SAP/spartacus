@@ -34,13 +34,13 @@ describe('ConfiguratorTextfieldSelectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           CONFIGURATION_TEXTFIELD_FEATURE,
-          fromReducers.getConfiguratorTextfieldReducers()
+          fromReducers.getConfiguratorTextfieldReducers(),
         ),
       ],
     });
 
     store = TestBed.inject(
-      Store as Type<Store<StateWithConfigurationTextfield>>
+      Store as Type<Store<StateWithConfigurationTextfield>>,
     );
   });
 
@@ -57,7 +57,7 @@ describe('ConfiguratorTextfieldSelectors', () => {
   it('should return content from state when selecting with content selector', () => {
     let result;
     store.dispatch(
-      new ConfiguratorActions.CreateConfigurationSuccess(configuration)
+      new ConfiguratorActions.CreateConfigurationSuccess(configuration),
     );
 
     store

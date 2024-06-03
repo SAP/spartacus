@@ -15,7 +15,7 @@ import { AsmCustomer360SectionContext } from './asm-customer-360-section-context
 
 @Injectable()
 export class AsmCustomer360SectionContextSource<
-  Data
+  Data,
 > extends AsmCustomer360SectionContext<Data> {
   readonly customer$ = new ReplaySubject<User>(1);
 

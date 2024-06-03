@@ -87,7 +87,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       spyOn(component.filterListEvent, 'emit');
 
       const searchBtn = fixture.debugElement.query(
-        By.css('#searchUnitLevelOrdersBtn')
+        By.css('#searchUnitLevelOrdersBtn'),
       );
       const form = component.filterForm;
       form.patchValue({
@@ -102,10 +102,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(form.get(BUYER_FILTER)?.value).toBe(MARK);
       expect(form.get(UNIT_FILTER)?.value).toBe(EMPTY_STRING);
       expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE)?.value).toBe(
-        MARK
+        MARK,
       );
       expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE)?.value).toBe(
-        EMPTY_STRING
+        EMPTY_STRING,
       );
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
         ...mockOrderHistoryQueryParams,
@@ -118,7 +118,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       spyOn(component.filterListEvent, 'emit');
 
       const searchBtn = fixture.debugElement.query(
-        By.css('#searchUnitLevelOrdersBtn')
+        By.css('#searchUnitLevelOrdersBtn'),
       );
       const form = component.filterForm;
       form.patchValue({
@@ -133,10 +133,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(form.get(BUYER_FILTER)?.value).toBe(EMPTY_STRING);
       expect(form.get(UNIT_FILTER)?.value).toBe(SERVICES);
       expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE)?.value).toBe(
-        EMPTY_STRING
+        EMPTY_STRING,
       );
       expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE)?.value).toBe(
-        SERVICES
+        SERVICES,
       );
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
         ...mockOrderHistoryQueryParams,
@@ -149,7 +149,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       spyOn(component.filterListEvent, 'emit');
 
       const searchBtn = fixture.debugElement.query(
-        By.css('#searchUnitLevelOrdersBtn')
+        By.css('#searchUnitLevelOrdersBtn'),
       );
       const form = component.filterForm;
       form.patchValue({
@@ -164,10 +164,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(form.get(BUYER_FILTER)?.value).toBe(GI);
       expect(form.get(UNIT_FILTER)?.value).toBe(SERVICES);
       expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE)?.value).toBe(
-        GI
+        GI,
       );
       expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE)?.value).toBe(
-        SERVICES
+        SERVICES,
       );
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
         ...mockOrderHistoryQueryParams,
@@ -208,10 +208,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(form.get(BUYER_FILTER)?.value).toBe(GI);
       expect(form.get(UNIT_FILTER)?.value).toBeNull();
       expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE)?.value).toBe(
-        GI
+        GI,
       );
       expect(
-        component.filterFormMobile.get(UNIT_FILTER_MOBILE)?.value
+        component.filterFormMobile.get(UNIT_FILTER_MOBILE)?.value,
       ).toBeNull();
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
         ...mockOrderHistoryQueryParams,
@@ -237,10 +237,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(form.get(BUYER_FILTER)?.value).toBeNull();
       expect(form.get(UNIT_FILTER)?.value).toBe(SERVICES);
       expect(
-        component.filterFormMobile.get(BUYER_FILTER_MOBILE)?.value
+        component.filterFormMobile.get(BUYER_FILTER_MOBILE)?.value,
       ).toBeNull();
       expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE)?.value).toBe(
-        SERVICES
+        SERVICES,
       );
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
         ...mockOrderHistoryQueryParams,
@@ -264,7 +264,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     it('should emit a buyer value when filtered by a buyer', () => {
       const spy = spyOn(
         component,
-        'searchUnitLevelOrdersForMobile'
+        'searchUnitLevelOrdersForMobile',
       ).and.callThrough();
       spyOn(component.filterListEvent, 'emit');
 
@@ -295,7 +295,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     it('should emit a unit value when filtered by a unit', () => {
       const spy = spyOn(
         component,
-        'searchUnitLevelOrdersForMobile'
+        'searchUnitLevelOrdersForMobile',
       ).and.callThrough();
       spyOn(component.filterListEvent, 'emit');
 
@@ -325,7 +325,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     it('should emit a buyer and a unit value when filtered by buyer and unit', () => {
       const spy = spyOn(
         component,
-        'searchUnitLevelOrdersForMobile'
+        'searchUnitLevelOrdersForMobile',
       ).and.callThrough();
       spyOn(component.filterListEvent, 'emit');
 
@@ -370,10 +370,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
       expect(component.buyerFilterMobileId.nativeElement.value).toBe(
-        EMPTY_STRING
+        EMPTY_STRING,
       );
       expect(component.unitFilterMobileId.nativeElement.value).toBe(
-        EMPTY_STRING
+        EMPTY_STRING,
       );
     });
 
@@ -386,10 +386,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       });
 
       let buttonElement = fixture.debugElement.query(
-        By.css('#clearUnitMobileBtn')
+        By.css('#clearUnitMobileBtn'),
       );
       buttonElement.nativeElement.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'Enter' })
+        new KeyboardEvent('keydown', { key: 'Enter' }),
       );
 
       fixture.detectChanges();
@@ -408,10 +408,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       });
 
       let buttonElement = fixture.debugElement.query(
-        By.css('#clearBuyerMobileBtn')
+        By.css('#clearBuyerMobileBtn'),
       );
       buttonElement.nativeElement.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'Enter' })
+        new KeyboardEvent('keydown', { key: 'Enter' }),
       );
 
       fixture.detectChanges();
@@ -433,7 +433,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       const spy = spyOn(component, 'closeFilterNav').and.callThrough();
       fixture.detectChanges();
       const closeFilterNavBtn = fixture.debugElement.query(
-        By.css('#closeFilterNavBtn')
+        By.css('#closeFilterNavBtn'),
       );
       closeFilterNavBtn.nativeElement.click();
       expect(spy).toHaveBeenCalled();

@@ -25,7 +25,7 @@ export class LoadUserReplenishmentOrders extends StateUtils.LoaderLoadAction {
       pageSize?: number;
       currentPage?: number;
       sort?: string;
-    }
+    },
   ) {
     super(REPLENISHMENT_ORDERS);
   }

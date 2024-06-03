@@ -63,7 +63,7 @@ describe('Order Return Request effect', () => {
 
     actions$ = TestBed.inject(Actions);
     orderReturnRequestEffect = TestBed.inject(
-      fromOrderReturnRequestEffect.OrderReturnRequestEffect
+      fromOrderReturnRequestEffect.OrderReturnRequestEffect,
     );
     orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
   });
@@ -71,7 +71,7 @@ describe('Order Return Request effect', () => {
   describe('createReturnRequest$', () => {
     it('should create order return request', () => {
       spyOn(orderHistoryConnector, 'return').and.returnValue(
-        of(mockReturnRequest)
+        of(mockReturnRequest),
       );
       const action = new OrderActions.CreateOrderReturnRequest({
         userId: 'userId',
@@ -79,20 +79,20 @@ describe('Order Return Request effect', () => {
       });
 
       const completion = new OrderActions.CreateOrderReturnRequestSuccess(
-        mockReturnRequest
+        mockReturnRequest,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(orderReturnRequestEffect.createReturnRequest$).toBeObservable(
-        expected
+        expected,
       );
     });
 
     it('should handle failures for create order return request', () => {
       spyOn(orderHistoryConnector, 'return').and.returnValue(
-        throwError(() => 'Error')
+        throwError(() => 'Error'),
       );
 
       const action = new OrderActions.CreateOrderReturnRequest({
@@ -101,14 +101,14 @@ describe('Order Return Request effect', () => {
       });
 
       const completion = new OrderActions.CreateOrderReturnRequestFail(
-        undefined
+        undefined,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(orderReturnRequestEffect.createReturnRequest$).toBeObservable(
-        expected
+        expected,
       );
     });
   });
@@ -116,7 +116,7 @@ describe('Order Return Request effect', () => {
   describe('loadReturnRequestList$', () => {
     it('should load return request list', () => {
       spyOn(orderHistoryConnector, 'getReturnRequestList').and.returnValue(
-        of(mockReturnRequestList)
+        of(mockReturnRequestList),
       );
       const action = new OrderActions.LoadOrderReturnRequestList({
         userId: 'test@sap.com',
@@ -124,20 +124,20 @@ describe('Order Return Request effect', () => {
       });
 
       const completion = new OrderActions.LoadOrderReturnRequestListSuccess(
-        mockReturnRequestList
+        mockReturnRequestList,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(orderReturnRequestEffect.loadReturnRequestList$).toBeObservable(
-        expected
+        expected,
       );
     });
 
     it('should handle failures for load return request list', () => {
       spyOn(orderHistoryConnector, 'getReturnRequestList').and.returnValue(
-        throwError(() => 'Error')
+        throwError(() => 'Error'),
       );
       const action = new OrderActions.LoadOrderReturnRequestList({
         userId: 'test@sap.com',
@@ -145,14 +145,14 @@ describe('Order Return Request effect', () => {
       });
 
       const completion = new OrderActions.LoadOrderReturnRequestListFail(
-        undefined
+        undefined,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(orderReturnRequestEffect.loadReturnRequestList$).toBeObservable(
-        expected
+        expected,
       );
     });
   });
@@ -160,7 +160,7 @@ describe('Order Return Request effect', () => {
   describe('loadReturnRequest$', () => {
     it('should load an order return request', () => {
       spyOn(orderHistoryConnector, 'getReturnRequestDetail').and.returnValue(
-        of(mockReturnRequest)
+        of(mockReturnRequest),
       );
       const action = new OrderActions.LoadOrderReturnRequest({
         userId: 'userId',
@@ -168,20 +168,20 @@ describe('Order Return Request effect', () => {
       });
 
       const completion = new OrderActions.LoadOrderReturnRequestSuccess(
-        mockReturnRequest
+        mockReturnRequest,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(orderReturnRequestEffect.loadReturnRequest$).toBeObservable(
-        expected
+        expected,
       );
     });
 
     it('should handle failures for load an order return request', () => {
       spyOn(orderHistoryConnector, 'getReturnRequestDetail').and.returnValue(
-        throwError(() => 'Error')
+        throwError(() => 'Error'),
       );
 
       const action = new OrderActions.LoadOrderReturnRequest({
@@ -195,7 +195,7 @@ describe('Order Return Request effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(orderReturnRequestEffect.loadReturnRequest$).toBeObservable(
-        expected
+        expected,
       );
     });
   });
@@ -203,11 +203,11 @@ describe('Order Return Request effect', () => {
   describe('cancelReturnRequest$', () => {
     it('should cancel return request', () => {
       spyOn(orderHistoryConnector, 'cancelReturnRequest').and.returnValue(
-        of({})
+        of({}),
       );
 
       const action = new OrderActions.CancelOrderReturnRequest(
-        mockCancelReturnRequest
+        mockCancelReturnRequest,
       );
 
       const completion = new OrderActions.CancelOrderReturnRequestSuccess();
@@ -216,28 +216,28 @@ describe('Order Return Request effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(orderReturnRequestEffect.cancelReturnRequest$).toBeObservable(
-        expected
+        expected,
       );
     });
 
     it('should handle failures for cancel return request', () => {
       spyOn(orderHistoryConnector, 'cancelReturnRequest').and.returnValue(
-        throwError(() => 'Error')
+        throwError(() => 'Error'),
       );
 
       const action = new OrderActions.CancelOrderReturnRequest(
-        mockCancelReturnRequest
+        mockCancelReturnRequest,
       );
 
       const completion = new OrderActions.CancelOrderReturnRequestFail(
-        undefined
+        undefined,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(orderReturnRequestEffect.cancelReturnRequest$).toBeObservable(
-        expected
+        expected,
       );
     });
   });

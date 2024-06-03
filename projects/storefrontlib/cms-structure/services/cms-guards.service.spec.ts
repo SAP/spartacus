@@ -98,7 +98,7 @@ describe('CmsGuardsService', () => {
           .cmsPageCanActivate(
             [],
             mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
+            mockRouterStateSnapshot,
           )
           .pipe(take(1))
           .subscribe((res) => (result = res));
@@ -112,14 +112,14 @@ describe('CmsGuardsService', () => {
           .cmsPageCanActivate(
             [],
             mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
+            mockRouterStateSnapshot,
           )
           .pipe(take(1))
           .subscribe((res) => (result = res));
         expect(result).toEqual(true);
         expect(TestBed.inject(PositiveGuard).canActivate).toHaveBeenCalledWith(
           mockActivatedRouteSnapshot,
-          mockRouterStateSnapshot
+          mockRouterStateSnapshot,
         );
       });
       it('should resolve to false if any guard resolve to false', () => {
@@ -130,7 +130,7 @@ describe('CmsGuardsService', () => {
           .cmsPageCanActivate(
             [],
             mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
+            mockRouterStateSnapshot,
           )
           .pipe(take(1))
           .subscribe((res) => (result = res));
@@ -145,7 +145,7 @@ describe('CmsGuardsService', () => {
           .cmsPageCanActivate(
             [],
             mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
+            mockRouterStateSnapshot,
           )
           .pipe(take(1))
           .subscribe((res) => (result = res));
@@ -158,7 +158,7 @@ describe('CmsGuardsService', () => {
           service.cmsPageCanActivate(
             [],
             mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
+            mockRouterStateSnapshot,
           );
         }).toThrowError('Invalid CanActivate guard in cmsMapping');
       });
@@ -173,7 +173,7 @@ describe('CmsGuardsService', () => {
           .cmsPageCanActivate(
             [],
             mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
+            mockRouterStateSnapshot,
           )
           .pipe(take(1))
           .subscribe((res) => {
@@ -190,7 +190,7 @@ describe('CmsGuardsService', () => {
           .cmsPageCanActivate(
             [],
             mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
+            mockRouterStateSnapshot,
           )
           .pipe(take(1))
           .subscribe((res) => {
@@ -198,10 +198,10 @@ describe('CmsGuardsService', () => {
 
             expect(result).toEqual(true);
             expect(
-              TestBed.inject(PositiveGuard).canActivate
+              TestBed.inject(PositiveGuard).canActivate,
             ).toHaveBeenCalledWith(
               mockActivatedRouteSnapshot,
-              mockRouterStateSnapshot
+              mockRouterStateSnapshot,
             );
             done();
           });
@@ -214,7 +214,7 @@ describe('CmsGuardsService', () => {
           .cmsPageCanActivate(
             [],
             mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
+            mockRouterStateSnapshot,
           )
           .pipe(take(1))
           .subscribe((res) => {
@@ -232,7 +232,7 @@ describe('CmsGuardsService', () => {
           .cmsPageCanActivate(
             [],
             mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
+            mockRouterStateSnapshot,
           )
           .pipe(take(1))
           .subscribe((res) => {
@@ -248,7 +248,7 @@ describe('CmsGuardsService', () => {
           .cmsPageCanActivate(
             [],
             mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
+            mockRouterStateSnapshot,
           )
           .pipe(take(1))
           .subscribe((res) => {
@@ -267,7 +267,7 @@ describe('CmsGuardsService', () => {
         .canActivateGuard(
           PositiveGuard,
           mockActivatedRouteSnapshot,
-          mockRouterStateSnapshot
+          mockRouterStateSnapshot,
         )
         .pipe(take(1))
         .subscribe((res) => (result = res));
@@ -280,7 +280,7 @@ describe('CmsGuardsService', () => {
         .canActivateGuard(
           NegativeGuard,
           mockActivatedRouteSnapshot,
-          mockRouterStateSnapshot
+          mockRouterStateSnapshot,
         )
         .pipe(take(1))
         .subscribe((res) => (result = res));
@@ -293,7 +293,7 @@ describe('CmsGuardsService', () => {
         .canActivateGuard(
           UrlTreeGuard,
           mockActivatedRouteSnapshot,
-          mockRouterStateSnapshot
+          mockRouterStateSnapshot,
         )
         .pipe(take(1))
         .subscribe((res) => (result = res));
@@ -305,7 +305,7 @@ describe('CmsGuardsService', () => {
         service.canActivateGuard(
           NotGuard,
           mockActivatedRouteSnapshot,
-          mockRouterStateSnapshot
+          mockRouterStateSnapshot,
         );
       }).toThrowError('Invalid CanActivate guard in cmsMapping');
     });

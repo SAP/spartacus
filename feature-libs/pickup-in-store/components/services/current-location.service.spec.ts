@@ -9,7 +9,7 @@ export const MockWindowRef = {
         getCurrentPosition: (
           successCallback: PositionCallback,
           _errorCallback?: PositionErrorCallback | null,
-          _options?: PositionOptions
+          _options?: PositionOptions,
         ) =>
           successCallback({
             coords: {
@@ -57,7 +57,7 @@ describe('CurrentLocationService', () => {
     it('should get the current location from the browser API', () => {
       spyOn(
         (windowRef.nativeWindow as Window).navigator.geolocation,
-        'getCurrentPosition'
+        'getCurrentPosition',
       ).and.callThrough();
 
       const successCallback: PositionCallback = jasmine.createSpy();
@@ -68,7 +68,7 @@ describe('CurrentLocationService', () => {
 
       expect(
         (windowRef.nativeWindow as Window).navigator.geolocation
-          .getCurrentPosition
+          .getCurrentPosition,
       ).toHaveBeenCalledWith(successCallback, errorCallback, options);
       expect(successCallback).toHaveBeenCalled();
     });
@@ -95,12 +95,12 @@ export class MockCurrentLocationService {
   getCurrentLocation(
     successCallback: PositionCallback,
     errorCallback?: PositionErrorCallback | null,
-    options?: PositionOptions
+    options?: PositionOptions,
   ): void {
     MockWindowRef.nativeWindow.navigator.geolocation.getCurrentPosition(
       successCallback,
       errorCallback,
-      options
+      options,
     );
   }
 }

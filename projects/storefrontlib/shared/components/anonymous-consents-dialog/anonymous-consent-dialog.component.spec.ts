@@ -76,38 +76,36 @@ describe('AnonymousConsentsDialogComponent', () => {
   let anonymousConsentsConfig: AnonymousConsentsConfig;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      const mockConfig: AnonymousConsentsConfig = {
-        anonymousConsents: { showLegalDescriptionInDialog: true },
-      };
+  beforeEach(waitForAsync(() => {
+    const mockConfig: AnonymousConsentsConfig = {
+      anonymousConsents: { showLegalDescriptionInDialog: true },
+    };
 
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, KeyboardFocusTestingModule],
-        declarations: [
-          AnonymousConsentDialogComponent,
-          MockCxIconComponent,
-          MockConsentManagementFormComponent,
-          MockCxSpinnerComponent,
-        ],
-        providers: [
-          {
-            provide: AnonymousConsentsService,
-            useClass: MockAnonymousConsentsService,
-          },
-          {
-            provide: AnonymousConsentsConfig,
-            useValue: mockConfig,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, KeyboardFocusTestingModule],
+      declarations: [
+        AnonymousConsentDialogComponent,
+        MockCxIconComponent,
+        MockConsentManagementFormComponent,
+        MockCxSpinnerComponent,
+      ],
+      providers: [
+        {
+          provide: AnonymousConsentsService,
+          useClass: MockAnonymousConsentsService,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockConfig,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AnonymousConsentDialogComponent);
@@ -163,21 +161,21 @@ describe('AnonymousConsentsDialogComponent', () => {
         spyOn(component, 'close').and.stub();
         spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValues(
           true,
-          true
+          true,
         );
         spyOn(anonymousConsentsService, 'withdrawConsent').and.stub();
         spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
-          of(mockTemplates)
+          of(mockTemplates),
         );
         spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
-          of(mockConsent)
+          of(mockConsent),
         );
 
         component.ngOnInit();
         component.rejectAll();
 
         expect(anonymousConsentsService.withdrawConsent).toHaveBeenCalledTimes(
-          1
+          1,
         );
         expect(component.close).toHaveBeenCalledWith('rejectAll');
       });
@@ -187,21 +185,21 @@ describe('AnonymousConsentsDialogComponent', () => {
         spyOn(component, 'close').and.stub();
         spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValues(
           true,
-          true
+          true,
         );
         spyOn(anonymousConsentsService, 'withdrawConsent').and.stub();
         spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
-          of(mockTemplates)
+          of(mockTemplates),
         );
         spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
-          of(mockConsent)
+          of(mockConsent),
         );
 
         component.ngOnInit();
         component.rejectAll();
 
         expect(anonymousConsentsService.withdrawConsent).toHaveBeenCalledTimes(
-          mockTemplates.length
+          mockTemplates.length,
         );
         expect(component.close).toHaveBeenCalledWith('rejectAll');
       });
@@ -227,14 +225,14 @@ describe('AnonymousConsentsDialogComponent', () => {
         spyOn(component, 'close').and.stub();
         spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
           true,
-          true
+          true,
         );
         spyOn(anonymousConsentsService, 'giveConsent').and.stub();
         spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
-          of(mockTemplates)
+          of(mockTemplates),
         );
         spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
-          of(mockConsents)
+          of(mockConsents),
         );
 
         component.ngOnInit();
@@ -249,21 +247,21 @@ describe('AnonymousConsentsDialogComponent', () => {
         spyOn(component, 'close').and.stub();
         spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
           true,
-          true
+          true,
         );
         spyOn(anonymousConsentsService, 'giveConsent').and.stub();
         spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
-          of(mockTemplates)
+          of(mockTemplates),
         );
         spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
-          of(mockConsents)
+          of(mockConsents),
         );
 
         component.ngOnInit();
         component.allowAll();
 
         expect(anonymousConsentsService.giveConsent).toHaveBeenCalledTimes(
-          mockTemplates.length
+          mockTemplates.length,
         );
         expect(component.close).toHaveBeenCalledWith('allowAll');
       });
@@ -284,21 +282,21 @@ describe('AnonymousConsentsDialogComponent', () => {
         spyOn(component, 'close').and.stub();
         spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
           true,
-          true
+          true,
         );
         spyOn(anonymousConsentsService, 'giveConsent').and.stub();
         spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
-          of(mockTemplates)
+          of(mockTemplates),
         );
         spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
-          of(nullStateMockConsents)
+          of(nullStateMockConsents),
         );
 
         component.ngOnInit();
         component.allowAll();
 
         expect(anonymousConsentsService.giveConsent).toHaveBeenCalledTimes(
-          mockTemplates.length
+          mockTemplates.length,
         );
         expect(component.close).toHaveBeenCalledWith('allowAll');
       });
@@ -331,7 +329,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         spyOn(anonymousConsentsService, 'giveConsent').and.stub();
         component.onConsentChange({ given: true, template: mockTemplates[0] });
         expect(anonymousConsentsService.giveConsent).toHaveBeenCalledWith(
-          mockTemplates[0].id
+          mockTemplates[0].id,
         );
       });
     });
@@ -340,7 +338,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         spyOn(anonymousConsentsService, 'withdrawConsent').and.stub();
         component.onConsentChange({ given: false, template: mockTemplates[0] });
         expect(anonymousConsentsService.withdrawConsent).toHaveBeenCalledWith(
-          mockTemplates[0].id
+          mockTemplates[0].id,
         );
       });
     });
@@ -349,7 +347,7 @@ describe('AnonymousConsentsDialogComponent', () => {
   describe('getCorrespondingConsent', () => {
     it('should return null if no consent matches the provided template', () => {
       expect(component.getCorrespondingConsent(mockTemplates[0], [])).toEqual(
-        null
+        null,
       );
     });
     it('should return the corresponding consent', () => {
@@ -358,7 +356,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         { templateCode: 'MARKETING' },
       ];
       expect(
-        component.getCorrespondingConsent(mockTemplates[0], mockConsents)
+        component.getCorrespondingConsent(mockTemplates[0], mockConsents),
       ).toEqual(mockConsents[1]);
     });
   });

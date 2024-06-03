@@ -27,11 +27,11 @@ export class FutureStockService implements FutureStockFacade {
         if (userId !== OCC_USER_ID_ANONYMOUS) {
           return this.futureStockConnector.getFutureStock(
             userId,
-            state.params[this.PRODUCT_KEY]
+            state.params[this.PRODUCT_KEY],
           );
         }
         return of(undefined);
-      })
+      }),
     );
   /**
    * Get future stock
@@ -43,6 +43,6 @@ export class FutureStockService implements FutureStockFacade {
   constructor(
     protected userIdService: UserIdService,
     protected futureStockConnector: FutureStockConnector,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
   ) {}
 }

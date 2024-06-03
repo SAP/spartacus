@@ -88,7 +88,7 @@ describe('ClientTokenInterceptor', () => {
       [HttpClient],
       (http: HttpClient) => {
         spyOn(clientTokenService, 'getClientToken').and.returnValue(
-          of(testToken)
+          of(testToken),
         );
 
         http
@@ -102,7 +102,7 @@ describe('ClientTokenInterceptor', () => {
         expect(authHeader).toBe(null);
 
         spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(
-          true
+          true,
         );
         http
           .post(`${OccUrl}/somestore/forgottenpasswordtokens`, { userId: 1 })
@@ -112,13 +112,13 @@ describe('ClientTokenInterceptor', () => {
           .unsubscribe();
 
         mockReq = httpMock.expectOne(
-          `${OccUrl}/somestore/forgottenpasswordtokens`
+          `${OccUrl}/somestore/forgottenpasswordtokens`,
         );
         authHeader = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(
-          `${testToken.token_type} ${testToken.access_token}`
+          `${testToken.token_type} ${testToken.access_token}`,
         );
-      }
+      },
     ));
   });
 
@@ -134,7 +134,7 @@ describe('ClientTokenInterceptor', () => {
       });
       spyOn(
         clientErrorHandlingService,
-        'handleExpiredClientToken'
+        'handleExpiredClientToken',
       ).and.callThrough();
 
       const mockReq: TestRequest = httpMock.expectOne((req) => {
@@ -149,11 +149,11 @@ describe('ClientTokenInterceptor', () => {
             },
           ],
         },
-        { status: 401, statusText: 'Error' }
+        { status: 401, statusText: 'Error' },
       );
       expect(
-        clientErrorHandlingService.handleExpiredClientToken
+        clientErrorHandlingService.handleExpiredClientToken,
       ).toHaveBeenCalled();
-    }
+    },
   ));
 });

@@ -25,15 +25,15 @@ import { CmsComponentData } from '../../../cms-structure/index';
 export class BannerCarouselComponent {
   private componentData$: Observable<model> = this.componentData.data$.pipe(
     filter((data) => Boolean(data)),
-    tap((d: model) => (this.theme = `${d.effect}-theme`))
+    tap((d: model) => (this.theme = `${d.effect}-theme`)),
   );
 
   private items$: Observable<Observable<ContentSlotComponentData>[]> =
     this.componentData$.pipe(
       map((data) => data.banners?.trim().split(' ') ?? []),
       map((codes) =>
-        codes.map((code) => this.cmsService.getComponentData(code))
-      )
+        codes.map((code) => this.cmsService.getComponentData(code)),
+      ),
     );
 
   /**
@@ -44,7 +44,7 @@ export class BannerCarouselComponent {
 
   constructor(
     private componentData: CmsComponentData<model>,
-    private cmsService: CmsService
+    private cmsService: CmsService,
   ) {}
 
   /**

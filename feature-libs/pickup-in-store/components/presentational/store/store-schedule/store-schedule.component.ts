@@ -37,7 +37,7 @@ export class StoreScheduleComponent implements OnChanges {
             weekDay: weekDay ?? '',
             closed,
           };
-        }
+        },
       ) ?? [];
   }
 }

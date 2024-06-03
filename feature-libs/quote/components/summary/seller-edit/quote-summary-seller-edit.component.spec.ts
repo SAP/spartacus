@@ -224,7 +224,7 @@ describe('QuoteSummarySellerEditComponent', () => {
     it('should provide initial value for expiry date control', () => {
       fixture.detectChanges();
       expect(component.form.controls.validityDate.value).toBe(
-        EXPIRATION_DATE_AS_STRING
+        EXPIRATION_DATE_AS_STRING,
       );
     });
   });
@@ -255,7 +255,7 @@ describe('QuoteSummarySellerEditComponent', () => {
       component.onApply(QUOTE_CODE);
       expect(quoteFacade.addDiscount).toHaveBeenCalledWith(
         QUOTE_CODE,
-        expectedDiscount
+        expectedDiscount,
       );
     });
 
@@ -289,7 +289,7 @@ describe('QuoteSummarySellerEditComponent', () => {
       tick(DEFAULT_DEBOUNCE_TIME);
       expect(quoteFacade.editQuote).toHaveBeenCalledWith(
         QUOTE_CODE,
-        expectedQuoteMetaData
+        expectedQuoteMetaData,
       );
     }));
 
@@ -305,7 +305,7 @@ describe('QuoteSummarySellerEditComponent', () => {
       tick(DEBOUNCE_TIME);
       expect(quoteFacade.editQuote).toHaveBeenCalledWith(
         QUOTE_CODE,
-        expectedQuoteMetaData
+        expectedQuoteMetaData,
       );
     }));
   });

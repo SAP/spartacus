@@ -22,14 +22,14 @@ export class UnitOrderService implements UnitOrderFacade {
   constructor(
     protected store: Store<StateWithUnitOrder>,
     protected userIdService: UserIdService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
   ) {}
 
   /**
    * Returns order history list
    */
   getOrderHistoryList(
-    pageSize: number
+    pageSize: number,
   ): Observable<OrderHistoryList | undefined> {
     return this.store.pipe(
       select(UnitOrderSelectors.getOrdersState),
@@ -42,7 +42,7 @@ export class UnitOrderService implements UnitOrderFacade {
           this.loadOrderList(pageSize);
         }
       }),
-      map((orderListState) => orderListState.value)
+      map((orderListState) => orderListState.value),
     );
   }
 
@@ -63,7 +63,7 @@ export class UnitOrderService implements UnitOrderFacade {
     pageSize: number,
     currentPage?: number,
     filters?: string,
-    sort?: string
+    sort?: string,
   ): void {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) => {
@@ -74,7 +74,7 @@ export class UnitOrderService implements UnitOrderFacade {
             currentPage,
             filters,
             sort,
-          })
+          }),
         );
       },
       error: () => {
@@ -108,7 +108,7 @@ export class UnitOrderService implements UnitOrderFacade {
         new UnitOrderActions.LoadOrderDetails({
           userId,
           orderCode,
-        })
+        }),
       );
     });
   }

@@ -87,14 +87,17 @@ export class CarouselComponent implements OnInit {
 
   protected logger = inject(LoggerService);
 
-  constructor(protected el: ElementRef, protected service: CarouselService) {
+  constructor(
+    protected el: ElementRef,
+    protected service: CarouselService,
+  ) {
     useFeatureStyles('a11yFocusableCarouselControls');
   }
 
   ngOnInit() {
     if (!this.template && isDevMode()) {
       this.logger.error(
-        'No template reference provided to render the carousel items for the `cx-carousel`'
+        'No template reference provided to render the carousel items for the `cx-carousel`',
       );
       return;
     }

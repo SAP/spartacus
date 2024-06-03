@@ -19,11 +19,11 @@ const MockConfig = {
 const configInitializers = [
   {
     scopes: ['scope1'],
-    configFactory: async () => ({ scope1: 'final' } as Config),
+    configFactory: async () => ({ scope1: 'final' }) as Config,
   },
   {
     scopes: ['scope2.nested'],
-    configFactory: async () => ({ scope2: { nested: true } } as Config),
+    configFactory: async () => ({ scope2: { nested: true } }) as Config,
   },
 ];
 
@@ -229,7 +229,7 @@ describe('ConfigInitializerService', () => {
     }
     expect(initFailed).toBeTruthy();
     expect(initFailed.message).toEqual(
-      'CONFIG_INITIALIZER should provide scope!'
+      'CONFIG_INITIALIZER should provide scope!',
     );
   });
 
@@ -253,14 +253,14 @@ describe('ConfigInitializerService', () => {
 
     it('scope1, scope1', async () => {
       await service.initialize(
-        getInitializersForScopes(['scope1'], ['scope1'])
+        getInitializersForScopes(['scope1'], ['scope1']),
       );
       expect(logger.warn).toHaveBeenCalledWith(duplicateWarn);
     });
 
     it('scope1, scope1.nested', async () => {
       await service.initialize(
-        getInitializersForScopes(['scope1'], ['scope1.nested'])
+        getInitializersForScopes(['scope1'], ['scope1.nested']),
       );
       expect(logger.warn).toHaveBeenCalledWith(duplicateWarn);
     });

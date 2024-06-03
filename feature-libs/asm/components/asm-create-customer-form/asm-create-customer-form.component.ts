@@ -62,7 +62,7 @@ export class AsmCreateCustomerFormComponent {
     protected launchDialogService: LaunchDialogService,
     protected fb: FormBuilder,
     protected asmCreateCustomerFacade: AsmCreateCustomerFacade,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
   ) {}
 
   submitForm(): void {
@@ -83,7 +83,7 @@ export class AsmCreateCustomerFormComponent {
     };
 
     const obs$ = this.asmCreateCustomerFacade.createCustomer(
-      this.collectDataFromRegisterForm()
+      this.collectDataFromRegisterForm(),
     );
 
     obs$.subscribe({
@@ -135,7 +135,7 @@ export class AsmCreateCustomerFormComponent {
       switch (errorDetail.type || '') {
         case 'ValidationError':
           this.addErrorMessage(
-            `asm.createCustomerForm.validationErrors.${errorDetail.subject}`
+            `asm.createCustomerForm.validationErrors.${errorDetail.subject}`,
           );
           break;
         case 'AssistedServiceDuplicatedUidError':
@@ -143,7 +143,7 @@ export class AsmCreateCustomerFormComponent {
             'asm.createCustomerForm.badRequestDuplicatedEmail',
             {
               emailAddress: this.createdCustomer.email,
-            }
+            },
           );
           break;
         default:

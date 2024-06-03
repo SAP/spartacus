@@ -36,26 +36,21 @@ describe('MyAccountV2NavigationComponent', () => {
     createNavigation: createSpy().and.returnValue(of(null)),
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: NavigationService,
-            useValue: mockNavigationService,
-          },
-          {
-            provide: CmsComponentData,
-            useValue: MockCmsNavigationComponent,
-          },
-        ],
-        declarations: [
-          MyAccountV2NavigationComponent,
-          MockNavigationUIComponent,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: NavigationService,
+          useValue: mockNavigationService,
+        },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsNavigationComponent,
+        },
+      ],
+      declarations: [MyAccountV2NavigationComponent, MockNavigationUIComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2NavigationComponent);

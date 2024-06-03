@@ -92,29 +92,27 @@ const sectionContent = 'content';
 describe('CpqConfiguratorPageLayoutHandler', () => {
   let classUnderTest: CpqConfiguratorPageLayoutHandler;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockRouterExtractorService,
-          },
-          {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
-          },
-          {
-            provide: LayoutConfig,
-            useValue: mockLayoutConfig,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockRouterExtractorService,
+        },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+        {
+          provide: LayoutConfig,
+          useValue: mockLayoutConfig,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     classUnderTest = TestBed.inject(
-      CpqConfiguratorPageLayoutHandler as Type<CpqConfiguratorPageLayoutHandler>
+      CpqConfiguratorPageLayoutHandler as Type<CpqConfiguratorPageLayoutHandler>,
     );
   });
 
@@ -129,7 +127,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      sectionContent
+      sectionContent,
     );
     expect(handledSlots$).toBeObservable(slots$);
   });
@@ -145,12 +143,12 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      CpqConfiguratorPageLayoutHandler['sectionHeader']
+      CpqConfiguratorPageLayoutHandler['sectionHeader'],
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
         a: headerSlotsIncludingPreHeader,
-      })
+      }),
     );
   });
 
@@ -165,7 +163,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      CpqConfiguratorPageLayoutHandler['sectionHeader']
+      CpqConfiguratorPageLayoutHandler['sectionHeader'],
     );
     expect(handledSlots$).toBeObservable(slots$);
   });
@@ -181,7 +179,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateOther,
-      CpqConfiguratorPageLayoutHandler['sectionHeader']
+      CpqConfiguratorPageLayoutHandler['sectionHeader'],
     );
     expect(handledSlots$).toBeObservable(slots$);
   });
@@ -199,12 +197,12 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      CpqConfiguratorPageLayoutHandler['sectionHeader']
+      CpqConfiguratorPageLayoutHandler['sectionHeader'],
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
         a: displayOnlyHeaderSlotsLargeResolution,
-      })
+      }),
     );
   });
 
@@ -221,12 +219,12 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      CpqConfiguratorPageLayoutHandler['sectionHeader']
+      CpqConfiguratorPageLayoutHandler['sectionHeader'],
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
         a: displayOnlyHeaderSlotsSmallResolution,
-      })
+      }),
     );
   });
 
@@ -243,12 +241,12 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      CpqConfiguratorPageLayoutHandler['sectionNavigation']
+      CpqConfiguratorPageLayoutHandler['sectionNavigation'],
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
         a: displayOnlyNavigationSlotsLargeResolution,
-      })
+      }),
     );
   });
 
@@ -265,12 +263,12 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      CpqConfiguratorPageLayoutHandler['sectionNavigation']
+      CpqConfiguratorPageLayoutHandler['sectionNavigation'],
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
         a: displayOnlyNavigationSlotsSmallResolution,
-      })
+      }),
     );
   });
 
@@ -287,12 +285,12 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      CpqConfiguratorPageLayoutHandler['sectionNavigation']
+      CpqConfiguratorPageLayoutHandler['sectionNavigation'],
     );
     expect(handledSlots$).toBeObservable(
       cold('-a|', {
         a: standardNavigationSlots,
-      })
+      }),
     );
   });
 });

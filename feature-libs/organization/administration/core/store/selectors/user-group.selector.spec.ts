@@ -45,7 +45,7 @@ describe('UserGroup Selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });
@@ -62,7 +62,7 @@ describe('UserGroup Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2]),
       );
       expect(result).toEqual({
         entities: { entities },
@@ -81,7 +81,7 @@ describe('UserGroup Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2]),
       );
       expect(result).toEqual({ entities });
     });
@@ -95,7 +95,7 @@ describe('UserGroup Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2]),
       );
       expect(result).toEqual(entities.testUid);
     });

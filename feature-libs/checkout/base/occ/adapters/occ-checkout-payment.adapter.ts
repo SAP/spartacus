@@ -34,7 +34,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {
     if (typeof DOMParser !== 'undefined') {
       this.domparser = new DOMParser();
@@ -46,11 +46,11 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   public createPaymentDetails(
     userId: string,
     cartId: string,
-    paymentDetails: PaymentDetails
+    paymentDetails: PaymentDetails,
   ): Observable<PaymentDetails> {
     paymentDetails = this.converter.convert(
       paymentDetails,
-      PAYMENT_DETAILS_SERIALIZER
+      PAYMENT_DETAILS_SERIALIZER,
     );
     return this.getProviderSubInfo(userId, cartId).pipe(
       map((data) => {
@@ -62,7 +62,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
           parameters: this.getParamsForPaymentProvider(
             paymentDetails,
             data.parameters.entry,
-            labelsMap
+            labelsMap,
           ),
           mappingLabels: labelsMap,
         };
@@ -78,7 +78,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
             return this.createDetailsWithParameters(
               userId,
               cartId,
-              fromPaymentProvider
+              fromPaymentProvider,
             ).pipe(
               catchError((error) => {
                 throw normalizeHttpError(error, this.logger);
@@ -86,23 +86,23 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
               backOff({
                 shouldRetry: isJaloError,
               }),
-              this.converter.pipeable(PAYMENT_DETAILS_NORMALIZER)
+              this.converter.pipeable(PAYMENT_DETAILS_NORMALIZER),
             );
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
   }
 
   public setPaymentDetails(
     userId: string,
     cartId: string,
-    paymentDetailsId: string
+    paymentDetailsId: string,
   ): Observable<unknown> {
     return this.http
       .put(
         this.getSetPaymentDetailsEndpoint(userId, cartId, paymentDetailsId),
-        {}
+        {},
       )
       .pipe(
         catchError((error) => {
@@ -110,14 +110,14 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         }),
         backOff({
           shouldRetry: isJaloError,
-        })
+        }),
       );
   }
 
   protected getSetPaymentDetailsEndpoint(
     userId: string,
     cartId: string,
-    paymentDetailsId: string
+    paymentDetailsId: string,
   ): string {
     return this.occEndpoints.buildUrl('setCartPaymentDetails', {
       urlParams: { userId, cartId },
@@ -136,7 +136,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
           shouldRetry: isJaloError,
         }),
         map((cardTypeList) => cardTypeList.cardTypes ?? []),
-        this.converter.pipeableMany(PAYMENT_CARD_TYPE_NORMALIZER)
+        this.converter.pipeableMany(PAYMENT_CARD_TYPE_NORMALIZER),
       );
   }
 
@@ -146,7 +146,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
 
   protected getProviderSubInfo(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<any> {
     return this.http
       .get(this.getPaymentProviderSubInfoEndpoint(userId, cartId))
@@ -156,13 +156,13 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         }),
         backOff({
           shouldRetry: isJaloError,
-        })
+        }),
       );
   }
 
   protected getPaymentProviderSubInfoEndpoint(
     userId: string,
-    cartId: string
+    cartId: string,
   ): string {
     return this.occEndpoints.buildUrl('paymentProviderSubInfo', {
       urlParams: {
@@ -174,7 +174,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
 
   protected createSubWithProvider(
     postUrl: string,
-    parameters: any
+    parameters: any,
   ): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -196,14 +196,14 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         }),
         backOff({
           shouldRetry: isJaloError,
-        })
+        }),
       );
   }
 
   protected createDetailsWithParameters(
     userId: string,
     cartId: string,
-    parameters: any
+    parameters: any,
   ): Observable<PaymentDetails> {
     let httpParams = new HttpParams({ encoder: new HttpParamsURIEncoder() });
     Object.keys(parameters).forEach((key) => {
@@ -218,7 +218,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       .post<PaymentDetails>(
         this.getCreatePaymentDetailsEndpoint(userId, cartId),
         httpParams,
-        { headers }
+        { headers },
       )
       .pipe(
         catchError((error) => {
@@ -226,13 +226,13 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         }),
         backOff({
           shouldRetry: isJaloError,
-        })
+        }),
       );
   }
 
   protected getCreatePaymentDetailsEndpoint(
     userId: string,
-    cartId: string
+    cartId: string,
   ): string {
     return this.occEndpoints.buildUrl('createPaymentDetails', {
       urlParams: {
@@ -245,7 +245,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   private getParamsForPaymentProvider(
     paymentDetails: PaymentDetails,
     parameters: { key: string; value: string }[],
-    mappingLabels: { [key: string]: string }
+    mappingLabels: { [key: string]: string },
   ) {
     const params = this.convertToMap(parameters);
     params[mappingLabels['hybris_account_holder_name']] =
@@ -314,12 +314,11 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   } {
     return paramList.reduce(function (
       result: { [key: string]: string | undefined },
-      item
+      item,
     ) {
       const key = item.key;
       result[key] = item.value;
       return result;
-    },
-    {});
+    }, {});
   }
 }

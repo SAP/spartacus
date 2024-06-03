@@ -35,7 +35,7 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     protected messageService: MessageService,
-    protected renderService: MessageRenderService
+    protected renderService: MessageRenderService,
   ) {}
 
   ngAfterViewInit() {
@@ -46,7 +46,7 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
         } else {
           this.vcr?.clear();
         }
-      })
+      }),
     );
   }
 
@@ -54,14 +54,14 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
     const ref: ComponentRef<BaseMessageComponent> = this.vcr.createComponent(
       this.renderService.getComponent(msg),
       0,
-      this.renderService.getInjector(msg, this.vcr.injector)
+      this.renderService.getInjector(msg, this.vcr.injector),
     );
     ref.injector.get(ChangeDetectorRef).markForCheck();
 
     this.subscription.add(
       msg.events
         ?.pipe(filter((event: MessageEventData) => !!event.close))
-        .subscribe(() => this.terminate(ref))
+        .subscribe(() => this.terminate(ref)),
     );
   }
 

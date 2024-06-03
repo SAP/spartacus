@@ -30,7 +30,7 @@ export class OccProductSearchPageNormalizer
 
   convert(
     source: Occ.ProductSearchPage,
-    target: ProductSearchPage = {}
+    target: ProductSearchPage = {},
   ): ProductSearchPage {
     target = {
       ...target,
@@ -40,7 +40,7 @@ export class OccProductSearchPageNormalizer
     this.normalizeFacets(target);
     if (source.products) {
       target.products = source.products.map((product) =>
-        this.converterService.convert(product, PRODUCT_NORMALIZER)
+        this.converterService.convert(product, PRODUCT_NORMALIZER),
       );
     }
     return target;

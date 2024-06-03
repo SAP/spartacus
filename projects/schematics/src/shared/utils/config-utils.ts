@@ -20,7 +20,7 @@ import { getModule, getModulePropertyInitializer } from './new-module-utils';
 
 export function getSpartacusProviders(
   sourceFile: SourceFile,
-  createIfMissing = true
+  createIfMissing = true,
 ): Expression[] {
   const moduleNode = getModule(sourceFile);
   if (!moduleNode) {
@@ -30,7 +30,7 @@ export function getSpartacusProviders(
   const initializer = getModulePropertyInitializer(
     sourceFile,
     'providers',
-    createIfMissing
+    createIfMissing,
   );
 
   const providers: Expression[] = [];
@@ -51,7 +51,7 @@ export function getSpartacusProviders(
 
 export function isSpartacusConfigDuplicate(
   newContent: string,
-  initializer: ArrayLiteralExpression
+  initializer: ArrayLiteralExpression,
 ): boolean {
   const normalizedContent = normalizeConfiguration(newContent);
   const configs = getSpartacusProviders(initializer.getSourceFile());
@@ -94,7 +94,7 @@ export function normalizeObject(obj: string): string {
  */
 export function removeProperty(
   objectLiteral: ObjectLiteralExpression,
-  propertyName: string
+  propertyName: string,
 ): void {
   const properties = objectLiteral.getProperties();
   for (const property of properties) {
@@ -108,7 +108,7 @@ export function removeProperty(
     }
 
     const nestedConfigObject = property.getFirstDescendantByKind(
-      SyntaxKind.ObjectLiteralExpression
+      SyntaxKind.ObjectLiteralExpression,
     );
     if (nestedConfigObject) {
       removeProperty(nestedConfigObject, propertyName);

@@ -29,12 +29,12 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   getCheckoutDetails(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<CheckoutState> {
     return this.http
       .get<CheckoutState>(this.getGetCheckoutDetailsEndpoint(userId, cartId))
@@ -45,13 +45,13 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
         backOff({
           shouldRetry: isJaloError,
         }),
-        this.converter.pipeable(CHECKOUT_NORMALIZER)
+        this.converter.pipeable(CHECKOUT_NORMALIZER),
       );
   }
 
   protected getGetCheckoutDetailsEndpoint(
     userId: string,
-    cartId: string
+    cartId: string,
   ): string {
     return this.occEndpoints.buildUrl('getCheckoutDetails', {
       urlParams: {

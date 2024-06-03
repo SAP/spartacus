@@ -15,7 +15,7 @@ import { VisualPickingProductFilterService } from './visual-picking-product-filt
 })
 export class VisualPickingProductFilterComponent {
   constructor(
-    protected visualPickingProductFilterService: VisualPickingProductFilterService
+    protected visualPickingProductFilterService: VisualPickingProductFilterService,
   ) {}
 
   /**

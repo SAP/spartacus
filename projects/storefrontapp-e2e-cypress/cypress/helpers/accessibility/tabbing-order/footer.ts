@@ -13,7 +13,7 @@ export function footerTabbingOrder(config: TabElement[]) {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/cms/components`,
   }).as('getComponents');
 

@@ -36,7 +36,7 @@ export class VisualPickingProductListService implements OnDestroy {
     protected currentProductService: CurrentProductService,
     protected productReferenceService: ProductReferenceService,
     protected visualPickingProductFilterService: VisualPickingProductFilterService,
-    protected epdVisualizationConfig: EpdVisualizationConfig
+    protected epdVisualizationConfig: EpdVisualizationConfig,
   ) {}
 
   protected readonly DEFAULT_ITEMS_PER_SLIDE = 7;
@@ -67,7 +67,7 @@ export class VisualPickingProductListService implements OnDestroy {
 
     this.selectedProductCodes = [];
     this.productReferencesSubscription = this._getProductReferences().subscribe(
-      this.productReferences$
+      this.productReferences$,
     );
   }
 
@@ -90,7 +90,7 @@ export class VisualPickingProductListService implements OnDestroy {
     .pipe(
       filter((product) => !!product && !!product.code),
       map((product) => product as Product),
-      distinctUntilChanged((p1, p2) => p1.code === p2.code)
+      distinctUntilChanged((p1, p2) => p1.code === p2.code),
     );
 
   private productReferences$ = new Subject<ProductReference[]>();
@@ -108,19 +108,19 @@ export class VisualPickingProductListService implements OnDestroy {
       tap((product: Product) =>
         this.productReferenceService.loadProductReferences(
           product.code as string,
-          this.productReferenceType
-        )
+          this.productReferenceType,
+        ),
       ),
       switchMap((product) =>
         this.productReferenceService.getProductReferences(
           product.code as string,
-          this.productReferenceType
-        )
+          this.productReferenceType,
+        ),
       ),
       filter(
         (productReferences: ProductReference[]) =>
-          productReferences !== undefined
-      )
+          productReferences !== undefined,
+      ),
     );
   }
 
@@ -160,18 +160,18 @@ export class VisualPickingProductListService implements OnDestroy {
    */
   public getVisualPickingProductListItems(
     productReferences$: Observable<ProductReference[]>,
-    selectedProductCodes$: Observable<string[]>
+    selectedProductCodes$: Observable<string[]>,
   ): Observable<VisualPickingProductListItem[]> {
     return combineLatest([productReferences$, selectedProductCodes$]).pipe(
       filter(
         ([productReferences, selectedProductCodes]) =>
-          !!productReferences && !!selectedProductCodes
+          !!productReferences && !!selectedProductCodes,
       ),
       map(([productReferences, selectedProductCodes]) => {
         return productReferences
           .filter(
             (productReference) =>
-              !!productReference.target && !!productReference.target.code
+              !!productReference.target && !!productReference.target.code,
           )
           .map((productReference) => {
             const product = productReference.target as Product;
@@ -182,13 +182,13 @@ export class VisualPickingProductListService implements OnDestroy {
               selected,
             };
           });
-      })
+      }),
     );
   }
 
   public filteredItems$: Observable<VisualPickingProductListItem[]> =
     this.getVisualPickingProductListItems(
       this.getFilteredProductReferences(),
-      this.selectedProductCodesChange
+      this.selectedProductCodesChange,
     ).pipe(shareReplay());
 }

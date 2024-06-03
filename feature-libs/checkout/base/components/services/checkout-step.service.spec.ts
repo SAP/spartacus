@@ -61,7 +61,7 @@ class MockRoutingService implements Partial<RoutingService> {
           id: '/checkout/route0',
         },
       },
-    })
+    }),
   );
 }
 
@@ -81,13 +81,13 @@ describe('CheckoutStepService', () => {
 
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
     routingConfigService = TestBed.inject(
-      RoutingConfigService as Type<RoutingConfigService>
+      RoutingConfigService as Type<RoutingConfigService>,
     );
 
     service = new CheckoutStepService(
       routingService,
       checkoutConfig,
-      routingConfigService
+      routingConfigService,
     );
   });
 
@@ -158,19 +158,19 @@ describe('CheckoutStepService', () => {
 
   it('should get checkout step by type', () => {
     expect(service.getCheckoutStep(CheckoutStepType.DELIVERY_MODE)).toEqual(
-      checkoutConfig.checkout?.steps?.[1]
+      checkoutConfig.checkout?.steps?.[1],
     );
   });
 
   it('should get checkout step route by type', () => {
     expect(
-      service.getCheckoutStepRoute(CheckoutStepType.DELIVERY_MODE)
+      service.getCheckoutStepRoute(CheckoutStepType.DELIVERY_MODE),
     ).toEqual(checkoutConfig.checkout?.steps?.[1].routeName);
   });
 
   it('should get first checkout step route', () => {
     expect(service.getFirstCheckoutStepRoute()).toEqual(
-      checkoutConfig.checkout?.steps?.[0].routeName
+      checkoutConfig.checkout?.steps?.[0].routeName,
     );
   });
 
@@ -182,12 +182,12 @@ describe('CheckoutStepService', () => {
     };
 
     expect(service.getNextCheckoutStepUrl(<any>mockActivatedRoute)).toBe(
-      'checkout/route1'
+      'checkout/route1',
     );
     //disable step 1, then next step should be step 2
     service.disableEnableStep(CheckoutStepType.DELIVERY_MODE, true);
     expect(service.getNextCheckoutStepUrl(<any>mockActivatedRoute)).toBe(
-      'checkout/route2'
+      'checkout/route2',
     );
   });
 
@@ -199,12 +199,12 @@ describe('CheckoutStepService', () => {
     };
 
     expect(service.getPreviousCheckoutStepUrl(<any>mockActivatedRoute)).toBe(
-      'checkout/route1'
+      'checkout/route1',
     );
     //disable step 1, then previous step should be step 0
     service.disableEnableStep(CheckoutStepType.DELIVERY_MODE, true);
     expect(service.getPreviousCheckoutStepUrl(<any>mockActivatedRoute)).toBe(
-      'checkout/route0'
+      'checkout/route0',
     );
   });
 

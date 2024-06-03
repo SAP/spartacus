@@ -96,35 +96,33 @@ describe('QuoteHeaderOverviewComponent', () => {
   let eventService: EventService;
   let quoteUIConfig: QuoteUIConfig;
 
-  beforeEach(
-    waitForAsync(() => {
-      initMocks();
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, CardModule, RouterTestingModule],
-        declarations: [
-          QuoteHeaderOverviewComponent,
-          MockCxIconComponent,
-          MockQuoteActionsLinkComponent,
-          MockQuoteHeaderBuyerEditComponent,
-        ],
-        providers: [
-          {
-            provide: QuoteFacade,
-            useClass: MockCommerceQuotesFacade,
-          },
-          {
-            provide: EventService,
-            useValue: eventService,
-          },
-          { provide: TranslationService, useClass: MockTranslationService },
-          {
-            provide: QuoteUIConfig,
-            useValue: quoteUIConfig,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initMocks();
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, CardModule, RouterTestingModule],
+      declarations: [
+        QuoteHeaderOverviewComponent,
+        MockCxIconComponent,
+        MockQuoteActionsLinkComponent,
+        MockQuoteHeaderBuyerEditComponent,
+      ],
+      providers: [
+        {
+          provide: QuoteFacade,
+          useClass: MockCommerceQuotesFacade,
+        },
+        {
+          provide: EventService,
+          useValue: eventService,
+        },
+        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: QuoteUIConfig,
+          useValue: quoteUIConfig,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteHeaderOverviewComponent);
@@ -154,41 +152,41 @@ describe('QuoteHeaderOverviewComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-header-container'
+        '.cx-header-container',
       );
 
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         '.cx-header',
-        'quote.header.overview.id: ' + mockQuote.code
+        'quote.header.overview.id: ' + mockQuote.code,
       );
 
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         '.cx-status',
-        'quote.header.overview.status: quote.states.' + mockQuote.state
+        'quote.header.overview.status: quote.states.' + mockQuote.state,
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-container'
+        '.cx-container',
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-summary-card',
-        3
+        3,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         'cx-card',
-        3
+        3,
       );
     });
 
@@ -196,25 +194,25 @@ describe('QuoteHeaderOverviewComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-card'
+        'cx-card',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'button.cx-edit-btn'
+        'button.cx-edit-btn',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'button.cx-action-link'
+        'button.cx-action-link',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-icon'
+        'cx-icon',
       );
     });
 
@@ -225,13 +223,13 @@ describe('QuoteHeaderOverviewComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-quote-header-buyer-edit'
+        'cx-quote-header-buyer-edit',
       );
 
       CommonQuoteTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-edit-step'
+        '.cx-edit-step',
       );
     });
   });
@@ -244,42 +242,42 @@ describe('QuoteHeaderOverviewComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-heading'
+        '.cx-ghost-heading',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-column'
+        '.cx-ghost-column',
       );
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-header'
+        '.cx-ghost-header',
       );
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-status'
-      );
-
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-cards'
+        '.cx-ghost-status',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-row'
+        '.cx-ghost-cards',
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-row',
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-card',
-        3
+        3,
       );
     });
   });
@@ -353,7 +351,7 @@ describe('QuoteHeaderOverviewComponent', () => {
       expect(component.editMode).toBe(false);
       expect(quoteFacade.editQuote).toHaveBeenCalledWith(
         mockQuote.code,
-        quoteMetaData
+        quoteMetaData,
       );
     });
   });
@@ -461,7 +459,7 @@ describe('QuoteHeaderOverviewComponent', () => {
       // re-create component so changed config is evaluated
       fixture = TestBed.createComponent(QuoteHeaderOverviewComponent);
       expect(fixture.componentInstance.getCharactersLimitForCardTile()).toBe(
-        100
+        100,
       );
     });
 
@@ -473,7 +471,7 @@ describe('QuoteHeaderOverviewComponent', () => {
   describe('getTotalPrice', () => {
     it('should return the total price formatted value in case it is available', () => {
       expect(component['getTotalPrice'](mockQuote)).toBe(
-        totalPriceFormattedValue
+        totalPriceFormattedValue,
       );
     });
 
@@ -489,7 +487,7 @@ describe('QuoteHeaderOverviewComponent', () => {
   describe('getTotalPriceDescription', () => {
     it('should name total price as estimated as long as final status not reached', () => {
       expect(component['getTotalPriceDescription'](mockQuote)).toBe(
-        'quote.header.overview.estimatedTotal'
+        'quote.header.overview.estimatedTotal',
       );
     });
 
@@ -499,14 +497,14 @@ describe('QuoteHeaderOverviewComponent', () => {
         allowedActions: [{ type: QuoteActionType.CHECKOUT, isPrimary: true }],
       };
       expect(component['getTotalPriceDescription'](quoteInOfferState)).toBe(
-        'quote.header.overview.total'
+        'quote.header.overview.total',
       );
     });
 
     it('should be able to deal with empty actions', () => {
       const quoteWoActions: Quote = { ...mockQuote, allowedActions: [] };
       expect(component['getTotalPriceDescription'](quoteWoActions)).toBe(
-        'quote.header.overview.estimatedTotal'
+        'quote.header.overview.estimatedTotal',
       );
     });
   });
@@ -518,14 +516,14 @@ describe('QuoteHeaderOverviewComponent', () => {
           htmlElem,
           'div',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'role',
-        'region'
+        'region',
       );
     });
 
@@ -535,14 +533,14 @@ describe('QuoteHeaderOverviewComponent', () => {
           htmlElem,
           'div',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'aria-label',
-        'quote.header.overview.regionTitle'
+        'quote.header.overview.regionTitle',
       );
     });
   });

@@ -30,7 +30,7 @@ export function checkDisplayedConflict(
     name: string;
     selectedValueNames: string[];
     uiType: configuration.uiType;
-  }[]
+  }[],
 ) {
   checkTitleDisplayed();
   checkCloseButtonDisplayed();
@@ -41,8 +41,8 @@ export function checkDisplayedConflict(
     checkConflictingAttributeDisplayed(
       attr.name,
       attr.selectedValueNames,
-      attr.uiType
-    )
+      attr.uiType,
+    ),
   );
 }
 
@@ -81,7 +81,7 @@ export function checkDescriptionDisplayed() {
 export function checkNumberOfSuggestions(expectedNumber: number) {
   cy.get('cx-configurator-conflict-suggestion').should(
     'have.length',
-    expectedNumber
+    expectedNumber,
   );
 }
 
@@ -94,12 +94,12 @@ export function checkNumberOfSuggestions(expectedNumber: number) {
 export function checkConflictingAttributeDisplayed(
   attributeName: string,
   selectedValues: string[],
-  uiType: configuration.uiType
+  uiType: configuration.uiType,
 ) {
   cy.get('cx-configurator-conflict-solver-dialog').within(() => {
     configuration.checkAttributeDisplayed(attributeName, uiType);
     selectedValues.forEach((valueName) =>
-      configuration.checkValueSelected(uiType, attributeName, valueName)
+      configuration.checkValueSelected(uiType, attributeName, valueName),
     );
   });
 }
@@ -112,10 +112,10 @@ export function checkConflictingAttributeDisplayed(
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  value: string
+  value: string,
 ) {
   cy.get('cx-configurator-conflict-solver-dialog').within(() =>
-    configurationVc.selectAttributeAndWait(attributeName, uiType, value)
+    configurationVc.selectAttributeAndWait(attributeName, uiType, value),
   );
 }
 /**
@@ -123,7 +123,7 @@ export function selectAttributeAndWait(
  */
 export function close() {
   cy.get('cx-configurator-conflict-solver-dialog').within(() =>
-    cy.get('button.close').click()
+    cy.get('button.close').click(),
   );
 }
 
@@ -131,13 +131,13 @@ export function close() {
  * Verifies whether the view in configuration link is NOT displayed.
  */
 export function checkViewInConfigurationLinkNotDisplayed(
-  attribute: string
+  attribute: string,
 ): void {
   cy.get('cx-configurator-conflict-solver-dialog').within(() =>
     configurationVc.checkConflictLink(
       attribute,
       'View in Configuration Link',
-      false
-    )
+      false,
+    ),
   );
 }

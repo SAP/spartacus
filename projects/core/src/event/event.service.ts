@@ -73,7 +73,7 @@ export class EventService {
           `EventService: the event source`,
           source$,
           `has been already registered for the type`,
-          eventType
+          eventType,
         );
       }
     } else {
@@ -166,7 +166,7 @@ export class EventService {
   private validateEventType<T>(eventType: AbstractType<T>): void {
     if (!eventType?.constructor) {
       throw new Error(
-        `EventService:  ${eventType} is not a valid event type. Please provide a class reference.`
+        `EventService:  ${eventType} is not a valid event type. Please provide a class reference.`,
       );
     }
 
@@ -192,7 +192,7 @@ export class EventService {
     }
 
     this.logger.warn(
-      `The ${eventType.name} (or one of its parent classes) does not inherit from the ${CxEvent.type}`
+      `The ${eventType.name} (or one of its parent classes) does not inherit from the ${CxEvent.type}`,
     );
   }
 
@@ -203,7 +203,7 @@ export class EventService {
    */
   private getValidatedEventStream<T>(
     source$: Observable<T>,
-    eventType: AbstractType<T>
+    eventType: AbstractType<T>,
   ): Observable<T> {
     return source$.pipe(
       tap((event) => {
@@ -214,10 +214,10 @@ export class EventService {
             `emitted the event`,
             event,
             `that is not an instance of the declared type`,
-            eventType.name
+            eventType.name,
           );
         }
-      })
+      }),
     );
   }
 }

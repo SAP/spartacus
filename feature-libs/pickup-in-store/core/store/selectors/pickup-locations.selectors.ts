@@ -24,7 +24,7 @@ export const getIntendedPickupLocations: MemoizedSelector<
   PickupLocationsState['intendedPickupLocations']
 > = createSelector(
   getPickupLocationsState,
-  (state: PickupLocationsState) => state.intendedPickupLocations
+  (state: PickupLocationsState) => state.intendedPickupLocations,
 );
 
 /**
@@ -33,7 +33,7 @@ export const getIntendedPickupLocations: MemoizedSelector<
  * @returns The intended pickup location for the product.
  */
 export const getIntendedPickupLocationByProductCode = (
-  productCode: string
+  productCode: string,
 ): MemoizedSelector<
   StateWithPickupLocations,
   AugmentedPointOfService | undefined
@@ -41,23 +41,23 @@ export const getIntendedPickupLocationByProductCode = (
   createSelector(
     getIntendedPickupLocations,
     (
-      state: PickupLocationsState['intendedPickupLocations']
-    ): AugmentedPointOfService | undefined => state[productCode]
+      state: PickupLocationsState['intendedPickupLocations'],
+    ): AugmentedPointOfService | undefined => state[productCode],
   );
 
 export const getPickupOptionByProductCode = (
-  productCode: string
+  productCode: string,
 ): MemoizedSelector<StateWithPickupLocations, PickupOption> =>
   createSelector(
     getIntendedPickupLocationByProductCode(productCode),
     (_getIntendedPickupLocationByProductCode) =>
-      _getIntendedPickupLocationByProductCode?.pickupOption ?? 'delivery'
+      _getIntendedPickupLocationByProductCode?.pickupOption ?? 'delivery',
   );
 
 export const getStoreDetailsByName = (
-  storeName: string
+  storeName: string,
 ): MemoizedSelector<StateWithPickupLocations, PointOfService> =>
   createSelector(
     getPickupLocationsState,
-    (state: PickupLocationsState) => state.storeDetails[storeName]
+    (state: PickupLocationsState) => state.storeDetails[storeName],
   );

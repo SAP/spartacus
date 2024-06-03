@@ -48,16 +48,17 @@ context('Product carousel', () => {
         const secureDigitalCard2gb = '872912';
 
         function pageRequestHandler(
-          request: CyHttpMessages.IncomingHttpRequest
+          request: CyHttpMessages.IncomingHttpRequest,
         ): void {
           request.continue((res: CyHttpMessages.IncomingHttpResponse) => {
             const body = res.body;
             const slot = body.contentSlots.contentSlot.find(
-              (contentSlot) => contentSlot.slotId === 'Section3Slot-Homepage'
+              (contentSlot) => contentSlot.slotId === 'Section3Slot-Homepage',
             );
 
             const component = slot.components.component.find(
-              (cmp) => cmp.uid === 'ElectronicsHomepageProductCarouselComponent'
+              (cmp) =>
+                cmp.uid === 'ElectronicsHomepageProductCarouselComponent',
             );
 
             component.productCodes = `${component.productCodes} ${secureDigitalCard2gb}`;
@@ -67,7 +68,7 @@ context('Product carousel', () => {
         }
 
         function secureDigitalCardRequestHandler(
-          request: CyHttpMessages.IncomingHttpRequest
+          request: CyHttpMessages.IncomingHttpRequest,
         ): void {
           request.continue((res: CyHttpMessages.IncomingHttpResponse) => {
             const body = res.body;
@@ -88,25 +89,25 @@ context('Product carousel', () => {
           {
             method: 'GET',
             pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-              'BASE_SITE'
+              'BASE_SITE',
             )}/cms/pages`,
           },
-          pageRequestHandler
+          pageRequestHandler,
         );
 
         cy.intercept(
           {
             method: 'GET',
             pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-              'BASE_SITE'
+              'BASE_SITE',
             )}/products/${secureDigitalCard2gb}`,
           },
-          secureDigitalCardRequestHandler
+          secureDigitalCardRequestHandler,
         );
 
         function clickNextButton(): void {
           const cypressButton = cy.get(
-            'cx-product-carousel:first-of-type button.next'
+            'cx-product-carousel:first-of-type button.next',
           );
 
           cypressButton.then((button) => {

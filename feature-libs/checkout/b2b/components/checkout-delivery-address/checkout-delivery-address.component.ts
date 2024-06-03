@@ -66,7 +66,7 @@ export class B2BCheckoutDeliveryAddressComponent
         return costCenter?.code
           ? this.userCostCenterService.getCostCenterAddresses(costCenter.code)
           : of([]);
-      })
+      }),
     );
 
   protected creditCardAddressLoading$: Observable<boolean> =
@@ -80,9 +80,9 @@ export class B2BCheckoutDeliveryAddressComponent
   ]).pipe(
     map(
       ([creditCardAddressLoading, costCenterLoading]) =>
-        creditCardAddressLoading || costCenterLoading
+        creditCardAddressLoading || costCenterLoading,
     ),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   isAccountPayment = false;
@@ -98,7 +98,7 @@ export class B2BCheckoutDeliveryAddressComponent
     protected globalMessageService: GlobalMessageService,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected userCostCenterService: UserCostCenterService
+    protected userCostCenterService: UserCostCenterService,
   ) {
     super(
       userAddressService,
@@ -108,15 +108,15 @@ export class B2BCheckoutDeliveryAddressComponent
       activeCartFacade,
       checkoutStepService,
       checkoutDeliveryModesFacade,
-      globalMessageService
+      globalMessageService,
     );
   }
 
   ngOnInit(): void {
     this.subscriptions.add(
       this.isAccountPayment$.subscribe(
-        (isAccount) => (this.isAccountPayment = isAccount)
-      )
+        (isAccount) => (this.isAccountPayment = isAccount),
+      ),
     );
 
     super.ngOnInit();
@@ -134,8 +134,8 @@ export class B2BCheckoutDeliveryAddressComponent
       switchMap((isAccountPayment) =>
         isAccountPayment
           ? this.accountAddressLoading$
-          : this.creditCardAddressLoading$
-      )
+          : this.creditCardAddressLoading$,
+      ),
     );
   }
 
@@ -144,14 +144,14 @@ export class B2BCheckoutDeliveryAddressComponent
       switchMap((isAccountPayment) =>
         isAccountPayment
           ? this.costCenterAddresses$
-          : super.getSupportedAddresses()
-      )
+          : super.getSupportedAddresses(),
+      ),
     );
   }
 
   protected selectDefaultAddress(
     addresses: Address[],
-    selected: Address | undefined
+    selected: Address | undefined,
   ): void {
     if (
       !this.doneAutoSelect &&

@@ -58,7 +58,7 @@ export class CloseAccountModalComponent implements OnInit {
     protected translationService: TranslationService,
     protected userProfile: UserProfileFacade,
     protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
+    protected el: ElementRef,
   ) {}
 
   get isLoading$(): Observable<boolean> {
@@ -77,7 +77,7 @@ export class CloseAccountModalComponent implements OnInit {
       .subscribe((text) => {
         this.globalMessageService.add(
           text,
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
       });
 

@@ -34,7 +34,7 @@ export class ConfiguratorGroupComponent {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected languageService: LanguageService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected configExpertModeService: ConfiguratorExpertModeService
+    protected configExpertModeService: ConfiguratorExpertModeService,
   ) {}
 
   /**
@@ -46,7 +46,7 @@ export class ConfiguratorGroupComponent {
     this.configuratorCommonsService.updateConfiguration(
       event.ownerKey,
       event.changedAttribute,
-      event.updateType
+      event.updateType,
     );
   }
 
@@ -97,7 +97,7 @@ export class ConfiguratorGroupComponent {
 
   getComponentKey(attribute: Configurator.Attribute): string {
     return attribute.uiTypeVariation?.includes(
-      Configurator.CustomUiTypeIndicator
+      Configurator.CustomUiTypeIndicator,
     )
       ? this.typePrefix + attribute.uiTypeVariation
       : this.typePrefix + attribute.uiType;

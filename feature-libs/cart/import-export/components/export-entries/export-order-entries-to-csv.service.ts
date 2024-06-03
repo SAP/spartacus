@@ -28,7 +28,7 @@ export class ExportOrderEntriesToCsvService {
     protected exportCsvFileService: ExportCsvFileService,
     protected importExportConfig: ImportExportConfig,
     protected globalMessageService: GlobalMessageService,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
   ) {}
 
   protected get exportConfig(): ExportConfig | undefined {
@@ -72,7 +72,7 @@ export class ExportOrderEntriesToCsvService {
 
   protected resolveValues(entries: OrderEntry[]): string[][] {
     return entries.map((entry) =>
-      this.columns.map((column) => this.resolveValue(column.value, entry))
+      this.columns.map((column) => this.resolveValue(column.value, entry)),
     );
   }
 
@@ -80,16 +80,16 @@ export class ExportOrderEntriesToCsvService {
     return combineLatest(
       this.columns.map((column) =>
         this.translationService.translate(
-          `exportEntries.columnNames.${column.name.key}`
-        )
-      )
+          `exportEntries.columnNames.${column.name.key}`,
+        ),
+      ),
     );
   }
 
   protected displayExportMessage(): void {
     this.globalMessageService.add(
       { key: 'exportEntries.exportMessage' },
-      GlobalMessageType.MSG_TYPE_INFO
+      GlobalMessageType.MSG_TYPE_INFO,
     );
   }
 
@@ -104,7 +104,7 @@ export class ExportOrderEntriesToCsvService {
     return this.getTranslatedColumnHeaders().pipe(
       map((headers) => {
         return [headers, ...values];
-      })
+      }),
     );
   }
 
@@ -117,7 +117,7 @@ export class ExportOrderEntriesToCsvService {
         this.exportCsvFileService.download(
           entries,
           this.separator,
-          this.exportConfig.fileOptions
+          this.exportConfig.fileOptions,
         );
       }
     }, this.exportConfig?.downloadDelay ?? 0);

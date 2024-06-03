@@ -29,7 +29,7 @@ export class ConfiguratorAttributeFooterComponent
 
   constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -49,8 +49,8 @@ export class ConfiguratorAttributeFooterComponent
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
       .pipe(
         map((result) =>
-          result ? this.needsRequiredAttributeErrorMsg() : false
-        )
+          result ? this.needsRequiredAttributeErrorMsg() : false,
+        ),
       );
   }
 

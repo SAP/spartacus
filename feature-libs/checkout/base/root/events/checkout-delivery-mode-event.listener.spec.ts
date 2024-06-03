@@ -59,21 +59,21 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
           cartId: mockCartId,
           cartCode: mockCartId,
           deliveryModeCode: mockDeliveryModeCode,
-        })
+        }),
       );
     });
 
     it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
 
     it(`CheckoutDeliveryModeSetEvent should dispatch LoadCartEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        LoadCartEvent
+        LoadCartEvent,
       );
     });
   });
@@ -85,21 +85,21 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
           userId: mockUserId,
           cartId: mockCartId,
           cartCode: mockCartId,
-        })
+        }),
       );
     });
 
     it(`CheckoutDeliveryModeClearedEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
 
     it(`CheckoutDeliveryModeClearedEvent should dispatch LoadCartEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        LoadCartEvent
+        LoadCartEvent,
       );
     });
   });
@@ -111,12 +111,12 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
           userId: mockUserId,
           cartId: mockCartId,
           cartCode: mockCartId,
-        })
+        }),
       );
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        LoadCartEvent
+        LoadCartEvent,
       );
     });
   });
@@ -127,12 +127,12 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
         createFrom(CheckoutSupportedDeliveryModesQueryResetEvent, {
           userId: mockUserId,
           cartId: mockCartId,
-        })
+        }),
       );
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        LoadCartEvent
+        LoadCartEvent,
       );
     });
   });
@@ -143,7 +143,7 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutSupportedDeliveryModesQueryReloadEvent
+        CheckoutSupportedDeliveryModesQueryReloadEvent,
       );
     });
 
@@ -152,7 +152,7 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutSupportedDeliveryModesQueryReloadEvent
+        CheckoutSupportedDeliveryModesQueryReloadEvent,
       );
     });
   });
@@ -163,7 +163,7 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutSupportedDeliveryModesQueryResetEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent,
       );
     });
 
@@ -172,7 +172,7 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutSupportedDeliveryModesQueryResetEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent,
       );
     });
   });

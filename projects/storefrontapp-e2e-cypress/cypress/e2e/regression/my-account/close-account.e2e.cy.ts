@@ -20,7 +20,7 @@ describe('My Account - Close Account', () => {
     before(() =>
       cy.window().then((win) => {
         win.sessionStorage.clear();
-      })
+      }),
     );
 
     describe('Anonymous user', () => {
@@ -35,7 +35,7 @@ describe('My Account - Close Account', () => {
       before(() => {
         standardUser.registrationData.email = generateMail(
           randomString(),
-          true
+          true,
         );
         cy.requireLoggedIn(standardUser);
         visitAndWaitForRedirections('/');
@@ -61,7 +61,7 @@ describe('My Account - Close Account', () => {
 
         cy.intercept(
           'DELETE',
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`
+          `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`,
         ).as('deleteQuery');
 
         cy.location('pathname').should('contain', CLOSE_ACCOUNT_URL);
@@ -69,7 +69,7 @@ describe('My Account - Close Account', () => {
         cy.get('cx-close-account button.btn-primary').click({ force: true });
 
         cy.get(
-          'cx-close-account-modal .cx-close-account-modal-container .cx-close-account-modal-footer button:first-of-type'
+          'cx-close-account-modal .cx-close-account-modal-container .cx-close-account-modal-footer button:first-of-type',
         ).click();
 
         cy.wait('@deleteQuery');
@@ -91,7 +91,7 @@ describe('My Account - Close Account', () => {
 
         login(
           standardUser.registrationData.email,
-          standardUser.registrationData.password
+          standardUser.registrationData.password,
         );
 
         cy.location('pathname').should('contain', '/login');

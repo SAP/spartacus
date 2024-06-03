@@ -106,7 +106,7 @@ describe('LogoutGuard', () => {
 
     it('should return redirect url to home page if app not protected', (done) => {
       spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
-        false
+        false,
       );
 
       logoutGuard
@@ -120,7 +120,7 @@ describe('LogoutGuard', () => {
 
     it('should return redirect url to login page if app protected', (done) => {
       spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
-        true
+        true,
       );
 
       logoutGuard

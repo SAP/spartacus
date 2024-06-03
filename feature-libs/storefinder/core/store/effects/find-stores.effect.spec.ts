@@ -61,7 +61,7 @@ describe('FindStores Effects', () => {
         storeId: 'testId',
       });
       const completion = new StoreFinderActions.FindStoreByIdSuccess(
-        singleStoreResult
+        singleStoreResult,
       );
 
       actions$ = hot('-a', { a: action });

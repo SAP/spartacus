@@ -48,7 +48,7 @@ class MockCartItemContext implements Partial<CartItemContext> {
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
-    PromotionLocation.ActiveCart
+    PromotionLocation.ActiveCart,
   );
 }
 
@@ -74,25 +74,23 @@ describe('ConfigureIssuesNotificationComponent', () => {
     mockCartItemContext.quantityControl$?.next(new UntypedFormControl());
   }
   describe('with cart item context', () => {
-    beforeEach(
-      waitForAsync(() => {
-        TestBed.configureTestingModule({
-          declarations: [
-            ConfiguratorIssuesNotificationComponent,
-            MockTranslatePipe,
-            MockCxIconComponent,
-            MockConfigureCartEntryComponent,
-          ],
-          providers: [
-            { provide: CartItemContext, useClass: MockCartItemContext },
-          ],
-        }).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorIssuesNotificationComponent,
+          MockTranslatePipe,
+          MockCxIconComponent,
+          MockConfigureCartEntryComponent,
+        ],
+        providers: [
+          { provide: CartItemContext, useClass: MockCartItemContext },
+        ],
+      }).compileComponents();
+    }));
 
     beforeEach(() => {
       fixture = TestBed.createComponent(
-        ConfiguratorIssuesNotificationComponent
+        ConfiguratorIssuesNotificationComponent,
       );
       component = fixture.componentInstance;
       htmlElem = fixture.nativeElement;
@@ -147,7 +145,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
       fixture.detectChanges();
 
       expect(
-        htmlElem.querySelectorAll('cx-configure-cart-entry').length
+        htmlElem.querySelectorAll('cx-configure-cart-entry').length,
       ).toBeGreaterThan(0);
     });
 
@@ -162,7 +160,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
       fixture.detectChanges();
 
       expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
-        0
+        0,
       );
     });
 
@@ -178,7 +176,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
 
       fixture.detectChanges();
       expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
-        0
+        0,
       );
     });
 
@@ -205,7 +203,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
           fixture.detectChanges();
           const element = CommonConfiguratorTestUtilsService.getHTMLElement(
             htmlElem,
-            'cx-configure-cart-entry'
+            'cx-configure-cart-entry',
           );
 
           expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
@@ -217,7 +215,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
           fixture.detectChanges();
           const element = CommonConfiguratorTestUtilsService.getHTMLElement(
             htmlElem,
-            'cx-configure-cart-entry'
+            'cx-configure-cart-entry',
           );
 
           expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
@@ -229,7 +227,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
           fixture.detectChanges();
           const element = CommonConfiguratorTestUtilsService.getHTMLElement(
             htmlElem,
-            'cx-configure-cart-entry'
+            'cx-configure-cart-entry',
           );
 
           expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
@@ -244,7 +242,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
         const htmlElementAfterChanges = fixture.nativeElement;
         expect(
           htmlElementAfterChanges.querySelectorAll('.cx-configure-cart-entry')
-            .length
+            .length,
         ).toBe(0);
       });
 
@@ -255,7 +253,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
         const htmlElementAfterChanges = fixture.nativeElement;
         expect(
           htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
-            .length
+            .length,
         ).toBe(1);
       });
 
@@ -268,7 +266,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
         const htmlElementAfterChanges = fixture.nativeElement;
         expect(
           htmlElementAfterChanges.querySelectorAll('.cx-configure-cart-entry')
-            .length
+            .length,
         ).toBe(0);
       });
     });
@@ -289,29 +287,27 @@ describe('ConfigureIssuesNotificationComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '#cx-error-msg-0'
+          '#cx-error-msg-0',
         );
       });
     });
   });
   describe('without cart item context', () => {
-    beforeEach(
-      waitForAsync(() => {
-        TestBed.configureTestingModule({
-          declarations: [
-            ConfiguratorIssuesNotificationComponent,
-            MockTranslatePipe,
-            MockCxIconComponent,
-            MockConfigureCartEntryComponent,
-          ],
-          providers: [{ provide: CartItemContext, useValue: null }],
-        }).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorIssuesNotificationComponent,
+          MockTranslatePipe,
+          MockCxIconComponent,
+          MockConfigureCartEntryComponent,
+        ],
+        providers: [{ provide: CartItemContext, useValue: null }],
+      }).compileComponents();
+    }));
 
     beforeEach(() => {
       fixture = TestBed.createComponent(
-        ConfiguratorIssuesNotificationComponent
+        ConfiguratorIssuesNotificationComponent,
       );
       component = fixture.componentInstance;
     });

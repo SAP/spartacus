@@ -45,7 +45,7 @@ export class StockNotificationDialogComponent implements OnInit, OnDestroy {
   constructor(
     private interestsService: UserInterestsService,
     protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
+    protected el: ElementRef,
   ) {}
 
   close(reason?: any) {
@@ -58,13 +58,13 @@ export class StockNotificationDialogComponent implements OnInit, OnDestroy {
         if (data) {
           this.init(data.subscribeSuccess$, data.enabledPrefs);
         }
-      })
+      }),
     );
   }
 
   init(
     subscribeSuccess$: Observable<boolean>,
-    enabledPrefs: NotificationPreference[]
+    enabledPrefs: NotificationPreference[],
   ) {
     this.subscribeSuccess$ = subscribeSuccess$;
     this.enabledPrefs = enabledPrefs;

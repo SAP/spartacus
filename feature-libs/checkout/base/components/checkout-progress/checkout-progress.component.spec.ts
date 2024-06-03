@@ -31,7 +31,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
-    mockCheckoutSteps
+    mockCheckoutSteps,
   );
   activeStepIndex$: Observable<number> = of(0);
 }
@@ -56,21 +56,19 @@ describe('CheckoutProgressComponent', () => {
   let component: CheckoutProgressComponent;
   let fixture: ComponentFixture<CheckoutProgressComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          CheckoutProgressComponent,
-          MockTranslateUrlPipe,
-          MockMultiLinePipe,
-        ],
-        providers: [
-          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        CheckoutProgressComponent,
+        MockTranslateUrlPipe,
+        MockMultiLinePipe,
+      ],
+      providers: [
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutProgressComponent);
@@ -92,7 +90,7 @@ describe('CheckoutProgressComponent', () => {
 
   it('should contain link with "active" class', () => {
     const step = fixture.debugElement.query(
-      By.css('.cx-item:nth-child(1) .cx-link')
+      By.css('.cx-item:nth-child(1) .cx-link'),
     ).nativeElement;
 
     expect(step.getAttribute('class')).toContain('active');
@@ -100,7 +98,7 @@ describe('CheckoutProgressComponent', () => {
 
   it('should contain links with "disabled" class', () => {
     const steps = fixture.debugElement.queryAll(
-      By.css('.cx-item .cx-link.disabled')
+      By.css('.cx-item .cx-link.disabled'),
     );
 
     expect(steps.length).toBe(2);

@@ -220,7 +220,7 @@ describe('ExplainDisableInfoComponent', () => {
 
   describe('verify default configuration', () => {
     defaultConfigScenarios.forEach((scenario) =>
-      it(`should ${scenario.key}`, () => verifyScenario(scenario))
+      it(`should ${scenario.key}`, () => verifyScenario(scenario)),
     );
   });
 

@@ -23,7 +23,7 @@ export abstract class Config {}
 export function defaultConfigFactory() {
   return deepMerge(
     {},
-    ...(inject(DefaultConfigChunk, { optional: true }) ?? [])
+    ...(inject(DefaultConfigChunk, { optional: true }) ?? []),
   );
 }
 /**
@@ -58,5 +58,5 @@ export const ConfigChunk = new InjectionToken<Config[]>('ConfigurationChunk');
  * General rule is, that all config provided in libraries should be provided as default config.
  */
 export const DefaultConfigChunk = new InjectionToken<Config[]>(
-  'DefaultConfigurationChunk'
+  'DefaultConfigurationChunk',
 );

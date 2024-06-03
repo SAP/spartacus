@@ -30,24 +30,22 @@ describe('FocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let keyboardFocusService: KeyboardFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [FocusDirective, MockComponent],
-        providers: [
-          {
-            provide: KeyboardFocusService,
-            useClass: MockKeyboardFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [FocusDirective, MockComponent],
+      providers: [
+        {
+          provide: KeyboardFocusService,
+          useClass: MockKeyboardFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
+    fixture = TestBed.createComponent(MockComponent);
 
-      component = fixture.componentInstance;
-      keyboardFocusService = TestBed.inject(KeyboardFocusService);
-    })
-  );
+    component = fixture.componentInstance;
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
+  }));
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -55,7 +53,7 @@ describe('FocusDirective', () => {
 
   it('should default tabindex to -1', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('#a')
+      By.css('#a'),
     ).nativeElement;
     fixture.detectChanges();
 
@@ -64,7 +62,7 @@ describe('FocusDirective', () => {
 
   it('should focus element marked with autofocus = true', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('#a')
+      By.css('#a'),
     ).nativeElement;
     spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(el);
     fixture.detectChanges();
@@ -74,12 +72,12 @@ describe('FocusDirective', () => {
 
   it('should refresh focus with change on configured attribute', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('#a')
+      By.css('#a'),
     ).nativeElement;
 
     let spiedFirstFocusable = spyOn(
       keyboardFocusService,
-      'findFirstFocusable'
+      'findFirstFocusable',
     ).and.returnValue(el);
 
     component.modelA = '1';

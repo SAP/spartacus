@@ -26,7 +26,7 @@ export function getSuffixUrlMatcher({
 }) {
   precedingParamName = precedingParamName || 'param';
   const matcher = function suffixUrlMatcher(
-    segments: UrlSegment[]
+    segments: UrlSegment[],
   ): UrlMatchResult | null {
     const markerIndex = findLastIndex(segments, ({ path }) => path === marker);
     const isMarkerLastSegment = markerIndex === segments.length - 1;

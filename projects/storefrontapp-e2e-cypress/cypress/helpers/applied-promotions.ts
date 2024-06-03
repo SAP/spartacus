@@ -41,7 +41,7 @@ export function checkForAppliedPromotions() {
 export function addProductToCart() {
   interceptGet(
     'cart_refresh',
-    '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*'
+    '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*',
   );
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
@@ -153,7 +153,7 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
     cy.intercept({
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/*/customercoupons`,
     }).as('customer_coupons');
 
@@ -174,7 +174,7 @@ export function testPromotionsForLoggedInUser() {
       const eosCameraProductCode = '1382080';
       const productPage = waitForProductPage(
         eosCameraProductCode,
-        'getProductPage'
+        'getProductPage',
       );
       cy.visit(`/product/${eosCameraProductCode}`);
       cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);

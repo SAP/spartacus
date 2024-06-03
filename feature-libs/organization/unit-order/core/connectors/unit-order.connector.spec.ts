@@ -6,13 +6,13 @@ import createSpy = jasmine.createSpy;
 
 class MockUnitOrderAdapter implements Partial<UnitOrderAdapter> {
   loadUnitOrderHistory = createSpy(
-    'UnitOrderAdapter.loadUnitOrderHistory'
+    'UnitOrderAdapter.loadUnitOrderHistory',
   ).and.callFake((userId: string) => of(`orderHistory-${userId}`));
 
   loadUnitOrderDetail = createSpy(
-    'UnitOrderAdapter.loadUnitOrderDetail'
+    'UnitOrderAdapter.loadUnitOrderDetail',
   ).and.callFake((userId: string, orderCode: string) =>
-    of(`orderDetails-${userId}-${orderCode}`)
+    of(`orderDetails-${userId}-${orderCode}`),
   );
 }
 
@@ -48,7 +48,7 @@ describe('OrderHistoryConnector', () => {
       undefined,
       undefined,
       undefined,
-      undefined
+      undefined,
     );
   });
 
@@ -56,7 +56,7 @@ describe('OrderHistoryConnector', () => {
     service.getUnitOrderDetail('user3', '0000022').subscribe().unsubscribe();
     expect(adapter.loadUnitOrderDetail).toHaveBeenCalledWith(
       'user3',
-      '0000022'
+      '0000022',
     );
   });
 });

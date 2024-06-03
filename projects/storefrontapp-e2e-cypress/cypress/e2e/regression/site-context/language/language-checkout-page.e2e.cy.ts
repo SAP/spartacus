@@ -26,7 +26,7 @@ describe('Language switch - checkout page', () => {
 
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
-    siteContextSelector.LANGUAGES
+    siteContextSelector.LANGUAGES,
   );
 
   describe('populate cart, history, quantity', () => {
@@ -41,7 +41,7 @@ describe('Language switch - checkout page', () => {
       cy.intercept({
         method: 'PUT',
         pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/current/carts/*/addresses/delivery`,
       }).as('setAddress');
       cy.visit(checkoutShippingPath);
@@ -51,18 +51,18 @@ describe('Language switch - checkout page', () => {
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutShippingPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutShippingPath,
       );
 
       siteContextSelector.addressBookNextStep();
 
       siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutDeliveryPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutDeliveryPath,
       );
 
       cy.get('cx-delivery-mode .cx-delivery-mode:first').should(
         'contain',
-        'Standard-Lieferung'
+        'Standard-Lieferung',
       );
 
       siteContextSelector.deliveryModeNextStep();
@@ -70,18 +70,18 @@ describe('Language switch - checkout page', () => {
       // page being already tested in language-payment-details
 
       siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutPaymentPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutPaymentPath,
       );
 
       siteContextSelector.paymentDetailsNextStep();
 
       siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutReviewPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutReviewPath,
       );
 
       cy.get('cx-checkout-review-shipping .cx-link').should(
         'contain',
-        deutschName
+        deutschName,
       );
     });
   });

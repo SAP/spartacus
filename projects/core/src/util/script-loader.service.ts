@@ -18,7 +18,7 @@ export enum ScriptPlacement {
 export class ScriptLoader {
   constructor(
     @Inject(DOCUMENT) protected document: any,
-    @Inject(PLATFORM_ID) protected platformId: Object
+    @Inject(PLATFORM_ID) protected platformId: Object,
   ) {}
 
   /**
@@ -107,7 +107,7 @@ export class ScriptLoader {
         keysArray
           .map(
             (key) =>
-              encodeURI(key) + '=' + encodeURI(params[key as keyof object])
+              encodeURI(key) + '=' + encodeURI(params[key as keyof object]),
           )
           .join('&');
     }

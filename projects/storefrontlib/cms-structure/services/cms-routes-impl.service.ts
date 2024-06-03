@@ -30,7 +30,7 @@ export class CmsRoutesImplService {
   constructor(
     private router: Router,
     private cmsComponentsService: CmsComponentsService,
-    private cmsGuardsService: CmsGuardsService
+    private cmsGuardsService: CmsGuardsService,
   ) {}
 
   private cmsRouteExists(url: string): boolean {
@@ -46,7 +46,9 @@ export class CmsRoutesImplService {
       isCmsDrivenRoute &&
       !!this.router.config.find(
         (route: CmsRoute) =>
-          route.data && route.data.cxCmsRouteContext && route.path === routePath
+          route.data &&
+          route.data.cxCmsRouteContext &&
+          route.path === routePath,
       )
     );
   }
@@ -64,7 +66,7 @@ export class CmsRoutesImplService {
     pageContext: PageContext,
     componentTypes: string[],
     currentUrl: string,
-    currentPageLabel: string
+    currentPageLabel: string,
   ): boolean {
     if (this.cmsRouteExists(currentPageLabel)) {
       return true;
@@ -87,7 +89,7 @@ export class CmsRoutesImplService {
   private updateRouting(
     pageContext: PageContext,
     pageLabel: string,
-    childRoutesConfig: CmsComponentChildRoutesConfig
+    childRoutesConfig: CmsComponentChildRoutesConfig,
   ): boolean {
     if (
       pageContext.type === PageType.CONTENT_PAGE &&
@@ -95,7 +97,7 @@ export class CmsRoutesImplService {
       pageLabel.length > 1
     ) {
       const children = this.wrapCmsGuardsRecursively(
-        childRoutesConfig.children ?? []
+        childRoutesConfig.children ?? [],
       );
 
       const newRoute: CmsRoute = {
@@ -136,7 +138,7 @@ export class CmsRoutesImplService {
 
       if (route?.canActivate?.length) {
         route.canActivate = route.canActivate.map((guard) =>
-          this.wrapCmsGuard(guard)
+          this.wrapCmsGuard(guard),
         );
       }
 
@@ -152,14 +154,14 @@ export class CmsRoutesImplService {
    * even if it's 'provided only in a child injector of a lazy-loaded module.
    */
   private wrapCmsGuard(
-    guardClass: Type<any>
+    guardClass: Type<any>,
   ): (
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ) => Observable<boolean | UrlTree> {
     return (
       route: ActivatedRouteSnapshot,
-      state: RouterStateSnapshot
+      state: RouterStateSnapshot,
     ): Observable<boolean | UrlTree> => {
       return this.cmsGuardsService.canActivateGuard(guardClass, route, state);
     };

@@ -37,7 +37,7 @@ const APP_MODULE_PATH = '/src/app/app.module.ts';
 
 function assertPathDoesNotExists(
   appTree: UnitTestTree,
-  filePath: string
+  filePath: string,
 ): void {
   const buffer = appTree.read(filePath);
   expect(buffer).toBeFalsy();
@@ -51,7 +51,7 @@ function assertPathExists(appTree: UnitTestTree, filePath: string): void {
 function assertContentExists(
   appTree: UnitTestTree,
   textToContain: string[],
-  filePath: string
+  filePath: string,
 ): void {
   const buffer = appTree.read(filePath);
   expect(buffer).toBeTruthy();
@@ -66,7 +66,7 @@ function assertContentExists(
 function assertContentDoesNotExist(
   appTree: UnitTestTree,
   textToContain: string[],
-  filePath: string
+  filePath: string,
 ): void {
   const buffer = appTree.read(filePath);
   expect(buffer).toBeTruthy();
@@ -81,7 +81,7 @@ function assertContentDoesNotExist(
 describe('add-cms-component', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -119,20 +119,20 @@ describe('add-cms-component', () => {
     appTree = await schematicRunner.runExternalSchematic(
       ANGULAR_SCHEMATICS,
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       ANGULAR_SCHEMATICS,
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runSchematic(
       'add-spartacus',
       defaultOptions,
-      appTree
+      appTree,
     );
   });
 
@@ -141,7 +141,7 @@ describe('add-cms-component', () => {
       appTree = await schematicRunner.runSchematic(
         'add-cms-component',
         commonCmsOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -157,18 +157,18 @@ describe('add-cms-component', () => {
       assertContentExists(
         appTree,
         [`import { MyAwesomeCmsComponent } from './my-awesome-cms.component';`],
-        GENERATED_MODULE_PATH
+        GENERATED_MODULE_PATH,
       );
       assertContentExists(
         appTree,
         [`declarations: [`, `MyAwesomeCmsComponent`],
-        GENERATED_MODULE_PATH
+        GENERATED_MODULE_PATH,
       );
       assertContentExists(appTree, [], GENERATED_MODULE_PATH);
       assertContentExists(
         appTree,
         [`exports: [`, `MyAwesomeCmsComponent`],
-        GENERATED_MODULE_PATH
+        GENERATED_MODULE_PATH,
       );
       assertContentExists(
         appTree,
@@ -178,7 +178,7 @@ describe('add-cms-component', () => {
           `MyAwesomeCmsComponent: {`,
           `component: MyAwesomeCmsComponent,`,
         ],
-        GENERATED_MODULE_PATH
+        GENERATED_MODULE_PATH,
       );
 
       // generated html assertions
@@ -189,7 +189,7 @@ describe('add-cms-component', () => {
           `{{data | json}}`,
           `</ng-container>`,
         ],
-        GENERATED_HTML_PATH
+        GENERATED_HTML_PATH,
       );
 
       // generated component assertions
@@ -199,7 +199,7 @@ describe('add-cms-component', () => {
           `componentData$: Observable<MyModel> = this.componentData.data$;`,
           `constructor(private componentData: CmsComponentData<MyModel>) { }`,
         ],
-        GENERATED_TS_PATH
+        GENERATED_TS_PATH,
       );
 
       // app.module.ts assertions
@@ -210,7 +210,7 @@ describe('add-cms-component', () => {
           `MyAwesomeCmsComponent`,
           `exports: [MyAwesomeCmsComponent],`,
         ],
-        APP_MODULE_PATH
+        APP_MODULE_PATH,
       );
     });
   });
@@ -240,20 +240,20 @@ describe('add-cms-component', () => {
         ANGULAR_SCHEMATICS,
         'module',
         moduleOptions,
-        appTree
+        appTree,
       );
 
       appTree = await schematicRunner.runExternalSchematic(
         ANGULAR_SCHEMATICS,
         'component',
         dummyComponentOptions,
-        appTree
+        appTree,
       );
 
       appTree = await schematicRunner.runSchematic(
         'add-cms-component',
         modifiedOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -272,18 +272,18 @@ describe('add-cms-component', () => {
         [
           `import { MyAwesomeCmsComponent } from '../my-awesome-cms/my-awesome-cms.component';`,
         ],
-        existingModulePath
+        existingModulePath,
       );
       assertContentExists(
         appTree,
         [`declarations: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
-        existingModulePath
+        existingModulePath,
       );
       assertContentExists(appTree, [], existingModulePath);
       assertContentExists(
         appTree,
         [`exports: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
-        existingModulePath
+        existingModulePath,
       );
       assertContentExists(
         appTree,
@@ -293,7 +293,7 @@ describe('add-cms-component', () => {
           `MyAwesomeCmsComponent: {`,
           `component: MyAwesomeCmsComponent,`,
         ],
-        existingModulePath
+        existingModulePath,
       );
 
       // generated html assertions
@@ -304,7 +304,7 @@ describe('add-cms-component', () => {
           `{{data | json}}`,
           `</ng-container>`,
         ],
-        GENERATED_HTML_PATH
+        GENERATED_HTML_PATH,
       );
 
       // generated component assertions
@@ -314,7 +314,7 @@ describe('add-cms-component', () => {
           `componentData$: Observable<MyModel> = this.componentData.data$;`,
           `constructor(private componentData: CmsComponentData<MyModel>) { }`,
         ],
-        GENERATED_TS_PATH
+        GENERATED_TS_PATH,
       );
 
       // app.module.ts assertions
@@ -325,7 +325,7 @@ describe('add-cms-component', () => {
           `MyAwesomeCmsComponent`,
           `exports: [MyAwesomeCmsComponent],`,
         ],
-        APP_MODULE_PATH
+        APP_MODULE_PATH,
       );
     });
 
@@ -342,13 +342,13 @@ describe('add-cms-component', () => {
                 component: TestComponent,
               },
             },
-          }),`
+          }),`,
         );
         commitChanges(
           appTree,
           existingModulePath,
           changes,
-          InsertDirection.RIGHT
+          InsertDirection.RIGHT,
         );
       });
 
@@ -367,18 +367,18 @@ describe('add-cms-component', () => {
           [
             `import { MyAwesomeCmsComponent } from '../my-awesome-cms/my-awesome-cms.component';`,
           ],
-          existingModulePath
+          existingModulePath,
         );
         assertContentExists(
           appTree,
           [`declarations: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
-          existingModulePath
+          existingModulePath,
         );
         assertContentExists(appTree, [], existingModulePath);
         assertContentExists(
           appTree,
           [`exports: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
-          existingModulePath
+          existingModulePath,
         );
         assertContentExists(
           appTree,
@@ -390,7 +390,7 @@ describe('add-cms-component', () => {
             `TestComponent: {`,
             `component: TestComponent,`,
           ],
-          existingModulePath
+          existingModulePath,
         );
 
         // generated html assertions
@@ -401,7 +401,7 @@ describe('add-cms-component', () => {
             `{{data | json}}`,
             `</ng-container>`,
           ],
-          GENERATED_HTML_PATH
+          GENERATED_HTML_PATH,
         );
 
         // generated component assertions
@@ -411,7 +411,7 @@ describe('add-cms-component', () => {
             `componentData$: Observable<MyModel> = this.componentData.data$;`,
             `constructor(private componentData: CmsComponentData<MyModel>) { }`,
           ],
-          GENERATED_TS_PATH
+          GENERATED_TS_PATH,
         );
 
         // app.module.ts assertions
@@ -422,7 +422,7 @@ describe('add-cms-component', () => {
             `MyAwesomeCmsComponent`,
             `exports: [MyAwesomeCmsComponent],`,
           ],
-          APP_MODULE_PATH
+          APP_MODULE_PATH,
         );
       });
     });
@@ -438,7 +438,7 @@ describe('add-cms-component', () => {
       appTree = await schematicRunner.runSchematic(
         'add-cms-component',
         modifiedOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -454,18 +454,18 @@ describe('add-cms-component', () => {
       assertContentExists(
         appTree,
         [`import { MyAwesomeCmsComponent } from './my-awesome-cms.component';`],
-        GENERATED_MODULE_PATH
+        GENERATED_MODULE_PATH,
       );
       assertContentExists(
         appTree,
         [`declarations: [`, `MyAwesomeCmsComponent`],
-        GENERATED_MODULE_PATH
+        GENERATED_MODULE_PATH,
       );
       assertContentExists(appTree, [], GENERATED_MODULE_PATH);
       assertContentExists(
         appTree,
         [`exports: [`, `MyAwesomeCmsComponent`],
-        GENERATED_MODULE_PATH
+        GENERATED_MODULE_PATH,
       );
       assertContentExists(
         appTree,
@@ -475,7 +475,7 @@ describe('add-cms-component', () => {
           `MyAwesomeCmsComponent: {`,
           `component: MyAwesomeCmsComponent,`,
         ],
-        GENERATED_MODULE_PATH
+        GENERATED_MODULE_PATH,
       );
 
       // generated html template assertions
@@ -486,7 +486,7 @@ describe('add-cms-component', () => {
           `{{data | json}}`,
           `</ng-container>`,
         ],
-        GENERATED_HTML_PATH
+        GENERATED_HTML_PATH,
       );
 
       // generated component assertions
@@ -496,21 +496,21 @@ describe('add-cms-component', () => {
           `componentData$: Observable<MyModel> = this.componentData.data$;`,
           `constructor(private componentData: CmsComponentData<MyModel>) { }`,
         ],
-        GENERATED_TS_PATH
+        GENERATED_TS_PATH,
       );
 
       // app.module.ts assertions
       assertContentDoesNotExist(
         appTree,
         [`exports: [`, `MyAwesomeCmsComponent`],
-        APP_MODULE_PATH
+        APP_MODULE_PATH,
       );
       assertContentExists(
         appTree,
         [
           `import { MyAwesomeCmsModule } from './my-awesome-cms/my-awesome-cms.module';`,
         ],
-        APP_MODULE_PATH
+        APP_MODULE_PATH,
       );
     });
   });
@@ -532,13 +532,13 @@ describe('add-cms-component', () => {
         ANGULAR_SCHEMATICS,
         'module',
         moduleOptions,
-        appTree
+        appTree,
       );
 
       appTree = await schematicRunner.runSchematic(
         'add-cms-component',
         modifiedOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -558,18 +558,18 @@ describe('add-cms-component', () => {
         [
           `import { MyAwesomeCmsComponent } from '../my-awesome-cms/my-awesome-cms.component';`,
         ],
-        existingModulePath
+        existingModulePath,
       );
       assertContentExists(
         appTree,
         [`declarations: [`, `MyAwesomeCmsComponent`],
-        existingModulePath
+        existingModulePath,
       );
       assertContentExists(appTree, [], existingModulePath);
       assertContentExists(
         appTree,
         [`exports: [`, `MyAwesomeCmsComponent`],
-        existingModulePath
+        existingModulePath,
       );
       assertContentExists(
         appTree,
@@ -579,7 +579,7 @@ describe('add-cms-component', () => {
           `MyAwesomeCmsComponent: {`,
           `component: MyAwesomeCmsComponent,`,
         ],
-        existingModulePath
+        existingModulePath,
       );
 
       // generated html template assertions
@@ -590,7 +590,7 @@ describe('add-cms-component', () => {
           `{{data | json}}`,
           `</ng-container>`,
         ],
-        GENERATED_HTML_PATH
+        GENERATED_HTML_PATH,
       );
 
       // generated component assertions
@@ -600,7 +600,7 @@ describe('add-cms-component', () => {
           `componentData$: Observable<MyModel> = this.componentData.data$;`,
           `constructor(private componentData: CmsComponentData<MyModel>) { }`,
         ],
-        GENERATED_TS_PATH
+        GENERATED_TS_PATH,
       );
 
       // app.module.ts assertions
@@ -611,7 +611,7 @@ describe('add-cms-component', () => {
           `MyAwesomeCmsComponent`,
           `exports: [MyAwesomeCmsComponent],`,
         ],
-        APP_MODULE_PATH
+        APP_MODULE_PATH,
       );
       assertContentExists(appTree, [`ExistingCms`], APP_MODULE_PATH);
     });

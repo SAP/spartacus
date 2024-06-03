@@ -39,7 +39,7 @@ class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { orgUnitId } }) =>
-      url === 'orgUnit' ? url + orgUnitId : url
+      url === 'orgUnit' ? url + orgUnitId : url,
   );
 }
 
@@ -78,13 +78,13 @@ describe('OccOrgUnitAdapter', () => {
     it('should load orgUnit details for given orgUnit id', () => {
       service.load(userId, orgUnitId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'orgUnit' + orgUnitId
+        (req) => req.method === 'GET' && req.url === 'orgUnit' + orgUnitId,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2BUNIT_NORMALIZER
+        B2BUNIT_NORMALIZER,
       );
     });
   });
@@ -93,13 +93,13 @@ describe('OccOrgUnitAdapter', () => {
     it('should load orgUnit list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'orgUnitsAvailable'
+        (req) => req.method === 'GET' && req.url === 'orgUnitsAvailable',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([orgUnit]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2BUNIT_NODE_LIST_NORMALIZER
+        B2BUNIT_NODE_LIST_NORMALIZER,
       );
     });
   });
@@ -111,13 +111,13 @@ describe('OccOrgUnitAdapter', () => {
         (req) =>
           req.method === 'POST' &&
           req.url === 'orgUnits' &&
-          req.body.id === orgUnit.id
+          req.body.id === orgUnit.id,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2BUNIT_NORMALIZER
+        B2BUNIT_NORMALIZER,
       );
     });
   });
@@ -127,19 +127,19 @@ describe('OccOrgUnitAdapter', () => {
       service.update(userId, orgUnitId, orgUnit).subscribe();
       expect(converterService.convert).toHaveBeenCalledWith(
         orgUnit,
-        B2BUNIT_SERIALIZER
+        B2BUNIT_SERIALIZER,
       );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'PATCH' &&
           req.url === 'orgUnit' + orgUnitId &&
-          req.body.id === orgUnit.id
+          req.body.id === orgUnit.id,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2BUNIT_NORMALIZER
+        B2BUNIT_NORMALIZER,
       );
     });
   });
@@ -148,13 +148,13 @@ describe('OccOrgUnitAdapter', () => {
     it('should load tree', () => {
       service.loadTree(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'orgUnitsTree'
+        (req) => req.method === 'GET' && req.url === 'orgUnitsTree',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2BUNIT_NODE_NORMALIZER
+        B2BUNIT_NODE_NORMALIZER,
       );
     });
   });
@@ -163,13 +163,14 @@ describe('OccOrgUnitAdapter', () => {
     it('should load approval processes', () => {
       service.loadApprovalProcesses(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'orgUnitsApprovalProcesses'
+        (req) =>
+          req.method === 'GET' && req.url === 'orgUnitsApprovalProcesses',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2BUNIT_APPROVAL_PROCESSES_NORMALIZER
+        B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
       );
     });
   });
@@ -178,13 +179,13 @@ describe('OccOrgUnitAdapter', () => {
     it('should load users', () => {
       service.loadUsers(userId, orgUnitId, roleId, params).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'orgUnitUsers'
+        (req) => req.method === 'GET' && req.url === 'orgUnitUsers',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_USERS_NORMALIZER
+        B2B_USERS_NORMALIZER,
       );
     });
   });
@@ -193,7 +194,7 @@ describe('OccOrgUnitAdapter', () => {
     it('should assign role', () => {
       service.assignRole(userId, orgCustomerId, roleId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'POST' && req.url === 'orgUnitUserRoles'
+        (req) => req.method === 'POST' && req.url === 'orgUnitUserRoles',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -205,7 +206,7 @@ describe('OccOrgUnitAdapter', () => {
     it('should unassign role', () => {
       service.unassignRole(userId, orgCustomerId, roleId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'DELETE' && req.url === 'orgUnitUserRole'
+        (req) => req.method === 'DELETE' && req.url === 'orgUnitUserRole',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -219,7 +220,7 @@ describe('OccOrgUnitAdapter', () => {
         .assignApprover(userId, orgUnitId, orgCustomerId, roleId)
         .subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'POST' && req.url === 'orgUnitApprovers'
+        (req) => req.method === 'POST' && req.url === 'orgUnitApprovers',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -233,7 +234,7 @@ describe('OccOrgUnitAdapter', () => {
         .unassignApprover(userId, orgUnitId, orgCustomerId, roleId)
         .subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'DELETE' && req.url === 'orgUnitApprover'
+        (req) => req.method === 'DELETE' && req.url === 'orgUnitApprover',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -245,13 +246,13 @@ describe('OccOrgUnitAdapter', () => {
     it('should load addresses', () => {
       service.loadAddresses(userId, orgUnitId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'orgUnitsAddresses'
+        (req) => req.method === 'GET' && req.url === 'orgUnitsAddresses',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ADDRESS_LIST_NORMALIZER
+        ADDRESS_LIST_NORMALIZER,
       );
     });
   });
@@ -261,19 +262,19 @@ describe('OccOrgUnitAdapter', () => {
       service.createAddress(userId, orgUnitId, address).subscribe();
       expect(converterService.convert).toHaveBeenCalledWith(
         address,
-        ADDRESS_SERIALIZER
+        ADDRESS_SERIALIZER,
       );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'POST' &&
           req.url === 'orgUnitsAddresses' &&
-          req.body.id === address.id
+          req.body.id === address.id,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ADDRESS_NORMALIZER
+        ADDRESS_NORMALIZER,
       );
     });
   });
@@ -283,16 +284,16 @@ describe('OccOrgUnitAdapter', () => {
       service.updateAddress(userId, orgUnitId, addressId, address).subscribe();
       expect(converterService.convert).toHaveBeenCalledWith(
         address,
-        ADDRESS_SERIALIZER
+        ADDRESS_SERIALIZER,
       );
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'PATCH' && req.url === 'orgUnitsAddress'
+        (req) => req.method === 'PATCH' && req.url === 'orgUnitsAddress',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ADDRESS_NORMALIZER
+        ADDRESS_NORMALIZER,
       );
     });
   });
@@ -301,13 +302,13 @@ describe('OccOrgUnitAdapter', () => {
     it('should delete address', () => {
       service.deleteAddress(userId, orgUnitId, addressId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'DELETE' && req.url === 'orgUnitsAddress'
+        (req) => req.method === 'DELETE' && req.url === 'orgUnitsAddress',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ADDRESS_NORMALIZER
+        ADDRESS_NORMALIZER,
       );
     });
   });

@@ -24,7 +24,7 @@ export class PersonalizationContextService {
 
   constructor(
     protected config: PersonalizationConfig,
-    protected cmsService: CmsService
+    protected cmsService: CmsService,
   ) {}
 
   getPersonalizationContext(): Observable<PersonalizationContext | undefined> {
@@ -41,18 +41,18 @@ export class PersonalizationContextService {
         filter<any>(Boolean),
         map((slot) => {
           const scriptComponent = slot.components?.find(
-            (i: ContentSlotComponentData) => i.uid === context.componentId
+            (i: ContentSlotComponentData) => i.uid === context.componentId,
           );
           return this.buildPersonalizationContext(
-            scriptComponent?.properties?.script?.data
+            scriptComponent?.properties?.script?.data,
           );
-        })
+        }),
       );
     }
   }
 
   private buildPersonalizationContext(
-    data: string
+    data: string,
   ): PersonalizationContext | undefined {
     if (data) {
       const context = JSON.parse(atob(data));

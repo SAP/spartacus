@@ -38,7 +38,7 @@ class MockRoutingService {
   go(
     _commands: any[] | UrlCommands,
     _query?: object,
-    _extras?: NavigationExtras
+    _extras?: NavigationExtras,
   ): void {}
 }
 
@@ -88,30 +88,28 @@ describe('ProductVariantsContainerComponent', () => {
   let component: ProductVariantsContainerComponent;
   let fixture: ComponentFixture<ProductVariantsContainerComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ProductVariantsContainerComponent,
-          MockUrlPipe,
-          MockCxProductStyleSelectorComponent,
-          MockCxProductSizeSelectorComponent,
-          MockCxProductColorSelectorComponent,
-        ],
-        imports: [RouterTestingModule, I18nTestingModule],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ProductVariantsContainerComponent,
+        MockUrlPipe,
+        MockCxProductStyleSelectorComponent,
+        MockCxProductSizeSelectorComponent,
+        MockCxProductColorSelectorComponent,
+      ],
+      imports: [RouterTestingModule, I18nTestingModule],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantsContainerComponent);
@@ -128,7 +126,7 @@ describe('ProductVariantsContainerComponent', () => {
     component.product$.subscribe();
 
     expect(Object.keys(component.variants).length).toEqual(
-      mockProduct.baseOptions.length
+      mockProduct.baseOptions.length,
     );
 
     expect(Object.keys(component.variants)[0]).toEqual(VariantType.STYLE);

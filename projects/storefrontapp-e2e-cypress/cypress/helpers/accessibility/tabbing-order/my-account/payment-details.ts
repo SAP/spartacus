@@ -16,6 +16,6 @@ export function paymentDetailsTabbingOrder(config: TabElement[]) {
       cy.visit('/my-account/payment-details');
 
       verifyTabbingOrder(containerSelector, config);
-    })
+    }),
   );
 }

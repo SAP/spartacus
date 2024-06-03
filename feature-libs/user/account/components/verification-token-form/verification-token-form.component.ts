@@ -30,7 +30,7 @@ import { VerificationTokenFormComponentService } from './verification-token-form
 export class VerificationTokenFormComponent implements OnInit {
   constructor() {}
   protected service: VerificationTokenFormComponentService = inject(
-    VerificationTokenFormComponentService
+    VerificationTokenFormComponentService,
   );
   protected launchDialogService: LaunchDialogService =
     inject(LaunchDialogService);
@@ -68,7 +68,7 @@ export class VerificationTokenFormComponent implements OnInit {
           password: '',
           loginId: '',
         },
-        'verifyToken'
+        'verifyToken',
       );
       this.startWaitTimeInterval();
       this.service.displayMessage(this.target);
@@ -89,7 +89,7 @@ export class VerificationTokenFormComponent implements OnInit {
       .createVerificationToken(
         this.target,
         this.password,
-        ONE_TIME_PASSWORD_LOGIN_PURPOSE
+        ONE_TIME_PASSWORD_LOGIN_PURPOSE,
       )
       .subscribe({
         next: (result: VerificationToken) => (this.tokenId = result.tokenId),
@@ -113,7 +113,7 @@ export class VerificationTokenFormComponent implements OnInit {
   openInfoDailog(): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ACCOUNT_VERIFICATION_TOKEN,
-      this.element
+      this.element,
     );
   }
 

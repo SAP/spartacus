@@ -63,7 +63,7 @@ describe('CheckoutCartInterceptor', () => {
   describe('intercept', () => {
     it('should redirect to cart page if the cart is not found', () => {
       routingService.getRouterState = createSpy().and.returnValue(
-        of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
+        of({ state: { semanticRoute: 'checkoutDelivery' } } as any),
       );
 
       const mockReq = createRequest();
@@ -76,7 +76,7 @@ describe('CheckoutCartInterceptor', () => {
 
     it('should NOT do anything if the route is not part of checkout', () => {
       routingService.getRouterState = createSpy().and.returnValue(
-        of({ state: { semanticRoute: 'orderConfirmation' } } as any)
+        of({ state: { semanticRoute: 'orderConfirmation' } } as any),
       );
 
       const mockReq = createRequest();
@@ -89,7 +89,7 @@ describe('CheckoutCartInterceptor', () => {
 
     it('should NOT reload cart if there is no subject', () => {
       routingService.getRouterState = createSpy().and.returnValue(
-        of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
+        of({ state: { semanticRoute: 'checkoutDelivery' } } as any),
       );
 
       const mockReq = createRequest();
@@ -104,7 +104,7 @@ describe('CheckoutCartInterceptor', () => {
             },
           ],
         },
-        cartNotFoundStatus
+        cartNotFoundStatus,
       );
 
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
@@ -113,7 +113,7 @@ describe('CheckoutCartInterceptor', () => {
 
     it('should NOT do anything if the error is not 400', () => {
       routingService.getRouterState = createSpy().and.returnValue(
-        of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
+        of({ state: { semanticRoute: 'checkoutDelivery' } } as any),
       );
 
       const mockReq = createRequest();

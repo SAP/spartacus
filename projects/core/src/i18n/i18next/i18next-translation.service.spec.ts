@@ -68,7 +68,7 @@ describe('I18nextTranslationService', () => {
 
         expect(i18next.t).toHaveBeenCalledWith(
           'testChunk:testKey',
-          testOptions
+          testOptions,
         );
         expect(result).toBe('value');
       });
@@ -103,7 +103,7 @@ describe('I18nextTranslationService', () => {
 
         expect(i18next.loadNamespaces).toHaveBeenCalledWith(
           'testChunk',
-          jasmine.any(Function)
+          jasmine.any(Function),
         );
       });
     });
@@ -113,7 +113,7 @@ describe('I18nextTranslationService', () => {
         spyOn(i18next, 'exists').and.returnValues(false, false);
         spyOn(i18next, 'loadNamespaces').and.callFake(((
           _namespaces,
-          onChunkLoad
+          onChunkLoad,
         ) => onChunkLoad()) as any);
       });
 
@@ -142,7 +142,7 @@ describe('I18nextTranslationService', () => {
         spyOn(i18next, 'exists').and.returnValues(false, true);
         spyOn(i18next, 'loadNamespaces').and.callFake(((
           _namespaces,
-          onChunkLoad
+          onChunkLoad,
         ) => onChunkLoad()) as any);
       });
 
@@ -155,7 +155,7 @@ describe('I18nextTranslationService', () => {
           .subscribe((x) => (result = x));
         expect(i18next.t).toHaveBeenCalledWith(
           'testChunk:testKey',
-          testOptions
+          testOptions,
         );
         expect(result).toBe('value');
       });
@@ -166,7 +166,7 @@ describe('I18nextTranslationService', () => {
         let languageChangedCallback;
         spyOn(i18next, 'off');
         spyOn(i18next, 'on').and.callFake(
-          (_event, callback) => (languageChangedCallback = callback)
+          (_event, callback) => (languageChangedCallback = callback),
         );
         spyOn(i18next, 'exists').and.returnValue(true);
         spyOn(i18next, 't').and.returnValues('value1', 'value2');
@@ -183,7 +183,7 @@ describe('I18nextTranslationService', () => {
 
         expect(i18next.off).toHaveBeenCalledWith(
           'languageChanged',
-          languageChangedCallback
+          languageChangedCallback,
         );
       });
     });

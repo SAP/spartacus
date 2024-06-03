@@ -209,7 +209,7 @@ describe('Navigation UI Component', () => {
     it('should render all link for root', () => {
       fixture.detectChanges();
       const allLink: ElementRef[] = element.queryAll(
-        By.css('nav > ul > li > cx-generic-link')
+        By.css('nav > ul > li > cx-generic-link'),
       );
       expect(allLink.length).toEqual(2);
     });
@@ -224,7 +224,7 @@ describe('Navigation UI Component', () => {
     it('should render a tag for nav nodes without a URL', () => {
       fixture.detectChanges();
       const navs: ElementRef[] = element.queryAll(
-        By.css('nav > ul > li > button')
+        By.css('nav > ul > li > button'),
       );
       const back: HTMLElement = navs[0].nativeElement;
       const root1: HTMLElement = navs[1].nativeElement;
@@ -237,7 +237,7 @@ describe('Navigation UI Component', () => {
       fixture.detectChanges();
 
       const nav: ElementRef = element.query(
-        By.css('nav > ul > li > cx-generic-link')
+        By.css('nav > ul > li > cx-generic-link'),
       );
       const el: HTMLElement = nav.nativeElement;
       expect(el).toBeTruthy();
@@ -312,7 +312,7 @@ describe('Navigation UI Component', () => {
         .query(By.css('cx-generic-link[ng-reflect-url="/sub-sub-child-1a"]'))
         .nativeElement.click();
       expect(
-        navigationComponent.closeIfClickedTheSameLink
+        navigationComponent.closeIfClickedTheSameLink,
       ).toHaveBeenCalledWith({
         title: 'Sub sub child 1a',
         url: '/sub-sub-child-1a',
@@ -333,7 +333,7 @@ describe('Navigation UI Component', () => {
       const spy = spyOn(navigationComponent, 'toggleOpen');
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('button[aria-label="Sub child 1"]')
+        By.css('button[aria-label="Sub child 1"]'),
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
 
@@ -347,7 +347,7 @@ describe('Navigation UI Component', () => {
       const spy = spyOn(firstChild.nativeElement, 'focus');
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('button[aria-label="Sub child 1"]')
+        By.css('button[aria-label="Sub child 1"]'),
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
 
@@ -368,7 +368,7 @@ describe('Navigation UI Component', () => {
       });
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('button[aria-label="Sub child 1"]')
+        By.css('button[aria-label="Sub child 1"]'),
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
       Object.defineProperty(arrowDownEvent, 'target', {

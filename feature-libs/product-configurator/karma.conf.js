@@ -28,7 +28,7 @@ module.exports = function (config) {
     coverageReporter: {
       dir: require('path').join(
         __dirname,
-        '../../coverage/product-configurator'
+        '../../coverage/product-configurator',
       ),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
       check: {

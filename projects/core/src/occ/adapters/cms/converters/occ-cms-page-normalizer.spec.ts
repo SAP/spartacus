@@ -219,7 +219,7 @@ describe('OccCmsPageNormalizer', () => {
   function mockPageData(
     page: Occ.CMSPage,
     position: string,
-    comp?: CmsComponent
+    comp?: CmsComponent,
   ): Occ.CMSPage {
     const data: Occ.CMSPage = {
       ...page,

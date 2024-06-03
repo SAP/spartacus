@@ -24,7 +24,7 @@ const addToCartQuantitySelector =
  */
 export function goToConfigOverviewPage(
   shopName: string,
-  productId: string
+  productId: string,
 ): Chainable<Window> {
   const location = `/${shopName}/en/USD/configure-overview/vc/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
@@ -88,7 +88,7 @@ export function clickOnResolveConflictsLinkOnOP(): void {
 export function checkNotificationBannerOnOP(
   element,
   kind: 'ISSUE' | 'CONFLICT',
-  numberOfIssues?: number
+  numberOfIssues?: number,
 ): void {
   const regExString =
     kind === 'ISSUE'
@@ -112,7 +112,7 @@ export function checkNotificationBannerOnOP(
  */
 export function verifyNotificationBannerOnOP(
   numberOfIssues?: number,
-  numberOfConflicts?: number
+  numberOfConflicts?: number,
 ): void {
   cy.wait(READ_CONFIG_OV_ALIAS);
   let element = cy.get('cx-configurator-overview-notification-banner', {
@@ -147,8 +147,8 @@ export function registerConfigurationOverviewRoute() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/ccpconfigurator/*/configurationOverview?lang=en&curr=USD`
+      'BASE_SITE',
+    )}/ccpconfigurator/*/configurationOverview?lang=en&curr=USD`,
   ).as(READ_CONFIG_OV_ALIAS.substring(1)); // strip the '@'
 }
 
@@ -159,7 +159,7 @@ export function registerConfigurationOverviewUpdateRoute() {
   cy.intercept({
     method: 'PATCH',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/ccpconfigurator/*`,
   }).as(UPDATE_CONFIG_OV_ALIAS.substring(1)); // strip the '@'
 }
@@ -192,7 +192,7 @@ export function checkFilterDisplayed(): void {
  */
 export function toggleSidebar(): void {
   cy.get(
-    'cx-configurator-overview-sidebar .cx-menu-bar button:not(.active)'
+    'cx-configurator-overview-sidebar .cx-menu-bar button:not(.active)',
   ).click();
 }
 
@@ -210,7 +210,7 @@ export function toggleGroupFilterAndWait(groupId: string): void {
  * @param {'mySelections' | 'price'} filter - type of attribute filter to toggle
  */
 export function toggleAttributeFilterAndWait(
-  filter: 'mySelections' | 'price'
+  filter: 'mySelections' | 'price',
 ): void {
   cy.get(`#cx-configurator-overview-filter-option-${filter}`).click();
   cy.wait(UPDATE_CONFIG_OV_ALIAS);

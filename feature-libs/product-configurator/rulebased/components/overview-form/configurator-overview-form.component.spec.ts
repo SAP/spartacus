@@ -68,7 +68,7 @@ class MockRoutingService {
 
 class MockConfiguratorCommonsService {
   getOrCreateConfiguration(
-    productCode: string
+    productCode: string,
   ): Observable<Configurator.Configuration> {
     configCreate.productCode = productCode;
     return configurationObservable
@@ -77,7 +77,7 @@ class MockConfiguratorCommonsService {
   }
 
   getConfigurationWithOverview(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration> {
     return overviewObservable ? overviewObservable : of(configuration);
   }
@@ -107,7 +107,7 @@ function checkConfigurationOverviewObs(
   routerMarbels: string,
   configurationMarbels: string,
   overviewMarbels: string,
-  expectedMarbels: string
+  expectedMarbels: string,
 ) {
   routerStateObservable = cold(routerMarbels, {
     a: mockRouterState,
@@ -122,7 +122,7 @@ function checkConfigurationOverviewObs(
   });
   initialize();
   expect(component.configuration$).toBeObservable(
-    cold(expectedMarbels, { u: configCreate, v: configCreate2 })
+    cold(expectedMarbels, { u: configCreate, v: configCreate2 }),
   );
 }
 
@@ -135,33 +135,31 @@ class MockConfiguratorPriceComponent {
 }
 
 describe('ConfigurationOverviewFormComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorOverviewFormComponent,
-          ConfiguratorOverviewAttributeComponent,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        ConfiguratorOverviewFormComponent,
+        ConfiguratorOverviewAttributeComponent,
 
-          MockConfiguratorPriceComponent,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+        MockConfiguratorPriceComponent,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     routerStateObservable = null;
     configurationObservable = null;
@@ -189,7 +187,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     expect(htmlElem.querySelectorAll('.cx-group').length).toBe(10);
 
     expect(htmlElem.querySelectorAll('.cx-attribute-value-pair').length).toBe(
-      11
+      11,
     );
   });
 
@@ -200,11 +198,11 @@ describe('ConfigurationOverviewFormComponent', () => {
     expect(htmlElem.querySelectorAll('.cx-group').length).toBe(0);
 
     expect(htmlElem.querySelectorAll('.cx-attribute-value-pair').length).toBe(
-      0
+      0,
     );
 
     expect(
-      htmlElem.querySelectorAll('.cx-no-attribute-value-pairs').length
+      htmlElem.querySelectorAll('.cx-no-attribute-value-pairs').length,
     ).toBe(1);
   });
 
@@ -227,7 +225,7 @@ describe('ConfigurationOverviewFormComponent', () => {
       const configWOOverviewGroups: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(
           configId,
-          ConfiguratorModelUtils.createInitialOwner()
+          ConfiguratorModelUtils.createInitialOwner(),
         ),
         overview: {
           configId: ConfigurationTestData.CONFIG_ID,
@@ -242,7 +240,7 @@ describe('ConfigurationOverviewFormComponent', () => {
       const configWOOverviewAttributes: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(
           configId,
-          ConfiguratorModelUtils.createInitialOwner()
+          ConfiguratorModelUtils.createInitialOwner(),
         ),
         overview: {
           configId: ConfigurationTestData.CONFIG_ID,
@@ -451,7 +449,7 @@ describe('ConfigurationOverviewFormComponent', () => {
         0,
         undefined,
         undefined,
-        'configurator.a11y.listOfAttributesAndValues'
+        'configurator.a11y.listOfAttributesAndValues',
       );
     });
 
@@ -464,7 +462,7 @@ describe('ConfigurationOverviewFormComponent', () => {
         1,
         undefined,
         undefined,
-        'configurator.a11y.group group:Group 1'
+        'configurator.a11y.group group:Group 1',
       );
     });
 
@@ -477,7 +475,7 @@ describe('ConfigurationOverviewFormComponent', () => {
         0,
         'aria-hidden',
         'true',
-        'Group 1'
+        'Group 1',
       );
     });
   });
@@ -513,7 +511,7 @@ describe('ConfigurationOverviewFormComponent', () => {
       initialize();
       const result = component.getGroupLevelStyleClasses(
         1,
-        groupWithSubgroups.subGroups
+        groupWithSubgroups.subGroups,
       );
       expect(result).toEqual('cx-group topLevel subgroupTopLevel');
     });
@@ -522,7 +520,7 @@ describe('ConfigurationOverviewFormComponent', () => {
       initialize();
       const result = component.getGroupLevelStyleClasses(
         2,
-        groupWithSubgroups.subGroups
+        groupWithSubgroups.subGroups,
       );
       expect(result).toEqual('cx-group subgroup subgroupLevel2');
     });

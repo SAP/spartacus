@@ -22,13 +22,13 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
-    protected cartConfig: CartConfigService
+    protected cartConfig: CartConfigService,
   ) {}
 
   handle(
     slots$: Observable<string[]>,
     pageTemplate?: string,
-    section?: string
+    section?: string,
   ) {
     if (pageTemplate === 'CartPageTemplate' && !section) {
       return combineLatest([
@@ -47,14 +47,14 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
                 'EmptyCartMiddleContent',
               ])
             : cart.totalItems
-            ? exclude(slots, ['EmptyCartMiddleContent'])
-            : selectiveCart?.totalItems
-            ? exclude(slots, [
-                'EmptyCartMiddleContent',
-                'CenterRightContentSlot',
-              ])
-            : exclude(slots, ['TopContent', 'CenterRightContentSlot']);
-        })
+              ? exclude(slots, ['EmptyCartMiddleContent'])
+              : selectiveCart?.totalItems
+                ? exclude(slots, [
+                    'EmptyCartMiddleContent',
+                    'CenterRightContentSlot',
+                  ])
+                : exclude(slots, ['TopContent', 'CenterRightContentSlot']);
+        }),
       );
     }
     return slots$;

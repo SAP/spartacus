@@ -33,11 +33,11 @@ export abstract class OrgUnitAdapter {
   abstract update(
     userId: string,
     orgUnitId: string,
-    orgUnit: B2BUnit
+    orgUnit: B2BUnit,
   ): Observable<B2BUnit>;
 
   abstract loadApprovalProcesses(
-    userId: string
+    userId: string,
   ): Observable<B2BApprovalProcess[]>;
 
   abstract loadTree(userId: string): Observable<B2BUnitNode>;
@@ -46,56 +46,56 @@ export abstract class OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<B2BUser>>;
 
   abstract assignRole(
     userId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): Observable<any>;
 
   abstract unassignRole(
     userId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): Observable<any>;
 
   abstract assignApprover(
     userId: string,
     orgUnitId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): Observable<any>;
 
   abstract unassignApprover(
     userId: string,
     orgUnitId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): Observable<any>;
 
   abstract loadAddresses(
     userId: string,
-    orgUnitId: string
+    orgUnitId: string,
   ): Observable<EntitiesModel<Address>>;
 
   abstract createAddress(
     userId: string,
     orgUnitId: string,
-    address: Address
+    address: Address,
   ): Observable<Address>;
 
   abstract updateAddress(
     userId: string,
     orgUnitId: string,
     addressId: string,
-    address: Address
+    address: Address,
   ): Observable<Address>;
 
   abstract deleteAddress(
     userId: string,
     orgUnitId: string,
-    addressId: string
+    addressId: string,
   ): Observable<any>;
 }

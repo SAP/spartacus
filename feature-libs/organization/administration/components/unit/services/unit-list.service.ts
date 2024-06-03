@@ -33,7 +33,7 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
     protected tableService: TableService,
     protected unitService: OrgUnitService,
     protected unitItemService: UnitItemService,
-    protected unitTreeService: UnitTreeService
+    protected unitTreeService: UnitTreeService,
   ) {
     super(tableService);
   }
@@ -47,20 +47,20 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
               this.unitTreeService.initialize(node, key);
             }
             return node;
-          })
-        )
+          }),
+        ),
       ),
       switchMap((tree) =>
-        this.unitTreeService.treeToggle$.pipe(map(() => tree))
+        this.unitTreeService.treeToggle$.pipe(map(() => tree)),
       ),
-      map((tree: B2BUnitNode | undefined) => this.convertListItem(tree))
+      map((tree: B2BUnitNode | undefined) => this.convertListItem(tree)),
     );
   }
 
   protected convertListItem(
     unit: B2BUnitNode | undefined,
     depthLevel = 0,
-    pagination = { totalResults: 0 }
+    pagination = { totalResults: 0 },
   ): EntitiesModel<B2BUnitTreeNode> | undefined {
     let values: B2BUnitTreeNode[] = [];
     if (!unit) {
@@ -75,7 +75,7 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
       // tmp, should be normalized
       uid: unit.id ?? '',
       children: [...(unit.children ?? [])].sort((unitA, unitB) =>
-        (unitA.name ?? '').localeCompare(unitB.name ?? '')
+        (unitA.name ?? '').localeCompare(unitB.name ?? ''),
       ),
     };
 
@@ -86,7 +86,7 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
       const childList = this.convertListItem(
         childUnit,
         depthLevel + 1,
-        pagination
+        pagination,
       )?.values;
       if (node.expanded && childList && childList.length > 0) {
         values = values.concat(childList);

@@ -29,7 +29,7 @@ export class SearchVariantsFail extends StateUtils.EntityFailAction {
 export class SearchVariantsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = SEARCH_VARIANTS_SUCCESS;
   constructor(
-    public payload: { ownerKey: string; variants: Configurator.Variant[] }
+    public payload: { ownerKey: string; variants: Configurator.Variant[] },
   ) {
     super(CONFIGURATOR_DATA, payload.ownerKey);
   }

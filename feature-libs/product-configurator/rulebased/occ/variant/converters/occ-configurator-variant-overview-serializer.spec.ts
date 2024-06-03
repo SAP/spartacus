@@ -27,7 +27,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     });
 
     classUnderTest = TestBed.inject(
-      OccConfiguratorVariantOverviewSerializer as Type<OccConfiguratorVariantOverviewSerializer>
+      OccConfiguratorVariantOverviewSerializer as Type<OccConfiguratorVariantOverviewSerializer>,
     );
   });
 
@@ -51,7 +51,7 @@ describe('OccConfiguratorVariantSerializer', () => {
   describe('convertAttributeFilters', () => {
     it('should convert a filter to OCC format and mark it as selected', () => {
       const occFilters = classUnderTest['convertAttributeFilters'](
-        OVERVIEW_ATTRIBUTE_FILTERS
+        OVERVIEW_ATTRIBUTE_FILTERS,
       );
       expect(occFilters.length).toBe(1);
       const occFilter = occFilters[0];
@@ -59,12 +59,12 @@ describe('OccConfiguratorVariantSerializer', () => {
     });
     it('should put OCC filter key correctly', () => {
       const occFilters = classUnderTest['convertAttributeFilters'](
-        OVERVIEW_ATTRIBUTE_FILTERS
+        OVERVIEW_ATTRIBUTE_FILTERS,
       );
       expect(occFilters.length).toBe(1);
       const occFilter = occFilters[0];
       expect(occFilter.key).toBe(
-        OccConfigurator.OverviewFilterEnum.PRICE_RELEVANT
+        OccConfigurator.OverviewFilterEnum.PRICE_RELEVANT,
       );
     });
     it('should cover an undefined list of filters', () => {
@@ -76,7 +76,7 @@ describe('OccConfiguratorVariantSerializer', () => {
   describe('convertGroupFilters', () => {
     it('should convert a filter to OCC format and mark it as selected', () => {
       const occFilters = classUnderTest['convertGroupFilters'](
-        OVERVIEW_GROUP_FILTERS
+        OVERVIEW_GROUP_FILTERS,
       );
       expect(occFilters.length).toBe(2);
       const occFilter = occFilters[0];
@@ -84,7 +84,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     });
     it('should put OCC filter key correctly', () => {
       const occFilters = classUnderTest['convertGroupFilters'](
-        OVERVIEW_GROUP_FILTERS
+        OVERVIEW_GROUP_FILTERS,
       );
       expect(occFilters.length).toBe(2);
       const occFilter = occFilters[1];

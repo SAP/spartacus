@@ -39,7 +39,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
 
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -65,12 +65,12 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
         ...this.attribute,
         selectedSingleValue: value,
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   }
 
   extractValuePriceFormulaParameters(
-    value?: Configurator.Value
+    value?: Configurator.Value,
   ): ConfiguratorPriceComponentOptions {
     return {
       price: value?.valuePrice,

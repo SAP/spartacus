@@ -20,12 +20,12 @@ describe('Language switch - cart page', () => {
 
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
-    siteContextSelector.LANGUAGES
+    siteContextSelector.LANGUAGES,
   );
 
   siteContextSelector.stub(
     siteContextSelector.CART_REQUEST,
-    siteContextSelector.CART
+    siteContextSelector.CART,
   );
 
   describe('cart page', () => {
@@ -35,7 +35,7 @@ describe('Language switch - cart page', () => {
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + cartPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + cartPath,
       );
     });
 
@@ -44,7 +44,7 @@ describe('Language switch - cart page', () => {
         cartPath,
         siteContextSelector.CART,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
 
       cy.get('cx-cart-item-list .cx-link').should('contain', deutschName);

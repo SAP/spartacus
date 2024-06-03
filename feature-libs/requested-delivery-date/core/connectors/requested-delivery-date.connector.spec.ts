@@ -13,7 +13,7 @@ class MockRequestedDeliveryDateAdapter
   implements Partial<RequestedDeliveryDateAdapter>
 {
   setRequestedDeliveryDate = createSpy(
-    'RequestedDeliveryDateAdapter.setRequestedDeliveryDate'
+    'RequestedDeliveryDateAdapter.setRequestedDeliveryDate',
   ).and.callFake((_userId: string, _cartId: string, _date: Date) => of());
 }
 
@@ -50,7 +50,7 @@ describe('RequestedDeliveryDateConnector', () => {
     expect(adapter.setRequestedDeliveryDate).toHaveBeenCalledWith(
       mockUserId,
       mockCartId,
-      mockRequestedDate
+      mockRequestedDate,
     );
   });
 });

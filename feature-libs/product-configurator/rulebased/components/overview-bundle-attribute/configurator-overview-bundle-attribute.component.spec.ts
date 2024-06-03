@@ -65,23 +65,21 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
   let fixture: ComponentFixture<ConfiguratorOverviewBundleAttributeComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [MediaModule, I18nTestingModule],
-        declarations: [
-          ConfiguratorOverviewBundleAttributeComponent,
-          MockConfiguratorPriceComponent,
-          MockNumericPipe,
-        ],
-        providers: [{ provide: ProductService, useClass: MockProductService }],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [MediaModule, I18nTestingModule],
+      declarations: [
+        ConfiguratorOverviewBundleAttributeComponent,
+        MockConfiguratorPriceComponent,
+        MockNumericPipe,
+      ],
+      providers: [{ provide: ProductService, useClass: MockProductService }],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ConfiguratorOverviewBundleAttributeComponent
+      ConfiguratorOverviewBundleAttributeComponent,
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -149,7 +147,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
         fixture.detectChanges();
 
         expect(getProductImage().attributes['src']).toEqual(
-          mockProductImageUrl
+          mockProductImageUrl,
         );
       });
 
@@ -178,7 +176,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       };
       attrOverview.quantity = 2;
       expect(component.getAriaLabel()).toBe(
-        'configurator.a11y.itemOfAttributeFullWithPriceAndQuantity attribute:testAttribute item:testValue price:$20 quantity:2'
+        'configurator.a11y.itemOfAttributeFullWithPriceAndQuantity attribute:testAttribute item:testValue price:$20 quantity:2',
       );
     });
 
@@ -191,7 +189,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       };
       attrOverview.quantity = 2;
       expect(component.getAriaLabel()).toBe(
-        'configurator.a11y.itemOfAttributeFullWithQuantity attribute:testAttribute item:testValue quantity:2'
+        'configurator.a11y.itemOfAttributeFullWithQuantity attribute:testAttribute item:testValue quantity:2',
       );
     });
 
@@ -209,7 +207,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       };
       attrOverview.quantity = undefined;
       expect(component.getAriaLabel()).toBe(
-        'configurator.a11y.itemOfAttributeFullWithPrice attribute:testAttribute item:testValue price:$20'
+        'configurator.a11y.itemOfAttributeFullWithPrice attribute:testAttribute item:testValue price:$20',
       );
     });
 
@@ -222,7 +220,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       };
       attrOverview.quantity = undefined;
       expect(component.getAriaLabel()).toBe(
-        'configurator.a11y.itemOfAttributeFull attribute:testAttribute item:testValue'
+        'configurator.a11y.itemOfAttributeFull attribute:testAttribute item:testValue',
       );
     });
   });
@@ -254,7 +252,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
         undefined,
         0,
         'aria-hidden',
-        'true'
+        'true',
       );
     });
 
@@ -272,7 +270,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
           ' item:' +
           component.attributeOverview.value +
           ' price:' +
-          component.attributeOverview.valuePrice?.formattedValue
+          component.attributeOverview.valuePrice?.formattedValue,
       );
     });
 
@@ -285,7 +283,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
         0,
         'aria-hidden',
         'true',
-        component.attributeOverview.value
+        component.attributeOverview.value,
       );
     });
 
@@ -297,7 +295,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
         'cx-attribute-price-container',
         0,
         'aria-hidden',
-        'true'
+        'true',
       );
     });
   });

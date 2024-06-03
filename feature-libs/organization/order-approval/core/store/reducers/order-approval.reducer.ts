@@ -13,7 +13,7 @@ export const orderApprovalsInitialState: ListModel | undefined = undefined;
 
 export function orderApprovalsEntitiesReducer(
   state = orderApprovalInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): OrderApproval | undefined {
   switch (action.type) {
     case OrderApprovalActions.LOAD_ORDER_APPROVAL_SUCCESS:
@@ -26,7 +26,7 @@ export function orderApprovalsEntitiesReducer(
 
 export function orderApprovalsListReducer(
   state = orderApprovalsInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case OrderApprovalActions.LOAD_ORDER_APPROVALS_SUCCESS:

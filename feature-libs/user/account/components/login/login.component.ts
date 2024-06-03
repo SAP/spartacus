@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private userAccount: UserAccountFacade
+    private userAccount: UserAccountFacade,
   ) {
     useFeatureStyles('a11yMyAccountLinkOutline');
   }
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
         } else {
           return of(undefined);
         }
-      })
+      }),
     );
   }
 }

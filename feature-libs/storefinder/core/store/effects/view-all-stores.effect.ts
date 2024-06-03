@@ -22,7 +22,7 @@ export class ViewAllStoresEffect {
 
   constructor(
     private actions$: Actions,
-    private storeFinderConnector: StoreFinderConnector
+    private storeFinderConnector: StoreFinderConnector,
   ) {}
 
   viewAllStores$: Observable<
@@ -32,26 +32,26 @@ export class ViewAllStoresEffect {
     this.actions$.pipe(
       ofType(
         StoreFinderActions.VIEW_ALL_STORES,
-        StoreFinderActions.CLEAR_STORE_FINDER_DATA
+        StoreFinderActions.CLEAR_STORE_FINDER_DATA,
       ),
       switchMap(() => {
         return this.storeFinderConnector.getCounts().pipe(
           map((data) => {
             data.sort((a, b) =>
-              a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+              a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
             );
             return new StoreFinderActions.ViewAllStoresSuccess(data);
           }),
           catchError((error) =>
             of(
               new StoreFinderActions.ViewAllStoresFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   clearStoreFinderData$: Observable<StoreFinderActions.ClearStoreFinderData> =
@@ -59,11 +59,11 @@ export class ViewAllStoresEffect {
       this.actions$.pipe(
         ofType(
           SiteContextActions.LANGUAGE_CHANGE,
-          SiteContextActions.CURRENCY_CHANGE
+          SiteContextActions.CURRENCY_CHANGE,
         ),
         map(() => {
           return new StoreFinderActions.ClearStoreFinderData();
-        })
-      )
+        }),
+      ),
     );
 }

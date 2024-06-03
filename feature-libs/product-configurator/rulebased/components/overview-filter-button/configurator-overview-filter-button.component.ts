@@ -20,7 +20,7 @@ export class ConfiguratorOverviewFilterButtonComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
   ) {}
 
   @ViewChild('filterButton') filterButton: ElementRef;
@@ -29,18 +29,18 @@ export class ConfiguratorOverviewFilterButtonComponent {
   configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner)
+        this.configuratorCommonsService.getConfiguration(routerData.owner),
       ),
       // filter 'strict null check safe'
       filter(
-        (configuration) => configuration.overview != null
+        (configuration) => configuration.overview != null,
       ) as OperatorFunction<
         Configurator.Configuration,
         Configurator.ConfigurationWithOverview
       >,
       tap(() => {
         this.ghostStyle = false;
-      })
+      }),
     );
 
   /**
@@ -64,7 +64,7 @@ export class ConfiguratorOverviewFilterButtonComponent {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,
       this.filterButton,
-      config
+      config,
     );
   }
 }

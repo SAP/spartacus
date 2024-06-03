@@ -80,7 +80,7 @@ context('Cart validation', () => {
           .contains('cx-cart-validation-warnings span', PRODUCT_1.name)
           .should(
             'contain',
-            `has been removed from the cart due to insufficient stock.`
+            `has been removed from the cart due to insufficient stock.`,
           );
 
         removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
@@ -97,7 +97,7 @@ context('Cart validation', () => {
 
         cy.get('cx-global-message').should(
           'contain',
-          `${PRODUCT_1.name} was removed from the cart due to being out of stock.`
+          `${PRODUCT_1.name} was removed from the cart due to being out of stock.`,
         );
 
         removeItemAndCheckCartEntriesNumber(PRODUCT_1, 0);

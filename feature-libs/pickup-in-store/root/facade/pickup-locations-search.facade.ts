@@ -46,14 +46,14 @@ export abstract class PickupLocationsSearchFacade {
   abstract stockLevelAtStore(productCode: string, storeName: string): void;
   abstract getStockLevelAtStore(
     productCode: string,
-    storeName: string
+    storeName: string,
   ): Observable<Stock | undefined>;
 
   abstract startSearch(searchParams: StockLocationSearchParams): void;
   abstract hasSearchStarted(productCode: string): Observable<boolean>;
   abstract isSearchRunning(): Observable<boolean>;
   abstract getSearchResults(
-    productCode: string
+    productCode: string,
   ): Observable<PointOfServiceStock[]>;
   abstract clearSearchResults(): void;
   abstract getHideOutOfStock(): Observable<boolean>;

@@ -15,7 +15,7 @@ describe('withdrawOn', () => {
     it('should emit delayed values from source observable', () => {
       const notifier$ = EMPTY;
       const source$ = cold('-a-b--c', { a: '1', b: '2', c: '3' }).pipe(
-        delay(10, getTestScheduler())
+        delay(10, getTestScheduler()),
       );
       const target$ = cold('--a-b--c', { a: '1', b: '2', c: '3' });
       const transformed$ = source$.pipe(withdrawOn(notifier$));
@@ -28,7 +28,7 @@ describe('withdrawOn', () => {
       const notifier$ = cold('a', { a: undefined });
       const source$ = hot('a', { a: '1' }).pipe(
         delay(10, getTestScheduler()),
-        withdrawOn(notifier$)
+        withdrawOn(notifier$),
       );
       const target$ = cold('');
 
@@ -39,7 +39,7 @@ describe('withdrawOn', () => {
       const notifier$ = cold('----a', { a: undefined });
       const source$ = hot('-a-b--c', { a: '1', b: '2', c: '3' }).pipe(
         delay(10, getTestScheduler()),
-        withdrawOn(notifier$)
+        withdrawOn(notifier$),
       );
       const target$ = cold('--a----c', { a: '1', c: '3' });
 
@@ -50,7 +50,7 @@ describe('withdrawOn', () => {
       const notifier$ = cold('----a----a', { a: undefined });
       const source$ = hot('-a-b--c-a-b-c', { a: '1', b: '2', c: '3' }).pipe(
         delay(10, getTestScheduler()),
-        withdrawOn(notifier$)
+        withdrawOn(notifier$),
       );
       const target$ = cold('--a----c---b-c', { a: '1', b: '2', c: '3' });
 

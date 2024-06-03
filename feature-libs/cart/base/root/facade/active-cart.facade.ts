@@ -77,7 +77,7 @@ export abstract class ActiveCartFacade {
    * @param productCode
    */
   abstract getLastEntry(
-    productCode: string
+    productCode: string,
   ): Observable<OrderEntry | undefined>;
 
   /**
@@ -100,7 +100,7 @@ export abstract class ActiveCartFacade {
   abstract addEntry(
     productCode: string,
     quantity: number,
-    pickupStore?: string
+    pickupStore?: string,
   ): void;
 
   /**
@@ -122,7 +122,7 @@ export abstract class ActiveCartFacade {
     entryNumber: number,
     quantity: number,
     pickupStore?: string,
-    pickupToDelivery?: boolean
+    pickupToDelivery?: boolean,
   ): void;
 
   /**

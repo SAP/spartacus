@@ -17,7 +17,7 @@ import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';
 export class BaseSiteInitializer implements OnDestroy {
   constructor(
     protected baseSiteService: BaseSiteService,
-    protected configInit: ConfigInitializerService
+    protected configInit: ConfigInitializerService,
   ) {}
 
   protected subscription: Subscription;
@@ -30,7 +30,7 @@ export class BaseSiteInitializer implements OnDestroy {
       .getStable('context')
       .pipe(
         // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
-        switchMap(() => this.setFallbackValue())
+        switchMap(() => this.setFallbackValue()),
       )
       .subscribe();
   }
@@ -44,7 +44,7 @@ export class BaseSiteInitializer implements OnDestroy {
     return this.configInit
       .getStable('context')
       .pipe(
-        tap((config: SiteContextConfig) => this.setDefaultFromConfig(config))
+        tap((config: SiteContextConfig) => this.setDefaultFromConfig(config)),
       );
   }
 
@@ -55,7 +55,7 @@ export class BaseSiteInitializer implements OnDestroy {
   protected setDefaultFromConfig(config: SiteContextConfig): void {
     const contextParam = getContextParameterDefault(
       config,
-      BASE_SITE_CONTEXT_ID
+      BASE_SITE_CONTEXT_ID,
     );
     if (!this.baseSiteService.isInitialized() && contextParam) {
       this.baseSiteService.setActive(contextParam);

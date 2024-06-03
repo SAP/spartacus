@@ -22,7 +22,7 @@ describe('Loader reducer', () => {
       const action = {} as Action;
       const state = loaderReducer(TEST_ENTITY_TYPE, subReducer)(
         undefined,
-        action
+        action,
       );
       expect(state).toEqual({ ...initialLoaderState, value: 'default' });
     });
@@ -101,7 +101,7 @@ describe('Loader reducer', () => {
 
       const state = loaderReducer(TEST_ENTITY_TYPE, subReducer)(
         initialState,
-        action
+        action,
       );
 
       expect(state).toEqual({ ...initialLoaderState, value: 'default' });

@@ -38,7 +38,7 @@ export class CustomerTicketingCreateDialogComponent
       catchError((error: any) => {
         this.handleError(error);
         return of([]);
-      })
+      }),
     );
   subscription: Subscription;
 
@@ -74,11 +74,11 @@ export class CustomerTicketingCreateDialogComponent
       new FormControl('', [
         Validators.required,
         Validators.maxLength(this.inputCharactersForSubject),
-      ])
+      ]),
     );
     form.setControl(
       'ticketCategory',
-      new FormControl('', [Validators.required])
+      new FormControl('', [Validators.required]),
     );
     form.setControl('associatedTo', new FormControl(''));
     form.setControl(
@@ -86,7 +86,7 @@ export class CustomerTicketingCreateDialogComponent
       new FormControl('', [
         Validators.required,
         Validators.maxLength(this.inputCharactersLimit),
-      ])
+      ]),
     );
     form.setControl(
       'file',
@@ -94,7 +94,7 @@ export class CustomerTicketingCreateDialogComponent
         this.filesFormValidators.maxSize(this.maxSize),
         this.filesFormValidators.maxEntries(MAX_ENTRIES_FOR_ATTACHMENT),
         this.filesFormValidators.allowedTypes(this.allowedTypes),
-      ])
+      ]),
     );
     this.form = form;
   }
@@ -117,7 +117,7 @@ export class CustomerTicketingCreateDialogComponent
               this.customerTicketingFacade.uploadAttachment(
                 this.attachment,
                 response.ticketEvents?.[0].code,
-                response.id
+                response.id,
               );
             }
           },
@@ -137,7 +137,7 @@ export class CustomerTicketingCreateDialogComponent
         if (err.message) {
           this.globalMessage.add(
             { raw: err.message },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
         }
       });
@@ -148,7 +148,7 @@ export class CustomerTicketingCreateDialogComponent
         .subscribe((text) => {
           this.globalMessage.add(
             { raw: text },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
         });
     }

@@ -57,7 +57,7 @@ export class ProductScrollComponent implements OnDestroy {
 
   constructor(
     private productListComponentService: ProductListComponentService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
   ) {}
 
   scrollPage(pageNumber: number): void {

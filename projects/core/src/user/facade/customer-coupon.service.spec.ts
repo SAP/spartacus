@@ -41,7 +41,7 @@ describe('CustomerCouponService', () => {
         StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
+          fromProcessReducers.getReducers(),
         ),
       ],
       providers: [
@@ -63,7 +63,7 @@ describe('CustomerCouponService', () => {
         pageSize: 10,
         currentPage: 1,
         sort: 'byDate',
-      })
+      }),
     );
   });
 
@@ -73,7 +73,7 @@ describe('CustomerCouponService', () => {
         coupons: [],
         pagination: {},
         sorts: [],
-      })
+      }),
     );
 
     let customerCouponSearchResult: CustomerCouponSearchResult;
@@ -110,7 +110,7 @@ describe('CustomerCouponService', () => {
         pageSize: 10,
         currentPage: 1,
         sort: 'byDate',
-      })
+      }),
     );
 
     let customerCouponLoaded: boolean;
@@ -129,7 +129,7 @@ describe('CustomerCouponService', () => {
       new UserActions.SubscribeCustomerCoupon({
         userId: OCC_USER_ID_CURRENT,
         couponCode: 'couponCode',
-      })
+      }),
     );
   });
 
@@ -138,7 +138,7 @@ describe('CustomerCouponService', () => {
       new UserActions.SubscribeCustomerCoupon({
         userId: OCC_USER_ID_CURRENT,
         couponCode: 'couponCode',
-      })
+      }),
     );
 
     let result = false;
@@ -180,7 +180,7 @@ describe('CustomerCouponService', () => {
       new UserActions.UnsubscribeCustomerCoupon({
         userId: OCC_USER_ID_CURRENT,
         couponCode: 'couponCode',
-      })
+      }),
     );
   });
 
@@ -189,7 +189,7 @@ describe('CustomerCouponService', () => {
       new UserActions.UnsubscribeCustomerCoupon({
         userId: OCC_USER_ID_CURRENT,
         couponCode: 'couponCode',
-      })
+      }),
     );
 
     let result = false;
@@ -231,14 +231,14 @@ describe('CustomerCouponService', () => {
       new UserActions.ClaimCustomerCoupon({
         userId: OCC_USER_ID_CURRENT,
         couponCode: 'couponCode',
-      })
+      }),
     );
   });
   it('should dispatch ResetDisclaimCustomerCoupon action', () => {
     service.resetDisclaimCustomerCoupon();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ResetDisclaimCustomerCoupon()
+      new UserActions.ResetDisclaimCustomerCoupon(),
     );
   });
 });

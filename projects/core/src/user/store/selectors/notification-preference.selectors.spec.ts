@@ -55,8 +55,8 @@ describe('Notification Preference Selectors', () => {
 
       store.dispatch(
         new UserActions.LoadNotificationPreferencesSuccess(
-          mockNotificationPreference
-        )
+          mockNotificationPreference,
+        ),
       );
       expect(result).toEqual(mockNotificationPreference);
     });
@@ -72,8 +72,8 @@ describe('Notification Preference Selectors', () => {
 
       store.dispatch(
         new UserActions.LoadNotificationPreferencesSuccess(
-          mockNotificationPreference
-        )
+          mockNotificationPreference,
+        ),
       );
       expect(result).toEqual([]);
     });

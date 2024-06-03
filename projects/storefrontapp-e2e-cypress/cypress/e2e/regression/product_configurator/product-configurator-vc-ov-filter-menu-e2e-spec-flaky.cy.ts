@@ -22,7 +22,7 @@ context('Product Configuration', () => {
     configurationVc.checkCommerceRelease(
       electronicsShop,
       testProduct,
-      commerceRelease
+      commerceRelease,
     );
   });
 
@@ -31,7 +31,7 @@ context('Product Configuration', () => {
 
     configurationOverviewVc.goToConfigOverviewPage(
       electronicsShop,
-      testProduct
+      testProduct,
     );
     configurationOverviewVc.checkSidebarDisplayed();
     configurationOverviewVc.checkMenuDisplayed();
@@ -116,13 +116,13 @@ function completeDigitalCameraConfiguration(isPricingEnabled?: boolean) {
     'CAMERA_MODE',
     RB,
     'P',
-    isPricingEnabled
+    isPricingEnabled,
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_COLOR',
     RB,
     'BLACK',
-    isPricingEnabled
+    isPricingEnabled,
   );
 
   configurationVc.clickOnNextBtnAndWait('Specification');
@@ -130,50 +130,50 @@ function completeDigitalCameraConfiguration(isPricingEnabled?: boolean) {
     'CAMERA_PIXELS',
     RB,
     'P16',
-    isPricingEnabled
+    isPricingEnabled,
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_SENSOR',
     RB,
     'F',
-    isPricingEnabled
+    isPricingEnabled,
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_VIEWFINDER',
     RB,
     'R',
-    isPricingEnabled
+    isPricingEnabled,
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_SD_CARD',
     CBL,
     'SDHC',
-    isPricingEnabled
+    isPricingEnabled,
   );
 
   configurationVc.selectAttributeAndWait(
     'CAMERA_SD_CARD',
     CBL,
     'SDXC',
-    isPricingEnabled
+    isPricingEnabled,
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_SECOND_SLOT',
     RB,
     'Y',
-    isPricingEnabled
+    isPricingEnabled,
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_FORMAT_PICTURES',
     RB,
     'RAW',
-    isPricingEnabled
+    isPricingEnabled,
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_MAX_ISO',
     RB,
     '25600',
-    isPricingEnabled
+    isPricingEnabled,
   );
 
   configurationVc.clickOnNextBtnAndWait('Display');
@@ -181,19 +181,19 @@ function completeDigitalCameraConfiguration(isPricingEnabled?: boolean) {
     'CAMERA_DISPLAY',
     RB,
     'P10',
-    isPricingEnabled
+    isPricingEnabled,
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_TOUCHSCREEN',
     RB,
     'Y',
-    isPricingEnabled
+    isPricingEnabled,
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_TILTABLE',
     RB,
     'Y',
-    isPricingEnabled
+    isPricingEnabled,
   );
 
   configurationVc.clickOnNextBtnAndWait('Lens');
@@ -201,13 +201,13 @@ function completeDigitalCameraConfiguration(isPricingEnabled?: boolean) {
     'CAMERA_LENS_MANUFACTURER',
     RB,
     'LEICA',
-    isPricingEnabled
+    isPricingEnabled,
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_LENS_TYPE',
     RB,
     'STANDARD_ZOOM_24_70',
-    isPricingEnabled
+    isPricingEnabled,
   );
 
   configurationVc.clickOnNextBtnAndWait('Options');
@@ -215,12 +215,12 @@ function completeDigitalCameraConfiguration(isPricingEnabled?: boolean) {
     'CAMERA_OPTIONS',
     CBL,
     'W',
-    isPricingEnabled
+    isPricingEnabled,
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_OPTIONS',
     CBL,
     'I',
-    isPricingEnabled
+    isPricingEnabled,
   );
 }

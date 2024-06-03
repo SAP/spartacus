@@ -26,13 +26,13 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   setCostCenter(
     userId: string,
     cartId: string,
-    costCenterId: string
+    costCenterId: string,
   ): Observable<Cart> {
     return this.http
       .put(this.getSetCartCostCenterEndpoint(userId, cartId, costCenterId), {})
@@ -41,14 +41,14 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
           throw normalizeHttpError(error, this.logger);
         }),
         backOff({ shouldRetry: isJaloError }),
-        this.converter.pipeable(CART_NORMALIZER)
+        this.converter.pipeable(CART_NORMALIZER),
       );
   }
 
   protected getSetCartCostCenterEndpoint(
     userId: string,
     cartId: string,
-    costCenterId: string
+    costCenterId: string,
   ): string {
     return this.occEndpoints.buildUrl('setCartCostCenter', {
       urlParams: { userId, cartId },

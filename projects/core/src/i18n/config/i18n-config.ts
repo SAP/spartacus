@@ -67,7 +67,7 @@ export abstract class I18nConfig {
        */
       loader?: (
         language: string,
-        chunkName: string
+        chunkName: string,
       ) => Promise<TranslationResourceKey>;
     };
 

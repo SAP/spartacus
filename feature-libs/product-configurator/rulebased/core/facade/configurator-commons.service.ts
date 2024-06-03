@@ -30,7 +30,7 @@ export class ConfiguratorCommonsService {
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configuratorCartService: ConfiguratorCartService,
     protected activeCartService: ActiveCartFacade,
-    protected configuratorUtils: ConfiguratorUtilsService
+    protected configuratorUtils: ConfiguratorUtilsService,
   ) {}
 
   /**
@@ -42,7 +42,7 @@ export class ConfiguratorCommonsService {
    */
   hasPendingChanges(owner: CommonConfigurator.Owner): Observable<boolean> {
     return this.store.pipe(
-      select(ConfiguratorSelectors.hasPendingChanges(owner.key))
+      select(ConfiguratorSelectors.hasPendingChanges(owner.key)),
     );
   }
 
@@ -57,10 +57,10 @@ export class ConfiguratorCommonsService {
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
-          owner.key
-        )
+          owner.key,
+        ),
       ),
-      map((configurationState) => configurationState.loading ?? false)
+      map((configurationState) => configurationState.loading ?? false),
     );
   }
 
@@ -74,13 +74,13 @@ export class ConfiguratorCommonsService {
    * @returns {Observable<Configurator.Configuration>}
    */
   getConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       filter((configuration) =>
-        this.configuratorUtils.isConfigurationCreated(configuration)
-      )
+        this.configuratorUtils.isConfigurationCreated(configuration),
+      ),
     );
   }
 
@@ -95,19 +95,19 @@ export class ConfiguratorCommonsService {
    */
   getOrCreateConfiguration(
     owner: CommonConfigurator.Owner,
-    configIdTemplate?: string
+    configIdTemplate?: string,
   ): Observable<Configurator.Configuration> {
     switch (owner.type) {
       case CommonConfigurator.OwnerType.CART_ENTRY: {
         return this.configuratorCartService.readConfigurationForCartEntry(
-          owner
+          owner,
         );
       }
       case CommonConfigurator.OwnerType.ORDER_ENTRY:
       case CommonConfigurator.OwnerType.QUOTE_ENTRY:
       case CommonConfigurator.OwnerType.SAVED_CART_ENTRY: {
         return this.configuratorCartService.readConfigurationForOrderEntry(
-          owner
+          owner,
         );
       }
       default: {
@@ -125,7 +125,7 @@ export class ConfiguratorCommonsService {
   updateConfiguration(
     ownerKey: string,
     changedAttribute: Configurator.Attribute,
-    updateType?: Configurator.UpdateType
+    updateType?: Configurator.UpdateType,
   ): void {
     if (!updateType) {
       updateType = Configurator.UpdateType.ATTRIBUTE;
@@ -144,7 +144,7 @@ export class ConfiguratorCommonsService {
             tap((stable) => {
               if (isDevMode() && cart.code && !stable) {
                 this.logger.warn(
-                  'Cart is busy, no configuration updates possible'
+                  'Cart is busy, no configuration updates possible',
                 );
               }
             }),
@@ -152,11 +152,11 @@ export class ConfiguratorCommonsService {
             switchMap(() =>
               this.store.pipe(
                 select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
-                take(1)
-              )
-            )
-          )
-        )
+                take(1),
+              ),
+            ),
+          ),
+        ),
       )
       .subscribe((configuration) => {
         this.store.dispatch(
@@ -164,9 +164,9 @@ export class ConfiguratorCommonsService {
             this.configuratorUtils.createConfigurationExtract(
               changedAttribute,
               configuration,
-              updateType
-            )
-          )
+              updateType,
+            ),
+          ),
         );
       });
   }
@@ -181,40 +181,42 @@ export class ConfiguratorCommonsService {
    * @returns Observable of configurations including the overview
    */
   getConfigurationWithOverview(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration> {
     return this.filterNotLoadingAndCreatedConfiguration(
       this.store.pipe(
         select(
           ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
-            configuration.owner.key
-          )
-        )
-      )
+            configuration.owner.key,
+          ),
+        ),
+      ),
     ).pipe(
       tap((config) => {
         if (!this.hasConfigurationOverview(config)) {
           this.store.dispatch(
-            new ConfiguratorActions.GetConfigurationOverview(configuration)
+            new ConfiguratorActions.GetConfigurationOverview(configuration),
           );
         }
       }),
-      filter((config) => this.hasConfigurationOverview(config))
+      filter((config) => this.hasConfigurationOverview(config)),
     );
   }
 
   protected filterNotLoadingAndCreatedConfiguration(
-    loaderState$: Observable<StateUtils.LoaderState<Configurator.Configuration>>
+    loaderState$: Observable<
+      StateUtils.LoaderState<Configurator.Configuration>
+    >,
   ): Observable<Configurator.Configuration> {
     return loaderState$.pipe(
       filter((configurationState) => configurationState.loading === false),
       filter((configurationState) =>
-        this.configuratorUtils.isConfigurationCreated(configurationState.value)
+        this.configuratorUtils.isConfigurationCreated(configurationState.value),
       ),
       map(
         (configurationState) =>
-          configurationState.value as Configurator.Configuration
-      )
+          configurationState.value as Configurator.Configuration,
+      ),
     );
   }
 
@@ -225,7 +227,7 @@ export class ConfiguratorCommonsService {
    */
   updateConfigurationOverview(configuration: Configurator.Configuration): void {
     this.store.dispatch(
-      new ConfiguratorActions.UpdateConfigurationOverview(configuration)
+      new ConfiguratorActions.UpdateConfigurationOverview(configuration),
     );
   }
 
@@ -236,7 +238,7 @@ export class ConfiguratorCommonsService {
    */
   removeConfiguration(owner: CommonConfigurator.Owner): void {
     this.store.dispatch(
-      new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
+      new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key }),
     );
   }
 
@@ -247,7 +249,7 @@ export class ConfiguratorCommonsService {
    */
   dismissConflictSolverDialog(owner: CommonConfigurator.Owner): void {
     this.store.dispatch(
-      new ConfiguratorActions.DissmissConflictDialoge(owner.key)
+      new ConfiguratorActions.DissmissConflictDialoge(owner.key),
     );
   }
 
@@ -258,7 +260,7 @@ export class ConfiguratorCommonsService {
    */
   checkConflictSolverDialog(owner: CommonConfigurator.Owner): void {
     this.store.dispatch(
-      new ConfiguratorActions.CheckConflictDialoge(owner.key)
+      new ConfiguratorActions.CheckConflictDialoge(owner.key),
     );
   }
 
@@ -278,8 +280,8 @@ export class ConfiguratorCommonsService {
           //We expect that the first group must always be the conflict group
           configuration.immediateConflictResolution === false &&
           configuration.groups[0]?.groupType ===
-            Configurator.GroupType.CONFLICT_HEADER_GROUP
-      )
+            Configurator.GroupType.CONFLICT_HEADER_GROUP,
+      ),
     );
   }
 
@@ -291,32 +293,32 @@ export class ConfiguratorCommonsService {
     this.store.dispatch(
       new ConfiguratorActions.RemoveConfiguration({
         ownerKey: owner.key,
-      })
+      }),
     );
     this.store.dispatch(
       new ConfiguratorActions.CreateConfiguration({
         owner: owner,
         configIdTemplate: undefined,
         forceReset: true,
-      })
+      }),
     );
   }
 
   protected getOrCreateConfigurationForProduct(
     owner: CommonConfigurator.Owner,
-    configIdTemplate?: string
+    configIdTemplate?: string,
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
-          owner.key
-        )
+          owner.key,
+        ),
       ),
       tap((configurationState) => {
         if (
           (configurationState.value === undefined ||
             !this.configuratorUtils.isConfigurationCreated(
-              configurationState.value
+              configurationState.value,
             )) &&
           configurationState.loading !== true &&
           configurationState.error !== true
@@ -325,7 +327,7 @@ export class ConfiguratorCommonsService {
             new ConfiguratorActions.CreateConfiguration({
               owner,
               configIdTemplate,
-            })
+            }),
           );
         }
       }),
@@ -333,18 +335,18 @@ export class ConfiguratorCommonsService {
         (configurationState) =>
           configurationState.value !== undefined &&
           this.configuratorUtils.isConfigurationCreated(
-            configurationState.value
-          )
+            configurationState.value,
+          ),
       ),
       //save to assume configuration is defined after previous filter
       map((configurationState) =>
-        this.configuratorUtils.getConfigurationFromState(configurationState)
-      )
+        this.configuratorUtils.getConfigurationFromState(configurationState),
+      ),
     );
   }
 
   protected hasConfigurationOverview(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): boolean {
     return configuration.overview !== undefined;
   }
@@ -354,7 +356,7 @@ export class ConfiguratorCommonsService {
    */
   removeProductBoundConfigurations(): void {
     this.store.dispatch(
-      new ConfiguratorActions.RemoveProductBoundConfigurations()
+      new ConfiguratorActions.RemoveProductBoundConfigurations(),
     );
   }
 }

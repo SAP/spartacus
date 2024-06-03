@@ -10,7 +10,7 @@ describe('ConfigAttributeNumericInputFieldService', () => {
 
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(
-      ConfiguratorAttributeNumericInputFieldService
+      ConfiguratorAttributeNumericInputFieldService,
     );
   });
 
@@ -25,8 +25,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         ',',
         '.',
         4,
-        0
-      )
+        0,
+      ),
     ).toBe(false);
   });
 
@@ -37,8 +37,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         ',',
         '.',
         4,
-        0
-      )
+        0,
+      ),
     ).toBe(false);
   });
 
@@ -49,8 +49,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         ',',
         '.',
         9,
-        4
-      )
+        4,
+      ),
     ).toBe(true);
   });
 
@@ -61,8 +61,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         ',',
         '.',
         9,
-        4
-      )
+        4,
+      ),
     ).toBe(true);
   });
 
@@ -73,8 +73,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         ',',
         '.',
         9,
-        4
-      )
+        4,
+      ),
     ).toBe(true);
   });
 
@@ -85,8 +85,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         '.',
         ',',
         9,
-        4
-      )
+        4,
+      ),
     ).toBe(true);
   });
 
@@ -97,8 +97,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         ',',
         '.',
         3,
-        0
-      )
+        0,
+      ),
     ).toBe(true);
   });
 
@@ -110,26 +110,26 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         "'",
         '.',
         4,
-        0
-      )
+        0,
+      ),
     ).toBe(true);
   });
 
   it('should compile pattern for validation message', () => {
     expect(
-      serviceUnderTest.getPatternForValidationMessage(3, 10, false, 'en')
+      serviceUnderTest.getPatternForValidationMessage(3, 10, false, 'en'),
     ).toBe('#,###,###.###');
   });
 
   it('should consider negative sign for validation message', () => {
     expect(
-      serviceUnderTest.getPatternForValidationMessage(3, 10, true, 'en')
+      serviceUnderTest.getPatternForValidationMessage(3, 10, true, 'en'),
     ).toBe('-#,###,###.###');
   });
 
   it('should compile pattern for validation message in case no decimal places are present', () => {
     expect(
-      serviceUnderTest.getPatternForValidationMessage(0, 10, false, 'en')
+      serviceUnderTest.getPatternForValidationMessage(0, 10, false, 'en'),
     ).toBe('#,###,###,###');
   });
 
@@ -171,17 +171,17 @@ describe('ConfigAttributeNumericInputFieldService', () => {
   describe('formatIntervalValue', () => {
     it('should format interval value in en format', () => {
       expect(serviceUnderTest.formatIntervalValue(2.75, 3, 'en')).toEqual(
-        '2.750'
+        '2.750',
       );
     });
     it('should format large interval value in en format', () => {
       expect(serviceUnderTest.formatIntervalValue(3222543.75, 2, 'en')).toEqual(
-        '3,222,543.75'
+        '3,222,543.75',
       );
     });
     it('should format large interval value in en format with undefined decimal places', () => {
       expect(
-        serviceUnderTest.formatIntervalValue(3222543.75, undefined, 'en')
+        serviceUnderTest.formatIntervalValue(3222543.75, undefined, 'en'),
       ).toEqual('3,222,544');
     });
   });
@@ -358,8 +358,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         serviceUnderTest['inputMatchesInterval'](
           input,
           locale,
-          openInterval3To7
-        )
+          openInterval3To7,
+        ),
       ).toBe(true);
     });
 
@@ -369,8 +369,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         serviceUnderTest['inputMatchesInterval'](
           input,
           locale,
-          openInterval3To7
-        )
+          openInterval3To7,
+        ),
       ).toBe(false);
     });
 
@@ -380,8 +380,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         serviceUnderTest['inputMatchesInterval'](
           input,
           locale,
-          closedInterval3To7
-        )
+          closedInterval3To7,
+        ),
       ).toBe(true);
     });
 
@@ -391,8 +391,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         serviceUnderTest['inputMatchesInterval'](
           input,
           locale,
-          openIndefiniteIntervalTo7
-        )
+          openIndefiniteIntervalTo7,
+        ),
       ).toBe(false);
     });
 
@@ -402,8 +402,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         serviceUnderTest['inputMatchesInterval'](
           input,
           locale,
-          closedIndefiniteIntervalFrom3
-        )
+          closedIndefiniteIntervalFrom3,
+        ),
       ).toBe(true);
     });
 
@@ -413,8 +413,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         serviceUnderTest['inputMatchesInterval'](
           input,
           locale,
-          closedIndefiniteIntervalFrom3
-        )
+          closedIndefiniteIntervalFrom3,
+        ),
       ).toBe(true);
     });
   });
@@ -440,14 +440,14 @@ describe('ConfigAttributeNumericInputFieldService', () => {
     it('should work with german locale', () => {
       const input = '5.998,23';
       expect(serviceUnderTest['parseInputForSeparators'](input, '.', ',')).toBe(
-        5998.23
+        5998.23,
       );
     });
 
     it('should digest group separators included in the decimal part', () => {
       const input = '9,2.3';
       expect(serviceUnderTest['parseInputForSeparators'](input, '.', ',')).toBe(
-        9.23
+        9.23,
       );
     });
   });

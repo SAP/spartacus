@@ -24,7 +24,7 @@ const verificationToken: VerificationToken = {
 
 class MockUserAccountConnector implements Partial<UserAccountConnector> {
   createVerificationToken = createSpy().and.callFake(() =>
-    of(verificationToken)
+    of(verificationToken),
   );
 }
 
@@ -60,7 +60,7 @@ describe('VerificationTokenService', () => {
         .unsubscribe();
       expect(result).toEqual(verificationToken);
       expect(connector.createVerificationToken).toHaveBeenCalledWith(
-        verificationTokenCreation
+        verificationTokenCreation,
       );
     });
   });

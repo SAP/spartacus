@@ -56,24 +56,24 @@ export class ConfiguratorBasicEffects {
           .createConfiguration(
             action.payload.owner,
             action.payload.configIdTemplate,
-            action.payload.forceReset
+            action.payload.forceReset,
           )
           .pipe(
             switchMap((configuration: Configurator.Configuration) => {
               const currentGroup =
                 this.configuratorBasicEffectService.getFirstGroupWithAttributes(
-                  configuration
+                  configuration,
                 );
               this.store.dispatch(
                 new ConfiguratorActions.UpdatePriceSummary({
                   ...configuration,
                   interactionState: { currentGroup: currentGroup },
-                })
+                }),
               );
 
               return [
                 new ConfiguratorActions.CreateConfigurationSuccess(
-                  configuration
+                  configuration,
                 ),
                 new ConfiguratorActions.SearchVariants(configuration),
               ];
@@ -83,10 +83,10 @@ export class ConfiguratorBasicEffects {
                 ownerKey: action.payload.owner.key,
                 error: normalizeHttpError(error, this.logger),
               }),
-            ])
+            ]),
           );
-      })
-    )
+      }),
+    ),
   );
 
   readConfiguration$: Observable<
@@ -101,7 +101,7 @@ export class ConfiguratorBasicEffects {
           .readConfiguration(
             action.payload.configuration.configId,
             action.payload.groupId,
-            action.payload.configuration.owner
+            action.payload.configuration.owner,
           )
           .pipe(
             switchMap((configuration: Configurator.Configuration) => [
@@ -112,10 +112,10 @@ export class ConfiguratorBasicEffects {
                 ownerKey: action.payload.configuration.owner.key,
                 error: normalizeHttpError(error, this.logger),
               }),
-            ])
+            ]),
           );
-      })
-    )
+      }),
+    ),
   );
 
   updateConfiguration$: Observable<
@@ -149,10 +149,10 @@ export class ConfiguratorBasicEffects {
                   error: errorPayload,
                 }),
               ];
-            })
+            }),
           );
-      })
-    )
+      }),
+    ),
   );
 
   updatePriceSummary$: Observable<
@@ -163,14 +163,14 @@ export class ConfiguratorBasicEffects {
       ofType(ConfiguratorActions.UPDATE_PRICE_SUMMARY),
       map(
         (action: { type: string; payload: Configurator.Configuration }) =>
-          action.payload
+          action.payload,
       ),
       filter((configuration) => configuration.pricingEnabled === true),
       mergeMap((payload) => {
         return this.configuratorCommonsConnector.readPriceSummary(payload).pipe(
           map((configuration: Configurator.Configuration) => {
             return new ConfiguratorActions.UpdatePriceSummarySuccess(
-              configuration
+              configuration,
             );
           }),
           catchError((error) => {
@@ -181,10 +181,10 @@ export class ConfiguratorBasicEffects {
                 error: errorPayload,
               }),
             ];
-          })
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 
   getOverview$: Observable<
@@ -194,7 +194,8 @@ export class ConfiguratorBasicEffects {
     this.actions$.pipe(
       ofType(ConfiguratorActions.GET_CONFIGURATION_OVERVIEW),
       map(
-        (action: ConfiguratorActions.GetConfigurationOverview) => action.payload
+        (action: ConfiguratorActions.GetConfigurationOverview) =>
+          action.payload,
       ),
       mergeMap((payload) => {
         return this.configuratorCommonsConnector
@@ -214,10 +215,10 @@ export class ConfiguratorBasicEffects {
                   error: errorPayload,
                 }),
               ];
-            })
+            }),
           );
-      })
-    )
+      }),
+    ),
   );
 
   updateOverview$: Observable<
@@ -228,7 +229,7 @@ export class ConfiguratorBasicEffects {
       ofType(ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW),
       map(
         (action: ConfiguratorActions.UpdateConfigurationOverview) =>
-          action.payload
+          action.payload,
       ),
       mergeMap((payload) => {
         return this.configuratorCommonsConnector
@@ -239,7 +240,7 @@ export class ConfiguratorBasicEffects {
                 {
                   ownerKey: payload.owner.key,
                   overview: overview,
-                }
+                },
               );
             }),
             catchError((error) => {
@@ -250,10 +251,10 @@ export class ConfiguratorBasicEffects {
                   error: errorPayload,
                 }),
               ];
-            })
+            }),
           );
-      })
-    )
+      }),
+    ),
   );
 
   updateConfigurationSuccess$: Observable<updateConfigurationSuccessResultType> =
@@ -262,7 +263,7 @@ export class ConfiguratorBasicEffects {
         ofType(ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS),
         map(
           (action: ConfiguratorActions.UpdateConfigurationSuccess) =>
-            action.payload
+            action.payload,
         ),
         mergeMap((payload: Configurator.Configuration) => {
           return this.store.pipe(
@@ -272,7 +273,7 @@ export class ConfiguratorBasicEffects {
             switchMap(() =>
               this.store.pipe(
                 select(
-                  ConfiguratorSelectors.getCurrentGroup(payload.owner.key)
+                  ConfiguratorSelectors.getCurrentGroup(payload.owner.key),
                 ),
                 take(1),
                 map((currentGroupId) => {
@@ -280,16 +281,16 @@ export class ConfiguratorBasicEffects {
                   const groupIdFromPayload =
                     this.configuratorBasicEffectService.getFirstGroupWithAttributes(
                       payload,
-                      payload.interactionState.isConflictResolutionMode
+                      payload.interactionState.isConflictResolutionMode,
                     );
                   const parentGroupFromPayload =
                     this.configuratorGroupUtilsService.getParentGroup(
                       payload.groups,
                       this.configuratorGroupUtilsService.getGroupById(
                         payload.groups,
-                        groupIdFromPayload
+                        groupIdFromPayload,
                       ),
-                      undefined
+                      undefined,
                     );
                   return {
                     currentGroupId,
@@ -302,7 +303,7 @@ export class ConfiguratorBasicEffects {
                   //we need to ensure that the last update determines the current group.
                   const updateFinalizeSuccessAction =
                     new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-                      payload
+                      payload,
                     );
                   const updatePriceSummaryAction =
                     new ConfiguratorActions.UpdatePriceSummary({
@@ -330,12 +331,12 @@ export class ConfiguratorBasicEffects {
                           parentGroupId: container.parentGroupFromPayload?.id,
                         }),
                       ];
-                })
-              )
-            )
+                }),
+              ),
+            ),
           );
-        })
-      )
+        }),
+      ),
     );
 
   updateConfigurationFail$: Observable<ConfiguratorActions.UpdateConfigurationFinalizeFail> =
@@ -344,26 +345,26 @@ export class ConfiguratorBasicEffects {
         ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
         map(
           (action: ConfiguratorActions.UpdateConfigurationFail) =>
-            action.payload
+            action.payload,
         ),
         mergeMap((payload) => {
           return this.store.pipe(
             select(
               ConfiguratorSelectors.hasPendingChanges(
-                payload.configuration.owner.key
-              )
+                payload.configuration.owner.key,
+              ),
             ),
             take(1),
             filter((hasPendingChanges) => hasPendingChanges === false),
             map(
               () =>
                 new ConfiguratorActions.UpdateConfigurationFinalizeFail(
-                  payload.configuration
-                )
-            )
+                  payload.configuration,
+                ),
+            ),
           );
-        })
-      )
+        }),
+      ),
     );
 
   handleErrorOnUpdate$: Observable<ConfiguratorActions.ReadConfiguration> =
@@ -372,7 +373,7 @@ export class ConfiguratorBasicEffects {
         ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_FAIL),
         map(
           (action: ConfiguratorActions.UpdateConfigurationFinalizeFail) =>
-            action.payload
+            action.payload,
         ),
         map(
           (payload) =>
@@ -380,11 +381,11 @@ export class ConfiguratorBasicEffects {
               configuration: payload,
               groupId:
                 this.configuratorBasicEffectService.getFirstGroupWithAttributes(
-                  payload
+                  payload,
                 ),
-            })
-        )
-      )
+            }),
+        ),
+      ),
     );
 
   groupChange$: Observable<
@@ -400,8 +401,8 @@ export class ConfiguratorBasicEffects {
         return this.store.pipe(
           select(
             ConfiguratorSelectors.hasPendingChanges(
-              action.payload.configuration.owner.key
-            )
+              action.payload.configuration.owner.key,
+            ),
           ),
           take(1),
           filter((hasPendingChanges) => hasPendingChanges === false),
@@ -410,7 +411,7 @@ export class ConfiguratorBasicEffects {
               .readConfiguration(
                 action.payload.configuration.configId,
                 action.payload.groupId,
-                action.payload.configuration.owner
+                action.payload.configuration.owner,
               )
               .pipe(
                 switchMap((configuration: Configurator.Configuration) => {
@@ -424,7 +425,7 @@ export class ConfiguratorBasicEffects {
                       menuParentGroup: action.payload.parentGroupId,
                     }),
                     new ConfiguratorActions.ReadConfigurationSuccess(
-                      configuration
+                      configuration,
                     ),
                     new ConfiguratorActions.UpdatePriceSummary({
                       ...configuration,
@@ -439,12 +440,12 @@ export class ConfiguratorBasicEffects {
                     ownerKey: action.payload.configuration.owner.key,
                     error: normalizeHttpError(error, this.logger),
                   }),
-                ])
+                ]),
               );
-          })
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 
   removeProductBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration> =
@@ -468,10 +469,10 @@ export class ConfiguratorBasicEffects {
               return new ConfiguratorActions.RemoveConfiguration({
                 ownerKey: ownerKeysToRemove,
               });
-            })
+            }),
           );
-        })
-      )
+        }),
+      ),
     );
 
   constructor(
@@ -481,6 +482,6 @@ export class ConfiguratorBasicEffects {
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
     protected configuratorGroupStatusService: ConfiguratorGroupStatusService,
     protected store: Store<StateWithConfigurator>,
-    protected configuratorBasicEffectService: ConfiguratorBasicEffectService
+    protected configuratorBasicEffectService: ConfiguratorBasicEffectService,
   ) {}
 }

@@ -21,7 +21,7 @@ import {
         [PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE]: {
           module: () =>
             import('@spartacus/product-configurator/textfield').then(
-              (m) => m.TextfieldConfiguratorModule
+              (m) => m.TextfieldConfiguratorModule,
             ),
         },
       },

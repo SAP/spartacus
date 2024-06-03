@@ -33,25 +33,25 @@ export class ConfiguratorOverviewFormComponent {
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getOrCreateConfiguration(
-          routerData.owner
-        )
+          routerData.owner,
+        ),
       ),
       distinctUntilKeyChanged('configId'),
       switchMap((configuration) =>
         this.configuratorCommonsService.getConfigurationWithOverview(
-          configuration
-        )
+          configuration,
+        ),
       ),
       filter((configuration) => configuration.overview != null),
       tap(() => {
         this.ghostStyle = false;
-      })
+      }),
     );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
   ) {}
 
   /**
@@ -64,17 +64,17 @@ export class ConfiguratorOverviewFormComponent {
   }
 
   protected hasGroupWithAttributes(
-    groups?: Configurator.GroupOverview[]
+    groups?: Configurator.GroupOverview[],
   ): boolean {
     if (groups) {
       let hasAttributes =
         groups.find(
-          (group) => (group.attributes ? group.attributes.length : 0) > 0
+          (group) => (group.attributes ? group.attributes.length : 0) > 0,
         ) !== undefined;
       if (!hasAttributes) {
         hasAttributes =
           groups.find((group) =>
-            this.hasGroupWithAttributes(group.subGroups)
+            this.hasGroupWithAttributes(group.subGroups),
           ) !== undefined;
       }
       return hasAttributes;
@@ -92,7 +92,7 @@ export class ConfiguratorOverviewFormComponent {
    */
   isSameAttribute(
     attributes: Configurator.AttributeOverview[],
-    index: number
+    index: number,
   ): boolean {
     if (attributes.length > 1) {
       if (index === 0) {
@@ -117,7 +117,7 @@ export class ConfiguratorOverviewFormComponent {
    */
   getStyleClasses(
     attributes: Configurator.AttributeOverview[],
-    index: number
+    index: number,
   ): string {
     let styleClass = '';
 
@@ -153,7 +153,7 @@ export class ConfiguratorOverviewFormComponent {
    */
   getGroupLevelStyleClasses(
     level: number,
-    subGroups: Configurator.GroupOverview[] | undefined
+    subGroups: Configurator.GroupOverview[] | undefined,
   ): string {
     let styleClass = 'cx-group';
     if (level === 1) {
@@ -178,7 +178,7 @@ export class ConfiguratorOverviewFormComponent {
   getPrefixId(idPrefix: string | undefined, groupId: string): string {
     return this.configuratorStorefrontUtilsService.getPrefixId(
       idPrefix,
-      groupId
+      groupId,
     );
   }
 
@@ -192,7 +192,7 @@ export class ConfiguratorOverviewFormComponent {
   getGroupId(idPrefix: string, groupId: string): string {
     return this.configuratorStorefrontUtilsService.createOvGroupId(
       idPrefix,
-      groupId
+      groupId,
     );
   }
 }

@@ -30,7 +30,7 @@ export interface TmsCollector {
   pushEvent<T extends CxEvent>(
     config: TmsCollectorConfig,
     windowObject: WindowObject,
-    event: T | any
+    event: T | any,
   ): void;
 
   /**

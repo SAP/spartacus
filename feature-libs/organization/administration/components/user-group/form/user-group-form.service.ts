@@ -25,14 +25,14 @@ export class UserGroupFormService extends FormService<UserGroup> {
       new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.noSpecialCharacters,
-      ])
+      ]),
     );
     form.setControl('name', new UntypedFormControl('', Validators.required));
     form.setControl(
       'orgUnit',
       new UntypedFormGroup({
         uid: new UntypedFormControl(undefined, Validators.required),
-      })
+      }),
     );
     this.form = form;
   }

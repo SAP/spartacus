@@ -54,13 +54,13 @@ export class TranslationChunkService {
       dupes.push(
         `* '${key}' found in chunks: ${items[key].join(', ')}. Used '${
           this.chunks[key]
-        }.${key}'.`
+        }.${key}'.`,
       );
     });
     this.logger.warn(
       `Duplicated keys has been found in the config of i18n chunks:\n${dupes.join(
-        '\n'
-      )}`
+        '\n',
+      )}`,
     );
   }
 }

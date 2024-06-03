@@ -15,7 +15,7 @@ export const initialState: CurrenciesState = {
 
 export function reducer(
   state = initialState,
-  action: SiteContextActions.CurrenciesAction
+  action: SiteContextActions.CurrenciesAction,
 ): CurrenciesState {
   switch (action.type) {
     case SiteContextActions.LOAD_CURRENCIES_SUCCESS: {
@@ -29,7 +29,7 @@ export function reducer(
         },
         {
           ...state.entities,
-        }
+        },
       );
 
       return {

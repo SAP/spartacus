@@ -29,8 +29,8 @@ const productConfiguration: Configurator.Configuration = {
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE,
-      CONFIGURATOR_TYPE
-    )
+      CONFIGURATOR_TYPE,
+    ),
   ),
   productCode: PRODUCT_CODE,
 };
@@ -64,46 +64,46 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   public cpqOverOcc: boolean | undefined;
 
   readConfigurationForCartEntry = createSpy().and.callFake(() =>
-    of(productConfiguration)
+    of(productConfiguration),
   );
   readConfigurationForOrderEntry = createSpy().and.callFake(() =>
-    of(productConfiguration)
+    of(productConfiguration),
   );
   updateConfigurationForCartEntry = createSpy().and.callFake(() =>
-    of(cartModification)
+    of(cartModification),
   );
   getConfigurationOverview = createSpy().and.callFake((configId: string) =>
-    of('getConfigurationOverview' + configId)
+    of('getConfigurationOverview' + configId),
   );
 
   searchVariants = createSpy().and.callFake((configId: string) =>
-    of([{ productCode: PRODUCT_CODE + configId }])
+    of([{ productCode: PRODUCT_CODE + configId }]),
   );
 
   readPriceSummary = createSpy().and.callFake((configId: string) =>
-    of('readPriceSummary' + configId)
+    of('readPriceSummary' + configId),
   );
 
   readConfiguration = createSpy().and.callFake((configId: string) =>
-    of('readConfiguration' + configId)
+    of('readConfiguration' + configId),
   );
 
   updateConfiguration = createSpy().and.callFake(
     (configuration: Configurator.Configuration) =>
-      of('updateConfiguration' + configuration.configId)
+      of('updateConfiguration' + configuration.configId),
   );
 
   updateConfigurationOverview = createSpy().and.callFake(
     (ovInput: Configurator.Overview) =>
-      of('updateConfigurationOverview' + ovInput.configId)
+      of('updateConfigurationOverview' + ovInput.configId),
   );
 
   createConfiguration = createSpy().and.callFake(
-    (owner: CommonConfigurator.Owner) => of('createConfiguration' + owner)
+    (owner: CommonConfigurator.Owner) => of('createConfiguration' + owner),
   );
 
   addToCart = createSpy().and.callFake((configId: string) =>
-    of('addToCart' + configId)
+    of('addToCart' + configId),
   );
   getConfiguratorType(): string {
     return this.configuratorType ?? CONFIGURATOR_TYPE;
@@ -135,7 +135,7 @@ describe('RulebasedConfiguratorConnector', () => {
 
   function createMockAdapter(
     configuratorType?: string,
-    supportsCpqOverOcc?: boolean
+    supportsCpqOverOcc?: boolean,
   ): RulebasedConfiguratorAdapter {
     let adapter = new MockRulebasedConfiguratorAdapter();
     adapter.configuratorType = configuratorType ?? CONFIGURATOR_TYPE;
@@ -166,16 +166,16 @@ describe('RulebasedConfiguratorConnector', () => {
       ],
     });
     service = TestBed.inject(
-      RulebasedConfiguratorConnector as Type<RulebasedConfiguratorConnector>
+      RulebasedConfiguratorConnector as Type<RulebasedConfiguratorConnector>,
     );
     configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>,
     );
     adapter = TestBed.inject(
-      RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST
+      RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST,
     );
     configuratorCpqConfig = TestBed.inject(
-      ConfiguratorCoreConfig as Type<ConfiguratorCoreConfig>
+      ConfiguratorCoreConfig as Type<ConfiguratorCoreConfig>,
     );
     configuratorUtils.setOwnerKey(productConfiguration.owner);
     setCpqOverOcc(false);
@@ -196,7 +196,7 @@ describe('RulebasedConfiguratorConnector', () => {
       expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
         productConfiguration.owner,
         undefined,
-        false
+        false,
       );
     });
 
@@ -208,7 +208,7 @@ describe('RulebasedConfiguratorConnector', () => {
       expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
         productConfiguration.owner,
         CONFIG_ID_TEMPLATE,
-        false
+        false,
       );
     });
 
@@ -217,14 +217,14 @@ describe('RulebasedConfiguratorConnector', () => {
         .createConfiguration(
           productConfiguration.owner,
           CONFIG_ID_TEMPLATE,
-          true
+          true,
         )
         .subscribe();
 
       expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
         productConfiguration.owner,
         CONFIG_ID_TEMPLATE,
-        true
+        true,
       );
     });
 
@@ -233,7 +233,7 @@ describe('RulebasedConfiguratorConnector', () => {
         const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
           CommonConfigurator.OwnerType.PRODUCT,
           PRODUCT_CODE,
-          'unknown'
+          'unknown',
         );
         service.createConfiguration(ownerForUnknownConfigurator);
       }).toThrow();
@@ -244,7 +244,7 @@ describe('RulebasedConfiguratorConnector', () => {
         const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
           CommonConfigurator.OwnerType.PRODUCT,
           PRODUCT_CODE,
-          CONFIGURATOR_TYPE
+          CONFIGURATOR_TYPE,
         );
         service.createConfiguration(ownerForUnknownConfigurator);
       }).toBeDefined();
@@ -255,10 +255,10 @@ describe('RulebasedConfiguratorConnector', () => {
     service
       .readConfigurationForCartEntry(readFromCartEntryParameters)
       .subscribe((configuration) =>
-        expect(configuration).toBe(productConfiguration)
+        expect(configuration).toBe(productConfiguration),
       );
     expect(adapter[0].readConfigurationForCartEntry).toHaveBeenCalledWith(
-      readFromCartEntryParameters
+      readFromCartEntryParameters,
     );
   });
 
@@ -267,7 +267,7 @@ describe('RulebasedConfiguratorConnector', () => {
       .updateConfigurationForCartEntry(updateFromCartEntryParameters)
       .subscribe((result) => expect(result).toBe(cartModification));
     expect(adapter[0].updateConfigurationForCartEntry).toHaveBeenCalledWith(
-      updateFromCartEntryParameters
+      updateFromCartEntryParameters,
     );
   });
 
@@ -275,10 +275,10 @@ describe('RulebasedConfiguratorConnector', () => {
     service
       .readConfigurationForOrderEntry(readFromOrderEntryParameters)
       .subscribe((configuration) =>
-        expect(configuration).toBe(productConfiguration)
+        expect(configuration).toBe(productConfiguration),
       );
     expect(adapter[0].readConfigurationForOrderEntry).toHaveBeenCalledWith(
-      readFromOrderEntryParameters
+      readFromOrderEntryParameters,
     );
   });
 
@@ -291,7 +291,7 @@ describe('RulebasedConfiguratorConnector', () => {
     expect(adapter[0].readConfiguration).toHaveBeenCalledWith(
       CONFIG_ID,
       GROUP_ID,
-      productConfiguration.owner
+      productConfiguration.owner,
     );
   });
 
@@ -302,7 +302,7 @@ describe('RulebasedConfiguratorConnector', () => {
       .subscribe((res) => (result = res));
     expect(result).toBe('updateConfiguration' + CONFIG_ID);
     expect(adapter[0].updateConfiguration).toHaveBeenCalledWith(
-      productConfiguration
+      productConfiguration,
     );
   });
 
@@ -313,7 +313,7 @@ describe('RulebasedConfiguratorConnector', () => {
       .subscribe((res) => (result = res));
     expect(result).toBe('readPriceSummary' + productConfiguration);
     expect(adapter[0].readPriceSummary).toHaveBeenCalledWith(
-      productConfiguration
+      productConfiguration,
     );
   });
 
@@ -323,10 +323,10 @@ describe('RulebasedConfiguratorConnector', () => {
       .getConfigurationOverview(productConfiguration)
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      'getConfigurationOverview' + productConfiguration.configId
+      'getConfigurationOverview' + productConfiguration.configId,
     );
     expect(adapter[0].getConfigurationOverview).toHaveBeenCalledWith(
-      productConfiguration.configId
+      productConfiguration.configId,
     );
   });
 
@@ -339,7 +339,7 @@ describe('RulebasedConfiguratorConnector', () => {
       { productCode: PRODUCT_CODE + productConfiguration.configId },
     ]);
     expect(adapter[0].searchVariants).toHaveBeenCalledWith(
-      productConfiguration.configId
+      productConfiguration.configId,
     );
   });
 
@@ -373,10 +373,10 @@ describe('RulebasedConfiguratorConnector', () => {
         .updateConfigurationOverview(configWithOverview)
         .subscribe((res) => (result = res));
       expect(adapter[0].updateConfigurationOverview).toHaveBeenCalledWith(
-        overview
+        overview,
       );
       expect(result).toBe(
-        'updateConfigurationOverview' + productConfiguration.configId
+        'updateConfigurationOverview' + productConfiguration.configId,
       );
     });
     it('should retrieve overview if not available (exception case)', () => {
@@ -385,10 +385,10 @@ describe('RulebasedConfiguratorConnector', () => {
         .updateConfigurationOverview(productConfiguration)
         .subscribe((res) => (result = res));
       expect(adapter[0].getConfigurationOverview).toHaveBeenCalledWith(
-        productConfiguration.configId
+        productConfiguration.configId,
       );
       expect(result).toBe(
-        'getConfigurationOverview' + productConfiguration.configId
+        'getConfigurationOverview' + productConfiguration.configId,
       );
     });
   });
@@ -396,13 +396,13 @@ describe('RulebasedConfiguratorConnector', () => {
   describe('isAdapterMatching', () => {
     function isAdapterMatching(
       adapter: RulebasedConfiguratorAdapter,
-      configuratorType: string
+      configuratorType: string,
     ): boolean {
       // we use call here to avoid losing 'this'-context
       return service['isAdapterMatching'].call(
         service,
         adapter,
-        configuratorType
+        configuratorType,
       );
     }
 

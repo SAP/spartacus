@@ -36,7 +36,7 @@ describe('Consignment Tracking Actions', () => {
   describe('LoadConsignmentTrackingSuccess Action', () => {
     it('should create the action', () => {
       const action = new fromAction.LoadConsignmentTrackingSuccess(
-        mockTracking
+        mockTracking,
       );
 
       expect({ ...action }).toEqual({

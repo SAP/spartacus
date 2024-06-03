@@ -26,6 +26,6 @@ export abstract class UserRegistrationFacade {
    * @param user as OrganizationUserRegistration
    */
   abstract registerUser(
-    user: OrganizationUserRegistration
+    user: OrganizationUserRegistration,
   ): Observable<OrganizationUserRegistration>;
 }

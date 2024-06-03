@@ -12,14 +12,14 @@ describe('Checkout utils', () => {
 
     it('should return phone number and mobile number when both are provided', () => {
       expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual(
-        `P: ${mockAddress.phone}\nM: ${mockAddress.cellphone}`
+        `P: ${mockAddress.phone}\nM: ${mockAddress.cellphone}`,
       );
     });
 
     it('should return phone number only when mobile number not provided', () => {
       mockAddress.cellphone = '';
       expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual(
-        'P: ' + mockAddress.phone
+        'P: ' + mockAddress.phone,
       );
     });
 
@@ -27,7 +27,7 @@ describe('Checkout utils', () => {
       mockAddress.phone = '';
       mockAddress.cellphone = '67890';
       expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual(
-        'M: ' + mockAddress.cellphone
+        'M: ' + mockAddress.cellphone,
       );
     });
 
@@ -35,7 +35,7 @@ describe('Checkout utils', () => {
       mockAddress.phone = '67890';
       mockAddress.cellphone = '67890';
       expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual(
-        'M: ' + mockAddress.cellphone
+        'M: ' + mockAddress.cellphone,
       );
     });
 

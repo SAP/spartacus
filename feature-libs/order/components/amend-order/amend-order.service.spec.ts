@@ -74,7 +74,7 @@ describe('OrderAmendService', () => {
       .unsubscribe();
 
     expect(
-      Object.keys(<UntypedFormGroup>form.get('entries').controls).length
+      Object.keys(<UntypedFormGroup>form.get('entries').controls).length,
     ).toEqual(2);
   });
 
@@ -91,14 +91,14 @@ describe('OrderAmendService', () => {
   it('should return max quantity for cancellable order', () => {
     (<any>service).amendType = AmendOrderType.CANCEL;
     expect(service.getMaxAmendQuantity(mockOrder.entries[0])).toEqual(
-      mockOrder.entries[0].cancellableQuantity
+      mockOrder.entries[0].cancellableQuantity,
     );
   });
 
   it('should return max return quantity for returnable order', () => {
     (<any>service).amendType = AmendOrderType.RETURN;
     expect(service.getMaxAmendQuantity(mockOrder.entries[1])).toEqual(
-      mockOrder.entries[1].returnableQuantity
+      mockOrder.entries[1].returnableQuantity,
     );
   });
 

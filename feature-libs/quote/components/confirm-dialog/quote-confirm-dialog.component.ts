@@ -47,7 +47,7 @@ export class QuoteConfirmDialogComponent implements OnInit {
   ngOnInit(): void {
     this.confirmationContext$ = this.launchDialogService.data$.pipe(
       filter((data) => !!data),
-      map((data) => data.confirmationContext)
+      map((data) => data.confirmationContext),
     );
   }
 

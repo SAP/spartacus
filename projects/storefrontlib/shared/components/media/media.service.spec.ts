@@ -115,13 +115,13 @@ describe('MediaService', () => {
       describe('without format', () => {
         it('should return best media', () => {
           expect(mediaService.getMedia(mockBestFormatMediaContainer)?.src).toBe(
-            'base:format-600.url'
+            'base:format-600.url',
           );
         });
 
         it('should return the first media if there is no configured format', () => {
           expect(mediaService.getMedia(mockUnknownMediaContainer)?.src).toBe(
-            'base:random1.url'
+            'base:random1.url',
           );
         });
 
@@ -135,7 +135,7 @@ describe('MediaService', () => {
 
         it('should not return src if there is no media url', () => {
           expect(
-            mediaService.getMedia({ altText: 'whatever' })?.src
+            mediaService.getMedia({ altText: 'whatever' })?.src,
           ).toBeFalsy();
         });
       });
@@ -143,32 +143,32 @@ describe('MediaService', () => {
       describe('with format', () => {
         it('should ignore format if no media container is passed', () => {
           expect(mediaService.getMedia(mockMedia, 'any')?.src).toBe(
-            'base:media.url'
+            'base:media.url',
           );
         });
 
         it('should return media for format', () => {
           expect(
             mediaService.getMedia(mockBestFormatMediaContainer, 'format400')
-              ?.src
+              ?.src,
           ).toBe('base:format-400.url');
         });
 
         it('should return best media for unknown format', () => {
           expect(
-            mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.src
+            mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.src,
           ).toBe('base:format-600.url');
         });
 
         it('should return random media for unknown format and unknown media formats', () => {
           expect(
-            mediaService.getMedia(mockUnknownMediaContainer, 'unknown')?.src
+            mediaService.getMedia(mockUnknownMediaContainer, 'unknown')?.src,
           ).toBe('base:random1.url');
         });
 
         it('should not return src if the media container does not contain a url', () => {
           expect(
-            mediaService.getMedia({ cont: { format: 'xyz' } }, 'xyz')?.src
+            mediaService.getMedia({ cont: { format: 'xyz' } }, 'xyz')?.src,
           ).toBeFalsy();
         });
       });
@@ -176,32 +176,32 @@ describe('MediaService', () => {
       describe('alt text', () => {
         it('should return alt text for media', () => {
           expect(mediaService.getMedia(mockMedia)?.alt).toBe(
-            'alt text for media'
+            'alt text for media',
           );
         });
 
         it('should return alt text for best media', () => {
           expect(mediaService.getMedia(mockBestFormatMediaContainer)?.alt).toBe(
-            'alt text for format-600'
+            'alt text for format-600',
           );
         });
 
         it('should return alt text for specific format', () => {
           expect(
             mediaService.getMedia(mockBestFormatMediaContainer, 'format400')
-              ?.alt
+              ?.alt,
           ).toBe('alt text for format-400');
         });
 
         it('should return alt text for best format', () => {
           expect(
-            mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.alt
+            mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.alt,
           ).toBe('alt text for format-600');
         });
 
         it('should return alt text for random format', () => {
           expect(
-            mediaService.getMedia(mockUnknownMediaContainer, 'unknown')?.alt
+            mediaService.getMedia(mockUnknownMediaContainer, 'unknown')?.alt,
           ).toBe('alt text for unknown-1');
         });
 
@@ -210,8 +210,8 @@ describe('MediaService', () => {
             mediaService.getMedia(
               mockBestFormatMediaContainer,
               'format400',
-              'custom alt'
-            )?.alt
+              'custom alt',
+            )?.alt,
           ).toEqual('custom alt');
         });
       });
@@ -223,26 +223,27 @@ describe('MediaService', () => {
 
         it('should return role for best media', () => {
           expect(
-            mediaService.getMedia(mockBestFormatMediaContainer)?.role
+            mediaService.getMedia(mockBestFormatMediaContainer)?.role,
           ).toBe('presentation');
         });
 
         it('should return role for specific format', () => {
           expect(
             mediaService.getMedia(mockBestFormatMediaContainer, 'format400')
-              ?.role
+              ?.role,
           ).toBe('presentation');
         });
 
         it('should return role for best format', () => {
           expect(
-            mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.role
+            mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')
+              ?.role,
           ).toBe('presentation');
         });
 
         it('should return role for random format', () => {
           expect(
-            mediaService.getMedia(mockUnknownMediaContainer, 'unknown')?.role
+            mediaService.getMedia(mockUnknownMediaContainer, 'unknown')?.role,
           ).toBe('presentation');
         });
 
@@ -252,8 +253,8 @@ describe('MediaService', () => {
               mockBestFormatMediaContainer,
               'format400',
               'custom alt',
-              'custom role'
-            )?.role
+              'custom role',
+            )?.role,
           ).toEqual('custom role');
         });
       });
@@ -261,7 +262,7 @@ describe('MediaService', () => {
       describe('srcset', () => {
         it('should return undefined if not media', () => {
           const result = mediaService['resolveSrcSet'](
-            null as unknown as MediaContainer
+            null as unknown as MediaContainer,
           );
 
           expect(result).toBeUndefined();
@@ -269,25 +270,25 @@ describe('MediaService', () => {
 
         it('should return all images in srcset', () => {
           expect(
-            mediaService.getMedia(mockBestFormatMediaContainer)?.srcset
+            mediaService.getMedia(mockBestFormatMediaContainer)?.srcset,
           ).toBe(
-            'base:format-1.url 1w, base:format-400.url 400w, base:format-600.url 600w'
+            'base:format-1.url 1w, base:format-400.url 400w, base:format-600.url 600w',
           );
         });
 
         it('should return only relevant images in srcset for the given format', () => {
           expect(
             mediaService.getMedia(mockBestFormatMediaContainer, 'format400')
-              ?.srcset
+              ?.srcset,
           ).toBe('base:format-1.url 1w, base:format-400.url 400w');
         });
 
         it('should return all formats for unknown format', () => {
           expect(
             mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')
-              ?.srcset
+              ?.srcset,
           ).toBe(
-            'base:format-1.url 1w, base:format-400.url 400w, base:format-600.url 600w'
+            'base:format-1.url 1w, base:format-400.url 400w, base:format-600.url 600w',
           );
         });
 
@@ -300,19 +301,19 @@ describe('MediaService', () => {
     describe('absolute URL', () => {
       it('should avoid baseUrl if absolute image is provided', () => {
         expect(mediaService.getMedia(mockUrlContainer, 'absolute')?.src).toBe(
-          'http://absolute.jpg'
+          'http://absolute.jpg',
         );
       });
 
       it('should threat image url start with double slash as absolute URL', () => {
         expect(
-          mediaService.getMedia(mockUrlContainer, 'doubleSlash')?.src
+          mediaService.getMedia(mockUrlContainer, 'doubleSlash')?.src,
         ).toBe('//absolute.jpg');
       });
 
       it('should add OCC baseUrl for relative image', () => {
         expect(mediaService.getMedia(mockUrlContainer, 'relative')?.src).toBe(
-          'base:relative.jpg'
+          'base:relative.jpg',
         );
       });
     });
@@ -320,7 +321,7 @@ describe('MediaService', () => {
     describe('loadingStrategy', () => {
       it('should resolve eager loading strategy', () => {
         expect(mediaService.loadingStrategy).toEqual(
-          ImageLoadingStrategy.EAGER
+          ImageLoadingStrategy.EAGER,
         );
       });
     });
@@ -348,7 +349,7 @@ describe('MediaService', () => {
     describe('loadingStrategy', () => {
       it('should resolve lazy loading strategy', () => {
         expect(mediaService.loadingStrategy).toEqual(
-          ImageLoadingStrategy.EAGER
+          ImageLoadingStrategy.EAGER,
         );
       });
     });
@@ -373,31 +374,32 @@ describe('MediaService', () => {
 
     it('should return first available media', () => {
       expect(mediaService.getMedia(mockBestFormatMediaContainer)?.src).toBe(
-        'format-1.url'
+        'format-1.url',
       );
     });
 
     it('should return first available media for unknown format', () => {
       expect(
-        mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.src
+        mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.src,
       ).toBe('format-1.url');
     });
 
     it('should not return srcset for unknown format', () => {
       expect(
-        mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.srcset
+        mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.srcset,
       ).toBeFalsy();
     });
 
     it('should return specific media for given format', () => {
       expect(
-        mediaService.getMedia(mockBestFormatMediaContainer, 'format600')?.src
+        mediaService.getMedia(mockBestFormatMediaContainer, 'format600')?.src,
       ).toBe('format-600.url');
     });
 
     it('should not return srcset for given format', () => {
       expect(
-        mediaService.getMedia(mockBestFormatMediaContainer, 'format600')?.srcset
+        mediaService.getMedia(mockBestFormatMediaContainer, 'format600')
+          ?.srcset,
       ).toBeFalsy();
     });
   });

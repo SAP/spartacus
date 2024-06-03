@@ -39,7 +39,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected router: Router,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
   ) {
     this.subscription = this.activeCartFacade
       .hasDeliveryItems()
@@ -47,20 +47,20 @@ export class CheckoutStepsSetGuard implements OnDestroy {
       .subscribe((hasDeliveryItems) => {
         this.checkoutStepService.disableEnableStep(
           CheckoutStepType.DELIVERY_ADDRESS,
-          !hasDeliveryItems
+          !hasDeliveryItems,
         );
         this.checkoutStepService.disableEnableStep(
           CheckoutStepType.DELIVERY_MODE,
-          !hasDeliveryItems
+          !hasDeliveryItems,
         );
 
         this.setStepNameMultiLine(
           CheckoutStepType.PAYMENT_DETAILS,
-          hasDeliveryItems
+          hasDeliveryItems,
         );
         this.setStepNameMultiLine(
           CheckoutStepType.REVIEW_ORDER,
-          hasDeliveryItems
+          hasDeliveryItems,
         );
       });
   }
@@ -89,12 +89,12 @@ export class CheckoutStepsSetGuard implements OnDestroy {
         } else {
           if (isDevMode()) {
             this.logger.warn(
-              `Missing step with route '${currentRouteUrl}' in checkout configuration or this step is disabled.`
+              `Missing step with route '${currentRouteUrl}' in checkout configuration or this step is disabled.`,
             );
           }
           return of(this.getUrl('checkout'));
         }
-      })
+      }),
     );
   }
 
@@ -110,7 +110,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
         case CheckoutStepType.PAYMENT_DETAILS: {
           if (
             this.checkoutStepService.getCheckoutStep(
-              CheckoutStepType.DELIVERY_MODE
+              CheckoutStepType.DELIVERY_MODE,
             )?.disabled
           ) {
             this.checkoutDeliveryModesFacade.setDeliveryMode('pickup');
@@ -127,7 +127,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
   }
 
   protected isDeliveryAddress(
-    step: CheckoutStep
+    step: CheckoutStep,
   ): Observable<boolean | UrlTree> {
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
@@ -138,22 +138,22 @@ export class CheckoutStepsSetGuard implements OnDestroy {
         } else {
           return this.getUrl(step.routeName);
         }
-      })
+      }),
     );
   }
 
   protected isDeliveryModeSet(
-    step: CheckoutStep
+    step: CheckoutStep,
   ): Observable<boolean | UrlTree> {
     return this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
-      map((mode) => (mode ? true : this.getUrl(step.routeName)))
+      map((mode) => (mode ? true : this.getUrl(step.routeName))),
     );
   }
 
   protected isPaymentDetailsSet(
-    step: CheckoutStep
+    step: CheckoutStep,
   ): Observable<boolean | UrlTree> {
     return this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading),
@@ -161,20 +161,20 @@ export class CheckoutStepsSetGuard implements OnDestroy {
       map((paymentDetails) =>
         paymentDetails && Object.keys(paymentDetails).length !== 0
           ? true
-          : this.getUrl(step.routeName)
-      )
+          : this.getUrl(step.routeName),
+      ),
     );
   }
 
   protected getUrl(routeName: string): UrlTree {
     return this.router.parseUrl(
-      this.routingConfigService.getRouteConfig(routeName)?.paths?.[0] as string
+      this.routingConfigService.getRouteConfig(routeName)?.paths?.[0] as string,
     );
   }
 
   protected setStepNameMultiLine(
     stepType: CheckoutStepType,
-    value: boolean
+    value: boolean,
   ): void {
     const step = this.checkoutStepService.getCheckoutStep(stepType);
     if (step) {

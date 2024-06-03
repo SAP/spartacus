@@ -19,7 +19,7 @@ export function generateGuestUser() {
 export function loginAsGuest(sampleUser: SampleUser = user) {
   const guestLoginPage = checkout.waitForPage(
     '/checkout-login',
-    'getGuestLoginPage'
+    'getGuestLoginPage',
   );
   cy.get('.register')
     .findByText(/Guest Checkout/i)
@@ -28,7 +28,7 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
 
   const deliveryAddressPage = checkout.waitForPage(
     '/checkout/delivery-address',
-    'getDeliveryAddressPage'
+    'getDeliveryAddressPage',
   );
 
   cy.get('cx-checkout-login').within(() => {
@@ -71,7 +71,7 @@ export function testCheckoutAsGuest() {
         phone: '',
         address: guestUser.address,
       },
-      'US-CA'
+      'US-CA',
     );
 
     cy.selectUserMenuOption({

@@ -52,7 +52,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     this.keyboardFocusService.handleEscape(
       this.elementRef.nativeElement,
       this.keyboardFocusConfig,
-      event
+      event,
     );
   }
 
@@ -60,7 +60,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     private hamburgerMenuService: HamburgerMenuService,
     private routingService: RoutingService,
     protected elementRef: ElementRef<HTMLElement>,
-    protected keyboardFocusService: KeyboardFocusService
+    protected keyboardFocusService: KeyboardFocusService,
   ) {}
 
   ngOnInit(): void {

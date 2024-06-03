@@ -12,7 +12,7 @@ const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutReviewOrderTabbingOrder(
   config: TabElement[],
-  checkout: boolean = false
+  checkout: boolean = false,
 ) {
   const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
 
@@ -34,7 +34,7 @@ export function checkoutReviewOrderTabbingOrder(
   if (checkout) {
     const orderConfirmationPage = waitForPage(
       '/order-confirmation',
-      'getOrderConfirmationPage'
+      'getOrderConfirmationPage',
     );
     cy.get('cx-place-order button.btn-primary').click();
     cy.wait(`@${orderConfirmationPage}`)

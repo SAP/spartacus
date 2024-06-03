@@ -49,33 +49,31 @@ describe('MyAccountV2ProfileComponent', () => {
 
   let service: UpdateProfileComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          CommonModule,
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          NgSelectModule,
-          FeaturesConfigModule,
-        ],
-        declarations: [MyAccountV2ProfileComponent, MockCxSpinnerComponent],
-        providers: [
-          {
-            provide: UpdateProfileComponentService,
-            useClass: MockProfileService,
-          },
-        ],
-      })
-        .overrideComponent(MyAccountV2ProfileComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        NgSelectModule,
+        FeaturesConfigModule,
+      ],
+      declarations: [MyAccountV2ProfileComponent, MockCxSpinnerComponent],
+      providers: [
+        {
+          provide: UpdateProfileComponentService,
+          useClass: MockProfileService,
+        },
+      ],
     })
-  );
+      .overrideComponent(MyAccountV2ProfileComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2ProfileComponent);
@@ -97,7 +95,7 @@ describe('MyAccountV2ProfileComponent', () => {
       component.onEdit();
       fixture.detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
-        By.css('.btn-primary')
+        By.css('.btn-primary'),
       ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });

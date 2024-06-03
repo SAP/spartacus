@@ -32,23 +32,23 @@ const PROXY_FACADE_INSTANCE_PROP = 'proxyFacadeInstance';
 export class FacadeFactoryService {
   constructor(
     protected featureModules: FeatureModulesService,
-    protected injector: Injector
+    protected injector: Injector,
   ) {}
 
   protected getResolver<T>(
     feature: string,
     facadeClass: AbstractType<T>,
-    async = false
+    async = false,
   ): Observable<T> {
     if (!this.featureModules.isConfigured(feature)) {
       return throwError(
-        () => new Error(`Feature ${feature} is not configured properly`)
+        () => new Error(`Feature ${feature} is not configured properly`),
       );
     }
 
     let facadeService$ = this.featureModules.resolveFeature(feature).pipe(
       map((moduleRef) => moduleRef.injector),
-      map((injector) => injector.get(facadeClass))
+      map((injector) => injector.get(facadeClass)),
     );
     if (async) {
       facadeService$ = facadeService$.pipe(delay(0));
@@ -70,14 +70,14 @@ export class FacadeFactoryService {
   protected call(
     resolver$: Observable<any>,
     method: string,
-    args: unknown[]
+    args: unknown[],
   ): Observable<unknown> {
     const callResult$ = connectable(
       resolver$.pipe(map((service) => service[method](...args))),
       {
         connector: () => new ReplaySubject(),
         resetOnDisconnect: false,
-      }
+      },
     );
     callResult$.connect();
 
@@ -87,7 +87,7 @@ export class FacadeFactoryService {
           return result;
         }
         return EMPTY;
-      })
+      }),
     );
   }
 
@@ -102,7 +102,7 @@ export class FacadeFactoryService {
    */
   protected get(
     resolver$: Observable<any>,
-    property: string
+    property: string,
   ): Observable<unknown> {
     return resolver$.pipe(switchMap((service) => service[property]));
   }

@@ -26,7 +26,7 @@ export class DeliveryPointsService {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected pickupLocationsSearchFacade: PickupLocationsSearchFacade,
-    protected orderFacade: OrderFacade
+    protected orderFacade: OrderFacade,
   ) {}
 
   /*
@@ -50,7 +50,7 @@ export class DeliveryPointsService {
   > {
     return this.activeCartFacade.getPickupEntries().pipe(
       filter((entries) => !!entries && !!entries.length),
-      switchMap((entries) => this.getDeliveryPointsOfService(entries))
+      switchMap((entries) => this.getDeliveryPointsOfService(entries)),
     );
   }
 
@@ -59,17 +59,17 @@ export class DeliveryPointsService {
   > {
     return this.orderFacade.getPickupEntries().pipe(
       filter((entries) => !!entries && !!entries.length),
-      switchMap((entries) => this.getDeliveryPointsOfService(entries))
+      switchMap((entries) => this.getDeliveryPointsOfService(entries)),
     );
   }
 
   getDeliveryPointsOfService(
-    entries: Array<OrderEntry>
+    entries: Array<OrderEntry>,
   ): Observable<Array<DeliveryPointOfService>> {
     return of(entries).pipe(
       map(
         (items): Array<OrderEntry> =>
-          items.filter((entry) => !!entry.deliveryPointOfService)
+          items.filter((entry) => !!entry.deliveryPointOfService),
       ),
       switchMap((elements) =>
         iif(
@@ -80,8 +80,8 @@ export class DeliveryPointsService {
               COPY.sort(
                 (a: OrderEntry, b: OrderEntry) =>
                   a.deliveryPointOfService?.name?.localeCompare(
-                    getProperty(b.deliveryPointOfService, 'name') || ''
-                  ) || 0
+                    getProperty(b.deliveryPointOfService, 'name') || '',
+                  ) || 0,
               );
               return COPY;
             }),
@@ -100,32 +100,32 @@ export class DeliveryPointsService {
                     [DELIVERY_POINT_OF_SERVICE]: [...existingValue, value],
                   };
                 },
-                {}
-              )
+                {},
+              ),
             ),
             map(
               (
-                deliveryPointOfServiceMap
+                deliveryPointOfServiceMap,
               ): Array<{ name: string; value: Array<OrderEntry> }> =>
                 Object.keys(deliveryPointOfServiceMap).map((key) => ({
                   name: key,
                   value: deliveryPointOfServiceMap[key],
-                }))
+                })),
             ),
             tap((deliveryPointOfServiceMap) =>
               deliveryPointOfServiceMap
                 .map((deliveryPointOfService) => deliveryPointOfService.name)
                 .forEach((name) =>
-                  this.pickupLocationsSearchFacade.loadStoreDetails(name)
-                )
+                  this.pickupLocationsSearchFacade.loadStoreDetails(name),
+                ),
             ),
             mergeMap((deliveryPointOfServiceMap) =>
               combineLatest(
                 deliveryPointOfServiceMap
                   .map((deliveryPointOfService) => deliveryPointOfService.name)
                   .map((name) =>
-                    this.pickupLocationsSearchFacade.getStoreDetails(name)
-                  )
+                    this.pickupLocationsSearchFacade.getStoreDetails(name),
+                  ),
               ).pipe(
                 map((storeDetails) => {
                   const STORE_DETAILS_MAP = storeDetails
@@ -135,11 +135,11 @@ export class DeliveryPointsService {
                         ...accumulator,
                         [value.name as string]: value,
                       }),
-                      {} as Record<string, PointOfService>
+                      {} as Record<string, PointOfService>,
                     );
                   return deliveryPointOfServiceMap.map(
                     (
-                      store
+                      store,
                     ): {
                       name: string;
                       value: Array<OrderEntry>;
@@ -147,15 +147,15 @@ export class DeliveryPointsService {
                     } => ({
                       ...store,
                       storeDetails: STORE_DETAILS_MAP[store.name as string],
-                    })
+                    }),
                   );
-                })
-              )
-            )
+                }),
+              ),
+            ),
           ),
-          of([])
-        )
-      )
+          of([]),
+        ),
+      ),
     );
   }
 }

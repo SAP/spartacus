@@ -11,7 +11,7 @@ export function isStableSelector<T>(state: ProcessesLoaderState<T>): boolean {
 }
 
 export function hasPendingProcessesSelector<T>(
-  state: ProcessesLoaderState<T>
+  state: ProcessesLoaderState<T>,
 ): boolean {
   return state.processesCount !== undefined && state.processesCount > 0;
 }

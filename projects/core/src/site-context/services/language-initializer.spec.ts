@@ -54,7 +54,7 @@ describe('LanguageInitializer', () => {
     });
 
     languageStatePersistenceService = TestBed.inject(
-      LanguageStatePersistenceService
+      LanguageStatePersistenceService,
     );
     languageService = TestBed.inject(LanguageService);
     initializer = TestBed.inject(LanguageInitializer);

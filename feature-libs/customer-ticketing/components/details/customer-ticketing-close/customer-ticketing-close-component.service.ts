@@ -23,9 +23,9 @@ export class CustomerTicketingCloseComponentService {
             (ticket?.status?.id === STATUS.OPEN ||
               ticket?.status?.id === STATUS.INPROCESS) &&
             ticket.availableStatusTransitions?.some(
-              (status) => status.id.toUpperCase() === STATUS.CLOSED
-            )
-        )
+              (status) => status.id.toUpperCase() === STATUS.CLOSED,
+            ),
+        ),
       );
   }
 }

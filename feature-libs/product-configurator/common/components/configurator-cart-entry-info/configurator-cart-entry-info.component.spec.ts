@@ -23,7 +23,7 @@ class MockCartItemContext implements Partial<CartItemContext> {
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
-    PromotionLocation.SaveForLater
+    PromotionLocation.SaveForLater,
   );
 }
 
@@ -44,23 +44,21 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   let htmlElem: HTMLElement;
   let mockCartItemContext: MockCartItemContext;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-        declarations: [
-          ConfiguratorCartEntryInfoComponent,
-          MockConfigureCartEntryComponent,
-        ],
-        providers: [
-          { provide: CartItemContext, useClass: MockCartItemContext },
-          {
-            provide: ControlContainer,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      declarations: [
+        ConfiguratorCartEntryInfoComponent,
+        MockConfigureCartEntryComponent,
+      ],
+      providers: [
+        { provide: CartItemContext, useClass: MockCartItemContext },
+        {
+          provide: ControlContainer,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorCartEntryInfoComponent);
@@ -115,7 +113,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       const htmlElementAfterChanges = fixture.nativeElement;
       expect(
         htmlElementAfterChanges.querySelectorAll('.cx-configuration-info')
-          .length
+          .length,
       ).toBe(0);
     });
 
@@ -137,7 +135,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       const htmlElementAfterChanges = fixture.nativeElement;
       expect(
         htmlElementAfterChanges.querySelectorAll('.cx-configuration-info')
-          .length
+          .length,
       ).toBe(1);
     });
 
@@ -157,7 +155,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
       fixture.detectChanges();
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        1
+        1,
       );
     });
 
@@ -228,7 +226,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           fixture.detectChanges();
           const element = CommonConfiguratorTestUtilsService.getHTMLElement(
             htmlElem,
-            'cx-configure-cart-entry'
+            'cx-configure-cart-entry',
           );
 
           expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
@@ -240,7 +238,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           fixture.detectChanges();
           const element = CommonConfiguratorTestUtilsService.getHTMLElement(
             htmlElem,
-            'cx-configure-cart-entry'
+            'cx-configure-cart-entry',
           );
 
           expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
@@ -252,7 +250,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           fixture.detectChanges();
           const element = CommonConfiguratorTestUtilsService.getHTMLElement(
             htmlElem,
-            'cx-configure-cart-entry'
+            'cx-configure-cart-entry',
           );
 
           expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
@@ -264,7 +262,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           fixture.detectChanges();
           const element = CommonConfiguratorTestUtilsService.getHTMLElement(
             htmlElem,
-            'cx-configure-cart-entry'
+            'cx-configure-cart-entry',
           );
 
           expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
@@ -279,7 +277,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         const htmlElementAfterChanges = fixture.nativeElement;
         expect(
           htmlElementAfterChanges.querySelectorAll('.cx-configure-cart-entry')
-            .length
+            .length,
         ).toBe(0);
       });
 
@@ -291,7 +289,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         const htmlElementAfterChanges = fixture.nativeElement;
         expect(
           htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
-            .length
+            .length,
         ).toBe(1);
       });
     });
@@ -323,7 +321,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           0,
           undefined,
           undefined,
-          'configurator.a11y.cartEntryInfoIntro'
+          'configurator.a11y.cartEntryInfoIntro',
         );
       });
 
@@ -335,7 +333,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           'cx-configuration-info',
           undefined,
           'aria-describedby',
-          'cx-configuration-hidden-info-0'
+          'cx-configuration-hidden-info-0',
         );
       });
 
@@ -348,7 +346,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           1,
           undefined,
           undefined,
-          'configurator.a11y.cartEntryInfo'
+          'configurator.a11y.cartEntryInfo',
         );
       });
 
@@ -361,7 +359,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           undefined,
           'aria-hidden',
           'true',
-          'Color'
+          'Color',
         );
 
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -372,7 +370,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           undefined,
           'aria-hidden',
           'true',
-          'Blue'
+          'Blue',
         );
       });
     });
@@ -383,13 +381,11 @@ describe('ConfiguratorCartEntryInfoComponent without cart item context', () => {
   let component: ConfiguratorCartEntryInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ConfiguratorCartEntryInfoComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ConfiguratorCartEntryInfoComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorCartEntryInfoComponent);

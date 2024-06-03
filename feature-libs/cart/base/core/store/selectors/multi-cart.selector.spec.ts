@@ -61,13 +61,13 @@ describe('Multi Cart selectors', () => {
           active: true,
         },
         cartId: testCart.code,
-      })
+      }),
     );
     store.dispatch(
       new CartActions.SetCartTypeIndex({
         cartType: CartType.ACTIVE,
         cartId: testCart.code,
-      })
+      }),
     );
   }
 
@@ -81,7 +81,7 @@ describe('Multi Cart selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           MULTI_CART_FEATURE,
-          fromReducers.getMultiCartReducers()
+          fromReducers.getMultiCartReducers(),
         ),
       ],
     });
@@ -155,7 +155,9 @@ describe('Multi Cart selectors', () => {
       let result;
       store
         .pipe(
-          select(MultiCartSelectors.getCartEntitySelectorFactory(testCart.code))
+          select(
+            MultiCartSelectors.getCartEntitySelectorFactory(testCart.code),
+          ),
         )
         .subscribe((value) => (result = value));
 
@@ -199,9 +201,9 @@ describe('Multi Cart selectors', () => {
       store
         .pipe(
           select(
-            MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
+            MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code),
           ),
-          take(1)
+          take(1),
         )
         .subscribe((result) => {
           expect(result).toEqual(true);
@@ -215,9 +217,9 @@ describe('Multi Cart selectors', () => {
       store
         .pipe(
           select(
-            MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
+            MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code),
           ),
-          take(1)
+          take(1),
         )
         .subscribe((result) => {
           expect(result).toEqual(true);
@@ -233,15 +235,15 @@ describe('Multi Cart selectors', () => {
             active: true,
           },
           cartId: testCart.code,
-        })
+        }),
       );
 
       store
         .pipe(
           select(
-            MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
+            MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code),
           ),
-          take(1)
+          take(1),
         )
         .subscribe((result) => {
           expect(result).toEqual(false);
@@ -257,9 +259,9 @@ describe('Multi Cart selectors', () => {
         .pipe(
           select(
             MultiCartSelectors.getCartHasPendingProcessesSelectorFactory(
-              testCart.code
-            )
-          )
+              testCart.code,
+            ),
+          ),
         )
         .subscribe((value) => (result = value));
 
@@ -277,8 +279,8 @@ describe('Multi Cart selectors', () => {
       store
         .pipe(
           select(
-            MultiCartSelectors.getCartEntriesSelectorFactory(testCart.code)
-          )
+            MultiCartSelectors.getCartEntriesSelectorFactory(testCart.code),
+          ),
         )
         .subscribe((value) => (result = value));
 
@@ -298,9 +300,9 @@ describe('Multi Cart selectors', () => {
           select(
             MultiCartSelectors.getCartEntrySelectorFactory(
               testCart.code,
-              testCart.entries[0].product.code
-            )
-          )
+              testCart.entries[0].product.code,
+            ),
+          ),
         )
         .subscribe((value) => (result = value));
 
@@ -340,7 +342,7 @@ describe('Multi Cart selectors', () => {
         new CartActions.SetCartTypeIndex({
           cartType: CartType.ACTIVE,
           cartId: 'testId',
-        })
+        }),
       );
 
       expect(result).toEqual({
@@ -354,7 +356,7 @@ describe('Multi Cart selectors', () => {
       let result;
       store
         .pipe(
-          select(MultiCartSelectors.getCartIdByTypeFactory(CartType.ACTIVE))
+          select(MultiCartSelectors.getCartIdByTypeFactory(CartType.ACTIVE)),
         )
         .subscribe((value) => (result = value));
 
@@ -364,7 +366,7 @@ describe('Multi Cart selectors', () => {
         new CartActions.SetCartTypeIndex({
           cartType: CartType.ACTIVE,
           cartId: 'testId',
-        })
+        }),
       );
 
       expect(result).toEqual('testId');

@@ -74,7 +74,7 @@ describe('OrganizationPageMetaResolver', () => {
   describe('resolveTitle', () => {
     it('should emit title of CMS content page ', async () => {
       expect(await firstValueFrom(service.resolveTitle())).toBe(
-        'testContentPageTitle'
+        'testContentPageTitle',
       );
     });
   });
@@ -83,7 +83,7 @@ describe('OrganizationPageMetaResolver', () => {
     describe('when being on the Organization page', () => {
       beforeEach(() => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of({ state: { semanticRoute: 'organization' } } as any)
+          of({ state: { semanticRoute: 'organization' } } as any),
         );
       });
 
@@ -102,11 +102,11 @@ describe('OrganizationPageMetaResolver', () => {
 
       beforeEach(() => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of({ state: { semanticRoute: 'orgBudgetDetails' } } as any)
+          of({ state: { semanticRoute: 'orgBudgetDetails' } } as any),
         );
 
         spyOn(contentPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
-          of([testHomeBreadcrumb, testBudgetsBreadcrumb])
+          of([testHomeBreadcrumb, testBudgetsBreadcrumb]),
         );
       });
 

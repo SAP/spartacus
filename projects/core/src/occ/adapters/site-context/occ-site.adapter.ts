@@ -27,7 +27,7 @@ export class OccSiteAdapter implements SiteAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
   ) {}
 
   loadLanguages(): Observable<Language[]> {
@@ -35,7 +35,7 @@ export class OccSiteAdapter implements SiteAdapter {
       .get<Occ.LanguageList>(this.occEndpointsService.buildUrl('languages'))
       .pipe(
         map((languageList) => languageList.languages ?? []),
-        this.converterService.pipeableMany(LANGUAGE_NORMALIZER)
+        this.converterService.pipeableMany(LANGUAGE_NORMALIZER),
       );
   }
 
@@ -44,7 +44,7 @@ export class OccSiteAdapter implements SiteAdapter {
       .get<Occ.CurrencyList>(this.occEndpointsService.buildUrl('currencies'))
       .pipe(
         map((currencyList) => currencyList.currencies ?? []),
-        this.converterService.pipeableMany(CURRENCY_NORMALIZER)
+        this.converterService.pipeableMany(CURRENCY_NORMALIZER),
       );
   }
 
@@ -53,11 +53,11 @@ export class OccSiteAdapter implements SiteAdapter {
       .get<Occ.CountryList>(
         this.occEndpointsService.buildUrl('countries', {
           queryParams: type ? { type } : undefined,
-        })
+        }),
       )
       .pipe(
         map((countryList) => countryList.countries ?? []),
-        this.converterService.pipeableMany(COUNTRY_NORMALIZER)
+        this.converterService.pipeableMany(COUNTRY_NORMALIZER),
       );
   }
 
@@ -66,11 +66,11 @@ export class OccSiteAdapter implements SiteAdapter {
       .get<Occ.RegionList>(
         this.occEndpointsService.buildUrl('regions', {
           urlParams: { isoCode: countryIsoCode },
-        })
+        }),
       )
       .pipe(
         map((regionList) => regionList.regions ?? []),
-        this.converterService.pipeableMany(REGION_NORMALIZER)
+        this.converterService.pipeableMany(REGION_NORMALIZER),
       );
   }
 
@@ -86,24 +86,24 @@ export class OccSiteAdapter implements SiteAdapter {
     }
 
     return this.http
-      .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false })
-      )
+      .get<{
+        baseSites: BaseSite[];
+      }>(this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false }))
       .pipe(
         map((siteList) => {
           return siteList.baseSites.find((site) => site.uid === siteUid);
-        })
+        }),
       );
   }
 
   loadBaseSites(): Observable<BaseSite[]> {
     return this.http
-      .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false })
-      )
+      .get<{
+        baseSites: BaseSite[];
+      }>(this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false }))
       .pipe(
         map((baseSiteList) => baseSiteList.baseSites),
-        this.converterService.pipeableMany(BASE_SITE_NORMALIZER)
+        this.converterService.pipeableMany(BASE_SITE_NORMALIZER),
       );
   }
 }

@@ -43,7 +43,7 @@ describe('CostCenterSerializer', () => {
     [OccCostCenterSerializer],
     (costCenterSerializer: OccCostCenterSerializer) => {
       expect(costCenterSerializer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert costCenter', () => {

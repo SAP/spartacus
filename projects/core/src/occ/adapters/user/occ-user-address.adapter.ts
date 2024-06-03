@@ -35,7 +35,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   loadAll(userId: string): Observable<Address[]> {
@@ -51,7 +51,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
         throw normalizeHttpError(error, this.logger);
       }),
       map((addressList) => addressList.addresses ?? []),
-      this.converter.pipeableMany(ADDRESS_NORMALIZER)
+      this.converter.pipeableMany(ADDRESS_NORMALIZER),
     );
   }
 
@@ -67,7 +67,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
     return this.http.post(url, address, { headers }).pipe(
       catchError((error: any) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 
@@ -83,7 +83,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
     return this.http.patch(url, address, { headers }).pipe(
       catchError((error: any) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 
@@ -103,7 +103,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
       catchError((error: any) => {
         throw normalizeHttpError(error, this.logger);
       }),
-      this.converter.pipeable(ADDRESS_VALIDATION_NORMALIZER)
+      this.converter.pipeable(ADDRESS_VALIDATION_NORMALIZER),
     );
   }
 
@@ -118,7 +118,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
     return this.http.delete(url, { headers }).pipe(
       catchError((error: any) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 }

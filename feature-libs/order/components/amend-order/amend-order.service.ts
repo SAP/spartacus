@@ -26,7 +26,7 @@ function ValidateQuantityToCancel(control: AbstractControl) {
   }
   const quantity = Object.values(control.value as number).reduce(
     (acc: number, val: number) => acc + val,
-    0
+    0,
   );
   return quantity > 0 ? null : { cxNoSelectedItemToCancel: true };
 }
@@ -52,11 +52,11 @@ export abstract class OrderAmendService {
         return this.getEntries().pipe(
           map((entries) =>
             entries.filter(
-              (entry) => this.getFormControl(form, entry).value > 0
-            )
-          )
+              (entry) => this.getFormControl(form, entry).value > 0,
+            ),
+          ),
         );
-      })
+      }),
     );
   }
 
@@ -79,7 +79,7 @@ export abstract class OrderAmendService {
           this.buildForm(order);
         }
       }),
-      map(() => this.form)
+      map(() => this.form),
     );
   }
 
@@ -89,7 +89,7 @@ export abstract class OrderAmendService {
 
     const entryGroup = new UntypedFormGroup(
       {},
-      { validators: [ValidateQuantityToCancel] }
+      { validators: [ValidateQuantityToCancel] },
     );
     this.form.addControl('entries', entryGroup);
 
@@ -102,14 +102,14 @@ export abstract class OrderAmendService {
             Validators.min(0),
             Validators.max(this.getMaxAmendQuantity(entry)),
           ],
-        })
+        }),
       );
     });
   }
 
   protected getFormControl(
     form: UntypedFormGroup,
-    entry: OrderEntry
+    entry: OrderEntry,
   ): UntypedFormControl {
     return <UntypedFormControl>(
       form.get('entries')?.get(entry.entryNumber?.toString() ?? '')
@@ -131,7 +131,7 @@ export abstract class OrderAmendService {
       // TODO: user current language
       'en',
       getCurrencySymbol(amendedPrice.currencyIso ?? '', 'narrow'),
-      amendedPrice.currencyIso
+      amendedPrice.currencyIso,
     );
 
     return amendedPrice;

@@ -13,7 +13,7 @@ import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/worksp
 
 export function migrateRenamedSymbols(
   tree: Tree,
-  renamedSymbols: RenamedSymbol[]
+  renamedSymbols: RenamedSymbol[],
 ): Tree {
   const project = getDefaultProjectNameFromWorkspace(tree);
 
@@ -26,14 +26,15 @@ export function migrateRenamedSymbols(
       const importDeclarationStructures: ImportDeclarationStructure[] = [];
 
       sourceFile.getImportDeclarations().forEach((id) => {
-        id.getImportClause()
+        id
+          .getImportClause()
           ?.getNamedImports()
           .forEach((namedImport) => {
             const importName = namedImport.getName();
             const renamedSymbol = renamedSymbols.find(
               (symbol) =>
                 symbol.previousNode === importName &&
-                symbol.previousImportPath === id.getModuleSpecifierValue()
+                symbol.previousImportPath === id.getModuleSpecifierValue(),
             );
 
             if (renamedSymbol) {

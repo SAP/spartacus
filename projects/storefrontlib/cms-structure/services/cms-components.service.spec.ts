@@ -101,7 +101,7 @@ describe('CmsComponentsService', () => {
     });
     it('should resolve features before emitting values', () => {
       const cmsFeaturesService = TestBed.inject<MockCmsFeaturesService>(
-        CmsFeaturesService as any
+        CmsFeaturesService as any,
       );
       const testTypes = ['feature'];
       let isDone = false;
@@ -117,7 +117,7 @@ describe('CmsComponentsService', () => {
   describe('getMapping', () => {
     it('should return component mapping', () => {
       expect(service.getMapping('exampleMapping1')).toBe(
-        mockConfig.cmsComponents.exampleMapping1
+        mockConfig.cmsComponents.exampleMapping1,
       );
     });
   });
@@ -145,7 +145,7 @@ describe('CmsComponentsService', () => {
   describe('getDeferLoadingStrategy', () => {
     it('should return DeferLoadingStrategy for component', () => {
       expect(service.getDeferLoadingStrategy('exampleMapping2')).toBe(
-        DeferLoadingStrategy.INSTANT
+        DeferLoadingStrategy.INSTANT,
       );
     });
   });

@@ -29,7 +29,7 @@ describe('ProductService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           PRODUCT_FEATURE,
-          fromStoreReducers.getReducers()
+          fromStoreReducers.getReducers(),
         ),
       ],
       providers: [
@@ -49,7 +49,7 @@ describe('ProductService', () => {
     [ProductService],
     (productService: ProductService) => {
       expect(productService).toBeTruthy();
-    }
+    },
   ));
 
   describe('get(productCode)', () => {
@@ -60,14 +60,14 @@ describe('ProductService', () => {
 
     it('should be able to get product by code and scope', async () => {
       const result: Product = await lastValueFrom(
-        service.get('testId', 'scope')
+        service.get('testId', 'scope'),
       );
       expect(result).toEqual(mockProduct('testId', ['scope']));
     });
 
     it('should be able to get product by code and scopes', async () => {
       const result: Product = await lastValueFrom(
-        service.get('testId', ['scope1', 'scope2'])
+        service.get('testId', ['scope1', 'scope2']),
       );
       expect(result).toEqual(mockProduct('testId', ['scope1', 'scope2']));
     });
@@ -84,7 +84,7 @@ describe('ProductService', () => {
         () => () =>
           of({
             loading: true,
-          })
+          }),
       );
       let isLoading: boolean | undefined;
       service.isLoading('testId').subscribe((value) => {
@@ -100,7 +100,7 @@ describe('ProductService', () => {
         () => () =>
           of({
             error: true,
-          })
+          }),
       );
       let hasError: boolean | undefined;
       service.hasError('testId').subscribe((value) => {
@@ -116,7 +116,7 @@ describe('ProductService', () => {
         () => () =>
           of({
             success: true,
-          })
+          }),
       );
       let isSuccess: boolean | undefined;
       service.isSuccess('testId').subscribe((value) => {
@@ -129,10 +129,10 @@ describe('ProductService', () => {
   describe('isProductLoaded(productCode)', () => {
     it('should be true that the product is loaded when a product is returned by the store', async () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of({ value: mockedProduct })
+        () => () => of({ value: mockedProduct }),
       );
       const result: Product = await lastValueFrom(
-        service.get('existingProduct')
+        service.get('existingProduct'),
       );
       expect(result).toBeTruthy();
     });

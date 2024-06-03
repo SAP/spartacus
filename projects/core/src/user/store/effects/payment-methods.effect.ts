@@ -33,13 +33,13 @@ export class UserPaymentMethodsEffects {
           catchError((error) =>
             of(
               new UserActions.LoadUserPaymentMethodsFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   setDefaultUserPaymentMethod$: Observable<Action> = createEffect(() =>
@@ -57,13 +57,13 @@ export class UserPaymentMethodsEffects {
             catchError((error) =>
               of(
                 new UserActions.SetDefaultUserPaymentMethodFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   deleteUserPaymentMethod$: Observable<Action> = createEffect(() =>
@@ -77,7 +77,7 @@ export class UserPaymentMethodsEffects {
             switchMap((data) => {
               this.globalMessageService.add(
                 { key: 'paymentCard.deletePaymentSuccess' },
-                GlobalMessageType.MSG_TYPE_CONFIRMATION
+                GlobalMessageType.MSG_TYPE_CONFIRMATION,
               );
               return [
                 new UserActions.DeleteUserPaymentMethodSuccess(data),
@@ -87,18 +87,18 @@ export class UserPaymentMethodsEffects {
             catchError((error) =>
               of(
                 new UserActions.DeleteUserPaymentMethodFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
     private actions$: Actions,
     private userPaymentMethodConnector: UserPaymentConnector,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
   ) {}
 }

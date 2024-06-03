@@ -48,7 +48,7 @@ describe(`checkOAuthParamsInUrl APP_INITIALIZER`, () => {
     checkOAuthParamsInUrl(
       authService,
       configInitializerService,
-      platformId
+      platformId,
     )().then(() => {
       expect(authService.checkOAuthParamsInUrl).toHaveBeenCalled();
       done();
@@ -72,7 +72,7 @@ describe(`checkOAuthParamsInUrl APP_INITIALIZER`, () => {
     checkOAuthParamsInUrl(
       authService,
       configInitializerService,
-      platformId
+      platformId,
     )().then(() => {
       expect(checkingUrlParamsCompleted).toBe(true);
       done();
@@ -84,13 +84,13 @@ describe(`checkOAuthParamsInUrl APP_INITIALIZER`, () => {
 
     const checkOAuthParamsInUrlSpy = spyOn(
       authService,
-      'checkOAuthParamsInUrl'
+      'checkOAuthParamsInUrl',
     );
 
     const fn = checkOAuthParamsInUrl(
       authService,
       configInitializerService,
-      platformId
+      platformId,
     );
 
     await fn();

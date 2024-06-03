@@ -64,7 +64,7 @@ class MockCheckoutDeliveryAddressService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
   getDeliveryAddressState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: mockAddress })
+    of({ loading: false, error: false, data: mockAddress }),
   );
 }
 
@@ -72,14 +72,14 @@ class MockCheckoutDeliveryModesService
   implements Partial<CheckoutDeliveryModesFacade>
 {
   getSupportedDeliveryModesState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: [] })
+    of({ loading: false, error: false, data: [] }),
   );
   getSelectedDeliveryModeState = createSpy().and.returnValue(
     of({
       loading: false,
       error: false,
       data: mockDeliveryMode,
-    })
+    }),
   );
 }
 
@@ -99,7 +99,7 @@ class MockCheckoutStepService {
     },
   ]);
   getCheckoutStepRoute = createSpy().and.returnValue(
-    mockCheckoutStep.routeName
+    mockCheckoutStep.routeName,
   );
 }
 
@@ -237,7 +237,7 @@ describe('CheckoutReviewShippingComponent', () => {
 
   it('should get checkout step route', () => {
     expect(component.deliveryAddressStepRoute).toEqual(
-      mockCheckoutStep.routeName
+      mockCheckoutStep.routeName,
     );
   });
 });

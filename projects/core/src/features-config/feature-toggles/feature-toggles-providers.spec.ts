@@ -43,7 +43,7 @@ describe('FeatureToggles providers', () => {
 
   describe(`provideFeatureTogglesFactory`, () => {
     it('should provide FeatureTogglesChunk with the given factory', () => {
-      const factory = () => ({ test: true } as FeatureToggles);
+      const factory = () => ({ test: true }) as FeatureToggles;
       const provider = provideFeatureTogglesFactory(factory);
       expect(provider).toEqual({
         provide: FeatureTogglesChunk,
@@ -55,7 +55,7 @@ describe('FeatureToggles providers', () => {
 
   describe(`provideDefaultFeatureTogglesFactory`, () => {
     it('should provide DefaultFeatureTogglesChunk with the given factory', () => {
-      const factory = () => ({ test: true } as FeatureToggles);
+      const factory = () => ({ test: true }) as FeatureToggles;
       const provider = provideDefaultFeatureTogglesFactory(factory);
       expect(provider).toEqual({
         provide: DefaultFeatureTogglesChunk,

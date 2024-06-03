@@ -41,7 +41,7 @@ export class WishListItemComponent implements OnChanges {
   remove = new EventEmitter<OrderEntry>();
 
   constructor(
-    protected productListItemContextSource: ProductListItemContextSource
+    protected productListItemContextSource: ProductListItemContextSource,
   ) {
     useFeatureStyles('a11yCartItemsLinksStyles');
   }
@@ -49,7 +49,7 @@ export class WishListItemComponent implements OnChanges {
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.cartEntry) {
       this.productListItemContextSource.product$.next(
-        this.cartEntry.product as Product
+        this.cartEntry.product as Product,
       );
     }
   }

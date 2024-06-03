@@ -28,7 +28,7 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     const features = analyzeCrossFeatureDependencies(
-      options.features as string[]
+      options.features as string[],
     );
 
     return chain([

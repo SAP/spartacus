@@ -23,29 +23,29 @@ export class UserPasswordService implements UserPasswordFacade {
         this.userProfileConnector.updatePassword(
           uid,
           payload.oldPassword,
-          payload.newPassword
-        )
-      )
-    )
+          payload.newPassword,
+        ),
+      ),
+    ),
   );
 
   protected resetCommand: Command<{
     token: string;
     password: string;
   }> = this.command.create((payload) =>
-    this.userProfileConnector.resetPassword(payload.token, payload.password)
+    this.userProfileConnector.resetPassword(payload.token, payload.password),
   );
 
   protected requestForgotPasswordEmailCommand: Command<{
     email: string;
   }> = this.command.create((payload) =>
-    this.userProfileConnector.requestForgotPasswordEmail(payload.email)
+    this.userProfileConnector.requestForgotPasswordEmail(payload.email),
   );
 
   constructor(
     protected userProfileConnector: UserProfileConnector,
     protected userIdService: UserIdService,
-    protected command: CommandService
+    protected command: CommandService,
   ) {}
 
   /**

@@ -80,7 +80,7 @@ export class CreateCartSuccess extends StateUtils.EntitySuccessAction {
 export class AddEmailToCart extends StateUtils.EntityProcessesIncrementAction {
   readonly type = ADD_EMAIL_TO_CART;
   constructor(
-    public payload: { userId: string; cartId: string; email: string }
+    public payload: { userId: string; cartId: string; email: string },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -94,7 +94,7 @@ export class AddEmailToCartFail extends StateUtils.EntityProcessesDecrementActio
       cartId: string;
       error: any;
       email: string;
-    }
+    },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -103,7 +103,7 @@ export class AddEmailToCartFail extends StateUtils.EntityProcessesDecrementActio
 export class AddEmailToCartSuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = ADD_EMAIL_TO_CART_SUCCESS;
   constructor(
-    public payload: { userId: string; cartId: string; email: string }
+    public payload: { userId: string; cartId: string; email: string },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -151,7 +151,7 @@ export class LoadCartsSuccess extends StateUtils.EntitySuccessAction {
   constructor(public payload: Cart[]) {
     super(
       MULTI_CART_DATA,
-      payload.map((cart) => cart?.code ?? '')
+      payload.map((cart) => cart?.code ?? ''),
     );
   }
 }

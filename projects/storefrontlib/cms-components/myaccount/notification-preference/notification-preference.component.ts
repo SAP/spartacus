@@ -24,7 +24,7 @@ export class NotificationPreferenceComponent implements OnInit {
   protected preferences: NotificationPreference[] = [];
 
   constructor(
-    private notificationPreferenceService: UserNotificationPreferenceService
+    private notificationPreferenceService: UserNotificationPreferenceService,
   ) {}
 
   ngOnInit() {
@@ -38,7 +38,7 @@ export class NotificationPreferenceComponent implements OnInit {
       this.notificationPreferenceService.getPreferencesLoading(),
       this.notificationPreferenceService.getUpdatePreferencesResultLoading(),
     ]).pipe(
-      map(([prefsLoading, updateLoading]) => prefsLoading || updateLoading)
+      map(([prefsLoading, updateLoading]) => prefsLoading || updateLoading),
     );
   }
 

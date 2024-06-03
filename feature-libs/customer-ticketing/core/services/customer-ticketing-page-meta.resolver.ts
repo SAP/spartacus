@@ -47,7 +47,7 @@ export class CustomerTicketingPageMetaResolver
     protected basePageMetaResolver: BasePageMetaResolver,
     protected customerTicketingFacade: CustomerTicketingFacade,
     protected translation: TranslationService,
-    protected semanticPath: SemanticPathService
+    protected semanticPath: SemanticPathService,
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -86,7 +86,7 @@ export class CustomerTicketingPageMetaResolver
       map(([customerServiceBreadCrumb, breadcrumbs = []]) => {
         const [home, ...restBreadcrumbs] = breadcrumbs;
         return [home, ...customerServiceBreadCrumb, ...restBreadcrumbs];
-      })
+      }),
     );
   }
 
@@ -97,6 +97,6 @@ export class CustomerTicketingPageMetaResolver
           label,
           link: this.semanticPath.get(this.CUSTOMER_SERVICE_SEMANTIC_ROUTE),
         },
-      ])
+      ]),
     );
 }

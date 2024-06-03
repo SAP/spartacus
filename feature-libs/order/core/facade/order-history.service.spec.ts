@@ -41,7 +41,7 @@ describe('OrderHistoryService', () => {
         StoreModule.forFeature(ORDER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
+          fromProcessReducers.getReducers(),
         ),
       ],
       providers: [
@@ -63,12 +63,12 @@ describe('OrderHistoryService', () => {
     [OrderHistoryService],
     (service: OrderHistoryService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to get order details', () => {
     store.dispatch(
-      new OrderActions.LoadOrderDetailsSuccess({ code: 'testOrder' })
+      new OrderActions.LoadOrderDetailsSuccess({ code: 'testOrder' }),
     );
 
     let order: Order;
@@ -87,14 +87,14 @@ describe('OrderHistoryService', () => {
       new OrderActions.LoadOrderDetails({
         userId: OCC_USER_ID_CURRENT,
         orderCode: 'orderCode',
-      })
+      }),
     );
   });
 
   it('should be able to clear order details', () => {
     userOrderService.clearOrderDetails();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new OrderActions.ClearOrderDetails()
+      new OrderActions.ClearOrderDetails(),
     );
   });
 
@@ -104,7 +104,7 @@ describe('OrderHistoryService', () => {
         orders: [],
         pagination: {},
         sorts: [],
-      })
+      }),
     );
 
     let orderList: OrderHistoryList;
@@ -144,7 +144,7 @@ describe('OrderHistoryService', () => {
         currentPage: 1,
         sort: 'byDate',
         replenishmentOrderCode: undefined,
-      })
+      }),
     );
   });
 
@@ -156,7 +156,7 @@ describe('OrderHistoryService', () => {
             replenishmentOrderCode: mockReplenishmentOrderCode,
           },
         },
-      } as any)
+      } as any),
     );
 
     userOrderService.loadOrderList(10, 1, 'byDate');
@@ -168,7 +168,7 @@ describe('OrderHistoryService', () => {
         currentPage: 1,
         sort: 'byDate',
         replenishmentOrderCode: mockReplenishmentOrderCode,
-      })
+      }),
     );
   });
 
@@ -184,7 +184,7 @@ describe('OrderHistoryService', () => {
   it('should be able to clear order list', () => {
     userOrderService.clearOrderList();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new OrderActions.ClearUserOrders()
+      new OrderActions.ClearUserOrders(),
     );
   });
 
@@ -192,7 +192,7 @@ describe('OrderHistoryService', () => {
     store.dispatch(
       new OrderActions.LoadConsignmentTrackingSuccess({
         trackingID: '1234567890',
-      })
+      }),
     );
     userOrderService
       .getConsignmentTracking()
@@ -207,14 +207,14 @@ describe('OrderHistoryService', () => {
         userId: OCC_USER_ID_CURRENT,
         orderCode: 'orderCode',
         consignmentCode: 'consignmentCode',
-      })
+      }),
     );
   });
 
   it('should be able to clear consignment tracking', () => {
     userOrderService.clearConsignmentTracking();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new OrderActions.ClearConsignmentTracking()
+      new OrderActions.ClearConsignmentTracking(),
     );
   });
 
@@ -225,7 +225,7 @@ describe('OrderHistoryService', () => {
         userId: OCC_USER_ID_CURRENT,
         orderCode: 'test',
         cancelRequestInput: {},
-      })
+      }),
     );
   });
 
@@ -235,7 +235,7 @@ describe('OrderHistoryService', () => {
         userId: 'current',
         orderCode: 'test',
         cancelRequestInput: {},
-      })
+      }),
     );
     userOrderService
       .getCancelOrderLoading()
@@ -254,7 +254,7 @@ describe('OrderHistoryService', () => {
   it('should be able to reset CancelOrder process state', () => {
     userOrderService.resetCancelOrderProcessState();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new OrderActions.ResetCancelOrderProcess()
+      new OrderActions.ResetCancelOrderProcess(),
     );
   });
 
@@ -263,7 +263,7 @@ describe('OrderHistoryService', () => {
       new OrderActions.LoadOrderDetails({
         userId: 'current',
         orderCode: 'test',
-      })
+      }),
     );
     userOrderService
       .getOrderDetailsLoading()

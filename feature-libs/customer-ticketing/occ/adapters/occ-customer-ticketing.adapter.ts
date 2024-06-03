@@ -42,14 +42,14 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
   getTicketAssociatedObjects(
-    customerId: string
+    customerId: string,
   ): Observable<AssociatedObject[]> {
     return this.http
       .get<AssociatedObjectsList>(
-        this.getTicketAssociatedObjectsEndpoint(customerId)
+        this.getTicketAssociatedObjectsEndpoint(customerId),
       )
       .pipe(
         catchError((error) => {
@@ -57,11 +57,11 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
         }),
         map(
           (associatedObjectList) =>
-            associatedObjectList.ticketAssociatedObjects ?? []
+            associatedObjectList.ticketAssociatedObjects ?? [],
         ),
         this.converter.pipeableMany(
-          CUSTOMER_TICKETING_ASSOCIATED_OBJECTS_NORMALIZER
-        )
+          CUSTOMER_TICKETING_ASSOCIATED_OBJECTS_NORMALIZER,
+        ),
       );
   }
 
@@ -81,7 +81,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
           throw normalizeHttpError(error, this.logger);
         }),
         map((categoryList) => categoryList.ticketCategories ?? []),
-        this.converter.pipeableMany(CUSTOMER_TICKETING_CATEGORY_NORMALIZER)
+        this.converter.pipeableMany(CUSTOMER_TICKETING_CATEGORY_NORMALIZER),
       );
   }
 
@@ -97,7 +97,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
           throw normalizeHttpError(errorResponse, this.logger);
         }),
         tap((ticket) => ticket.ticketEvents?.reverse()),
-        this.converter.pipeable(CUSTOMER_TICKETING_DETAILS_NORMALIZER)
+        this.converter.pipeable(CUSTOMER_TICKETING_DETAILS_NORMALIZER),
       );
   }
 
@@ -112,7 +112,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
 
   createTicket(
     customerId: string,
-    ticket: TicketStarter
+    ticket: TicketStarter,
   ): Observable<TicketStarter> {
     return this.http
       .post<TicketStarter>(this.getCreateTicketEndpoint(customerId), ticket, {
@@ -122,7 +122,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
         catchError((error) => {
           throw normalizeHttpError(error, this.logger);
         }),
-        this.converter.pipeable(CUSTOMER_TICKETING_CREATE_NORMALIZER)
+        this.converter.pipeable(CUSTOMER_TICKETING_CREATE_NORMALIZER),
       );
   }
 
@@ -138,17 +138,17 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     customerId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<TicketList> {
     return this.http
       .get<TicketList>(
-        this.getTicketsEndpoint(customerId, pageSize, currentPage, sort)
+        this.getTicketsEndpoint(customerId, pageSize, currentPage, sort),
       )
       .pipe(
         catchError((error) => {
           throw normalizeHttpError(error, this.logger);
         }),
-        this.converter.pipeable(CUSTOMER_TICKETING_LIST_NORMALIZER)
+        this.converter.pipeable(CUSTOMER_TICKETING_LIST_NORMALIZER),
       );
   }
 
@@ -156,7 +156,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     customerId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): string {
     return this.occEndpoints.buildUrl('getTickets', {
       urlParams: {
@@ -173,7 +173,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
   createTicketEvent(
     customerId: string,
     ticketId: string,
-    ticketEvent: TicketEvent
+    ticketEvent: TicketEvent,
   ): Observable<TicketEvent> {
     return this.http
       .post<TicketEvent>(
@@ -181,19 +181,19 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
         ticketEvent,
         {
           headers: new HttpHeaders().set('Content-Type', 'application/json'),
-        }
+        },
       )
       .pipe(
         catchError((error) => {
           throw normalizeHttpError(error, this.logger);
         }),
-        this.converter.pipeable(CUSTOMER_TICKETING_EVENT_NORMALIZER)
+        this.converter.pipeable(CUSTOMER_TICKETING_EVENT_NORMALIZER),
       );
   }
 
   protected getCreateTicketEventEndpoint(
     customerId: string,
-    ticketId: string
+    ticketId: string,
   ): string {
     return this.occEndpoints.buildUrl('createTicketEvent', {
       urlParams: {
@@ -207,7 +207,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     customerId: string,
     ticketId: string,
     eventCode: string,
-    file: File
+    file: File,
   ): Observable<unknown> {
     const formData: FormData = new FormData();
     formData.append('ticketEventAttachment', file);
@@ -215,20 +215,20 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     return this.http
       .post(
         this.getUploadAttachmentEndpoint(customerId, ticketId, eventCode),
-        formData
+        formData,
       )
       .pipe(
         catchError((error) => {
           throw normalizeHttpError(error, this.logger);
         }),
-        this.converter.pipeable(CUSTOMER_TICKETING_FILE_NORMALIZER)
+        this.converter.pipeable(CUSTOMER_TICKETING_FILE_NORMALIZER),
       );
   }
 
   protected getUploadAttachmentEndpoint(
     customerId: string,
     ticketId: string,
-    eventCode: string
+    eventCode: string,
   ): string {
     return this.occEndpoints.buildUrl('uploadAttachment', {
       urlParams: {
@@ -243,7 +243,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     customerId: string,
     ticketId: string,
     eventCode: string,
-    attachmentId: string
+    attachmentId: string,
   ): Observable<unknown> {
     const httpOptions = {
       responseType: 'blob' as 'json',
@@ -254,15 +254,15 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
           customerId,
           ticketId,
           eventCode,
-          attachmentId
+          attachmentId,
         ),
-        httpOptions
+        httpOptions,
       )
       .pipe(
         catchError((error) => {
           throw normalizeHttpError(error, this.logger);
         }),
-        this.converter.pipeable(CUSTOMER_TICKETING_FILE_NORMALIZER)
+        this.converter.pipeable(CUSTOMER_TICKETING_FILE_NORMALIZER),
       );
   }
 
@@ -270,7 +270,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     customerId: string,
     ticketId: string,
     eventCode: string,
-    attachmentId: string
+    attachmentId: string,
   ): string {
     return this.occEndpoints.buildUrl('downloadAttachment', {
       urlParams: {

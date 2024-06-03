@@ -10,7 +10,7 @@ import { CSS_V3_DOCS_URL } from '../../../shared/constants';
 export function migrate(): Rule {
   return (_tree: Tree, context: SchematicContext) => {
     context.logger.warn(
-      `For a CSS migration guide, please visit this URL: ${CSS_V3_DOCS_URL}`
+      `For a CSS migration guide, please visit this URL: ${CSS_V3_DOCS_URL}`,
     );
   };
 }

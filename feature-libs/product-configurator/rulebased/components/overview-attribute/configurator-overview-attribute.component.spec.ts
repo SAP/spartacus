@@ -23,18 +23,16 @@ describe('ConfigurationOverviewAttributeComponent', () => {
   let htmlElem: HTMLElement;
   let breakpointService: BreakpointService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-        declarations: [
-          ConfiguratorOverviewAttributeComponent,
-          MockConfiguratorPriceComponent,
-        ],
-        providers: [],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+      declarations: [
+        ConfiguratorOverviewAttributeComponent,
+        MockConfiguratorPriceComponent,
+      ],
+      providers: [],
+    });
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorOverviewAttributeComponent);
     component = fixture.componentInstance;
@@ -46,7 +44,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
     fixture.detectChanges();
 
     breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
+      BreakpointService as Type<BreakpointService>,
     );
   });
 
@@ -76,13 +74,13 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       fixture.detectChanges();
       const priceFormulaParameters = component.extractPriceFormulaParameters();
       expect(priceFormulaParameters.quantity).toBe(
-        component.attributeOverview.quantity
+        component.attributeOverview.quantity,
       );
       expect(priceFormulaParameters.price).toBe(
-        component.attributeOverview.valuePrice
+        component.attributeOverview.valuePrice,
       );
       expect(priceFormulaParameters.priceTotal).toBe(
-        component.attributeOverview.valuePriceTotal
+        component.attributeOverview.valuePriceTotal,
       );
       expect(priceFormulaParameters.isLightedUp).toBe(true);
     });
@@ -132,7 +130,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       fixture.detectChanges();
 
       breakpointService = TestBed.inject(
-        BreakpointService as Type<BreakpointService>
+        BreakpointService as Type<BreakpointService>,
       );
       spyOn(breakpointService, 'isUp').and.returnValue(of(true));
     });
@@ -148,7 +146,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       fixture.detectChanges();
 
       breakpointService = TestBed.inject(
-        BreakpointService as Type<BreakpointService>
+        BreakpointService as Type<BreakpointService>,
       );
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -161,7 +159,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
         'configurator.a11y.valueOfAttributeFull attribute:' +
           component.attributeOverview.attribute +
           ' value:' +
-          component.attributeOverview.value
+          component.attributeOverview.value,
       );
     });
 
@@ -179,7 +177,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
           ' price:' +
           component.attributeOverview.valuePrice?.formattedValue +
           ' value:' +
-          component.attributeOverview.value
+          component.attributeOverview.value,
       );
     });
 
@@ -191,7 +189,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
         'cx-attribute-value',
         0,
         'aria-hidden',
-        'true'
+        'true',
       );
     });
 
@@ -203,7 +201,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
         'cx-attribute-label',
         0,
         'aria-hidden',
-        'true'
+        'true',
       );
     });
   });

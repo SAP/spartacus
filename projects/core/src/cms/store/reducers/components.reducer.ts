@@ -17,7 +17,7 @@ export const initialState: ComponentsContext = {
 
 function componentExistsReducer<T extends CmsComponent>(
   state: boolean | undefined,
-  action: CmsActions.CmsComponentAction<T>
+  action: CmsActions.CmsComponentAction<T>,
 ): boolean | undefined {
   switch (action.type) {
     case CmsActions.LOAD_CMS_COMPONENT_FAIL:
@@ -32,13 +32,13 @@ function componentExistsReducer<T extends CmsComponent>(
 
 export function reducer<T extends CmsComponent>(
   state = initialState,
-  action: CmsActions.CmsComponentAction<T>
+  action: CmsActions.CmsComponentAction<T>,
 ): ComponentsContext {
   switch (action.type) {
     case CmsActions.LOAD_CMS_COMPONENT: {
       const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
-        componentExistsReducer
+        componentExistsReducer,
       );
       const context = serializePageContext(action.payload.pageContext, true);
       return {
@@ -52,7 +52,7 @@ export function reducer<T extends CmsComponent>(
     case CmsActions.LOAD_CMS_COMPONENT_FAIL: {
       const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
-        componentExistsReducer
+        componentExistsReducer,
       );
       const context = serializePageContext(action.payload.pageContext, true);
       return {
@@ -66,7 +66,7 @@ export function reducer<T extends CmsComponent>(
     case CmsActions.LOAD_CMS_COMPONENT_SUCCESS: {
       const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
-        componentExistsReducer
+        componentExistsReducer,
       );
       const context = serializePageContext(action.payload.pageContext, true);
       return {
@@ -81,7 +81,7 @@ export function reducer<T extends CmsComponent>(
     case CmsActions.CMS_GET_COMPONENT_FROM_PAGE: {
       const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
-        componentExistsReducer
+        componentExistsReducer,
       );
       if (!Array.isArray(action.payload)) {
         const context = serializePageContext(action.payload.pageContext, true);

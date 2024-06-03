@@ -142,7 +142,7 @@ describe('OccQuoteActionNormalizer', () => {
       const orderedActions = classUnderTest['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
         SUBMIT_AND_CANCEL_UNORDERED,
-        QUOTE_CODE
+        QUOTE_CODE,
       );
       expect(orderedActions).toEqual([
         QuoteActionType.CANCEL,
@@ -154,7 +154,7 @@ describe('OccQuoteActionNormalizer', () => {
       const orderedActions = classUnderTest['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
         SUBMIT_AND_CANCEL_UNORDERED,
-        QUOTE_CODE
+        QUOTE_CODE,
       );
       expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
     });
@@ -163,7 +163,7 @@ describe('OccQuoteActionNormalizer', () => {
       const orderedActions = classUnderTest['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
         SUBMIT_AND_CANCEL_UNORDERED,
-        QUOTE_CODE
+        QUOTE_CODE,
       );
       expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
     });
@@ -173,7 +173,7 @@ describe('OccQuoteActionNormalizer', () => {
       const orderedActions = classUnderTest['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
         SUBMIT_AND_CANCEL_UNORDERED,
-        QUOTE_CODE
+        QUOTE_CODE,
       );
       expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
     });
@@ -182,7 +182,7 @@ describe('OccQuoteActionNormalizer', () => {
       const orderedActions = classUnderTest['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
         SUBMIT_EDIT_CANCEL_UNORDERED,
-        QUOTE_CODE
+        QUOTE_CODE,
       );
       expect(orderedActions).toEqual([
         QuoteActionType.CANCEL,
@@ -197,7 +197,7 @@ describe('OccQuoteActionNormalizer', () => {
       const orderedActions = classUnderTest['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
         SUBMIT_EDIT_CANCEL_UNORDERED,
-        QUOTE_CODE
+        QUOTE_CODE,
       );
       expect(orderedActions).toEqual([
         QuoteActionType.CANCEL,
@@ -211,7 +211,7 @@ describe('OccQuoteActionNormalizer', () => {
       const orderedActions = classUnderTest['getOrderedActions'](
         QuoteState.BUYER_OFFER,
         CHECKOUT_EDIT_CANCEL_UNORDERED,
-        QUOTE_CODE
+        QUOTE_CODE,
       );
       expect(orderedActions).toEqual([
         QuoteActionType.CANCEL,
@@ -228,7 +228,7 @@ describe('OccQuoteActionNormalizer', () => {
     };
     it('should set isPrimary to true if action is defined as primary in the config', () => {
       const actualResult = classUnderTest['getActionCategory'](
-        QuoteActionType.SUBMIT
+        QuoteActionType.SUBMIT,
       );
       expect(actualResult).toEqual({
         type: QuoteActionType.SUBMIT,
@@ -237,7 +237,7 @@ describe('OccQuoteActionNormalizer', () => {
     });
     it('should set isPrimary to false action is not defined as primary in the config', () => {
       const actualResult = classUnderTest['getActionCategory'](
-        QuoteActionType.CANCEL
+        QuoteActionType.CANCEL,
       );
       expect(actualResult).toEqual({
         type: QuoteActionType.CANCEL,
@@ -247,21 +247,21 @@ describe('OccQuoteActionNormalizer', () => {
     it('should set isPrimary to false if no quote config is given', () => {
       quoteCoreConfig.quote = undefined;
       const actualResult = classUnderTest['getActionCategory'](
-        QuoteActionType.SUBMIT
+        QuoteActionType.SUBMIT,
       );
       expect(actualResult).toEqual(SUBMIT_NOT_PRIMARY_ACTION);
     });
     it('should set isPrimary to false if no actions are defined in the config', () => {
       (quoteCoreConfig?.quote ?? {}).actions = undefined;
       const actualResult = classUnderTest['getActionCategory'](
-        QuoteActionType.SUBMIT
+        QuoteActionType.SUBMIT,
       );
       expect(actualResult).toEqual(SUBMIT_NOT_PRIMARY_ACTION);
     });
     it('should set isPrimary to false if no primaryActions are defined in the config', () => {
       (quoteCoreConfig?.quote?.actions ?? {}).primaryActions = undefined;
       const actualResult = classUnderTest['getActionCategory'](
-        QuoteActionType.SUBMIT
+        QuoteActionType.SUBMIT,
       );
       expect(actualResult).toEqual(SUBMIT_NOT_PRIMARY_ACTION);
     });

@@ -90,16 +90,16 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
           switchMap(([customerId]) =>
             this.customerTicketingConnector.createTicket(
               customerId,
-              ticketStarted
-            )
+              ticketStarted,
+            ),
           ),
           tap(() => {
             this.eventService.dispatch({}, TicketCreatedEvent);
-          })
+          }),
         ),
       {
         strategy: CommandStrategy.Queue,
-      }
+      },
     );
 
   protected createTicketEventCommand: Command<
@@ -128,13 +128,13 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
                     this.eventService.dispatch({}, NewMessageEvent);
                   }
                 }
-              })
-            )
-        )
+              }),
+            ),
+        ),
       ),
     {
       strategy: CommandStrategy.Queue,
-    }
+    },
   );
 
   protected uploadAttachmentCommand: Command<{
@@ -154,18 +154,18 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
               customerId,
               payload.ticketId ?? ticketId,
               payload.eventCode,
-              payload.file
+              payload.file,
             )
             .pipe(
               tap(() =>
-                this.eventService.dispatch({}, UploadAttachmentSuccessEvent)
-              )
-            )
-        )
+                this.eventService.dispatch({}, UploadAttachmentSuccessEvent),
+              ),
+            ),
+        ),
       ),
     {
       strategy: CommandStrategy.Queue,
-    }
+    },
   );
 
   protected downloadAttachmentCommand: Command<{
@@ -179,13 +179,13 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
             customerId,
             ticketId,
             payload.eventCode,
-            payload.attachmentId
-          )
-        )
+            payload.attachmentId,
+          ),
+        ),
       ),
     {
       strategy: CommandStrategy.Queue,
-    }
+    },
   );
 
   protected getTicketQuery$: Query<TicketDetails | undefined> =
@@ -193,19 +193,19 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       () =>
         this.customerTicketingPreConditions().pipe(
           switchMap(([customerId, ticketId]) =>
-            this.customerTicketingConnector.getTicket(customerId, ticketId)
-          )
+            this.customerTicketingConnector.getTicket(customerId, ticketId),
+          ),
         ),
       {
         reloadOn: this.getTicketQueryReloadEvents(),
         resetOn: this.getTicketQueryResetEvents(),
-      }
+      },
     );
 
   protected getTicketsQuery$(
     pageSize: number,
     currentPage: number,
-    sort: string
+    sort: string,
   ): Query<TicketList | undefined> {
     return this.queryService.create<TicketList | undefined>(
       () =>
@@ -215,14 +215,14 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
               customerId,
               pageSize,
               currentPage,
-              sort
-            )
-          )
+              sort,
+            ),
+          ),
         ),
       {
         reloadOn: this.getTicketsQueryReloadEvents(),
         resetOn: this.getTicketsQueryResetEvents(),
-      }
+      },
     );
   }
 
@@ -232,7 +232,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       {
         reloadOn: this.getTicketCategoriesQueryReloadEvents(),
         resetOn: this.getTicketCategoriesQueryResetEvents(),
-      }
+      },
     );
 
   protected getTicketAssociatedObjectsQuery: Query<AssociatedObject[]> =
@@ -241,14 +241,14 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         this.customerTicketingPreConditions().pipe(
           switchMap(([customerId]) =>
             this.customerTicketingConnector.getTicketAssociatedObjects(
-              customerId
-            )
-          )
+              customerId,
+            ),
+          ),
         ),
       {
         reloadOn: this.getTicketAssociatedObjectsQueryReloadEvents(),
         resetOn: this.getTicketAssociatedObjectsQueryResetEvents(),
-      }
+      },
     );
 
   protected customerTicketingPreConditions(): Observable<[string, string]> {
@@ -256,7 +256,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       this.userIdService.getUserId(),
       this.routingService.getParams().pipe(
         map((params) => params.ticketCode),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       ),
     ]).pipe(
       take(1),
@@ -265,7 +265,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
           throw new Error('Customer ticketing pre conditions not met');
         }
         return [userId, ticketId];
-      })
+      }),
     );
   }
 
@@ -277,7 +277,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
           throw new Error('Customer ticketing list pre conditions not met');
         }
         return userId;
-      })
+      }),
     );
   }
 
@@ -287,7 +287,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     protected userIdService: UserIdService,
     protected customerTicketingConnector: CustomerTicketingConnector,
     protected routingService: RoutingService,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   getTicketAssociatedObjectsState(): Observable<
@@ -298,9 +298,9 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   getTicketAssociatedObjects(): Observable<AssociatedObject[]> {
     return this.getTicketAssociatedObjectsState().pipe(
       concatMap((state) =>
-        state?.error ? throwError(state.error as HttpErrorModel) : of(state)
+        state?.error ? throwError(state.error as HttpErrorModel) : of(state),
       ),
-      map((state) => state.data ?? [])
+      map((state) => state.data ?? []),
     );
   }
 
@@ -310,7 +310,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   getTicketCategories(): Observable<Category[]> {
     return this.getTicketCategoriesState().pipe(
-      map((state) => state.data ?? [])
+      map((state) => state.data ?? []),
     );
   }
 
@@ -323,7 +323,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   }
 
   createTicket(
-    ticketStarted: TicketStarter
+    ticketStarted: TicketStarter,
   ): Observable<TicketStarter | TicketDetails> {
     return this.createTicketCommand.execute(ticketStarted);
   }
@@ -331,7 +331,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   getTicketsState(
     pageSize: number,
     currentPage: number,
-    sort: string
+    sort: string,
   ): Observable<QueryState<TicketList | undefined>> {
     return this.getTicketsQuery$(pageSize, currentPage, sort).getState();
   }
@@ -339,16 +339,16 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   getTickets(
     pageSize: number,
     currentPage: number,
-    sort: string
+    sort: string,
   ): Observable<TicketList | undefined> {
     return this.getTicketsState(pageSize, currentPage, sort).pipe(
-      map((state) => state.data)
+      map((state) => state.data),
     );
   }
 
   createTicketEvent(
     ticketEvent: TicketEvent,
-    containsAttachment = false
+    containsAttachment = false,
   ): Observable<TicketEvent> {
     return this.createTicketEventCommand.execute({
       ticketEvent,
@@ -359,14 +359,14 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   uploadAttachment(
     file: File,
     eventCode: string,
-    ticketId?: string
+    ticketId?: string,
   ): Observable<unknown> {
     return this.uploadAttachmentCommand.execute({ file, eventCode, ticketId });
   }
 
   downloadAttachment(
     eventCode: string,
-    attachmentId: string
+    attachmentId: string,
   ): Observable<unknown> {
     return this.downloadAttachmentCommand.execute({ eventCode, attachmentId });
   }

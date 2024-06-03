@@ -41,17 +41,17 @@ export class RecentSearchesComponent implements OnInit {
           recentSearches
             .filter(
               (phrase) =>
-                phrase.toLowerCase().indexOf(context.search.toLowerCase()) >= 0
+                phrase.toLowerCase().indexOf(context.search.toLowerCase()) >= 0,
             )
-            .slice(0, context.maxRecentSearches ?? MAX_RECENT_SEARCHES)
-        )
-      )
-    )
+            .slice(0, context.maxRecentSearches ?? MAX_RECENT_SEARCHES),
+        ),
+      ),
+    ),
   );
   outletContext$: Observable<SearchBoxOutlet>;
 
   constructor(
-    @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
+    @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>,
   ) {}
 
   ngOnInit() {

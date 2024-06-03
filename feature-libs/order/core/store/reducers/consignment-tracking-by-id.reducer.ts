@@ -13,7 +13,7 @@ export const initialStateOfConsignmentTrackingById:
 
 export function reducer(
   state = initialStateOfConsignmentTrackingById,
-  action: OrderActions.ConsignmentTrackingByIdAction
+  action: OrderActions.ConsignmentTrackingByIdAction,
 ): ConsignmentTracking | undefined {
   switch (action.type) {
     case OrderActions.LOAD_CONSIGNMENT_TRACKING_BY_ID_SUCCESS: {

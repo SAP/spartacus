@@ -40,7 +40,7 @@ describe('OccConfiguratorTextfieldAddToCartSerializer', () => {
     });
 
     occConfiguratorVariantAddToCartSerializer = TestBed.inject(
-      OccConfiguratorTextfieldAddToCartSerializer as Type<OccConfiguratorTextfieldAddToCartSerializer>
+      OccConfiguratorTextfieldAddToCartSerializer as Type<OccConfiguratorTextfieldAddToCartSerializer>,
     );
   });
 
@@ -49,7 +49,7 @@ describe('OccConfiguratorTextfieldAddToCartSerializer', () => {
       occConfiguratorVariantAddToCartSerializer.convert(sourceParameters);
     expect(convertedParameters.userId).toEqual(sourceParameters.userId);
     expect(convertedParameters.product?.code).toEqual(
-      sourceParameters.productCode
+      sourceParameters.productCode,
     );
     const configurationInfos = convertedParameters.configurationInfos;
     if (configurationInfos) {

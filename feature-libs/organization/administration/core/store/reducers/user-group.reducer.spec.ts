@@ -28,7 +28,7 @@ describe('User Group Entities Reducer', () => {
   describe('LOAD_USER_GROUP_SUCCESS action', () => {
     it('should return the payload', () => {
       const action = new UserGroupActions.LoadUserGroupSuccess(
-        payloadUserGroup
+        payloadUserGroup,
       );
       const result = userGroupEntitiesReducer(userGroupInitialState, action);
 
@@ -39,7 +39,7 @@ describe('User Group Entities Reducer', () => {
   describe('CREATE_USER_GROUP_SUCCESS action', () => {
     it('should return the payload', () => {
       const action = new UserGroupActions.CreateUserGroupSuccess(
-        payloadUserGroup
+        payloadUserGroup,
       );
       const result = userGroupEntitiesReducer(userGroupInitialState, action);
 
@@ -50,7 +50,7 @@ describe('User Group Entities Reducer', () => {
   describe('UPDATE_USER_GROUP_SUCCESS action', () => {
     it('should return the payload', () => {
       const action = new UserGroupActions.UpdateUserGroupSuccess(
-        payloadUserGroup
+        payloadUserGroup,
       );
       const result = userGroupEntitiesReducer(userGroupInitialState, action);
 
@@ -67,7 +67,7 @@ describe('User Group Entities Reducer', () => {
         };
 
         const action = new B2BUserActions.AssignB2BUserUserGroupSuccess(
-          payload
+          payload,
         );
         const result = userGroupEntitiesReducer(userGroupInitialState, action);
 
@@ -88,7 +88,7 @@ describe('User Group Entities Reducer', () => {
         };
 
         const action = new B2BUserActions.AssignB2BUserUserGroupSuccess(
-          payload
+          payload,
         );
         const result = userGroupEntitiesReducer(payloadUserGroup, action);
 
@@ -106,7 +106,7 @@ describe('User Group Entities Reducer', () => {
         };
 
         const action = new B2BUserActions.UnassignB2BUserUserGroupSuccess(
-          payload
+          payload,
         );
         const result = userGroupEntitiesReducer(userGroupInitialState, action);
 
@@ -127,7 +127,7 @@ describe('User Group Entities Reducer', () => {
         };
 
         const action = new B2BUserActions.UnassignB2BUserUserGroupSuccess(
-          payload
+          payload,
         );
         const result = userGroupEntitiesReducer(payloadUserGroup, action);
 
@@ -174,7 +174,7 @@ describe('User Group Available Order Approval Permissions List Reducer', () => {
       const action = { type: '' };
       const state = userGroupAvailableOrderApprovalPermissionsListReducer(
         undefined,
-        action
+        action,
       );
 
       expect(state).toBe(userGroupsInitialState);
@@ -198,7 +198,7 @@ describe('User Group Available Order Approval Permissions List Reducer', () => {
       const action = new UserGroupActions.LoadPermissionsSuccess(payload);
       const result = userGroupAvailableOrderApprovalPermissionsListReducer(
         userGroupsInitialState,
-        action
+        action,
       );
 
       expect(result).toEqual(payload.page);
@@ -231,11 +231,11 @@ describe('User Group Available Org Customers List Reducer', () => {
       };
 
       const action = new UserGroupActions.LoadAvailableOrgCustomersSuccess(
-        payload
+        payload,
       );
       const result = userGroupAvailablOrgCustomersListReducer(
         userGroupsInitialState,
-        action
+        action,
       );
 
       expect(result).toEqual(payload.page);

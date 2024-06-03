@@ -23,7 +23,7 @@ describe('PositioningService', () => {
     width: number,
     marginTop: number,
     marginLeft: number,
-    isAbsolute = false
+    isAbsolute = false,
   ): HTMLElement {
     let el = document.createElement('div');
     if (isAbsolute) {
@@ -154,7 +154,7 @@ describe('PositioningService', () => {
     let isInViewport = positioningService.positionElements(
       element,
       targetElement,
-      'top-left'
+      'top-left',
     );
 
     expect(isInViewport).toBe('top-left');
@@ -165,7 +165,7 @@ describe('PositioningService', () => {
     let isInViewport = positioningService.positionElements(
       element,
       targetElement,
-      'top'
+      'top',
     );
 
     expect(isInViewport).toBe('top');
@@ -176,7 +176,7 @@ describe('PositioningService', () => {
     let isInViewport = positioningService.positionElements(
       element,
       targetElement,
-      'top-right'
+      'top-right',
     );
 
     expect(isInViewport).toBe('top-right');
@@ -187,7 +187,7 @@ describe('PositioningService', () => {
     let isInViewport = positioningService.positionElements(
       element,
       targetElement,
-      'bottom-left'
+      'bottom-left',
     );
 
     expect(isInViewport).toBe('bottom-left');
@@ -198,7 +198,7 @@ describe('PositioningService', () => {
     let isInViewport = positioningService.positionElements(
       element,
       targetElement,
-      'bottom'
+      'bottom',
     );
 
     expect(isInViewport).toBe('bottom');
@@ -209,7 +209,7 @@ describe('PositioningService', () => {
     let isInViewport = positioningService.positionElements(
       element,
       targetElement,
-      'bottom-right'
+      'bottom-right',
     );
 
     expect(isInViewport).toBe('bottom-right');
@@ -220,7 +220,7 @@ describe('PositioningService', () => {
     let isInViewport = positioningService.positionElements(
       element,
       targetElement,
-      'left-top'
+      'left-top',
     );
 
     expect(isInViewport).toBe('left-top');
@@ -231,7 +231,7 @@ describe('PositioningService', () => {
     let isInViewport = positioningService.positionElements(
       element,
       targetElement,
-      'left'
+      'left',
     );
 
     expect(isInViewport).toBe('left');
@@ -242,7 +242,7 @@ describe('PositioningService', () => {
     let isInViewport = positioningService.positionElements(
       element,
       targetElement,
-      'left-bottom'
+      'left-bottom',
     );
 
     expect(isInViewport).toBe('left-bottom');
@@ -253,7 +253,7 @@ describe('PositioningService', () => {
     let isInViewport = positioningService.positionElements(
       element,
       targetElement,
-      'right-top'
+      'right-top',
     );
 
     expect(isInViewport).toBe('right-top');
@@ -264,7 +264,7 @@ describe('PositioningService', () => {
     let isInViewport = positioningService.positionElements(
       element,
       targetElement,
-      'right'
+      'right',
     );
 
     expect(isInViewport).toBe('right');
@@ -275,7 +275,7 @@ describe('PositioningService', () => {
     let isInViewport = positioningService.positionElements(
       element,
       targetElement,
-      'right-bottom'
+      'right-bottom',
     );
 
     expect(isInViewport).toBe('right-bottom');

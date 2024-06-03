@@ -27,7 +27,7 @@ export class CheckoutLegacyStoreEventListener implements OnDestroy {
 
   constructor(
     protected eventService: EventService,
-    protected store: Store<unknown>
+    protected store: Store<unknown>,
   ) {
     this.onUserAddressAction();
     this.onUserPaymentAction();
@@ -45,7 +45,7 @@ export class CheckoutLegacyStoreEventListener implements OnDestroy {
          * We should dispatch an event, which will reload the userAddress$ query.
          */
         this.store.dispatch(new UserActions.LoadUserAddresses(userId));
-      })
+      }),
     );
   }
 
@@ -63,9 +63,9 @@ export class CheckoutLegacyStoreEventListener implements OnDestroy {
              * Remove once it is switched from ngrx to c&q.
              * We should dispatch an event, which will load the userPayment$ query.
              */
-            new UserActions.LoadUserPaymentMethods(userId)
+            new UserActions.LoadUserPaymentMethods(userId),
           );
-        })
+        }),
     );
   }
 

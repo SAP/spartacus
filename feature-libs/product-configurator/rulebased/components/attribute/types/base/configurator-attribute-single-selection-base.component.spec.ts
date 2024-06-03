@@ -27,7 +27,7 @@ function createValue(code: string, name: string, isSelected: boolean) {
 const createTestValue = (
   price: number | undefined,
   total: number | undefined,
-  selected = true
+  selected = true,
 ): Configurator.Value => ({
   valueCode: 'a',
   selected,
@@ -57,14 +57,14 @@ class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorA
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configUtils: ConfiguratorStorefrontUtilsService
+    protected configUtils: ConfiguratorStorefrontUtilsService,
   ) {
     super(
       quantityService,
       translation,
       attributeComponentContext,
       configuratorCommonsService,
-      configUtils
+      configUtils,
     );
   }
 }
@@ -80,44 +80,42 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   const attributeQuantity = 4;
   const selectedValue = 'a';
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ExampleConfiguratorAttributeSingleSelectionComponent],
-        imports: [
-          I18nTestingModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        providers: [
-          ConfiguratorAttributeQuantityService,
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ExampleConfiguratorAttributeSingleSelectionComponent],
+      imports: [
+        I18nTestingModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        ConfiguratorAttributeQuantityService,
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ExampleConfiguratorAttributeSingleSelectionComponent
+      ExampleConfiguratorAttributeSingleSelectionComponent,
     );
     configuratorAttributeQuantityService = TestBed.inject(
-      ConfiguratorAttributeQuantityService
+      ConfiguratorAttributeQuantityService,
     );
     spyOn(
       configuratorAttributeQuantityService,
-      'withQuantity'
+      'withQuantity',
     ).and.callThrough();
     spyOn(
       configuratorAttributeQuantityService,
-      'disableQuantityActions'
+      'disableQuantityActions',
     ).and.callThrough();
 
     component = fixture.componentInstance;
@@ -141,15 +139,15 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     it('should call emit of selectionChange onSelect', () => {
       spyOn(
         component['configuratorCommonsService'],
-        'updateConfiguration'
+        'updateConfiguration',
       ).and.callThrough();
       component.onSelect(changedSelectedValue);
       expect(
-        component['configuratorCommonsService'].updateConfiguration
+        component['configuratorCommonsService'].updateConfiguration,
       ).toHaveBeenCalledWith(
         ownerKey,
         { ...component.attribute, selectedSingleValue: changedSelectedValue },
-        Configurator.UpdateType.ATTRIBUTE
+        Configurator.UpdateType.ATTRIBUTE,
       );
     });
   });
@@ -162,11 +160,11 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     it('should not call emit of selectionChange in case no user input is present', () => {
       spyOn(
         component['configuratorCommonsService'],
-        'updateConfiguration'
+        'updateConfiguration',
       ).and.callThrough();
       component.onSelectAdditionalValue(configFormUpdateEvent);
       expect(
-        component['configuratorCommonsService'].updateConfiguration
+        component['configuratorCommonsService'].updateConfiguration,
       ).toHaveBeenCalledTimes(0);
     });
 
@@ -175,15 +173,15 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
       spyOn(
         component['configuratorCommonsService'],
-        'updateConfiguration'
+        'updateConfiguration',
       ).and.callThrough();
       component.onSelectAdditionalValue(configFormUpdateEvent);
       expect(
-        component['configuratorCommonsService'].updateConfiguration
+        component['configuratorCommonsService'].updateConfiguration,
       ).toHaveBeenCalledWith(
         ownerKey,
         configFormUpdateEvent.changedAttribute,
-        Configurator.UpdateType.ATTRIBUTE
+        Configurator.UpdateType.ATTRIBUTE,
       );
     });
   });
@@ -193,15 +191,15 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       const quantity = 2;
       spyOn(
         component['configuratorCommonsService'],
-        'updateConfiguration'
+        'updateConfiguration',
       ).and.callThrough();
       component.onHandleQuantity(quantity);
       expect(
-        component['configuratorCommonsService'].updateConfiguration
+        component['configuratorCommonsService'].updateConfiguration,
       ).toHaveBeenCalledWith(
         ownerKey,
         { ...component.attribute, quantity: 2 },
-        Configurator.UpdateType.ATTRIBUTE_QUANTITY
+        Configurator.UpdateType.ATTRIBUTE_QUANTITY,
       );
     });
   });
@@ -210,15 +208,15 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     it('should call emit of onSelect(empty)', () => {
       spyOn(
         component['configuratorCommonsService'],
-        'updateConfiguration'
+        'updateConfiguration',
       ).and.callThrough();
       component.onChangeQuantity(undefined);
       expect(
-        component['configuratorCommonsService'].updateConfiguration
+        component['configuratorCommonsService'].updateConfiguration,
       ).toHaveBeenCalledWith(
         ownerKey,
         { ...component.attribute, selectedSingleValue: '' },
-        Configurator.UpdateType.ATTRIBUTE
+        Configurator.UpdateType.ATTRIBUTE,
       );
     });
 
@@ -233,15 +231,15 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       const quantity = 10;
       spyOn(
         component['configuratorCommonsService'],
-        'updateConfiguration'
+        'updateConfiguration',
       ).and.callThrough();
       component.onChangeQuantity(quantity);
       expect(
-        component['configuratorCommonsService'].updateConfiguration
+        component['configuratorCommonsService'].updateConfiguration,
       ).toHaveBeenCalledWith(
         ownerKey,
         { ...component.attribute, quantity: 10 },
-        Configurator.UpdateType.ATTRIBUTE_QUANTITY
+        Configurator.UpdateType.ATTRIBUTE_QUANTITY,
       );
     });
   });
@@ -349,7 +347,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       component.loading$.next(false);
       const quantityOptions = component.extractQuantityParameters();
       quantityOptions.disableQuantityActions$?.subscribe((disable) =>
-        expect(disable).toBe(false)
+        expect(disable).toBe(false),
       );
     });
   });
@@ -369,13 +367,13 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       fixture.detectChanges();
       const priceFormulaParameters = component.extractPriceFormulaParameters();
       expect(priceFormulaParameters.quantity).toBe(
-        component.attribute.quantity
+        component.attribute.quantity,
       );
       expect(priceFormulaParameters.price).toBe(
-        component.attribute.values[0].valuePrice
+        component.attribute.values[0].valuePrice,
       );
       expect(priceFormulaParameters.priceTotal).toBe(
-        component.attribute.attributePriceTotal
+        component.attribute.attributePriceTotal,
       );
       expect(priceFormulaParameters.isLightedUp).toBe(true);
     });
@@ -394,7 +392,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       const priceFormulaParameters =
         component.extractValuePriceFormulaParameters(value);
       expect(priceFormulaParameters?.price?.value).toBe(
-        value?.valuePrice?.value
+        value?.valuePrice?.value,
       );
       expect(priceFormulaParameters?.isLightedUp).toBe(value?.selected);
     });
@@ -455,7 +453,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   describe('getAriaLabel', () => {
     it('should return aria label for additional value', () => {
       expect(component.getAdditionalValueAriaLabel()).toEqual(
-        'configurator.a11y.additionalValue'
+        'configurator.a11y.additionalValue',
       );
     });
     it('should return aria label of value with total price', () => {
@@ -476,7 +474,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       const valueWithValuePriceTotal = createValue(
         '1',
         'value with total price',
-        true
+        true,
       );
       valueWithValuePriceTotal.valuePriceTotal = priceTotal;
       valueWithValuePriceTotal.valuePrice = price;
@@ -484,15 +482,15 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       expect(
         component.getAriaLabelWithoutAdditionalValue(
           valueWithValuePriceTotal,
-          attributeWithTotalPrice
-        )
+          attributeWithTotalPrice,
+        ),
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           attributeWithTotalPrice.label +
           ' price:' +
           valueWithValuePriceTotal.valuePrice?.formattedValue +
           ' value:' +
-          valueWithValuePriceTotal.valueDisplay
+          valueWithValuePriceTotal.valueDisplay,
       );
     });
 
@@ -509,22 +507,22 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       const valueWithValuePrice = createValue(
         '1',
         'value with value price',
-        true
+        true,
       );
       valueWithValuePrice.valuePrice = price;
 
       expect(
         component.getAriaLabelWithoutAdditionalValue(
           valueWithValuePrice,
-          attributeWithValuePrice
-        )
+          attributeWithValuePrice,
+        ),
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           attributeWithValuePrice.label +
           ' price:' +
           valueWithValuePrice.valuePrice?.formattedValue +
           ' value:' +
-          valueWithValuePrice.valueDisplay
+          valueWithValuePrice.valueDisplay,
       );
     });
 
@@ -538,13 +536,13 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       expect(
         component.getAriaLabelWithoutAdditionalValue(
           valueWithOutPrice,
-          attributeWithOutPrice
-        )
+          attributeWithOutPrice,
+        ),
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFull attribute:' +
           attributeWithOutPrice.label +
           ' value:' +
-          valueWithOutPrice.valueDisplay
+          valueWithOutPrice.valueDisplay,
       );
     });
 
@@ -561,7 +559,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       const valueWithValuePrice = createValue(
         '1',
         'value with value price',
-        true
+        true,
       );
       valueWithValuePrice.valuePrice = price;
       component.attribute.uiType =
@@ -570,7 +568,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       component.attribute.validationType = Configurator.ValidationType.NONE;
       fixture.detectChanges();
       expect(
-        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
+        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice),
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           attributeWithValuePrice.label +
@@ -579,7 +577,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
           ' value:' +
           valueWithValuePrice.valueDisplay +
           ' ' +
-          'configurator.a11y.additionalValue'
+          'configurator.a11y.additionalValue',
       );
     });
   });

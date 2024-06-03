@@ -25,23 +25,23 @@ context('Password Visibility', () => {
       cy.get('input[aria-label="Enter Your Password"]').should(
         'have.attr',
         'type',
-        'password'
+        'password',
       );
       cy.get('input[aria-label="Enter Your Password"]').type('abc');
       cy.get('input[aria-label="Enter Your Password"]').should(
         'have.value',
-        'abc'
+        'abc',
       );
 
       cy.get('button[aria-label="Show password"]').click();
       cy.get('input[aria-label="Enter Your Password"]').should(
         'have.attr',
         'type',
-        'text'
+        'text',
       );
       cy.get('input[aria-label="Enter Your Password"]').should(
         'have.value',
-        'abc'
+        'abc',
       );
       cy.get('button[aria-label="Hide password"]').should('be.visible');
     });
@@ -58,7 +58,7 @@ context('Password Visibility', () => {
       cy.requireLoggedIn();
       const myAccountUpdatePasswordPage = waitForPage(
         '/my-account/update-password',
-        'getMyAccountUpdatePasswordPage'
+        'getMyAccountUpdatePasswordPage',
       );
       cy.visit('/my-account/update-password');
       cy.wait(`@${myAccountUpdatePasswordPage}`)

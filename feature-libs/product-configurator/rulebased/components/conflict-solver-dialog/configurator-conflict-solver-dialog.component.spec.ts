@@ -91,55 +91,53 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let focusService: KeyboardFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule],
-        declarations: [
-          MockConfiguratorDefaultFormComponent,
-          ConfiguratorConflictSolverDialogComponent,
-          MockKeyboardFocusDirective,
-        ],
-        providers: [
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, IconModule],
+      declarations: [
+        MockConfiguratorDefaultFormComponent,
+        ConfiguratorConflictSolverDialogComponent,
+        MockKeyboardFocusDirective,
+      ],
+      providers: [
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ConfiguratorConflictSolverDialogComponent
+      ConfiguratorConflictSolverDialogComponent,
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     fixture.detectChanges();
 
     configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>,
     );
 
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>,
     );
 
     spyOn(
       configuratorStorefrontUtilsService,
-      'scrollToConfigurationElement'
+      'scrollToConfigurationElement',
     ).and.callThrough();
 
     spyOn(
       configuratorStorefrontUtilsService,
-      'focusFirstAttribute'
+      'focusFirstAttribute',
     ).and.callThrough();
 
     spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
@@ -160,63 +158,63 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-modal-container'
+        '.cx-modal-container',
       );
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-modal-content'
+        '.cx-modal-content',
       );
       // HEADER
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-dialog-header'
+        '.cx-dialog-header',
       );
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         '.cx-dialog-title',
-        'configurator.header.resolveIssue'
+        'configurator.header.resolveIssue',
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-dialog-header button.close'
+        '.cx-dialog-header button.close',
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-dialog-header button span cx-icon'
+        '.cx-dialog-header button span cx-icon',
       );
 
       //  CONTENT
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-dialog-body'
+        '.cx-dialog-body',
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-msg-warning'
+        '.cx-msg-warning',
       );
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         '.cx-msg-warning',
-        'configurator.header.conflictWarning'
+        'configurator.header.conflictWarning',
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-group'
+        'cx-configurator-group',
       );
     });
   });
@@ -235,10 +233,10 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
       component.dismissModal(reason);
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(reason);
       expect(
-        configuratorStorefrontUtilsService.scrollToConfigurationElement
+        configuratorStorefrontUtilsService.scrollToConfigurationElement,
       ).toHaveBeenCalled();
       expect(
-        configuratorStorefrontUtilsService.focusFirstAttribute
+        configuratorStorefrontUtilsService.focusFirstAttribute,
       ).toHaveBeenCalled();
     });
   });
@@ -252,7 +250,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         'close',
         0,
         'aria-label',
-        'configurator.a11y.closeConflictSolverModal'
+        'configurator.a11y.closeConflictSolverModal',
       );
     });
 
@@ -264,7 +262,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         'cx-visually-hidden',
         0,
         'aria-atomic',
-        'true'
+        'true',
       );
     });
 
@@ -276,7 +274,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         'cx-visually-hidden',
         0,
         'aria-live',
-        'assertive'
+        'assertive',
       );
     });
 
@@ -288,7 +286,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         'cx-visually-hidden',
         0,
         'aria-relevant',
-        'additions'
+        'additions',
       );
     });
 
@@ -297,7 +295,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         expect,
         htmlElem,
         'div.cx-visually-hidden',
-        'configurator.header.conflictWarning'
+        'configurator.header.conflictWarning',
       );
     });
 
@@ -309,7 +307,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         'cx-modal-container',
         0,
         'aria-modal',
-        'true'
+        'true',
       );
     });
   });

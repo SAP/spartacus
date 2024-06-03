@@ -22,18 +22,16 @@ describe('ConfiguratorGroupStatusService', () => {
   let classUnderTest: ConfiguratorGroupStatusService;
   let store: Store<StateWithConfigurator>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [StoreModule.forRoot({})],
-        providers: [ConfiguratorUtilsService, ConfiguratorGroupStatusService],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot({})],
+      providers: [ConfiguratorUtilsService, ConfiguratorGroupStatusService],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     classUnderTest = TestBed.inject(
-      ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
+      ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>,
     );
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
 
@@ -49,7 +47,7 @@ describe('ConfiguratorGroupStatusService', () => {
     it('should call setGroupVisisted action on setGroupStatus method call', () => {
       classUnderTest.setGroupStatusVisited(
         productConfiguration,
-        productConfiguration.groups[0].id
+        productConfiguration.groups[0].id,
       );
 
       const expectedAction = new ConfiguratorActions.SetGroupsVisited({
@@ -101,15 +99,15 @@ describe('ConfiguratorGroupStatusService', () => {
 
     it('should get first incomplete group', () => {
       expect(classUnderTest.getFirstIncompleteGroup(productConfiguration)).toBe(
-        productConfiguration.flatGroups[0]
+        productConfiguration.flatGroups[0],
       );
     });
 
     it('should get first incomplete group - only consider non conflict groups', () => {
       expect(
         classUnderTest.getFirstIncompleteGroup(
-          productConfigurationWithConflicts
-        )
+          productConfigurationWithConflicts,
+        ),
       ).toBe(productConfigurationWithConflicts.flatGroups[3]);
     });
   });

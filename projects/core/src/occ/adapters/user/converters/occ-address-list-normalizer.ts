@@ -24,7 +24,7 @@ export class OccAddressListNormalizer
 
   convert(
     source: Occ.AddressList,
-    target?: EntitiesModel<Address>
+    target?: EntitiesModel<Address>,
   ): EntitiesModel<Address> {
     if (target === undefined) {
       target = { ...(source as any) } as EntitiesModel<Address>;

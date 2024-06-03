@@ -15,7 +15,7 @@ import { Configurator } from '../../core/model/configurator.model';
 })
 export class ConfiguratorOverviewFilterBarComponent {
   constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
   ) {}
 
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -31,7 +31,7 @@ export class ConfiguratorOverviewFilterBarComponent {
    */
   getGroupFilterDescription(
     overview: Configurator.Overview,
-    groupId: string
+    groupId: string,
   ): string {
     return (
       overview.possibleGroups?.find((group) => group.id === groupId)
@@ -47,15 +47,15 @@ export class ConfiguratorOverviewFilterBarComponent {
    */
   onAttrFilterRemove(
     config: Configurator.ConfigurationWithOverview,
-    attrToRemove: Configurator.OverviewFilter
+    attrToRemove: Configurator.OverviewFilter,
   ) {
     let [attrFilters, groupFilters] = this.getInputFilters(config.overview);
     attrFilters = attrFilters.filter(
-      (attrFilterName) => attrToRemove !== attrFilterName
+      (attrFilterName) => attrToRemove !== attrFilterName,
     );
 
     this.configuratorCommonsService.updateConfigurationOverview(
-      this.createInputConfig(config, attrFilters, groupFilters)
+      this.createInputConfig(config, attrFilters, groupFilters),
     );
   }
 
@@ -67,15 +67,15 @@ export class ConfiguratorOverviewFilterBarComponent {
    */
   onGroupFilterRemove(
     config: Configurator.ConfigurationWithOverview,
-    groupIdToRemove: string
+    groupIdToRemove: string,
   ) {
     let [attrFilters, groupFilters] = this.getInputFilters(config.overview);
     groupFilters = groupFilters.filter(
-      (groupId) => groupIdToRemove !== groupId
+      (groupId) => groupIdToRemove !== groupId,
     );
 
     this.configuratorCommonsService.updateConfigurationOverview(
-      this.createInputConfig(config, attrFilters, groupFilters)
+      this.createInputConfig(config, attrFilters, groupFilters),
     );
   }
 
@@ -99,12 +99,12 @@ export class ConfiguratorOverviewFilterBarComponent {
    */
   onRemoveAll(config: Configurator.ConfigurationWithOverview) {
     this.configuratorCommonsService.updateConfigurationOverview(
-      this.createInputConfig(config, [], [])
+      this.createInputConfig(config, [], []),
     );
   }
 
   protected getInputFilters(
-    overview: Configurator.Overview
+    overview: Configurator.Overview,
   ): [Configurator.OverviewFilter[], string[]] {
     return [overview.attributeFilters ?? [], overview.groupFilters ?? []];
   }
@@ -112,7 +112,7 @@ export class ConfiguratorOverviewFilterBarComponent {
   protected createInputConfig(
     config: Configurator.ConfigurationWithOverview,
     attrFilters: Configurator.OverviewFilter[],
-    groupFilers: string[]
+    groupFilers: string[],
   ): Configurator.ConfigurationWithOverview {
     return {
       ...config,

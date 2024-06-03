@@ -16,7 +16,7 @@ import { SiteContextRoutesHandler } from '../services/site-context-routes-handle
 
 export function initializeContext(
   configInit: ConfigInitializerService,
-  siteContextRoutesHandler: SiteContextRoutesHandler
+  siteContextRoutesHandler: SiteContextRoutesHandler,
 ): () => Promise<Config> {
   return () => {
     return lastValueFrom(
@@ -28,8 +28,8 @@ export function initializeContext(
           //
           // TODO(#12351): move it to the logic of specific context initializers
           siteContextRoutesHandler.init();
-        })
-      )
+        }),
+      ),
     );
   };
 }

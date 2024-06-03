@@ -37,7 +37,7 @@ export const CUSTOMER_TICKETING_CATEGORY_NORMALIZER = new InjectionToken<
 
 export const CUSTOMER_TICKETING_ASSOCIATED_OBJECTS_NORMALIZER =
   new InjectionToken<Converter<any, AssociatedObject>>(
-    'CustomerTicketingAssociatedObjectsNormalizer'
+    'CustomerTicketingAssociatedObjectsNormalizer',
   );
 
 export const CUSTOMER_TICKETING_CREATE_NORMALIZER = new InjectionToken<

@@ -26,7 +26,7 @@ export class ProductReferencesComponent {
   constructor(
     protected cmsComponentData: CmsComponentData<CmsProductReferencesComponent>,
     protected currentProductService: CurrentProductService,
-    protected productReferenceService: ProductReferenceService
+    protected productReferenceService: ProductReferenceService,
   ) {}
 
   protected get componentData$(): Observable<CmsProductReferencesComponent> {
@@ -40,7 +40,7 @@ export class ProductReferencesComponent {
     return this.currentProductService.getProduct().pipe(
       filter(isNotNullable),
       map((product) => product.code ?? ''),
-      tap((_) => this.productReferenceService.cleanReferences())
+      tap((_) => this.productReferenceService.cleanReferences()),
     );
   }
 
@@ -62,12 +62,15 @@ export class ProductReferencesComponent {
       tap(([productCode, data]) =>
         this.productReferenceService.loadProductReferences(
           productCode,
-          data.productReferenceTypes
-        )
+          data.productReferenceTypes,
+        ),
       ),
       switchMap(([productCode, data]) =>
-        this.getProductReferences(productCode, data.productReferenceTypes ?? '')
-      )
+        this.getProductReferences(
+          productCode,
+          data.productReferenceTypes ?? '',
+        ),
+      ),
     );
 
   /**
@@ -75,15 +78,15 @@ export class ProductReferencesComponent {
    */
   private getProductReferences(
     code: string,
-    referenceType: string
+    referenceType: string,
   ): Observable<Observable<Product | undefined>[]> {
     return this.productReferenceService
       .getProductReferences(code, referenceType)
       .pipe(
         filter((references) => Boolean(references)),
         map((references: ProductReference[]) =>
-          references.map((reference) => of(reference.target))
-        )
+          references.map((reference) => of(reference.target)),
+        ),
       );
   }
 }

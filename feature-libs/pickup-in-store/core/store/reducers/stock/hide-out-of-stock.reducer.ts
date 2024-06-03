@@ -15,6 +15,6 @@ export const hideOutOfStockReducer = createReducer(
   on(
     ToggleHideOutOfStockOptionsAction,
     (state: StockState['hideOutOfStock']): StockState['hideOutOfStock'] =>
-      !state
-  )
+      !state,
+  ),
 );

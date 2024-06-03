@@ -120,7 +120,7 @@ describe('AsmCustomer360ProductListingComponent', () => {
 
   function createComponentTest(): void {
     testFixture = TestBed.createComponent(
-      AsmCustomerProductListingComponentTest
+      AsmCustomerProductListingComponentTest,
     );
     componentTest = testFixture.componentInstance;
     testDebugElement = testFixture.debugElement;
@@ -150,7 +150,7 @@ describe('AsmCustomer360ProductListingComponent', () => {
 
     fixture.detectChanges();
     expect(el.queryAll(By.css('cx-asm-customer-360-product-item')).length).toBe(
-      2
+      2,
     );
   });
 
@@ -172,7 +172,7 @@ describe('AsmCustomer360ProductListingComponent', () => {
     fixture.detectChanges();
 
     expect(el.queryAll(By.css('cx-asm-customer-360-product-item')).length).toBe(
-      2
+      2,
     );
   });
 
@@ -184,7 +184,7 @@ describe('AsmCustomer360ProductListingComponent', () => {
     fixture.detectChanges();
 
     expect(el.queryAll(By.css('cx-asm-customer-360-product-item')).length).toBe(
-      1
+      1,
     );
 
     const showHideButton = el.query(By.css('.show-hide-button'));
@@ -194,7 +194,7 @@ describe('AsmCustomer360ProductListingComponent', () => {
     fixture.detectChanges();
 
     expect(el.queryAll(By.css('cx-asm-customer-360-product-item')).length).toBe(
-      2
+      2,
     );
 
     showHideButton.nativeElement.click();
@@ -202,7 +202,7 @@ describe('AsmCustomer360ProductListingComponent', () => {
     fixture.detectChanges();
 
     expect(el.queryAll(By.css('cx-asm-customer-360-product-item')).length).toBe(
-      1
+      1,
     );
   });
 
@@ -215,7 +215,7 @@ describe('AsmCustomer360ProductListingComponent', () => {
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('.empty-result-description')).nativeElement.textContent
+      el.query(By.css('.empty-result-description')).nativeElement.textContent,
     ).toBe(' There are no items ');
   });
 
@@ -228,7 +228,7 @@ describe('AsmCustomer360ProductListingComponent', () => {
 
     it('should render the header template', () => {
       expect(
-        testDebugElement.query(By.css('#product-listing-header-template'))
+        testDebugElement.query(By.css('#product-listing-header-template')),
       ).toBeTruthy();
     });
 

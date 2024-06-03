@@ -76,13 +76,13 @@ function initialize() {
   fixture.detectChanges();
 
   configuratorGroupsService = TestBed.inject(
-    ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+    ConfiguratorGroupsService as Type<ConfiguratorGroupsService>,
   );
 
   spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
 
   configuratorStorefrontUtilsService = TestBed.inject(
-    ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>,
   );
 
   spyOn(configuratorStorefrontUtilsService, 'scrollToConfigurationElement');
@@ -95,36 +95,34 @@ function initialize() {
 
   spyOn(
     configuratorStorefrontUtilsService,
-    'createOvGroupId'
+    'createOvGroupId',
   ).and.callThrough();
 
   spyOn(
     configuratorStorefrontUtilsService,
-    'createOvMenuItemId'
+    'createOvMenuItemId',
   ).and.callThrough();
 
   spyOn(configuratorStorefrontUtilsService, 'getPrefixId').and.callThrough();
 }
 
 describe('ConfigurationOverviewMenuComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [MockCxIconComponent, ConfiguratorOverviewMenuComponent],
-        providers: [
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [MockCxIconComponent, ConfiguratorOverviewMenuComponent],
+      providers: [
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   afterEach(() => {
     document.body.removeChild(htmlElem);
@@ -142,7 +140,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     spyOn(configuratorStorefrontUtilsService, 'getElements');
     spyOn(
       configuratorStorefrontUtilsService,
-      'getVerticallyScrolledPixels'
+      'getVerticallyScrolledPixels',
     ).and.returnValue(0);
     spyOn(configuratorStorefrontUtilsService, 'hasScrollbar');
 
@@ -151,19 +149,19 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
     expect(component).toBeDefined();
     expect(
-      configuratorStorefrontUtilsService.getElements
+      configuratorStorefrontUtilsService.getElements,
     ).toHaveBeenCalledTimes(1);
     expect(
-      configuratorStorefrontUtilsService.getVerticallyScrolledPixels
+      configuratorStorefrontUtilsService.getVerticallyScrolledPixels,
     ).toHaveBeenCalledTimes(1);
     expect(configuratorStorefrontUtilsService.getElement).toHaveBeenCalledTimes(
-      0
+      0,
     );
     expect(
-      configuratorStorefrontUtilsService.getSpareViewportHeight
+      configuratorStorefrontUtilsService.getSpareViewportHeight,
     ).toHaveBeenCalledTimes(1);
     expect(
-      configuratorStorefrontUtilsService.hasScrollbar
+      configuratorStorefrontUtilsService.hasScrollbar,
     ).toHaveBeenCalledTimes(0);
   });
 
@@ -179,7 +177,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
     it('should return zero because there are no groups', () => {
       const configuration: Configurator.Configuration = structuredClone(
-        ConfigurationTestData.productConfigurationWithoutIssues
+        ConfigurationTestData.productConfigurationWithoutIssues,
       );
       expect(component['getAmount'](configuration)).toEqual(0);
     });
@@ -215,7 +213,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     it('should call changeStyling', () => {
       component['changeStyling']();
       expect(
-        configuratorStorefrontUtilsService.changeStyling
+        configuratorStorefrontUtilsService.changeStyling,
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -228,7 +226,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     it('should call removeStyling', () => {
       component['removeStyling']();
       expect(
-        configuratorStorefrontUtilsService.removeStyling
+        configuratorStorefrontUtilsService.removeStyling,
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -243,7 +241,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       fixture.detectChanges();
       component['adjustStyling']();
       expect(
-        configuratorStorefrontUtilsService.changeStyling
+        configuratorStorefrontUtilsService.changeStyling,
       ).toHaveBeenCalledTimes(component.styles.length);
     });
 
@@ -252,7 +250,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       fixture.detectChanges();
       component['adjustStyling']();
       expect(
-        configuratorStorefrontUtilsService.removeStyling
+        configuratorStorefrontUtilsService.removeStyling,
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -260,7 +258,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
   it('should render group descriptions', () => {
     initialize();
     expect(htmlElem.innerHTML).toContain(
-      ConfigurationTestData.OV_GROUP_DESCRIPTION
+      ConfigurationTestData.OV_GROUP_DESCRIPTION,
     );
   });
 
@@ -277,7 +275,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
-        configuratorStorefrontUtilsService.createOvGroupId
+        configuratorStorefrontUtilsService.createOvGroupId,
       ).toHaveBeenCalled();
     });
 
@@ -285,7 +283,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
-        configuratorStorefrontUtilsService.scrollToConfigurationElement
+        configuratorStorefrontUtilsService.scrollToConfigurationElement,
       ).toHaveBeenCalled();
     });
   });
@@ -295,7 +293,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
       component.getPrefixId('AAA', 'BBB');
       expect(
-        configuratorStorefrontUtilsService.getPrefixId
+        configuratorStorefrontUtilsService.getPrefixId,
       ).toHaveBeenCalledWith('AAA', 'BBB');
     });
   });
@@ -305,7 +303,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
       component.getGroupId('A', 'B');
       expect(
-        configuratorStorefrontUtilsService.createOvGroupId
+        configuratorStorefrontUtilsService.createOvGroupId,
       ).toHaveBeenCalledWith('A', 'B');
     });
   });
@@ -315,7 +313,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
       component.getMenuItemId('A', 'B');
       expect(
-        configuratorStorefrontUtilsService.createOvMenuItemId
+        configuratorStorefrontUtilsService.createOvMenuItemId,
       ).toHaveBeenCalledWith('A', 'B');
     });
   });
@@ -331,11 +329,11 @@ describe('ConfigurationOverviewMenuComponent', () => {
       component.onScroll();
 
       expect(
-        configuratorStorefrontUtilsService.getSpareViewportHeight
+        configuratorStorefrontUtilsService.getSpareViewportHeight,
       ).toHaveBeenCalledTimes(1);
 
       expect(
-        configuratorStorefrontUtilsService.ensureElementVisible
+        configuratorStorefrontUtilsService.ensureElementVisible,
       ).toHaveBeenCalledTimes(0);
     });
   });
@@ -350,11 +348,11 @@ describe('ConfigurationOverviewMenuComponent', () => {
       component.onResize();
 
       expect(
-        configuratorStorefrontUtilsService.getSpareViewportHeight
+        configuratorStorefrontUtilsService.getSpareViewportHeight,
       ).toHaveBeenCalledTimes(1);
 
       expect(
-        configuratorStorefrontUtilsService.ensureElementVisible
+        configuratorStorefrontUtilsService.ensureElementVisible,
       ).toHaveBeenCalledTimes(0);
     });
   });
@@ -369,7 +367,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       fixture.detectChanges();
       spyOn(
         configuratorStorefrontUtilsService,
-        'getSpareViewportHeight'
+        'getSpareViewportHeight',
       ).and.returnValue(600);
       expect(component['getHeight']()).toEqual('');
     });
@@ -379,7 +377,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       fixture.detectChanges();
       spyOn(
         configuratorStorefrontUtilsService,
-        'getSpareViewportHeight'
+        'getSpareViewportHeight',
       ).and.returnValue(200);
       expect(component['getHeight']()).toEqual('200px');
     });
@@ -391,7 +389,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     function createElement(
       id: string,
       tagName: string,
-      active?: boolean
+      active?: boolean,
     ): HTMLElement {
       const element = document.createElement(tagName);
       element.id = id + '-ovGroup';
@@ -427,7 +425,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
     it('should not get menu item to highlight because getElements method return undefined', () => {
       spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
-        undefined
+        undefined,
       );
       fixture.detectChanges();
 
@@ -442,12 +440,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
         .and.returnValue(groups);
 
       spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
-        groups
+        groups,
       );
 
       spyOn(
         configuratorStorefrontUtilsService,
-        'getVerticallyScrolledPixels'
+        'getVerticallyScrolledPixels',
       ).and.returnValue(undefined);
 
       fixture.detectChanges();
@@ -463,18 +461,18 @@ describe('ConfigurationOverviewMenuComponent', () => {
         .and.returnValue(groups);
 
       spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
-        groups
+        groups,
       );
 
       spyOn(
         configuratorStorefrontUtilsService,
-        'getVerticallyScrolledPixels'
+        'getVerticallyScrolledPixels',
       ).and.returnValue(123);
 
       let menuItems = htmlElem.querySelectorAll('.cx-menu-item');
       let menuItem = menuItems[menuItems.length - 1] as HTMLElement;
       spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
-        menuItem
+        menuItem,
       );
 
       fixture.detectChanges();
@@ -490,29 +488,29 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
     it('should not highlight any element because the list of menu items is empty', () => {
       const menuItems: HTMLElement[] = Array.from(
-        htmlElem.querySelectorAll('button.cx-menu-item')
+        htmlElem.querySelectorAll('button.cx-menu-item'),
       );
       const elementToHighlight = menuItems[menuItems.length - 1];
       spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
-        undefined
+        undefined,
       );
       component['highlight'](elementToHighlight);
       expect(
-        elementToHighlight.classList.contains(component['ACTIVE_CLASS'])
+        elementToHighlight.classList.contains(component['ACTIVE_CLASS']),
       ).toBe(false);
     });
 
     it('should highlight an element', () => {
       const menuItems: HTMLElement[] = Array.from(
-        htmlElem.querySelectorAll('button.cx-menu-item')
+        htmlElem.querySelectorAll('button.cx-menu-item'),
       );
       const elementToHighlight = menuItems[menuItems.length - 1];
       spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
-        menuItems
+        menuItems,
       );
       component['highlight'](elementToHighlight);
       expect(
-        elementToHighlight.classList.contains(component['ACTIVE_CLASS'])
+        elementToHighlight.classList.contains(component['ACTIVE_CLASS']),
       ).toBe(true);
     });
   });
@@ -526,44 +524,44 @@ describe('ConfigurationOverviewMenuComponent', () => {
       spyOn(configuratorStorefrontUtilsService, 'hasScrollbar');
       component['ensureElementVisible'](undefined);
       expect(
-        configuratorStorefrontUtilsService.hasScrollbar
+        configuratorStorefrontUtilsService.hasScrollbar,
       ).toHaveBeenCalledTimes(0);
       expect(
-        configuratorStorefrontUtilsService.ensureElementVisible
+        configuratorStorefrontUtilsService.ensureElementVisible,
       ).toHaveBeenCalledTimes(0);
     });
 
     it('should not call ensureElementVisible method because isScrollBox is false', () => {
       const menuItems: HTMLElement[] = Array.from(
-        htmlElem.querySelectorAll('button.cx-menu-item')
+        htmlElem.querySelectorAll('button.cx-menu-item'),
       );
       const element = menuItems[menuItems.length - 1];
       spyOn(configuratorStorefrontUtilsService, 'hasScrollbar').and.returnValue(
-        false
+        false,
       );
       component['ensureElementVisible'](element);
       expect(
-        configuratorStorefrontUtilsService.hasScrollbar
+        configuratorStorefrontUtilsService.hasScrollbar,
       ).toHaveBeenCalledTimes(1);
       expect(
-        configuratorStorefrontUtilsService.ensureElementVisible
+        configuratorStorefrontUtilsService.ensureElementVisible,
       ).toHaveBeenCalledTimes(0);
     });
 
     it('should ensure visibility of an element', () => {
       const menuItems: HTMLElement[] = Array.from(
-        htmlElem.querySelectorAll('button.cx-menu-item')
+        htmlElem.querySelectorAll('button.cx-menu-item'),
       );
       const element = menuItems[menuItems.length - 1];
       spyOn(configuratorStorefrontUtilsService, 'hasScrollbar').and.returnValue(
-        true
+        true,
       );
       component['ensureElementVisible'](element);
       expect(
-        configuratorStorefrontUtilsService.hasScrollbar
+        configuratorStorefrontUtilsService.hasScrollbar,
       ).toHaveBeenCalledTimes(1);
       expect(
-        configuratorStorefrontUtilsService.ensureElementVisible
+        configuratorStorefrontUtilsService.ensureElementVisible,
       ).toHaveBeenCalledTimes(1);
     });
   });

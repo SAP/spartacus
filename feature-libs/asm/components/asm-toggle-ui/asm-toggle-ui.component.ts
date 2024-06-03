@@ -24,7 +24,7 @@ export class AsmToggleUiComponent implements OnInit, OnDestroy {
       this.asmService.getAsmUiState().subscribe((uiState: AsmUi) => {
         this.isCollapsed =
           uiState.collapsed === undefined ? false : uiState.collapsed;
-      })
+      }),
     );
   }
 

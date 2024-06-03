@@ -33,14 +33,16 @@ export class ProductImportInfoService {
     return this.actionsSubject.pipe(
       ofType(
         CartActions.CART_ADD_ENTRY_SUCCESS,
-        CartActions.CART_ADD_ENTRY_FAIL
+        CartActions.CART_ADD_ENTRY_FAIL,
       ),
       filter(
         (
-          action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
-        ) => action.payload.cartId === cartId
+          action:
+            | CartActions.CartAddEntrySuccess
+            | CartActions.CartAddEntryFail,
+        ) => action.payload.cartId === cartId,
       ),
-      map((action) => this.mapMessages(action))
+      map((action) => this.mapMessages(action)),
     );
   }
 
@@ -51,7 +53,7 @@ export class ProductImportInfoService {
    * @returns ProductImportInfo
    */
   protected mapMessages(
-    action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
+    action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail,
   ): ProductImportInfo {
     const { productCode } = action.payload;
     if (action instanceof CartActions.CartAddEntrySuccess) {
@@ -83,7 +85,7 @@ export class ProductImportInfoService {
     if (isDevMode()) {
       this.logger.warn(
         'Unrecognized cart add entry action type while mapping messages',
-        action
+        action,
       );
     }
     return { productCode, statusCode: ProductImportStatus.UNKNOWN_ERROR };

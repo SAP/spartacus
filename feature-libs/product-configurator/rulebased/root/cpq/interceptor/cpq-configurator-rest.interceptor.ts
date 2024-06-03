@@ -44,7 +44,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     if (!request.headers.has(MARKER_HEADER_CPQ_CONFIGURATOR)) {
       return next.handle(request);
@@ -56,16 +56,16 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
           catchError((errorResponse: any) => {
             return this.handleError(errorResponse, next, request);
           }),
-          tap((response) => this.extractCpqSessionId(response))
+          tap((response) => this.extractCpqSessionId(response)),
         );
-      })
+      }),
     );
   }
 
   protected handleError(
     errorResponse: any,
     next: HttpHandler,
-    request: HttpRequest<any>
+    request: HttpRequest<any>,
   ): Observable<HttpEvent<any>> {
     if (errorResponse instanceof HttpErrorResponse) {
       if (errorResponse.status === 403) {
@@ -77,7 +77,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
             return next
               .handle(this.enrichHeaders(request, newCpqData))
               .pipe(tap((response) => this.extractCpqSessionId(response)));
-          })
+          }),
         );
       }
     }
@@ -91,7 +91,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     ) {
       if (response.headers.has(this.HEADER_ATTR_CPQ_SESSION_ID)) {
         this.cpqSessionId = response.headers.get(
-          this.HEADER_ATTR_CPQ_SESSION_ID
+          this.HEADER_ATTR_CPQ_SESSION_ID,
         );
       }
     }
@@ -99,7 +99,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
 
   protected enrichHeaders(
     request: HttpRequest<any>,
-    cpqData: CpqAccessData
+    cpqData: CpqAccessData,
   ): HttpRequest<any> {
     let newRequest = request.clone({
       url: cpqData.endpoint + request.url,

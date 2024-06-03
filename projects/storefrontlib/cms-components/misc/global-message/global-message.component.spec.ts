@@ -36,17 +36,15 @@ describe('GlobalMessageComponent', () => {
   let messageService: GlobalMessageService;
   let fixture: ComponentFixture<GlobalMessageComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [GlobalMessageComponent, MockCxIconComponent],
-        providers: [
-          { provide: GlobalMessageService, useClass: MockMessageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [GlobalMessageComponent, MockCxIconComponent],
+      providers: [
+        { provide: GlobalMessageService, useClass: MockMessageService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GlobalMessageComponent);
@@ -70,7 +68,7 @@ describe('GlobalMessageComponent', () => {
     globalMessageComponent.clear(GlobalMessageType.MSG_TYPE_CONFIRMATION, 0);
     expect(messageService.remove).toHaveBeenCalledWith(
       GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      0
+      0,
     );
   });
 });

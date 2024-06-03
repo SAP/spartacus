@@ -82,28 +82,28 @@ describe('OrderDetailPermissionResultsComponent', () => {
 
   it('should display approval details in a table', () => {
     expect(element.queryAll(By.css('tr')).length).toEqual(
-      mockOrder.permissionResults.length
+      mockOrder.permissionResults.length,
     );
 
     for (let i = 0; i < mockOrder.permissionResults.length; i++) {
       expect(
         element.query(
-          By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approverName`)
-        ).nativeElement.innerText
+          By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approverName`),
+        ).nativeElement.innerText,
       ).toContain(mockOrder.permissionResults[i].approverName);
       expect(
         element.query(
-          By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-statusDisplay`)
-        ).nativeElement.innerText
+          By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-statusDisplay`),
+        ).nativeElement.innerText,
       ).toContain(mockOrder.permissionResults[i].statusDisplay);
 
       expect(
         element.query(
-          By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approvalNotes`)
-        ).nativeElement.innerText
+          By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approvalNotes`),
+        ).nativeElement.innerText,
       ).toContain(
         mockOrder.permissionResults[i].approverNotes ||
-          'orderApprovalDetails.permissionResults.noApprovalComments'
+          'orderApprovalDetails.permissionResults.noApprovalComments',
       );
     }
   });

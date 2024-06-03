@@ -18,7 +18,7 @@ describe('Replenishment Orders Actions', () => {
         sort: 'byDate',
       };
       const action = new OrderActions.LoadUserReplenishmentOrders(
-        mockUserReplenishmentOrderPayload
+        mockUserReplenishmentOrderPayload,
       );
 
       expect({ ...action }).toEqual({
@@ -52,7 +52,7 @@ describe('Replenishment Orders Actions', () => {
     };
     it('should create the action', () => {
       const action = new OrderActions.LoadUserReplenishmentOrdersSuccess(
-        mockUserReplenishmentOrders
+        mockUserReplenishmentOrders,
       );
 
       expect({ ...action }).toEqual({

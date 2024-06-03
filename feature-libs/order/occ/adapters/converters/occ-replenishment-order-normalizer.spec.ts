@@ -22,19 +22,17 @@ describe('OccReplenishmentOrderNormalizer', () => {
   let normalizer: OccReplenishmentOrderNormalizer;
   let converter: ConverterService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          OccReplenishmentOrderNormalizer,
-          {
-            provide: ConverterService,
-            useClass: MockConverterService,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        OccReplenishmentOrderNormalizer,
+        {
+          provide: ConverterService,
+          useClass: MockConverterService,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     normalizer = TestBed.inject(OccReplenishmentOrderNormalizer);
@@ -57,7 +55,7 @@ describe('OccReplenishmentOrderNormalizer', () => {
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
     expect(converter.convert).toHaveBeenCalledWith(
       { item: order.entries[0], promotions: mockPromotions },
-      ORDER_ENTRY_PROMOTIONS_NORMALIZER
+      ORDER_ENTRY_PROMOTIONS_NORMALIZER,
     );
   });
 });

@@ -24,7 +24,7 @@ export class InlineRootRenderStrategy extends LaunchRenderStrategy {
     @Inject(DOCUMENT) protected document: any,
     protected rendererFactory: RendererFactory2,
     protected componentFactoryResolver: ComponentFactoryResolver,
-    protected injector: Injector
+    protected injector: Injector,
   ) {
     super(document, rendererFactory);
   }
@@ -35,7 +35,7 @@ export class InlineRootRenderStrategy extends LaunchRenderStrategy {
 
   render(
     config: LaunchInlineRootDialog,
-    caller: LAUNCH_CALLER | string
+    caller: LAUNCH_CALLER | string,
   ): Observable<ComponentRef<any>> | void {
     if (this.shouldRender(caller, config)) {
       const componentFactory =
@@ -51,7 +51,7 @@ export class InlineRootRenderStrategy extends LaunchRenderStrategy {
 
       this.renderer.appendChild(
         this.hostComponent?.location.nativeElement,
-        componentRef.location.nativeElement
+        componentRef.location.nativeElement,
       );
 
       if (config?.dialogType) {

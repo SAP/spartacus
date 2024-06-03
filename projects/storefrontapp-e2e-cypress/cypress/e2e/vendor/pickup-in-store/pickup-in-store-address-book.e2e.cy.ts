@@ -88,7 +88,7 @@ describe('Preferred Store for pickup In Address Book', () => {
         cy.get(`[data-preferred-store=${storeName}]`).should(
           'have.attr',
           'data-store-is-selected',
-          'true'
+          'true',
         );
       });
 
@@ -96,7 +96,7 @@ describe('Preferred Store for pickup In Address Book', () => {
         .first()
         .invoke('attr', 'data-preferred-store')
         .then((ChangedStoreName) =>
-          cy.wrap(ChangedStoreName).as('ChangedStoreName')
+          cy.wrap(ChangedStoreName).as('ChangedStoreName'),
         );
 
       cy.get(L.STORE_FINDER_SET_PREFERRED_STORE_CONTAINER).first().click();

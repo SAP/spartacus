@@ -38,26 +38,26 @@ export class BasePageMetaResolver
     protected translation: TranslationService,
     protected routingPageMetaResolver: RoutingPageMetaResolver,
     protected router: Router,
-    protected pageLinkService: PageLinkService
+    protected pageLinkService: PageLinkService,
   ) {}
 
   /**
    * Helper to provide access to the current CMS page
    */
   protected page$: Observable<Page> = defer(() =>
-    this.cmsService.getCurrentPage()
+    this.cmsService.getCurrentPage(),
   ).pipe(filter((p) => Boolean(p)));
 
   protected title$: Observable<string | undefined> = this.page$.pipe(
-    map((p) => p.title)
+    map((p) => p.title),
   );
 
   protected description$: Observable<string | undefined> = this.page$.pipe(
-    map((p) => p.description)
+    map((p) => p.description),
   );
 
   protected robots$: Observable<PageRobotsMeta[]> = this.page$.pipe(
-    map((page) => page.robots || [])
+    map((page) => page.robots || []),
   );
 
   /**
@@ -75,7 +75,7 @@ export class BasePageMetaResolver
     defer(() => this.routingPageMetaResolver?.resolveBreadcrumbs()),
   ]).pipe(
     map((breadcrumbs) => breadcrumbs.flat()),
-    shareReplay({ bufferSize: 1, refCount: true })
+    shareReplay({ bufferSize: 1, refCount: true }),
   );
 
   resolveTitle(): Observable<string | undefined> {
@@ -102,7 +102,7 @@ export class BasePageMetaResolver
     return this.router.events.pipe(
       filter((ev) => ev instanceof NavigationEnd),
       startWith(null),
-      map(() => this.pageLinkService.getCanonicalUrl(options))
+      map(() => this.pageLinkService.getCanonicalUrl(options)),
     );
   }
 }

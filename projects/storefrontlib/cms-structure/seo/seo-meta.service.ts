@@ -24,7 +24,7 @@ export class SeoMetaService implements OnDestroy {
     protected ngTitle: Title,
     protected ngMeta: Meta,
     protected pageMetaService: PageMetaService,
-    protected pageMetaLinkService?: PageMetaLinkService
+    protected pageMetaLinkService?: PageMetaLinkService,
   ) {}
 
   private subscription: Subscription;

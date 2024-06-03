@@ -301,7 +301,7 @@ describe('ActiveCartService', () => {
       expect(result).toEqual(mockCartEntry);
       expect(multiCartFacade['getLastEntry']).toHaveBeenCalledWith(
         'cartId',
-        'code123'
+        'code123',
       );
     });
   });
@@ -347,7 +347,7 @@ describe('ActiveCartService', () => {
       service['detectUserChange']();
 
       const storedOauthFlowKey = winRef.localStorage?.getItem(
-        'oAuthRedirectCodeFlow'
+        'oAuthRedirectCodeFlow',
       );
 
       expect(storedOauthFlowKey).toBeUndefined();
@@ -361,7 +361,7 @@ describe('ActiveCartService', () => {
       service['loadOrMerge'](
         OCC_CART_ID_CURRENT,
         'userId',
-        OCC_USER_ID_ANONYMOUS
+        OCC_USER_ID_ANONYMOUS,
       );
       expect(multiCartFacade['loadCart']).toHaveBeenCalledWith({
         userId: 'userId',
@@ -387,7 +387,7 @@ describe('ActiveCartService', () => {
       service['loadOrMerge'](
         'cartId',
         OCC_USER_ID_CURRENT,
-        OCC_USER_ID_ANONYMOUS
+        OCC_USER_ID_ANONYMOUS,
       );
 
       expect(service['guestCartMerge']).toHaveBeenCalledWith('cartId');
@@ -459,7 +459,7 @@ describe('ActiveCartService', () => {
   describe('addEntry', () => {
     it('should just add entry after cart is provided', () => {
       spyOn<any>(service, 'requireLoadedCart').and.returnValue(
-        of({ code: 'code', guid: 'guid' })
+        of({ code: 'code', guid: 'guid' }),
       );
       spyOn(multiCartFacade, 'addEntry').and.callThrough();
       userId$.next(OCC_USER_ID_ANONYMOUS);
@@ -471,13 +471,13 @@ describe('ActiveCartService', () => {
         'guid',
         'productCode',
         2,
-        undefined
+        undefined,
       );
     });
 
     it('should handle pickup in store', () => {
       spyOn<any>(service, 'requireLoadedCart').and.returnValue(
-        of({ code: 'code', guid: 'guid' })
+        of({ code: 'code', guid: 'guid' }),
       );
       spyOn(multiCartFacade, 'addEntry').and.callThrough();
       userId$.next(OCC_USER_ID_ANONYMOUS);
@@ -489,7 +489,7 @@ describe('ActiveCartService', () => {
         'guid',
         'productCode',
         2,
-        'pickupStore'
+        'pickupStore',
       );
     });
   });
@@ -506,7 +506,7 @@ describe('ActiveCartService', () => {
       expect(multiCartFacade['removeEntry']).toHaveBeenCalledWith(
         'userId',
         'cartId',
-        3
+        3,
       );
     });
   });
@@ -524,7 +524,7 @@ describe('ActiveCartService', () => {
         1,
         2,
         undefined,
-        false
+        false,
       );
     });
 
@@ -540,7 +540,7 @@ describe('ActiveCartService', () => {
         1,
         2,
         'pickupStore',
-        false
+        false,
       );
     });
 
@@ -556,7 +556,7 @@ describe('ActiveCartService', () => {
         1,
         2,
         undefined,
-        true
+        true,
       );
     });
   });
@@ -575,7 +575,7 @@ describe('ActiveCartService', () => {
       expect(result).toEqual(mockCartEntry);
       expect(multiCartFacade['getEntry']).toHaveBeenCalledWith(
         'cartId',
-        'code123'
+        'code123',
       );
     });
   });
@@ -594,7 +594,7 @@ describe('ActiveCartService', () => {
       expect(result).toEqual(mockCartEntry);
       expect(multiCartFacade['getLastEntry']).toHaveBeenCalledWith(
         'cartId',
-        'code123'
+        'code123',
       );
     });
   });
@@ -609,7 +609,7 @@ describe('ActiveCartService', () => {
       expect(multiCartFacade.assignEmail).toHaveBeenCalledWith(
         'cartId',
         'userId',
-        'test@email.com'
+        'test@email.com',
       );
     });
   });
@@ -696,7 +696,7 @@ describe('ActiveCartService', () => {
     it('should add multiple entries at once', () => {
       spyOn(multiCartFacade, 'addEntries').and.callThrough();
       spyOn<any>(service, 'requireLoadedCart').and.returnValue(
-        of({ code: 'someCode', guid: 'guid' })
+        of({ code: 'someCode', guid: 'guid' }),
       );
       userId$.next('someUserId');
 
@@ -713,7 +713,7 @@ describe('ActiveCartService', () => {
             productCode: mockCartEntry.product?.code,
             quantity: mockCartEntry.quantity,
           },
-        ]
+        ],
       );
     });
   });
@@ -731,7 +731,7 @@ describe('ActiveCartService', () => {
       ]);
       expect(multiCartFacade['deleteCart']).toHaveBeenCalledWith(
         'cartId',
-        OCC_USER_ID_ANONYMOUS
+        OCC_USER_ID_ANONYMOUS,
       );
     });
   });
@@ -766,7 +766,7 @@ describe('ActiveCartService', () => {
 
     it('should try to load cart for logged user if it is not already loaded', (done) => {
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
-        {}
+        {},
       );
       spyOn<any>(service, 'load').and.callFake(() => {
         cart$.next({
@@ -787,7 +787,7 @@ describe('ActiveCartService', () => {
         expect(cart).toEqual(cartState.value);
         expect(service['load']).toHaveBeenCalledWith(
           OCC_CART_ID_CURRENT,
-          OCC_USER_ID_CURRENT
+          OCC_USER_ID_CURRENT,
         );
         expect(multiCartFacade.createCart).not.toHaveBeenCalled();
         done();
@@ -796,7 +796,7 @@ describe('ActiveCartService', () => {
 
     it('should not load cart for logged user if it is loading', (done) => {
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
-        {}
+        {},
       );
       // init loading is running
       cart$.next({
@@ -814,7 +814,7 @@ describe('ActiveCartService', () => {
         expect(cart).toEqual(cartState.value);
         expect(service['load']).not.toHaveBeenCalledWith(
           OCC_CART_ID_CURRENT,
-          OCC_USER_ID_CURRENT
+          OCC_USER_ID_CURRENT,
         );
         expect(multiCartFacade.createCart).not.toHaveBeenCalled();
         done();
@@ -833,7 +833,7 @@ describe('ActiveCartService', () => {
     it('should try to create cart after failed load cart for logged user', (done) => {
       userId$.next(OCC_USER_ID_CURRENT);
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
-        {}
+        {},
       );
       spyOn<any>(service, 'load').and.callFake(() => {
         cart$.next({
@@ -861,7 +861,7 @@ describe('ActiveCartService', () => {
         expect(cart).toEqual(cartState.value);
         expect(service['load']).toHaveBeenCalledWith(
           OCC_CART_ID_CURRENT,
-          OCC_USER_ID_CURRENT
+          OCC_USER_ID_CURRENT,
         );
         expect(multiCartFacade.createCart).toHaveBeenCalledWith({
           userId: OCC_USER_ID_CURRENT,
@@ -875,7 +875,7 @@ describe('ActiveCartService', () => {
 
     it('should try to create cart for anonymous user', (done) => {
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
-        {}
+        {},
       );
       spyOn<any>(service, 'load').and.callThrough();
 

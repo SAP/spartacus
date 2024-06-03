@@ -72,7 +72,7 @@ describe('CdcAuthService', () => {
       'UIDSignature',
       'signatureTimestamp',
       'idToken',
-      'baseSite'
+      'baseSite',
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       new CdcAuthActions.LoadCdcUserToken({
@@ -81,7 +81,7 @@ describe('CdcAuthService', () => {
         signatureTimestamp: 'signatureTimestamp',
         idToken: 'idToken',
         baseSite: 'baseSite',
-      })
+      }),
     );
   });
 
@@ -117,7 +117,7 @@ describe('CdcAuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
 
     expect(globalMessageService.remove).toHaveBeenCalledWith(
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
     expect(authRedirectService.redirect).toHaveBeenCalled();
   });
@@ -142,7 +142,7 @@ describe('CdcAuthService', () => {
       {
         key: 'asm.auth.agentLoggedInError',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 });

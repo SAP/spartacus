@@ -57,40 +57,38 @@ describe('CloseAccountModalComponent', () => {
   let globalMessageService: GlobalMessageService;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          CloseAccountModalComponent,
-          MockCxSpinnerComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          {
-            provide: UserProfileFacade,
-            useClass: MockUserProfileFacade,
-          },
-          {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: AuthService,
-            useClass: MockAuthService,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CloseAccountModalComponent,
+        MockCxSpinnerComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        {
+          provide: UserProfileFacade,
+          useClass: MockUserProfileFacade,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: AuthService,
+          useClass: MockAuthService,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountModalComponent);

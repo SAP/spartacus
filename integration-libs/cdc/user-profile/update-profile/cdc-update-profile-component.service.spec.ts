@@ -33,7 +33,7 @@ const mockedGlobalMessageService = {
 
 class MockCDCJsService implements Partial<CdcJsService> {
   updateProfileWithoutScreenSet = createSpy().and.returnValue(
-    of({ status: 'OK' })
+    of({ status: 'OK' }),
   );
 }
 
@@ -77,7 +77,7 @@ describe('UpdateProfileComponentService', () => {
         service.updateProfile();
         expect(userService.update).not.toHaveBeenCalled();
         expect(cdcJsService.updateProfileWithoutScreenSet).toHaveBeenCalledWith(
-          mockUser
+          mockUser,
         );
       });
 
@@ -89,7 +89,7 @@ describe('UpdateProfileComponentService', () => {
           {
             key: 'updateProfileForm.profileUpdateSuccess',
           },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
       });
 
@@ -117,14 +117,14 @@ describe('UpdateProfileComponentService', () => {
         throwError(() => ({
           status: 'ERROR',
           errorMessage: 'Error has occurred',
-        }))
+        })),
       );
 
       service.updateProfile();
       expect(userService.update).not.toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         'Error has occurred',
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
   });

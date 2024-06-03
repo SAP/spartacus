@@ -36,19 +36,17 @@ describe('ActiveFacetsComponent', () => {
   let fixture: ComponentFixture<ActiveFacetsComponent>;
   let element: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule, KeyboardFocusModule],
-        declarations: [ActiveFacetsComponent, MockCxIconComponent],
-        providers: [{ provide: FacetService, useClass: MockFacetService }],
-      })
-        .overrideComponent(ActiveFacetsComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule, KeyboardFocusModule],
+      declarations: [ActiveFacetsComponent, MockCxIconComponent],
+      providers: [{ provide: FacetService, useClass: MockFacetService }],
     })
-  );
+      .overrideComponent(ActiveFacetsComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ActiveFacetsComponent);
@@ -92,7 +90,7 @@ describe('ActiveFacetsComponent', () => {
   it('should return focus key when there is no matching facet', () => {
     const key = component.getFocusKey(
       { facets: [{ values: [{ name: 'anyNameButNotActive' }] }] } as FacetList,
-      { facetValueName: 'activeFacet' } as Breadcrumb
+      { facetValueName: 'activeFacet' } as Breadcrumb,
     );
     expect(key).toEqual('activeFacet');
   });
@@ -100,7 +98,7 @@ describe('ActiveFacetsComponent', () => {
   it('should not return focus key when there is a matching facet', () => {
     const key = component.getFocusKey(
       { facets: [{ values: [{ name: 'activeFacet' }] }] } as FacetList,
-      { facetValueName: 'activeFacet' } as Breadcrumb
+      { facetValueName: 'activeFacet' } as Breadcrumb,
     );
     expect(key).toEqual('');
   });

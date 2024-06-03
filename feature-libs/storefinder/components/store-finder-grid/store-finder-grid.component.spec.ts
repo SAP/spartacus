@@ -35,7 +35,7 @@ const mockActivatedRoute = {
 
 class MockStoreFinderService implements Partial<StoreFinderService> {
   getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
-    EMPTY
+    EMPTY,
   );
   getStoresLoading = createSpy('getStoresLoading');
   callFindStoresAction = createSpy('callFindStoresAction');
@@ -51,23 +51,21 @@ describe('StoreFinderGridComponent', () => {
   let storeFinderService: StoreFinderService;
   let route: ActivatedRoute;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, SpinnerModule],
-        declarations: [
-          StoreFinderGridComponent,
-          MockStoreFinderListItemComponent,
-        ],
-        providers: [
-          { provide: StoreFinderService, useClass: MockStoreFinderService },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: RoutingService, useValue: mockRoutingService },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, SpinnerModule],
+      declarations: [
+        StoreFinderGridComponent,
+        MockStoreFinderListItemComponent,
+      ],
+      providers: [
+        { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderGridComponent);
@@ -81,7 +79,7 @@ describe('StoreFinderGridComponent', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
     expect(storeFinderService.callFindStoresAction).toHaveBeenCalledWith(
-      route.snapshot.params
+      route.snapshot.params,
     );
   });
 

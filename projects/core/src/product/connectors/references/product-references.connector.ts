@@ -18,7 +18,7 @@ export class ProductReferencesConnector {
   get(
     productCode: string,
     referenceType?: string,
-    pageSize?: number
+    pageSize?: number,
   ): Observable<ProductReference[]> {
     return this.adapter.load(productCode, referenceType, pageSize);
   }

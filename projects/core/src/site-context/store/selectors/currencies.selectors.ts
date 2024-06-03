@@ -22,7 +22,7 @@ export const getCurrenciesState: MemoizedSelector<
   CurrenciesState
 > = createSelector(
   getSiteContextState,
-  (state: SiteContextState) => state.currencies
+  (state: SiteContextState) => state.currencies,
 );
 
 export const getCurrenciesEntities: MemoizedSelector<

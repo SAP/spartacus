@@ -59,33 +59,31 @@ describe('CustomerEmulationComponent', () => {
   let el: DebugElement;
   let featureModulesService: FeatureModulesService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          CustomerEmulationComponent,
-          MockFeatureLevelDirective,
-          MockAsmBindCartComponent,
-        ],
-        providers: [
-          {
-            provide: FeatureModulesService,
-            useClass: mockFeatureModulesService,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CustomerEmulationComponent,
+        MockFeatureLevelDirective,
+        MockAsmBindCartComponent,
+      ],
+      providers: [
+        {
+          provide: FeatureModulesService,
+          useClass: mockFeatureModulesService,
+        },
+        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
+        { provide: AsmComponentService, useClass: MockAsmComponentService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '6.3' },
           },
-          { provide: UserAccountFacade, useClass: MockUserAccountFacade },
-          { provide: AsmComponentService, useClass: MockAsmComponentService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '6.3' },
-            },
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerEmulationComponent);
@@ -109,11 +107,11 @@ describe('CustomerEmulationComponent', () => {
 
     expect(
       el.query(By.css('.cx-asm-customerInfo .cx-asm-name')).nativeElement
-        .innerHTML
+        .innerHTML,
     ).toEqual(`${testUser.name}`);
     expect(
       el.query(By.css('.cx-asm-customerInfo .cx-asm-uid')).nativeElement
-        .innerHTML
+        .innerHTML,
     ).toEqual(`${testUser.uid}`);
     expect(el.query(By.css('dev.fd-alert'))).toBeFalsy();
   });
@@ -128,7 +126,7 @@ describe('CustomerEmulationComponent', () => {
 
     //Click button
     const endSessionButton = fixture.debugElement.query(
-      By.css('button[formControlName="logoutCustomer"]')
+      By.css('button[formControlName="logoutCustomer"]'),
     );
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
     endSessionButton.nativeElement.click();
@@ -159,14 +157,14 @@ describe('CustomerEmulationComponent', () => {
 
     expect(asmComponentService.handleAsmDialogAction).toHaveBeenCalledTimes(1);
     expect(asmComponentService.handleAsmDialogAction).toHaveBeenCalledWith(
-      {} as any
+      {} as any,
     );
   });
 
   it('should display customer 360 button if asm customer360 is configured.', () => {
     spyOn(featureModulesService, 'isConfigured').and.returnValue(true);
     spyOn(userAccountFacade, 'get').and.returnValue(
-      of({ uid: 'user@test.com', name: 'Test User' })
+      of({ uid: 'user@test.com', name: 'Test User' }),
     );
     component.ngOnInit();
     fixture.detectChanges();
@@ -178,7 +176,7 @@ describe('CustomerEmulationComponent', () => {
   it('should not display customer 360 button if asm customer360 is not configured.', () => {
     spyOn(featureModulesService, 'isConfigured').and.returnValue(false);
     spyOn(userAccountFacade, 'get').and.returnValue(
-      of({ uid: 'user@test.com', name: 'Test User' })
+      of({ uid: 'user@test.com', name: 'Test User' }),
     );
     component.ngOnInit();
     fixture.detectChanges();

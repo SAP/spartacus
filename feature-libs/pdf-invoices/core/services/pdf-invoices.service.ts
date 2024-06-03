@@ -25,28 +25,28 @@ export class PDFInvoicesService implements PDFInvoicesFacade, OnDestroy {
   constructor(
     private routingService: RoutingService,
     private userIdService: UserIdService,
-    protected pdfInvoicesConnector: PDFInvoicesConnector
+    protected pdfInvoicesConnector: PDFInvoicesConnector,
   ) {
     this.subscriptions.add(
       this.userIdService
         .takeUserId()
-        .subscribe((userId) => (this.userId = userId))
+        .subscribe((userId) => (this.userId = userId)),
     );
     this.subscriptions.add(
-      this.getOrderId().subscribe((orderId) => (this.orderId = orderId))
+      this.getOrderId().subscribe((orderId) => (this.orderId = orderId)),
     );
   }
 
   getInvoicesForOrder(
     queryParams: InvoiceQueryParams,
     userId?: string,
-    orderId?: string
+    orderId?: string,
   ): Observable<OrderInvoiceList> {
     return this.pdfInvoicesConnector
       .getInvoicesForOrder(
         userId || this.userId,
         orderId || this.orderId,
-        queryParams
+        queryParams,
       )
       .pipe(shareReplay(1));
   }
@@ -55,14 +55,14 @@ export class PDFInvoicesService implements PDFInvoicesFacade, OnDestroy {
     invoiceId: string,
     externalSystemId?: string,
     userId?: string,
-    orderId?: string
+    orderId?: string,
   ): Observable<Blob> {
     return this.pdfInvoicesConnector
       .getInvoicePDF(
         userId || this.userId,
         orderId || this.orderId,
         invoiceId,
-        externalSystemId
+        externalSystemId,
       )
       .pipe(shareReplay(1));
   }
@@ -71,7 +71,7 @@ export class PDFInvoicesService implements PDFInvoicesFacade, OnDestroy {
     return this.routingService.getRouterState().pipe(
       map((routingData) => routingData.state.params),
       distinctUntilChanged(),
-      map((params) => params.orderCode)
+      map((params) => params.orderCode),
     );
   }
 

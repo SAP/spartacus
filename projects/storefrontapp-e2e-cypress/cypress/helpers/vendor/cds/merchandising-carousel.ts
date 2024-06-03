@@ -82,7 +82,7 @@ export const STRATEGY_RESPONSE = {
 };
 
 function verifyCarouselLevelMetadata(
-  $merchandisingCarousel: JQuery<HTMLElement>
+  $merchandisingCarousel: JQuery<HTMLElement>,
 ): void {
   cy.wrap($merchandisingCarousel).within(() => {
     cy.get('.data-cx-merchandising-carousel').should(
@@ -93,14 +93,14 @@ function verifyCarouselLevelMetadata(
         expect($merchandisingCarouselMetadata)
           .to.have.attr('data-cx-merchandising-carousel-mixcardid')
           .equal(STRATEGY_RESPONSE.metadata.mixcardId);
-      }
+      },
     );
   });
 }
 
 function verifyCarouselItemRendered(
   $carouselItem: JQuery<HTMLElement>,
-  index: number
+  index: number,
 ): void {
   const product = STRATEGY_RESPONSE.products[index];
   cy.wrap($carouselItem).within(() => {
@@ -113,7 +113,7 @@ function verifyCarouselItemRendered(
         .equal(product.id);
       expect($productMetadata)
         .to.have.attr(
-          'data-cx-merchandising-product-cypress-test-product-metadata'
+          'data-cx-merchandising-product-cypress-test-product-metadata',
         )
         .equal(product.metadata['cypress-test-product-metadata']);
     });
@@ -126,7 +126,7 @@ function verifyCarouselItemRendered(
 }
 
 function verifyCarouselItemsRendered(
-  $merchandisingCarousel: JQuery<HTMLElement>
+  $merchandisingCarousel: JQuery<HTMLElement>,
 ): void {
   cy.wait(5000);
   cy.wrap($merchandisingCarousel)
@@ -166,14 +166,14 @@ function verifyCarouselEvent(carouselEvent: any) {
   expect(carouselEvent['carouselId']).to.be.ok;
   expect(carouselEvent['carouselName']).to.be.ok;
   expect(carouselEvent['mixCardId']).to.equal(
-    STRATEGY_RESPONSE.metadata.mixcardId
+    STRATEGY_RESPONSE.metadata.mixcardId,
   );
 }
 
 function verifyCarouselViewEvent(carouselEvent: any) {
   verifyCarouselEvent(carouselEvent);
   const expectedProductSkus = STRATEGY_RESPONSE.products.map(
-    (product) => product.id
+    (product) => product.id,
   );
   expect(carouselEvent['productSkus']).to.have.members(expectedProductSkus);
 }
@@ -186,7 +186,7 @@ function verifyCarouselClickEvent(productSku: string, carouselEvent: any) {
 
 export function verifyRequestToStrategyService(
   requestAlias: string,
-  strategyRequestContext: StrategyRequestContext
+  strategyRequestContext: StrategyRequestContext,
 ): void {
   cy.wait(`@${requestAlias}`).its('response.statusCode').should('eq', 200);
 
@@ -197,13 +197,13 @@ export function verifyRequestToStrategyService(
         strategyRequestContext.language
           ? strategyRequestContext.language
           : DEFAULT_LANGUAGE
-      }`
+      }`,
     );
     expect(request.url).to.contain(`pageSize=${productDisplayCount}`);
 
     if (strategyRequestContext.category) {
       expect(request.url).to.contain(
-        `category=${strategyRequestContext.category}`
+        `category=${strategyRequestContext.category}`,
       );
     } else {
       expect(request.url).not.to.contain('category=');
@@ -211,7 +211,7 @@ export function verifyRequestToStrategyService(
 
     if (strategyRequestContext.productIds) {
       expect(request.url).to.contain(
-        `products=${strategyRequestContext.productIds}`
+        `products=${strategyRequestContext.productIds}`,
       );
     } else {
       expect(request.url).not.to.contain('products=');
@@ -219,7 +219,7 @@ export function verifyRequestToStrategyService(
 
     if (strategyRequestContext.facets) {
       expect(request.url).to.contain(
-        `facets=${strategyRequestContext.facets.join(':')}`
+        `facets=${strategyRequestContext.facets.join(':')}`,
       );
     } else {
       expect(request.url).not.to.contain('facets=');
@@ -234,7 +234,7 @@ export function verifyRequestToStrategyService(
 export function verifyMerchandisingCarouselRendersOnHomePage(
   strategyRequestAlias: string,
   language?: string,
-  containsConsentReference?: boolean
+  containsConsentReference?: boolean,
 ): void {
   verifyRequestToStrategyService(strategyRequestAlias, {
     language,
@@ -249,7 +249,7 @@ export function verifyMerchandisingCarouselRendersOnCategoryPage(
   categoryCode: string,
   language?: string,
   additionalFacets?: string[],
-  containsConsentReference?: boolean
+  containsConsentReference?: boolean,
 ): void {
   verifyRequestToStrategyService(strategyRequestAlias, {
     language,
@@ -265,7 +265,7 @@ export function verifyMerchandisingCarouselRendersOnBrandPage(
   strategyRequestAlias: string,
   brandCode: string,
   language?: string,
-  additionalFacets?: string[]
+  additionalFacets?: string[],
 ): void {
   verifyRequestToStrategyService(strategyRequestAlias, {
     language,
@@ -279,7 +279,7 @@ export function verifyMerchandisingCarouselRendersOnBrandPage(
 export function verifyMerchandisingCarouselRendersOnPDPPage(
   strategyRequestAlias: string,
   productId: string,
-  language?: string
+  language?: string,
 ): void {
   const strategyRequestContext: StrategyRequestContext = {
     language,
@@ -304,7 +304,7 @@ export function applyFacet(facetGroup: string, facetName: string): void {
 
 export function verifyFirstCarouselItemTextContent(
   toContain: string,
-  toNotContain: string
+  toNotContain: string,
 ): void {
   cy.get(`${merchandisingCarouselTagName} .item h4`)
     .first()
@@ -321,10 +321,10 @@ export function verifyFirstCarouselItemPrice(currencySymbol: string): void {
 
 export function clickOnCarouselItem(
   productId: string,
-  checkForCarouselEvent?: boolean
+  checkForCarouselEvent?: boolean,
 ): void {
   cy.get(
-    `.data-cx-merchandising-product[data-cx-merchandising-product-id='${productId}'`
+    `.data-cx-merchandising-product[data-cx-merchandising-product-id='${productId}'`,
   )
     .parent()
     .within(() => {
@@ -349,7 +349,7 @@ export function navigateToHomepage(): void {
 
 export function navigateToCategory(
   categoryName: string,
-  categoryCode: string
+  categoryCode: string,
 ): void {
   const categoryPage = waitForCategoryPage(categoryCode, 'getCategory');
   cy.get('cx-category-navigation cx-generic-link a')

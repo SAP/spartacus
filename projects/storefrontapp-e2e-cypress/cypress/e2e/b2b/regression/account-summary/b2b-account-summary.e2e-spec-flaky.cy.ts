@@ -25,7 +25,7 @@ describe(`My Company - Account Summary`, () => {
       before(() => {
         b2bAccountSummary.loginAsAdmin();
         b2bAccountSummary.visitAccountSummaryDetailsPage(
-          sampleData.prontoUnitId
+          sampleData.prontoUnitId,
         );
       });
 
@@ -40,14 +40,14 @@ describe(`My Company - Account Summary`, () => {
 
       it('Should validate header details', () => {
         b2bAccountSummary.validateHeaderDetails(
-          sampleData.headerDetailTilesPronto
+          sampleData.headerDetailTilesPronto,
         );
       });
 
       it('Should validate documents', () => {
         // Sort by Document Number Descending
         b2bAccountSummary.sortDocuments(
-          sampleData.sortByDocumentNumberDescending
+          sampleData.sortByDocumentNumberDescending,
         );
 
         // Check the initial data
@@ -56,7 +56,7 @@ describe(`My Company - Account Summary`, () => {
         // Set filter by Document Number Range (POCR-0000001 - POCR-0000005)
         b2bAccountSummary.filterByDocumentNumberRange(
           sampleData.documentNumberRangeStart,
-          sampleData.documentNumberRangeEnd
+          sampleData.documentNumberRangeEnd,
         );
 
         // Expect 4 documents to appear and in reverse order
@@ -81,7 +81,7 @@ describe(`My Company - Account Summary`, () => {
       before(() => {
         b2bAccountSummary.loginAsNonAdmin();
         b2bAccountSummary.visitAccountSummaryDetailsPage(
-          sampleData.rusticUnitId
+          sampleData.rusticUnitId,
         );
       });
 

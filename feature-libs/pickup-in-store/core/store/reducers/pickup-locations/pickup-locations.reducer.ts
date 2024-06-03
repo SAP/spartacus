@@ -27,5 +27,5 @@ export const intendedPickupLocationsReducer = createReducer(
       ...state[payload.productCode],
       pickupOption: payload.pickupOption,
     },
-  }))
+  })),
 );

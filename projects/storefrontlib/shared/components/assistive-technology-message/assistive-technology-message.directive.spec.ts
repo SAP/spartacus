@@ -25,7 +25,7 @@ import createSpy = jasmine.createSpy;
       class="confirm-btn"
       [cxAtMessage]="[
         'checkoutOrderConfirmation.thankYou' | cxTranslate,
-        'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate
+        'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate,
       ]"
     >
       Action
@@ -82,7 +82,7 @@ describe('AtMessageDirective', () => {
     getCancelButton().nativeElement.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       'common.cancel',
-      GlobalMessageType.MSG_TYPE_ASSISTIVE
+      GlobalMessageType.MSG_TYPE_ASSISTIVE,
     );
   });
 
@@ -91,7 +91,7 @@ describe('AtMessageDirective', () => {
     getResultsButton().nativeElement.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       'searchBox.productsResult count:4',
-      GlobalMessageType.MSG_TYPE_ASSISTIVE
+      GlobalMessageType.MSG_TYPE_ASSISTIVE,
     );
   });
 
@@ -103,7 +103,7 @@ describe('AtMessageDirective', () => {
     getConfirmationButton().nativeElement.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       expectedMessage,
-      GlobalMessageType.MSG_TYPE_ASSISTIVE
+      GlobalMessageType.MSG_TYPE_ASSISTIVE,
     );
   });
 });

@@ -25,19 +25,19 @@ export class CheckoutReviewPaymentComponent {
   iconTypes = ICON_TYPE;
 
   paymentDetailsStepRoute = this.checkoutStepService.getCheckoutStepRoute(
-    CheckoutStepType.PAYMENT_DETAILS
+    CheckoutStepType.PAYMENT_DETAILS,
   );
 
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
   ) {}
 
   paymentDetails$: Observable<PaymentDetails | undefined> =
     this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
+      map((state) => state.data),
     );
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
@@ -49,8 +49,8 @@ export class CheckoutReviewPaymentComponent {
       }),
     ]).pipe(
       map(([textTitle, textExpires]) =>
-        paymentMethodCard(textTitle, textExpires, paymentDetails)
-      )
+        paymentMethodCard(textTitle, textExpires, paymentDetails),
+      ),
     );
   }
 
@@ -60,8 +60,8 @@ export class CheckoutReviewPaymentComponent {
       this.translationService.translate('addressCard.billTo'),
     ]).pipe(
       map(([billingAddress, billTo]) =>
-        billingAddressCard(billingAddress, billTo, paymentDetails)
-      )
+        billingAddressCard(billingAddress, billTo, paymentDetails),
+      ),
     );
   }
 }

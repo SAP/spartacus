@@ -17,18 +17,18 @@ import { MODULE_INITIALIZER } from './tokens';
 
 export function moduleInitializersFactory(
   lazyModuleService: LazyModulesService,
-  moduleInitializerFunctions: (() => any)[]
+  moduleInitializerFunctions: (() => any)[],
 ): () => any {
   const logger = inject(LoggerService);
   return () => {
     return Promise.all(
       lazyModuleService.runModuleInitializerFunctions(
-        moduleInitializerFunctions
-      )
+        moduleInitializerFunctions,
+      ),
     ).catch((error) => {
       logger.error(
         'MODULE_INITIALIZER promise was rejected during app initialization.',
-        error
+        error,
       );
       throw error;
     });

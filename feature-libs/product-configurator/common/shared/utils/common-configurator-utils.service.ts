@@ -62,7 +62,8 @@ export class CommonConfiguratorUtilsService {
     const parts: string[] = ownerId.split('+');
     if (parts.length !== 2) {
       throw new Error(
-        'We only expect 2 parts in ownerId, separated by +, but was: ' + ownerId
+        'We only expect 2 parts in ownerId, separated by +, but was: ' +
+          ownerId,
       );
     }
     const result = { documentId: parts[0], entryNumber: parts[1] };
@@ -146,14 +147,14 @@ export class CommonConfiguratorUtilsService {
    * @returns Item part of an active cart?
    */
   isActiveCartContext(
-    cartItemContext: CartItemContext | undefined
+    cartItemContext: CartItemContext | undefined,
   ): Observable<boolean> {
     return (cartItemContext?.location$ ?? EMPTY).pipe(
       map(
         (location) =>
           location !== PromotionLocation.SaveForLater &&
-          location !== PromotionLocation.SavedCart
-      )
+          location !== PromotionLocation.SavedCart,
+      ),
     );
   }
 
@@ -169,7 +170,7 @@ export class CommonConfiguratorUtilsService {
     layoutConfig: LayoutConfig,
     templateName: string,
     sectionName: string,
-    breakPoint: BREAKPOINT.lg | BREAKPOINT.md | BREAKPOINT.sm | BREAKPOINT.xs
+    breakPoint: BREAKPOINT.lg | BREAKPOINT.md | BREAKPOINT.sm | BREAKPOINT.xs,
   ): string[] {
     const slots = layoutConfig.layoutSlots;
     if (slots) {

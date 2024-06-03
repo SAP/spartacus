@@ -78,7 +78,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(
     _text: string | Translatable,
     _type: GlobalMessageType,
-    _timeout?: number
+    _timeout?: number,
   ): void {}
 }
 
@@ -188,7 +188,7 @@ describe('CartQuickOrderFormComponent', () => {
             quantity: mockCartAddEntrySuccessEvent.quantityAdded,
           },
         },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
 
@@ -205,7 +205,7 @@ describe('CartQuickOrderFormComponent', () => {
             quantity: mockCartAddEntrySuccessEvent2.quantityAdded,
           },
         },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
   });
@@ -235,7 +235,7 @@ describe('CartQuickOrderFormComponent', () => {
         {
           key: 'quickOrderCartForm.noResults',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
   });

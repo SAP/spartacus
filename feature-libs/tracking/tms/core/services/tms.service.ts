@@ -37,7 +37,7 @@ export class TmsService implements OnDestroy {
     protected eventsService: EventService,
     protected windowRef: WindowRef,
     protected tmsConfig: TmsConfig,
-    protected injector: Injector
+    protected injector: Injector,
   ) {}
 
   /**
@@ -59,7 +59,7 @@ export class TmsService implements OnDestroy {
       if (!collectorConfig.collector) {
         if (isDevMode()) {
           this.logger.warn(
-            `Skipping the '${tmsCollectorConfig}', as the collector is not defined.`
+            `Skipping the '${tmsCollectorConfig}', as the collector is not defined.`,
           );
         }
         continue;
@@ -69,7 +69,7 @@ export class TmsService implements OnDestroy {
         collectorConfig.events?.map((event) => this.eventsService.get(event)) ||
         [];
       const collector = this.injector.get<TmsCollector>(
-        collectorConfig.collector
+        collectorConfig.collector,
       );
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       collector.init(collectorConfig, this.windowRef.nativeWindow!);
@@ -79,7 +79,7 @@ export class TmsService implements OnDestroy {
           if (collectorConfig.debug) {
             this.logger.log(
               `🎤 Pushing the following event to ${tmsCollectorConfig}: `,
-              event
+              event,
             );
           }
 
@@ -88,9 +88,9 @@ export class TmsService implements OnDestroy {
             collectorConfig,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.windowRef.nativeWindow!,
-            event
+            event,
           );
-        })
+        }),
       );
     }
   }
@@ -102,7 +102,7 @@ export class TmsService implements OnDestroy {
    * @param collector - a name of the collector for which the events should be mapped
    */
   protected mapEvents<T extends CxEvent>(
-    events: Observable<T>[]
+    events: Observable<T>[],
   ): Observable<T> {
     return merge(...events);
   }

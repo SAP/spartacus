@@ -28,7 +28,7 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     const features = analyzeCrossFeatureDependencies(
-      options.features as string[]
+      options.features as string[],
     );
 
     return chain([

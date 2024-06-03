@@ -57,15 +57,15 @@ describe('ScriptLoader', () => {
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
     expect(jsDomElement.src).toContain(SCRIPT_LOAD_URL);
     expect(jsDomElement.src.split('?')[1]).toEqual(
-      'param1=value1&param2=value2'
+      'param1=value1&param2=value2',
     );
     expect(jsDomElement.addEventListener).toHaveBeenCalledWith(
       'load',
-      callback
+      callback,
     );
     expect(jsDomElement.addEventListener).toHaveBeenCalledWith(
       'error',
-      errorCallback
+      errorCallback,
     );
   });
 
@@ -84,7 +84,7 @@ describe('ScriptLoader', () => {
     expect(jsDomElement.src).toEqual(SCRIPT_LOAD_URL);
     expect(jsDomElement.type).toEqual('text/javascript');
     expect(jsDomElement.getAttribute('data-custom-attr')).toEqual(
-      'custom-attribute-value'
+      'custom-attribute-value',
     );
   });
 

@@ -32,7 +32,7 @@ export const getAuxSearchResults: MemoizedSelector<
   ProductSearchPage
 > = createSelector(
   getProductsSearchState,
-  fromProductSearch.getAuxSearchResults
+  fromProductSearch.getAuxSearchResults,
 );
 
 export const getProductSuggestions: MemoizedSelector<
@@ -40,5 +40,5 @@ export const getProductSuggestions: MemoizedSelector<
   Suggestion[]
 > = createSelector(
   getProductsSearchState,
-  fromProductSearch.getProductSuggestions
+  fromProductSearch.getProductSuggestions,
 );

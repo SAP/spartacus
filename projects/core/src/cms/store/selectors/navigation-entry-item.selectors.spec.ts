@@ -44,7 +44,7 @@ describe('Navigation Entry Items Selectors', () => {
 
       store
         .pipe(
-          select(CmsSelectors.getSelectedNavigationEntryItemState('testId'))
+          select(CmsSelectors.getSelectedNavigationEntryItemState('testId')),
         )
         .subscribe((value) => (result = value));
 

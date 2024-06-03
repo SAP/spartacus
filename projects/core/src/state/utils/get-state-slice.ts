@@ -14,7 +14,7 @@ export function getStateSliceValue<T, E>(keys: string, state: T): E {
     .split(OBJECT_SEPARATOR)
     .reduce(
       (previous: any, current) => (previous ? previous[current] : undefined),
-      state
+      state,
     );
 
   return stateSliceValue as E;
@@ -23,7 +23,7 @@ export function getStateSliceValue<T, E>(keys: string, state: T): E {
 export function createShellObject<T, E>(
   key: string,
   excludeKeys: string[],
-  value: T
+  value: T,
 ): E {
   if (!key || !value || Object.keys(value).length === 0) {
     return {} as E;
@@ -38,7 +38,7 @@ export function createShellObject<T, E>(
 export function getStateSlice<T, E>(
   keys: string[],
   excludeKeys: string[],
-  state: T
+  state: T,
 ): E {
   if (keys && keys.length === 0) {
     return {} as E;
@@ -57,7 +57,7 @@ export function getStateSlice<T, E>(
 export function handleExclusions(
   key: string,
   excludeKeys: string[],
-  value: any
+  value: any,
 ): any {
   const exclusionKeys = getExclusionKeys(key, excludeKeys);
   if (exclusionKeys.length === 0) {
@@ -103,7 +103,7 @@ export function getExclusionKeys(key: string, excludeKeys: string[]): string[] {
 
 export function filterKeysByType(
   keys: { [key: string]: StorageSyncType | StateTransferType },
-  type: StorageSyncType | StateTransferType
+  type: StorageSyncType | StateTransferType,
 ): string[] {
   if (!keys) {
     return [];

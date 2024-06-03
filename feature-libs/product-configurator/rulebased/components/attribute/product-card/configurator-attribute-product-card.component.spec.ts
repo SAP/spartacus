@@ -93,7 +93,7 @@ export class MockFocusDirective {
 function setProductBoundValueAttributes(
   component: ConfiguratorAttributeProductCardComponent,
   selected = true,
-  quantity = 1
+  quantity = 1,
 ): Configurator.Value {
   const productBoundValue = component.productCardOptions?.productBoundValue;
   if (productBoundValue) {
@@ -107,7 +107,7 @@ function setProductBoundValueAttributes(
 }
 
 function takeOneDisableQtyObs(
-  component: ConfiguratorAttributeProductCardComponent
+  component: ConfiguratorAttributeProductCardComponent,
 ): Observable<boolean> {
   return (
     component
@@ -137,7 +137,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     quantity: number,
     selected: boolean,
     productSystemId: string,
-    valueDisplay: string
+    valueDisplay: string,
   ): Configurator.Value => {
     const configValue: Configurator.Value = {
       valueCode,
@@ -151,43 +151,41 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     return configValue;
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          MediaModule,
-        ],
-        declarations: [
-          ConfiguratorAttributeProductCardComponent,
-          ConfiguratorShowMoreComponent,
-          ItemCounterComponent,
-          MockConfiguratorPriceComponent,
-          MockFocusDirective,
-          MockConfiguratorAttributeQuantityComponent,
-        ],
-        providers: [
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeProductCardComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        MediaModule,
+      ],
+      declarations: [
+        ConfiguratorAttributeProductCardComponent,
+        ConfiguratorShowMoreComponent,
+        ItemCounterComponent,
+        MockConfiguratorPriceComponent,
+        MockFocusDirective,
+        MockConfiguratorAttributeQuantityComponent,
+      ],
+      providers: [
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeProductCardComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ConfiguratorAttributeProductCardComponent
+      ConfiguratorAttributeProductCardComponent,
     );
     focusService = TestBed.inject(KeyboardFocusService);
     htmlElem = fixture.nativeElement;
@@ -200,7 +198,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       1,
       false,
       '1111-2222',
-      'Lorem Ipsum Dolor'
+      'Lorem Ipsum Dolor',
     );
 
     component.productCardOptions = {
@@ -229,7 +227,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   it('create a focus config with key', () => {
     expect(component.focusConfig.key).toContain(
-      component.productCardOptions.attributeId.toString()
+      component.productCardOptions.attributeId.toString(),
     );
     const valueCode =
       component.productCardOptions.productBoundValue?.valueCode ?? 'noCode';
@@ -253,7 +251,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   describe('Buttons constellation', () => {
     it('should button be enabled when card actions are disabled and card is no selected', () => {
       const button = fixture.debugElement.query(
-        By.css('button.btn')
+        By.css('button.btn'),
       ).nativeElement;
       expect(button.disabled).toBe(false);
     });
@@ -264,14 +262,14 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(
-        By.css('button.btn')
+        By.css('button.btn'),
       ).nativeElement;
       expect(button.disabled).toBe(false);
     });
 
     it('should button be called with proper select method', () => {
       const button = fixture.debugElement.query(
-        By.css('button.btn')
+        By.css('button.btn'),
       ).nativeElement;
       button.click();
 
@@ -286,7 +284,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(
-        By.css('button.btn')
+        By.css('button.btn'),
       ).nativeElement;
 
       button.click();
@@ -298,7 +296,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
     it('should button have select text when card type is no multi select and card is no selected', () => {
       const button = fixture.debugElement.query(
-        By.css('button.btn')
+        By.css('button.btn'),
       ).nativeElement;
 
       expect(button.innerText).toContain('configurator.button.select');
@@ -310,7 +308,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(
-        By.css('button.btn')
+        By.css('button.btn'),
       ).nativeElement;
 
       expect(button.innerText).toContain('configurator.button.deselect');
@@ -323,7 +321,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(
-        By.css('button.btn')
+        By.css('button.btn'),
       ).nativeElement;
 
       expect(button.innerText).toContain('configurator.button.add');
@@ -336,7 +334,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(
-        By.css('button.btn')
+        By.css('button.btn'),
       ).nativeElement;
 
       expect(button.innerText).toContain('configurator.button.remove');
@@ -350,7 +348,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(
-        By.css('button.btn')
+        By.css('button.btn'),
       ).nativeElement;
 
       button.click();
@@ -367,7 +365,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       fixture.detectChanges();
 
       const quantityContainer = fixture.debugElement.query(
-        By.css('.cx-configurator-attribute-product-card-quantity')
+        By.css('.cx-configurator-attribute-product-card-quantity'),
       );
 
       expect(quantityContainer).toBeNull();
@@ -379,7 +377,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       fixture.detectChanges();
 
       const quantityContainer = fixture.debugElement.query(
-        By.css('.cx-configurator-attribute-product-card-quantity')
+        By.css('.cx-configurator-attribute-product-card-quantity'),
       );
 
       expect(quantityContainer).toBeDefined();
@@ -394,7 +392,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         jasmine.objectContaining({
           quantity: 1,
           valueCode: component.productCardOptions?.productBoundValue?.valueCode,
-        })
+        }),
       );
     });
 
@@ -411,8 +409,8 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     it('should transformToProductType return Product', () => {
       expect(
         component['transformToProductType'](
-          component.productCardOptions.productBoundValue
-        )
+          component.productCardOptions.productBoundValue,
+        ),
       ).toEqual(productTransformed);
     });
 
@@ -426,7 +424,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
     });
 
@@ -440,7 +438,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
     });
 
@@ -454,7 +452,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
     });
 
@@ -468,7 +466,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
     });
   });
@@ -478,7 +476,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        2
+        2,
       );
 
       productBoundValue.valuePrice = undefined;
@@ -490,7 +488,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
 
@@ -498,7 +496,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        undefined
+        undefined,
       );
 
       productBoundValue.valuePrice = {
@@ -514,7 +512,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
 
@@ -522,7 +520,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        0
+        0,
       );
 
       productBoundValue.valuePrice = undefined;
@@ -538,7 +536,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
 
@@ -546,7 +544,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        0
+        0,
       );
 
       productBoundValue.valuePrice = undefined;
@@ -581,7 +579,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     it('should disable stepper when loading state is indicated by parent', () => {
       component.loading$.next(false);
       component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
-        true
+        true,
       );
       takeOneDisableQtyObs(component).subscribe((disable) => {
         expect(disable).toBe(true);
@@ -591,7 +589,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     it('should disable stepper when loading is finsihed including parent', () => {
       component.loading$.next(false);
       component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
-        false
+        false,
       );
       takeOneDisableQtyObs(component).subscribe((disable) => {
         expect(disable).toBe(false);
@@ -602,7 +600,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        undefined
+        undefined,
       );
 
       productBoundValue.valuePrice = {
@@ -622,7 +620,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
   });
@@ -630,7 +628,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   describe('isValueCodeDefined', () => {
     it('should return `false` when value code equals `###RETRACT_VALUE_CODE##`', () => {
       expect(component.isValueCodeDefined(Configurator.RetractValueCode)).toBe(
-        false
+        false,
       );
     });
 
@@ -656,7 +654,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'button.btn'
+        'button.btn',
       );
     });
 
@@ -668,14 +666,14 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'button.btn'
+        'button.btn',
       );
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         'button.btn',
-        'configurator.button.select'
+        'configurator.button.select',
       );
     });
   });
@@ -708,7 +706,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        undefined
+        undefined,
       );
 
       productBoundValue.valuePrice = {
@@ -734,7 +732,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           itemIndex +
           ' price:' +
           component.productCardOptions.productBoundValue?.valuePriceTotal
-            ?.formattedValue
+            ?.formattedValue,
       );
     });
 
@@ -742,7 +740,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        undefined
+        undefined,
       );
       productBoundValue.valuePrice = {
         currencyIso: '$',
@@ -759,7 +757,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
-          itemIndex
+          itemIndex,
       );
     });
   });
@@ -769,7 +767,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        undefined
+        undefined,
       );
 
       productBoundValue.valuePrice = {
@@ -795,7 +793,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           itemIndex +
           ' price:' +
           component.productCardOptions.productBoundValue?.valuePriceTotal
-            ?.formattedValue
+            ?.formattedValue,
       );
     });
 
@@ -803,7 +801,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        undefined
+        undefined,
       );
       productBoundValue.valuePrice = {
         currencyIso: '$',
@@ -820,7 +818,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
-          itemIndex
+          itemIndex,
       );
     });
   });
@@ -830,7 +828,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        undefined
+        undefined,
       );
 
       productBoundValue.valuePrice = {
@@ -856,7 +854,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           itemIndex +
           ' price:' +
           component.productCardOptions.productBoundValue?.valuePriceTotal
-            ?.formattedValue
+            ?.formattedValue,
       );
     });
 
@@ -864,7 +862,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        undefined
+        undefined,
       );
       productBoundValue.valuePrice = {
         currencyIso: '$',
@@ -881,7 +879,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
-          itemIndex
+          itemIndex,
       );
     });
   });
@@ -891,7 +889,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        undefined
+        undefined,
       );
 
       productBoundValue.valuePrice = {
@@ -917,7 +915,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           itemIndex +
           ' price:' +
           component.productCardOptions.productBoundValue?.valuePriceTotal
-            ?.formattedValue
+            ?.formattedValue,
       );
     });
 
@@ -925,7 +923,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        undefined
+        undefined,
       );
       productBoundValue.valuePrice = {
         currencyIso: '$',
@@ -942,7 +940,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
-          itemIndex
+          itemIndex,
       );
     });
   });
@@ -952,7 +950,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        undefined
+        undefined,
       );
 
       productBoundValue.valuePrice = {
@@ -978,7 +976,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           itemIndex +
           ' price:' +
           component.productCardOptions.productBoundValue?.valuePriceTotal
-            ?.formattedValue
+            ?.formattedValue,
       );
     });
 
@@ -986,7 +984,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const productBoundValue = setProductBoundValueAttributes(
         component,
         true,
-        undefined
+        undefined,
       );
       productBoundValue.valuePrice = {
         currencyIso: '$',
@@ -1003,7 +1001,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
-          itemIndex
+          itemIndex,
       );
     });
 
@@ -1017,7 +1015,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
-          itemIndex
+          itemIndex,
       );
     });
   });
@@ -1032,7 +1030,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         0,
         'aria-label',
         'configurator.a11y.itemOfAttribute attribute:' +
-          component.productCardOptions.attributeLabel
+          component.productCardOptions.attributeLabel,
       );
     });
 
@@ -1044,7 +1042,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         undefined,
         0,
         'aria-hidden',
-        'true'
+        'true',
       );
     });
 
@@ -1067,7 +1065,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           itemIndex +
           ' price:' +
           component.productCardOptions.productBoundValue?.valuePrice,
-        'configurator.button.select'
+        'configurator.button.select',
       );
     });
 
@@ -1080,7 +1078,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         0,
         'aria-describedby',
         'cx-configurator--label--' + component.productCardOptions.attributeName,
-        'configurator.button.select'
+        'configurator.button.select',
       );
     });
   });

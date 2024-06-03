@@ -29,7 +29,7 @@ export class I18nextHttpBackendInitializer
     @Inject(I18NEXT_HTTP_BACKEND_CLIENT)
     protected i18nextHttpClient: I18nextHttpBackendClient,
     protected config: I18nConfig,
-    protected windowRef: WindowRef
+    protected windowRef: WindowRef,
   ) {}
 
   /**

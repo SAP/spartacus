@@ -24,9 +24,9 @@ export class CustomerTicketingReopenComponentService {
             ticket.availableStatusTransitions?.some(
               (status) =>
                 status.id.toUpperCase() === STATUS.INPROCESS ||
-                status.id.toUpperCase() === STATUS.OPEN
-            )
-        )
+                status.id.toUpperCase() === STATUS.OPEN,
+            ),
+        ),
       );
   }
 }

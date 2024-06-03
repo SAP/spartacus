@@ -39,7 +39,7 @@ export class PopoverService {
   setFocusOnElement(
     element: ElementRef,
     focusConfig?: FocusConfig,
-    appendToBody?: boolean
+    appendToBody?: boolean,
   ) {
     if (this.featureConfigService?.isEnabled('a11yPopoverFocus')) {
       setTimeout(() => {

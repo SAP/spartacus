@@ -123,10 +123,10 @@ describe('GlobalMessage Effects', () => {
     it('should not remove message if there is only one', () => {
       getTestScheduler().run(() => {
         spyOn(ObjectComparisonUtils, 'countOfDeepEqualObjects').and.returnValue(
-          1
+          1,
         );
         spyOn(ObjectComparisonUtils, 'indexOfFirstOccurrence').and.returnValue(
-          0
+          0,
         );
 
         const action = new GlobalMessageActions.AddMessage(message2);
@@ -136,10 +136,10 @@ describe('GlobalMessage Effects', () => {
 
         expect(effects.removeDuplicated$).toBeObservable(expected);
         expect(
-          ObjectComparisonUtils.countOfDeepEqualObjects
+          ObjectComparisonUtils.countOfDeepEqualObjects,
         ).toHaveBeenCalledWith(message2.text, [message2.text]);
         expect(
-          ObjectComparisonUtils.indexOfFirstOccurrence
+          ObjectComparisonUtils.indexOfFirstOccurrence,
         ).not.toHaveBeenCalled();
       });
     });
@@ -147,10 +147,10 @@ describe('GlobalMessage Effects', () => {
     it('should remove message if already exist', () => {
       getTestScheduler().run(() => {
         spyOn(ObjectComparisonUtils, 'countOfDeepEqualObjects').and.returnValue(
-          2
+          2,
         );
         spyOn(ObjectComparisonUtils, 'indexOfFirstOccurrence').and.returnValue(
-          0
+          0,
         );
 
         const action = new GlobalMessageActions.AddMessage(message2);
@@ -164,10 +164,10 @@ describe('GlobalMessage Effects', () => {
 
         expect(effects.removeDuplicated$).toBeObservable(expected);
         expect(
-          ObjectComparisonUtils.countOfDeepEqualObjects
+          ObjectComparisonUtils.countOfDeepEqualObjects,
         ).toHaveBeenCalledWith(message2.text, [message2.text]);
         expect(
-          ObjectComparisonUtils.indexOfFirstOccurrence
+          ObjectComparisonUtils.indexOfFirstOccurrence,
         ).toHaveBeenCalledWith(message2.text, [message2.text]);
       });
     });

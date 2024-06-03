@@ -103,23 +103,23 @@ describe('AsmCustomer360ProductItemComponent', () => {
     fixture.detectChanges();
 
     const productLink = el.query(
-      By.css('.cx-asm-customer-360-product-item-name')
+      By.css('.cx-asm-customer-360-product-item-name'),
     );
 
     expect(
-      el.query(By.css('.cx-asm-customer-360-product-item-name'))
+      el.query(By.css('.cx-asm-customer-360-product-item-name')),
     ).toBeTruthy();
 
     expect(
-      el.query(By.css('.cx-asm-customer-360-product-item-code'))
+      el.query(By.css('.cx-asm-customer-360-product-item-code')),
     ).toBeFalsy();
 
     expect(
-      el.query(By.css('.cx-asm-customer-360-product-item-quantity'))
+      el.query(By.css('.cx-asm-customer-360-product-item-quantity')),
     ).toBeFalsy();
 
     expect(
-      el.query(By.css('.cx-asm-customer-360-product-item-price'))
+      el.query(By.css('.cx-asm-customer-360-product-item-price')),
     ).toBeFalsy();
 
     productLink.nativeElement.click();
@@ -136,23 +136,23 @@ describe('AsmCustomer360ProductItemComponent', () => {
     fixture.detectChanges();
 
     const productLink = el.query(
-      By.css('.cx-asm-customer-360-product-item-name')
+      By.css('.cx-asm-customer-360-product-item-name'),
     );
 
     expect(
-      el.query(By.css('.cx-asm-customer-360-product-item-name'))
+      el.query(By.css('.cx-asm-customer-360-product-item-name')),
     ).toBeTruthy();
 
     expect(
-      el.query(By.css('.cx-asm-customer-360-product-item-code'))
+      el.query(By.css('.cx-asm-customer-360-product-item-code')),
     ).toBeTruthy();
 
     expect(
-      el.query(By.css('.cx-asm-customer-360-product-item-quantity'))
+      el.query(By.css('.cx-asm-customer-360-product-item-quantity')),
     ).toBeTruthy();
 
     expect(
-      el.query(By.css('.cx-asm-customer-360-product-item-price'))
+      el.query(By.css('.cx-asm-customer-360-product-item-price')),
     ).toBeTruthy();
 
     productLink.nativeElement.click();

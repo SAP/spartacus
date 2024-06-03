@@ -38,7 +38,7 @@ export class ConverterService implements OnDestroy {
   constructor(protected unifiedInjector: UnifiedInjector) {
     // Clear cached converters when new injectors appear
     const cacheResetLogic = this.unifiedInjector.injectors$.pipe(
-      tap(() => this.converters.clear())
+      tap(() => this.converters.clear()),
     );
 
     this.subscriptions.add(cacheResetLogic.subscribe());
@@ -50,11 +50,11 @@ export class ConverterService implements OnDestroy {
   > = new Map();
 
   private getConverters<S, T>(
-    injectionToken: InjectionToken<Converter<S, T>>
+    injectionToken: InjectionToken<Converter<S, T>>,
   ): Converter<S, T>[] | undefined {
     if (!this.converters.has(injectionToken)) {
       const converters = getLastValueSync(
-        this.unifiedInjector.getMulti(injectionToken)
+        this.unifiedInjector.getMulti(injectionToken),
       );
       if (converters) {
         this.converters.set(injectionToken, converters);
@@ -68,7 +68,7 @@ export class ConverterService implements OnDestroy {
    * Will return true if converters for specified token were provided
    */
   hasConverters<S, T>(
-    injectionToken: InjectionToken<Converter<S, T>>
+    injectionToken: InjectionToken<Converter<S, T>>,
   ): boolean {
     const converters = this.getConverters(injectionToken);
     return Array.isArray(converters) && converters.length > 0;
@@ -78,7 +78,7 @@ export class ConverterService implements OnDestroy {
    * Pipeable operator to apply converter logic in a observable stream
    */
   pipeable<S, T>(
-    injectionToken: InjectionToken<Converter<S, T>>
+    injectionToken: InjectionToken<Converter<S, T>>,
   ): OperatorFunction<S, T> {
     if (this.hasConverters(injectionToken)) {
       return map((model: S) => this.convertSource(model, injectionToken));
@@ -91,7 +91,7 @@ export class ConverterService implements OnDestroy {
    * Pipeable operator to apply converter logic in a observable stream to collection of items
    */
   pipeableMany<S, T>(
-    injectionToken: InjectionToken<Converter<S, T>>
+    injectionToken: InjectionToken<Converter<S, T>>,
   ): OperatorFunction<S[], T[]> {
     if (this.hasConverters(injectionToken)) {
       return map((model: S[]) => this.convertMany(model, injectionToken));
@@ -116,11 +116,11 @@ export class ConverterService implements OnDestroy {
    */
   convertMany<S, T>(
     sources: S[],
-    injectionToken: InjectionToken<Converter<S, T>>
+    injectionToken: InjectionToken<Converter<S, T>>,
   ): T[] {
     if (this.hasConverters(injectionToken) && Array.isArray(sources)) {
       return sources.map((source) =>
-        this.convertSource(source, injectionToken)
+        this.convertSource(source, injectionToken),
       );
     } else {
       return sources as any[];
@@ -129,7 +129,7 @@ export class ConverterService implements OnDestroy {
 
   private convertSource<S, T>(
     source: S,
-    injectionToken: InjectionToken<Converter<S, T>>
+    injectionToken: InjectionToken<Converter<S, T>>,
   ): T {
     return this.getConverters(injectionToken)?.reduce((target, converter) => {
       return converter.convert(source, target);

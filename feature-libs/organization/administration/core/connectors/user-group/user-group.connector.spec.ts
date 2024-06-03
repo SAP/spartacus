@@ -28,17 +28,17 @@ class MockUserGroupAdapter implements UserGroupAdapter {
   update = createSpy('update').and.returnValue(of(userGroup));
   delete = createSpy('delete').and.returnValue(of(userGroup));
   loadAvailableOrderApprovalPermissions = createSpy(
-    'loadAvailableOrderApprovalPermissions'
+    'loadAvailableOrderApprovalPermissions',
   ).and.returnValue(of([permission]));
   loadAvailableOrgCustomers = createSpy(
-    'loadAvailableOrgCustomers'
+    'loadAvailableOrgCustomers',
   ).and.returnValue(of([member]));
   assignMember = createSpy('assignMember');
   assignOrderApprovalPermission = createSpy('assignOrderApprovalPermission');
   unassignMember = createSpy('unassignMember');
   unassignAllMembers = createSpy('unassignAllMembers');
   unassignOrderApprovalPermission = createSpy(
-    'unassignOrderApprovalPermission'
+    'unassignOrderApprovalPermission',
   );
 }
 
@@ -97,7 +97,7 @@ describe('UserGroupConnector', () => {
     expect(adapter.loadAvailableOrderApprovalPermissions).toHaveBeenCalledWith(
       userId,
       userGroupId,
-      params
+      params,
     );
   });
 
@@ -106,7 +106,7 @@ describe('UserGroupConnector', () => {
     expect(adapter.assignOrderApprovalPermission).toHaveBeenCalledWith(
       userId,
       userGroupId,
-      permissionUid
+      permissionUid,
     );
   });
 
@@ -115,7 +115,7 @@ describe('UserGroupConnector', () => {
     expect(adapter.unassignOrderApprovalPermission).toHaveBeenCalledWith(
       userId,
       userGroupId,
-      permissionUid
+      permissionUid,
     );
   });
 
@@ -125,7 +125,7 @@ describe('UserGroupConnector', () => {
     expect(adapter.loadAvailableOrgCustomers).toHaveBeenCalledWith(
       userId,
       userGroupId,
-      params
+      params,
     );
   });
 
@@ -134,7 +134,7 @@ describe('UserGroupConnector', () => {
     expect(adapter.assignMember).toHaveBeenCalledWith(
       userId,
       userGroupId,
-      memberUid
+      memberUid,
     );
   });
 
@@ -143,7 +143,7 @@ describe('UserGroupConnector', () => {
     expect(adapter.unassignMember).toHaveBeenCalledWith(
       userId,
       userGroupId,
-      memberUid
+      memberUid,
     );
   });
 
@@ -151,7 +151,7 @@ describe('UserGroupConnector', () => {
     service.unassignAllMembers(userId, userGroupId);
     expect(adapter.unassignAllMembers).toHaveBeenCalledWith(
       userId,
-      userGroupId
+      userGroupId,
     );
   });
 });

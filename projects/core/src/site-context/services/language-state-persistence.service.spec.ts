@@ -63,7 +63,7 @@ describe('LanguageStatePersistenceService', () => {
         jasmine.objectContaining({
           key: LANGUAGE_CONTEXT_ID,
           state$,
-        })
+        }),
       );
       expect(languageService.getActive).toHaveBeenCalled();
     });

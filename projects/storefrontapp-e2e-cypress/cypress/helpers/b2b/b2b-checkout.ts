@@ -48,7 +48,7 @@ export function loginB2bUser() {
 
   login(
     myCompanyAdminUser.registrationData.email,
-    myCompanyAdminUser.registrationData.password
+    myCompanyAdminUser.registrationData.password,
   )
     .then((result) => {
       expect(result.status).to.eq(200);
@@ -76,7 +76,7 @@ function addB2bUser(access_token: string, user: any) {
   return cy.request({
     method: 'POST',
     url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/current/orgCustomers?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${access_token}`,
@@ -97,12 +97,12 @@ function addB2bUser(access_token: string, user: any) {
 function setB2bPassword(
   customerId: string,
   password: string,
-  access_token: string
+  access_token: string,
 ) {
   return cy.request({
     method: 'PATCH',
     url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/current/orgCustomers/${customerId}?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${access_token}`,
@@ -134,7 +134,7 @@ export function addB2bProductToCartAndCheckout() {
 
   const paymentTypePage = waitForPage(
     '/checkout/payment-type',
-    'getPaymentType'
+    'getPaymentType',
   );
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${paymentTypePage}`).its('response.statusCode').should('eq', 200);
@@ -161,7 +161,7 @@ export function addB2bProductToCart() {
 export function enterPONumber(poNum: string = poNumber) {
   cy.get('cx-payment-type .cx-payment-type-container').should(
     'contain',
-    'Payment method'
+    'Payment method',
   );
 
   cy.get('cx-payment-type').within(() => {
@@ -171,7 +171,7 @@ export function enterPONumber(poNum: string = poNumber) {
   // Accessibility
   verifyTabbingOrder(
     'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-    config.paymentMethod
+    config.paymentMethod,
   );
 }
 
@@ -185,12 +185,12 @@ export function selectAccountPayment() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/carts/*?fields=DEFAULT*`
+      'BASE_SITE',
+    )}/users/current/carts/*?fields=DEFAULT*`,
   ).as('getCart');
   const deliveryAddressPage = waitForPage(
     '/checkout/delivery-address',
-    'getDeliveryPage'
+    'getDeliveryPage',
   );
   cy.get('button.btn-primary').should('be.enabled').click({ force: true });
   cy.wait(`@${deliveryAddressPage}`)
@@ -219,7 +219,7 @@ export function selectCreditCardPayment() {
 
   const deliveryAddressPage = waitForPage(
     '/checkout/delivery-address',
-    'getDeliveryPage'
+    'getDeliveryPage',
   );
   cy.get('button.btn-primary').click({ force: true });
   cy.wait(`@${deliveryAddressPage}`)
@@ -230,7 +230,7 @@ export function selectCreditCardPayment() {
 export function selectAccountShippingAddress() {
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
     b2bDeliveryAddressStub,
-    b2bDeliveryAddress.id
+    b2bDeliveryAddress.id,
   );
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
@@ -257,13 +257,13 @@ export function selectAccountShippingAddress() {
 
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
-    'getDeliveryPage'
+    'getDeliveryPage',
   );
 
   // Accessibility
   verifyTabbingOrder(
     'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-    config.shippingAddressAccount
+    config.shippingAddressAccount,
   );
 
   cy.get('button.btn-primary').should('be.enabled').click();
@@ -278,7 +278,7 @@ export function selectAccountShippingAddress() {
 export function selectAccountDeliveryMode() {
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
     b2bDeliveryModeStub,
-    b2bDeliveryAddress.id
+    b2bDeliveryAddress.id,
   );
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
@@ -295,12 +295,12 @@ export function selectAccountDeliveryMode() {
   cy.get('cx-delivery-mode input').first().should('not.be.checked');
 
   cy.get(
-    'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
+    'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)',
   ).then(() => {
     // Accessibility
     verifyTabbingOrder(
       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      config.deliveryMode
+      config.deliveryMode,
     );
   });
 
@@ -323,7 +323,7 @@ export function reviewB2bReviewOrderPage(
   conf: TabbingOrderConfig = config,
   poNum: string = poNumber,
   costCtr: string = costCenter,
-  b2bUnt: string = b2bUnit
+  b2bUnt: string = b2bUnit,
 ) {
   verifyReviewOrderPage();
 
@@ -385,7 +385,7 @@ export function reviewB2bReviewOrderPage(
 
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
     'contain',
-    cartData.totalAndShipping
+    cartData.totalAndShipping,
   );
 
   cy.get('cx-schedule-replenishment-order [type="radio"]')
@@ -397,7 +397,7 @@ export function reviewB2bReviewOrderPage(
     .should(
       'have.attr',
       'href',
-      `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`
+      `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`,
     );
 
   cy.get('input[formcontrolname="termsAndConditions"]').check();
@@ -406,12 +406,12 @@ export function reviewB2bReviewOrderPage(
   if (orderType === order_type.SCHEDULE_REPLENISHMENT) {
     verifyTabbingOrder(
       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      conf.replenishmentOrderAccountCheckoutReviewOrder
+      conf.replenishmentOrderAccountCheckoutReviewOrder,
     );
   } else {
     verifyTabbingOrder(
       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      isAccount ? conf.checkoutReviewOrderAccount : conf.checkoutReviewOrder
+      isAccount ? conf.checkoutReviewOrderAccount : conf.checkoutReviewOrder,
     );
   }
 }
@@ -432,7 +432,7 @@ export function completeReplenishmentForm(replenishmentPeriod: string) {
 
   if (replenishmentPeriod === recurrencePeriod.WEEKLY) {
     cy.get(
-      'cx-schedule-replenishment-order .cx-repeat-days-container [type="checkbox"]'
+      'cx-schedule-replenishment-order .cx-repeat-days-container [type="checkbox"]',
     ).check();
   }
 
@@ -443,14 +443,14 @@ export function completeReplenishmentForm(replenishmentPeriod: string) {
   }
 
   cy.get('cx-schedule-replenishment-order .cx-replenishment-date input').type(
-    `${replenishmentDate}`
+    `${replenishmentDate}`,
   );
 }
 
 export function placeOrder(orderUrl: string) {
   const orderConfirmationPage = waitForPage(
     orderUrl,
-    'getOrderConfirmationPage'
+    'getOrderConfirmationPage',
   );
 
   cy.get('cx-place-order button.btn-primary').should('be.enabled').click();
@@ -465,7 +465,7 @@ export function reviewB2bOrderConfirmation(
   sampleProduct: SampleProduct = b2bProduct,
   cartData: SampleCartProduct,
   isAccount: boolean = true,
-  replenishment?: string
+  replenishment?: string,
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
 
@@ -562,7 +562,7 @@ export function reviewB2bOrderConfirmation(
 
   cy.get('cx-order-summary .cx-summary-amount').should(
     'contain',
-    cartData.totalAndShipping
+    cartData.totalAndShipping,
   );
 }
 
@@ -572,14 +572,14 @@ export function interceptPaymentTypesEndpoint(): string {
     {
       method: 'GET',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/paymenttypes*`,
     },
     {
       fixture:
         'b2b-checkout-replenishment/method-of-payment-step/payment-types.json',
       statusCode: 200,
-    }
+    },
   ).as(alias);
 
   return alias;
@@ -591,7 +591,7 @@ export function interceptCostCenterEndpoint() {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/costcenters?fields=DEFAULT*`,
   }).as(alias);
 
@@ -600,20 +600,20 @@ export function interceptCostCenterEndpoint() {
 
 export function interceptCheckoutB2BDetailsEndpoint(
   body?: any,
-  addressId?: string
+  addressId?: string,
 ) {
   const alias = 'getCheckoutDetails';
   const request = {
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`,
   };
 
   if (body && addressId) {
     if (JSON.stringify(body).includes('addressIdFromServer')) {
       body = JSON.parse(
-        JSON.stringify(body).replace(/addressIdFromServer/g, addressId)
+        JSON.stringify(body).replace(/addressIdFromServer/g, addressId),
       );
     }
     // stub contains server addressId
@@ -630,7 +630,7 @@ export function interceptPutDeliveryModeEndpoint() {
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/**/deliverymode?deliveryModeId=*`,
   }).as(alias);
 

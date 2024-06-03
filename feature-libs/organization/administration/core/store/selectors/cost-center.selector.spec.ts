@@ -44,7 +44,7 @@ describe('CostCenter Selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });
@@ -61,7 +61,7 @@ describe('CostCenter Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2])
+        new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2]),
       );
       expect(result).toEqual({
         entities: { entities },
@@ -79,7 +79,7 @@ describe('CostCenter Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2])
+        new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2]),
       );
       expect(result).toEqual({ entities });
     });
@@ -93,7 +93,7 @@ describe('CostCenter Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2])
+        new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2]),
       );
       expect(result).toEqual(entities.testCode);
     });

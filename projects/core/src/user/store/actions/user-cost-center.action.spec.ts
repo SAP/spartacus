@@ -35,7 +35,7 @@ describe('User Cost Centers Actions', () => {
   describe('LoadActiveCostCentersSuccess Action', () => {
     it('should create the action', () => {
       const action = new UserActions.LoadActiveCostCentersSuccess(
-        mockCostCenters
+        mockCostCenters,
       );
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ACTIVE_COST_CENTERS_SUCCESS,

@@ -34,7 +34,7 @@ class MockOrgUnitAdapter implements OrgUnitAdapter {
   update = createSpy('update').and.returnValue(of(orgUnit));
   loadTree = createSpy('loadTree').and.returnValue(of(orgUnit));
   loadApprovalProcesses = createSpy('loadApprovalProcesses').and.returnValue(
-    of([approvalProcess])
+    of([approvalProcess]),
   );
   loadUsers = createSpy('loadUsers').and.returnValue(EMPTY);
   assignRole = createSpy('assignRole').and.returnValue(EMPTY);
@@ -103,7 +103,7 @@ describe('OrgUnitConnector', () => {
       userId,
       orgUnitId,
       roleId,
-      params
+      params,
     );
   });
 
@@ -112,7 +112,7 @@ describe('OrgUnitConnector', () => {
     expect(adapter.assignRole).toHaveBeenCalledWith(
       userId,
       orgCustomerId,
-      roleId
+      roleId,
     );
   });
 
@@ -121,7 +121,7 @@ describe('OrgUnitConnector', () => {
     expect(adapter.unassignRole).toHaveBeenCalledWith(
       userId,
       orgCustomerId,
-      roleId
+      roleId,
     );
   });
 
@@ -131,7 +131,7 @@ describe('OrgUnitConnector', () => {
       userId,
       orgUnitId,
       orgCustomerId,
-      roleId
+      roleId,
     );
   });
 
@@ -141,7 +141,7 @@ describe('OrgUnitConnector', () => {
       userId,
       orgUnitId,
       orgCustomerId,
-      roleId
+      roleId,
     );
   });
 
@@ -155,7 +155,7 @@ describe('OrgUnitConnector', () => {
     expect(adapter.createAddress).toHaveBeenCalledWith(
       userId,
       orgUnitId,
-      address
+      address,
     );
   });
 
@@ -165,7 +165,7 @@ describe('OrgUnitConnector', () => {
       userId,
       orgUnitId,
       addressId,
-      address
+      address,
     );
   });
 
@@ -174,7 +174,7 @@ describe('OrgUnitConnector', () => {
     expect(adapter.deleteAddress).toHaveBeenCalledWith(
       userId,
       orgUnitId,
-      addressId
+      addressId,
     );
   });
 });

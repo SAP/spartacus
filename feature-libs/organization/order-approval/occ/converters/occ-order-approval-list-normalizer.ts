@@ -24,7 +24,7 @@ export class OccOrderApprovalListNormalizer
 
   convert(
     source: Occ.OrderApprovalsList,
-    target?: EntitiesModel<OrderApproval>
+    target?: EntitiesModel<OrderApproval>,
   ): EntitiesModel<OrderApproval> {
     if (target === undefined) {
       target = { ...(source as any) } as EntitiesModel<OrderApproval>;

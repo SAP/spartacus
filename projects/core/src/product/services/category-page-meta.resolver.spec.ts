@@ -88,7 +88,7 @@ describe('CategoryPageMetaResolver', () => {
       .unsubscribe();
 
     expect(result).toEqual(
-      'pageMetaResolver.category.title count:6 query:Hand-held Camcorders'
+      'pageMetaResolver.category.title count:6 query:Hand-held Camcorders',
     );
   });
 

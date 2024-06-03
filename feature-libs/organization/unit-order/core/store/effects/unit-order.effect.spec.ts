@@ -60,7 +60,7 @@ describe('Orders effect', () => {
     describe('Unit Order History', () => {
       it('should load unit Orders', () => {
         spyOn(orderHistoryConnector, 'getUnitOrderHistory').and.returnValue(
-          of(mockUserOrders)
+          of(mockUserOrders),
         );
 
         const action = new UnitOrderActions.LoadUnitOrders({
@@ -69,7 +69,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new UnitOrderActions.LoadUnitOrdersSuccess(
-          mockUserOrders
+          mockUserOrders,
         );
         actions$ = hot('-a', { a: action });
 
@@ -80,7 +80,7 @@ describe('Orders effect', () => {
 
       it('should handle failures for load user Orders', () => {
         spyOn(orderHistoryConnector, 'getUnitOrderHistory').and.returnValue(
-          throwError(() => mockError)
+          throwError(() => mockError),
         );
 
         const action = new UnitOrderActions.LoadUnitOrders({
@@ -89,7 +89,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new UnitOrderActions.LoadUnitOrdersFail(
-          normalizeHttpError(mockError, new MockLoggerService())
+          normalizeHttpError(mockError, new MockLoggerService()),
         );
         actions$ = hot('-a', { a: action });
 
@@ -118,14 +118,14 @@ describe('Orders effect', () => {
     describe('loadOrderDetails$', () => {
       it('should load order details', () => {
         spyOn(orderHistoryConnector, 'getUnitOrderDetail').and.returnValue(
-          of(mockOrderDetails)
+          of(mockOrderDetails),
         );
         const action = new UnitOrderActions.LoadOrderDetails(
-          mockOrderDetailsParams
+          mockOrderDetailsParams,
         );
 
         const completion = new UnitOrderActions.LoadOrderDetailsSuccess(
-          mockOrderDetails
+          mockOrderDetails,
         );
 
         actions$ = hot('-a', { a: action });
@@ -137,18 +137,18 @@ describe('Orders effect', () => {
       it('should handle failures for load order details', () => {
         const mockNormalizedError = normalizeHttpError(
           mockError,
-          new MockLoggerService()
+          new MockLoggerService(),
         );
         spyOn(orderHistoryConnector, 'getUnitOrderDetail').and.returnValue(
-          throwError(() => mockError)
+          throwError(() => mockError),
         );
 
         const action = new UnitOrderActions.LoadOrderDetails(
-          mockOrderDetailsParams
+          mockOrderDetailsParams,
         );
 
         const completion = new UnitOrderActions.LoadOrderDetailsFail(
-          mockNormalizedError
+          mockNormalizedError,
         );
 
         actions$ = hot('-a', { a: action });

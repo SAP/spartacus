@@ -15,13 +15,13 @@ import { CdsBackendNotificationAdapter } from './cds-backend-notification-adapte
 export class OccBackendNotification implements CdsBackendNotificationAdapter {
   constructor(
     private http: HttpClient,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
   ) {}
   notifySuccessfulLogin(): Observable<void> {
     return this.http
       .post<{}>(
         `${this.occEndpoints.getBaseUrl()}/users/current/loginnotification`,
-        {}
+        {},
       )
       .pipe(switchMap(() => EMPTY));
   }

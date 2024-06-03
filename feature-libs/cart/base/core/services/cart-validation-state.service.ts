@@ -41,7 +41,7 @@ export class CartValidationStateService implements OnDestroy {
           ).next([]);
           this.navigationIdCount = routerState.navigationId;
         }
-      })
+      }),
     );
 
   ngOnDestroy(): void {
@@ -55,7 +55,7 @@ export class CartValidationStateService implements OnDestroy {
 
   updateValidationResultAndRoutingId(cartModification: CartModification[]) {
     (this.cartValidationResult$ as ReplaySubject<CartModification[]>).next(
-      cartModification
+      cartModification,
     );
     this.setNavigationIdStep();
   }
@@ -65,7 +65,7 @@ export class CartValidationStateService implements OnDestroy {
       .getRouterState()
       .pipe(take(1))
       .subscribe(
-        (routerState) => (this.navigationIdCount = routerState.navigationId)
+        (routerState) => (this.navigationIdCount = routerState.navigationId),
       );
   }
 }

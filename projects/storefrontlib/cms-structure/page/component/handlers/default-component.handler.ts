@@ -37,7 +37,7 @@ export class DefaultComponentHandler implements ComponentHandler {
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
     elementInjector?: Injector,
-    module?: NgModuleRef<any>
+    module?: NgModuleRef<any>,
   ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }> {
     return new Observable<{
       elementRef: ElementRef;
@@ -55,7 +55,7 @@ export class DefaultComponentHandler implements ComponentHandler {
 
       const factory = this.getComponentFactory(
         injector,
-        componentMapping.component
+        componentMapping.component,
       );
 
       if (factory) {
@@ -64,7 +64,7 @@ export class DefaultComponentHandler implements ComponentHandler {
           undefined,
           injector,
           undefined,
-          module
+          module,
         );
         subscriber.next({ elementRef: componentRef.location, componentRef });
       }

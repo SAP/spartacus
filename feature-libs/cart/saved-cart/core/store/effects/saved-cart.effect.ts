@@ -50,12 +50,12 @@ export class SavedCartEffects {
                 userId,
                 cartId,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   loadSavedCarts$: Observable<
@@ -79,12 +79,12 @@ export class SavedCartEffects {
               new SavedCartActions.LoadSavedCartsFail({
                 userId,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   restoreSavedCart$: Observable<
@@ -119,7 +119,7 @@ export class SavedCartEffects {
               cartId: activeCart.code,
               saveCartName: '',
               saveCartDescription: '',
-            })
+            }),
           );
         }
 
@@ -137,7 +137,7 @@ export class SavedCartEffects {
                   previousCartName: activeCart.code,
                 },
               },
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
+              GlobalMessageType.MSG_TYPE_CONFIRMATION,
             );
             return [
               ...actions,
@@ -156,12 +156,12 @@ export class SavedCartEffects {
                 userId,
                 cartId,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   saveCart$: Observable<
@@ -202,12 +202,12 @@ export class SavedCartEffects {
                   saveCartName,
                   saveCartDescription,
                   error: normalizeHttpError(error, this.logger),
-                })
-              )
-            )
+                }),
+              ),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   editSavedCart$: Observable<
@@ -246,12 +246,12 @@ export class SavedCartEffects {
                   saveCartName,
                   saveCartDescription,
                   error: normalizeHttpError(error, this.logger),
-                })
-              )
-            )
+                }),
+              ),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   cloneSavedCart$: Observable<
@@ -289,12 +289,12 @@ export class SavedCartEffects {
                   cartId,
                   saveCartName,
                   error: normalizeHttpError(error, this.logger),
-                })
-              )
-            )
+                }),
+              ),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
@@ -302,6 +302,6 @@ export class SavedCartEffects {
     private savedCartConnector: SavedCartConnector,
     private activeCartService: ActiveCartFacade,
     private globalMessageService: GlobalMessageService,
-    private cartConnector: CartConnector
+    private cartConnector: CartConnector,
   ) {}
 }

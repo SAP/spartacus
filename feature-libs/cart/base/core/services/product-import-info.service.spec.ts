@@ -43,7 +43,7 @@ describe('ProductImportInfoService', () => {
           entry: { product: { name: 'mockProduct1' } },
           quantityAdded: 1,
           statusCode: ProductImportStatus.SUCCESS,
-        })
+        }),
       );
 
       expect(result).toEqual({
@@ -66,7 +66,7 @@ describe('ProductImportInfoService', () => {
           quantity: 4,
           quantityAdded: 1,
           statusCode: ProductImportStatus.LOW_STOCK,
-        })
+        }),
       );
 
       expect(result).toEqual({
@@ -91,7 +91,7 @@ describe('ProductImportInfoService', () => {
           quantity: 4,
           quantityAdded: 0,
           statusCode: ProductImportStatus.NO_STOCK,
-        })
+        }),
       );
 
       expect(result).toEqual({
@@ -112,7 +112,7 @@ describe('ProductImportInfoService', () => {
           productCode: '693923',
           quantity: 1,
           error: { details: [{ type: 'UnknownIdentifierError' }] },
-        })
+        }),
       );
 
       expect(result).toEqual({
@@ -144,7 +144,7 @@ describe('ProductImportInfoService', () => {
       });
       expect(logger.warn).toHaveBeenCalledWith(
         'Unrecognized cart add entry action type while mapping messages',
-        new CartActions.CartAddEntrySuccess(payload)
+        new CartActions.CartAddEntrySuccess(payload),
       );
     });
   });

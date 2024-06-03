@@ -59,7 +59,7 @@ export class QuoteCommentsComponent {
       .pipe(
         take(1),
         // do for error and success
-        finalize(() => this.commentsComponent.resetForm())
+        finalize(() => this.commentsComponent.resetForm()),
       )
       .subscribe(
         // success
@@ -73,9 +73,9 @@ export class QuoteCommentsComponent {
             .translate('quote.comments.invalidComment')
             .pipe(take(1))
             .subscribe(
-              (text) => (this.messagingConfigs.newMessagePlaceHolder = text)
+              (text) => (this.messagingConfigs.newMessagePlaceHolder = text),
             );
-        }
+        },
       );
   }
 
@@ -111,7 +111,7 @@ export class QuoteCommentsComponent {
   showComments(quote: Quote): boolean {
     let numItemComments = 0;
     quote.entries?.forEach(
-      (entry) => (numItemComments += entry.comments?.length ?? 0)
+      (entry) => (numItemComments += entry.comments?.length ?? 0),
     );
     return (
       quote.isEditable ||
@@ -126,7 +126,7 @@ export class QuoteCommentsComponent {
         this.quoteUIConfig.quote?.maxCharsForComments ??
         DEFAULT_COMMENT_MAX_CHARS,
       displayAddMessageSection: this.quoteDetails$.pipe(
-        map((quote) => quote.isEditable)
+        map((quote) => quote.isEditable),
       ),
       dateFormat: 'MMMM d, yyyy h:mm aa',
       defaultItemId: ALL_PRODUCTS_ID,
@@ -148,14 +148,14 @@ export class QuoteCommentsComponent {
           itemList.push(this.convertToItem(entry));
         });
         return itemList;
-      })
+      }),
     );
   }
 
   protected convertToItem(entry: OrderEntry): MessageEventBoundItem {
     if (entry.entryNumber === undefined) {
       throw Error(
-        'entryNumber may not be undefined, entry: ' + JSON.stringify(entry)
+        'entryNumber may not be undefined, entry: ' + JSON.stringify(entry),
       );
     }
     return {
@@ -172,11 +172,11 @@ export class QuoteCommentsComponent {
       map((quote) => {
         const messageEvents: MessageEvent[] = [];
         quote.comments?.forEach((comment) =>
-          messageEvents.push(this.mapCommentToMessageEvent(comment))
+          messageEvents.push(this.mapCommentToMessageEvent(comment)),
         );
         quote.entries?.forEach((entry) => {
           entry.comments?.forEach((comment) =>
-            messageEvents.push(this.mapCommentToMessageEvent(comment, entry))
+            messageEvents.push(this.mapCommentToMessageEvent(comment, entry)),
           );
         });
         messageEvents.sort((eventA, eventB) => {
@@ -186,13 +186,13 @@ export class QuoteCommentsComponent {
           );
         });
         return messageEvents;
-      })
+      }),
     );
   }
 
   protected mapCommentToMessageEvent(
     comment: QuoteComment,
-    entry?: OrderEntry
+    entry?: OrderEntry,
   ): MessageEvent {
     const messages: MessageEvent = {
       author: comment.author?.name,

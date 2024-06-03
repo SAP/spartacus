@@ -22,7 +22,7 @@ export abstract class UnitOrderAdapter {
     pageSize?: number,
     currentPage?: number,
     filters?: string,
-    sort?: string
+    sort?: string,
   ): Observable<OrderHistoryList>;
 
   /**
@@ -33,6 +33,6 @@ export abstract class UnitOrderAdapter {
    */
   abstract loadUnitOrderDetail(
     userId: string,
-    orderCode: string
+    orderCode: string,
   ): Observable<Order>;
 }

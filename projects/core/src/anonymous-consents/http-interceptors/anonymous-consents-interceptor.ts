@@ -30,12 +30,12 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     private anonymousConsentsService: AnonymousConsentsService,
     private authService: AuthService,
     private occEndpoints: OccEndpointsService,
-    private config: AnonymousConsentsConfig
+    private config: AnonymousConsentsConfig,
   ) {}
 
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     return combineLatest([
       this.anonymousConsentsService.getConsents(),
@@ -53,25 +53,25 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
             if (
               event instanceof HttpResponse &&
               (event.url ?? '').startsWith(
-                this.occEndpoints.buildUrl('anonymousConsentTemplates')
+                this.occEndpoints.buildUrl('anonymousConsentTemplates'),
               )
             ) {
               this.handleResponse(
                 isUserLoggedIn,
                 event.headers.get(ANONYMOUS_CONSENTS_HEADER),
-                consents
+                consents,
               );
             }
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
   private handleResponse(
     isUserLoggedIn: boolean,
     newRawConsents: string | null,
-    previousConsents: AnonymousConsent[]
+    previousConsents: AnonymousConsent[],
   ): void {
     if (!isUserLoggedIn && newRawConsents) {
       let newConsents: AnonymousConsent[] = [];
@@ -82,7 +82,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
       if (
         this.anonymousConsentsService.consentsUpdated(
           newConsents,
-          previousConsents
+          previousConsents,
         )
       ) {
         this.anonymousConsentsService.setConsents(newConsents);
@@ -92,7 +92,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
 
   private handleRequest(
     consents: AnonymousConsent[],
-    request: HttpRequest<any>
+    request: HttpRequest<any>,
   ): HttpRequest<any> {
     if (!consents) {
       return request;
@@ -112,7 +112,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
   }
 
   private giveRequiredConsents(
-    consents: AnonymousConsent[]
+    consents: AnonymousConsent[],
   ): AnonymousConsent[] {
     const givenConsents = [...consents];
 
@@ -124,7 +124,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
         if (
           consent.templateCode &&
           this.config.anonymousConsents.requiredConsents.includes(
-            consent.templateCode
+            consent.templateCode,
           )
         ) {
           consent.consentState = ANONYMOUS_CONSENT_STATUS.GIVEN;

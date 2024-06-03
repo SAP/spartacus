@@ -17,7 +17,7 @@ import { CurrentItemService } from '../../shared/current-item.service';
 export class CurrentUnitService extends CurrentItemService<B2BUnit> {
   constructor(
     protected routingService: RoutingService,
-    protected orgUnitService: OrgUnitService
+    protected orgUnitService: OrgUnitService,
   ) {
     super(routingService);
   }

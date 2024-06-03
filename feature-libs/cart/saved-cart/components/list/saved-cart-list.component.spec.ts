@@ -83,7 +83,7 @@ class MockSiteContextComponentService
   getActiveItem = () =>
     interval(100).pipe(
       map(() => 'en'),
-      take(2)
+      take(2),
     );
 }
 
@@ -91,7 +91,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -149,7 +149,7 @@ describe('SavedCartListComponent', () => {
   it('should display header', () => {
     fixture.detectChanges();
     expect(el.query(By.css('h2')).nativeElement.innerText).toContain(
-      'savedCartList.savedCarts'
+      'savedCartList.savedCarts',
     );
   });
 
@@ -158,7 +158,7 @@ describe('SavedCartListComponent', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-saved-cart-list-table'))).not.toBeNull();
     expect(el.queryAll(By.css('.cx-saved-cart-list-cart-id')).length).toEqual(
-      mockCarts.length
+      mockCarts.length,
     );
   });
 
@@ -167,7 +167,7 @@ describe('SavedCartListComponent', () => {
     component.savedCarts$ = of([]);
     fixture.detectChanges();
     expect(
-      el.query(By.css('.cx-saved-cart-list-no-saved-carts'))
+      el.query(By.css('.cx-saved-cart-list-no-saved-carts')),
     ).not.toBeNull();
   });
 
@@ -198,7 +198,7 @@ describe('SavedCartListComponent', () => {
       {
         cart: mockCart1,
         layoutOption: SavedCartFormType.RESTORE,
-      }
+      },
     );
   });
 
@@ -207,7 +207,7 @@ describe('SavedCartListComponent', () => {
       spyOn(Object, 'values').and.returnValue([]);
       const getActiveItemSpy = spyOn(
         siteContextComponentService,
-        'getActiveItem'
+        'getActiveItem',
       ).and.callThrough();
 
       component.ngOnInit();
@@ -235,7 +235,7 @@ describe('SavedCartListComponent', () => {
     it('should reload saved carts if context changed', () => {
       const loadSavedCartsSpy = spyOn(
         savedCartFacade,
-        'loadSavedCarts'
+        'loadSavedCarts',
       ).and.callThrough();
 
       component.ngOnInit();
@@ -249,7 +249,7 @@ describe('SavedCartListComponent', () => {
       spyOn(siteContextComponentService, 'getActiveItem').and.returnValue(of());
       const loadSavedCartsSpy = spyOn(
         savedCartFacade,
-        'loadSavedCarts'
+        'loadSavedCarts',
       ).and.callThrough();
 
       component.ngOnInit();

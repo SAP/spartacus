@@ -143,7 +143,7 @@ describe(`CartValidationGuard`, () => {
         key: 'validation.cartEntriesChangeDuringCheckout',
       },
       GlobalMessageType.MSG_TYPE_ERROR,
-      10000
+      10000,
     );
     expect(activeCartService.reloadActiveCart).toHaveBeenCalled();
     expect(result.toString()).toEqual('/cart');
@@ -174,7 +174,7 @@ describe(`CartValidationGuard`, () => {
         },
       },
       GlobalMessageType.MSG_TYPE_ERROR,
-      10000
+      10000,
     );
     expect(activeCartService.reloadActiveCart).toHaveBeenCalled();
     expect(result.toString()).toEqual('/cart');

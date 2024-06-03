@@ -20,7 +20,7 @@ import { CurrentItemService } from '../../shared/current-item.service';
 export class CurrentUserGroupService extends CurrentItemService<UserGroup> {
   constructor(
     protected routingService: RoutingService,
-    protected userGroupService: UserGroupService
+    protected userGroupService: UserGroupService,
   ) {
     super(routingService);
   }

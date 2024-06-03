@@ -14,7 +14,7 @@ describe('HighlightPipe', () => {
   describe('transform', () => {
     it('should return text with hightlight', () => {
       expect(pipe.transform('eos 400D', 'eos')).toBe(
-        '<span class="highlight">eos</span> 400D'
+        '<span class="highlight">eos</span> 400D',
       );
     });
 
@@ -24,11 +24,11 @@ describe('HighlightPipe', () => {
 
     it('should trim match before replacing hightlight', () => {
       expect(pipe.transform('eos 400D', 'eos ')).toBe(
-        '<span class="highlight">eos</span> 400D'
+        '<span class="highlight">eos</span> 400D',
       );
 
       expect(pipe.transform('eos 400D', ' eos')).toBe(
-        '<span class="highlight">eos</span> 400D'
+        '<span class="highlight">eos</span> 400D',
       );
     });
 

@@ -32,11 +32,11 @@ export class CpqConfiguratorOccService {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
   ) {}
 
   addToCart(
-    parameters: Configurator.AddToCartParameters
+    parameters: Configurator.AddToCartParameters,
   ): Observable<CartModification> {
     const url = this.occEndpointsService.buildUrl('addCpqConfigurationToCart', {
       urlParams: {
@@ -47,7 +47,7 @@ export class CpqConfiguratorOccService {
 
     const occAddToCartParameters = this.converterService.convert(
       parameters,
-      CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER
+      CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
     );
 
     return this.http
@@ -56,7 +56,7 @@ export class CpqConfiguratorOccService {
   }
 
   updateCartEntry(
-    parameters: Configurator.UpdateConfigurationForCartEntryParameters
+    parameters: Configurator.UpdateConfigurationForCartEntryParameters,
   ): Observable<CartModification> {
     const url = this.occEndpointsService.buildUrl(
       'updateCpqConfigurationForCartEntry',
@@ -66,12 +66,12 @@ export class CpqConfiguratorOccService {
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
         },
-      }
+      },
     );
 
     const occUpdateCartEntryParameters = this.converterService.convert(
       parameters,
-      CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
+      CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
     );
 
     return this.http
@@ -80,7 +80,7 @@ export class CpqConfiguratorOccService {
   }
 
   getConfigIdForCartEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters,
   ): Observable<string> {
     const url = this.occEndpointsService.buildUrl(
       'readCpqConfigurationForCartEntry',
@@ -90,18 +90,18 @@ export class CpqConfiguratorOccService {
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
         },
-      }
+      },
     );
 
     return this.http.get<{ configId: string }>(url).pipe(
       map((response) => {
         return response.configId;
-      })
+      }),
     );
   }
 
   getConfigIdForOrderEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters,
   ): Observable<string> {
     const url = this.occEndpointsService.buildUrl(
       'readCpqConfigurationForOrderEntry',
@@ -111,13 +111,13 @@ export class CpqConfiguratorOccService {
           orderId: parameters.orderId,
           orderEntryNumber: parameters.orderEntryNumber,
         },
-      }
+      },
     );
 
     return this.http.get<{ configId: string }>(url).pipe(
       map((response) => {
         return response.configId;
-      })
+      }),
     );
   }
 
@@ -129,10 +129,10 @@ export class CpqConfiguratorOccService {
    * @returns {Observable<Configurator.Configuration>} - Created configuration
    */
   createConfiguration(
-    productSystemId: string
+    productSystemId: string,
   ): Observable<Configurator.Configuration> {
     return this.callCreateConfiguration(productSystemId).pipe(
-      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
     );
   }
 
@@ -145,10 +145,10 @@ export class CpqConfiguratorOccService {
    */
   readConfiguration(
     configId: string,
-    tabId?: string
+    tabId?: string,
   ): Observable<Configurator.Configuration> {
     return this.callReadConfiguration(configId, tabId).pipe(
-      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
     );
   }
 
@@ -159,10 +159,10 @@ export class CpqConfiguratorOccService {
    * @returns {Observable<Configurator.Overview>} - Retrieved overview
    */
   readConfigurationOverview(
-    configId: string
+    configId: string,
   ): Observable<Configurator.Overview> {
     return this.callReadConfigurationOverview(configId).pipe(
-      this.converterService.pipeable(CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER)
+      this.converterService.pipeable(CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER),
     );
   }
 
@@ -174,14 +174,14 @@ export class CpqConfiguratorOccService {
    * @returns {Observable<Configurator.Configuration>} - Updated configuration
    */
   updateAttribute(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration> {
     const updateAttribute: Cpq.UpdateAttribute = this.converterService.convert(
       configuration,
-      CPQ_CONFIGURATOR_SERIALIZER
+      CPQ_CONFIGURATOR_SERIALIZER,
     );
     return this.callUpdateAttribute(updateAttribute).pipe(
-      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
     );
   }
 
@@ -193,14 +193,14 @@ export class CpqConfiguratorOccService {
    * @returns {Observable<Configurator.Configuration>} - Updated configuration
    */
   updateValueQuantity(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration> {
     const updateValue: Cpq.UpdateValue = this.converterService.convert(
       configuration,
-      CPQ_CONFIGURATOR_QUANTITY_SERIALIZER
+      CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
     );
     return this.callUpdateValue(updateValue).pipe(
-      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
     );
   }
 
@@ -211,10 +211,10 @@ export class CpqConfiguratorOccService {
    * @returns {Observable<Configurator.Configuration>} - Retrieved configuration
    */
   readConfigurationForCartEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters,
   ): Observable<Configurator.Configuration> {
     return this.callReadConfigurationForCartEntry(parameters).pipe(
-      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
     );
   }
 
@@ -225,15 +225,15 @@ export class CpqConfiguratorOccService {
    * @returns {Observable<Configurator.Configuration>} - Retrieved configuration
    */
   readConfigurationForOrderEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters,
   ): Observable<Configurator.Configuration> {
     return this.callReadConfigurationForOrderEntry(parameters).pipe(
-      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
     );
   }
 
   protected callCreateConfiguration(
-    productSystemId: string
+    productSystemId: string,
   ): Observable<Cpq.Configuration> {
     const url = this.occEndpointsService.buildUrl('createCpqConfiguration', {
       urlParams: {
@@ -245,7 +245,7 @@ export class CpqConfiguratorOccService {
 
   protected callReadConfiguration(
     configId: string,
-    tabId?: string
+    tabId?: string,
   ): Observable<Cpq.Configuration> {
     const url = this.occEndpointsService.buildUrl('readCpqConfiguration', {
       urlParams: {
@@ -257,7 +257,7 @@ export class CpqConfiguratorOccService {
   }
 
   protected callReadConfigurationOverview(
-    configId: string
+    configId: string,
   ): Observable<Cpq.Configuration> {
     const url = this.occEndpointsService.buildUrl(
       'readCpqConfigurationOverview',
@@ -265,13 +265,13 @@ export class CpqConfiguratorOccService {
         urlParams: {
           configurationId: configId,
         },
-      }
+      },
     );
     return this.http.get<Cpq.Configuration>(url);
   }
 
   protected callUpdateAttribute(
-    updateAttribute: Cpq.UpdateAttribute
+    updateAttribute: Cpq.UpdateAttribute,
   ): Observable<Cpq.Configuration> {
     const url = this.occEndpointsService.buildUrl('updateCpqAttribute', {
       urlParams: {
@@ -282,12 +282,12 @@ export class CpqConfiguratorOccService {
     });
     return this.http.patch<Cpq.Configuration>(
       url,
-      updateAttribute.changeAttributeValue
+      updateAttribute.changeAttributeValue,
     );
   }
 
   protected callUpdateValue(
-    updateValue: Cpq.UpdateValue
+    updateValue: Cpq.UpdateValue,
   ): Observable<Cpq.Configuration> {
     const url = this.occEndpointsService.buildUrl(
       'updateCpqAttributeValueQuantity',
@@ -298,7 +298,7 @@ export class CpqConfiguratorOccService {
           attributeValueId: updateValue.attributeValueId,
         },
         queryParams: { tabId: updateValue.tabId },
-      }
+      },
     );
     return this.http.patch<Cpq.Configuration>(url, {
       quantity: updateValue.quantity,
@@ -306,7 +306,7 @@ export class CpqConfiguratorOccService {
   }
 
   protected callReadConfigurationForCartEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters,
   ): Observable<Cpq.Configuration> {
     const url = this.occEndpointsService.buildUrl(
       'readCpqConfigurationForCartEntryFull',
@@ -316,13 +316,13 @@ export class CpqConfiguratorOccService {
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
         },
-      }
+      },
     );
     return this.http.get<Cpq.Configuration>(url);
   }
 
   protected callReadConfigurationForOrderEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters,
   ): Observable<Cpq.Configuration> {
     let url;
     const ownerType = parameters.owner.type;
@@ -335,7 +335,7 @@ export class CpqConfiguratorOccService {
             orderId: parameters.orderId,
             orderEntryNumber: parameters.orderEntryNumber,
           },
-        }
+        },
       );
     } else if (ownerType === CommonConfigurator.OwnerType.QUOTE_ENTRY) {
       url = this.occEndpointsService.buildUrl(
@@ -346,7 +346,7 @@ export class CpqConfiguratorOccService {
             quoteId: parameters.orderId,
             quoteEntryNumber: parameters.orderEntryNumber,
           },
-        }
+        },
       );
     } else {
       url = this.occEndpointsService.buildUrl(
@@ -357,7 +357,7 @@ export class CpqConfiguratorOccService {
             savedCartId: parameters.orderId,
             entryNumber: parameters.orderEntryNumber,
           },
-        }
+        },
       );
     }
     return this.http.get<Cpq.Configuration>(url);

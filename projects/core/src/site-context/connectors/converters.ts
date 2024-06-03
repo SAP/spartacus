@@ -10,19 +10,19 @@ import { BaseSite, Currency, Language } from '../../model/misc.model';
 import { Country, Region } from '../../model/address.model';
 
 export const LANGUAGE_NORMALIZER = new InjectionToken<Converter<any, Language>>(
-  'LanguageNormalizer'
+  'LanguageNormalizer',
 );
 
 export const CURRENCY_NORMALIZER = new InjectionToken<Converter<any, Currency>>(
-  'CurrencyNormalizer'
+  'CurrencyNormalizer',
 );
 
 export const COUNTRY_NORMALIZER = new InjectionToken<Converter<any, Country>>(
-  'CountryNormalizer'
+  'CountryNormalizer',
 );
 
 export const REGION_NORMALIZER = new InjectionToken<Converter<any, Region>>(
-  'RegionNormalizer'
+  'RegionNormalizer',
 );
 
 export const BASE_SITE_NORMALIZER = new InjectionToken<

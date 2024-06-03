@@ -16,7 +16,7 @@ export const b2bUsersInitialState: ListModel | undefined = undefined;
 
 export function b2bUserEntitiesReducer(
   state = b2bUserInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): B2BUser | undefined {
   switch (action.type) {
     case B2BUserActions.LOAD_B2B_USER_SUCCESS:
@@ -36,7 +36,7 @@ export function b2bUserEntitiesReducer(
         ...state,
         selected: action.payload?.selected,
         roles: [...(state?.roles || [])].filter(
-          (role) => role !== action.payload?.roleId
+          (role) => role !== action.payload?.roleId,
         ),
       };
     case B2BUserActions.ASSIGN_B2B_USER_APPROVER_SUCCESS:
@@ -54,7 +54,7 @@ export function b2bUserEntitiesReducer(
 
 export function userListReducer(
   state = b2bUsersInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case B2BUserActions.LOAD_B2B_USERS_SUCCESS:
@@ -65,7 +65,7 @@ export function userListReducer(
 
 export function b2bUserApproverListReducer(
   state = b2bUsersInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case B2BUserActions.LOAD_B2B_USER_APPROVERS_SUCCESS:
@@ -76,7 +76,7 @@ export function b2bUserApproverListReducer(
 
 export function b2bUserPermissionListReducer(
   state = b2bUsersInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case B2BUserActions.LOAD_B2B_USER_PERMISSIONS_SUCCESS:
@@ -87,7 +87,7 @@ export function b2bUserPermissionListReducer(
 
 export function b2bUserUserGroupListReducer(
   state = b2bUsersInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case B2BUserActions.LOAD_B2B_USER_USER_GROUPS_SUCCESS:

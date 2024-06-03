@@ -117,7 +117,7 @@ describe('CustomerTicketingCloseDialogComponent', () => {
       component.closeRequest();
 
       expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
-        mockEvent
+        mockEvent,
       );
     });
   });

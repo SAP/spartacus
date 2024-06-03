@@ -24,14 +24,14 @@ export class UnitChildItemService extends UnitItemService {
     protected currentItemService: CurrentUnitChildService,
     protected routingService: RoutingService,
     protected formService: UnitFormService,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
   ) {
     super(currentItemService, routingService, formService, unitService);
   }
 
   save(
     form: UntypedFormGroup,
-    key?: string
+    key?: string,
   ): Observable<OrganizationItemStatus<B2BUnit>> {
     // we enable the parentOrgUnit temporarily so that the underlying
     // save method can read the complete form.value.

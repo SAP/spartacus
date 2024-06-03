@@ -311,7 +311,7 @@ export function verifyPDFInvoicesOrderDetailPage() {
 }
 
 export function verifyInvoicesTablePagination(
-  invoicesData = initialInvoicesData
+  invoicesData = initialInvoicesData,
 ) {
   let index = 2;
 
@@ -387,7 +387,7 @@ export function checkTableData(
       value?: number;
       formattedValue?: string;
     };
-  }>
+  }>,
 ) {
   cy.get('.cx-invoices-list-row').its('length').should('eq', rows.length);
 
@@ -422,7 +422,7 @@ export function checkTableData(
             .find(`.cx-invoices-list-${column.class}`)
             .eq(column.occurrence)
             .contains(
-              `${row[column.field].currencyIso} ${row[column.field].value}`
+              `${row[column.field].currencyIso} ${row[column.field].value}`,
             );
         }
       } else if (column.field === 'createdAt' && row[column.field]) {

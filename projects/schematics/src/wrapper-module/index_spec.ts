@@ -40,7 +40,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: Tree;
@@ -76,14 +76,14 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     buildPath = getProjectTsConfigPaths(appTree, BASE_OPTIONS.project)
@@ -99,16 +99,16 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           features: [CHECKOUT_B2B_FEATURE_NAME],
           name: 'schematics-test',
         },
-        appTree
+        appTree,
       );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
       const checkoutFeatureModule = program.getSourceFileOrThrow(
-        checkoutFeatureModulePath
+        checkoutFeatureModulePath,
       );
       const checkoutWrapperModule = program.getSourceFileOrThrow(
-        checkoutWrapperModulePath
+        checkoutWrapperModulePath,
       );
 
       expect(checkoutFeatureModule.print()).toMatchSnapshot();
@@ -125,7 +125,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           features: [CART_BASE_FEATURE_NAME],
           name: 'schematics-test',
         },
-        appTree
+        appTree,
       );
 
       const options: SpartacusWrapperOptions = {
@@ -136,16 +136,16 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
       appTree = await schematicRunner.runSchematic(
         'wrapper-module',
         options,
-        appTree
+        appTree,
       );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
       const cartFeatureModule = program.getSourceFileOrThrow(
-        cartBaseFeatureModulePath
+        cartBaseFeatureModulePath,
       );
       const cartWrapperModule = program.getSourceFileOrThrow(
-        cartBaseWrapperModulePath
+        cartBaseWrapperModulePath,
       );
 
       expect(cartFeatureModule.print()).toMatchSnapshot();
@@ -163,7 +163,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           features: [CHECKOUT_BASE_FEATURE_NAME],
           name: 'schematics-test',
         },
-        appTree
+        appTree,
       );
 
       const options: SpartacusWrapperOptions = {
@@ -175,16 +175,16 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
       appTree = await schematicRunner.runSchematic(
         'wrapper-module',
         options,
-        appTree
+        appTree,
       );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
       const checkoutFeatureModule = program.getSourceFileOrThrow(
-        checkoutFeatureModulePath
+        checkoutFeatureModulePath,
       );
       const checkoutWrapperModule = program.getSourceFileOrThrow(
-        checkoutWrapperModulePath
+        checkoutWrapperModulePath,
       );
 
       expect(checkoutFeatureModule.print()).toMatchSnapshot();
@@ -201,16 +201,16 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           name: 'schematics-test',
           features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
         },
-        appTree
+        appTree,
       );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
       const checkoutFeatureModule = program.getSourceFileOrThrow(
-        checkoutFeatureModulePath
+        checkoutFeatureModulePath,
       );
       const checkoutWrapperModule = program.getSourceFileOrThrow(
-        checkoutWrapperModulePath
+        checkoutWrapperModulePath,
       );
 
       expect(checkoutFeatureModule.print()).toMatchSnapshot();
@@ -227,19 +227,19 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           name: 'schematics-test',
           features: [DIGITAL_PAYMENTS_FEATURE_NAME],
         },
-        appTree
+        appTree,
       );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
       const checkoutWrapperModule = program.getSourceFileOrThrow(
-        checkoutWrapperModulePath
+        checkoutWrapperModulePath,
       );
       const checkoutFeatureModule = program.getSourceFileOrThrow(
-        checkoutFeatureModulePath
+        checkoutFeatureModulePath,
       );
       const dpFeaturesModule = program.getSourceFileOrThrow(
-        digitalPaymentsFeatureModulePath
+        digitalPaymentsFeatureModulePath,
       );
 
       expect(checkoutWrapperModule.print()).toMatchSnapshot();
@@ -262,7 +262,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
             DIGITAL_PAYMENTS_FEATURE_NAME,
           ],
         },
-        appTree
+        appTree,
       );
 
       program = createProgram(appTree, appTree.root.path, buildPath).program;
@@ -270,7 +270,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
 
     it('Should order the imports in the Spartacus features module - DP after checkout', async () => {
       const spartacusFeaturesModule = program.getSourceFileOrThrow(
-        spartacusFeaturesModulePath
+        spartacusFeaturesModulePath,
       );
 
       const spartacusFeaturesModuleContent = spartacusFeaturesModule.getText();
@@ -279,18 +279,18 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
 
       const checkoutFeatureModuleIndex = spartacusFeaturesModuleContent.indexOf(
         'CheckoutFeatureModule',
-        importsArrayStart
+        importsArrayStart,
       );
       const dpFeatureModuleIndex = spartacusFeaturesModuleContent.indexOf(
         'DigitalPaymentsFeatureModule',
-        importsArrayStart
+        importsArrayStart,
       );
       expect(checkoutFeatureModuleIndex).toBeLessThan(dpFeatureModuleIndex);
     });
 
     it('Should order the imports in the wrapper module - DP after Checkout', async () => {
       const checkoutWrapperModule = program.getSourceFileOrThrow(
-        checkoutWrapperModulePath
+        checkoutWrapperModulePath,
       );
 
       expect(checkoutWrapperModule.print()).toMatchSnapshot();
@@ -298,7 +298,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
 
     it('Should create DP feature module', async () => {
       const dpFeaturesModule = program.getSourceFileOrThrow(
-        digitalPaymentsFeatureModulePath
+        digitalPaymentsFeatureModulePath,
       );
 
       expect(dpFeaturesModule.print()).toMatchSnapshot();
@@ -306,7 +306,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
 
     it('Should create checkout feature module', async () => {
       const checkoutFeatureModule = program.getSourceFileOrThrow(
-        checkoutFeatureModulePath
+        checkoutFeatureModulePath,
       );
 
       expect(checkoutFeatureModule.print()).toMatchSnapshot();
@@ -322,13 +322,13 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           name: 'schematics-test',
           features: [CHECKOUT_BASE_FEATURE_NAME],
         },
-        appTree
+        appTree,
       );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
       const spartacusFeaturesModule = program.getSourceFileOrThrow(
-        spartacusFeaturesModulePath
+        spartacusFeaturesModulePath,
       );
       const checkoutImport: Import = {
         moduleSpecifier: SPARTACUS_CHECKOUT_BASE,
@@ -342,11 +342,11 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
       saveAndFormat(spartacusFeaturesModule);
 
       const checkoutFeatureModule = program.getSourceFileOrThrow(
-        checkoutFeatureModulePath
+        checkoutFeatureModulePath,
       );
       const spartacusProvider = findDynamicImport(
         checkoutFeatureModule,
-        checkoutImport
+        checkoutImport,
       )?.getFirstAncestorByKindOrThrow(SyntaxKind.CallExpression);
       if (!spartacusProvider) {
         throw new Error('Could not find the spartacus provider');
@@ -362,14 +362,14 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           name: 'schematics-test',
           features: [DIGITAL_PAYMENTS_FEATURE_NAME],
         },
-        appTree
+        appTree,
       );
     });
 
     it('should append the feature module after it, and not add a dynamic import to the feature module', () => {
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
       const checkoutFeatureModule = program.getSourceFileOrThrow(
-        checkoutFeatureModulePath
+        checkoutFeatureModulePath,
       );
       expect(program.getSourceFile(checkoutWrapperModulePath)).toBeFalsy();
       expect(checkoutFeatureModule.print()).toMatchSnapshot();
@@ -379,7 +379,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
       const spartacusFeaturesModule = program.getSourceFileOrThrow(
-        spartacusFeaturesModulePath
+        spartacusFeaturesModulePath,
       );
 
       const spartacusFeaturesModuleContent = spartacusFeaturesModule.getText();
@@ -388,11 +388,11 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
 
       const checkoutFeatureModuleIndex = spartacusFeaturesModuleContent.indexOf(
         'CheckoutFeatureModule',
-        importsArrayStart
+        importsArrayStart,
       );
       const dpFeatureModuleIndex = spartacusFeaturesModuleContent.indexOf(
         'DigitalPaymentsFeatureModule',
-        importsArrayStart
+        importsArrayStart,
       );
       expect(checkoutFeatureModuleIndex).toBeLessThan(dpFeatureModuleIndex);
     });

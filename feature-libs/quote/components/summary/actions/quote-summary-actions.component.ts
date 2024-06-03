@@ -92,7 +92,7 @@ export class QuoteSummaryActionsComponent
     //submit button present and threshold not reached: Display message
     this.quoteDetails$.pipe(take(1)).subscribe((quote) => {
       const mustDisableAction = quote.allowedActions.find((action) =>
-        this.mustDisableAction(action.type, quote)
+        this.mustDisableAction(action.type, quote),
       );
       if (mustDisableAction) {
         this.globalMessageService.add(
@@ -102,7 +102,7 @@ export class QuoteSummaryActionsComponent
               minValue: quote.threshold,
             },
           },
-          GlobalMessageType.MSG_TYPE_WARNING
+          GlobalMessageType.MSG_TYPE_WARNING,
         );
       }
     });
@@ -116,7 +116,7 @@ export class QuoteSummaryActionsComponent
    */
   protected getActionButtonsHeight(): number {
     const actionButtonsHeight = this.quoteStorefrontUtilsService.getHeight(
-      this.CX_SECTION_SELECTOR
+      this.CX_SECTION_SELECTOR,
     );
 
     return actionButtonsHeight !== 0
@@ -141,7 +141,7 @@ export class QuoteSummaryActionsComponent
   protected adjustBottomProperty(): void {
     const headerSlotBottom = this.quoteStorefrontUtilsService.getDomRectValue(
       this.HEADER_SLOT_SELECTOR,
-      this.BOTTOM
+      this.BOTTOM,
     );
 
     const windowHeight = this.quoteStorefrontUtilsService.getWindowHeight();
@@ -157,13 +157,13 @@ export class QuoteSummaryActionsComponent
       this.quoteStorefrontUtilsService.changeStyling(
         this.CX_SECTION_SELECTOR,
         this.BOTTOM,
-        bottom + 'px'
+        bottom + 'px',
       );
     } else {
       this.quoteStorefrontUtilsService.changeStyling(
         this.CX_SECTION_SELECTOR,
         this.BOTTOM,
-        '0'
+        '0',
       );
     }
   }
@@ -179,7 +179,7 @@ export class QuoteSummaryActionsComponent
     };
 
     const slot = this.quoteStorefrontUtilsService.getElement(
-      'cx-page-slot.CenterRightContent'
+      'cx-page-slot.CenterRightContent',
     );
 
     if (slot) {
@@ -231,7 +231,7 @@ export class QuoteSummaryActionsComponent
       !this.isConfirmationDialogRequired(
         action,
         quote.state,
-        cartIsEmptyOrQuoteCart
+        cartIsEmptyOrQuoteCart,
       )
     ) {
       this.performAction(action, quote);
@@ -256,7 +256,7 @@ export class QuoteSummaryActionsComponent
         LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
         this.element,
         this.viewContainerRef,
-        { confirmationContext: context }
+        { confirmationContext: context },
       )
       ?.pipe(take(1))
       .subscribe();
@@ -264,7 +264,7 @@ export class QuoteSummaryActionsComponent
 
   protected handleConfirmationDialogClose(
     action: QuoteActionType,
-    context: ConfirmationContext
+    context: ConfirmationContext,
   ) {
     this.subscription.unsubscribe();
     this.subscription = new Subscription();
@@ -277,11 +277,11 @@ export class QuoteSummaryActionsComponent
           tap(() =>
             this.globalMessageService.add(
               { key: context.successMessage },
-              this.getMessageType(action)
-            )
-          )
+              this.getMessageType(action),
+            ),
+          ),
         )
-        .subscribe()
+        .subscribe(),
     );
   }
 
@@ -332,7 +332,7 @@ export class QuoteSummaryActionsComponent
   protected isConfirmationDialogRequired(
     action: QuoteActionType,
     state: QuoteState,
-    cartIsEmptyOrQuoteCart: boolean
+    cartIsEmptyOrQuoteCart: boolean,
   ): boolean {
     const mappingConfig = this.quoteUIConfig.quote?.confirmActionDialogMapping;
     const dialogConfig =
@@ -347,7 +347,7 @@ export class QuoteSummaryActionsComponent
 
   protected prepareConfirmationContext(
     action: QuoteActionType,
-    quote: Quote
+    quote: Quote,
   ): ConfirmationContext {
     const dialogConfig = this.getConfirmDialogConfig(action, quote.state);
     const confirmationContext: ConfirmationContext = {
@@ -374,7 +374,7 @@ export class QuoteSummaryActionsComponent
 
   protected getConfirmDialogConfig(
     action: QuoteActionType,
-    state: QuoteState
+    state: QuoteState,
   ): ConfirmActionDialogConfig {
     const mappingConfig = this.quoteUIConfig.quote?.confirmActionDialogMapping;
 
@@ -384,7 +384,7 @@ export class QuoteSummaryActionsComponent
       mappingConfig?.[QuoteRoleType.ALL]?.[action];
     if (!config) {
       throw new Error(
-        `Dialog Config expected for quote in state ${state} and action ${action}, but none found in config ${mappingConfig}`
+        `Dialog Config expected for quote in state ${state} and action ${action}, but none found in config ${mappingConfig}`,
       );
     }
 

@@ -64,14 +64,14 @@ const accountSummaryDocumentsResult: AccountSummaryList = {
 const accountSummaryAttachmentFile = new Blob();
 class MockAccountSummaryAdapter implements AccountSummaryAdapter {
   getDocumentAttachment = createSpy('getDocumentAttachment').and.returnValue(
-    accountSummaryAttachmentFile
+    accountSummaryAttachmentFile,
   );
 
   getAccountSummary = createSpy('getAccountSummary').and.returnValue(
-    of(accountSummaryResult)
+    of(accountSummaryResult),
   );
   getDocumentList = createSpy('getDocumentList').and.returnValue(
-    of(accountSummaryDocumentsResult)
+    of(accountSummaryDocumentsResult),
   );
 }
 
@@ -105,7 +105,7 @@ describe('AccountSummaryConnector', () => {
     expect(adapter.getDocumentList).toHaveBeenCalledWith(
       userId,
       orgUnitId,
-      queryParams
+      queryParams,
     );
   });
 
@@ -114,13 +114,13 @@ describe('AccountSummaryConnector', () => {
       userId,
       orgUnitId,
       orgDocumentId,
-      orgDocumentAttachmentId
+      orgDocumentAttachmentId,
     );
     expect(adapter.getDocumentAttachment).toHaveBeenCalledWith(
       userId,
       orgUnitId,
       orgDocumentId,
-      orgDocumentAttachmentId
+      orgDocumentAttachmentId,
     );
   });
 });

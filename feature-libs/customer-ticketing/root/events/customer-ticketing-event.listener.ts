@@ -36,7 +36,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
 
   constructor(
     protected eventService: EventService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {
     this.onLanguageAndCurrencySetEvent();
     this.onLoginAndLogoutEvent();
@@ -54,10 +54,10 @@ export class CustomerTicketingEventListener implements OnDestroy {
           {
             key: 'createCustomerTicket.ticketCreated',
           },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
         this.eventService.dispatch({}, GetTicketsQueryReloadEvents);
-      })
+      }),
     );
   }
 
@@ -65,11 +65,11 @@ export class CustomerTicketingEventListener implements OnDestroy {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent)
+        this.eventService.get(CurrencySetEvent),
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketsQueryReloadEvents);
         this.eventService.dispatch({}, GetTicketQueryReloadEvent);
-      })
+      }),
     );
   }
 
@@ -77,16 +77,16 @@ export class CustomerTicketingEventListener implements OnDestroy {
     this.subscriptions.add(
       merge(
         this.eventService.get(LogoutEvent),
-        this.eventService.get(LoginEvent)
+        this.eventService.get(LoginEvent),
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryResetEvent);
         this.eventService.dispatch({}, GetTicketsQueryResetEvents);
         this.eventService.dispatch({}, GetTicketCategoryQueryResetEvent);
         this.eventService.dispatch(
           {},
-          GetTicketAssociatedObjectsQueryResetEvent
+          GetTicketAssociatedObjectsQueryResetEvent,
         );
-      })
+      }),
     );
   }
 
@@ -94,7 +94,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
     this.subscriptions.add(
       this.eventService.get(NewMessageEvent).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryReloadEvent);
-      })
+      }),
     );
   }
 
@@ -106,9 +106,9 @@ export class CustomerTicketingEventListener implements OnDestroy {
           {
             key: 'customerTicketingDetails.requestClosed',
           },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
-      })
+      }),
     );
   }
 
@@ -120,9 +120,9 @@ export class CustomerTicketingEventListener implements OnDestroy {
           {
             key: 'customerTicketingDetails.requestReopened',
           },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
-      })
+      }),
     );
   }
 
@@ -130,7 +130,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
     this.subscriptions.add(
       this.eventService.get(UploadAttachmentSuccessEvent).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryReloadEvent);
-      })
+      }),
     );
   }
 

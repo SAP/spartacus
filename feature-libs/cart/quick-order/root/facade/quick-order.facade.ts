@@ -54,7 +54,7 @@ export abstract class QuickOrderFacade {
    */
   abstract searchProducts(
     query: string,
-    maxProducts?: number
+    maxProducts?: number,
   ): Observable<Product[]>;
 
   /**
@@ -67,7 +67,7 @@ export abstract class QuickOrderFacade {
    */
   abstract canAdd(
     code?: string,
-    productsData?: ProductData[]
+    productsData?: ProductData[],
   ): Observable<boolean>;
 
   /**

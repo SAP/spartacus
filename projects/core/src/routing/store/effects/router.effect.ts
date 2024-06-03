@@ -22,19 +22,22 @@ export class RouterEffects {
         ofType(
           SiteContextActions.LANGUAGE_CHANGE,
           AuthActions.LOGOUT,
-          AuthActions.LOGIN
+          AuthActions.LOGIN,
         ),
         tap(() => {
           const filteredConfig = this.router.config.filter(
-            (route: CmsRoute) => !(route.data && route.data.cxCmsRouteContext)
+            (route: CmsRoute) => !(route.data && route.data.cxCmsRouteContext),
           );
           if (filteredConfig.length !== this.router.config.length) {
             this.router.resetConfig(filteredConfig);
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
-  constructor(private actions$: Actions, private router: Router) {}
+  constructor(
+    private actions$: Actions,
+    private router: Router,
+  ) {}
 }

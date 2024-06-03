@@ -21,7 +21,7 @@ describe('anonymous consents reducer', () => {
       const result = fromReducer.toggleConsentStatus(
         mockAnonymousConsents,
         mockTemplateCode,
-        ANONYMOUS_CONSENT_STATUS.GIVEN
+        ANONYMOUS_CONSENT_STATUS.GIVEN,
       );
       expect(result).toEqual([
         {
@@ -43,7 +43,7 @@ describe('anonymous consents reducer', () => {
       const result = fromReducer.toggleConsentStatus(
         mockAnonymousConsents,
         mockTemplateCode,
-        ANONYMOUS_CONSENT_STATUS.WITHDRAWN
+        ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
       );
       expect(result).toEqual([
         {
@@ -80,7 +80,7 @@ describe('anonymous consents reducer', () => {
     describe('GIVE_ANONYMOUS_CONSENT', () => {
       it('should toggle the consent to given', () => {
         const action = new AnonymousConsentsActions.GiveAnonymousConsent(
-          mockTemplateCode
+          mockTemplateCode,
         );
         const result = fromReducer.reducer(mockState, action);
 
@@ -97,7 +97,7 @@ describe('anonymous consents reducer', () => {
     describe('WITHDRAW_ANONYMOUS_CONSENT', () => {
       it('should toggle the consent to withdrawn', () => {
         const action = new AnonymousConsentsActions.WithdrawAnonymousConsent(
-          mockTemplateCode
+          mockTemplateCode,
         );
         const result = fromReducer.reducer(mockState, action);
 
@@ -114,7 +114,7 @@ describe('anonymous consents reducer', () => {
     describe('SET_ANONYMOUS_CONSENTS', () => {
       it('should toggle the consent to withdrawn', () => {
         const action = new AnonymousConsentsActions.SetAnonymousConsents(
-          mockAnonymousConsents
+          mockAnonymousConsents,
         );
         const result = fromReducer.reducer(mockState, action);
         expect(result).toEqual(mockAnonymousConsents);

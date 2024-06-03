@@ -27,43 +27,43 @@ export class OccStockAdapter implements StockAdapter {
 
   constructor(
     protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService
+    protected occEndpointsService: OccEndpointsService,
   ) {
     // Intentional empty constructor
   }
 
   loadStockLevels(
     productCode: string,
-    location: LocationSearchParams
+    location: LocationSearchParams,
   ): Observable<StoreFinderStockSearchPage> {
     return this.http
       .get<StoreFinderStockSearchPage>(
         this.occEndpointsService.buildUrl('stock', {
           urlParams: { productCode },
           queryParams: { ...location, fields: 'FULL' },
-        })
+        }),
       )
       .pipe(
         catchError((error: any) => {
           throw normalizeHttpError(error, this.logger);
-        })
+        }),
       );
   }
 
   loadStockLevelAtStore(
     productCode: string,
-    storeName: string
+    storeName: string,
   ): Observable<Stock> {
     return this.http
       .get<Stock>(
         this.occEndpointsService.buildUrl('stockAtStore', {
           urlParams: { productCode, storeName },
-        })
+        }),
       )
       .pipe(
         catchError((error: any) => {
           throw normalizeHttpError(error, this.logger);
-        })
+        }),
       );
   }
 }

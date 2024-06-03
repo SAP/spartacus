@@ -25,19 +25,19 @@ export class PageLayoutComponent {
     this.pageLayoutService.templateName$;
 
   readonly layoutName$: Observable<string> = this.section$.pipe(
-    switchMap((section) => (section ? of(section) : this.templateName$))
+    switchMap((section) => (section ? of(section) : this.templateName$)),
   );
 
   readonly slots$: Observable<string[]> = this.section$.pipe(
-    switchMap((section) => this.pageLayoutService.getSlots(section))
+    switchMap((section) => this.pageLayoutService.getSlots(section)),
   );
 
   readonly pageFoldSlot$: Observable<string | undefined> =
     this.templateName$.pipe(
       switchMap((templateName) =>
-        this.pageLayoutService.getPageFoldSlot(templateName)
+        this.pageLayoutService.getPageFoldSlot(templateName),
       ),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
 
   constructor(protected pageLayoutService: PageLayoutService) {

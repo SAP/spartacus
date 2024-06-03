@@ -103,7 +103,7 @@ describe('Requested Delivery Date', { testIsolation: false }, () => {
         s4Helper.s4omTabbingOrderConfig,
         rddHelper.poNumber,
         s4Helper.s4omCostCenter,
-        s4Helper.s4omB2BUnit
+        s4Helper.s4omB2BUnit,
       );
       b2bCheckout.placeOrder('/order-confirmation');
     });
@@ -117,7 +117,7 @@ describe('Requested Delivery Date', { testIsolation: false }, () => {
         null,
         rddHelper.poNumber,
         s4Helper.s4omCostCenter,
-        s4Helper.s4omB2BUnit
+        s4Helper.s4omB2BUnit,
       );
       rddHelper.verifyRDDOrderDetailPage(formattedDate);
       s4Helper.setOrderConfirmationIdInSessionStorage('rddOrderId');
@@ -135,7 +135,7 @@ describe('Requested Delivery Date', { testIsolation: false }, () => {
       s4Helper.findRowInOrderHistoryTable(
         ordersAlias,
         rddOrderId,
-        rddHelper.poNumber
+        rddHelper.poNumber,
       );
     });
 
@@ -143,7 +143,7 @@ describe('Requested Delivery Date', { testIsolation: false }, () => {
       cy.intercept({
         method: 'GET',
         pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/current/orders/*`,
       }).as('getOrderDetail');
 
@@ -160,7 +160,7 @@ describe('Requested Delivery Date', { testIsolation: false }, () => {
         rddHelper.poNumber,
         s4Helper.s4omCostCenter,
         s4Helper.s4omB2BUnit,
-        false
+        false,
       );
       rddHelper.verifyRDDOrderDetailPage(formattedDate);
     });

@@ -27,15 +27,15 @@ export class ComponentsEffects {
 
   constructor(
     private actions$: Actions,
-    private cmsComponentConnector: CmsComponentConnector
+    private cmsComponentConnector: CmsComponentConnector,
   ) {}
 
   private contextChange$: Observable<Action> = this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
       AuthActions.LOGOUT,
-      AuthActions.LOGIN
-    )
+      AuthActions.LOGIN,
+    ),
   );
 
   loadComponent$ = createEffect(
@@ -47,7 +47,7 @@ export class ComponentsEffects {
         this.actions$.pipe(
           ofType<CmsActions.LoadCmsComponent>(CmsActions.LOAD_CMS_COMPONENT),
           groupBy((actions) =>
-            serializePageContext(actions.payload.pageContext)
+            serializePageContext(actions.payload.pageContext),
           ),
           mergeMap((actionGroup) =>
             actionGroup.pipe(
@@ -55,18 +55,18 @@ export class ComponentsEffects {
               mergeMap((actions) =>
                 this.loadComponentsEffect(
                   actions.map((action) => action.payload.uid),
-                  actions[0].payload.pageContext ?? { id: '' }
-                )
-              )
-            )
+                  actions[0].payload.pageContext ?? { id: '' },
+                ),
+              ),
+            ),
           ),
-          withdrawOn(this.contextChange$)
-        )
+          withdrawOn(this.contextChange$),
+        ),
   );
 
   private loadComponentsEffect(
     componentUids: string[],
-    pageContext: PageContext
+    pageContext: PageContext,
   ): Observable<
     | CmsActions.LoadCmsComponentSuccess<CmsComponent>
     | CmsActions.LoadCmsComponentFail
@@ -84,7 +84,7 @@ export class ComponentsEffects {
               component,
               uid: component.uid,
               pageContext,
-            })
+            }),
           );
           uidsLeft.delete(component.uid ?? '');
         }
@@ -95,7 +95,7 @@ export class ComponentsEffects {
             new CmsActions.LoadCmsComponentFail({
               uid,
               pageContext,
-            })
+            }),
           );
         });
         return from(actions);
@@ -108,10 +108,10 @@ export class ComponentsEffects {
                 uid,
                 error: normalizeHttpError(error, this.logger),
                 pageContext,
-              })
-          )
-        )
-      )
+              }),
+          ),
+        ),
+      ),
     );
   }
 }

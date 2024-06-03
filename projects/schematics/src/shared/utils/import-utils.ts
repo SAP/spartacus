@@ -27,7 +27,7 @@ export interface ImportSymbol {
  * Checks if the provided import is a Spartacus library.
  */
 export function isImportedFromSpartacusLibs(
-  node: Identifier | string
+  node: Identifier | string,
 ): boolean {
   return isImportedFrom(node, SPARTACUS_SCOPE);
 }
@@ -36,7 +36,7 @@ export function isImportedFromSpartacusLibs(
  * Checks if the provided imports is a core Spartacus library.
  */
 export function isImportedFromSpartacusCoreLib(
-  node: Identifier | string
+  node: Identifier | string,
 ): boolean {
   for (const coreScope of CORE_SPARTACUS_SCOPES) {
     if (isImportedFrom(node, coreScope)) {
@@ -49,7 +49,7 @@ export function isImportedFromSpartacusCoreLib(
 
 export function isImportedFrom(
   node: Identifier | string,
-  toCheck: string
+  toCheck: string,
 ): boolean {
   let moduleImportPath: string;
   if (typeof node === 'string') {
@@ -71,12 +71,12 @@ export function getImportPath(node: Identifier): string | undefined {
 }
 
 export function getImportDeclaration(
-  node: Identifier
+  node: Identifier,
 ): ImportDeclaration | undefined {
   const references = node.findReferencesAsNodes();
   for (const reference of references) {
     const importDeclaration = reference?.getFirstAncestorByKind(
-      tsMorph.SyntaxKind.ImportDeclaration
+      tsMorph.SyntaxKind.ImportDeclaration,
     );
     if (importDeclaration) {
       return importDeclaration;
@@ -99,7 +99,7 @@ export function collectDynamicImports(source: SourceFile): ArrowFunction[] {
     const higherArrowFunctions = element
       .getDescendantsOfKind(tsMorph.SyntaxKind.ArrowFunction)
       .filter((arrowFn) =>
-        arrowFn.getParentIfKind(tsMorph.SyntaxKind.PropertyAssignment)
+        arrowFn.getParentIfKind(tsMorph.SyntaxKind.PropertyAssignment),
       );
     arrowFunctions = arrowFunctions.concat(higherArrowFunctions);
   }
@@ -112,7 +112,7 @@ export function collectDynamicImports(source: SourceFile): ArrowFunction[] {
  * E.g. for the given `() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)` it returns `import('@spartacus/cart/base')`
  */
 export function getDynamicImportCallExpression(
-  arrowFunction: ArrowFunction
+  arrowFunction: ArrowFunction,
 ): CallExpression | undefined {
   return arrowFunction
     .getFirstDescendantByKind(tsMorph.SyntaxKind.ImportKeyword)
@@ -123,7 +123,7 @@ export function getDynamicImportCallExpression(
  * Returns the import path, e.g. @spartacus/cart/base
  */
 export function getDynamicImportImportPath(
-  arrowFunction: ArrowFunction
+  arrowFunction: ArrowFunction,
 ): string | undefined {
   return getDynamicImportCallExpression(arrowFunction)
     ?.getFirstDescendantByKind(tsMorph.SyntaxKind.StringLiteral)
@@ -135,7 +135,7 @@ export function getDynamicImportImportPath(
  * E.g. for the given `() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)` it returns `m.CartBaseModule`
  */
 export function getDynamicImportPropertyAccess(
-  arrowFunction: ArrowFunction
+  arrowFunction: ArrowFunction,
 ): PropertyAccessExpression | undefined {
   return arrowFunction
     .getFirstDescendantByKind(tsMorph.SyntaxKind.ArrowFunction)
@@ -147,7 +147,7 @@ export function getDynamicImportPropertyAccess(
  */
 export function createImports(
   sourceFile: SourceFile,
-  imports: Import | Import[]
+  imports: Import | Import[],
 ): ImportDeclaration[] {
   const importDeclarations: ImportDeclaration[] = [];
   ([] as Import[]).concat(imports).forEach((specifiedImport) => {
@@ -168,7 +168,7 @@ export function createImports(
 export function staticImportExists(
   sourceFile: SourceFile,
   importPathToFind: string,
-  moduleNameToFind: string
+  moduleNameToFind: string,
 ): boolean {
   const importDeclarations = sourceFile.getImportDeclarations();
   for (const importDeclaration of importDeclarations) {
@@ -192,19 +192,20 @@ export function staticImportExists(
  */
 export function removeImports(
   sourceFile: SourceFile,
-  symbolsToRemove: ImportSymbol[]
+  symbolsToRemove: ImportSymbol[],
 ): ImportSpecifier[] {
   const removedImports: ImportSpecifier[] = [];
 
   sourceFile.getImportDeclarations().forEach((id) => {
-    id.getImportClause()
+    id
+      .getImportClause()
       ?.getNamedImports()
       .forEach((namedImport) => {
         const importName = namedImport.getName();
         const symbolToRemove = symbolsToRemove.find(
           (symbol) =>
             symbol.node === importName &&
-            symbol.importPath === id.getModuleSpecifierValue()
+            symbol.importPath === id.getModuleSpecifierValue(),
         );
 
         if (symbolToRemove) {
@@ -236,7 +237,7 @@ export function isRelative(path: string): boolean {
  */
 export function findDynamicImport(
   sourceFile: SourceFile,
-  importToFind: Import
+  importToFind: Import,
 ): ArrowFunction | undefined {
   const collectedDynamicImports = collectDynamicImports(sourceFile);
 

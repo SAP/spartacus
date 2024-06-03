@@ -31,10 +31,10 @@ class MockCheckoutPaymentTypeService
   getPaymentTypes = createSpy().and.returnValue(of(mockPaymentTypes));
   setPaymentType = createSpy().and.returnValue(of('setPaymentType'));
   getSelectedPaymentTypeState = createSpy().and.returnValue(
-    selectedPaymentType$.asObservable()
+    selectedPaymentType$.asObservable(),
   );
   getPurchaseOrderNumberState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: 'test-po' })
+    of({ loading: false, error: false, data: 'test-po' }),
   );
 }
 
@@ -44,10 +44,10 @@ class MockCheckoutOnePaymentTypeService
   getPaymentTypes = createSpy().and.returnValue(of(mockDisableOnePaymentTypes));
   setPaymentType = createSpy().and.returnValue(of(undefined));
   getSelectedPaymentTypeState = createSpy().and.returnValue(
-    selectedPaymentType$.asObservable()
+    selectedPaymentType$.asObservable(),
   );
   getPurchaseOrderNumberState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: 'test-po' })
+    of({ loading: false, error: false, data: 'test-po' }),
   );
 }
 
@@ -84,33 +84,31 @@ describe('CheckoutOnePaymentTypeComponent', () => {
 
   let checkoutStepService: CheckoutStepService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [CheckoutPaymentTypeComponent, MockSpinnerComponent],
-        providers: [
-          {
-            provide: CheckoutPaymentTypeFacade,
-            useClass: MockCheckoutOnePaymentTypeService,
-          },
-          {
-            provide: CheckoutStepService,
-            useClass: MockCheckoutStepService,
-          },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [CheckoutPaymentTypeComponent, MockSpinnerComponent],
+      providers: [
+        {
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockCheckoutOnePaymentTypeService,
+        },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+      ],
+    }).compileComponents();
 
-      checkoutStepService = TestBed.inject(
-        CheckoutStepService as Type<CheckoutStepService>
-      );
-    })
-  );
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>,
+    );
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
@@ -126,7 +124,7 @@ describe('CheckoutOnePaymentTypeComponent', () => {
       });
       expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
         CheckoutStepType.PAYMENT_DETAILS,
-        false
+        false,
       );
       done();
     });
@@ -141,36 +139,34 @@ describe('CheckoutPaymentTypeComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [CheckoutPaymentTypeComponent, MockSpinnerComponent],
-        providers: [
-          {
-            provide: CheckoutPaymentTypeFacade,
-            useClass: MockCheckoutPaymentTypeService,
-          },
-          {
-            provide: CheckoutStepService,
-            useClass: MockCheckoutStepService,
-          },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [CheckoutPaymentTypeComponent, MockSpinnerComponent],
+      providers: [
+        {
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockCheckoutPaymentTypeService,
+        },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+      ],
+    }).compileComponents();
 
-      checkoutPaymentTypeFacade = TestBed.inject(
-        CheckoutPaymentTypeFacade as Type<CheckoutPaymentTypeFacade>
-      );
-      checkoutStepService = TestBed.inject(
-        CheckoutStepService as Type<CheckoutStepService>
-      );
-    })
-  );
+    checkoutPaymentTypeFacade = TestBed.inject(
+      CheckoutPaymentTypeFacade as Type<CheckoutPaymentTypeFacade>,
+    );
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>,
+    );
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
@@ -195,7 +191,7 @@ describe('CheckoutPaymentTypeComponent', () => {
       expect(selectedPaymentType).toEqual({ code: 'ACCOUNT' });
       expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
         CheckoutStepType.PAYMENT_DETAILS,
-        true
+        true,
       );
       done();
     });
@@ -213,7 +209,7 @@ describe('CheckoutPaymentTypeComponent', () => {
     component.changeType('ACCOUNT');
     expect(checkoutPaymentTypeFacade.setPaymentType).toHaveBeenCalledWith(
       'ACCOUNT',
-      'test-po'
+      'test-po',
     );
   });
 
@@ -225,7 +221,7 @@ describe('CheckoutPaymentTypeComponent', () => {
     component.next();
 
     expect(checkoutStepService.next).toHaveBeenCalledWith(
-      <any>mockActivatedRoute
+      <any>mockActivatedRoute,
     );
     expect(checkoutPaymentTypeFacade.setPaymentType).toHaveBeenCalled();
   });
@@ -241,7 +237,7 @@ describe('CheckoutPaymentTypeComponent', () => {
     component.next();
 
     expect(checkoutStepService.next).toHaveBeenCalledWith(
-      <any>mockActivatedRoute
+      <any>mockActivatedRoute,
     );
     expect(checkoutPaymentTypeFacade.setPaymentType).not.toHaveBeenCalled();
   });
@@ -250,7 +246,7 @@ describe('CheckoutPaymentTypeComponent', () => {
     component.back();
 
     expect(checkoutStepService.back).toHaveBeenCalledWith(
-      <any>mockActivatedRoute
+      <any>mockActivatedRoute,
     );
   });
 
@@ -279,7 +275,7 @@ describe('CheckoutPaymentTypeComponent', () => {
 
       expect(
         el.query(By.css('.cx-checkout-btns .btn-primary')).nativeElement
-          .disabled
+          .disabled,
       ).toBe(false);
     });
   });

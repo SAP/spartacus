@@ -61,7 +61,7 @@ describe('IntersectionService', () => {
         entry,
       ]);
       spyOn<any>(service, 'createIntersectionObservable').and.returnValue(
-        intersectionObservable
+        intersectionObservable,
       );
 
       service
@@ -85,7 +85,7 @@ describe('IntersectionService', () => {
         entry,
       ]);
       spyOn<any>(service, 'createIntersectionObservable').and.returnValue(
-        intersectionObservable
+        intersectionObservable,
       );
       service
         .isIntersecting(element)
@@ -107,7 +107,7 @@ describe('IntersectionService', () => {
       };
       const inputObs = cold('a', { a: [entry] });
       spyOn<any>(service, 'createIntersectionObservable').and.returnValue(
-        inputObs
+        inputObs,
       );
       const resultObs = cold('');
       expect(service.isIntersected(element)).toBeObservable(resultObs);
@@ -124,7 +124,7 @@ describe('IntersectionService', () => {
 
       const inputObs = cold('a', { a: [entry] });
       spyOn<any>(service, 'createIntersectionObservable').and.returnValue(
-        inputObs
+        inputObs,
       );
       const resultObs = cold('(a|)', { a: true });
       expect(service.isIntersected(element)).toBeObservable(resultObs);
@@ -148,13 +148,13 @@ describe('IntersectionService', () => {
 
       const inputObs = cold('a', { a: [entry, entryMatchingCondition] });
       spyOn<any>(service, 'createIntersectionObservable').and.returnValue(
-        inputObs
+        inputObs,
       );
       const resultObs = cold('(a|)', { a: true });
       const intersectingCondition = (entry: IntersectionObserverEntry) =>
         entry.intersectionRatio === 1;
       expect(
-        service.isIntersected(element, {}, intersectingCondition)
+        service.isIntersected(element, {}, intersectingCondition),
       ).toBeObservable(resultObs);
     });
   });
@@ -183,7 +183,7 @@ describe('IntersectionService', () => {
     });
     it('should get margin from options if provided', () => {
       expect(
-        service['getRootMargin']({ rootMargin: INTERSECTION_MARGIN_SPECIFIC })
+        service['getRootMargin']({ rootMargin: INTERSECTION_MARGIN_SPECIFIC }),
       ).toBe(INTERSECTION_MARGIN_SPECIFIC);
     });
   });

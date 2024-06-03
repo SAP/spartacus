@@ -52,21 +52,21 @@ describe(`ConfiguratorLogoutEventListener`, () => {
     classUnderTest = TestBed.inject(ConfiguratorLogoutEventListener);
 
     configuratorExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>,
     );
     spyOn(
       configuratorExpertModeService,
-      'setExpModeRequested'
+      'setExpModeRequested',
     ).and.callThrough();
     spyOn(configuratorExpertModeService, 'setExpModeActive').and.callThrough();
 
     configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>,
     );
 
     spyOn(
       configuratorCommonsService,
-      'removeProductBoundConfigurations'
+      'removeProductBoundConfigurations',
     ).and.callThrough();
   });
 
@@ -78,21 +78,21 @@ describe(`ConfiguratorLogoutEventListener`, () => {
     it(`should set active and requested expert mode to \'false\'`, () => {
       classUnderTest['onLogout']();
       expect(
-        configuratorExpertModeService.setExpModeActive
+        configuratorExpertModeService.setExpModeActive,
       ).toHaveBeenCalledWith(false);
       expect(
-        configuratorExpertModeService.setExpModeActive
+        configuratorExpertModeService.setExpModeActive,
       ).toHaveBeenCalledTimes(1);
 
       expect(
-        configuratorExpertModeService.setExpModeRequested
+        configuratorExpertModeService.setExpModeRequested,
       ).toHaveBeenCalledWith(false);
       expect(
-        configuratorExpertModeService.setExpModeRequested
+        configuratorExpertModeService.setExpModeRequested,
       ).toHaveBeenCalledTimes(1);
 
       expect(
-        configuratorCommonsService.removeProductBoundConfigurations
+        configuratorCommonsService.removeProductBoundConfigurations,
       ).toHaveBeenCalledTimes(1);
     });
   });

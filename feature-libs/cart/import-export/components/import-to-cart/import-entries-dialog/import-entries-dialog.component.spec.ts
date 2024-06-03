@@ -29,7 +29,7 @@ const mockLoadProduct: ProductImportInfo = {
 };
 
 const loadProducts$: BehaviorSubject<ProductImportInfo> = new BehaviorSubject(
-  mockLoadProduct
+  mockLoadProduct,
 );
 
 class MockAddOrderEntriesContext implements Partial<AddOrderEntriesContext> {
@@ -96,7 +96,7 @@ describe('ImportEntriesDialogComponent', () => {
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      mockCloseReason
+      mockCloseReason,
     );
   });
 
@@ -128,7 +128,7 @@ describe('ImportEntriesDialogComponent', () => {
       });
 
       expect(component['populateSummary']).toHaveBeenCalledWith(
-        mockLoadProduct
+        mockLoadProduct,
       );
     });
   });

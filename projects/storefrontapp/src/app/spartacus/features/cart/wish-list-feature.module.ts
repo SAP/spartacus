@@ -28,7 +28,7 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
         [ADD_TO_WISHLIST_FEATURE]: {
           module: () =>
             import('@spartacus/cart/wish-list/components/add-to-wishlist').then(
-              (m) => m.AddToWishListModule
+              (m) => m.AddToWishListModule,
             ),
         },
       },

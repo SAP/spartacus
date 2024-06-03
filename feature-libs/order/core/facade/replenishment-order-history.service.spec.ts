@@ -52,7 +52,7 @@ describe('UserReplenishmentOrderService', () => {
         StoreModule.forFeature(ORDER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
+          fromProcessReducers.getReducers(),
         ),
       ],
       providers: [
@@ -62,7 +62,7 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     userReplenishmentOrderService = TestBed.inject(
-      ReplenishmentOrderHistoryService
+      ReplenishmentOrderHistoryService,
     );
     userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
@@ -77,14 +77,14 @@ describe('UserReplenishmentOrderService', () => {
   describe('Load replenishment order details', () => {
     it('should be able to load replenishment order details for a given current user', () => {
       userReplenishmentOrderService.loadReplenishmentOrderDetails(
-        mockReplenishmentOrderCode
+        mockReplenishmentOrderCode,
       );
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrderActions.LoadReplenishmentOrderDetails({
           userId: mockUserId,
           replenishmentOrderCode: mockReplenishmentOrderCode,
-        })
+        }),
       );
     });
 
@@ -94,7 +94,7 @@ describe('UserReplenishmentOrderService', () => {
       });
 
       userReplenishmentOrderService.loadReplenishmentOrderDetails(
-        mockReplenishmentOrderCode
+        mockReplenishmentOrderCode,
       );
 
       expect(store.dispatch).not.toHaveBeenCalled();
@@ -103,8 +103,8 @@ describe('UserReplenishmentOrderService', () => {
     it('should return the value state', () => {
       store.dispatch(
         new OrderActions.LoadReplenishmentOrderDetailsSuccess(
-          mockReplenishmentOrder
-        )
+          mockReplenishmentOrder,
+        ),
       );
 
       let result: ReplenishmentOrder;
@@ -120,8 +120,8 @@ describe('UserReplenishmentOrderService', () => {
     it('should return the loading flag', () => {
       store.dispatch(
         new OrderActions.LoadReplenishmentOrderDetailsSuccess(
-          mockReplenishmentOrder
-        )
+          mockReplenishmentOrder,
+        ),
       );
 
       let result: boolean;
@@ -137,8 +137,8 @@ describe('UserReplenishmentOrderService', () => {
     it('should return the success flag', () => {
       store.dispatch(
         new OrderActions.LoadReplenishmentOrderDetailsSuccess(
-          mockReplenishmentOrder
-        )
+          mockReplenishmentOrder,
+        ),
       );
 
       let result: boolean;
@@ -153,7 +153,7 @@ describe('UserReplenishmentOrderService', () => {
 
     it('should return the error flag', () => {
       store.dispatch(
-        new OrderActions.LoadReplenishmentOrderDetailsFail(mockError)
+        new OrderActions.LoadReplenishmentOrderDetailsFail(mockError),
       );
 
       let result: boolean;
@@ -170,7 +170,7 @@ describe('UserReplenishmentOrderService', () => {
       userReplenishmentOrderService.clearReplenishmentOrderDetails();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrderActions.ClearReplenishmentOrderDetails()
+        new OrderActions.ClearReplenishmentOrderDetails(),
       );
     });
   });
@@ -178,14 +178,14 @@ describe('UserReplenishmentOrderService', () => {
   describe('Cancel a specific replenishment order', () => {
     it('should be able to cancel a replenishment order for a given current user', () => {
       userReplenishmentOrderService.cancelReplenishmentOrder(
-        mockReplenishmentOrderCode
+        mockReplenishmentOrderCode,
       );
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrderActions.CancelReplenishmentOrder({
           userId: mockUserId,
           replenishmentOrderCode: mockReplenishmentOrderCode,
-        })
+        }),
       );
     });
 
@@ -195,7 +195,7 @@ describe('UserReplenishmentOrderService', () => {
       });
 
       userReplenishmentOrderService.cancelReplenishmentOrder(
-        mockReplenishmentOrderCode
+        mockReplenishmentOrderCode,
       );
 
       expect(store.dispatch).not.toHaveBeenCalled();
@@ -203,7 +203,9 @@ describe('UserReplenishmentOrderService', () => {
 
     it('should return the loading flag', () => {
       store.dispatch(
-        new OrderActions.CancelReplenishmentOrderSuccess(mockReplenishmentOrder)
+        new OrderActions.CancelReplenishmentOrderSuccess(
+          mockReplenishmentOrder,
+        ),
       );
 
       let result: boolean;
@@ -218,7 +220,9 @@ describe('UserReplenishmentOrderService', () => {
 
     it('should return the success flag', () => {
       store.dispatch(
-        new OrderActions.CancelReplenishmentOrderSuccess(mockReplenishmentOrder)
+        new OrderActions.CancelReplenishmentOrderSuccess(
+          mockReplenishmentOrder,
+        ),
       );
 
       let result: boolean;
@@ -248,7 +252,7 @@ describe('UserReplenishmentOrderService', () => {
       userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrderActions.ClearCancelReplenishmentOrder()
+        new OrderActions.ClearCancelReplenishmentOrder(),
       );
     });
   });
@@ -260,7 +264,7 @@ describe('UserReplenishmentOrderService', () => {
           replenishmentOrders: [],
           pagination: {},
           sorts: [],
-        })
+        }),
       );
 
       let result: ReplenishmentOrderList;
@@ -280,8 +284,8 @@ describe('UserReplenishmentOrderService', () => {
     it('should return the loading flag', () => {
       store.dispatch(
         new OrderActions.LoadUserReplenishmentOrdersSuccess(
-          mockReplenishmentOrderList
-        )
+          mockReplenishmentOrderList,
+        ),
       );
 
       let result: boolean;
@@ -297,8 +301,8 @@ describe('UserReplenishmentOrderService', () => {
     it('should return the success flag', () => {
       store.dispatch(
         new OrderActions.LoadUserReplenishmentOrdersSuccess(
-          mockReplenishmentOrderList
-        )
+          mockReplenishmentOrderList,
+        ),
       );
 
       let result: boolean;
@@ -313,7 +317,7 @@ describe('UserReplenishmentOrderService', () => {
 
     it('should return the error flag', () => {
       store.dispatch(
-        new OrderActions.LoadUserReplenishmentOrdersFail(mockError)
+        new OrderActions.LoadUserReplenishmentOrdersFail(mockError),
       );
 
       let result: boolean;
@@ -334,14 +338,14 @@ describe('UserReplenishmentOrderService', () => {
           pageSize: 10,
           currentPage: 1,
           sort: 'byDate',
-        })
+        }),
       );
     });
 
     it('should be able to clear replenishment order list', () => {
       userReplenishmentOrderService.clearReplenishmentOrderList();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrderActions.ClearUserReplenishmentOrders()
+        new OrderActions.ClearUserReplenishmentOrders(),
       );
     });
   });

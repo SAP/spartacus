@@ -110,7 +110,7 @@ export function isEmail(str?: string): boolean {
  */
 export function isJustLoggedIn(
   userId: string,
-  previousUserId: string
+  previousUserId: string,
 ): boolean {
   return (
     userId !== OCC_USER_ID_ANONYMOUS && // not logged out

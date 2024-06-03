@@ -12,21 +12,19 @@ class MockSelectFocusUtility {
 describe('LockFocusService', () => {
   let service: LockFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          LockFocusService,
-          {
-            provide: SelectFocusUtility,
-            useClass: MockSelectFocusUtility,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        LockFocusService,
+        {
+          provide: SelectFocusUtility,
+          useClass: MockSelectFocusUtility,
+        },
+      ],
+    }).compileComponents();
 
-      service = TestBed.inject(LockFocusService);
-    })
-  );
+    service = TestBed.inject(LockFocusService);
+  }));
 
   it('should inject service', () => {
     expect(service).toBeTruthy();

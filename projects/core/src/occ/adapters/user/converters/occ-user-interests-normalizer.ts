@@ -22,7 +22,7 @@ export class OccUserInterestsNormalizer
 
   convert(
     source: Occ.ProductInterestSearchResult,
-    target?: ProductInterestSearchResult
+    target?: ProductInterestSearchResult,
   ): ProductInterestSearchResult {
     if (target === undefined) {
       target = { ...(source as any) } as ProductInterestSearchResult;

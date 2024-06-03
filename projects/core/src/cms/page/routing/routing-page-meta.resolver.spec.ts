@@ -169,7 +169,7 @@ describe('RoutingPageMetaResolver', () => {
       ] as ActivatedRouteSnapshotWithPageMeta[]);
       const resolverInstanceC = TestBed.inject(ResolverC);
       const defaultResolverInstance = TestBed.inject(
-        DefaultRoutePageMetaResolver
+        DefaultRoutePageMetaResolver,
       );
 
       const result = await firstValueFrom(resolver['routesWithExtras$']);
@@ -191,7 +191,7 @@ describe('RoutingPageMetaResolver', () => {
         ({ url, pageMetaConfig }) =>
           pageMetaConfig?.breadcrumb
             ? of([{ link: url, label: pageMetaConfig?.breadcrumb as string }])
-            : of([])
+            : of([]),
       );
     });
 
@@ -341,8 +341,8 @@ describe('RoutingPageMetaResolver', () => {
 
         expect(
           await firstValueFrom(
-            resolver.resolveBreadcrumbs({ includeCurrentRoute: true })
-          )
+            resolver.resolveBreadcrumbs({ includeCurrentRoute: true }),
+          ),
         ).toEqual([
           { link: '/grandparent', label: 'grandparent.breadcrumb' },
           { link: '/grandparent/parent', label: 'parent.breadcrumb' },

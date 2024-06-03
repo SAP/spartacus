@@ -76,7 +76,7 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
 
     TestBed.inject(CheckoutDeliveryAddressEventListener);
     checkoutDeliveryAddressFacade = TestBed.inject(
-      CheckoutDeliveryAddressFacade
+      CheckoutDeliveryAddressFacade,
     );
     eventService = TestBed.inject(EventService);
     globalMessageService = TestBed.inject(GlobalMessageService);
@@ -90,33 +90,33 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
           userId: mockUserId,
           address: {},
           addressId: 'test-address-id',
-        })
+        }),
       );
     });
 
     it(`UpdateUserAddressEvent should call clearCheckoutDeliveryAddress()`, () => {
       expect(
-        checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+        checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress,
       ).toHaveBeenCalled();
     });
 
     it(`UpdateUserAddressEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { cartId: mockCartId, userId: mockUserId },
-        CheckoutSupportedDeliveryModesQueryResetEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent,
       );
     });
 
     it(`DeleteUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(
-        checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+        checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress,
       ).toHaveBeenCalled();
     });
 
     it(`DeleteUserAddressEvent dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { cartId: mockCartId, userId: mockUserId },
-        CheckoutSupportedDeliveryModesQueryResetEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent,
       );
     });
   });
@@ -129,35 +129,35 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
             userId: mockUserId,
             cartId: mockCartId,
             address: {},
-          })
+          }),
         );
       });
 
       it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           { userId: mockUserId, cartId: mockCartId },
-          CheckoutSupportedDeliveryModesQueryResetEvent
+          CheckoutSupportedDeliveryModesQueryResetEvent,
         );
       });
 
       it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutQueryResetEvent`, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutQueryResetEvent
+          CheckoutQueryResetEvent,
         );
       });
 
       it(`CheckoutDeliveryAddressCreatedEvent should dispatch LoadUserAddressesEvent`, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           { userId: mockUserId },
-          LoadUserAddressesEvent
+          LoadUserAddressesEvent,
         );
       });
 
       it(`CheckoutDeliveryAddressCreatedEvent should add a global message`, () => {
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'addressForm.userAddressAddSuccess' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
       });
     });
@@ -169,35 +169,35 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
             userId: OCC_USER_ID_ANONYMOUS,
             cartId: mockCartId,
             address: {},
-          })
+          }),
         );
       });
 
       it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           { userId: OCC_USER_ID_ANONYMOUS, cartId: mockCartId },
-          CheckoutSupportedDeliveryModesQueryResetEvent
+          CheckoutSupportedDeliveryModesQueryResetEvent,
         );
       });
 
       it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutQueryResetEvent`, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutQueryResetEvent
+          CheckoutQueryResetEvent,
         );
       });
 
       it(`CheckoutDeliveryAddressCreatedEvent should NOT dispatch LoadUserAddressesEvent`, () => {
         expect(eventService.dispatch).not.toHaveBeenCalledWith(
           { userId: OCC_USER_ID_ANONYMOUS },
-          LoadUserAddressesEvent
+          LoadUserAddressesEvent,
         );
       });
 
       it(`CheckoutDeliveryAddressCreatedEvent should add a global message`, () => {
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'addressForm.userAddressAddSuccess' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
       });
     });
@@ -210,21 +210,21 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
           userId: mockUserId,
           cartId: mockCartId,
           address: {},
-        })
+        }),
       );
     });
 
     it(`CheckoutDeliveryAddressSetEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
-        CheckoutSupportedDeliveryModesQueryResetEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent,
       );
     });
 
     it(`CheckoutDeliveryAddressSetEvent should dispatch  CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
   });
@@ -235,7 +235,7 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
   });
@@ -246,7 +246,7 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
   });

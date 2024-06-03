@@ -70,7 +70,7 @@ export class AuthHttpHeaderService implements OnDestroy {
         this.authService.setLogoutProgress(false);
         this.authService.setRefreshProgress(false);
       }
-    })
+    }),
   );
 
   /**
@@ -80,11 +80,11 @@ export class AuthHttpHeaderService implements OnDestroy {
   protected refreshToken$ = this.refreshTokenTrigger$.pipe(
     withLatestFrom(
       this.authService.refreshInProgress$,
-      this.authService.logoutInProgress$
+      this.authService.logoutInProgress$,
     ),
     filter(
       ([, refreshInProgress, logoutInProgress]) =>
-        !refreshInProgress && !logoutInProgress
+        !refreshInProgress && !logoutInProgress,
     ),
     tap(([token]) => {
       if (token?.refresh_token) {
@@ -93,7 +93,7 @@ export class AuthHttpHeaderService implements OnDestroy {
       } else {
         this.handleExpiredRefreshToken();
       }
-    })
+    }),
   );
 
   /**
@@ -102,7 +102,7 @@ export class AuthHttpHeaderService implements OnDestroy {
    */
   protected tokenToRetryRequest$ = using(
     () => this.refreshToken$.subscribe(),
-    () => this.getStableToken()
+    () => this.getStableToken(),
   ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
   protected subscriptions = new Subscription();
@@ -114,7 +114,7 @@ export class AuthHttpHeaderService implements OnDestroy {
     protected routingService: RoutingService,
     protected occEndpoints: OccEndpointsService,
     protected globalMessageService: GlobalMessageService,
-    protected authRedirectService: AuthRedirectService
+    protected authRedirectService: AuthRedirectService,
   ) {
     // We need to have stopProgress$ stream active for the whole time,
     // so when the logout finishes we finish it's process.
@@ -140,7 +140,7 @@ export class AuthHttpHeaderService implements OnDestroy {
    */
   public alterRequest(
     request: HttpRequest<any>,
-    token?: AuthToken
+    token?: AuthToken,
   ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isBaseSitesRequest = this.isBaseSitesRequest(request);
@@ -161,7 +161,7 @@ export class AuthHttpHeaderService implements OnDestroy {
 
   protected isBaseSitesRequest(request: HttpRequest<any>): boolean {
     return request.url.includes(
-      this.occEndpoints.getRawEndpointValue('baseSites')
+      this.occEndpoints.getRawEndpointValue('baseSites'),
     );
   }
 
@@ -171,7 +171,7 @@ export class AuthHttpHeaderService implements OnDestroy {
   }
 
   protected createAuthorizationHeader(
-    token?: AuthToken
+    token?: AuthToken,
   ): { Authorization: string } | {} {
     if (token?.access_token) {
       return {
@@ -200,15 +200,15 @@ export class AuthHttpHeaderService implements OnDestroy {
   public handleExpiredAccessToken(
     request: HttpRequest<any>,
     next: HttpHandler,
-    initialToken: AuthToken | undefined
+    initialToken: AuthToken | undefined,
   ): Observable<HttpEvent<AuthToken>> {
     return this.getValidToken(initialToken).pipe(
       switchMap((token) =>
         // we break the stream with EMPTY when we don't have the token. This prevents sending the requests with `Authorization: bearer undefined` header
         token
           ? next.handle(this.createNewRequestWithNewToken(request, token))
-          : EMPTY
-      )
+          : EMPTY,
+      ),
     );
   }
 
@@ -235,7 +235,7 @@ export class AuthHttpHeaderService implements OnDestroy {
         {
           key: 'httpHandlers.sessionExpired',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
   }
@@ -252,9 +252,9 @@ export class AuthHttpHeaderService implements OnDestroy {
       observeOn(queueScheduler),
       filter(
         ([_, refreshInProgress, logoutInProgress]) =>
-          !refreshInProgress && !logoutInProgress
+          !refreshInProgress && !logoutInProgress,
       ),
-      switchMap(() => this.token$)
+      switchMap(() => this.token$),
     );
   }
 
@@ -263,7 +263,7 @@ export class AuthHttpHeaderService implements OnDestroy {
    * It will attempt to refresh it if the current one expired; emits after the new one is retrieved.
    */
   protected getValidToken(
-    requestToken: AuthToken | undefined
+    requestToken: AuthToken | undefined,
   ): Observable<AuthToken | undefined> {
     return defer(() => {
       // flag to only refresh token only on first emission
@@ -281,16 +281,16 @@ export class AuthHttpHeaderService implements OnDestroy {
           refreshTriggered = true;
         }),
         skipWhile(
-          (token) => token?.access_token === requestToken?.access_token
+          (token) => token?.access_token === requestToken?.access_token,
         ),
-        take(1)
+        take(1),
       );
     });
   }
 
   protected createNewRequestWithNewToken(
     request: HttpRequest<any>,
-    token: AuthToken
+    token: AuthToken,
   ): HttpRequest<any> {
     request = request.clone({
       setHeaders: {

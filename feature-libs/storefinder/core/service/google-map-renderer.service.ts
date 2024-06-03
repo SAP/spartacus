@@ -23,7 +23,7 @@ export class GoogleMapRendererService {
   constructor(
     protected config: StoreFinderConfig,
     protected storeFinderService: StoreFinderService,
-    protected scriptLoader: ScriptLoader
+    protected scriptLoader: ScriptLoader,
   ) {}
 
   /**
@@ -36,7 +36,7 @@ export class GoogleMapRendererService {
   renderMap(
     mapElement: HTMLElement,
     locations: any[],
-    selectMarkerHandler?: Function
+    selectMarkerHandler?: Function,
   ): void {
     if (this.config.googleMaps?.apiKey) {
       if (Object.entries(locations[Object.keys(locations)[0]]).length > 0) {
@@ -61,7 +61,7 @@ export class GoogleMapRendererService {
     } else {
       if (isDevMode()) {
         this.logger.warn(
-          'A Google Maps api key is required in the store finder configuration to display the Google map.'
+          'A Google Maps api key is required in the store finder configuration to display the Google map.',
         );
       }
     }
@@ -84,7 +84,7 @@ export class GoogleMapRendererService {
   private defineMapCenter(locations: any[]): google.maps.LatLng {
     return new google.maps.LatLng(
       this.storeFinderService.getStoreLatitude(locations[0]),
-      this.storeFinderService.getStoreLongitude(locations[0])
+      this.storeFinderService.getStoreLongitude(locations[0]),
     );
   }
 
@@ -95,7 +95,7 @@ export class GoogleMapRendererService {
    */
   private initMap(
     mapElement: HTMLElement,
-    mapCenter: google.maps.LatLng
+    mapCenter: google.maps.LatLng,
   ): void {
     type GestureHandlingOptions = 'cooperative' | 'greedy' | 'none' | 'auto';
     const gestureOption: GestureHandlingOptions = 'greedy';
@@ -116,14 +116,14 @@ export class GoogleMapRendererService {
    */
   private createMarkers(
     locations: any[],
-    selectMarkerHandler?: Function
+    selectMarkerHandler?: Function,
   ): void {
     this.markers = [];
     locations.forEach((element, index) => {
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(
           this.storeFinderService.getStoreLatitude(element),
-          this.storeFinderService.getStoreLongitude(element)
+          this.storeFinderService.getStoreLongitude(element),
         ),
         label: index + 1 + '',
       });
@@ -152,7 +152,7 @@ export class GoogleMapRendererService {
   private drawMap(
     mapElement: HTMLElement,
     locations: any[],
-    selectMarkerHandler: Function
+    selectMarkerHandler: Function,
   ) {
     this.initMap(mapElement, this.defineMapCenter(locations));
     this.createMarkers(locations, selectMarkerHandler);

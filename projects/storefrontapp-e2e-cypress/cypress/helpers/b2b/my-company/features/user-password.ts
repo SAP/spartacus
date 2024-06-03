@@ -17,7 +17,7 @@ export function userPasswordTest(config: MyCompanyConfig): void {
   const codeRow = config.rows?.find((row) => row.useInUrl || row.useCookie);
   const emailRow = config.rows?.find((row) => row.variableName === 'email');
   const firstNameRow = config.rows?.find(
-    (row) => row.variableName === 'firstName'
+    (row) => row.variableName === 'firstName',
   );
 
   const user: LoginUser = {
@@ -44,7 +44,7 @@ export function userPasswordTest(config: MyCompanyConfig): void {
       cy.visit('/login');
       fillLoginForm(user);
       cy.get('cx-login .cx-login-greet').contains(
-        `Hi, ${firstNameRow.updateValue}`
+        `Hi, ${firstNameRow.updateValue}`,
       );
       logOut();
     });
@@ -61,11 +61,11 @@ export function userPasswordTest(config: MyCompanyConfig): void {
       cy.visit('/login');
       fillLoginForm(user);
       cy.get('cx-global-message').contains(
-        'Bad credentials. Please login again.'
+        'Bad credentials. Please login again.',
       );
       fillLoginForm(user2);
       cy.get('cx-login .cx-login-greet').contains(
-        `Hi, ${firstNameRow.updateValue}`
+        `Hi, ${firstNameRow.updateValue}`,
       );
       logOut();
     });
@@ -92,7 +92,7 @@ export function userPasswordTest(config: MyCompanyConfig): void {
           inputType: INPUT_TYPE.TEXT,
         },
       ],
-      FormType.CREATE
+      FormType.CREATE,
     );
 
     cy.intercept('PATCH', `**`).as('patch');

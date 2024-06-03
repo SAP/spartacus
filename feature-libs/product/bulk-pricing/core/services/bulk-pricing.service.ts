@@ -22,12 +22,12 @@ export class BulkPricingService {
     return this.productService.get(productCode, this.PRODUCT_SCOPE).pipe(
       switchMap((productPriceScope) => {
         return of(this.convert(productPriceScope));
-      })
+      }),
     );
   }
 
   protected convert(
-    productPriceScope: Product | undefined
+    productPriceScope: Product | undefined,
   ): BulkPrice[] | undefined {
     let bulkPrices: BulkPrice[] | undefined = [];
 
@@ -36,7 +36,7 @@ export class BulkPricingService {
       const volumePrices: Price[] | undefined = productPriceScope.volumePrices;
 
       bulkPrices = volumePrices?.map((volumePrice) =>
-        this.parsePrice(volumePrice, basePrice)
+        this.parsePrice(volumePrice, basePrice),
       );
     }
 
@@ -45,7 +45,7 @@ export class BulkPricingService {
 
   protected parsePrice(
     priceTier: Price,
-    basePrice: number | undefined
+    basePrice: number | undefined,
   ): BulkPrice {
     const bulkPriceTemplate: BulkPrice = {
       currencyIso: priceTier.currencyIso,
@@ -63,7 +63,7 @@ export class BulkPricingService {
 
   protected calculateDiscount(
     bulkPriceTemplate: BulkPrice,
-    basePrice: number | undefined
+    basePrice: number | undefined,
   ): BulkPrice {
     const bulkPrice = Object.assign({}, bulkPriceTemplate);
 

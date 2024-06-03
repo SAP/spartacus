@@ -60,38 +60,36 @@ describe('QuoteCommentsComponent', () => {
 
   let quote: Quote;
 
-  beforeEach(
-    waitForAsync(() => {
-      initTestData();
-      initMocks();
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          QuoteCommentsComponent,
-          MockCxMessagingComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          {
-            provide: QuoteFacade,
-            useValue: quoteFacade,
-          },
-          {
-            provide: EventService,
-            useValue: eventService,
-          },
-          {
-            provide: QuoteUIConfig,
-            useValue: quoteUIConfig,
-          },
-          {
-            provide: QuoteItemsComponentService,
-            useValue: mockQuoteItemsComponentService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initTestData();
+    initMocks();
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        QuoteCommentsComponent,
+        MockCxMessagingComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        {
+          provide: QuoteFacade,
+          useValue: quoteFacade,
+        },
+        {
+          provide: EventService,
+          useValue: eventService,
+        },
+        {
+          provide: QuoteUIConfig,
+          useValue: quoteUIConfig,
+        },
+        {
+          provide: QuoteItemsComponentService,
+          useValue: mockQuoteItemsComponentService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteCommentsComponent);
@@ -103,10 +101,10 @@ describe('QuoteCommentsComponent', () => {
 
     mockQuoteItemsComponentService = jasmine.createSpyObj(
       'QuoteItemsComponentService',
-      ['setQuoteEntriesExpanded', 'getQuoteEntriesExpanded']
+      ['setQuoteEntriesExpanded', 'getQuoteEntriesExpanded'],
     );
     asSpy(
-      mockQuoteItemsComponentService.getQuoteEntriesExpanded
+      mockQuoteItemsComponentService.getQuoteEntriesExpanded,
     ).and.returnValue(of(true));
     quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
   });
@@ -146,19 +144,19 @@ describe('QuoteCommentsComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-comment'
+        '.cx-ghost-comment',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-input-title'
+        '.cx-ghost-input-title',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-input'
+        '.cx-ghost-input',
       );
     });
   });
@@ -167,7 +165,7 @@ describe('QuoteCommentsComponent', () => {
     CommonQuoteTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'cx-messaging'
+      'cx-messaging',
     );
   });
 
@@ -178,7 +176,7 @@ describe('QuoteCommentsComponent', () => {
       CommonQuoteTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-messaging'
+        'cx-messaging',
       );
     });
 
@@ -188,7 +186,7 @@ describe('QuoteCommentsComponent', () => {
       CommonQuoteTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-messaging'
+        'cx-messaging',
       );
     });
 
@@ -198,7 +196,7 @@ describe('QuoteCommentsComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-messaging'
+        'cx-messaging',
       );
     });
   });
@@ -267,7 +265,7 @@ describe('QuoteCommentsComponent', () => {
       // re-create component so changed config is evaluated
       fixture = TestBed.createComponent(QuoteCommentsComponent);
       expect(fixture.componentInstance.messagingConfigs.charactersLimit).toBe(
-        1000
+        1000,
       );
     });
     it('should set chars limit from config', () => {
@@ -275,7 +273,7 @@ describe('QuoteCommentsComponent', () => {
     });
     it('should define a date format', () => {
       expect(component.messagingConfigs.dateFormat).toBe(
-        'MMMM d, yyyy h:mm aa'
+        'MMMM d, yyyy h:mm aa',
       );
     });
     it('should display add section for editable quotes', () => {
@@ -347,7 +345,7 @@ describe('QuoteCommentsComponent', () => {
 
     function mapCommentToMessageEvent(
       comment: QuoteComment,
-      entry?: OrderEntry
+      entry?: OrderEntry,
     ) {
       return component['mapCommentToMessageEvent'](comment, entry);
     }
@@ -357,7 +355,7 @@ describe('QuoteCommentsComponent', () => {
     });
     it('should map creation date', () => {
       expect(mapCommentToMessageEvent(comment).createdAt).toContain(
-        'Mon Oct 03 2022 17:33:45'
+        'Mon Oct 03 2022 17:33:45',
       );
     });
     it('should map author', () => {
@@ -382,7 +380,7 @@ describe('QuoteCommentsComponent', () => {
         mapCommentToMessageEvent(comment, {
           entryNumber: 0,
           product: { name: 'Product Name' },
-        }).item
+        }).item,
       ).toEqual({ id: '0', name: 'Product Name' });
     });
     it("shouldn't map anything to item if no entry is provided", () => {
@@ -397,14 +395,14 @@ describe('QuoteCommentsComponent', () => {
     it('should add a header quote comment with the given text', () => {
       component.onSend(
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
-        QUOTE_CODE
+        QUOTE_CODE,
       );
       expect(quoteFacade.addQuoteComment).toHaveBeenCalledWith(
         QUOTE_CODE,
         {
           text: 'test comment',
         },
-        ALL_PRODUCTS_ID
+        ALL_PRODUCTS_ID,
       );
     });
     it('should add a item quote comment with the given text', () => {
@@ -414,38 +412,38 @@ describe('QuoteCommentsComponent', () => {
         {
           text: 'test comment',
         },
-        '3'
+        '3',
       );
     });
     it('should refresh the quote to display the just added comment', () => {
       component.onSend(
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
-        QUOTE_CODE
+        QUOTE_CODE,
       );
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        QuoteDetailsReloadQueryEvent
+        QuoteDetailsReloadQueryEvent,
       );
     });
     it('should reset message input text', () => {
       component.onSend(
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
-        QUOTE_CODE
+        QUOTE_CODE,
       );
       expect(component.commentsComponent.resetForm).toHaveBeenCalled();
       expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
     });
     it('should handle errors', () => {
       asSpy(quoteFacade.addQuoteComment).and.returnValue(
-        throwError(new Error('test error'))
+        throwError(new Error('test error')),
       );
       component.onSend(
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
-        QUOTE_CODE
+        QUOTE_CODE,
       );
       expect(component.commentsComponent.resetForm).toHaveBeenCalled();
       expect(component.messagingConfigs.newMessagePlaceHolder).toEqual(
-        'quote.comments.invalidComment'
+        'quote.comments.invalidComment',
       );
     });
   });
@@ -472,7 +470,7 @@ describe('QuoteCommentsComponent', () => {
     it('should expand cart and call scrollIntoView on the corresponding cart item in the document', fakeAsync(() => {
       component.onItemClicked({ item: { id: 'P2', name: 'Product 2' } });
       expect(
-        quoteItemsComponentService.setQuoteEntriesExpanded
+        quoteItemsComponentService.setQuoteEntriesExpanded,
       ).toHaveBeenCalledWith(true);
       tick(); //because of delay(0)
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
@@ -484,7 +482,7 @@ describe('QuoteCommentsComponent', () => {
     it('should only expand the cart but not scroll if the target item is not found in the document', fakeAsync(() => {
       component.onItemClicked({ item: { id: 'P3', name: 'Product 3' } });
       expect(
-        quoteItemsComponentService.setQuoteEntriesExpanded
+        quoteItemsComponentService.setQuoteEntriesExpanded,
       ).toHaveBeenCalledWith(true);
       tick(); //because of delay(0)
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
@@ -527,14 +525,14 @@ describe('QuoteCommentsComponent', () => {
           htmlElem,
           'div',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'role',
-        'region'
+        'region',
       );
     });
 
@@ -544,14 +542,14 @@ describe('QuoteCommentsComponent', () => {
           htmlElem,
           'div',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'aria-label',
-        'quote.comments.regionTitle'
+        'quote.comments.regionTitle',
       );
     });
   });

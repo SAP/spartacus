@@ -12,7 +12,7 @@ export const initialState: ConsignmentTrackingState = { tracking: {} };
 
 export function reducer(
   state = initialState,
-  action: OrderActions.ConsignmentTrackingAction
+  action: OrderActions.ConsignmentTrackingAction,
 ): ConsignmentTrackingState {
   switch (action.type) {
     case OrderActions.LOAD_CONSIGNMENT_TRACKING_SUCCESS: {

@@ -51,7 +51,7 @@ const myAccountV2CmsMapping: CmsConfig = {
       },
     }),
     provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_CONSENT) ? myAccountV2CmsMapping : {}
+      inject(USE_MY_ACCOUNT_V2_CONSENT) ? myAccountV2CmsMapping : {},
     ),
   ],
   declarations: [ConsentManagementComponent, ConsentManagementFormComponent],

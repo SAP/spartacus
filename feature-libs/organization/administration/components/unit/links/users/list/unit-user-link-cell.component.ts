@@ -48,7 +48,7 @@ export class UnitUserRolesCellComponent extends CellComponent {
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected itemService: ItemService<B2BUnit>,
-    protected b2bUserService: B2BUserService
+    protected b2bUserService: B2BUserService,
   ) {
     super(outlet);
     useFeatureStyles('a11yListOversizedFocus');

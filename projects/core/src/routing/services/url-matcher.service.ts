@@ -46,7 +46,7 @@ export class UrlMatcherService {
     const matcher = function combinedUrlMatchers(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
-      route: Route
+      route: Route,
     ): UrlMatchResult | null {
       for (let i = 0; i < matchers.length; i++) {
         const result = matchers[i](segments, segmentGroup, route);
@@ -71,7 +71,7 @@ export class UrlMatcherService {
     const matcher = function pathUrlMatcher(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
-      route: Route
+      route: Route,
     ): UrlMatchResult | null {
       /**
        * @license
@@ -96,8 +96,8 @@ export class UrlMatcherService {
           // The config is longer than the actual URL but we are looking for a full match, return null
           and(
             route.pathMatch === 'full',
-            or(segmentGroup.hasChildren(), parts.length < segments.length)
-          )
+            or(segmentGroup.hasChildren(), parts.length < segments.length),
+          ),
         )
       ) {
         return null;
@@ -128,12 +128,12 @@ export class UrlMatcherService {
     function useFunctionArgument(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
-      route: Route
+      route: Route,
     ) {
       if (
         and(
           route.pathMatch === 'full',
-          or(segmentGroup.hasChildren(), segments.length > 0)
+          or(segmentGroup.hasChildren(), segments.length > 0),
         )
       ) {
         return null;
@@ -163,7 +163,7 @@ export class UrlMatcherService {
     const matcher = function oppositeUrlMatcher(
       segments: UrlSegment[],
       group: UrlSegmentGroup,
-      route: Route
+      route: Route,
     ) {
       return originalMatcher(segments, group, route)
         ? null
@@ -182,7 +182,7 @@ export class UrlMatcherService {
     const globValidator = this.globService.getValidator(globPatterns);
 
     const matcher = function globUrlMatcher(
-      segments: UrlSegment[]
+      segments: UrlSegment[],
     ): UrlMatchResult | null {
       const fullPath = `/${segments.map((s) => s.path).join('/')}`;
 

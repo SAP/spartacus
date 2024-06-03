@@ -37,13 +37,13 @@ export function waitForPage(page: string, alias: string): string {
       ? {
           method: 'GET',
           path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
+            'BASE_SITE',
           )}/cms/pages?lang=en&curr=*`,
         }
       : {
           method: 'GET',
           pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
+            'BASE_SITE',
           )}/cms/pages`,
           query: {
             pageLabelOrId: page,
@@ -55,12 +55,12 @@ export function waitForPage(page: string, alias: string): string {
 
 export function waitForCategoryPage(
   categoryCode: string,
-  alias: string
+  alias: string,
 ): string {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/cms/pages`,
     query: {
       pageType: 'CategoryPage',
@@ -79,7 +79,7 @@ export function navigateToHomepage(): void {
 export function navigateToCategory(
   categoryName: string,
   categoryCode: string,
-  force: boolean = true
+  force: boolean = true,
 ): void {
   const categoryPage = waitForCategoryPage(categoryCode, 'getCategory');
   cy.get('cx-category-navigation cx-generic-link a')
@@ -91,7 +91,7 @@ export function navigateToCategory(
 export function navigateToAMyAccountPage(
   myAccountOptionText: string,
   page: string,
-  alias: string
+  alias: string,
 ) {
   const pageAlias = waitForPage(page, alias);
 

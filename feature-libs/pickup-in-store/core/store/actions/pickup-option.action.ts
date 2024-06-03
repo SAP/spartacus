@@ -15,17 +15,17 @@ const SET_PAGE_CONTEXT = '[PickupOption] Set Page Context';
 
 export const SetPickupOption = createAction(
   SET_PICKUP_OPTION,
-  props<{ payload: { entryNumber: number; pickupOption: PickupOption } }>()
+  props<{ payload: { entryNumber: number; pickupOption: PickupOption } }>(),
 );
 
 export const RemovePickupOption = createAction(
   REMOVE_PICKUP_OPTION,
-  props<{ payload: { entryNumber: number } }>()
+  props<{ payload: { entryNumber: number } }>(),
 );
 
 export const RemoveAllPickupOptions = createAction(REMOVE_ALL_PICKUP_OPTION);
 
 export const SetPageContext = createAction(
   SET_PAGE_CONTEXT,
-  props<{ payload: { pageContext: string } }>()
+  props<{ payload: { pageContext: string } }>(),
 );

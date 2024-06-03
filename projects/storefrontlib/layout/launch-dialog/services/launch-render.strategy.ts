@@ -60,7 +60,7 @@ export abstract class LaunchRenderStrategy implements Applicable {
 
   constructor(
     @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2
+    protected rendererFactory: RendererFactory2,
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
@@ -73,7 +73,7 @@ export abstract class LaunchRenderStrategy implements Applicable {
   abstract render(
     config: LaunchOptions,
     caller: LAUNCH_CALLER | string,
-    vcr?: ViewContainerRef
+    vcr?: ViewContainerRef,
   ): Observable<ComponentRef<any> | undefined> | void;
 
   /**
@@ -91,7 +91,7 @@ export abstract class LaunchRenderStrategy implements Applicable {
    */
   protected shouldRender(
     caller: LAUNCH_CALLER | string,
-    config: LaunchDialog
+    config: LaunchDialog,
   ): boolean {
     return (
       Boolean(config.component) &&
@@ -103,7 +103,7 @@ export abstract class LaunchRenderStrategy implements Applicable {
 
   protected applyClasses(
     component: ComponentRef<any>,
-    dialogType: DIALOG_TYPE
+    dialogType: DIALOG_TYPE,
   ): void {
     let classes = [];
 
@@ -144,7 +144,7 @@ export abstract class LaunchRenderStrategy implements Applicable {
    */
   public remove(caller: LAUNCH_CALLER | string, config: LaunchOptions): void {
     this.renderedCallers = this.renderedCallers.filter(
-      (el) => el.caller !== caller
+      (el) => el.caller !== caller,
     );
 
     if ((config as LaunchDialog)?.dialogType === DIALOG_TYPE.DIALOG) {

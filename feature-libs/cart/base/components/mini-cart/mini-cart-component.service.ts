@@ -32,7 +32,7 @@ export class MiniCartComponentService {
     protected authService: AuthService,
     protected statePersistenceService: StatePersistenceService,
     protected siteContextParamsService: SiteContextParamsService,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   /**
@@ -47,12 +47,12 @@ export class MiniCartComponentService {
         if (activeCartRequired) {
           return this.activeCartFacade.getActive().pipe(
             startWith({ totalUnitCount: 0 }),
-            map((cart) => cart.totalUnitCount || 0)
+            map((cart) => cart.totalUnitCount || 0),
           );
         } else {
           return of(0);
         }
-      })
+      }),
     );
   }
 
@@ -72,7 +72,7 @@ export class MiniCartComponentService {
         } else {
           return of('');
         }
-      })
+      }),
     );
   }
 
@@ -94,23 +94,23 @@ export class MiniCartComponentService {
     ]).pipe(
       map(
         ([hasCartInStorage, isUserLoggedIn, isCartCreated]) =>
-          hasCartInStorage || isUserLoggedIn || isCartCreated
+          hasCartInStorage || isUserLoggedIn || isCartCreated,
       ),
       distinctUntilChanged(),
-      takeWhile((hasCart) => !hasCart, true)
+      takeWhile((hasCart) => !hasCart, true),
     );
   }
 
   protected hasActiveCartInStorage(): Observable<boolean> {
     return this.getCartStateFromBrowserStorage().pipe(
-      map((state) => Boolean(state?.active))
+      map((state) => Boolean(state?.active)),
     );
   }
 
   protected isCartCreated(): Observable<boolean> {
     return this.eventService.get(CreateCartEvent).pipe(
       map((_) => true),
-      startWith(false)
+      startWith(false),
     );
   }
 
@@ -124,7 +124,7 @@ export class MiniCartComponentService {
           context: context,
           storageType: StorageSyncType.LOCAL_STORAGE,
         });
-      })
+      }),
     );
   }
 }

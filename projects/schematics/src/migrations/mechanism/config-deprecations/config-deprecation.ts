@@ -17,7 +17,7 @@ import { getSourceRoot } from '../../../shared/utils/workspace-utils';
 export function migrateConfigDeprecation(
   tree: Tree,
   _context: SchematicContext,
-  configDeprecations: ConfigDeprecation[]
+  configDeprecations: ConfigDeprecation[],
 ): Tree {
   const project = getSourceRoot(tree);
   const sourceFiles = getAllTsSourceFiles(tree, project);
@@ -29,7 +29,7 @@ export function migrateConfigDeprecation(
         sourcePath,
         source,
         configDeprecation.propertyName,
-        configDeprecation.comment
+        configDeprecation.comment,
       );
       commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
     }

@@ -69,7 +69,7 @@ const CONFIGURATION_WITH_CONFLICTS_WO_ATTRIBUTE_GROUP: Configurator.Configuratio
     ...CONFIGURATION,
     flatGroups: [
       ConfiguratorTestUtils.createGroup(
-        Configurator.ConflictIdPrefix + CONFLICT_GUID
+        Configurator.ConflictIdPrefix + CONFLICT_GUID,
       ),
     ],
     interactionState: {},
@@ -78,7 +78,7 @@ const CONFIGURATION_WITH_CONFLICTS: Configurator.Configuration = {
   ...CONFIGURATION,
   flatGroups: [
     ConfiguratorTestUtils.createGroup(
-      Configurator.ConflictIdPrefix + CONFLICT_GUID
+      Configurator.ConflictIdPrefix + CONFLICT_GUID,
     ),
     {
       ...ConfiguratorTestUtils.createGroup(GROUP_ID_1),
@@ -95,7 +95,7 @@ const CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION: Configurator.Configuration =
     consistent: false,
     flatGroups: [
       ConfiguratorTestUtils.createGroup(
-        Configurator.ConflictIdPrefix + '5A6542'
+        Configurator.ConflictIdPrefix + '5A6542',
       ),
     ],
     interactionState: {},
@@ -125,13 +125,13 @@ describe('Configurator reducer', () => {
   describe('CreateConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.CreateConfigurationSuccess(
-        CONFIGURATION
+        CONFIGURATION,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(CONFIGURATION);
       expect(state.interactionState.currentGroup).toEqual(
-        CONFIGURATION.groups[0].id
+        CONFIGURATION.groups[0].id,
       );
     });
 
@@ -146,7 +146,7 @@ describe('Configurator reducer', () => {
         ],
       };
       const action = new ConfiguratorActions.CreateConfigurationSuccess(
-        configurationWithoutCurrentGroup
+        configurationWithoutCurrentGroup,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
       expect(state.interactionState.currentGroup).toEqual('flatFirstGroup');
@@ -166,23 +166,23 @@ describe('Configurator reducer', () => {
   describe('ReadCartEntryConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
-        CONFIGURATION
+        CONFIGURATION,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(CONFIGURATION);
       expect(state.interactionState.currentGroup).toEqual(
-        CONFIGURATION.groups[0].id
+        CONFIGURATION.groups[0].id,
       );
     });
 
     it('should set menuParentGroup in case first group is conflict', () => {
       const action = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
-        CONFIGURATION_WITH_CONFLICTS
+        CONFIGURATION_WITH_CONFLICTS,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
       expect(state.interactionState.menuParentGroup).toEqual(
-        Configurator.ConflictHeaderId
+        Configurator.ConflictHeaderId,
       );
     });
 
@@ -208,13 +208,13 @@ describe('Configurator reducer', () => {
   describe('ReadConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.ReadConfigurationSuccess(
-        CONFIGURATION
+        CONFIGURATION,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(CONFIGURATION);
       expect(state.interactionState.currentGroup).toEqual(
-        CONFIGURATION.groups[0].id
+        CONFIGURATION.groups[0].id,
       );
     });
   });
@@ -223,7 +223,7 @@ describe('Configurator reducer', () => {
     it('should not put configuration into the state because first we need to check for pending changes', () => {
       const { initialState } = StateReduce;
       const action = new ConfiguratorActions.UpdateConfigurationSuccess(
-        CONFIGURATION
+        CONFIGURATION,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
@@ -259,7 +259,7 @@ describe('Configurator reducer', () => {
   describe('UpdateConfigurationFinalizeSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-        CONFIGURATION
+        CONFIGURATION,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
@@ -270,7 +270,7 @@ describe('Configurator reducer', () => {
 
     it('should set attribute that states that a cart update is required', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-        CONFIGURATION
+        CONFIGURATION,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
@@ -279,18 +279,18 @@ describe('Configurator reducer', () => {
 
     it('should remove the overview facet in order to trigger a re-read later on', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-        CONFIGURATION
+        CONFIGURATION,
       );
       const configurationWithOverview: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(
           'A',
-          ConfiguratorModelUtils.createInitialOwner()
+          ConfiguratorModelUtils.createInitialOwner(),
         ),
         overview: { configId: CONFIG_ID, productCode: PRODUCT_CODE },
       };
       const state = StateReduce.configuratorReducer(
         configurationWithOverview,
-        action
+        action,
       );
 
       expect(state.overview).toBeUndefined();
@@ -298,7 +298,7 @@ describe('Configurator reducer', () => {
 
     it('should check on conflict solver dialog', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-        CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION
+        CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
@@ -310,7 +310,7 @@ describe('Configurator reducer', () => {
         {
           ...CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION,
           immediateConflictResolution: false,
-        }
+        },
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
@@ -321,7 +321,7 @@ describe('Configurator reducer', () => {
       const testConfig = structuredClone(CONFIGURATION);
       testConfig.interactionState.newConfiguration = true;
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-        testConfig
+        testConfig,
       );
       const state = StateReduce.configuratorReducer(testConfig, action);
 
@@ -330,7 +330,7 @@ describe('Configurator reducer', () => {
 
     it('should set the new configuration flag in the interaction state to undefined, if was undefined before', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-        CONFIGURATION
+        CONFIGURATION,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
@@ -359,16 +359,16 @@ describe('Configurator reducer', () => {
         new ConfiguratorActions.CreateConfigurationSuccess(CONFIGURATION);
       const firstState = StateReduce.configuratorReducer(
         undefined,
-        actionProvidingState
+        actionProvidingState,
       );
       const configurationWithPriceSummary: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(
           'A',
-          ConfiguratorModelUtils.createInitialOwner()
+          ConfiguratorModelUtils.createInitialOwner(),
         ),
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
-        configurationWithPriceSummary
+        configurationWithPriceSummary,
       );
       const state = StateReduce.configuratorReducer(firstState, action);
       expect(state.groups.length).toBe(2);
@@ -378,16 +378,16 @@ describe('Configurator reducer', () => {
       const configurationWithPriceSummary: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(
           'A',
-          ConfiguratorModelUtils.createInitialOwner()
+          ConfiguratorModelUtils.createInitialOwner(),
         ),
         priceSummary: { basePrice: PRICE_DETAILS },
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
-        configurationWithPriceSummary
+        configurationWithPriceSummary,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
       expect(state.priceSummary).toBe(
-        configurationWithPriceSummary.priceSummary
+        configurationWithPriceSummary.priceSummary,
       );
     });
 
@@ -396,12 +396,12 @@ describe('Configurator reducer', () => {
         new ConfiguratorActions.CreateConfigurationSuccess(CONFIGURATION);
       const firstState = StateReduce.configuratorReducer(
         undefined,
-        actionProvidingState
+        actionProvidingState,
       );
       const configurationWithPriceSummary: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(
           'A',
-          ConfiguratorModelUtils.createInitialOwner()
+          ConfiguratorModelUtils.createInitialOwner(),
         ),
         priceSupplements: [
           {
@@ -417,7 +417,7 @@ describe('Configurator reducer', () => {
         ],
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
-        configurationWithPriceSummary
+        configurationWithPriceSummary,
       );
       const result = StateReduce.configuratorReducer(firstState, action);
       const attributes = result.groups[0].attributes;
@@ -437,7 +437,7 @@ describe('Configurator reducer', () => {
   describe('RemoveConfiguration action', () => {
     it('should set the initial state', () => {
       const action1 = new ConfiguratorActions.ReadConfigurationSuccess(
-        CONFIGURATION
+        CONFIGURATION,
       );
       let state = StateReduce.configuratorReducer(undefined, action1);
 
@@ -463,7 +463,7 @@ describe('Configurator reducer', () => {
           interactionState: {
             currentGroup: CURRENT_GROUP,
           },
-        })
+        }),
       );
 
       expect(state.interactionState.currentGroup).toEqual(CURRENT_GROUP);
@@ -479,7 +479,7 @@ describe('Configurator reducer', () => {
         new ConfiguratorActions.SetCurrentGroup({
           entityKey: PRODUCT_CODE,
           currentGroup: CURRENT_GROUP,
-        })
+        }),
       );
 
       expect(state.interactionState.currentGroup).toEqual(CURRENT_GROUP);
@@ -495,7 +495,7 @@ describe('Configurator reducer', () => {
         new ConfiguratorActions.SetMenuParentGroup({
           entityKey: PRODUCT_CODE,
           menuParentGroup: PARENT_GROUP,
-        })
+        }),
       );
 
       expect(state.interactionState.menuParentGroup).toEqual(PARENT_GROUP);
@@ -627,7 +627,7 @@ describe('Configurator reducer', () => {
         {
           ownerKey: CONFIGURATION.owner.key,
           overview: overview,
-        }
+        },
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
@@ -643,7 +643,7 @@ describe('Configurator reducer', () => {
       };
       CONFIGURATION.overview = overview;
       const action = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
-        CONFIGURATION
+        CONFIGURATION,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
@@ -659,7 +659,7 @@ describe('Configurator reducer', () => {
       };
       CONFIGURATION.overview = overview;
       const action = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
-        CONFIGURATION
+        CONFIGURATION,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
@@ -668,7 +668,7 @@ describe('Configurator reducer', () => {
 
     it('should not copy price summary from OV to configuration if not yet available', () => {
       const action = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
-        CONFIGURATION_WITHOUT_OV
+        CONFIGURATION_WITHOUT_OV,
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
@@ -686,7 +686,7 @@ describe('Configurator reducer', () => {
 
       expect(state.nextOwner).toBeDefined();
       expect(state.nextOwner?.type).toBe(
-        CommonConfigurator.OwnerType.CART_ENTRY
+        CommonConfigurator.OwnerType.CART_ENTRY,
       );
     });
   });
@@ -724,7 +724,7 @@ describe('Configurator reducer', () => {
       const action = new ConfiguratorActions.CheckConflictDialoge(OWNER.key);
       const state = StateReduce.configuratorReducer(
         CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION,
-        action
+        action,
       );
 
       expect(state.interactionState.showConflictSolverDialog).toBe(true);

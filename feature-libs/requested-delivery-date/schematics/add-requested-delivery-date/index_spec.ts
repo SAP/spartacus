@@ -26,7 +26,7 @@ const scssFilePath = 'src/styles/spartacus/requested-delivery-date.scss';
 describe('Spartacus Requested Delivery Date schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_REQUESTED_DELIVERY_DATE,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -66,27 +66,27 @@ describe('Spartacus Requested Delivery Date schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -95,13 +95,13 @@ describe('Spartacus Requested Delivery Date schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
     it('should not create any of the feature modules', () => {
       expect(
-        appTree.exists(requestedDeliveryDateFeatureModulePath)
+        appTree.exists(requestedDeliveryDateFeatureModulePath),
       ).toBeFalsy();
     });
 
@@ -137,13 +137,13 @@ describe('Spartacus Requested Delivery Date schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           rddOptions,
-          appTree
+          appTree,
         );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(
-          requestedDeliveryDateFeatureModulePath
+          requestedDeliveryDateFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
       });
@@ -166,13 +166,13 @@ describe('Spartacus Requested Delivery Date schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...rddOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(
-          requestedDeliveryDateFeatureModulePath
+          requestedDeliveryDateFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
       });

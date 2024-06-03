@@ -27,7 +27,8 @@ export class ReplenishmentOrderDetailsEffect {
       this.actions$.pipe(
         ofType(OrderActions.LOAD_REPLENISHMENT_ORDER_DETAILS),
         map(
-          (action: OrderActions.LoadReplenishmentOrderDetails) => action.payload
+          (action: OrderActions.LoadReplenishmentOrderDetails) =>
+            action.payload,
         ),
         switchMap((payload) => {
           return this.replenishmentOrderConnector
@@ -35,19 +36,19 @@ export class ReplenishmentOrderDetailsEffect {
             .pipe(
               map((replenishmentOrder: ReplenishmentOrder) => {
                 return new OrderActions.LoadReplenishmentOrderDetailsSuccess(
-                  replenishmentOrder
+                  replenishmentOrder,
                 );
               }),
               catchError((error) =>
                 of(
                   new OrderActions.LoadReplenishmentOrderDetailsFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   cancelReplenishmentOrder$: Observable<OrderActions.ReplenishmentOrderDetailsAction> =
@@ -59,37 +60,37 @@ export class ReplenishmentOrderDetailsEffect {
           return this.replenishmentOrderConnector
             .cancelReplenishmentOrder(
               payload.userId,
-              payload.replenishmentOrderCode
+              payload.replenishmentOrderCode,
             )
             .pipe(
               map(
                 (replenishmentOrder: ReplenishmentOrder) =>
                   new OrderActions.CancelReplenishmentOrderSuccess(
-                    replenishmentOrder
-                  )
+                    replenishmentOrder,
+                  ),
               ),
               catchError((error) => {
                 error?.error?.errors.forEach((err: any) =>
                   this.globalMessageService.add(
                     err.message,
-                    GlobalMessageType.MSG_TYPE_ERROR
-                  )
+                    GlobalMessageType.MSG_TYPE_ERROR,
+                  ),
                 );
 
                 return of(
                   new OrderActions.CancelReplenishmentOrderFail(
-                    normalizeHttpError(error, this.logger)
-                  )
+                    normalizeHttpError(error, this.logger),
+                  ),
                 );
-              })
+              }),
             );
-        })
-      )
+        }),
+      ),
     );
 
   constructor(
     private actions$: Actions,
     private replenishmentOrderConnector: ReplenishmentOrderHistoryConnector,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
   ) {}
 }

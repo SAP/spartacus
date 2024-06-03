@@ -19,6 +19,6 @@ export abstract class CmsRoutesService {
     pageContext: PageContext,
     componentTypes: string[],
     currentUrl: string,
-    currentPageLabel: string
+    currentPageLabel: string,
   ): boolean;
 }

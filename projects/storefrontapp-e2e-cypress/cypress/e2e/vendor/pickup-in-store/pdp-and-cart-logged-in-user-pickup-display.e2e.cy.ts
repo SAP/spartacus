@@ -130,7 +130,7 @@ describe('Check for presence or absence of displayed pick up store on PDP page',
 
       cy.get('@firstStoreName').then((firstStoreName) => {
         cy.get(L.PICKUP_STORE_LOCATION_WITH_VALUE(firstStoreName)).should(
-          'exist'
+          'exist',
         );
       });
 
@@ -180,7 +180,7 @@ describe('Check for presence or absence of displayed pick up store on PDP page',
 
       cy.get('@firstStoreName').then((firstStoreName) => {
         cy.get(L.PICKUP_STORE_LOCATION_WITH_VALUE(firstStoreName)).should(
-          'exist'
+          'exist',
         );
       });
     });

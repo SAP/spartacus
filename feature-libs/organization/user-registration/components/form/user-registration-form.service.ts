@@ -91,7 +91,7 @@ export class UserRegistrationFormService {
     protected globalMessageService: GlobalMessageService,
     protected authConfigService: AuthConfigService,
     protected routingService: RoutingService,
-    protected formBuilder: FormBuilder
+    protected formBuilder: FormBuilder,
   ) {}
 
   /**
@@ -110,7 +110,7 @@ export class UserRegistrationFormService {
         if (Object.keys(countries).length === 0) {
           this.userAddressService.loadDeliveryCountries();
         }
-      })
+      }),
     );
   }
 
@@ -125,7 +125,7 @@ export class UserRegistrationFormService {
         switchMap((countryIsoCode) => {
           this.regionControl?.reset();
           return this.userAddressService.getRegions(countryIsoCode);
-        })
+        }),
       ) ?? of(regions)
     );
   }
@@ -146,7 +146,7 @@ export class UserRegistrationFormService {
         country: form.get('country')?.get('isocode')?.value,
         companyName: form.get('companyName')?.value,
         message: form.get('message')?.value,
-      }
+      },
     );
   }
 
@@ -156,7 +156,7 @@ export class UserRegistrationFormService {
   protected displayGlobalMessage(): void {
     return this.globalMessageService.add(
       { key: 'userRegistrationForm.successFormSubmitMessage' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
   }
 
@@ -187,13 +187,13 @@ export class UserRegistrationFormService {
           lastName: form.get('lastName')?.value,
           email: form.get('email')?.value,
           message: message,
-        })
+        }),
       ),
       tap(() => {
         this.displayGlobalMessage();
         this.redirectToLogin();
         form.reset();
-      })
+      }),
     );
   }
 }

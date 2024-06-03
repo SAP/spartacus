@@ -43,23 +43,21 @@ describe('CloseAccountComponent', () => {
   let launchDialogService: LaunchDialogService;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [
-          CloseAccountComponent,
-          MockUrlPipe,
-          MockCxIconComponent,
-          MockFeatureDirective,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          { provide: RoutingService, useClass: MockRoutingService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        CloseAccountComponent,
+        MockUrlPipe,
+        MockCxIconComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountComponent);
@@ -81,7 +79,7 @@ describe('CloseAccountComponent', () => {
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.CLOSE_ACCOUNT,
       component['element'],
-      component['vcr']
+      component['vcr'],
     );
   });
 
@@ -89,7 +87,7 @@ describe('CloseAccountComponent', () => {
     spyOn(routingService, 'go');
     fixture.detectChanges();
     const cancelBtn = fixture.debugElement.query(
-      By.css('button.btn-secondary')
+      By.css('button.btn-secondary'),
     );
     cancelBtn.triggerEventHandler('click');
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });

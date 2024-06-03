@@ -25,7 +25,7 @@ export class VerificationTokenFormComponentService {
   constructor() {}
   protected globalMessage: GlobalMessageService = inject(GlobalMessageService);
   protected verificationTokenFacade: VerificationTokenFacade = inject(
-    VerificationTokenFacade
+    VerificationTokenFacade,
   );
   protected auth: AuthService = inject(AuthService);
   protected busy$ = new BehaviorSubject(false);
@@ -33,7 +33,7 @@ export class VerificationTokenFormComponentService {
   isUpdating$ = this.busy$.pipe(
     tap((state) => {
       state === true ? this.form.disable() : this.form.enable();
-    })
+    }),
   );
 
   form: UntypedFormGroup = new UntypedFormGroup({
@@ -51,12 +51,12 @@ export class VerificationTokenFormComponentService {
     from(
       this.auth.otpLoginWithCredentials(
         this.form.value.tokenId,
-        this.form.value.tokenCode
-      )
+        this.form.value.tokenCode,
+      ),
     )
       .pipe(
         withLatestFrom(this.auth.isUserLoggedIn()),
-        tap(([_, isLoggedIn]) => this.onSuccess(isLoggedIn))
+        tap(([_, isLoggedIn]) => this.onSuccess(isLoggedIn)),
       )
       .subscribe();
   }
@@ -68,7 +68,7 @@ export class VerificationTokenFormComponentService {
         params: { target },
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      globalMsgShowTime
+      globalMsgShowTime,
     );
   }
 

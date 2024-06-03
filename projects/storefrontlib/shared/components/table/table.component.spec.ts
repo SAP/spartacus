@@ -110,7 +110,7 @@ describe('TableComponent', () => {
       tableComponent.getHeaderOutletRef('key1');
       expect(tableRendererService.getHeaderOutletRef).toHaveBeenCalledWith(
         'test-1',
-        'key1'
+        'key1',
       );
     });
 
@@ -121,7 +121,7 @@ describe('TableComponent', () => {
         'test-1',
         mockDataset.structure.options,
         'i18nRoot',
-        'key1'
+        'key1',
       );
     });
 
@@ -131,7 +131,7 @@ describe('TableComponent', () => {
         const table = fixture.debugElement.query(By.css('table > thead'));
         expect(table.nativeElement).toBeTruthy();
         const th = fixture.debugElement.queryAll(
-          By.css('table > thead > tr > th')
+          By.css('table > thead > tr > th'),
         );
         expect(th.length).toBe(3);
         expect(th[0].nativeElement).toBeTruthy();
@@ -143,7 +143,7 @@ describe('TableComponent', () => {
         fixture.detectChanges();
 
         const th1: HTMLElement = fixture.debugElement.query(
-          By.css('table th:nth-child(1)')
+          By.css('table th:nth-child(1)'),
         ).nativeElement;
 
         expect(th1.classList).toContain('key1');
@@ -162,7 +162,7 @@ describe('TableComponent', () => {
       tableComponent.getDataOutletRef('key1');
       expect(tableRendererService.getDataOutletRef).toHaveBeenCalledWith(
         'test-1',
-        'key1'
+        'key1',
       );
     });
 
@@ -178,7 +178,7 @@ describe('TableComponent', () => {
         'key1',
         {
           foo: 'bar',
-        }
+        },
       );
     });
 
@@ -201,17 +201,17 @@ describe('TableComponent', () => {
         fixture.detectChanges();
 
         const td1: HTMLElement = fixture.debugElement.query(
-          By.css('table td:nth-child(1)')
+          By.css('table td:nth-child(1)'),
         ).nativeElement;
         expect(td1.classList).toContain('key1');
 
         const td2: HTMLElement = fixture.debugElement.query(
-          By.css('table td:nth-child(2)')
+          By.css('table td:nth-child(2)'),
         ).nativeElement;
         expect(td2.classList).toContain('key2');
 
         const td3: HTMLElement = fixture.debugElement.query(
-          By.css('table td:nth-child(3)')
+          By.css('table td:nth-child(3)'),
         ).nativeElement;
         expect(td3.classList).toContain('key3');
       });
@@ -258,13 +258,13 @@ describe('TableComponent', () => {
         fixture.detectChanges();
         const tr = fixture.debugElement.queryAll(By.css('table > tr'));
         expect((tr[0].nativeElement as HTMLElement).classList).not.toContain(
-          'is-current'
+          'is-current',
         );
         expect((tr[1].nativeElement as HTMLElement).classList).toContain(
-          'is-current'
+          'is-current',
         );
         expect((tr[2].nativeElement as HTMLElement).classList).not.toContain(
-          'is-current'
+          'is-current',
         );
       });
     });
@@ -291,7 +291,7 @@ describe('TableComponent', () => {
 
       it('should have a tr in tbody for each data item', () => {
         const tr = fixture.debugElement.queryAll(
-          By.css('tbody:first-child tr')
+          By.css('tbody:first-child tr'),
         );
         expect(tr.length).toEqual(Object.keys(data[0]).length);
       });
@@ -308,13 +308,13 @@ describe('TableComponent', () => {
         fixture.detectChanges();
         const tbody = fixture.debugElement.queryAll(By.css('table > tbody'));
         expect((tbody[0].nativeElement as HTMLElement).classList).not.toContain(
-          'is-current'
+          'is-current',
         );
         expect((tbody[1].nativeElement as HTMLElement).classList).toContain(
-          'is-current'
+          'is-current',
         );
         expect((tbody[2].nativeElement as HTMLElement).classList).not.toContain(
-          'is-current'
+          'is-current',
         );
       });
     });

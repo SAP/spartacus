@@ -17,7 +17,7 @@ import { waitForPage } from '../checkout-flow';
 export function visitOrderApprovalListPage() {
   const alias = waitForPage(
     '/my-account/approval-dashboard',
-    'approvalListPage'
+    'approvalListPage',
   );
 
   cy.visit(`/my-account/approval-dashboard`);
@@ -27,7 +27,7 @@ export function visitOrderApprovalListPage() {
 export function visitOrderApprovalDetailPage() {
   const alias = waitForPage(
     `/my-account/approval/${sampleData.approvalOrderDetail.code}`,
-    'approvalDetailPage'
+    'approvalDetailPage',
   );
 
   cy.visit(`/my-account/approval/${sampleData.approvalOrderDetail.code}`);
@@ -47,10 +47,10 @@ export function getStubbedPendingOrderDetails() {
     {
       method: 'GET',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orders/*`,
     },
-    { body: pendingOrder }
+    { body: pendingOrder },
   );
 }
 
@@ -59,10 +59,10 @@ export function getStubbedOrderApprovalList() {
     {
       method: 'GET',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orderapprovals?*`,
     },
-    { body: approvalOrderList }
+    { body: approvalOrderList },
   ).as('order_approval_list');
 }
 
@@ -71,10 +71,10 @@ export function getStubbedOrderApprovalDetail() {
     {
       method: 'GET',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     },
-    { body: approvalOrderDetail }
+    { body: approvalOrderDetail },
   ).as('orderApprovalPending');
 }
 
@@ -83,10 +83,10 @@ export function makeStubbedDecision() {
     {
       method: 'POST',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orderapprovals/${approvalOrderDetail.code}/decision?*`,
     },
-    { body: {} }
+    { body: {} },
   );
 }
 
@@ -95,10 +95,10 @@ export function getStubbedRejectedOrderApprovalDetail() {
     {
       method: 'GET',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     },
-    { body: rejectedOrderDetails }
+    { body: rejectedOrderDetails },
   ).as('orderApprovalRejected');
 }
 
@@ -107,10 +107,10 @@ export function getStubbedApprovedOrderApprovalDetail() {
     {
       method: 'GET',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     },
-    { body: approvedOrderDetails }
+    { body: approvedOrderDetails },
   ).as('orderApprovalApproved');
 }
 

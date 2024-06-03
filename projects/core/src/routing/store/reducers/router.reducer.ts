@@ -46,7 +46,7 @@ export function getReducers(): ActionReducerMap<State> {
 
 export function reducer(
   state: RouterState = initialState,
-  action: any
+  action: any,
 ): RouterState {
   switch (action.type) {
     case fromNgrxRouter.ROUTER_NAVIGATION: {
@@ -138,7 +138,7 @@ export class CustomSerializer
         !cmsRequired &&
         (context ||
           state.routeConfig?.canActivate?.find(
-            (x) => x && x.guardName === 'CmsPageGuard'
+            (x) => x && x.guardName === 'CmsPageGuard',
           ))
       ) {
         cmsRequired = true;
@@ -164,7 +164,7 @@ export class CustomSerializer
 
   private getPageContext(
     cmsRouteContext: PageContext | undefined,
-    state: CmsActivatedRouteSnapshot
+    state: CmsActivatedRouteSnapshot,
   ): PageContext {
     let context = cmsRouteContext;
 

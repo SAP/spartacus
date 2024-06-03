@@ -94,7 +94,7 @@ describe('Storefinder migration', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../migrations.json')
+      require.resolve('../../migrations.json'),
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -107,7 +107,7 @@ describe('Storefinder migration', () => {
         dependencies: {
           '@spartacus/core': '^2.0.0',
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -116,7 +116,7 @@ describe('Storefinder migration', () => {
         compilerOptions: {
           lib: ['es2015'],
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -132,7 +132,7 @@ describe('Storefinder migration', () => {
             },
           },
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -140,7 +140,7 @@ describe('Storefinder migration', () => {
       `
 import { AppModule } from './app/app.module';
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));`
+  .catch(err => console.error(err));`,
     );
 
     previousWorkingDir = shx.pwd();
@@ -161,7 +161,7 @@ platformBrowserDynamic().bootstrapModule(AppModule)
       writeFile(
         host,
         '/src/app/app.module.ts',
-        STORE_FINDER_MODULE_IMPORTED_TEST
+        STORE_FINDER_MODULE_IMPORTED_TEST,
       );
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -176,7 +176,7 @@ platformBrowserDynamic().bootstrapModule(AppModule)
       writeFile(
         host,
         '/src/app/app.module.ts',
-        STOREFRONT_MODULE_IMPORTED_TEST
+        STOREFRONT_MODULE_IMPORTED_TEST,
       );
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);

@@ -45,7 +45,7 @@ describe('FacadeFactoryService', () => {
     const result = TestBed.inject(TestFacade);
     const facadeFactoryService = TestBed.inject(FacadeFactoryService);
     expect(facadeFactoryService.create).toHaveBeenCalledWith(
-      testFacadeDescriptor as any
+      testFacadeDescriptor as any,
     );
     expect(result).toBe(facadeResult);
   });

@@ -77,7 +77,7 @@ describe('BadCostCenterRequestHandler', () => {
     handler.handleError(MockRequest, MockCostCenterErrorResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'checkoutB2B.invalidCostCenter' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 });

@@ -15,7 +15,7 @@ export const initialState: AnonymousConsent[] = [];
 export function toggleConsentStatus(
   consents: AnonymousConsent[],
   templateCode: string,
-  status: ANONYMOUS_CONSENT_STATUS
+  status: ANONYMOUS_CONSENT_STATUS,
 ): AnonymousConsent[] {
   if (!consents) {
     return [];
@@ -34,14 +34,14 @@ export function toggleConsentStatus(
 
 export function reducer(
   state = initialState,
-  action: AnonymousConsentsActions.AnonymousConsentsActions
+  action: AnonymousConsentsActions.AnonymousConsentsActions,
 ): AnonymousConsent[] {
   switch (action.type) {
     case AnonymousConsentsActions.GIVE_ANONYMOUS_CONSENT: {
       return toggleConsentStatus(
         state,
         action.templateCode,
-        ANONYMOUS_CONSENT_STATUS.GIVEN
+        ANONYMOUS_CONSENT_STATUS.GIVEN,
       );
     }
 
@@ -49,7 +49,7 @@ export function reducer(
       return toggleConsentStatus(
         state,
         action.templateCode,
-        ANONYMOUS_CONSENT_STATUS.WITHDRAWN
+        ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
       );
     }
 

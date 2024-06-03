@@ -19,7 +19,7 @@ export abstract class AsmAdapter {
    * Abstract function used to search for customers.
    */
   abstract customerSearch(
-    options: CustomerSearchOptions
+    options: CustomerSearchOptions,
   ): Observable<CustomerSearchPage>;
 
   /**

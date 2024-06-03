@@ -43,7 +43,7 @@ export class CustomerTicketingReopenDialogComponent
             if (this.form.get('file')?.value?.length && createdEvent.code) {
               this.customerTicketingFacade.uploadAttachment(
                 this.form.get('file')?.value?.item(0),
-                createdEvent.code
+                createdEvent.code,
               );
             }
           },

@@ -67,7 +67,7 @@ describe('UserGroupUserListComponent', () => {
 
     component.unassignAll();
     expect(userGroupUserListService.unassignAllMembers).toHaveBeenCalledWith(
-      mockKey
+      mockKey,
     );
   });
 

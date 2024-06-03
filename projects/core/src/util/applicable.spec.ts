@@ -121,10 +121,10 @@ describe('resolveApplicable', () => {
     const getPriorityParams = ['a', 3];
     resolveApplicable(applicables, undefined, getPriorityParams);
     expect(applicables[0].getPriority).toHaveBeenCalledWith(
-      ...getPriorityParams
+      ...getPriorityParams,
     );
     expect(applicables[1].getPriority).toHaveBeenCalledWith(
-      ...getPriorityParams
+      ...getPriorityParams,
     );
   });
 

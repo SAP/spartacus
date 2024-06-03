@@ -67,7 +67,7 @@ describe('UserAddressConnector', () => {
     expect(adapter.update).toHaveBeenCalledWith(
       'user-id',
       'address-id',
-      mockAddress
+      mockAddress,
     );
   });
 

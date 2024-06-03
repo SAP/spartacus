@@ -34,7 +34,7 @@ import { getItemStatus } from '../utils/get-item-status';
 export class UserGroupService {
   constructor(
     protected store: Store<StateWithOrganization>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   load(userGroupId: string) {
@@ -44,7 +44,7 @@ export class UserGroupService {
           new UserGroupActions.LoadUserGroup({
             userId,
             userGroupId,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -56,7 +56,7 @@ export class UserGroupService {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
         this.store.dispatch(
-          new UserGroupActions.LoadUserGroups({ userId, params })
+          new UserGroupActions.LoadUserGroups({ userId, params }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -65,7 +65,7 @@ export class UserGroupService {
   }
 
   private getUserGroup(
-    userGroupId: string
+    userGroupId: string,
   ): Observable<StateUtils.LoaderState<UserGroup>> {
     return this.store.select(getUserGroup(userGroupId));
   }
@@ -77,24 +77,24 @@ export class UserGroupService {
   }
 
   private getUserGroupList(
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<StateUtils.LoaderState<EntitiesModel<UserGroup>>> {
     return this.store.select(getUserGroupList(params));
   }
 
   private getAvailableOrgCustomersList(
     userGroupId: string,
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<StateUtils.LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(getAvailableOrgCustomers(userGroupId, params));
   }
 
   private getAvailableOrderApprovalPermissionsList(
     userGroupId: string,
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<StateUtils.LoaderState<EntitiesModel<Permission>>> {
     return this.store.select(
-      getAvailableOrderApprovalPermissions(userGroupId, params)
+      getAvailableOrderApprovalPermissions(userGroupId, params),
     );
   }
 
@@ -105,17 +105,17 @@ export class UserGroupService {
         if (!(state.loading || state.success || state.error)) {
           this.load(userGroupUid);
         }
-      })
+      }),
     );
 
     return using(
       () => loading$.subscribe(),
-      () => this.getUserGroupValue(userGroupUid)
+      () => this.getUserGroupValue(userGroupUid),
     );
   }
 
   getList(
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<EntitiesModel<UserGroup> | undefined> {
     return this.getUserGroupList(params).pipe(
       observeOn(queueScheduler),
@@ -125,9 +125,9 @@ export class UserGroupService {
         }
       }),
       filter((process: StateUtils.LoaderState<EntitiesModel<UserGroup>>) =>
-        Boolean(process.success || process.error)
+        Boolean(process.success || process.error),
       ),
-      map((result) => result.value)
+      map((result) => result.value),
     );
   }
 
@@ -138,7 +138,7 @@ export class UserGroupService {
           new UserGroupActions.CreateUserGroup({
             userId,
             userGroup,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -154,7 +154,7 @@ export class UserGroupService {
             userId,
             userGroupId,
             userGroup,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -163,7 +163,7 @@ export class UserGroupService {
   }
 
   getLoadingStatus(
-    budgetCode: string
+    budgetCode: string,
   ): Observable<OrganizationItemStatus<UserGroup>> {
     return getItemStatus(this.getUserGroup(budgetCode));
   }
@@ -175,7 +175,7 @@ export class UserGroupService {
           new UserGroupActions.DeleteUserGroup({
             userId,
             userGroupId,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -191,7 +191,7 @@ export class UserGroupService {
             userId,
             userGroupId,
             params,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -201,7 +201,7 @@ export class UserGroupService {
 
   loadAvailableOrderApprovalPermissions(
     userGroupId: string,
-    params: SearchConfig
+    params: SearchConfig,
   ) {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
@@ -210,7 +210,7 @@ export class UserGroupService {
             userId,
             userGroupId,
             params,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -220,7 +220,7 @@ export class UserGroupService {
 
   getAvailableOrgCustomers(
     userGroupId: string,
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<EntitiesModel<B2BUser> | undefined> {
     return this.getAvailableOrgCustomersList(userGroupId, params).pipe(
       observeOn(queueScheduler),
@@ -230,19 +230,19 @@ export class UserGroupService {
         }
       }),
       filter((process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) =>
-        Boolean(process.success || process.error)
+        Boolean(process.success || process.error),
       ),
-      map((result) => result.value)
+      map((result) => result.value),
     );
   }
 
   getAvailableOrderApprovalPermissions(
     userGroupId: string,
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<EntitiesModel<Permission> | undefined> {
     return this.getAvailableOrderApprovalPermissionsList(
       userGroupId,
-      params
+      params,
     ).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<Permission>>) => {
@@ -251,9 +251,9 @@ export class UserGroupService {
         }
       }),
       filter((process: StateUtils.LoaderState<EntitiesModel<Permission>>) =>
-        Boolean(process.success || process.error)
+        Boolean(process.success || process.error),
       ),
-      map((result) => result.value)
+      map((result) => result.value),
     );
   }
 
@@ -265,7 +265,7 @@ export class UserGroupService {
             userId,
             userGroupId,
             customerId,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -281,7 +281,7 @@ export class UserGroupService {
             userId,
             userGroupId,
             customerId,
-          })
+          }),
         ),
       error: () => {
         // Intentional empty arrow function
@@ -296,7 +296,7 @@ export class UserGroupService {
           new UserGroupActions.UnassignAllMembers({
             userId,
             userGroupId,
-          })
+          }),
         ),
       error: () => {
         // Intentional empty arrow function
@@ -312,7 +312,7 @@ export class UserGroupService {
             userId,
             userGroupId,
             permissionUid,
-          })
+          }),
         ),
       error: () => {
         // Intentional empty arrow function
@@ -328,7 +328,7 @@ export class UserGroupService {
             userId,
             userGroupId,
             permissionUid,
-          })
+          }),
         ),
       error: () => {
         // Intentional empty arrow function
@@ -337,14 +337,14 @@ export class UserGroupService {
   }
 
   private getUserGroupState(
-    code: string
+    code: string,
   ): Observable<StateUtils.LoaderState<UserGroup>> {
     return this.store.select(getUserGroupState(code));
   }
 
   getErrorState(code: string): Observable<boolean> {
     return this.getUserGroupState(code).pipe(
-      map((state) => state.error ?? false)
+      map((state) => state.error ?? false),
     );
   }
 }

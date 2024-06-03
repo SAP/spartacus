@@ -148,7 +148,7 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
 };
 
 function buildCdcConfig(
-  options: SpartacusCdcOptions
+  options: SpartacusCdcOptions,
 ): AdditionalFeatureConfiguration<SpartacusCdcOptions> {
   return {
     providers: {

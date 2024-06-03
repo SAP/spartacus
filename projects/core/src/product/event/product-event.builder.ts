@@ -22,7 +22,7 @@ import { FacetChangedEvent } from './product.events';
 export class ProductEventBuilder {
   constructor(
     protected eventService: EventService,
-    protected productSearchService: ProductSearchService
+    protected productSearchService: ProductSearchService,
   ) {
     this.register();
   }
@@ -30,7 +30,7 @@ export class ProductEventBuilder {
   protected register(): void {
     this.eventService.register(
       FacetChangedEvent,
-      this.buildFacetChangedEvent()
+      this.buildFacetChangedEvent(),
     );
   }
 
@@ -63,7 +63,7 @@ export class ProductEventBuilder {
               curr.breadcrumbs.length > prev.breadcrumbs.length,
           });
         }
-      })
+      }),
     );
   }
 
@@ -74,7 +74,7 @@ export class ProductEventBuilder {
    */
   private compareSearchResults(
     prev: ProductSearchPage,
-    curr: ProductSearchPage
+    curr: ProductSearchPage,
   ): boolean {
     if (prev && Object.keys(prev).length !== 0) {
       // for text searches, they must have the same freeTextSearch
@@ -101,7 +101,7 @@ export class ProductEventBuilder {
    */
   private getToggledBreadcrumb(
     bc1: Breadcrumb[] | undefined,
-    bc2: Breadcrumb[] | undefined
+    bc2: Breadcrumb[] | undefined,
   ): Breadcrumb | undefined {
     if (bc1 && bc2 && bc1.length - bc2.length === 1) {
       return bc1.find(
@@ -109,8 +109,8 @@ export class ProductEventBuilder {
           !bc2.find(
             (y) =>
               y.facetCode === x.facetCode &&
-              y.facetValueCode === x.facetValueCode
-          )
+              y.facetValueCode === x.facetValueCode,
+          ),
       );
     }
   }

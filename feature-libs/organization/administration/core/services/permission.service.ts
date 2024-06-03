@@ -32,7 +32,7 @@ import { getItemStatus } from '../utils/get-item-status';
 export class PermissionService {
   constructor(
     protected store: Store<StateWithOrganization>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   loadPermission(permissionCode: string): void {
@@ -42,7 +42,7 @@ export class PermissionService {
           new PermissionActions.LoadPermission({
             userId,
             permissionCode,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -54,7 +54,7 @@ export class PermissionService {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
         this.store.dispatch(
-          new PermissionActions.LoadPermissions({ userId, params })
+          new PermissionActions.LoadPermissions({ userId, params }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -73,7 +73,7 @@ export class PermissionService {
   }
 
   private getPermission(
-    permissionCode: string
+    permissionCode: string,
   ): Observable<StateUtils.LoaderState<Permission>> {
     return this.store.select(getPermission(permissionCode));
   }
@@ -85,7 +85,7 @@ export class PermissionService {
   }
 
   private getPermissionList(
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<StateUtils.LoaderState<EntitiesModel<Permission>>> {
     return this.store.select(getPermissionList(params));
   }
@@ -103,12 +103,12 @@ export class PermissionService {
         if (!(state.loading || state.success || state.error)) {
           this.loadPermission(permissionCode);
         }
-      })
+      }),
     );
 
     return using(
       () => loading$.subscribe(),
-      () => this.getPermissionValue(permissionCode)
+      () => this.getPermissionValue(permissionCode),
     );
   }
 
@@ -121,14 +121,14 @@ export class PermissionService {
         }
       }),
       filter((process: StateUtils.LoaderState<OrderApprovalPermissionType[]>) =>
-        Boolean(process.success || process.error)
+        Boolean(process.success || process.error),
       ),
-      map((result) => result.value)
+      map((result) => result.value),
     );
   }
 
   getList(
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<EntitiesModel<Permission> | undefined> {
     return this.getPermissionList(params).pipe(
       observeOn(queueScheduler),
@@ -138,9 +138,9 @@ export class PermissionService {
         }
       }),
       filter((process: StateUtils.LoaderState<EntitiesModel<Permission>>) =>
-        Boolean(process.success || process.error)
+        Boolean(process.success || process.error),
       ),
-      map((result) => result.value)
+      map((result) => result.value),
     );
   }
 
@@ -148,7 +148,7 @@ export class PermissionService {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
         this.store.dispatch(
-          new PermissionActions.CreatePermission({ userId, permission })
+          new PermissionActions.CreatePermission({ userId, permission }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -164,7 +164,7 @@ export class PermissionService {
             userId,
             permissionCode,
             permission,
-          })
+          }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -173,20 +173,20 @@ export class PermissionService {
   }
 
   getLoadingStatus(
-    permissionCode: string
+    permissionCode: string,
   ): Observable<OrganizationItemStatus<Permission>> {
     return getItemStatus(this.getPermission(permissionCode));
   }
 
   private getPermissionState(
-    code: string
+    code: string,
   ): Observable<StateUtils.LoaderState<Permission>> {
     return this.store.select(getPermissionState(code));
   }
 
   getErrorState(permissionCode: string): Observable<boolean> {
     return this.getPermissionState(permissionCode).pipe(
-      map((state) => state.error ?? false)
+      map((state) => state.error ?? false),
     );
   }
 }

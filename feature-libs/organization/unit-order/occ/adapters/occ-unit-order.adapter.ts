@@ -21,7 +21,7 @@ export class OccUnitOrderAdapter implements UnitOrderAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   public loadUnitOrderHistory(
@@ -29,7 +29,7 @@ export class OccUnitOrderAdapter implements UnitOrderAdapter {
     pageSize?: number,
     currentPage?: number,
     filters?: string,
-    sort?: string
+    sort?: string,
   ): Observable<OrderHistoryList> {
     const params: { [key: string]: string } = {};
     if (pageSize) {
@@ -57,7 +57,7 @@ export class OccUnitOrderAdapter implements UnitOrderAdapter {
 
   public loadUnitOrderDetail(
     userId: string,
-    orderCode: string
+    orderCode: string,
   ): Observable<Order> {
     const url = this.occEndpoints.buildUrl('unitLevelOrderDetail', {
       urlParams: { userId, orderId: orderCode },

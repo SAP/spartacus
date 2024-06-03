@@ -40,7 +40,7 @@ const groupWithSubGroup: Configurator.Group = {
 const productConfiguration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     CONFIG_ID,
-    ConfiguratorModelUtils.createInitialOwner()
+    ConfiguratorModelUtils.createInitialOwner(),
   ),
   productCode: PRODUCT_CODE,
   groups: [group, groupWithSubGroup],
@@ -131,23 +131,21 @@ const groupListWithConflictsAndAttributesOnRootLevel: Configurator.Group[] = [
 describe('ConfiguratorBasicEffectService', () => {
   let classUnderTest: ConfiguratorBasicEffectService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [ConfiguratorBasicEffectService],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [ConfiguratorBasicEffectService],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     classUnderTest = TestBed.inject(
-      ConfiguratorBasicEffectService as Type<ConfiguratorBasicEffectService>
+      ConfiguratorBasicEffectService as Type<ConfiguratorBasicEffectService>,
     );
   });
 
   describe('getFirstGroupWithAttributes', () => {
     it('should find group in single level config', () => {
       expect(
-        classUnderTest.getFirstGroupWithAttributes(productConfiguration)
+        classUnderTest.getFirstGroupWithAttributes(productConfiguration),
       ).toBe(GROUP_ID_8);
     });
 
@@ -155,28 +153,28 @@ describe('ConfiguratorBasicEffectService', () => {
       productConfiguration.groups =
         groupListWithConflictsAndAttributesOnRootLevel;
       expect(
-        classUnderTest.getFirstGroupWithAttributes(productConfiguration, true)
+        classUnderTest.getFirstGroupWithAttributes(productConfiguration, true),
       ).toBe(GROUP_ID_CONFLICT_1);
     });
 
     it('should find attribute group as first group in multi level config although conflicts exist (using default value for includeConflicts)', () => {
       productConfiguration.groups = groupListWithConflicts;
       expect(
-        classUnderTest.getFirstGroupWithAttributes(productConfiguration)
+        classUnderTest.getFirstGroupWithAttributes(productConfiguration),
       ).toBe(GROUP_ID_8);
     });
 
     it('should find attribute group as first group in multi level config although conflicts exist if includeConflicts is set to false', () => {
       productConfiguration.groups = groupListWithConflicts;
       expect(
-        classUnderTest.getFirstGroupWithAttributes(productConfiguration, false)
+        classUnderTest.getFirstGroupWithAttributes(productConfiguration, false),
       ).toBe(GROUP_ID_8);
     });
 
     it('should find conflict group as first group in multi level config where conflicts exist if includeConflicts is set to true', () => {
       productConfiguration.groups = groupListWithConflicts;
       expect(
-        classUnderTest.getFirstGroupWithAttributes(productConfiguration, true)
+        classUnderTest.getFirstGroupWithAttributes(productConfiguration, true),
       ).toBe(GROUP_ID_CONFLICT_1);
     });
 
@@ -185,8 +183,8 @@ describe('ConfiguratorBasicEffectService', () => {
         classUnderTest.getFirstGroupWithAttributes(
           ConfiguratorTestUtils.createConfiguration(
             'a',
-            ConfiguratorModelUtils.createInitialOwner()
-          )
+            ConfiguratorModelUtils.createInitialOwner(),
+          ),
         );
       }).toThrow();
     });
@@ -197,16 +195,16 @@ describe('ConfiguratorBasicEffectService', () => {
       expect(
         classUnderTest['getFirstGroupWithAttributesForList'](
           groupListWithConflictsAndAttributesOnRootLevel,
-          false
-        )
+          false,
+        ),
       ).toBe(GROUP_ID_4);
     });
     it('should find conflict group as first group in single level config if includeConflicts is set to true', () => {
       expect(
         classUnderTest['getFirstGroupWithAttributesForList'](
           groupListWithConflictsAndAttributesOnRootLevel,
-          true
-        )
+          true,
+        ),
       ).toBe(GROUP_ID_CONFLICT_1);
     });
     it('should find group in multi level config', () => {
@@ -245,7 +243,7 @@ describe('ConfiguratorBasicEffectService', () => {
         },
       ];
       expect(
-        classUnderTest['getFirstGroupWithAttributesForList'](groups, false)
+        classUnderTest['getFirstGroupWithAttributesForList'](groups, false),
       ).toBe(GROUP_ID_8);
     });
 
@@ -253,8 +251,8 @@ describe('ConfiguratorBasicEffectService', () => {
       expect(
         classUnderTest['getFirstGroupWithAttributesForList'](
           groupListWithConflicts,
-          false
-        )
+          false,
+        ),
       ).toBe(GROUP_ID_8);
     });
 
@@ -262,8 +260,8 @@ describe('ConfiguratorBasicEffectService', () => {
       expect(
         classUnderTest['getFirstGroupWithAttributesForList'](
           groupListWithConflicts,
-          true
-        )
+          true,
+        ),
       ).toBe(GROUP_ID_CONFLICT_1);
     });
 
@@ -303,7 +301,7 @@ describe('ConfiguratorBasicEffectService', () => {
         },
       ];
       expect(
-        classUnderTest['getFirstGroupWithAttributesForList'](groups, false)
+        classUnderTest['getFirstGroupWithAttributesForList'](groups, false),
       ).toBeUndefined();
     });
   });

@@ -31,7 +31,7 @@ export class MockOccEndpointsService implements Partial<OccEndpointsService> {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ) {
     return this.getEndpoint(endpoint);
   }
@@ -96,7 +96,7 @@ describe('OccUserRegistrationAdapter', () => {
         return req.method === 'POST';
       });
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-        'organizationUserRegistration'
+        'organizationUserRegistration',
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -114,7 +114,7 @@ describe('OccUserRegistrationAdapter', () => {
         .flush(userData);
       expect(converter.convert).toHaveBeenCalledWith(
         userData,
-        ORGANIZATION_USER_REGISTRATION_SERIALIZER
+        ORGANIZATION_USER_REGISTRATION_SERIALIZER,
       );
     });
   });

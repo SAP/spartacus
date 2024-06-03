@@ -25,7 +25,7 @@ export class ConfigurableRoutesService {
   constructor(
     protected injector: Injector,
     protected routingConfigService: RoutingConfigService,
-    protected urlMatcherService: UrlMatcherService
+    protected urlMatcherService: UrlMatcherService,
   ) {}
 
   protected initCalled = false; // guard not to call init() more than once
@@ -100,7 +100,7 @@ export class ConfigurableRoutesService {
         return {
           ...route,
           matcher: this.urlMatcherService.getFromPaths(
-            routeConfig?.paths || []
+            routeConfig?.paths || [],
           ),
         };
       }
@@ -117,7 +117,7 @@ export class ConfigurableRoutesService {
    */
   protected resolveUrlMatchers(
     route: Route,
-    matchersOrFactories: RouteConfig['matchers']
+    matchersOrFactories: RouteConfig['matchers'],
   ): UrlMatcher {
     const matchers: UrlMatcher[] =
       matchersOrFactories?.map((matcherOrFactory) => {
@@ -136,7 +136,7 @@ export class ConfigurableRoutesService {
    */
   protected resolveUrlMatcherFactory(
     route: Route,
-    factoryToken: InjectionToken<UrlMatcherFactory>
+    factoryToken: InjectionToken<UrlMatcherFactory>,
   ): UrlMatcher {
     const factory = this.injector.get(factoryToken);
     return factory(route);
@@ -153,7 +153,7 @@ export class ConfigurableRoutesService {
   protected validateRouteConfig(
     routeConfig: RouteConfig | null | undefined,
     routeName: string,
-    route: Route
+    route: Route,
   ) {
     if (isDevMode()) {
       // - null value of routeConfig or routeConfig.paths means explicit switching off the route - it's valid config
@@ -171,7 +171,7 @@ export class ConfigurableRoutesService {
         this.warn(
           `Could not configure the named route '${routeName}'`,
           route,
-          `due to undefined config or undefined 'paths' property for this route`
+          `due to undefined config or undefined 'paths' property for this route`,
         );
         return;
       }

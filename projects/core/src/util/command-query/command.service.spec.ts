@@ -14,7 +14,7 @@ import { Command, CommandService, CommandStrategy } from './command.service';
 
 /** Utility function to create a full observer filled with spies */
 function createObserverSpy<T>(
-  name: string
+  name: string,
 ): jasmine.SpyObj<PartialObserver<T>> {
   const mockObserver = jasmine.createSpyObj(name, {
     next: () => {},
@@ -95,7 +95,7 @@ describe('CommandService', () => {
           } else {
             return cmd;
           }
-        }
+        },
       );
       faultyCommandFactory.and.callThrough();
     });
@@ -358,7 +358,7 @@ describe('CommandService', () => {
         let actual: Error | undefined;
         const observer1 = createObserverSpy('observer1');
         (observer1.error as jasmine.Spy).and.callFake(
-          (result) => (actual = result)
+          (result) => (actual = result),
         );
         const observer2 = createObserverSpy('observer2');
 

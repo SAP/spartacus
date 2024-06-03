@@ -26,12 +26,12 @@ export class AsmCustomer360ActiveCartComponent {
 
   constructor(
     public sectionContext: AsmCustomer360SectionContext<AsmCustomer360ActiveCart>,
-    protected productService: ProductService
+    protected productService: ProductService,
   ) {
     this.activeCart$ = this.sectionContext.data$.pipe(
       map((activeCart) => {
         return activeCart.cart;
-      })
+      }),
     );
     this.productItems$ = this.activeCart$.pipe(
       concatMap((cart) => {
@@ -52,12 +52,12 @@ export class AsmCustomer360ActiveCartComponent {
                       totalPrice: entry.totalPrice,
                     } as ProductItem;
                   }),
-                  take(1)
+                  take(1),
                 );
-            })
+            }),
           );
         }
-      })
+      }),
     );
   }
 }

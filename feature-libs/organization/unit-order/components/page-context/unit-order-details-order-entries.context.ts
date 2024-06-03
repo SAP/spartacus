@@ -24,7 +24,7 @@ export class UnitOrderDetailsOrderEntriesContext
   readonly type = OrderEntriesSource.UNIT_ORDER_DETAILS;
 
   constructor(
-    protected unitLevelOrderDetailService: UnitLevelOrderDetailService
+    protected unitLevelOrderDetailService: UnitLevelOrderDetailService,
   ) {}
 
   getEntries(): Observable<OrderEntry[]> {

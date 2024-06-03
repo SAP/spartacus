@@ -11,7 +11,7 @@ import { OutletPosition } from './outlet.model';
  * @private We plan to drive the outlets by standard configuration
  */
 export const PROVIDE_OUTLET_OPTIONS = new InjectionToken<ProvideOutletOptions>(
-  'PROVIDE_OUTLET_OPTIONS'
+  'PROVIDE_OUTLET_OPTIONS',
 );
 
 export interface ProvideOutletOptions {

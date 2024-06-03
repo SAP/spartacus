@@ -227,7 +227,7 @@ describe('CmsPageGuardService', () => {
           const expectedResult = {};
 
           spyOn(cmsRoutes, 'handleCmsRoutesInGuard').and.returnValue(
-            expectedResult as any
+            expectedResult as any,
           );
 
           let result;
@@ -240,7 +240,7 @@ describe('CmsPageGuardService', () => {
             pageContext,
             componentTypes,
             state.url,
-            pageData.label
+            pageData.label,
           );
         });
 
@@ -250,7 +250,7 @@ describe('CmsPageGuardService', () => {
           const expectedResult = {};
 
           spyOn(cmsRoutes, 'handleCmsRoutesInGuard').and.returnValue(
-            expectedResult as any
+            expectedResult as any,
           );
 
           let result;
@@ -263,7 +263,7 @@ describe('CmsPageGuardService', () => {
             pageContext,
             componentTypes,
             state.url,
-            pageContext.id
+            pageContext.id,
           );
         });
       });
@@ -316,7 +316,7 @@ describe('CmsPageGuardService', () => {
       spyOn(cms, 'getPageIndex').and.callFake((ctx: PageContext) =>
         ctx.id === NOT_FOUND_URL
           ? of(notFoundPageIndex)
-          : of(undefined, notFoundPageIndex)
+          : of(undefined, notFoundPageIndex),
       );
       spyOn(cms, 'setPageFailIndex');
 
@@ -328,14 +328,14 @@ describe('CmsPageGuardService', () => {
 
       expect(cms.setPageFailIndex).toHaveBeenCalledWith(
         pageContext,
-        notFoundPageIndex
+        notFoundPageIndex,
       );
       expect(cms.getPageIndex).toHaveBeenCalledWith(pageContext);
       expect(service.canActivatePage).toHaveBeenCalledWith(
         pageContext,
         notFoundPageData,
         route,
-        state
+        state,
       );
       expect(result).toBe(expected);
     });
@@ -347,7 +347,7 @@ describe('CmsPageGuardService', () => {
       spyOn(cms, 'getPageIndex').and.callFake((ctx: PageContext) =>
         ctx.id === NOT_FOUND_URL
           ? of(notFoundPageIndex)
-          : of(undefined, notFoundPageIndex)
+          : of(undefined, notFoundPageIndex),
       );
 
       const notFoundCmsPageContext: PageContext = {
@@ -363,7 +363,7 @@ describe('CmsPageGuardService', () => {
         .unsubscribe();
 
       expect(routingService.changeNextPageContext).toHaveBeenCalledWith(
-        notFoundCmsPageContext
+        notFoundCmsPageContext,
       );
     });
   });

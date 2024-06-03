@@ -21,12 +21,12 @@ export class UserRegistrationService implements UserRegistrationFacade {
     },
     OrganizationUserRegistration
   > = this.command.create((payload) =>
-    this.userRegistrationConnector.registerUser(payload.userData)
+    this.userRegistrationConnector.registerUser(payload.userData),
   );
 
   constructor(
     protected userRegistrationConnector: UserRegistrationConnector,
-    protected command: CommandService
+    protected command: CommandService,
   ) {}
 
   /**
@@ -35,7 +35,7 @@ export class UserRegistrationService implements UserRegistrationFacade {
    * @param userData
    */
   registerUser(
-    userData: OrganizationUserRegistration
+    userData: OrganizationUserRegistration,
   ): Observable<OrganizationUserRegistration> {
     return this.registerOrganizationUserCommand.execute({ userData });
   }

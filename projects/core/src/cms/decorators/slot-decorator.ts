@@ -18,6 +18,6 @@ export abstract class SlotDecorator {
   abstract decorate(
     element: Element,
     renderer: Renderer2,
-    slot?: ContentSlotData
+    slot?: ContentSlotData,
   ): void;
 }

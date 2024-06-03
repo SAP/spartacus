@@ -120,10 +120,10 @@ describe('DeliveryModeDatePickerComponent', () => {
       expect(card).toEqual(expectedCard);
 
       const cardElement = fixture.debugElement.query(
-        By.css('.cx-card-label:first-child')
+        By.css('.cx-card-label:first-child'),
       )?.nativeElement;
       const cardText = fixture.debugElement.query(
-        By.css('cx-card > div > div > div > div > div:nth-child(2) > div')
+        By.css('cx-card > div > div > div > div > div:nth-child(2) > div'),
       )?.nativeElement;
 
       expect(cardElement.textContent).toContain(textTitle);
@@ -148,10 +148,10 @@ describe('DeliveryModeDatePickerComponent', () => {
       fixture.detectChanges();
 
       const datePickerLabelEl = fixture.debugElement.query(
-        By.css('form > label > div')
+        By.css('form > label > div'),
       )?.nativeElement;
       const datePickerEl = fixture.debugElement.query(
-        By.css('cx-date-picker')
+        By.css('cx-date-picker'),
       )?.nativeElement;
 
       expect(datePickerLabelEl.textContent).toContain(datePickerLab);
@@ -167,7 +167,7 @@ describe('DeliveryModeDatePickerComponent', () => {
     } as any;
     component.ngOnInit();
     expect(component['form'].get('requestDeliveryDate')?.value).toEqual(
-      requestedRetrievalAt
+      requestedRetrievalAt,
     );
   });
 
@@ -183,10 +183,10 @@ describe('DeliveryModeDatePickerComponent', () => {
     component.ngOnInit();
     expect(component['requestedRetrievalAt']).toEqual(earliestRetrievalAt);
     expect(component['form'].get('requestDeliveryDate')?.value).toEqual(
-      earliestRetrievalAt
+      earliestRetrievalAt,
     );
     expect(
-      component['requestedDelDateFacade'].setRequestedDeliveryDate
+      component['requestedDelDateFacade'].setRequestedDeliveryDate,
     ).toHaveBeenCalled();
   });
 
@@ -217,19 +217,19 @@ describe('DeliveryModeDatePickerComponent', () => {
     //Manually trigger change event for date picker.
     const event = new Event('update');
     const datePickerEl: HTMLInputElement = fixture.debugElement.query(
-      By.css('cx-date-picker')
+      By.css('cx-date-picker'),
     )?.nativeElement;
     datePickerEl.dispatchEvent(event);
 
     expect(
-      component['requestedDelDateFacade'].setRequestedDeliveryDate
+      component['requestedDelDateFacade'].setRequestedDeliveryDate,
     ).toHaveBeenCalled();
     component['requestedDelDateFacade']
       .setRequestedDeliveryDate('current', '123', newRequestedRetrievalAt)
       .subscribe(() => {
         expect(component['globalMessageService'].add).toHaveBeenCalledWith(
           { key: 'requestedDeliveryDate.successMessage' },
-          GlobalMessageType.MSG_TYPE_INFO
+          GlobalMessageType.MSG_TYPE_INFO,
         );
         done();
       });
@@ -267,13 +267,13 @@ describe('DeliveryModeDatePickerComponent', () => {
     //Manually trigger change event for date picker.
     const event = new Event('update');
     const datePickerEl: HTMLInputElement = fixture.debugElement.query(
-      By.css('cx-date-picker')
+      By.css('cx-date-picker'),
     )?.nativeElement;
     datePickerEl.dispatchEvent(event);
 
     expect(component['setRequestedDeliveryDate']).toHaveBeenCalled();
     expect(
-      component['requestedDelDateFacade'].setRequestedDeliveryDate
+      component['requestedDelDateFacade'].setRequestedDeliveryDate,
     ).not.toHaveBeenCalled();
   });
 
@@ -297,11 +297,11 @@ describe('DeliveryModeDatePickerComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const datePickerEl: HTMLInputElement = fixture.debugElement.query(
-      By.css('cx-date-picker')
+      By.css('cx-date-picker'),
     )?.nativeElement;
     expect(datePickerEl).toBeUndefined();
     const datePickerReadOnlyEl: HTMLInputElement = fixture.debugElement.query(
-      By.css('cx-card')
+      By.css('cx-card'),
     )?.nativeElement;
     expect(datePickerReadOnlyEl.innerHTML).not.toBeNull();
   });
@@ -322,7 +322,7 @@ describe('DeliveryModeDatePickerComponent', () => {
               },
             ],
           },
-        })
+        }),
       );
 
     const earliestRetrievalAt = '2023-09-15';
@@ -336,10 +336,10 @@ describe('DeliveryModeDatePickerComponent', () => {
     component.ngOnInit();
     expect(component['requestedRetrievalAt']).toEqual(earliestRetrievalAt);
     expect(component['form'].get('requestDeliveryDate')?.value).toEqual(
-      earliestRetrievalAt
+      earliestRetrievalAt,
     );
     expect(
-      component['requestedDelDateFacade'].setRequestedDeliveryDate
+      component['requestedDelDateFacade'].setRequestedDeliveryDate,
     ).toHaveBeenCalled();
 
     component['requestedDelDateFacade']
@@ -348,7 +348,7 @@ describe('DeliveryModeDatePickerComponent', () => {
         error: () => {
           expect(component['globalMessageService'].add).toHaveBeenCalledWith(
             { key: 'requestedDeliveryDate.errorMessage' },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
           done();
         },

@@ -172,7 +172,7 @@ export interface SchematicConfig {
    * A function returning the custom configuration.
    */
   customConfig?: <OPTIONS extends LibraryOptions>(
-    options: OPTIONS
+    options: OPTIONS,
   ) => AdditionalFeatureConfiguration;
   /**
    * A list of feature dependencies which will be configured
@@ -226,31 +226,31 @@ export interface AssetsConfig {
 
 export function shouldAddFeature(
   feature: string,
-  features: string[] = []
+  features: string[] = [],
 ): boolean {
   return features.includes(feature);
 }
 
 export function addLibraryFeature<T extends LibraryOptions>(
   options: T,
-  config: SchematicConfig
+  config: SchematicConfig,
 ): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const spartacusFeatureModuleExistsInApp = checkAppStructure(
       tree,
-      options.project
+      options.project,
     );
     if (!spartacusFeatureModuleExistsInApp) {
       context.logger.info('Scaffolding the new app structure...');
       context.logger.warn(
-        'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
+        'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/',
       );
     }
 
     return chain([
       debugLogRule(
         formatFeatureStart(config.library.featureName, `adding...`),
-        options.debug
+        options.debug,
       ),
 
       spartacusFeatureModuleExistsInApp ? noop() : scaffoldStructure(options),
@@ -261,7 +261,7 @@ export function addLibraryFeature<T extends LibraryOptions>(
 
       debugLogRule(
         formatFeatureComplete(config.library.featureName, `added.`),
-        options.debug
+        options.debug,
       ),
     ]);
   };
@@ -272,7 +272,7 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
 
   if (!buildPaths.length) {
     throw new SchematicsException(
-      `Could not find any tsconfig file. Can't find ${SPARTACUS_FEATURES_NG_MODULE}.`
+      `Could not find any tsconfig file. Can't find ${SPARTACUS_FEATURES_NG_MODULE}.`,
     );
   }
 
@@ -287,7 +287,7 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
 
 function handleFeature<T extends LibraryOptions>(
   options: T,
-  config: SchematicConfig
+  config: SchematicConfig,
 ): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const rules: Rule[] = [];
@@ -298,7 +298,7 @@ function handleFeature<T extends LibraryOptions>(
         path: createSpartacusFeatureFolderPath(config.folderName),
         module: SPARTACUS_FEATURES_MODULE,
         project: options.project,
-      })
+      }),
     );
     rules.push(addRootModule(options, config));
     rules.push(addFeatureModule(options, config));
@@ -327,7 +327,7 @@ export function createSpartacusWrapperModuleFileName(name: string): string {
 
 function addRootModule<T extends LibraryOptions>(
   options: T,
-  config: SchematicConfig
+  config: SchematicConfig,
 ): Rule {
   return (tree: Tree): Tree => {
     if (!config.rootModule) {
@@ -365,7 +365,7 @@ function addRootModule<T extends LibraryOptions>(
 
 function addFeatureModule<T extends LibraryOptions>(
   options: T,
-  config: SchematicConfig
+  config: SchematicConfig,
 ): Rule {
   return (tree: Tree) => {
     const basePath = process.cwd();
@@ -391,7 +391,7 @@ function addFeatureModule<T extends LibraryOptions>(
 
   function addToFeatureModule(
     sourceFile: SourceFile,
-    appSourceFiles: SourceFile[]
+    appSourceFiles: SourceFile[],
   ) {
     const configFeatures = ([] as Module[]).concat(config.featureModule);
     for (let i = 0; i < configFeatures.length; i++) {
@@ -442,7 +442,7 @@ function addFeatureModule<T extends LibraryOptions>(
 
 export function addFeatureTranslations<T extends LibraryOptions>(
   options: T,
-  config: SchematicConfig
+  config: SchematicConfig,
 ): Rule {
   return (tree: Tree): Tree => {
     if (!config.i18n) {
@@ -490,7 +490,7 @@ export function addFeatureTranslations<T extends LibraryOptions>(
 
 function addCustomConfig<T extends LibraryOptions>(
   options: T,
-  config: SchematicConfig
+  config: SchematicConfig,
 ): Rule {
   return (tree: Tree): Tree => {
     if (!config.customConfig) {
@@ -510,7 +510,7 @@ function addCustomConfig<T extends LibraryOptions>(
         }
 
         const customConfigs = ([] as AdditionalProviders[]).concat(
-          config.customConfig(options).providers ?? []
+          config.customConfig(options).providers ?? [],
         );
         customConfigs.forEach((customConfig) => {
           addModuleProvider(sourceFile, {
@@ -535,7 +535,7 @@ function addCustomConfig<T extends LibraryOptions>(
 
 function addLibraryAssets(
   assetsConfig: AssetsConfig,
-  options: LibraryOptions
+  options: LibraryOptions,
 ): Rule {
   return (tree: Tree) => {
     const { path, workspace: angularJson } = getWorkspace(tree);
@@ -547,7 +547,7 @@ function addLibraryAssets(
     const architectBuild = architect?.build;
     const buildAssets = createAssetsArray(
       assetsConfig,
-      (architectBuild?.options as any)?.assets
+      (architectBuild?.options as any)?.assets,
     );
     const buildOptions = {
       ...architectBuild?.options,
@@ -558,7 +558,7 @@ function addLibraryAssets(
     const architectTest = architect?.test;
     const testAssets = createAssetsArray(
       assetsConfig,
-      (architectTest?.options as any)?.assets
+      (architectTest?.options as any)?.assets,
     );
     const testOptions = {
       ...architectTest?.options,
@@ -597,7 +597,7 @@ function addLibraryAssets(
 
 function createAssetsArray(
   assetsConfig: AssetsConfig,
-  angularJsonAssets: any[] = []
+  angularJsonAssets: any[] = [],
 ): unknown[] {
   for (const asset of angularJsonAssets) {
     if (typeof asset === 'object') {
@@ -625,7 +625,7 @@ function createAssetsArray(
 
 export function addLibraryStyles(
   stylingConfig: StylingConfig,
-  options: LibraryOptions
+  options: LibraryOptions,
 ): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const defaultProject = getDefaultProjectNameFromWorkspace(tree);
@@ -650,14 +650,14 @@ export function addLibraryStyles(
     const styleConfigFilePath = getStylesConfigFilePath(
       getSourceRoot(tree, {
         project: project,
-      })
+      }),
     );
     let libraryScssFileContent = '';
 
     if (tree.exists(styleConfigFilePath)) {
       const styleConfigImportPath = getRelativeStyleConfigImportPath(
         getProject(tree, project),
-        libraryScssPath
+        libraryScssPath,
       );
       const stylesConfigImport = `@import "${styleConfigImportPath}";`;
       libraryScssFileContent += `${stylesConfigImport}\n`;
@@ -719,7 +719,7 @@ export function addLibraryStyles(
 }
 
 export function createNodePackageInstallationTask(
-  context: SchematicContext
+  context: SchematicContext,
 ): TaskId {
   return context.addTask(new NodePackageInstallTask());
 }
@@ -733,14 +733,14 @@ export function installPackageJsonDependencies(): Rule {
 
 export function addPackageJsonDependencies(
   dependencies: NodeDependency[],
-  packageJson: any
+  packageJson: any,
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     for (const dependency of dependencies) {
       if (!dependencyExists(dependency, packageJson)) {
         addPackageJsonDependency(tree, dependency);
         context.logger.info(
-          `✅️ Added '${dependency.name}' into ${dependency.type}`
+          `✅️ Added '${dependency.name}' into ${dependency.type}`,
         );
       }
     }
@@ -752,7 +752,7 @@ export function addPackageJsonDependencies(
  * Adds libraries dependencies to package.json
  */
 export function addPackageJsonDependenciesForLibrary<
-  OPTIONS extends LibraryOptions
+  OPTIONS extends LibraryOptions,
 >(dependencies: Record<string, string>, _options: OPTIONS): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
@@ -769,14 +769,14 @@ export function addPackageJsonDependenciesForLibrary<
 
 export function dependencyExists(
   dependency: NodeDependency,
-  packageJson: any
+  packageJson: any,
 ): boolean {
   return packageJson[dependency.type]?.hasOwnProperty(dependency.name);
 }
 
 export function configureB2bFeatures<T extends LibraryOptions>(
   options: T,
-  packageJson: any
+  packageJson: any,
 ): Rule {
   return (_tree: Tree, _context: SchematicContext): Rule => {
     const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
@@ -790,7 +790,7 @@ export function configureB2bFeatures<T extends LibraryOptions>(
             name: SPARTACUS_SETUP,
           },
         ],
-        packageJson
+        packageJson,
       ),
     ]);
   };
@@ -801,7 +801,7 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
     if (!buildPaths.length) {
       throw new SchematicsException(
-        'Could not find any tsconfig file. Cannot configure SpartacusConfigurationModule.'
+        'Could not find any tsconfig file. Cannot configure SpartacusConfigurationModule.',
       );
     }
 
@@ -819,7 +819,7 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
         }
 
         getB2bConfiguration().forEach((provider) =>
-          addModuleProvider(sourceFile, provider)
+          addModuleProvider(sourceFile, provider),
         );
 
         saveAndFormat(sourceFile);
@@ -840,12 +840,12 @@ function createModuleFileName(config: SchematicConfig): string {
  */
 export function calculateCrossFeatureSort(
   featureA: string,
-  featureB: string
+  featureB: string,
 ): number {
   return calculateSortInternal(
     featureA,
     featureB,
-    crossFeatureInstallationOrder
+    crossFeatureInstallationOrder,
   );
 }
 
@@ -854,12 +854,12 @@ export function calculateCrossFeatureSort(
  */
 export function calculateCrossLibrarySort(
   libraryA: string,
-  libraryB: string
+  libraryB: string,
 ): number {
   return calculateSortInternal(
     libraryA,
     libraryB,
-    crossLibraryInstallationOrder
+    crossLibraryInstallationOrder,
   );
 }
 
@@ -869,7 +869,7 @@ export function calculateCrossLibrarySort(
 function calculateSortInternal(
   libOrFeatureA: string,
   libOrFeatureB: string,
-  order: string[]
+  order: string[],
 ): number {
   const indexA = order.indexOf(libOrFeatureA);
   const indexB = order.indexOf(libOrFeatureB);
@@ -887,7 +887,7 @@ function calculateSortInternal(
  */
 export function finalizeInstallation<OPTIONS extends LibraryOptions>(
   options: OPTIONS,
-  features: string[]
+  features: string[],
 ): Rule {
   return (_tree: Tree, context: SchematicContext) => {
     if (options.internal?.existingSpartacusApplication) {

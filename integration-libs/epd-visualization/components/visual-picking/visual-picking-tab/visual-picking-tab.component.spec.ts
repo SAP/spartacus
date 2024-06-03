@@ -45,7 +45,7 @@ class MockVisualPickingTabService {
 
   public initialize(
     _visualViewerService: VisualViewerService,
-    _visualPickingProductListService: VisualPickingProductListService
+    _visualPickingProductListService: VisualPickingProductListService,
   ): void {}
 }
 
@@ -53,7 +53,7 @@ class MockVisualPickingProductFilterService {
   filter = '';
 
   getFilteredProducts(
-    _unfilteredProductReferences$: Observable<ProductReference[]>
+    _unfilteredProductReferences$: Observable<ProductReference[]>,
   ): Observable<ProductReference[]> {
     return of([]);
   }
@@ -100,7 +100,7 @@ class MockVisualViewerService {
   loadVisualizationResponse: Observable<VisualizationLoadInfo>;
 
   public loadVisualization(
-    _productCode: string
+    _productCode: string,
   ): Observable<VisualizationLoadInfo> {
     return this.loadVisualizationResponse;
   }

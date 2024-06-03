@@ -29,7 +29,7 @@ export function formatFeatureStart(feature: string, message: string): string {
  */
 export function formatFeatureComplete(
   feature: string,
-  message: string
+  message: string,
 ): string {
   return `✅ ${feature}: ${message}`;
 }

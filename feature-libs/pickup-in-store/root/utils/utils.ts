@@ -9,7 +9,7 @@ import { CartWithIdAndUserId } from './type-utils';
 
 export const getProperty = (
   o: Record<string, any> | undefined | null,
-  property: string
+  property: string,
 ): any | null => {
   if (!o) {
     return null;
@@ -22,7 +22,7 @@ export const getProperty = (
 
 /** Custom type guard to ensure we have a cart with the required ids for pickup in store */
 export function cartWithIdAndUserId(
-  cart: Cart | undefined
+  cart: Cart | undefined,
 ): cart is CartWithIdAndUserId {
   return (
     !!cart &&

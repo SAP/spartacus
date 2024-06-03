@@ -24,11 +24,11 @@ export class ConfiguratorBasicEffectService {
    */
   getFirstGroupWithAttributes(
     configuration: Configurator.Configuration,
-    includeConflicts = false
+    includeConflicts = false,
   ): string {
     const id = this.getFirstGroupWithAttributesForList(
       configuration.groups,
-      includeConflicts
+      includeConflicts,
     );
     if (id) {
       return id;
@@ -45,7 +45,7 @@ export class ConfiguratorBasicEffectService {
    */
   protected getFirstGroupWithAttributesForList(
     groups: Configurator.Group[],
-    includeConflicts: boolean
+    includeConflicts: boolean,
   ): string | undefined {
     let groupWithAttributes: Configurator.Group | undefined;
     if (
@@ -57,7 +57,7 @@ export class ConfiguratorBasicEffectService {
       groupWithAttributes = groups[0].subGroups
         .filter(
           (currentGroup) =>
-            currentGroup.attributes && currentGroup.attributes.length > 0
+            currentGroup.attributes && currentGroup.attributes.length > 0,
         )
         .shift();
     }
@@ -67,7 +67,7 @@ export class ConfiguratorBasicEffectService {
           (currentGroup) =>
             currentGroup.attributes &&
             currentGroup.attributes.length > 0 &&
-            currentGroup.groupType !== Configurator.GroupType.CONFLICT_GROUP
+            currentGroup.groupType !== Configurator.GroupType.CONFLICT_GROUP,
         )
         .shift();
     }
@@ -78,13 +78,13 @@ export class ConfiguratorBasicEffectService {
       id = groups
         .filter(
           (currentGroup) =>
-            currentGroup.subGroups && currentGroup.subGroups.length > 0
+            currentGroup.subGroups && currentGroup.subGroups.length > 0,
         )
         .flatMap((currentGroup) =>
           this.getFirstGroupWithAttributesForList(
             currentGroup.subGroups,
-            includeConflicts
-          )
+            includeConflicts,
+          ),
         )
         .filter((groupId) => groupId) //Filter undefined strings
         .shift();

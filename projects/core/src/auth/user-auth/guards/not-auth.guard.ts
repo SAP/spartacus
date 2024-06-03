@@ -22,7 +22,7 @@ export class NotAuthGuard {
   constructor(
     protected authService: AuthService,
     protected semanticPathService: SemanticPathService,
-    protected router: Router
+    protected router: Router,
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -31,11 +31,11 @@ export class NotAuthGuard {
       map((isLoggedIn) => {
         if (isLoggedIn) {
           return this.router.parseUrl(
-            this.semanticPathService.get('home') ?? ''
+            this.semanticPathService.get('home') ?? '',
           );
         }
         return !isLoggedIn;
-      })
+      }),
     );
   }
 }

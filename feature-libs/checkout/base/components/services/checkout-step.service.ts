@@ -44,15 +44,15 @@ export class CheckoutStepService {
               }
             });
             return activeIndex;
-          })
+          }),
         );
-      })
+      }),
     );
 
   constructor(
     protected routingService: RoutingService,
     protected checkoutConfig: CheckoutConfig,
-    protected routingConfigService: RoutingConfigService
+    protected routingConfigService: RoutingConfigService,
   ) {
     this.resetSteps();
   }
@@ -69,7 +69,7 @@ export class CheckoutStepService {
 
   goToStepWithIndex(stepIndex: number): void {
     this.routingService.go(
-      this.getStepUrlFromStepRoute(this.allSteps[stepIndex].routeName)
+      this.getStepUrlFromStepRoute(this.allSteps[stepIndex].routeName),
     );
   }
 
@@ -89,10 +89,10 @@ export class CheckoutStepService {
 
   disableEnableStep(
     currentStepType: CheckoutStepType | string,
-    disabled: boolean
+    disabled: boolean,
   ): void {
     const currentStep = this.allSteps.find((step) =>
-      step.type.includes(currentStepType as CheckoutStepType)
+      step.type.includes(currentStepType as CheckoutStepType),
     );
     if (currentStep && currentStep.disabled !== disabled) {
       currentStep.disabled = disabled;
@@ -158,13 +158,13 @@ export class CheckoutStepService {
 
     const stepIndex = this.allSteps.findIndex(
       (step) =>
-        currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`
+        currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`,
     );
     return stepIndex === -1 ? null : stepIndex;
   }
 
   private getStepUrlFromActivatedRoute(
-    activatedRoute: ActivatedRoute
+    activatedRoute: ActivatedRoute,
   ): string | null {
     return activatedRoute &&
       activatedRoute.snapshot &&

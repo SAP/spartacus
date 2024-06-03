@@ -75,6 +75,6 @@ export interface RouteBreadcrumbResolver {
    * @param route the route snapshot
    */
   resolveBreadcrumbs(
-    params: RouteBreadcrumbResolverParams
+    params: RouteBreadcrumbResolverParams,
   ): Observable<BreadcrumbMeta[]>;
 }

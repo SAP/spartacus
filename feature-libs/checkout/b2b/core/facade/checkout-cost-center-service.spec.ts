@@ -47,7 +47,7 @@ class MockCheckoutCostCenterConnector
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
   getCheckoutDetailsState = createSpy().and.returnValue(
-    of(of({ loading: false, error: false, data: undefined }))
+    of(of({ loading: false, error: false, data: undefined })),
   );
 }
 
@@ -82,7 +82,7 @@ describe(`CheckoutCostCenterService`, () => {
     [CheckoutCostCenterService],
     (checkoutCostCenterService: CheckoutCostCenterService) => {
       expect(checkoutCostCenterService).toBeTruthy();
-    }
+    },
   ));
 
   describe(`getCostCenterState`, () => {
@@ -94,7 +94,7 @@ describe(`CheckoutCostCenterService`, () => {
           data: {
             costCenter: mockCostCenter,
           },
-        })
+        }),
       );
 
       service
@@ -120,7 +120,7 @@ describe(`CheckoutCostCenterService`, () => {
           expect(connector.setCostCenter).toHaveBeenCalledWith(
             mockUserId,
             mockCartId,
-            mockCostCenter.code
+            mockCostCenter.code,
           );
           expect(cart).toEqual(mockCart);
           done();
@@ -138,7 +138,7 @@ describe(`CheckoutCostCenterService`, () => {
               userId: mockUserId,
               code: mockCostCenter.code ?? '',
             },
-            CheckoutCostCenterSetEvent
+            CheckoutCostCenterSetEvent,
           );
           done();
         });

@@ -34,7 +34,7 @@ export class CdcUserTokenEffects {
               payload.UIDSignature,
               payload.signatureTimestamp,
               payload.idToken,
-              payload.baseSite
+              payload.baseSite,
             )
             .pipe(
               switchMap((token) => {
@@ -44,24 +44,24 @@ export class CdcUserTokenEffects {
               catchError((error) => {
                 this.globalMessageService.add(
                   { key: 'httpHandlers.badGateway' },
-                  GlobalMessageType.MSG_TYPE_ERROR
+                  GlobalMessageType.MSG_TYPE_ERROR,
                 );
                 return of(
                   new CdcAuthActions.LoadCdcUserTokenFail({
                     error: normalizeHttpError(error, this.logger),
                     initialActionPayload: payload,
-                  })
+                  }),
                 );
-              })
-            )
-        )
-      )
+              }),
+            ),
+        ),
+      ),
     );
 
   constructor(
     private actions$: Actions,
     private userTokenService: CdcUserAuthenticationTokenService,
     private globalMessageService: GlobalMessageService,
-    private cdcAuthService: CdcAuthService
+    private cdcAuthService: CdcAuthService,
   ) {}
 }

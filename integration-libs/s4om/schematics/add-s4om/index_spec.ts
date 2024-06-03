@@ -65,35 +65,35 @@ describe('Spartacus S4OM schematics: ng-add', () => {
       SPARTACUS_SCHEMATICS,
       path.join(
         __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
+        '../../../../projects/schematics/src/collection.json',
+      ),
     );
     schematicRunner.registerCollection(
       SPARTACUS_CHECKOUT,
       path.join(
         __dirname,
-        '../../../../feature-libs/checkout/schematics/collection.json'
-      )
+        '../../../../feature-libs/checkout/schematics/collection.json',
+      ),
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -102,7 +102,7 @@ describe('Spartacus S4OM schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -117,7 +117,7 @@ describe('Spartacus S4OM schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           s4omFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -150,7 +150,7 @@ describe('Spartacus S4OM schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...s4omFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 

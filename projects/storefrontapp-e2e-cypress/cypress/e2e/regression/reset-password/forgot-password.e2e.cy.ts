@@ -25,7 +25,7 @@ context('Forgot Password Page', () => {
       .getSuccessAlert()
       .should(
         'contain',
-        'An email has been sent to you with information on how to reset your password.'
+        'An email has been sent to you with information on how to reset your password.',
       );
   });
 

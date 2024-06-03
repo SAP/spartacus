@@ -86,7 +86,7 @@ describe('OccSegmentRefsInterceptor', () => {
         expect(perHeader).toBeTruthy();
         expect(perHeader).toEqual('footwear,bags');
         mockReq.flush('someData');
-      }
+      },
     ));
   });
 
@@ -123,7 +123,7 @@ describe('OccSegmentRefsInterceptor', () => {
         expect(perHeader).toBeTruthy();
         expect(perHeader).toEqual('footwear,bags');
         mockReq.flush('someData');
-      }
+      },
     ));
   });
 
@@ -160,7 +160,7 @@ describe('OccSegmentRefsInterceptor', () => {
         expect(perHeader).toBeFalsy();
         expect(perHeader).toEqual(null);
         mockReq.flush('someData');
-      }
+      },
     ));
   });
 });

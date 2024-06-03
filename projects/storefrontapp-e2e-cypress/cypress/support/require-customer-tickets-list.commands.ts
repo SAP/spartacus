@@ -21,7 +21,7 @@ declare global {
        */
       requireCustomerTicketList: (
         auth: {},
-        ticketDetails: TestTicketDetails
+        ticketDetails: TestTicketDetails,
       ) => Cypress.Chainable<any>;
     }
   }
@@ -34,7 +34,7 @@ Cypress.Commands.add(
       return cy.request({
         method: 'POST',
         url: `${Cypress.env('API_URL')}/${Cypress.env(
-          'OCC_PREFIX'
+          'OCC_PREFIX',
         )}/${Cypress.env('BASE_SITE')}/users/current/tickets`,
         body: {
           message,
@@ -61,5 +61,5 @@ Cypress.Commands.add(
       });
       cy.wrap(response.body);
     });
-  }
+  },
 );

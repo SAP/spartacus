@@ -33,7 +33,7 @@ export class AddressBookComponent implements OnInit {
   constructor(
     public service: AddressBookComponentService,
     protected translation: TranslationService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -125,8 +125,8 @@ export class AddressBookComponent implements OnInit {
               ? 'addressBook.defaultDeliveryAddress'
               : 'addressBook.additionalDeliveryAddress',
           } as Card;
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -137,7 +137,7 @@ export class AddressBookComponent implements OnInit {
         key: 'addressMessages.setAsDefaultSuccessfully',
         params: { streetAddress: address.line1 },
       },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
   }
 

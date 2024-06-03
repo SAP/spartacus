@@ -47,25 +47,23 @@ describe('CheckoutPlaceOrderComponent', () => {
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          AtMessageModule,
-        ],
-        declarations: [MockUrlPipe, CheckoutPlaceOrderComponent],
-        providers: [
-          { provide: OrderFacade, useClass: MockOrderFacade },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          { provide: GlobalMessageService, useValue: {} },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        AtMessageModule,
+      ],
+      declarations: [MockUrlPipe, CheckoutPlaceOrderComponent],
+      providers: [
+        { provide: OrderFacade, useClass: MockOrderFacade },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: GlobalMessageService, useValue: {} },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPlaceOrderComponent);
@@ -94,7 +92,7 @@ describe('CheckoutPlaceOrderComponent', () => {
 
     expect(launchDialogService.launch).toHaveBeenCalledWith(
       LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-      component['vcr']
+      component['vcr'],
     );
     expect(orderFacade.placeOrder).toHaveBeenCalled();
   });
@@ -117,7 +115,7 @@ describe('CheckoutPlaceOrderComponent', () => {
 
       expect(
         fixture.debugElement.nativeElement.querySelector('.btn-primary')
-          .disabled
+          .disabled,
       ).toEqual(false);
     });
   });

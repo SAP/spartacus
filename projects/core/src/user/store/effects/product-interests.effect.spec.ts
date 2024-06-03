@@ -37,7 +37,7 @@ describe('Product Interests Effect', () => {
 
     // actions$ = TestBed.inject(Actions);
     productInterestsEffect = TestBed.inject(
-      fromInterestsEffect.ProductInterestsEffect
+      fromInterestsEffect.ProductInterestsEffect,
     );
     userInterestConnector = TestBed.inject(UserInterestsConnector);
   });
@@ -50,7 +50,7 @@ describe('Product Interests Effect', () => {
         pagination: {},
       };
       spyOn(userInterestConnector, 'getInterests').and.returnValue(
-        of(interests)
+        of(interests),
       );
       const action = new UserActions.LoadProductInterests(loadParams);
       const completion = new UserActions.LoadProductInterestsSuccess(interests);
@@ -58,12 +58,12 @@ describe('Product Interests Effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(productInterestsEffect.loadProductInteres$).toBeObservable(
-        expected
+        expected,
       );
     });
     it('should be able to handle failures for load product interests', () => {
       spyOn(userInterestConnector, 'getInterests').and.returnValue(
-        throwError(() => 'Error')
+        throwError(() => 'Error'),
       );
       const action = new UserActions.LoadProductInterests(loadParams);
       const completion = new UserActions.LoadProductInterestsFail(undefined);
@@ -71,7 +71,7 @@ describe('Product Interests Effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(productInterestsEffect.loadProductInteres$).toBeObservable(
-        expected
+        expected,
       );
     });
   });
@@ -100,7 +100,7 @@ describe('Product Interests Effect', () => {
     it('should be able to remove product interests', () => {
       const delRes = '200';
       spyOn(userInterestConnector, 'removeInterest').and.returnValue(
-        of([delRes])
+        of([delRes]),
       );
       const action = new UserActions.RemoveProductInterest(delParams);
       const loadSuccess = new UserActions.LoadProductInterests({
@@ -113,14 +113,14 @@ describe('Product Interests Effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: loadSuccess, c: removeSuccess });
       expect(productInterestsEffect.removeProductInterest$).toBeObservable(
-        expected
+        expected,
       );
     });
 
     it('should be able to remove single product interest', () => {
       const delRes = '200';
       spyOn(userInterestConnector, 'removeInterest').and.returnValue(
-        of([delRes])
+        of([delRes]),
       );
       const removeAction = new UserActions.RemoveProductInterest(delParams1);
       const loadAction = new UserActions.LoadProductInterests({
@@ -135,13 +135,13 @@ describe('Product Interests Effect', () => {
       actions$ = hot('-a', { a: removeAction });
       const expected = cold('-(bc)', { b: loadAction, c: removeSuccess });
       expect(productInterestsEffect.removeProductInterest$).toBeObservable(
-        expected
+        expected,
       );
     });
 
     it('should be able to handle failures for remove product interest', () => {
       spyOn(userInterestConnector, 'removeInterest').and.returnValue(
-        throwError(() => 'Error')
+        throwError(() => 'Error'),
       );
       const action = new UserActions.RemoveProductInterest(delParams);
       const completion = new UserActions.RemoveProductInterestFail(undefined);
@@ -149,7 +149,7 @@ describe('Product Interests Effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(productInterestsEffect.removeProductInterest$).toBeObservable(
-        expected
+        expected,
       );
     });
   });

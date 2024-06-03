@@ -90,7 +90,7 @@ function checkForValidationMessage(
   component: ConfiguratorAttributeNumericInputFieldComponent,
   fixture: ComponentFixture<ConfiguratorAttributeNumericInputFieldComponent>,
   htmlElem: HTMLElement,
-  expectedMessages: any
+  expectedMessages: any,
 ) {
   component.attributeInputForm.markAsDirty();
 
@@ -125,64 +125,62 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      configuratorUISettingsConfig.productConfigurator =
-        defaultConfiguratorUISettingsConfig.productConfigurator;
-      mockLanguageService = {
-        getAll: () => of([]),
-        getActive: jasmine.createSpy().and.returnValue(of(locale)),
-        setActive: jasmine.createSpy(),
-      };
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeNumericInputFieldComponent,
-          MockFocusDirective,
-          MockCxIconComponent,
-        ],
-        imports: [ReactiveFormsModule, I18nTestingModule],
-        providers: [
-          { provide: LanguageService, useValue: mockLanguageService },
-          {
-            provide: ConfiguratorUISettingsConfig,
-            useValue: configuratorUISettingsConfig,
-          },
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
+  beforeEach(waitForAsync(() => {
+    configuratorUISettingsConfig.productConfigurator =
+      defaultConfiguratorUISettingsConfig.productConfigurator;
+    mockLanguageService = {
+      getAll: () => of([]),
+      getActive: jasmine.createSpy().and.returnValue(of(locale)),
+      setActive: jasmine.createSpy(),
+    };
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeNumericInputFieldComponent,
+        MockFocusDirective,
+        MockCxIconComponent,
+      ],
+      imports: [ReactiveFormsModule, I18nTestingModule],
+      providers: [
+        { provide: LanguageService, useValue: mockLanguageService },
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: configuratorUISettingsConfig,
+        },
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
 
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '*' },
-            },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '*' },
           },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ConfiguratorAttributeNumericInputFieldComponent
+      ConfiguratorAttributeNumericInputFieldComponent,
     );
     configuratorAttributeNumericInputFieldService = TestBed.inject(
-      ConfiguratorAttributeNumericInputFieldService
+      ConfiguratorAttributeNumericInputFieldService,
     );
 
     component = fixture.componentInstance;
@@ -192,7 +190,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     htmlElem = fixture.nativeElement;
     spyOn(
       configuratorAttributeNumericInputFieldService,
-      'getPatternForValidationMessage'
+      'getPatternForValidationMessage',
     );
     DEBOUNCE_TIME =
       defaultConfiguratorUISettingsConfig.productConfigurator
@@ -200,14 +198,14 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
     spyOn(
       component['configuratorCommonsService'],
-      'updateConfiguration'
+      'updateConfiguration',
     ).and.callThrough();
   });
 
   function checkForValidity(
     input: string,
     negativeAllowed: boolean,
-    isValid: boolean
+    isValid: boolean,
   ) {
     component.attribute.negativeAllowed = negativeAllowed;
     component.ngOnInit();
@@ -217,7 +215,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
   function checkForIntervalValidity(
     input: string,
-    numberOfValidationIssues: number
+    numberOfValidationIssues: number,
   ) {
     component.attribute = attributeInterval;
     component.ngOnInit();
@@ -226,7 +224,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       component,
       fixture,
       htmlElem,
-      numberOfValidationIssues
+      numberOfValidationIssues,
     );
   }
 
@@ -256,12 +254,12 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     it('should call service for pattern generation with meta data from attribute', () => {
       component.ngOnInit();
       expect(
-        configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
+        configuratorAttributeNumericInputFieldService.getPatternForValidationMessage,
       ).toHaveBeenCalledWith(
         NUMBER_DECIMAL_PLACES,
         component.attribute.numTotalLength,
         component.attribute.negativeAllowed,
-        'en'
+        'en',
       );
     });
 
@@ -270,12 +268,12 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       component.ngOnInit();
       const defaultSettings = component['getDefaultSettings']();
       expect(
-        configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
+        configuratorAttributeNumericInputFieldService.getPatternForValidationMessage,
       ).toHaveBeenCalledWith(
         defaultSettings.numDecimalPlaces,
         defaultSettings.numTotalLength,
         defaultSettings.negativeAllowed,
-        'en'
+        'en',
       );
     });
 
@@ -367,7 +365,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   it('should raise event in case input was changed', () => {
     component.onChange();
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalled();
   });
 
@@ -376,7 +374,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.attributeInputForm.setValue('122A23');
     component.onChange();
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledTimes(0);
   });
 
@@ -384,11 +382,11 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalled();
   }));
 
@@ -397,11 +395,11 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalled();
   }));
 
@@ -413,11 +411,11 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     fixture.detectChanges();
     tick(DEBOUNCE_TIME / 2);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledWith(
       'INITIAL',
       {
@@ -425,7 +423,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         userInput: '123456',
         selectedSingleValue: '123456',
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   }));
 
@@ -437,7 +435,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     fixture.detectChanges();
     tick(DEBOUNCE_TIME);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledTimes(2);
   }));
 
@@ -447,7 +445,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.ngOnDestroy();
     tick(DEBOUNCE_TIME);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).not.toHaveBeenCalled();
   }));
 
@@ -465,7 +463,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         'form-control',
         0,
         'aria-describedby',
-        'cx-configurator--label--attributeName'
+        'cx-configurator--label--attributeName',
       );
     }));
 
@@ -485,7 +483,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         'cx-validation-msg',
         0,
         'aria-live',
-        'assertive'
+        'assertive',
       );
     }));
 
@@ -505,7 +503,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         'cx-validation-msg',
         0,
         'aria-atomic',
-        'true'
+        'true',
       );
     }));
   });
@@ -529,7 +527,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         'configurator.a11y.numericIntervalStandard maxValue:' +
           maxValueFormatted +
           ' minValue:' +
-          minValueFormatted
+          minValueFormatted,
       );
     }));
 
@@ -545,7 +543,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ' minValue:' +
           minValueFormatted +
           ' ' +
-          'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
+          'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded',
       );
     }));
 
@@ -561,7 +559,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ' minValue:' +
           minValueFormatted +
           ' ' +
-          'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
+          'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded',
       );
     }));
 
@@ -577,7 +575,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ' minValue:' +
           minValueFormatted +
           ' ' +
-          'configurator.a11y.numericIntervalStandardOpen'
+          'configurator.a11y.numericIntervalStandardOpen',
       );
     }));
 
@@ -590,7 +588,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericInfiniteIntervalMinValue value:' +
-          minValueFormatted
+          minValueFormatted,
       );
     }));
 
@@ -603,7 +601,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericInfiniteIntervalMinValueIncluded value:' +
-          minValueFormatted
+          minValueFormatted,
       );
     }));
 
@@ -616,7 +614,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericInfiniteIntervalMaxValue value:' +
-          maxValueFormatted
+          maxValueFormatted,
       );
     }));
 
@@ -630,7 +628,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericInfiniteIntervalMaxValueIncluded value:' +
-          maxValueFormatted
+          maxValueFormatted,
       );
     }));
 
@@ -644,7 +642,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       tick(DEBOUNCE_TIME);
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalSingleValue value:' +
-          minValueFormatted
+          minValueFormatted,
       );
     }));
   });
@@ -683,7 +681,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           minValue1Formatted +
           ' newInterval:' +
           'configurator.a11y.numericInfiniteIntervalMinValueIncluded value:' +
-          minValue2Formatted
+          minValue2Formatted,
       );
     }));
 
@@ -710,7 +708,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ' minValue:' +
           minValue1Formatted +
           ' newInterval:configurator.a11y.numericIntervalSingleValue value:' +
-          minValue3Formatted
+          minValue3Formatted,
       );
     }));
   });
@@ -745,7 +743,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           'configurator.a11y.numericIntervalStandard maxValue:' +
           maxValueFormatted +
           ' minValue:' +
-          minValueFormatted
+          minValueFormatted,
       );
     }));
 
@@ -767,7 +765,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           component.attribute.label +
           ' ' +
           'configurator.a11y.numericInfiniteIntervalMinValue value:' +
-          minValueFormatted
+          minValueFormatted,
       );
     }));
   });

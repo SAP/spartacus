@@ -18,7 +18,7 @@ export class OrderReturnGuard {
   constructor(
     protected orderAmendService: OrderReturnService,
     protected semanticPathService: SemanticPathService,
-    protected router: Router
+    protected router: Router,
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -29,12 +29,12 @@ export class OrderReturnGuard {
           // as long as we're inside a guard, hence we redirect
           // to the common orders page.
           return this.router.parseUrl(
-            this.semanticPathService.get('orders') ?? ''
+            this.semanticPathService.get('orders') ?? '',
           );
         } else {
           return true;
         }
-      })
+      }),
     );
   }
 }

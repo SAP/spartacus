@@ -31,9 +31,9 @@ export class CdcUserAddressesEffects {
         mergeMap(() => this.updateDefaultAddressInCDC()),
         tap({
           error: (error) => this.showErrorMessage(error),
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   cdcUpdateUserAddress$ = createEffect(
@@ -43,9 +43,9 @@ export class CdcUserAddressesEffects {
         mergeMap(() => this.updateDefaultAddressInCDC()),
         tap({
           error: (error) => this.showErrorMessage(error),
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   cdcDeleteUserAddress$ = createEffect(
@@ -55,15 +55,15 @@ export class CdcUserAddressesEffects {
         mergeMap(() => this.updateDefaultAddressInCDC()),
         tap({
           error: (error) => this.showErrorMessage(error),
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   getAddresses(): Observable<Address[]> {
     return this.userIdService.takeUserId().pipe(
       take(1),
-      switchMap((userId) => this.userAddressConnector.getAll(userId))
+      switchMap((userId) => this.userAddressConnector.getAll(userId)),
     );
   }
 
@@ -82,7 +82,7 @@ export class CdcUserAddressesEffects {
       switchMap((addresses: Address[]) => {
         const defaultAddress = this.getDefaultAddress(addresses) || {};
         return this.sendAddressToCDC(defaultAddress);
-      })
+      }),
     );
   }
 
@@ -99,9 +99,9 @@ export class CdcUserAddressesEffects {
           formattedAddress,
           address.postalCode || ' ',
           address.town || ' ',
-          countryName
+          countryName,
         );
-      })
+      }),
     );
   }
 
@@ -116,6 +116,6 @@ export class CdcUserAddressesEffects {
     protected userAddressConnector: UserAddressConnector,
     protected userAddressService: UserAddressService,
     protected messageService: GlobalMessageService,
-    protected cdcJsService: CdcJsService
+    protected cdcJsService: CdcJsService,
   ) {}
 }

@@ -16,7 +16,7 @@ export class OrderConnector {
   public placeOrder(
     userId: string,
     cartId: string,
-    termsChecked: boolean
+    termsChecked: boolean,
   ): Observable<Order> {
     return this.adapter.placeOrder(userId, cartId, termsChecked);
   }

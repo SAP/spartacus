@@ -46,13 +46,13 @@ export abstract class CustomerTicketingFacade {
   abstract getTicketsState(
     pageSize: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<QueryState<TicketList | undefined>>;
 
   abstract getTickets(
     pageSize: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<TicketList | undefined>;
 
   abstract getTicketCategoriesState(): Observable<QueryState<Category[]>>;
@@ -69,17 +69,17 @@ export abstract class CustomerTicketingFacade {
 
   abstract createTicketEvent(
     ticketEvent: TicketEvent,
-    containsAttachment?: boolean
+    containsAttachment?: boolean,
   ): Observable<TicketEvent>;
 
   abstract uploadAttachment(
     file: File,
     eventCode: string,
-    ticketId?: string
+    ticketId?: string,
   ): Observable<unknown>;
 
   abstract downloadAttachment(
     eventCode: string | undefined,
-    attachmentId: string | undefined
+    attachmentId: string | undefined,
   ): Observable<unknown>;
 }

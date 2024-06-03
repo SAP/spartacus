@@ -86,14 +86,14 @@ describe('Cart Voucher effect', () => {
       expect(cartVoucherConnector.add).toHaveBeenCalledWith(
         userId,
         cartId,
-        voucherId
+        voucherId,
       );
     });
 
     it('should fail', () => {
       const error = new HttpErrorResponse({ error: 'error' });
       cartVoucherConnector.add = createSpy().and.returnValue(
-        throwError(() => error)
+        throwError(() => error),
       );
       const action = new CartActions.CartAddVoucher({
         userId,
@@ -123,7 +123,7 @@ describe('Cart Voucher effect', () => {
       expect(cartVoucherConnector.add).toHaveBeenCalledWith(
         userId,
         cartId,
-        voucherId
+        voucherId,
       );
     });
   });

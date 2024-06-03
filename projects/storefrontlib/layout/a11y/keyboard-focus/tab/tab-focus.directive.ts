@@ -38,7 +38,7 @@ export class TabFocusDirective extends AutoFocusDirective {
 
   constructor(
     protected elementRef: ElementRef,
-    protected service: TabFocusService
+    protected service: TabFocusService,
   ) {
     super(elementRef, service);
   }

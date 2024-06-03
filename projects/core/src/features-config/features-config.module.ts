@@ -26,7 +26,7 @@ import { FeatureStylesService } from './services/feature-styles.service';
 })
 export class FeaturesConfigModule {
   static forRoot(
-    defaultLevel = '3.0'
+    defaultLevel = '3.0',
   ): ModuleWithProviders<FeaturesConfigModule> {
     return {
       ngModule: FeaturesConfigModule,

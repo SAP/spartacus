@@ -30,7 +30,7 @@ class MockOccEndpointsService {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ) {
     return this.getEndpoint(endpoint);
   }
@@ -77,7 +77,7 @@ describe('OccCartEntryAdapter', () => {
       const mockReq = httpMock.expectOne({ method: 'POST', url: 'addEntries' });
 
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
-        'application/json'
+        'application/json',
       );
 
       expect(mockReq.request.body).toEqual({
@@ -98,7 +98,7 @@ describe('OccCartEntryAdapter', () => {
       mockReq.flush(cartModified);
       expect(result).toEqual(cartModified);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        CART_MODIFICATION_NORMALIZER
+        CART_MODIFICATION_NORMALIZER,
       );
     });
 
@@ -139,7 +139,7 @@ describe('OccCartEntryAdapter', () => {
       });
 
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
-        'application/json'
+        'application/json',
       );
 
       expect(mockReq.request.body).toEqual({ quantity: 5 });
@@ -152,7 +152,7 @@ describe('OccCartEntryAdapter', () => {
             cartId,
             entryNumber: '12345',
           },
-        }
+        },
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -160,7 +160,7 @@ describe('OccCartEntryAdapter', () => {
       mockReq.flush(cartModified);
       expect(result).toEqual(cartModified);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        CART_MODIFICATION_NORMALIZER
+        CART_MODIFICATION_NORMALIZER,
       );
     });
 
@@ -190,7 +190,7 @@ describe('OccCartEntryAdapter', () => {
             cartId,
             entryNumber: '12345',
           },
-        }
+        },
       );
     });
 
@@ -217,7 +217,7 @@ describe('OccCartEntryAdapter', () => {
             cartId,
             entryNumber: '12345',
           },
-        }
+        },
       );
     });
   });
@@ -242,7 +242,7 @@ describe('OccCartEntryAdapter', () => {
             cartId,
             entryNumber: '147852',
           },
-        }
+        },
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

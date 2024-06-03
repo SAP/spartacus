@@ -111,29 +111,27 @@ describe('AsmCreateCustomerFormComponent', () => {
   let launchDialogService: LaunchDialogService;
   let asmCreateCustomerFacade: AsmCreateCustomerFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          AsmCreateCustomerFormComponent,
-          MockCxIconComponent,
-          MockKeyboadFocusDirective,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: AsmCreateCustomerFacade,
-            useClass: MockAsmCreateCustomerFacade,
-          },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        AsmCreateCustomerFormComponent,
+        MockCxIconComponent,
+        MockKeyboadFocusDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: AsmCreateCustomerFacade,
+          useClass: MockAsmCreateCustomerFacade,
+        },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
-      launchDialogService = TestBed.inject(LaunchDialogService);
-      asmCreateCustomerFacade = TestBed.inject(AsmCreateCustomerFacade);
-    })
-  );
+    launchDialogService = TestBed.inject(LaunchDialogService);
+    asmCreateCustomerFacade = TestBed.inject(AsmCreateCustomerFacade);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmCreateCustomerFormComponent);
@@ -154,7 +152,7 @@ describe('AsmCreateCustomerFormComponent', () => {
     expect(form).not.toBeNull();
     expect(submit).not.toBeNull();
     controls.map((control) =>
-      expect(el.query(By.css(`[formcontrolname=${control}]`))).not.toBeNull()
+      expect(el.query(By.css(`[formcontrolname=${control}]`))).not.toBeNull(),
     );
   });
 
@@ -168,7 +166,7 @@ describe('AsmCreateCustomerFormComponent', () => {
     const spinner = el.query(By.css('cx-spinner'));
     expect(spinner).toBeNull();
     expect(asmCreateCustomerFacade.createCustomer).toHaveBeenCalledWith(
-      customerRegistrationForm
+      customerRegistrationForm,
     );
   });
 
@@ -191,13 +189,13 @@ describe('AsmCreateCustomerFormComponent', () => {
     expect(component.showDialogBackendErrorAlerts[1]).toBeTruthy();
     expect(component.showDialogBackendErrorAlerts[2]).toBeTruthy();
     expect(component.backendErrorMessages[0]).toEqual(
-      'asm.createCustomerForm.validationErrors.emailAddress'
+      'asm.createCustomerForm.validationErrors.emailAddress',
     );
     expect(component.backendErrorMessages[1]).toEqual(
-      'asm.createCustomerForm.validationErrors.firstName'
+      'asm.createCustomerForm.validationErrors.firstName',
     );
     expect(component.backendErrorMessages[2]).toEqual(
-      'asm.createCustomerForm.validationErrors.lastName'
+      'asm.createCustomerForm.validationErrors.lastName',
     );
   });
 
@@ -208,7 +206,7 @@ describe('AsmCreateCustomerFormComponent', () => {
     expect(component.showDialogBackendErrorAlerts[0]).toBeTruthy();
     expect(component.backendErrorMessages[0]).toEqual(
       'asm.createCustomerForm.badRequestDuplicatedEmail emailAddress:' +
-        createdCustomerData.email
+        createdCustomerData.email,
     );
   });
 

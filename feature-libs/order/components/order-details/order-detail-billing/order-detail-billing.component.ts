@@ -27,7 +27,7 @@ export class OrderDetailBillingComponent {
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
   ) {}
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
@@ -39,8 +39,8 @@ export class OrderDetailBillingComponent {
       }),
     ]).pipe(
       map(([textTitle, textExpires]) =>
-        paymentMethodCard(textTitle, textExpires, paymentDetails)
-      )
+        paymentMethodCard(textTitle, textExpires, paymentDetails),
+      ),
     );
   }
 
@@ -50,8 +50,8 @@ export class OrderDetailBillingComponent {
       this.translationService.translate('addressCard.billTo'),
     ]).pipe(
       map(([billingAddress, billTo]) =>
-        billingAddressCard(billingAddress, billTo, paymentDetails)
-      )
+        billingAddressCard(billingAddress, billTo, paymentDetails),
+      ),
     );
   }
 

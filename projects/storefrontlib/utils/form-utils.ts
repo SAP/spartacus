@@ -32,7 +32,7 @@ export namespace FormUtils {
    */
   export function deepUpdateValueAndValidity(
     control: AbstractControl,
-    options: { emitEvent?: boolean } = {}
+    options: { emitEvent?: boolean } = {},
   ): void {
     if (
       control instanceof UntypedFormGroup ||
@@ -41,7 +41,7 @@ export namespace FormUtils {
       Object.values(control.controls).forEach(
         (childControl: AbstractControl) => {
           deepUpdateValueAndValidity(childControl, options);
-        }
+        },
       );
     }
 

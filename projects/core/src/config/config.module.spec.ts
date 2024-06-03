@@ -15,7 +15,7 @@ describe('ConfigModule', () => {
       test1: 'test config',
       test2: 'a' + 'b',
       test3: 3 * 5,
-    } as Config);
+    }) as Config;
 
   it('configuration token should expose configuration', () => {
     TestBed.configureTestingModule({});

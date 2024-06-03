@@ -144,24 +144,24 @@ testConfig.forEach((config) => {
           ATTR_COF_CUPS,
           RADGRP,
           VAL_COF_CUPS_300,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configuration.checkValueSelected(
           RADGRP,
           ATTR_COF_CUPS,
-          VAL_COF_CUPS_300
+          VAL_COF_CUPS_300,
         );
 
         configurationCpq.selectAttributeAndWait(
           ATTR_COF_CUPS,
           RADGRP,
           VAL_COF_CUPS_500,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configuration.checkValueSelected(
           RADGRP,
           ATTR_COF_CUPS,
-          VAL_COF_CUPS_500
+          VAL_COF_CUPS_500,
         );
       });
 
@@ -173,14 +173,14 @@ testConfig.forEach((config) => {
         configurationCpq.checkValueNotSelected(
           CHKBOX,
           ATTR_COF_MODE,
-          VAL_COF_MODE
+          VAL_COF_MODE,
         );
 
         configurationCpq.selectAttributeAndWait(
           ATTR_COF_MODE,
           CHKBOX,
           VAL_COF_MODE,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
 
@@ -188,12 +188,12 @@ testConfig.forEach((config) => {
           ATTR_COF_MODE,
           CHKBOX,
           VAL_COF_MODE,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configurationCpq.checkValueNotSelected(
           CHKBOX,
           ATTR_COF_MODE,
-          VAL_COF_MODE
+          VAL_COF_MODE,
         );
       });
 
@@ -205,46 +205,46 @@ testConfig.forEach((config) => {
         configurationCpq.checkValueNotSelected(
           RADGRP_PROD,
           ATTR_CAM_BODY,
-          VAL_CAM_BODY_D850
+          VAL_CAM_BODY_D850,
         );
         configurationCpq.checkValueNotSelected(
           RADGRP_PROD,
           ATTR_CAM_BODY,
-          VAL_CAM_BODY_EOS80D
+          VAL_CAM_BODY_EOS80D,
         );
 
         configuration.selectAttribute(
           ATTR_CAM_BODY,
           RADGRP_PROD,
           VAL_CAM_BODY_D850,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configuration.checkValueSelected(
           RADGRP_PROD,
           ATTR_CAM_BODY,
-          VAL_CAM_BODY_D850
+          VAL_CAM_BODY_D850,
         );
         configurationCpq.checkValueNotSelected(
           RADGRP_PROD,
           ATTR_CAM_BODY,
-          VAL_CAM_BODY_EOS80D
+          VAL_CAM_BODY_EOS80D,
         );
 
         configurationCpq.selectAttributeAndWait(
           ATTR_CAM_BODY,
           RADGRP_PROD,
           VAL_CAM_BODY_EOS80D,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configurationCpq.checkValueNotSelected(
           RADGRP_PROD,
           ATTR_CAM_BODY,
-          VAL_CAM_BODY_D850
+          VAL_CAM_BODY_D850,
         );
         configuration.checkValueSelected(
           RADGRP_PROD,
           ATTR_CAM_BODY,
-          VAL_CAM_BODY_EOS80D
+          VAL_CAM_BODY_EOS80D,
         );
       });
 
@@ -258,29 +258,29 @@ testConfig.forEach((config) => {
         configuration.checkValueSelected(
           DDLB_PROD,
           ATTR_CAM_INS,
-          VAL_NO_OPT_SEL
+          VAL_NO_OPT_SEL,
         );
         configurationCpq.checkValueNotSelected(
           DDLB_PROD,
           ATTR_CAM_INS,
-          VAL_CB_INS_Y2
+          VAL_CB_INS_Y2,
         );
 
         configurationCpq.selectAttributeAndWait(
           ATTR_CAM_INS,
           DDLB_PROD,
           VAL_CB_INS_Y2,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configurationCpq.checkValueNotSelected(
           DDLB_PROD,
           ATTR_CAM_INS,
-          VAL_NO_OPT_SEL
+          VAL_NO_OPT_SEL,
         );
         configuration.checkValueSelected(
           DDLB_PROD,
           ATTR_CAM_INS,
-          VAL_CB_INS_Y2
+          VAL_CB_INS_Y2,
         );
       });
 
@@ -291,46 +291,46 @@ testConfig.forEach((config) => {
         configuration.checkValueSelected(
           CHKBOX_PROD,
           ATTR_CAM_MC,
-          VAL_CAM_MC_128
+          VAL_CAM_MC_128,
         );
         configurationCpq.checkValueNotSelected(
           CHKBOX_PROD,
           ATTR_CAM_MC,
-          VAL_CAM_MC_64
+          VAL_CAM_MC_64,
         );
 
         configurationCpq.selectAttributeAndWait(
           ATTR_CAM_MC,
           CHKBOX_PROD,
           VAL_CAM_MC_64,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configuration.checkValueSelected(
           CHKBOX_PROD,
           ATTR_CAM_MC,
-          VAL_CAM_MC_128
+          VAL_CAM_MC_128,
         );
         configuration.checkValueSelected(
           CHKBOX_PROD,
           ATTR_CAM_MC,
-          VAL_CAM_MC_64
+          VAL_CAM_MC_64,
         );
 
         configurationCpq.selectAttributeAndWait(
           ATTR_CAM_MC,
           CHKBOX_PROD,
           VAL_CAM_MC_128,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configurationCpq.checkValueNotSelected(
           CHKBOX_PROD,
           ATTR_CAM_MC,
-          VAL_CAM_MC_128
+          VAL_CAM_MC_128,
         );
         configuration.checkValueSelected(
           CHKBOX_PROD,
           ATTR_CAM_MC,
-          VAL_CAM_MC_64
+          VAL_CAM_MC_64,
         );
       });
     });
@@ -386,17 +386,17 @@ testConfig.forEach((config) => {
             configurationCpq.waitForProductCardsLoad(12);
 
             configurationCpq.checkAttributeHeaderDisplayed(
-              ATTR_NAMES.GRP_CAM_MAIN
+              ATTR_NAMES.GRP_CAM_MAIN,
             );
 
             configuration.clickOnNextBtn(GRP_CAM_ACC);
             configurationCpq.checkAttributeHeaderDisplayed(
-              ATTR_NAMES.GRP_CAM_ACC
+              ATTR_NAMES.GRP_CAM_ACC,
             );
 
             configuration.clickOnNextBtn(GRP_CAM_IAW);
             configurationCpq.checkAttributeHeaderDisplayed(
-              ATTR_NAMES.GRP_CAM_IAW
+              ATTR_NAMES.GRP_CAM_IAW,
             );
           });
       });
@@ -409,58 +409,58 @@ testConfig.forEach((config) => {
           RADGRP,
           ATTR_CAM_BODY,
           VAL_CAM_BODY_D850,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configurationCpq.checkPrice(
           RADGRP_PROD,
           '$1,500.00',
           ATTR_CAM_BODY,
-          VAL_CAM_BODY_D850
+          VAL_CAM_BODY_D850,
         );
 
         configurationCpq.checkPrice(
           CHKBOX_PROD,
           '1x($100.00) +$100.00',
           ATTR_CAM_MC,
-          VAL_CAM_MC_128
+          VAL_CAM_MC_128,
         );
         configurationCpq.setQuantity(
           CHKBOX_PROD,
           2,
           ATTR_CAM_MC,
           VAL_CAM_MC_128,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configurationCpq.checkPrice(
           CHKBOX_PROD,
           '2x($100.00) +$200.00',
           ATTR_CAM_MC,
-          VAL_CAM_MC_128
+          VAL_CAM_MC_128,
         );
 
         configurationCpq.selectProductCard(
           CHKBOX,
           ATTR_CAM_LEN,
           VAL_CAM_LEN_SI,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configurationCpq.selectProductCard(
           CHKBOX,
           ATTR_CAM_LEN,
           VAL_CAM_LEN_NI,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configurationCpq.checkPrice(
           CHKBOX_PROD,
           '$800.00',
           ATTR_CAM_LEN,
-          VAL_CAM_LEN_SI
+          VAL_CAM_LEN_SI,
         );
         configurationCpq.checkPrice(
           CHKBOX_PROD,
           '$700.00',
           ATTR_CAM_LEN,
-          VAL_CAM_LEN_NI
+          VAL_CAM_LEN_NI,
         );
 
         configuration.clickOnNextBtn(GRP_CAM_ACC);
@@ -468,7 +468,7 @@ testConfig.forEach((config) => {
           RADGRP,
           ATTR_CAM_BAG,
           VAL_CAM_BAG_LP,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
 
         configuration.clickOnNextBtn(GRP_CAM_IAW);
@@ -476,26 +476,26 @@ testConfig.forEach((config) => {
           ATTR_CAM_PROF,
           RADGRP,
           VAL_CAM_PROF_Y,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         //wait for this option to disappear
         configuration.checkAttrValueNotDisplayed(
           ATTR_CAM_INS,
           DDLB_PROD,
-          VAL_CB_INS_Y2
+          VAL_CB_INS_Y2,
         );
 
         configurationCpq.selectProductCard(
           DDLB,
           ATTR_CAM_INS,
           VAL_CB_INS_P4,
-          config.cpqOverOcc
+          config.cpqOverOcc,
         );
         configurationCpq.checkPrice(
           DDLB_PROD,
           '$600.00',
           ATTR_CAM_INS,
-          VAL_CB_INS_P4
+          VAL_CB_INS_P4,
         );
         configuration.navigateToOverviewPage();
 
@@ -546,7 +546,7 @@ testConfig.forEach((config) => {
           configurationOverviewCpq.checkAttrDisplayed(
             line.name,
             line.value,
-            idx
+            idx,
           );
           configurationOverviewCpq.checkAttrPriceDisplayed(line.price, idx);
           configurationOverviewCpq.checkAttrType(line.type, idx);
@@ -572,7 +572,7 @@ testConfig.forEach((config) => {
           configurationOverviewCpq.checkAttrDisplayed(
             'Camera Body',
             'Canon EOS 80D',
-            0
+            0,
           );
         });
       });
@@ -603,24 +603,24 @@ testConfig.forEach((config) => {
       ];
       configurationCartCpq.checkAmountOfBundleItems(
         cartEntryIndex,
-        ovBundleInfos.length
+        ovBundleInfos.length,
       );
 
       ovBundleInfos.forEach((line, bundleItemIndex) => {
         configurationCartCpq.checkBundleItemName(
           cartEntryIndex,
           bundleItemIndex,
-          line.name
+          line.name,
         );
         configurationCartCpq.checkBundleItemPrice(
           cartEntryIndex,
           bundleItemIndex,
-          line.price
+          line.price,
         );
         configurationCartCpq.checkBundleItemQuantity(
           cartEntryIndex,
           bundleItemIndex,
-          line.quantity
+          line.quantity,
         );
       });
       configurationCart.clickOnEditConfigurationLink(cartEntryIndex);
@@ -630,34 +630,34 @@ testConfig.forEach((config) => {
         ATTR_CAM_BODY,
         RADGRP_PROD,
         VAL_CAM_BODY_D850,
-        config.cpqOverOcc
+        config.cpqOverOcc,
       );
       configuration.checkValueSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
-        VAL_CAM_BODY_D850
+        VAL_CAM_BODY_D850,
       );
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_BODY,
         RADGRP_PROD,
         VAL_CAM_BODY_EOS80D,
-        config.cpqOverOcc
+        config.cpqOverOcc,
       );
       configuration.checkValueSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
-        VAL_CAM_BODY_EOS80D
+        VAL_CAM_BODY_EOS80D,
       );
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_LEN,
         CHKBOX_PROD,
         VAL_CAM_LEN_SI,
-        config.cpqOverOcc
+        config.cpqOverOcc,
       );
       configuration.checkValueSelected(
         CHKBOX_PROD,
         ATTR_CAM_LEN,
-        VAL_CAM_LEN_SI
+        VAL_CAM_LEN_SI,
       );
       configurationCpq.clickAddToCartBtn();
 
@@ -666,7 +666,7 @@ testConfig.forEach((config) => {
       configurationOverviewCpq.checkAttrDisplayed(
         'Camera Body',
         'Canon EOS 80D',
-        0
+        0,
       );
 
       configurationOverviewCpq.checkGroupHeaderDisplayed(GRP_CAM_ACC, 1);

@@ -36,97 +36,95 @@ class MockBaseFocusService {}
 describe('BaseFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [CustomFocusDirective, MockComponent],
-        providers: [
-          {
-            provide: BaseFocusService,
-            useClass: MockBaseFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [CustomFocusDirective, MockComponent],
+      providers: [
+        {
+          provide: BaseFocusService,
+          useClass: MockBaseFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
+    fixture = TestBed.createComponent(MockComponent);
 
-      fixture.detectChanges();
-    })
-  );
+    fixture.detectChanges();
+  }));
 
   it('should default tabindex to -1', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('#a')
+      By.css('#a'),
     ).nativeElement;
     expect(el.getAttribute('tabindex')).toEqual('-1');
   });
 
   it('should keep tabindex -1 on the host component', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('#b')
+      By.css('#b'),
     ).nativeElement;
     expect(el.getAttribute('tabindex')).toEqual('-1');
   });
 
   it('should keep tabindex 0 on the host component', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('#c')
+      By.css('#c'),
     ).nativeElement;
     expect(el.getAttribute('tabindex')).toEqual('0');
   });
 
   it('should keep tabindex 5 on the host component', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('#d')
+      By.css('#d'),
     ).nativeElement;
     expect(el.getAttribute('tabindex')).toEqual('5');
   });
 
   it('should not add tabindex to button element', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('button')
+      By.css('button'),
     ).nativeElement;
     expect(el.getAttribute('tabindex')).toBeFalsy();
   });
 
   it('should not add tabindex to input element', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('input')
+      By.css('input'),
     ).nativeElement;
     expect(el.getAttribute('tabindex')).toBeFalsy();
   });
 
   it('should not add tabindex to select element', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('#select')
+      By.css('#select'),
     ).nativeElement;
     expect(el.getAttribute('tabindex')).toBeFalsy();
   });
 
   it('should not add tabindex to textarea element', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('#textarea')
+      By.css('#textarea'),
     ).nativeElement;
     expect(el.getAttribute('tabindex')).toBeFalsy();
   });
 
   it('should not add tabindex to active anchor link', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('a#link')
+      By.css('a#link'),
     ).nativeElement;
     expect(el.getAttribute('tabindex')).toBeFalsy();
   });
 
   it('should add tabindex to inactive anchor link', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('a#inactive')
+      By.css('a#inactive'),
     ).nativeElement;
     expect(el.getAttribute('tabindex')).toEqual('-1');
   });
 
   it('should not add tabindex to routerlink', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('a#routerlink')
+      By.css('a#routerlink'),
     ).nativeElement;
     expect(el.getAttribute('tabindex')).toBeFalsy();
   });

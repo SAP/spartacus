@@ -21,12 +21,12 @@ export class RoutingParamsService {
     [key: string]: string;
   }> = this.activatedRoutesService.routes$.pipe(
     map((routes) => this.findAllParam(routes)),
-    shareReplay({ refCount: true, bufferSize: 1 })
+    shareReplay({ refCount: true, bufferSize: 1 }),
   );
 
   constructor(
     protected router: Router,
-    protected activatedRoutesService: ActivatedRoutesService
+    protected activatedRoutesService: ActivatedRoutesService,
   ) {}
 
   /**

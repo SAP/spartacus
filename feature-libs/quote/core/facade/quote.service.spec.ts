@@ -248,7 +248,7 @@ describe('QuoteService', () => {
 
   function checkNoActionPerforming(
     quoteActionResult: Observable<unknown>,
-    done: any
+    done: any,
   ) {
     quoteActionResult
       .pipe(switchMap(() => classUnderTest['isActionPerforming$']))
@@ -262,7 +262,7 @@ describe('QuoteService', () => {
     [QuoteService],
     (quoteService: QuoteService) => {
       expect(quoteService).toBeTruthy();
-    }
+    },
   ));
 
   it('should return quotes after calling quoteConnector.getQuotes', () => {
@@ -272,7 +272,7 @@ describe('QuoteService', () => {
       .subscribe((state) => {
         expect(quoteConnector.getQuotes).toHaveBeenCalledWith(
           userId,
-          pagination
+          pagination,
         );
         expect(state).toEqual(<QueryState<QuoteList | undefined>>{
           loading: false,
@@ -310,7 +310,7 @@ describe('QuoteService', () => {
       .subscribe(() => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          QuoteDetailsReloadQueryEvent
+          QuoteDetailsReloadQueryEvent,
         );
       });
   });
@@ -322,7 +322,7 @@ describe('QuoteService', () => {
       .subscribe((details) => {
         expect(quoteConnector.getQuote).toHaveBeenCalledWith(
           userId,
-          routeParams.quoteId
+          routeParams.quoteId,
         );
         expect(details.data).toEqual(quote);
         expect(details.loading).toBe(false);
@@ -337,7 +337,7 @@ describe('QuoteService', () => {
         .subscribe((details) => {
           expect(quoteConnector.getQuote).toHaveBeenCalledWith(
             userId,
-            routeParams.quoteId
+            routeParams.quoteId,
           );
           expect(details).toEqual(quote);
         });
@@ -385,7 +385,7 @@ describe('QuoteService', () => {
       expect(quoteConnector.addDiscount).toHaveBeenCalledWith(
         userId,
         QUOTE_CODE,
-        discount
+        discount,
       );
     });
   });
@@ -409,7 +409,7 @@ describe('QuoteService', () => {
     expect(quoteConnector.editQuote).toHaveBeenCalledWith(
       userId,
       quote.code,
-      quoteMetaData
+      quoteMetaData,
     );
   });
 
@@ -421,7 +421,7 @@ describe('QuoteService', () => {
         expect(quoteConnector.addComment).toHaveBeenCalledWith(
           userId,
           quote.code,
-          quoteComment
+          quoteComment,
         );
       });
   });
@@ -430,21 +430,21 @@ describe('QuoteService', () => {
     it('should call getElement method of QuoteStorefrontUtilsService if action type is CREATE for setting focus', () => {
       classUnderTest['setFocusForCreateOrEditAction'](QuoteActionType.CREATE);
       expect(quoteStorefrontUtilsService.getElement).toHaveBeenCalledWith(
-        'cx-storefront'
+        'cx-storefront',
       );
     });
 
     it('should call getElement method of QuoteStorefrontUtilsService if action type is EDIT for setting focus', () => {
       classUnderTest['setFocusForCreateOrEditAction'](QuoteActionType.EDIT);
       expect(quoteStorefrontUtilsService.getElement).toHaveBeenCalledWith(
-        'cx-storefront'
+        'cx-storefront',
       );
     });
 
     it('should not call getElement method of QuoteStorefrontUtilsService if action type is not EDIT or CREATE', () => {
       classUnderTest['setFocusForCreateOrEditAction'](QuoteActionType.CANCEL);
       expect(quoteStorefrontUtilsService.getElement).not.toHaveBeenCalledWith(
-        'cx-storefront'
+        'cx-storefront',
       );
     });
   });
@@ -457,7 +457,7 @@ describe('QuoteService', () => {
           expect(quoteConnector.performQuoteAction).toHaveBeenCalledWith(
             userId,
             quote.code,
-            quoteAction.type
+            quoteAction.type,
           );
           done();
         });
@@ -469,7 +469,7 @@ describe('QuoteService', () => {
         .subscribe(() => {
           expect(eventService.dispatch).toHaveBeenCalledWith(
             {},
-            QuoteDetailsReloadQueryEvent
+            QuoteDetailsReloadQueryEvent,
           );
           done();
         });
@@ -477,13 +477,13 @@ describe('QuoteService', () => {
 
     it('should raise re-load event, even if action fails', (done) => {
       quoteConnector.performQuoteAction = createSpy().and.returnValue(
-        throwError({})
+        throwError({}),
       );
       classUnderTest.performQuoteAction(quote, quoteAction.type).subscribe({
         error: () => {
           expect(eventService.dispatch).toHaveBeenCalledWith(
             {},
-            QuoteDetailsReloadQueryEvent
+            QuoteDetailsReloadQueryEvent,
           );
           done();
         },
@@ -496,11 +496,11 @@ describe('QuoteService', () => {
           .performQuoteAction(quote, QuoteActionType.SUBMIT)
           .subscribe(() => {
             expect(
-              cartUtilsService.handleCartAndGoToQuoteList
+              cartUtilsService.handleCartAndGoToQuoteList,
             ).toHaveBeenCalled();
             expect(eventService.dispatch).not.toHaveBeenCalledWith(
               {},
-              QuoteDetailsReloadQueryEvent
+              QuoteDetailsReloadQueryEvent,
             );
             done();
           });
@@ -509,7 +509,7 @@ describe('QuoteService', () => {
       it('should set loading state to false when action is completed', (done) => {
         checkNoActionPerforming(
           classUnderTest.performQuoteAction(quote, QuoteActionType.SUBMIT),
-          done
+          done,
         );
       });
     });
@@ -520,7 +520,7 @@ describe('QuoteService', () => {
           .performQuoteAction(quote, QuoteActionType.CANCEL)
           .subscribe(() => {
             expect(
-              cartUtilsService.handleCartAndGoToQuoteList
+              cartUtilsService.handleCartAndGoToQuoteList,
             ).toHaveBeenCalled();
             done();
           });
@@ -529,7 +529,7 @@ describe('QuoteService', () => {
       it('should set loading state to false when action is completed', (done) => {
         checkNoActionPerforming(
           classUnderTest.performQuoteAction(quote, QuoteActionType.CANCEL),
-          done
+          done,
         );
       });
     });
@@ -550,7 +550,7 @@ describe('QuoteService', () => {
           .subscribe(() => {
             expect(eventService.dispatch).toHaveBeenCalledWith(
               {},
-              QuoteDetailsReloadQueryEvent
+              QuoteDetailsReloadQueryEvent,
             );
             done();
           });
@@ -562,7 +562,7 @@ describe('QuoteService', () => {
           .subscribe(() => {
             expect(quoteConnector.getQuote).toHaveBeenCalledWith(
               userId,
-              quote.code
+              quote.code,
             );
             done();
           });
@@ -571,7 +571,7 @@ describe('QuoteService', () => {
       it('should set loading state to false when action is completed', (done) => {
         checkNoActionPerforming(
           classUnderTest.performQuoteAction(quote, QuoteActionType.EDIT),
-          done
+          done,
         );
       });
     });
@@ -583,7 +583,7 @@ describe('QuoteService', () => {
           .subscribe(() => {
             checkQuoteCartFacadeCalls();
             expect(quoteCartService.setCheckoutAllowed).toHaveBeenCalledWith(
-              true
+              true,
             );
             done();
           });
@@ -603,7 +603,7 @@ describe('QuoteService', () => {
       it('should set loading state to false when action is completed', (done) => {
         checkNoActionPerforming(
           classUnderTest.performQuoteAction(quote, QuoteActionType.CHECKOUT),
-          done
+          done,
         );
       });
     });
@@ -612,7 +612,7 @@ describe('QuoteService', () => {
       it('should set loading state to false when action is completed', (done) => {
         checkNoActionPerforming(
           classUnderTest.performQuoteAction(quote, QuoteActionType.REJECT),
-          done
+          done,
         );
       });
       it('trigger navigation to quotes list', (done) => {
@@ -631,7 +631,7 @@ describe('QuoteService', () => {
       it('should set loading state to false when action is completed', (done) => {
         checkNoActionPerforming(
           classUnderTest.performQuoteAction(quote, QuoteActionType.APPROVE),
-          done
+          done,
         );
       });
       it('trigger navigation to quotes list', (done) => {
@@ -655,7 +655,7 @@ describe('QuoteService', () => {
         expect(quoteConnector.addComment).toHaveBeenCalledWith(
           userId,
           quote.code,
-          quoteComment
+          quoteComment,
         );
       });
   });
@@ -669,7 +669,7 @@ describe('QuoteService', () => {
           userId,
           quote.code,
           '0',
-          quoteComment
+          quoteComment,
         );
       });
   });
@@ -728,7 +728,7 @@ describe('QuoteService', () => {
       });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'quote.httpHandlers.expired' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
   });
@@ -768,7 +768,7 @@ describe('QuoteService', () => {
         expect(quoteConnector.downloadAttachment).toHaveBeenCalledWith(
           userId,
           vendorQuoteCode,
-          vendorQuoteAttachmentId
+          vendorQuoteAttachmentId,
         );
         expect(response).toEqual(mockQuoteAttachment());
         done();

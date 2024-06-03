@@ -82,7 +82,7 @@ describe('AccountSummaryHeaderComponent', () => {
     // Call function and expect that it calls translation and return correct card
     component.getIdCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
-        'orgAccountSummary.details.uid'
+        'orgAccountSummary.details.uid',
       );
       expect(result.title).toEqual(title);
       expect(result.text).toEqual([text]);
@@ -96,7 +96,7 @@ describe('AccountSummaryHeaderComponent', () => {
     // Call function and expect that it calls translation and return correct card
     component.getNameCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
-        'orgAccountSummary.details.name'
+        'orgAccountSummary.details.name',
       );
       expect(result.title).toEqual(title);
       expect(result.text).toEqual([text]);
@@ -120,7 +120,7 @@ describe('AccountSummaryHeaderComponent', () => {
     // Call function and expect that it calls translation and return correct card
     component.getAddressCardContent(address).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
-        'orgAccountSummary.details.address'
+        'orgAccountSummary.details.address',
       );
       expect(result.title).toEqual('title');
       expect(result.text).toEqual(text);
@@ -134,7 +134,7 @@ describe('AccountSummaryHeaderComponent', () => {
     // Call function and expect that it calls translation and return correct card
     component.getCreditRepCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
-        'orgAccountSummary.details.creditRep'
+        'orgAccountSummary.details.creditRep',
       );
       expect(result.title).toEqual(title);
       expect(result.text).toEqual([text]);
@@ -148,7 +148,7 @@ describe('AccountSummaryHeaderComponent', () => {
     // Call function and expect that it calls translation and return correct card
     component.getCreditLineCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
-        'orgAccountSummary.details.creditLine'
+        'orgAccountSummary.details.creditLine',
       );
       expect(result.title).toEqual(title);
       expect(result.text).toEqual([text]);
@@ -162,7 +162,7 @@ describe('AccountSummaryHeaderComponent', () => {
     // Call function and expect that it calls translation and return correct card
     component.getCurrentBalanceCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
-        'orgAccountSummary.details.currentBalance'
+        'orgAccountSummary.details.currentBalance',
       );
       expect(result.title).toEqual(title);
       expect(result.text).toEqual([text]);
@@ -176,7 +176,7 @@ describe('AccountSummaryHeaderComponent', () => {
     // Call function and expect that it calls translation and return correct card
     component.getOpenBalanceCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
-        'orgAccountSummary.details.openBalance'
+        'orgAccountSummary.details.openBalance',
       );
       expect(result.title).toEqual(title);
       expect(result.text).toEqual([text]);
@@ -190,7 +190,7 @@ describe('AccountSummaryHeaderComponent', () => {
     // Call function and expect that it calls translation and return correct card
     component.getPastDueBalanceCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
-        'orgAccountSummary.details.pastDueBalance'
+        'orgAccountSummary.details.pastDueBalance',
       );
       expect(result.title).toEqual(title);
       expect(result.text).toEqual([text]);
@@ -201,7 +201,7 @@ describe('AccountSummaryHeaderComponent', () => {
     const validateContent = (
       card: any,
       title: string,
-      text: string[]
+      text: string[],
     ): void => {
       const content = card?.componentInstance?.content;
       expect(content.title).toEqual(title);
@@ -211,7 +211,7 @@ describe('AccountSummaryHeaderComponent', () => {
     const validateRange = (
       container: DebugElement,
       label: string,
-      value: string
+      value: string,
     ) => {
       expect(container?.nativeElement?.firstChild?.innerText).toEqual(label);
       expect(container?.nativeElement?.lastChild?.innerText).toEqual(value);
@@ -244,38 +244,38 @@ describe('AccountSummaryHeaderComponent', () => {
     ]);
 
     const pastDueRanges = fixture.debugElement.queryAll(
-      By.css('.cx-account-summary-header-past-due-range-collection')
+      By.css('.cx-account-summary-header-past-due-range-collection'),
     );
 
     expect(pastDueRanges?.length).toEqual(4);
     validateRange(
       pastDueRanges[0],
       'orgAccountSummary.details.dayRange maxBoundary:30 minBoundary:1',
-      '$0.00'
+      '$0.00',
     );
     validateRange(
       pastDueRanges[1],
       'orgAccountSummary.details.dayRange maxBoundary:60 minBoundary:31',
 
-      '$212,947.00'
+      '$212,947.00',
     );
     validateRange(
       pastDueRanges[2],
       'orgAccountSummary.details.dayRange maxBoundary:90 minBoundary:61',
-      '$0.00'
+      '$0.00',
     );
     validateRange(
       pastDueRanges[3],
       'orgAccountSummary.details.dayPlus minBoundary:91',
-      '$33,379,071.00'
+      '$33,379,071.00',
     );
 
     validateRange(
       fixture.debugElement.query(
-        By.css('.cx-account-summary-header-past-due-balance-total')
+        By.css('.cx-account-summary-header-past-due-balance-total'),
       ),
       'orgAccountSummary.details.pastDueBalance',
-      '$33,592,018.00'
+      '$33,592,018.00',
     );
   });
 });

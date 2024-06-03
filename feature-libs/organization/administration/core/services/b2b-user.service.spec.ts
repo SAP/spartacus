@@ -92,7 +92,7 @@ describe('B2BUserService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
       providers: [
@@ -115,7 +115,7 @@ describe('B2BUserService', () => {
     [B2BUserService],
     (b2bUserService: B2BUserService) => {
       expect(b2bUserService).toBeTruthy();
-    }
+    },
   ));
 
   describe('Load B2B User', () => {
@@ -124,7 +124,7 @@ describe('B2BUserService', () => {
 
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new B2BUserActions.LoadB2BUser({ userId, orgCustomerId })
+        new B2BUserActions.LoadB2BUser({ userId, orgCustomerId }),
       );
     });
   });
@@ -135,7 +135,7 @@ describe('B2BUserService', () => {
 
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new B2BUserActions.LoadB2BUsers({ userId, params })
+        new B2BUserActions.LoadB2BUsers({ userId, params }),
       );
     });
   });
@@ -149,7 +149,7 @@ describe('B2BUserService', () => {
         .pipe(ofType(B2BUserActions.LOAD_B2B_USER), take(1))
         .subscribe((action) => {
           expect(action).toEqual(
-            new B2BUserActions.LoadB2BUser({ userId, orgCustomerId })
+            new B2BUserActions.LoadB2BUser({ userId, orgCustomerId }),
           );
         });
 
@@ -160,7 +160,7 @@ describe('B2BUserService', () => {
 
     it('get() should be able to get user when present in the store', () => {
       store.dispatch(
-        new B2BUserActions.LoadB2BUserSuccess([b2bUser, b2bUser2])
+        new B2BUserActions.LoadB2BUserSuccess([b2bUser, b2bUser2]),
       );
       let b2bUserDetails: B2BUser;
       service
@@ -173,7 +173,7 @@ describe('B2BUserService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(b2bUserDetails).toEqual(b2bUser);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new B2BUserActions.LoadB2BUser({ userId, orgCustomerId })
+        new B2BUserActions.LoadB2BUser({ userId, orgCustomerId }),
       );
     });
   });
@@ -191,13 +191,13 @@ describe('B2BUserService', () => {
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(users).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new B2BUserActions.LoadB2BUsers({ userId, params })
+        new B2BUserActions.LoadB2BUsers({ userId, params }),
       );
     });
 
     it('getList() should be able to get users when present in the store', () => {
       store.dispatch(
-        new B2BUserActions.LoadB2BUserSuccess([b2bUser, b2bUser2])
+        new B2BUserActions.LoadB2BUserSuccess([b2bUser, b2bUser2]),
       );
       store.dispatch(
         new B2BUserActions.LoadB2BUsersSuccess({
@@ -207,7 +207,7 @@ describe('B2BUserService', () => {
             pagination,
             sorts,
           },
-        })
+        }),
       );
       let users: EntitiesModel<B2BUser>;
       service
@@ -220,7 +220,7 @@ describe('B2BUserService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(users).toEqual(b2bUserList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new B2BUserActions.LoadB2BUsers({ userId, params })
+        new B2BUserActions.LoadB2BUsers({ userId, params }),
       );
     });
 
@@ -230,7 +230,7 @@ describe('B2BUserService', () => {
 
         expect(userIdService.takeUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalledWith(
-          new B2BUserActions.CreateB2BUser({ userId, orgCustomer: b2bUser })
+          new B2BUserActions.CreateB2BUser({ userId, orgCustomer: b2bUser }),
         );
       });
     });
@@ -245,7 +245,7 @@ describe('B2BUserService', () => {
             userId,
             orgCustomerId,
             orgCustomer: b2bUser,
-          })
+          }),
         );
       });
     });
@@ -260,7 +260,7 @@ describe('B2BUserService', () => {
             userId,
             orgCustomerId,
             params,
-          })
+          }),
         );
       });
     });
@@ -282,13 +282,13 @@ describe('B2BUserService', () => {
             userId,
             orgCustomerId,
             params,
-          })
+          }),
         );
       });
 
       it('getApprovers() should be able to get approvers when present in the store', () => {
         store.dispatch(
-          new B2BUserActions.LoadB2BUserSuccess(b2bUserList.values)
+          new B2BUserActions.LoadB2BUserSuccess(b2bUserList.values),
         );
         store.dispatch(
           new B2BUserActions.LoadB2BUserApproversSuccess({
@@ -299,7 +299,7 @@ describe('B2BUserService', () => {
               sorts,
             },
             params,
-          })
+          }),
         );
         let usersReceived: EntitiesModel<B2BUser>;
         service
@@ -315,7 +315,7 @@ describe('B2BUserService', () => {
             userId,
             orgCustomerId,
             params,
-          })
+          }),
         );
       });
     });
@@ -331,7 +331,7 @@ describe('B2BUserService', () => {
             userId,
             orgCustomerId,
             approverId,
-          })
+          }),
         );
       });
     });
@@ -347,7 +347,7 @@ describe('B2BUserService', () => {
             userId,
             orgCustomerId,
             approverId,
-          })
+          }),
         );
       });
     });
@@ -361,7 +361,7 @@ describe('B2BUserService', () => {
             userId,
             orgCustomerId,
             params,
-          })
+          }),
         );
       });
     });
@@ -382,13 +382,13 @@ describe('B2BUserService', () => {
             userId,
             orgCustomerId,
             params,
-          })
+          }),
         );
       });
 
       it('getPermissions() should be able to get permissions when present in the store', () => {
         store.dispatch(
-          new PermissionActions.LoadPermissionSuccess(permissionList.values)
+          new PermissionActions.LoadPermissionSuccess(permissionList.values),
         );
         store.dispatch(
           new B2BUserActions.LoadB2BUserPermissionsSuccess({
@@ -399,7 +399,7 @@ describe('B2BUserService', () => {
               sorts,
             },
             params,
-          })
+          }),
         );
         let permissionsReceived: EntitiesModel<Permission>;
         service
@@ -415,7 +415,7 @@ describe('B2BUserService', () => {
             userId,
             orgCustomerId,
             params,
-          })
+          }),
         );
       });
     });
@@ -430,7 +430,7 @@ describe('B2BUserService', () => {
             userId,
             orgCustomerId,
             permissionId,
-          })
+          }),
         );
       });
     });
@@ -445,7 +445,7 @@ describe('B2BUserService', () => {
             userId,
             orgCustomerId,
             permissionId,
-          })
+          }),
         );
       });
     });
@@ -460,7 +460,7 @@ describe('B2BUserService', () => {
           userId,
           orgCustomerId,
           params,
-        })
+        }),
       );
     });
   });
@@ -482,13 +482,13 @@ describe('B2BUserService', () => {
           userId,
           orgCustomerId,
           params,
-        })
+        }),
       );
     });
 
     it('getUserGroups() should be able to get B2Buser usergroups when present in the store', () => {
       store.dispatch(
-        new UserGroupActions.LoadUserGroupSuccess(userGroupList.values)
+        new UserGroupActions.LoadUserGroupSuccess(userGroupList.values),
       );
       store.dispatch(
         new B2BUserActions.LoadB2BUserUserGroupsSuccess({
@@ -499,7 +499,7 @@ describe('B2BUserService', () => {
             pagination,
             sorts,
           },
-        })
+        }),
       );
       let userGroups: EntitiesModel<UserGroup>;
       service
@@ -516,7 +516,7 @@ describe('B2BUserService', () => {
           userId,
           orgCustomerId,
           params,
-        })
+        }),
       );
     });
   });
@@ -532,7 +532,7 @@ describe('B2BUserService', () => {
           userId,
           orgCustomerId,
           userGroupId,
-        })
+        }),
       );
     });
   });
@@ -548,7 +548,7 @@ describe('B2BUserService', () => {
           userId,
           orgCustomerId,
           userGroupId,
-        })
+        }),
       );
     });
   });
@@ -596,7 +596,7 @@ describe('B2BUserService', () => {
         new B2BUserActions.LoadB2BUserFail({
           orgCustomerId,
           error: new Error(),
-        })
+        }),
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
@@ -609,7 +609,7 @@ describe('B2BUserService', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
       spyOn<any>(service, 'getB2BUserState').and.returnValue(
-        of({ loading: false, success: false, error: true })
+        of({ loading: false, success: false, error: true }),
       );
 
       service.getErrorState('code').subscribe((error) => (errorState = error));

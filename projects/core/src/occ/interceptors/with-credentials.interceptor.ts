@@ -27,7 +27,7 @@ export class WithCredentialsInterceptor implements HttpInterceptor {
    */
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     if (this.requiresWithCredentials(request)) {
       request = request.clone({

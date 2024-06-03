@@ -40,12 +40,12 @@ export class UserGroupFormComponent implements OnInit {
         if (units && units.length === 1) {
           this.form?.get('orgUnit.uid')?.setValue(units[0]?.id);
         }
-      })
+      }),
     );
 
   constructor(
     protected itemService: ItemService<UserGroup>,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +54,7 @@ export class UserGroupFormComponent implements OnInit {
 
   createUidWithName(
     name: AbstractControl | null,
-    code: AbstractControl | null
+    code: AbstractControl | null,
   ): void {
     createCodeForEntityName(name, code);
   }

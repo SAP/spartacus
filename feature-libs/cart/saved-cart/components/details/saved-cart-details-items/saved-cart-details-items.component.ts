@@ -54,7 +54,7 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
         if ((cart?.entries ?? []).length <= 0 && !!cart?.code) {
           this.savedCartService.deleteSavedCart(cart.code);
         }
-      })
+      }),
     );
 
   constructor(
@@ -63,7 +63,7 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
     protected eventSercvice: EventService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
   ) {}
 
   ngOnInit(): void {
@@ -72,13 +72,13 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
         .get(DeleteSavedCartSuccessEvent)
         .pipe(
           take(1),
-          map(() => true)
+          map(() => true),
         )
-        .subscribe((success) => this.onDeleteComplete(success))
+        .subscribe((success) => this.onDeleteComplete(success)),
     );
 
     this.buyItAgainTranslation$ = this.translation.translate(
-      'addToCart.addToActiveCart'
+      'addToCart.addToActiveCart',
     );
   }
 
@@ -89,7 +89,7 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
         {
           key: 'savedCartDialog.deleteCartSuccess',
         },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     }
   }

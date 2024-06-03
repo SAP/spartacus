@@ -26,7 +26,7 @@ export class AddToHomeScreenService {
   constructor(
     protected config: PWAModuleConfig,
     protected globalMessageService: GlobalMessageService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {
     if (this.config.pwa?.addToHomeScreen) {
       this.init();
@@ -41,13 +41,13 @@ export class AddToHomeScreenService {
           event.preventDefault();
           this.deferredEvent = event;
           this.enableAddToHomeScreen();
-        }
+        },
       );
 
       this.winRef.nativeWindow.addEventListener('appinstalled', () => {
         this.globalMessageService.add(
           { key: 'pwa.addedToHomeScreen' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
 
         this.disableAddToHomeScreen();

@@ -75,7 +75,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
-      distinctUntilChanged((prev, curr) => prev?.id === curr?.id)
+      distinctUntilChanged((prev, curr) => prev?.id === curr?.id),
     );
   }
 
@@ -87,7 +87,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -104,11 +104,11 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     textShipToThisAddress: string,
     textSelected: string,
     textPhone: string,
-    textMobile: string
+    textMobile: string,
   ): Card {
     // TODO: (CXSPA-6956) - Remove feature flag in next major release
     const hideSelectActionForSelected = this.featureConfigService?.isEnabled(
-      'a11yHideSelectBtnForSelectedAddrOrPayment'
+      'a11yHideSelectBtnForSelectedAddrOrPayment',
     );
     let region = '';
     if (address.region && address.region.isocode) {
@@ -149,7 +149,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       {
         key: 'checkoutAddress.deliveryAddressSelected',
       },
-      GlobalMessageType.MSG_TYPE_INFO
+      GlobalMessageType.MSG_TYPE_INFO,
     );
 
     this.setAddress(address);
@@ -175,8 +175,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       .createAndSetAddress(address)
       .pipe(
         switchMap(() =>
-          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
-        )
+          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode(),
+        ),
       )
       .subscribe({
         complete: () => {
@@ -222,7 +222,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     ]);
     const translations$ = combineLatest([
       this.translationService.translate(
-        'checkoutAddress.defaultDeliveryAddress'
+        'checkoutAddress.defaultDeliveryAddress',
       ),
       this.translationService.translate('checkoutAddress.shipToThisAddress'),
       this.translationService.translate('addressCard.selected'),
@@ -232,7 +232,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
     return combineLatest([addresses$, translations$]).pipe(
       tap(([[addresses, selected]]) =>
-        this.selectDefaultAddress(addresses, selected)
+        this.selectDefaultAddress(addresses, selected),
       ),
       map(
         ([
@@ -248,16 +248,16 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
               textShipTo,
               textSelected,
               textPhone,
-              textMobile
+              textMobile,
             ),
-          }))
-      )
+          })),
+      ),
     );
   }
 
   protected selectDefaultAddress(
     addresses: Address[],
-    selected: Address | undefined
+    selected: Address | undefined,
   ): void {
     if (
       !this.doneAutoSelect &&
@@ -286,16 +286,16 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     ]).pipe(
       map(
         ([busy, userAddressLoading, deliveryAddressLoading]) =>
-          busy || userAddressLoading || deliveryAddressLoading
+          busy || userAddressLoading || deliveryAddressLoading,
       ),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
   protected getAddressLoading(): Observable<boolean> {
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       map((state) => state.loading),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -305,8 +305,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       .setDeliveryAddress(address)
       .pipe(
         switchMap(() =>
-          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
-        )
+          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode(),
+        ),
       )
       .subscribe({
         complete: () => {

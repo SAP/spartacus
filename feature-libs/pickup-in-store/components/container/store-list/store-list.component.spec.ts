@@ -47,7 +47,7 @@ describe('StoreListComponent', () => {
     component = fixture.componentInstance;
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
     intendedPickupLocationService = TestBed.inject(
-      IntendedPickupLocationFacade
+      IntendedPickupLocationFacade,
     );
     component.productCode = 'productCode';
     fixture.detectChanges();
@@ -64,7 +64,7 @@ describe('StoreListComponent', () => {
 
     component.ngOnInit();
     expect(pickupLocationsSearchService.getSearchResults).toHaveBeenCalledWith(
-      'productCode'
+      'productCode',
     );
     expect(pickupLocationsSearchService.isSearchRunning).toHaveBeenCalled();
     expect(pickupLocationsSearchService.hasSearchStarted).toHaveBeenCalled();
@@ -75,7 +75,7 @@ describe('StoreListComponent', () => {
     spyOn(pickupLocationsSearchService, 'getSearchResults');
     component.ngOnInit();
     expect(pickupLocationsSearchService.getSearchResults).toHaveBeenCalledWith(
-      'productCode'
+      'productCode',
     );
   });
 
@@ -96,7 +96,7 @@ describe('StoreListComponent', () => {
     component.onSelectStore(store);
     component.productCode = 'productCode';
     expect(
-      intendedPickupLocationService.setIntendedLocation
+      intendedPickupLocationService.setIntendedLocation,
     ).toHaveBeenCalledWith('productCode', location);
   });
 });

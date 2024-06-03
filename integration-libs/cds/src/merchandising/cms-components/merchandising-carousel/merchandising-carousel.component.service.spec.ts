@@ -118,7 +118,7 @@ class MockProductService {
 
 class MockProfileTagEventService {
   notifyProfileTagOfEventOccurrence = createSpy(
-    'ProfileTagEventService.notifyProfileTagOfEventOccurrence'
+    'ProfileTagEventService.notifyProfileTagOfEventOccurrence',
   ).and.callFake((_) => {});
 }
 
@@ -156,12 +156,9 @@ describe('MerchandisingCarouselComponentService', () => {
     profileTagEventService = TestBed.inject(ProfileTagEventService);
   });
 
-  it(
-    'should be created',
-    waitForAsync(() => {
-      expect(componentService).toBeTruthy();
-    })
-  );
+  it('should be created', waitForAsync(() => {
+    expect(componentService).toBeTruthy();
+  }));
 
   describe('getMerchandisingCaourselViewportThreshold', () => {
     it('should fallback to a hardcoded carousel viewport threshold if one is not provided in the carousel CMS component config or the CDS config', () => {
@@ -173,26 +170,26 @@ describe('MerchandisingCarouselComponentService', () => {
 
       expect(
         componentService.getMerchandisingCaourselViewportThreshold(
-          emptyComponentData
-        )
+          emptyComponentData,
+        ),
       ).toBe(0.8);
     });
 
     it('should fallback to the carousel viewport threshold in the CDS config if one is not provided in the carousel CMS component config', () => {
       expect(
         componentService.getMerchandisingCaourselViewportThreshold(
-          emptyComponentData
-        )
+          emptyComponentData,
+        ),
       ).toBe(
-        mockCdsConfig.cds.merchandising.defaultCarouselViewportThreshold / 100
+        mockCdsConfig.cds.merchandising.defaultCarouselViewportThreshold / 100,
       );
     });
 
     it('should get the carousel viewport threshold from the carousel CMS component config', () => {
       expect(
         componentService.getMerchandisingCaourselViewportThreshold(
-          mockComponentData
-        )
+          mockComponentData,
+        ),
       ).toBe(mockComponentData.viewportPercentage / 100);
     });
   });
@@ -236,18 +233,18 @@ describe('MerchandisingCarouselComponentService', () => {
           actualCarouselMetadata = model.metadata;
           model.items$.forEach((observableProduct) =>
             observableProduct.subscribe((product) =>
-              actualCarouselProducts.push(product)
-            )
+              actualCarouselProducts.push(product),
+            ),
           );
         });
 
       expect(actualModelId).toEqual(mockCarouselId);
       expect(actualProductIds).toEqual(expectedProductIds);
       expect(actualCarouselMetadata).toEqual(
-        expectedMerchandisingCarouselModelMetadata
+        expectedMerchandisingCarouselModelMetadata,
       );
       expect(actualCarouselProducts).toEqual(
-        expectedMerchandisingCarouselModelProducts
+        expectedMerchandisingCarouselModelProducts,
       );
     });
   });
@@ -261,7 +258,7 @@ describe('MerchandisingCarouselComponentService', () => {
           strategyId: mockMerchandisingCarouselModel.metadata.strategyid,
           metadata: mockMerchandisingCarouselModel.metadata,
         },
-        [mockProducts[1].code, mockProducts[2].code]
+        [mockProducts[1].code, mockProducts[2].code],
       );
       let actualCarouselModel: MerchandisingCarouselModel;
       componentService
@@ -272,7 +269,7 @@ describe('MerchandisingCarouselComponentService', () => {
 
       expect(actualCarouselModel).toEqual(mockMerchandisingCarouselModel);
       expect(
-        profileTagEventService.notifyProfileTagOfEventOccurrence
+        profileTagEventService.notifyProfileTagOfEventOccurrence,
       ).toHaveBeenCalledWith(expectedCarouselViewEvent);
     });
 
@@ -281,7 +278,7 @@ describe('MerchandisingCarouselComponentService', () => {
       componentService
         .sendCarouselViewEvent(
           mockCarouselId,
-          of(mockMerchandisingCarouselModel)
+          of(mockMerchandisingCarouselModel),
         )
         .subscribe((model) => {
           actualCarouselModel = model;
@@ -289,7 +286,7 @@ describe('MerchandisingCarouselComponentService', () => {
 
       expect(actualCarouselModel).toBeNull();
       expect(
-        profileTagEventService.notifyProfileTagOfEventOccurrence
+        profileTagEventService.notifyProfileTagOfEventOccurrence,
       ).toHaveBeenCalledTimes(0);
     });
   });
@@ -317,16 +314,16 @@ describe('MerchandisingCarouselComponentService', () => {
           },
           clickedProduct.metadata.slot,
           clickedProduct.code,
-          clickedProduct.images.PRIMARY['product'].url
+          clickedProduct.images.PRIMARY['product'].url,
         );
 
       componentService.sendCarouselItemClickedEvent(
         mockMerchandisingCarouselModel,
-        clickedProduct
+        clickedProduct,
       );
 
       expect(
-        profileTagEventService.notifyProfileTagOfEventOccurrence
+        profileTagEventService.notifyProfileTagOfEventOccurrence,
       ).toHaveBeenCalledWith(expectedCarouselClickedEvent);
     });
   });

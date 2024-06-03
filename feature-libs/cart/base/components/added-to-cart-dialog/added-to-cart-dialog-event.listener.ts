@@ -24,7 +24,7 @@ export class AddedToCartDialogEventListener implements OnDestroy {
 
   constructor(
     protected eventService: EventService,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {
     this.onAddToCart();
   }
@@ -33,12 +33,12 @@ export class AddedToCartDialogEventListener implements OnDestroy {
     this.subscription.add(
       this.eventService.get(CartUiEventAddToCart).subscribe((event) => {
         this.openModal(event);
-      })
+      }),
     );
     this.subscription.add(
       this.eventService.get(CartAddEntryFailEvent).subscribe((event) => {
         this.closeModal(event);
-      })
+      }),
     );
   }
   /**
@@ -58,7 +58,7 @@ export class AddedToCartDialogEventListener implements OnDestroy {
       LAUNCH_CALLER.ADDED_TO_CART,
       undefined,
       undefined,
-      addToCartData
+      addToCartData,
     );
 
     if (dialog) {

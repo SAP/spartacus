@@ -73,7 +73,7 @@ describe('OutletService', () => {
       it('should have TemplateRef', () => {
         expect(
           outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE) instanceof
-            TemplateRef
+            TemplateRef,
         ).toBeTruthy();
       });
 
@@ -83,7 +83,7 @@ describe('OutletService', () => {
 
       it('should have TemplateRef', () => {
         expect(
-          outletService.get(OUTLET_NAME_2, OutletPosition.AFTER)
+          outletService.get(OUTLET_NAME_2, OutletPosition.AFTER),
         ).toBeFalsy();
       });
     });
@@ -91,17 +91,17 @@ describe('OutletService', () => {
     describe('REPLACE position', () => {
       it('should have TemplateRef', () => {
         expect(
-          outletService.get(OUTLET_NAME_1) instanceof TemplateRef
+          outletService.get(OUTLET_NAME_1) instanceof TemplateRef,
         ).toBeTruthy();
       });
       it('should not have TemplateRef for BEFORE', () => {
         expect(
-          outletService.get(OUTLET_NAME_1, OutletPosition.BEFORE)
+          outletService.get(OUTLET_NAME_1, OutletPosition.BEFORE),
         ).toBeFalsy();
       });
       it('should not have TemplateRef for AFTER', () => {
         expect(
-          outletService.get(OUTLET_NAME_1, OutletPosition.AFTER)
+          outletService.get(OUTLET_NAME_1, OutletPosition.AFTER),
         ).toBeFalsy();
       });
     });
@@ -110,7 +110,7 @@ describe('OutletService', () => {
       it('should have TemplateRef', () => {
         expect(
           outletService.get(OUTLET_NAME_3, OutletPosition.AFTER) instanceof
-            TemplateRef
+            TemplateRef,
         ).toBeTruthy();
       });
 
@@ -120,7 +120,7 @@ describe('OutletService', () => {
 
       it('should have TemplateRef', () => {
         expect(
-          outletService.get(OUTLET_NAME_3, OutletPosition.BEFORE)
+          outletService.get(OUTLET_NAME_3, OutletPosition.BEFORE),
         ).toBeFalsy();
       });
     });
@@ -139,7 +139,7 @@ describe('OutletService', () => {
       it('should return a factory', () => {
         outletService.add(OUTLET_NAME_2, factory);
         expect(
-          outletService.get(OUTLET_NAME_2) instanceof ComponentFactory
+          outletService.get(OUTLET_NAME_2) instanceof ComponentFactory,
         ).toBeTruthy();
       });
 
@@ -158,7 +158,7 @@ describe('OutletService', () => {
         outletService.add(OUTLET_NAME_2, factory, OutletPosition.BEFORE);
         expect(
           outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE) instanceof
-            ComponentFactory
+            ComponentFactory,
         ).toBeTruthy();
       });
 
@@ -166,7 +166,7 @@ describe('OutletService', () => {
         outletService.add(OUTLET_NAME_2, factory);
         expect(
           outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE) instanceof
-            ComponentFactory
+            ComponentFactory,
         ).toBeFalsy();
       });
 
@@ -174,7 +174,7 @@ describe('OutletService', () => {
         outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
         expect(
           outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE) instanceof
-            ComponentFactory
+            ComponentFactory,
         ).toBeFalsy();
       });
     });
@@ -184,21 +184,21 @@ describe('OutletService', () => {
         outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
         expect(
           outletService.get(OUTLET_NAME_2, OutletPosition.AFTER) instanceof
-            ComponentFactory
+            ComponentFactory,
         ).toBeTruthy();
       });
 
       it('should not return a factory', () => {
         outletService.add(OUTLET_NAME_2, factory);
         expect(
-          outletService.get(OUTLET_NAME_2, OutletPosition.AFTER)
+          outletService.get(OUTLET_NAME_2, OutletPosition.AFTER),
         ).toBeFalsy();
       });
 
       it('should not return a factory', () => {
         outletService.add(OUTLET_NAME_2, factory, OutletPosition.BEFORE);
         expect(
-          outletService.get(OUTLET_NAME_2, OutletPosition.AFTER)
+          outletService.get(OUTLET_NAME_2, OutletPosition.AFTER),
         ).toBeFalsy();
       });
     });
@@ -214,7 +214,8 @@ describe('OutletService', () => {
 
     it('should return a single outlet for existing API usage', () => {
       expect(
-        outletService.get(OUTLET_NAME_4, OutletPosition.BEFORE) instanceof Array
+        outletService.get(OUTLET_NAME_4, OutletPosition.BEFORE) instanceof
+          Array,
       ).toBeFalsy();
     });
 
@@ -223,8 +224,8 @@ describe('OutletService', () => {
         outletService.get(
           OUTLET_NAME_4,
           OutletPosition.BEFORE,
-          USE_STACKED_OUTLETS
-        ) instanceof Array
+          USE_STACKED_OUTLETS,
+        ) instanceof Array,
       ).toBeTruthy();
     });
   });
@@ -251,18 +252,18 @@ describe('OutletService', () => {
       outletService.remove(OUTLET_NAME_2, OutletPosition.AFTER, factory);
 
       expect(outletService.get(OUTLET_NAME_1, OutletPosition.AFTER)).toEqual(
-        factory
+        factory,
       );
       expect(outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE)).toEqual(
-        factory
+        factory,
       );
       expect(
-        outletService.get(OUTLET_NAME_2, OutletPosition.AFTER, true)
+        outletService.get(OUTLET_NAME_2, OutletPosition.AFTER, true),
       ).toEqual([factory2]);
 
       outletService.remove(OUTLET_NAME_2, OutletPosition.AFTER, factory2);
       expect(
-        outletService.get(OUTLET_NAME_2, OutletPosition.AFTER, true)
+        outletService.get(OUTLET_NAME_2, OutletPosition.AFTER, true),
       ).toEqual([]);
     });
 
@@ -271,12 +272,12 @@ describe('OutletService', () => {
       outletService.add(OUTLET_NAME_1, factory2, OutletPosition.BEFORE);
 
       expect(
-        outletService.get(OUTLET_NAME_1, OutletPosition.BEFORE, true)
+        outletService.get(OUTLET_NAME_1, OutletPosition.BEFORE, true),
       ).toEqual([factory, factory2]);
 
       outletService.remove(OUTLET_NAME_1, OutletPosition.BEFORE);
       expect(outletService.get(OUTLET_NAME_1, OutletPosition.BEFORE)).toEqual(
-        undefined
+        undefined,
       );
     });
   });

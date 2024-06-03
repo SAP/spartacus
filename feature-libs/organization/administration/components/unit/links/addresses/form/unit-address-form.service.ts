@@ -28,7 +28,7 @@ import { FormService } from '../../../../shared/form/form.service';
 export class UnitAddressFormService extends FormService<Address> {
   constructor(
     protected userAddressService: UserAddressService,
-    protected userProfileFacade: UserProfileFacade
+    protected userProfileFacade: UserProfileFacade,
   ) {
     super();
   }
@@ -39,11 +39,11 @@ export class UnitAddressFormService extends FormService<Address> {
     form.setControl('titleCode', new UntypedFormControl(''));
     form.setControl(
       'firstName',
-      new UntypedFormControl('', Validators.required)
+      new UntypedFormControl('', Validators.required),
     );
     form.setControl(
       'lastName',
-      new UntypedFormControl('', Validators.required)
+      new UntypedFormControl('', Validators.required),
     );
     form.setControl('line1', new UntypedFormControl('', Validators.required));
     form.setControl('line2', new UntypedFormControl(''));
@@ -52,17 +52,17 @@ export class UnitAddressFormService extends FormService<Address> {
       'country',
       new UntypedFormGroup({
         isocode: new UntypedFormControl(null, Validators.required),
-      })
+      }),
     );
     form.setControl(
       'region',
       new UntypedFormGroup({
         isocode: new UntypedFormControl(null, Validators.required),
-      })
+      }),
     );
     form.setControl(
       'postalCode',
-      new UntypedFormControl('', Validators.required)
+      new UntypedFormControl('', Validators.required),
     );
     form.setControl('phone', new UntypedFormControl(''));
     form.setControl('cellphone', new UntypedFormControl(''));
@@ -76,7 +76,7 @@ export class UnitAddressFormService extends FormService<Address> {
         if (Object.keys(countries).length === 0) {
           this.userAddressService.loadDeliveryCountries();
         }
-      })
+      }),
     );
   }
 
@@ -108,7 +108,7 @@ export class UnitAddressFormService extends FormService<Address> {
               regionControl?.reset();
             }
             selectedCountryCode = newCountryCode;
-          })
+          }),
         ) ?? of([])
     );
   }

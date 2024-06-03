@@ -46,7 +46,7 @@ describe('ProductNameNormalizer', () => {
     [ProductNameNormalizer],
     (productNameNormalizer: ProductNameNormalizer) => {
       expect(productNameNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert product name', () => {

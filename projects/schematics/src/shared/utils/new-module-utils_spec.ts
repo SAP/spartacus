@@ -26,7 +26,7 @@ import { appModulePath } from './test-utils';
 describe('New Module utils', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
-    path.join(__dirname, '../../collection.json')
+    path.join(__dirname, '../../collection.json'),
   );
 
   let tree: Tree;
@@ -62,20 +62,20 @@ describe('New Module utils', () => {
     tree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     tree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      tree
+      tree,
     );
 
     tree = await schematicRunner.runSchematic(
       'add-spartacus',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      tree
+      tree,
     );
 
     buildPath = getProjectTsConfigPaths(tree, BASE_OPTIONS.project)
@@ -88,8 +88,8 @@ describe('New Module utils', () => {
           USER_PROFILE_FEATURE_NAME,
           CART_BASE_FEATURE_NAME,
         ]),
-        tree
-      )
+        tree,
+      ),
     );
   });
 
@@ -117,10 +117,10 @@ describe('New Module utils', () => {
       const appModule = program.getSourceFileOrThrow(appModulePath);
 
       expect(
-        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE)
+        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE),
       ).toBeTruthy();
       expect(appModule.getText()).toMatch(
-        doesNgModuleImportsContainModule(BROWSER_MODULE)
+        doesNgModuleImportsContainModule(BROWSER_MODULE),
       );
 
       removeModuleImport(appModule, {
@@ -129,10 +129,10 @@ describe('New Module utils', () => {
       });
 
       expect(
-        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE)
+        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE),
       ).toBeFalsy();
       expect(appModule.getText()).not.toMatch(
-        doesNgModuleImportsContainModule(BROWSER_MODULE)
+        doesNgModuleImportsContainModule(BROWSER_MODULE),
       );
     });
 
@@ -144,10 +144,10 @@ describe('New Module utils', () => {
       const NON_EXISTING_MODULE = 'nonExistingModule';
 
       expect(
-        staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE)
+        staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE),
       ).toBeFalsy();
       expect(appModule.getText()).not.toMatch(
-        doesNgModuleImportsContainModule(NON_EXISTING_MODULE)
+        doesNgModuleImportsContainModule(NON_EXISTING_MODULE),
       );
 
       removeModuleImport(appModule, {
@@ -156,10 +156,10 @@ describe('New Module utils', () => {
       });
 
       expect(
-        staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE)
+        staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE),
       ).toBeFalsy();
       expect(appModule.getText()).not.toMatch(
-        doesNgModuleImportsContainModule(NON_EXISTING_MODULE)
+        doesNgModuleImportsContainModule(NON_EXISTING_MODULE),
       );
     });
   });

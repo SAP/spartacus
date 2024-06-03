@@ -29,7 +29,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   load(userId: string, permissionCode: string): Observable<Permission> {
@@ -40,7 +40,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
 
   loadList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Permission>> {
     return this.http
       .get<Occ.PermissionsList>(this.getPermissionsEndpoint(userId, params))
@@ -57,13 +57,13 @@ export class OccPermissionAdapter implements PermissionAdapter {
   update(
     userId: string,
     permissionCode: string,
-    permission: Permission
+    permission: Permission,
   ): Observable<Permission> {
     permission = this.converter.convert(permission, PERMISSION_SERIALIZER);
     return this.http
       .patch<Occ.Permission>(
         this.getPermissionEndpoint(userId, permissionCode),
-        permission
+        permission,
       )
       .pipe(this.converter.pipeable(PERMISSION_NORMALIZER));
   }
@@ -71,14 +71,14 @@ export class OccPermissionAdapter implements PermissionAdapter {
   loadTypes(): Observable<OrderApprovalPermissionType[]> {
     return this.http
       .get<Occ.OrderApprovalPermissionTypeList>(
-        this.getPermissionTypesEndpoint()
+        this.getPermissionTypesEndpoint(),
       )
       .pipe(this.converter.pipeable(PERMISSION_TYPES_NORMALIZER));
   }
 
   protected getPermissionEndpoint(
     userId: string,
-    orderApprovalPermissionCode: string
+    orderApprovalPermissionCode: string,
   ): string {
     return this.occEndpoints.buildUrl('permission', {
       urlParams: {
@@ -90,7 +90,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
 
   protected getPermissionsEndpoint(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): string {
     return this.occEndpoints.buildUrl('permissions', {
       urlParams: { userId },

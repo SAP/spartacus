@@ -23,7 +23,7 @@ describe('CustomerTicketingReopenComponent', () => {
     openDialog(
       _caller: LAUNCH_CALLER,
       _openElement?: ElementRef,
-      _vcr?: ViewContainerRef
+      _vcr?: ViewContainerRef,
     ) {
       return EMPTY;
     }
@@ -87,7 +87,7 @@ describe('CustomerTicketingReopenComponent', () => {
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.CUSTOMER_TICKETING_REOPEN,
       component.element,
-      component['vcr']
+      component['vcr'],
     );
   });
 

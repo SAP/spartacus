@@ -71,7 +71,7 @@ export class SplitViewComponent implements OnInit, OnDestroy {
   constructor(
     protected splitService: SplitViewService,
     protected breakpointService: BreakpointService,
-    protected elementRef: ElementRef
+    protected elementRef: ElementRef,
   ) {}
 
   ngOnInit() {
@@ -79,13 +79,13 @@ export class SplitViewComponent implements OnInit, OnDestroy {
       this.splitService
         .getActiveView()
         .subscribe(
-          (lastVisible: number) => (this.lastVisibleView = lastVisible + 1)
-        )
+          (lastVisible: number) => (this.lastVisibleView = lastVisible + 1),
+        ),
     );
     this.subscription.add(
       this.breakpointService.breakpoint$.subscribe(() => {
         this.splitService.updateSplitView(this.splitViewCount);
-      })
+      }),
     );
   }
 
@@ -96,8 +96,8 @@ export class SplitViewComponent implements OnInit, OnDestroy {
   protected get splitViewCount(): number {
     return Number(
       getComputedStyle(this.elementRef.nativeElement).getPropertyValue(
-        '--cx-max-views'
-      )
+        '--cx-max-views',
+      ),
     );
   }
 

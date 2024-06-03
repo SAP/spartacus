@@ -29,7 +29,7 @@ describe('PaymentTypeService', () => {
         StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
+          fromProcessReducers.getReducers(),
         ),
       ],
       providers: [
@@ -47,19 +47,19 @@ describe('PaymentTypeService', () => {
     [UserCostCenterService],
     (costCenterService: UserCostCenterService) => {
       expect(costCenterService).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to load the active Cost Centers', () => {
     service.loadActiveCostCenters();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadActiveCostCenters(userId)
+      new UserActions.LoadActiveCostCenters(userId),
     );
   });
 
   it('should be able to get the active Cost Centers if data exist', () => {
     store.dispatch(
-      new UserActions.LoadActiveCostCentersSuccess([{ code: 'account' }])
+      new UserActions.LoadActiveCostCentersSuccess([{ code: 'account' }]),
     );
 
     let costCenters: CostCenter[];
@@ -87,7 +87,7 @@ describe('PaymentTypeService', () => {
     store.dispatch(
       new UserActions.LoadActiveCostCentersSuccess([
         { code: 'account', unit: { addresses: [{ id: 'test-address' }] } },
-      ])
+      ]),
     );
 
     let addresses: Address[];

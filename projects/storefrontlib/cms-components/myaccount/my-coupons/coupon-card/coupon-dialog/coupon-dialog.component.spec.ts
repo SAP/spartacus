@@ -39,21 +39,19 @@ describe('CouponDialogComponent', () => {
   let fixture: ComponentFixture<CouponDialogComponent>;
   let el: DebugElement;
   let launchDialogService: LaunchDialogService;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          CouponDialogComponent,
-          MockCxIconComponent,
-          FocusDirective,
-        ],
-        imports: [I18nTestingModule],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        CouponDialogComponent,
+        MockCxIconComponent,
+        FocusDirective,
+      ],
+      imports: [I18nTestingModule],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CouponDialogComponent);
@@ -78,21 +76,21 @@ describe('CouponDialogComponent', () => {
     expect(closeBtn).toBeTruthy();
 
     const couponDescription = fixture.debugElement.query(
-      By.css('.cx-coupon-description')
+      By.css('.cx-coupon-description'),
     ).nativeElement.textContent;
     expect(couponDescription).toContain('CustomerCouponDescription');
 
     const couponEffectiveTitle = fixture.debugElement.query(
-      By.css('.cx-coupon-dialog-date p')
+      By.css('.cx-coupon-dialog-date p'),
     ).nativeElement.textContent;
     expect(couponEffectiveTitle).toContain('myCoupons.effectiveTitle');
     const couponEffectiveDate = fixture.debugElement.query(
-      By.css('.cx-coupon-date')
+      By.css('.cx-coupon-date'),
     ).nativeElement.textContent;
     expect(couponEffectiveDate).toBeTruthy();
 
     const couponStatusTitle = fixture.debugElement.query(
-      By.css('.cx-coupon-dialog-status p')
+      By.css('.cx-coupon-dialog-status p'),
     ).nativeElement.textContent;
     expect(couponStatusTitle).toContain('myCoupons.status');
     const couponStatus = fixture.debugElement.query(By.css('.cx-coupon-status'))

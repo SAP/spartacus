@@ -19,7 +19,7 @@ const mockMessages = {
 
 describe('GlobalMessageService', () => {
   const mockSelect = createSpy('select').and.returnValue(() =>
-    of(mockMessages)
+    of(mockMessages),
   );
 
   let service: GlobalMessageService;
@@ -31,7 +31,7 @@ describe('GlobalMessageService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           GLOBAL_MESSAGE_FEATURE,
-          fromStoreReducers.getReducers()
+          fromStoreReducers.getReducers(),
         ),
       ],
       providers: [GlobalMessageService],
@@ -47,7 +47,7 @@ describe('GlobalMessageService', () => {
     [GlobalMessageService],
     (globalMessageService: GlobalMessageService) => {
       expect(globalMessageService).toBeTruthy();
-    }
+    },
   ));
 
   it('Should be able to get all messages', () => {
@@ -63,21 +63,21 @@ describe('GlobalMessageService', () => {
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: { raw: 'Test error message' },
         timeout: undefined,
-      })
+      }),
     );
   });
 
   it('Should be able to add a translation message', () => {
     service.add(
       { key: 'test.key', params: { param: 'value' } },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       new GlobalMessageActions.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: { key: 'test.key', params: { param: 'value' } },
         timeout: undefined,
-      })
+      }),
     );
   });
 
@@ -88,7 +88,7 @@ describe('GlobalMessageService', () => {
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: { raw: 'Test error message' },
         timeout: 10000,
-      })
+      }),
     );
   });
 
@@ -98,7 +98,7 @@ describe('GlobalMessageService', () => {
       new GlobalMessageActions.RemoveMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         index: 0,
-      })
+      }),
     );
   });
 
@@ -106,8 +106,8 @@ describe('GlobalMessageService', () => {
     service.remove(GlobalMessageType.MSG_TYPE_ERROR);
     expect(store.dispatch).toHaveBeenCalledWith(
       new GlobalMessageActions.RemoveMessagesByType(
-        GlobalMessageType.MSG_TYPE_ERROR
-      )
+        GlobalMessageType.MSG_TYPE_ERROR,
+      ),
     );
   });
 });

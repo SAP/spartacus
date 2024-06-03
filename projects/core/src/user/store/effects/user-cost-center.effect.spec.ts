@@ -37,10 +37,10 @@ describe('Payment Types effect', () => {
     });
 
     effect = TestBed.inject(
-      UserCostCenterEffects as Type<UserCostCenterEffects>
+      UserCostCenterEffects as Type<UserCostCenterEffects>,
     );
     service = TestBed.inject(
-      UserCostCenterConnector as Type<UserCostCenterConnector>
+      UserCostCenterConnector as Type<UserCostCenterConnector>,
     );
 
     spyOn(service, 'getActiveList').and.returnValue(of(mockCostCenters));
@@ -50,7 +50,7 @@ describe('Payment Types effect', () => {
     it('should load the cost centers of user', () => {
       const action = new UserActions.LoadActiveCostCenters('user');
       const completion = new UserActions.LoadActiveCostCentersSuccess(
-        mockCostCenters.values
+        mockCostCenters.values,
       );
 
       actions$ = hot('-a', { a: action });

@@ -97,13 +97,13 @@ describe('TableRendererService', () => {
       it('should add global components', () => {
         service.add(mockTableWithoutHeaderAndDataComponent);
         expect(
-          componentFactoryResolver.resolveComponentFactory
+          componentFactoryResolver.resolveComponentFactory,
         ).toHaveBeenCalledWith(MockGlobalHeaderComponent);
         expect(
-          componentFactoryResolver.resolveComponentFactory
+          componentFactoryResolver.resolveComponentFactory,
         ).toHaveBeenCalledWith(MockGlobalDataComponent);
         expect(
-          componentFactoryResolver.resolveComponentFactory
+          componentFactoryResolver.resolveComponentFactory,
         ).toHaveBeenCalledTimes(6);
       });
     });
@@ -139,31 +139,31 @@ describe('TableRendererService', () => {
       it('should not add any components', () => {
         service.add(emptyTableStructure);
         expect(
-          componentFactoryResolver.resolveComponentFactory
+          componentFactoryResolver.resolveComponentFactory,
         ).not.toHaveBeenCalled();
       });
 
       it('should add MockComponent for header', () => {
         service.add(mockTableWithHeaderComponent);
         expect(
-          componentFactoryResolver.resolveComponentFactory
+          componentFactoryResolver.resolveComponentFactory,
         ).toHaveBeenCalledTimes(1);
 
         expect(
-          componentFactoryResolver.resolveComponentFactory
+          componentFactoryResolver.resolveComponentFactory,
         ).toHaveBeenCalledWith(MockHeaderComponent);
       });
 
       it('should add MockComponent for data', () => {
         service.add(mockTableWithHeaderAndDataComponent);
         expect(
-          componentFactoryResolver.resolveComponentFactory
+          componentFactoryResolver.resolveComponentFactory,
         ).toHaveBeenCalledWith(MockHeaderComponent);
         expect(
-          componentFactoryResolver.resolveComponentFactory
+          componentFactoryResolver.resolveComponentFactory,
         ).toHaveBeenCalledWith(MockDataComponent);
         expect(
-          componentFactoryResolver.resolveComponentFactory
+          componentFactoryResolver.resolveComponentFactory,
         ).toHaveBeenCalledWith(MockCodeRendererComponent);
       });
 
@@ -171,10 +171,10 @@ describe('TableRendererService', () => {
         service.add(mockTableWithHeaderComponent);
         service.add(mockTableWithHeaderComponent);
         expect(
-          componentFactoryResolver.resolveComponentFactory
+          componentFactoryResolver.resolveComponentFactory,
         ).toHaveBeenCalledWith(MockHeaderComponent);
         expect(
-          componentFactoryResolver.resolveComponentFactory
+          componentFactoryResolver.resolveComponentFactory,
         ).toHaveBeenCalledTimes(1);
       });
     });
@@ -182,7 +182,7 @@ describe('TableRendererService', () => {
     describe('outlets', () => {
       it('should generate table header (th) outlet reference', () => {
         expect(service.getHeaderOutletRef('test-1', 'key1')).toEqual(
-          'table.test-1.header.key1'
+          'table.test-1.header.key1',
         );
       });
 
@@ -191,17 +191,17 @@ describe('TableRendererService', () => {
           'test-1',
           mockOptions,
           'i18nRoot',
-          'key2'
+          'key2',
         );
         expect(context._field).toEqual('key2');
         expect(
-          (context._options.cells['key2'].label as TableHeader).i18nKey
+          (context._options.cells['key2'].label as TableHeader).i18nKey,
         ).toEqual('prop.key2');
       });
 
       it('should generate table data (td) outlet reference', () => {
         expect(service.getDataOutletRef('test-1', 'key1')).toEqual(
-          'table.test-1.data.key1'
+          'table.test-1.data.key1',
         );
       });
 
@@ -213,7 +213,7 @@ describe('TableRendererService', () => {
           'key2',
           {
             foo: 'bar',
-          }
+          },
         );
         expect(context._field).toEqual('key2');
         expect(context['foo']).toEqual('bar');

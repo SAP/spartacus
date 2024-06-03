@@ -17,7 +17,7 @@ export class ConfiguratorRouterListener implements OnDestroy {
   constructor(
     protected configuratorCartService: ConfiguratorCartService,
     protected routingService: RoutingService,
-    protected configuratorQuantityService: ConfiguratorQuantityService
+    protected configuratorQuantityService: ConfiguratorQuantityService,
   ) {
     this.observeRouterChanges();
   }
@@ -29,7 +29,7 @@ export class ConfiguratorRouterListener implements OnDestroy {
           this.configuratorCartService.removeCartBoundConfigurations();
           this.configuratorQuantityService.setQuantity(1);
         }
-      })
+      }),
     );
   }
 

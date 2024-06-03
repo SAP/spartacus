@@ -20,7 +20,7 @@ import AppServerModule from './src/main.server';
 
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
-    process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
+    process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout,
   ),
 };
 
@@ -41,7 +41,7 @@ export function app(): express.Express {
     'html',
     ngExpressEngine({
       bootstrap: AppServerModule,
-    })
+    }),
   );
 
   server.set('view engine', 'html');
@@ -52,7 +52,7 @@ export function app(): express.Express {
     '*.*',
     express.static(distFolder, {
       maxAge: '1y',
-    })
+    }),
   );
 
   // All regular routes use the Universal engine

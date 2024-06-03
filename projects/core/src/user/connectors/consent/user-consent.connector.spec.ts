@@ -52,7 +52,7 @@ describe('UserConsentConnector', () => {
     expect(adapter.withdrawConsent).toHaveBeenCalledWith(
       'userId',
       'consentCode',
-      'consentId'
+      'consentId',
     );
   });
 });

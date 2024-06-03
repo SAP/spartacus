@@ -27,7 +27,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('Spartacus segment-refs schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SEGMENT_REFS,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -69,28 +69,28 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
       SPARTACUS_SCHEMATICS,
       path.join(
         __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
+        '../../../../projects/schematics/src/collection.json',
+      ),
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -99,7 +99,7 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -117,12 +117,12 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
             ...segmentRefsFeatureOptions,
             features: [TRACKING_PERSONALIZATION_FEATURE_NAME],
           },
-          appTree
+          appTree,
         );
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           segmentRefsFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -158,12 +158,12 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
             ...segmentRefsFeatureOptions,
             features: [TRACKING_PERSONALIZATION_FEATURE_NAME],
           },
-          appTree
+          appTree,
         );
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...segmentRefsFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
@@ -171,7 +171,7 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
         const module = appTree.readContent(segmentRefsFeatureModulePath);
         expect(module).toMatchSnapshot();
         expect(
-          appTree.readContent(trackingPersonalizationFeatureModulePath)
+          appTree.readContent(trackingPersonalizationFeatureModulePath),
         ).toBeTruthy();
       });
     });

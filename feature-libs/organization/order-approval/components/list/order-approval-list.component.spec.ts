@@ -87,7 +87,7 @@ class MockOrderApprovalService {
 
   loadOrderApprovals(_searchConfig: SearchConfig): void {}
   getList(
-    _searchConfig: SearchConfig
+    _searchConfig: SearchConfig,
   ): Observable<EntitiesModel<OrderApproval>> {
     return this.orderApprovalList;
   }
@@ -151,12 +151,12 @@ describe('OrderApprovalListComponent?', () => {
     };
 
     (orderApprovalService as MockOrderApprovalService).orderApprovalList.next(
-      emptyOrderList
+      emptyOrderList,
     );
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.query(By.css('.cx-order-approval-no-order'))
+      fixture.debugElement.query(By.css('.cx-order-approval-no-order')),
     ).not.toBeNull();
   });
 
@@ -174,7 +174,7 @@ describe('OrderApprovalListComponent?', () => {
     };
 
     expect(orderApprovalService.getList).toHaveBeenCalledWith(
-      orderNumberSearchConfig
+      orderNumberSearchConfig,
     );
   });
 
@@ -191,7 +191,7 @@ describe('OrderApprovalListComponent?', () => {
     };
 
     expect(orderApprovalService.loadOrderApprovals).toHaveBeenCalledWith(
-      dateSearchConfig
+      dateSearchConfig,
     );
   });
 

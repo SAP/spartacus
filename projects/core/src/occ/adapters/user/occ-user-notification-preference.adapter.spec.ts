@@ -61,7 +61,7 @@ describe('OccUserNotificationPreferenceAdapter', () => {
     });
 
     occNotificationPreferenceAdapter = TestBed.inject(
-      OccUserNotificationPreferenceAdapter
+      OccUserNotificationPreferenceAdapter,
     );
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
@@ -89,7 +89,7 @@ describe('OccUserNotificationPreferenceAdapter', () => {
         'notificationPreference',
         {
           urlParams: { userId: userId },
-        }
+        },
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -104,7 +104,7 @@ describe('OccUserNotificationPreferenceAdapter', () => {
         })
         .flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(
-        NOTIFICATION_PREFERENCE_NORMALIZER
+        NOTIFICATION_PREFERENCE_NORMALIZER,
       );
     });
   });
@@ -125,7 +125,7 @@ describe('OccUserNotificationPreferenceAdapter', () => {
         'notificationPreference',
         {
           urlParams: { userId: userId },
-        }
+        },
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -144,7 +144,7 @@ describe('OccUserNotificationPreferenceAdapter', () => {
       .flush({});
     expect(converter.convert).toHaveBeenCalledWith(
       mockNotificationPreference,
-      NOTIFICATION_PREFERENCE_SERIALIZER
+      NOTIFICATION_PREFERENCE_SERIALIZER,
     );
   });
 });

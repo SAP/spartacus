@@ -17,7 +17,7 @@ import { CurrentPermissionService } from './current-permission.service';
 export class PermissionRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
   constructor(
     translation: TranslationService,
-    protected currentItemService: CurrentPermissionService
+    protected currentItemService: CurrentPermissionService,
   ) {
     super(translation);
   }

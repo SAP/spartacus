@@ -20,7 +20,7 @@ export class OccOrderApprovalDecisionNormalizer
 
   convert(
     source: Occ.OrderApprovalDecision,
-    target?: OrderApprovalDecision
+    target?: OrderApprovalDecision,
   ): OrderApprovalDecision {
     if (target === undefined) {
       target = { ...(source as any) } as OrderApprovalDecision;

@@ -36,10 +36,10 @@ class MockSiteConnector {
 
 describe('LanguageService', () => {
   const mockSelect1 = createSpy('select').and.returnValue(() =>
-    of(mockLanguages)
+    of(mockLanguages),
   );
   const mockSelect2 = createSpy('select').and.returnValue(() =>
-    of(mockActiveLang)
+    of(mockActiveLang),
   );
 
   let service: LanguageService;
@@ -68,7 +68,7 @@ describe('LanguageService', () => {
     [LanguageService],
     (Service: LanguageService) => {
       expect(Service).toBeTruthy();
-    }
+    },
   ));
 
   it('should not load languages when service is constructed', () => {
@@ -93,7 +93,7 @@ describe('LanguageService', () => {
     it('shouldselect active language', () => {
       service.setActive('ja');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new SiteContextActions.SetActiveLanguage('ja')
+        new SiteContextActions.SetActiveLanguage('ja'),
       );
     });
   });

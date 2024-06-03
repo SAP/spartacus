@@ -184,7 +184,7 @@ describe('OccCmsPageAdapter', () => {
       it('Should get home page', (done) => {
         spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
         spyOn(endpointsService, 'buildUrl').and.returnValue(
-          userEndpoint + `/pages`
+          userEndpoint + `/pages`,
         );
 
         service.load(homePageContext).subscribe((result) => {
@@ -210,7 +210,7 @@ describe('OccCmsPageAdapter', () => {
         spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
         spyOn(endpointsService, 'buildUrl').and.returnValue(
           userEndpoint +
-            `/pages?pageType=${contentPageContext.type}&pageLabelOrId=${contentPageContext.id}`
+            `/pages?pageType=${contentPageContext.type}&pageLabelOrId=${contentPageContext.id}`,
         );
 
         service.load(contentPageContext).subscribe((result) => {
@@ -243,7 +243,7 @@ describe('OccCmsPageAdapter', () => {
         spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
         spyOn(endpointsService, 'buildUrl').and.returnValue(
           userEndpoint +
-            `/pages?pageType=${productPageContext.type}&code=${productPageContext.id}`
+            `/pages?pageType=${productPageContext.type}&code=${productPageContext.id}`,
         );
         service.load(productPageContext).subscribe((result) => {
           expect(result).toEqual(cmsPageData);
@@ -273,7 +273,7 @@ describe('OccCmsPageAdapter', () => {
 
       it('should get cms page data by pageId if PageType is unknown', (done) => {
         spyOn(endpointsService, 'buildUrl').and.returnValue(
-          userEndpoint + `/pages/${contextWithoutType.id}`
+          userEndpoint + `/pages/${contextWithoutType.id}`,
         );
         spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
         service.load(contextWithoutType).subscribe((result) => {
@@ -298,7 +298,7 @@ describe('OccCmsPageAdapter', () => {
       it('should use normalizer', (done) => {
         spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
         spyOn(endpointsService, 'buildUrl').and.returnValue(
-          userEndpoint + '/pages'
+          userEndpoint + '/pages',
         );
         const converter = TestBed.inject(ConverterService);
 
@@ -362,7 +362,7 @@ describe('OccCmsPageAdapter', () => {
     describe('http', () => {
       it('Should get home page', () => {
         spyOn(endpointsService, 'buildUrl').and.returnValue(
-          endpoint + `/pages`
+          endpoint + `/pages`,
         );
 
         service.load(homePageContext).subscribe((result) => {
@@ -384,7 +384,7 @@ describe('OccCmsPageAdapter', () => {
       it('Should get cms content page data', () => {
         spyOn(endpointsService, 'buildUrl').and.returnValue(
           endpoint +
-            `/pages?pageType=${contentPageContext.type}&pageLabelOrId=${contentPageContext.id}`
+            `/pages?pageType=${contentPageContext.type}&pageLabelOrId=${contentPageContext.id}`,
         );
 
         service.load(contentPageContext).subscribe((result) => {
@@ -413,7 +413,7 @@ describe('OccCmsPageAdapter', () => {
 
       it('should get cms page data by pageId if PageType is unknown', () => {
         spyOn(endpointsService, 'buildUrl').and.returnValue(
-          endpoint + `/pages/${contextWithoutType.id}`
+          endpoint + `/pages/${contextWithoutType.id}`,
         );
         service.load(contextWithoutType).subscribe((result) => {
           expect(result).toEqual(cmsPageData);
@@ -435,7 +435,7 @@ describe('OccCmsPageAdapter', () => {
     describe('normalizer', () => {
       it('should use normalizer', () => {
         spyOn(endpointsService, 'buildUrl').and.returnValue(
-          endpoint + '/pages'
+          endpoint + '/pages',
         );
         const converter = TestBed.inject(ConverterService);
 

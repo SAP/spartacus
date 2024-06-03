@@ -18,7 +18,7 @@ export class MultiCartEventListener implements OnDestroy {
 
   constructor(
     protected eventService: EventService,
-    protected multiCartFacade: MultiCartFacade
+    protected multiCartFacade: MultiCartFacade,
   ) {
     this.onCartBaseAction();
   }
@@ -32,13 +32,13 @@ export class MultiCartEventListener implements OnDestroy {
         if (userId && cartId) {
           this.multiCartFacade.loadCart({ userId, cartId });
         }
-      })
+      }),
     );
 
     this.subscriptions.add(
       this.eventService.get(RemoveCartEvent).subscribe(({ cartId }) => {
         this.multiCartFacade.removeCart(cartId);
-      })
+      }),
     );
   }
 

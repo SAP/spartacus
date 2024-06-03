@@ -128,7 +128,7 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.renderer.setStyle(
       this.filterNavBuyer.nativeElement,
       'display',
-      'none'
+      'none',
     );
     this.renderer.setStyle(this.filterNav.nativeElement, 'width', '0');
     this.filterFormMobile.patchValue({
@@ -142,7 +142,7 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.renderer.setStyle(
       this.filterNavBuyer.nativeElement,
       'display',
-      'none'
+      'none',
     );
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
 
@@ -159,13 +159,13 @@ export class UnitLevelOrderHistoryFilterComponent {
       this.renderer.setStyle(
         this.filterNavUnit.nativeElement,
         'display',
-        'block'
+        'block',
       );
     } else if (option === this.filterByBuyer) {
       this.renderer.setStyle(
         this.filterNavBuyer.nativeElement,
         'display',
-        'block'
+        'block',
       );
     }
   }

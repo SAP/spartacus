@@ -84,7 +84,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -116,37 +116,35 @@ describe('CompactAddToCartComponent', () => {
 
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          BrowserAnimationsModule,
-          RouterTestingModule,
-          SpinnerModule,
-          I18nTestingModule,
-          ReactiveFormsModule,
-          IconModule,
-        ],
-        declarations: [CompactAddToCartComponent, MockItemCounterComponent],
-        providers: [
-          {
-            provide: LaunchDialogService,
-            useValue: MockLaunchDialogService,
-          },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-          {
-            provide: CmsComponentData,
-            useValue: MockCmsComponentData,
-          },
-          { provide: EventService, useClass: MockEventService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        BrowserAnimationsModule,
+        RouterTestingModule,
+        SpinnerModule,
+        I18nTestingModule,
+        ReactiveFormsModule,
+        IconModule,
+      ],
+      declarations: [CompactAddToCartComponent, MockItemCounterComponent],
+      providers: [
+        {
+          provide: LaunchDialogService,
+          useValue: MockLaunchDialogService,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
+        },
+        { provide: EventService, useClass: MockEventService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CompactAddToCartComponent);
@@ -174,7 +172,7 @@ describe('CompactAddToCartComponent', () => {
 
     it('should load entry by product code from currentProductService', () => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct)
+        of(mockProduct),
       );
       addToCartComponent.ngOnInit();
       expect(addToCartComponent.productCode).toEqual(mockProduct.code);
@@ -220,7 +218,7 @@ describe('CompactAddToCartComponent', () => {
     it('should show the addToCart button for currentProduct', () => {
       // addToCartComponent.productCode not set
       spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct)
+        of(mockProduct),
       );
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
@@ -230,7 +228,7 @@ describe('CompactAddToCartComponent', () => {
     it('should hide the addToCart button for currentProduct', () => {
       // addToCartComponent.productCode not set
       spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockNoStockProduct)
+        of(mockNoStockProduct),
       );
       addToCartComponent.ngOnInit();
       fixture.detectChanges();

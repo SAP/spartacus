@@ -318,7 +318,7 @@ describe('PaginationBuilder', () => {
           endLabel: 'e',
           previousLabel: 'p',
           nextLabel: 'n',
-        })
+        }),
       );
       pages = service.paginate(100, 50);
     });
@@ -403,7 +403,7 @@ describe('PaginationBuilder', () => {
     });
     it('should have a previous page link', () => {
       const link = pages.find(
-        (page) => page.type === PaginationItemType.PREVIOUS
+        (page) => page.type === PaginationItemType.PREVIOUS,
       );
       expect(link).toBeTruthy();
     });
@@ -472,7 +472,7 @@ describe('PaginationBuilder', () => {
       });
       it('should have 2 gaps', () => {
         const link = pages.filter(
-          (page) => page.type === PaginationItemType.GAP
+          (page) => page.type === PaginationItemType.GAP,
         );
         expect(link.length).toEqual(2);
       });

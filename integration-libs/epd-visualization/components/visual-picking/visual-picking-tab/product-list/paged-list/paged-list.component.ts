@@ -82,14 +82,14 @@ export class PagedListComponent implements OnInit {
   ngOnInit() {
     if (!this.headerTemplate) {
       this.logger.error(
-        'No template reference provided to render the header for the `cx-epd-visualization-paged-list`'
+        'No template reference provided to render the header for the `cx-epd-visualization-paged-list`',
       );
       return;
     }
 
     if (!this.template) {
       this.logger.error(
-        'No template reference provided to render the items for the `cx-epd-visualization-paged-list`'
+        'No template reference provided to render the items for the `cx-epd-visualization-paged-list`',
       );
       return;
     }

@@ -63,7 +63,7 @@ describe('Customer effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(customerEffects.customerListCustomersSearch$).toBeObservable(
-        expected
+        expected,
       );
     });
   });

@@ -22,7 +22,7 @@ class MockOccEndpointsService {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ) {
     return this.getEndpoint(endpoint);
   }
@@ -52,25 +52,23 @@ describe(`OccStockAdapter`, () => {
 
   const mockNormalizedJaloError = normalizeHttpError(
     mockJaloError,
-    new MockLoggerService()
+    new MockLoggerService(),
   );
 
   let occAdapter: OccStockAdapter;
   let httpMock: HttpTestingController;
   let occEndpointService: OccEndpointsService;
   let httpClient: HttpClient;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        providers: [
-          OccStockAdapter,
-          { provide: OccEndpointsService, useClass: MockOccEndpointsService },
-          { provide: LoggerService, useClass: MockLoggerService },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        OccStockAdapter,
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        { provide: LoggerService, useClass: MockLoggerService },
+      ],
+    });
+  }));
   beforeEach(() => {
     occAdapter = TestBed.inject(OccStockAdapter);
     httpMock = TestBed.inject(HttpTestingController);

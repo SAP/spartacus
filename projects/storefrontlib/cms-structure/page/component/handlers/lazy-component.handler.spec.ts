@@ -51,7 +51,7 @@ describe('LazyComponentHandler', () => {
       const resolvedComponent = 'testData';
       const mapping = () => new Promise((res) => res(resolvedComponent));
       await lastValueFrom(
-        service.launcher({ component: mapping }, undefined, undefined)
+        service.launcher({ component: mapping }, undefined, undefined),
       );
 
       const defaultHandler = TestBed.inject(DefaultComponentHandler);
@@ -60,7 +60,7 @@ describe('LazyComponentHandler', () => {
         { component: resolvedComponent },
         undefined,
         undefined,
-        undefined
+        undefined,
       );
     });
   });

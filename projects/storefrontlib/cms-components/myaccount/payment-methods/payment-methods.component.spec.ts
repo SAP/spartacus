@@ -69,31 +69,29 @@ describe('PaymentMethodsComponent', () => {
   let userService: UserPaymentService;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          PaymentMethodsComponent,
-          MockCxSpinnerComponent,
-          CardComponent,
-          MockCxIconComponent,
-          MockAtMessageDirective,
-          FocusDirective,
-        ],
-        providers: [
-          { provide: UserPaymentService, useClass: MockUserPaymentService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        PaymentMethodsComponent,
+        MockCxSpinnerComponent,
+        CardComponent,
+        MockCxIconComponent,
+        MockAtMessageDirective,
+        FocusDirective,
+      ],
+      providers: [
+        { provide: UserPaymentService, useClass: MockUserPaymentService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
           },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentMethodsComponent);
@@ -109,7 +107,7 @@ describe('PaymentMethodsComponent', () => {
   it('should display header', () => {
     fixture.detectChanges();
     expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
-      'paymentMethods.paymentMethods'
+      'paymentMethods.paymentMethods',
     );
   });
 
@@ -124,7 +122,7 @@ describe('PaymentMethodsComponent', () => {
     fixture.detectChanges();
     expect(getTitle(el)).toContain('paymentMethods.paymentMethods');
     expect(getBodyMessage(el)).toContain(
-      ' paymentMethods.newPaymentMethodsAreAddedDuringCheckout '
+      ' paymentMethods.newPaymentMethodsAreAddedDuringCheckout ',
     );
   });
 
@@ -152,7 +150,7 @@ describe('PaymentMethodsComponent', () => {
   it('should render all payment methods', () => {
     spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
     spyOn(userService, 'getPaymentMethods').and.returnValue(
-      of([mockPayment, mockPayment])
+      of([mockPayment, mockPayment]),
     );
 
     function getCards(elem: DebugElement): DebugElement[] {
@@ -166,7 +164,7 @@ describe('PaymentMethodsComponent', () => {
   it('should render correct content in card', () => {
     spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
     spyOn(userService, 'getPaymentMethods').and.returnValue(
-      of([mockPayment, { ...mockPayment, defaultPayment: false }])
+      of([mockPayment, { ...mockPayment, defaultPayment: false }]),
     );
 
     function getCardHeader(elem: DebugElement): string {
@@ -194,7 +192,7 @@ describe('PaymentMethodsComponent', () => {
     expect(getTextBold(el)).toContain(mockPayment.accountHolderName);
     expect(getCardNumber(el)).toContain(mockPayment.cardNumber);
     expect(getExpiration(el)).toContain(
-      `paymentCard.expires month:${mockPayment.expiryMonth} year:${mockPayment.expiryYear}`
+      `paymentCard.expires month:${mockPayment.expiryMonth} year:${mockPayment.expiryYear}`,
     );
     expect(getCardIcon(el)).not.toBe(null);
   });
@@ -239,14 +237,14 @@ describe('PaymentMethodsComponent', () => {
     getConfirmButton(el).nativeElement.click();
     fixture.detectChanges();
     expect(userService.deletePaymentMethod).toHaveBeenCalledWith(
-      mockPayment.id
+      mockPayment.id,
     );
   });
 
   it('should successfully set card as default', () => {
     spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
     spyOn(userService, 'getPaymentMethods').and.returnValue(
-      of([mockPayment, { ...mockPayment, defaultPayment: false }])
+      of([mockPayment, { ...mockPayment, defaultPayment: false }]),
     );
     spyOn(userService, 'setPaymentMethodAsDefault').and.stub();
 
@@ -257,7 +255,7 @@ describe('PaymentMethodsComponent', () => {
     fixture.detectChanges();
     getSetDefaultButton(el).click();
     expect(userService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
-      mockPayment.id
+      mockPayment.id,
     );
   });
 
@@ -267,7 +265,7 @@ describe('PaymentMethodsComponent', () => {
     expect(component.getCardIcon('visa')).toBe(ICON_TYPE.VISA);
     expect(component.getCardIcon('master')).toBe(ICON_TYPE.MASTER_CARD);
     expect(component.getCardIcon('mastercard_eurocard')).toBe(
-      ICON_TYPE.MASTER_CARD
+      ICON_TYPE.MASTER_CARD,
     );
     expect(component.getCardIcon('diners')).toBe(ICON_TYPE.DINERS_CLUB);
     expect(component.getCardIcon('amex')).toBe(ICON_TYPE.AMEX);

@@ -17,8 +17,8 @@ export function interceptAddToCartEndpoint() {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/orgUsers/*/carts/*/entries*`
+      'BASE_SITE',
+    )}/orgUsers/*/carts/*/entries*`,
   ).as(ADD_TO_CART_ENDPOINT_ALIAS);
 
   return ADD_TO_CART_ENDPOINT_ALIAS;
@@ -28,8 +28,8 @@ export function interceptSearchProductsEndpoint(query: string) {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/products/search?**`
+      'BASE_SITE',
+    )}/products/search?**`,
   ).as(SEARCH_PRODUCTS_ENDPOINT_ALIAS);
 
   return SEARCH_PRODUCTS_ENDPOINT_ALIAS;
@@ -45,7 +45,7 @@ export function visitCartPage() {
 export function visitQuickOrderPage() {
   const quickOrderPage = waitForPage(
     '/my-account/quick-order',
-    'quickOrderPage'
+    'quickOrderPage',
   );
 
   cy.visit('/my-account/quick-order');
@@ -70,7 +70,7 @@ export function addWrongProductQuery(query: string) {
 
 export function addProductToTheListAndModifyQuantity(
   query: string,
-  quantity: number
+  quantity: number,
 ) {
   const alias = this.interceptSearchProductsEndpoint(query);
 
@@ -156,7 +156,7 @@ export function verifyQuickOrderPageShowSuccessMessageWasAdded() {
 }
 
 export function verifyQuickOrderPageShowEntryDeletionMessages(
-  quantity: number
+  quantity: number,
 ) {
   cy.get('.quick-order-deletions-message')
     .should('exist')
@@ -188,7 +188,7 @@ export function verifyQuickOrderFormResultsBoxIsEmpty() {
   cy.get('.quick-order-no-results').should('exist');
   cy.get('.quick-order-no-results').should(
     'contain',
-    'We could not find any results'
+    'We could not find any results',
   );
 }
 
@@ -200,7 +200,7 @@ export function verifyQuickOrderListQuantity(quantity: number) {
 
 export function addProductToCartWithQuickForm(
   productCode: string,
-  quantity?: number
+  quantity?: number,
 ) {
   const alias = this.interceptAddToCartEndpoint();
 
@@ -242,14 +242,14 @@ export function getQuickOrderResultBox(query: string) {
         'have.length',
         body?.products?.length > maxBoxListLength
           ? maxBoxListLength
-          : body?.products?.length
+          : body?.products?.length,
       );
     });
 }
 
 export function verifyCartPageTabbingOrder() {
   cy.get(
-    'cx-cart-item-list cx-item-counter input[type=number]:not([disabled])'
+    'cx-cart-item-list cx-item-counter input[type=number]:not([disabled])',
   );
 
   tabbingOrder('cx-page-layout.CartPageTemplate', config.quickOrderCart);

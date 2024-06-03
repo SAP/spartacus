@@ -41,7 +41,7 @@ describe('OrderApprovalDecisionNormalizer', () => {
     [OccOrderApprovalDecisionNormalizer],
     (orderApprovalDecisionNormalizer: OccOrderApprovalDecisionNormalizer) => {
       expect(orderApprovalDecisionNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert order approval decision', () => {

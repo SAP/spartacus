@@ -32,17 +32,17 @@ export class BudgetListService extends ListService<Budget> {
 
   constructor(
     protected tableService: TableService,
-    protected budgetService: BudgetService
+    protected budgetService: BudgetService,
   ) {
     super(tableService);
   }
 
   protected load(
-    pagination: PaginationModel
+    pagination: PaginationModel,
   ): Observable<EntitiesModel<Budget>> {
     return this.budgetService.getList(pagination).pipe(
       filter(isNotUndefined),
-      map((raw) => this.convertBudgets(raw))
+      map((raw) => this.convertBudgets(raw)),
     );
   }
 

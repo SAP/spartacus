@@ -10,7 +10,7 @@ import { Comparator, SortOrder } from './sort.model';
  * Sort using basic comparison. Ascending is true first
  */
 export function byBoolean(
-  ordering: SortOrder = SortOrder.ASC
+  ordering: SortOrder = SortOrder.ASC,
 ): Comparator<boolean> {
   return (a: boolean, b: boolean) => {
     if (a === b) {

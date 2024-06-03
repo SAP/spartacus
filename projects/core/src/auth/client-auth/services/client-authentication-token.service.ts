@@ -20,7 +20,7 @@ import { ClientToken } from '../models/client-token.model';
 export class ClientAuthenticationTokenService {
   constructor(
     protected http: HttpClient,
-    protected authConfigService: AuthConfigService
+    protected authConfigService: AuthConfigService,
   ) {}
 
   /**
@@ -33,11 +33,11 @@ export class ClientAuthenticationTokenService {
     const params = new HttpParams()
       .set(
         'client_id',
-        encodeURIComponent(this.authConfigService.getClientId())
+        encodeURIComponent(this.authConfigService.getClientId()),
       )
       .set(
         'client_secret',
-        encodeURIComponent(this.authConfigService.getClientSecret())
+        encodeURIComponent(this.authConfigService.getClientSecret()),
       )
       .set('grant_type', 'client_credentials');
 

@@ -12,7 +12,7 @@ import { provideOutlet } from './outlet.providers';
 import { OutletService } from './outlet.service';
 
 function mockResolveComponentFactory<T>(
-  component: Type<T>
+  component: Type<T>,
 ): ComponentFactory<T> {
   return { componentType: component } as ComponentFactory<T>;
 }
@@ -79,7 +79,7 @@ describe('OutletModule.forRoot()', () => {
       jasmine.objectContaining({
         componentType: AlphaComponent,
       } as ComponentFactory<AlphaComponent>),
-      OutletPosition.AFTER
+      OutletPosition.AFTER,
     );
   });
 
@@ -91,7 +91,7 @@ describe('OutletModule.forRoot()', () => {
       jasmine.objectContaining({
         componentType: BetaComponent,
       } as ComponentFactory<BetaComponent>),
-      OutletPosition.REPLACE
+      OutletPosition.REPLACE,
     );
   });
 });

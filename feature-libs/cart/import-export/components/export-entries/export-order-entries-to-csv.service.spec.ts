@@ -146,7 +146,7 @@ describe('ExportOrderEntriesToCsvService', () => {
     it('should translate headings and export entries to specific format', () => {
       let result: string[][] = [];
       service['getResolvedEntries'](entries).subscribe(
-        (data) => (result = data)
+        (data) => (result = data),
       );
 
       const headings = [
@@ -234,7 +234,7 @@ describe('ExportOrderEntriesToCsvService', () => {
     expect(exportCsvFileService.download).toHaveBeenCalledWith(
       csvData,
       defaultImportExportConfig.cartImportExport?.file.separator,
-      defaultImportExportConfig.cartImportExport?.export.fileOptions
+      defaultImportExportConfig.cartImportExport?.export.fileOptions,
     );
   }));
 });

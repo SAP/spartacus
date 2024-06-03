@@ -35,7 +35,7 @@ export class UnknownErrorHandler extends HttpErrorHandler {
     if (isDevMode() || this.isSsr()) {
       this.logger.warn(
         `An unknown http error occurred\n`,
-        errorResponse.message
+        errorResponse.message,
       );
     }
   }

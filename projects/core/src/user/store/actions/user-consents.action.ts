@@ -67,7 +67,7 @@ export class GiveUserConsent extends StateUtils.EntityLoadAction {
       userId: string;
       consentTemplateId: string | undefined;
       consentTemplateVersion: number | undefined;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
   }
@@ -101,7 +101,7 @@ export class TransferAnonymousConsent {
       userId: string;
       consentTemplateId: string | undefined;
       consentTemplateVersion: number | undefined;
-    }
+    },
   ) {}
 }
 
@@ -112,7 +112,7 @@ export class WithdrawUserConsent extends StateUtils.EntityLoadAction {
       userId: string;
       consentCode: string;
       consentId?: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);
   }

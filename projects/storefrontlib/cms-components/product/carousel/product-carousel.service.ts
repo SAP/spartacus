@@ -21,7 +21,7 @@ import { ProductCarouselItem } from './product-carousel.model';
 export class ProductCarouselService {
   constructor(
     protected productService: ProductService,
-    protected semanticPathService: SemanticPathService
+    protected semanticPathService: SemanticPathService,
   ) {}
 
   /**
@@ -30,7 +30,7 @@ export class ProductCarouselService {
   loadProduct(code: string): Observable<ProductCarouselItem> {
     return this.productService.get(code).pipe(
       filter(isNotUndefined),
-      map((product: Product) => this.convertProduct(product))
+      map((product: Product) => this.convertProduct(product)),
     );
   }
 
@@ -40,7 +40,7 @@ export class ProductCarouselService {
   private convertProduct(
     source: Product,
     displayTitle = true,
-    displayProductPrices = true
+    displayProductPrices = true,
   ): ProductCarouselItem {
     const item: ProductCarouselItem = {};
     if (displayTitle) {

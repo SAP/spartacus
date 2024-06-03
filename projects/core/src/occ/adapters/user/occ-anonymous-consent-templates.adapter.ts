@@ -31,7 +31,7 @@ export class OccAnonymousConsentTemplatesAdapter
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
@@ -41,7 +41,7 @@ export class OccAnonymousConsentTemplatesAdapter
         throw normalizeHttpError(error, this.logger);
       }),
       map((consentList) => consentList.consentTemplates ?? []),
-      this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
+      this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER),
     );
   }
 
@@ -55,9 +55,9 @@ export class OccAnonymousConsentTemplatesAdapter
           throw normalizeHttpError(error, this.logger);
         }),
         map(
-          (response) => response.headers.get(ANONYMOUS_CONSENTS_HEADER) ?? ''
+          (response) => response.headers.get(ANONYMOUS_CONSENTS_HEADER) ?? '',
         ),
-        this.converter.pipeable(ANONYMOUS_CONSENT_NORMALIZER)
+        this.converter.pipeable(ANONYMOUS_CONSENT_NORMALIZER),
       );
   }
 }

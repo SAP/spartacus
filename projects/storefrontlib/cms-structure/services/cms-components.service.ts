@@ -56,7 +56,7 @@ export class CmsComponentsService {
     protected config: CmsConfig,
     @Inject(PLATFORM_ID) protected platformId: Object,
     protected featureModules: CmsFeaturesService,
-    protected configInitializer: ConfigInitializerService
+    protected configInitializer: ConfigInitializerService,
   ) {
     this.configInitializer
       .getStable('cmsComponents')
@@ -94,8 +94,8 @@ export class CmsComponentsService {
               // we delegate populating this.mappings to feature resolver
               this.getFeatureMappingResolver(
                 componentType,
-                staticConfig
-              ) as Observable<CmsComponentMapping>
+                staticConfig,
+              ) as Observable<CmsComponentMapping>,
             );
           } else {
             // simply use only static config
@@ -116,7 +116,7 @@ export class CmsComponentsService {
 
   private getFeatureMappingResolver(
     componentType: string,
-    staticConfig?: CmsComponentMapping
+    staticConfig?: CmsComponentMapping,
   ): Observable<CmsComponentMapping> | undefined {
     if (!this.mappingResolvers.has(componentType)) {
       const mappingResolver$ = this.featureModules
@@ -129,11 +129,11 @@ export class CmsComponentsService {
             this.mappings[componentType] = deepMerge(
               {},
               featureComponentMapping,
-              staticConfig
+              staticConfig,
             );
             this.mappingResolvers.delete(componentType);
           }),
-          share()
+          share(),
         );
       this.mappingResolvers.set(componentType, mappingResolver$);
     }
@@ -172,7 +172,7 @@ export class CmsComponentsService {
         this.missingComponents.push(componentType);
         this.logger.warn(
           `No component implementation found for the CMS component type '${componentType}'.\n`,
-          `Make sure you implement a component and register it in the mapper.`
+          `Make sure you implement a component and register it in the mapper.`,
         );
       }
     }
@@ -193,7 +193,7 @@ export class CmsComponentsService {
    * Return DeferLoadingStrategy for component type.
    */
   getDeferLoadingStrategy(
-    componentType: string
+    componentType: string,
   ): DeferLoadingStrategy | undefined {
     return (this.staticCmsConfig ?? this.config.cmsComponents)?.[componentType]
       ?.deferLoading;
@@ -217,7 +217,7 @@ export class CmsComponentsService {
    * Returns the static data for the component type.
    */
   getStaticData<T extends CmsComponent = CmsComponent>(
-    componentType: string
+    componentType: string,
   ): T | undefined {
     return this.getMapping(componentType)?.data as T;
   }
@@ -229,7 +229,7 @@ export class CmsComponentsService {
    * But some configs can be an object with children routes and their parent defined in separate property.
    */
   protected standardizeChildRoutes(
-    childRoutesConfigs: (Route[] | CmsComponentChildRoutesConfig)[]
+    childRoutesConfigs: (Route[] | CmsComponentChildRoutesConfig)[],
   ): CmsComponentChildRoutesConfig {
     const result: CmsComponentChildRoutesConfig = { children: [] };
 
@@ -254,7 +254,7 @@ export class CmsComponentsService {
     const guards = new Set<any>();
     for (const componentType of componentTypes) {
       this.getMapping(componentType)?.guards?.forEach((guard) =>
-        guards.add(guard)
+        guards.add(guard),
       );
     }
     return Array.from(guards);
@@ -268,7 +268,7 @@ export class CmsComponentsService {
     for (const componentType of componentTypes) {
       if (this.shouldRender(componentType)) {
         this.getMapping(componentType)?.i18nKeys?.forEach((key) =>
-          i18nKeys.add(key)
+          i18nKeys.add(key),
         );
       }
     }

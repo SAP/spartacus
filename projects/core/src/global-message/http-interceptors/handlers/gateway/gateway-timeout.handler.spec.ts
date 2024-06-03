@@ -39,7 +39,7 @@ describe('GatewayTimeoutHandler', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.gatewayTimeout' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 });

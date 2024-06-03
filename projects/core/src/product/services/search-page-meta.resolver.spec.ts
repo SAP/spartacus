@@ -112,13 +112,13 @@ describe('SearchPageMetaResolver', () => {
       .unsubscribe();
 
     expect(result).toEqual(
-      'pageMetaResolver.search.title count:3 query:pageMetaResolver.search.default_title'
+      'pageMetaResolver.search.title count:3 query:pageMetaResolver.search.default_title',
     );
   });
 
   it('should resolve robots from the BasePageMetaResolver', async () => {
     spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
-      of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX])
+      of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]),
     );
     let result: PageRobotsMeta[] | undefined;
     resolver

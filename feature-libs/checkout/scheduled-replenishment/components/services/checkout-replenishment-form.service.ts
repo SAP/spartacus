@@ -68,12 +68,12 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
         this.eventService.get(LoginEvent),
         this.eventService.get(SaveCartSuccessEvent),
         this.eventService.get(RestoreSavedCartSuccessEvent),
-        this.eventService.get(MergeCartSuccessEvent)
+        this.eventService.get(MergeCartSuccessEvent),
       ).subscribe(() => {
         (this.orderType$ as BehaviorSubject<ORDER_TYPE>).next(
-          ORDER_TYPE.PLACE_ORDER
+          ORDER_TYPE.PLACE_ORDER,
         );
-      })
+      }),
     );
   }
 

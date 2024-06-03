@@ -48,7 +48,7 @@ export class CheckoutReviewSubmitComponent {
     protected activeCartFacade: ActiveCartFacade,
     protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
   ) {}
 
   get cart$(): Observable<Cart> {
@@ -75,24 +75,24 @@ export class CheckoutReviewSubmitComponent {
   deliveryAddress$: Observable<Address | undefined> =
     this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
+      map((state) => state.data),
     );
 
   deliveryMode$: Observable<DeliveryMode | undefined> =
     this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
       filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
+      map((state) => state.data),
     );
 
   paymentDetails$: Observable<PaymentDetails | undefined> =
     this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
+      map((state) => state.data),
     );
 
   getDeliveryAddressCard(
     deliveryAddress: Address,
-    countryName?: string
+    countryName?: string,
   ): Observable<Card> {
     return combineLatest([
       this.translationService.translate('addressCard.shipTo'),
@@ -105,9 +105,9 @@ export class CheckoutReviewSubmitComponent {
           textPhone,
           textMobile,
           deliveryAddress,
-          countryName
-        )
-      )
+          countryName,
+        ),
+      ),
     );
   }
 
@@ -151,26 +151,26 @@ export class CheckoutReviewSubmitComponent {
             },
           ],
         } as Card;
-      })
+      }),
     );
   }
 
   getCheckoutStepUrl(stepType: CheckoutStepType | string): string | undefined {
     const step = this.checkoutStepService.getCheckoutStep(
-      stepType as CheckoutStepType
+      stepType as CheckoutStepType,
     );
     return step?.routeName;
   }
 
   deliverySteps(steps: CheckoutStep[]): CheckoutStep[] {
     return steps.filter((step) =>
-      this.getCheckoutDeliverySteps().includes(step.type[0])
+      this.getCheckoutDeliverySteps().includes(step.type[0]),
     );
   }
 
   paymentSteps(steps: CheckoutStep[]): CheckoutStep[] {
     return steps.filter((step) =>
-      this.getCheckoutPaymentSteps().includes(step.type[0])
+      this.getCheckoutPaymentSteps().includes(step.type[0]),
     );
   }
 }

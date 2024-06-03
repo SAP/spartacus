@@ -21,7 +21,7 @@ export const GET_STOCK_NOTIFICATION_ENDPOINT_ALIAS =
 function navigateToNotificationPreferencePage() {
   const alias = waitForPage(
     '/my-account/notification-preference',
-    'notificationPreferencePage'
+    'notificationPreferencePage',
   );
 
   cy.selectUserMenuOption({
@@ -52,8 +52,8 @@ function interceptNotificationPreferencesChange() {
   cy.intercept(
     'PATCH',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/notificationpreferences*`
+      'BASE_SITE',
+    )}/users/current/notificationpreferences*`,
   ).as(NOTIFICATION_PREFERENCES_CHANGE_ENDPOINT_ALIAS);
 
   return NOTIFICATION_PREFERENCES_CHANGE_ENDPOINT_ALIAS;
@@ -63,8 +63,8 @@ function interceptGetStockNotification() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/productinterests?fields*`
+      'BASE_SITE',
+    )}/users/current/productinterests?fields*`,
   ).as(GET_STOCK_NOTIFICATION_ENDPOINT_ALIAS);
 
   return GET_STOCK_NOTIFICATION_ENDPOINT_ALIAS;
@@ -147,7 +147,7 @@ export function verifyEmailChannel(email: String) {
   cy.get('cx-notification-preference').within(() => {
     cy.get('.pref-channel .form-check-label').should(
       'contain',
-      'Email: ' + email
+      'Email: ' + email,
     );
     cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
@@ -158,7 +158,7 @@ export function verifyEmailChannelV2(email: String) {
   cy.get('cx-my-account-v2-notification-preference').within(() => {
     cy.get('.pref-channel .form-check-label').should(
       'contain',
-      'Email: ' + email
+      'Email: ' + email,
     );
     cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
@@ -240,7 +240,7 @@ export function verifyNavigateToNotificationPreferenceInDialog() {
   cy.get('.link-prefs').click();
   cy.location('pathname').should(
     'contain',
-    '/my-account/notification-preference'
+    '/my-account/notification-preference',
   );
 }
 
@@ -283,7 +283,7 @@ export function navigateToPDPInCustomerInterest(productCode: string) {
   cy.get('.cx-product-interests-product-item').within(() => {
     cy.get('.cx-code').should('contain', productCode);
     cy.get(
-      '.cx-product-interests-product-image-link > .is-initialized > picture'
+      '.cx-product-interests-product-image-link > .is-initialized > picture',
     ).click();
   });
 }
@@ -296,20 +296,20 @@ export function verifyPagingAndSorting() {
   stubForPaginableMyInterests(
     'myinterestpage0.json',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:asc&pageSize=10&lang=en&curr=USD`
+      'BASE_SITE',
+    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:asc&pageSize=10&lang=en&curr=USD`,
   );
   stubForPaginableMyInterests(
     'myinterestpage1.json',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&lang=en&curr=USD`
+      'BASE_SITE',
+    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&lang=en&curr=USD`,
   );
   stubForPaginableMyInterests(
     'myinterestpage2.json',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&currentPage=1&lang=en&curr=USD`
+      'BASE_SITE',
+    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&currentPage=1&lang=en&curr=USD`,
   );
   navigateToMyInterestsPage();
   cy.get(firstProductCodeSelector).should('contain', firstProductAscending);

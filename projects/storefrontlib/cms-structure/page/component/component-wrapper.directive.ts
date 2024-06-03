@@ -63,7 +63,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
     protected cmsInjector: CmsInjectorService,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   ngOnInit() {
@@ -72,7 +72,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       .subscribe(() => {
         if (
           this.cmsComponentsService.shouldRender(
-            this.cxComponentWrapper.flexType ?? ''
+            this.cxComponentWrapper.flexType ?? '',
           )
         ) {
           this.launchComponent();
@@ -82,7 +82,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   private launchComponent() {
     const componentMapping = this.cmsComponentsService.getMapping(
-      this.cxComponentWrapper.flexType ?? ''
+      this.cxComponentWrapper.flexType ?? '',
     );
 
     if (!componentMapping) {
@@ -96,11 +96,11 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         this.cmsInjector.getInjector(
           this.cxComponentWrapper.flexType ?? '',
           this.cxComponentWrapper.uid ?? '',
-          this.injector
+          this.injector,
         ),
         this.cmsComponentsService.getModule(
-          this.cxComponentWrapper.flexType ?? ''
-        )
+          this.cxComponentWrapper.flexType ?? '',
+        ),
       )
       ?.pipe(
         filter(isNotUndefined),
@@ -113,7 +113,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
           this.decorate(elementRef);
           this.injector.get(ChangeDetectorRef).markForCheck();
         }),
-        finalize(() => this.dispatchEvent(ComponentDestroyEvent))
+        finalize(() => this.dispatchEvent(ComponentDestroyEvent)),
       )
       .subscribe();
   }
@@ -125,7 +125,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
    */
   protected dispatchEvent(
     event: Type<ComponentEvent>,
-    elementRef?: ElementRef
+    elementRef?: ElementRef,
   ) {
     const payload = {
       typeCode: this.cxComponentWrapper.typeCode,
@@ -141,7 +141,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     this.dynamicAttributeService.addAttributesToComponent(
       elementRef.nativeElement,
       this.renderer,
-      this.cxComponentWrapper
+      this.cxComponentWrapper,
     );
   }
 

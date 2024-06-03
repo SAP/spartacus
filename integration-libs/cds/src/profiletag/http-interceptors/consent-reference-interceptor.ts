@@ -19,11 +19,11 @@ import { ProfileTagEventService } from '../services/profiletag-event.service';
 export class ConsentReferenceInterceptor implements HttpInterceptor {
   constructor(
     private profileTagEventTracker: ProfileTagEventService,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
   ) {}
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     if (
       !this.profileTagEventTracker.latestConsentReference ||
@@ -34,7 +34,7 @@ export class ConsentReferenceInterceptor implements HttpInterceptor {
     }
     const cdsHeaders = request.headers.set(
       'X-Consent-Reference',
-      this.profileTagEventTracker.latestConsentReference.value
+      this.profileTagEventTracker.latestConsentReference.value,
     );
     const cdsRequest = request.clone({ headers: cdsHeaders });
     return next.handle(cdsRequest);

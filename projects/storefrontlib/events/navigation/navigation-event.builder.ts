@@ -26,7 +26,7 @@ import { NavigationEvent } from './navigation.event';
 export class NavigationEventBuilder {
   constructor(
     protected actions: ActionsSubject,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {
     this.register();
   }
@@ -49,17 +49,17 @@ export class NavigationEventBuilder {
           semanticRoute: state.semanticRoute,
           url: state.url,
           params: state.params,
-        })
-      )
+        }),
+      ),
     );
   }
 
   private getNavigatedEvent(): Observable<ActivatedRouterStateSnapshot> {
     return this.actions.pipe(
       ofType<RouterNavigatedAction<ActivatedRouterStateSnapshot>>(
-        ROUTER_NAVIGATED
+        ROUTER_NAVIGATED,
       ),
-      map((event) => event.payload.routerState)
+      map((event) => event.payload.routerState),
     );
   }
 }

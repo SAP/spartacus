@@ -33,7 +33,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected config: OccConfig,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   public getInterests(
@@ -42,7 +42,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     currentPage?: number,
     sort?: string,
     productCode?: string,
-    notificationType?: NotificationType
+    notificationType?: NotificationType,
   ): Observable<ProductInterestSearchResult> {
     let params = new HttpParams().set('sort', sort ? sort : 'name:asc');
     if (pageSize) {
@@ -66,19 +66,19 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
         {
           headers,
           params,
-        }
+        },
       )
       .pipe(
         this.converter.pipeable(PRODUCT_INTERESTS_NORMALIZER),
         catchError((error: any) => {
           throw normalizeHttpError(error, this.logger);
-        })
+        }),
       );
   }
 
   public removeInterest(
     userId: string,
-    item: ProductInterestEntryRelation
+    item: ProductInterestEntryRelation,
   ): Observable<any[]> {
     const r: Observable<any>[] = [];
     item.productInterestEntry?.forEach((entry: any) => {
@@ -93,13 +93,13 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
             }),
             {
               params: params,
-            }
+            },
           )
           .pipe(
             catchError((error: any) => {
               throw normalizeHttpError(error, this.logger);
-            })
-          )
+            }),
+          ),
       );
     });
     return forkJoin(r);
@@ -108,7 +108,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
   public addInterest(
     userId: string,
     productCode: string,
-    notificationType: NotificationType
+    notificationType: NotificationType,
   ): Observable<any> {
     const params = new HttpParams()
       .set('productCode', productCode)
@@ -122,12 +122,12 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
         {
           headers,
           params,
-        }
+        },
       )
       .pipe(
         catchError((error: any) => {
           throw normalizeHttpError(error, this.logger);
-        })
+        }),
       );
   }
 }

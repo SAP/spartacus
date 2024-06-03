@@ -9,7 +9,7 @@ class MockOrderFacade implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(
     of({
       code: 'test-code-412',
-    })
+    }),
   );
   clearPlacedOrder() {}
 }
@@ -18,15 +18,13 @@ describe('OrderConfirmationTotalsComponent', () => {
   let component: OrderConfirmationTotalsComponent;
   let fixture: ComponentFixture<OrderConfirmationTotalsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [OrderConfirmationTotalsComponent],
-        providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [OrderConfirmationTotalsComponent],
+      providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConfirmationTotalsComponent);

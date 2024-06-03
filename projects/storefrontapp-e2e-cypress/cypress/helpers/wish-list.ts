@@ -60,7 +60,7 @@ export function registerWishListUser() {
 export function loginWishListUser() {
   login(
     WishListUser.registrationData.email,
-    WishListUser.registrationData.password
+    WishListUser.registrationData.password,
   );
   cy.url().should('not.contain', 'login');
 }
@@ -69,7 +69,7 @@ export function waitForGetWishList() {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/*/carts/*`,
     query: {
       lang: 'en',
@@ -174,8 +174,8 @@ export function addProductToCart(product: TestProduct) {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts/*/entries?lang=en&curr=USD`
+      'BASE_SITE',
+    )}/users/*/carts/*/entries?lang=en&curr=USD`,
   ).as('add_to_cart');
 
   getWishListItem(product.name).within(() => {
@@ -262,7 +262,7 @@ function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
 function proceedToCheckout() {
   const deliveryAddressPage = waitForPage(
     '/checkout/delivery-address',
-    'getDeliveryAddressPage'
+    'getDeliveryAddressPage',
   );
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${deliveryAddressPage}`)
@@ -279,14 +279,14 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
-    'getDeliveryPage'
+    'getDeliveryPage',
   );
   fillShippingAddress(shippingAddressData);
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
@@ -297,7 +297,7 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
 
 function fillPaymentForm(
   paymentDetailsData: PaymentDetails = user,
-  billingAddress?: AddressData
+  billingAddress?: AddressData,
 ) {
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
@@ -317,12 +317,12 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
     .should(
       'have.attr',
       'href',
-      `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`
+      `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`,
     );
   cy.get('.form-check-input').check();
   const orderConfirmationPage = waitForPage(
     '/order-confirmation',
-    'getOrderConfirmationPage'
+    'getOrderConfirmationPage',
   );
   cy.get('cx-place-order button.btn-primary').click();
   cy.wait(`@${orderConfirmationPage}`)

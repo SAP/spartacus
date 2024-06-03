@@ -16,7 +16,7 @@ import { CurrentProductService } from '../../current-product.service';
 })
 export class ProductAttributesComponent {
   product$: Observable<Product | null> = this.currentProductService.getProduct(
-    ProductScope.ATTRIBUTES
+    ProductScope.ATTRIBUTES,
   );
 
   constructor(protected currentProductService: CurrentProductService) {}

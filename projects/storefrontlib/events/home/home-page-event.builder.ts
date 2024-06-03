@@ -29,8 +29,8 @@ export class HomePageEventBuilder {
       map((navigationEvent) =>
         createFrom(HomePageEvent, {
           navigation: navigationEvent,
-        })
-      )
+        }),
+      ),
     );
   }
 }

@@ -57,7 +57,7 @@ export function ensureModuleExists(options: {
       const metadata = getDecoratorMetadata(
         moduleFile,
         'NgModule',
-        ANGULAR_CORE
+        ANGULAR_CORE,
       )[0];
 
       if (metadata) {
@@ -90,13 +90,13 @@ export function addModuleImport(
     content: string;
     order?: number;
   },
-  createIfMissing = true
+  createIfMissing = true,
 ): Expression | undefined {
   return addToModuleInternal(
     sourceFile,
     'imports',
     insertOptions,
-    createIfMissing
+    createIfMissing,
   );
 }
 
@@ -107,13 +107,13 @@ export function addModuleExport(
     content: string;
     order?: number;
   },
-  createIfMissing = true
+  createIfMissing = true,
 ): Expression | undefined {
   return addToModuleInternal(
     sourceFile,
     'exports',
     insertOptions,
-    createIfMissing
+    createIfMissing,
   );
 }
 
@@ -124,13 +124,13 @@ export function addModuleDeclaration(
     content: string;
     order?: number;
   },
-  createIfMissing = true
+  createIfMissing = true,
 ): Expression | undefined {
   return addToModuleInternal(
     sourceFile,
     'declarations',
     insertOptions,
-    createIfMissing
+    createIfMissing,
   );
 }
 
@@ -141,13 +141,13 @@ export function addModuleProvider(
     content: string;
     order?: number;
   },
-  createIfMissing = true
+  createIfMissing = true,
 ): Expression | undefined {
   return addToModuleInternal(
     sourceFile,
     'providers',
     insertOptions,
-    createIfMissing
+    createIfMissing,
   );
 }
 
@@ -159,12 +159,12 @@ function addToModuleInternal(
     content: string;
     order?: number;
   },
-  createIfMissing = true
+  createIfMissing = true,
 ): Expression | undefined {
   const initializer = getModulePropertyInitializer(
     sourceFile,
     propertyName,
-    createIfMissing
+    createIfMissing,
   );
   if (!initializer) {
     return undefined;
@@ -198,7 +198,7 @@ export function removeModuleImport(
   removeOptions: {
     importPath: string;
     content: string;
-  }
+  },
 ): Expression | undefined {
   return removeFromModuleInternal(sourceFile, 'imports', removeOptions);
 }
@@ -209,7 +209,7 @@ function removeFromModuleInternal(
   removeOptions: {
     importPath: string;
     content: string;
-  }
+  },
 ): Expression | undefined {
   const initializer = getModulePropertyInitializer(sourceFile, propertyName);
   if (!initializer) {
@@ -234,7 +234,7 @@ function removeFromModuleInternal(
 function isDuplication(
   initializer: ArrayLiteralExpression,
   propertyName: 'imports' | 'exports' | 'declarations' | 'providers',
-  content: string
+  content: string,
 ): boolean {
   if (propertyName !== 'providers') {
     return isTypeTokenDuplicate(initializer, content);
@@ -245,7 +245,7 @@ function isDuplication(
 
 function isTypeTokenDuplicate(
   initializer: ArrayLiteralExpression,
-  typeToken: string
+  typeToken: string,
 ): boolean {
   typeToken = normalizeTypeToken(typeToken);
 
@@ -298,7 +298,7 @@ function normalizeTypeToken(token: string): string {
 export function getModulePropertyInitializer(
   source: SourceFile,
   propertyName: ModuleProperty,
-  createIfMissing = true
+  createIfMissing = true,
 ): ArrayLiteralExpression | undefined {
   const property = getModuleProperty(source, propertyName, createIfMissing);
   if (!property || !Node.isPropertyAssignment(property)) {
@@ -306,14 +306,14 @@ export function getModulePropertyInitializer(
   }
 
   return property.getInitializerIfKind(
-    tsMorph.SyntaxKind.ArrayLiteralExpression
+    tsMorph.SyntaxKind.ArrayLiteralExpression,
   );
 }
 
 function getModuleProperty(
   source: SourceFile,
   propertyName: ModuleProperty,
-  createIfMissing = true
+  createIfMissing = true,
 ): ObjectLiteralElementLike | undefined {
   const moduleNode = getModule(source);
   if (!moduleNode) {

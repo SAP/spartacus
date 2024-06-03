@@ -35,12 +35,12 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   constructor(
     private storeFinderService: StoreFinderService,
     private route: ActivatedRoute,
-    protected config: StoreFinderConfig
+    protected config: StoreFinderConfig,
   ) {}
 
   ngOnInit() {
     this.subscription = this.route.queryParams.subscribe((params) =>
-      this.initialize(params)
+      this.initialize(params),
     );
   }
 
@@ -58,7 +58,7 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
       this.geolocation,
       this.countryCode,
       this.useMyLocation,
-      this.radius
+      this.radius,
     );
   }
 
@@ -73,7 +73,7 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
       this.geolocation,
       this.countryCode,
       this.useMyLocation,
-      this.radius
+      this.radius,
     );
 
     this.isLoading$ = this.storeFinderService.getStoresLoading();

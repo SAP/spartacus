@@ -25,7 +25,7 @@ const endpoint = '/productReviews';
 
 class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.returnValue(
-    endpoint
+    endpoint,
   );
 }
 
@@ -95,7 +95,7 @@ describe('OccProductReviewsAdapter', () => {
       httpMock.expectOne(endpoint).flush(productReviews);
 
       expect(converter.pipeableMany).toHaveBeenCalledWith(
-        PRODUCT_REVIEW_NORMALIZER
+        PRODUCT_REVIEW_NORMALIZER,
       );
     });
   });
@@ -131,7 +131,7 @@ describe('OccProductReviewsAdapter', () => {
       httpMock.expectOne(endpoint).flush({});
       expect(converter.convert).toHaveBeenCalledWith(
         review,
-        PRODUCT_REVIEW_SERIALIZER
+        PRODUCT_REVIEW_SERIALIZER,
       );
     });
   });

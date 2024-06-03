@@ -48,21 +48,21 @@ describe(`CheckoutScheduledReplenishmentEventListener`, () => {
           cartId: mockCartId,
           cartCode: mockCartId,
           replenishmentOrder: mockReplenishmentOrder,
-        })
+        }),
       );
     });
 
     it(`ReplenishmentOrderScheduledEvent should dispatch RemoveCartEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        RemoveCartEvent
+        RemoveCartEvent,
       );
     });
 
     it(`ReplenishmentOrderScheduledEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
   });

@@ -52,7 +52,7 @@ export class ImportEntriesFormComponent implements OnInit {
     protected importToCartService: ImportProductsFromCsvService,
     protected importCsvService: ImportCsvFileService,
     protected filesFormValidators: FilesFormValidators,
-    protected importExportConfig: ImportExportConfig
+    protected importExportConfig: ImportExportConfig,
   ) {}
 
   ngOnInit() {
@@ -70,10 +70,10 @@ export class ImportEntriesFormComponent implements OnInit {
           this.form.statusChanges.pipe(
             startWith(this.form.get('file')?.status),
             filter((status) => status !== 'PENDING'),
-            take(1)
-          )
+            take(1),
+          ),
         ),
-        filter((status) => status === 'VALID')
+        filter((status) => status === 'VALID'),
       )
       .subscribe(() => {
         this.save();
@@ -114,8 +114,8 @@ export class ImportEntriesFormComponent implements OnInit {
                   maxEntries: this.maxEntries,
                 })
               : of(null),
-        ]
-      )
+        ],
+      ),
     );
     return form;
   }

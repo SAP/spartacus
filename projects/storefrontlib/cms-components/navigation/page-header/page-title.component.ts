@@ -30,7 +30,7 @@ export class PageTitleComponent implements OnInit, AfterViewInit {
 
   constructor(
     public component: CmsComponentData<CmsPageTitleComponent>,
-    protected pageMetaService: PageMetaService
+    protected pageMetaService: PageMetaService,
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class PageTitleComponent implements OnInit, AfterViewInit {
   private setTitle(): void {
     this.title$ = this.pageMetaService.getMeta().pipe(
       filter(isNotNullable),
-      map((meta) => (meta.heading || meta.title) ?? '')
+      map((meta) => (meta.heading || meta.title) ?? ''),
     );
   }
 }

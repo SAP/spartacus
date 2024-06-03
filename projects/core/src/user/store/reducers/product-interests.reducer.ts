@@ -15,7 +15,7 @@ export const initialState: ProductInterestSearchResult = {
 
 export function reducer(
   state = initialState,
-  action: UserActions.ProductInterestsAction
+  action: UserActions.ProductInterestsAction,
 ): ProductInterestSearchResult {
   switch (action.type) {
     case UserActions.LOAD_PRODUCT_INTERESTS_SUCCESS: {

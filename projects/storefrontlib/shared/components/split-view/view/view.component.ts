@@ -91,7 +91,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   constructor(
     protected splitService: SplitViewService,
     protected elementRef: ElementRef,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -168,9 +168,9 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.globalMessageService?.add(
             this.viewTitle,
             GlobalMessageType.MSG_TYPE_ASSISTIVE,
-            500
+            500,
           );
-        })
+        }),
     );
   }
 

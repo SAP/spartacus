@@ -92,7 +92,7 @@ context('B2B - Quick Order', () => {
 
       it('should show error message after trying to add non purchasable product to the list', () => {
         quickOrder.addProductToTheList(
-          sampleData.b2bNonPurchasableProduct.code
+          sampleData.b2bNonPurchasableProduct.code,
         );
         quickOrder.verifyQuickOrderListQuantity(0);
         quickOrder.verifyQuickOrderPageShowErrorMessageNonPurchasableProduct();
@@ -101,7 +101,7 @@ context('B2B - Quick Order', () => {
       it('should show error message after adding to cart with out of stock information', () => {
         quickOrder.addProductToTheListAndModifyQuantity(
           sampleData.b2bProduct.code,
-          259
+          259,
         );
         quickOrder.addToCart();
         quickOrder.verifyMiniCartQuantity(259);
@@ -118,7 +118,7 @@ context('B2B - Quick Order', () => {
         quickOrder.verifyQuickOrderListQuantity(0);
         quickOrder.addProductToTheListAndModifyQuantity(
           sampleData.b2bProduct.code,
-          10000
+          10000,
         );
         quickOrder.addToCart();
         quickOrder.verifyQuickOrderPageShowWarningMessageWasReduced();
@@ -127,7 +127,7 @@ context('B2B - Quick Order', () => {
       it('should show success and error message after adding to cart successfully entry and another entry added with out of stock information', () => {
         quickOrder.addProductToTheListAndModifyQuantity(
           sampleData.b2bProduct.code,
-          259
+          259,
         );
         quickOrder.addToCart();
         quickOrder.verifyMiniCartQuantity(259);
@@ -169,18 +169,18 @@ context('B2B - Quick Order', () => {
           .getSuccessAlert()
           .should(
             'contain',
-            `${sampleData.b2bProduct2.name} has been added to the cart`
+            `${sampleData.b2bProduct2.name} has been added to the cart`,
           );
       });
 
       it('should reach product maximum stock level while adding product with quick form', () => {
         quickOrder.addProductToCartWithQuickForm(
           sampleData.b2bProduct2.code,
-          9999
+          9999,
         );
         quickOrder.addProductToCartWithQuickForm(
           sampleData.b2bProduct2.code,
-          9999
+          9999,
         );
 
         alerts

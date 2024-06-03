@@ -14,7 +14,7 @@ const defaultAlwaysCsrOptions = {
 
 const hasExcludedParams = (
   request: Request,
-  excludedParams: string[] | undefined
+  excludedParams: string[] | undefined,
 ): boolean => {
   const params: string[] = request.query
     ? Object.getOwnPropertyNames(request.query)
@@ -25,13 +25,13 @@ const hasExcludedParams = (
   }
 
   return excludedParams.some((excludedParam: string) =>
-    params.some((param: string): boolean => excludedParam === param)
+    params.some((param: string): boolean => excludedParam === param),
   );
 };
 
 const hasExcludedUrl = (
   request: Request,
-  excludedUrls: string[] | undefined
+  excludedUrls: string[] | undefined,
 ) => {
   return request.url && excludedUrls
     ? excludedUrls.some((url) => request.url.search(url) > -1)
@@ -40,7 +40,7 @@ const hasExcludedUrl = (
 
 const shouldFallbackToCsr = (
   request: Request,
-  { excludedParams, excludedUrls }: RenderingStrategyResolverOptions
+  { excludedParams, excludedUrls }: RenderingStrategyResolverOptions,
 ) => {
   return (
     hasExcludedParams(request, excludedParams) ||

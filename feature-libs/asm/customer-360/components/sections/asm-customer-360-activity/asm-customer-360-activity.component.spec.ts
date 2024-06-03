@@ -186,7 +186,7 @@ describe('AsmCustomer360ActivityComponent', () => {
       const tableBody = el.query(By.css('.cx-asm-customer-360-table tbody'));
       const tableRows = tableBody.queryAll(By.css('tr'));
       const linkCell = tableRows[0].query(
-        By.css('.cx-asm-customer-360-table-link')
+        By.css('.cx-asm-customer-360-table-link'),
       );
       linkCell.nativeElement.click();
 
@@ -196,7 +196,7 @@ describe('AsmCustomer360ActivityComponent', () => {
       });
 
       const linkCell2 = tableRows[1].query(
-        By.css('.cx-asm-customer-360-table-link')
+        By.css('.cx-asm-customer-360-table-link'),
       );
       linkCell2.nativeElement.click();
       expect(context.navigate$.next).toHaveBeenCalledWith({
@@ -204,7 +204,7 @@ describe('AsmCustomer360ActivityComponent', () => {
       });
 
       const linkCell3 = tableRows[2].query(
-        By.css('.cx-asm-customer-360-table-link')
+        By.css('.cx-asm-customer-360-table-link'),
       );
       linkCell3.nativeElement.click();
       expect(context.navigate$.next).toHaveBeenCalledWith({
@@ -213,7 +213,7 @@ describe('AsmCustomer360ActivityComponent', () => {
       });
 
       const linkCell4 = tableRows[3].query(
-        By.css('.cx-asm-customer-360-table-link')
+        By.css('.cx-asm-customer-360-table-link'),
       );
       linkCell4.nativeElement.click();
       expect(context.navigate$.next).toHaveBeenCalledWith({

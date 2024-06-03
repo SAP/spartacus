@@ -15,7 +15,7 @@ export const initialState: LanguagesState = {
 
 export function reducer(
   state = initialState,
-  action: SiteContextActions.LanguagesAction
+  action: SiteContextActions.LanguagesAction,
 ): LanguagesState {
   switch (action.type) {
     case SiteContextActions.LOAD_LANGUAGES_SUCCESS: {
@@ -29,7 +29,7 @@ export function reducer(
         },
         {
           ...state.entities,
-        }
+        },
       );
 
       return {

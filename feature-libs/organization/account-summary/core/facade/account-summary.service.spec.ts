@@ -26,7 +26,7 @@ const routerStateSubject = new BehaviorSubject<RouterState>({
 
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState = createSpy().and.returnValue(
-    routerStateSubject.asObservable()
+    routerStateSubject.asObservable(),
   );
 }
 
@@ -98,15 +98,15 @@ const accountSummaryDocumentBlob = new Blob([], { type: 'application/pdf' });
 
 class MockAccountSummaryConnector implements Partial<AccountSummaryConnector> {
   getAccountSummary = createSpy(
-    'MockAccountSummaryConnector.getAccountSummary Spy'
+    'MockAccountSummaryConnector.getAccountSummary Spy',
   ).and.returnValue(of(accountSummaryResult));
 
   getDocumentList = createSpy(
-    'MockAccountSummaryConnector.getDocumentList Spy'
+    'MockAccountSummaryConnector.getDocumentList Spy',
   ).and.returnValue(of(accountSummaryDocumentsResult));
 
   getDocumentAttachment = createSpy(
-    'MockAccountSummaryConnector.getDocumentAttachment Spy'
+    'MockAccountSummaryConnector.getDocumentAttachment Spy',
   ).and.returnValue(of(new Blob([], { type: 'application/pdf' })));
 }
 
@@ -133,7 +133,7 @@ describe('AccountSummaryService', () => {
     [AccountSummaryService],
     (accountSummaryService: AccountSummaryService) => {
       expect(accountSummaryService).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to load account summary details', () => {

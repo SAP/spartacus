@@ -36,7 +36,7 @@ const testUrlMatcherFactory: UrlMatcherFactory = jasmine
 
 const TEST_URL_MATCHER_FACTORY = new InjectionToken<UrlMatcherFactory>(
   'TEST_URL_MATCHER_FACTORY',
-  { providedIn: 'root', factory: () => testUrlMatcherFactory }
+  { providedIn: 'root', factory: () => testUrlMatcherFactory },
 );
 
 describe('ConfigurableRoutesService', () => {
@@ -160,7 +160,7 @@ describe('ConfigurableRoutesService', () => {
       ];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
         { paths: ['path2', 'path20', 'path200'] },
-        { paths: ['path4'] }
+        { paths: ['path4'] },
       );
       await service.init();
       expect(router.config).toEqual([
@@ -220,7 +220,7 @@ describe('ConfigurableRoutesService', () => {
 
     await service.init();
     expect(service['injector'].get).toHaveBeenCalledWith(
-      TEST_URL_MATCHER_FACTORY
+      TEST_URL_MATCHER_FACTORY,
     );
     expect(testUrlMatcherFactory).toHaveBeenCalledWith(originalRoute);
     expect(urlMatcherService.getCombined).toHaveBeenCalledWith([

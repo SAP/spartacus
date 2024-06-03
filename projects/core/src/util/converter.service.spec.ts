@@ -5,14 +5,14 @@ import { Converter, ConverterService } from './converter.service';
 import { LazyModulesService } from '@spartacus/core';
 
 const TestConverterInjectionToken = new InjectionToken(
-  'TestConverterInjectionToken'
+  'TestConverterInjectionToken',
 );
 const NotProvidedConverterInjectionToken = new InjectionToken(
-  'NotProvidedConverterInjectionToken'
+  'NotProvidedConverterInjectionToken',
 );
 
 const TestLazyConverterInjectionToken = new InjectionToken(
-  'TestLazyConverterInjectionToken'
+  'TestLazyConverterInjectionToken',
 );
 
 class CopyNormalizer implements Converter<any, any> {
@@ -62,7 +62,7 @@ describe('ConverterService', () => {
     });
     it('should return false when converters are not provided', () => {
       expect(service.hasConverters(NotProvidedConverterInjectionToken)).toBe(
-        false
+        false,
       );
     });
   });
@@ -127,7 +127,7 @@ describe('ConverterService', () => {
       const source = { test: 'test' };
       const target = service.convert(
         source,
-        NotProvidedConverterInjectionToken
+        NotProvidedConverterInjectionToken,
       );
       expect(target).toBe(source);
     });
@@ -147,7 +147,7 @@ describe('ConverterService', () => {
       const sources = [{ test: 'test' }, { test: 'test2' }];
       const target = service.convertMany(
         sources,
-        NotProvidedConverterInjectionToken
+        NotProvidedConverterInjectionToken,
       );
       expect(target).toBe(sources);
     });
@@ -168,11 +168,11 @@ describe('ConverterService', () => {
 
     it('should register converters from lazy-loaded modules', () => {
       expect(
-        service.hasConverters(TestLazyConverterInjectionToken)
+        service.hasConverters(TestLazyConverterInjectionToken),
       ).toBeFalse();
 
       const lazyModules = TestBed.inject<MockLazyModulesService>(
-        LazyModulesService as any
+        LazyModulesService as any,
       );
       lazyModules.modules$.next(moduleInstanceWithTestConverter);
 

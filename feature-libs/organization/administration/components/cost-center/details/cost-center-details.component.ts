@@ -26,7 +26,7 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
 export class CostCenterDetailsComponent {
   model$: Observable<CostCenter> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
-    startWith({})
+    startWith({}),
   );
   isInEditMode$ = this.itemService.isInEditMode$;
 

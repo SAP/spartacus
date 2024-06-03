@@ -37,7 +37,7 @@ const product: Product = {
 
 class MockProductConnector {
   getMany = createSpy().and.callFake((products) =>
-    products.map((pr) => ({ ...pr, data$: of(product) }))
+    products.map((pr) => ({ ...pr, data$: of(product) })),
   );
 }
 
@@ -79,7 +79,7 @@ describe('Product Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(
-        effects.loadProduct$({ scheduler: getTestScheduler() })
+        effects.loadProduct$({ scheduler: getTestScheduler() }),
       ).toBeObservable(expected);
     });
 
@@ -89,13 +89,13 @@ describe('Product Effects', () => {
       const completion = new ProductActions.LoadProductSuccess(product);
       const completion2 = new ProductActions.LoadProductSuccess(
         product,
-        'scope'
+        'scope',
       );
       actions$ = hot('-a-b---a--b', { a: action, b: action2 });
       // first a-b are in 20 millisecond threshold so should be emitted together
       const expected = cold('-----(ab)a--b', { a: completion, b: completion2 });
       expect(
-        effects.loadProduct$({ scheduler: getTestScheduler(), debounce: 20 })
+        effects.loadProduct$({ scheduler: getTestScheduler(), debounce: 20 }),
       ).toBeObservable(expected);
     });
   });

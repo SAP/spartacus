@@ -33,7 +33,7 @@ export abstract class CartAdapter {
   abstract create(
     userId: string,
     oldCartId?: string,
-    toMergeCartGuid?: string
+    toMergeCartGuid?: string,
   ): Observable<Cart>;
 
   /**
@@ -52,7 +52,7 @@ export abstract class CartAdapter {
     userId: string,
     cartId: string,
     saveCartName?: string,
-    saveCartDescription?: string
+    saveCartDescription?: string,
   ): Observable<Cart>;
 
   /**
@@ -64,6 +64,6 @@ export abstract class CartAdapter {
   abstract addEmail(
     userId: string,
     cartId: string,
-    email: string
+    email: string,
   ): Observable<{}>;
 }

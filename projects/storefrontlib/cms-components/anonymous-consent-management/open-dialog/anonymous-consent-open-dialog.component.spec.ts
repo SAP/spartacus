@@ -9,7 +9,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -20,20 +20,18 @@ describe('AnonymousConsentOpenDialogComponent', () => {
   let fixture: ComponentFixture<AnonymousConsentOpenDialogComponent>;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [AnonymousConsentOpenDialogComponent],
-        providers: [
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [AnonymousConsentOpenDialogComponent],
+      providers: [
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AnonymousConsentOpenDialogComponent);
@@ -54,7 +52,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
       expect(launchDialogService.openDialog).toHaveBeenCalledWith(
         LAUNCH_CALLER.ANONYMOUS_CONSENT,
         component.openElement,
-        component['vcr']
+        component['vcr'],
       );
     });
   });

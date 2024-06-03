@@ -128,36 +128,34 @@ describe('CheckoutDeliveryModeComponent', () => {
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
-        declarations: [CheckoutDeliveryModeComponent, MockSpinnerComponent],
-        providers: [
-          {
-            provide: CheckoutDeliveryModesFacade,
-            useClass: MockCheckoutDeliveryModeService,
-          },
-          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-          {
-            provide: CheckoutConfigService,
-            useClass: MockCheckoutConfigService,
-          },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: ActiveCartFacade, useClass: MockCartService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
+      declarations: [CheckoutDeliveryModeComponent, MockSpinnerComponent],
+      providers: [
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModeService,
+        },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        {
+          provide: CheckoutConfigService,
+          useClass: MockCheckoutConfigService,
+        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: ActiveCartFacade, useClass: MockCartService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
+    }).compileComponents();
 
-      checkoutConfigService = TestBed.inject(CheckoutConfigService);
-      checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
-      globalMessageService = TestBed.inject(GlobalMessageService);
-      checkoutStepService = TestBed.inject(
-        CheckoutStepService as Type<CheckoutStepService>
-      );
-    })
-  );
+    checkoutConfigService = TestBed.inject(CheckoutConfigService);
+    checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>,
+    );
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutDeliveryModeComponent);
@@ -185,20 +183,20 @@ describe('CheckoutDeliveryModeComponent', () => {
 
     fixture.detectChanges();
     expect(checkoutConfigService.getPreferredDeliveryMode).toHaveBeenCalledWith(
-      mockSupportedDeliveryModes
+      mockSupportedDeliveryModes,
     );
     expect(component.mode.controls['deliveryModeId'].value).toBe(
-      mockDeliveryMode1.code
+      mockDeliveryMode1.code,
     );
   });
 
   it('should show error message if setDeliveryMode fail', () => {
     const showErrorMessageSpy = spyOn(
       globalMessageService,
-      'add'
+      'add',
     ).and.callThrough();
     checkoutDeliveryModesFacade.setDeliveryMode = createSpy().and.returnValue(
-      throwError('error')
+      throwError('error'),
     );
 
     component.changeMode('pickup');
@@ -207,7 +205,7 @@ describe('CheckoutDeliveryModeComponent', () => {
       {
         key: 'setDeliveryMode.unknownError',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -223,7 +221,7 @@ describe('CheckoutDeliveryModeComponent', () => {
 
     expect(modes).toEqual([]);
     expect(checkoutConfigService.getPreferredDeliveryMode).toHaveBeenCalledWith(
-      [{ code: 'pickup' }]
+      [{ code: 'pickup' }],
     );
   });
 
@@ -239,17 +237,17 @@ describe('CheckoutDeliveryModeComponent', () => {
 
     fixture.detectChanges();
     expect(
-      checkoutConfigService.getPreferredDeliveryMode
+      checkoutConfigService.getPreferredDeliveryMode,
     ).not.toHaveBeenCalled();
     expect(component.mode.controls['deliveryModeId'].value).toBe(
-      mockDeliveryMode2.code
+      mockDeliveryMode2.code,
     );
   });
 
   it('should change step after invoking back()', () => {
     component.back();
     expect(checkoutStepService.back).toHaveBeenCalledWith(
-      <any>mockActivatedRoute
+      <any>mockActivatedRoute,
     );
   });
 
@@ -308,7 +306,7 @@ describe('CheckoutDeliveryModeComponent', () => {
 
     it('should be disabled when setDeliveryMode failed', () => {
       checkoutDeliveryModesFacade.setDeliveryMode = createSpy().and.returnValue(
-        throwError('error')
+        throwError('error'),
       );
 
       component.changeMode('pickup');
@@ -356,7 +354,7 @@ describe('CheckoutDeliveryModeComponent', () => {
     it('should not display shipping items section if there is no pickup items', () => {
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.textContent).not.toContain(
-        'checkoutMode.deliveryEntries'
+        'checkoutMode.deliveryEntries',
       );
     });
 
@@ -364,7 +362,7 @@ describe('CheckoutDeliveryModeComponent', () => {
       hasPickupItems$.next(true);
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.textContent).toContain(
-        'checkoutMode.deliveryEntries'
+        'checkoutMode.deliveryEntries',
       );
     });
   });

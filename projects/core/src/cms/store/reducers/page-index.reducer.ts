@@ -9,13 +9,13 @@ import { CmsActions } from '../actions/index';
 export const initialState: string | undefined = undefined;
 
 export function reducer(
-  entityType: string
+  entityType: string,
 ): (
   state: string | undefined,
   action:
     | CmsActions.LoadCmsPageDataSuccess
     | CmsActions.LoadCmsPageDataFail
-    | CmsActions.CmsSetPageFailIndex
+    | CmsActions.CmsSetPageFailIndex,
 ) => string | undefined {
   return (
     state = initialState,
@@ -23,7 +23,7 @@ export function reducer(
       | CmsActions.LoadCmsPageDataSuccess
       | CmsActions.LoadCmsPageDataFail
       | CmsActions.CmsSetPageSuccessIndex
-      | CmsActions.CmsSetPageFailIndex
+      | CmsActions.CmsSetPageFailIndex,
   ): string | undefined => {
     if (action.meta && action.meta.entityType === entityType) {
       switch (action.type) {

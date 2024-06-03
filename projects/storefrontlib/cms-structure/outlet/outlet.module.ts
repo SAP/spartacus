@@ -29,17 +29,17 @@ import { OutletService } from './outlet.service';
 export function registerOutletsFactory(
   providedOutletOptions: ProvideOutletOptions[],
   componentFactoryResolver: ComponentFactoryResolver,
-  outletService: OutletService<ComponentFactory<Type<any>>>
+  outletService: OutletService<ComponentFactory<Type<any>>>,
 ): () => void {
   const result = () => {
     (providedOutletOptions ?? []).forEach((options) => {
       const factory = componentFactoryResolver.resolveComponentFactory(
-        options.component
+        options.component,
       );
       outletService.add(
         options.id,
         factory,
-        options.position ?? OutletPosition.AFTER
+        options.position ?? OutletPosition.AFTER,
       );
     });
   };

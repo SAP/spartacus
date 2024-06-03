@@ -13,7 +13,7 @@ export const initialState: ViewAllStoresState = {
 
 export function viewAllStoresReducer(
   state = initialState,
-  action: StoreFinderActions.ViewAllStoresAction
+  action: StoreFinderActions.ViewAllStoresAction,
 ): ViewAllStoresState {
   switch (action.type) {
     case StoreFinderActions.VIEW_ALL_STORES_SUCCESS: {

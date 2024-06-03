@@ -27,7 +27,7 @@ describe('B2B - Unit-Level Order Details Page', () => {
       assertExistenceOfNoPermissionMessage();
       cy.location('pathname').should(
         'not.contain',
-        '/my-account/unitLevelOrderDetails/'
+        '/my-account/unitLevelOrderDetails/',
       );
     });
   });
@@ -43,7 +43,7 @@ function assertUnitLevelOrderDetails(order) {
 function assertExistenceOfNoPermissionMessage() {
   cy.get('cx-global-message').should(
     'contain',
-    'No sufficient permissions to access this page'
+    'No sufficient permissions to access this page',
   );
 }
 
@@ -77,7 +77,7 @@ function assertCommonFieldsOfOrderDetails(order) {
   // assert order status
   cy.get('cx-order-details-items .cx-list-status').should(
     'contain',
-    sampleData.ORDER_STATUS
+    sampleData.ORDER_STATUS,
   );
 
   // assert products
@@ -85,12 +85,12 @@ function assertCommonFieldsOfOrderDetails(order) {
   cy.get('.cx-item-list-row .cx-code').should('contain', entry.product.code);
   cy.get('.cx-item-list-row .cx-price').should(
     'contain',
-    entry.basePrice.formattedValue
+    entry.basePrice.formattedValue,
   );
 
   cy.get('.cx-item-list-row .cx-total').should(
     'contain',
-    entry.totalPrice.formattedValue
+    entry.totalPrice.formattedValue,
   );
 
   // asserts order details

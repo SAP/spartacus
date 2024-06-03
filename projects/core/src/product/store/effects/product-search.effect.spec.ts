@@ -65,11 +65,11 @@ describe('ProductSearch Effects', () => {
           queryText: 'test',
           searchConfig: searchConfig,
         },
-        true
+        true,
       );
       const completion = new ProductActions.SearchProductsSuccess(
         searchResult,
-        true
+        true,
       );
 
       actions$ = hot('-a', { a: action });
@@ -86,7 +86,7 @@ describe('ProductSearch Effects', () => {
         searchConfig: searchConfig,
       });
       const completion = new ProductActions.GetProductSuggestionsSuccess(
-        suggestionList.suggestions
+        suggestionList.suggestions,
       );
 
       actions$ = hot('-a', { a: action });

@@ -50,11 +50,11 @@ Cypress.Commands.add('pressTab', (shiftModifier?: boolean) => {
     const elements = Array.from(
       <NodeListOf<HTMLElement>>(
         document.querySelectorAll(focusableSelectors.join(','))
-      )
+      ),
     ).filter((element) => element.offsetParent !== null);
 
     const activeElementIndex = elements.indexOf(
-      document.activeElement as HTMLElement
+      document.activeElement as HTMLElement,
     );
 
     if (shiftModifier === true) {
@@ -93,7 +93,7 @@ Cypress.Commands.add(
           document
             .getElementsByTagName(config.container)[0]
             .querySelectorAll(focusableSelectors.join(','))
-        )
+        ),
       )
         .filter((element) => element.offsetParent !== null)
         .map((el) => ({
@@ -109,18 +109,18 @@ Cypress.Commands.add(
           } else {
             cy.writeFile(DRAFT_FILE, JSON.stringify(focusable)).then(() => {
               throw new Error(
-                `DOM not matching snapshot. ${GENERATION_MESSAGE}`
+                `DOM not matching snapshot. ${GENERATION_MESSAGE}`,
               );
             });
           }
         } else {
           cy.writeFile(DRAFT_FILE, JSON.stringify(focusable)).then(() => {
             throw new Error(
-              `No a11y keyboard snapshot found. ${GENERATION_MESSAGE}`
+              `No a11y keyboard snapshot found. ${GENERATION_MESSAGE}`,
             );
           });
         }
       });
     });
-  }
+  },
 );

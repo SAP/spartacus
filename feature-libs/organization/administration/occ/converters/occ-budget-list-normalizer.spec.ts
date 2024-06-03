@@ -48,7 +48,7 @@ describe('BudgetListNormalizer', () => {
     [OccBudgetListNormalizer],
     (budgetListNormalizer: OccBudgetListNormalizer) => {
       expect(budgetListNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert budget list', () => {

@@ -21,7 +21,7 @@ export class RegisterComponentService {
   constructor(
     protected userRegisterFacade: UserRegisterFacade,
     protected globalMessageService: GlobalMessageService,
-    protected fb?: UntypedFormBuilder
+    protected fb?: UntypedFormBuilder,
   ) {}
 
   /**
@@ -46,7 +46,7 @@ export class RegisterComponentService {
   postRegisterMessage(): void {
     this.globalMessageService.add(
       { key: 'register.postRegisterMessage' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
   }
 

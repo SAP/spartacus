@@ -64,18 +64,18 @@ export class ConfiguratorGroupMenuComponent {
                 (cont.configuration.complete &&
                   cont.configuration.consistent) ||
                 cont.configuration.interactionState.issueNavigationDone ||
-                !cont.routerData.resolveIssues
-            )
+                !cont.routerData.resolveIssues,
+            ),
           )
 
-          .pipe(map((cont) => cont.configuration))
-      )
+          .pipe(map((cont) => cont.configuration)),
+      ),
     );
 
   currentGroup$: Observable<Configurator.Group> = this.routerData$.pipe(
     switchMap((routerData) =>
-      this.configuratorGroupsService.getCurrentGroup(routerData.owner)
-    )
+      this.configuratorGroupsService.getCurrentGroup(routerData.owner),
+    ),
   );
   /**
    * Current parent group. Undefined for top level groups
@@ -83,13 +83,13 @@ export class ConfiguratorGroupMenuComponent {
   displayedParentGroup$: Observable<Configurator.Group | undefined> =
     this.configuration$.pipe(
       switchMap((configuration) =>
-        this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
+        this.configuratorGroupsService.getMenuParentGroup(configuration.owner),
       ),
       switchMap((parentGroup) => {
         return parentGroup
           ? this.getCondensedParentGroup(parentGroup)
           : of(parentGroup);
-      })
+      }),
     );
 
   displayedGroups$: Observable<Configurator.Group[]> =
@@ -102,9 +102,9 @@ export class ConfiguratorGroupMenuComponent {
             } else {
               return this.condenseGroups(configuration.groups);
             }
-          })
+          }),
         );
-      })
+      }),
     );
 
   iconTypes = ICON_TYPE;
@@ -122,7 +122,7 @@ export class ConfiguratorGroupMenuComponent {
     protected configGroupMenuService: ConfiguratorGroupMenuService,
     protected directionService: DirectionService,
     protected translation: TranslationService,
-    protected configExpertModeService: ConfiguratorExpertModeService
+    protected configExpertModeService: ConfiguratorExpertModeService,
   ) {}
 
   /**
@@ -141,12 +141,12 @@ export class ConfiguratorGroupMenuComponent {
         this.hamburgerMenuService.toggle(true);
 
         this.configUtils.scrollToConfigurationElement(
-          '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
+          '.VariantConfigurationTemplate, .CpqConfigurationTemplate',
         );
       } else {
         this.configuratorGroupsService.setMenuParentGroup(
           configuration.owner,
-          group.id
+          group.id,
         );
         if (currentGroup) {
           this.setFocusForSubGroup(group, currentGroup.id);
@@ -171,7 +171,7 @@ export class ConfiguratorGroupMenuComponent {
             grandParentGroup$.pipe(take(1)).subscribe((grandParentGroup) => {
               this.configuratorGroupsService.setMenuParentGroup(
                 configuration.owner,
-                grandParentGroup ? grandParentGroup.id : undefined
+                grandParentGroup ? grandParentGroup.id : undefined,
               );
             });
           });
@@ -214,20 +214,20 @@ export class ConfiguratorGroupMenuComponent {
    * @returns Parent group, undefined in case input group is already on root level
    */
   protected getParentGroup(
-    group: Configurator.Group
+    group: Configurator.Group,
   ): Observable<Configurator.Group | undefined> {
     return this.configuration$.pipe(
       map((configuration) =>
         this.configuratorGroupsService.getParentGroup(
           configuration.groups,
-          group
-        )
-      )
+          group,
+        ),
+      ),
     );
   }
 
   getCondensedParentGroup(
-    parentGroup: Configurator.Group
+    parentGroup: Configurator.Group,
   ): Observable<Configurator.Group | undefined> {
     if (
       parentGroup &&
@@ -238,7 +238,7 @@ export class ConfiguratorGroupMenuComponent {
       return this.getParentGroup(parentGroup).pipe(
         switchMap((group) => {
           return group ? this.getCondensedParentGroup(group) : of(group);
-        })
+        }),
       );
     } else {
       return of(parentGroup);
@@ -267,7 +267,7 @@ export class ConfiguratorGroupMenuComponent {
    */
   isGroupVisited(
     group: Configurator.Group,
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<boolean> {
     return this.configuratorGroupsService
       .isGroupVisited(configuration.owner, group.id)
@@ -276,10 +276,10 @@ export class ConfiguratorGroupMenuComponent {
           (isVisited) =>
             isVisited &&
             !this.isConflictGroupType(
-              group.groupType ?? Configurator.GroupType.ATTRIBUTE_GROUP
-            )
+              group.groupType ?? Configurator.GroupType.ATTRIBUTE_GROUP,
+            ),
         ),
-        take(1)
+        take(1),
       );
   }
 
@@ -326,7 +326,7 @@ export class ConfiguratorGroupMenuComponent {
    */
   getGroupStatusStyles(
     group: Configurator.Group,
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<string> {
     return this.isGroupVisited(group, configuration).pipe(
       map((isVisited) => {
@@ -350,7 +350,7 @@ export class ConfiguratorGroupMenuComponent {
           groupStatusStyle = groupStatusStyle + this.ERROR;
         }
         return groupStatusStyle;
-      })
+      }),
     );
   }
 
@@ -402,14 +402,14 @@ export class ConfiguratorGroupMenuComponent {
     event: KeyboardEvent,
     groupIndex: number,
     targetGroup: Configurator.Group,
-    currentGroup: Configurator.Group
+    currentGroup: Configurator.Group,
   ): void {
     this.handleFocusLoopInMobileMode(event);
     if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
       this.configGroupMenuService.switchGroupOnArrowPress(
         event,
         groupIndex,
-        this.groups
+        this.groups,
       );
     } else if (this.isForwardsNavigation(event)) {
       if (targetGroup && this.hasSubGroups(targetGroup)) {
@@ -482,7 +482,7 @@ export class ConfiguratorGroupMenuComponent {
    */
   setFocusForSubGroup(
     group: Configurator.Group,
-    currentGroupId?: string
+    currentGroupId?: string,
   ): void {
     let key: string | undefined = 'cx-menu-back';
     if (this.containsSelectedGroup(group, currentGroupId)) {
@@ -500,7 +500,7 @@ export class ConfiguratorGroupMenuComponent {
    */
   containsSelectedGroup(
     group: Configurator.Group,
-    currentGroupId?: string
+    currentGroupId?: string,
   ): boolean {
     let isCurrentGroupFound = false;
     group.subGroups?.forEach((subGroup) => {
@@ -601,7 +601,7 @@ export class ConfiguratorGroupMenuComponent {
    */
   getAriaDescribedby(
     group: Configurator.Group,
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<string> {
     return this.isGroupVisited(group, configuration).pipe(
       map((isVisited) => {
@@ -641,7 +641,7 @@ export class ConfiguratorGroupMenuComponent {
         }
         ariaDescribedby = ariaDescribedby + ' inListOfGroups';
         return ariaDescribedby;
-      })
+      }),
     );
   }
 
@@ -671,7 +671,7 @@ export class ConfiguratorGroupMenuComponent {
           displayMenuItem = false;
         }
         return displayMenuItem;
-      })
+      }),
     );
   }
 

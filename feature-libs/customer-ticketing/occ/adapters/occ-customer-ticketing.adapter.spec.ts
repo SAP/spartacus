@@ -130,7 +130,7 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockCreatedEvent);
       expect(converter.pipeable).toHaveBeenCalledWith(
-        CUSTOMER_TICKETING_EVENT_NORMALIZER
+        CUSTOMER_TICKETING_EVENT_NORMALIZER,
       );
     });
   });
@@ -253,7 +253,7 @@ describe('OccCustomerTicketingAdapter', () => {
           mockCustomerId,
           mockTicketId,
           mockEventCode,
-          '' as unknown as File
+          '' as unknown as File,
         )
         .pipe(take(1))
         .subscribe((result) => {
@@ -272,7 +272,7 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(attachmentResponse);
       expect(converter.pipeable).toHaveBeenCalledWith(
-        CUSTOMER_TICKETING_FILE_NORMALIZER
+        CUSTOMER_TICKETING_FILE_NORMALIZER,
       );
     });
   });
@@ -288,7 +288,7 @@ describe('OccCustomerTicketingAdapter', () => {
           mockCustomerId,
           mockTicketId,
           mockEventCode,
-          mockAttachmentId
+          mockAttachmentId,
         )
         .pipe(take(1))
         .subscribe((result) => {
@@ -307,7 +307,7 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.request.responseType).toEqual('blob');
       mockReq.flush(attachmentResponse);
       expect(converter.pipeable).toHaveBeenCalledWith(
-        CUSTOMER_TICKETING_FILE_NORMALIZER
+        CUSTOMER_TICKETING_FILE_NORMALIZER,
       );
     });
   });
@@ -369,7 +369,7 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockCreatedTicketResponse);
       expect(converter.pipeable).toHaveBeenCalledWith(
-        CUSTOMER_TICKETING_CREATE_NORMALIZER
+        CUSTOMER_TICKETING_CREATE_NORMALIZER,
       );
     });
   });

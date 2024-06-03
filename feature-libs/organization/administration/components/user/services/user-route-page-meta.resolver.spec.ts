@@ -31,8 +31,8 @@ describe('UserRoutePageMetaResolver', () => {
         resolver.resolveBreadcrumbs({
           url: 'testPath',
           pageMetaConfig: { breadcrumb: { i18n: 'testTranslation' } },
-        })
-      )
+        }),
+      ),
     ).toEqual([{ label: 'testTranslation name:testName', link: 'testPath' }]);
   });
 });

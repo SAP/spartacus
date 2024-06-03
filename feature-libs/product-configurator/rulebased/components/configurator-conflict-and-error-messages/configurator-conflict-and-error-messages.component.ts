@@ -24,8 +24,8 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
       .extractRouterData()
       .pipe(
         switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
-        )
+          this.configuratorCommonsService.getConfiguration(routerData.owner),
+        ),
       );
 
   showWarnings = false;
@@ -42,6 +42,6 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
   ) {}
 }

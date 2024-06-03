@@ -42,7 +42,7 @@ describe('ReplenishmentOrderActions', () => {
       it('should create an action', () => {
         const payload: ReplenishmentOrder = mockReplenishmentOrder;
         const action = new OrderActions.LoadReplenishmentOrderDetailsSuccess(
-          payload
+          payload,
         );
 
         expect({ ...action }).toEqual({
@@ -57,7 +57,7 @@ describe('ReplenishmentOrderActions', () => {
       it('should create an action', () => {
         const payload = mockError;
         const action = new OrderActions.LoadReplenishmentOrderDetailsFail(
-          payload
+          payload,
         );
 
         expect({ ...action }).toEqual({
@@ -97,7 +97,7 @@ describe('ReplenishmentOrderActions', () => {
           payload,
           meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
-            CANCEL_REPLENISHMENT_ORDER_PROCESS_ID
+            CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
           ),
         });
       });
@@ -107,7 +107,7 @@ describe('ReplenishmentOrderActions', () => {
       it('should create an action', () => {
         const payload: ReplenishmentOrder = mockReplenishmentOrder;
         const action = new OrderActions.CancelReplenishmentOrderSuccess(
-          payload
+          payload,
         );
 
         expect({ ...action }).toEqual({
@@ -115,7 +115,7 @@ describe('ReplenishmentOrderActions', () => {
           payload,
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
-            CANCEL_REPLENISHMENT_ORDER_PROCESS_ID
+            CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
           ),
         });
       });
@@ -132,7 +132,7 @@ describe('ReplenishmentOrderActions', () => {
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
-            payload
+            payload,
           ),
         });
       });
@@ -146,7 +146,7 @@ describe('ReplenishmentOrderActions', () => {
           type: OrderActions.CLEAR_CANCEL_REPLENISHMENT_ORDER,
           meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
-            CANCEL_REPLENISHMENT_ORDER_PROCESS_ID
+            CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
           ),
         });
       });

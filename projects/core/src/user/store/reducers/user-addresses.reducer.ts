@@ -11,7 +11,7 @@ export const initialState: Address[] = [];
 
 export function reducer(
   state = initialState,
-  action: UserActions.UserAddressesAction
+  action: UserActions.UserAddressesAction,
 ): Address[] {
   switch (action.type) {
     case UserActions.LOAD_USER_ADDRESSES_FAIL: {

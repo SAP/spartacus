@@ -25,7 +25,7 @@ import { ConfiguratorLogoutEventListener } from './events/configurator-logout-ev
 })
 export class RulebasedConfiguratorCoreModule {
   constructor(
-    _configuratorLogoutEventListener: ConfiguratorLogoutEventListener
+    _configuratorLogoutEventListener: ConfiguratorLogoutEventListener,
   ) {
     // Intentional empty constructor
   }

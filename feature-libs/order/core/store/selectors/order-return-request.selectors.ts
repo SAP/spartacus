@@ -21,7 +21,7 @@ export const getOrderReturnRequest: MemoizedSelector<
 > = createSelector(
   getOrderReturnRequestState,
   (state: StateUtils.LoaderState<ReturnRequest>) =>
-    StateUtils.loaderValueSelector(state)
+    StateUtils.loaderValueSelector(state),
 );
 
 export const getOrderReturnRequestLoading: MemoizedSelector<
@@ -30,7 +30,7 @@ export const getOrderReturnRequestLoading: MemoizedSelector<
 > = createSelector(
   getOrderReturnRequestState,
   (state: StateUtils.LoaderState<ReturnRequest>) =>
-    StateUtils.loaderLoadingSelector(state)
+    StateUtils.loaderLoadingSelector(state),
 );
 
 export const getOrderReturnRequestSuccess: MemoizedSelector<
@@ -40,7 +40,7 @@ export const getOrderReturnRequestSuccess: MemoizedSelector<
   getOrderReturnRequestState,
   (state: StateUtils.LoaderState<ReturnRequest>) =>
     StateUtils.loaderSuccessSelector(state) &&
-    !StateUtils.loaderLoadingSelector(state)
+    !StateUtils.loaderLoadingSelector(state),
 );
 
 export const getOrderReturnRequestListState: MemoizedSelector<
@@ -54,5 +54,5 @@ export const getOrderReturnRequestList: MemoizedSelector<
 > = createSelector(
   getOrderReturnRequestListState,
   (state: StateUtils.LoaderState<ReturnRequestList>) =>
-    StateUtils.loaderValueSelector(state)
+    StateUtils.loaderValueSelector(state),
 );

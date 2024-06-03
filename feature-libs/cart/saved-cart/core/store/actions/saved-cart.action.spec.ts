@@ -74,7 +74,7 @@ describe('SavedCart Actions', () => {
           payload: { userId: mockUserId },
           meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
-            SAVED_CART_LIST_PROCESS_ID
+            SAVED_CART_LIST_PROCESS_ID,
           ),
         });
       });
@@ -90,7 +90,7 @@ describe('SavedCart Actions', () => {
           payload: { userId: mockUserId },
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
-            SAVED_CART_LIST_PROCESS_ID
+            SAVED_CART_LIST_PROCESS_ID,
           ),
         });
       });
@@ -108,7 +108,7 @@ describe('SavedCart Actions', () => {
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             SAVED_CART_LIST_PROCESS_ID,
-            error
+            error,
           ),
         });
       });
@@ -121,7 +121,7 @@ describe('SavedCart Actions', () => {
           type: SavedCartActions.CLEAR_SAVED_CARTS,
           meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
-            SAVED_CART_LIST_PROCESS_ID
+            SAVED_CART_LIST_PROCESS_ID,
           ),
         });
       });
@@ -141,7 +141,7 @@ describe('SavedCart Actions', () => {
           payload: { userId: mockUserId, cartId: mockCartId },
           meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
-            SAVED_CART_RESTORE_CART_PROCESS_ID
+            SAVED_CART_RESTORE_CART_PROCESS_ID,
           ),
         });
       });
@@ -161,7 +161,7 @@ describe('SavedCart Actions', () => {
           },
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
-            SAVED_CART_RESTORE_CART_PROCESS_ID
+            SAVED_CART_RESTORE_CART_PROCESS_ID,
           ),
         });
       });
@@ -180,7 +180,7 @@ describe('SavedCart Actions', () => {
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             SAVED_CART_RESTORE_CART_PROCESS_ID,
-            error
+            error,
           ),
         });
       });
@@ -193,7 +193,7 @@ describe('SavedCart Actions', () => {
           type: SavedCartActions.CLEAR_RESTORE_SAVED_CART,
           meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
-            SAVED_CART_RESTORE_CART_PROCESS_ID
+            SAVED_CART_RESTORE_CART_PROCESS_ID,
           ),
         });
       });
@@ -213,7 +213,7 @@ describe('SavedCart Actions', () => {
           payload: { userId: mockUserId, cartId: mockCartId },
           meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
-            SAVED_CART_SAVE_CART_PROCESS_ID
+            SAVED_CART_SAVE_CART_PROCESS_ID,
           ),
         });
       });
@@ -238,7 +238,7 @@ describe('SavedCart Actions', () => {
           },
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
-            SAVED_CART_SAVE_CART_PROCESS_ID
+            SAVED_CART_SAVE_CART_PROCESS_ID,
           ),
         });
       });
@@ -265,7 +265,7 @@ describe('SavedCart Actions', () => {
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             SAVED_CART_SAVE_CART_PROCESS_ID,
-            error
+            error,
           ),
         });
       });
@@ -278,7 +278,7 @@ describe('SavedCart Actions', () => {
           type: SavedCartActions.CLEAR_SAVE_CART,
           meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
-            SAVED_CART_SAVE_CART_PROCESS_ID
+            SAVED_CART_SAVE_CART_PROCESS_ID,
           ),
         });
       });
@@ -298,7 +298,7 @@ describe('SavedCart Actions', () => {
           payload: { userId: mockUserId, cartId: mockCartId },
           meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
-            SAVED_CART_SAVE_CART_PROCESS_ID
+            SAVED_CART_SAVE_CART_PROCESS_ID,
           ),
         });
       });
@@ -323,7 +323,7 @@ describe('SavedCart Actions', () => {
           },
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
-            SAVED_CART_SAVE_CART_PROCESS_ID
+            SAVED_CART_SAVE_CART_PROCESS_ID,
           ),
         });
       });
@@ -350,7 +350,7 @@ describe('SavedCart Actions', () => {
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             SAVED_CART_SAVE_CART_PROCESS_ID,
-            error
+            error,
           ),
         });
       });
@@ -375,7 +375,7 @@ describe('SavedCart Actions', () => {
           },
           meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
-            SAVED_CART_CLONE_CART_PROCESS_ID
+            SAVED_CART_CLONE_CART_PROCESS_ID,
           ),
         });
       });
@@ -397,7 +397,7 @@ describe('SavedCart Actions', () => {
           },
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
-            SAVED_CART_CLONE_CART_PROCESS_ID
+            SAVED_CART_CLONE_CART_PROCESS_ID,
           ),
         });
       });
@@ -422,7 +422,7 @@ describe('SavedCart Actions', () => {
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             SAVED_CART_CLONE_CART_PROCESS_ID,
-            error
+            error,
           ),
         });
       });
@@ -435,7 +435,7 @@ describe('SavedCart Actions', () => {
           type: SavedCartActions.CLEAR_CLONE_SAVED_CART,
           meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
-            SAVED_CART_CLONE_CART_PROCESS_ID
+            SAVED_CART_CLONE_CART_PROCESS_ID,
           ),
         });
       });

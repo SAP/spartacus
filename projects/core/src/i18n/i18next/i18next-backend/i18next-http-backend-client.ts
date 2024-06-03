@@ -28,7 +28,7 @@ export const I18NEXT_HTTP_BACKEND_CLIENT = new InjectionToken<
       _options: HttpBackendOptions,
       url: string,
       _payload: string | object,
-      callback: RequestCallback
+      callback: RequestCallback,
     ) => {
       httpClient.get(url, { responseType: 'text' }).subscribe({
         next: (data) => callback(null, { status: 200, data }),

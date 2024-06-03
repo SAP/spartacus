@@ -43,7 +43,7 @@ export class OutletRendererService {
   getOutletRef(outlet: string): Observable<OutletDirective> {
     return this.outletRefs.asObservable().pipe(
       map((val) => val.get(outlet)),
-      filter(isNotNullable)
+      filter(isNotNullable),
     );
   }
 }

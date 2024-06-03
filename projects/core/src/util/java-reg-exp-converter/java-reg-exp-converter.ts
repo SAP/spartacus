@@ -50,7 +50,7 @@ export class JavaRegExpConverter {
     } catch (error) {
       if (isDevMode()) {
         this.logger.warn(
-          `WARNING: Could not convert Java regexp into Javascript. Original regexp: ${javaSyntax} \nMessage: ${error}`
+          `WARNING: Could not convert Java regexp into Javascript. Original regexp: ${javaSyntax} \nMessage: ${error}`,
         );
       }
       return null;

@@ -111,13 +111,13 @@ describe('AsmCustomerListService', () => {
     service.customerListCustomersSearch(searchOptions);
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AsmActions.CustomerListCustomersSearch(searchOptions)
+      new AsmActions.CustomerListCustomersSearch(searchOptions),
     );
   });
 
   it('should return customer list customers search result', () => {
     store.dispatch(
-      new AsmActions.CustomerListCustomersSearchSuccess(mockCustomerSearchPage)
+      new AsmActions.CustomerListCustomersSearchSuccess(mockCustomerSearchPage),
     );
     let result: CustomerSearchPage;
 
@@ -146,7 +146,7 @@ describe('AsmCustomerListService', () => {
     service.customerListCustomersSearchReset();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AsmActions.CustomerListCustomersSearchReset()
+      new AsmActions.CustomerListCustomersSearchReset(),
     );
   });
 });

@@ -13,6 +13,6 @@ export abstract class RequestedDeliveryDateAdapter {
   abstract setRequestedDeliveryDate(
     userId: string,
     cartId: string,
-    requestedDate: string
+    requestedDate: string,
   ): Observable<{}>;
 }

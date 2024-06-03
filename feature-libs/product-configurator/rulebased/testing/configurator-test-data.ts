@@ -112,8 +112,8 @@ export const productConfigurationWithoutIssues: Configurator.Configuration = {
     CONFIG_ID,
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
-    )
+      PRODUCT_CODE,
+    ),
   ),
   productCode: PRODUCT_CODE,
   totalNumberOfIssues: 0,
@@ -603,7 +603,7 @@ export const productConfigurationWithoutBasePrice: Configurator.Configuration =
     owner: ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE,
-      CONFIGURATOR_TYPE
+      CONFIGURATOR_TYPE,
     ),
     nextOwner: ConfiguratorModelUtils.createInitialOwner(),
     interactionState: {
@@ -663,7 +663,7 @@ export const mockProductConfigurationWithoutTotalPrice: Configurator.Configurati
     owner: ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE,
-      CONFIGURATOR_TYPE
+      CONFIGURATOR_TYPE,
     ),
     nextOwner: ConfiguratorModelUtils.createInitialOwner(),
     interactionState: {
@@ -723,7 +723,7 @@ export const mockProductConfigurationWithPriceSummaryButNoPrices: Configurator.C
     owner: ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE,
-      CONFIGURATOR_TYPE
+      CONFIGURATOR_TYPE,
     ),
     nextOwner: ConfiguratorModelUtils.createInitialOwner(),
     interactionState: {
@@ -783,7 +783,7 @@ export const productConfigurationWithoutSelectedOptions: Configurator.Configurat
     owner: ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE,
-      CONFIGURATOR_TYPE
+      CONFIGURATOR_TYPE,
     ),
     nextOwner: ConfiguratorModelUtils.createInitialOwner(),
     interactionState: {
@@ -951,7 +951,7 @@ export const productConfiguration: Configurator.Configuration = {
   owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
     PRODUCT_CODE,
-    CONFIGURATOR_TYPE
+    CONFIGURATOR_TYPE,
   ),
   nextOwner: ConfiguratorModelUtils.createInitialOwner(),
   interactionState: {

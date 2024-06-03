@@ -23,7 +23,7 @@ export class UserGroupConnector {
 
   getList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<UserGroup>> {
     return this.adapter.loadList(userId, params);
   }
@@ -31,19 +31,19 @@ export class UserGroupConnector {
   getAvailableOrderApprovalPermissions(
     userId: string,
     userGroupId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Permission>> {
     return this.adapter.loadAvailableOrderApprovalPermissions(
       userId,
       userGroupId,
-      params
+      params,
     );
   }
 
   getAvailableOrgCustomers(
     userId: string,
     userGroupId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<B2BUser>> {
     return this.adapter.loadAvailableOrgCustomers(userId, userGroupId, params);
   }
@@ -59,7 +59,7 @@ export class UserGroupConnector {
   update(
     userId: string,
     userGroupId: string,
-    userGroup: UserGroup
+    userGroup: UserGroup,
   ): Observable<UserGroup> {
     return this.adapter.update(userId, userGroupId, userGroup);
   }
@@ -67,7 +67,7 @@ export class UserGroupConnector {
   assignMember(
     userId: string,
     userGroupId: string,
-    orgCustomerId: string
+    orgCustomerId: string,
   ): Observable<any> {
     return this.adapter.assignMember(userId, userGroupId, orgCustomerId);
   }
@@ -75,19 +75,19 @@ export class UserGroupConnector {
   assignOrderApprovalPermission(
     userId: string,
     userGroupId: string,
-    orderApprovalPermissionCode: string
+    orderApprovalPermissionCode: string,
   ): Observable<any> {
     return this.adapter.assignOrderApprovalPermission(
       userId,
       userGroupId,
-      orderApprovalPermissionCode
+      orderApprovalPermissionCode,
     );
   }
 
   unassignMember(
     userId: string,
     userGroupId: string,
-    orgCustomerId: string
+    orgCustomerId: string,
   ): Observable<any> {
     return this.adapter.unassignMember(userId, userGroupId, orgCustomerId);
   }
@@ -99,12 +99,12 @@ export class UserGroupConnector {
   unassignOrderApprovalPermission(
     userId: string,
     userGroupId: string,
-    orderApprovalPermissionCode: string
+    orderApprovalPermissionCode: string,
   ): Observable<any> {
     return this.adapter.unassignOrderApprovalPermission(
       userId,
       userGroupId,
-      orderApprovalPermissionCode
+      orderApprovalPermissionCode,
     );
   }
 }

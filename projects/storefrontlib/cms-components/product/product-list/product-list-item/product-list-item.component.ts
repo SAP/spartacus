@@ -33,7 +33,7 @@ export class ProductListItemComponent implements OnChanges {
   @Input() product: any;
 
   constructor(
-    protected productListItemContextSource: ProductListItemContextSource
+    protected productListItemContextSource: ProductListItemContextSource,
   ) {
     useFeatureStyles('a11yExpandedFocusIndicator');
   }

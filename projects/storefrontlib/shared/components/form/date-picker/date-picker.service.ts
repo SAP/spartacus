@@ -71,7 +71,7 @@ export class DatePickerService {
     return new Date(
       Number(dateParts[y]),
       Number(dateParts[m]) - 1,
-      Number(dateParts[d])
+      Number(dateParts[d]),
     );
   }
 }

@@ -43,7 +43,7 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
   constructor(
     protected userCostCenterService: UserCostCenterService,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
         .pipe(distinctUntilChanged())
         .subscribe((isAccountPayment) => {
           this.isAccountPayment = isAccountPayment;
-        })
+        }),
     );
 
     this.costCenters$ = combineLatest([
@@ -61,7 +61,7 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
       this.checkoutCostCenterFacade.getCostCenterState().pipe(
         filter((state) => !state.loading),
         map((state) => state.data),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       ),
     ]).pipe(
       take(1),
@@ -72,7 +72,7 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
           this.costCenterId = costCenter.code;
         }
       }),
-      map(([costCenters]) => costCenters)
+      map(([costCenters]) => costCenters),
     );
   }
 

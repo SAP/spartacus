@@ -104,7 +104,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     protected asmConfig: AsmConfig,
     protected translation: TranslationService,
     protected asmCustomerListFacade: AsmCustomerListFacade,
-    protected occConfig?: OccConfig
+    protected occConfig?: OccConfig,
   ) {
     this.breakpoint$ = this.getBreakpoint();
   }
@@ -133,7 +133,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
             this.sorts = null;
             this.fetchCustomers();
           }
-        })
+        }),
       ) ?? NEVER;
 
     this.customerSearchLoading$ = this.asmCustomerListFacade
@@ -141,7 +141,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       .pipe(tap((loading) => (this.loaded = !loading)));
     this.teardown.add(this.customerSearchLoading$.subscribe());
     this.teardown.add(() =>
-      this.asmCustomerListFacade.customerListCustomersSearchReset()
+      this.asmCustomerListFacade.customerListCustomersSearchReset(),
     );
 
     this.customerSearchError$ =
@@ -160,7 +160,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
           } else {
             this.maxPage = this.currentPage + 1;
           }
-        })
+        }),
       );
   }
 
@@ -230,7 +230,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   getGroupName(
     customerListsPage: CustomerListsPage,
-    id: string | undefined
+    id: string | undefined,
   ): string {
     return (
       customerListsPage?.userGroups?.find((userGroup) => userGroup.uid === id)
@@ -247,7 +247,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   startColumnAction(
     customerEntry: User,
-    action: CustomerListColumnActionType
+    action: CustomerListColumnActionType,
   ): void {
     this.selectedCustomer = customerEntry;
     const closeValue: CustomerListAction = {
@@ -356,8 +356,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
             byUnit: textByUnit,
             byUnitDesc: textByUnitDesc,
           };
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -366,7 +366,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
     this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      this.addNewCustomerLink
+      this.addNewCustomerLink,
     );
   }
 
@@ -377,7 +377,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
           breakpoint = BREAKPOINT.md;
         }
         return breakpoint;
-      })
+      }),
     );
   }
 }

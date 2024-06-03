@@ -106,7 +106,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected translation: TranslationService,
     protected launchDialogService: LaunchDialogService,
-    protected userProfileFacade: UserProfileFacade
+    protected userProfileFacade: UserProfileFacade,
   ) {}
 
   ngOnInit() {
@@ -116,7 +116,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         if (Object.keys(countries).length === 0) {
           this.userAddressService.loadDeliveryCountries();
         }
-      })
+      }),
     );
 
     // Fetching titles
@@ -132,7 +132,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         } else {
           regionControl?.disable();
         }
-      })
+      }),
     );
 
     if (this.addressData && Object.keys(this.addressData).length !== 0) {
@@ -156,7 +156,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         const noneTitle = { code: '', name: noneTitleText };
         titles.sort(sortTitles);
         return [noneTitle, ...titles];
-      })
+      }),
     );
   }
 
@@ -167,17 +167,17 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
       if (
         results.errors?.errors.some(
-          (error: ErrorModel) => error.subject === 'titleCode'
+          (error: ErrorModel) => error.subject === 'titleCode',
         )
       ) {
         this.globalMessageService.add(
           { key: 'addressForm.titleRequired' },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       } else {
         this.globalMessageService.add(
           { key: 'addressForm.invalidAddress' },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       }
     } else if (results.decision === 'REVIEW') {
@@ -196,7 +196,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   toggleDefaultAddress(): void {
     this.addressForm['controls'].defaultAddress.setValue(
-      this.addressForm.value.defaultAddress
+      this.addressForm.value.defaultAddress,
     );
   }
 
@@ -213,7 +213,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         this.regions$.pipe(take(1)).subscribe((regions: Region[]) => {
           if (regions.length) {
             const selectedRegion = regions.find(
-              (region: Region) => region.isocode === isocode
+              (region: Region) => region.isocode === isocode,
             );
             regionControl?.patchValue({
               isocodeShort: selectedRegion?.isocodeShort,
@@ -230,7 +230,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             .verifyAddress(this.addressForm.value)
             .subscribe((value) => {
               this.handleAddressVerificationResults(value);
-            })
+            }),
         );
       } else {
         // address form value not changed
@@ -249,7 +249,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       {
         enteredAddress: this.addressForm.value,
         suggestedAddresses: results.suggestedAddresses,
-      }
+      },
     );
     this.subscription.add(
       this.launchDialogService.dialogClose
@@ -264,7 +264,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             };
             this.submitAddress.emit(address);
           }
-        })
+        }),
     );
   }
 

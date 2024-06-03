@@ -30,7 +30,7 @@ export class PaymentMethodsComponent implements OnInit {
   constructor(
     private userPaymentService: UserPaymentService,
     private translation: TranslationService,
-    protected globalMessageService?: GlobalMessageService
+    protected globalMessageService?: GlobalMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +43,7 @@ export class PaymentMethodsComponent implements OnInit {
         ) {
           this.setDefaultPaymentMethod(paymentDetails[0]);
         }
-      })
+      }),
     );
 
     this.editCard = undefined;
@@ -96,8 +96,8 @@ export class PaymentMethodsComponent implements OnInit {
           };
 
           return card;
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -120,7 +120,7 @@ export class PaymentMethodsComponent implements OnInit {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id ?? '');
     this.globalMessageService?.add(
       { key: 'paymentMessages.setAsDefaultSuccessfully' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
   }
 

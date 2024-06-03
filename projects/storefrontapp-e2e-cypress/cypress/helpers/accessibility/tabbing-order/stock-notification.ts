@@ -16,7 +16,7 @@ import { verifyTabbingOrder } from '../tabbing-order';
 const containerSelector = '.ProductDetailsPageTemplate cx-stock-notification';
 
 export function stockNotificationTabbingOrderNotificationsNotAllowed(
-  config: TabElement[]
+  config: TabElement[],
 ) {
   navigateToPDP(normalProductCode);
 
@@ -26,7 +26,7 @@ export function stockNotificationTabbingOrderNotificationsNotAllowed(
 }
 
 export function stockNotificationTabbingOrderNotificationsAllowed(
-  config: TabElement[]
+  config: TabElement[],
 ) {
   navigateToPDP(normalProductCode);
   enableNotificationChannel();
@@ -54,7 +54,7 @@ export function stockNotificationDialogTabbingOrder(config: TabElement[]) {
 }
 
 export function stockNotificationTabbingOrderProductSubscribed(
-  config: TabElement[]
+  config: TabElement[],
 ) {
   navigateToPDP(normalProductCode);
   enableNotificationChannel();

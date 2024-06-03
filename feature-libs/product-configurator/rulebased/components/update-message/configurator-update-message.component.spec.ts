@@ -57,39 +57,37 @@ describe('ConfigurationUpdateMessageComponent', () => {
   let fixture: ComponentFixture<ConfiguratorUpdateMessageComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      routerStateObservable = of(ConfigurationTestData.mockRouterState);
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorUpdateMessageComponent,
-          MockCxSpinnerComponent,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
+  beforeEach(waitForAsync(() => {
+    routerStateObservable = of(ConfigurationTestData.mockRouterState);
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        ConfiguratorUpdateMessageComponent,
+        MockCxSpinnerComponent,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
 
-          {
-            provide: ConfiguratorMessageConfig,
-            useClass: MockMessageConfig,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      });
-    })
-  );
+        {
+          provide: ConfiguratorMessageConfig,
+          useClass: MockMessageConfig,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+      ],
+    });
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorUpdateMessageComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>,
     );
     configuratorUtils.setOwnerKey(owner);
   });
@@ -104,14 +102,14 @@ describe('ConfigurationUpdateMessageComponent', () => {
 
     //Should contain d-none class
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      0
+      0,
     );
   });
 
   it('should show update banner after delay time if pending changes is true', fakeAsync(() => {
     //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      0
+      0,
     );
     hasPendingChanges = true;
     fixture.detectChanges();
@@ -121,7 +119,7 @@ describe('ConfigurationUpdateMessageComponent', () => {
 
     fixture.detectChanges();
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      1
+      1,
     );
     expect(htmlElem.querySelectorAll('div').length).toBe(2);
   }));
@@ -129,7 +127,7 @@ describe('ConfigurationUpdateMessageComponent', () => {
   it('should show update banner after default delay time if pending changes is true and no delay time configured', fakeAsync(() => {
     //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      0
+      0,
     );
     hasPendingChanges = true;
     fixture.detectChanges();
@@ -140,14 +138,14 @@ describe('ConfigurationUpdateMessageComponent', () => {
 
     fixture.detectChanges();
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      1
+      1,
     );
   }));
 
   it('should not show update banner if pending changes is true but delay time not reached', fakeAsync(() => {
     //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      0
+      0,
     );
     hasPendingChanges = true;
     fixture.detectChanges();
@@ -157,7 +155,7 @@ describe('ConfigurationUpdateMessageComponent', () => {
 
     fixture.detectChanges();
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      0
+      0,
     );
     tick(1000);
   }));

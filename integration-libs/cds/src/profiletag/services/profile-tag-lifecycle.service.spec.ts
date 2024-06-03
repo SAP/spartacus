@@ -31,7 +31,7 @@ describe('ProfileTagLifecycleService', () => {
     });
     service = TestBed.inject(ProfileTagLifecycleService);
     consentService = TestBed.inject(
-      ConsentService
+      ConsentService,
     ) as jasmine.SpyObj<ConsentService>;
 
     actionsSubject = TestBed.inject(ActionsSubject);

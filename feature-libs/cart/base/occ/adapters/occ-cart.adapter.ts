@@ -29,31 +29,31 @@ export class OccCartAdapter implements CartAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
   ) {}
 
   public loadAll(userId: string): Observable<Cart[]> {
     return this.http
       .get<Occ.CartList>(
-        this.occEndpointsService.buildUrl('carts', { urlParams: { userId } })
+        this.occEndpointsService.buildUrl('carts', { urlParams: { userId } }),
       )
       .pipe(
         map((cartList) => cartList.carts ?? []),
-        this.converterService.pipeableMany(CART_NORMALIZER)
+        this.converterService.pipeableMany(CART_NORMALIZER),
       );
   }
 
   public load(userId: string, cartId: string): Observable<Cart | undefined> {
     if (cartId === OCC_CART_ID_CURRENT) {
       return this.loadAll(userId).pipe(
-        map((carts) => carts.find((cart) => cart['saveTime'] === undefined))
+        map((carts) => carts.find((cart) => cart['saveTime'] === undefined)),
       );
     } else {
       return this.http
         .get<Occ.Cart>(
           this.occEndpointsService.buildUrl('cart', {
             urlParams: { userId, cartId },
-          })
+          }),
         )
         .pipe(this.converterService.pipeable(CART_NORMALIZER));
     }
@@ -62,7 +62,7 @@ export class OccCartAdapter implements CartAdapter {
   create(
     userId: string,
     oldCartId?: string,
-    toMergeCartGuid?: string
+    toMergeCartGuid?: string,
   ): Observable<Cart> {
     const toAdd = JSON.stringify({});
 
@@ -81,7 +81,7 @@ export class OccCartAdapter implements CartAdapter {
           urlParams: { userId },
           queryParams: params,
         }),
-        toAdd
+        toAdd,
       )
       .pipe(this.converterService.pipeable(CART_NORMALIZER));
   }
@@ -95,7 +95,7 @@ export class OccCartAdapter implements CartAdapter {
       this.occEndpointsService.buildUrl('deleteCart', {
         urlParams: { userId, cartId },
       }),
-      { headers }
+      { headers },
     );
   }
 
@@ -103,7 +103,7 @@ export class OccCartAdapter implements CartAdapter {
     userId: string,
     cartId: string,
     saveCartName: string,
-    saveCartDescription: string
+    saveCartDescription: string,
   ): Observable<Cart> {
     const endpoint = this.occEndpointsService.buildUrl('saveCart', {
       urlParams: {
@@ -115,7 +115,7 @@ export class OccCartAdapter implements CartAdapter {
     });
     return this.http.patch<Occ.Cart>(endpoint, cartId).pipe(
       map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
-      this.converterService.pipeable(CART_NORMALIZER)
+      this.converterService.pipeable(CART_NORMALIZER),
     );
   }
 

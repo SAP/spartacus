@@ -59,7 +59,7 @@ class MyCouponsComponent {
   };
   coupon = mockCoupon;
   couponSubscriptionLoading$ = combineLatest([subLoading$, unsubLoading$]).pipe(
-    map(([subscribing, unsubscribing]) => subscribing || unsubscribing)
+    map(([subscribing, unsubscribing]) => subscribing || unsubscribing),
   );
 
   notificationChange = jasmine
@@ -73,7 +73,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -86,29 +86,27 @@ describe('CouponCardComponent', () => {
   let launchDialogService: LaunchDialogService;
   const couponComponentService = jasmine.createSpyObj(
     'MyCouponsComponentService',
-    ['launchSearchPage']
+    ['launchSearchPage'],
   );
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
-        imports: [I18nTestingModule, RouterTestingModule],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: MyCouponsComponentService,
-            useValue: couponComponentService,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
+      imports: [I18nTestingModule, RouterTestingModule],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: MyCouponsComponentService,
+          useValue: couponComponentService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
           },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyCouponsComponent);
@@ -211,7 +209,7 @@ describe('CouponCardComponent', () => {
     fixture.detectChanges();
     el.query(By.css('button.btn-secondary')).triggerEventHandler('click', null);
     expect(couponComponentService.launchSearchPage).toHaveBeenCalledWith(
-      component.coupon
+      component.coupon,
     );
   });
 });

@@ -98,10 +98,10 @@ describe('NewSavedCartOrderEntriesContext that successfully imports products', (
       expect(multiCartService.addEntries).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
-        mockProductData
+        mockProductData,
       );
       expect(productImportInfoService.getResults).toHaveBeenCalledWith(
-        mockCartId
+        mockCartId,
       );
     });
   });
@@ -113,7 +113,7 @@ const mockFailingProductImportWithUnknownIdentifier = {
 };
 class MockFailingProductImportInfoServiceWithUnknownIdentifier {
   getResults = createSpy().and.returnValue(
-    of(mockFailingProductImportWithUnknownIdentifier)
+    of(mockFailingProductImportWithUnknownIdentifier),
   );
 }
 
@@ -165,10 +165,10 @@ describe('NewSavedCartOrderEntriesContext that does not successfully import prod
       expect(multiCartService.addEntries).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
-        mockProductData
+        mockProductData,
       );
       expect(productImportInfoService.getResults).toHaveBeenCalledWith(
-        mockCartId
+        mockCartId,
       );
       expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(mockCartId);
     });
@@ -181,7 +181,7 @@ const mockFailingProductImportWithUnknownError = {
 };
 class MockFailingProductImportInfoServiceWithUnknownError {
   getResults = createSpy().and.returnValue(
-    of(mockFailingProductImportWithUnknownError)
+    of(mockFailingProductImportWithUnknownError),
   );
 }
 
@@ -233,10 +233,10 @@ describe('NewSavedCartOrderEntriesContext that does not successfully import prod
       expect(multiCartService.addEntries).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
-        mockProductData
+        mockProductData,
       );
       expect(productImportInfoService.getResults).toHaveBeenCalledWith(
-        mockCartId
+        mockCartId,
       );
       expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(mockCartId);
     });

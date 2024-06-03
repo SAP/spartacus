@@ -23,20 +23,18 @@ describe('ProductSummaryComponent in product', () => {
   let currentProductService: CurrentProductService;
   let featureConfigService: FeatureConfigService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ItemCounterModule, I18nTestingModule, RouterTestingModule],
-        declarations: [ProductSummaryComponent, OutletDirective],
-        providers: [
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ItemCounterModule, I18nTestingModule, RouterTestingModule],
+      declarations: [ProductSummaryComponent, OutletDirective],
+      providers: [
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductSummaryComponent);

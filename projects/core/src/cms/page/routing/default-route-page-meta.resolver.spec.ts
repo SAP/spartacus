@@ -28,8 +28,8 @@ describe('DefaultRouteBreadcrumbResolver', () => {
           resolver.resolveBreadcrumbs({
             url: '/testPath',
             pageMetaConfig: { breadcrumb: 'test.key' },
-          })
-        )
+          }),
+        ),
       ).toEqual([
         {
           link: '/testPath',
@@ -44,8 +44,8 @@ describe('DefaultRouteBreadcrumbResolver', () => {
           resolver.resolveBreadcrumbs({
             url: '/testPath',
             pageMetaConfig: { breadcrumb: { i18n: 'test.key' } },
-          })
-        )
+          }),
+        ),
       ).toEqual([
         {
           link: '/testPath',
@@ -60,8 +60,8 @@ describe('DefaultRouteBreadcrumbResolver', () => {
           resolver.resolveBreadcrumbs({
             url: '/testPath',
             pageMetaConfig: { breadcrumb: { raw: 'raw test' } },
-          })
-        )
+          }),
+        ),
       ).toEqual([
         {
           link: '/testPath',

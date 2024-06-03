@@ -41,7 +41,7 @@ const configWOMessages: Configurator.Configuration = {
     type: CommonConfigurator.OwnerType.PRODUCT,
     key: ConfiguratorModelUtils.getOwnerKey(
       CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
+      PRODUCT_CODE,
     ),
     configuratorType: ConfiguratorType.VARIANT,
   }),
@@ -57,7 +57,7 @@ const configWithMessages: Configurator.Configuration = {
     type: CommonConfigurator.OwnerType.PRODUCT,
     key: ConfiguratorModelUtils.getOwnerKey(
       CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
+      PRODUCT_CODE,
     ),
     configuratorType: ConfiguratorType.VARIANT,
   }),
@@ -70,7 +70,7 @@ const configWithOnlyOneMessage: Configurator.Configuration = {
     type: CommonConfigurator.OwnerType.PRODUCT,
     key: ConfiguratorModelUtils.getOwnerKey(
       CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
+      PRODUCT_CODE,
     ),
     configuratorType: ConfiguratorType.VARIANT,
   }),
@@ -110,38 +110,36 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorConflictAndErrorMessagesComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        ConfiguratorConflictAndErrorMessagesComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
 
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-        ],
-      });
-    })
-  );
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+      ],
+    });
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ConfiguratorConflictAndErrorMessagesComponent
+      ConfiguratorConflictAndErrorMessagesComponent,
     );
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
     configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>,
     );
     if (configWOMessages.owner) {
       configuratorUtils.setOwnerKey(configWOMessages.owner);
@@ -164,7 +162,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.alert-message'
+      '.alert-message',
     );
   });
   it('should not render all messages initially', () => {
@@ -175,27 +173,27 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.alert-message'
+      '.alert-message',
     );
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-error-text'
+      '.cx-error-text',
     );
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-warning-text'
+      '.cx-warning-text',
     );
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-error-message.open'
+      '.cx-error-message.open',
     );
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-warning-message.open'
+      '.cx-warning-message.open',
     );
   });
 
@@ -211,37 +209,37 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.alert-message'
+      '.alert-message',
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-error-message:nth-child(1)',
-      errorMessage1
+      errorMessage1,
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-error-message:nth-child(2)',
-      errorMessage2
+      errorMessage2,
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-warning-message:nth-child(1)',
-      warningMessage1
+      warningMessage1,
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-warning-message:nth-child(2)',
-      warningMessage2
+      warningMessage2,
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-warning-message:nth-child(3)',
-      warningMessage3
+      warningMessage3,
     );
   });
 
@@ -251,27 +249,27 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.alert-message'
+      '.alert-message',
     );
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-error-text'
+      '.cx-error-text',
     );
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-warning-text'
+      '.cx-warning-text',
     );
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-error-message.open'
+      '.cx-error-message.open',
     );
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-warning-message.open'
+      '.cx-warning-message.open',
     );
   });
 
@@ -289,7 +287,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
         'alert-message-invalid-warning',
         0,
         'aria-live',
-        'assertive'
+        'assertive',
       );
     });
 
@@ -301,7 +299,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
         'alert-message-invalid-warning',
         0,
         'aria-atomic',
-        'true'
+        'true',
       );
     });
 
@@ -313,7 +311,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
         'alert-message-error',
         0,
         'aria-live',
-        'assertive'
+        'assertive',
       );
     });
 
@@ -325,7 +323,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
         'alert-message-error',
         0,
         'aria-atomic',
-        'true'
+        'true',
       );
     });
   });
@@ -339,7 +337,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       'cx-error-toggle',
       0,
       'aria-expanded',
-      'false'
+      'false',
     );
   });
   it("should contain button element with class name 'cx-error-toggle' and 'aria-expanded' attribute set to true because toggle was triggered.", () => {
@@ -353,7 +351,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       'cx-error-toggle',
       0,
       'aria-expanded',
-      'true'
+      'true',
     );
   });
 });

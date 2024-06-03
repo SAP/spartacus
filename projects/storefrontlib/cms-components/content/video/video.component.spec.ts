@@ -65,7 +65,7 @@ const mockComponentData: CmsVideoComponent = {
 };
 
 const data$: BehaviorSubject<CmsVideoComponent> = new BehaviorSubject(
-  mockComponentData
+  mockComponentData,
 );
 
 class MockCmsVideoComponentData {
@@ -108,7 +108,7 @@ describe('VideoComponent', () => {
 
     it('should set thumbnail with videoMedia property when containerBackground is defined', () => {
       expect(videoComponent.thumbnail?.src).toEqual(
-        mockCmsBannerComponentMedia.url
+        mockCmsBannerComponentMedia.url,
       );
     });
 
@@ -180,7 +180,7 @@ describe('VideoComponent', () => {
 
       expect(videoComponent.routerLink).toEqual(product);
       expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
-        product
+        product,
       );
     });
 
@@ -191,7 +191,7 @@ describe('VideoComponent', () => {
 
       expect(videoComponent.routerLink).toEqual(category);
       expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
-        category
+        category,
       );
     });
 
@@ -202,7 +202,7 @@ describe('VideoComponent', () => {
 
       expect(videoComponent.routerLink).toEqual(url);
       expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
-        url
+        url,
       );
     });
 
@@ -213,7 +213,7 @@ describe('VideoComponent', () => {
 
       expect(videoComponent.routerLink).toEqual(contentPage);
       expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
-        contentPage
+        contentPage,
       );
     });
   });

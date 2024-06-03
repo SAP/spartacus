@@ -64,7 +64,7 @@ const mockJaloError = new HttpErrorResponse({
 });
 const mockNormalizedJaloError = normalizeHttpError(
   mockJaloError,
-  new MockLoggerService()
+  new MockLoggerService(),
 );
 
 describe(`OccCheckoutPaymentTypeAdapter`, () => {
@@ -83,11 +83,11 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
       ],
     });
     service = TestBed.inject(
-      OccCheckoutPaymentTypeAdapter as Type<OccCheckoutPaymentTypeAdapter>
+      OccCheckoutPaymentTypeAdapter as Type<OccCheckoutPaymentTypeAdapter>,
     );
     httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
+      HttpTestingController as Type<HttpTestingController>,
     );
     converter = TestBed.inject(ConverterService as Type<ConverterService>);
 
@@ -137,14 +137,14 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
       service.getPaymentTypes().subscribe();
       httpMock.expectOne('paymenttypes').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(
-        CHECKOUT_PAYMENT_TYPE_NORMALIZER
+        CHECKOUT_PAYMENT_TYPE_NORMALIZER,
       );
     });
 
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'get').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -170,7 +170,7 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
               return of(paymentTypesList);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: PaymentType[] | undefined;
@@ -249,7 +249,7 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'put').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -275,7 +275,7 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
               return of(cartData);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: Cart | undefined;

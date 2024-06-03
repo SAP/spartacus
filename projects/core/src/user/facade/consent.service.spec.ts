@@ -62,7 +62,7 @@ describe('ConsentService', () => {
     it('should merge both anonymous and registered-consent getConsent methods', () => {
       spyOn(userConsentService, 'getConsent').and.returnValue(of(mockConsent));
       spyOn(anonymousConsentsService, 'getConsent').and.returnValue(
-        of(mockAnonymousConsent)
+        of(mockAnonymousConsent),
       );
 
       const results: (Consent | AnonymousConsent)[] = [];
@@ -71,10 +71,10 @@ describe('ConsentService', () => {
         .subscribe((value) => results.push(value))
         .unsubscribe();
       expect(userConsentService.getConsent).toHaveBeenCalledWith(
-        mockTemplateId
+        mockTemplateId,
       );
       expect(anonymousConsentsService.getConsent).toHaveBeenCalledWith(
-        mockTemplateId
+        mockTemplateId,
       );
       expect(results).toEqual([mockConsent, mockAnonymousConsent]);
     });
@@ -103,7 +103,7 @@ describe('ConsentService', () => {
           .unsubscribe();
         expect(result).toEqual(true);
         expect(anonymousConsentsService.isConsentGiven).toHaveBeenCalledWith(
-          mockAnonymousConsent
+          mockAnonymousConsent,
         );
         expect(userConsentService.isConsentGiven).not.toHaveBeenCalled();
       });
@@ -122,7 +122,7 @@ describe('ConsentService', () => {
         expect(result).toEqual(true);
         expect(anonymousConsentsService.isConsentGiven).not.toHaveBeenCalled();
         expect(userConsentService.isConsentGiven).toHaveBeenCalledWith(
-          mockConsent
+          mockConsent,
         );
       });
     });
@@ -143,7 +143,7 @@ describe('ConsentService', () => {
         spyOn(service, 'getConsent').and.returnValue(of(mockAnonymousConsent));
         spyOn(service, 'isAnonymousConsentType').and.returnValue(true);
         spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValue(
-          true
+          true,
         );
         spyOn(userConsentService, 'isConsentWithdrawn').and.stub();
         let result = false;
@@ -153,7 +153,7 @@ describe('ConsentService', () => {
           .unsubscribe();
         expect(result).toEqual(true);
         expect(
-          anonymousConsentsService.isConsentWithdrawn
+          anonymousConsentsService.isConsentWithdrawn,
         ).toHaveBeenCalledWith(mockAnonymousConsent);
         expect(userConsentService.isConsentWithdrawn).not.toHaveBeenCalled();
       });
@@ -171,10 +171,10 @@ describe('ConsentService', () => {
           .unsubscribe();
         expect(result).toEqual(true);
         expect(
-          anonymousConsentsService.isConsentWithdrawn
+          anonymousConsentsService.isConsentWithdrawn,
         ).not.toHaveBeenCalled();
         expect(userConsentService.isConsentWithdrawn).toHaveBeenCalledWith(
-          mockConsent
+          mockConsent,
         );
       });
     });
@@ -190,7 +190,7 @@ describe('ConsentService', () => {
 
         expect(result).toEqual(true);
         expect(anonymousConsentsService.isConsentGiven).toHaveBeenCalledWith(
-          mockAnonymousConsent
+          mockAnonymousConsent,
         );
         expect(userConsentService.isConsentGiven).not.toHaveBeenCalled();
       });
@@ -204,7 +204,7 @@ describe('ConsentService', () => {
 
         expect(result).toEqual(true);
         expect(userConsentService.isConsentGiven).toHaveBeenCalledWith(
-          mockConsent
+          mockConsent,
         );
         expect(anonymousConsentsService.isConsentGiven).not.toHaveBeenCalled();
       });
@@ -215,7 +215,7 @@ describe('ConsentService', () => {
     describe('when anonymous consent is provided', () => {
       it('should delegate to anonymousConsentsService.isConsentWithdrawn()', () => {
         spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValue(
-          true
+          true,
         );
         spyOn(userConsentService, 'isConsentWithdrawn').and.stub();
 
@@ -223,7 +223,7 @@ describe('ConsentService', () => {
 
         expect(result).toEqual(true);
         expect(
-          anonymousConsentsService.isConsentWithdrawn
+          anonymousConsentsService.isConsentWithdrawn,
         ).toHaveBeenCalledWith(mockAnonymousConsent);
         expect(userConsentService.isConsentWithdrawn).not.toHaveBeenCalled();
       });
@@ -237,10 +237,10 @@ describe('ConsentService', () => {
 
         expect(result).toEqual(true);
         expect(userConsentService.isConsentWithdrawn).toHaveBeenCalledWith(
-          mockConsent
+          mockConsent,
         );
         expect(
-          anonymousConsentsService.isConsentWithdrawn
+          anonymousConsentsService.isConsentWithdrawn,
         ).not.toHaveBeenCalled();
       });
     });

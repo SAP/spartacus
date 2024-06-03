@@ -17,7 +17,7 @@ describe('getLastValueSync', () => {
     uniteLatest([a, b, c])
       .pipe(
         take(3),
-        reduce((acc, curr) => [...acc, curr], [])
+        reduce((acc, curr) => [...acc, curr], []),
       )
       .subscribe((results) => {
         expect(results).toEqual([

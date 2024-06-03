@@ -29,7 +29,7 @@ import { CmsStructureOptions } from './cms-structure.model';
  * @param options.breakpoint the breakpoint is used to provide the page slot for a specific breakpoint
  */
 export function provideCmsStructure(
-  options: CmsStructureOptions
+  options: CmsStructureOptions,
 ): ValueProvider {
   return provideConfig({
     ...buildCmsStructure(options),

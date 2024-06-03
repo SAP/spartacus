@@ -51,7 +51,7 @@ export class PermissionFormComponent implements OnInit {
         if (units && units.length === 1) {
           this.form?.get('orgUnit.uid')?.setValue(units[0].id);
         }
-      })
+      }),
     );
 
   currencies$: Observable<Currency[]> = this.currencyService.getAll().pipe(
@@ -59,7 +59,7 @@ export class PermissionFormComponent implements OnInit {
       if (currency.length === 1) {
         this.form?.get('currency.isocode')?.setValue(currency[0]?.isocode);
       }
-    })
+    }),
   );
 
   types$: Observable<OrderApprovalPermissionType[] | undefined> =
@@ -71,7 +71,7 @@ export class PermissionFormComponent implements OnInit {
     protected itemService: ItemService<Permission>,
     protected unitService: OrgUnitService,
     protected currencyService: CurrencyService,
-    protected permissionService: PermissionService
+    protected permissionService: PermissionService,
   ) {}
 
   ngOnInit(): void {

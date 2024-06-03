@@ -46,7 +46,7 @@ export class SuggestedAddressDialogComponent implements OnInit {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
+    protected el: ElementRef,
   ) {}
 
   ngOnInit(): void {

@@ -37,18 +37,16 @@ describe('MessageComponent', () => {
   let fixture: ComponentFixture<MessageComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          MessageComponent,
-          MockCxIconComponent,
-          MockAtMessageDirective,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        MessageComponent,
+        MockCxIconComponent,
+        MockAtMessageDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MessageComponent);
@@ -78,7 +76,7 @@ describe('MessageComponent', () => {
   it('should show <ng-content> content', () => {
     const testFixture = TestBed.createComponent(TestHostComponent);
     const element = testFixture.debugElement.query(
-      By.css('cx-message')
+      By.css('cx-message'),
     ).nativeElement;
     expect(element.textContent).toEqual('Test');
   });
@@ -98,7 +96,7 @@ describe('MessageComponent', () => {
     fixture.detectChanges();
 
     const text = el.query(
-      By.css('.cx-message .cx-message-header .cx-message-text')
+      By.css('.cx-message .cx-message-header .cx-message-text'),
     ).nativeElement;
 
     expect(text.textContent).toEqual(' Test ');
@@ -110,7 +108,7 @@ describe('MessageComponent', () => {
     fixture.detectChanges();
 
     const button = el.query(
-      By.css('.cx-message .cx-action-link')
+      By.css('.cx-message .cx-action-link'),
     ).nativeElement;
     button.click();
 

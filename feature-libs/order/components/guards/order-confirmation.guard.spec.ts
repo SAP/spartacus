@@ -53,7 +53,7 @@ describe(`OrderConfirmationGuard`, () => {
   describe(`when there is order details present`, () => {
     it(`should return true`, (done) => {
       orderFacade.getOrderDetails = createSpy().and.returnValue(
-        of({ code: 'test order' })
+        of({ code: 'test order' }),
       );
 
       guard.canActivate().subscribe((result) => {

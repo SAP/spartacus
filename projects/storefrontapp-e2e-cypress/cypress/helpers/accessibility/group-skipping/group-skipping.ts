@@ -20,7 +20,7 @@ export function verifyGroupSkippingFromConfig(config: GroupSkippingConfig) {
 }
 
 export function verifyGroupSkippingOnPageFromConfig(
-  config: GroupSkippingPageConfig
+  config: GroupSkippingPageConfig,
 ) {
   cy.visit(config.pageUrl);
 
@@ -28,7 +28,7 @@ export function verifyGroupSkippingOnPageFromConfig(
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/cms/components`,
   }).as('getComponents');
 

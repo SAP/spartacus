@@ -36,14 +36,14 @@ export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
     protected config: Config,
     protected userIdService: UserIdService,
     @Inject(OCC_USER_ID_CONSTANTS)
-    protected userIdConstants: { [identifier: string]: string }
+    protected userIdConstants: { [identifier: string]: string },
   ) {
     this.uniqueUserIdConstants = new Set(Object.values(userIdConstants));
   }
 
   intercept(
     httpRequest: HttpRequest<unknown>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     // Casting as <AsmConfig> to avoid circular dependencies with @spartacus/asm/core.
     if (!(<AsmConfig>this.config).asm?.userIdHttpHeader?.enable) {
@@ -61,8 +61,8 @@ export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
         .takeUserId()
         .pipe(
           map((userId) =>
-            this.uniqueUserIdConstants.has(userId) ? undefined : userId
-          )
+            this.uniqueUserIdConstants.has(userId) ? undefined : userId,
+          ),
         );
     } else {
       return next.handle(httpRequest);
@@ -79,7 +79,7 @@ export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
         } else {
           return next.handle(httpRequest);
         }
-      })
+      }),
     );
   }
 }

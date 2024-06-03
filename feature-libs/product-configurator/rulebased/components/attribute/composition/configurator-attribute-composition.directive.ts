@@ -28,7 +28,7 @@ export class ConfiguratorAttributeCompositionDirective implements OnInit {
 
   constructor(
     protected vcr: ViewContainerRef,
-    protected configuratorAttributeCompositionConfig: ConfiguratorAttributeCompositionConfig
+    protected configuratorAttributeCompositionConfig: ConfiguratorAttributeCompositionConfig,
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +50,7 @@ export class ConfiguratorAttributeCompositionDirective implements OnInit {
     } else {
       if (isDevMode()) {
         this.logger.warn(
-          'No attribute type component available for: ' + componentKey
+          'No attribute type component available for: ' + componentKey,
         );
       }
     }

@@ -46,7 +46,7 @@ export function clickContinueToCartBtnOnOP(): void {
 export function clickCloseBtnOnOP(
   backToPDP: boolean = true,
   backToCart: boolean = false,
-  backToCheckout: boolean = false
+  backToCheckout: boolean = false,
 ): void {
   cy.get(continueToCartButtonSelector)
     .click()
@@ -99,7 +99,7 @@ export function waitForNotificationBanner(numberOfIssues?: number): void {
  */
 export function checkGroupHeaderDisplayed(
   groupName: string,
-  groupIdx: number
+  groupIdx: number,
 ): void {
   cy.get('cx-configurator-overview-form .cx-group h2')
     .eq(groupIdx)
@@ -113,7 +113,7 @@ export function checkGroupHeaderDisplayed(
 export function checkGroupHeaderNotDisplayed(groupName: string): void {
   cy.get('cx-configurator-overview-form .cx-group').should(
     'not.contain.text',
-    groupName
+    groupName,
   );
 }
 
@@ -134,7 +134,7 @@ export function checkNumberOfGroupHeadersDisplayed(num: number): void {
 export function checkAttrDisplayed(
   attributeName: string,
   valueName: string,
-  attributeIdx: number
+  attributeIdx: number,
 ): void {
   cy.get('.cx-attribute-value-pair')
     .eq(attributeIdx)
@@ -146,7 +146,7 @@ export function checkAttrDisplayed(
       }
       cy.get('.cx-value-info, .cx-attribute-value').should(
         'contain.text',
-        valueName
+        valueName,
       );
     });
 }
@@ -166,7 +166,7 @@ export function checkNumberOfAttributesDisplayed(num: number): void {
  */
 export function checkAttrPriceDisplayed(
   priceString: string,
-  attributeIdx: number
+  attributeIdx: number,
 ): void {
   cy.get('.cx-attribute-value-pair')
     .eq(attributeIdx)
@@ -186,6 +186,6 @@ export function checkAttrPriceDisplayed(
 export function checkNumberOfAttributePricesDisplayed(num: number): void {
   cy.get('.cx-attribute-value-pair cx-configurator-price:visible').should(
     'have.length',
-    num
+    num,
   );
 }

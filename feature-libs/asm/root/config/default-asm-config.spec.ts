@@ -24,7 +24,7 @@ describe('defaultAsmConfig', () => {
         renderer = defaultAsmConfig.asm?.customerList?.columns?.find(
           (coumnDef) =>
             coumnDef.headerLocalizationKey ===
-            'asm.customerList.tableHeader.customer'
+            'asm.customerList.tableHeader.customer',
         )?.renderer as Renderer;
       });
 
@@ -53,7 +53,7 @@ describe('defaultAsmConfig', () => {
         renderer = defaultAsmConfig.asm?.customerList?.columns?.find(
           (coumnDef) =>
             coumnDef.headerLocalizationKey ===
-            'asm.customerList.tableHeader.email'
+            'asm.customerList.tableHeader.email',
         )?.renderer as Renderer;
       });
 
@@ -82,7 +82,7 @@ describe('defaultAsmConfig', () => {
         renderer = defaultAsmConfig.asm?.customerList?.columns?.find(
           (coumnDef) =>
             coumnDef.headerLocalizationKey ===
-            'asm.customerList.tableHeader.phone'
+            'asm.customerList.tableHeader.phone',
         )?.renderer as Renderer;
       });
 

@@ -41,7 +41,7 @@ export class ClearCartDialogComponent implements OnDestroy {
 
   constructor(
     protected el: ElementRef,
-    protected clearCartDialogComponentService: ClearCartDialogComponentService
+    protected clearCartDialogComponentService: ClearCartDialogComponentService,
   ) {}
 
   clearCart(): void {

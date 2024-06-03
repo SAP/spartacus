@@ -187,13 +187,13 @@ describe('QuoteListComponent', () => {
     CommonQuoteTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'cx-sorting'
+      'cx-sorting',
     );
 
     CommonQuoteTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '#quote-list'
+      '#quote-list',
     );
   });
 
@@ -207,13 +207,13 @@ describe('QuoteListComponent', () => {
     CommonQuoteTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-empty'
+      '.cx-empty',
     );
     CommonQuoteTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-empty',
-      'quote.list.empty'
+      'quote.list.empty',
     );
   });
 
@@ -231,18 +231,18 @@ describe('QuoteListComponent', () => {
       expect,
       htmlElem,
       'cx-pagination',
-      2
+      2,
     );
   });
   describe('getQuoteStateClass', () => {
     it('should find proper style class for quote state', () => {
       expect(
-        component.getQuoteStateClass(QuoteState.SELLERAPPROVER_DRAFT)
+        component.getQuoteStateClass(QuoteState.SELLERAPPROVER_DRAFT),
       ).toBe('quote-draft');
     });
     it('should find proper style class for quote state in case quote state does not contain underscore', () => {
       expect(component.getQuoteStateClass(QuoteState.EXPIRED)).toBe(
-        'quote-expired'
+        'quote-expired',
       );
     });
   });
@@ -262,7 +262,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-created',
-        'quote.states.CREATED'
+        'quote.states.CREATED',
       );
     });
 
@@ -280,7 +280,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-draft',
-        'quote.states.SELLERAPPROVER_DRAFT'
+        'quote.states.SELLERAPPROVER_DRAFT',
       );
     });
 
@@ -298,7 +298,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-draft',
-        'quote.states.BUYER_DRAFT'
+        'quote.states.BUYER_DRAFT',
       );
     });
 
@@ -316,7 +316,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-draft',
-        'quote.states.SELLER_DRAFT'
+        'quote.states.SELLER_DRAFT',
       );
     });
 
@@ -334,7 +334,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-submitted',
-        'quote.states.BUYER_SUBMITTED'
+        'quote.states.BUYER_SUBMITTED',
       );
     });
 
@@ -352,7 +352,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-submitted',
-        'quote.states.SELLER_SUBMITTED'
+        'quote.states.SELLER_SUBMITTED',
       );
     });
 
@@ -370,7 +370,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-accepted',
-        'quote.states.BUYER_ACCEPTED'
+        'quote.states.BUYER_ACCEPTED',
       );
     });
 
@@ -388,7 +388,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-approved',
-        'quote.states.BUYER_APPROVED'
+        'quote.states.BUYER_APPROVED',
       );
     });
 
@@ -406,7 +406,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-approved',
-        'quote.states.SELLERAPPROVER_APPROVED'
+        'quote.states.SELLERAPPROVER_APPROVED',
       );
     });
 
@@ -424,7 +424,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-rejected',
-        'quote.states.BUYER_REJECTED'
+        'quote.states.BUYER_REJECTED',
       );
     });
 
@@ -442,7 +442,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-rejected',
-        'quote.states.SELLERAPPROVER_REJECTED'
+        'quote.states.SELLERAPPROVER_REJECTED',
       );
     });
 
@@ -460,7 +460,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-offer',
-        'quote.states.BUYER_OFFER'
+        'quote.states.BUYER_OFFER',
       );
     });
 
@@ -478,7 +478,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-ordered',
-        'quote.states.BUYER_ORDERED'
+        'quote.states.BUYER_ORDERED',
       );
     });
 
@@ -496,7 +496,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-request',
-        'quote.states.SELLER_REQUEST'
+        'quote.states.SELLER_REQUEST',
       );
     });
 
@@ -514,7 +514,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-pending',
-        'quote.states.SELLERAPPROVER_PENDING'
+        'quote.states.SELLERAPPROVER_PENDING',
       );
     });
 
@@ -532,7 +532,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-cancelled',
-        'quote.states.CANCELLED'
+        'quote.states.CANCELLED',
       );
     });
 
@@ -550,7 +550,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'tbody tr:first-child .cx-status  span.quote-expired',
-        'quote.states.EXPIRED'
+        'quote.states.EXPIRED',
       );
     });
   });
@@ -569,79 +569,79 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-sort-top'
+        '.cx-ghost-sort-top',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-title'
+        '.cx-ghost-title',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-select'
+        '.cx-ghost-select',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-table'
+        '.cx-ghost-table',
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-row',
-        8
+        8,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-name',
-        8
+        8,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-id',
-        8
+        8,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-status',
-        8
+        8,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-updated-date',
-        8
+        8,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-nav-caret',
-        8
+        8,
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-sort-bottom'
+        '.cx-ghost-sort-bottom',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-pagination'
+        '.cx-ghost-pagination',
       );
     });
   });
@@ -675,14 +675,14 @@ describe('QuoteListComponent', () => {
           htmlElem,
           'div',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'role',
-        'region'
+        'region',
       );
     });
 
@@ -692,14 +692,14 @@ describe('QuoteListComponent', () => {
           htmlElem,
           'div',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'aria-label',
-        'quote.list.regionTitle'
+        'quote.list.regionTitle',
       );
     });
 
@@ -709,14 +709,14 @@ describe('QuoteListComponent', () => {
           htmlElem,
           'table',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'aria-describedby',
-        'quote-list-desc'
+        'quote-list-desc',
       );
     });
 
@@ -725,7 +725,7 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         'caption.cx-visually-hidden',
-        'quote.list.title'
+        'quote.list.title',
       );
     });
 
@@ -735,14 +735,14 @@ describe('QuoteListComponent', () => {
           htmlElem,
           'thead',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'role',
-        'rowgroup'
+        'rowgroup',
       );
     });
 
@@ -752,14 +752,14 @@ describe('QuoteListComponent', () => {
           htmlElem,
           'tbody',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'role',
-        'rowgroup'
+        'rowgroup',
       );
     });
 
@@ -769,14 +769,14 @@ describe('QuoteListComponent', () => {
           htmlElem,
           'th',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'role',
-        'columnheader'
+        'columnheader',
       );
     });
 
@@ -786,14 +786,14 @@ describe('QuoteListComponent', () => {
           htmlElem,
           'th',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'aria-sort',
-        'none'
+        'none',
       );
     });
 
@@ -803,14 +803,14 @@ describe('QuoteListComponent', () => {
           htmlElem,
           'tr',
           '',
-          1
+          1,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'role',
-        'row'
+        'row',
       );
     });
 
@@ -818,14 +818,14 @@ describe('QuoteListComponent', () => {
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
           htmlElem,
-          'cx-icon'
+          'cx-icon',
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'aria-label',
-        'quote.list.clickableRow'
+        'quote.list.clickableRow',
       );
     });
 
@@ -835,14 +835,14 @@ describe('QuoteListComponent', () => {
           htmlElem,
           'td',
           'cx-name',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'role',
-        'cell'
+        'cell',
       );
     });
   });

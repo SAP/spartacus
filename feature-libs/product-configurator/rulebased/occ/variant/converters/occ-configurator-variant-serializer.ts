@@ -21,7 +21,7 @@ export class OccConfiguratorVariantSerializer
 
   convert(
     source: Configurator.Configuration,
-    target?: OccConfigurator.Configuration
+    target?: OccConfigurator.Configuration,
   ): OccConfigurator.Configuration {
     const resultGroups: OccConfigurator.Group[] = [];
     source.groups.forEach((group) => this.convertGroup(group, resultGroups));
@@ -43,12 +43,12 @@ export class OccConfiguratorVariantSerializer
 
     if (source.attributes) {
       source.attributes.forEach((attribute) =>
-        this.convertAttribute(attribute, resultAttributes)
+        this.convertAttribute(attribute, resultAttributes),
       );
     }
     if (source.subGroups) {
       source.subGroups.forEach((subGroup) =>
-        this.convertGroup(subGroup, resultSubGroups)
+        this.convertGroup(subGroup, resultSubGroups),
       );
     }
 
@@ -57,7 +57,7 @@ export class OccConfiguratorVariantSerializer
       id: source.id,
       configurable: source.configurable,
       groupType: this.convertGroupType(
-        source.groupType ?? Configurator.GroupType.ATTRIBUTE_GROUP
+        source.groupType ?? Configurator.GroupType.ATTRIBUTE_GROUP,
       ),
       description: source.description,
       attributes: resultAttributes,
@@ -72,14 +72,14 @@ export class OccConfiguratorVariantSerializer
   }
 
   protected getRetractedValue(
-    attribute: Configurator.Attribute
+    attribute: Configurator.Attribute,
   ): string | undefined {
     return attribute.values?.find((value) => value.selected)?.valueCode;
   }
 
   protected retractValue(
     attribute: Configurator.Attribute,
-    targetAttribute: OccConfigurator.Attribute
+    targetAttribute: OccConfigurator.Attribute,
   ) {
     if (!this.isRetractValue(attribute)) {
       targetAttribute.value = attribute.selectedSingleValue;
@@ -91,7 +91,7 @@ export class OccConfiguratorVariantSerializer
 
   convertAttribute(
     attribute: Configurator.Attribute,
-    occAttributes: OccConfigurator.Attribute[]
+    occAttributes: OccConfigurator.Attribute[],
   ): void {
     const targetAttribute: OccConfigurator.Attribute = {
       key: attribute.name,
@@ -100,7 +100,7 @@ export class OccConfiguratorVariantSerializer
       required: attribute.required,
       retractTriggered: attribute.retractTriggered,
       type: this.convertCharacteristicType(
-        attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
+        attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED,
       ),
     };
 
@@ -193,7 +193,7 @@ export class OccConfiguratorVariantSerializer
   }
 
   convertGroupType(
-    groupType: Configurator.GroupType
+    groupType: Configurator.GroupType,
   ): OccConfigurator.GroupType {
     switch (groupType) {
       case Configurator.GroupType.ATTRIBUTE_GROUP:

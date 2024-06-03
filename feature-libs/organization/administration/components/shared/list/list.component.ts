@@ -40,7 +40,7 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   constructor(
     protected service: ListService<T, P>,
-    protected organizationItemService: ItemService<T>
+    protected organizationItemService: ItemService<T>,
   ) {
     useFeatureStyles('a11yOrganizationListHeadingOrder');
     useFeatureStyles('a11yListOversizedFocus');
@@ -74,7 +74,7 @@ export class ListComponent<T = any, P = PaginationModel> {
       tap((data) => {
         this.sortCode = data?.pagination?.sort;
         this.hasGhostData = this.service.hasGhostData(data);
-      })
+      }),
     );
 
   @Input() key = this.service.key();

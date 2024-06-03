@@ -55,7 +55,7 @@ export class ReplenishmentOrderCancellationDialogComponent
     protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
     protected globalMessageService: GlobalMessageService,
     protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
+    protected el: ElementRef,
   ) {}
 
   ngOnInit(): void {
@@ -68,20 +68,20 @@ export class ReplenishmentOrderCancellationDialogComponent
       ]).subscribe(([replenishmentOrder, code]) => {
         this.replenishmentOrderCode =
           code || replenishmentOrder?.replenishmentOrderCode;
-      })
+      }),
     );
 
     this.subscription.add(
       this.replenishmentOrderHistoryFacade
         .getCancelReplenishmentOrderSuccess()
-        .subscribe((value) => this.onSuccess(value))
+        .subscribe((value) => this.onSuccess(value)),
     );
   }
 
   onSuccess(value: boolean): void {
     if (value) {
       this.launchDialogService.closeDialog(
-        'Successffully cancelled replenishment'
+        'Successffully cancelled replenishment',
       );
 
       this.globalMessageService.add(
@@ -91,7 +91,7 @@ export class ReplenishmentOrderCancellationDialogComponent
             replenishmentOrderCode: this.replenishmentOrderCode,
           },
         },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     }
     this.replenishmentOrderHistoryFacade.clearCancelReplenishmentOrderProcessState();
@@ -103,7 +103,7 @@ export class ReplenishmentOrderCancellationDialogComponent
 
   cancelReplenishment(): void {
     this.replenishmentOrderHistoryFacade.cancelReplenishmentOrder(
-      this.replenishmentOrderCode
+      this.replenishmentOrderCode,
     );
   }
 

@@ -14,7 +14,7 @@ import { SiteContextConfig } from './site-context-config';
  */
 export function getContextParameterValues(
   config: SiteContextConfig,
-  parameter: string
+  parameter: string,
 ): string[] {
   return (config.context && config.context[parameter]) || [];
 }
@@ -27,7 +27,7 @@ export function getContextParameterValues(
  */
 export function getContextParameterDefault(
   config: SiteContextConfig,
-  parameter: string
+  parameter: string,
 ): string | undefined {
   const param = getContextParameterValues(config, parameter);
   return param && param.length ? param[0] : undefined;

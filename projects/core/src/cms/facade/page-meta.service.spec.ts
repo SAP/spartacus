@@ -249,7 +249,7 @@ describe('PageMetaService', () => {
 
     it('should resolve page heading', () => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(
-        of(mockContentPageWithTemplate)
+        of(mockContentPageWithTemplate),
       );
       let result: PageMeta | null;
       service

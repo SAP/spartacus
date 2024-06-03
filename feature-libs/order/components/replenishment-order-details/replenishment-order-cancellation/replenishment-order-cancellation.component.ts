@@ -34,14 +34,14 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
   constructor(
     protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {}
 
   openDialog() {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.REPLENISHMENT_ORDER,
       this.element,
-      this.vcr
+      this.vcr,
     );
 
     if (dialog) {

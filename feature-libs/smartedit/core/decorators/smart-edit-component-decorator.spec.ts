@@ -34,7 +34,7 @@ describe('SmartEditComponentDecorator', () => {
     expect(smartEditService.addSmartEditContract).toHaveBeenCalledWith(
       null,
       null,
-      component.properties
+      component.properties,
     );
   });
 });

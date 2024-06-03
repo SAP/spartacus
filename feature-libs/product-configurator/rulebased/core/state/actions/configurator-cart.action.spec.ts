@@ -81,7 +81,7 @@ describe('ConfiguratorCartActions', () => {
 
         meta: StateUtils.entityProcessesIncrementMeta(
           MULTI_CART_DATA,
-          params.cartId
+          params.cartId,
         ),
       });
     });

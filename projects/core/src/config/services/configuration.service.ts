@@ -43,7 +43,7 @@ export class ConfigurationService implements OnDestroy {
     @Inject(RootConfig) protected rootConfig: Config,
     @Inject(DefaultConfig) protected defaultConfig: Config,
     protected unifiedInjector: UnifiedInjector,
-    config: Config
+    config: Config,
   ) {
     this.config = config;
     this.unifiedConfig$ = new BehaviorSubject(config);
@@ -57,19 +57,19 @@ export class ConfigurationService implements OnDestroy {
   private feedUnifiedConfig(): Observable<[Config[], Config[]]> {
     const configChunks$: Observable<Config[]> = this.unifiedInjector.get(
       ConfigChunk,
-      []
+      [],
     );
     const defaultConfigChunks$: Observable<Config[]> = this.unifiedInjector.get(
       DefaultConfigChunk,
-      []
+      [],
     );
 
     return zip(configChunks$, defaultConfigChunks$).pipe(
       // we don't need result from the root injector
       skip(1),
       tap(([configChunks, defaultConfigChunks]) =>
-        this.processConfig(configChunks, defaultConfigChunks)
-      )
+        this.processConfig(configChunks, defaultConfigChunks),
+      ),
     );
   }
 
@@ -77,7 +77,7 @@ export class ConfigurationService implements OnDestroy {
     if (defaultConfigChunks?.length) {
       deepMerge(
         this.ambientDefaultConfig as Record<string, unknown>,
-        ...defaultConfigChunks
+        ...defaultConfigChunks,
       );
     }
     if (configChunks.length) {
@@ -95,7 +95,7 @@ export class ConfigurationService implements OnDestroy {
       this.defaultConfig,
       this.ambientDefaultConfig,
       this.ambientConfig,
-      this.rootConfig
+      this.rootConfig,
     );
     (this.unifiedConfig$ as BehaviorSubject<Config>).next(newConfig);
 

@@ -18,7 +18,7 @@ const verificationToken: VerificationToken = {
 
 class MockUserAdapter implements UserAccountAdapter {
   createVerificationToken = createSpy('createVerificationToken').and.callFake(
-    () => of(verificationToken)
+    () => of(verificationToken),
   );
   load = createSpy('load').and.callFake((userId) => of(`load-${userId}`));
 }
@@ -57,7 +57,7 @@ describe('UserConnector', () => {
       .subscribe((res) => (result = res));
     expect(result).toEqual(verificationToken);
     expect(adapter.createVerificationToken).toHaveBeenCalledWith(
-      verificationTokenCreation
+      verificationTokenCreation,
     );
   });
 });

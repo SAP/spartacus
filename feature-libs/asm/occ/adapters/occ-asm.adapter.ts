@@ -43,7 +43,7 @@ export class OccAsmAdapter implements AsmAdapter {
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService,
     protected config: AsmConfig,
-    protected baseSiteService: BaseSiteService
+    protected baseSiteService: BaseSiteService,
   ) {
     this.baseSiteService
       .getActive()
@@ -54,7 +54,7 @@ export class OccAsmAdapter implements AsmAdapter {
     return InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,
-      new HttpHeaders()
+      new HttpHeaders(),
     );
   }
 
@@ -62,7 +62,7 @@ export class OccAsmAdapter implements AsmAdapter {
     const headers = this.getHeaders();
     const params: HttpParams = new HttpParams().set(
       'baseSite',
-      this.activeBaseSite
+      this.activeBaseSite,
     );
 
     const url = this.occEndpointsService.buildUrl(
@@ -71,24 +71,24 @@ export class OccAsmAdapter implements AsmAdapter {
       {
         baseSite: false,
         prefix: false,
-      }
+      },
     );
 
     return this.http.get<CustomerListsPage>(url, { headers, params }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       }),
-      this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER)
+      this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER),
     );
   }
 
   customerSearch(
-    options: CustomerSearchOptions
+    options: CustomerSearchOptions,
   ): Observable<CustomerSearchPage> {
     const headers = this.getHeaders();
     let params: HttpParams = new HttpParams().set(
       'baseSite',
-      this.activeBaseSite
+      this.activeBaseSite,
     );
 
     if (options.sort !== undefined) {
@@ -121,14 +121,14 @@ export class OccAsmAdapter implements AsmAdapter {
       {
         baseSite: false,
         prefix: false,
-      }
+      },
     );
 
     return this.http.get<CustomerSearchPage>(url, { headers, params }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       }),
-      this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER)
+      this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER),
     );
   }
 
@@ -136,11 +136,14 @@ export class OccAsmAdapter implements AsmAdapter {
     const headers = InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,
-      new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+      new HttpHeaders().set(
+        'Content-Type',
+        'application/x-www-form-urlencoded',
+      ),
     );
     const params: HttpParams = new HttpParams().set(
       'baseSite',
-      this.activeBaseSite
+      this.activeBaseSite,
     );
 
     const body = new URLSearchParams();
@@ -153,13 +156,13 @@ export class OccAsmAdapter implements AsmAdapter {
       {
         baseSite: false,
         prefix: false,
-      }
+      },
     );
 
     return this.http.post<void>(url, body, { headers, params }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 
@@ -167,7 +170,7 @@ export class OccAsmAdapter implements AsmAdapter {
     const headers = this.getHeaders();
     const params: HttpParams = new HttpParams().set(
       'baseSite',
-      this.activeBaseSite
+      this.activeBaseSite,
     );
 
     const url = this.occEndpointsService.buildUrl(
@@ -176,12 +179,12 @@ export class OccAsmAdapter implements AsmAdapter {
       {
         baseSite: false,
         prefix: false,
-      }
+      },
     );
     return this.http.post<User>(url, user, { headers, params }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 }

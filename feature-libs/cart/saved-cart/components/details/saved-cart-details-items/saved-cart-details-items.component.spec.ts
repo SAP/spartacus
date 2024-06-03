@@ -67,7 +67,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(
     _text: string | Translatable,
     _type: GlobalMessageType,
-    _timeout?: number
+    _timeout?: number,
   ): void {}
 }
 
@@ -79,46 +79,44 @@ describe('SavedCartDetailsItemsComponent', () => {
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [StoreModule.forRoot({}), I18nTestingModule, OutletModule],
-        declarations: [SavedCartDetailsItemsComponent],
-        providers: [
-          {
-            provide: SavedCartFacade,
-            useClass: MockSavedCartFacade,
-          },
-          {
-            provide: EventService,
-            useClass: MockEventService,
-          },
-          {
-            provide: SavedCartDetailsService,
-            useClass: MockSavedCartDetailsService,
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot({}), I18nTestingModule, OutletModule],
+      declarations: [SavedCartDetailsItemsComponent],
+      providers: [
+        {
+          provide: SavedCartFacade,
+          useClass: MockSavedCartFacade,
+        },
+        {
+          provide: EventService,
+          useClass: MockEventService,
+        },
+        {
+          provide: SavedCartDetailsService,
+          useClass: MockSavedCartDetailsService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(SavedCartDetailsItemsComponent);
-      component = fixture.componentInstance;
+    fixture = TestBed.createComponent(SavedCartDetailsItemsComponent);
+    component = fixture.componentInstance;
 
-      savedCartFacade = TestBed.inject(SavedCartFacade);
-      eventService = TestBed.inject(EventService);
-      globalMessageService = TestBed.inject(GlobalMessageService);
-      routingService = TestBed.inject(RoutingService);
+    savedCartFacade = TestBed.inject(SavedCartFacade);
+    eventService = TestBed.inject(EventService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    routingService = TestBed.inject(RoutingService);
 
-      spyOn(routingService, 'go').and.callThrough();
-      spyOn(globalMessageService, 'add').and.callThrough();
-      spyOn(savedCartFacade, 'deleteSavedCart').and.callThrough();
+    spyOn(routingService, 'go').and.callThrough();
+    spyOn(globalMessageService, 'add').and.callThrough();
+    spyOn(savedCartFacade, 'deleteSavedCart').and.callThrough();
 
-      cart$.next(mockSavedCart);
+    cart$.next(mockSavedCart);
 
-      fixture.detectChanges();
-    })
-  );
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -140,7 +138,7 @@ describe('SavedCartDetailsItemsComponent', () => {
     });
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'savedCartDialog.deleteCartSuccess' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
   });
 
@@ -167,7 +165,7 @@ describe('SavedCartDetailsItemsComponent', () => {
       .subscribe((savedCart) => {
         expect(savedCart).toEqual(mockEmptyEntriesCart);
         expect(savedCartFacade.deleteSavedCart).toHaveBeenCalledWith(
-          mockCartId
+          mockCartId,
         );
       })
       .unsubscribe();

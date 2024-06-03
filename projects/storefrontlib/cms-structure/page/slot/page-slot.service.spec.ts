@@ -67,7 +67,7 @@ describe('PageSlotService', () => {
 
       pageSlotService.getComponentDeferOptions('test-slot', 'test-component');
       expect(cmsComponentsService.getDeferLoadingStrategy).toHaveBeenCalledWith(
-        'test-component'
+        'test-component',
       );
     });
 

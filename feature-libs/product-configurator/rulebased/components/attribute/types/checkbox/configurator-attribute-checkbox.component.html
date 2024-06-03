@@ -15,7 +15,7 @@
             class="form-check-input"
             [value]="attributeValue.valueCode"
             [cxFocus]="{
-              key: attribute.name + '-' + attributeValue.name
+              key: attribute.name + '-' + attributeValue.name,
             }"
             (change)="onSelect()"
             [formControl]="attributeCheckBoxForm"
@@ -28,13 +28,13 @@
                     : {
                         value: attributeValue.valueDisplay,
                         attribute: attribute.label,
-                        price: attributeValue.valuePrice.formattedValue
+                        price: attributeValue.valuePrice.formattedValue,
                       })
                 : ('configurator.a11y.valueOfAttributeFull'
                   | cxTranslate
                     : {
                         value: attributeValue.valueDisplay,
-                        attribute: attribute.label
+                        attribute: attribute.label,
                       })
             "
             [attr.aria-describedby]="

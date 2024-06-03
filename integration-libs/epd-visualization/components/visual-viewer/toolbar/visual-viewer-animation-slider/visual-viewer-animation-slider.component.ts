@@ -24,7 +24,7 @@ import { VisualViewerAnimationSliderService } from './visual-viewer-animation-sl
 })
 export class VisualViewerAnimationSliderComponent implements AfterViewInit {
   constructor(
-    protected visualViewerAnimationSliderService: VisualViewerAnimationSliderService
+    protected visualViewerAnimationSliderService: VisualViewerAnimationSliderService,
   ) {}
 
   ngAfterViewInit(): void {

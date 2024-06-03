@@ -36,7 +36,7 @@ export class CheckoutB2BAuthGuard extends CheckoutAuthGuard {
     protected semanticPathService: SemanticPathService,
     protected router: Router,
     protected userAccountFacade: UserAccountFacade,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {
     super(
       authService,
@@ -44,7 +44,7 @@ export class CheckoutB2BAuthGuard extends CheckoutAuthGuard {
       checkoutConfigService,
       activeCartFacade,
       semanticPathService,
-      router
+      router,
     );
   }
 
@@ -71,7 +71,7 @@ export class CheckoutB2BAuthGuard extends CheckoutAuthGuard {
           return this.handleUserRole(data.user);
         }
         return data.isLoggedIn;
-      })
+      }),
     );
   }
 
@@ -82,7 +82,7 @@ export class CheckoutB2BAuthGuard extends CheckoutAuthGuard {
     }
     this.globalMessageService.add(
       { key: 'checkoutB2B.invalid.accountType' },
-      GlobalMessageType.MSG_TYPE_WARNING
+      GlobalMessageType.MSG_TYPE_WARNING,
     );
     return this.router.parseUrl(this.semanticPathService.get('home') ?? '');
   }

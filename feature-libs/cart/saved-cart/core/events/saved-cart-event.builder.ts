@@ -38,7 +38,7 @@ export class SavedCartEventBuilder {
     protected actionsSubject: ActionsSubject,
     protected eventService: EventService,
     protected stateEventService: StateEventService,
-    protected multiCartService: MultiCartFacade
+    protected multiCartService: MultiCartFacade,
   ) {
     this.register();
   }
@@ -163,13 +163,13 @@ export class SavedCartEventBuilder {
    * @returns
    */
   protected buildRestoreSavedCartEvents<T>(
-    mapping: ActionToEventMapping<T>
+    mapping: ActionToEventMapping<T>,
   ): () => void {
     const eventStream$ = this.getAction(mapping.action).pipe(
       switchMap((action) =>
         of(action).pipe(
-          withLatestFrom(this.multiCartService.getCart(action.payload.cartId))
-        )
+          withLatestFrom(this.multiCartService.getCart(action.payload.cartId)),
+        ),
       ),
       map(([action, cart]) =>
         createFrom(mapping.event as Type<T>, {
@@ -178,8 +178,8 @@ export class SavedCartEventBuilder {
           saveCartName: cart.name,
           saveCartDescription: cart.description,
           ...(cart.saveTime && { saveTime: cart.saveTime }),
-        })
-      )
+        }),
+      ),
     );
     return this.eventService.register(mapping.event as Type<T>, eventStream$);
   }
@@ -191,13 +191,13 @@ export class SavedCartEventBuilder {
    * @returns events register function
    */
   protected buildSaveCartSuccessEvent<T>(
-    mapping: ActionToEventMapping<T>
+    mapping: ActionToEventMapping<T>,
   ): () => void {
     const eventStream$ = this.getAction(mapping.action).pipe(
       switchMap((action) =>
         of(action).pipe(
-          withLatestFrom(this.multiCartService.getCart(action.payload.cartId))
-        )
+          withLatestFrom(this.multiCartService.getCart(action.payload.cartId)),
+        ),
       ),
       filter(([, cart]) => Boolean(cart)),
       map(([action, cart]) =>
@@ -205,8 +205,8 @@ export class SavedCartEventBuilder {
           ...action.payload,
           cartCode: cart.code,
           saveTime: cart.saveTime,
-        })
-      )
+        }),
+      ),
     );
     return this.eventService.register(mapping.event as Type<T>, eventStream$);
   }
@@ -217,10 +217,10 @@ export class SavedCartEventBuilder {
    * @param actionType type(s) of actions
    */
   protected getAction(
-    actionType: string | string[]
+    actionType: string | string[],
   ): Observable<{ type: string; payload?: any }> {
     return this.actionsSubject.pipe(
-      ofType(...([] as string[]).concat(actionType))
+      ofType(...([] as string[]).concat(actionType)),
     );
   }
 }

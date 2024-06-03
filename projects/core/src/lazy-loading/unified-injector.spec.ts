@@ -63,7 +63,7 @@ describe('UnifiedInjector', () => {
     });
     service = TestBed.inject(UnifiedInjector);
     lazyModules = TestBed.inject<MockLazyModulesService>(
-      LazyModulesService as any
+      LazyModulesService as any,
     );
   });
 
@@ -159,7 +159,7 @@ describe('UnifiedInjector', () => {
         delay(0), // postpone next step to next macro task to trigger asap emissions
         tap(() => {
           lazyModules.modules$.next(moduleInstanceWithTestMultiToken);
-        })
+        }),
       );
 
       service
@@ -186,7 +186,7 @@ describe('UnifiedInjector', () => {
         delay(0), // postpone next step to next macro task to trigger asap emissions
         tap(() => {
           lazyModules.modules$.next(moduleInstanceWithTestMultiToken);
-        })
+        }),
       );
 
       service

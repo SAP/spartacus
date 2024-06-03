@@ -43,7 +43,7 @@ export class AuthService {
     protected authStorageService: AuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected routingService: RoutingService,
-    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
+    protected authMultisiteIsolationService?: AuthMultisiteIsolationService,
   ) {}
 
   /**
@@ -90,14 +90,14 @@ export class AuthService {
     let uid = userId;
     if (this.authMultisiteIsolationService) {
       uid = await lastValueFrom(
-        this.authMultisiteIsolationService.decorateUserId(uid)
+        this.authMultisiteIsolationService.decorateUserId(uid),
       );
     }
 
     try {
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
         uid,
-        password
+        password,
       );
 
       // OCC specific user id handling. Customize when implementing different backend
@@ -116,12 +116,12 @@ export class AuthService {
    */
   async otpLoginWithCredentials(
     tokenId: string,
-    tokenCode: string
+    tokenCode: string,
   ): Promise<void> {
     try {
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
         tokenId,
-        tokenCode
+        tokenCode,
       );
 
       // OCC specific user id handling. Customize when implementing different backend
@@ -155,7 +155,7 @@ export class AuthService {
   isUserLoggedIn(): Observable<boolean> {
     return this.authStorageService.getToken().pipe(
       map((userToken) => Boolean(userToken?.access_token)),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 

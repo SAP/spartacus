@@ -37,10 +37,10 @@ export abstract class CmsStructureConfigService {
    */
   mergePageStructure(
     pageId: string,
-    pageStructure: CmsStructureModel
+    pageStructure: CmsStructureModel,
   ): Observable<CmsStructureModel> {
     return this.mergePage(pageId, pageStructure).pipe(
-      switchMap((page) => this.mergeSlots(page))
+      switchMap((page) => this.mergeSlots(page)),
     );
   }
 
@@ -55,7 +55,7 @@ export abstract class CmsStructureConfigService {
    */
   shouldIgnoreBackend(pageId: string): Observable<boolean> {
     return this.getPageFromConfig(pageId).pipe(
-      map((page) => !!page && !!page.ignoreBackend)
+      map((page) => !!page && !!page.ignoreBackend),
     );
   }
 
@@ -63,7 +63,7 @@ export abstract class CmsStructureConfigService {
    * returns an Observable component data from the static configuration.
    */
   getComponentFromConfig(
-    componentId: string
+    componentId: string,
   ): Observable<ContentSlotComponentData | any> {
     return of(this.getComponentById(componentId));
   }
@@ -72,7 +72,7 @@ export abstract class CmsStructureConfigService {
    * returns an Observable components data from the static configuration.
    */
   getComponentsFromConfig(
-    ids: string[]
+    ids: string[],
   ): Observable<ContentSlotComponentData[]> {
     return of(ids.map((id) => this.getComponentById(id)));
   }
@@ -81,12 +81,12 @@ export abstract class CmsStructureConfigService {
    * returns an observable with the `PageConfig`.
    */
   protected getPageFromConfig(
-    pageId: string
+    pageId: string,
   ): Observable<CmsPageConfig | undefined> {
     return of(
       this.cmsDataConfig.cmsStructure && this.cmsDataConfig.cmsStructure.pages
         ? this.cmsDataConfig.cmsStructure.pages.find((p) => p.pageId === pageId)
-        : undefined
+        : undefined,
     );
   }
 
@@ -97,7 +97,7 @@ export abstract class CmsStructureConfigService {
    */
   protected mergePage(
     pageId: string,
-    pageStructure: CmsStructureModel
+    pageStructure: CmsStructureModel,
   ): Observable<CmsStructureModel> {
     return this.getPageFromConfig(pageId).pipe(
       switchMap((page) => {
@@ -116,7 +116,7 @@ export abstract class CmsStructureConfigService {
         } else {
           return of(pageStructure);
         }
-      })
+      }),
     );
   }
 
@@ -129,7 +129,7 @@ export abstract class CmsStructureConfigService {
    */
   protected mergeSlots(
     pageStructure: CmsStructureModel,
-    slots?: CmsPageSlotsConfig
+    slots?: CmsPageSlotsConfig,
   ): Observable<CmsStructureModel> {
     // if no slots have been given, we use the global configured slots
     if (!slots && this.cmsDataConfig.cmsStructure?.slots) {
@@ -170,7 +170,7 @@ export abstract class CmsStructureConfigService {
 
   protected getComponentsByPosition(
     slots: CmsPageSlotsConfig,
-    position: string
+    position: string,
   ): ContentSlotComponentData[] {
     const components = [];
     if (slots[position] && slots[position].componentIds) {

@@ -215,43 +215,41 @@ describe('CustomerListComponent', () => {
   let config: AsmConfig;
   let asmCustomerListFacade: AsmCustomerListFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          CustomerListComponent,
-          MockCxIconComponent,
-          MockKeyboadFocusDirective,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
-          },
-          { provide: AsmConfig, useClass: MockAsmConfig },
-          {
-            provide: AsmCustomerListFacade,
-            useClass: MockAsmCustomerListFacade,
-          },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      }).compileComponents();
-      launchDialogService = TestBed.inject(LaunchDialogService);
-      config = TestBed.inject(AsmConfig);
-      breakpointService = TestBed.inject(BreakpointService);
-      asmCustomerListFacade = TestBed.inject(AsmCustomerListFacade);
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CustomerListComponent,
+        MockCxIconComponent,
+        MockKeyboadFocusDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+        { provide: AsmConfig, useClass: MockAsmConfig },
+        {
+          provide: AsmCustomerListFacade,
+          useClass: MockAsmCustomerListFacade,
+        },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
+    launchDialogService = TestBed.inject(LaunchDialogService);
+    config = TestBed.inject(AsmConfig);
+    breakpointService = TestBed.inject(BreakpointService);
+    asmCustomerListFacade = TestBed.inject(AsmCustomerListFacade);
 
-      spyOn(
-        asmCustomerListFacade,
-        'getCustomerListCustomersSearchResultsLoading'
-      ).and.returnValue(of(true));
-      spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-        new BehaviorSubject(BREAKPOINT.md)
-      );
-    })
-  );
+    spyOn(
+      asmCustomerListFacade,
+      'getCustomerListCustomersSearchResultsLoading',
+    ).and.returnValue(of(true));
+    spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+      new BehaviorSubject(BREAKPOINT.md),
+    );
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerListComponent);
@@ -268,14 +266,14 @@ describe('CustomerListComponent', () => {
     fixture.detectChanges();
 
     expect(component.selectedUserGroupId).toBe(
-      mockCustomerListPage?.userGroups?.[0].uid
+      mockCustomerListPage?.userGroups?.[0].uid,
     );
   });
 
   it('should use internal default when config is not defined', () => {
     spyOn(
       asmCustomerListFacade,
-      'customerListCustomersSearch'
+      'customerListCustomersSearch',
     ).and.callThrough();
     if (config?.asm?.customerList) {
       config.asm.customerList.pageSize = undefined;
@@ -289,7 +287,7 @@ describe('CustomerListComponent', () => {
   it('should use config for page size', () => {
     spyOn(
       asmCustomerListFacade,
-      'customerListCustomersSearch'
+      'customerListCustomersSearch',
     ).and.callThrough();
     const expectedSize = 7;
     if (config?.asm?.customerList) {
@@ -305,7 +303,7 @@ describe('CustomerListComponent', () => {
 
     expect(component.pageSize).toBe(expectedSize);
     expect(
-      asmCustomerListFacade.customerListCustomersSearch
+      asmCustomerListFacade.customerListCustomersSearch,
     ).toHaveBeenCalledWith(expectedOptions);
   });
 
@@ -313,14 +311,14 @@ describe('CustomerListComponent', () => {
     fixture.detectChanges();
     spyOn(
       asmCustomerListFacade,
-      'customerListCustomersSearch'
+      'customerListCustomersSearch',
     ).and.callThrough();
 
     component.changeSortCode('byNameAsc');
 
     expect(component.sortCode).toBe('byNameAsc');
     expect(
-      asmCustomerListFacade.customerListCustomersSearch
+      asmCustomerListFacade.customerListCustomersSearch,
     ).toHaveBeenCalledWith({
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
       pageSize: 5,
@@ -332,7 +330,7 @@ describe('CustomerListComponent', () => {
   it('should exclude sort code on request when empty', () => {
     spyOn(
       asmCustomerListFacade,
-      'customerListCustomersSearch'
+      'customerListCustomersSearch',
     ).and.callThrough();
     component.sortCode = '';
     const expectedOptions: CustomerSearchOptions = {
@@ -344,7 +342,7 @@ describe('CustomerListComponent', () => {
     fixture.detectChanges();
 
     expect(
-      asmCustomerListFacade.customerListCustomersSearch
+      asmCustomerListFacade.customerListCustomersSearch,
     ).toHaveBeenCalledWith(expectedOptions);
   });
 
@@ -353,12 +351,12 @@ describe('CustomerListComponent', () => {
     fixture.detectChanges();
     spyOn(
       asmCustomerListFacade,
-      'customerListCustomersSearch'
+      'customerListCustomersSearch',
     ).and.callThrough();
 
     component.onKey(enterKeyEvent);
     expect(
-      asmCustomerListFacade.customerListCustomersSearch
+      asmCustomerListFacade.customerListCustomersSearch,
     ).toHaveBeenCalledWith({
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
       pageSize: 5,
@@ -372,17 +370,17 @@ describe('CustomerListComponent', () => {
     component.onKey(badKeyEvent);
     spyOn(
       asmCustomerListFacade,
-      'customerListCustomersSearch'
+      'customerListCustomersSearch',
     ).and.callThrough();
     expect(
-      asmCustomerListFacade.customerListCustomersSearch
+      asmCustomerListFacade.customerListCustomersSearch,
     ).not.toHaveBeenCalled();
   });
 
   it('should close modal when select a customer', () => {
     component.startColumnAction(
       mockCustomer,
-      CustomerListColumnActionType.START_SESSION
+      CustomerListColumnActionType.START_SESSION,
     );
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith({
       selectedUser: mockCustomer,
@@ -405,11 +403,11 @@ describe('CustomerListComponent', () => {
       resultsPageController = new Subject();
       spyOn(
         asmCustomerListFacade,
-        'getCustomerListCustomersSearchResults'
+        'getCustomerListCustomersSearchResults',
       ).and.returnValue(resultsPageController.asObservable());
       spyOn(
         asmCustomerListFacade,
-        'customerListCustomersSearch'
+        'customerListCustomersSearch',
       ).and.callThrough();
 
       fixture.detectChanges();
@@ -476,7 +474,7 @@ describe('CustomerListComponent', () => {
       expect(component.currentPage).toBe(1);
       expect(component.maxPage).toBe(1);
       expect(
-        asmCustomerListFacade.customerListCustomersSearch
+        asmCustomerListFacade.customerListCustomersSearch,
       ).toHaveBeenCalledWith(expectedOptions);
     });
 
@@ -492,7 +490,7 @@ describe('CustomerListComponent', () => {
       expect(component.currentPage).toBe(1);
       expect(component.maxPage).toBe(1);
       expect(
-        asmCustomerListFacade.customerListCustomersSearch
+        asmCustomerListFacade.customerListCustomersSearch,
       ).not.toHaveBeenCalled();
     });
 
@@ -510,7 +508,7 @@ describe('CustomerListComponent', () => {
 
       expect(component.currentPage).toBe(0);
       expect(
-        asmCustomerListFacade.customerListCustomersSearch
+        asmCustomerListFacade.customerListCustomersSearch,
       ).toHaveBeenCalledWith(expectedOptions);
     });
 
@@ -525,7 +523,7 @@ describe('CustomerListComponent', () => {
 
       expect(component.currentPage).toBe(0);
       expect(
-        asmCustomerListFacade.customerListCustomersSearch
+        asmCustomerListFacade.customerListCustomersSearch,
       ).not.toHaveBeenCalled();
     });
   });
@@ -582,7 +580,7 @@ describe('CustomerListComponent', () => {
   it('should change to corresponding page when page changed with search query', () => {
     spyOn(
       asmCustomerListFacade,
-      'customerListCustomersSearch'
+      'customerListCustomersSearch',
     ).and.callThrough();
     component.searchBox.setValue(query.queryParams.query);
     component.changePage(1);
@@ -594,14 +592,14 @@ describe('CustomerListComponent', () => {
       query: component.searchBox?.value,
     };
     expect(
-      asmCustomerListFacade.customerListCustomersSearch
+      asmCustomerListFacade.customerListCustomersSearch,
     ).toHaveBeenCalledWith(expectedOptions);
   });
 
   it('should change to corresponding page when page changed without search query', () => {
     spyOn(
       asmCustomerListFacade,
-      'customerListCustomersSearch'
+      'customerListCustomersSearch',
     ).and.callThrough();
     component.changePage(1);
     const expectedOptions: CustomerSearchOptions = {
@@ -611,14 +609,14 @@ describe('CustomerListComponent', () => {
       sort: component.sortCode,
     };
     expect(
-      asmCustomerListFacade.customerListCustomersSearch
+      asmCustomerListFacade.customerListCustomersSearch,
     ).toHaveBeenCalledWith(expectedOptions);
   });
 
   it('should get user group name', () => {
     const userGroupName = component.getGroupName(
       mockCustomerListPage,
-      'instoreCustomers'
+      'instoreCustomers',
     );
     expect(userGroupName).toBe('Current In-Store Customers');
 
@@ -627,7 +625,7 @@ describe('CustomerListComponent', () => {
     };
     const userGroupName2 = component.getGroupName(
       customerListPage,
-      'instoreCustomers'
+      'instoreCustomers',
     );
     expect(userGroupName2).toBe('');
 
@@ -637,25 +635,25 @@ describe('CustomerListComponent', () => {
 
   it('should add mobile class', () => {
     (breakpointService.breakpoint$ as BehaviorSubject<BREAKPOINT>).next(
-      BREAKPOINT.xs
+      BREAKPOINT.xs,
     );
 
     fixture.detectChanges();
     // after removing feature flag, pagination part in Modal Foot also use the same css
     expect(
-      fixture.debugElement.queryAll(By.css('.cx-header-actions.mobile')).length
+      fixture.debugElement.queryAll(By.css('.cx-header-actions.mobile')).length,
     ).toEqual(2);
   });
 
   it('should add mobile class', () => {
     (breakpointService.breakpoint$ as BehaviorSubject<BREAKPOINT>).next(
-      BREAKPOINT.lg
+      BREAKPOINT.lg,
     );
 
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.queryAll(By.css('.cx-header-actions.mobile')).length
+      fixture.debugElement.queryAll(By.css('.cx-header-actions.mobile')).length,
     ).toEqual(0);
   });
 
@@ -666,7 +664,7 @@ describe('CustomerListComponent', () => {
       data: { userGroups: [] },
     };
     spyOn(asmCustomerListFacade, 'getCustomerListsState').and.returnValue(
-      of(emptyListsState)
+      of(emptyListsState),
     );
 
     fixture.detectChanges();
@@ -681,7 +679,7 @@ describe('CustomerListComponent', () => {
       data: undefined,
     };
     spyOn(asmCustomerListFacade, 'getCustomerListsState').and.returnValue(
-      of(errorListsState)
+      of(errorListsState),
     );
 
     fixture.detectChanges();
@@ -692,11 +690,11 @@ describe('CustomerListComponent', () => {
   it('should notify users when customer page fails', () => {
     spyOn(
       asmCustomerListFacade,
-      'getCustomerListCustomersSearchResultsError'
+      'getCustomerListCustomersSearchResultsError',
     ).and.returnValue(of(true));
     spyOn(
       asmCustomerListFacade,
-      'getCustomerListCustomersSearchResults'
+      'getCustomerListCustomersSearchResults',
     ).and.returnValue(of(undefined));
     let actual: boolean | undefined;
 
@@ -711,7 +709,7 @@ describe('CustomerListComponent', () => {
     component.createCustomer();
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      component.addNewCustomerLink
+      component.addNewCustomerLink,
     );
   });
 });

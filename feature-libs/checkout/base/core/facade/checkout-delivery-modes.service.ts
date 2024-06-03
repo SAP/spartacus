@@ -55,14 +55,14 @@ export class CheckoutDeliveryModesService
           switchMap(([userId, cartId]) =>
             this.checkoutDeliveryModesConnector.getSupportedModes(
               userId,
-              cartId
-            )
-          )
+              cartId,
+            ),
+          ),
         ),
       {
         reloadOn: this.getCheckoutSupportedDeliveryModesQueryReloadEvents(),
         resetOn: this.getCheckoutSupportedDeliveryModesQueryResetEvents(),
-      }
+      },
     );
 
   protected setDeliveryModeCommand: Command<string, unknown> =
@@ -76,15 +76,15 @@ export class CheckoutDeliveryModesService
                 tap(() => {
                   this.eventService.dispatch(
                     { userId, cartId, cartCode: cartId, deliveryModeCode },
-                    CheckoutDeliveryModeSetEvent
+                    CheckoutDeliveryModeSetEvent,
                   );
-                })
-              )
-          )
+                }),
+              ),
+          ),
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
-      }
+      },
     );
 
   protected clearDeliveryModeCommand: Command<void, unknown> =
@@ -107,7 +107,7 @@ export class CheckoutDeliveryModesService
                          */
                         cartCode: cartId,
                       },
-                      CheckoutDeliveryModeClearedEvent
+                      CheckoutDeliveryModeClearedEvent,
                     );
                   },
                   error: () => {
@@ -121,16 +121,16 @@ export class CheckoutDeliveryModesService
                          */
                         cartCode: cartId,
                       },
-                      CheckoutDeliveryModeClearedErrorEvent
+                      CheckoutDeliveryModeClearedErrorEvent,
                     );
                   },
-                })
-              )
-          )
+                }),
+              ),
+          ),
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
-      }
+      },
     );
 
   constructor(
@@ -140,7 +140,7 @@ export class CheckoutDeliveryModesService
     protected queryService: QueryService,
     protected commandService: CommandService,
     protected checkoutDeliveryModesConnector: CheckoutDeliveryModesConnector,
-    protected checkoutQueryFacade: CheckoutQueryFacade
+    protected checkoutQueryFacade: CheckoutQueryFacade,
   ) {}
 
   /**
@@ -162,7 +162,7 @@ export class CheckoutDeliveryModesService
           throw new Error('Checkout conditions not met');
         }
         return [userId, cartId];
-      })
+      }),
     );
   }
 
@@ -173,7 +173,7 @@ export class CheckoutDeliveryModesService
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return this.getSupportedDeliveryModesState().pipe(
       filter((state) => !state.loading),
-      map((state) => state.data ?? [])
+      map((state) => state.data ?? []),
     );
   }
 

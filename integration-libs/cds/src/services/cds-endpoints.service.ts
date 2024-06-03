@@ -18,7 +18,7 @@ export class CdsEndpointsService {
   getUrl(
     endpoint: string,
     urlParams: object = {},
-    queryParams?: object
+    queryParams?: object,
   ): string {
     if (this.cdsConfig?.cds?.endpoints[endpoint]) {
       endpoint = this.cdsConfig.cds.endpoints[endpoint];

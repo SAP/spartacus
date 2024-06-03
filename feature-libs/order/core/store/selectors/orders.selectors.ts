@@ -19,12 +19,12 @@ export const getOrdersLoaded: MemoizedSelector<StateWithOrder, boolean> =
   createSelector(
     getOrdersState,
     (state: StateUtils.LoaderState<OrderHistoryList>) =>
-      StateUtils.loaderSuccessSelector(state)
+      StateUtils.loaderSuccessSelector(state),
   );
 
 export const getOrders: MemoizedSelector<StateWithOrder, OrderHistoryList> =
   createSelector(
     getOrdersState,
     (state: StateUtils.LoaderState<OrderHistoryList>) =>
-      StateUtils.loaderValueSelector(state)
+      StateUtils.loaderValueSelector(state),
   );

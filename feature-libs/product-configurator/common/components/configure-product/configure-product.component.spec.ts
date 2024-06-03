@@ -68,7 +68,7 @@ let htmlElem: HTMLElement;
 
 function setupWithCurrentProductService(
   useCurrentProductServiceOnly: boolean,
-  currenProductServiceReturnsNull: boolean = false
+  currenProductServiceReturnsNull: boolean = false,
 ) {
   if (useCurrentProductServiceOnly && currenProductServiceReturnsNull) {
     TestBed.configureTestingModule({
@@ -142,7 +142,7 @@ function setupWithCurrentProductService(
   }
 
   currentProductService = TestBed.inject(
-    CurrentProductService as Type<CurrentProductService>
+    CurrentProductService as Type<CurrentProductService>,
   );
   routingService = TestBed.inject(RoutingService);
 
@@ -162,7 +162,7 @@ describe('ConfigureProductComponent', () => {
   it('should call currentProductService with configurator scope only as we do not need more scopes', () => {
     setupWithCurrentProductService(true);
     expect(currentProductService.getProduct).toHaveBeenCalledWith(
-      ConfiguratorProductScope.CONFIGURATOR
+      ConfiguratorProductScope.CONFIGURATOR,
     );
   });
 
@@ -172,7 +172,7 @@ describe('ConfigureProductComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.btn'
+      '.btn',
     );
   });
 
@@ -183,7 +183,7 @@ describe('ConfigureProductComponent', () => {
       expect,
       htmlElem,
       '.btn',
-      'configurator.header.toconfig'
+      'configurator.header.toconfig',
     );
   });
 
@@ -209,7 +209,7 @@ describe('ConfigureProductComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.btn'
+      '.btn',
     );
   });
 
@@ -228,21 +228,21 @@ describe('ConfigureProductComponent', () => {
 
     it('should return configurator.a11y.configureProduct in case configurator type is undefined', () => {
       expect(component.getAriaLabelTranslationKey(undefined)).toEqual(
-        'configurator.a11y.configureProduct'
+        'configurator.a11y.configureProduct',
       );
     });
 
     it('should return configurator.a11y.configureProduct in case configurator type is CPQCONFIGURATOR', () => {
       expect(
-        component.getAriaLabelTranslationKey(ConfiguratorType.VARIANT)
+        component.getAriaLabelTranslationKey(ConfiguratorType.VARIANT),
       ).toEqual('configurator.a11y.configureProduct');
     });
 
     it('should return configurator.a11y.showDetailsProduct in case configurator type has postfix read only', () => {
       expect(
         component.getAriaLabelTranslationKey(
-          ConfiguratorType.VARIANT + ReadOnlyPostfix
-        )
+          ConfiguratorType.VARIANT + ReadOnlyPostfix,
+        ),
       ).toEqual('configurator.a11y.showDetailsProduct');
     });
   });
@@ -254,19 +254,19 @@ describe('ConfigureProductComponent', () => {
 
     it('should return configurator.header.toconfig in case configurator type is undefined', () => {
       expect(component.getTranslationKey(undefined)).toEqual(
-        'configurator.header.toconfig'
+        'configurator.header.toconfig',
       );
     });
 
     it('should return configurator.header.toconfig in case configurator type is CPQCONFIGURATOR', () => {
       expect(component.getTranslationKey(ConfiguratorType.VARIANT)).toEqual(
-        'configurator.header.toconfig'
+        'configurator.header.toconfig',
       );
     });
 
     it('should return configurator.header.toConfigReadOnly in case configurator type has postfix read only', () => {
       expect(
-        component.getTranslationKey(ConfiguratorType.VARIANT + ReadOnlyPostfix)
+        component.getTranslationKey(ConfiguratorType.VARIANT + ReadOnlyPostfix),
       ).toEqual('configurator.header.toConfigReadOnly');
     });
   });
@@ -278,15 +278,15 @@ describe('ConfigureProductComponent', () => {
 
     it('should return true in case configurator type is CPQCONFIGURATOR', () => {
       expect(
-        component.isDisplayRestartDialog(ConfiguratorType.VARIANT)
+        component.isDisplayRestartDialog(ConfiguratorType.VARIANT),
       ).toEqual('true');
     });
 
     it('should return false in case configurator type has postfix readOnly', () => {
       expect(
         component.isDisplayRestartDialog(
-          ConfiguratorType.VARIANT + ReadOnlyPostfix
-        )
+          ConfiguratorType.VARIANT + ReadOnlyPostfix,
+        ),
       ).toEqual('false');
     });
   });
@@ -314,23 +314,23 @@ describe('ConfigureProductComponent', () => {
 
     it('should return false in case configurator type is CPQCONFIGURATOR', () => {
       expect(
-        component['isConfiguratorTypeReadOnly'](ConfiguratorType.VARIANT)
+        component['isConfiguratorTypeReadOnly'](ConfiguratorType.VARIANT),
       ).toBe(false);
     });
 
     it('should return false in case configurator type has prefix _READ_ONLY', () => {
       expect(
         component['isConfiguratorTypeReadOnly'](
-          ReadOnlyPostfix + ConfiguratorType.VARIANT
-        )
+          ReadOnlyPostfix + ConfiguratorType.VARIANT,
+        ),
       ).toBe(false);
     });
 
     it('should return true in case configurator type has postfix _READ_ONLY', () => {
       expect(
         component['isConfiguratorTypeReadOnly'](
-          ConfiguratorType.VARIANT + ReadOnlyPostfix
-        )
+          ConfiguratorType.VARIANT + ReadOnlyPostfix,
+        ),
       ).toBe(true);
     });
   });
@@ -355,7 +355,7 @@ describe('ConfigureProductComponent', () => {
             displayRestartDialog: 'true',
             productCode: mockProduct.code,
           },
-        }
+        },
       );
     });
   });
@@ -373,7 +373,7 @@ describe('ConfigureProductComponent', () => {
         undefined,
         'aria-label',
         'configurator.a11y.configureProduct',
-        'configurator.header.toconfig'
+        'configurator.header.toconfig',
       );
     });
   });

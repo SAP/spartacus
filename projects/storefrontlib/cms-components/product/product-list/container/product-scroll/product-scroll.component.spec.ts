@@ -159,35 +159,33 @@ describe('ProductScrollComponent', () => {
   let fixture: ComponentFixture<ProductScrollComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ProductScrollComponent,
-          ProductGridItemComponent,
-          MockProductListItemComponent,
-          MockUrlPipe,
-          MediaComponent,
-          MockStarRatingComponent,
-          MockAddToCartComponent,
-          MockStyleIconsComponent,
-          MockFeatureLevelDirective,
-        ],
-        imports: [
-          InfiniteScrollModule,
-          I18nTestingModule,
-          SpinnerModule,
-          RouterTestingModule,
-        ],
-        providers: [
-          {
-            provide: ProductListComponentService,
-            useClass: MockProductListComponentService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ProductScrollComponent,
+        ProductGridItemComponent,
+        MockProductListItemComponent,
+        MockUrlPipe,
+        MediaComponent,
+        MockStarRatingComponent,
+        MockAddToCartComponent,
+        MockStyleIconsComponent,
+        MockFeatureLevelDirective,
+      ],
+      imports: [
+        InfiniteScrollModule,
+        I18nTestingModule,
+        SpinnerModule,
+        RouterTestingModule,
+      ],
+      providers: [
+        {
+          provide: ProductListComponentService,
+          useClass: MockProductListComponentService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductScrollComponent);
@@ -211,10 +209,10 @@ describe('ProductScrollComponent', () => {
 
       expect(component.model.products.length).toEqual(totalLength);
       expect(component.model.products).toContain(
-        jasmine.objectContaining(mockModel1.products[0])
+        jasmine.objectContaining(mockModel1.products[0]),
       );
       expect(component.model.products).toContain(
-        jasmine.objectContaining(mockModel1Page2.products[0])
+        jasmine.objectContaining(mockModel1Page2.products[0]),
       );
     });
 
@@ -305,7 +303,7 @@ describe('ProductScrollComponent', () => {
 
       it('should display "show more" and "back to top" buttons when there are additional pages', () => {
         expect(mockModel1Page2.pagination.currentPage).not.toEqual(
-          mockModel1Page2.pagination.totalPages - 1
+          mockModel1Page2.pagination.totalPages - 1,
         );
 
         component.setModel = mockModel1Page2;
@@ -337,7 +335,7 @@ describe('ProductScrollComponent', () => {
 
       it('should NOT display "show more" button when there are no addtional pages', () => {
         expect(mockModel1Page3.pagination.currentPage).toEqual(
-          mockModel1Page3.pagination.totalPages - 1
+          mockModel1Page3.pagination.totalPages - 1,
         );
 
         component.setModel = mockModel1Page3;

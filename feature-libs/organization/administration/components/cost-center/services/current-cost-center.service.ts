@@ -17,7 +17,7 @@ import { CurrentItemService } from '../../shared/current-item.service';
 export class CurrentCostCenterService extends CurrentItemService<CostCenter> {
   constructor(
     protected routingService: RoutingService,
-    protected costCenterService: CostCenterService
+    protected costCenterService: CostCenterService,
   ) {
     super(routingService);
   }

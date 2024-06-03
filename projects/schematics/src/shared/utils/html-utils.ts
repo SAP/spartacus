@@ -12,13 +12,13 @@ import { DefaultTreeAdapterMap, parse as parseHtml } from 'parse5';
 export function appendHtmlElementToHead(
   host: Tree,
   htmlFilePath: string,
-  elementHtml: string
+  elementHtml: string,
 ) {
   const htmlFileBuffer = host.read(htmlFilePath);
 
   if (!htmlFileBuffer) {
     throw new SchematicsException(
-      `Could not read file for path: ${htmlFilePath}`
+      `Could not read file for path: ${htmlFilePath}`,
     );
   }
 
@@ -32,7 +32,7 @@ export function appendHtmlElementToHead(
 
   if (!headTag) {
     throw Error(
-      `Could not find '<head>' element in HTML file: ${htmlFileBuffer}`
+      `Could not find '<head>' element in HTML file: ${htmlFileBuffer}`,
     );
   }
 
@@ -43,7 +43,7 @@ export function appendHtmlElementToHead(
 
   if (!endTagOffset) {
     throw Error(
-      `Could not find end offset of '<head>' element in HTML file: ${htmlFileBuffer}`
+      `Could not find end offset of '<head>' element in HTML file: ${htmlFileBuffer}`,
     );
   }
 
@@ -57,14 +57,14 @@ export function appendHtmlElementToHead(
 }
 /** Parses the given HTML file and returns the head element if available. */
 function getHtmlHeadTagElement(
-  htmlContent: string
+  htmlContent: string,
 ): DefaultTreeAdapterMap['element'] | null {
   return getElementByTagName('head', htmlContent);
 }
 /** Finds an element by its tag name. */
 function getElementByTagName(
   tagName: string,
-  htmlContent: string
+  htmlContent: string,
 ): DefaultTreeAdapterMap['element'] | null {
   const document = parseHtml(htmlContent, {
     sourceCodeLocationInfo: true,
@@ -105,7 +105,7 @@ function getChildElementIndentation(element: DefaultTreeAdapterMap['element']) {
   ) {
     throw new SchematicsException(
       'Cannot determine child element indentation because the ' +
-        'specified Parse5 element does not have any source code location metadata.'
+        'specified Parse5 element does not have any source code location metadata.',
     );
   }
 

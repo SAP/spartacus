@@ -29,7 +29,7 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
   constructor(
     private config: PersonalizationConfig,
     private occEndpoints: OccEndpointsService,
-    private winRef: WindowRef
+    private winRef: WindowRef,
   ) {
     if (this.winRef.isBrowser()) {
       this.enabled =
@@ -39,13 +39,13 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
       if (this.enabled) {
         if (!this.config.personalization?.httpHeaderName && isDevMode()) {
           this.logger.warn(
-            `There is no httpHeaderName configured in Personalization`
+            `There is no httpHeaderName configured in Personalization`,
           );
         }
         this.requestHeader =
           this.config.personalization?.httpHeaderName?.timestamp.toLowerCase();
         this.timestamp = this.winRef.localStorage?.getItem(
-          this.PERSONALIZATION_TIME_KEY
+          this.PERSONALIZATION_TIME_KEY,
         );
       } else if (
         this.winRef.localStorage?.getItem(this.PERSONALIZATION_TIME_KEY)
@@ -57,7 +57,7 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     if (!this.enabled) {
       return next.handle(request);
@@ -88,12 +88,12 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
             if (this.timestamp) {
               this.winRef.localStorage?.setItem(
                 this.PERSONALIZATION_TIME_KEY,
-                this.timestamp
+                this.timestamp,
               );
             }
           }
         }
-      })
+      }),
     );
   }
 }

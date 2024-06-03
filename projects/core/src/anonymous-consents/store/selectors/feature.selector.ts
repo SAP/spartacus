@@ -15,5 +15,5 @@ export const getAnonymousConsentState: MemoizedSelector<
   StateWithAnonymousConsents,
   AnonymousConsentsState
 > = createFeatureSelector<AnonymousConsentsState>(
-  ANONYMOUS_CONSENTS_STORE_FEATURE
+  ANONYMOUS_CONSENTS_STORE_FEATURE,
 );

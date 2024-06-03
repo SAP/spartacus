@@ -32,7 +32,7 @@ export class ProductGridItemComponent implements OnChanges {
   @Input() product: any;
 
   constructor(
-    protected productListItemContextSource: ProductListItemContextSource
+    protected productListItemContextSource: ProductListItemContextSource,
   ) {}
 
   ngOnChanges(changes?: SimpleChanges): void {

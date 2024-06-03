@@ -94,7 +94,7 @@ describe('AdminGuard', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'organization.notification.noSufficientPermissions' },
-      GlobalMessageType.MSG_TYPE_WARNING
+      GlobalMessageType.MSG_TYPE_WARNING,
     );
     expect(result).toEqual(false);
   });

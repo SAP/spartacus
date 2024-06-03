@@ -29,7 +29,7 @@ class MockImportExportContext
 }
 
 const loadProducts$: BehaviorSubject<ProductImportInfo> = new BehaviorSubject(
-  mockLoadProduct
+  mockLoadProduct,
 );
 
 const mockEntries: OrderEntry[] = [

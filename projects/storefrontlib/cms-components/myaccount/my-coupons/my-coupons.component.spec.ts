@@ -161,37 +161,35 @@ describe('MyCouponsComponent', () => {
 
   const myCouponsComponentService = jasmine.createSpyObj(
     'MyCouponsComponentService',
-    ['getSortLabels']
+    ['getSortLabels'],
   );
   const subscriptionFail = new BehaviorSubject<boolean>(false);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
-        declarations: [
-          MyCouponsComponent,
-          MockedCouponCardComponent,
-          MockCxIconComponent,
-          MockPaginationComponent,
-          MockSortingComponent,
-        ],
-        providers: [
-          { provide: CustomerCouponService, useValue: customerCouponService },
-          {
-            provide: MyCouponsComponentService,
-            useValue: myCouponsComponentService,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
+      declarations: [
+        MyCouponsComponent,
+        MockedCouponCardComponent,
+        MockCxIconComponent,
+        MockPaginationComponent,
+        MockSortingComponent,
+      ],
+      providers: [
+        { provide: CustomerCouponService, useValue: customerCouponService },
+        {
+          provide: MyCouponsComponentService,
+          useValue: myCouponsComponentService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
           },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyCouponsComponent);
@@ -199,23 +197,23 @@ describe('MyCouponsComponent', () => {
     el = fixture.debugElement;
 
     customerCouponService.getCustomerCoupons.and.returnValue(
-      of(emptyCouponResult)
+      of(emptyCouponResult),
     );
     customerCouponService.getCustomerCouponsLoading.and.returnValue(of(false));
     customerCouponService.loadCustomerCoupons.and.stub();
     customerCouponService.subscribeCustomerCoupon.and.stub();
     customerCouponService.unsubscribeCustomerCoupon.and.stub();
     customerCouponService.getSubscribeCustomerCouponResultLoading.and.returnValue(
-      subLoading$
+      subLoading$,
     );
     customerCouponService.getUnsubscribeCustomerCouponResultLoading.and.returnValue(
-      unsubLoading$
+      unsubLoading$,
     );
     customerCouponService.getSubscribeCustomerCouponResultError.and.returnValue(
-      subscriptionFail
+      subscriptionFail,
     );
     customerCouponService.getUnsubscribeCustomerCouponResultError.and.returnValue(
-      subscriptionFail
+      subscriptionFail,
     );
 
     myCouponsComponentService.getSortLabels.and.returnValue(of(sortLabels));
@@ -229,7 +227,7 @@ describe('MyCouponsComponent', () => {
   it('should display header', () => {
     fixture.detectChanges();
     expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
-      'myCoupons.myCoupons'
+      'myCoupons.myCoupons',
     );
   });
 
@@ -252,7 +250,7 @@ describe('MyCouponsComponent', () => {
 
   it('should be able to show coupons', () => {
     customerCouponService.getCustomerCoupons.and.returnValue(
-      of(couponsSearchResult)
+      of(couponsSearchResult),
     );
     fixture.detectChanges();
 
@@ -270,7 +268,7 @@ describe('MyCouponsComponent', () => {
     expect(couponCardComponent.length).toBe(couponsSearchResult.coupons.length);
 
     expect(
-      el.query(By.css('.cx-my-coupons-notes span')).nativeElement
+      el.query(By.css('.cx-my-coupons-notes span')).nativeElement,
     ).toBeTruthy();
   });
 
@@ -280,7 +278,7 @@ describe('MyCouponsComponent', () => {
     expect(customerCouponService.loadCustomerCoupons).toHaveBeenCalledWith(
       10,
       0,
-      'startDate:asc'
+      'startDate:asc',
     );
   });
 
@@ -290,24 +288,24 @@ describe('MyCouponsComponent', () => {
     expect(customerCouponService.loadCustomerCoupons).toHaveBeenCalledWith(
       10,
       1,
-      'startDate:asc'
+      'startDate:asc',
     );
   });
 
   it('should be able to change coupon notification', () => {
     customerCouponService.getCustomerCoupons.and.returnValue(
-      of(couponsSearchResult)
+      of(couponsSearchResult),
     );
     fixture.detectChanges();
     const checkbox = el.queryAll(By.css('.form-check-input'))[0];
     checkbox.triggerEventHandler('click', null);
     expect(customerCouponService.subscribeCustomerCoupon).toHaveBeenCalledWith(
-      'CustomerCoupon1'
+      'CustomerCoupon1',
     );
 
     checkbox.triggerEventHandler('click', null);
     expect(
-      customerCouponService.unsubscribeCustomerCoupon
+      customerCouponService.unsubscribeCustomerCoupon,
     ).toHaveBeenCalledWith('CustomerCoupon1');
   });
 
@@ -315,7 +313,7 @@ describe('MyCouponsComponent', () => {
     subscriptionFail.next(true);
     fixture.detectChanges();
     expect(customerCouponService.loadCustomerCoupons).toHaveBeenCalledWith(
-      PAGE_SIZE
+      PAGE_SIZE,
     );
   });
 });

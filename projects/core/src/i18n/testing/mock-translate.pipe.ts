@@ -12,7 +12,7 @@ import { mockTranslate } from './mock-translate';
 export class MockTranslatePipe implements PipeTransform {
   transform(
     input: Translatable | string,
-    options: object = {}
+    options: object = {},
   ): string | undefined {
     if ((input as Translatable).raw) {
       return (input as Translatable).raw;

@@ -68,21 +68,21 @@ describe(`CheckoutPaymentEventListener`, () => {
           createFrom(CheckoutPaymentDetailsCreatedEvent, {
             userId: mockUserId,
             paymentDetails: mockPaymentInfo,
-          })
+          }),
         );
       });
 
       it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutQueryResetEvent `, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutQueryResetEvent
+          CheckoutQueryResetEvent,
         );
       });
 
       it(`CheckoutPaymentDetailsCreatedEvent should dispatch LoadUserPaymentMethodsEvent`, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           { userId: mockUserId },
-          LoadUserPaymentMethodsEvent
+          LoadUserPaymentMethodsEvent,
         );
       });
     });
@@ -93,28 +93,28 @@ describe(`CheckoutPaymentEventListener`, () => {
           createFrom(CheckoutPaymentDetailsCreatedEvent, {
             userId: OCC_USER_ID_ANONYMOUS,
             paymentDetails: mockPaymentInfo,
-          })
+          }),
         );
       });
 
       it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutQueryResetEvent `, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutQueryResetEvent
+          CheckoutQueryResetEvent,
         );
       });
 
       it(`CheckoutPaymentDetailsCreatedEvent should dispatch LoadUserPaymentMethodsEvent`, () => {
         expect(eventService.dispatch).not.toHaveBeenCalledWith(
           { userId: OCC_USER_ID_ANONYMOUS },
-          LoadUserPaymentMethodsEvent
+          LoadUserPaymentMethodsEvent,
         );
       });
 
       it(`CheckoutPaymentDetailsCreatedEvent should add a global message`, () => {
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'paymentForm.paymentAddedSuccessfully' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
       });
     });
@@ -126,7 +126,7 @@ describe(`CheckoutPaymentEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
   });
@@ -137,7 +137,7 @@ describe(`CheckoutPaymentEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutPaymentCardTypesQueryReloadEvent
+        CheckoutPaymentCardTypesQueryReloadEvent,
       );
     });
 
@@ -146,7 +146,7 @@ describe(`CheckoutPaymentEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutPaymentCardTypesQueryReloadEvent
+        CheckoutPaymentCardTypesQueryReloadEvent,
       );
     });
   });

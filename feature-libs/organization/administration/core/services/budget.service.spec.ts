@@ -46,7 +46,7 @@ describe('BudgetService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
       providers: [
@@ -69,7 +69,7 @@ describe('BudgetService', () => {
     [BudgetService],
     (budgetService: BudgetService) => {
       expect(budgetService).toBeTruthy();
-    }
+    },
   ));
 
   describe('get budget', () => {
@@ -81,7 +81,7 @@ describe('BudgetService', () => {
         .pipe(ofType(BudgetActions.LOAD_BUDGET), take(1))
         .subscribe((action) => {
           expect(action).toEqual(
-            new BudgetActions.LoadBudget({ userId, budgetCode })
+            new BudgetActions.LoadBudget({ userId, budgetCode }),
           );
           sub.unsubscribe();
         });
@@ -102,7 +102,7 @@ describe('BudgetService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(budgetDetails).toEqual(budget);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new BudgetActions.LoadBudget({ userId, budgetCode })
+        new BudgetActions.LoadBudget({ userId, budgetCode }),
       );
     });
   });
@@ -122,7 +122,7 @@ describe('BudgetService', () => {
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(budgets).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new BudgetActions.LoadBudgets({ userId, params })
+        new BudgetActions.LoadBudgets({ userId, params }),
       );
     });
 
@@ -136,7 +136,7 @@ describe('BudgetService', () => {
             pagination,
             sorts,
           },
-        })
+        }),
       );
       let budgets: EntitiesModel<Budget>;
       service
@@ -149,7 +149,7 @@ describe('BudgetService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(budgets).toEqual(budgetList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new BudgetActions.LoadBudgets({ userId, params })
+        new BudgetActions.LoadBudgets({ userId, params }),
       );
     });
   });
@@ -160,7 +160,7 @@ describe('BudgetService', () => {
 
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new BudgetActions.CreateBudget({ userId, budget })
+        new BudgetActions.CreateBudget({ userId, budget }),
       );
     });
   });
@@ -171,7 +171,7 @@ describe('BudgetService', () => {
 
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
+        new BudgetActions.UpdateBudget({ userId, budgetCode, budget }),
       );
     });
   });
@@ -199,7 +199,7 @@ describe('BudgetService', () => {
         .subscribe((status) => (loadingStatus = status));
       expect(loadingStatus).toBeUndefined();
       store.dispatch(
-        new BudgetActions.LoadBudgetFail({ budgetCode, error: new Error() })
+        new BudgetActions.LoadBudgetFail({ budgetCode, error: new Error() }),
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
@@ -212,7 +212,7 @@ describe('BudgetService', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
       spyOn<any>(service, 'getBudgetState').and.returnValue(
-        of({ loading: false, success: false, error: true })
+        of({ loading: false, success: false, error: true }),
       );
 
       service.getErrorState('code').subscribe((error) => (errorState = error));

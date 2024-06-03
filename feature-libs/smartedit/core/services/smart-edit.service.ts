@@ -33,7 +33,7 @@ export class SmartEditService {
     protected zone: NgZone,
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
-    protected config: SmartEditConfig
+    protected config: SmartEditConfig,
   ) {
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
@@ -42,7 +42,7 @@ export class SmartEditService {
       window.smartedit.renderComponent = (
         componentId: string,
         componentType: string,
-        parentId: string
+        parentId: string,
       ) => {
         return this.renderComponent(componentId, componentType, parentId);
       };
@@ -57,7 +57,7 @@ export class SmartEditService {
       .get()
       .pipe(
         filter((site: any) => Boolean(site)),
-        take(1)
+        take(1),
       )
       .subscribe((site) => {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
@@ -85,7 +85,7 @@ export class SmartEditService {
     // remove old page contract
     const previousContract: string[] = [];
     Array.from(element.classList).forEach((attr) =>
-      previousContract.push(attr)
+      previousContract.push(attr),
     );
     previousContract.forEach((attr) => renderer.removeClass(element, attr));
 
@@ -126,7 +126,7 @@ export class SmartEditService {
   protected renderComponent(
     componentId: string,
     componentType?: string,
-    parentId?: string
+    parentId?: string,
   ): boolean {
     if (componentId) {
       this.zone.run(() => {
@@ -156,7 +156,7 @@ export class SmartEditService {
   public addSmartEditContract(
     element: Element,
     renderer: Renderer2,
-    properties: any
+    properties: any,
   ): void {
     if (properties) {
       // check each group of properties, e.g. smartedit
@@ -180,7 +180,7 @@ export class SmartEditService {
                   .split(/(?=[A-Z])/)
                   .join('-')
                   .toLowerCase(),
-              propValue
+              propValue,
             );
           }
         });

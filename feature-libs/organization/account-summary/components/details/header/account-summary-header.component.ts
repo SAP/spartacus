@@ -35,14 +35,14 @@ export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
   constructor(
     protected accountSummaryFacade: AccountSummaryFacade,
     protected languageService: LanguageService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
   ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
       this.translation
         .translate('orgAccountSummary.details.notApplicable')
-        .subscribe((text) => (this.notApplicable = text))
+        .subscribe((text) => (this.notApplicable = text)),
     );
   }
 
@@ -55,7 +55,7 @@ export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
       map((idTitle) => ({
         title: idTitle,
         text: [id || this.notApplicable],
-      }))
+      })),
     );
   }
 
@@ -64,7 +64,7 @@ export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
       map((nameTitle) => ({
         title: nameTitle,
         text: [name || this.notApplicable],
-      }))
+      })),
     );
   }
 
@@ -80,7 +80,7 @@ export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
             ? [name, address, country]
             : [this.notApplicable],
         } as Card;
-      })
+      }),
     );
   }
 
@@ -91,7 +91,7 @@ export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
         map((creditRepTitle) => ({
           title: creditRepTitle,
           text: [creditRep || this.notApplicable],
-        }))
+        })),
       );
   }
 
@@ -102,7 +102,7 @@ export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
         map((creditLineTitle) => ({
           title: creditLineTitle,
           text: [creditLine || this.notApplicable],
-        }))
+        })),
       );
   }
 
@@ -113,7 +113,7 @@ export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
         map((currentBalanceTitle) => ({
           title: currentBalanceTitle,
           text: [currentBalance || this.notApplicable],
-        }))
+        })),
       );
   }
 
@@ -124,7 +124,7 @@ export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
         map((openBalanceTitle) => ({
           title: openBalanceTitle,
           text: [openBalance || this.notApplicable],
-        }))
+        })),
       );
   }
 
@@ -135,7 +135,7 @@ export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
         map((pastDueBalanceTitle) => ({
           title: pastDueBalanceTitle,
           text: [pastDueBalance ?? this.notApplicable],
-        }))
+        })),
       );
   }
 }

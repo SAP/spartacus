@@ -67,7 +67,7 @@ describe('ProductFacetService', () => {
       beforeEach(() => {
         routingService = TestBed.inject(RoutingService);
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockCategoryPage as any)
+          of(mockCategoryPage as any),
         );
         (productListComponentService.model$ as any) = of(mockCategoryResult);
         service = TestBed.inject(ProductFacetService);
@@ -101,7 +101,7 @@ describe('ProductFacetService', () => {
           .subscribe((facetList) => {
             result = facetList;
             expect(
-              result.activeFacets?.find((f) => f.facetCode === 'allCategories')
+              result.activeFacets?.find((f) => f.facetCode === 'allCategories'),
             ).toBeFalsy();
             done();
           })
@@ -133,7 +133,7 @@ describe('ProductFacetService', () => {
       beforeEach(() => {
         routingService = TestBed.inject(RoutingService);
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockBrandPage as any)
+          of(mockBrandPage as any),
         );
         (productListComponentService.model$ as any) = of(mockBrandResult);
         service = TestBed.inject(ProductFacetService);
@@ -171,7 +171,7 @@ describe('ProductFacetService', () => {
       beforeEach(() => {
         routingService = TestBed.inject(RoutingService);
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockSearchPage as any)
+          of(mockSearchPage as any),
         );
         (productListComponentService.model$ as any) = of(mockSearchResult);
         service = TestBed.inject(ProductFacetService);
@@ -211,7 +211,7 @@ describe('ProductFacetService', () => {
       beforeEach(() => {
         routingService = TestBed.inject(RoutingService);
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockAnyPage as RouterState)
+          of(mockAnyPage as RouterState),
         );
 
         (productListComponentService.model$ as any) = of(mockResults);

@@ -36,7 +36,7 @@ const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
 
 const mockReplenishmentOrderFormData$ =
   new BehaviorSubject<ScheduleReplenishmentForm>(
-    mockReplenishmentOrderFormData
+    mockReplenishmentOrderFormData,
   );
 
 class MockOrderFacade implements Partial<OrderFacade> {
@@ -54,10 +54,10 @@ class MockCheckoutReplenishmentFormService
   implements Partial<CheckoutReplenishmentFormService>
 {
   getOrderType = createSpy().and.returnValue(
-    of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER)
+    of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER),
   );
   getScheduleReplenishmentFormData = createSpy().and.returnValue(
-    mockReplenishmentOrderFormData$.asObservable()
+    mockReplenishmentOrderFormData$.asObservable(),
   );
   setScheduleReplenishmentFormData = createSpy();
   resetScheduleReplenishmentFormData = createSpy();
@@ -90,43 +90,41 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   let launchDialogService: LaunchDialogService;
   let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          AtMessageModule,
-        ],
-        declarations: [
-          MockUrlPipe,
-          CheckoutScheduledReplenishmentPlaceOrderComponent,
-        ],
-        providers: [
-          { provide: OrderFacade, useClass: MockOrderFacade },
-          {
-            provide: CheckoutReplenishmentFormService,
-            useClass: MockCheckoutReplenishmentFormService,
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: ScheduledReplenishmentOrderFacade,
-            useClass: MockScheduledReplenishmentOrderFacade,
-          },
-          {
-            provide: GlobalMessageService,
-            useValue: {},
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        AtMessageModule,
+      ],
+      declarations: [
+        MockUrlPipe,
+        CheckoutScheduledReplenishmentPlaceOrderComponent,
+      ],
+      providers: [
+        { provide: OrderFacade, useClass: MockOrderFacade },
+        {
+          provide: CheckoutReplenishmentFormService,
+          useClass: MockCheckoutReplenishmentFormService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: ScheduledReplenishmentOrderFacade,
+          useClass: MockScheduledReplenishmentOrderFacade,
+        },
+        {
+          provide: GlobalMessageService,
+          useValue: {},
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      CheckoutScheduledReplenishmentPlaceOrderComponent
+      CheckoutScheduledReplenishmentPlaceOrderComponent,
     );
     component = fixture.componentInstance;
 
@@ -134,10 +132,10 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
     orderFacade = TestBed.inject(OrderFacade);
     scheduledReplenishmentOrderFacade = TestBed.inject(
-      ScheduledReplenishmentOrderFacade
+      ScheduledReplenishmentOrderFacade,
     );
     checkoutReplenishmentFormService = TestBed.inject(
-      CheckoutReplenishmentFormService
+      CheckoutReplenishmentFormService,
     );
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
@@ -153,7 +151,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
       expect(orderFacade.placeOrder).not.toHaveBeenCalled();
       expect(
-        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder,
       ).not.toHaveBeenCalled();
     });
 
@@ -162,7 +160,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
       expect(orderFacade.placeOrder).toHaveBeenCalled();
       expect(
-        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder,
       ).not.toHaveBeenCalled();
     });
 
@@ -182,7 +180,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
       expect(orderFacade.placeOrder).not.toHaveBeenCalled();
       expect(
-        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder,
       ).not.toHaveBeenCalled();
     });
 
@@ -191,7 +189,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
       expect(orderFacade.placeOrder).not.toHaveBeenCalled();
       expect(
-        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder,
       ).toHaveBeenCalled();
     });
 
@@ -203,7 +201,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
         cxRoute: 'replenishmentConfirmation',
       });
       expect(
-        checkoutReplenishmentFormService.resetScheduleReplenishmentFormData
+        checkoutReplenishmentFormService.resetScheduleReplenishmentFormData,
       ).toHaveBeenCalled();
     });
   });
@@ -211,7 +209,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   describe('when order was successfully placed', () => {
     it('should open popover dialog', () => {
       spyOnProperty(component.checkoutSubmitForm, 'valid').and.returnValue(
-        true
+        true,
       );
 
       component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
@@ -220,7 +218,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
       expect(launchDialogService.launch).toHaveBeenCalledWith(
         LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-        component['vcr']
+        component['vcr'],
       );
     });
   });
@@ -236,7 +234,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
       expect(
         fixture.debugElement.nativeElement.querySelector('.btn-primary')
-          .disabled
+          .disabled,
       ).toEqual(false);
     });
 
@@ -250,7 +248,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
       expect(
         fixture.debugElement.nativeElement.querySelector('.btn-primary')
-          .disabled
+          .disabled,
       ).toEqual(true);
     });
   });

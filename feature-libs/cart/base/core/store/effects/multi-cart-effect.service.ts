@@ -16,7 +16,7 @@ export class MultiCartEffectsService {
    * @returns cart type
    */
   getActiveCartTypeOnLoadSuccess(
-    action: CartActions.LoadCartSuccess
+    action: CartActions.LoadCartSuccess,
   ): CartActions.SetCartTypeIndex | undefined {
     if (action?.payload?.extraData?.active) {
       // saved cart is not active cart

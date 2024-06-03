@@ -10,15 +10,15 @@ import { User } from '@spartacus/user/account/root';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 
 export const USER_PROFILE_NORMALIZER = new InjectionToken<Converter<User, any>>(
-  'UserProfileNormalizer'
+  'UserProfileNormalizer',
 );
 
 export const USER_PROFILE_SERIALIZER = new InjectionToken<Converter<User, any>>(
-  'UserProfileSerializer'
+  'UserProfileSerializer',
 );
 
 export const USER_SERIALIZER = new InjectionToken<Converter<User, any>>(
-  'UserSerializer'
+  'UserSerializer',
 );
 
 export const USER_SIGN_UP_SERIALIZER = new InjectionToken<
@@ -26,5 +26,5 @@ export const USER_SIGN_UP_SERIALIZER = new InjectionToken<
 >('UserSignUpSerializer');
 
 export const TITLE_NORMALIZER = new InjectionToken<Converter<any, Title>>(
-  'TitleNormalizer'
+  'TitleNormalizer',
 );

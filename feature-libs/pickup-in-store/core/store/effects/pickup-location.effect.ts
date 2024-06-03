@@ -18,7 +18,7 @@ export class PickupLocationEffect {
 
   constructor(
     private actions$: Actions,
-    private pickupLocationConnector: PickupLocationConnector
+    private pickupLocationConnector: PickupLocationConnector,
   ) {
     // Intentional empty constructor
   }
@@ -28,25 +28,25 @@ export class PickupLocationEffect {
       ofType(PickupLocationActions.GET_STORE_DETAILS),
       map(
         (
-          action: ReturnType<typeof PickupLocationActions.GetStoreDetailsById>
-        ) => action.payload
+          action: ReturnType<typeof PickupLocationActions.GetStoreDetailsById>,
+        ) => action.payload,
       ),
       mergeMap((storeName) =>
         this.pickupLocationConnector.getStoreDetails(storeName).pipe(
           map((storeDetails) =>
             PickupLocationActions.SetStoreDetailsSuccess({
               payload: storeDetails,
-            })
+            }),
           ),
           catchError((error) =>
             of(
               PickupLocationActions.SetStoreDetailsFailure({
                 payload: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }

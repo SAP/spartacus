@@ -16,7 +16,7 @@ import createSpy = jasmine.createSpy;
 class MockStoreFinderService implements Partial<StoreFinderService> {
   getStoresLoading = createSpy('getStoresLoading');
   getFindStoreEntityById = createSpy('getFindStoreEntityById').and.returnValue(
-    EMPTY
+    EMPTY,
   );
   viewStoreById = createSpy('viewStoreById');
 }
@@ -52,29 +52,27 @@ describe('StoreFinderStoreComponent', () => {
   let fixture: ComponentFixture<StoreFinderStoreComponent>;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
-        declarations: [
-          StoreFinderStoreComponent,
-          MockStoreFinderStoreDescriptionComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
-          {
-            provide: StoreFinderService,
-            useClass: MockStoreFinderService,
-          },
-          {
-            provide: ActivatedRoute,
-            useValue: mockActivatedRoute,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
+      declarations: [
+        StoreFinderStoreComponent,
+        MockStoreFinderStoreDescriptionComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
+        {
+          provide: StoreFinderService,
+          useClass: MockStoreFinderService,
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: mockActivatedRoute,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     routingService = TestBed.inject(RoutingService);

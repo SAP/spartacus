@@ -26,7 +26,7 @@ export class NotFoundTicketRequestHandler extends HttpErrorHandler {
   constructor(
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    @Inject(PLATFORM_ID) protected platformId?: Object
+    @Inject(PLATFORM_ID) protected platformId?: Object,
   ) {
     super(globalMessageService, platformId);
   }
@@ -56,7 +56,7 @@ export class NotFoundTicketRequestHandler extends HttpErrorHandler {
 
   protected handleTicketNotFoundError(
     _request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): void {
     this.getErrors(response)
       .filter((e) => isNotFoundError(e))
@@ -64,7 +64,7 @@ export class NotFoundTicketRequestHandler extends HttpErrorHandler {
         this.routingService.go({ cxRoute: 'supportTickets' });
         this.globalMessageService.add(
           { key: 'customerTicketingDetails.ticketNotFound' },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
   }

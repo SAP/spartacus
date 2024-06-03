@@ -51,7 +51,7 @@ describe('CustomerTicketingDialogComponent', () => {
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      mockCloseReason
+      mockCloseReason,
     );
   });
 });

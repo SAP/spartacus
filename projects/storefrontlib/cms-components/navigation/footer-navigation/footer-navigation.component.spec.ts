@@ -70,33 +70,31 @@ describe('FooterNavigationComponent', () => {
     getNavigationNode: createSpy().and.returnValue(of(null)),
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          FooterNavigationComponent,
-          NavigationComponent,
-          MockNavigationUIComponent,
-          MockGenericLinkComponent,
-        ],
-        providers: [
-          {
-            provide: NavigationService,
-            useValue: mockNavigationService,
-          },
-          {
-            provide: CmsComponentData,
-            useValue: MockCmsNavigationComponent,
-          },
-          {
-            provide: AnonymousConsentsConfig,
-            useValue: mockAnonymousConsentsConfig,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        FooterNavigationComponent,
+        NavigationComponent,
+        MockNavigationUIComponent,
+        MockGenericLinkComponent,
+      ],
+      providers: [
+        {
+          provide: NavigationService,
+          useValue: mockNavigationService,
+        },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsNavigationComponent,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterNavigationComponent);

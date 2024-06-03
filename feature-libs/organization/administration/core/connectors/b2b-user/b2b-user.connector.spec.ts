@@ -32,37 +32,37 @@ const userGroup: UserGroup = {
 class MockB2BUserAdapter implements B2BUserAdapter {
   load = createSpy('B2BUserAdapter.load').and.returnValue(of(b2bUser));
   loadList = createSpy('B2BUserAdapter.loadList').and.returnValue(
-    of([b2bUser])
+    of([b2bUser]),
   );
   create = createSpy('B2BUserAdapter.create').and.returnValue(of(b2bUser));
   update = createSpy('B2BUserAdapter.update').and.returnValue(of(b2bUser));
 
   loadApprovers = createSpy('B2BUserAdapter.loadApprovers').and.returnValue(
-    of([b2bUser])
+    of([b2bUser]),
   );
   assignApprover = createSpy('B2BUserAdapter.assignApprover').and.returnValue(
-    of(b2bUser)
+    of(b2bUser),
   );
   unassignApprover = createSpy(
-    'B2BUserAdapter.unassignApprover'
+    'B2BUserAdapter.unassignApprover',
   ).and.returnValue(of(b2bUser));
   loadPermissions = createSpy('B2BUserAdapter.loadPermissions').and.returnValue(
-    of([permission])
+    of([permission]),
   );
   assignPermission = createSpy(
-    'B2BUserAdapter.assignPermission'
+    'B2BUserAdapter.assignPermission',
   ).and.returnValue(of(b2bUser));
   unassignPermission = createSpy(
-    'B2BUserAdapter.unassignPermission'
+    'B2BUserAdapter.unassignPermission',
   ).and.returnValue(of(b2bUser));
   loadUserGroups = createSpy('B2BUserAdapter.loadUserGroups').and.returnValue(
-    of([userGroup])
+    of([userGroup]),
   );
   assignUserGroup = createSpy('B2BUserAdapter.assignUserGroup').and.returnValue(
-    of(userGroup)
+    of(userGroup),
   );
   unassignUserGroup = createSpy(
-    'B2BUserAdapter.unassignUserGroup'
+    'B2BUserAdapter.unassignUserGroup',
   ).and.returnValue(of(userGroup));
 }
 
@@ -107,7 +107,7 @@ describe('B2BUserConnector', () => {
     expect(adapter.update).toHaveBeenCalledWith(
       customerId,
       orgUnitCustomerId,
-      b2bUser
+      b2bUser,
     );
   });
 
@@ -117,7 +117,7 @@ describe('B2BUserConnector', () => {
     expect(adapter.loadApprovers).toHaveBeenCalledWith(
       customerId,
       orgUnitCustomerId,
-      params
+      params,
     );
   });
 
@@ -126,7 +126,7 @@ describe('B2BUserConnector', () => {
     expect(adapter.assignApprover).toHaveBeenCalledWith(
       customerId,
       orgUnitCustomerId,
-      approverId
+      approverId,
     );
   });
 
@@ -135,7 +135,7 @@ describe('B2BUserConnector', () => {
     expect(adapter.unassignApprover).toHaveBeenCalledWith(
       customerId,
       orgUnitCustomerId,
-      approverId
+      approverId,
     );
   });
 
@@ -145,7 +145,7 @@ describe('B2BUserConnector', () => {
     expect(adapter.loadPermissions).toHaveBeenCalledWith(
       customerId,
       orgUnitCustomerId,
-      params
+      params,
     );
   });
 
@@ -154,7 +154,7 @@ describe('B2BUserConnector', () => {
     expect(adapter.assignPermission).toHaveBeenCalledWith(
       customerId,
       orgUnitCustomerId,
-      permissionId
+      permissionId,
     );
   });
 
@@ -163,7 +163,7 @@ describe('B2BUserConnector', () => {
     expect(adapter.unassignPermission).toHaveBeenCalledWith(
       customerId,
       orgUnitCustomerId,
-      permissionId
+      permissionId,
     );
   });
 
@@ -173,7 +173,7 @@ describe('B2BUserConnector', () => {
     expect(adapter.loadUserGroups).toHaveBeenCalledWith(
       customerId,
       orgUnitCustomerId,
-      params
+      params,
     );
   });
 
@@ -182,7 +182,7 @@ describe('B2BUserConnector', () => {
     expect(adapter.assignUserGroup).toHaveBeenCalledWith(
       customerId,
       orgUnitCustomerId,
-      userGroupId
+      userGroupId,
     );
   });
 
@@ -191,7 +191,7 @@ describe('B2BUserConnector', () => {
     expect(adapter.unassignUserGroup).toHaveBeenCalledWith(
       customerId,
       orgUnitCustomerId,
-      userGroupId
+      userGroupId,
     );
   });
 });

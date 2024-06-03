@@ -15,7 +15,7 @@ import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
 import { AnonymousConsentsStatePersistenceService } from '../services/anonymous-consents-state-persistence.service';
 
 export function anonymousConsentsStatePersistenceFactory(
-  anonymousConsentsStatePersistenceService: AnonymousConsentsStatePersistenceService
+  anonymousConsentsStatePersistenceService: AnonymousConsentsStatePersistenceService,
 ): () => void {
   const result = () => anonymousConsentsStatePersistenceService.initSync();
   return result;

@@ -27,7 +27,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('Spartacus CDS schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CDS,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -69,27 +69,27 @@ describe('Spartacus CDS schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -98,7 +98,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -139,7 +139,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             cdsFeatureOptions,
-            appTree
+            appTree,
           );
         });
 
@@ -153,7 +153,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
           expect(userFeatureModule).toBeFalsy();
 
           const trackingPersonalizationFeatureModule = appTree.readContent(
-            trackingPersonalizationFeatureModulePath
+            trackingPersonalizationFeatureModulePath,
           );
           expect(trackingPersonalizationFeatureModule).toBeFalsy();
         });
@@ -169,7 +169,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
             profileTagConfigUrl: 'profile-tag-config-url.com',
             profileTagLoadUrl: 'profile-tag-load-url.com',
           },
-          appTree
+          appTree,
         );
       });
 
@@ -184,7 +184,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
           expect(userFeatureModule).toBeFalsy();
 
           const trackingPersonalizationFeatureModule = appTree.readContent(
-            trackingPersonalizationFeatureModulePath
+            trackingPersonalizationFeatureModulePath,
           );
           expect(trackingPersonalizationFeatureModule).toBeFalsy();
         });

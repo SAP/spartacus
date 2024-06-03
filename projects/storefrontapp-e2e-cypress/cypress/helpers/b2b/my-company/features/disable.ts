@@ -16,7 +16,7 @@ export function disableTest(config: MyCompanyConfig) {
       loginAsMyCompanyAdmin();
 
       cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
-        'getEntity'
+        'getEntity',
       );
       if (config.preserveCookies) {
         cy.getCookie(codeRow.useCookie).then((cookie) => {
@@ -32,7 +32,7 @@ export function disableTest(config: MyCompanyConfig) {
 
     it('should disable/enable', () => {
       cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
-        'loadEntity'
+        'loadEntity',
       );
       cy.intercept({ method: 'PATCH', path: `**` }).as('saveEntity');
 

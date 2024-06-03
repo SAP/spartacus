@@ -50,7 +50,7 @@ describe(`MultiCartEventListener`, () => {
           userId: mockUserId,
           cartId: mockCartId,
           cartCode: mockCartId,
-        })
+        }),
       );
 
       expect(multiCartFacade.loadCart).toHaveBeenCalledWith({
@@ -65,7 +65,7 @@ describe(`MultiCartEventListener`, () => {
           userId: mockUserId,
           cartId: mockCartId,
           cartCode: mockCartId,
-        })
+        }),
       );
 
       expect(multiCartFacade.removeCart).toHaveBeenCalledWith(mockCartId);

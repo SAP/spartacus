@@ -23,7 +23,7 @@ class MockOccEndpointsService {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ) {
     return this.getEndpoint(endpoint);
   }
@@ -99,17 +99,17 @@ describe('OccConfigurationTextfieldAdapter', () => {
     });
 
     httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
+      HttpTestingController as Type<HttpTestingController>,
     );
     converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
+      ConverterService as Type<ConverterService>,
     );
     occEnpointsService = TestBed.inject(
-      OccEndpointsService as Type<OccEndpointsService>
+      OccEndpointsService as Type<OccEndpointsService>,
     );
 
     occConfiguratorVariantAdapter = TestBed.inject(
-      OccConfiguratorTextfieldAdapter as Type<OccConfiguratorTextfieldAdapter>
+      OccConfiguratorTextfieldAdapter as Type<OccConfiguratorTextfieldAdapter>,
     );
 
     spyOn(converterService, 'pipeable').and.callThrough();
@@ -125,7 +125,7 @@ describe('OccConfigurationTextfieldAdapter', () => {
     occConfiguratorVariantAdapter
       .createConfiguration(
         productCode,
-        ConfiguratorModelUtils.createInitialOwner()
+        ConfiguratorModelUtils.createInitialOwner(),
       )
       .subscribe();
 
@@ -139,13 +139,13 @@ describe('OccConfigurationTextfieldAdapter', () => {
         urlParams: {
           productCode,
         },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CONFIGURATION_TEXTFIELD_NORMALIZER
+      CONFIGURATION_TEXTFIELD_NORMALIZER,
     );
   });
 
@@ -169,13 +169,13 @@ describe('OccConfigurationTextfieldAdapter', () => {
           cartId: CART_ID,
           cartEntryNumber: '0',
         },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CONFIGURATION_TEXTFIELD_NORMALIZER
+      CONFIGURATION_TEXTFIELD_NORMALIZER,
     );
   });
 
@@ -199,13 +199,13 @@ describe('OccConfigurationTextfieldAdapter', () => {
           orderId: ORDER_ID,
           orderEntryNumber: ORDER_ENTRY_NUMBER,
         },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CONFIGURATION_TEXTFIELD_NORMALIZER
+      CONFIGURATION_TEXTFIELD_NORMALIZER,
     );
   });
 
@@ -225,13 +225,13 @@ describe('OccConfigurationTextfieldAdapter', () => {
           userId: USER_ID,
           cartId: CART_ID,
         },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CART_MODIFICATION_NORMALIZER
+      CART_MODIFICATION_NORMALIZER,
     );
   });
 
@@ -255,13 +255,13 @@ describe('OccConfigurationTextfieldAdapter', () => {
           cartId: CART_ID,
           cartEntryNumber: CART_ENTRY_NUMBER,
         },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CART_MODIFICATION_NORMALIZER
+      CART_MODIFICATION_NORMALIZER,
     );
   });
 });

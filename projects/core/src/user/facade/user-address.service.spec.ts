@@ -31,7 +31,7 @@ const mockAddressVerificationResult: AddressValidation = {
 
 class MockUserAddressConnector implements Partial<UserAddressConnector> {
   verify = createSpy('MockUserAddressConnector.verify Spy').and.returnValue(
-    of(mockAddressVerificationResult)
+    of(mockAddressVerificationResult),
   );
 }
 
@@ -60,7 +60,7 @@ describe('UserAddressService', () => {
         StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
+          fromProcessReducers.getReducers(),
         ),
       ],
       providers: [
@@ -80,13 +80,13 @@ describe('UserAddressService', () => {
     [UserAddressService],
     (userAddressService: UserAddressService) => {
       expect(userAddressService).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to load user addresses', () => {
     service.loadAddresses();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT)
+      new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT),
     );
   });
 
@@ -110,7 +110,7 @@ describe('UserAddressService', () => {
   it('should be able to load delivery countries', () => {
     service.loadDeliveryCountries();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadDeliveryCountries()
+      new UserActions.LoadDeliveryCountries(),
     );
   });
 
@@ -119,7 +119,7 @@ describe('UserAddressService', () => {
       new UserActions.LoadDeliveryCountriesSuccess([
         { isocode: 'c1', name: 'n1' },
         { isocode: 'c2', name: 'n2' },
-      ])
+      ]),
     );
     let countries: Country[];
     service
@@ -139,7 +139,7 @@ describe('UserAddressService', () => {
       new UserActions.LoadDeliveryCountriesSuccess([
         { isocode: 'c1', name: 'n1' },
         { isocode: 'c2', name: 'n2' },
-      ])
+      ]),
     );
 
     let country: Country;
@@ -155,7 +155,7 @@ describe('UserAddressService', () => {
   it('should be able to load regions based on country isocode', () => {
     service.loadRegions('ca');
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadRegions('ca')
+      new UserActions.LoadRegions('ca'),
     );
   });
 
@@ -177,7 +177,7 @@ describe('UserAddressService', () => {
       new UserActions.AddUserAddress({
         userId: OCC_USER_ID_CURRENT,
         address: mockAddress2,
-      })
+      }),
     );
   });
 
@@ -192,7 +192,7 @@ describe('UserAddressService', () => {
         userId: OCC_USER_ID_CURRENT,
         addressId: '123',
         address: mockAddressUpdate,
-      })
+      }),
     );
   });
 
@@ -202,7 +202,7 @@ describe('UserAddressService', () => {
       new UserActions.DeleteUserAddress({
         userId: OCC_USER_ID_CURRENT,
         addressId: '123',
-      })
+      }),
     );
   });
 
@@ -215,7 +215,7 @@ describe('UserAddressService', () => {
         address: {
           defaultAddress: true,
         },
-      })
+      }),
     );
   });
 
@@ -250,7 +250,7 @@ describe('UserAddressService', () => {
     it('should be able to get all regions', (done) => {
       let regions: Region[];
       store.dispatch(
-        new UserActions.LoadRegionsSuccess({ entities: regionsList, country })
+        new UserActions.LoadRegionsSuccess({ entities: regionsList, country }),
       );
       service.getRegions(country).subscribe((data) => {
         regions = data;
@@ -265,7 +265,7 @@ describe('UserAddressService', () => {
         new UserActions.LoadRegionsSuccess({
           entities: regionsList,
           country,
-        })
+        }),
       );
       spyOn(service, 'clearRegions').and.stub();
       service.getRegions(null).subscribe((data) => {
@@ -300,7 +300,7 @@ describe('UserAddressService', () => {
         new UserActions.LoadRegionsSuccess({
           entities: regionsList,
           country,
-        })
+        }),
       );
       service.getRegions(country2).subscribe((data) => {
         regions = data;
@@ -317,7 +317,7 @@ describe('UserAddressService', () => {
         new UserActions.LoadRegionsSuccess({
           entities: regionsList,
           country,
-        })
+        }),
       );
       spyOn(service, 'clearRegions').and.stub();
       spyOn(service, 'loadRegions').and.stub();
@@ -333,7 +333,7 @@ describe('UserAddressService', () => {
     it('should call clear regions', () => {
       service.clearRegions();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.ClearRegions()
+        new UserActions.ClearRegions(),
       );
     });
   });
@@ -344,7 +344,7 @@ describe('UserAddressService', () => {
         expect(result).toBe(mockAddressVerificationResult);
         expect(userAddressConnector.verify).toHaveBeenCalledWith(
           OCC_USER_ID_CURRENT,
-          mockAddress
+          mockAddress,
         );
         done();
       });

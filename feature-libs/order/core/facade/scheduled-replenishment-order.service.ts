@@ -56,15 +56,15 @@ export class ScheduledReplenishmentOrderService
                     cartCode: cartId,
                     replenishmentOrder,
                   },
-                  ReplenishmentOrderScheduledEvent
+                  ReplenishmentOrderScheduledEvent,
                 );
-              })
-            )
-        )
+              }),
+            ),
+        ),
       ),
     {
       strategy: CommandStrategy.CancelPrevious,
-    }
+    },
   );
 
   constructor(
@@ -73,7 +73,7 @@ export class ScheduledReplenishmentOrderService
     protected commandService: CommandService,
     protected scheduledReplenishmentOrderConnector: ScheduledReplenishmentOrderConnector,
     protected eventService: EventService,
-    protected orderFacade: OrderFacade
+    protected orderFacade: OrderFacade,
   ) {}
 
   protected checkoutPreconditions(): Observable<[string, string]> {
@@ -92,7 +92,7 @@ export class ScheduledReplenishmentOrderService
           throw new Error('Order conditions not met');
         }
         return [userId, cartId];
-      })
+      }),
     );
   }
 
@@ -101,7 +101,7 @@ export class ScheduledReplenishmentOrderService
    */
   scheduleReplenishmentOrder(
     scheduleReplenishmentForm: ScheduleReplenishmentForm,
-    termsChecked: boolean
+    termsChecked: boolean,
   ): Observable<ReplenishmentOrder> {
     return this.scheduleReplenishmentOrderCommand.execute({
       termsChecked,

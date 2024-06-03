@@ -64,7 +64,7 @@ export class OrganizationPageMetaResolver
     protected contentPageMetaResolver: ContentPageMetaResolver,
     protected translation: TranslationService,
     protected semanticPath: SemanticPathService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
   ) {
     super();
   }
@@ -97,7 +97,7 @@ export class OrganizationPageMetaResolver
    * It's empty when the current page is the Organization page.
    */
   protected organizationPageBreadcrumb$: Observable<BreadcrumbMeta[]> = defer(
-    () => this.routingService.getRouterState()
+    () => this.routingService.getRouterState(),
   ).pipe(
     map((routerState) => routerState?.state?.semanticRoute),
     distinctUntilChanged(),
@@ -110,9 +110,9 @@ export class OrganizationPageMetaResolver
                 label,
                 link: this.semanticPath.get(this.ORGANIZATION_SEMANTIC_ROUTE),
               },
-            ])
-          )
-    )
+            ]),
+          ),
+    ),
   );
 
   /**
@@ -126,6 +126,6 @@ export class OrganizationPageMetaResolver
       const [home, ...restBreadcrumbs] = breadcrumbs;
       return [home, ...organizationPageBreadcrumb, ...restBreadcrumbs];
     }),
-    shareReplay({ bufferSize: 1, refCount: true })
+    shareReplay({ bufferSize: 1, refCount: true }),
   );
 }

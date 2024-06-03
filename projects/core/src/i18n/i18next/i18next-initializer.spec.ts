@@ -66,7 +66,7 @@ describe('I18nextInitializer', () => {
 
       expect(i18next.init).toHaveBeenCalledWith(
         jasmine.objectContaining({ fallbackLng: 'en' }),
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
     });
 
@@ -78,7 +78,7 @@ describe('I18nextInitializer', () => {
 
       expect(i18next.init).toHaveBeenCalledWith(
         jasmine.objectContaining({ debug: true }),
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
     });
 
@@ -94,7 +94,7 @@ describe('I18nextInitializer', () => {
             skipOnVariables: false,
           },
         }),
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
     });
 
@@ -105,7 +105,7 @@ describe('I18nextInitializer', () => {
 
       expect(i18next.init).toHaveBeenCalledWith(
         jasmine.objectContaining({ ns: [] }),
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
     });
 
@@ -118,7 +118,7 @@ describe('I18nextInitializer', () => {
       initializer.initialize();
 
       expect(
-        (i18next.init as jasmine.Spy)['calls'].argsFor(0)[0].resources
+        (i18next.init as jasmine.Spy)['calls'].argsFor(0)[0].resources,
       ).toEqual(undefined);
     });
 
@@ -142,7 +142,7 @@ describe('I18nextInitializer', () => {
           'testChunk',
           { testKey: 'testValue' },
           true,
-          true
+          true,
         );
         done();
       }, 0);
@@ -172,7 +172,7 @@ describe('I18nextInitializer', () => {
               b: 2,
             },
           }),
-          jasmine.any(Function)
+          jasmine.any(Function),
         );
       });
     });

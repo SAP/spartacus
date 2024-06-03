@@ -26,14 +26,14 @@ describe('Tabbing order - tests do require user to be logged in display model', 
   context('My Account V2 Profile Management ', () => {
     it('should allow to navigate with tab key display mode (CXSPA-4442)', () => {
       myAccountV2UserProfileManagementTabbingOrder(
-        config.myAccountV2ProfileDisplay
+        config.myAccountV2ProfileDisplay,
       );
     });
 
     it('should allow to navigate with tab key edit mode (CXSPA-4442)', () => {
       myAccountV2UserProfileManagementTabbingOrder(
         config.myAccountV2ProfileEdit,
-        true
+        true,
       );
     });
   });
@@ -41,13 +41,13 @@ describe('Tabbing order - tests do require user to be logged in display model', 
   context('My Account V2 Email Management', () => {
     it('should allow to navigate with tab key display mode (CXSPA-4442)', () => {
       myAccountV2UserEmailManagementTabbingOrder(
-        config.myAccountV2EmailDisplay
+        config.myAccountV2EmailDisplay,
       );
     });
     it('should allow to navigate with tab key edit mode (CXSPA-4442)', () => {
       myAccountV2UserEmailManagementTabbingOrder(
         config.myAccountV2EmailEdit,
-        true
+        true,
       );
     });
   });

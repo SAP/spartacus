@@ -81,17 +81,17 @@ describe('Customer Coupon effect', () => {
     customerCouponConnector = TestBed.inject(CustomerCouponConnector);
 
     spyOn(customerCouponConnector, 'getCustomerCoupons').and.returnValue(
-      of(customerSearcherResult)
+      of(customerSearcherResult),
     );
     spyOn(customerCouponConnector, 'turnOnNotification').and.returnValue(
-      of(customerCouponNotification)
+      of(customerCouponNotification),
     );
 
     spyOn(customerCouponConnector, 'turnOffNotification').and.returnValue(
-      of({})
+      of({}),
     );
     spyOn(customerCouponConnector, 'claimCustomerCoupon').and.returnValue(
-      of(customerCoupon2Customer)
+      of(customerCoupon2Customer),
     );
   });
 
@@ -104,14 +104,14 @@ describe('Customer Coupon effect', () => {
         sort,
       });
       const completion = new UserActions.LoadCustomerCouponsSuccess(
-        customerSearcherResult
+        customerSearcherResult,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(customerCouponsEffect.loadCustomerCoupons$).toBeObservable(
-        expected
+        expected,
       );
     });
   });
@@ -123,13 +123,13 @@ describe('Customer Coupon effect', () => {
         couponCode: 'testCoupon',
       });
       const completion = new UserActions.SubscribeCustomerCouponSuccess(
-        customerCouponNotification
+        customerCouponNotification,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(customerCouponsEffect.subscribeCustomerCoupon$).toBeObservable(
-        expected
+        expected,
       );
     });
   });
@@ -141,13 +141,13 @@ describe('Customer Coupon effect', () => {
         couponCode: 'testCoupon',
       });
       const completion = new UserActions.UnsubscribeCustomerCouponSuccess(
-        'testCoupon'
+        'testCoupon',
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(customerCouponsEffect.unsubscribeCustomerCoupon$).toBeObservable(
-        expected
+        expected,
       );
     });
   });
@@ -159,14 +159,14 @@ describe('Customer Coupon effect', () => {
         couponCode: 'testCoupon',
       });
       const completion = new UserActions.ClaimCustomerCouponSuccess(
-        customerCoupon2Customer
+        customerCoupon2Customer,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(customerCouponsEffect.claimCustomerCoupon$).toBeObservable(
-        expected
+        expected,
       );
     });
   });

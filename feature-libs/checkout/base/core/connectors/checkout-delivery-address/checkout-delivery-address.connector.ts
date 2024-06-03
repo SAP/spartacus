@@ -16,7 +16,7 @@ export class CheckoutDeliveryAddressConnector {
   public createAddress(
     userId: string,
     cartId: string,
-    address: Address
+    address: Address,
   ): Observable<Address> {
     return this.adapter.createAddress(userId, cartId, address);
   }
@@ -24,14 +24,14 @@ export class CheckoutDeliveryAddressConnector {
   public setAddress(
     userId: string,
     cartId: string,
-    addressId: string
+    addressId: string,
   ): Observable<unknown> {
     return this.adapter.setAddress(userId, cartId, addressId);
   }
 
   public clearCheckoutDeliveryAddress(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<unknown> {
     return this.adapter.clearCheckoutDeliveryAddress(userId, cartId);
   }

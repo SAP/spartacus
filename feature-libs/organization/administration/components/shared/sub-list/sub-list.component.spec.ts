@@ -150,7 +150,7 @@ describe('SubListComponent', () => {
   describe('without data', () => {
     beforeEach(() => {
       spyOn(organizationListService, 'getData').and.returnValue(
-        of(mockEmptyList)
+        of(mockEmptyList),
       );
       fixture = TestBed.createComponent(SubListComponent);
       component = fixture.componentInstance;

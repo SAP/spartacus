@@ -21,7 +21,7 @@ export class MessageRenderService {
 
   getComponent(msg: MessageData): ComponentFactory<any> {
     return this.componentFactoryResolver.resolveComponentFactory(
-      msg.component || NotificationMessageComponent
+      msg.component || NotificationMessageComponent,
     );
   }
 

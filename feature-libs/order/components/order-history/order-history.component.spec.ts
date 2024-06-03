@@ -82,7 +82,7 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 const mockOrderHistoryList$ = new BehaviorSubject<OrderHistoryList>(mockOrders);
 
 const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
-  mockReplenishmentOrder
+  mockReplenishmentOrder,
 );
 
 @Component({
@@ -122,7 +122,7 @@ class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
   loadOrderList(
     _pageSize: number,
     _currentPage?: number,
-    _sort?: string
+    _sort?: string,
   ): void {}
   clearOrderList() {}
 }
@@ -151,31 +151,29 @@ describe('OrderHistoryComponent', () => {
   let orderHistoryFacade: OrderHistoryFacade;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          OrderHistoryComponent,
-          MockUrlPipe,
-          MockPaginationComponent,
-          MockSortingComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
-          { provide: TranslationService, useClass: MockTranslationService },
-          {
-            provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockReplenishmentOrderHistoryFacade,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        OrderHistoryComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
+        MockSortingComponent,
+      ],
+      providers: [
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
+        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: ReplenishmentOrderHistoryFacade,
+          useClass: MockReplenishmentOrderHistoryFacade,
+        },
+      ],
+    }).compileComponents();
 
-      orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
-      routingService = TestBed.inject(RoutingService);
-    })
-  );
+    orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
+    routingService = TestBed.inject(RoutingService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderHistoryComponent);
@@ -189,7 +187,7 @@ describe('OrderHistoryComponent', () => {
   it('should have a row tag in the table header', () => {
     fixture.detectChanges();
     expect(
-      fixture.debugElement.query(By.css('.cx-order-history-table thead tr'))
+      fixture.debugElement.query(By.css('.cx-order-history-table thead tr')),
     ).toBeTruthy();
   });
 
@@ -208,7 +206,7 @@ describe('OrderHistoryComponent', () => {
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
-      By.css('.cx-order-history-table tbody tr')
+      By.css('.cx-order-history-table tbody tr'),
     );
     rows[1].triggerEventHandler('click', null);
 
@@ -227,7 +225,7 @@ describe('OrderHistoryComponent', () => {
     expect(orderHistoryFacade.loadOrderList).toHaveBeenCalledWith(
       5,
       0,
-      'byOrderNumber'
+      'byOrderNumber',
     );
   });
 
@@ -240,7 +238,7 @@ describe('OrderHistoryComponent', () => {
     expect(orderHistoryFacade.loadOrderList).toHaveBeenCalledWith(
       5,
       1,
-      'byDate'
+      'byDate',
     );
   });
 
@@ -249,7 +247,7 @@ describe('OrderHistoryComponent', () => {
     fixture.detectChanges();
 
     const elements = fixture.debugElement.queryAll(
-      By.css('.cx-order-history-pagination')
+      By.css('.cx-order-history-pagination'),
     );
 
     expect(elements.length).toEqual(2);
@@ -261,7 +259,7 @@ describe('OrderHistoryComponent', () => {
     fixture.detectChanges();
 
     const header = fixture.debugElement.query(
-      By.css('.cx-order-history-thead-mobile > tr[role="row"')
+      By.css('.cx-order-history-thead-mobile > tr[role="row"'),
     );
     expect(header.children.length).toEqual(4);
 
@@ -269,14 +267,14 @@ describe('OrderHistoryComponent', () => {
     fixture.detectChanges();
 
     const headerPO = fixture.debugElement.query(
-      By.css('.cx-order-history-thead-mobile > tr[role="row"]')
+      By.css('.cx-order-history-thead-mobile > tr[role="row"]'),
     );
     expect(headerPO.children.length).toEqual(6);
     expect(headerPO.children[1].nativeElement.textContent.trim()).toEqual(
-      'orderHistory.PONumber'
+      'orderHistory.PONumber',
     );
     expect(headerPO.children[2].nativeElement.textContent.trim()).toEqual(
-      'orderHistory.costCenter'
+      'orderHistory.costCenter',
     );
   });
 
@@ -308,7 +306,7 @@ describe('OrderHistoryComponent', () => {
       .unsubscribe();
 
     const elements = fixture.debugElement.queryAll(
-      By.css('.cx-order-history-pagination')
+      By.css('.cx-order-history-pagination'),
     );
 
     expect(elements.length).toEqual(0);
@@ -336,15 +334,15 @@ describe('OrderHistoryComponent', () => {
       fixture.detectChanges();
 
       const element = fixture.debugElement.query(
-        By.css('.cx-order-history-header')
+        By.css('.cx-order-history-header'),
       );
 
       expect(element.nativeElement.textContent).toContain(
-        'orderHistory.orderHistory'
+        'orderHistory.orderHistory',
       );
 
       expect(element.nativeElement.textContent).not.toContain(
-        'orderHistory.replenishmentHistory'
+        'orderHistory.replenishmentHistory',
       );
     });
 
@@ -353,12 +351,12 @@ describe('OrderHistoryComponent', () => {
       fixture.detectChanges();
 
       expect(
-        fixture.debugElement.query(By.css('.cx-order-history-no-order'))
+        fixture.debugElement.query(By.css('.cx-order-history-no-order')),
       ).not.toBeNull();
       expect(
         fixture.debugElement.query(
-          By.css('.cx-replenishment-details-order-history-no-order')
-        )
+          By.css('.cx-replenishment-details-order-history-no-order'),
+        ),
       ).toBeNull();
     });
   });
@@ -372,15 +370,15 @@ describe('OrderHistoryComponent', () => {
       fixture.detectChanges();
 
       const element = fixture.debugElement.query(
-        By.css('.cx-replenishment-details-order-history-header')
+        By.css('.cx-replenishment-details-order-history-header'),
       );
 
       expect(element.nativeElement.textContent).toContain(
-        'orderHistory.replenishmentHistory'
+        'orderHistory.replenishmentHistory',
       );
 
       expect(element.nativeElement.textContent).not.toContain(
-        'orderHistory.orderHistory'
+        'orderHistory.orderHistory',
       );
     });
 
@@ -389,12 +387,12 @@ describe('OrderHistoryComponent', () => {
       fixture.detectChanges();
 
       expect(
-        fixture.debugElement.query(By.css('.cx-order-history-no-order'))
+        fixture.debugElement.query(By.css('.cx-order-history-no-order')),
       ).toBeNull();
       expect(
         fixture.debugElement.query(
-          By.css('.cx-replenishment-details-order-history-no-order')
-        )
+          By.css('.cx-replenishment-details-order-history-no-order'),
+        ),
       ).not.toBeNull();
     });
   });

@@ -24,13 +24,13 @@ export class I18nextTranslationService implements TranslationService {
     protected config: I18nConfig,
     protected translationChunk: TranslationChunkService,
     // Required param added in 3.0.x as a critical bug fix, not subject to the breaking changes policy
-    @Inject(I18NEXT_INSTANCE) protected i18next: i18n
+    @Inject(I18NEXT_INSTANCE) protected i18next: i18n,
   ) {}
 
   translate(
     key: string,
     options: any = {},
-    whitespaceUntilLoaded: boolean = false
+    whitespaceUntilLoaded: boolean = false,
   ): Observable<string> {
     // If we've already loaded the chunk (or failed to load), we should immediately emit the value
     // (or the fallback value in case the key is missing).
@@ -59,7 +59,7 @@ export class I18nextTranslationService implements TranslationService {
               subscriber.next(this.getFallbackValue(namespacedKey));
             } else {
               subscriber.next(
-                this.i18next.t(namespacedKey, options as TOptions)
+                this.i18next.t(namespacedKey, options as TOptions),
               );
             }
           });
@@ -87,7 +87,7 @@ export class I18nextTranslationService implements TranslationService {
   private reportMissingKey(key: string, chunkName: string) {
     if (isDevMode()) {
       this.logger.warn(
-        `Translation key missing '${key}' in the chunk '${chunkName}'`
+        `Translation key missing '${key}' in the chunk '${chunkName}'`,
       );
     }
   }

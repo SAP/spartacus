@@ -70,13 +70,13 @@ describe('ScheduleComponent', () => {
 
     // then verify the rendered schedule
     const renderedScheduleRows: HTMLCollection = fixture.debugElement.query(
-      By.css('div.container')
+      By.css('div.container'),
     ).nativeElement.children;
 
     verifyScheduleRow(
       renderedScheduleRows.item(0),
       'Sun',
-      'storeFinder.closed'
+      'storeFinder.closed',
     );
     verifyScheduleRow(renderedScheduleRows.item(1), 'Mon', '09:00 - 20:00');
     verifyScheduleRow(renderedScheduleRows.item(2), 'Tue', '09:00 - 20:00');
@@ -99,7 +99,7 @@ describe('ScheduleComponent', () => {
 function verifyScheduleRow(
   element: Element,
   expectedDayValue: string,
-  expectedScheduleValue: string
+  expectedScheduleValue: string,
 ): void {
   expect(element.children[0].innerHTML).toContain(expectedDayValue);
   expect(element.children[1].innerHTML).toContain(expectedScheduleValue);

@@ -30,7 +30,7 @@ export class PickupOptionService implements PickupOptionFacade {
     this.store.dispatch(
       PickupOptionActions.SetPageContext({
         payload: { pageContext },
-      })
+      }),
     );
   }
 
@@ -42,13 +42,13 @@ export class PickupOptionService implements PickupOptionFacade {
     this.store.dispatch(
       PickupOptionActions.SetPickupOption({
         payload: { entryNumber, pickupOption },
-      })
+      }),
     );
   }
 
   getPickupOption(entryNumber: number): Observable<PickupOption | undefined> {
     return this.store.pipe(
-      select(PickupOptionSelectors.getPickupOption(entryNumber))
+      select(PickupOptionSelectors.getPickupOption(entryNumber)),
     );
   }
 }

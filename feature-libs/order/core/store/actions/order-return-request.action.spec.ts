@@ -143,7 +143,7 @@ describe('Order Return Request actions', () => {
         },
         meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
-          CANCEL_RETURN_PROCESS_ID
+          CANCEL_RETURN_PROCESS_ID,
         ),
       });
     });
@@ -160,7 +160,7 @@ describe('Order Return Request actions', () => {
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           CANCEL_RETURN_PROCESS_ID,
-          error
+          error,
         ),
       });
     });
@@ -174,7 +174,7 @@ describe('Order Return Request actions', () => {
         type: OrderActions.CANCEL_ORDER_RETURN_REQUEST_SUCCESS,
         meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
-          CANCEL_RETURN_PROCESS_ID
+          CANCEL_RETURN_PROCESS_ID,
         ),
         payload: undefined,
       });
@@ -184,7 +184,7 @@ describe('Order Return Request actions', () => {
   describe('LoadOrderReturnRequestList Actions', () => {
     it('should create the action', () => {
       const action = new OrderActions.LoadOrderReturnRequestList(
-        mockLoadPayload
+        mockLoadPayload,
       );
 
       expect({ ...action }).toEqual({
@@ -211,7 +211,7 @@ describe('Order Return Request actions', () => {
   describe('LoadOrderReturnRequestListSuccess Action', () => {
     it('should create the action', () => {
       const action = new OrderActions.LoadOrderReturnRequestListSuccess(
-        mockReturnRequestList
+        mockReturnRequestList,
       );
 
       expect({ ...action }).toEqual({
@@ -252,7 +252,7 @@ describe('Order Return Request actions', () => {
         type: OrderActions.RESET_CANCEL_RETURN_PROCESS,
         meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
-          CANCEL_RETURN_PROCESS_ID
+          CANCEL_RETURN_PROCESS_ID,
         ),
       });
     });

@@ -46,12 +46,12 @@ export class UserGroupEffects {
               new UserGroupActions.LoadUserGroupFail({
                 userGroupId,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   loadUserGroups$: Observable<
@@ -67,7 +67,7 @@ export class UserGroupEffects {
           switchMap((userGroups: EntitiesModel<UserGroup>) => {
             const { values, page } = StateUtils.normalizeListPage(
               userGroups,
-              'uid'
+              'uid',
             );
             return [
               new UserGroupActions.LoadUserGroupSuccess(values),
@@ -82,12 +82,12 @@ export class UserGroupEffects {
               new UserGroupActions.LoadUserGroupsFail({
                 params: payload.params,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   loadAvailableOrderApprovalPermissions$: Observable<
@@ -99,7 +99,7 @@ export class UserGroupEffects {
       ofType(UserGroupActions.LOAD_USER_GROUP_PERMISSIONS),
       map((action: UserGroupActions.LoadPermissions) => action.payload),
       groupBy(({ userGroupId, params }) =>
-        StateUtils.serializeParams(userGroupId, params)
+        StateUtils.serializeParams(userGroupId, params),
       ),
       mergeMap((group) =>
         group.pipe(
@@ -108,13 +108,13 @@ export class UserGroupEffects {
               .getAvailableOrderApprovalPermissions(
                 payload.userId,
                 payload.userGroupId,
-                payload.params
+                payload.params,
               )
               .pipe(
                 switchMap((permissions: EntitiesModel<Permission>) => {
                   const { values, page } = StateUtils.normalizeListPage(
                     permissions,
-                    'code'
+                    'code',
                   );
                   return [
                     new PermissionActions.LoadPermissionSuccess(values),
@@ -131,14 +131,14 @@ export class UserGroupEffects {
                       userGroupId: payload.userGroupId,
                       params: payload.params,
                       error: normalizeHttpError(error, this.logger),
-                    })
-                  )
-                )
-              )
-          )
-        )
-      )
-    )
+                    }),
+                  ),
+                ),
+              ),
+          ),
+        ),
+      ),
+    ),
   );
 
   loadAvailableOrgCustomers$: Observable<
@@ -149,10 +149,10 @@ export class UserGroupEffects {
     this.actions$.pipe(
       ofType(UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS),
       map(
-        (action: UserGroupActions.LoadAvailableOrgCustomers) => action.payload
+        (action: UserGroupActions.LoadAvailableOrgCustomers) => action.payload,
       ),
       groupBy(({ userGroupId, params }) =>
-        StateUtils.serializeParams(userGroupId, params)
+        StateUtils.serializeParams(userGroupId, params),
       ),
       mergeMap((group) =>
         group.pipe(
@@ -161,13 +161,13 @@ export class UserGroupEffects {
               .getAvailableOrgCustomers(
                 payload.userId,
                 payload.userGroupId,
-                payload.params
+                payload.params,
               )
               .pipe(
                 switchMap((customers: EntitiesModel<B2BUser>) => {
                   const { values, page } = StateUtils.normalizeListPage(
                     customers,
-                    'customerId'
+                    'customerId',
                   );
                   return [
                     new B2BUserActions.LoadB2BUserSuccess(values),
@@ -184,14 +184,14 @@ export class UserGroupEffects {
                       userGroupId: payload.userGroupId,
                       params: payload.params,
                       error: normalizeHttpError(error, this.logger),
-                    })
-                  )
-                )
-              )
-          )
-        )
-      )
-    )
+                    }),
+                  ),
+                ),
+              ),
+          ),
+        ),
+      ),
+    ),
   );
 
   createUserGroup$: Observable<
@@ -215,11 +215,11 @@ export class UserGroupEffects {
                 error: normalizeHttpError(error, this.logger),
               }),
               new OrganizationActions.OrganizationClearData(),
-            ])
-          )
-        )
-      )
-    )
+            ]),
+          ),
+        ),
+      ),
+    ),
   );
 
   updateUserGroup$: Observable<
@@ -246,11 +246,11 @@ export class UserGroupEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   deleteUserGroup$: Observable<
@@ -276,11 +276,11 @@ export class UserGroupEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   assignPermissionToUserGroup$: Observable<
@@ -296,7 +296,7 @@ export class UserGroupEffects {
           .assignOrderApprovalPermission(
             payload.userId,
             payload.userGroupId,
-            payload.permissionUid
+            payload.permissionUid,
           )
           .pipe(
             switchMap((data) => [
@@ -314,11 +314,11 @@ export class UserGroupEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   assignMemberUnitUserGroup$: Observable<
@@ -348,11 +348,11 @@ export class UserGroupEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   unassignMemberFromUserGroup$: Observable<
@@ -368,7 +368,7 @@ export class UserGroupEffects {
           .unassignMember(
             payload.userId,
             payload.userGroupId,
-            payload.customerId
+            payload.customerId,
           )
           .pipe(
             switchMap(() => [
@@ -386,11 +386,11 @@ export class UserGroupEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   unassignPermissionFromUserGroup$: Observable<
@@ -406,7 +406,7 @@ export class UserGroupEffects {
           .unassignOrderApprovalPermission(
             payload.userId,
             payload.userGroupId,
-            payload.permissionUid
+            payload.permissionUid,
           )
           .pipe(
             switchMap((data) => [
@@ -424,11 +424,11 @@ export class UserGroupEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   unassignAllMembersFromUserGroup$: Observable<
@@ -456,15 +456,15 @@ export class UserGroupEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   constructor(
     private actions$: Actions,
-    private userGroupConnector: UserGroupConnector
+    private userGroupConnector: UserGroupConnector,
   ) {}
 }

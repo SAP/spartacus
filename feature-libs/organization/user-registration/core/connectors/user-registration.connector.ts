@@ -14,7 +14,7 @@ export class UserRegistrationConnector {
   constructor(protected adapter: UserRegistrationAdapter) {}
 
   registerUser(
-    userData: OrganizationUserRegistration
+    userData: OrganizationUserRegistration,
   ): Observable<OrganizationUserRegistration> {
     return this.adapter.registerUser(userData);
   }

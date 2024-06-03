@@ -34,8 +34,8 @@ export class AuthMultisiteIsolationService {
       map((baseSite) =>
         Boolean(baseSite?.isolated)
           ? this.MULTISITE_SEPARATOR + baseSite?.uid
-          : ''
-      )
+          : '',
+      ),
     );
   }
 
@@ -46,7 +46,7 @@ export class AuthMultisiteIsolationService {
    */
   decorateUserId(userId: string): Observable<string> {
     return this.getBaseSiteDecorator().pipe(
-      map((decorator) => userId + decorator)
+      map((decorator) => userId + decorator),
     );
   }
 }

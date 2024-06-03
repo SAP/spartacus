@@ -67,7 +67,7 @@ class MockLoggerService {
 
 const mockNormalizedJaloError = normalizeHttpError(
   mockJaloError,
-  new MockLoggerService()
+  new MockLoggerService(),
 );
 
 describe('OccCheckoutAdapter', () => {
@@ -123,7 +123,7 @@ describe('OccCheckoutAdapter', () => {
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'get').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -149,7 +149,7 @@ describe('OccCheckoutAdapter', () => {
               return of(checkoutData);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: CheckoutState | undefined;

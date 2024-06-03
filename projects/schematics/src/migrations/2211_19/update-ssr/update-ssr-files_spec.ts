@@ -22,18 +22,18 @@ import { SPARTACUS_SCHEMATICS } from '../../../shared/libs-constants';
 
 const updateSsrCollectionPath = path.join(
   __dirname,
-  './update-ssr.collection.json'
+  './update-ssr.collection.json',
 );
 const collectionPath = path.join(__dirname, '../../../collection.json');
 
 describe('Update SSR', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
-    collectionPath
+    collectionPath,
   );
   const updateSsrSchematicRunner = new SchematicTestRunner(
     'test',
-    updateSsrCollectionPath
+    updateSsrCollectionPath,
   );
 
   let tree: UnitTestTree;
@@ -63,26 +63,26 @@ describe('Update SSR', () => {
     tree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     tree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      tree
+      tree,
     );
 
     tree = await schematicRunner.runSchematic(
       'add-spartacus',
       { ...defaultOptions, name: 'schematics-test' },
-      tree
+      tree,
     );
 
     tree = await schematicRunner.runSchematic(
       'add-ssr',
       { ...defaultOptions, name: 'schematics-test' },
-      tree
+      tree,
     );
   });
 
@@ -91,7 +91,7 @@ describe('Update SSR', () => {
       tree = await updateSsrSchematicRunner.runSchematic(
         'update-ssr',
         { name: 'schematics-test' },
-        tree
+        tree,
       );
 
       const updatedContent = tree.read('./server.ts')?.toString();
@@ -109,7 +109,7 @@ describe('Update SSR', () => {
       tree = await updateSsrSchematicRunner.runSchematic(
         'update-ssr',
         { name: 'schematics-test' },
-        tree
+        tree,
       );
 
       const updatedServerContent = tree.read('./server.ts')?.toString();
@@ -125,7 +125,7 @@ describe('Update SSR', () => {
       tree = await updateSsrSchematicRunner.runSchematic(
         'update-ssr',
         { name: 'schematics-test' },
-        tree
+        tree,
       );
 
       const restoredServerFileContent = tree.read(SERVER_FILENAME)?.toString();
@@ -145,7 +145,7 @@ describe('Update SSR', () => {
       tree = await updateSsrSchematicRunner.runSchematic(
         'update-ssr',
         { name: 'schematics-test' },
-        tree
+        tree,
       );
 
       expect(tree.exists(tokensPath)).toBeFalsy();
@@ -156,17 +156,17 @@ describe('Update SSR', () => {
 
       tree.create(
         filePath,
-        `import { REQUEST, RESPONSE } from './${EXPRESS_TOKENS}';`
+        `import { REQUEST, RESPONSE } from './${EXPRESS_TOKENS}';`,
       );
       tree = await updateSsrSchematicRunner.runSchematic(
         'update-ssr',
         { name: 'schematics-test' },
-        tree
+        tree,
       );
 
       const updatedContent = tree.read(filePath)?.toString();
       expect(updatedContent).toContain(
-        `import { REQUEST, RESPONSE } from '${SSR_SETUP_IMPORT}';`
+        `import { REQUEST, RESPONSE } from '${SSR_SETUP_IMPORT}';`,
       );
     });
   });

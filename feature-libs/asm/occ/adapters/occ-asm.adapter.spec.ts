@@ -70,7 +70,7 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ): string {
     return endpoint;
   }
@@ -122,7 +122,7 @@ describe('OccAsmAdapter', () => {
     mockReq.flush(mockCustomerListPage);
     expect(result).toEqual(mockCustomerListPage);
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_LISTS_NORMALIZER
+      CUSTOMER_LISTS_NORMALIZER,
     );
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'asmCustomerLists',
@@ -130,7 +130,7 @@ describe('OccAsmAdapter', () => {
       {
         baseSite: false,
         prefix: false,
-      }
+      },
     );
   });
 
@@ -166,7 +166,7 @@ describe('OccAsmAdapter', () => {
     mockReq.flush(mockCustomerSearchPage);
     expect(result).toEqual(mockCustomerSearchPage);
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_SEARCH_PAGE_NORMALIZER
+      CUSTOMER_SEARCH_PAGE_NORMALIZER,
     );
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'asmCustomerSearch',
@@ -174,7 +174,7 @@ describe('OccAsmAdapter', () => {
       {
         baseSite: false,
         prefix: false,
-      }
+      },
     );
   });
 
@@ -203,7 +203,7 @@ describe('OccAsmAdapter', () => {
     mockReq.flush(mockCustomerSearchPage);
     expect(result).toEqual(mockCustomerSearchPage);
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_SEARCH_PAGE_NORMALIZER
+      CUSTOMER_SEARCH_PAGE_NORMALIZER,
     );
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'asmCustomerSearch',
@@ -211,7 +211,7 @@ describe('OccAsmAdapter', () => {
       {
         baseSite: false,
         prefix: false,
-      }
+      },
     );
   });
 
@@ -235,7 +235,7 @@ describe('OccAsmAdapter', () => {
     mockReq.flush(mockCustomerSearchPage);
     expect(result).toEqual(mockCustomerSearchPage);
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_SEARCH_PAGE_NORMALIZER
+      CUSTOMER_SEARCH_PAGE_NORMALIZER,
     );
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'asmCustomerSearch',
@@ -243,7 +243,7 @@ describe('OccAsmAdapter', () => {
       {
         baseSite: false,
         prefix: false,
-      }
+      },
     );
   });
 
@@ -272,7 +272,7 @@ describe('OccAsmAdapter', () => {
     mockReq.flush(mockCustomerSearchPage);
     expect(result).toEqual(mockCustomerSearchPage);
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_SEARCH_PAGE_NORMALIZER
+      CUSTOMER_SEARCH_PAGE_NORMALIZER,
     );
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'asmCustomerSearch',
@@ -280,7 +280,7 @@ describe('OccAsmAdapter', () => {
       {
         baseSite: false,
         prefix: false,
-      }
+      },
     );
   });
 
@@ -306,7 +306,7 @@ describe('OccAsmAdapter', () => {
     mockReq.flush(mockCustomerSearchPage);
     expect(result).toEqual(mockCustomerSearchPage);
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_SEARCH_PAGE_NORMALIZER
+      CUSTOMER_SEARCH_PAGE_NORMALIZER,
     );
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'asmCustomerSearch',
@@ -314,7 +314,7 @@ describe('OccAsmAdapter', () => {
       {
         baseSite: false,
         prefix: false,
-      }
+      },
     );
   });
 

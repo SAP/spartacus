@@ -9,9 +9,9 @@ export const config = {
   tokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/token`,
   revokeTokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/revoke`,
   newUserUrl: `${Cypress.env('API_URL')}/${Cypress.env(
-    'OCC_PREFIX'
+    'OCC_PREFIX',
   )}/${Cypress.env('BASE_SITE')}/users/?lang=en&curr=${Cypress.env(
-    'BASE_CURRENCY'
+    'BASE_CURRENCY',
   )}`,
   client: {
     client_id: Cypress.env('CLIENT_ID'),
@@ -22,7 +22,7 @@ export const config = {
 export function login(
   uid: string,
   password: string,
-  failOnStatusCode: boolean = true
+  failOnStatusCode: boolean = true,
 ) {
   return cy.request({
     method: 'POST',
@@ -67,7 +67,7 @@ export function setSessionData(data) {
       displayName: 'LoginUtil',
       message: [
         `storing session state with key '${storageKey}' and value: ${JSON.stringify(
-          state
+          state,
         )}`,
       ],
     });

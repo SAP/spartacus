@@ -23,21 +23,21 @@ export class OrderApprovalDetailService {
   protected orderApproval$ = this.approvalCode$.pipe(
     filter((approvalCode) => Boolean(approvalCode)),
     tap((approvalCode: string) =>
-      this.orderApprovalService.loadOrderApproval(approvalCode)
+      this.orderApprovalService.loadOrderApproval(approvalCode),
     ),
     switchMap((approvalCode: string) =>
-      this.orderApprovalService.get(approvalCode)
+      this.orderApprovalService.get(approvalCode),
     ),
-    shareReplay({ bufferSize: 1, refCount: true })
+    shareReplay({ bufferSize: 1, refCount: true }),
   );
 
   protected order$: Observable<Order> = this.orderApproval$.pipe(
-    map((orderApproval) => orderApproval?.order as Order)
+    map((orderApproval) => orderApproval?.order as Order),
   );
 
   constructor(
     protected routingService: RoutingService,
-    protected orderApprovalService: OrderApprovalService
+    protected orderApprovalService: OrderApprovalService,
   ) {}
 
   /**

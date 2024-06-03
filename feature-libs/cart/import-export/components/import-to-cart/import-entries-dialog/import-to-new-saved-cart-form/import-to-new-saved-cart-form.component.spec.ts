@@ -226,12 +226,12 @@ describe('ImportToNewSavedCartFormComponent', () => {
           component.form.get('file')?.setValue([mockFile]);
           el.query(By.css('cx-file-upload')).triggerEventHandler(
             'update',
-            null
+            null,
           );
 
           expect(component.form.get('name')?.value).toMatch(resultMask);
         });
-      }
+      },
     );
   });
 });

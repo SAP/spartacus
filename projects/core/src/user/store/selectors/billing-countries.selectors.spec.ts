@@ -42,7 +42,7 @@ describe('Billing Countries Selectors', () => {
       expect(result).toEqual([]);
 
       store.dispatch(
-        new UserActions.LoadBillingCountriesSuccess(mockCountries)
+        new UserActions.LoadBillingCountriesSuccess(mockCountries),
       );
 
       expect(result).toEqual(mockCountries);

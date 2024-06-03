@@ -29,22 +29,22 @@ export class UserCostCenterEffects {
             // TODO(#8875): Should we use here serialize utils?
             map(
               (data: EntitiesModel<CostCenter>) =>
-                new UserActions.LoadActiveCostCentersSuccess(data.values)
+                new UserActions.LoadActiveCostCentersSuccess(data.values),
             ),
             catchError((error) =>
               of(
                 new UserActions.LoadActiveCostCentersFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
-          )
-        )
-      )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
 
   constructor(
     private actions$: Actions,
-    private userCostCenterConnector: UserCostCenterConnector
+    private userCostCenterConnector: UserCostCenterConnector,
   ) {}
 }

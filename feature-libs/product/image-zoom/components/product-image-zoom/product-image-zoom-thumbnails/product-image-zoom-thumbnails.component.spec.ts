@@ -44,16 +44,14 @@ describe('ProductImageZoomThumbnailsComponent', () => {
   let productImageZoomThumbnailsComponent: ProductImageZoomThumbnailsComponent;
   let fixture: ComponentFixture<ProductImageZoomThumbnailsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ProductImageZoomThumbnailsComponent,
-          MockCarouselComponent,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ProductImageZoomThumbnailsComponent,
+        MockCarouselComponent,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImageZoomThumbnailsComponent);
@@ -73,7 +71,7 @@ describe('ProductImageZoomThumbnailsComponent', () => {
       productImageZoomThumbnailsComponent.openImage(firstImage);
 
       expect(
-        productImageZoomThumbnailsComponent.productImage.emit
+        productImageZoomThumbnailsComponent.productImage.emit,
       ).toHaveBeenCalledWith({ image: firstImage, index: 1 });
     });
   });

@@ -61,7 +61,7 @@ class MockCheckoutPaymentConnector
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
   getCheckoutDetailsState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: undefined })
+    of({ loading: false, error: false, data: undefined }),
   );
 }
 
@@ -96,7 +96,7 @@ describe(`CheckoutPaymentService`, () => {
     [CheckoutPaymentService],
     (checkoutPaymentService: CheckoutPaymentService) => {
       expect(checkoutPaymentService).toBeTruthy();
-    }
+    },
   ));
 
   describe(`getPaymentCardTypesState`, () => {
@@ -123,7 +123,7 @@ describe(`CheckoutPaymentService`, () => {
           loading: false,
           error: false,
           data: mockCardTypes,
-        })
+        }),
       );
 
       service
@@ -142,7 +142,7 @@ describe(`CheckoutPaymentService`, () => {
           loading: false,
           error: false,
           data: undefined,
-        })
+        }),
       );
 
       service
@@ -164,7 +164,7 @@ describe(`CheckoutPaymentService`, () => {
           data: {
             paymentInfo: mockPaymentInfo,
           },
-        })
+        }),
       );
 
       service
@@ -188,7 +188,7 @@ describe(`CheckoutPaymentService`, () => {
       expect(connector.createPaymentDetails).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
-        mockPaymentInfo
+        mockPaymentInfo,
       );
     });
 
@@ -201,7 +201,7 @@ describe(`CheckoutPaymentService`, () => {
           cartId: mockCartId,
           paymentDetails: mockPaymentInfo,
         },
-        CheckoutPaymentDetailsCreatedEvent
+        CheckoutPaymentDetailsCreatedEvent,
       );
     });
   });
@@ -225,7 +225,7 @@ describe(`CheckoutPaymentService`, () => {
       expect(connector.setPaymentDetails).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
-        mockPaymentInfo.id
+        mockPaymentInfo.id,
       );
     });
 
@@ -238,7 +238,7 @@ describe(`CheckoutPaymentService`, () => {
           cartId: mockCartId,
           paymentDetailsId: mockPaymentInfo.id,
         },
-        CheckoutPaymentDetailsSetEvent
+        CheckoutPaymentDetailsSetEvent,
       );
     });
   });

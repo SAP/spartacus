@@ -6,14 +6,14 @@
 
 export function getDefaultDeliveryModeCode(
   accessToken: string,
-  cartId?: string
+  cartId?: string,
 ) {
   const cartQueryValue = cartId || 'current';
   return cy
     .request({
       method: 'GET',
       url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/carts/${cartQueryValue}/deliverymodes`,
       headers: {
         Authorization: `bearer ${accessToken}`,

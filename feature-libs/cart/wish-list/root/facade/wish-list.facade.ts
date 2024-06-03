@@ -31,7 +31,7 @@ export abstract class WishListFacade {
   abstract createWishList(
     userId: string,
     name?: string,
-    description?: string
+    description?: string,
   ): void;
 
   abstract getWishList(): Observable<Cart>;

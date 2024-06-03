@@ -19,7 +19,7 @@ export const initialState: ProductsSearchState = {
 
 export function reducer(
   state = initialState,
-  action: ProductActions.ProductSearchAction
+  action: ProductActions.ProductSearchAction,
 ): ProductsSearchState {
   switch (action.type) {
     case ProductActions.SEARCH_PRODUCTS_SUCCESS: {
@@ -57,11 +57,11 @@ export function reducer(
 }
 
 export const getSearchResults = (
-  state: ProductsSearchState
+  state: ProductsSearchState,
 ): ProductSearchPage => state.results;
 export const getAuxSearchResults = (
-  state: ProductsSearchState
+  state: ProductsSearchState,
 ): ProductSearchPage => state.auxResults;
 export const getProductSuggestions = (
-  state: ProductsSearchState
+  state: ProductsSearchState,
 ): Suggestion[] => state.suggestions;

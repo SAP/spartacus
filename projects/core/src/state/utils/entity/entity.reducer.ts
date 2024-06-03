@@ -17,11 +17,11 @@ export const initialEntityState: EntityState<any> = { entities: {} };
  */
 export function entityReducer<T, V extends Action = Action>(
   entityType: string,
-  reducer: (state: T, action: Action | V) => T
+  reducer: (state: T, action: Action | V) => T,
 ) {
   return (
     state: EntityState<T> = initialEntityState,
-    action: EntityAction
+    action: EntityAction,
   ): EntityState<T> => {
     let ids: string[] = [];
     let partitionPayload = false;
@@ -71,7 +71,7 @@ export function entityReducer<T, V extends Action = Action>(
   function removeSelectedEntities(
     action: EntityAction,
     state: EntityState<T>,
-    ids: string | string[]
+    ids: string | string[],
   ) {
     if (action?.meta?.entityId === null) {
       return initialEntityState;
@@ -86,7 +86,7 @@ export function entityReducer<T, V extends Action = Action>(
           }
           return acc;
         },
-        {}
+        {},
       );
 
       return removed ? { entities: newEntities } : state;

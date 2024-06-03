@@ -19,7 +19,7 @@ describe('anonymous consent templates selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ANONYMOUS_CONSENTS_STORE_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });
@@ -41,14 +41,14 @@ describe('anonymous consent templates selectors', () => {
     it('should return the consent template loader state', () => {
       store.dispatch(
         new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-          mockConsentTemplates
-        )
+          mockConsentTemplates,
+        ),
       );
 
       let result: StateUtils.LoaderState<ConsentTemplate[]>;
       store
         .pipe(
-          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesState)
+          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesState),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -65,14 +65,14 @@ describe('anonymous consent templates selectors', () => {
     it('should return the consent templates from the state', () => {
       store.dispatch(
         new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-          mockConsentTemplates
-        )
+          mockConsentTemplates,
+        ),
       );
 
       let result: ConsentTemplate[];
       store
         .pipe(
-          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesValue)
+          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesValue),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -83,13 +83,15 @@ describe('anonymous consent templates selectors', () => {
   describe('getAnonymousConsentTemplatesLoading', () => {
     it('should return the loading flag', () => {
       store.dispatch(
-        new AnonymousConsentsActions.LoadAnonymousConsentTemplates()
+        new AnonymousConsentsActions.LoadAnonymousConsentTemplates(),
       );
 
       let result = false;
       store
         .pipe(
-          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesLoading)
+          select(
+            AnonymousConsentsSelectors.getAnonymousConsentTemplatesLoading,
+          ),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -101,14 +103,16 @@ describe('anonymous consent templates selectors', () => {
     it('should return the success flag', () => {
       store.dispatch(
         new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-          mockConsentTemplates
-        )
+          mockConsentTemplates,
+        ),
       );
 
       let result = false;
       store
         .pipe(
-          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesSuccess)
+          select(
+            AnonymousConsentsSelectors.getAnonymousConsentTemplatesSuccess,
+          ),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -120,14 +124,14 @@ describe('anonymous consent templates selectors', () => {
     it('should return the error flag', () => {
       store.dispatch(
         new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-          'anError'
-        )
+          'anError',
+        ),
       );
 
       let result = false;
       store
         .pipe(
-          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesError)
+          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesError),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -139,8 +143,8 @@ describe('anonymous consent templates selectors', () => {
     it('should return the specified consent template', () => {
       store.dispatch(
         new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-          mockConsentTemplates
-        )
+          mockConsentTemplates,
+        ),
       );
 
       let result: ConsentTemplate;
@@ -148,9 +152,9 @@ describe('anonymous consent templates selectors', () => {
         .pipe(
           select(
             AnonymousConsentsSelectors.getAnonymousConsentTemplate(
-              mockTemplateCode
-            )
-          )
+              mockTemplateCode,
+            ),
+          ),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();

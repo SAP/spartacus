@@ -28,12 +28,12 @@ export class ReorderOrderService implements ReorderOrderFacade {
       ({ orderId }) =>
         this.reorderPreconditions().pipe(
           switchMap((userId: string) =>
-            this.reorderOrderConnector.reorder(orderId, userId)
-          )
+            this.reorderOrderConnector.reorder(orderId, userId),
+          ),
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
-      }
+      },
     );
 
   constructor(
@@ -41,7 +41,7 @@ export class ReorderOrderService implements ReorderOrderFacade {
     protected reorderOrderConnector: ReorderOrderConnector,
     protected userIdService: UserIdService,
     protected activeCartFacade: ActiveCartFacade,
-    protected multiCartFacade: MultiCartFacade
+    protected multiCartFacade: MultiCartFacade,
   ) {}
 
   /**
@@ -69,7 +69,7 @@ export class ReorderOrderService implements ReorderOrderFacade {
         }
 
         return userId;
-      })
+      }),
     );
   }
 }

@@ -50,7 +50,7 @@ describe('NgExpressEngineDecorator', () => {
       expect(originalEngineInstance).toHaveBeenCalledWith(
         mockPath,
         mockOptions,
-        mockCallback
+        mockCallback,
       );
     });
 
@@ -61,7 +61,7 @@ describe('NgExpressEngineDecorator', () => {
           providers: expect.arrayContaining([
             { provide: 'testToken', useValue: 'testValue' },
           ]),
-        })
+        }),
       );
     });
 
@@ -73,7 +73,7 @@ describe('NgExpressEngineDecorator', () => {
               provide: SERVER_REQUEST_URL,
             }),
           ]),
-        })
+        }),
       );
     });
   });
@@ -130,7 +130,7 @@ describe('decorateExpressEngine', () => {
       expect(originalEngineInstance).toHaveBeenCalledWith(
         mockPath,
         mockOptions,
-        mockCallback
+        mockCallback,
       );
     });
 
@@ -141,7 +141,7 @@ describe('decorateExpressEngine', () => {
           providers: expect.arrayContaining([
             { provide: 'testToken', useValue: 'testValue' },
           ]),
-        })
+        }),
       );
     });
 
@@ -153,7 +153,7 @@ describe('decorateExpressEngine', () => {
               provide: SERVER_REQUEST_URL,
             }),
           ]),
-        })
+        }),
       );
     });
 
@@ -197,7 +197,7 @@ describe('decorateExpressEngine', () => {
             },
           ],
         },
-        expect.any(Function)
+        expect.any(Function),
       );
     });
 
@@ -206,7 +206,7 @@ describe('decorateExpressEngine', () => {
       expect(originalEngineInstance).not.toHaveBeenCalledWith(
         mockPath,
         mockOptions,
-        mockCallback
+        mockCallback,
       );
     });
 
@@ -217,7 +217,7 @@ describe('decorateExpressEngine', () => {
           providers: expect.arrayContaining([
             { provide: 'testToken', useValue: 'testValue' },
           ]),
-        })
+        }),
       );
     });
 
@@ -229,7 +229,7 @@ describe('decorateExpressEngine', () => {
               provide: SERVER_REQUEST_URL,
             }),
           ]),
-        })
+        }),
       );
     });
 
@@ -254,7 +254,7 @@ describe('decorateExpressEngine', () => {
   describe('with optimizations not specified on 2nd argument', () => {
     beforeEach(() => {
       const engine = decorateExpressEngine(
-        originalEngine
+        originalEngine,
         // 2nd argument not specified (but not explicitly "undefined"!)
       );
       engineInstance = engine(mockEngineOptions);
@@ -273,7 +273,7 @@ describe('decorateExpressEngine', () => {
             },
           ],
         },
-        expect.any(Function)
+        expect.any(Function),
       );
     });
 
@@ -282,7 +282,7 @@ describe('decorateExpressEngine', () => {
       expect(originalEngineInstance).not.toHaveBeenCalledWith(
         mockPath,
         mockOptions,
-        mockCallback
+        mockCallback,
       );
     });
 
@@ -293,7 +293,7 @@ describe('decorateExpressEngine', () => {
           providers: expect.arrayContaining([
             { provide: 'testToken', useValue: 'testValue' },
           ]),
-        })
+        }),
       );
     });
 
@@ -305,7 +305,7 @@ describe('decorateExpressEngine', () => {
               provide: SERVER_REQUEST_URL,
             }),
           ]),
-        })
+        }),
       );
     });
 

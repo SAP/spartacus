@@ -97,11 +97,11 @@ describe('UserGroupUserListService', () => {
     spyOn(userService, 'getLoadingStatus').and.callThrough();
 
     expect(service.assign('userGroupCode', 'customerId')).toEqual(
-      mockItemStatus
+      mockItemStatus,
     );
     expect(userGroupService.assignMember).toHaveBeenCalledWith(
       'userGroupCode',
-      'customerId'
+      'customerId',
     );
     expect(userService.getLoadingStatus).toHaveBeenCalledWith('customerId');
   });
@@ -111,11 +111,11 @@ describe('UserGroupUserListService', () => {
     spyOn(userService, 'getLoadingStatus').and.callThrough();
 
     expect(service.unassign('userGroupCode', 'customerId')).toEqual(
-      mockItemStatus
+      mockItemStatus,
     );
     expect(userGroupService.unassignMember).toHaveBeenCalledWith(
       'userGroupCode',
-      'customerId'
+      'customerId',
     );
     expect(userService.getLoadingStatus).toHaveBeenCalledWith('customerId');
   });

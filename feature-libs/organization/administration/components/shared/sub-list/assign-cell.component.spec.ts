@@ -109,14 +109,14 @@ describe('AssignCellComponent', () => {
     it('should unassign', () => {
       spyOn(
         organizationListService as SubListService<any>,
-        'unassign'
+        'unassign',
       ).and.callThrough();
       spyOn(messageService, 'add').and.callThrough();
 
       component.toggleAssign();
 
       expect(
-        (organizationListService as SubListService<any>).unassign
+        (organizationListService as SubListService<any>).unassign,
       ).toHaveBeenCalledWith('code1', 'contextCode');
       expect(messageService.add).toHaveBeenCalledWith({
         message: {
@@ -156,14 +156,14 @@ describe('AssignCellComponent', () => {
     it('should assign', () => {
       spyOn(
         organizationListService as SubListService<any>,
-        'assign'
+        'assign',
       ).and.callThrough();
       spyOn(messageService, 'add').and.callThrough();
 
       component.toggleAssign();
 
       expect(
-        (organizationListService as SubListService<any>).assign
+        (organizationListService as SubListService<any>).assign,
       ).toHaveBeenCalledWith('code1', 'contextCode');
       expect(messageService.add).toHaveBeenCalledWith({
         message: {

@@ -7,7 +7,7 @@ describe('ProductEventModule', () => {
 
   beforeEach(() => {
     productEventBuilderFactory = jasmine.createSpy(
-      'productEventBuilderFactory'
+      'productEventBuilderFactory',
     );
     TestBed.configureTestingModule({
       providers: [

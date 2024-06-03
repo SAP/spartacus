@@ -170,7 +170,7 @@ describe('CurrentItemService', () => {
         of({
           code: mockCode,
           name: 'I am a mock',
-        })
+        }),
       );
 
       let result: Mock;
@@ -185,7 +185,7 @@ describe('CurrentItemService', () => {
         of({
           code: mockCode,
           name: 'I am a mock',
-        })
+        }),
       );
 
       let result: Mock;

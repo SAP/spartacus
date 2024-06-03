@@ -40,10 +40,10 @@ describe.skip('Set Preferred store', () => {
         .as('firstStoreName');
       cy.get('@firstStoreName').then((firstStoreName) => {
         expect(
-          JSON.parse(localStorage.getItem('preferred_store')).name
+          JSON.parse(localStorage.getItem('preferred_store')).name,
         ).to.equal(firstStoreName);
         cy.get(
-          `[data-preferred-store="${firstStoreName}"] div.icon-selected`
+          `[data-preferred-store="${firstStoreName}"] div.icon-selected`,
         ).should('exist');
       });
 
@@ -53,13 +53,13 @@ describe.skip('Set Preferred store', () => {
         .as('secondStoreName');
       cy.get('@secondStoreName').then((secondStoreName) => {
         expect(
-          JSON.parse(localStorage.getItem('preferred_store')).name
+          JSON.parse(localStorage.getItem('preferred_store')).name,
         ).to.equal(secondStoreName);
         cy.get(
-          `[data-preferred-store="${secondStoreName}"] div.icon-selected`
+          `[data-preferred-store="${secondStoreName}"] div.icon-selected`,
         ).should('exist');
         cy.get('@firstStoreName').then((firstStoreName) =>
-          expect(firstStoreName).to.not.equal(secondStoreName)
+          expect(firstStoreName).to.not.equal(secondStoreName),
         );
       });
     });
@@ -113,14 +113,14 @@ describe.skip('Set Preferred store', () => {
       cy.get('@firstStoreName').then((firstStoreName) => {
         cy.wait('@apiSetPreferredStore').then((interception) => {
           expect(firstStoreName).to.equal(
-            interception.request.body['defaultPointOfServiceName']
+            interception.request.body['defaultPointOfServiceName'],
           );
           expect(
-            JSON.parse(localStorage.getItem('preferred_store')).name
+            JSON.parse(localStorage.getItem('preferred_store')).name,
           ).to.equal(firstStoreName);
           cy.wait('@apiGetPreferredStoreAfter').then((interception) => {
             expect(
-              interception.response.body['defaultPointOfServiceName']
+              interception.response.body['defaultPointOfServiceName'],
             ).to.equal(firstStoreName);
           });
         });

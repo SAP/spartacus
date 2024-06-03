@@ -29,10 +29,10 @@ describe('PaymentTypeConnector', () => {
     });
 
     service = TestBed.inject(
-      CheckoutPaymentTypeConnector as Type<CheckoutPaymentTypeConnector>
+      CheckoutPaymentTypeConnector as Type<CheckoutPaymentTypeConnector>,
     );
     adapter = TestBed.inject(
-      CheckoutPaymentTypeAdapter as Type<CheckoutPaymentTypeAdapter>
+      CheckoutPaymentTypeAdapter as Type<CheckoutPaymentTypeAdapter>,
     );
   });
 
@@ -59,7 +59,7 @@ describe('PaymentTypeConnector', () => {
       'userId',
       'cartId',
       'typeCode',
-      'poNumber'
+      'poNumber',
     );
   });
 });

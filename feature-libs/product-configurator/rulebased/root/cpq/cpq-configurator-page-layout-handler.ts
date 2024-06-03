@@ -37,13 +37,13 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
     protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
     protected breakpointService: BreakpointService,
     protected layoutConfig: LayoutConfig,
-    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService
+    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
   ) {}
 
   handle(
     slots$: Observable<string[]>,
     pageTemplate?: string,
-    section?: string
+    section?: string,
   ) {
     if (
       pageTemplate === CpqConfiguratorPageLayoutHandler.templateName &&
@@ -53,7 +53,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
         .pipe(take(1))
         .subscribe((cont) => {
           slots$ = slots$.pipe(
-            map((slots) => this.getHeaderSlots(slots, cont))
+            map((slots) => this.getHeaderSlots(slots, cont)),
           );
         });
     } else if (
@@ -64,7 +64,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
         .pipe(take(1))
         .subscribe((cont) => {
           slots$ = slots$.pipe(
-            map((slots) => this.getNavigationSlots(slots, cont))
+            map((slots) => this.getNavigationSlots(slots, cont)),
           );
         });
     }
@@ -78,9 +78,9 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
           map((isLargeResolution) => ({
             isLargeResolution: isLargeResolution,
             routerData,
-          }))
-        )
-      )
+          })),
+        ),
+      ),
     );
   }
 
@@ -97,14 +97,14 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
           this.layoutConfig,
           CpqConfiguratorPageLayoutHandler.templateName,
           CpqConfiguratorPageLayoutHandler.sectionHeaderDisplayOnly,
-          BREAKPOINT.lg
+          BREAKPOINT.lg,
         );
       } else {
         return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
           this.layoutConfig,
           CpqConfiguratorPageLayoutHandler.templateName,
           CpqConfiguratorPageLayoutHandler.sectionHeaderDisplayOnly,
-          BREAKPOINT.xs
+          BREAKPOINT.xs,
         );
       }
     } else {
@@ -114,7 +114,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
 
   protected getNavigationSlots(
     slots: string[],
-    cont: RouterResolution
+    cont: RouterResolution,
   ): string[] {
     if (
       cont.routerData.pageType === ConfiguratorRouter.PageType.OVERVIEW &&
@@ -125,14 +125,14 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
           this.layoutConfig,
           CpqConfiguratorPageLayoutHandler.templateName,
           CpqConfiguratorPageLayoutHandler.sectionNavigationDisplayOnly,
-          BREAKPOINT.lg
+          BREAKPOINT.lg,
         );
       } else {
         return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
           this.layoutConfig,
           CpqConfiguratorPageLayoutHandler.templateName,
           CpqConfiguratorPageLayoutHandler.sectionNavigationDisplayOnly,
-          BREAKPOINT.xs
+          BREAKPOINT.xs,
         );
       }
     } else {

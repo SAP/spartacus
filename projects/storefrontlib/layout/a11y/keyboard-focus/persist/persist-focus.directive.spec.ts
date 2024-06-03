@@ -37,26 +37,24 @@ describe('PersistFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: PersistFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent, CustomFocusDirective],
-        providers: [
-          {
-            provide: PersistFocusService,
-            useClass: MockPersistFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent, CustomFocusDirective],
+      providers: [
+        {
+          provide: PersistFocusService,
+          useClass: MockPersistFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
-      component = fixture.componentInstance;
-      service = TestBed.inject(PersistFocusService);
+    fixture = TestBed.createComponent(MockComponent);
+    component = fixture.componentInstance;
+    service = TestBed.inject(PersistFocusService);
 
-      spyOn(service, 'get').and.callThrough();
-      spyOn(service, 'set').and.callThrough();
-    })
-  );
+    spyOn(service, 'get').and.callThrough();
+    spyOn(service, 'set').and.callThrough();
+  }));
 
   it('should create component', () => {
     expect(component).toBeTruthy();
@@ -68,14 +66,14 @@ describe('PersistFocusDirective', () => {
     });
     it('should not create `data-cx-focus`', () => {
       const el: HTMLElement = fixture.debugElement.query(
-        By.css('#a')
+        By.css('#a'),
       ).nativeElement;
       expect(el.getAttribute('data-cx-focus')).toBeFalsy();
     });
 
     it('should create `data-cx-focus` attribute for string value', () => {
       const el: HTMLElement = fixture.debugElement.query(
-        By.css('#b')
+        By.css('#b'),
       ).nativeElement;
       expect(el.getAttribute('data-cx-focus')).toEqual('key-b');
       expect(service.get).toHaveBeenCalledWith('test-group');
@@ -83,7 +81,7 @@ describe('PersistFocusDirective', () => {
 
     it('should create `data-cx-focus` attribute for configured key', () => {
       const el: HTMLElement = fixture.debugElement.query(
-        By.css('#c')
+        By.css('#c'),
       ).nativeElement;
       expect(el.getAttribute('data-cx-focus')).toEqual('key-c');
     });
@@ -96,7 +94,7 @@ describe('PersistFocusDirective', () => {
   describe('focused', () => {
     it('should focus persisted element`', () => {
       const el: HTMLElement = fixture.debugElement.query(
-        By.css('#d')
+        By.css('#d'),
       ).nativeElement;
       spyOn(el, 'focus');
       fixture.detectChanges();

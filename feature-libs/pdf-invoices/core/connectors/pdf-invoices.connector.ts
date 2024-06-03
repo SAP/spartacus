@@ -21,7 +21,7 @@ export class PDFInvoicesConnector {
   public getInvoicesForOrder(
     userId: string,
     orderId: string,
-    queryParams: InvoiceQueryParams
+    queryParams: InvoiceQueryParams,
   ): Observable<OrderInvoiceList> {
     return this.adapter.getInvoicesForOrder(userId, orderId, queryParams);
   }
@@ -30,13 +30,13 @@ export class PDFInvoicesConnector {
     userId: string,
     orderId: string,
     invoiceId: string,
-    externalSystemId?: string
+    externalSystemId?: string,
   ): Observable<Blob> {
     return this.adapter.getInvoicePDF(
       userId,
       orderId,
       invoiceId,
-      externalSystemId
+      externalSystemId,
     );
   }
 }

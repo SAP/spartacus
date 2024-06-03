@@ -38,7 +38,7 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   load(userId: string): Observable<User> {
@@ -47,12 +47,12 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       }),
-      this.converter.pipeable(USER_ACCOUNT_NORMALIZER)
+      this.converter.pipeable(USER_ACCOUNT_NORMALIZER),
     );
   }
 
   createVerificationToken(
-    verificationTokenCreation: VerificationTokenCreation
+    verificationTokenCreation: VerificationTokenCreation,
   ): Observable<VerificationToken> {
     const url = this.occEndpoints.buildUrl('createVerificationToken');
 
@@ -61,11 +61,11 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
       true,
       new HttpHeaders({
         ...CONTENT_TYPE_JSON_HEADER,
-      })
+      }),
     );
     verificationTokenCreation = this.converter.convert(
       verificationTokenCreation,
-      LOGIN_FORM_SERIALIZER
+      LOGIN_FORM_SERIALIZER,
     );
 
     return this.http
@@ -74,7 +74,7 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
         catchError((error) => {
           throw normalizeHttpError(error, this.logger);
         }),
-        this.converter.pipeable(VERIFICATION_TOKEN_NORMALIZER)
+        this.converter.pipeable(VERIFICATION_TOKEN_NORMALIZER),
       );
   }
 }

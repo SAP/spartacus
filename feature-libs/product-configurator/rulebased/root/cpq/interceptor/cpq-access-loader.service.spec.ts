@@ -39,15 +39,15 @@ describe('CpqAccessLoaderService', () => {
     });
 
     httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
+      HttpTestingController as Type<HttpTestingController>,
     );
 
     occEnpointsService = TestBed.inject(
-      OccEndpointsService as Type<OccEndpointsService>
+      OccEndpointsService as Type<OccEndpointsService>,
     );
 
     serviceUnderTest = TestBed.inject(
-      CpqAccessLoaderService as Type<CpqAccessLoaderService>
+      CpqAccessLoaderService as Type<CpqAccessLoaderService>,
     );
 
     spyOn(occEnpointsService, 'buildUrl').and.callThrough();
@@ -70,7 +70,7 @@ describe('CpqAccessLoaderService', () => {
 
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'getCpqAccessData',
-      { urlParams: { userId: USER_ID } }
+      { urlParams: { userId: USER_ID } },
     );
 
     expect(mockReq.cancelled).toBeFalsy();

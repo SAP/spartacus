@@ -28,7 +28,7 @@ const scssFilePath = 'src/styles/spartacus/quote.scss';
 describe('Spartacus Quote schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_QUOTE,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -68,25 +68,25 @@ describe('Spartacus Quote schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -95,7 +95,7 @@ describe('Spartacus Quote schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -135,7 +135,7 @@ describe('Spartacus Quote schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           quoteFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -164,7 +164,7 @@ describe('Spartacus Quote schematics: ng-add', () => {
       describe('b2b features', () => {
         it('should be added for quote library', () => {
           const configurationModule = appTree.readContent(
-            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
           );
           expect(configurationModule).toMatchSnapshot();
         });
@@ -176,7 +176,7 @@ describe('Spartacus Quote schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...quoteFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 

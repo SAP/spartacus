@@ -42,7 +42,7 @@ describe('ProductSearch Selectors', () => {
         new ProductActions.SearchProducts({
           queryText: 'test',
           searchConfig: searchConfig,
-        })
+        }),
       );
       store.dispatch(new ProductActions.SearchProductsSuccess(searchResults));
 
@@ -66,11 +66,11 @@ describe('ProductSearch Selectors', () => {
             queryText: 'test',
             searchConfig: searchConfig,
           },
-          true
-        )
+          true,
+        ),
       );
       store.dispatch(
-        new ProductActions.SearchProductsSuccess(searchResults, true)
+        new ProductActions.SearchProductsSuccess(searchResults, true),
       );
 
       expect(result).toEqual(searchResults);
@@ -87,7 +87,7 @@ describe('ProductSearch Selectors', () => {
       expect(result).toEqual([]);
 
       store.dispatch(
-        new ProductActions.GetProductSuggestionsSuccess(suggestions)
+        new ProductActions.GetProductSuggestionsSuccess(suggestions),
       );
 
       expect(result).toEqual(suggestions);

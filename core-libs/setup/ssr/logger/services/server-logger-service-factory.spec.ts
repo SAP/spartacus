@@ -45,7 +45,7 @@ describe('serverLoggerServiceFactory', () => {
       ],
     });
     expect(TestBed.inject(LoggerService)).toBeInstanceOf(
-      PrerenderingLoggerService
+      PrerenderingLoggerService,
     );
   });
 });

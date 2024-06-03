@@ -34,7 +34,7 @@ describe('dependency management migrations', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../test/migrations-test.json')
+      require.resolve('../../test/migrations-test.json'),
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -46,7 +46,7 @@ describe('dependency management migrations', () => {
         compilerOptions: {
           lib: ['es2022'],
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -62,7 +62,7 @@ describe('dependency management migrations', () => {
             },
           },
         },
-      })
+      }),
     );
 
     previousWorkingDir = shx.pwd();
@@ -89,7 +89,7 @@ describe('dependency management migrations', () => {
           dependencies: {
             [SPARTACUS_CORE]: '3.0.0',
           },
-        })
+        }),
       );
     });
     it('should add them', async () => {
@@ -98,7 +98,7 @@ describe('dependency management migrations', () => {
       const packageJson = appTree.readContent('/package.json');
       const updatedVersion: string = JSON.parse(packageJson).dependencies.rxjs;
       expect(updatedVersion).toEqual(
-        collectedDependencies[SPARTACUS_CORE].rxjs
+        collectedDependencies[SPARTACUS_CORE].rxjs,
       );
     });
   });
@@ -116,7 +116,7 @@ describe('dependency management migrations', () => {
               [SPARTACUS_STOREFRONTLIB]: '3.0.0',
               rxjs: '^10.0.0',
             },
-          })
+          }),
         );
       });
       it('should downgrade them', async () => {
@@ -126,7 +126,7 @@ describe('dependency management migrations', () => {
         const updatedVersion: string =
           JSON.parse(packageJson).dependencies.rxjs;
         expect(updatedVersion).toEqual(
-          collectedDependencies['@spartacus/storefront'].rxjs
+          collectedDependencies['@spartacus/storefront'].rxjs,
         );
       });
     });
@@ -143,7 +143,7 @@ describe('dependency management migrations', () => {
               [SPARTACUS_STOREFRONTLIB]: '3.0.0',
               rxjs: '^3.0.0',
             },
-          })
+          }),
         );
       });
       it('should upgrade them', async () => {
@@ -153,7 +153,7 @@ describe('dependency management migrations', () => {
         const updatedVersion: string =
           JSON.parse(packageJson).dependencies.rxjs;
         expect(updatedVersion).toEqual(
-          collectedDependencies['@spartacus/storefront'].rxjs
+          collectedDependencies['@spartacus/storefront'].rxjs,
         );
       });
     });
@@ -174,7 +174,7 @@ describe('dependency management migrations', () => {
               [SPARTACUS_ORGANIZATION]: '3.0.0',
               [SPARTACUS_PRODUCT_CONFIGURATOR]: '3.0.0',
             },
-          })
+          }),
         );
       });
       it('should install cross spartacus peer deps', async () => {
@@ -187,7 +187,7 @@ describe('dependency management migrations', () => {
         expect(packageJson.dependencies[SPARTACUS_ORDER]).toBeTruthy();
         expect(packageJson.dependencies[SPARTACUS_CHECKOUT]).toBeTruthy();
         expect(
-          packageJson.dependencies[SPARTACUS_PRODUCT_CONFIGURATOR]
+          packageJson.dependencies[SPARTACUS_PRODUCT_CONFIGURATOR],
         ).toBeTruthy();
         expect(packageJson.dependencies[SPARTACUS_ORGANIZATION]).toBeTruthy();
         expect(packageJson.dependencies[SPARTACUS_CORE]).toBeTruthy();
@@ -209,7 +209,7 @@ describe('dependency management migrations', () => {
               [SPARTACUS_CDS]: '3.0.0',
               [SPARTACUS_QUALTRICS]: '3.0.0',
             },
-          })
+          }),
         );
       });
       it('should install cross spartacus peer deps', async () => {

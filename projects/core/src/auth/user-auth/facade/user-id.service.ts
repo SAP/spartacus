@@ -60,11 +60,11 @@ export class UserIdService {
       map((userId) => {
         if (loggedIn && userId === OCC_USER_ID_ANONYMOUS) {
           throw new Error(
-            'Requested user id for logged user while user is not logged in.'
+            'Requested user id for logged user while user is not logged in.',
           );
         }
         return userId;
-      })
+      }),
     );
   }
 
@@ -82,8 +82,8 @@ export class UserIdService {
     return this.getUserId().pipe(
       map(
         (userId) =>
-          userId !== OCC_USER_ID_ANONYMOUS && userId !== OCC_USER_ID_CURRENT
-      )
+          userId !== OCC_USER_ID_ANONYMOUS && userId !== OCC_USER_ID_CURRENT,
+      ),
     );
   }
 }

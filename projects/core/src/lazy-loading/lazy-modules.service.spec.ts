@@ -52,7 +52,7 @@ describe('LazyModulesService', () => {
 
     it('should resolve two module instances for the same module ', (done) => {
       const moduleInstance$ = service.resolveModuleInstance(
-        async () => MockLazyModule
+        async () => MockLazyModule,
       );
 
       zip(moduleInstance$, moduleInstance$).subscribe(([module1, module2]) => {
@@ -88,7 +88,7 @@ describe('LazyModulesService', () => {
 
     it('should resolve only one instance for the same module', (done) => {
       const moduleInstance$ = service.resolveDependencyModuleInstance(
-        async () => MockLazyModule
+        async () => MockLazyModule,
       );
 
       zip(moduleInstance$, moduleInstance$).subscribe(([module1, module2]) => {

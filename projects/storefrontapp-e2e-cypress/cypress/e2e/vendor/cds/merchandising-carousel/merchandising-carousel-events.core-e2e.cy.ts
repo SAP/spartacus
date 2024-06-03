@@ -45,7 +45,7 @@ context('Merchandising Carousel - events', () => {
 
       merchandisingCarousel.verifyRequestToStrategyService(
         strategyRequestAlias,
-        {}
+        {},
       );
       profileTagHelper.grantConsent();
     });
@@ -54,7 +54,7 @@ context('Merchandising Carousel - events', () => {
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
         strategyRequestAlias,
         merchandisingCarousel.DEFAULT_LANGUAGE,
-        merchandisingCarousel.requestContainsConsentReference
+        merchandisingCarousel.requestContainsConsentReference,
       );
 
       merchandisingCarousel.waitForCarouselViewEvent();
@@ -66,12 +66,12 @@ context('Merchandising Carousel - events', () => {
         {
           containsConsentReference:
             merchandisingCarousel.requestContainsConsentReference,
-        }
+        },
       );
 
       merchandisingCarousel.navigateToCategory(
         merchandisingCarousel.filmCamerasCategoryName,
-        merchandisingCarousel.filmCamerasCategoryCode
+        merchandisingCarousel.filmCamerasCategoryCode,
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
@@ -79,7 +79,7 @@ context('Merchandising Carousel - events', () => {
         merchandisingCarousel.filmCamerasCategoryCode,
         merchandisingCarousel.DEFAULT_LANGUAGE,
         undefined,
-        merchandisingCarousel.requestContainsConsentReference
+        merchandisingCarousel.requestContainsConsentReference,
       );
       merchandisingCarousel.waitForCarouselViewEvent();
     });
@@ -90,12 +90,12 @@ context('Merchandising Carousel - events', () => {
         {
           containsConsentReference:
             merchandisingCarousel.requestContainsConsentReference,
-        }
+        },
       );
 
       merchandisingCarousel.navigateToCategory(
         merchandisingCarousel.filmCamerasCategoryName,
-        merchandisingCarousel.filmCamerasCategoryCode
+        merchandisingCarousel.filmCamerasCategoryCode,
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
@@ -103,14 +103,14 @@ context('Merchandising Carousel - events', () => {
         merchandisingCarousel.filmCamerasCategoryCode,
         merchandisingCarousel.DEFAULT_LANGUAGE,
         undefined,
-        merchandisingCarousel.requestContainsConsentReference
+        merchandisingCarousel.requestContainsConsentReference,
       );
 
       merchandisingCarousel.waitForCarouselViewEvent();
 
       merchandisingCarousel.navigateToCategory(
         merchandisingCarousel.camcordersCategoryName,
-        merchandisingCarousel.camcordersCategoryCode
+        merchandisingCarousel.camcordersCategoryCode,
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
@@ -118,7 +118,7 @@ context('Merchandising Carousel - events', () => {
         merchandisingCarousel.camcordersCategoryCode,
         merchandisingCarousel.DEFAULT_LANGUAGE,
         undefined,
-        merchandisingCarousel.requestContainsConsentReference
+        merchandisingCarousel.requestContainsConsentReference,
       );
 
       merchandisingCarousel.waitForCarouselViewEvent();
@@ -128,12 +128,12 @@ context('Merchandising Carousel - events', () => {
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
         strategyRequestAlias,
         merchandisingCarousel.DEFAULT_LANGUAGE,
-        merchandisingCarousel.requestContainsConsentReference
+        merchandisingCarousel.requestContainsConsentReference,
       );
 
       merchandisingCarousel.clickOnCarouselItem(
         merchandisingCarousel.STRATEGY_RESPONSE.products[0].id,
-        merchandisingCarousel.checkForCarouselClickEvent
+        merchandisingCarousel.checkForCarouselClickEvent,
       );
     });
   });

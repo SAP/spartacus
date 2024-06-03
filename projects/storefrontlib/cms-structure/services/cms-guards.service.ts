@@ -25,7 +25,7 @@ export class CmsGuardsService {
   constructor(
     protected cmsComponentsService: CmsComponentsService,
     // TODO:#checkout - handle breaking changes in schematics
-    protected unifiedInjector: UnifiedInjector
+    protected unifiedInjector: UnifiedInjector,
   ) {}
 
   protected featureConfigService = inject(FeatureConfigService);
@@ -39,7 +39,7 @@ export class CmsGuardsService {
   cmsPageCanActivate(
     componentTypes: string[],
     route: CmsActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     const guards = this.cmsComponentsService.getGuards(componentTypes);
 
@@ -48,7 +48,7 @@ export class CmsGuardsService {
     ) {
       const guardsInstances: CanActivate[] = guards
         .map((guardClass) =>
-          getLastValueSync(this.unifiedInjector.get<CanActivate>(guardClass))
+          getLastValueSync(this.unifiedInjector.get<CanActivate>(guardClass)),
         )
         .filter(isCanActivate);
       return this.guardsComposer.canActivate(guardsInstances, route, state);
@@ -57,13 +57,13 @@ export class CmsGuardsService {
     // use the old approach:
     if (guards.length) {
       const canActivateObservables = guards.map((guard) =>
-        this.canActivateGuard(guard, route, state)
+        this.canActivateGuard(guard, route, state),
       );
 
       return concat(...canActivateObservables).pipe(
         skipWhile((canActivate: boolean | UrlTree) => canActivate === true),
         endWith(true),
-        first()
+        first(),
       );
     } else {
       return of(true);
@@ -84,12 +84,12 @@ export class CmsGuardsService {
   canActivateGuard(
     guardClass: any,
     route: CmsActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     const guard = getLastValueSync(
       this.unifiedInjector.get<{
         canActivate: CanActivateFn;
-      }>(guardClass)
+      }>(guardClass),
     );
     if (isCanActivate(guard)) {
       return wrapIntoObservable(guard.canActivate(route, state)).pipe(first());

@@ -23,13 +23,13 @@ export class SiteContextParamsService {
   constructor(
     private config: SiteContextConfig,
     private injector: Injector,
-    private serviceMap: ContextServiceMap
+    private serviceMap: ContextServiceMap,
   ) {}
 
   getContextParameters(): string[] {
     if (this.config.context) {
       return Object.keys(this.config.context).filter(
-        (param) => param !== 'urlParameters'
+        (param) => param !== 'urlParameters',
       );
     }
     return [];
@@ -54,7 +54,7 @@ export class SiteContextParamsService {
       } catch {
         if (isDevMode()) {
           this.logger.warn(
-            `Couldn't find site context service for '${param}'.`
+            `Couldn't find site context service for '${param}'.`,
           );
         }
         return undefined;
@@ -102,7 +102,7 @@ export class SiteContextParamsService {
           return service.getActive().pipe(distinctUntilChanged());
         }
         return of('');
-      })
+      }),
     ).pipe(filter((value) => value.every((param) => !!param)));
   }
 }

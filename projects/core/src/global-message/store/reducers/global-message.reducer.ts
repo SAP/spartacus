@@ -18,7 +18,7 @@ export const initialState: GlobalMessageState = {
 
 export function reducer(
   state = initialState,
-  action: GlobalMessageActions.GlobalMessageAction
+  action: GlobalMessageActions.GlobalMessageAction,
 ): GlobalMessageState {
   switch (action.type) {
     case GlobalMessageActions.ADD_MESSAGE: {

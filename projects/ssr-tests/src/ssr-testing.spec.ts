@@ -38,7 +38,7 @@ describe('SSR E2E', () => {
       target: BACKEND_BASE_URL,
     });
     const response: any = await ProxyServer.sendRequest(
-      REQUEST_PATH + '/not-existing-page'
+      REQUEST_PATH + '/not-existing-page',
     );
     expect(response.statusCode).toEqual(404);
   });

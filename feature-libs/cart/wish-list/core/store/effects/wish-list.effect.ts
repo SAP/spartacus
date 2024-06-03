@@ -52,7 +52,7 @@ export class WishListEffects {
                 payload.userId,
                 cart.code ?? '',
                 payload.name,
-                payload.description
+                payload.description,
               )
               .pipe(
                 switchMap((savedCart) => [
@@ -67,13 +67,13 @@ export class WishListEffects {
                       cartId: cart.code ?? '',
                       error: normalizeHttpError(error, this.logger),
                     }),
-                  ])
-                )
+                  ]),
+                ),
               );
-          })
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 
   loadWishList$: Observable<
@@ -101,7 +101,7 @@ export class WishListEffects {
                 : new WishListActions.CreateWishList({
                     userId,
                     name: wishListName,
-                  })
+                  }),
             );
             // remove temp wishlist, which id is whishlist name
             actions.push(new CartActions.RemoveCart({ cartId: wishListName }));
@@ -113,11 +113,11 @@ export class WishListEffects {
                 cartId: cartId,
                 error: normalizeHttpError(error, this.logger),
               }),
-            ])
-          )
+            ]),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   resetWishList$: Observable<
@@ -126,14 +126,14 @@ export class WishListEffects {
     this.actions$.pipe(
       ofType(
         SiteContextActions.LANGUAGE_CHANGE,
-        SiteContextActions.CURRENCY_CHANGE
+        SiteContextActions.CURRENCY_CHANGE,
       ),
       withLatestFrom(
         this.userIdService.getUserId(),
         this.store.pipe(
           filter((store) => !!store.cart),
-          select(MultiCartSelectors.getCartIdByTypeFactory(CartType.WISH_LIST))
-        )
+          select(MultiCartSelectors.getCartIdByTypeFactory(CartType.WISH_LIST)),
+        ),
       ),
       switchMap(([, userId, wishListId]) => {
         if (Boolean(wishListId)) {
@@ -150,20 +150,20 @@ export class WishListEffects {
                   cartId: wishListId,
                   error: normalizeHttpError(error, this.logger),
                 }),
-              ])
-            )
+              ]),
+            ),
           );
         }
         return EMPTY;
-      })
-    )
+      }),
+    ),
   );
 
   setWishListId$: Observable<CartActions.SetCartTypeIndex> = createEffect(() =>
     this.actions$.pipe(
       ofType(
         WishListActions.CREATE_WISH_LIST_SUCCESS,
-        WishListActions.LOAD_WISH_LIST_SUCCESS
+        WishListActions.LOAD_WISH_LIST_SUCCESS,
       ),
       map((action: Action) => {
         switch (action.type) {
@@ -177,15 +177,15 @@ export class WishListEffects {
           }
         }
       }),
-      filter(isNotUndefined)
-    )
+      filter(isNotUndefined),
+    ),
   );
 
   setWishListData$: Observable<CartActions.SetCartData> = createEffect(() =>
     this.actions$.pipe(
       ofType(
         WishListActions.CREATE_WISH_LIST_SUCCESS,
-        WishListActions.LOAD_WISH_LIST_SUCCESS
+        WishListActions.LOAD_WISH_LIST_SUCCESS,
       ),
       map((action: StateUtils.EntitySuccessAction) => {
         switch (action.type) {
@@ -198,14 +198,14 @@ export class WishListEffects {
           }
         }
       }),
-      filter(isNotUndefined)
-    )
+      filter(isNotUndefined),
+    ),
   );
 
   constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
     private userIdService: UserIdService,
-    private store: Store<StateWithMultiCart>
+    private store: Store<StateWithMultiCart>,
   ) {}
 }

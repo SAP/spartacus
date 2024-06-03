@@ -91,7 +91,7 @@ describe('DpPaymentFormComponent', () => {
   describe('ngOnInit()', () => {
     it('should redirect to provider page', () => {
       spyOn(dpPaymentService, 'getCardRegistrationDetails').and.returnValue(
-        of(mockDpPaymentRequest)
+        of(mockDpPaymentRequest),
       );
 
       component.ngOnInit();
@@ -102,7 +102,7 @@ describe('DpPaymentFormComponent', () => {
 
     it('should throw error on empty response', () => {
       spyOn(dpPaymentService, 'getCardRegistrationDetails').and.returnValue(
-        of({})
+        of({}),
       );
       spyOn(msgService, 'add').and.stub();
 
@@ -111,7 +111,7 @@ describe('DpPaymentFormComponent', () => {
       expect(dpPaymentService.getCardRegistrationDetails).toHaveBeenCalled();
       expect(msgService.add).toHaveBeenCalledWith(
         { key: 'dpPaymentForm.error.redirect' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
       expect(component.closeForm.emit).toHaveBeenCalled();
     });

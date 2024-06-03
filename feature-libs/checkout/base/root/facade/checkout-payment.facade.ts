@@ -52,12 +52,12 @@ export abstract class CheckoutPaymentFacade {
    * Creates the payment details using the provided paymentDetails
    */
   abstract createPaymentDetails(
-    paymentDetails: PaymentDetails
+    paymentDetails: PaymentDetails,
   ): Observable<unknown>;
   /**
    * Sets the payment details to the current cart
    */
   abstract setPaymentDetails(
-    paymentDetails: PaymentDetails
+    paymentDetails: PaymentDetails,
   ): Observable<unknown>;
 }

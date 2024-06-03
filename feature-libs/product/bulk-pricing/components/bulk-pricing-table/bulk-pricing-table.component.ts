@@ -22,7 +22,7 @@ export class BulkPricingTableComponent implements OnInit {
 
   constructor(
     protected routingService: RoutingService,
-    protected bulkPricingService: BulkPricingService
+    protected bulkPricingService: BulkPricingService,
   ) {}
 
   ngOnInit() {
@@ -44,7 +44,7 @@ export class BulkPricingTableComponent implements OnInit {
       switchMap((state) => {
         const productCode = state.state.params[this.PRODUCT_KEY];
         return this.bulkPricingService.getBulkPrices(productCode);
-      })
+      }),
     );
   }
 }

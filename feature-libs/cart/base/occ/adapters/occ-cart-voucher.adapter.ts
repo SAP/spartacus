@@ -27,7 +27,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   protected getCartVoucherEndpoint(userId: string, cartId: string): string {
@@ -61,7 +61,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
       catchError((error: any) => {
         throw normalizeHttpError(error, this.logger);
       }),
-      this.converter.pipeable(CART_VOUCHER_NORMALIZER)
+      this.converter.pipeable(CART_VOUCHER_NORMALIZER),
     );
   }
 
@@ -76,7 +76,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
     return this.http.delete(url, { headers }).pipe(
       catchError((error: any) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 }

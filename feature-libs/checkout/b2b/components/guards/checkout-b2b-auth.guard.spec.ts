@@ -153,7 +153,7 @@ describe('CheckoutAuthGuard', () => {
     describe('and cart has a user, ', () => {
       beforeEach(() => {
         spyOn(activeCartFacade, 'getAssignedUser').and.returnValue(
-          of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)
+          of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User),
         );
       });
 
@@ -176,7 +176,7 @@ describe('CheckoutAuthGuard', () => {
 
       checkoutGuard.canActivate().subscribe().unsubscribe();
       expect(
-        authRedirectService.saveCurrentNavigationUrl
+        authRedirectService.saveCurrentNavigationUrl,
       ).not.toHaveBeenCalled();
     });
   });
@@ -204,7 +204,7 @@ describe('CheckoutAuthGuard', () => {
     describe('and cart has a user, ', () => {
       beforeEach(() => {
         spyOn(activeCartFacade, 'getAssignedUser').and.returnValue(
-          of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)
+          of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User),
         );
       });
 
@@ -234,7 +234,7 @@ describe('CheckoutAuthGuard', () => {
 
       it('should return true when user roles has b2bcustomergroup', () => {
         spyOn(userService, 'get').and.returnValue(
-          of({ uid: 'testUser', roles: [B2BUserRole.CUSTOMER] })
+          of({ uid: 'testUser', roles: [B2BUserRole.CUSTOMER] }),
         );
         let result: boolean | UrlTree | undefined;
         checkoutGuard
@@ -246,7 +246,7 @@ describe('CheckoutAuthGuard', () => {
 
       it('should return to /home when user roles does not have b2bcustomergroup', () => {
         spyOn(userService, 'get').and.returnValue(
-          of({ uid: 'testUser', roles: [B2BUserRole.ADMIN] })
+          of({ uid: 'testUser', roles: [B2BUserRole.ADMIN] }),
         );
         let result: boolean | UrlTree | undefined;
         checkoutGuard
@@ -256,7 +256,7 @@ describe('CheckoutAuthGuard', () => {
         expect(result?.toString()).toBe('/home');
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'checkoutB2B.invalid.accountType' },
-          GlobalMessageType.MSG_TYPE_WARNING
+          GlobalMessageType.MSG_TYPE_WARNING,
         );
       });
     });

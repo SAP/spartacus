@@ -13,7 +13,7 @@ import { Request, Response } from 'express';
  * It's a replacement for the `REQUEST` token from `@nguniversal/express-engine` that was removed only in Angular 17. Now this token is provided by Spartacus.
  */
 export const REQUEST: InjectionToken<Request> = new InjectionToken<Request>(
-  'REQUEST'
+  'REQUEST',
 );
 
 /**
@@ -22,5 +22,5 @@ export const REQUEST: InjectionToken<Request> = new InjectionToken<Request>(
  * It's a replacement for the `RESPONSE` token from `@nguniversal/express-engine` that was removed only in Angular 17. Now this token is provided by Spartacus.
  */
 export const RESPONSE: InjectionToken<Response> = new InjectionToken<Response>(
-  'RESPONSE'
+  'RESPONSE',
 );

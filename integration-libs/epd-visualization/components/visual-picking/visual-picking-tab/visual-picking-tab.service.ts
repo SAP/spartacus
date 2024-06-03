@@ -32,7 +32,7 @@ export class VisualPickingTabService implements OnDestroy {
     protected currentProductService: CurrentProductService,
     protected globalMessageService: GlobalMessageService,
     protected changeDetectorRef: ChangeDetectorRef,
-    protected windowRef: WindowRef
+    protected windowRef: WindowRef,
   ) {}
 
   /**
@@ -42,7 +42,7 @@ export class VisualPickingTabService implements OnDestroy {
    */
   public initialize(
     visualViewerService: VisualViewerService,
-    visualPickingProductListService: VisualPickingProductListService
+    visualPickingProductListService: VisualPickingProductListService,
   ): void {
     if (!this.windowRef.isBrowser()) {
       return;
@@ -53,7 +53,7 @@ export class VisualPickingTabService implements OnDestroy {
 
     this.visualizationLoadInfoChangeSubscription =
       this.visualViewerService.visualizationLoadInfoChange.subscribe(
-        this.handleLoadVisualizationInfoChange.bind(this)
+        this.handleLoadVisualizationInfoChange.bind(this),
       );
 
     this.getFilteredProductReferencesSubscription =
@@ -62,7 +62,7 @@ export class VisualPickingTabService implements OnDestroy {
         .subscribe((productReferences: ProductReference[]) => {
           const productCodes: string[] = productReferences.map(
             (productReference) =>
-              (productReference.target as Product).code as string
+              (productReference.target as Product).code as string,
           );
 
           this.visualViewerService.includedProductCodes = productCodes;
@@ -171,7 +171,7 @@ export class VisualPickingTabService implements OnDestroy {
   }
 
   private handleLoadVisualizationInfoChange(
-    visualizationLoadInfo: VisualizationLoadInfo
+    visualizationLoadInfo: VisualizationLoadInfo,
   ): void {
     switch (visualizationLoadInfo.lookupResult) {
       case VisualizationLookupResult.UniqueMatchFound:
@@ -221,7 +221,7 @@ export class VisualPickingTabService implements OnDestroy {
     return this._visualPickingProductListService;
   }
   public set visualPickingProductListService(
-    value: VisualPickingProductListService
+    value: VisualPickingProductListService,
   ) {
     if (!this.windowRef.isBrowser()) {
       return;

@@ -78,14 +78,14 @@ describe('CmsTicketInterceptor', () => {
 
       expect(mockReq.request.params.get('cmsTicketId')).toEqual(null);
       mockReq.flush('somedata');
-    }
+    },
   ));
 
   it('should add parameters only for cms requests: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
       spyOnProperty(service, 'cmsTicketId', 'get').and.returnValue(
-        'mockCmsTicketId'
+        'mockCmsTicketId',
       );
 
       http.get(`${OccUrl}/cms/page`).subscribe((result) => {
@@ -96,17 +96,17 @@ describe('CmsTicketInterceptor', () => {
       });
 
       expect(mockReq.request.params.get('cmsTicketId')).toEqual(
-        'mockCmsTicketId'
+        'mockCmsTicketId',
       );
       mockReq.flush('somedata');
-    }
+    },
   ));
 
   it('should not add parameters to other requests: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
       spyOnProperty(service, 'cmsTicketId', 'get').and.returnValue(
-        'mockCmsTicketId'
+        'mockCmsTicketId',
       );
 
       http.get(`${OccUrl}/user`).subscribe((result) => {
@@ -119,14 +119,14 @@ describe('CmsTicketInterceptor', () => {
 
       expect(mockReq.request.params.get('cmsTicketId')).toEqual(null);
       mockReq.flush('somedata');
-    }
+    },
   ));
 
   it('should add parameters for product requests: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
       spyOnProperty(service, 'cmsTicketId', 'get').and.returnValue(
-        'mockCmsTicketId'
+        'mockCmsTicketId',
       );
 
       http.get(`${OccUrl}/products/mockId`).subscribe((result) => {
@@ -137,17 +137,17 @@ describe('CmsTicketInterceptor', () => {
       });
 
       expect(mockReq.request.params.get('cmsTicketId')).toEqual(
-        'mockCmsTicketId'
+        'mockCmsTicketId',
       );
       mockReq.flush('somedata');
-    }
+    },
   ));
 
   it('should add parameters for productList requests: cmsTicketId, categoryCode', inject(
     [HttpClient],
     (http: HttpClient) => {
       spyOnProperty(service, 'cmsTicketId', 'get').and.returnValue(
-        'mockCmsTicketId'
+        'mockCmsTicketId',
       );
 
       http.get(`${OccUrl}/productList`).subscribe((result) => {
@@ -158,11 +158,11 @@ describe('CmsTicketInterceptor', () => {
       });
 
       expect(mockReq.request.params.get('cmsTicketId')).toEqual(
-        'mockCmsTicketId'
+        'mockCmsTicketId',
       );
       expect(mockReq.request.params.get('categoryCode')).toEqual('mockCode');
       mockReq.flush('somedata');
-    }
+    },
   ));
 
   it('should add only one parameter for productList requests when pageContext is partial: cmsTicketId', inject(
@@ -172,11 +172,11 @@ describe('CmsTicketInterceptor', () => {
         of({
           ...mockPageContext,
           id: '',
-        })
+        }),
       );
 
       spyOnProperty(service, 'cmsTicketId', 'get').and.returnValue(
-        'mockCmsTicketId'
+        'mockCmsTicketId',
       );
 
       http.get(`${OccUrl}/productList`).subscribe((result) => {
@@ -187,10 +187,10 @@ describe('CmsTicketInterceptor', () => {
       });
 
       expect(mockReq.request.params.get('cmsTicketId')).toEqual(
-        'mockCmsTicketId'
+        'mockCmsTicketId',
       );
       expect(mockReq.request.params.get('categoryCode')).toBeFalsy();
       mockReq.flush('somedata');
-    }
+    },
   ));
 });

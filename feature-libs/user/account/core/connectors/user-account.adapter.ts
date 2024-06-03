@@ -15,6 +15,6 @@ export abstract class UserAccountAdapter {
   abstract load(userId: string): Observable<User>;
 
   abstract createVerificationToken(
-    verificationTokenCreation: VerificationTokenCreation
+    verificationTokenCreation: VerificationTokenCreation,
   ): Observable<VerificationToken>;
 }

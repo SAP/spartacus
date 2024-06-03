@@ -13,7 +13,7 @@ import { AsmConnector } from './asm.connector';
 
 class MockAsmAdapter {
   customerSearch(
-    _options: CustomerSearchOptions
+    _options: CustomerSearchOptions,
   ): Observable<CustomerSearchPage> {
     return EMPTY;
   }
@@ -130,7 +130,7 @@ describe('AsmConnector', () => {
 
   it('should return customerLists results', (done) => {
     spyOn(asmAdapter, 'customerLists').and.returnValue(
-      of(mockCustomerListPage)
+      of(mockCustomerListPage),
     );
     asmConnector.customerLists().subscribe((results) => {
       expect(results).toEqual(mockCustomerListPage);

@@ -38,7 +38,7 @@ describe('User Payment Methods Actions', () => {
 
     it('should create the action', () => {
       const action = new UserActions.LoadUserPaymentMethodsSuccess(
-        mockUserPaymentMethods.payments
+        mockUserPaymentMethods.payments,
       );
 
       expect({ ...action }).toEqual({

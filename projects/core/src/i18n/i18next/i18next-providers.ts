@@ -18,7 +18,7 @@ export const i18nextProviders: Provider[] = [
       const i18nextInitializer = inject(I18nextInitializer);
       return () =>
         lastValueFrom(configInitializerService.getStable('i18n')).then(() =>
-          i18nextInitializer.initialize()
+          i18nextInitializer.initialize(),
         );
     },
     multi: true,

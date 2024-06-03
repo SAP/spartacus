@@ -37,7 +37,7 @@ describe('AuthMultisiteIsolationService', () => {
     [AuthMultisiteIsolationService],
     (authMultisiteIsolationService: AuthMultisiteIsolationService) => {
       expect(authMultisiteIsolationService).toBeTruthy();
-    }
+    },
   ));
 
   it('should create', () => {
@@ -54,7 +54,7 @@ describe('AuthMultisiteIsolationService', () => {
 
   it('should getBaseSiteDecorator() return empty string decorator if `isolated` is `false`', () => {
     spyOn(baseSiteService, 'get').and.returnValue(
-      of({ ...mockBaseSite, ...{ isolated: false } })
+      of({ ...mockBaseSite, ...{ isolated: false } }),
     );
 
     service.getBaseSiteDecorator().subscribe((decorator) => {
@@ -64,7 +64,7 @@ describe('AuthMultisiteIsolationService', () => {
 
   it('should decorateUserId() return concatenated `userId` with the decorator suffix', () => {
     spyOn(baseSiteService, 'get').and.returnValue(
-      of({ ...mockBaseSite, ...{ isolated: true } })
+      of({ ...mockBaseSite, ...{ isolated: true } }),
     );
 
     const userId = 'email@example.com';

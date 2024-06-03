@@ -29,17 +29,17 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
 
   constructor(
     protected service: TranslationService,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
   ) {}
 
   transform(
     input: Translatable | string,
-    options: TranslatableParams = {}
+    options: TranslatableParams = {},
   ): string {
     if (!input) {
       if (isDevMode()) {
         this.logger.error(
-          `The given input for the cxTranslate pipe (${input}) is invalid and cannot be translated`
+          `The given input for the cxTranslate pipe (${input}) is invalid and cannot be translated`,
         );
       }
       return '';

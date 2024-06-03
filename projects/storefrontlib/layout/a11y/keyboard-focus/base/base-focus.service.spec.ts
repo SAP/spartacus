@@ -7,16 +7,14 @@ class MockComponent {}
 describe('BaseFocusService', () => {
   let service: BaseFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent],
-        providers: [BaseFocusService],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent],
+      providers: [BaseFocusService],
+    }).compileComponents();
 
-      service = TestBed.inject(BaseFocusService);
-    })
-  );
+    service = TestBed.inject(BaseFocusService);
+  }));
 
   it('should inject service', () => {
     expect(service).toBeTruthy();

@@ -55,18 +55,18 @@ describe('FormUtils', () => {
 
         // root
         expect(control.updateValueAndValidity).toHaveBeenCalledWith(
-          expectedOptions
+          expectedOptions,
         );
 
         // person
         expect(
-          control.get('person').updateValueAndValidity
+          control.get('person').updateValueAndValidity,
         ).toHaveBeenCalledWith(expectedOptions);
         expect(
-          control.get('person').get('name').updateValueAndValidity
+          control.get('person').get('name').updateValueAndValidity,
         ).toHaveBeenCalledWith(expectedOptions);
         expect(
-          control.get('person').get('age').updateValueAndValidity
+          control.get('person').get('age').updateValueAndValidity,
         ).toHaveBeenCalledWith(expectedOptions);
       });
 
@@ -79,7 +79,7 @@ describe('FormUtils', () => {
         FormUtils.deepUpdateValueAndValidity(control, { emitEvent: false });
 
         expect(
-          control.get('person').get('age').updateValueAndValidity
+          control.get('person').get('age').updateValueAndValidity,
         ).toHaveBeenCalledWith({
           onlySelf: true,
           emitEvent: false,
@@ -113,29 +113,29 @@ describe('FormUtils', () => {
 
         // root
         expect(control.updateValueAndValidity).toHaveBeenCalledWith(
-          expectedOptions
+          expectedOptions,
         );
 
         // 0
         expect(control.get('0').updateValueAndValidity).toHaveBeenCalledWith(
-          expectedOptions
+          expectedOptions,
         );
         expect(
-          control.get('0').get('name').updateValueAndValidity
+          control.get('0').get('name').updateValueAndValidity,
         ).toHaveBeenCalledWith(expectedOptions);
         expect(
-          control.get('0').get('age').updateValueAndValidity
+          control.get('0').get('age').updateValueAndValidity,
         ).toHaveBeenCalledWith(expectedOptions);
 
         // 1
         expect(control.get('1').updateValueAndValidity).toHaveBeenCalledWith(
-          expectedOptions
+          expectedOptions,
         );
         expect(
-          control.get('1').get('name').updateValueAndValidity
+          control.get('1').get('name').updateValueAndValidity,
         ).toHaveBeenCalledWith(expectedOptions);
         expect(
-          control.get('1').get('age').updateValueAndValidity
+          control.get('1').get('age').updateValueAndValidity,
         ).toHaveBeenCalledWith(expectedOptions);
       });
     });
@@ -150,7 +150,7 @@ describe('FormUtils', () => {
       FormUtils.deepUpdateValueAndValidity(control, { emitEvent: false });
 
       expect(
-        control.get('0').get('age').updateValueAndValidity
+        control.get('0').get('age').updateValueAndValidity,
       ).toHaveBeenCalledWith({
         onlySelf: true,
         emitEvent: false,

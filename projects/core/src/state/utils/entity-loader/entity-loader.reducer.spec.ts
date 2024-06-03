@@ -87,7 +87,7 @@ describe('EntityLoader reducer', () => {
       it('should reset load state', () => {
         const action = new EntityLoaderResetAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
         );
         const initialState = {
           entities: {
@@ -102,7 +102,7 @@ describe('EntityLoader reducer', () => {
 
         const state = entityLoaderReducer(TEST_ENTITY_TYPE)(
           initialState,
-          action
+          action,
         );
         const expectedState = {
           entities: {
@@ -232,7 +232,7 @@ describe('EntityLoader reducer', () => {
       it('should reset load state', () => {
         const action = new EntityLoaderResetAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITIES_ID
+          TEST_ENTITIES_ID,
         );
         const initialState = {
           entities: {
@@ -259,7 +259,7 @@ describe('EntityLoader reducer', () => {
 
         const state = entityLoaderReducer(TEST_ENTITY_TYPE)(
           initialState,
-          action
+          action,
         );
         const expectedState = {
           entities: {

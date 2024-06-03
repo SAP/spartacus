@@ -43,11 +43,11 @@ describe('useFeatureStyles', () => {
 
     it(`should unregister usage of feature flag's styles on component destroy`, () => {
       expect(service.unregisterUsage).not.toHaveBeenCalledWith(
-        'testFeatureFlag'
+        'testFeatureFlag',
       );
       const fixture = TestBed.createComponent(TestComponent);
       expect(service.unregisterUsage).not.toHaveBeenCalledWith(
-        'testFeatureFlag'
+        'testFeatureFlag',
       );
       fixture.destroy();
       expect(service.unregisterUsage).toHaveBeenCalledWith('testFeatureFlag');

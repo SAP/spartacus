@@ -38,7 +38,7 @@ export class UnitAddressFormComponent implements OnInit {
   constructor(
     protected itemService: ItemService<Address>,
     protected formService: UnitAddressFormService,
-    protected currentUnitService: CurrentUnitService
+    protected currentUnitService: CurrentUnitService,
   ) {}
 
   /* eslint @angular-eslint/no-empty-lifecycle-method: 1 */

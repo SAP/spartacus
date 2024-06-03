@@ -15,7 +15,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _data?: any
+    _data?: any,
   ) {}
 }
 
@@ -68,7 +68,7 @@ describe('ImportOrderEntriesComponent', () => {
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.IMPORT_TO_CART,
       component.element,
-      { orderEntriesContext: contextService }
+      { orderEntriesContext: contextService },
     );
   });
 

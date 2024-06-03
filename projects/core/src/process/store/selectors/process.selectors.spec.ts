@@ -24,7 +24,7 @@ describe('Process selectors', () => {
   describe('getProcessStateFactory', () => {
     it('should return requested process slice of the state', () => {
       store.dispatch(
-        new StateUtils.EntitySuccessAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
+        new StateUtils.EntitySuccessAction(PROCESS_FEATURE, MOCK_PROCESS_ID),
       );
 
       let result: LoaderState<void>;
@@ -45,13 +45,13 @@ describe('Process selectors', () => {
   describe('getProcessLoadingFactory', () => {
     it('should return loading flag', () => {
       store.dispatch(
-        new StateUtils.EntityLoadAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
+        new StateUtils.EntityLoadAction(PROCESS_FEATURE, MOCK_PROCESS_ID),
       );
 
       let result = false;
       store
         .pipe(
-          select(ProcessSelectors.getProcessLoadingFactory(MOCK_PROCESS_ID))
+          select(ProcessSelectors.getProcessLoadingFactory(MOCK_PROCESS_ID)),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -63,13 +63,13 @@ describe('Process selectors', () => {
   describe('getProcessSuccessFactory', () => {
     it('should return success flag', () => {
       store.dispatch(
-        new StateUtils.EntitySuccessAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
+        new StateUtils.EntitySuccessAction(PROCESS_FEATURE, MOCK_PROCESS_ID),
       );
 
       let result = false;
       store
         .pipe(
-          select(ProcessSelectors.getProcessSuccessFactory(MOCK_PROCESS_ID))
+          select(ProcessSelectors.getProcessSuccessFactory(MOCK_PROCESS_ID)),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -81,7 +81,7 @@ describe('Process selectors', () => {
   describe('getProcessErrorFactory', () => {
     it('should return success flag', () => {
       store.dispatch(
-        new StateUtils.EntityFailAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
+        new StateUtils.EntityFailAction(PROCESS_FEATURE, MOCK_PROCESS_ID),
       );
 
       let result = false;

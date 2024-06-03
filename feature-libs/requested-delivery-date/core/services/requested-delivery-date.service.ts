@@ -19,16 +19,16 @@ export class RequestedDeliveryDateService
   setRequestedDeliveryDate(
     userId: string,
     cartId: string,
-    requestedDate: string
+    requestedDate: string,
   ): Observable<{}> {
     return this.requestedDeliveryDateConnector.setRequestedDeliveryDate(
       userId,
       cartId,
-      requestedDate
+      requestedDate,
     );
   }
 
   constructor(
-    protected requestedDeliveryDateConnector: RequestedDeliveryDateConnector
+    protected requestedDeliveryDateConnector: RequestedDeliveryDateConnector,
   ) {}
 }

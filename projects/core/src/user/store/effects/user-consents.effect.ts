@@ -24,8 +24,8 @@ export class UserConsentsEffect {
     () =>
       this.actions$.pipe(
         ofType(SiteContextActions.LANGUAGE_CHANGE),
-        map(() => new UserActions.ResetLoadUserConsents())
-      )
+        map(() => new UserActions.ResetLoadUserConsents()),
+      ),
   );
 
   getConsents$: Observable<UserActions.UserConsentsAction> = createEffect(() =>
@@ -38,13 +38,13 @@ export class UserConsentsEffect {
           catchError((error) =>
             of(
               new UserActions.LoadUserConsentsFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
-        )
-      )
-    )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   giveConsent$: Observable<
@@ -59,7 +59,7 @@ export class UserConsentsEffect {
           .giveConsent(
             action.payload.userId,
             action.payload.consentTemplateId ?? '',
-            action.payload.consentTemplateVersion ?? 0
+            action.payload.consentTemplateVersion ?? 0,
           )
           .pipe(
             map((consent) => new UserActions.GiveUserConsentSuccess(consent)),
@@ -69,7 +69,7 @@ export class UserConsentsEffect {
                 | GlobalMessageActions.RemoveMessagesByType
               > = [
                 new UserActions.GiveUserConsentFail(
-                  normalizeHttpError(error, this.logger)
+                  normalizeHttpError(error, this.logger),
                 ),
               ];
               if (
@@ -78,15 +78,15 @@ export class UserConsentsEffect {
               ) {
                 errors.push(
                   new GlobalMessageActions.RemoveMessagesByType(
-                    GlobalMessageType.MSG_TYPE_ERROR
-                  )
+                    GlobalMessageType.MSG_TYPE_ERROR,
+                  ),
                 );
               }
               return of(...errors);
-            })
-          )
-      )
-    )
+            }),
+          ),
+      ),
+    ),
   );
 
   withdrawConsent$: Observable<UserActions.UserConsentsAction> = createEffect(
@@ -102,17 +102,17 @@ export class UserConsentsEffect {
               catchError((error) =>
                 of(
                   new UserActions.WithdrawUserConsentFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
-            )
-        )
-      )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
+            ),
+        ),
+      ),
   );
 
   constructor(
     private actions$: Actions,
-    private userConsentConnector: UserConsentConnector
+    private userConsentConnector: UserConsentConnector,
   ) {}
 }

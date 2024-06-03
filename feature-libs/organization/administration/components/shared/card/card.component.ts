@@ -35,14 +35,14 @@ export class CardComponent<T extends BaseItem> {
   iconTypes = ICON_TYPE;
 
   item$: Observable<T | undefined> = this.itemService.current$.pipe(
-    tap((item) => this.refreshMessages(item))
+    tap((item) => this.refreshMessages(item)),
   );
 
   @ViewChild(ViewComponent, { read: ViewComponent }) view: ViewComponent;
 
   constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService
+    protected messageService: MessageService,
   ) {}
 
   /**

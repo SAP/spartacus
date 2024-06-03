@@ -77,7 +77,7 @@ export class CreateConfiguration extends StateUtils.EntityLoadAction {
       owner: CommonConfigurator.Owner;
       configIdTemplate?: string;
       forceReset?: boolean;
-    }
+    },
   ) {
     super(CONFIGURATOR_DATA, payload.owner.key);
   }
@@ -89,7 +89,7 @@ export class CreateConfigurationFail extends StateUtils.EntityFailAction {
     public payload: {
       ownerKey: string;
       error: any;
-    }
+    },
   ) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
@@ -108,7 +108,7 @@ export class ReadConfiguration extends StateUtils.EntityLoadAction {
     public payload: {
       configuration: Configurator.Configuration;
       groupId: string;
-    }
+    },
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);
   }
@@ -141,7 +141,7 @@ export class UpdateConfiguration extends StateUtils.EntityProcessesIncrementActi
 export class UpdateConfigurationFail extends StateUtils.EntityProcessesDecrementAction {
   readonly type = UPDATE_CONFIGURATION_FAIL;
   constructor(
-    public payload: { configuration: Configurator.Configuration; error: any }
+    public payload: { configuration: Configurator.Configuration; error: any },
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);
     this.meta.loader = {
@@ -202,7 +202,7 @@ export class ChangeGroup extends StateUtils.EntityLoadAction {
        */
       parentGroupId?: string;
       conflictResolutionMode?: boolean;
-    }
+    },
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);
   }
@@ -239,7 +239,7 @@ export class GetConfigurationOverviewFail extends StateUtils.EntityFailAction {
 export class GetConfigurationOverviewSuccess extends StateUtils.EntitySuccessAction {
   readonly type = GET_CONFIGURATION_OVERVIEW_SUCCESS;
   constructor(
-    public payload: { ownerKey: string; overview: Configurator.Overview }
+    public payload: { ownerKey: string; overview: Configurator.Overview },
   ) {
     super(CONFIGURATOR_DATA, payload.ownerKey);
   }
@@ -262,7 +262,7 @@ export class UpdateConfigurationOverviewFail extends StateUtils.EntityFailAction
 export class UpdateConfigurationOverviewSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_CONFIGURATION_OVERVIEW_SUCCESS;
   constructor(
-    public payload: { ownerKey: string; overview: Configurator.Overview }
+    public payload: { ownerKey: string; overview: Configurator.Overview },
   ) {
     super(CONFIGURATOR_DATA, payload.ownerKey);
   }
@@ -275,7 +275,7 @@ export class SetInteractionState extends StateUtils.EntitySuccessAction {
     public payload: {
       entityKey: string | string[];
       interactionState: Configurator.InteractionState;
-    }
+    },
   ) {
     super(CONFIGURATOR_DATA, payload.entityKey, payload.interactionState);
   }
@@ -285,7 +285,7 @@ export class SetCurrentGroup extends StateUtils.EntitySuccessAction {
   readonly type = SET_CURRENT_GROUP;
 
   constructor(
-    public payload: { entityKey: string | string[]; currentGroup: string }
+    public payload: { entityKey: string | string[]; currentGroup: string },
   ) {
     super(CONFIGURATOR_DATA, payload.entityKey, payload.currentGroup);
   }
@@ -301,7 +301,7 @@ export class SetMenuParentGroup extends StateUtils.EntitySuccessAction {
        * Id of parent group. Can be undefined for groups on root level
        */
       menuParentGroup?: string;
-    }
+    },
   ) {
     super(CONFIGURATOR_DATA, payload.entityKey, payload.menuParentGroup);
   }

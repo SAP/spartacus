@@ -35,14 +35,14 @@ export class UnitAddressItemService extends ItemService<Address> {
     protected currentItemService: CurrentUnitAddressService,
     protected routingService: RoutingService,
     protected formService: UnitAddressFormService,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
   ) {
     super(currentItemService, routingService, formService);
   }
 
   protected unitRouteParam$ = this.routingService.getParams().pipe(
     map((params) => params[ROUTE_PARAMS.unitCode]),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   load(unitUid: string, addressId: string): Observable<Address> {
@@ -53,7 +53,7 @@ export class UnitAddressItemService extends ItemService<Address> {
 
   update(
     addressCode: string,
-    address: Address
+    address: Address,
   ): Observable<OrganizationItemStatus<Address>> {
     this.unitRouteParam$.pipe(first()).subscribe((unitCode) => {
       this.unitService.updateAddress(unitCode, addressCode, address);
@@ -62,7 +62,7 @@ export class UnitAddressItemService extends ItemService<Address> {
   }
 
   protected create(
-    value: Address
+    value: Address,
   ): Observable<OrganizationItemStatus<Address>> {
     // TODO (CXSPA-5630): Remove feature flag in next major.
     if (
@@ -87,7 +87,7 @@ export class UnitAddressItemService extends ItemService<Address> {
 
   delete(
     addressId: string,
-    unitUid: string
+    unitUid: string,
   ): Observable<OrganizationItemStatus<Address>> {
     this.launchList();
     this.unitService.deleteAddress(unitUid, addressId);

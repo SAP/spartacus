@@ -15,7 +15,7 @@ export const initialState: ProductReviewsState = {
 
 export function reducer(
   state = initialState,
-  action: ProductActions.ProductReviewsAction
+  action: ProductActions.ProductReviewsAction,
 ): ProductReviewsState {
   switch (action.type) {
     case ProductActions.LOAD_PRODUCT_REVIEWS_SUCCESS: {

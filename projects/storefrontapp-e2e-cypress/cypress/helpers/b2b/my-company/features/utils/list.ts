@@ -18,10 +18,10 @@ let requestData: any;
 export function testList(
   config: MyCompanyConfig,
   options?: TestListOptions,
-  suffix: string = ''
+  suffix: string = '',
 ): void {
   cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
-    `getData${suffix}`
+    `getData${suffix}`,
   );
   if (options.trigger) {
     waitForData(
@@ -30,7 +30,7 @@ export function testList(
         const requestData = data;
         validateList(requestData);
       },
-      options.trigger
+      options.trigger,
     );
   } else {
     validateList(requestData);
@@ -66,7 +66,7 @@ export function testList(
             cy.get(`cx-pagination a.page`).contains(NEXT_PAGE).click();
           },
         },
-        NEXT_PAGE
+        NEXT_PAGE,
       );
     }
   }
@@ -77,17 +77,17 @@ export function testListSorting(config: MyCompanyConfig): void {
     if (row.sortLabel && row?.sortLabel !== DEFAULT_SORT_LABEL) {
       it(`should sort table data by ${row.sortLabel}`, () => {
         cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
-          `getData${row.sortLabel}`
+          `getData${row.sortLabel}`,
         );
         waitForData(
           row.sortLabel,
           (data) => {
             verifyList(
               getListRowsFromBody(data, config.objectType, config.rows),
-              config.rows
+              config.rows,
             );
           },
-          () => ngSelect(row.sortLabel)
+          () => ngSelect(row.sortLabel),
         );
       });
     }
@@ -137,13 +137,13 @@ export function checkRows(rows): void {
               .filter((text: string) => !RIGHTS.includes(text))
               .forEach((text) => {
                 cy.get(
-                  `cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`
+                  `cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`,
                 ).should('include.text', ROLES[text]);
               });
           } else {
             cy.get(`cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`).should(
               'include.text',
-              row.text[columnIndex]
+              row.text[columnIndex],
             );
           }
         }
@@ -156,7 +156,7 @@ export function checkRows(rows): void {
 export function getListRowsFromBody(
   body: any,
   objectType: string,
-  rows: MyCompanyRowConfig[]
+  rows: MyCompanyRowConfig[],
 ) {
   return body[objectType].map((data) => {
     const table = { text: [] };
@@ -267,6 +267,6 @@ function getMonthPartFromDate(date: Date): string {
 
 function getFormattedDate(date: Date): string {
   return `${getMonthPartFromDate(
-    date
+    date,
   )} ${date.getDate()}, ${date.getFullYear()}`;
 }

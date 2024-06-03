@@ -27,7 +27,7 @@ export class OccQuoteEntryNormalizer implements Converter<OccQuote, Quote> {
         quoteCode: source.code,
         product: this.converterService.convert(
           entry.product,
-          PRODUCT_NORMALIZER
+          PRODUCT_NORMALIZER,
         ),
       }));
     }

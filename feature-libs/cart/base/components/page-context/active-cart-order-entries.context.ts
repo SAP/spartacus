@@ -28,13 +28,13 @@ export class ActiveCartOrderEntriesContext
 
   constructor(
     protected importInfoService: ProductImportInfoService,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
   ) {}
 
   addEntries(products: ProductData[]): Observable<ProductImportInfo> {
     return this.add(products).pipe(
       switchMap((cartId: string) => this.importInfoService.getResults(cartId)),
-      take(products.length)
+      take(products.length),
     );
   }
 
@@ -52,7 +52,7 @@ export class ActiveCartOrderEntriesContext
       (product: { productCode: string; quantity: number }) => ({
         product: { code: product.productCode },
         quantity: product.quantity,
-      })
+      }),
     );
   }
 }

@@ -39,7 +39,7 @@ export class AsmAuthService extends AuthService {
     protected authRedirectService: AuthRedirectService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
+    protected authMultisiteIsolationService?: AuthMultisiteIsolationService,
   ) {
     super(
       store,
@@ -48,7 +48,7 @@ export class AsmAuthService extends AuthService {
       authStorageService,
       authRedirectService,
       routingService,
-      authMultisiteIsolationService
+      authMultisiteIsolationService,
     );
   }
 
@@ -74,7 +74,7 @@ export class AsmAuthService extends AuthService {
       {
         key: 'asm.auth.agentLoggedInError',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   }
 
@@ -121,8 +121,8 @@ export class AsmAuthService extends AuthService {
           } else {
             return from(super.coreLogout());
           }
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -139,8 +139,8 @@ export class AsmAuthService extends AuthService {
         ([token, isEmulated, tokenTarget]) =>
           Boolean(token?.access_token) &&
           (tokenTarget === TokenTarget.User ||
-            (tokenTarget === TokenTarget.CSAgent && isEmulated))
-      )
+            (tokenTarget === TokenTarget.CSAgent && isEmulated)),
+      ),
     );
   }
 }

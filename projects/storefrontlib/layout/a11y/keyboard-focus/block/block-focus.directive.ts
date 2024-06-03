@@ -22,7 +22,7 @@ export class BlockFocusDirective
 
   constructor(
     protected elementRef: ElementRef,
-    protected service: BaseFocusService
+    protected service: BaseFocusService,
   ) {
     super(elementRef, service);
   }

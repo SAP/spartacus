@@ -123,7 +123,7 @@ describe('RoutingService', () => {
       const queryParams = { sortBy: 'price-desc' };
       const url = service.getUrl(
         { cxRoute: 'category', params: { code: 'SLR_CAMERAS' } },
-        { queryParams }
+        { queryParams },
       );
       expect(url).toEqual('/category/SLR_CAMERAS?sortBy=price-desc');
     });
@@ -143,7 +143,7 @@ describe('RoutingService', () => {
   describe('back', () => {
     it('should go to homepage on back action when referer is not from the app', () => {
       spyOnProperty(document, 'referrer', 'get').and.returnValue(
-        'http://foobar.com'
+        'http://foobar.com',
       );
       spyOn(service, 'go');
       spyOn(urlService, 'transform').and.callFake((x) => x);
@@ -171,7 +171,7 @@ describe('RoutingService', () => {
     let routerState: any;
     service.getRouterState().subscribe((state) => (routerState = state));
     expect(mockRouterState).toHaveBeenCalledWith(
-      RoutingSelector.getRouterState
+      RoutingSelector.getRouterState,
     );
     expect(routerState).toEqual({});
   });
@@ -209,7 +209,7 @@ describe('RoutingService', () => {
 
     expect(result).toEqual(pageContext);
     expect(NgrxStore.select as any).toHaveBeenCalledWith(
-      RoutingSelector.getNextPageContext
+      RoutingSelector.getNextPageContext,
     );
   });
 
@@ -226,7 +226,7 @@ describe('RoutingService', () => {
 
     expect(result).toEqual(isNavigating);
     expect(NgrxStore.select as any).toHaveBeenCalledWith(
-      RoutingSelector.isNavigating
+      RoutingSelector.isNavigating,
     );
   });
 
@@ -241,7 +241,7 @@ describe('RoutingService', () => {
       const context: PageContext = { id: 'test ' };
       service.changeNextPageContext(context);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new RoutingActions.ChangeNextPageContext(context)
+        new RoutingActions.ChangeNextPageContext(context),
       );
     });
   });

@@ -96,7 +96,7 @@ describe('UpdateProfileComponentService', () => {
           {
             key: 'updateProfileForm.profileUpdateSuccess',
           },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
       });
 

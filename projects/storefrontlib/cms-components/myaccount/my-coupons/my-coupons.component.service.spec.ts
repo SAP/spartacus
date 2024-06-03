@@ -55,7 +55,7 @@ describe('MyCouponsComponentService', () => {
         queryParams: {
           couponcode: 'CouponForAllProduct',
         },
-      }
+      },
     );
   });
 
@@ -72,7 +72,7 @@ describe('MyCouponsComponentService', () => {
         queryParams: {
           couponcode: 'CouponForPartProduct',
         },
-      }
+      },
     );
   });
 

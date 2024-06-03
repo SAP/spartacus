@@ -105,7 +105,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.LoadSavedCart({
           userId: mockUserId,
           cartId: mockCartId,
-        })
+        }),
       );
     });
 
@@ -122,7 +122,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.LoadSavedCart({
           userId: mockUserId,
           cartId: mockCartId,
-        })
+        }),
       );
     });
 
@@ -133,7 +133,7 @@ describe('SavedCartService', () => {
           loading: false,
           success: true,
           error: false,
-        })
+        }),
       );
 
       let result: Cart | undefined;
@@ -148,7 +148,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.LoadSavedCart({
           userId: mockUserId,
           cartId: mockCartId,
-        })
+        }),
       );
     });
   });
@@ -160,7 +160,7 @@ describe('SavedCartService', () => {
         loading: false,
         success: true,
         error: false,
-      })
+      }),
     );
 
     let result: StateUtils.ProcessesLoaderState<Cart | undefined> | undefined;
@@ -192,14 +192,14 @@ describe('SavedCartService', () => {
   describe('List of Saved Carts', () => {
     it('should dispatch a load for a list of saved carts ', () => {
       multiCartService.getCarts = createSpy().and.returnValue(
-        of(mockSavedCarts)
+        of(mockSavedCarts),
       );
 
       service.loadSavedCarts();
       expect(store.dispatch).toHaveBeenCalledWith(
         new SavedCartActions.LoadSavedCarts({
           userId: mockUserId,
-        })
+        }),
       );
     });
 
@@ -215,13 +215,13 @@ describe('SavedCartService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new SavedCartActions.LoadSavedCarts({
           userId: mockUserId,
-        })
+        }),
       );
     });
 
     it('should NOT trigger loadSavedCarts when state is in store', () => {
       store.dispatch(
-        new SavedCartActions.LoadSavedCartsSuccess({ userId: mockUserId })
+        new SavedCartActions.LoadSavedCartsSuccess({ userId: mockUserId }),
       );
 
       let result: Cart[] | undefined;
@@ -235,17 +235,17 @@ describe('SavedCartService', () => {
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new SavedCartActions.LoadSavedCarts({
           userId: mockUserId,
-        })
+        }),
       );
     });
 
     it('should filter saved carts without wishlist and selective carts', () => {
       multiCartService.getCarts = createSpy().and.returnValue(
-        of(mockSavedCartsWithWishListAndSelectiveCart)
+        of(mockSavedCartsWithWishListAndSelectiveCart),
       );
 
       store.dispatch(
-        new SavedCartActions.LoadSavedCartsSuccess({ userId: mockUserId })
+        new SavedCartActions.LoadSavedCartsSuccess({ userId: mockUserId }),
       );
 
       let result: Cart[] | undefined;
@@ -259,13 +259,13 @@ describe('SavedCartService', () => {
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new SavedCartActions.LoadSavedCarts({
           userId: mockUserId,
-        })
+        }),
       );
     });
 
     it('should return the loader state', () => {
       store.dispatch(
-        new SavedCartActions.LoadSavedCartsSuccess({ userId: mockUserId })
+        new SavedCartActions.LoadSavedCartsSuccess({ userId: mockUserId }),
       );
 
       let result: StateUtils.LoaderState<any> | undefined;
@@ -287,7 +287,7 @@ describe('SavedCartService', () => {
       service.clearSavedCarts();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new SavedCartActions.ClearSavedCarts()
+        new SavedCartActions.ClearSavedCarts(),
       );
     });
   });
@@ -299,7 +299,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.RestoreSavedCart({
           userId: mockUserId,
           cartId: mockCartId,
-        })
+        }),
       );
     });
 
@@ -307,7 +307,7 @@ describe('SavedCartService', () => {
       service.clearRestoreSavedCart();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new SavedCartActions.ClearRestoreSavedCart()
+        new SavedCartActions.ClearRestoreSavedCart(),
       );
     });
 
@@ -316,7 +316,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.RestoreSavedCartSuccess({
           userId: mockUserId,
           cartId: mockCartId,
-        })
+        }),
       );
 
       let result: boolean | undefined;
@@ -334,7 +334,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.RestoreSavedCartSuccess({
           userId: mockUserId,
           cartId: mockCartId,
-        })
+        }),
       );
 
       let result: boolean | undefined;
@@ -353,7 +353,7 @@ describe('SavedCartService', () => {
           userId: mockUserId,
           cartId: mockCartId,
           error: mockError,
-        })
+        }),
       );
 
       let result: boolean | undefined;
@@ -372,7 +372,7 @@ describe('SavedCartService', () => {
       service.deleteSavedCart(mockCartId);
       expect(multiCartService.deleteCart).toHaveBeenCalledWith(
         mockCartId,
-        mockUserId
+        mockUserId,
       );
     });
   });
@@ -391,7 +391,7 @@ describe('SavedCartService', () => {
           cartId: mockCartId,
           saveCartName: mockCartName,
           saveCartDescription: mockCartDescription,
-        })
+        }),
       );
     });
 
@@ -400,7 +400,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.EditSavedCartSuccess({
           userId: mockUserId,
           cartId: mockCartId,
-        })
+        }),
       );
 
       let result: boolean | undefined;
@@ -418,7 +418,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.EditSavedCartSuccess({
           userId: mockUserId,
           cartId: mockCartId,
-        })
+        }),
       );
 
       let result: boolean | undefined;
@@ -437,7 +437,7 @@ describe('SavedCartService', () => {
           userId: mockUserId,
           cartId: mockCartId,
           error: mockError,
-        })
+        }),
       );
 
       let result: boolean | undefined;
@@ -464,7 +464,7 @@ describe('SavedCartService', () => {
           cartId: mockCartId,
           saveCartName: mockCartName,
           saveCartDescription: mockCartDescription,
-        })
+        }),
       );
     });
 
@@ -472,7 +472,7 @@ describe('SavedCartService', () => {
       service.clearSaveCart();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new SavedCartActions.ClearSaveCart()
+        new SavedCartActions.ClearSaveCart(),
       );
     });
 
@@ -481,7 +481,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.SaveCartSuccess({
           userId: mockUserId,
           cartId: mockCartId,
-        })
+        }),
       );
 
       let result: boolean | undefined;
@@ -499,7 +499,7 @@ describe('SavedCartService', () => {
         new SavedCartActions.SaveCartSuccess({
           userId: mockUserId,
           cartId: mockCartId,
-        })
+        }),
       );
 
       let result: boolean | undefined;
@@ -518,7 +518,7 @@ describe('SavedCartService', () => {
           userId: mockUserId,
           cartId: mockCartId,
           error: mockError,
-        })
+        }),
       );
 
       let result: boolean | undefined;
@@ -540,7 +540,7 @@ describe('SavedCartService', () => {
           userId: mockUserId,
           cartId: mockCartId,
           saveCartName: mockCartName,
-        })
+        }),
       );
     });
 
@@ -548,7 +548,7 @@ describe('SavedCartService', () => {
       service.clearCloneSavedCart();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new SavedCartActions.ClearCloneSavedCart()
+        new SavedCartActions.ClearCloneSavedCart(),
       );
     });
 
@@ -558,7 +558,7 @@ describe('SavedCartService', () => {
           userId: mockUserId,
           cartId: mockCartId,
           saveCartName: mockCartName,
-        })
+        }),
       );
 
       let result: boolean | undefined;
@@ -577,7 +577,7 @@ describe('SavedCartService', () => {
           userId: mockUserId,
           cartId: mockCartId,
           saveCartName: mockCartName,
-        })
+        }),
       );
 
       let result: boolean | undefined;
@@ -597,7 +597,7 @@ describe('SavedCartService', () => {
           cartId: mockCartId,
           saveCartName: mockCartName,
           error: mockError,
-        })
+        }),
       );
 
       let result: boolean | undefined;

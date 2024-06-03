@@ -50,7 +50,7 @@ export class StoreSearchComponent {
       ({ coords: { latitude, longitude } }) => {
         this.findStores.emit({ latitude, longitude });
         this.showSpinner.emit(false);
-      }
+      },
     );
   }
 }

@@ -35,7 +35,7 @@ export class OccUserNotificationPreferenceAdapter
   constructor(
     protected http: HttpClient,
     protected converter: ConverterService,
-    protected occEndpoints: OccEndpointsService
+    protected occEndpoints: OccEndpointsService,
   ) {}
 
   loadAll(userId: string): Observable<NotificationPreference[]> {
@@ -46,24 +46,24 @@ export class OccUserNotificationPreferenceAdapter
         }),
         {
           headers,
-        }
+        },
       )
       .pipe(
         map((list) => list.preferences ?? []),
         this.converter.pipeableMany(NOTIFICATION_PREFERENCE_NORMALIZER),
         catchError((error: any) => {
           throw normalizeHttpError(error, this.logger);
-        })
+        }),
       );
   }
 
   update(
     userId: string,
-    preferences: NotificationPreference[]
+    preferences: NotificationPreference[],
   ): Observable<{}> {
     preferences = this.converter.convert(
       preferences,
-      NOTIFICATION_PREFERENCE_SERIALIZER
+      NOTIFICATION_PREFERENCE_SERIALIZER,
     );
     return this.http
       .patch(
@@ -71,12 +71,12 @@ export class OccUserNotificationPreferenceAdapter
           urlParams: { userId },
         }),
         { preferences: preferences },
-        { headers }
+        { headers },
       )
       .pipe(
         catchError((error: any) => {
           throw normalizeHttpError(error, this.logger);
-        })
+        }),
       );
   }
 }

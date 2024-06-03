@@ -23,7 +23,7 @@ export class AsmEnablerService {
     protected location: Location,
     protected winRef: WindowRef,
     protected launchDialogService: LaunchDialogService,
-    protected featureModules: FeatureModulesService
+    protected featureModules: FeatureModulesService,
   ) {}
 
   /**

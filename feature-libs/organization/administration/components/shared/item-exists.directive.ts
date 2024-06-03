@@ -20,7 +20,7 @@ export class ItemExistsDirective<T = BaseItem> implements OnInit, OnDestroy {
 
   constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService
+    protected messageService: MessageService,
   ) {}
 
   ngOnInit() {

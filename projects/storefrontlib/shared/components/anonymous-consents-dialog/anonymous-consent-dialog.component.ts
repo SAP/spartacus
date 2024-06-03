@@ -61,7 +61,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     protected config: AnonymousConsentsConfig,
     protected anonymousConsentsService: AnonymousConsentsService,
     protected el: ElementRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {
     if (this.config.anonymousConsents) {
       this.showLegalDescription =
@@ -103,10 +103,10 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
                   this.anonymousConsentsService.withdrawConsent(template.id);
                 }
               }
-            })
-          )
+            }),
+          ),
         )
-        .subscribe()
+        .subscribe(),
     );
     this.close('rejectAll');
   }
@@ -133,10 +133,10 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
                   this.anonymousConsentsService.giveConsent(template.id);
                 }
               }
-            })
-          )
+            }),
+          ),
         )
-        .subscribe()
+        .subscribe(),
     );
     this.close('allowAll');
   }
@@ -145,7 +145,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     return Boolean(
       template.id &&
         this.config.anonymousConsents?.requiredConsents &&
-        this.config.anonymousConsents.requiredConsents.includes(template.id)
+        this.config.anonymousConsents.requiredConsents.includes(template.id),
     );
   }
 
@@ -167,7 +167,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
 
   getCorrespondingConsent(
     template: ConsentTemplate,
-    consents: AnonymousConsent[] = []
+    consents: AnonymousConsent[] = [],
   ): AnonymousConsent | null {
     for (const consent of consents) {
       if (template.id === consent.templateCode) {

@@ -31,11 +31,11 @@ export class OccConfiguratorTextfieldUpdateCartEntrySerializer
    * @returns ttributes for updating a cart entries' configuration in OCC format
    */
   convert(
-    source: ConfiguratorTextfield.UpdateCartEntryParameters
+    source: ConfiguratorTextfield.UpdateCartEntryParameters,
   ): OccConfiguratorTextfield.UpdateCartEntryParameters {
     const configurationInfos: ConfigurationInfo[] = [];
     source.configuration?.configurationInfos.forEach((info) =>
-      this.convertInfo(info, configurationInfos)
+      this.convertInfo(info, configurationInfos),
     );
 
     const target: OccConfiguratorTextfield.UpdateCartEntryParameters = {
@@ -50,7 +50,7 @@ export class OccConfiguratorTextfieldUpdateCartEntrySerializer
 
   protected convertInfo(
     source: ConfiguratorTextfield.ConfigurationInfo,
-    occConfigurationInfos: OccConfiguratorTextfield.ConfigurationInfo[]
+    occConfigurationInfos: OccConfiguratorTextfield.ConfigurationInfo[],
   ): void {
     const occInfo: OccConfiguratorTextfield.ConfigurationInfo = {
       configurationLabel: source.configurationLabel,

@@ -42,17 +42,17 @@ export class CostCenterListService extends ListService<CostCenterModel> {
 
   constructor(
     protected tableService: TableService,
-    protected costCenterService: CostCenterService
+    protected costCenterService: CostCenterService,
   ) {
     super(tableService);
   }
 
   protected load(
-    pagination: PaginationModel
+    pagination: PaginationModel,
   ): Observable<EntitiesModel<CostCenterModel>> {
     return this.costCenterService.getList(pagination).pipe(
       filter(isNotUndefined),
-      map((raw) => this.convertCostCenters(raw))
+      map((raw) => this.convertCostCenters(raw)),
     );
   }
 

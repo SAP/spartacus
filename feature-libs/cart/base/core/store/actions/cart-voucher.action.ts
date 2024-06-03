@@ -23,7 +23,7 @@ export const CART_REMOVE_VOUCHER_SUCCESS =
 export class CartAddVoucher extends StateUtils.EntityLoadAction {
   readonly type = CART_ADD_VOUCHER;
   constructor(
-    public payload: { userId: string; cartId: string; voucherId: string }
+    public payload: { userId: string; cartId: string; voucherId: string },
   ) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
@@ -37,7 +37,7 @@ export class CartAddVoucherFail extends StateUtils.EntityFailAction {
       cartId: string;
       voucherId: string;
       error: any;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload.error);
   }
@@ -46,7 +46,7 @@ export class CartAddVoucherFail extends StateUtils.EntityFailAction {
 export class CartAddVoucherSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CART_ADD_VOUCHER_SUCCESS;
   constructor(
-    public payload: { userId: string; cartId: string; voucherId: string }
+    public payload: { userId: string; cartId: string; voucherId: string },
   ) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
@@ -66,7 +66,7 @@ export class CartResetAddVoucher extends StateUtils.EntityLoaderResetAction {
 export class CartRemoveVoucher extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_REMOVE_VOUCHER;
   constructor(
-    public payload: { userId: string; cartId: string; voucherId: string }
+    public payload: { userId: string; cartId: string; voucherId: string },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -80,7 +80,7 @@ export class CartRemoveVoucherFail extends StateUtils.EntityProcessesDecrementAc
       cartId: string;
       userId: string;
       voucherId: string;
-    }
+    },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -89,7 +89,7 @@ export class CartRemoveVoucherFail extends StateUtils.EntityProcessesDecrementAc
 export class CartRemoveVoucherSuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_VOUCHER_SUCCESS;
   constructor(
-    public payload: { userId: string; cartId: string; voucherId: string }
+    public payload: { userId: string; cartId: string; voucherId: string },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }

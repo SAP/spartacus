@@ -36,13 +36,13 @@ export class UserAddressesEffects {
             catchError((error) =>
               of(
                 new UserActions.LoadUserAddressesFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
-        })
-      )
+        }),
+      ),
     );
 
   addUserAddress$: Observable<UserActions.UserAddressesAction> = createEffect(
@@ -60,13 +60,13 @@ export class UserAddressesEffects {
               catchError((error) =>
                 of(
                   new UserActions.AddUserAddressFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
   );
 
   updateUserAddress$: Observable<UserActions.UserAddressesAction> =
@@ -84,17 +84,17 @@ export class UserAddressesEffects {
               catchError((error) => {
                 this.showGlobalMessage(
                   'addressForm.invalidAddress',
-                  GlobalMessageType.MSG_TYPE_ERROR
+                  GlobalMessageType.MSG_TYPE_ERROR,
                 );
                 return of(
                   new UserActions.UpdateUserAddressFail(
-                    normalizeHttpError(error, this.logger)
-                  )
+                    normalizeHttpError(error, this.logger),
+                  ),
                 );
-              })
+              }),
             );
-        })
-      )
+        }),
+      ),
     );
 
   deleteUserAddress$: Observable<UserActions.UserAddressesAction> =
@@ -112,13 +112,13 @@ export class UserAddressesEffects {
               catchError((error) =>
                 of(
                   new UserActions.DeleteUserAddressFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   /**
@@ -132,9 +132,9 @@ export class UserAddressesEffects {
         tap(() => {
           this.loadAddresses();
           this.showGlobalMessage('addressForm.userAddressAddSuccess');
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   /**
@@ -155,9 +155,9 @@ export class UserAddressesEffects {
           ) {
             this.showGlobalMessage('addressForm.userAddressUpdateSuccess');
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   /**
@@ -171,16 +171,16 @@ export class UserAddressesEffects {
         tap(() => {
           this.loadAddresses();
           this.showGlobalMessage('addressForm.userAddressDeleteSuccess');
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   constructor(
     private actions$: Actions,
     private userAddressConnector: UserAddressConnector,
     private userAddressService: UserAddressService,
-    private messageService: GlobalMessageService
+    private messageService: GlobalMessageService,
   ) {}
 
   /**
@@ -189,7 +189,7 @@ export class UserAddressesEffects {
   private showGlobalMessage(key: string, type?: GlobalMessageType) {
     this.messageService.add(
       { key },
-      type ?? GlobalMessageType.MSG_TYPE_CONFIRMATION
+      type ?? GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
   }
 

@@ -126,48 +126,46 @@ describe('RegisterComponent', () => {
   let authConfigService: AuthConfigService;
   let registerComponentService: RegisterComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          NgSelectModule,
-          PasswordVisibilityToggleModule,
-          NgSelectA11yModule,
-        ],
-        declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
-        providers: [
-          {
-            provide: RegisterComponentService,
-            useClass: MockRegisterComponentService,
-          },
-          {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: AnonymousConsentsService,
-            useClass: MockAnonymousConsentsService,
-          },
-          {
-            provide: AnonymousConsentsConfig,
-            useValue: mockAnonymousConsentsConfig,
-          },
-          {
-            provide: AuthConfigService,
-            useClass: MockAuthConfigService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        NgSelectModule,
+        PasswordVisibilityToggleModule,
+        NgSelectA11yModule,
+      ],
+      declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
+      providers: [
+        {
+          provide: RegisterComponentService,
+          useClass: MockRegisterComponentService,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: AnonymousConsentsService,
+          useClass: MockAnonymousConsentsService,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
+        {
+          provide: AuthConfigService,
+          useClass: MockAuthConfigService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
@@ -194,7 +192,7 @@ describe('RegisterComponent', () => {
       fixture.detectChanges();
       const el: HTMLElement = fixture.debugElement.nativeElement;
       const submitButton: HTMLElement = el.querySelector(
-        'button[type="submit"]'
+        'button[type="submit"]',
       );
       expect(submitButton.hasAttribute('disabled')).toBeFalsy();
     });
@@ -219,18 +217,18 @@ describe('RegisterComponent', () => {
           [GlobalMessageType.MSG_TYPE_ERROR]: [
             { raw: 'This field is required.' },
           ],
-        } as GlobalMessageEntities)
+        } as GlobalMessageEntities),
       );
       component.ngOnInit();
 
       expect(globalMessageService.remove).toHaveBeenCalledWith(
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
           key: 'register.titleRequired',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
 
@@ -299,7 +297,7 @@ describe('RegisterComponent', () => {
 
     it('should not redirect in different flow that ResourceOwnerPasswordFlow', () => {
       spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
-        OAuthFlow.ImplicitFlow
+        OAuthFlow.ImplicitFlow,
       );
       component.ngOnInit();
       component.registerUser();
@@ -337,7 +335,7 @@ describe('RegisterComponent', () => {
       };
       component.isConsentGiven(mockConsent);
       expect(anonymousConsentService.isConsentGiven).toHaveBeenCalledWith(
-        mockConsent
+        mockConsent,
       );
     });
   });

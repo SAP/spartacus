@@ -73,7 +73,7 @@ type StockLevelAtStorePayload = { productCode: string; storeName: string };
  */
 export const StockLevelAtStore = createAction(
   STOCK_LEVEL_AT_STORE,
-  props<{ payload: StockLevelAtStorePayload }>()
+  props<{ payload: StockLevelAtStorePayload }>(),
 );
 
 export type StockLevelAtStoreAction = ReturnType<typeof StockLevelAtStore>;
@@ -87,5 +87,5 @@ type StockLevelAtStoreSuccessPayload = StockLevelAtStorePayload & {
  */
 export const StockLevelAtStoreSuccess = createAction(
   STOCK_LEVEL_AT_STORE_SUCCESS,
-  props<{ payload: StockLevelAtStoreSuccessPayload }>()
+  props<{ payload: StockLevelAtStoreSuccessPayload }>(),
 );

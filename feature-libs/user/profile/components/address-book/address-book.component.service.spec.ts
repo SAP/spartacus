@@ -88,7 +88,7 @@ describe('AddressBookComponentService', () => {
   it('should addUserAddress() add user address', () => {
     service.addUserAddress(mockAddresses[0]);
     expect(userAddressService.addUserAddress).toHaveBeenCalledWith(
-      mockAddresses[0]
+      mockAddresses[0],
     );
   });
 
@@ -96,21 +96,21 @@ describe('AddressBookComponentService', () => {
     service.updateUserAddress('addressId', mockAddresses[0]);
     expect(userAddressService.updateUserAddress).toHaveBeenCalledWith(
       'addressId',
-      mockAddresses[0]
+      mockAddresses[0],
     );
   });
 
   it('should setAddressAsDefault() set address as default', () => {
     service.setAddressAsDefault('addressId');
     expect(userAddressService.setAddressAsDefault).toHaveBeenCalledWith(
-      'addressId'
+      'addressId',
     );
   });
 
   it('should deleteUserAddress() delete address', () => {
     service.deleteUserAddress('addressId');
     expect(userAddressService.deleteUserAddress).toHaveBeenCalledWith(
-      'addressId'
+      'addressId',
     );
   });
 });

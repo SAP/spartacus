@@ -27,7 +27,7 @@
     <ng-template
       [cxAbstractOrderContext]="{
         id: order.code,
-        type: abstractOrderType.ORDER
+        type: abstractOrderType.ORDER,
       }"
       [cxOutlet]="CartOutlets.CART_ITEM_LIST"
       [cxOutletContext]="{
@@ -37,8 +37,8 @@
         options: {
           displayAddToCart: enableAddToCart,
           addToCartString: buyItAgainTranslation,
-          optionalBtn: addToCartBtn
-        }
+          optionalBtn: addToCartBtn,
+        },
       }"
     >
     </ng-template>

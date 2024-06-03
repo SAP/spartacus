@@ -39,7 +39,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
   ) {
     super();
 
@@ -73,13 +73,13 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
    */
   onSelect(index: number): void {
     this.attributeCheckBoxForms[index].setValue(
-      !this.attributeCheckBoxForms[index].value
+      !this.attributeCheckBoxForms[index].value,
     );
 
     const selectedValues =
       this.configUtilsService.assembleValuesForMultiSelectAttributes(
         this.attributeCheckBoxForms,
-        this.attribute
+        this.attribute,
       );
 
     this.configuratorCommonsService.updateConfiguration(
@@ -88,12 +88,12 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
         ...this.attribute,
         values: selectedValues,
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   }
 
   extractValuePriceFormulaParameters(
-    value: Configurator.Value
+    value: Configurator.Value,
   ): ConfiguratorPriceComponentOptions {
     return {
       quantity: value.quantity,

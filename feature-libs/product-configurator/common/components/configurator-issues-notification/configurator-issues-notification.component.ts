@@ -20,7 +20,7 @@ export class ConfiguratorIssuesNotificationComponent {
 
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    @Optional() protected cartItemContext: CartItemContext
+    @Optional() protected cartItemContext: CartItemContext,
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =

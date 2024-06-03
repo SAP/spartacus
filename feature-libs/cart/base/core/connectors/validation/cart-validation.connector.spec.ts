@@ -6,7 +6,7 @@ import createSpy = jasmine.createSpy;
 
 class MockCartValidationAdapter implements CartValidationAdapter {
   validate = createSpy('validate').and.callFake((cartId, userId) =>
-    of(`load-${cartId}-${userId}`)
+    of(`load-${cartId}-${userId}`),
   );
 }
 

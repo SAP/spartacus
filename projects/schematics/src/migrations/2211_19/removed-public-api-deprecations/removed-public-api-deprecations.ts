@@ -13,7 +13,7 @@ export function migrate(): Rule {
     return removedPublicApiDeprecation(
       tree,
       context,
-      GENERATED_REMOVED_PUBLIC_API_DATA
+      GENERATED_REMOVED_PUBLIC_API_DATA,
     );
   };
 }

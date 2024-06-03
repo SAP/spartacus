@@ -28,7 +28,7 @@ export const my_user = {
 export function checkoutShippingAddress() {
   const deliveryModePage = waitForPage(
     '/checkout/delivery-mode',
-    'getDeliveryModePage'
+    'getDeliveryModePage',
   );
   cy.get('cx-delivery-address').within(() => {
     cy.findByText('Selected');
@@ -49,7 +49,7 @@ export function checkoutShippingAddress() {
 export function checkoutDeliveryMode() {
   const PaymentDetailsPage = waitForPage(
     '/checkout/payment-details',
-    'getPaymentDetailsPage'
+    'getPaymentDetailsPage',
   );
   cy.get('[formcontrolname="deliveryModeId"]').eq(0).click();
   cy.get('cx-delivery-mode').within(() => {
@@ -64,7 +64,7 @@ export function checkoutDeliveryMode() {
 export function checkoutPaymentDetails() {
   const ReviewOrderPage = waitForPage(
     '/checkout/review-order',
-    'getReviewOrderPage'
+    'getReviewOrderPage',
   );
   cy.get('cx-payment-method').within(() => {
     cy.get('cx-card')
@@ -76,7 +76,7 @@ export function checkoutPaymentDetails() {
           'Expires: ' +
             my_user.payment.expires.month +
             '/' +
-            my_user.payment.expires.year
+            my_user.payment.expires.year,
         );
         cy.findByText('Use this payment').click();
       });
@@ -88,7 +88,7 @@ export function checkoutPaymentDetails() {
 export function reviewAndPlaceOrder() {
   const ConfirmOrderPage = waitForPage(
     '/order-confirmation',
-    'getOrderConfirmationPage'
+    'getOrderConfirmationPage',
   );
   cy.get('cx-review-submit').within(() => {
     cy.get('cx-card')
@@ -99,7 +99,7 @@ export function reviewAndPlaceOrder() {
           'Expires: ' +
             my_user.payment.expires.month +
             '/' +
-            my_user.payment.expires.year
+            my_user.payment.expires.year,
         );
       });
   });
@@ -120,6 +120,6 @@ export function orderConfirmation() {
     'Expires: ' +
       my_user.payment.expires.month +
       '/' +
-      my_user.payment.expires.year
+      my_user.payment.expires.year,
   );
 }

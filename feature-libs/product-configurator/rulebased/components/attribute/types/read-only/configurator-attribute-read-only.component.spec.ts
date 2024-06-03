@@ -68,30 +68,28 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     isLightedUp: myValues[0].selected,
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeReadOnlyComponent,
-          MockConfiguratorPriceComponent,
-          MockConfiguratorShowMoreComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-        ],
-        imports: [ReactiveFormsModule, I18nTestingModule],
-      })
-        .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeReadOnlyComponent,
+        MockConfiguratorPriceComponent,
+        MockConfiguratorShowMoreComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+      ],
+      imports: [ReactiveFormsModule, I18nTestingModule],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeReadOnlyComponent);
@@ -115,7 +113,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   describe('extractValuePriceFormulaParameters', () => {
     it('should return corresponding value price formula parameters for a given price', () => {
       expect(component.extractValuePriceFormulaParameters(myValues[0])).toEqual(
-        configuratorPriceComponentOptions
+        configuratorPriceComponentOptions,
       );
     });
   });
@@ -127,18 +125,18 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.form-check'
+        '.form-check',
       );
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-read-only-attribute-label'
+        '.cx-read-only-attribute-label',
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         '.cx-read-only-attribute-label',
-        'val2'
+        'val2',
       );
     });
 
@@ -149,15 +147,15 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.form-check'
+        '.form-check',
       );
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-read-only-attribute-label'
+        '.cx-read-only-attribute-label',
       );
       expect(
-        htmlElem.querySelectorAll('.cx-read-only-attribute-label').length
+        htmlElem.querySelectorAll('.cx-read-only-attribute-label').length,
       ).toBe(2);
     });
 
@@ -167,12 +165,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.form-check'
+        '.form-check',
       );
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-value-price'
+        '.cx-value-price',
       );
     });
   });
@@ -188,27 +186,27 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          'span'
+          'span',
         );
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-visually-hidden'
+          '.cx-visually-hidden',
         );
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-read-only-attribute-label'
+          '.cx-read-only-attribute-label',
         );
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
-          '.cx-form-check'
+          '.cx-form-check',
         );
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
-          '.cx-value-price'
+          '.cx-value-price',
         );
       });
     });
@@ -224,27 +222,27 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          'span'
+          'span',
         );
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-visually-hidden'
+          '.cx-visually-hidden',
         );
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-read-only-attribute-label'
+          '.cx-read-only-attribute-label',
         );
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
-          '.cx-form-check'
+          '.cx-form-check',
         );
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
-          '.cx-value-price'
+          '.cx-value-price',
         );
       });
     });
@@ -255,7 +253,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-show-more'
+        'cx-configurator-show-more',
       );
     });
 
@@ -265,7 +263,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-show-more'
+        'cx-configurator-show-more',
       );
     });
   });
@@ -281,10 +279,10 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-visually-hidden'
+          '.cx-visually-hidden',
         );
         expect(
-          component.getAriaLabel(component.attribute, myValues[0])
+          component.getAriaLabel(component.attribute, myValues[0]),
         ).toEqual(
           'configurator.a11y.readOnlyValueOfAttributeFullWithPrice' +
             ' attribute:' +
@@ -292,7 +290,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
             ' price:' +
             myValues[0].valuePriceTotal?.formattedValue +
             ' value:' +
-            valueName
+            valueName,
         );
       });
 
@@ -307,10 +305,10 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-visually-hidden'
+          '.cx-visually-hidden',
         );
         expect(
-          component.getAriaLabel(component.attribute, myValues[2])
+          component.getAriaLabel(component.attribute, myValues[2]),
         ).toEqual(
           'configurator.a11y.readOnlyValueOfAttributeFullWithPrice' +
             ' attribute:' +
@@ -318,7 +316,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
             ' price:' +
             myValues[2].valuePrice?.formattedValue +
             ' value:' +
-            valueName
+            valueName,
         );
       });
 
@@ -333,16 +331,16 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-visually-hidden'
+          '.cx-visually-hidden',
         );
         expect(
-          component.getAriaLabel(component.attribute, myValues[1])
+          component.getAriaLabel(component.attribute, myValues[1]),
         ).toEqual(
           'configurator.a11y.readOnlyValueOfAttributeFull' +
             ' attribute:' +
             attributeLabel +
             ' value:' +
-            valueName
+            valueName,
         );
       });
     });
@@ -360,13 +358,13 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           CommonConfiguratorTestUtilsService.expectElementPresent(
             expect,
             htmlElem,
-            '.cx-visually-hidden'
+            '.cx-visually-hidden',
           );
           expect(component.getAriaLabel(component.attribute)).toEqual(
             'configurator.a11y.readOnlyValueOfAttributeFull attribute:' +
               attributeLabel +
               ' value:' +
-              valueName
+              valueName,
           );
         });
       });
@@ -384,13 +382,13 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           CommonConfiguratorTestUtilsService.expectElementPresent(
             expect,
             htmlElem,
-            '.cx-visually-hidden'
+            '.cx-visually-hidden',
           );
           expect(component.getAriaLabel(component.attribute)).toEqual(
             'configurator.a11y.readOnlyValueOfAttributeFull attribute:' +
               attributeLabel +
               ' value:' +
-              valueName
+              valueName,
           );
         });
       });

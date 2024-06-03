@@ -37,7 +37,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
   ) {
     super();
 
@@ -50,7 +50,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
       .isCartEntryOrGroupVisited(
         attributeComponentContext.owner,
-        attributeComponentContext.group.id
+        attributeComponentContext.group.id,
       )
       .pipe(
         map(
@@ -59,8 +59,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
               this.isRequiredErrorMsg(this.attribute) &&
               this.isDropDown(this.attribute) &&
               this.isNoValueSelected(this.attribute)) ||
-            false
-        )
+            false,
+        ),
       );
   }
 
@@ -73,7 +73,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   get withQuantity(): boolean {
     return this.quantityService.withQuantity(
       this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-      this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
+      this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED,
     );
   }
 
@@ -84,7 +84,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    */
   get disableQuantityActions(): boolean {
     return this.quantityService.disableQuantityActions(
-      this.attribute.selectedSingleValue
+      this.attribute.selectedSingleValue,
     );
   }
 
@@ -96,7 +96,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
         ...this.attribute,
         selectedSingleValue: value,
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   }
 
@@ -109,7 +109,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
       this.configuratorCommonsService.updateConfiguration(
         event.ownerKey,
         event.changedAttribute,
-        Configurator.UpdateType.ATTRIBUTE
+        Configurator.UpdateType.ATTRIBUTE,
       );
     }
   }
@@ -123,7 +123,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
         ...this.attribute,
         quantity,
       },
-      Configurator.UpdateType.ATTRIBUTE_QUANTITY
+      Configurator.UpdateType.ATTRIBUTE_QUANTITY,
     );
   }
 
@@ -154,13 +154,13 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(
-    form?: UntypedFormControl
+    form?: UntypedFormControl,
   ): ConfiguratorAttributeQuantityComponentOptions {
     const initialQuantity = this.getInitialQuantity(form);
     const disableQuantityActions$ = this.loading$.pipe(
       map((loading) => {
         return loading || this.disableQuantityActions;
-      })
+      }),
     );
 
     return {
@@ -193,7 +193,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    * @return {ConfiguratorPriceComponentOptions} - New price formula
    */
   extractValuePriceFormulaParameters(
-    value?: Configurator.Value
+    value?: Configurator.Value,
   ): ConfiguratorPriceComponentOptions {
     return {
       price: value?.valuePrice,
@@ -221,7 +221,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
   getAriaLabel(
     value: Configurator.Value,
-    attribute: Configurator.Attribute
+    attribute: Configurator.Attribute,
   ): string {
     const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
@@ -243,7 +243,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
   getAriaLabelWithoutAdditionalValue(
     value: Configurator.Value,
-    attribute: Configurator.Attribute
+    attribute: Configurator.Attribute,
   ): string {
     let ariaLabel = '';
     if (value.valuePrice && value.valuePrice?.value !== 0) {
@@ -255,7 +255,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
               value: value.valueDisplay,
               attribute: attribute.label,
               price: value.valuePriceTotal.formattedValue,
-            }
+            },
           )
           .pipe(take(1))
           .subscribe((text) => (ariaLabel = text));
@@ -267,7 +267,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
               value: value.valueDisplay,
               attribute: attribute.label,
               price: value.valuePrice.formattedValue,
-            }
+            },
           )
           .pipe(take(1))
           .subscribe((text) => (ariaLabel = text));

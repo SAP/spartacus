@@ -21,14 +21,14 @@ export const getRouterState: MemoizedSelector<any, RouterState> =
 export const getSemanticRoute: MemoizedSelector<any, string> = createSelector(
   getRouterState,
   (routingState: RouterState) =>
-    (routingState.state && routingState.state.semanticRoute) || ''
+    (routingState.state && routingState.state.semanticRoute) || '',
 );
 
 export const getPageContext: MemoizedSelector<any, PageContext> =
   createSelector(
     getRouterState,
     (routingState: RouterState) =>
-      (routingState.state && routingState.state.context) || { id: '' }
+      (routingState.state && routingState.state.context) || { id: '' },
   );
 
 export const getNextPageContext: MemoizedSelector<
@@ -37,10 +37,10 @@ export const getNextPageContext: MemoizedSelector<
 > = createSelector(
   getRouterState,
   (routingState: RouterState) =>
-    routingState.nextState && routingState.nextState.context
+    routingState.nextState && routingState.nextState.context,
 );
 
 export const isNavigating: MemoizedSelector<any, boolean> = createSelector(
   getNextPageContext,
-  (context) => !!context
+  (context) => !!context,
 );

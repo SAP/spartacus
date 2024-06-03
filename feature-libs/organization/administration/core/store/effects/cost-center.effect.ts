@@ -45,12 +45,12 @@ export class CostCenterEffects {
               new CostCenterActions.LoadCostCenterFail({
                 costCenterCode,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   loadCostCenters$: Observable<
@@ -66,7 +66,7 @@ export class CostCenterEffects {
           switchMap((costCenters: EntitiesModel<CostCenter>) => {
             const { values, page } = StateUtils.normalizeListPage(
               costCenters,
-              'code'
+              'code',
             );
             return [
               new CostCenterActions.LoadCostCenterSuccess(values),
@@ -81,12 +81,12 @@ export class CostCenterEffects {
               new CostCenterActions.LoadCostCentersFail({
                 params: payload.params,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   createCostCenter$: Observable<
@@ -112,11 +112,11 @@ export class CostCenterEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   updateCostCenter$: Observable<
@@ -142,11 +142,11 @@ export class CostCenterEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   loadAssignedBudgets$: Observable<
@@ -158,7 +158,7 @@ export class CostCenterEffects {
       ofType(CostCenterActions.LOAD_ASSIGNED_BUDGETS),
       map((action: CostCenterActions.LoadAssignedBudgets) => action.payload),
       groupBy(({ costCenterCode, params }) =>
-        StateUtils.serializeParams(costCenterCode, params)
+        StateUtils.serializeParams(costCenterCode, params),
       ),
       mergeMap((group) =>
         group.pipe(
@@ -169,7 +169,7 @@ export class CostCenterEffects {
                 switchMap((budgets: EntitiesModel<Budget>) => {
                   const { values, page } = StateUtils.normalizeListPage(
                     budgets,
-                    'code'
+                    'code',
                   );
                   return [
                     new BudgetActions.LoadBudgetSuccess(values),
@@ -186,14 +186,14 @@ export class CostCenterEffects {
                       costCenterCode,
                       params,
                       error: normalizeHttpError(error, this.logger),
-                    })
-                  )
-                )
-              )
-          )
-        )
-      )
-    )
+                    }),
+                  ),
+                ),
+              ),
+          ),
+        ),
+      ),
+    ),
   );
 
   assignBudgetToCostCenter$: Observable<
@@ -222,11 +222,11 @@ export class CostCenterEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   unassignBudgetToCostCenter$: Observable<
@@ -255,15 +255,15 @@ export class CostCenterEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   constructor(
     private actions$: Actions,
-    private costCenterConnector: CostCenterConnector
+    private costCenterConnector: CostCenterConnector,
   ) {}
 }

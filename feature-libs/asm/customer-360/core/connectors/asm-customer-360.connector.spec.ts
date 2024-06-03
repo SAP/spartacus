@@ -9,7 +9,7 @@ import { AsmCustomer360Connector } from './asm-customer-360.connector';
 
 class MockAsmCustomer360Adapter {
   getAsmCustomer360Data(
-    _request: AsmCustomer360Request
+    _request: AsmCustomer360Request,
   ): Observable<AsmCustomer360Response> {
     const response: AsmCustomer360Response = { value: [] };
     return of(response);
@@ -47,7 +47,7 @@ describe('AsmCustomer360Connector', () => {
       service.getAsmCustomer360Data(input).subscribe();
 
       expect(asmCustomer360Adapter.getAsmCustomer360Data).toHaveBeenCalledWith(
-        input
+        input,
       );
     });
   });

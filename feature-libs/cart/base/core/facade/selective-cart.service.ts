@@ -37,7 +37,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
     protected userProfileFacade: UserProfileFacade,
     protected multiCartFacade: MultiCartFacade,
     protected baseSiteService: BaseSiteService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   /**
@@ -66,7 +66,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
         }),
         filter(([selectiveId]) => Boolean(selectiveId)),
         switchMap(([selectiveId]) => this.multiCartFacade.getCart(selectiveId)),
-        shareReplay({ bufferSize: 1, refCount: true })
+        shareReplay({ bufferSize: 1, refCount: true }),
       );
     }
     return this.selectiveCart$;
@@ -74,13 +74,13 @@ export class SelectiveCartService implements SelectiveCartFacade {
 
   getEntries(): Observable<OrderEntry[]> {
     return this.getSelectiveCartId().pipe(
-      switchMap((selectiveId) => this.multiCartFacade.getEntries(selectiveId))
+      switchMap((selectiveId) => this.multiCartFacade.getEntries(selectiveId)),
     );
   }
 
   isStable(): Observable<boolean> {
     return this.getSelectiveCartId().pipe(
-      switchMap((selectiveId) => this.multiCartFacade.isStable(selectiveId))
+      switchMap((selectiveId) => this.multiCartFacade.isStable(selectiveId)),
     );
   }
 
@@ -95,7 +95,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
       this.multiCartFacade.removeEntry(
         userId,
         selectiveId,
-        entry.entryNumber as number
+        entry.entryNumber as number,
       );
     });
   }
@@ -106,7 +106,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
         userId,
         selectiveId,
         entryNumber,
-        quantity
+        quantity,
       );
     });
   }
@@ -114,8 +114,8 @@ export class SelectiveCartService implements SelectiveCartFacade {
   getEntry(productCode: string): Observable<OrderEntry | undefined> {
     return this.getSelectiveCartId().pipe(
       switchMap((selectiveId) =>
-        this.multiCartFacade.getEntry(selectiveId, productCode)
-      )
+        this.multiCartFacade.getEntry(selectiveId, productCode),
+      ),
     );
   }
 
@@ -127,7 +127,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
     return this.getSelectiveCartId().pipe(
       distinctUntilChanged(),
       withLatestFrom(this.userIdService.getUserId()),
-      take(1)
+      take(1),
     );
   }
 }

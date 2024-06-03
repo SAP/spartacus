@@ -24,7 +24,7 @@ import {
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner(
   SPARTACUS_SCHEMATICS,
-  collectionPath
+  collectionPath,
 );
 
 const TEMPLATE_NAME = 'template.html';
@@ -69,20 +69,20 @@ describe('Module file utils', () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runSchematic(
       'add-spartacus',
       defaultOptions,
-      appTree
+      appTree,
     );
   });
 
@@ -105,7 +105,7 @@ describe('Module file utils', () => {
       const appModulePath = getPathResultsForFile(
         appTree,
         'app.module.ts',
-        'src'
+        'src',
       )[0];
       expect(appModulePath).toBeTruthy();
       addImport(appTree, appModulePath, 'MockUnitTestModule', '@test');
@@ -115,7 +115,7 @@ describe('Module file utils', () => {
       if (buffer) {
         const fileContent = buffer.toString(UTF_8);
         expect(
-          fileContent.includes("import { MockUnitTestModule } from '@test';")
+          fileContent.includes("import { MockUnitTestModule } from '@test';"),
         ).toBeTruthy();
       }
     });
@@ -127,13 +127,13 @@ describe('Module file utils', () => {
         const appModulePath = getPathResultsForFile(
           appTree,
           'app.module.ts',
-          'src'
+          'src',
         )[0];
         expect(appModulePath).toBeTruthy();
         const resultChange = addToModuleImports(
           appTree,
           appModulePath,
-          'MockUnitTestModule'
+          'MockUnitTestModule',
         );
 
         expect(resultChange).toBeTruthy();
@@ -146,13 +146,13 @@ describe('Module file utils', () => {
         const appModulePath = getPathResultsForFile(
           appTree,
           'app.module.ts',
-          'src'
+          'src',
         )[0];
         expect(appModulePath).toBeTruthy();
         const resultChange = addToModuleDeclarations(
           appTree,
           appModulePath,
-          'MockUnitTestModule'
+          'MockUnitTestModule',
         );
 
         expect(resultChange).toBeTruthy();
@@ -166,13 +166,13 @@ describe('Module file utils', () => {
         const appModulePath = getPathResultsForFile(
           appTree,
           'app.module.ts',
-          'src'
+          'src',
         )[0];
         expect(appModulePath).toBeTruthy();
         const resultChange = addToModuleExports(
           appTree,
           appModulePath,
-          'MockUnitTestModule'
+          'MockUnitTestModule',
         );
 
         expect(resultChange).toBeTruthy();
@@ -189,7 +189,7 @@ describe('Module file utils', () => {
           'component.ts',
           COMPONENT_TEMPLATE_URL,
           ts.ScriptTarget.Latest,
-          true
+          true,
         );
         const result = getTemplateInfo(source);
         expect(result).toBeTruthy();
@@ -207,7 +207,7 @@ describe('Module file utils', () => {
           'component.ts',
           COMPONENT_INLINE_TEMPLATE,
           ts.ScriptTarget.Latest,
-          true
+          true,
         );
         const result = getTemplateInfo(source);
         expect(result).toBeTruthy();

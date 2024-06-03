@@ -72,7 +72,7 @@ export class AsmCustomer360ProductListingComponent implements OnInit {
           default:
             return 1;
         }
-      })
+      }),
     );
   }
 }

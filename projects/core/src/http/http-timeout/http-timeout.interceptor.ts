@@ -27,7 +27,10 @@ import { HTTP_TIMEOUT_CONFIG } from './http-timeout.config';
 export class HttpTimeoutInterceptor implements HttpInterceptor {
   protected logger = inject(LoggerService);
 
-  constructor(protected windowRef: WindowRef, protected config: OccConfig) {}
+  constructor(
+    protected windowRef: WindowRef,
+    protected config: OccConfig,
+  ) {}
 
   /**
    * It throws an error when a request takes longer than the specified time.
@@ -36,7 +39,7 @@ export class HttpTimeoutInterceptor implements HttpInterceptor {
    */
   intercept(
     request: HttpRequest<unknown>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     const timeoutValue = this.getTimeoutValue(request);
     if (typeof timeoutValue === 'undefined') {
@@ -58,7 +61,7 @@ export class HttpTimeoutInterceptor implements HttpInterceptor {
           request,
           timeoutValue,
         });
-      })
+      }),
     );
   }
 
@@ -109,7 +112,7 @@ export class HttpTimeoutInterceptor implements HttpInterceptor {
 
   protected buildError(
     request: HttpRequest<unknown>,
-    timeoutValue: number
+    timeoutValue: number,
   ): Error {
     const message = `Request to URL '${request.url}' exceeded expected time of ${timeoutValue}ms and was aborted.`;
 

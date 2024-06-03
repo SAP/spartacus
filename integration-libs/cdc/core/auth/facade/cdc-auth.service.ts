@@ -32,7 +32,7 @@ export class CdcAuthService implements CdcAuthFacade {
     protected authStorageService: AuthStorageService,
     protected userIdService: UserIdService,
     protected globalMessageService: GlobalMessageService,
-    protected authRedirectService: AuthRedirectService
+    protected authRedirectService: AuthRedirectService,
   ) {}
 
   /**
@@ -49,7 +49,7 @@ export class CdcAuthService implements CdcAuthFacade {
     UIDSignature: string,
     signatureTimestamp: string,
     idToken: string,
-    baseSite: string
+    baseSite: string,
   ): void {
     this.store.dispatch(
       new CdcAuthActions.LoadCdcUserToken({
@@ -58,7 +58,7 @@ export class CdcAuthService implements CdcAuthFacade {
         signatureTimestamp: signatureTimestamp,
         idToken: idToken,
         baseSite: baseSite,
-      })
+      }),
     );
   }
 
@@ -66,7 +66,7 @@ export class CdcAuthService implements CdcAuthFacade {
    * Utility to differentiate between AuthStorageService and AsmAuthStorageService
    */
   private isAsmAuthStorageService(
-    service: AuthStorageService | AsmAuthStorageService
+    service: AuthStorageService | AsmAuthStorageService,
   ): service is AsmAuthStorageService {
     return 'getTokenTarget' in service;
   }
@@ -95,11 +95,11 @@ export class CdcAuthService implements CdcAuthFacade {
               {
                 key: 'asm.auth.agentLoggedInError',
               },
-              GlobalMessageType.MSG_TYPE_ERROR
+              GlobalMessageType.MSG_TYPE_ERROR,
             );
           }
         }),
-        map((isAsmAgentLoggedIn) => !isAsmAgentLoggedIn)
+        map((isAsmAgentLoggedIn) => !isAsmAgentLoggedIn),
       );
     }
 
@@ -126,7 +126,7 @@ export class CdcAuthService implements CdcAuthFacade {
     if (token.granted_scopes && Array.isArray(token.granted_scopes)) {
       this.authStorageService.setItem(
         'granted_scopes',
-        JSON.stringify(token.granted_scopes)
+        JSON.stringify(token.granted_scopes),
       );
     }
 

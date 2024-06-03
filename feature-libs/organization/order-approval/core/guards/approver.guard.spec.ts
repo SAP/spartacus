@@ -104,7 +104,7 @@ describe('ApproverGuard', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'orderApprovalGlobal.notification.noSufficientPermissions' },
-      GlobalMessageType.MSG_TYPE_WARNING
+      GlobalMessageType.MSG_TYPE_WARNING,
     );
     expect(result).toEqual(false);
   });

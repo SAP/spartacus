@@ -27,7 +27,7 @@ export class ConfiguratorTextfieldEffects {
       ofType(ConfiguratorTextfieldActions.CREATE_CONFIGURATION),
       map(
         (action: ConfiguratorTextfieldActions.CreateConfiguration) =>
-          action.payload
+          action.payload,
       ),
       switchMap((payload) => {
         return this.configuratorTextfieldConnector
@@ -36,20 +36,20 @@ export class ConfiguratorTextfieldEffects {
             switchMap((configuration: ConfiguratorTextfield.Configuration) => {
               return [
                 new ConfiguratorTextfieldActions.CreateConfigurationSuccess(
-                  configuration
+                  configuration,
                 ),
               ];
             }),
             catchError((error) =>
               of(
                 new ConfiguratorTextfieldActions.CreateConfigurationFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   addToCart$: Observable<
@@ -74,13 +74,13 @@ export class ConfiguratorTextfieldEffects {
           catchError((error) =>
             of(
               new ConfiguratorTextfieldActions.AddToCartFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   updateCartEntry$: Observable<
@@ -92,7 +92,7 @@ export class ConfiguratorTextfieldEffects {
       ofType(ConfiguratorTextfieldActions.UPDATE_CART_ENTRY_CONFIGURATION),
       map(
         (action: ConfiguratorTextfieldActions.UpdateCartEntryConfiguration) =>
-          action.payload
+          action.payload,
       ),
       switchMap((payload) => {
         return this.configuratorTextfieldConnector
@@ -110,13 +110,13 @@ export class ConfiguratorTextfieldEffects {
             catchError((error) =>
               of(
                 new ConfiguratorTextfieldActions.UpdateCartEntryConfigurationFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   readConfigurationForCartEntry$: Observable<
@@ -135,18 +135,18 @@ export class ConfiguratorTextfieldEffects {
             .pipe(
               switchMap((result: ConfiguratorTextfield.Configuration) => [
                 new ConfiguratorTextfieldActions.ReadCartEntryConfigurationSuccess(
-                  result
+                  result,
                 ),
               ]),
               catchError((error) => [
                 new ConfiguratorTextfieldActions.ReadCartEntryConfigurationFail(
-                  normalizeHttpError(error, this.logger)
+                  normalizeHttpError(error, this.logger),
                 ),
-              ])
+              ]),
             );
-        }
-      )
-    )
+        },
+      ),
+    ),
   );
 
   readConfigurationForOrderEntry$: Observable<
@@ -164,22 +164,22 @@ export class ConfiguratorTextfieldEffects {
             .pipe(
               switchMap((result: ConfiguratorTextfield.Configuration) => [
                 new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationSuccess(
-                  result
+                  result,
                 ),
               ]),
               catchError((error) => [
                 new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationFail(
-                  normalizeHttpError(error, this.logger)
+                  normalizeHttpError(error, this.logger),
                 ),
-              ])
+              ]),
             );
-        }
-      )
-    )
+        },
+      ),
+    ),
   );
 
   constructor(
     private actions$: Actions,
-    private configuratorTextfieldConnector: ConfiguratorTextfieldConnector
+    private configuratorTextfieldConnector: ConfiguratorTextfieldConnector,
   ) {}
 }

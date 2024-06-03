@@ -29,13 +29,13 @@ export class CustomerEffects {
           catchError((error) =>
             of(
               new AsmActions.CustomerSearchFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
-        )
-      )
-    )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   customerListCustomersSearch$: Observable<AsmActions.CustomerAction> =
@@ -47,20 +47,23 @@ export class CustomerEffects {
           this.asmConnector.customerSearch(options).pipe(
             map((customerListCustomersSearchResults: CustomerSearchPage) => {
               return new AsmActions.CustomerListCustomersSearchSuccess(
-                customerListCustomersSearchResults
+                customerListCustomersSearchResults,
               );
             }),
             catchError((error) =>
               of(
                 new AsmActions.CustomerListCustomersSearchFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
-          )
-        )
-      )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
 
-  constructor(private actions$: Actions, private asmConnector: AsmConnector) {}
+  constructor(
+    private actions$: Actions,
+    private asmConnector: AsmConnector,
+  ) {}
 }

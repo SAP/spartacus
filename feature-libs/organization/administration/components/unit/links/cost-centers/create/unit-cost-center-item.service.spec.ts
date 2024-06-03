@@ -73,7 +73,7 @@ describe('UnitCostCenterItemService', () => {
       'unit',
       new UntypedFormGroup({
         uid: new UntypedFormControl('unit-uid'),
-      })
+      }),
     );
     form.get('unit').disable();
 

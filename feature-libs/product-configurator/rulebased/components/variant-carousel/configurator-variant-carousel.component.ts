@@ -23,30 +23,30 @@ export class ConfiguratorVariantCarouselComponent {
       .extractRouterData()
       .pipe(
         switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
-        )
+          this.configuratorCommonsService.getConfiguration(routerData.owner),
+        ),
       );
 
   title$: Observable<string | undefined> = this.translationService.translate(
-    'configurator.variantCarousel.title'
+    'configurator.variantCarousel.title',
   );
 
   items$: Observable<Observable<Product | undefined>[]> =
     this.configuration$.pipe(
       map((configuration) =>
-        configuration.variants ? configuration.variants : []
+        configuration.variants ? configuration.variants : [],
       ),
       map((variants) => {
         return variants.map((variant) =>
-          this.productService.get(variant.productCode)
+          this.productService.get(variant.productCode),
         );
-      })
+      }),
     );
 
   constructor(
     protected productService: ProductService,
     protected translationService: TranslationService,
     protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
   ) {}
 }

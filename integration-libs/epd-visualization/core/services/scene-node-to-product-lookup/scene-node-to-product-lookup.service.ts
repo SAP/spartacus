@@ -30,7 +30,7 @@ export interface NodeIdProductCodes {
 export class SceneNodeToProductLookupService {
   constructor(
     protected epdVisualizationConfig: EpdVisualizationConfig,
-    protected sceneConnector: SceneConnector
+    protected sceneConnector: SceneConnector,
   ) {
     const epdVisualization = this.epdVisualizationConfig
       .epdVisualization as EpdVisualizationInnerConfig;
@@ -50,23 +50,23 @@ export class SceneNodeToProductLookupService {
       .pipe(first())
       .subscribe((nodeIdProductCodes: NodeIdProductCodes[]) => {
         this.productCodesByNodeIdMap$.next(
-          this.getProductCodesByNodeIdMap(nodeIdProductCodes)
+          this.getProductCodesByNodeIdMap(nodeIdProductCodes),
         );
         this.nodeIdsByProductCodeMap$.next(
-          this.getNodeIdsByProductCodeMap(nodeIdProductCodes)
+          this.getNodeIdsByProductCodeMap(nodeIdProductCodes),
         );
       });
   }
 
   private productCodesByNodeIdMap$ = new BehaviorSubject<Map<string, string[]>>(
-    new Map()
+    new Map(),
   );
   private nodeIdsByProductCodeMap$ = new BehaviorSubject<Map<string, string[]>>(
-    new Map()
+    new Map(),
   );
 
   private getNodeIdProductCodesForScene(
-    sceneId: string
+    sceneId: string,
   ): Observable<NodeIdProductCodes[]> {
     return this.sceneConnector
       .getNodes(
@@ -79,7 +79,7 @@ export class SceneNodeToProductLookupService {
         [
           `metadata[${this.usageId.source}].${this.usageId.category}.${this.usageId.keyName}`,
         ],
-        '*'
+        '*',
       )
       .pipe(
         map((data: NodesResponse) => {
@@ -89,39 +89,39 @@ export class SceneNodeToProductLookupService {
               return <NodeIdProductCodes>{
                 nodeId: node.sid,
                 productCodes: (node.metadata as Metadatum[]).map(
-                  (metadata: any) => metadata.value
+                  (metadata: any) => metadata.value,
                 ),
               };
             });
-        })
+        }),
       );
   }
 
   private getProductCodesByNodeIdMap(
-    nodeIdProductCodes: NodeIdProductCodes[]
+    nodeIdProductCodes: NodeIdProductCodes[],
   ): Map<string, string[]> {
     return nodeIdProductCodes.reduce(
       (
         productCodeByNodeIdMap: Map<string, string[]>,
-        nodeIdProductCodeTuple: NodeIdProductCodes
+        nodeIdProductCodeTuple: NodeIdProductCodes,
       ) => {
         productCodeByNodeIdMap.set(
           nodeIdProductCodeTuple.nodeId,
-          nodeIdProductCodeTuple.productCodes
+          nodeIdProductCodeTuple.productCodes,
         );
         return productCodeByNodeIdMap;
       },
-      new Map<string, string[]>()
+      new Map<string, string[]>(),
     );
   }
 
   private getNodeIdsByProductCodeMap(
-    nodeIdProductCodes: NodeIdProductCodes[]
+    nodeIdProductCodes: NodeIdProductCodes[],
   ): Map<string, string[]> {
     return nodeIdProductCodes.reduce(
       (
         nodeIdByProductCodeMap: Map<string, string[]>,
-        nodeIdProductCodeTuple: NodeIdProductCodes
+        nodeIdProductCodeTuple: NodeIdProductCodes,
       ) => {
         nodeIdProductCodeTuple.productCodes.forEach((productCode) => {
           const nodeIds = nodeIdByProductCodeMap.get(productCode);
@@ -135,7 +135,7 @@ export class SceneNodeToProductLookupService {
         });
         return nodeIdByProductCodeMap;
       },
-      new Map<string, string[]>()
+      new Map<string, string[]>(),
     );
   }
 
@@ -156,10 +156,10 @@ export class SceneNodeToProductLookupService {
 
   private _lookupProductCodes(
     productCodesByNodeIdMap: Map<string, string[]>,
-    nodeIds: string[]
+    nodeIds: string[],
   ): string[] {
     return this.distinct(
-      nodeIds.flatMap((nodeId) => productCodesByNodeIdMap.get(nodeId) || [])
+      nodeIds.flatMap((nodeId) => productCodesByNodeIdMap.get(nodeId) || []),
     );
   }
 
@@ -172,8 +172,8 @@ export class SceneNodeToProductLookupService {
     return this.productCodesByNodeIdMap$.pipe(
       first(),
       map((productCodesByNodeIdMap) =>
-        this._lookupProductCodes(productCodesByNodeIdMap, nodeIds)
-      )
+        this._lookupProductCodes(productCodesByNodeIdMap, nodeIds),
+      ),
     );
   }
 
@@ -187,18 +187,18 @@ export class SceneNodeToProductLookupService {
   public syncLookupProductCodes(nodeIds: string[]): string[] {
     return this._lookupProductCodes(
       this.productCodesByNodeIdMap$.getValue(),
-      nodeIds
+      nodeIds,
     );
   }
 
   private _lookupNodeIds(
     nodeIdsByProductCodeMap: Map<string, string[]>,
-    productCodes: string[]
+    productCodes: string[],
   ): string[] {
     return this.distinct(
       productCodes.flatMap(
-        (productCode) => nodeIdsByProductCodeMap.get(productCode) || []
-      )
+        (productCode) => nodeIdsByProductCodeMap.get(productCode) || [],
+      ),
     );
   }
 
@@ -210,8 +210,8 @@ export class SceneNodeToProductLookupService {
   public lookupNodeIds(productCodes: string[]): Observable<string[]> {
     return this.nodeIdsByProductCodeMap$.pipe(
       map((nodeIdsByProductCodeMap) =>
-        this._lookupNodeIds(nodeIdsByProductCodeMap, productCodes)
-      )
+        this._lookupNodeIds(nodeIdsByProductCodeMap, productCodes),
+      ),
     );
   }
 
@@ -225,7 +225,7 @@ export class SceneNodeToProductLookupService {
   public syncLookupNodeIds(productCodes: string[]): string[] {
     return this._lookupNodeIds(
       this.nodeIdsByProductCodeMap$.getValue(),
-      productCodes
+      productCodes,
     );
   }
 }

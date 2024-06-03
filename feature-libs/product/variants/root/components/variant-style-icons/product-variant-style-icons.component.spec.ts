@@ -40,19 +40,17 @@ describe('ProductVariantStyleIconsComponent', () => {
   let component: ProductVariantStyleIconsComponent;
   let fixture: ComponentFixture<ProductVariantStyleIconsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProductVariantStyleIconsComponent],
-        providers: [
-          {
-            provide: OccConfig,
-            useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProductVariantStyleIconsComponent],
+      providers: [
+        {
+          provide: OccConfig,
+          useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantStyleIconsComponent);
@@ -75,11 +73,11 @@ describe('ProductVariantStyleIconsComponent', () => {
 
   it('should get variant url for thumbnail type of qualifier', () => {
     const thumbnailUrl = component.getVariantThumbnailUrl(
-      component.variants[0].variantOptionQualifiers
+      component.variants[0].variantOptionQualifiers,
     );
 
     expect(thumbnailUrl).toEqual(
-      mockOccBackendUrl + mockVariants[0].variantOptionQualifiers[1].image.url
+      mockOccBackendUrl + mockVariants[0].variantOptionQualifiers[1].image.url,
     );
   });
 });

@@ -43,7 +43,7 @@ describe('Delivery Countries effect', () => {
     it('should load the delivery countries', () => {
       const action = new UserActions.LoadDeliveryCountries();
       const completion = new UserActions.LoadDeliveryCountriesSuccess(
-        mockCountries
+        mockCountries,
       );
 
       actions$ = hot('-a', { a: action });

@@ -26,7 +26,7 @@ export class OccUserGroupListNormalizer
 
   convert(
     source: Occ.OrgUnitUserGroupList,
-    target?: EntitiesModel<UserGroup>
+    target?: EntitiesModel<UserGroup>,
   ): EntitiesModel<UserGroup> {
     if (target === undefined) {
       target = { ...(source as any) } as EntitiesModel<UserGroup>;

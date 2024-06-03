@@ -45,7 +45,7 @@ export function setupIntercepts() {
 
 export function visitAccountSummaryDetailsPage(unitId: string) {
   cy.visit(
-    `${FULL_BASE_URL_EN_USD}/organization/account-summary/details/${unitId}`
+    `${FULL_BASE_URL_EN_USD}/organization/account-summary/details/${unitId}`,
   );
 }
 
@@ -96,7 +96,7 @@ export function checkTableData(
     originalAmount?: string;
     openAmount?: string;
     status?: string;
-  }>
+  }>,
 ) {
   cy.wait('@getDocuments').its('response.statusCode').should('eq', 200);
   cy.get('.cx-account-summary-document-row')

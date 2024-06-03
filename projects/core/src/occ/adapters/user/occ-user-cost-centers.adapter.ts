@@ -22,7 +22,7 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   loadActiveList(userId: string): Observable<EntitiesModel<CostCenter>> {
@@ -39,7 +39,7 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
 
   protected getCostCentersEndpoint(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): string {
     return this.occEndpoints.buildUrl('getActiveCostCenters', {
       urlParams: { userId },

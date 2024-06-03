@@ -89,7 +89,7 @@ const mockRouterState: RouterState = {
 };
 
 const routerState$: BehaviorSubject<RouterState> = new BehaviorSubject(
-  mockRouterState
+  mockRouterState,
 );
 
 const PRODUCT_SEARCH_STRING = 'camera';
@@ -125,62 +125,60 @@ describe('SearchBoxComponent', () => {
             name: 'title 1',
           },
         ],
-      })
+      }),
     );
     dispatchSuggestionSelectedEvent = jasmine.createSpy(
-      'dispatchSuggestionSelectedEvent'
+      'dispatchSuggestionSelectedEvent',
     );
     dispatchProductSelectedEvent = jasmine.createSpy(
-      'dispatchSuggestionSelectedEvent'
+      'dispatchSuggestionSelectedEvent',
     );
     search() {}
     toggleBodyClass() {}
     clearResults() {}
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          BrowserAnimationsModule,
-          RouterModule.forRoot([]),
-          I18nTestingModule,
-        ],
-        declarations: [
-          SearchBoxComponent,
-          MockUrlPipe,
-          MockHighlightPipe,
-          MockCxIconComponent,
-          MockMediaComponent,
-        ],
-        providers: [
-          {
-            provide: ProductSearchService,
-            useValue: {},
-          },
-          {
-            provide: CmsComponentData,
-            useClass: MockCmsComponentData,
-          },
-          {
-            provide: SearchBoxComponentService,
-            useClass: SearchBoxComponentServiceSpy,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        BrowserAnimationsModule,
+        RouterModule.forRoot([]),
+        I18nTestingModule,
+      ],
+      declarations: [
+        SearchBoxComponent,
+        MockUrlPipe,
+        MockHighlightPipe,
+        MockCxIconComponent,
+        MockMediaComponent,
+      ],
+      providers: [
+        {
+          provide: ProductSearchService,
+          useValue: {},
+        },
+        {
+          provide: CmsComponentData,
+          useClass: MockCmsComponentData,
+        },
+        {
+          provide: SearchBoxComponentService,
+          useClass: SearchBoxComponentServiceSpy,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   describe('Default config', () => {
     beforeEach(() => {
       cmsComponentData = TestBed.inject(CmsComponentData);
 
       spyOnProperty(cmsComponentData, 'data$').and.returnValue(
-        of(mockSearchBoxComponentData)
+        of(mockSearchBoxComponentData),
       );
 
       fixture = TestBed.createComponent(SearchBoxComponent);
@@ -190,7 +188,7 @@ describe('SearchBoxComponent', () => {
       routingService = TestBed.inject(RoutingService);
 
       serviceSpy = fixture.debugElement.injector.get(
-        SearchBoxComponentService
+        SearchBoxComponentService,
       ) as any;
 
       spyOn(searchBoxComponent, 'search').and.callThrough();
@@ -242,22 +240,19 @@ describe('SearchBoxComponent', () => {
         expect(fixture.debugElement.query(By.css('.results'))).toBeFalsy();
       });
 
-      it(
-        'should contain search results panel after search input',
-        waitForAsync(() => {
-          searchBoxComponent.queryText = 'test input';
-          fixture.detectChanges();
+      it('should contain search results panel after search input', waitForAsync(() => {
+        searchBoxComponent.queryText = 'test input';
+        fixture.detectChanges();
 
-          expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
-        })
-      );
+        expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
+      }));
 
       it('should contain 2 suggestion after search', () => {
         searchBoxComponent.queryText = 'te';
         fixture.detectChanges();
 
         expect(
-          fixture.debugElement.queryAll(By.css('.suggestions a')).length
+          fixture.debugElement.queryAll(By.css('.suggestions a')).length,
         ).toEqual(2);
       });
 
@@ -268,7 +263,7 @@ describe('SearchBoxComponent', () => {
         const el = fixture.debugElement.query(By.css('.results .message'));
         expect(el).toBeTruthy();
         expect((<HTMLElement>el.nativeElement).innerText).toEqual(
-          'I found stuff for you!'
+          'I found stuff for you!',
         );
       });
 
@@ -276,7 +271,7 @@ describe('SearchBoxComponent', () => {
         searchBoxComponent.queryText = 'something';
         fixture.detectChanges();
         const box = fixture.debugElement.query(
-          By.css('.searchbox > input')
+          By.css('.searchbox > input'),
         ).nativeElement;
         box.select();
         fixture.debugElement.query(By.css('.reset')).nativeElement.click();
@@ -299,7 +294,7 @@ describe('SearchBoxComponent', () => {
       fixture.detectChanges();
 
       expect(
-        fixture.debugElement.queryAll(By.css('.products a')).length
+        fixture.debugElement.queryAll(By.css('.products a')).length,
       ).toEqual(1);
     });
 
@@ -308,7 +303,7 @@ describe('SearchBoxComponent', () => {
       fixture.detectChanges();
 
       expect(
-        fixture.debugElement.query(By.css('.products a:first-child cx-media'))
+        fixture.debugElement.query(By.css('.products a:first-child cx-media')),
       ).toBeTruthy();
     });
 
@@ -316,7 +311,7 @@ describe('SearchBoxComponent', () => {
       searchBoxComponent.queryText = 'te';
       fixture.detectChanges();
       expect(
-        fixture.debugElement.query(By.css('.products a:first-child.has-media'))
+        fixture.debugElement.query(By.css('.products a:first-child.has-media')),
       ).toBeTruthy();
     });
 
@@ -352,7 +347,7 @@ describe('SearchBoxComponent', () => {
 
         // Focus should begin on searchbox input
         const inputSearchBox: HTMLElement = fixture.debugElement.query(
-          By.css('.searchbox > input')
+          By.css('.searchbox > input'),
         ).nativeElement;
         inputSearchBox.focus();
         expect(inputSearchBox).toBe(getFocusedElement());
@@ -363,7 +358,7 @@ describe('SearchBoxComponent', () => {
 
         expect(
           fixture.debugElement.query(By.css('.results .suggestions > li > a'))
-            .nativeElement
+            .nativeElement,
         ).toBe(getFocusedElement());
       });
 
@@ -373,8 +368,8 @@ describe('SearchBoxComponent', () => {
 
         expect(
           fixture.debugElement.query(
-            By.css('.results .suggestions > li:nth-child(2) > a')
-          ).nativeElement
+            By.css('.results .suggestions > li:nth-child(2) > a'),
+          ).nativeElement,
         ).toBe(getFocusedElement());
       });
 
@@ -383,8 +378,8 @@ describe('SearchBoxComponent', () => {
 
         expect(
           fixture.debugElement.query(
-            By.css('.results .products > li > a:last-child')
-          ).nativeElement
+            By.css('.results .products > li > a:last-child'),
+          ).nativeElement,
         ).toBe(getFocusedElement());
       });
 
@@ -395,8 +390,8 @@ describe('SearchBoxComponent', () => {
 
         expect(
           fixture.debugElement.query(
-            By.css('.results .suggestions > li:nth-child(2) > a')
-          ).nativeElement
+            By.css('.results .suggestions > li:nth-child(2) > a'),
+          ).nativeElement,
         ).toBe(getFocusedElement());
       });
     });
@@ -412,7 +407,7 @@ describe('SearchBoxComponent', () => {
         searchBoxComponent.dispatchSuggestionEvent(mockEventData);
 
         expect(serviceSpy.dispatchSuggestionSelectedEvent).toHaveBeenCalledWith(
-          mockEventData
+          mockEventData,
         );
       });
       it('should dispatch product selected event', () => {
@@ -424,7 +419,7 @@ describe('SearchBoxComponent', () => {
         searchBoxComponent.dispatchProductEvent(mockEventData);
 
         expect(serviceSpy.dispatchProductSelectedEvent).toHaveBeenCalledWith(
-          mockEventData
+          mockEventData,
         );
       });
     });
@@ -439,7 +434,7 @@ describe('SearchBoxComponent', () => {
           of({
             ...mockSearchBoxComponentData,
             displayProductImages: false,
-          })
+          }),
         );
 
         fixture = TestBed.createComponent(SearchBoxComponent);
@@ -453,15 +448,17 @@ describe('SearchBoxComponent', () => {
 
       it('should not contain product image', () => {
         expect(
-          fixture.debugElement.query(By.css('.products a:first-child cx-media'))
+          fixture.debugElement.query(
+            By.css('.products a:first-child cx-media'),
+          ),
         ).toBeNull();
       });
 
       it('should not contain .has-media class', () => {
         expect(
           fixture.debugElement.query(
-            By.css('.products a:first-child.has-media')
-          )
+            By.css('.products a:first-child.has-media'),
+          ),
         ).toBeFalsy();
       });
     });
@@ -474,7 +471,7 @@ describe('SearchBoxComponent', () => {
           of({
             ...mockSearchBoxComponentData,
             displaySuggestions: false,
-          })
+          }),
         );
 
         fixture = TestBed.createComponent(SearchBoxComponent);

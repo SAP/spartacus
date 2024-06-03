@@ -81,15 +81,15 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
     protected pageLayoutService: PageLayoutService,
     protected elementRef: ElementRef,
     @Optional() protected templateRef: TemplateRef<HTMLElement>,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
     if (!this.useTemplateFromInput) {
       this.subscription.add(
         this.pageLayoutService.templateName$.subscribe((template) =>
-          this.addStyleClass(template)
-        )
+          this.addStyleClass(template),
+        ),
       );
     }
   }

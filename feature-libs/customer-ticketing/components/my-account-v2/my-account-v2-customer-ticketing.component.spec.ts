@@ -53,7 +53,7 @@ class MockcustomerTicketingFacade {
   getTickets(
     _pageSize: number,
     _currentPage?: number,
-    _sort?: string
+    _sort?: string,
   ): Observable<TicketList> {
     return mockTicketList$.asObservable();
   }
@@ -67,31 +67,29 @@ describe('MyAccountV2CustomerTicketingComponent', () => {
   let component: MyAccountV2CustomerTicketingComponent;
   let fixture: ComponentFixture<MyAccountV2CustomerTicketingComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          MyAccountV2CustomerTicketingComponent,
-          MockTranslatePipe,
-          MockUrlPipe,
-        ],
-        providers: [
-          {
-            provide: 'CustomerTicketingFacade',
-            useClass: MockcustomerTicketingFacade,
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        MyAccountV2CustomerTicketingComponent,
+        MockTranslatePipe,
+        MockUrlPipe,
+      ],
+      providers: [
+        {
+          provide: 'CustomerTicketingFacade',
+          useClass: MockcustomerTicketingFacade,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MyAccountV2CustomerTicketingComponent);
-      component = fixture.componentInstance;
-      component.tickets$ = of(mockTicketList);
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(MyAccountV2CustomerTicketingComponent);
+    component = fixture.componentInstance;
+    component.tickets$ = of(mockTicketList);
+    fixture.detectChanges();
+  }));
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -99,7 +97,7 @@ describe('MyAccountV2CustomerTicketingComponent', () => {
 
   it('should display heading', () => {
     const heading = fixture.debugElement.query(
-      By.css('.cx-my-account-customer-ticket-heading')
+      By.css('.cx-my-account-customer-ticket-heading'),
     );
     expect(heading.nativeElement).not.toBeNull();
     const link = fixture.debugElement.query(By.css('#show-more-requests'));
@@ -108,11 +106,11 @@ describe('MyAccountV2CustomerTicketingComponent', () => {
 
   it('should show 1 return request', () => {
     const details = fixture.debugElement.query(
-      By.css('.cx-my-account-customer-ticket-details')
+      By.css('.cx-my-account-customer-ticket-details'),
     );
     expect(details.nativeElement).not.toBeNull();
     const noTicket = fixture.debugElement.query(
-      By.css('.cx-my-account-no-ticket')
+      By.css('.cx-my-account-no-ticket'),
     );
     expect(noTicket).toBeNull();
   });
@@ -120,11 +118,11 @@ describe('MyAccountV2CustomerTicketingComponent', () => {
     component.tickets$ = of({ tickets: [] });
     fixture.detectChanges();
     const details = fixture.debugElement.query(
-      By.css('.cx-my-account-customer-ticket-details')
+      By.css('.cx-my-account-customer-ticket-details'),
     );
     expect(details).toBeNull();
     const noTicket = fixture.debugElement.query(
-      By.css('.cx-my-account-no-ticket')
+      By.css('.cx-my-account-no-ticket'),
     );
     expect(noTicket).not.toBeNull();
   });

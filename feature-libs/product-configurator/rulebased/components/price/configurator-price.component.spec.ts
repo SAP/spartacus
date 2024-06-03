@@ -24,7 +24,7 @@ const createFormula = (
   price: number | undefined,
   priceTotal: number | undefined,
   isLightedUp = false,
-  isOverview = false
+  isOverview = false,
 ): any => ({
   quantity: quantity,
   price: ConfiguratorTestUtils.createPrice(price),
@@ -39,20 +39,18 @@ describe('ConfiguratorPriceComponent', () => {
   let htmlElem: HTMLElement;
   let directionService: DirectionService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ConfiguratorPriceComponent, MockNumericPipe],
-        imports: [I18nTestingModule],
-        providers: [
-          {
-            provide: DirectionService,
-            useClass: MockDirectionService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ConfiguratorPriceComponent, MockNumericPipe],
+      imports: [I18nTestingModule],
+      providers: [
+        {
+          provide: DirectionService,
+          useClass: MockDirectionService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPriceComponent);
@@ -60,7 +58,7 @@ describe('ConfiguratorPriceComponent', () => {
     htmlElem = fixture.nativeElement;
 
     directionService = TestBed.inject(
-      DirectionService as Type<DirectionService>
+      DirectionService as Type<DirectionService>,
     );
   });
 
@@ -71,7 +69,7 @@ describe('ConfiguratorPriceComponent', () => {
   describe('Display quantity', () => {
     beforeEach(() => {
       spyOn(directionService, 'getDirection').and.returnValue(
-        DirectionMode.LTR
+        DirectionMode.LTR,
       );
     });
 
@@ -83,14 +81,14 @@ describe('ConfiguratorPriceComponent', () => {
         expect,
         htmlElem,
         '.cx-quantity-price',
-        '2x($10)'
+        '2x($10)',
       );
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         '.cx-price-total',
-        '+$20'
+        '+$20',
       );
 
       const qty = component.formula.quantity;
@@ -103,7 +101,7 @@ describe('ConfiguratorPriceComponent', () => {
   describe('Display value price', () => {
     beforeEach(() => {
       spyOn(directionService, 'getDirection').and.returnValue(
-        DirectionMode.LTR
+        DirectionMode.LTR,
       );
     });
 
@@ -132,7 +130,7 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-price.cx-greyed-out'
+        '.cx-price.cx-greyed-out',
       );
     });
 
@@ -143,7 +141,7 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-price.cx-greyed-out'
+        '.cx-price.cx-greyed-out',
       );
       expect(component.price).toEqual('+$10');
     });
@@ -156,7 +154,7 @@ describe('ConfiguratorPriceComponent', () => {
         expect,
         htmlElem,
         '.cx-price',
-        '+$10'
+        '+$10',
       );
       expect(component.price).toEqual('+$10');
     });
@@ -169,7 +167,7 @@ describe('ConfiguratorPriceComponent', () => {
         expect,
         htmlElem,
         '.cx-price',
-        '-$10'
+        '-$10',
       );
       expect(component.price).toEqual('-$10');
     });
@@ -182,7 +180,7 @@ describe('ConfiguratorPriceComponent', () => {
         expect,
         htmlElem,
         '.cx-price',
-        '-$10'
+        '-$10',
       );
 
       expect(component.price).toEqual('-$10');
@@ -192,7 +190,7 @@ describe('ConfiguratorPriceComponent', () => {
   describe('Display total price', () => {
     beforeEach(() => {
       spyOn(directionService, 'getDirection').and.returnValue(
-        DirectionMode.LTR
+        DirectionMode.LTR,
       );
     });
 
@@ -203,13 +201,13 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-quantity-price'
+        '.cx-quantity-price',
       );
 
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-price-total'
+        '.cx-price-total',
       );
 
       expect(component.priceTotal).toEqual('');
@@ -223,7 +221,7 @@ describe('ConfiguratorPriceComponent', () => {
         expect,
         htmlElem,
         '.cx-price',
-        '+$150'
+        '+$150',
       );
       expect(component.priceTotal).toEqual('+$150');
     });
@@ -236,7 +234,7 @@ describe('ConfiguratorPriceComponent', () => {
         expect,
         htmlElem,
         '.cx-price',
-        '-$150'
+        '-$150',
       );
       expect(component.priceTotal).toEqual('-$150');
     });
@@ -248,7 +246,7 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-price'
+        '.cx-price',
       );
       expect(component.priceTotal).toEqual('');
     });
@@ -257,7 +255,7 @@ describe('ConfiguratorPriceComponent', () => {
   describe('isPriceLightedUp', () => {
     beforeEach(() => {
       spyOn(directionService, 'getDirection').and.returnValue(
-        DirectionMode.LTR
+        DirectionMode.LTR,
       );
     });
 
@@ -281,7 +279,7 @@ describe('ConfiguratorPriceComponent', () => {
   describe('LTR direction', () => {
     beforeEach(() => {
       spyOn(directionService, 'getDirection').and.returnValue(
-        DirectionMode.LTR
+        DirectionMode.LTR,
       );
     });
 
@@ -317,7 +315,7 @@ describe('ConfiguratorPriceComponent', () => {
   describe('RTL direction', () => {
     beforeEach(() => {
       spyOn(directionService, 'getDirection').and.returnValue(
-        DirectionMode.RTL
+        DirectionMode.RTL,
       );
     });
 
@@ -369,7 +367,7 @@ describe('ConfiguratorPriceComponent', () => {
   describe('Accessibility', () => {
     beforeEach(() => {
       spyOn(directionService, 'getDirection').and.returnValue(
-        DirectionMode.LTR
+        DirectionMode.LTR,
       );
     });
 
@@ -383,7 +381,7 @@ describe('ConfiguratorPriceComponent', () => {
         undefined,
         0,
         'aria-label',
-        'configurator.a11y.valueSurcharge'
+        'configurator.a11y.valueSurcharge',
       );
     });
 
@@ -397,7 +395,7 @@ describe('ConfiguratorPriceComponent', () => {
         'cx-quantity-price',
         0,
         'aria-label',
-        'configurator.a11y.valueSurcharge'
+        'configurator.a11y.valueSurcharge',
       );
     });
   });

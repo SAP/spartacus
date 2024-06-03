@@ -19,7 +19,7 @@ export abstract class TranslationService {
   translate: (
     key: string,
     options?: any,
-    whitespaceUntilLoaded?: boolean
+    whitespaceUntilLoaded?: boolean,
   ) => Observable<string>;
 
   /**

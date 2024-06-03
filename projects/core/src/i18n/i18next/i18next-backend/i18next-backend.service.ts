@@ -22,7 +22,7 @@ export class I18nextBackendService {
   constructor(
     @Optional()
     @Inject(I18nextBackendInitializer)
-    protected backendInitializers: I18nextBackendInitializer[] | null
+    protected backendInitializers: I18nextBackendInitializer[] | null,
   ) {}
 
   /**
@@ -32,7 +32,7 @@ export class I18nextBackendService {
    */
   initialize(): InitOptions {
     const backendInitializer = resolveApplicable(
-      this.backendInitializers ?? []
+      this.backendInitializers ?? [],
     );
     return backendInitializer?.initialize() ?? {};
   }

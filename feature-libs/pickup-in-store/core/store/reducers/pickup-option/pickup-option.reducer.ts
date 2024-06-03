@@ -16,10 +16,10 @@ export const pickupOptionReducer = createReducer(
     PickupOptionActions.SetPickupOption,
     (state: PickupOptionState['pickupOption'], { payload }) => {
       const newState = state.filter(
-        (entry) => entry.entryNumber !== payload.entryNumber
+        (entry) => entry.entryNumber !== payload.entryNumber,
       );
       return [...newState, payload];
-    }
+    },
   ),
   on(
     PickupOptionActions.RemovePickupOption,
@@ -33,10 +33,10 @@ export const pickupOptionReducer = createReducer(
               ? entry.entryNumber - 1
               : entry.entryNumber,
         }));
-    }
+    },
   ),
   on(
     PickupOptionActions.RemoveAllPickupOptions,
-    (_state: PickupOptionState['pickupOption']) => initialState
-  )
+    (_state: PickupOptionState['pickupOption']) => initialState,
+  ),
 );

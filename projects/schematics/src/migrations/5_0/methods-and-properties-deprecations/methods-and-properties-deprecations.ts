@@ -43,7 +43,7 @@ export function migrate(): Rule {
     return migrateMethodPropertiesDeprecation(
       tree,
       context,
-      METHODS_AND_PROPERTIES_DEPRECATIONS_DATA
+      METHODS_AND_PROPERTIES_DEPRECATIONS_DATA,
     );
   };
 }

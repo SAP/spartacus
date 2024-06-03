@@ -45,7 +45,7 @@ export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
   // created the regex only once
   private slugRegex = new RegExp(
     `[${this.reservedSlugCharacters.split('').join('\\')}]`,
-    'g'
+    'g',
   );
   private sanitizeMultipleSlugChars = new RegExp(`${this.slugChar}+`, 'g');
 

@@ -46,7 +46,7 @@ describe('PermissionListNormalizer', () => {
     [OccPermissionListNormalizer],
     (permissionsListNormalizer: OccPermissionListNormalizer) => {
       expect(permissionsListNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert permission list', () => {

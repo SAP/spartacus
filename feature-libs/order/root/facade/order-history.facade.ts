@@ -66,7 +66,7 @@ export abstract class OrderHistoryFacade {
    * Returns order history list
    */
   abstract getOrderHistoryList(
-    pageSize: number
+    pageSize: number,
   ): Observable<OrderHistoryList | undefined>;
 
   /**
@@ -83,7 +83,7 @@ export abstract class OrderHistoryFacade {
   abstract loadOrderList(
     pageSize: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): void;
 
   /**
@@ -103,7 +103,7 @@ export abstract class OrderHistoryFacade {
    */
   abstract loadConsignmentTracking(
     orderCode: string,
-    consignmentCode: string
+    consignmentCode: string,
   ): void;
 
   /**
@@ -116,7 +116,7 @@ export abstract class OrderHistoryFacade {
    */
   abstract cancelOrder(
     orderCode: string,
-    cancelRequestInput: CancellationRequestEntryInputList
+    cancelRequestInput: CancellationRequestEntryInputList,
   ): void;
 
   /**

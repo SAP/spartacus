@@ -47,7 +47,7 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   constructor(
     protected orderHistoryFacade: OrderHistoryFacade,
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
   ) {}
 
   ngOnInit() {
@@ -59,7 +59,7 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
     if (consignment.code) {
       this.orderHistoryFacade.loadConsignmentTracking(
         this.orderCode,
-        consignment.code
+        consignment.code,
       );
     }
     const modalInstanceData = {
@@ -71,7 +71,7 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.CONSIGNMENT_TRACKING,
       this.element,
       this.vcr,
-      modalInstanceData
+      modalInstanceData,
     );
 
     if (dialog) {

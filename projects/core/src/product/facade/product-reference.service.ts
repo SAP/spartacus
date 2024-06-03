@@ -21,28 +21,28 @@ export class ProductReferenceService {
   loadProductReferences(
     productCode: string,
     referenceType?: string,
-    pageSize?: number
+    pageSize?: number,
   ): void {
     this.store.dispatch(
       new ProductActions.LoadProductReferences({
         productCode,
         referenceType,
         pageSize,
-      })
+      }),
     );
   }
 
   getProductReferences(
     productCode: string,
-    referenceType: string
+    referenceType: string,
   ): Observable<ProductReference[]> {
     return this.store.pipe(
       select(
         ProductSelectors.getSelectedProductReferencesFactory(
           productCode,
-          referenceType
-        )
-      )
+          referenceType,
+        ),
+      ),
     );
   }
 

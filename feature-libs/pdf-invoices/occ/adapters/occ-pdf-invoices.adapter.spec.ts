@@ -155,7 +155,7 @@ describe('OccPDFInvoicesAdapter', () => {
 
     it(`should result in error when Error is thrown`, (done) => {
       spyOn(httpClient, 'get').and.returnValue(
-        throwError(mockNoOrderIdBadRequestResponse)
+        throwError(mockNoOrderIdBadRequestResponse),
       );
 
       let result: HttpErrorModel | undefined;
@@ -172,8 +172,8 @@ describe('OccPDFInvoicesAdapter', () => {
       expect(result).toEqual(
         normalizeHttpError(
           mockNoOrderIdBadRequestResponse,
-          new MockLoggerService()
-        )
+          new MockLoggerService(),
+        ),
       );
 
       subscription.unsubscribe();
@@ -212,7 +212,7 @@ describe('OccPDFInvoicesAdapter', () => {
           mockUserId,
           mockOrderId,
           mockInvoiceId,
-          mockExternalSystemId
+          mockExternalSystemId,
         )
         .pipe(take(1))
         .subscribe((result) => {
@@ -235,7 +235,7 @@ describe('OccPDFInvoicesAdapter', () => {
 
     it(`should result in error when Invoice download Error is thrown`, (done) => {
       spyOn(httpClient, 'get').and.returnValue(
-        throwError(mockDownloadPDFBadRequestResponse)
+        throwError(mockDownloadPDFBadRequestResponse),
       );
 
       let result: HttpErrorModel | undefined;
@@ -244,7 +244,7 @@ describe('OccPDFInvoicesAdapter', () => {
           mockUserId,
           mockOrderId,
           mockInvoiceId,
-          mockExternalSystemId
+          mockExternalSystemId,
         )
         .pipe(take(1))
         .subscribe({
@@ -257,8 +257,8 @@ describe('OccPDFInvoicesAdapter', () => {
       expect(result).toEqual(
         normalizeHttpError(
           mockDownloadPDFBadRequestResponse,
-          new MockLoggerService()
-        )
+          new MockLoggerService(),
+        ),
       );
 
       subscription.unsubscribe();

@@ -61,7 +61,7 @@ export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
       if (accountSummaryList.sorts) {
         this.addNamesToSortModel(accountSummaryList.sorts);
       }
-    })
+    }),
   );
 
   private subscription = new Subscription();
@@ -70,7 +70,7 @@ export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
     protected accountSummaryFacade: AccountSummaryFacade,
     protected translation: TranslationService,
     protected downloadService: FileDownloadService,
-    protected languageService: LanguageService
+    protected languageService: LanguageService,
   ) {}
 
   ngOnInit() {
@@ -79,8 +79,8 @@ export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
         .getActive()
         .pipe(skip(1))
         .subscribe(() =>
-          this.updateQueryParams({ fields: DocumentFields.FULL })
-        )
+          this.updateQueryParams({ fields: DocumentFields.FULL }),
+        ),
     );
   }
 
@@ -122,7 +122,7 @@ export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
   private updateQueryParams(partialParams: DocumentQueryParams) {
     // Overwrite each value present in partialParams to _queryParams
     Object.entries(partialParams).forEach(
-      (param) => ((this._queryParams as any)[param[0]] = param[1])
+      (param) => ((this._queryParams as any)[param[0]] = param[1]),
     );
     // Every request that doesn't specify fields should be set to DEFAULT
     if (!partialParams.fields) {
@@ -135,15 +135,15 @@ export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
   private addNamesToSortModel(sorts: Array<SortModel>) {
     this.sortOptions = sorts;
     const translations = sorts.map((sort) =>
-      this.translation.translate(`orgAccountSummary.sorts.${sort.code}`)
+      this.translation.translate(`orgAccountSummary.sorts.${sort.code}`),
     );
 
     combineLatest(translations)
       .pipe(take(1))
       .subscribe((translated) =>
         this.sortOptions.forEach(
-          (sort, index) => (sort.name = translated[index])
-        )
+          (sort, index) => (sort.name = translated[index]),
+        ),
       );
   }
 }

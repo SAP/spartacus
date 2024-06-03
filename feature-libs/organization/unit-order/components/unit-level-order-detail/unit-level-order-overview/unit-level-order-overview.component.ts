@@ -27,7 +27,7 @@ import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service'
 export class UnitLevelOrderOverviewComponent implements OnInit {
   constructor(
     protected translation: TranslationService,
-    protected unitLevelOrderDetailsService: UnitLevelOrderDetailService
+    protected unitLevelOrderDetailsService: UnitLevelOrderDetailService,
   ) {}
 
   order$: Observable<Order>;
@@ -44,8 +44,8 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
           ({
             title: textTitle,
             text: [orderCode],
-          } as Card)
-      )
+          }) as Card,
+      ),
     );
   }
 
@@ -57,7 +57,7 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
           title: textTitle,
           text: [isoDate],
         } as Card;
-      })
+      }),
     );
   }
 
@@ -74,8 +74,8 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
           ({
             title: textTitle,
             text: [textStatus],
-          } as Card)
-      )
+          }) as Card,
+      ),
     );
   }
 
@@ -88,12 +88,12 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
       map(([textTitle, noneTextTitle]) => ({
         title: textTitle,
         text: [poNumber ? poNumber : noneTextTitle],
-      }))
+      })),
     );
   }
 
   getMethodOfPaymentCardContent(
-    hasPaymentInfo: PaymentDetails | undefined
+    hasPaymentInfo: PaymentDetails | undefined,
   ): Observable<Card> {
     return combineLatest([
       this.translation.translate('orderDetails.methodOfPayment'),
@@ -104,12 +104,12 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
       map(([textTitle, textAccount, textCard]) => ({
         title: textTitle,
         text: [Boolean(hasPaymentInfo) ? textCard : textAccount],
-      }))
+      })),
     );
   }
 
   getCostCenterCardContent(
-    costCenter: CostCenter | undefined
+    costCenter: CostCenter | undefined,
   ): Observable<Card> {
     return this.translation.translate('orderDetails.costCenter').pipe(
       filter(() => Boolean(costCenter)),
@@ -117,18 +117,18 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
         title: textTitle,
         textBold: costCenter?.name,
         text: [`(${costCenter?.unit?.name})`],
-      }))
+      })),
     );
   }
 
   getAddressCardContent(
-    deliveryAddress: Address | undefined
+    deliveryAddress: Address | undefined,
   ): Observable<Card> {
     return this.translation.translate('addressCard.shipTo').pipe(
       filter(() => Boolean(deliveryAddress)),
       map((textTitle) => {
         const formattedAddress = this.normalizeFormattedAddress(
-          deliveryAddress?.formattedAddress ?? ''
+          deliveryAddress?.formattedAddress ?? '',
         );
 
         return {
@@ -136,12 +136,12 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
           textBold: `${deliveryAddress?.firstName} ${deliveryAddress?.lastName}`,
           text: [formattedAddress, deliveryAddress?.country?.name],
         } as Card;
-      })
+      }),
     );
   }
 
   getDeliveryModeCardContent(
-    deliveryMode: DeliveryMode | undefined
+    deliveryMode: DeliveryMode | undefined,
   ): Observable<Card> {
     return this.translation.translate('orderDetails.shippingMethod').pipe(
       filter(() => Boolean(deliveryMode)),
@@ -156,13 +156,13 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
                 ? deliveryMode.deliveryCost?.formattedValue
                 : '',
             ],
-          } as Card)
-      )
+          }) as Card,
+      ),
     );
   }
 
   getPaymentInfoCardContent(
-    payment: PaymentDetails | undefined
+    payment: PaymentDetails | undefined,
   ): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
@@ -178,13 +178,13 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
             title: textTitle,
             textBold: payment?.accountHolderName,
             text: [payment?.cardNumber, textExpires],
-          } as Card)
-      )
+          }) as Card,
+      ),
     );
   }
 
   getBillingAddressCardContent(
-    billingAddress: Address | undefined
+    billingAddress: Address | undefined,
   ): Observable<Card> {
     return this.translation.translate('paymentForm.billingAddress').pipe(
       filter(() => Boolean(billingAddress)),
@@ -197,8 +197,8 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
               billingAddress?.formattedAddress,
               billingAddress?.country?.name,
             ],
-          } as Card)
-      )
+          }) as Card,
+      ),
     );
   }
 
@@ -210,8 +210,8 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
           ({
             title: textTitle,
             text: [customer?.name, `(${customer?.email})`],
-          } as Card)
-      )
+          }) as Card,
+      ),
     );
   }
 
@@ -223,8 +223,8 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
           ({
             title: textTitle,
             text: [orgUnit],
-          } as Card)
-      )
+          }) as Card,
+      ),
     );
   }
 

@@ -22,7 +22,7 @@ export class BudgetConnector {
 
   getList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Budget>> {
     return this.adapter.loadList(userId, params);
   }
@@ -34,7 +34,7 @@ export class BudgetConnector {
   update(
     userId: string,
     budgetCode: string,
-    budget: Budget
+    budget: Budget,
   ): Observable<Budget> {
     return this.adapter.update(userId, budgetCode, budget);
   }

@@ -149,37 +149,35 @@ describe('OrderDetailItemsComponent', () => {
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      mockOrderDetailsService = <OrderDetailsService>{
-        isOrderDetailsLoading(): Observable<boolean> {
-          return of(false);
-        },
-        getOrderDetails() {
-          return of(mockOrder);
-        },
-      };
+  beforeEach(waitForAsync(() => {
+    mockOrderDetailsService = <OrderDetailsService>{
+      isOrderDetailsLoading(): Observable<boolean> {
+        return of(false);
+      },
+      getOrderDetails() {
+        return of(mockOrder);
+      },
+    };
 
-      TestBed.configureTestingModule({
-        imports: [
-          CardModule,
-          I18nTestingModule,
-          PromotionsModule,
-          RouterTestingModule,
-          OutletModule,
-        ],
-        providers: [
-          { provide: OrderDetailsService, useValue: mockOrderDetailsService },
-          { provide: CmsComponentData, useValue: MockCmsComponentData },
-        ],
-        declarations: [
-          OrderDetailItemsComponent,
-          MockConsignmentTrackingComponent,
-          OrderConsignedEntriesComponent,
-        ],
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      imports: [
+        CardModule,
+        I18nTestingModule,
+        PromotionsModule,
+        RouterTestingModule,
+        OutletModule,
+      ],
+      providers: [
+        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
+      ],
+      declarations: [
+        OrderDetailItemsComponent,
+        MockConsignmentTrackingComponent,
+        OrderConsignedEntriesComponent,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailItemsComponent);
@@ -212,30 +210,30 @@ describe('OrderDetailItemsComponent', () => {
     component.order$.subscribe().unsubscribe();
 
     expect(component.deliveryConsignments?.[0]).toEqual(
-      mockOrder.consignments[0]
+      mockOrder.consignments[0],
     );
     expect(component.deliveryConsignments?.[1]).toEqual(
-      mockOrder.consignments[4]
+      mockOrder.consignments[4],
     );
     expect(component.deliveryConsignments?.[2]).toEqual(
-      mockOrder.consignments[1]
+      mockOrder.consignments[1],
     );
     expect(component.deliveryConsignments?.[3]).toEqual(
-      mockOrder.consignments[3]
+      mockOrder.consignments[3],
     );
   });
 
   it('should get pickupUnconsignedEntries', () => {
     component.order$.subscribe().unsubscribe();
     expect(component.pickupUnconsignedEntries).toContain(
-      mockOrder.unconsignedEntries[0]
+      mockOrder.unconsignedEntries[0],
     );
   });
 
   it('should get deliveryUnConsignedEntries', () => {
     component.order$.subscribe().unsubscribe();
     expect(component.deliveryUnConsignedEntries).toContain(
-      mockOrder.unconsignedEntries[1]
+      mockOrder.unconsignedEntries[1],
     );
   });
 
@@ -245,7 +243,7 @@ describe('OrderDetailItemsComponent', () => {
 
   it('should show promotions on replenishment details', () => {
     spyOn(mockOrderDetailsService, 'getOrderDetails').and.returnValue(
-      of(mockReplenishmentOrder)
+      of(mockReplenishmentOrder),
     );
     let order: ReplenishmentOrder;
     mockOrderDetailsService

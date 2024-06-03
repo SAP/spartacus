@@ -25,7 +25,7 @@ export class LoginFormComponentService {
   constructor(
     protected auth: AuthService,
     protected globalMessage: GlobalMessageService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
@@ -37,7 +37,7 @@ export class LoginFormComponentService {
         this.form.patchValue({ userId });
       }
       state === true ? this.form.disable() : this.form.enable();
-    })
+    }),
   );
 
   form: UntypedFormGroup = new UntypedFormGroup({
@@ -61,12 +61,12 @@ export class LoginFormComponentService {
         // TODO: consider dropping toLowerCase as this should not be part of the UI,
         // as it's too opinionated and doesn't work with other AUTH services
         this.form.value.userId.toLowerCase(),
-        this.form.value.password
-      )
+        this.form.value.password,
+      ),
     )
       .pipe(
         withLatestFrom(this.auth.isUserLoggedIn()),
-        tap(([_, isLoggedIn]) => this.onSuccess(isLoggedIn))
+        tap(([_, isLoggedIn]) => this.onSuccess(isLoggedIn)),
       )
       .subscribe();
   }

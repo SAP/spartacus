@@ -96,7 +96,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected savedCartService: SavedCartFacade,
     protected eventService: EventService,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -107,12 +107,12 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.isDisableDeleteButton$ = merge(
       this.eventService.get(DeleteSavedCartEvent).pipe(
         take(1),
-        map(() => true)
+        map(() => true),
       ),
       this.eventService.get(DeleteSavedCartFailEvent).pipe(
         take(1),
-        map(() => false)
-      )
+        map(() => false),
+      ),
     );
 
     this.isDisableRestoreButton$ = combineLatest([
@@ -121,8 +121,8 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     ]).pipe(
       map(
         ([isCloneLoading, isRestoreLoading]) =>
-          isCloneLoading || isRestoreLoading
-      )
+          isCloneLoading || isRestoreLoading,
+      ),
     );
 
     this.subscription.add(
@@ -132,14 +132,14 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
           this.layoutOption = data.layoutOption;
 
           this.build(this.cart);
-        }
-      )
+        },
+      ),
     );
 
     this.subscription.add(
       this.savedCartService
         .getSaveCartProcessSuccess()
-        .subscribe((success) => this.onComplete(success))
+        .subscribe((success) => this.onComplete(success)),
     );
 
     this.subscription.add(
@@ -147,15 +147,15 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
         .get(DeleteSavedCartSuccessEvent)
         .pipe(
           take(1),
-          map(() => true)
+          map(() => true),
         )
-        .subscribe((success) => this.onComplete(success))
+        .subscribe((success) => this.onComplete(success)),
     );
 
     this.subscription.add(
       this.savedCartService
         .getRestoreSavedCartProcessSuccess()
-        .subscribe((success) => this.onComplete(success))
+        .subscribe((success) => this.onComplete(success)),
     );
   }
 
@@ -200,7 +200,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     if (this.isCloneSavedCart) {
       this.savedCartService.cloneSavedCart(
         cartId,
-        this.form.get('cloneName')?.value
+        this.form.get('cloneName')?.value,
       );
     } else {
       this.savedCartService.restoreSavedCart(cartId);
@@ -220,7 +220,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
             {
               key: 'savedCartDialog.deleteCartSuccess',
             },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
+            GlobalMessageType.MSG_TYPE_CONFIRMATION,
           );
           this.close('Successfully deleted a saved cart');
 
@@ -238,7 +238,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
                 cartName: this.form.get('name')?.value || this.cart?.code,
               },
             },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
+            GlobalMessageType.MSG_TYPE_CONFIRMATION,
           );
 
           break;
@@ -255,7 +255,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
               },
             },
 
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
+            GlobalMessageType.MSG_TYPE_CONFIRMATION,
           );
 
           break;
@@ -284,13 +284,13 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
       new UntypedFormControl('', [
         Validators.required,
         Validators.maxLength(this.nameMaxLength),
-      ])
+      ]),
     );
     form.setControl(
       'description',
       new UntypedFormControl('', [
         Validators.maxLength(this.descriptionMaxLength),
-      ])
+      ]),
     );
     form.setControl('isCloneSavedCart', new UntypedFormControl(''));
     form.setControl('cloneName', new UntypedFormControl(''));

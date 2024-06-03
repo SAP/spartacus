@@ -15,7 +15,7 @@ export class SkipLinkDirective implements OnInit, OnDestroy {
 
   constructor(
     protected elementRef: ElementRef<HTMLElement>,
-    protected skipLinkService: SkipLinkService
+    protected skipLinkService: SkipLinkService,
   ) {}
 
   ngOnInit(): void {

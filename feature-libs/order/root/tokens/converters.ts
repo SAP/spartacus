@@ -22,7 +22,7 @@ import {
 import { ScheduleReplenishmentForm } from '../model/scheduled-replenishment.model';
 
 export const ORDER_NORMALIZER = new InjectionToken<Converter<any, Order>>(
-  'OrderNormalizer'
+  'OrderNormalizer',
 );
 
 export const REPLENISHMENT_ORDER_NORMALIZER = new InjectionToken<

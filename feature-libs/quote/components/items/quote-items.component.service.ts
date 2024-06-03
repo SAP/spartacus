@@ -72,7 +72,7 @@ export class QuoteItemsComponentService {
   retrieveQuoteEntries(): Observable<QuoteItemsData> {
     return this.userIdService.takeUserId().pipe(
       switchMap((userId) =>
-        combineLatest([this.quoteFacade.getQuoteDetails(), of(userId)])
+        combineLatest([this.quoteFacade.getQuoteDetails(), of(userId)]),
       ),
       tap(([quote, userId]) => {
         this.loadQuoteCartIfNeeded(quote, userId);
@@ -97,7 +97,7 @@ export class QuoteItemsComponentService {
           abstractOrderId: abstractOrder.code,
           abstractOrderType: abstractOrderType,
         };
-      })
+      }),
     );
   }
 
@@ -105,7 +105,7 @@ export class QuoteItemsComponentService {
     return combineLatest([
       this.activeCartFacade.isStable().pipe(
         filter((stable) => stable),
-        switchMap(() => this.activeCartFacade.getActive())
+        switchMap(() => this.activeCartFacade.getActive()),
       ),
       of({ readOnly: false }),
       of(AbstractOrderType.CART),
@@ -116,7 +116,7 @@ export class QuoteItemsComponentService {
     return combineLatest([
       this.multiCartFacade.isStable(quoteCartId).pipe(
         filter((stable) => stable),
-        switchMap(() => this.multiCartFacade.getCart(quoteCartId))
+        switchMap(() => this.multiCartFacade.getCart(quoteCartId)),
       ),
       of({ readOnly: true }),
       of(AbstractOrderType.SAVED_CART),

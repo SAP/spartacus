@@ -261,7 +261,7 @@ describe('HttpTimeoutInterceptor', () => {
     expect(error instanceof HttpErrorResponse).toBe(true);
     expect(error.error instanceof Error).toBe(true);
     expect(error.error.message).toEqual(
-      `Request to URL '${testUrl}' exceeded expected time of ${SERVER_TIMEOUT}ms and was aborted.`
+      `Request to URL '${testUrl}' exceeded expected time of ${SERVER_TIMEOUT}ms and was aborted.`,
     );
   }));
 
@@ -276,7 +276,7 @@ describe('HttpTimeoutInterceptor', () => {
     tick(VERY_LONG_TIME);
 
     expect(logger.warn).toHaveBeenCalledWith(
-      `Request to URL '${testUrl}' exceeded expected time of ${SERVER_TIMEOUT}ms and was aborted.`
+      `Request to URL '${testUrl}' exceeded expected time of ${SERVER_TIMEOUT}ms and was aborted.`,
     );
   }));
 });
@@ -288,7 +288,7 @@ describe('HttpTimeoutInterceptor used alongside other slow interceptors', () => 
 
     intercept(
       request: HttpRequest<unknown>,
-      next: HttpHandler
+      next: HttpHandler,
     ): Observable<HttpEvent<unknown>> {
       if (this.delay === 0) {
         return next.handle(request);

@@ -52,7 +52,7 @@ describe('QualtricsComponent', () => {
     it('should add qualtrics script', () => {
       fixture.detectChanges();
       expect(service.addScript).toHaveBeenCalledWith(
-        'assets/deployment-script.js'
+        'assets/deployment-script.js',
       );
     });
   });
@@ -67,7 +67,7 @@ describe('QualtricsComponent', () => {
       stubSeviceAndCreateComponent();
 
       expect(service.addScript).not.toHaveBeenCalledWith(
-        'assets/deployment-script.js'
+        'assets/deployment-script.js',
       );
     });
   });

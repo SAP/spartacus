@@ -22,7 +22,7 @@ export class ReplenishmentOrdersEffect {
       this.actions$.pipe(
         ofType(OrderActions.LOAD_USER_REPLENISHMENT_ORDERS),
         map(
-          (action: OrderActions.LoadUserReplenishmentOrders) => action.payload
+          (action: OrderActions.LoadUserReplenishmentOrders) => action.payload,
         ),
         switchMap((payload) => {
           return this.replenishmentOrderConnector
@@ -30,28 +30,28 @@ export class ReplenishmentOrdersEffect {
               payload.userId,
               payload.pageSize,
               payload.currentPage,
-              payload.sort
+              payload.sort,
             )
             .pipe(
               map((orders: ReplenishmentOrderList) => {
                 return new OrderActions.LoadUserReplenishmentOrdersSuccess(
-                  orders
+                  orders,
                 );
               }),
               catchError((error) =>
                 of(
                   new OrderActions.LoadUserReplenishmentOrdersFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   constructor(
     private actions$: Actions,
-    private replenishmentOrderConnector: ReplenishmentOrderHistoryConnector
+    private replenishmentOrderConnector: ReplenishmentOrderHistoryConnector,
   ) {}
 }

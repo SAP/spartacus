@@ -17,7 +17,7 @@ import { CurrentUserService } from './current-user.service';
 export class UserRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
   constructor(
     translation: TranslationService,
-    protected currentItemService: CurrentUserService
+    protected currentItemService: CurrentUserService,
   ) {
     super(translation);
   }

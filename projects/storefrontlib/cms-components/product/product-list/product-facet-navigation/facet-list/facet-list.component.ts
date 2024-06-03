@@ -67,7 +67,7 @@ export class FacetListComponent {
   constructor(
     protected facetService: FacetService,
     protected elementRef: ElementRef,
-    protected renderer: Renderer2
+    protected renderer: Renderer2,
   ) {}
 
   /**
@@ -86,7 +86,7 @@ export class FacetListComponent {
     return this.facetService
       .getState(facet)
       .pipe(
-        map((value) => value.toggled === FacetGroupCollapsedState.EXPANDED)
+        map((value) => value.toggled === FacetGroupCollapsedState.EXPANDED),
       );
   }
 
@@ -97,7 +97,7 @@ export class FacetListComponent {
     return this.facetService
       .getState(facet)
       .pipe(
-        map((value) => value.toggled === FacetGroupCollapsedState.COLLAPSED)
+        map((value) => value.toggled === FacetGroupCollapsedState.COLLAPSED),
       );
   }
 

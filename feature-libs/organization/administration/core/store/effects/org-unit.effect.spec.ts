@@ -161,7 +161,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return LoadOrgUnitFail action if orgUnit not updated', () => {
       orgUnitConnector.get = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId });
       const completion = new OrgUnitActions.LoadOrgUnitFail({
@@ -180,7 +180,7 @@ describe('OrgUnit Effects', () => {
     it('should return LoadOrgUnitNodesSuccess action', () => {
       const action = new OrgUnitActions.LoadOrgUnitNodes({ userId });
       const completion = new OrgUnitActions.LoadOrgUnitNodesSuccess(
-        orgUnitList
+        orgUnitList,
       );
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
@@ -191,7 +191,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return LoadOrgUnitNodesFail action if orgUnits not loaded', () => {
       orgUnitConnector.getList = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.LoadOrgUnitNodes({ userId });
       const completion = new OrgUnitActions.LoadOrgUnitNodesFail({ error });
@@ -217,7 +217,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return LoadOrgUnitNodesFail action if orgUnits not loaded', () => {
       orgUnitConnector.create = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.CreateUnit({ userId, unit: orgUnit });
       const completion1 = new OrgUnitActions.CreateUnitFail({
@@ -249,13 +249,13 @@ describe('OrgUnit Effects', () => {
       expect(orgUnitConnector.update).toHaveBeenCalledWith(
         userId,
         orgUnitId,
-        orgUnit
+        orgUnit,
       );
     });
 
     it('should return UpdateOrgUnitNodesFail action if orgUnits not loaded', () => {
       orgUnitConnector.update = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.UpdateUnit({
         userId,
@@ -274,7 +274,7 @@ describe('OrgUnit Effects', () => {
       expect(orgUnitConnector.update).toHaveBeenCalledWith(
         userId,
         orgUnitId,
-        orgUnit
+        orgUnit,
       );
     });
   });
@@ -302,13 +302,13 @@ describe('OrgUnit Effects', () => {
       expect(orgUnitConnector.createAddress).toHaveBeenCalledWith(
         userId,
         orgUnitId,
-        address
+        address,
       );
     });
 
     it('should return CreateAddressFail action if address is not loaded', () => {
       orgUnitConnector.createAddress = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.CreateAddress({
         userId,
@@ -327,7 +327,7 @@ describe('OrgUnit Effects', () => {
       expect(orgUnitConnector.createAddress).toHaveBeenCalledWith(
         userId,
         orgUnitId,
-        address
+        address,
       );
     });
   });
@@ -352,13 +352,13 @@ describe('OrgUnit Effects', () => {
         userId,
         orgUnitId,
         addressId,
-        address
+        address,
       );
     });
 
     it('should return UpdateAddressFail action if address is not loaded', () => {
       orgUnitConnector.updateAddress = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.UpdateAddress({
         userId,
@@ -379,7 +379,7 @@ describe('OrgUnit Effects', () => {
         userId,
         orgUnitId,
         addressId,
-        address
+        address,
       );
     });
   });
@@ -400,13 +400,13 @@ describe('OrgUnit Effects', () => {
       expect(orgUnitConnector.deleteAddress).toHaveBeenCalledWith(
         userId,
         orgUnitId,
-        addressId
+        addressId,
       );
     });
 
     it('should return DeleteAddressFail action if address is not loaded', () => {
       orgUnitConnector.deleteAddress = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.DeleteAddress({
         userId,
@@ -425,7 +425,7 @@ describe('OrgUnit Effects', () => {
       expect(orgUnitConnector.deleteAddress).toHaveBeenCalledWith(
         userId,
         orgUnitId,
-        addressId
+        addressId,
       );
     });
   });
@@ -449,13 +449,13 @@ describe('OrgUnit Effects', () => {
       expect(orgUnitConnector.assignRole).toHaveBeenCalledWith(
         userId,
         orgCustomerId,
-        roleId
+        roleId,
       );
     });
 
     it('should return AssignRoleFail action if address is not loaded', () => {
       orgUnitConnector.assignRole = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.AssignRole({
         userId,
@@ -473,7 +473,7 @@ describe('OrgUnit Effects', () => {
       expect(orgUnitConnector.assignRole).toHaveBeenCalledWith(
         userId,
         orgCustomerId,
-        roleId
+        roleId,
       );
     });
   });
@@ -497,13 +497,13 @@ describe('OrgUnit Effects', () => {
       expect(orgUnitConnector.unassignRole).toHaveBeenCalledWith(
         userId,
         orgCustomerId,
-        roleId
+        roleId,
       );
     });
 
     it('should return UnassignRoleFail action if address is not loaded', () => {
       orgUnitConnector.unassignRole = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.UnassignRole({
         userId,
@@ -521,7 +521,7 @@ describe('OrgUnit Effects', () => {
       expect(orgUnitConnector.unassignRole).toHaveBeenCalledWith(
         userId,
         orgCustomerId,
-        roleId
+        roleId,
       );
     });
   });
@@ -548,13 +548,13 @@ describe('OrgUnit Effects', () => {
         userId,
         orgUnitId,
         orgCustomerId,
-        roleId
+        roleId,
       );
     });
 
     it('should return AssignApproverFail action if address is not loaded', () => {
       orgUnitConnector.assignApprover = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.AssignApprover({
         userId,
@@ -575,7 +575,7 @@ describe('OrgUnit Effects', () => {
         userId,
         orgUnitId,
         orgCustomerId,
-        roleId
+        roleId,
       );
     });
   });
@@ -602,13 +602,13 @@ describe('OrgUnit Effects', () => {
         userId,
         orgUnitId,
         orgCustomerId,
-        roleId
+        roleId,
       );
     });
 
     it('should return UnassignApproverFail action if address is not loaded', () => {
       orgUnitConnector.unassignApprover = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.UnassignApprover({
         userId,
@@ -629,7 +629,7 @@ describe('OrgUnit Effects', () => {
         userId,
         orgUnitId,
         orgCustomerId,
-        roleId
+        roleId,
       );
     });
   });
@@ -640,20 +640,20 @@ describe('OrgUnit Effects', () => {
         userId,
       });
       const completion = new OrgUnitActions.LoadApprovalProcessesSuccess(
-        approvalProcesses
+        approvalProcesses,
       );
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
       expect(effects.loadApprovalProcesses$).toBeObservable(expected);
       expect(orgUnitConnector.getApprovalProcesses).toHaveBeenCalledWith(
-        userId
+        userId,
       );
     });
 
     it('should return LoadApprovalProcessesFail action if address is not loaded', () => {
       orgUnitConnector.getApprovalProcesses = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.LoadApprovalProcesses({
         userId,
@@ -666,7 +666,7 @@ describe('OrgUnit Effects', () => {
 
       expect(effects.loadApprovalProcesses$).toBeObservable(expected);
       expect(orgUnitConnector.getApprovalProcesses).toHaveBeenCalledWith(
-        userId
+        userId,
       );
     });
   });
@@ -701,13 +701,13 @@ describe('OrgUnit Effects', () => {
         userId,
         orgUnitId,
         roleId,
-        params
+        params,
       );
     });
 
     it('should return LoadUsersFail action if address is not loaded', () => {
       orgUnitConnector.getUsers = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.LoadAssignedUsers({
         userId,
@@ -729,7 +729,7 @@ describe('OrgUnit Effects', () => {
         userId,
         orgUnitId,
         roleId,
-        params
+        params,
       );
     });
   });
@@ -749,7 +749,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return LoadTreeFail action if address is not loaded', () => {
       orgUnitConnector.getTree = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrgUnitActions.LoadTree({
         userId,

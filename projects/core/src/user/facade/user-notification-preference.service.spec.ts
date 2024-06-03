@@ -35,7 +35,7 @@ describe('UserNotificationPreferenceService', () => {
         StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
+          fromProcessReducers.getReducers(),
         ),
       ],
       providers: [
@@ -47,7 +47,7 @@ describe('UserNotificationPreferenceService', () => {
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     userNotificationPreferenceService = TestBed.inject(
-      UserNotificationPreferenceService
+      UserNotificationPreferenceService,
     );
   });
 
@@ -55,14 +55,14 @@ describe('UserNotificationPreferenceService', () => {
     [UserNotificationPreferenceService],
     (service: UserNotificationPreferenceService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to get notification preferences', () => {
     store.dispatch(
       new UserActions.LoadNotificationPreferencesSuccess(
-        mockNotificationPreference
-      )
+        mockNotificationPreference,
+      ),
     );
     let notificationPreferences: NotificationPreference[];
     userNotificationPreferenceService
@@ -77,8 +77,8 @@ describe('UserNotificationPreferenceService', () => {
   it('should be able to get enabled notification preferences', () => {
     store.dispatch(
       new UserActions.LoadNotificationPreferencesSuccess(
-        mockNotificationPreference
-      )
+        mockNotificationPreference,
+      ),
     );
     userNotificationPreferenceService
       .getEnabledPreferences()
@@ -89,15 +89,15 @@ describe('UserNotificationPreferenceService', () => {
   it('should be able to load notification preferences', () => {
     userNotificationPreferenceService.loadPreferences();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadNotificationPreferences(OCC_USER_ID_CURRENT)
+      new UserActions.LoadNotificationPreferences(OCC_USER_ID_CURRENT),
     );
   });
 
   it('should be able to get notification preferences loading flag', () => {
     store.dispatch(
       new UserActions.LoadNotificationPreferencesSuccess(
-        mockNotificationPreference
-      )
+        mockNotificationPreference,
+      ),
     );
 
     let notificationPreferenceLoading: boolean;
@@ -112,13 +112,13 @@ describe('UserNotificationPreferenceService', () => {
 
   it('should be able to update notification preferences', () => {
     userNotificationPreferenceService.updatePreferences(
-      mockNotificationPreference
+      mockNotificationPreference,
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.UpdateNotificationPreferences({
         userId: OCC_USER_ID_CURRENT,
         preferences: mockNotificationPreference,
-      })
+      }),
     );
   });
 
@@ -127,7 +127,7 @@ describe('UserNotificationPreferenceService', () => {
       new UserActions.UpdateNotificationPreferences({
         userId: OCC_USER_ID_CURRENT,
         preferences: mockNotificationPreference,
-      })
+      }),
     );
 
     let result = false;
@@ -142,14 +142,14 @@ describe('UserNotificationPreferenceService', () => {
   it('should be able to reset notification preferences', () => {
     userNotificationPreferenceService.resetNotificationPreferences();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ResetNotificationPreferences()
+      new UserActions.ResetNotificationPreferences(),
     );
   });
 
   it('should be able to clear notification preferences', () => {
     userNotificationPreferenceService.clearPreferences();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ClearNotificationPreferences()
+      new UserActions.ClearNotificationPreferences(),
     );
   });
 });

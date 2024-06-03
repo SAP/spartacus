@@ -15,7 +15,7 @@ describe('anonymous-consents-banner reducer', () => {
   it('should change the banner dismissed slice of the state', () => {
     const action =
       new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
-        true
+        true,
       );
     const result = fromReducer.reducer(undefined, action);
     expect(result).toEqual(true);

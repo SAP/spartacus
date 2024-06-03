@@ -32,7 +32,7 @@ export class JsonLdDirective {
   constructor(
     protected renderer: Renderer2,
     protected jsonLdScriptFactory: JsonLdScriptFactory,
-    protected element: ElementRef
+    protected element: ElementRef,
   ) {}
 
   /**

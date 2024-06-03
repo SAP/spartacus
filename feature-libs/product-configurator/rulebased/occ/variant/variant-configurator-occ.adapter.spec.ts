@@ -45,7 +45,7 @@ class MockOccEndpointsService {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ) {
     return this.getEndpoint(endpoint);
   }
@@ -80,8 +80,8 @@ const configuration: Configurator.Configuration = {
     configId,
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
-      productCode
-    )
+      productCode,
+    ),
   ),
   productCode: productCode,
 };
@@ -106,8 +106,8 @@ const productConfigurationForCartEntry: Configurator.Configuration = {
     configId,
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.CART_ENTRY,
-      cartEntryNo
-    )
+      cartEntryNo,
+    ),
   ),
   productCode: productCode,
 };
@@ -155,24 +155,24 @@ describe('OccConfigurationVariantAdapter', () => {
     });
 
     httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
+      HttpTestingController as Type<HttpTestingController>,
     );
     converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
+      ConverterService as Type<ConverterService>,
     );
     occEndpointsService = TestBed.inject(
-      OccEndpointsService as Type<OccEndpointsService>
+      OccEndpointsService as Type<OccEndpointsService>,
     );
 
     occConfiguratorVariantAdapter = TestBed.inject(
-      VariantConfiguratorOccAdapter as Type<VariantConfiguratorOccAdapter>
+      VariantConfiguratorOccAdapter as Type<VariantConfiguratorOccAdapter>,
     );
     configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>,
     );
     configuratorUtils.setOwnerKey(configuration.owner);
     configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>,
     );
     configExpertModeService.setExpModeRequested(expMode);
 
@@ -202,7 +202,7 @@ describe('OccConfigurationVariantAdapter', () => {
       //this call doesn't do the actual mapping but retrieves the map function,
       //therefore expectation is valid here outside the subscribe
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        VARIANT_CONFIGURATOR_NORMALIZER
+        VARIANT_CONFIGURATOR_NORMALIZER,
       );
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === 'createVariantConfiguration';
@@ -215,7 +215,7 @@ describe('OccConfigurationVariantAdapter', () => {
             productCode,
           },
           queryParams: { expMode, forceReset },
-        }
+        },
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -251,7 +251,7 @@ describe('OccConfigurationVariantAdapter', () => {
             expMode,
             forceReset,
           },
-        }
+        },
       );
       mockReq.flush(productConfigurationOcc);
     });
@@ -274,7 +274,7 @@ describe('OccConfigurationVariantAdapter', () => {
       //this call doesn't do the actual mapping but retrieves the map function,
       //therefore expectation is valid here outside the subscribe
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        VARIANT_CONFIGURATOR_NORMALIZER
+        VARIANT_CONFIGURATOR_NORMALIZER,
       );
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === 'createVariantConfiguration';
@@ -287,7 +287,7 @@ describe('OccConfigurationVariantAdapter', () => {
             productCode,
           },
           queryParams: { expMode, forceReset },
-        }
+        },
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -323,7 +323,7 @@ describe('OccConfigurationVariantAdapter', () => {
             expMode,
             forceReset,
           },
-        }
+        },
       );
       mockReq.flush(productConfigurationOcc);
     });
@@ -350,7 +350,7 @@ describe('OccConfigurationVariantAdapter', () => {
       {
         urlParams: { configId },
         queryParams: { groupId, expMode },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -359,7 +359,7 @@ describe('OccConfigurationVariantAdapter', () => {
       sendUserIdAsHeader: true,
     });
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_NORMALIZER
+      VARIANT_CONFIGURATOR_NORMALIZER,
     );
     mockReq.flush(productConfigurationOcc);
   });
@@ -388,7 +388,7 @@ describe('OccConfigurationVariantAdapter', () => {
       {
         urlParams: { configId },
         queryParams: { groupId, expMode },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -397,7 +397,7 @@ describe('OccConfigurationVariantAdapter', () => {
       sendUserIdAsHeader: true,
     });
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_NORMALIZER
+      VARIANT_CONFIGURATOR_NORMALIZER,
     );
     mockReq.flush(productConfigurationOcc);
   });
@@ -425,7 +425,7 @@ describe('OccConfigurationVariantAdapter', () => {
           configId,
         },
         queryParams: { expMode },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -434,11 +434,11 @@ describe('OccConfigurationVariantAdapter', () => {
       sendUserIdAsHeader: true,
     });
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_NORMALIZER
+      VARIANT_CONFIGURATOR_NORMALIZER,
     );
     expect(converterService.convert).toHaveBeenCalledWith(
       configuration,
-      VARIANT_CONFIGURATOR_SERIALIZER
+      VARIANT_CONFIGURATOR_SERIALIZER,
     );
     mockReq.flush(productConfigurationOcc);
   });
@@ -468,7 +468,7 @@ describe('OccConfigurationVariantAdapter', () => {
           configId,
         },
         queryParams: { expMode },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -477,11 +477,11 @@ describe('OccConfigurationVariantAdapter', () => {
       sendUserIdAsHeader: true,
     });
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_NORMALIZER
+      VARIANT_CONFIGURATOR_NORMALIZER,
     );
     expect(converterService.convert).toHaveBeenCalledWith(
       configuration,
-      VARIANT_CONFIGURATOR_SERIALIZER
+      VARIANT_CONFIGURATOR_SERIALIZER,
     );
     mockReq.flush(productConfigurationOcc);
   });
@@ -492,7 +492,7 @@ describe('OccConfigurationVariantAdapter', () => {
       .readPriceSummary(configuration)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.priceSummary?.basePrice?.currencyIso).toBe(
-          pricesOcc.priceSummary?.basePrice?.currencyIso
+          pricesOcc.priceSummary?.basePrice?.currencyIso,
         );
         expect(resultConfiguration.priceSupplements?.length).toBe(3);
         const suppls = resultConfiguration.priceSupplements;
@@ -540,7 +540,7 @@ describe('OccConfigurationVariantAdapter', () => {
           configId,
         },
         queryParams: { groupId: configuration?.interactionState?.currentGroup },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -549,7 +549,7 @@ describe('OccConfigurationVariantAdapter', () => {
       sendUserIdAsHeader: true,
     });
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_PRICE_NORMALIZER
+      VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
     );
 
     mockReq.flush(pricesOcc);
@@ -590,13 +590,13 @@ describe('OccConfigurationVariantAdapter', () => {
             cartEntryNumber: documentEntryNumber,
           },
           queryParams: { expMode },
-        }
+        },
       );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        VARIANT_CONFIGURATOR_NORMALIZER
+        VARIANT_CONFIGURATOR_NORMALIZER,
       );
       mockReq.flush(productConfigurationOcc);
     });
@@ -632,13 +632,13 @@ describe('OccConfigurationVariantAdapter', () => {
             cartEntryNumber: documentEntryNumber,
           },
           queryParams: { expMode: true },
-        }
+        },
       );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        VARIANT_CONFIGURATOR_NORMALIZER
+        VARIANT_CONFIGURATOR_NORMALIZER,
       );
       mockReq.flush(productConfigurationOcc);
     });
@@ -675,13 +675,13 @@ describe('OccConfigurationVariantAdapter', () => {
           orderId: documentId,
           orderEntryNumber: documentEntryNumber,
         },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
     );
     mockReq.flush(overviewOcc);
   });
@@ -720,13 +720,13 @@ describe('OccConfigurationVariantAdapter', () => {
           quoteId: documentId,
           quoteEntryNumber: documentEntryNumber,
         },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
     );
     mockReq.flush(overviewOcc);
   });
@@ -765,13 +765,13 @@ describe('OccConfigurationVariantAdapter', () => {
           cartId: documentId,
           cartEntryNumber: documentEntryNumber,
         },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
     );
     mockReq.flush(overviewOcc);
   });
@@ -788,7 +788,7 @@ describe('OccConfigurationVariantAdapter', () => {
       .updateConfigurationForCartEntry(params)
       .subscribe((cartModificationResult) => {
         expect(cartModificationResult.quantity).toEqual(
-          cartModification.quantity
+          cartModification.quantity,
         );
         done();
       });
@@ -808,13 +808,13 @@ describe('OccConfigurationVariantAdapter', () => {
           cartId: documentId,
           cartEntryNumber: documentEntryNumber,
         },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CART_MODIFICATION_NORMALIZER
+      CART_MODIFICATION_NORMALIZER,
     );
     mockReq.flush(cartModification);
   });
@@ -833,7 +833,7 @@ describe('OccConfigurationVariantAdapter', () => {
       .addToCart(params)
       .subscribe((cartModificationResult) => {
         expect(cartModificationResult.quantity).toEqual(
-          cartModification.quantity
+          cartModification.quantity,
         );
         done();
       });
@@ -847,7 +847,7 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CART_MODIFICATION_NORMALIZER
+      CART_MODIFICATION_NORMALIZER,
     );
     mockReq.flush(cartModification);
   });
@@ -861,7 +861,7 @@ describe('OccConfigurationVariantAdapter', () => {
         cartEntryNumber: documentEntryNumber,
       };
     spyOn(converterService, 'pipeable').and.returnValue(() =>
-      of(configuration)
+      of(configuration),
     );
     occConfiguratorVariantAdapter
       .readConfigurationForCartEntry(params)
@@ -895,7 +895,7 @@ describe('OccConfigurationVariantAdapter', () => {
         urlParams: {
           configId,
         },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -904,7 +904,7 @@ describe('OccConfigurationVariantAdapter', () => {
       sendUserIdAsHeader: true,
     });
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
     );
     mockReq.flush(overviewOcc);
   });
@@ -927,7 +927,7 @@ describe('OccConfigurationVariantAdapter', () => {
         urlParams: {
           configId,
         },
-      }
+      },
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -941,7 +941,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should return configurator type', () => {
     expect(occConfiguratorVariantAdapter.getConfiguratorType()).toEqual(
-      ConfiguratorType.VARIANT
+      ConfiguratorType.VARIANT,
     );
   });
 
@@ -976,13 +976,13 @@ describe('OccConfigurationVariantAdapter', () => {
           urlParams: {
             configId,
           },
-        }
+        },
       );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+        VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
       );
       mockReq.flush(overviewOcc);
     });
@@ -994,7 +994,7 @@ describe('OccConfigurationVariantAdapter', () => {
         .updateConfigurationOverview(overviewInput)
         .subscribe((resultOv) => {
           expect(resultOv.attributeFilters).toEqual(
-            overviewInput.attributeFilters
+            overviewInput.attributeFilters,
           );
           expect(resultOv.groupFilters).toEqual(overviewInput.groupFilters);
           done();

@@ -59,23 +59,21 @@ export class MockKeyboadFocusDirective {
 }
 
 describe('ConfiguratorOverviewFilterDialogComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      initializeMocks();
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorOverviewFilterDialogComponent,
-          MockCxIconComponent,
-          MockConfiguratorOverviewFilterComponent,
-          MockKeyboadFocusDirective,
-        ],
-        imports: [I18nTestingModule],
-        providers: [
-          { provide: LaunchDialogService, useValue: mockLaunchDialogService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initializeMocks();
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorOverviewFilterDialogComponent,
+        MockCxIconComponent,
+        MockConfiguratorOverviewFilterComponent,
+        MockKeyboadFocusDirective,
+      ],
+      imports: [I18nTestingModule],
+      providers: [
+        { provide: LaunchDialogService, useValue: mockLaunchDialogService },
+      ],
+    }).compileComponents();
+  }));
 
   it('should create component', () => {
     initialize();
@@ -88,7 +86,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
       .query(By.css('.cx-dialog-header button'))
       .triggerEventHandler('click', new Event('click'));
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith(
-      'Close Filtering'
+      'Close Filtering',
     );
   });
 
@@ -98,7 +96,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
       .query(By.css('.cx-modal-container'))
       .triggerEventHandler('click', new Event('click'));
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith(
-      'Close Filtering'
+      'Close Filtering',
     );
   });
 
@@ -116,7 +114,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
       .query(By.css('.cx-modal-content'))
       .triggerEventHandler('esc');
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith(
-      'Close Filtering'
+      'Close Filtering',
     );
   });
 
@@ -125,7 +123,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.close'
+      '.close',
     );
   });
 
@@ -134,7 +132,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-dialog-title'
+      '.cx-dialog-title',
     );
   });
 
@@ -143,13 +141,13 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-dialog-header'
+      '.cx-dialog-header',
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-dialog-body'
+      '.cx-dialog-body',
     );
   });
   it('should not have a modal body if nothing is emitted', () => {
@@ -158,13 +156,13 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-dialog-header'
+      '.cx-dialog-header',
     );
 
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-dialog-body'
+      '.cx-dialog-body',
     );
   });
 
@@ -176,7 +174,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
         htmlElem,
         '.cx-dialog-header button',
         'title',
-        'configurator.a11y.closeFilterMenu'
+        'configurator.a11y.closeFilterMenu',
       );
     });
   });

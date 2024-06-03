@@ -22,7 +22,7 @@ export class UnitUserItemService extends UserItemService {
 
   save(
     form: UntypedFormGroup,
-    key?: string
+    key?: string,
   ): Observable<OrganizationItemStatus<B2BUser>> {
     // we enable the orgUnit temporarily so that the underlying
     // save method can read the complete form.value.
@@ -52,7 +52,7 @@ export class UnitUserItemService extends UserItemService {
   }
 
   protected create(
-    value: B2BUser
+    value: B2BUser,
   ): Observable<OrganizationItemStatus<B2BUser>> {
     // TODO (CXSPA-5630): Remove call to super in feature flag in next major.
     if (!this.featureConfigService?.isEnabled('fixMyCompanyUnitUserCreation')) {

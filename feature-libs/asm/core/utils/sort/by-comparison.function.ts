@@ -10,7 +10,7 @@ import { Comparator, SortOrder } from './sort.model';
  * Sort using basic comparison. Ascending is smaller items first
  */
 export function byComparison<T>(
-  ordering: SortOrder = SortOrder.ASC
+  ordering: SortOrder = SortOrder.ASC,
 ): Comparator<T> {
   return (a: T, b: T) => {
     if (a === b) {

@@ -28,7 +28,7 @@ export interface EntityLoaderAction extends Action {
 
 export function entityLoadMeta(
   entityType: string,
-  id: EntityId
+  id: EntityId,
 ): EntityLoaderMeta {
   return {
     ...loadMeta(entityType),
@@ -39,7 +39,7 @@ export function entityLoadMeta(
 export function entityFailMeta(
   entityType: string,
   id: EntityId,
-  error?: any
+  error?: any,
 ): EntityLoaderMeta {
   return {
     ...failMeta(entityType, error),
@@ -49,7 +49,7 @@ export function entityFailMeta(
 
 export function entitySuccessMeta(
   entityType: string,
-  id: EntityId
+  id: EntityId,
 ): EntityLoaderMeta {
   return {
     ...successMeta(entityType),
@@ -59,7 +59,7 @@ export function entitySuccessMeta(
 
 export function entityResetMeta(
   entityType: string,
-  id?: EntityId
+  id?: EntityId,
 ): EntityLoaderMeta {
   return {
     ...resetMeta(entityType),
@@ -86,7 +86,11 @@ export class EntityFailAction implements EntityLoaderAction {
 export class EntitySuccessAction implements EntityLoaderAction {
   type = ENTITY_SUCCESS_ACTION;
   readonly meta: EntityLoaderMeta;
-  constructor(entityType: string, id: EntityId, public payload?: any) {
+  constructor(
+    entityType: string,
+    id: EntityId,
+    public payload?: any,
+  ) {
     this.meta = entitySuccessMeta(entityType, id);
   }
 }

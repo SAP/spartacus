@@ -24,7 +24,7 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   loadConsents(userId: string): Observable<ConsentTemplate[]> {
@@ -37,14 +37,14 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
         throw normalizeHttpError(error, this.logger);
       }),
       map((consentList) => consentList.consentTemplates ?? []),
-      this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
+      this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER),
     );
   }
 
   giveConsent(
     userId: string,
     consentTemplateId: string,
-    consentTemplateVersion: number
+    consentTemplateVersion: number,
   ): Observable<ConsentTemplate> {
     const url = this.occEndpoints.buildUrl('consents', {
       urlParams: { userId },
@@ -62,7 +62,7 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
         catchError((error: any) => {
           throw normalizeHttpError(error, this.logger);
         }),
-        this.converter.pipeable(CONSENT_TEMPLATE_NORMALIZER)
+        this.converter.pipeable(CONSENT_TEMPLATE_NORMALIZER),
       );
   }
 

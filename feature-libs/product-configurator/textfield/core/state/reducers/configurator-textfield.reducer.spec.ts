@@ -22,7 +22,7 @@ describe('ConfiguratorTextfieldReducer', () => {
       new ConfiguratorTextfieldActions.CreateConfiguration({
         productCode: productCode,
         owner: ConfiguratorModelUtils.createInitialOwner(),
-      })
+      }),
     );
     expect(result).toBeDefined();
     expect(result).toBe(productConfigurationInitial);
@@ -32,8 +32,8 @@ describe('ConfiguratorTextfieldReducer', () => {
     const result = reducer(
       productConfigurationInitial,
       new ConfiguratorTextfieldActions.CreateConfigurationSuccess(
-        productConfiguration
-      )
+        productConfiguration,
+      ),
     );
     expect(result).toBeDefined();
     expect(result).toEqual(productConfiguration);
@@ -43,8 +43,8 @@ describe('ConfiguratorTextfieldReducer', () => {
     const result = reducer(
       productConfigurationInitial,
       new ConfiguratorTextfieldActions.ReadCartEntryConfigurationSuccess(
-        productConfiguration
-      )
+        productConfiguration,
+      ),
     );
     expect(result).toBeDefined();
     expect(result).toEqual(productConfiguration);
@@ -53,7 +53,9 @@ describe('ConfiguratorTextfieldReducer', () => {
   it('should change state on UpdateConfiguration ', () => {
     const result = reducer(
       productConfigurationInitial,
-      new ConfiguratorTextfieldActions.UpdateConfiguration(productConfiguration)
+      new ConfiguratorTextfieldActions.UpdateConfiguration(
+        productConfiguration,
+      ),
     );
     expect(result).toBeDefined();
     expect(result).toEqual(productConfiguration);
@@ -62,7 +64,7 @@ describe('ConfiguratorTextfieldReducer', () => {
   it('should remove state on RemoveConfiguration ', () => {
     const result = reducer(
       productConfiguration,
-      new ConfiguratorTextfieldActions.RemoveConfiguration()
+      new ConfiguratorTextfieldActions.RemoveConfiguration(),
     );
     expect(result).toBeDefined();
     expect(result).toEqual(productConfigurationInitial);
@@ -72,8 +74,8 @@ describe('ConfiguratorTextfieldReducer', () => {
     const result = reducer(
       productConfigurationInitial,
       new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationSuccess(
-        productConfiguration
-      )
+        productConfiguration,
+      ),
     );
     expect(result).toBeDefined();
     expect(result).toEqual(productConfiguration);

@@ -35,11 +35,11 @@ export class GuardsComposer {
   canActivate(
     guards: CanActivate[],
     route: CmsActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     if (guards.length) {
       const canActivateObservables = guards.map((guard) =>
-        this.canActivateGuard(guard, route, state)
+        this.canActivateGuard(guard, route, state),
       );
       return this.composeCanActivateObservables(canActivateObservables);
     }
@@ -55,7 +55,7 @@ export class GuardsComposer {
   protected canActivateGuard(
     guard: CanActivate,
     route: CmsActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     if (this.isCanActivate(guard)) {
       return wrapIntoObservable(guard.canActivate(route, state)).pipe(first());
@@ -72,12 +72,12 @@ export class GuardsComposer {
    * - emits `false` or `UrlTree` as soon as any of the given observables emit such a value (`false` or `UrlTree`).
    */
   protected composeCanActivateObservables(
-    canActivateObservables: CanActivateObservable[]
+    canActivateObservables: CanActivateObservable[],
   ): CanActivateObservable {
     return concat(...canActivateObservables).pipe(
       skipWhile((canActivate: boolean | UrlTree) => canActivate === true),
       endWith(true),
-      first()
+      first(),
     );
   }
 

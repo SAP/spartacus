@@ -32,7 +32,7 @@ export class UserAddressService {
     protected store: Store<StateWithUser>,
     protected userIdService: UserIdService,
     protected userAddressConnector: UserAddressConnector,
-    protected command: CommandService
+    protected command: CommandService,
   ) {}
 
   /**
@@ -54,7 +54,7 @@ export class UserAddressService {
         new UserActions.AddUserAddress({
           userId,
           address,
-        })
+        }),
       );
     });
   }
@@ -70,7 +70,7 @@ export class UserAddressService {
           userId,
           addressId,
           address: { defaultAddress: true },
-        })
+        }),
       );
     });
   }
@@ -87,7 +87,7 @@ export class UserAddressService {
           userId,
           addressId,
           address,
-        })
+        }),
       );
     });
   }
@@ -102,7 +102,7 @@ export class UserAddressService {
         new UserActions.DeleteUserAddress({
           userId,
           addressId,
-        })
+        }),
       );
     });
   }
@@ -144,7 +144,7 @@ export class UserAddressService {
    */
   getCountry(isocode: string): Observable<Country | null> {
     return this.store.pipe(
-      select(UsersSelectors.countrySelectorFactory(isocode))
+      select(UsersSelectors.countrySelectorFactory(isocode)),
     );
   }
 
@@ -185,7 +185,7 @@ export class UserAddressService {
           return [];
         }
         return regions;
-      })
+      }),
     );
   }
   /**
@@ -206,8 +206,8 @@ export class UserAddressService {
       .takeUserId(false)
       .pipe(
         switchMap((userId) =>
-          this.userAddressConnector.verify(userId, payload.address)
-        )
-      )
+          this.userAddressConnector.verify(userId, payload.address),
+        ),
+      ),
   );
 }

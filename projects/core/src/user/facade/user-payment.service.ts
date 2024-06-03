@@ -20,7 +20,7 @@ import { StateWithUser } from '../store/user-state';
 export class UserPaymentService {
   constructor(
     protected store: Store<StateWithUser>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   /**
@@ -48,7 +48,7 @@ export class UserPaymentService {
 
   getPaymentMethodsLoadedSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(UsersSelectors.getPaymentMethodsLoadedSuccess)
+      select(UsersSelectors.getPaymentMethodsLoadedSuccess),
     );
   }
   /**
@@ -61,7 +61,7 @@ export class UserPaymentService {
         new UserActions.SetDefaultUserPaymentMethod({
           userId,
           paymentMethodId,
-        })
+        }),
       );
     });
   }
@@ -77,7 +77,7 @@ export class UserPaymentService {
         new UserActions.DeleteUserPaymentMethod({
           userId,
           paymentMethodId,
-        })
+        }),
       );
     });
   }

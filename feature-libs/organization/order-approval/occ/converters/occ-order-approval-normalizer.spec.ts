@@ -49,7 +49,7 @@ describe('OrderApprovalNormalizer', () => {
     });
 
     service = TestBed.inject(
-      OccOrderApprovalNormalizer as Type<OccOrderApprovalNormalizer>
+      OccOrderApprovalNormalizer as Type<OccOrderApprovalNormalizer>,
     );
     converter = TestBed.inject(ConverterService);
     spyOn(converter, 'convert').and.callFake(
@@ -57,7 +57,7 @@ describe('OrderApprovalNormalizer', () => {
         ({
           ...order,
           code: (order as Occ.Order).code + '-converted',
-        } as any)
+        }) as any,
     );
   });
 
@@ -65,7 +65,7 @@ describe('OrderApprovalNormalizer', () => {
     [OccOrderApprovalNormalizer],
     (costCenterNormalizer: OccOrderApprovalNormalizer) => {
       expect(costCenterNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert occOrderApproval with no order', () => {
@@ -79,7 +79,7 @@ describe('OrderApprovalNormalizer', () => {
     expect(result).toEqual(convertedOrderApproval);
     expect(converter.convert).toHaveBeenCalledWith(
       occOrderApproval.order,
-      ORDER_NORMALIZER
+      ORDER_NORMALIZER,
     );
   });
 

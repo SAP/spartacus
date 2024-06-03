@@ -66,26 +66,24 @@ describe('FacetComponent', () => {
   let element: DebugElement;
   let facetService: FacetService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [
-          FacetComponent,
-          MockCxIconComponent,
-          MockKeyboadFocusDirective,
-        ],
-        providers: [
-          { provide: FacetService, useClass: MockFacetService },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-        ],
-      })
-        .overrideComponent(FacetComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        FacetComponent,
+        MockCxIconComponent,
+        MockKeyboadFocusDirective,
+      ],
+      providers: [
+        { provide: FacetService, useClass: MockFacetService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
     })
-  );
+      .overrideComponent(FacetComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetComponent);
@@ -136,7 +134,7 @@ describe('FacetComponent', () => {
       spyOn(facetService, 'increaseVisibleValues').and.stub();
       component.increaseVisibleValues();
       expect(facetService.increaseVisibleValues).toHaveBeenCalledWith(
-        component.facet
+        component.facet,
       );
     });
 
@@ -144,7 +142,7 @@ describe('FacetComponent', () => {
       spyOn(facetService, 'decreaseVisibleValues').and.stub();
       component.decreaseVisibleValues();
       expect(facetService.decreaseVisibleValues).toHaveBeenCalledWith(
-        component.facet
+        component.facet,
       );
     });
   });
@@ -229,13 +227,13 @@ describe('FacetComponent', () => {
       component.onKeydown(mockArrowDownOnHeaderEvent);
       expect(component.onArrowDown).toHaveBeenCalledWith(
         mockArrowDownOnHeaderEvent,
-        -1
+        -1,
       );
 
       component.onKeydown(mockArrowDownOnOptionEvent);
       expect(component.onArrowDown).toHaveBeenCalledWith(
         mockArrowDownOnHeaderEvent,
-        1
+        1,
       );
     });
 
@@ -267,7 +265,7 @@ describe('FacetComponent', () => {
 
       component.onArrowDown(mockArrowDownOnOptionEvent, currentIndex);
       expect(
-        component.values.get(currentIndex + 1)?.nativeElement.focus
+        component.values.get(currentIndex + 1)?.nativeElement.focus,
       ).toHaveBeenCalled();
     });
 
@@ -277,7 +275,7 @@ describe('FacetComponent', () => {
       component.onArrowUp(mockArrowUpEvent, currentIndex);
 
       expect(
-        component.values.get(currentIndex - 1)?.nativeElement.focus
+        component.values.get(currentIndex - 1)?.nativeElement.focus,
       ).toHaveBeenCalled();
     });
   });

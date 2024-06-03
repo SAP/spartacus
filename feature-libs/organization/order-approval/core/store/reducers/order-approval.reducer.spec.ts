@@ -26,7 +26,7 @@ describe('Order Approvals Entities Reducer', () => {
       const action = new OrderApprovalActions.LoadOrderApprovalSuccess(payload);
       const result = orderApprovalsEntitiesReducer(
         orderApprovalInitialState,
-        action
+        action,
       );
 
       expect(result).toEqual(payload);
@@ -43,7 +43,7 @@ describe('Order Approvals Entities Reducer', () => {
       const action = new OrderApprovalActions.MakeDecisionSuccess(payload);
       const result = orderApprovalsEntitiesReducer(
         orderApprovalInitialState,
-        action
+        action,
       );
 
       expect(result).toEqual(orderApprovalInitialState);
@@ -75,11 +75,11 @@ describe('Order Approvals List Reducer', () => {
       };
 
       const action = new OrderApprovalActions.LoadOrderApprovalsSuccess(
-        payload
+        payload,
       );
       const result = orderApprovalsListReducer(
         orderApprovalsInitialState,
-        action
+        action,
       );
 
       expect(result).toEqual(payload.page);

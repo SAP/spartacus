@@ -100,14 +100,14 @@ describe('UserUserGroupListService', () => {
     spyOn(userGroupService, 'getLoadingStatus').and.callThrough();
 
     expect(service.assign('customerId', 'userGroupUid')).toEqual(
-      mockItemStatus
+      mockItemStatus,
     );
     expect(userService.assignUserGroup).toHaveBeenCalledWith(
       'customerId',
-      'userGroupUid'
+      'userGroupUid',
     );
     expect(userGroupService.getLoadingStatus).toHaveBeenCalledWith(
-      'userGroupUid'
+      'userGroupUid',
     );
   });
 
@@ -116,14 +116,14 @@ describe('UserUserGroupListService', () => {
     spyOn(userGroupService, 'getLoadingStatus').and.callThrough();
 
     expect(service.unassign('customerId', 'userGroupUid')).toEqual(
-      mockItemStatus
+      mockItemStatus,
     );
     expect(userService.unassignUserGroup).toHaveBeenCalledWith(
       'customerId',
-      'userGroupUid'
+      'userGroupUid',
     );
     expect(userGroupService.getLoadingStatus).toHaveBeenCalledWith(
-      'userGroupUid'
+      'userGroupUid',
     );
   });
 });

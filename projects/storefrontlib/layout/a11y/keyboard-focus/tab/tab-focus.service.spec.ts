@@ -34,23 +34,21 @@ describe('TabFocusService', () => {
   let service: TabFocusService;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent],
-        providers: [
-          TabFocusService,
-          {
-            provide: SelectFocusUtility,
-            useClass: MockSelectFocusUtility,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent],
+      providers: [
+        TabFocusService,
+        {
+          provide: SelectFocusUtility,
+          useClass: MockSelectFocusUtility,
+        },
+      ],
+    }).compileComponents();
 
-      service = TestBed.inject(TabFocusService);
-      fixture = TestBed.createComponent(MockComponent);
-    })
-  );
+    service = TestBed.inject(TabFocusService);
+    fixture = TestBed.createComponent(MockComponent);
+  }));
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
@@ -73,7 +71,7 @@ describe('TabFocusService', () => {
     it('should focus 2nd child if no child has been selected before', () => {
       const children = fixture.debugElement.queryAll(By.css('#a button'));
       spyOn(service, 'findFocusable').and.returnValue(
-        children.map((c) => c.nativeElement)
+        children.map((c) => c.nativeElement),
       );
 
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
@@ -88,7 +86,7 @@ describe('TabFocusService', () => {
     it('should focus item next to active child', () => {
       const children = fixture.debugElement.queryAll(By.css('#a button'));
       spyOn(service, 'findFocusable').and.returnValue(
-        children.map((c) => c.nativeElement)
+        children.map((c) => c.nativeElement),
       );
 
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
@@ -107,7 +105,7 @@ describe('TabFocusService', () => {
     it('should focus item next to persisted child', () => {
       const children = fixture.debugElement.queryAll(By.css('#b button'));
       spyOn(service, 'findFocusable').and.returnValue(
-        children.map((c) => c.nativeElement)
+        children.map((c) => c.nativeElement),
       );
 
       const host = fixture.debugElement.query(By.css('#b')).nativeElement;
@@ -125,7 +123,7 @@ describe('TabFocusService', () => {
     it('should keep last item focused', () => {
       const children = fixture.debugElement.queryAll(By.css('#a button'));
       spyOn(service, 'findFocusable').and.returnValue(
-        children.map((c) => c.nativeElement)
+        children.map((c) => c.nativeElement),
       );
 
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
@@ -144,7 +142,7 @@ describe('TabFocusService', () => {
     it('should keep first item focused', () => {
       const children = fixture.debugElement.queryAll(By.css('#a button'));
       spyOn(service, 'findFocusable').and.returnValue(
-        children.map((c) => c.nativeElement)
+        children.map((c) => c.nativeElement),
       );
 
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
@@ -161,7 +159,7 @@ describe('TabFocusService', () => {
     it('should focus item next to active child', () => {
       const children = fixture.debugElement.queryAll(By.css('#a button'));
       spyOn(service, 'findFocusable').and.returnValue(
-        children.map((c) => c.nativeElement)
+        children.map((c) => c.nativeElement),
       );
 
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
@@ -180,7 +178,7 @@ describe('TabFocusService', () => {
     it('should focus item next to persisted child', () => {
       const children = fixture.debugElement.queryAll(By.css('#b button'));
       spyOn(service, 'findFocusable').and.returnValue(
-        children.map((c) => c.nativeElement)
+        children.map((c) => c.nativeElement),
       );
 
       const host = fixture.debugElement.query(By.css('#b')).nativeElement;

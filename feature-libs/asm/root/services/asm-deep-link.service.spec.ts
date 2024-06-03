@@ -43,7 +43,7 @@ describe('AsmDeepLinkService', () => {
   describe('getSearchParameter', () => {
     it('should get parameter from search result', () => {
       expect(asmDeepLinkService.getSearchParameter('customerId')).toEqual(
-        'testId'
+        'testId',
       );
     });
   });
@@ -83,7 +83,7 @@ describe('AsmDeepLinkService', () => {
         cartId: '456',
       });
       expect(routingService.go).toHaveBeenCalledWith(
-        'my-account/saved-cart/456'
+        'my-account/saved-cart/456',
       );
     });
     it('should navigate to order details', () => {

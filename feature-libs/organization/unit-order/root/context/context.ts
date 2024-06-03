@@ -7,5 +7,5 @@
 import { InjectionToken } from '@angular/core';
 
 export const UnitOrderDetailsOrderEntriesContextToken = new InjectionToken(
-  'OrderDetailsOrderEntriesContext'
+  'OrderDetailsOrderEntriesContext',
 );

@@ -23,12 +23,12 @@ export class CdsMerchandisingProductService {
   constructor(
     protected strategyConnector: MerchandisingStrategyConnector,
     protected merchandisingUserContextService: CdsMerchandisingUserContextService,
-    protected merchandisingSiteContextService: CdsMerchandisingSiteContextService
+    protected merchandisingSiteContextService: CdsMerchandisingSiteContextService,
   ) {}
 
   loadProductsForStrategy(
     strategyId: string,
-    numberToDisplay?: number
+    numberToDisplay?: number,
   ): Observable<StrategyResponse> {
     return combineLatest([
       this.merchandisingSiteContextService.getSiteContext(),
@@ -38,7 +38,7 @@ export class CdsMerchandisingProductService {
       map(
         ([siteContext, userContext]: [
           MerchandisingSiteContext,
-          MerchandisingUserContext
+          MerchandisingUserContext,
         ]) => {
           return {
             queryParams: {
@@ -55,13 +55,13 @@ export class CdsMerchandisingProductService {
               consentReference: userContext.consentReference,
             },
           };
-        }
+        },
       ),
       mergeMap((request) =>
         this.strategyConnector
           .loadProductsForStrategy(strategyId, request)
-          .pipe(map((products) => ({ request, products })))
-      )
+          .pipe(map((products) => ({ request, products }))),
+      ),
     );
   }
 }

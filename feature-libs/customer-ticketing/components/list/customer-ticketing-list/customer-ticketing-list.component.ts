@@ -26,7 +26,7 @@ export class CustomerTicketingListComponent {
     protected customerTicketingFacade: CustomerTicketingFacade,
     protected routingService: RoutingService,
     protected translationService: TranslationService,
-    protected customerTicketingConfig: CustomerTicketingConfig
+    protected customerTicketingConfig: CustomerTicketingConfig,
   ) {}
   PAGE_SIZE =
     this.customerTicketingConfig.customerTicketing?.listViewPageSize || 5;
@@ -53,7 +53,7 @@ export class CustomerTicketingListComponent {
           byTicketId: textByTicketId,
           byDate: textByDate,
         };
-      })
+      }),
     );
   }
 
@@ -69,7 +69,7 @@ export class CustomerTicketingListComponent {
 
   createTicketListEvent(
     sortCode: string,
-    currentPage: number
+    currentPage: number,
   ): { currentPage: number; sortCode: string } {
     return {
       currentPage: currentPage,
@@ -84,7 +84,7 @@ export class CustomerTicketingListComponent {
     this.tickets$ = this.customerTicketingFacade.getTickets(
       this.PAGE_SIZE,
       ticketListParams.currentPage,
-      ticketListParams.sortCode
+      ticketListParams.sortCode,
     );
   }
 

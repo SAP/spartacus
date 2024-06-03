@@ -20,7 +20,7 @@ export abstract class AccountSummaryAdapter {
 
   abstract getAccountSummary(
     userId: string,
-    orgUnitId: string
+    orgUnitId: string,
   ): Observable<AccountSummaryDetails>;
 
   /**
@@ -32,7 +32,7 @@ export abstract class AccountSummaryAdapter {
   abstract getDocumentList(
     userId: string,
     orgUnitId: string,
-    params: DocumentQueryParams
+    params: DocumentQueryParams,
   ): Observable<AccountSummaryList>;
 
   /**
@@ -47,6 +47,6 @@ export abstract class AccountSummaryAdapter {
     userId: string,
     orgUnitId: string,
     orgDocumentId: string,
-    orgDocumentAttachmentId: string
+    orgDocumentAttachmentId: string,
   ): Observable<Blob>;
 }

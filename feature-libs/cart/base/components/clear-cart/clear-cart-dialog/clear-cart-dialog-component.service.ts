@@ -31,7 +31,7 @@ export class ClearCartDialogComponentService {
     protected activeCartFacade: ActiveCartFacade,
     protected multiCartFacade: MultiCartFacade,
     protected userIdService: UserIdService,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   /**
@@ -49,10 +49,10 @@ export class ClearCartDialogComponentService {
         switchMap(() =>
           merge(
             this.eventService.get(DeleteCartSuccessEvent).pipe(map(() => true)),
-            this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
-          ).pipe(take(1))
+            this.eventService.get(DeleteCartFailEvent).pipe(map(() => false)),
+          ).pipe(take(1)),
         ),
-        tap(() => this.closeDialog('Close dialog after cart cleared'))
+        tap(() => this.closeDialog('Close dialog after cart cleared')),
       )
       .subscribe((success: boolean) => {
         this.displayGlobalMessage(success);
@@ -79,7 +79,7 @@ export class ClearCartDialogComponentService {
     if (success) {
       this.globalMessageService.add(
         { key: 'clearCart.cartClearedSuccessfully' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     }
   }

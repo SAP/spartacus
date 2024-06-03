@@ -22,13 +22,13 @@ import { UserChangePasswordFormService } from './user-change-password-form.servi
 })
 export class UserChangePasswordFormComponent {
   form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(
-    map((item) => this.formService.getForm(item))
+    map((item) => this.formService.getForm(item)),
   );
 
   constructor(
     protected itemService: UserItemService,
     protected formService: UserChangePasswordFormService,
-    protected messageService: MessageService
+    protected messageService: MessageService,
   ) {}
 
   save(form: UntypedFormGroup): void {
@@ -42,9 +42,9 @@ export class UserChangePasswordFormComponent {
             map((data) => ({
               ...item,
               ...data.item,
-            }))
-          )
-        )
+            })),
+          ),
+        ),
       )
       .subscribe((data) => {
         this.notify(data);

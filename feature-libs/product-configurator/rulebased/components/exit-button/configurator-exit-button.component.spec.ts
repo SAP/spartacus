@@ -48,8 +48,8 @@ let configuration: Configurator.Configuration =
     'a',
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
-    )
+      PRODUCT_CODE,
+    ),
   );
 
 class MockConfiguratorRouterExtractorService {
@@ -108,43 +108,41 @@ describe('ConfiguratorExitButton', () => {
   let routingService: RoutingService;
   let breakpointService: BreakpointService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [ConfiguratorExitButtonComponent],
-        providers: [
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [ConfiguratorExitButtonComponent],
+      providers: [
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorExitButtonComponent);
     component = fixture.componentInstance;
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
     breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
+      BreakpointService as Type<BreakpointService>,
     );
     htmlElem = fixture.nativeElement;
     fixture.detectChanges();
@@ -185,7 +183,7 @@ describe('ConfiguratorExitButton', () => {
         expect,
         htmlElem,
         'button',
-        'configurator.button.exitMobile'
+        'configurator.button.exitMobile',
       );
     });
 
@@ -201,7 +199,7 @@ describe('ConfiguratorExitButton', () => {
         'btn-tertiary',
         0,
         'title',
-        'configurator.button.exit'
+        'configurator.button.exit',
       );
     });
 
@@ -214,7 +212,7 @@ describe('ConfiguratorExitButton', () => {
         expect,
         htmlElem,
         'button',
-        'configurator.button.exit'
+        'configurator.button.exit',
       );
     });
 
@@ -227,7 +225,7 @@ describe('ConfiguratorExitButton', () => {
         expect,
         htmlElem,
         'button',
-        'configurator.button.exit'
+        'configurator.button.exit',
       );
     });
 
@@ -240,7 +238,7 @@ describe('ConfiguratorExitButton', () => {
         expect,
         htmlElem,
         'button',
-        'configurator.button.cancelConfigurationMobile'
+        'configurator.button.cancelConfigurationMobile',
       );
     });
 
@@ -256,7 +254,7 @@ describe('ConfiguratorExitButton', () => {
         'btn-tertiary',
         0,
         'title',
-        'configurator.button.cancelConfiguration'
+        'configurator.button.cancelConfiguration',
       );
     });
 
@@ -269,7 +267,7 @@ describe('ConfiguratorExitButton', () => {
         expect,
         htmlElem,
         'button',
-        'configurator.button.cancelConfiguration'
+        'configurator.button.cancelConfiguration',
       );
     });
 
@@ -285,7 +283,7 @@ describe('ConfiguratorExitButton', () => {
         'btn-tertiary',
         0,
         'title',
-        'configurator.button.cancelConfiguration'
+        'configurator.button.cancelConfiguration',
       );
     });
   });

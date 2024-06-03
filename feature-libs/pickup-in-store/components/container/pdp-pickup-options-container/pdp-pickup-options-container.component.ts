@@ -42,7 +42,7 @@ import {
 
 /** Custom type guard to ensure we have a product a defined code */
 function isProductWithCode(
-  product: Product | null
+  product: Product | null,
 ): product is RequiredDeepPath<Product, 'code'> {
   return !!product?.code;
 }
@@ -72,7 +72,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     protected pickupOptionFacade: PickupOptionFacade,
     protected preferredStoreFacade: PreferredStoreFacade,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
   ) {
     // Intentional empty constructor
   }
@@ -89,8 +89,8 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       tap(
         (productCode) =>
           (this.pickupOption$ =
-            this.intendedPickupLocationService.getPickupOption(productCode))
-      )
+            this.intendedPickupLocationService.getPickupOption(productCode)),
+      ),
     );
 
     this.displayPickupLocation$ = this.currentProductService.getProduct().pipe(
@@ -99,7 +99,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       switchMap((productCode) =>
         this.intendedPickupLocationService
           .getIntendedLocation(productCode)
-          .pipe(map((intendedLocation) => ({ intendedLocation, productCode })))
+          .pipe(map((intendedLocation) => ({ intendedLocation, productCode }))),
       ),
       switchMap(({ intendedLocation, productCode }) =>
         iif(
@@ -110,10 +110,10 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
             .pipe(
               map(({ name }) => name),
               tap((storeName) =>
-                this.pickupLocationsSearchService.loadStoreDetails(storeName)
+                this.pickupLocationsSearchService.loadStoreDetails(storeName),
               ),
               concatMap((storeName: string) =>
-                this.pickupLocationsSearchService.getStoreDetails(storeName)
+                this.pickupLocationsSearchService.getStoreDetails(storeName),
               ),
               filter((storeDetails) => !!storeDetails),
               tap((storeDetails) => {
@@ -122,21 +122,21 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
                   {
                     ...storeDetails,
                     pickupOption: 'delivery',
-                  }
+                  },
                 );
-              })
-            )
-        )
+              }),
+            ),
+        ),
       ),
-      tap(() => (this.displayNameIsSet = true))
+      tap(() => (this.displayNameIsSet = true)),
     );
 
     this.intendedPickupLocation$ = this.currentProductService.getProduct().pipe(
       filter(isProductWithCode),
       map((product) => product.code),
       switchMap((productCode) =>
-        this.intendedPickupLocationService.getIntendedLocation(productCode)
-      )
+        this.intendedPickupLocationService.getIntendedLocation(productCode),
+      ),
     );
 
     this.subscription.add(
@@ -144,15 +144,15 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
         productCode$,
         this.launchDialogService.dialogClose.pipe(
           filter((reason) => reason !== undefined),
-          startWith(undefined)
+          startWith(undefined),
         ),
       ])
         .pipe(
           switchMap(([productCode]) =>
-            this.intendedPickupLocationService.getIntendedLocation(productCode)
-          )
+            this.intendedPickupLocationService.getIntendedLocation(productCode),
+          ),
         )
-        .subscribe()
+        .subscribe(),
     );
   }
 
@@ -165,7 +165,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.PICKUP_IN_STORE,
       this.element,
       this.vcr,
-      { productCode: this.productCode }
+      { productCode: this.productCode },
     );
 
     if (dialog) {
@@ -176,7 +176,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   onPickupOptionChange(option: PickupOption) {
     this.intendedPickupLocationService.setPickupOption(
       this.productCode,
-      option
+      option,
     );
     if (option === 'delivery') {
       return;

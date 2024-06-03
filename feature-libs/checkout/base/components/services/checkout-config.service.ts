@@ -24,7 +24,7 @@ export class CheckoutConfigService {
 
   protected compareDeliveryCost(
     deliveryMode1: DeliveryMode,
-    deliveryMode2: DeliveryMode
+    deliveryMode2: DeliveryMode,
   ): number {
     if (
       deliveryMode1.deliveryCost?.value &&
@@ -43,7 +43,7 @@ export class CheckoutConfigService {
 
   protected findMatchingDeliveryMode(
     deliveryModes: DeliveryMode[],
-    index = 0
+    index = 0,
   ): string | undefined {
     switch (this.defaultDeliveryMode[index]) {
       case DeliveryModePreferences.FREE:
@@ -53,7 +53,7 @@ export class CheckoutConfigService {
         break;
       case DeliveryModePreferences.LEAST_EXPENSIVE:
         const leastExpensiveFound = deliveryModes.find(
-          (deliveryMode) => deliveryMode.deliveryCost?.value !== 0
+          (deliveryMode) => deliveryMode.deliveryCost?.value !== 0,
         );
         if (leastExpensiveFound) {
           return leastExpensiveFound.code;
@@ -64,7 +64,7 @@ export class CheckoutConfigService {
       default:
         const codeFound = deliveryModes.find(
           (deliveryMode) =>
-            deliveryMode.code === this.defaultDeliveryMode[index]
+            deliveryMode.code === this.defaultDeliveryMode[index],
         );
         if (codeFound) {
           return codeFound.code;

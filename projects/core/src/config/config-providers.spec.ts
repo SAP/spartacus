@@ -14,7 +14,7 @@ describe('Config Providers', () => {
   const testConfigFactory: ConfigFactory = () =>
     ({
       test: 'test',
-    } as Config);
+    }) as Config;
 
   describe('provideConfig', () => {
     it('should return ConfigChunk provider', () => {

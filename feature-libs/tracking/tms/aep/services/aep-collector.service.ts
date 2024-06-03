@@ -34,7 +34,7 @@ export class AepCollectorService implements TmsCollector {
   pushEvent<T extends CxEvent>(
     config: TmsCollectorConfig,
     windowObject: WindowObject,
-    event: T | any
+    event: T | any,
   ): void {
     const dataLayerProperty = config.dataLayerProperty ?? 'digitalData';
     windowObject[dataLayerProperty] = {

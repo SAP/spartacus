@@ -25,7 +25,7 @@ import * as fromEffect from './anonymous-consents.effect';
 const getTemplatesBehavior = new BehaviorSubject<ConsentTemplate[]>([]);
 const getConsentsBehavior = new BehaviorSubject<AnonymousConsent[]>([]);
 const loadAnonymousConsentsBehavior = new BehaviorSubject<AnonymousConsent[]>(
-  []
+  [],
 );
 
 class MockUserConsentService {
@@ -65,13 +65,13 @@ class MockAnonymousConsentsService {
   getConsents = () => getConsentsBehavior;
   detectUpdatedVersion(
     _currentVersions: number[],
-    _newVersions: number[]
+    _newVersions: number[],
   ): boolean {
     return false;
   }
   detectUpdatedTemplates(
     _currentTemplates: ConsentTemplate[],
-    _newTemplates: ConsentTemplate[]
+    _newTemplates: ConsentTemplate[],
   ): boolean {
     return false;
   }
@@ -79,7 +79,7 @@ class MockAnonymousConsentsService {
     return EMPTY;
   }
   getAnonymousConsentTemplate(
-    _templateCode: string
+    _templateCode: string,
   ): Observable<ConsentTemplate> {
     return EMPTY;
   }
@@ -91,7 +91,7 @@ class MockAnonymousConsentsService {
   }
   consentsUpdated(
     _newConsents: AnonymousConsent[],
-    _previousConsents: AnonymousConsent[]
+    _previousConsents: AnonymousConsent[],
   ): boolean {
     return false;
   }
@@ -229,21 +229,21 @@ describe('AnonymousConsentsEffects', () => {
     it('should return LoadAnonymousConsentTemplatesSuccess and ToggleAnonymousConsentTemplatesUpdated', () => {
       getTemplatesBehavior.next(mockTemplateList);
       spyOn(connector, 'loadAnonymousConsentTemplates').and.returnValue(
-        of(mockTemplateList)
+        of(mockTemplateList),
       );
       spyOn(anonymousConsentService, 'detectUpdatedTemplates').and.returnValue(
-        false
+        false,
       );
 
       const action =
         new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
       const completion1 =
         new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-          mockTemplateList
+          mockTemplateList,
         );
       const completion2 =
         new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
-          false
+          false,
         );
 
       actions$ = hot('-a', { a: action });
@@ -251,7 +251,7 @@ describe('AnonymousConsentsEffects', () => {
 
       expect(effect.loadAnonymousConsentTemplates$).toBeObservable(expected);
       expect(
-        anonymousConsentService.detectUpdatedTemplates
+        anonymousConsentService.detectUpdatedTemplates,
       ).toHaveBeenCalledWith(mockTemplateList, mockTemplateList);
     });
   });
@@ -270,10 +270,10 @@ describe('AnonymousConsentsEffects', () => {
 
     it('should return TransferAnonymousConsent', () => {
       spyOn(anonymousConsentService, 'getConsents').and.returnValue(
-        of(mockAnonymousConsents)
+        of(mockAnonymousConsents),
       );
       spyOn(anonymousConsentService, 'getTemplates').and.returnValue(
-        of(mockTemplateList)
+        of(mockTemplateList),
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
@@ -300,10 +300,10 @@ describe('AnonymousConsentsEffects', () => {
   describe('giveRequiredConsentsToUser$', () => {
     it('should return GiveUserConsent for all required consents', () => {
       spyOn(userConsentService, 'getConsentsResultSuccess').and.returnValue(
-        of(true)
+        of(true),
       );
       spyOn(userConsentService, 'getConsents').and.returnValue(
-        of(consentTemplateListMock)
+        of(consentTemplateListMock),
       );
       spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
 
@@ -334,10 +334,10 @@ describe('AnonymousConsentsEffects', () => {
 
     it('should get consents if they are not loaded', () => {
       spyOn(userConsentService, 'getConsentsResultSuccess').and.returnValue(
-        of(false)
+        of(false),
       );
       spyOn(userConsentService, 'getConsents').and.returnValue(
-        of(consentTemplateListMock)
+        of(consentTemplateListMock),
       );
       spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
 
@@ -372,7 +372,7 @@ describe('AnonymousConsentsEffects', () => {
 
     it('should not dispatch if consent is given', () => {
       spyOn(userConsentService, 'getConsentsResultSuccess').and.returnValue(
-        of(true)
+        of(true),
       );
       spyOn(userConsentService, 'getConsents').and.returnValue(
         of([
@@ -383,7 +383,7 @@ describe('AnonymousConsentsEffects', () => {
               consentGivenDate: new Date(),
             },
           },
-        ])
+        ]),
       );
 
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));

@@ -20,7 +20,7 @@ export abstract class PDFInvoicesAdapter {
   abstract getInvoicesForOrder(
     userId: string,
     orderId: string,
-    queryParams: InvoiceQueryParams
+    queryParams: InvoiceQueryParams,
   ): Observable<OrderInvoiceList>;
 
   /**
@@ -34,6 +34,6 @@ export abstract class PDFInvoicesAdapter {
     userId: string,
     orderId: string,
     invoiceId: string,
-    externalSystemId?: string
+    externalSystemId?: string,
   ): Observable<Blob>;
 }

@@ -21,7 +21,7 @@ export class ProductSearchConnector {
 
   search(
     query: string,
-    searchConfig?: SearchConfig
+    searchConfig?: SearchConfig,
   ): Observable<ProductSearchPage> {
     return this.adapter.search(query, searchConfig);
   }

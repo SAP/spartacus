@@ -202,7 +202,7 @@ describe('AsmBindCartComponent', () => {
     spyOn(asmBindCartFacade, 'bindCart').and.returnValue(of(undefined));
     spyOn(multiCartFacade, 'reloadCart').and.stub();
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(
-      of(prevActiveCartId)
+      of(prevActiveCartId),
     );
     spyOn(asmComponentService, 'setShowDeeplinkCartInfoAlert').and.stub();
     spyOn(routingService, 'go').and.callThrough();
@@ -256,7 +256,7 @@ describe('AsmBindCartComponent', () => {
     it('should bind cart without saving the active cart when active cart is empty', () => {
       const emptyCart: Cart = { ...prevActiveCart, deliveryItemsQuantity: 0 };
       (activeCartFacade.getActive as jasmine.Spy).and.returnValue(
-        of(emptyCart)
+        of(emptyCart),
       );
 
       component.bindCartToCustomer();
@@ -270,7 +270,7 @@ describe('AsmBindCartComponent', () => {
 
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.ASM_BIND_CART,
-        jasmine.anything()
+        jasmine.anything(),
       );
     });
 
@@ -301,7 +301,7 @@ describe('AsmBindCartComponent', () => {
         component.bindCartToCustomer();
 
         expect(multiCartFacade.reloadCart).toHaveBeenCalledWith(
-          OCC_CART_ID_CURRENT
+          OCC_CART_ID_CURRENT,
         );
       });
 
@@ -310,7 +310,7 @@ describe('AsmBindCartComponent', () => {
 
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'asm.bindCart.success' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
       });
 
@@ -327,14 +327,14 @@ describe('AsmBindCartComponent', () => {
         (asmBindCartFacade.bindCart as jasmine.Spy).and.returnValue(
           throwError(() => ({
             details: [{ message: expectedErrorMessage }],
-          }))
+          })),
         );
 
         component.bindCartToCustomer();
 
         expect(globalMessageService.add).toHaveBeenCalledWith(
           expectedErrorMessage,
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
 
@@ -368,19 +368,19 @@ describe('AsmBindCartComponent', () => {
       spyOn(component.displayBindCartBtn$, 'next').and.stub();
       spyOn(component.displaySaveCartBtn$, 'next').and.stub();
       spyOn(asmComponentService, 'isEmulatedByDeepLink').and.returnValue(
-        new BehaviorSubject(true)
+        new BehaviorSubject(true),
       );
     });
 
     it('should subscribe deeplink inactive cart', () => {
       spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
-        'inactive'
+        'inactive',
       );
 
       component.ngOnInit();
 
       expect(
-        asmComponentService.setShowDeeplinkCartInfoAlert
+        asmComponentService.setShowDeeplinkCartInfoAlert,
       ).toHaveBeenCalledWith(true);
       expect(component.displayBindCartBtn$.next).toHaveBeenCalledWith(false);
       expect(component.displaySaveCartBtn$.next).toHaveBeenCalledWith(true);
@@ -388,7 +388,7 @@ describe('AsmBindCartComponent', () => {
 
     it('should subscribe deeplink active cart', () => {
       spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
-        'active'
+        'active',
       );
       spyOn(asmComponentService, 'getDeepLinkUrlParams').and.returnValue({
         cartType: 'active',
@@ -414,14 +414,14 @@ describe('AsmBindCartComponent', () => {
           value: {
             code: inactiveCartId,
           },
-        })
+        }),
       );
     });
 
     it('should close inactive cart info alert', () => {
       component.onSaveInactiveCart();
       expect(
-        asmComponentService.setShowDeeplinkCartInfoAlert
+        asmComponentService.setShowDeeplinkCartInfoAlert,
       ).toHaveBeenCalledWith(false);
     });
 
@@ -431,7 +431,7 @@ describe('AsmBindCartComponent', () => {
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.ASM_SAVE_CART,
         undefined,
-        jasmine.anything()
+        jasmine.anything(),
       );
     });
 
@@ -444,7 +444,7 @@ describe('AsmBindCartComponent', () => {
 
       it('should navigate to saved cart detail page after save cart successed', () => {
         spyOn(savedCartFacade, 'getSaveCartProcessSuccess').and.returnValue(
-          of(true)
+          of(true),
         );
         spyOn(component.displayBindCartBtn$, 'next').and.stub();
         spyOn(component.displaySaveCartBtn$, 'next').and.stub();
@@ -456,13 +456,13 @@ describe('AsmBindCartComponent', () => {
 
       it('should not navigate to saved cart detail page after save cart failed', () => {
         spyOn(savedCartFacade, 'getSaveCartProcessError').and.returnValue(
-          of(true)
+          of(true),
         );
         spyOn(component.displaySaveCartBtn$, 'next').and.stub();
         component.onSaveInactiveCart();
         expect(routingService.go).not.toHaveBeenCalled();
         expect(component.displaySaveCartBtn$.next).not.toHaveBeenCalledWith(
-          false
+          false,
         );
       });
     });

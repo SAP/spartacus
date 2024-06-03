@@ -43,7 +43,7 @@ export class CouponDialogComponent implements OnDestroy, OnInit {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
+    protected el: ElementRef,
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +52,7 @@ export class CouponDialogComponent implements OnDestroy, OnInit {
         if (data) {
           this.coupon = data.coupon;
         }
-      })
+      }),
     );
   }
 

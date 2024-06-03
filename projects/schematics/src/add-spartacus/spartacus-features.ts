@@ -32,7 +32,7 @@ export function setupSpartacusFeaturesModule(options: SpartacusOptions): Rule {
 
     if (!buildPaths.length) {
       throw new SchematicsException(
-        `Could not find any tsconfig file. Cannot configure ${SPARTACUS_FEATURES_NG_MODULE}.`
+        `Could not find any tsconfig file. Cannot configure ${SPARTACUS_FEATURES_NG_MODULE}.`,
       );
     }
 
@@ -51,7 +51,7 @@ export function setupSpartacusFeaturesModule(options: SpartacusOptions): Rule {
 function configureSpartacusModules(
   tree: Tree,
   tsconfigPath: string,
-  basePath: string
+  basePath: string,
 ): void {
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
@@ -76,7 +76,7 @@ function configureSpartacusModules(
             ],
             content,
           });
-        }
+        },
       );
 
       [

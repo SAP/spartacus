@@ -21,7 +21,7 @@ export function getPickupReducers(): ActionReducerMap<PickupOptionState> {
 export const pickupOptionReducersToken: InjectionToken<
   ActionReducerMap<PickupOptionState>
 > = new InjectionToken<ActionReducerMap<PickupOptionState>>(
-  'PickupOptionReducers'
+  'PickupOptionReducers',
 );
 export const pickupOptionReducersProvider: Provider = {
   provide: pickupOptionReducersToken,

@@ -7,13 +7,13 @@ import { GeoPoint, SearchConfig } from '@spartacus/core';
 
 class MockStoreFinderAdapter implements StoreFinderAdapter {
   search = createSpy('adapter.search').and.returnValue(
-    of(`adapter.search result`)
+    of(`adapter.search result`),
   );
 
   load = createSpy('adapter.load').and.returnValue(of(`adapter.load result`));
 
   loadCounts = createSpy('adapter.loadCounts').and.returnValue(
-    of(`adapter.loadCounts result`)
+    of(`adapter.loadCounts result`),
   );
 }
 
@@ -52,7 +52,7 @@ describe('StoreFinderConnector', () => {
       'query',
       searchConfig,
       geoPoint,
-      radius
+      radius,
     );
   });
 

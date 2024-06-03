@@ -15,7 +15,7 @@ export class MockDatePipe extends DatePipe implements PipeTransform {
     value: Date | string | number | null | undefined,
     format?: string,
     timezone?: string,
-    locale = 'en'
+    locale = 'en',
   ): string | null {
     return super.transform(value, format, timezone, locale);
   }

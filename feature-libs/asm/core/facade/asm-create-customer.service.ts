@@ -22,7 +22,7 @@ export class AsmCreateCustomerService implements AsmCreateCustomerFacade {
 
   constructor(
     protected asmConnector: AsmConnector,
-    protected command: CommandService
+    protected command: CommandService,
   ) {}
 
   createCustomer(user: CustomerRegistrationForm): Observable<User> {

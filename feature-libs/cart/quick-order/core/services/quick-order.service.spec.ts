@@ -78,7 +78,7 @@ const mockProductSearchPage: ProductSearchPage = {
 class MockProductSearchConnector implements Partial<ProductSearchConnector> {
   search(
     _query: string,
-    _searchConfig?: SearchConfig
+    _searchConfig?: SearchConfig,
   ): Observable<ProductSearchPage> {
     return of(mockProductSearchPage);
   }
@@ -182,7 +182,7 @@ describe('QuickOrderService', () => {
   describe('should trigger search products', () => {
     beforeEach(() => {
       spyOn(productSearchConnector, 'search').and.returnValue(
-        of(mockProductSearchPage)
+        of(mockProductSearchPage),
       );
     });
 
@@ -193,7 +193,7 @@ describe('QuickOrderService', () => {
         .subscribe(() => {
           expect(productSearchConnector.search).toHaveBeenCalledWith(
             mockProduct1Code,
-            mockSearchConfig
+            mockSearchConfig,
           );
           done();
         });
@@ -206,7 +206,7 @@ describe('QuickOrderService', () => {
         .subscribe(() => {
           expect(productSearchConnector.search).toHaveBeenCalledWith(
             mockProduct1Code,
-            mockDefaultSearchConfig
+            mockDefaultSearchConfig,
           );
           done();
         });
@@ -342,7 +342,7 @@ describe('QuickOrderService', () => {
 
             shouldCheck = false;
           }
-        })
+        }),
       )
       .subscribe((result) => {
         softDeletedEntries = result;
@@ -391,7 +391,7 @@ describe('QuickOrderService', () => {
         tap((softDeletedEntries) => {
           expect(softDeletedEntries).toEqual({ mockCode1: mockEntry1 });
         }),
-        tap(() => service.restoreSoftDeletedEntry(mockProduct1Code))
+        tap(() => service.restoreSoftDeletedEntry(mockProduct1Code)),
       )
       .subscribe((result) => {
         expect(result).toEqual({});

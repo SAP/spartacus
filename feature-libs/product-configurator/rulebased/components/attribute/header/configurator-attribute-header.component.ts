@@ -50,7 +50,7 @@ export class ConfiguratorAttributeHeaderComponent
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configuratorUiSettings: ConfiguratorUISettingsConfig,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -115,7 +115,7 @@ export class ConfiguratorAttributeHeaderComponent
   }
 
   protected isAttributeWithoutErrorMsg(
-    uiType: Configurator.UiType | undefined
+    uiType: Configurator.UiType | undefined,
   ): boolean {
     switch (uiType) {
       case Configurator.UiType.NOT_IMPLEMENTED:
@@ -171,8 +171,8 @@ export class ConfiguratorAttributeHeaderComponent
     return this.groupType === Configurator.GroupType.CONFLICT_GROUP
       ? 'configurator.conflict.viewConfigurationDetails'
       : this.isNavigationToConflictEnabled()
-      ? 'configurator.conflict.viewConflictDetails'
-      : 'configurator.conflict.conflictDetected';
+        ? 'configurator.conflict.viewConflictDetails'
+        : 'configurator.conflict.conflictDetected';
   }
 
   /**
@@ -210,13 +210,13 @@ export class ConfiguratorAttributeHeaderComponent
         if (groupId) {
           this.configuratorGroupsService.navigateToGroup(
             configuration,
-            groupId
+            groupId,
           );
           this.focusValue(this.attribute);
           this.scrollToAttribute(this.attribute.name);
         } else {
           this.logError(
-            'Attribute was not found in any conflict group. Note that for this navigation, commerce 22.05 or later is required. Consider to disable setting "enableNavigationToConflict"'
+            'Attribute was not found in any conflict group. Note that for this navigation, commerce 22.05 or later is required. Consider to disable setting "enableNavigationToConflict"',
           );
         }
       });
@@ -230,22 +230,22 @@ export class ConfiguratorAttributeHeaderComponent
   protected scrollToAttribute(name: string) {
     this.onNavigationCompleted(() =>
       this.configUtils.scrollToConfigurationElement(
-        '#' + this.createAttributeUiKey('label', name)
-      )
+        '#' + this.createAttributeUiKey('label', name),
+      ),
     );
   }
 
   findConflictGroupId(
     configuration: Configurator.Configuration,
-    currentAttribute: Configurator.Attribute
+    currentAttribute: Configurator.Attribute,
   ): string | undefined {
     return configuration.flatGroups
       .filter(
-        (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
+        (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP,
       )
       .find((group) => {
         return group.attributes?.find(
-          (attribute) => attribute.key === currentAttribute.key
+          (attribute) => attribute.key === currentAttribute.key,
         );
       })?.id;
   }
@@ -280,9 +280,9 @@ export class ConfiguratorAttributeHeaderComponent
             .pipe(
               filter((isLoading) => !isLoading),
               take(1),
-              delay(0) //we need to consider the re-rendering of the page
-            )
-        )
+              delay(0), //we need to consider the re-rendering of the page
+            ),
+        ),
       )
       .subscribe(callback);
   }

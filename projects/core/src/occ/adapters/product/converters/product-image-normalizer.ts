@@ -46,7 +46,7 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
           const imageContainer: ImageGroup = this.getImageContainer(
             isList,
             images,
-            image
+            image,
           );
 
           const targetImage = { ...image };
@@ -63,7 +63,7 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
   protected getImageContainer(
     isList: boolean,
     images: Images,
-    image: Occ.Image | any
+    image: Occ.Image | any,
   ) {
     if (isList) {
       const imageGroups = this.getImageGroups(images, image);

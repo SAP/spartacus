@@ -2,13 +2,13 @@
   <div
     class="cx-product-card"
     [ngClass]="{
-      'cx-product-card-selected': isProductCardSelected()
+      'cx-product-card-selected': isProductCardSelected(),
     }"
     [attr.aria-label]="
       'configurator.a11y.itemOfAttribute'
         | cxTranslate
           : {
-              attribute: productCardOptions.attributeLabel
+              attribute: productCardOptions.attributeLabel,
             }
     "
   >

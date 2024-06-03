@@ -29,7 +29,7 @@ context('Homepage', { testIsolation: false }, () => {
       cy.get('cx-navigation-ui > nav > ul > li').should('have.length', 3);
       cy.get('cx-navigation-ui > nav > ul > li > span').should(
         'have.length',
-        3
+        3,
       );
       cy.get('cx-generic-link').should('have.length', 8);
     });

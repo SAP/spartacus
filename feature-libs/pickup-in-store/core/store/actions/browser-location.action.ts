@@ -15,5 +15,5 @@ export type AddBrowserLocationProps = {
 
 export const AddBrowserLocation = createAction(
   ADD_BROWSER_LOCATION,
-  props<{ payload: AddBrowserLocationProps }>()
+  props<{ payload: AddBrowserLocationProps }>(),
 );

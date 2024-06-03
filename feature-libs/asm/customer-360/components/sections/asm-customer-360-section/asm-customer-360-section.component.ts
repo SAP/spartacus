@@ -56,7 +56,9 @@ export class AsmCustomer360SectionComponent implements OnDestroy {
 
   constructor(protected source: AsmCustomer360SectionContextSource<unknown>) {
     this.subscription.add(
-      source.navigate$.subscribe((urlCommand) => this.navigate.emit(urlCommand))
+      source.navigate$.subscribe((urlCommand) =>
+        this.navigate.emit(urlCommand),
+      ),
     );
 
     this.subscription.add(() => {

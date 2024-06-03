@@ -43,8 +43,8 @@ export function interceptCartPageEndpoint() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+      'BASE_SITE',
+    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`,
   ).as(CART_PAGE_ALIAS);
 
   return CART_PAGE_ALIAS;
@@ -66,8 +66,8 @@ export function interceptAddToCartEndpoint() {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/${Cypress.env(
-      'OCC_PREFIX_USER_ENDPOINT'
-    )}/*/carts/*/entries*`
+      'OCC_PREFIX_USER_ENDPOINT',
+    )}/*/carts/*/entries*`,
   ).as(ADD_TO_CART_ENDPOINT_ALIAS);
 
   return ADD_TO_CART_ENDPOINT_ALIAS;
@@ -77,8 +77,8 @@ export function interceptOrdersEndpoint(): string {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orders?*`
+      'BASE_SITE',
+    )}/users/current/orders?*`,
   ).as(ORDERS_ALIAS);
 
   return ORDERS_ALIAS;
@@ -88,8 +88,8 @@ export function interceptCartFromOrderEndpoint(): string {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/orgUsers/current/cartFromOrder?*`
+      'BASE_SITE',
+    )}/orgUsers/current/cartFromOrder?*`,
   ).as(CART_FROM_ORDER_ALIAS);
 
   return CART_FROM_ORDER_ALIAS;
@@ -106,7 +106,7 @@ export const orderHistoryTest = {
   },
   checkRedirectLoggedInUser(
     sampleUser: SampleUser = user,
-    url: string = orderHistoryLink
+    url: string = orderHistoryLink,
   ) {
     it('should go to Order History once user has logged in', () => {
       login(sampleUser.email, sampleUser.password);
@@ -114,12 +114,12 @@ export const orderHistoryTest = {
       if (url === replenishmentOrderHistoryUrl) {
         cy.get('.cx-replenishment-order-history-header h3').should(
           'contain',
-          replenishmentOrderHistoryHeaderValue
+          replenishmentOrderHistoryHeaderValue,
         );
       } else {
         cy.get('.cx-order-history-header h2').should(
           'contain',
-          'Order history'
+          'Order history',
         );
       }
     });
@@ -144,7 +144,7 @@ export const orderHistoryTest = {
           cy.waitForOrderToBePlacedRequest(
             undefined,
             undefined,
-            orderData.body.code
+            orderData.body.code,
           );
           cy.visit('/my-account/orders');
           cy.get('cx-order-history h2').should('contain', 'Order history');
@@ -152,11 +152,11 @@ export const orderHistoryTest = {
           cy.get('.cx-order-history-cost-center').should('not.exist');
           cy.get('.cx-order-history-code > .cx-order-history-value').should(
             'contain',
-            orderData.body.code
+            orderData.body.code,
           );
           cy.get('.cx-order-history-total > .cx-order-history-value').should(
             'contain',
-            orderData.body.totalPrice.formattedValue
+            orderData.body.totalPrice.formattedValue,
           );
         });
       });
@@ -171,9 +171,9 @@ export const orderHistoryTest = {
       cy.get('.cx-order-history-code > .cx-order-history-value').then(
         ($orders) => {
           expect(parseInt($orders[0].textContent, 10)).to.be.lessThan(
-            parseInt($orders[1].textContent, 10)
+            parseInt($orders[1].textContent, 10),
           );
-        }
+        },
       );
     });
   },
@@ -231,7 +231,7 @@ export const orderHistoryTest = {
         cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
         cy.get('.cx-summary-total > .cx-summary-amount').should(
           'contain',
-          orderData.body.totalPrice.formattedValue
+          orderData.body.totalPrice.formattedValue,
         );
       });
     });
@@ -245,7 +245,7 @@ export function goToOrderDetails() {
 
   const orderDetailsPage = waitForPage(
     '/my-account/order/*',
-    'getOrderDetails'
+    'getOrderDetails',
   );
   cy.get('.cx-order-history-value').first().click();
   cy.wait(`@${orderDetailsPage}`).its('response.statusCode').should('eq', 200);

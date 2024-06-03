@@ -21,7 +21,7 @@ class MockOccEndpointsService {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ) {
     return this.getEndpoint(endpoint);
   }
@@ -116,7 +116,7 @@ describe('OccAccountSummaryAdapter', () => {
         'accountSummary',
         {
           urlParams: { userId, orgUnitId },
-        }
+        },
       );
 
       mockReq.flush(headerData);
@@ -259,7 +259,7 @@ describe('OccAccountSummaryAdapter', () => {
         {
           urlParams: { userId, orgUnitId },
           queryParams,
-        }
+        },
       );
 
       mockReq.flush(documentData);
@@ -278,7 +278,7 @@ describe('OccAccountSummaryAdapter', () => {
           userId,
           orgUnitId,
           orgDocumentId,
-          orgDocumentAttachmentId
+          orgDocumentAttachmentId,
         )
         .subscribe((res) => {
           result = res;
@@ -301,7 +301,7 @@ describe('OccAccountSummaryAdapter', () => {
             orgDocumentId,
             orgDocumentAttachmentId,
           },
-        }
+        },
       );
 
       mockReq.flush(mockFile);

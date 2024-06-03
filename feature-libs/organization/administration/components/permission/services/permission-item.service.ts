@@ -24,7 +24,7 @@ export class PermissionItemService extends ItemService<Permission> {
     protected currentItemService: CurrentPermissionService,
     protected routingService: RoutingService,
     protected formService: PermissionFormService,
-    protected permissionService: PermissionService
+    protected permissionService: PermissionService,
   ) {
     super(currentItemService, routingService, formService);
   }
@@ -36,14 +36,14 @@ export class PermissionItemService extends ItemService<Permission> {
 
   update(
     code: string,
-    value: Permission
+    value: Permission,
   ): Observable<OrganizationItemStatus<Permission>> {
     this.permissionService.update(code, value);
     return this.permissionService.getLoadingStatus(value.code ?? '');
   }
 
   protected create(
-    value: Permission
+    value: Permission,
   ): Observable<OrganizationItemStatus<Permission>> {
     this.permissionService.create(value);
     return this.permissionService.getLoadingStatus(value.code ?? '');

@@ -18,7 +18,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('add-ssr', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -50,26 +50,26 @@ describe('add-ssr', () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runSchematic(
       'add-spartacus',
       { ...defaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runSchematic(
       'add-ssr',
       { ...defaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -119,7 +119,7 @@ describe('add-ssr', () => {
       const indexHtmlPath = getPathResultsForFile(
         appTree,
         'index.html',
-        '/src'
+        '/src',
       )[0];
       const indexHtml = appTree.readContent(indexHtmlPath);
       expect(indexHtml).toMatchSnapshot();

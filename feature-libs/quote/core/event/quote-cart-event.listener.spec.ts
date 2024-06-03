@@ -53,7 +53,7 @@ describe('QuoteCartEventListener', () => {
     classUnderTest = TestBed.inject(QuoteCartEventListener);
     expect(eventService.dispatch).toHaveBeenCalledWith(
       {},
-      QuoteDetailsReloadQueryEvent
+      QuoteDetailsReloadQueryEvent,
     );
   }
 

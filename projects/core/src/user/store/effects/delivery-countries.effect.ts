@@ -26,22 +26,22 @@ export class DeliveryCountriesEffects {
           return this.siteConnector.getCountries(CountryType.SHIPPING).pipe(
             map(
               (countries) =>
-                new UserActions.LoadDeliveryCountriesSuccess(countries)
+                new UserActions.LoadDeliveryCountriesSuccess(countries),
             ),
             catchError((error) =>
               of(
                 new UserActions.LoadDeliveryCountriesFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
-        })
-      )
+        }),
+      ),
     );
 
   constructor(
     private actions$: Actions,
-    private siteConnector: SiteConnector
+    private siteConnector: SiteConnector,
   ) {}
 }

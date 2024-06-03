@@ -37,13 +37,13 @@ export class SelectFocusUtility {
       return [];
     }
     return Array.from(
-      host?.querySelectorAll(selector) as NodeListOf<HTMLElement>
+      host?.querySelectorAll(selector) as NodeListOf<HTMLElement>,
     );
   }
 
   findFirstFocusable(
     host: HTMLElement | null | undefined,
-    config: AutoFocusConfig = { autofocus: true }
+    config: AutoFocusConfig = { autofocus: true },
   ): HTMLElement | undefined {
     const selector =
       typeof config?.autofocus === 'string' ? config.autofocus : '[autofocus]';
@@ -65,7 +65,7 @@ export class SelectFocusUtility {
   findFocusable(
     host: HTMLElement | null | undefined,
     locked = false,
-    invisible = false
+    invisible = false,
   ): HTMLElement[] {
     let suffix = this.focusableSelectorSuffix;
     if (!locked) {
@@ -75,7 +75,7 @@ export class SelectFocusUtility {
       .map((s) => (s += suffix))
       .join(',');
     return this.query(host, selector).filter((el) =>
-      !invisible ? !this.isHidden(el) : Boolean(el)
+      !invisible ? !this.isHidden(el) : Boolean(el),
     );
   }
 

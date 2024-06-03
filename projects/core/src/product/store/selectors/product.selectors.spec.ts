@@ -95,7 +95,9 @@ describe('Product Selectors', () => {
 
       subscription = store
         .pipe(
-          select(ProductSelectors.getSelectedProductLoadingFactory(code, scope))
+          select(
+            ProductSelectors.getSelectedProductLoadingFactory(code, scope),
+          ),
         )
         .subscribe((value) => (result = value));
 
@@ -125,7 +127,9 @@ describe('Product Selectors', () => {
 
       subscription = store
         .pipe(
-          select(ProductSelectors.getSelectedProductSuccessFactory(code, scope))
+          select(
+            ProductSelectors.getSelectedProductSuccessFactory(code, scope),
+          ),
         )
         .subscribe((value) => (result = value));
 
@@ -155,14 +159,14 @@ describe('Product Selectors', () => {
 
       subscription = store
         .pipe(
-          select(ProductSelectors.getSelectedProductErrorFactory(code, scope))
+          select(ProductSelectors.getSelectedProductErrorFactory(code, scope)),
         )
         .subscribe((value) => (result = value));
 
       expect(result).toBeFalsy();
 
       store.dispatch(
-        new ProductActions.LoadProductFail(code, undefined, scope)
+        new ProductActions.LoadProductFail(code, undefined, scope),
       );
       expect(result).toBeTruthy();
     });

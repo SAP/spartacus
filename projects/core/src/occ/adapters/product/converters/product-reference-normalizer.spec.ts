@@ -12,7 +12,7 @@ describe('ProductReferenceConverterService', () => {
     [ProductReferenceNormalizer],
     (productReferenceConverterService: ProductReferenceNormalizer) => {
       expect(productReferenceConverterService).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert product reference', inject(
@@ -20,6 +20,6 @@ describe('ProductReferenceConverterService', () => {
     (productReferenceConverterService: ProductReferenceNormalizer) => {
       spyOn(productReferenceConverterService, 'convert');
       expect(productReferenceConverterService.convert).toBeTruthy();
-    }
+    },
   ));
 });

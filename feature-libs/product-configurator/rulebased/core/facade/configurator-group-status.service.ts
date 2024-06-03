@@ -22,7 +22,7 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 export class ConfiguratorGroupStatusService {
   constructor(
     protected store: Store<StateWithConfigurator>,
-    protected configuratorUtilsService: ConfiguratorUtilsService
+    protected configuratorUtilsService: ConfiguratorUtilsService,
   ) {}
 
   /**
@@ -34,10 +34,10 @@ export class ConfiguratorGroupStatusService {
    */
   isGroupVisited(
     owner: CommonConfigurator.Owner,
-    groupId: string
+    groupId: string,
   ): Observable<boolean> {
     return this.store.select(
-      ConfiguratorSelectors.isGroupVisited(owner.key, groupId)
+      ConfiguratorSelectors.isGroupVisited(owner.key, groupId),
     );
   }
 
@@ -50,12 +50,13 @@ export class ConfiguratorGroupStatusService {
    * @return {Configurator.Group} - First incomplete group or undefined
    */
   getFirstIncompleteGroup(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Configurator.Group | undefined {
     return configuration.flatGroups
       ? configuration.flatGroups
           .filter(
-            (group) => group.groupType !== Configurator.GroupType.CONFLICT_GROUP
+            (group) =>
+              group.groupType !== Configurator.GroupType.CONFLICT_GROUP,
           )
           .find((group) => !group.complete)
       : undefined;
@@ -69,15 +70,15 @@ export class ConfiguratorGroupStatusService {
    */
   setGroupStatusVisited(
     configuration: Configurator.Configuration,
-    groupId: string
+    groupId: string,
   ): void {
     const group = this.configuratorUtilsService.getGroupById(
       configuration.groups,
-      groupId
+      groupId,
     );
     const parentGroup = this.configuratorUtilsService.getParentGroup(
       configuration.groups,
-      this.configuratorUtilsService.getGroupById(configuration.groups, groupId)
+      this.configuratorUtilsService.getGroupById(configuration.groups, groupId),
     );
 
     const visitedGroupIds = [];
@@ -87,7 +88,7 @@ export class ConfiguratorGroupStatusService {
         configuration,
         group.id,
         parentGroup,
-        visitedGroupIds
+        visitedGroupIds,
       );
     }
 
@@ -95,16 +96,16 @@ export class ConfiguratorGroupStatusService {
       new ConfiguratorActions.SetGroupsVisited({
         entityKey: configuration.owner.key,
         visitedGroups: visitedGroupIds,
-      })
+      }),
     );
   }
 
   protected areGroupsVisited(
     owner: CommonConfigurator.Owner,
-    groupIds: string[]
+    groupIds: string[],
   ): Observable<boolean> {
     return this.store.select(
-      ConfiguratorSelectors.areGroupsVisited(owner.key, groupIds)
+      ConfiguratorSelectors.areGroupsVisited(owner.key, groupIds),
     );
   }
 
@@ -112,7 +113,7 @@ export class ConfiguratorGroupStatusService {
     configuration: Configurator.Configuration,
     groupId: string,
     parentGroup: Configurator.Group,
-    visitedGroupIds: string[]
+    visitedGroupIds: string[],
   ) {
     const subGroups: string[] = [];
     parentGroup.subGroups.forEach((subGroup) => {
@@ -132,15 +133,15 @@ export class ConfiguratorGroupStatusService {
             configuration.groups,
             this.configuratorUtilsService.getGroupById(
               configuration.groups,
-              parentGroup.id
-            )
+              parentGroup.id,
+            ),
           );
           if (grandParentGroup) {
             this.getParentGroupStatusVisited(
               configuration,
               parentGroup.id,
               grandParentGroup,
-              visitedGroupIds
+              visitedGroupIds,
             );
           }
         }

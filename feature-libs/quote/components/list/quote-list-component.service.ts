@@ -40,7 +40,7 @@ export class QuoteListComponentService {
         if (quotesState.data?.sorts) {
           this.sortOptions = quotesState.data.sorts;
         }
-      })
+      }),
     );
 
   sortLabels$: Observable<{ [key: string]: string }> = combineLatest([
@@ -62,8 +62,8 @@ export class QuoteListComponentService {
           byName: textByQuoteName,
           byState: textByQuoteStatus,
         };
-      }
-    )
+      },
+    ),
   );
 
   /**

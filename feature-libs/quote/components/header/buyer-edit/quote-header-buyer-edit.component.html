@@ -31,7 +31,7 @@
                   showInfoText;
                   context: {
                     formControlName: 'name',
-                    charactersLimit: content.charactersLimit
+                    charactersLimit: content.charactersLimit,
                   }
                 "
               >
@@ -59,7 +59,7 @@
                   showInfoText;
                   context: {
                     formControlName: 'description',
-                    charactersLimit: content.charactersLimit
+                    charactersLimit: content.charactersLimit,
                   }
                 "
               >
@@ -99,7 +99,7 @@
       'quote.header.overview.charactersLeft'
         | cxTranslate
           : {
-              count: getCharactersLeft(formControlName, charactersLimit)
+              count: getCharactersLeft(formControlName, charactersLimit),
             }
     }}
   </p>

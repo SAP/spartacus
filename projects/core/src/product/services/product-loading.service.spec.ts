@@ -29,7 +29,7 @@ class MyEvent extends CxEvent {}
 
 class MockLoadingScopesService {
   expand = createSpy('expand').and.callFake(
-    (_: string, scopes: string[]) => scopes
+    (_: string, scopes: string[]) => scopes,
   );
   getMaxAge = createSpy('getMaxAge').and.returnValue(0);
   getReloadTriggers = createSpy('getReloadTriggers').and.returnValue([MyEvent]);
@@ -55,7 +55,7 @@ describe('ProductLoadingService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           PRODUCT_FEATURE,
-          fromStoreReducers.getReducers()
+          fromStoreReducers.getReducers(),
         ),
       ],
       providers: [
@@ -82,13 +82,13 @@ describe('ProductLoadingService', () => {
     [ProductLoadingService],
     (productService: ProductLoadingService) => {
       expect(productService).toBeTruthy();
-    }
+    },
   ));
 
   describe('get(productCode)', () => {
     it('should be able to get product by code', async () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(mockProduct)
+        () => () => of(mockProduct),
       );
       const result: Product = await lastValueFrom(service.get(code, ['']));
       expect(result).toEqual(mockProduct);
@@ -97,17 +97,17 @@ describe('ProductLoadingService', () => {
     describe('multiple scopes', () => {
       it('should be able to get product data', async () => {
         store.dispatch(
-          new ProductActions.LoadProductSuccess({ code }, 'scope1')
+          new ProductActions.LoadProductSuccess({ code }, 'scope1'),
         );
         store.dispatch(
           new ProductActions.LoadProductSuccess(
             { code, name: 'test' },
-            'scope2'
-          )
+            'scope2',
+          ),
         );
 
         const result: Product = await firstValueFrom(
-          service.get(code, ['scope1', 'scope2'])
+          service.get(code, ['scope1', 'scope2']),
         );
         expect(result).toEqual({ code, name: 'test' });
       });
@@ -117,12 +117,12 @@ describe('ProductLoadingService', () => {
         store.dispatch(
           new ProductActions.LoadProductSuccess(
             { code, name: 'test' },
-            'scope2'
-          )
+            'scope2',
+          ),
         );
 
         const result: Product = await firstValueFrom(
-          service.get(code, ['scope1', 'scope2'])
+          service.get(code, ['scope1', 'scope2']),
         );
         expect(result).toEqual(undefined);
       });
@@ -131,18 +131,18 @@ describe('ProductLoadingService', () => {
         store.dispatch(
           new ProductActions.LoadProductSuccess(
             { code, name: 'first', summary: 'a' },
-            'scope1'
-          )
+            'scope1',
+          ),
         );
         store.dispatch(
           new ProductActions.LoadProductSuccess(
             { code, name: 'second', description: 'b' },
-            'scope2'
-          )
+            'scope2',
+          ),
         );
 
         const result: Product = await firstValueFrom(
-          service.get(code, ['scope1', 'scope2'])
+          service.get(code, ['scope1', 'scope2']),
         );
         expect(result).toEqual({
           code,
@@ -155,19 +155,19 @@ describe('ProductLoadingService', () => {
       it('should take into account order of scopes for subsequent emissions', (done) => {
         const action1scope1 = new ProductActions.LoadProductSuccess(
           { code, name: 'first', summary: 'a' },
-          'scope1'
+          'scope1',
         );
         const action1scope2 = new ProductActions.LoadProductSuccess(
           { code, name: 'second', description: 'b' },
-          'scope2'
+          'scope2',
         );
         const action2scope1 = new ProductActions.LoadProductSuccess(
           { code, name: 'third', summary: 'c' },
-          'scope1'
+          'scope1',
         );
         const action2scope2 = new ProductActions.LoadProductSuccess(
           { code, name: 'fourth', description: 'e' },
-          'scope2'
+          'scope2',
         );
 
         const results: Product[] = [];
@@ -227,12 +227,12 @@ describe('ProductLoadingService', () => {
 
       await firstValueFrom(
         service.get('productCode', ['']).pipe(
-          delay(0) // give actions some time for dispatch
-        )
+          delay(0), // give actions some time for dispatch
+        ),
       );
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ProductActions.LoadProduct('productCode')
+        new ProductActions.LoadProduct('productCode'),
       );
     });
 
@@ -254,7 +254,7 @@ describe('ProductLoadingService', () => {
         loadStart$,
         loadSuccess$,
         30,
-        getTestScheduler()
+        getTestScheduler(),
       );
       const expected$ = cold('30ms a', { a: true });
 
@@ -268,7 +268,7 @@ describe('ProductLoadingService', () => {
         loadStart$,
         loadSuccess$,
         30,
-        getTestScheduler()
+        getTestScheduler(),
       );
       const expected$ = cold('');
 
@@ -282,7 +282,7 @@ describe('ProductLoadingService', () => {
         loadStart$,
         loadSuccess$,
         30,
-        getTestScheduler()
+        getTestScheduler(),
       );
       const expected$ = cold('80ms a', { a: true });
 
@@ -299,7 +299,7 @@ describe('ProductLoadingService', () => {
           loadStart$,
           loadSuccess$,
           50,
-          getTestScheduler()
+          getTestScheduler(),
         );
 
         /*
@@ -314,7 +314,7 @@ describe('ProductLoadingService', () => {
          */
         const subscriber$ = timer(0, 20, getTestScheduler()).pipe(
           take(3),
-          switchMap((intervalId) => (intervalId % 2 ? NEVER : trigger$))
+          switchMap((intervalId) => (intervalId % 2 ? NEVER : trigger$)),
         );
         const expected$ = cold('50ms a', { a: true });
 
@@ -330,7 +330,7 @@ describe('ProductLoadingService', () => {
           loadStart$,
           loadSuccess$,
           60,
-          getTestScheduler()
+          getTestScheduler(),
         );
 
         /*
@@ -345,7 +345,7 @@ describe('ProductLoadingService', () => {
          */
         const subscriber$ = timer(0, 40, getTestScheduler()).pipe(
           take(3),
-          switchMap((intervalId) => (intervalId % 2 ? NEVER : trigger$))
+          switchMap((intervalId) => (intervalId % 2 ? NEVER : trigger$)),
         );
         const expected$ = cold('80ms a', { a: true });
 

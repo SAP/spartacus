@@ -76,7 +76,7 @@ export function visitPage(page: string, alias?: string) {
 export function visitElectronicTicketListingPage() {
   visitPage(
     'electronics-spa/en/USD/my-account/support-tickets',
-    'ticketListingPage'
+    'ticketListingPage',
   );
 }
 
@@ -90,7 +90,7 @@ export function verifyGlobalMessage(globalMessage = 'Request created.') {
 export function visitApparelUKTicketListingPage() {
   visitPage(
     'apparel-uk-spa/en/GBP/my-account/support-tickets',
-    'apparelTicketListingPage'
+    'apparelTicketListingPage',
   );
 }
 
@@ -105,10 +105,10 @@ export function clickMyAccountMenuOption() {
 
 export function clickCustomerSupportMenuOption() {
   cy.get(
-    `.accNavComponent li:nth-child(${CUSTOMER_SUPPORT_MENU_OPTION_INDEX})`
+    `.accNavComponent li:nth-child(${CUSTOMER_SUPPORT_MENU_OPTION_INDEX})`,
   ).should('contain.text', 'Customer Service');
   cy.get(
-    `.accNavComponent li:nth-child(${CUSTOMER_SUPPORT_MENU_OPTION_INDEX}) a`
+    `.accNavComponent li:nth-child(${CUSTOMER_SUPPORT_MENU_OPTION_INDEX}) a`,
   ).click();
 }
 

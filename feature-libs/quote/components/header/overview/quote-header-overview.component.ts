@@ -126,7 +126,7 @@ export class QuoteHeaderOverviewComponent {
             },
           ],
         };
-      })
+      }),
     );
   }
 
@@ -154,7 +154,7 @@ export class QuoteHeaderOverviewComponent {
    */
   getEstimatedTotalAndExpiryDate(
     quote: Quote,
-    expiryDate?: string | null
+    expiryDate?: string | null,
   ): Observable<Card> {
     return combineLatest([
       this.translationService.translate('quote.header.overview.priceAndExpiry'),
@@ -178,7 +178,7 @@ export class QuoteHeaderOverviewComponent {
             },
           ],
         };
-      })
+      }),
     );
   }
 
@@ -191,15 +191,15 @@ export class QuoteHeaderOverviewComponent {
    */
   getCreatedAndUpdatedDates(
     createdDate?: string | null,
-    lastUpdatedDate?: string | null
+    lastUpdatedDate?: string | null,
   ): Observable<Card> {
     return combineLatest([
       this.translationService.translate(
-        'quote.header.overview.createdAndUpdated'
+        'quote.header.overview.createdAndUpdated',
       ),
       this.translationService.translate('quote.header.overview.createdDate'),
       this.translationService.translate(
-        'quote.header.overview.lastUpdatedDate'
+        'quote.header.overview.lastUpdatedDate',
       ),
     ]).pipe(
       map(([firstTitle, secondTitle, thirdTitle]) => {
@@ -216,7 +216,7 @@ export class QuoteHeaderOverviewComponent {
             },
           ],
         };
-      })
+      }),
     );
   }
 
@@ -253,7 +253,7 @@ export class QuoteHeaderOverviewComponent {
    */
   protected getTotalPriceDescription(quote: Quote): string {
     const readyToSubmit = quote.allowedActions?.find(
-      (action: QuoteAction) => action.type === QuoteActionType.CHECKOUT
+      (action: QuoteAction) => action.type === QuoteActionType.CHECKOUT,
     );
     return readyToSubmit
       ? 'quote.header.overview.total'

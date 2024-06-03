@@ -23,7 +23,7 @@ context('Currency switch - cart page', () => {
       win.sessionStorage.clear();
 
       const savedState = JSON.parse(
-        win.localStorage.getItem('spartacus⚿⚿auth')
+        win.localStorage.getItem('spartacus⚿⚿auth'),
       );
       const accessToken = savedState.token.access_token;
       cy.addToCart('300938', '3', accessToken).then((cartCode) => {
@@ -53,7 +53,7 @@ context('Currency switch - cart page', () => {
         siteContextSelector.CART_REQUEST_ALIAS,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL,
-        siteContextSelector.FULL_BASE_URL_EN_JPY + cartPath
+        siteContextSelector.FULL_BASE_URL_EN_JPY + cartPath,
       );
     });
 
@@ -68,7 +68,7 @@ context('Currency switch - cart page', () => {
 
       switchSiteContext(
         siteContextSelector.CURRENCY_JPY,
-        siteContextSelector.CURRENCY_LABEL
+        siteContextSelector.CURRENCY_LABEL,
       );
       cy.wait('@switchedCartContext').then((xhr) => {
         const cartItemPrice =
@@ -76,12 +76,12 @@ context('Currency switch - cart page', () => {
         const cartSubtotal = xhr.response.body.subTotal.formattedValue;
         cy.get('cx-cart-item-list .cx-price .cx-value').should(
           'contain',
-          cartItemPrice
+          cartItemPrice,
         );
 
         cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
           'contain',
-          cartSubtotal
+          cartSubtotal,
         );
       });
     });

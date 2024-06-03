@@ -21,13 +21,13 @@ export class ConfiguratorPriceSummaryComponent {
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
         return this.configuratorCommonsService.getConfiguration(
-          routerData.owner
+          routerData.owner,
         );
-      })
+      }),
     );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
   ) {}
 }

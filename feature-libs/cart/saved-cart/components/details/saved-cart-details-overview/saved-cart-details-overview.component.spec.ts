@@ -42,7 +42,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -119,7 +119,7 @@ describe('SavedCartDetailsOverviewComponent', () => {
       .unsubscribe();
 
     expect(component.getCartDescription).toHaveBeenCalledWith(
-      mockSavedCart.description
+      mockSavedCart.description,
     );
   });
 
@@ -162,7 +162,7 @@ describe('SavedCartDetailsOverviewComponent', () => {
       .unsubscribe();
 
     expect(component.getCartItems).toHaveBeenCalledWith(
-      mockSavedCart.totalItems
+      mockSavedCart.totalItems,
     );
   });
 
@@ -177,7 +177,7 @@ describe('SavedCartDetailsOverviewComponent', () => {
       .unsubscribe();
 
     expect(component.getCartQuantity).toHaveBeenCalledWith(
-      mockSavedCart.totalUnitCount
+      mockSavedCart.totalUnitCount,
     );
   });
 
@@ -194,7 +194,7 @@ describe('SavedCartDetailsOverviewComponent', () => {
       .unsubscribe();
 
     expect(component.getCartTotal).toHaveBeenCalledWith(
-      mockSavedCart.totalPriceWithTax?.formattedValue
+      mockSavedCart.totalPriceWithTax?.formattedValue,
     );
   });
 
@@ -208,7 +208,7 @@ describe('SavedCartDetailsOverviewComponent', () => {
       {
         cart: mockSavedCart,
         layoutOption: 'edit',
-      }
+      },
     );
   });
 

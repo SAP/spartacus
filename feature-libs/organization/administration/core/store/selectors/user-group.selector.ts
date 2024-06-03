@@ -28,7 +28,7 @@ export const getUserGroupManagementState: MemoizedSelector<
   UserGroupManagement
 > = createSelector(
   getOrganizationState,
-  (state: OrganizationState) => state[USER_GROUP_FEATURE]
+  (state: OrganizationState) => state[USER_GROUP_FEATURE],
 );
 
 export const getUserGroupsState: MemoizedSelector<
@@ -36,39 +36,39 @@ export const getUserGroupsState: MemoizedSelector<
   StateUtils.EntityLoaderState<UserGroup>
 > = createSelector(
   getUserGroupManagementState,
-  (state: UserGroupManagement) => state && state.entities
+  (state: UserGroupManagement) => state && state.entities,
 );
 
 export const getUserGroup = (
-  userGroupId: string
+  userGroupId: string,
 ): MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<UserGroup>> =>
   createSelector(
     getUserGroupsState,
     (state: StateUtils.EntityLoaderState<UserGroup>) =>
-      StateUtils.entityLoaderStateSelector(state, userGroupId)
+      StateUtils.entityLoaderStateSelector(state, userGroupId),
   );
 
 export const getUserGroupValue = (
-  userGroupId: string
+  userGroupId: string,
 ): MemoizedSelector<StateWithOrganization, UserGroup> => {
   return createSelector(getUserGroup(userGroupId), (userGroupState) =>
-    StateUtils.loaderValueSelector(userGroupState)
+    StateUtils.loaderValueSelector(userGroupState),
   );
 };
 
 export const getUserGroupList = (
-  params: SearchConfig
+  params: SearchConfig,
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<UserGroup>>
 > =>
   createSelector(getUserGroupManagementState, (state: UserGroupManagement) =>
-    StateUtils.denormalizeSearch<UserGroup>(state, params)
+    StateUtils.denormalizeSearch<UserGroup>(state, params),
   );
 
 export const getAvailableOrgCustomers = (
   code: string,
-  params: SearchConfig
+  params: SearchConfig,
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<B2BUser>>
@@ -78,19 +78,19 @@ export const getAvailableOrgCustomers = (
     getB2BUsersState,
     (
       state: UserGroupManagement,
-      customers: StateUtils.EntityLoaderState<B2BUser>
+      customers: StateUtils.EntityLoaderState<B2BUser>,
     ) =>
       StateUtils.denormalizeCustomB2BSearch(
         state.customers,
         customers,
         params,
-        code
-      )
+        code,
+      ),
   );
 
 export const getAvailableOrderApprovalPermissions = (
   code: string,
-  params: SearchConfig
+  params: SearchConfig,
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<Permission>>
@@ -100,21 +100,21 @@ export const getAvailableOrderApprovalPermissions = (
     getPermissionsState,
     (
       state: UserGroupManagement,
-      permissions: StateUtils.EntityLoaderState<Permission>
+      permissions: StateUtils.EntityLoaderState<Permission>,
     ) =>
       StateUtils.denormalizeCustomB2BSearch(
         state.permissions,
         permissions,
         params,
-        code
-      )
+        code,
+      ),
   );
 
 export const getUserGroupState = (
-  code: string
+  code: string,
 ): MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<UserGroup>> =>
   createSelector(
     getUserGroupsState,
     (state: StateUtils.EntityLoaderState<UserGroup>) =>
-      StateUtils.entityLoaderStateSelector(state, code)
+      StateUtils.entityLoaderStateSelector(state, code),
   );

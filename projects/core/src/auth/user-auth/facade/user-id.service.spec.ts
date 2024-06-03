@@ -111,7 +111,7 @@ describe('UserIdService', () => {
         error: (error: Error) => {
           expect(userId).toBeUndefined();
           expect(error.message).toEqual(
-            'Requested user id for logged user while user is not logged in.'
+            'Requested user id for logged user while user is not logged in.',
           );
           done();
         },

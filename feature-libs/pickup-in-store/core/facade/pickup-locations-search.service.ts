@@ -31,7 +31,7 @@ export class PickupLocationsSearchService
 {
   subscription: Subscription = new Subscription();
   constructor(
-    protected store: Store<StateWithStock & StateWithPickupLocations>
+    protected store: Store<StateWithStock & StateWithPickupLocations>,
   ) {
     // Intentional empty constructor
   }
@@ -40,16 +40,16 @@ export class PickupLocationsSearchService
     this.store.dispatch(
       StockLevelActions.StockLevelAtStore({
         payload: { productCode, storeName },
-      })
+      }),
     );
   }
 
   getStockLevelAtStore(
     productCode: string,
-    storeName: string
+    storeName: string,
   ): Observable<Stock | undefined> {
     return this.store.pipe(
-      select(StockSelectors.getStockAtStore(productCode, storeName))
+      select(StockSelectors.getStockAtStore(productCode, storeName)),
     );
   }
 
@@ -59,7 +59,7 @@ export class PickupLocationsSearchService
 
   hasSearchStarted(productCode: string): Observable<boolean> {
     return this.store.pipe(
-      select(StockSelectors.hasSearchStartedForProductCode(productCode))
+      select(StockSelectors.hasSearchStartedForProductCode(productCode)),
     );
   }
 
@@ -69,7 +69,7 @@ export class PickupLocationsSearchService
 
   getSearchResults(productCode: string): Observable<PointOfServiceStock[]> {
     return this.store.pipe(
-      select(StockSelectors.getStoresWithStockForProductCode(productCode))
+      select(StockSelectors.getStoresWithStockForProductCode(productCode)),
     );
   }
 
@@ -79,7 +79,7 @@ export class PickupLocationsSearchService
 
   getHideOutOfStock(): Observable<boolean> {
     return this.store.pipe(
-      select(HideOutOfStockSelectors.getHideOutOfStockState)
+      select(HideOutOfStockSelectors.getHideOutOfStockState),
     );
   }
 
@@ -87,7 +87,7 @@ export class PickupLocationsSearchService
     this.store.dispatch(
       BrowserLocationActions.AddBrowserLocation({
         payload: { latitude, longitude },
-      })
+      }),
     );
   }
 
@@ -102,17 +102,17 @@ export class PickupLocationsSearchService
           filter((storeDetails) => !storeDetails),
           tap((_storeDetails) =>
             this.store.dispatch(
-              PickupLocationActions.GetStoreDetailsById({ payload: storeName })
-            )
-          )
+              PickupLocationActions.GetStoreDetailsById({ payload: storeName }),
+            ),
+          ),
         )
-        .subscribe()
+        .subscribe(),
     );
   }
 
   getStoreDetails(name: string): Observable<PointOfService> {
     return this.store.pipe(
-      select(PickupLocationsSelectors.getStoreDetailsByName(name))
+      select(PickupLocationsSelectors.getStoreDetailsByName(name)),
     );
   }
 

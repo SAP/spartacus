@@ -40,7 +40,7 @@ export class ParagraphComponent {
 
   constructor(
     public component: CmsComponentData<CmsParagraphComponent>,
-    protected router: Router
+    protected router: Router,
   ) {}
 
   public bypassSecurityTrustHtml(html: string = ''): SafeHtml {

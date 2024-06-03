@@ -21,35 +21,35 @@ export abstract class CostCenterAdapter {
 
   abstract loadList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<CostCenter>>;
 
   abstract create(
     userId: string,
-    costCenter: CostCenter
+    costCenter: CostCenter,
   ): Observable<CostCenter>;
 
   abstract update(
     userId: string,
     costCenterCode: string,
-    costCenter: CostCenter
+    costCenter: CostCenter,
   ): Observable<CostCenter>;
 
   abstract loadBudgets(
     userId: string,
     costCenterCode: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Budget>>;
 
   abstract assignBudget(
     userId: string,
     costCenterCode: string,
-    budgetCode: string
+    budgetCode: string,
   ): Observable<any>;
 
   abstract unassignBudget(
     userId: string,
     costCenterCode: string,
-    budgetCode: string
+    budgetCode: string,
   ): Observable<any>;
 }

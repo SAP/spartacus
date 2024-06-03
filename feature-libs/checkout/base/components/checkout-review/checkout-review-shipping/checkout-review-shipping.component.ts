@@ -33,10 +33,10 @@ export class CheckoutReviewShippingComponent {
   iconTypes = ICON_TYPE;
 
   deliveryAddressStepRoute = this.checkoutStepService.getCheckoutStepRoute(
-    CheckoutStepType.DELIVERY_ADDRESS
+    CheckoutStepType.DELIVERY_ADDRESS,
   );
   deliveryModeStepRoute = this.checkoutStepService.getCheckoutStepRoute(
-    CheckoutStepType.DELIVERY_MODE
+    CheckoutStepType.DELIVERY_MODE,
   );
 
   constructor(
@@ -44,7 +44,7 @@ export class CheckoutReviewShippingComponent {
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected translationService: TranslationService,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
   ) {}
 
   entries$: Observable<OrderEntry[]> =
@@ -53,18 +53,18 @@ export class CheckoutReviewShippingComponent {
   deliveryAddress$: Observable<Address | undefined> =
     this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
+      map((state) => state.data),
     );
 
   deliveryMode$: Observable<DeliveryMode | undefined> =
     this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
       filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
+      map((state) => state.data),
     );
 
   getDeliveryAddressCard(
     deliveryAddress: Address,
-    countryName?: string
+    countryName?: string,
   ): Observable<Card> {
     return combineLatest([
       this.translationService.translate('addressCard.shipTo'),
@@ -77,9 +77,9 @@ export class CheckoutReviewShippingComponent {
           textPhone,
           textMobile,
           deliveryAddress,
-          countryName
-        )
-      )
+          countryName,
+        ),
+      ),
     );
   }
 

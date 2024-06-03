@@ -26,7 +26,7 @@ export class CheckoutAuthGuard {
     protected checkoutConfigService: CheckoutConfigService,
     protected activeCartFacade: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,
-    protected router: Router
+    protected router: Router,
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -46,7 +46,7 @@ export class CheckoutAuthGuard {
           return data.isGuestCart ? true : this.handleAnonymousUser();
         }
         return data.isLoggedIn;
-      })
+      }),
     );
   }
 
@@ -55,7 +55,7 @@ export class CheckoutAuthGuard {
     if (this.checkoutConfigService.isGuestCheckout()) {
       return this.router.createUrlTree(
         [this.semanticPathService.get('login')],
-        { queryParams: { forced: true } }
+        { queryParams: { forced: true } },
       );
     } else {
       return this.router.parseUrl(this.semanticPathService.get('login') ?? '');

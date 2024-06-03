@@ -38,7 +38,7 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
 
   constructor(
     protected elementRef: ElementRef,
-    protected service: TrapFocusService
+    protected service: TrapFocusService,
   ) {
     super(elementRef, service);
   }
@@ -57,7 +57,7 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
         this.host,
         this.config,
         increment,
-        event as UIEvent
+        event as UIEvent,
       );
     }
   }

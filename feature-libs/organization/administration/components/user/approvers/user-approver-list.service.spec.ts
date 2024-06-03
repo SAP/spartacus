@@ -103,7 +103,7 @@ describe('UserApproverListService', () => {
     expect(service.assign('customerId', 'approverId')).toEqual(mockItemStatus);
     expect(userService.assignApprover).toHaveBeenCalledWith(
       'customerId',
-      'approverId'
+      'approverId',
     );
     expect(userService.getLoadingStatus).toHaveBeenCalledWith('approverId');
   });
@@ -113,11 +113,11 @@ describe('UserApproverListService', () => {
     spyOn(userService, 'getLoadingStatus').and.callThrough();
 
     expect(service.unassign('customerId', 'approverId')).toEqual(
-      mockItemStatus
+      mockItemStatus,
     );
     expect(userService.unassignApprover).toHaveBeenCalledWith(
       'customerId',
-      'approverId'
+      'approverId',
     );
     expect(userService.getLoadingStatus).toHaveBeenCalledWith('approverId');
   });

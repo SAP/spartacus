@@ -22,7 +22,8 @@ export class StoreComponent implements OnInit {
   @Input() storeDetails: PointOfServiceStock = {};
   /** An event emitter triggered when this store is selected for pickup */
   @Output()
-  storeSelected: EventEmitter<PointOfServiceStock> = new EventEmitter<PointOfServiceStock>();
+  storeSelected: EventEmitter<PointOfServiceStock> =
+    new EventEmitter<PointOfServiceStock>();
 
   isInStock: boolean;
   openHoursOpen = false;

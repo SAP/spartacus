@@ -112,14 +112,14 @@ describe('CurrentProductService', () => {
 
     expect(productService.get).toHaveBeenCalledWith(
       mockRouterState.state.params.productCode,
-      ProductScope.DETAILS
+      ProductScope.DETAILS,
     );
 
     mockRouter$.next(mockRouterNewProductCode);
 
     expect(productService.get).toHaveBeenCalledWith(
       mockRouterNewProductCode.state.params.productCode,
-      ProductScope.DETAILS
+      ProductScope.DETAILS,
     );
 
     sub.unsubscribe();

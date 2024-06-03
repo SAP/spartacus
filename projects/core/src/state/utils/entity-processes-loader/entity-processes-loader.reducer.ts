@@ -16,10 +16,10 @@ import { EntityProcessesLoaderAction } from './entity-processes-loader.action';
  */
 export function entityProcessesLoaderReducer<T>(
   entityType: string,
-  reducer?: (state: T | undefined, action: ProcessesLoaderAction) => T
+  reducer?: (state: T | undefined, action: ProcessesLoaderAction) => T,
 ): (
   state: EntityProcessesLoaderState<T> | undefined,
-  action: EntityProcessesLoaderAction
+  action: EntityProcessesLoaderAction,
 ) => EntityProcessesLoaderState<T> {
   return entityReducer(entityType, processesLoaderReducer(entityType, reducer));
 }

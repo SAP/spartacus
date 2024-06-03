@@ -38,7 +38,7 @@ describe('StockConnector', () => {
     service.loadStockLevelAtStore('productCode', 'storeName');
     expect(adapter.loadStockLevelAtStore).toHaveBeenCalledWith(
       'productCode',
-      'storeName'
+      'storeName',
     );
   });
 });

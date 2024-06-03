@@ -26,7 +26,7 @@ describe('Consignment Tracking By Id Actions', () => {
         },
         meta: StateUtils.entityLoadMeta(
           CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
-          'order1,cons1'
+          'order1,cons1',
         ),
       });
     });
@@ -50,7 +50,7 @@ describe('Consignment Tracking By Id Actions', () => {
         meta: StateUtils.entityFailMeta(
           CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
           'order1,cons1',
-          'error'
+          'error',
         ),
       });
     });
@@ -73,7 +73,7 @@ describe('Consignment Tracking By Id Actions', () => {
         },
         meta: StateUtils.entitySuccessMeta(
           CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
-          'order1,cons1'
+          'order1,cons1',
         ),
       });
     });

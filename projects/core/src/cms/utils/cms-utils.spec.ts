@@ -15,7 +15,7 @@ describe('cms utils', () => {
         type: PageType.CONTENT_PAGE,
       };
       expect(serializePageContext(pageContext)).toEqual(
-        `${pageContext.type}-${pageContext.id}`
+        `${pageContext.type}-${pageContext.id}`,
       );
     });
     describe('when the ignoreContentPageId param is set to true and the provided page context is of CONTENT_PAGE type', () => {
@@ -34,7 +34,7 @@ describe('cms utils', () => {
           type: PageType.PRODUCT_PAGE,
         };
         expect(serializePageContext(pageContext, true)).toEqual(
-          serializePageContext(pageContext)
+          serializePageContext(pageContext),
         );
       });
     });

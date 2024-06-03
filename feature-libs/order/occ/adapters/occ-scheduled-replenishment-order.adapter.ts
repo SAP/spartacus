@@ -33,18 +33,18 @@ export class OccScheduledReplenishmentOrderAdapter
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   scheduleReplenishmentOrder(
     cartId: string,
     scheduleReplenishmentForm: ScheduleReplenishmentForm,
     termsChecked: boolean,
-    userId: string
+    userId: string,
   ): Observable<ReplenishmentOrder> {
     scheduleReplenishmentForm = this.converter.convert(
       scheduleReplenishmentForm,
-      REPLENISHMENT_ORDER_FORM_SERIALIZER
+      REPLENISHMENT_ORDER_FORM_SERIALIZER,
     );
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -54,24 +54,24 @@ export class OccScheduledReplenishmentOrderAdapter
         this.getScheduleReplenishmentOrderEndpoint(
           userId,
           cartId,
-          termsChecked.toString()
+          termsChecked.toString(),
         ),
         scheduleReplenishmentForm,
-        { headers }
+        { headers },
       )
       .pipe(
         catchError((error) => {
           throw normalizeHttpError(error, this.logger);
         }),
         backOff({ shouldRetry: isJaloError }),
-        this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER)
+        this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER),
       );
   }
 
   protected getScheduleReplenishmentOrderEndpoint(
     userId: string,
     cartId: string,
-    termsChecked: string
+    termsChecked: string,
   ): string {
     return this.occEndpoints.buildUrl('scheduleReplenishmentOrder', {
       urlParams: {

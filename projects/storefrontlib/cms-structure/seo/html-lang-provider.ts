@@ -19,7 +19,7 @@ export const htmlLangProvider: Provider = {
  */
 export function setHtmlLangAttribute(
   winRef: WindowRef,
-  languageService: LanguageService
+  languageService: LanguageService,
 ): () => void {
   const result = () => {
     languageService.getActive().subscribe((lang) => {

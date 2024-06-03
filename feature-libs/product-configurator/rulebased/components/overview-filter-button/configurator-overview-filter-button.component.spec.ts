@@ -58,10 +58,10 @@ function initMocks() {
   mockConfigRouterService = jasmine.createSpyObj(['extractRouterData']);
   mockConfigCommonsService = jasmine.createSpyObj(['getConfiguration']);
   asSpy(mockConfigRouterService.extractRouterData).and.returnValue(
-    of(ConfigurationTestData.mockRouterState)
+    of(ConfigurationTestData.mockRouterState),
   );
   asSpy(mockConfigCommonsService.getConfiguration).and.returnValue(
-    of(ovConfig).pipe(delay(0)) // delay(0) to avoid NG0100 error in test
+    of(ovConfig).pipe(delay(0)), // delay(0) to avoid NG0100 error in test
   );
   asSpy(mockLaunchDialogService.openDialogAndSubscribe).and.returnValue(EMPTY);
 }
@@ -76,31 +76,29 @@ class MockConfiguratorOverviewFilterBarComponent {
 
 describe('ConfigurationOverviewFilterButtonComponent', () => {
   describe('in a component test environment', () => {
-    beforeEach(
-      waitForAsync(() => {
-        initTestData();
-        initMocks();
-        TestBed.configureTestingModule({
-          imports: [I18nTestingModule],
-          declarations: [
-            ConfiguratorOverviewFilterButtonComponent,
-            MockConfiguratorOverviewFilterBarComponent,
-          ],
-          providers: [
-            { provide: LaunchDialogService, useValue: mockLaunchDialogService },
-            {
-              provide: ConfiguratorRouterExtractorService,
-              useValue: mockConfigRouterService,
-            },
-            {
-              provide: ConfiguratorCommonsService,
-              useValue: mockConfigCommonsService,
-            },
-          ],
-        }).compileComponents();
-        initComponent();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      initTestData();
+      initMocks();
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          ConfiguratorOverviewFilterButtonComponent,
+          MockConfiguratorOverviewFilterBarComponent,
+        ],
+        providers: [
+          { provide: LaunchDialogService, useValue: mockLaunchDialogService },
+          {
+            provide: ConfiguratorRouterExtractorService,
+            useValue: mockConfigRouterService,
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useValue: mockConfigCommonsService,
+          },
+        ],
+      }).compileComponents();
+      initComponent();
+    }));
     beforeEach(() => {
       fixture.detectChanges(); //due to the additional delay(0)
     });
@@ -114,11 +112,11 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         .query(By.css('.cx-config-filter-button'))
         .triggerEventHandler('click');
       expect(
-        mockLaunchDialogService.openDialogAndSubscribe
+        mockLaunchDialogService.openDialogAndSubscribe,
       ).toHaveBeenCalledWith(
         LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,
         component.filterButton,
-        ovConfig
+        ovConfig,
       );
     });
 
@@ -126,7 +124,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-config-filter-button'
+        '.cx-config-filter-button',
       );
       expect(htmlElem.classList.contains('ghost')).toBeFalsy();
     });
@@ -138,7 +136,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         expect,
         htmlElem,
         '.cx-config-filter-button',
-        'configurator.button.filterOverviewWithCount numAppliedFilters:1'
+        'configurator.button.filterOverviewWithCount numAppliedFilters:1',
       );
     });
 
@@ -147,7 +145,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         expect,
         htmlElem,
         '.cx-config-filter-button',
-        'configurator.button.filterOverview numAppliedFilters:0'
+        'configurator.button.filterOverview numAppliedFilters:0',
       );
     });
 
@@ -157,13 +155,13 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-config-filter-button'
+        '.cx-config-filter-button',
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-filter-button'
+        '.cx-ghost-filter-button',
       );
 
       expect(htmlElem.classList.contains('ghost')).toBeTruthy();
@@ -176,7 +174,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
           htmlElem,
           '.cx-config-filter-button',
           'title',
-          'configurator.a11y.filterOverview numAppliedFilters:0'
+          'configurator.a11y.filterOverview numAppliedFilters:0',
         );
       });
 
@@ -189,7 +187,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
           htmlElem,
           '.cx-config-filter-button',
           'title',
-          'configurator.a11y.filterOverviewWithCount numAppliedFilters:3'
+          'configurator.a11y.filterOverviewWithCount numAppliedFilters:3',
         );
       });
     });
@@ -202,7 +200,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       component = new ConfiguratorOverviewFilterButtonComponent(
         mockLaunchDialogService,
         mockConfigCommonsService,
-        mockConfigRouterService
+        mockConfigRouterService,
       );
     });
     describe('getNumFilters', () => {

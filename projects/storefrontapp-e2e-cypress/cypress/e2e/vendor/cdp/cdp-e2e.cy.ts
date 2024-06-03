@@ -36,17 +36,17 @@ describe('Customer Data Platform (CDP) Integration', () => {
     // validating a closed ticket, for reopen button
     customerTicketing.clickTicketInRow(customerTicketing.FIRST_ROW_TICKET_LIST);
     customerTicketing.verifyStatusOfTicketInDetailsPage(
-      customerTicketing.TestStatus.closed
+      customerTicketing.TestStatus.closed,
     );
     cy.get('cx-customer-ticketing-reopen button').should('not.exist');
     customerTicketing.navigateBackToPreviousPage();
 
     // validating an open ticket, for add new message and close button
     customerTicketing.clickTicketInRow(
-      customerTicketing.SECOND_ROW_TICKET_LIST
+      customerTicketing.SECOND_ROW_TICKET_LIST,
     );
     customerTicketing.verifyStatusOfTicketInDetailsPage(
-      customerTicketing.TestStatus.open
+      customerTicketing.TestStatus.open,
     );
     customerTicketing.verifyMessageBoxIsDisabled();
     cy.get('cx-customer-ticketing-close button').should('not.exist');

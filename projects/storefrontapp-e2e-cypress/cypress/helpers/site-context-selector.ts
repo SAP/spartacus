@@ -27,22 +27,22 @@ export const LANGUAGE_DE = 'de';
 export const CART_REQUEST_ALIAS = 'cart_request_alias';
 
 export const LANGUAGE_REQUEST = `${Cypress.env(
-  'OCC_PREFIX'
+  'OCC_PREFIX',
 )}/${CONTENT_CATALOG}/languages?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 export const CURRENCY_REQUEST = `${Cypress.env(
-  'OCC_PREFIX'
+  'OCC_PREFIX',
 )}/${CONTENT_CATALOG}/currencies?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 
 export const CART_REQUEST = `${Cypress.env(
-  'OCC_PREFIX'
+  'OCC_PREFIX',
 )}/${CONTENT_CATALOG}/users/current/carts/*`;
 
 export const PAGE_REQUEST = `${Cypress.env(
-  'OCC_PREFIX'
+  'OCC_PREFIX',
 )}/${CONTENT_CATALOG}/cms/pages?fields=DEFAULT&pageType=CategoryPage&code=574&lang=${LANGUAGE_DE}&curr=${CURRENCY_USD}`;
 
 export const TITLE_REQUEST = `${Cypress.env(
-  'OCC_PREFIX'
+  'OCC_PREFIX',
 )}/${CONTENT_CATALOG}/titles?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 
 export const FULL_BASE_URL_EN_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_USD}`;
@@ -95,7 +95,7 @@ export function doPlaceOrder() {
 export function addressBookNextStep() {
   const deliveryPage = waitForPage(
     CHECKOUT_DELIVERY_MODE_PATH,
-    'getDeliveryPage'
+    'getDeliveryPage',
   );
 
   cy.get('cx-delivery-address .btn-primary').click();
@@ -110,7 +110,7 @@ export function deliveryModeNextStep() {
 
   const paymentPage = waitForPage(
     CHECKOUT_PAYMENT_DETAILS_PATH,
-    'getPaymentPage'
+    'getPaymentPage',
   );
 
   cy.get('cx-delivery-mode .btn-primary').click();
@@ -145,7 +145,7 @@ export function siteContextChange(
   pagePath: string,
   alias: string,
   selectedOption: string,
-  label: string
+  label: string,
 ): void {
   if (pagePath !== null) {
     let page = waitForPage(pagePath, 'pageForSitContextChange');
@@ -191,7 +191,7 @@ export function verifySiteContextChangeUrl(
   alias: string,
   selectedOption: string,
   label: string,
-  testPath: string
+  testPath: string,
 ): void {
   siteContextChange(pagePath, alias, selectedOption, label);
   assertSiteContextChange(testPath);
@@ -213,7 +213,7 @@ export function testLangSwitchOrderPage() {
         LANGUAGES,
         LANGUAGE_DE,
         LANGUAGE_LABEL,
-        FULL_BASE_URL_DE_USD + orderPath
+        FULL_BASE_URL_DE_USD + orderPath,
       );
     });
 
@@ -221,7 +221,7 @@ export function testLangSwitchOrderPage() {
       siteContextChange(orderPath, LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
 
       cy.get(
-        'cx-order-history .cx-order-history-placed .cx-order-history-value'
+        'cx-order-history .cx-order-history-placed .cx-order-history-value',
       ).should('contain', deutschName);
     });
   });
@@ -238,7 +238,7 @@ export function testPersonalDetailsPage() {
         LANGUAGES,
         LANGUAGE_DE,
         LANGUAGE_LABEL,
-        FULL_BASE_URL_DE_USD + personalDetailsPath
+        FULL_BASE_URL_DE_USD + personalDetailsPath,
       );
     });
 
@@ -247,13 +247,13 @@ export function testPersonalDetailsPage() {
         personalDetailsPath,
         TITLES,
         LANGUAGE_DE,
-        LANGUAGE_LABEL
+        LANGUAGE_LABEL,
       );
 
       cy.get('[formcontrolname="titleCode"]').ngSelect(deutschName);
       cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
         'have.text',
-        deutschName
+        deutschName,
       );
     });
   });

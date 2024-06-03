@@ -14,6 +14,6 @@ export abstract class UserCostCenterAdapter {
    * @param userId
    */
   abstract loadActiveList(
-    userId: string
+    userId: string,
   ): Observable<EntitiesModel<CostCenter>>;
 }

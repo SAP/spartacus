@@ -37,25 +37,23 @@ describe('TrackingEventsComponent', () => {
   ]);
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          SpinnerModule,
-          I18nTestingModule,
-          KeyboardFocusTestingModule,
-          IconTestingModule,
-        ],
-        declarations: [TrackingEventsComponent, MockTranslateUrlPipe],
-        providers: [
-          { provide: OrderHistoryFacade, useValue: userOrderService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        SpinnerModule,
+        I18nTestingModule,
+        KeyboardFocusTestingModule,
+        IconTestingModule,
+      ],
+      declarations: [TrackingEventsComponent, MockTranslateUrlPipe],
+      providers: [
+        { provide: OrderHistoryFacade, useValue: userOrderService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
 
-      launchDialogService = TestBed.inject(LaunchDialogService);
-    })
-  );
+    launchDialogService = TestBed.inject(LaunchDialogService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TrackingEventsComponent);

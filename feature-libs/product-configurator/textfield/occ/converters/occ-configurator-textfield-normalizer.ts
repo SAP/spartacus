@@ -28,7 +28,7 @@ export class OccConfiguratorTextfieldNormalizer
    */
   convert(
     source: OccConfiguratorTextfield.Configuration,
-    target?: ConfiguratorTextfield.Configuration
+    target?: ConfiguratorTextfield.Configuration,
   ): ConfiguratorTextfield.Configuration {
     const resultTarget: ConfiguratorTextfield.Configuration = {
       ...target,

@@ -10,7 +10,7 @@ describe('Currency switch - product-search page', () => {
 
   siteContextSelector.stub(
     siteContextSelector.CURRENCY_REQUEST,
-    siteContextSelector.CURRENCIES
+    siteContextSelector.CURRENCIES,
   );
 
   describe('product-search page', () => {
@@ -20,7 +20,7 @@ describe('Currency switch - product-search page', () => {
         siteContextSelector.CURRENCIES,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL,
-        siteContextSelector.FULL_BASE_URL_EN_JPY + productSearchPath
+        siteContextSelector.FULL_BASE_URL_EN_JPY + productSearchPath,
       );
     });
 
@@ -29,12 +29,12 @@ describe('Currency switch - product-search page', () => {
         productSearchPath,
         siteContextSelector.CURRENCIES,
         siteContextSelector.CURRENCY_JPY,
-        siteContextSelector.CURRENCY_LABEL
+        siteContextSelector.CURRENCY_LABEL,
       );
 
       cy.get('cx-product-list-item .cx-product-price').should(
         'contain',
-        jpCurrency
+        jpCurrency,
       );
     });
 
@@ -43,7 +43,7 @@ describe('Currency switch - product-search page', () => {
         productSearchPath,
         siteContextSelector.CURRENCIES,
         siteContextSelector.CURRENCY_JPY,
-        siteContextSelector.CURRENCY_LABEL
+        siteContextSelector.CURRENCY_LABEL,
       );
 
       cy.get('cx-searchbox input').type('fun');

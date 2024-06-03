@@ -48,7 +48,7 @@ let isActiveStoreFrontLibCardParagraphTruncated: boolean;
 class MockFeatureDirective {
   constructor(
     protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
+    protected viewContainer: ViewContainerRef,
   ) {}
 
   @Input() set cxFeature(feature: string) {
@@ -69,21 +69,19 @@ describe('CardComponent', () => {
   let fixture: ComponentFixture<CardComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          CardComponent,
-          MockCxIconComponent,
-          MockAtMessageDirective,
-          FocusDirective,
-          MockCxTruncateTextPopoverComponent,
-          MockFeatureDirective,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CardComponent,
+        MockCxIconComponent,
+        MockAtMessageDirective,
+        FocusDirective,
+        MockCxTruncateTextPopoverComponent,
+        MockFeatureDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CardComponent);
@@ -202,13 +200,13 @@ describe('CardComponent', () => {
       attributeNames.forEach((attrName) => {
         if (attrName.indexOf('characters-limit') >= 0) {
           expect(popover.getAttribute(attrName)).toContain(
-            component.charactersLimit
+            component.charactersLimit,
           );
         }
 
         if (attrName.indexOf('content') >= 0) {
           expect(popover.getAttribute(attrName)).toContain(
-            mockCard.text[index]
+            mockCard.text[index],
           );
         }
 
@@ -250,19 +248,19 @@ describe('CardComponent', () => {
       attributeNames.forEach((attrName) => {
         if (attrName.indexOf('characters-limit') >= 0) {
           expect(popover.getAttribute(attrName)).toContain(
-            component.charactersLimit
+            component.charactersLimit,
           );
         }
 
         if (attrName.indexOf('content') >= 0) {
           expect(popover.getAttribute(attrName)).toContain(
-            mockCard.paragraphs[index].text[0]
+            mockCard.paragraphs[index].text[0],
           );
         }
 
         if (attrName.indexOf('custom-class') >= 0) {
           expect(popover.getAttribute(attrName)).toContain(
-            'cx-card-paragraph-text'
+            'cx-card-paragraph-text',
           );
         }
       });
@@ -408,7 +406,7 @@ describe('CardComponent', () => {
 function checkParagraph(
   component: CardComponent,
   fixture: ComponentFixture<CardComponent>,
-  el: DebugElement
+  el: DebugElement,
 ) {
   function getParagraph(elem: DebugElement) {
     return elem.queryAll(By.css('.cx-card-paragraph'));
@@ -430,21 +428,21 @@ function checkParagraph(
   const text1Nodes = getParagraphText(paragraphNodes[0]);
   const text2Nodes = getParagraphText(paragraphNodes[1]);
   expect(paragraphNodes[0].nativeElement.firstChild.textContent).toContain(
-    mockCard.paragraphs[0].title
+    mockCard.paragraphs[0].title,
   );
   expect(paragraphNodes[1].nativeElement.firstChild.textContent).toContain(
-    mockCard.paragraphs[1].title
+    mockCard.paragraphs[1].title,
   );
   expect(text1Nodes[0].nativeElement.textContent).toContain(
-    mockCard.paragraphs[0].text[0]
+    mockCard.paragraphs[0].text[0],
   );
   expect(text1Nodes[1].nativeElement.textContent).toContain(
-    mockCard.paragraphs[0].text[1]
+    mockCard.paragraphs[0].text[1],
   );
   expect(text2Nodes[0].nativeElement.textContent).toContain(
-    mockCard.paragraphs[1].text[0]
+    mockCard.paragraphs[1].text[0],
   );
   expect(text2Nodes[1].nativeElement.textContent).toContain(
-    mockCard.paragraphs[1].text[1]
+    mockCard.paragraphs[1].text[1],
   );
 }

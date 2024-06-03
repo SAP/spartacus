@@ -57,7 +57,7 @@ describe('AnonymousConsentsStatePersistenceService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ANONYMOUS_CONSENTS_STORE_FEATURE,
-          fromAnonymousConsentsReducers.getReducers()
+          fromAnonymousConsentsReducers.getReducers(),
         ),
       ],
       providers: [
@@ -123,7 +123,7 @@ describe('AnonymousConsentsStatePersistenceService', () => {
       service['onRead'](stateObj);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new LoadAnonymousConsentTemplatesSuccess(stateObj.templates.value)
+        new LoadAnonymousConsentTemplatesSuccess(stateObj.templates.value),
       );
     });
 
@@ -133,7 +133,7 @@ describe('AnonymousConsentsStatePersistenceService', () => {
       service['onRead'](stateObj);
 
       expect(anonymousConsentsService.setConsents).toHaveBeenCalledWith(
-        stateObj.consents
+        stateObj.consents,
       );
     });
 
@@ -143,10 +143,10 @@ describe('AnonymousConsentsStatePersistenceService', () => {
       service['onRead'](stateObj);
 
       expect(
-        anonymousConsentsService.toggleBannerDismissed
+        anonymousConsentsService.toggleBannerDismissed,
       ).toHaveBeenCalledWith(stateObj.ui.bannerDismissed);
       expect(
-        anonymousConsentsService.toggleTemplatesUpdated
+        anonymousConsentsService.toggleTemplatesUpdated,
       ).toHaveBeenCalledWith(stateObj.ui.updated);
     });
   });

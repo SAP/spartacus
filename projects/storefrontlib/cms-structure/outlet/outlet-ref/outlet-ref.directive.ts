@@ -25,7 +25,7 @@ export class OutletRefDirective implements OnInit, OnDestroy {
 
   constructor(
     private tpl: TemplateRef<any>,
-    private outletService: OutletService
+    private outletService: OutletService,
   ) {}
 
   ngOnInit() {

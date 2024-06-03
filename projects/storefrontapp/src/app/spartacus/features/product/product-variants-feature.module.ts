@@ -23,7 +23,7 @@ import {
         [PRODUCT_VARIANTS_FEATURE]: {
           module: () =>
             import('@spartacus/product/variants').then(
-              (m) => m.ProductVariantsModule
+              (m) => m.ProductVariantsModule,
             ),
         },
       },

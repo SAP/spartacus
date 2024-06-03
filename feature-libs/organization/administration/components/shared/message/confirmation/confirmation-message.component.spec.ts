@@ -63,21 +63,21 @@ describe('ConfirmationMessageComponent', () => {
 
   it('should have confirmation message', () => {
     const messageEl: HTMLElement = fixture.debugElement.query(
-      By.css('.message p')
+      By.css('.message p'),
     ).nativeElement;
     expect(messageEl.innerText).toEqual('Raw mock message');
   });
 
   it('should have confirm button', () => {
     const button: HTMLElement = fixture.debugElement.query(
-      By.css('button.confirm')
+      By.css('button.confirm'),
     ).nativeElement;
     expect(button).toBeDefined();
   });
 
   it('should have cancel button', () => {
     const button: HTMLElement = fixture.debugElement.query(
-      By.css('button.cancel')
+      By.css('button.cancel'),
     ).nativeElement;
     expect(button).toBeDefined();
   });
@@ -85,7 +85,7 @@ describe('ConfirmationMessageComponent', () => {
   it('should emit confirm event', () => {
     const nextEvent = spyOn(messageData.events, 'next');
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('button.confirm')
+      By.css('button.confirm'),
     ).nativeElement;
 
     el.click();
@@ -98,7 +98,7 @@ describe('ConfirmationMessageComponent', () => {
   it('should not emit confirm event', () => {
     const nextEvent = spyOn(messageData.events, 'next');
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('button.cancel')
+      By.css('button.cancel'),
     ).nativeElement;
 
     el.click();

@@ -21,7 +21,7 @@ export class OrderEntryPromotionsNormalizer
 {
   convert(
     source: { item?: Occ.OrderEntry; promotions?: PromotionResult[] },
-    target?: PromotionResult[]
+    target?: PromotionResult[],
   ) {
     target = this.getProductPromotion(source.item, source.promotions);
     return target;
@@ -36,7 +36,7 @@ export class OrderEntryPromotionsNormalizer
    */
   getProductPromotion(
     item?: Occ.OrderEntry,
-    promotions?: PromotionResult[]
+    promotions?: PromotionResult[],
   ): PromotionResult[] {
     const entryPromotions: PromotionResult[] = [];
     promotions?.forEach((promotion) => {
@@ -54,7 +54,7 @@ export class OrderEntryPromotionsNormalizer
 
   protected isConsumedByEntry(
     consumedEntry: PromotionOrderEntryConsumed,
-    entry: any
+    entry: any,
   ): boolean {
     const consumedEntryNumber = consumedEntry.orderEntryNumber;
     if (entry && entry.entries && entry.entries.length > 0) {

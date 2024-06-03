@@ -10,7 +10,7 @@ import { CurrencyInitializer } from '../services/currency-initializer';
 import { LanguageInitializer } from '../services/language-initializer';
 
 export function initializeCurrency(
-  currencyInitializer: CurrencyInitializer
+  currencyInitializer: CurrencyInitializer,
 ): () => void {
   const result = () => {
     currencyInitializer.initialize();
@@ -18,7 +18,7 @@ export function initializeCurrency(
   return result;
 }
 export function initializeLanguage(
-  languageInitializer: LanguageInitializer
+  languageInitializer: LanguageInitializer,
 ): () => void {
   const result = () => {
     languageInitializer.initialize();
@@ -27,7 +27,7 @@ export function initializeLanguage(
 }
 
 export function initializeBaseSite(
-  baseSiteInitializer: BaseSiteInitializer
+  baseSiteInitializer: BaseSiteInitializer,
 ): () => void {
   const result = () => {
     baseSiteInitializer.initialize();

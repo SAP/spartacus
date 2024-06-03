@@ -11,10 +11,10 @@ const initialPaymentDetailsState: PaymentDetails | undefined = {};
 
 class MockDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
   createPaymentRequest = createSpy('createPaymentRequest').and.returnValue(
-    of({})
+    of({}),
   );
   createPaymentDetails = createSpy('createPaymentDetails').and.returnValue(
-    of({})
+    of({}),
   );
 }
 class MockUserIdService {
@@ -61,7 +61,7 @@ describe('DpCheckoutPaymentService', () => {
     expect(dpAdapter.createPaymentDetails).toHaveBeenCalledWith(
       sessionId,
       signature,
-      userId
+      userId,
     );
   });
 

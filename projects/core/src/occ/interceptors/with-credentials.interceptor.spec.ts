@@ -49,7 +49,7 @@ describe('WithCredentialsInterceptor', () => {
         const mockReq: TestRequest = httpMock.expectOne(OccUrl);
 
         expect(mockReq.request.withCredentials).toBe(true);
-      }
+      },
     ));
 
     it('should not add the `withCredentials` flag to other request', inject(
@@ -60,7 +60,7 @@ describe('WithCredentialsInterceptor', () => {
         const mockReq: TestRequest = httpMock.expectOne(NonOccUrl);
 
         expect(mockReq.request.withCredentials).toBe(false);
-      }
+      },
     ));
   });
 
@@ -99,7 +99,7 @@ describe('WithCredentialsInterceptor', () => {
         const mockReq: TestRequest = httpMock.expectOne(OccUrl);
 
         expect(mockReq.request.withCredentials).toBe(false);
-      }
+      },
     ));
   });
 
@@ -137,7 +137,7 @@ describe('WithCredentialsInterceptor', () => {
         http.get(OccUrl).subscribe().unsubscribe();
         const mockReq: TestRequest = httpMock.expectOne(OccUrl);
         expect(mockReq.request.withCredentials).toBe(false);
-      }
+      },
     ));
 
     it('should add the `withCredentials` flag to request with configured prefix', inject(
@@ -145,10 +145,10 @@ describe('WithCredentialsInterceptor', () => {
       (http: HttpClient) => {
         http.get('thirdparty.com/my/prefix/xyz').subscribe().unsubscribe();
         const mockReq: TestRequest = httpMock.expectOne(
-          'thirdparty.com/my/prefix/xyz'
+          'thirdparty.com/my/prefix/xyz',
         );
         expect(mockReq.request.withCredentials).toBe(true);
-      }
+      },
     ));
   });
 });

@@ -16,21 +16,21 @@ export class CheckoutDeliveryModesConnector {
   public setMode(
     userId: string,
     cartId: string,
-    deliveryModeId: string
+    deliveryModeId: string,
   ): Observable<unknown> {
     return this.adapter.setMode(userId, cartId, deliveryModeId);
   }
 
   public getSupportedModes(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<DeliveryMode[]> {
     return this.adapter.getSupportedModes(userId, cartId);
   }
 
   public clearCheckoutDeliveryMode(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<unknown> {
     return this.adapter.clearCheckoutDeliveryMode(userId, cartId);
   }

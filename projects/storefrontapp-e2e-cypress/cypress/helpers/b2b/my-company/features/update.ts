@@ -21,7 +21,7 @@ export function updateTest(config: MyCompanyConfig) {
       loginAsMyCompanyAdmin();
 
       cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
-        'getEntity'
+        'getEntity',
       );
       if (config.preserveCookies) {
         cy.getCookie(codeRow.useCookie).then((cookie) => {
@@ -46,7 +46,7 @@ export function updateTest(config: MyCompanyConfig) {
       cy.url().should('contain', `${config.baseUrl}/${entityId}/edit`);
 
       cy.get('cx-org-form div.header h3').contains(
-        ignoreCaseSensivity(`Edit ${config.name}`)
+        ignoreCaseSensivity(`Edit ${config.name}`),
       );
 
       if (config.selectOptionsEndpoint) {
@@ -59,7 +59,7 @@ export function updateTest(config: MyCompanyConfig) {
 
       cy.intercept({ method: 'PATCH', path: `**` }).as('saveEntityData');
       cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
-        'loadEntityData'
+        'loadEntityData',
       );
       completeForm(config.rows, FormType.UPDATE);
       cy.get('div.header button').contains('Save').click();

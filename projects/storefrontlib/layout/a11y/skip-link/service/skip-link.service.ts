@@ -17,7 +17,7 @@ export class SkipLinkService {
 
   constructor(
     protected config: SkipLinkConfig,
-    protected keyboardFocusService: KeyboardFocusService
+    protected keyboardFocusService: KeyboardFocusService,
   ) {}
 
   getSkipLinks(): Observable<SkipLink[]> {
@@ -26,7 +26,7 @@ export class SkipLinkService {
 
   add(key: string, target: HTMLElement): void {
     const found: SkipLink | undefined = this.config.skipLinks?.find(
-      (skipLink) => skipLink.key === key
+      (skipLink) => skipLink.key === key,
     );
 
     if (found) {
@@ -43,7 +43,7 @@ export class SkipLinkService {
 
   remove(key: string): void {
     const found: SkipLink | undefined = this.config.skipLinks?.find(
-      (skipLink) => skipLink.key === key
+      (skipLink) => skipLink.key === key,
     );
 
     if (found) {
@@ -87,7 +87,7 @@ export class SkipLinkService {
       if (previous) {
         const existing: SkipLink[] = this.skipLinks$.value;
         const found: number = existing.findIndex(
-          (skipLink) => skipLink.key === previous.key
+          (skipLink) => skipLink.key === previous.key,
         );
         if (found > -1) {
           return found + 1;

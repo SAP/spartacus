@@ -16,7 +16,7 @@ describe('I18nextResourcesToBackendInitializer', () => {
     });
 
     i18nextBackendInitializer = TestBed.inject(
-      I18nextResourcesToBackendInitializer
+      I18nextResourcesToBackendInitializer,
     );
     i18next = TestBed.inject(I18NEXT_INSTANCE);
     config = TestBed.inject(I18nConfig);
@@ -51,7 +51,7 @@ describe('I18nextResourcesToBackendInitializer', () => {
         spyOn(i18next, 'init');
 
         expect(() => i18nextBackendInitializer.initialize()).toThrowError(
-          'Missing config `i18n.backend.loader`.'
+          'Missing config `i18n.backend.loader`.',
         );
       });
     });

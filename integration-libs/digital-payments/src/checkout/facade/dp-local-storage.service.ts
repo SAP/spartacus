@@ -25,7 +25,7 @@ export class DpLocalStorageService implements OnDestroy {
       >({
         key: KEY,
         state$: of(request),
-      })
+      }),
     );
   }
 

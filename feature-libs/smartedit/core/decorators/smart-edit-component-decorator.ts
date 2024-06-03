@@ -19,13 +19,13 @@ export class SmartEditComponentDecorator extends ComponentDecorator {
   decorate(
     element: Element,
     renderer: Renderer2,
-    component: ContentSlotComponentData
+    component: ContentSlotComponentData,
   ): void {
     if (component) {
       this.smartEditService.addSmartEditContract(
         element,
         renderer,
-        component.properties
+        component.properties,
       );
     }
   }

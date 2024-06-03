@@ -17,7 +17,7 @@ import { CurrentCostCenterService } from './current-cost-center.service';
 export class CostCenterRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
   constructor(
     translation: TranslationService,
-    protected currentItemService: CurrentCostCenterService
+    protected currentItemService: CurrentCostCenterService,
   ) {
     super(translation);
   }

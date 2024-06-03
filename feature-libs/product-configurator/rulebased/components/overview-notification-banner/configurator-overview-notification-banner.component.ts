@@ -31,11 +31,11 @@ export class ConfiguratorOverviewNotificationBannerComponent {
       filter(
         (routerData) =>
           routerData.owner.type === CommonConfigurator.OwnerType.PRODUCT ||
-          routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY
+          routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY,
       ),
       switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner)
-      )
+        this.configuratorCommonsService.getConfiguration(routerData.owner),
+      ),
     );
 
   configurationOverview$: Observable<Configurator.Overview | undefined> =
@@ -55,20 +55,20 @@ export class ConfiguratorOverviewNotificationBannerComponent {
           ? configuration.totalNumberOfIssues
           : 0;
       }
-    })
+    }),
   );
 
   numberOfConflicts$: Observable<number> = this.configuration$.pipe(
     map((configuration) => {
       return configuration.overview?.numberOfConflicts ?? 0;
-    })
+    }),
   );
 
   skipConflictsOnIssueNavigation$: Observable<boolean> =
     this.configuration$.pipe(
       map((configuration) => {
         return (configuration.overview?.numberOfConflicts ?? 0) > 0;
-      })
+      }),
     );
 
   iconTypes = ICON_TYPE;
@@ -76,6 +76,6 @@ export class ConfiguratorOverviewNotificationBannerComponent {
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
   ) {}
 }

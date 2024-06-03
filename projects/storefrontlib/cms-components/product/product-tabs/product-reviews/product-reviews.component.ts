@@ -58,19 +58,19 @@ export class ProductReviewsComponent {
     map((p) => p.code ?? ''),
     distinctUntilChanged(),
     switchMap((productCode) =>
-      this.reviewService.getByProductCode(productCode)
+      this.reviewService.getByProductCode(productCode),
     ),
     tap(() => {
       this.resetReviewForm();
       this.maxListItems = this.initialMaxListItems;
-    })
+    }),
   );
 
   constructor(
     protected reviewService: ProductReviewService,
     protected currentProductService: CurrentProductService,
     private fb: UntypedFormBuilder,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
   ) {}
 
   initiateWriteReview(): void {

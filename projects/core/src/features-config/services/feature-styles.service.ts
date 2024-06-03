@@ -104,7 +104,7 @@ export class FeatureStylesService {
     const currentCounter = this.usagesCounter.get(feature) ?? 0;
     if (currentCounter === 0 && isDevMode()) {
       this.logger.warn(
-        `Feature flag CSS: "${feature}" is already not used, so it cannot be unregistered.`
+        `Feature flag CSS: "${feature}" is already not used, so it cannot be unregistered.`,
       );
     }
 

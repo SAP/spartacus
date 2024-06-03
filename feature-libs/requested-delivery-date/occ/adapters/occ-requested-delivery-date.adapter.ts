@@ -19,13 +19,13 @@ export class OccRequestedDeliveryDateAdapter
 {
   constructor(
     protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService
+    protected occEndpoints: OccEndpointsService,
   ) {}
 
   setRequestedDeliveryDate(
     userId: string,
     cartId: string,
-    requestedRetrievalAt: string
+    requestedRetrievalAt: string,
   ) {
     let headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',

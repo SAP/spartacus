@@ -29,7 +29,7 @@ export class SiteContextComponentService {
     @Optional()
     protected componentData: CmsComponentData<CmsSiteContextSelectorComponent>,
     private contextServiceMap: ContextServiceMap,
-    protected injector: Injector
+    protected injector: Injector,
   ) {}
 
   getItems(context?: SiteContextType): Observable<any> {
@@ -46,15 +46,15 @@ export class SiteContextComponentService {
               });
             }
             return of(itemsCopy);
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
   }
 
   getActiveItem(context?: SiteContextType): Observable<string> {
     return this.getService(context).pipe(
-      switchMap((service: SiteContext<any>) => service.getActive())
+      switchMap((service: SiteContext<any>) => service.getActive()),
     );
   }
 
@@ -64,7 +64,7 @@ export class SiteContextComponentService {
         if (ctx) {
           return LABELS[ctx];
         }
-      })
+      }),
     );
   }
 
@@ -77,18 +77,18 @@ export class SiteContextComponentService {
   }
 
   protected getService(
-    context?: SiteContextType
+    context?: SiteContextType,
   ): Observable<SiteContext<any>> {
     return this.getContext(context).pipe(
       map((ctx: string | undefined) =>
-        ctx ? this.getInjectedService(ctx) : undefined
+        ctx ? this.getInjectedService(ctx) : undefined,
       ),
-      filter(isNotUndefined)
+      filter(isNotUndefined),
     );
   }
 
   protected getContext(
-    context?: SiteContextType
+    context?: SiteContextType,
   ): Observable<string | undefined> {
     if (context) {
       if (context === SiteContextType.CURRENCY) {
@@ -110,7 +110,7 @@ export class SiteContextComponentService {
             default:
               return ctx;
           }
-        })
+        }),
       );
     }
     return of(undefined);
@@ -119,7 +119,7 @@ export class SiteContextComponentService {
   protected getInjectedService(context: string): SiteContext<any> {
     return this.injector.get<SiteContext<any>>(
       this.contextServiceMap[context],
-      undefined
+      undefined,
     );
   }
 

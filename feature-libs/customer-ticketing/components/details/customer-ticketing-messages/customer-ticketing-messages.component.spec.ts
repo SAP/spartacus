@@ -92,7 +92,7 @@ describe('CustomerTicketMessagesComponent', () => {
       {
         message: 'mock message',
       },
-      mustWaitForAttachment
+      mustWaitForAttachment,
     );
   });
 
@@ -109,7 +109,7 @@ describe('CustomerTicketMessagesComponent', () => {
 
     expect(customerTicketingFacade.uploadAttachment).toHaveBeenCalledWith(
       'mockFile' as unknown as File,
-      'mockCode'
+      'mockCode',
     );
   });
 
@@ -137,7 +137,7 @@ describe('CustomerTicketMessagesComponent', () => {
 
     expect(customerTicketingFacade.downloadAttachment).toHaveBeenCalledWith(
       'mockCode',
-      'mockId'
+      'mockId',
     );
   });
 
@@ -185,13 +185,13 @@ describe('CustomerTicketMessagesComponent', () => {
       const actual = component.messagingConfigs;
 
       actual.displayAddMessageSection?.subscribe((displayAddMessageSection) =>
-        expect(displayAddMessageSection).toBe(true)
+        expect(displayAddMessageSection).toBe(true),
       );
       expect(actual.attachmentRestrictions).toEqual(
-        customerTicketingConfig.customerTicketing?.attachmentRestrictions
+        customerTicketingConfig.customerTicketing?.attachmentRestrictions,
       );
       expect(actual.charactersLimit).toEqual(
-        customerTicketingConfig.customerTicketing?.inputCharactersLimit
+        customerTicketingConfig.customerTicketing?.inputCharactersLimit,
       );
       expect(actual.enableFileUploadOption).toBe(true);
     });

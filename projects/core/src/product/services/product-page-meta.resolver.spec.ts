@@ -147,7 +147,7 @@ describe('ProductPageMetaResolver', () => {
       .unsubscribe();
 
     expect(result).toEqual(
-      'pageMetaResolver.product.title:Product title | one two three | Canon'
+      'pageMetaResolver.product.title:Product title | one two three | Canon',
     );
   });
 
@@ -159,7 +159,7 @@ describe('ProductPageMetaResolver', () => {
       .unsubscribe();
 
     expect(result).toEqual(
-      'pageMetaResolver.product.description:Product summary'
+      'pageMetaResolver.product.description:Product summary',
     );
   });
 
@@ -230,14 +230,14 @@ describe('ProductPageMetaResolver', () => {
 
   it('should resolve canonical url from the PageLinkService.getCanonicalUrl()', async () => {
     spyOn(routingService, 'getFullUrl').and.returnValue(
-      'https://store.com/product/123'
+      'https://store.com/product/123',
     );
 
     spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
     expect(pageLinkService.getCanonicalUrl).toHaveBeenCalledWith(
       {},
-      'https://store.com/product/123'
+      'https://store.com/product/123',
     );
   });
 
@@ -246,10 +246,10 @@ describe('ProductPageMetaResolver', () => {
       of(MockProductVariant),
       of({
         code: 'base_1234',
-      })
+      }),
     );
     spyOn(routingService, 'getFullUrl').and.returnValue(
-      'https://store.com/product/base_1234'
+      'https://store.com/product/base_1234',
     );
 
     spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();
@@ -261,7 +261,7 @@ describe('ProductPageMetaResolver', () => {
     });
     expect(pageLinkService.getCanonicalUrl).toHaveBeenCalledWith(
       {},
-      'https://store.com/product/base_1234'
+      'https://store.com/product/base_1234',
     );
   });
 
@@ -274,10 +274,10 @@ describe('ProductPageMetaResolver', () => {
       }),
       of({
         code: 'super_base_1234',
-      })
+      }),
     );
     spyOn(routingService, 'getFullUrl').and.returnValue(
-      'https://store.com/product/super_base_1234'
+      'https://store.com/product/super_base_1234',
     );
 
     spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();
@@ -289,14 +289,14 @@ describe('ProductPageMetaResolver', () => {
     });
     expect(pageLinkService.getCanonicalUrl).toHaveBeenCalledWith(
       {},
-      'https://store.com/product/super_base_1234'
+      'https://store.com/product/super_base_1234',
     );
   });
 
   it('should not resolve canonical url for undefined product', async () => {
     spyOn(productService, 'get').and.returnValues(of(undefined));
     spyOn(routingService, 'getFullUrl').and.returnValue(
-      'https://store.com/product/123'
+      'https://store.com/product/123',
     );
 
     spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();

@@ -19,7 +19,7 @@ describe('ViewAllStores Selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           STORE_FINDER_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });

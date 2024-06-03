@@ -164,7 +164,7 @@ describe('OrgUnit Actions', () => {
           payload: orgUnitList,
           meta: StateUtils.entitySuccessMeta(
             ORG_UNIT_NODE_LIST,
-            ORG_UNIT_NODES
+            ORG_UNIT_NODES,
           ),
         });
       });
@@ -182,7 +182,7 @@ describe('OrgUnit Actions', () => {
         payload: { userId },
         meta: StateUtils.entityLoadMeta(
           ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
-          ORG_UNIT_APPROVAL_PROCESSES
+          ORG_UNIT_APPROVAL_PROCESSES,
         ),
       });
     });
@@ -196,14 +196,14 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entityFailMeta(
           ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
           ORG_UNIT_APPROVAL_PROCESSES,
-          error
+          error,
         ),
       });
     });
 
     it('should execute LoadApprovalProcessesSuccess action', () => {
       const action = new OrgUnitActions.LoadApprovalProcessesSuccess(
-        approvalProcesses
+        approvalProcesses,
       );
 
       expect({ ...action }).toEqual({
@@ -211,7 +211,7 @@ describe('OrgUnit Actions', () => {
         payload: approvalProcesses,
         meta: StateUtils.entitySuccessMeta(
           ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
-          ORG_UNIT_APPROVAL_PROCESSES
+          ORG_UNIT_APPROVAL_PROCESSES,
         ),
       });
     });
@@ -490,7 +490,7 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entityFailMeta(
           B2B_USER_ENTITIES,
           orgCustomerId,
-          error
+          error,
         ),
       });
     });
@@ -537,7 +537,7 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entityFailMeta(
           B2B_USER_ENTITIES,
           orgCustomerId,
-          error
+          error,
         ),
       });
     });
@@ -581,7 +581,7 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entityFailMeta(
           ORG_UNIT_TREE_ENTITY,
           ORG_UNIT_TREE,
-          error
+          error,
         ),
       });
     });
@@ -626,7 +626,7 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entityFailMeta(
           B2B_USER_ENTITIES,
           orgCustomerId,
-          error
+          error,
         ),
       });
     });
@@ -674,7 +674,7 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entityFailMeta(
           B2B_USER_ENTITIES,
           orgCustomerId,
-          error
+          error,
         ),
       });
     });
@@ -708,7 +708,7 @@ describe('OrgUnit Actions', () => {
         payload: { userId, orgUnitId, roleId, params },
         meta: StateUtils.entityLoadMeta(
           ORG_UNIT_ASSIGNED_USERS,
-          StateUtils.serializeSearchConfig(params, `${orgUnitId},${roleId}`)
+          StateUtils.serializeSearchConfig(params, `${orgUnitId},${roleId}`),
         ),
       });
     });
@@ -727,7 +727,7 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entityFailMeta(
           ORG_UNIT_ASSIGNED_USERS,
           StateUtils.serializeSearchConfig(params, `${orgUnitId},${roleId}`),
-          error
+          error,
         ),
       });
     });
@@ -745,7 +745,7 @@ describe('OrgUnit Actions', () => {
         payload: { orgUnitId, roleId, page, params },
         meta: StateUtils.entitySuccessMeta(
           ORG_UNIT_ASSIGNED_USERS,
-          StateUtils.serializeSearchConfig(params, `${orgUnitId},${roleId}`)
+          StateUtils.serializeSearchConfig(params, `${orgUnitId},${roleId}`),
         ),
       });
     });
@@ -764,7 +764,7 @@ describe('OrgUnit Actions', () => {
         payload: { orgUnitId, roleId, params },
         meta: StateUtils.entityRemoveMeta(
           ORG_UNIT_ASSIGNED_USERS,
-          StateUtils.serializeSearchConfig(params, `${orgUnitId},${roleId}`)
+          StateUtils.serializeSearchConfig(params, `${orgUnitId},${roleId}`),
         ),
       });
     });

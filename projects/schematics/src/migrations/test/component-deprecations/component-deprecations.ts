@@ -32,7 +32,7 @@ export function migrate(): Rule {
         tree,
         context,
         COMPONENT_DEPRECATION_DATA,
-        angularCompiler
+        angularCompiler,
       );
     };
   };

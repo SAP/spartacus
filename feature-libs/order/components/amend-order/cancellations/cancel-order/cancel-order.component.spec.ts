@@ -44,21 +44,19 @@ describe('CancelOrderComponent', () => {
   let component: CancelOrderComponent;
   let fixture: ComponentFixture<CancelOrderComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, FormErrorsModule],
-        providers: [
-          { provide: OrderAmendService, useClass: MockOrderAmendService },
-        ],
-        declarations: [
-          CancelOrderComponent,
-          MockAmendOrderActionComponent,
-          MockCancelOrReturnItemsComponent,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, FormErrorsModule],
+      providers: [
+        { provide: OrderAmendService, useClass: MockOrderAmendService },
+      ],
+      declarations: [
+        CancelOrderComponent,
+        MockAmendOrderActionComponent,
+        MockCancelOrReturnItemsComponent,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelOrderComponent);
@@ -78,7 +76,7 @@ describe('CancelOrderComponent', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length
+      fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length,
     ).toEqual(2);
   });
 
@@ -86,7 +84,7 @@ describe('CancelOrderComponent', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length
+      fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length,
     ).toEqual(2);
   });
 });

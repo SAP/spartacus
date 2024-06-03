@@ -20,7 +20,7 @@ import {
 describe('Logger utils', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
-    path.join(__dirname, '../../collection.json')
+    path.join(__dirname, '../../collection.json'),
   );
 
   let appTree: Tree;
@@ -51,20 +51,20 @@ describe('Logger utils', () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runSchematic(
       'add-spartacus',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 

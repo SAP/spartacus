@@ -39,12 +39,12 @@ export class ConfiguratorAttributeCheckBoxListComponent
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
   ) {
     super(
       quantityService,
       attributeComponentContext,
-      configuratorCommonsService
+      configuratorCommonsService,
     );
     this.group = attributeComponentContext.group.id;
   }
@@ -75,7 +75,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
     const selectedValues =
       this.configUtilsService.assembleValuesForMultiSelectAttributes(
         this.attributeCheckBoxForms,
-        this.attribute
+        this.attribute,
       );
 
     this.configuratorCommonsService.updateConfiguration(
@@ -84,14 +84,14 @@ export class ConfiguratorAttributeCheckBoxListComponent
         ...this.attribute,
         values: selectedValues,
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   }
 
   onChangeValueQuantity(
     eventObject: any,
     valueCode: string,
-    formIndex: number
+    formIndex: number,
   ): void {
     if (eventObject === 0) {
       this.attributeCheckBoxForms[formIndex].setValue(false);
@@ -102,7 +102,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
     const value: Configurator.Value | undefined = this.configUtilsService
       .assembleValuesForMultiSelectAttributes(
         this.attributeCheckBoxForms,
-        this.attribute
+        this.attribute,
       )
       .find((item) => item.valueCode === valueCode);
 
@@ -122,14 +122,14 @@ export class ConfiguratorAttributeCheckBoxListComponent
         ...this.attribute,
         values: [value],
       },
-      Configurator.UpdateType.VALUE_QUANTITY
+      Configurator.UpdateType.VALUE_QUANTITY,
     );
   }
 
   onChangeQuantity(eventObject: any): void {
     if (!eventObject) {
       this.attributeCheckBoxForms.forEach((_, index) =>
-        this.attributeCheckBoxForms[index].setValue(false)
+        this.attributeCheckBoxForms[index].setValue(false),
       );
       this.onSelect();
     } else {

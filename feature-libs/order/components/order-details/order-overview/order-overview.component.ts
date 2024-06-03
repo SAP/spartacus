@@ -34,13 +34,13 @@ export class OrderOverviewComponent {
       : of(false);
 
   simple$: Observable<boolean | undefined> = this.component.data$.pipe(
-    map((data) => data.simple)
+    map((data) => data.simple),
   );
 
   constructor(
     protected translation: TranslationService,
     protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
+    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>,
   ) {}
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
@@ -49,7 +49,7 @@ export class OrderOverviewComponent {
       map((textTitle) => ({
         title: textTitle,
         text: [orderCode],
-      }))
+      })),
     );
   }
 
@@ -62,7 +62,7 @@ export class OrderOverviewComponent {
       map(([textTitle, textActive, textCancelled]) => ({
         title: textTitle,
         text: [active ? textActive : textCancelled],
-      }))
+      })),
     );
   }
 
@@ -74,7 +74,7 @@ export class OrderOverviewComponent {
           title: textTitle,
           text: [isoDate],
         } as Card;
-      })
+      }),
     );
   }
 
@@ -84,12 +84,12 @@ export class OrderOverviewComponent {
       map((textTitle) => ({
         title: textTitle,
         text: [frequency],
-      }))
+      })),
     );
   }
 
   getReplenishmentNextDateCardContent(
-    isoDate: string | null
+    isoDate: string | null,
   ): Observable<Card> {
     return this.translation.translate('orderDetails.nextOrderDate').pipe(
       filter(() => Boolean(isoDate)),
@@ -98,7 +98,7 @@ export class OrderOverviewComponent {
           title: textTitle,
           text: [isoDate],
         } as Card;
-      })
+      }),
     );
   }
 
@@ -108,7 +108,7 @@ export class OrderOverviewComponent {
       map((textTitle) => ({
         title: textTitle,
         text: [orderCode],
-      }))
+      })),
     );
   }
 
@@ -120,7 +120,7 @@ export class OrderOverviewComponent {
           title: textTitle,
           text: [isoDate],
         } as Card;
-      })
+      }),
     );
   }
 
@@ -132,7 +132,7 @@ export class OrderOverviewComponent {
       map(([textTitle, textStatus]) => ({
         title: textTitle,
         text: [textStatus],
-      }))
+      })),
     );
   }
 
@@ -144,12 +144,12 @@ export class OrderOverviewComponent {
       map(([textTitle, noneTextTitle]) => ({
         title: textTitle,
         text: [poNumber ? poNumber : noneTextTitle],
-      }))
+      })),
     );
   }
 
   getMethodOfPaymentCardContent(
-    hasPaymentInfo: PaymentDetails
+    hasPaymentInfo: PaymentDetails,
   ): Observable<Card> {
     return combineLatest([
       this.translation.translate('orderDetails.methodOfPayment'),
@@ -159,7 +159,7 @@ export class OrderOverviewComponent {
       map(([textTitle, textAccount, textCard]) => ({
         title: textTitle,
         text: [Boolean(hasPaymentInfo) ? textCard : textAccount],
-      }))
+      })),
     );
   }
 
@@ -170,7 +170,7 @@ export class OrderOverviewComponent {
         title: textTitle,
         textBold: costCenter?.name,
         text: ['(' + costCenter?.unit?.name + ')'],
-      }))
+      })),
     );
   }
 
@@ -179,7 +179,7 @@ export class OrderOverviewComponent {
       filter(() => Boolean(deliveryAddress)),
       map((textTitle) => {
         const formattedAddress = this.normalizeFormattedAddress(
-          deliveryAddress.formattedAddress ?? ''
+          deliveryAddress.formattedAddress ?? '',
         );
 
         return {
@@ -187,7 +187,7 @@ export class OrderOverviewComponent {
           textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
           text: [formattedAddress, deliveryAddress.country?.name],
         } as Card;
-      })
+      }),
     );
   }
 
@@ -205,8 +205,8 @@ export class OrderOverviewComponent {
                 ? deliveryMode.deliveryCost?.formattedValue
                 : '',
             ],
-          } as Card)
-      )
+          }) as Card,
+      ),
     );
   }
 
@@ -220,8 +220,8 @@ export class OrderOverviewComponent {
     ]).pipe(
       filter(() => Boolean(payment)),
       map(([textTitle, textExpires]) =>
-        paymentMethodCard(textTitle, textExpires, payment)
-      )
+        paymentMethodCard(textTitle, textExpires, payment),
+      ),
     );
   }
 
@@ -243,8 +243,8 @@ export class OrderOverviewComponent {
               billingAddress.formattedAddress,
               billingAddress.country?.name,
             ],
-          } as Card)
-      )
+          }) as Card,
+      ),
     );
   }
 

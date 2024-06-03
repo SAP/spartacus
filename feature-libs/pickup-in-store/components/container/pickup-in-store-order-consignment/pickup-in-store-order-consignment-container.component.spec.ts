@@ -81,7 +81,7 @@ describe('PickupInStoreOrderConsignmentContainerComponent', () => {
 
   const stubServiceAndCreateComponent = () => {
     fixture = TestBed.createComponent(
-      PickupInStoreOrderConsignmentContainerComponent
+      PickupInStoreOrderConsignmentContainerComponent,
     );
     component = fixture.componentInstance;
 

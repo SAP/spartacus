@@ -75,7 +75,7 @@ describe('removed public api migrations', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../test/migrations-test.json')
+      require.resolve('../../test/migrations-test.json'),
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -87,7 +87,7 @@ describe('removed public api migrations', () => {
         compilerOptions: {
           lib: ['es2015'],
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -103,7 +103,7 @@ describe('removed public api migrations', () => {
             },
           },
         },
-      })
+      }),
     );
 
     previousWorkingDir = shx.pwd();

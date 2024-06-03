@@ -18,13 +18,13 @@ export class OccProductReferencesAdapter implements ProductReferencesAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   load(
     productCode: string,
     referenceType?: string,
-    pageSize?: number
+    pageSize?: number,
   ): Observable<ProductReference[]> {
     return this.http
       .get(this.getEndpoint(productCode, referenceType, pageSize))
@@ -34,7 +34,7 @@ export class OccProductReferencesAdapter implements ProductReferencesAdapter {
   protected getEndpoint(
     code: string,
     reference?: string,
-    pageSize?: number
+    pageSize?: number,
   ): string {
     return this.occEndpoints.buildUrl('productReferences', {
       urlParams: { productCode: code },

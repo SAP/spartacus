@@ -29,19 +29,19 @@ export class OrderReturnRequestEffect {
               map(
                 (returnRequest: ReturnRequest) =>
                   new OrderActions.CreateOrderReturnRequestSuccess(
-                    returnRequest
-                  )
+                    returnRequest,
+                  ),
               ),
               catchError((error) =>
                 of(
                   new OrderActions.CreateOrderReturnRequestFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   loadReturnRequest$: Observable<OrderActions.OrderReturnRequestAction> =
@@ -55,18 +55,18 @@ export class OrderReturnRequestEffect {
             .pipe(
               map(
                 (returnRequest: ReturnRequest) =>
-                  new OrderActions.LoadOrderReturnRequestSuccess(returnRequest)
+                  new OrderActions.LoadOrderReturnRequestSuccess(returnRequest),
               ),
               catchError((error) =>
                 of(
                   new OrderActions.LoadOrderReturnRequestFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   cancelReturnRequest$: Observable<OrderActions.OrderReturnRequestAction> =
@@ -79,20 +79,20 @@ export class OrderReturnRequestEffect {
             .cancelReturnRequest(
               payload.userId,
               payload.returnRequestCode,
-              payload.returnRequestModification
+              payload.returnRequestModification,
             )
             .pipe(
               map(() => new OrderActions.CancelOrderReturnRequestSuccess()),
               catchError((error) =>
                 of(
                   new OrderActions.CancelOrderReturnRequestFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   loadReturnRequestList$: Observable<OrderActions.OrderReturnRequestAction> =
@@ -100,7 +100,7 @@ export class OrderReturnRequestEffect {
       this.actions$.pipe(
         ofType(OrderActions.LOAD_ORDER_RETURN_REQUEST_LIST),
         map(
-          (action: OrderActions.LoadOrderReturnRequestList) => action.payload
+          (action: OrderActions.LoadOrderReturnRequestList) => action.payload,
         ),
         switchMap((payload) => {
           return this.orderConnector
@@ -108,29 +108,29 @@ export class OrderReturnRequestEffect {
               payload.userId,
               payload.pageSize,
               payload.currentPage,
-              payload.sort
+              payload.sort,
             )
             .pipe(
               map(
                 (returnRequestList: ReturnRequestList) =>
                   new OrderActions.LoadOrderReturnRequestListSuccess(
-                    returnRequestList
-                  )
+                    returnRequestList,
+                  ),
               ),
               catchError((error) =>
                 of(
                   new OrderActions.LoadOrderReturnRequestListFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   constructor(
     private actions$: Actions,
-    private orderConnector: OrderHistoryConnector
+    private orderConnector: OrderHistoryConnector,
   ) {}
 }

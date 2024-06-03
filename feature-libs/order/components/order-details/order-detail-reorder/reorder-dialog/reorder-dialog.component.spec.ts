@@ -119,41 +119,39 @@ describe('ReorderDialogComponent', () => {
   let el: DebugElement;
   let reorderOrderFacade: ReorderOrderFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          FormsModule,
-          ReactiveFormsModule,
-          RouterTestingModule,
-          SpinnerModule,
-          I18nTestingModule,
-          PromotionsModule,
-        ],
-        declarations: [
-          ReorderDialogComponent,
-          MockCxIconComponent,
-          MockSpinnerComponent,
-          MockFocusDirective,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: ReorderOrderFacade,
-            useClass: MockReorderOrderFacade,
-          },
-          {
-            provide: MultiCartFacade,
-            useClass: MockMultiCartService,
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        SpinnerModule,
+        I18nTestingModule,
+        PromotionsModule,
+      ],
+      declarations: [
+        ReorderDialogComponent,
+        MockCxIconComponent,
+        MockSpinnerComponent,
+        MockFocusDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: ReorderOrderFacade,
+          useClass: MockReorderOrderFacade,
+        },
+        {
+          provide: MultiCartFacade,
+          useClass: MockMultiCartService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReorderDialogComponent);
@@ -170,13 +168,13 @@ describe('ReorderDialogComponent', () => {
     it('should display decision prompt when opened', () => {
       fixture.detectChanges();
       expect(
-        el.query(By.css('.cx-reorder-dialog-areyousure-section')).nativeElement
+        el.query(By.css('.cx-reorder-dialog-areyousure-section')).nativeElement,
       ).toBeDefined();
     });
     it('should display error and warning messages when there are cart modifications ', () => {
       fixture.detectChanges();
       el.queryAll(
-        By.css('.cx-reorder-dialog-footer div button')
+        By.css('.cx-reorder-dialog-footer div button'),
       )[1].nativeElement.dispatchEvent(new MouseEvent('click'));
       fixture.detectChanges();
       expect(el.query(By.css('.warning')).nativeElement).toBeDefined();
@@ -185,11 +183,11 @@ describe('ReorderDialogComponent', () => {
     it('should success message when there are no cart modifications ', () => {
       component.showDecisionPrompt$.next(true);
       spyOn(reorderOrderFacade, 'reorder').and.returnValue(
-        of({ cartModifications: [] })
+        of({ cartModifications: [] }),
       );
       fixture.detectChanges();
       el.queryAll(
-        By.css('.cx-reorder-dialog-footer div button')
+        By.css('.cx-reorder-dialog-footer div button'),
       )[1].nativeElement.dispatchEvent(new MouseEvent('click'));
       fixture.detectChanges();
       expect(el.query(By.css('.success')).nativeElement).toBeDefined();
@@ -198,7 +196,7 @@ describe('ReorderDialogComponent', () => {
       const focusSpy = spyOn(el.query(By.css('.close')).nativeElement, 'focus');
       fixture.detectChanges();
       el.queryAll(
-        By.css('.cx-reorder-dialog-footer div button')
+        By.css('.cx-reorder-dialog-footer div button'),
       )[1].nativeElement.dispatchEvent(new MouseEvent('click'));
       expect(focusSpy).toHaveBeenCalled();
     });

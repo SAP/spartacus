@@ -31,7 +31,7 @@ import { ComponentHandlerService } from './services/component-handler.service';
 export class InnerComponentsHostDirective implements OnInit, OnDestroy {
   protected innerComponents$ = this.data.data$.pipe(
     map((data) => data?.composition?.inner ?? []),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected componentWrappers: any[] = [];
@@ -47,7 +47,7 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
     protected cmsInjector: CmsInjectorService,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   ngOnInit(): void {
@@ -70,7 +70,7 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
       this.renderer,
       this.componentHandler,
       this.cmsInjector,
-      this.eventService
+      this.eventService,
     );
     componentWrapper.cxComponentWrapper = { flexType: component, uid: '' };
     componentWrapper.ngOnInit();

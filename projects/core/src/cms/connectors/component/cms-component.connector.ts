@@ -20,12 +20,12 @@ export class CmsComponentConnector {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
     protected cmsComponentAdapter: CmsComponentAdapter,
-    protected config: CmsConfig
+    protected config: CmsConfig,
   ) {}
 
   get<T extends CmsComponent>(
     id: string,
-    pageContext: PageContext
+    pageContext: PageContext,
   ): Observable<T> {
     return this.cmsStructureConfigService
       .getComponentFromConfig(id)
@@ -33,8 +33,8 @@ export class CmsComponentConnector {
         switchMap((configuredComponent) =>
           configuredComponent
             ? of(configuredComponent)
-            : this.cmsComponentAdapter.load(id, pageContext)
-        )
+            : this.cmsComponentAdapter.load(id, pageContext),
+        ),
       );
   }
 
@@ -49,7 +49,7 @@ export class CmsComponentConnector {
             }
             return acc;
           },
-          []
+          [],
         );
 
         if (missingIds.length > 0) {
@@ -64,24 +64,24 @@ export class CmsComponentConnector {
               this.cmsComponentAdapter.findComponentsByIds(
                 missingIds.slice(
                   currentPage * pageSize,
-                  (currentPage + 1) * pageSize
+                  (currentPage + 1) * pageSize,
                 ),
-                pageContext
-              )
+                pageContext,
+              ),
             );
             currentPage++;
           }
           return zip(...cmsComponents).pipe(
             map((loadedComponents) =>
               [...configuredComponents.filter(Boolean)].concat(
-                ...loadedComponents
-              )
-            )
+                ...loadedComponents,
+              ),
+            ),
           );
         } else {
           return of(configuredComponents);
         }
-      })
+      }),
     );
   }
 }

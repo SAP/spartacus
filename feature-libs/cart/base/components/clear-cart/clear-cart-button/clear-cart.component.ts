@@ -32,14 +32,14 @@ export class ClearCartComponent implements OnDestroy {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {}
 
   openDialog(event: Event): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CLEAR_CART,
       this.element,
-      this.vcr
+      this.vcr,
     );
     if (dialog) {
       this.subscription.add(dialog.pipe(take(1)).subscribe());

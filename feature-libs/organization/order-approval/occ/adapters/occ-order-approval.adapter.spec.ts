@@ -35,7 +35,7 @@ class MockOccEndpointsService {
     (url, { urlParams: { orderApprovalCode } }) =>
       url === 'orderApproval' || url === 'orderApprovalDecision'
         ? `${url}/${orderApprovalCode}`
-        : url
+        : url,
   );
 }
 
@@ -75,13 +75,13 @@ describe('OccOrderApprovalAdapter', () => {
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'GET' &&
-          req.url === `orderApproval/${orderApprovalCode}`
+          req.url === `orderApproval/${orderApprovalCode}`,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orderApproval);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ORDER_APPROVAL_NORMALIZER
+        ORDER_APPROVAL_NORMALIZER,
       );
     });
   });
@@ -90,13 +90,13 @@ describe('OccOrderApprovalAdapter', () => {
     it('should load orderApproval list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'orderApprovals'
+        (req) => req.method === 'GET' && req.url === 'orderApprovals',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([orderApproval]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ORDER_APPROVALS_NORMALIZER
+        ORDER_APPROVALS_NORMALIZER,
       );
     });
   });
@@ -110,13 +110,13 @@ describe('OccOrderApprovalAdapter', () => {
         (req) =>
           req.method === 'POST' &&
           req.url === `orderApprovalDecision/${orderApprovalCode}` &&
-          req.body === orderApprovalDecision
+          req.body === orderApprovalDecision,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orderApprovalDecision);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ORDER_APPROVAL_DECISION_NORMALIZER
+        ORDER_APPROVAL_DECISION_NORMALIZER,
       );
     });
   });

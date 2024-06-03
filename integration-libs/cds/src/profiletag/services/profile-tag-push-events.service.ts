@@ -80,13 +80,13 @@ export class ProfileTagPushEventsService {
     this.addedToCart(),
     this.removedFromCart(),
     this.modifiedCart(),
-    this.cartChangedEvent()
+    this.cartChangedEvent(),
   );
 
   constructor(
     protected eventService: EventService,
     protected personalizationContextService: PersonalizationContextService,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
   ) {}
 
   /**
@@ -100,15 +100,15 @@ export class ProfileTagPushEventsService {
       withLatestFrom(
         merge(
           of({ segments: undefined, actions: undefined }),
-          this.personalizationContextService.getPersonalizationContext()
-        )
+          this.personalizationContextService.getPersonalizationContext(),
+        ),
       ),
       map(([item, personalizationContext]) => {
         item.data = item.data ? item.data : {};
         item.data.segments = personalizationContext?.segments;
         item.data.actions = personalizationContext?.actions;
         return item;
-      })
+      }),
     );
   }
 
@@ -135,13 +135,13 @@ export class ProfileTagPushEventsService {
       withLatestFrom(
         this.eventService.get(PageEvent).pipe(
           startWith(<PageEvent>null), // https://github.com/ReactiveX/rxjs/issues/4772
-          pairwise()
-        )
+          pairwise(),
+        ),
       ),
       distinctUntilChanged(
         (
           [previouslyEmittedCategoryPage],
-          [currentCategoryPage, [previousRoute, currentRoute]]
+          [currentCategoryPage, [previousRoute, currentRoute]],
         ) => {
           return (
             previouslyEmittedCategoryPage.categoryCode ===
@@ -153,15 +153,15 @@ export class ProfileTagPushEventsService {
           // What we are saying, is that if the category code is the same AND the last emitted semantic route is the
           // same then this is a duplicate (i.e. via a facet change). In other words, no other page type was visited,
           // and we are on the same category code.
-        }
+        },
       ),
       map(
         ([categoryPageEvent]) =>
           new CategoryViewPushEvent({
             productCategory: categoryPageEvent.categoryCode,
             productCategoryName: categoryPageEvent.categoryName,
-          })
-      )
+          }),
+      ),
     );
   }
 
@@ -180,8 +180,8 @@ export class ProfileTagPushEventsService {
           new KeywordSearchPushEvent({
             searchTerm: searchEvent.searchTerm,
             numResults: searchEvent.numberOfResults,
-          })
-      )
+          }),
+      ),
     );
   }
 
@@ -207,8 +207,8 @@ export class ProfileTagPushEventsService {
               ? item.categories[item.categories.length - 1].code
               : undefined,
             categories: this.categoriesToIds(item.categories),
-          })
-      )
+          }),
+      ),
     );
   }
 
@@ -293,8 +293,8 @@ export class ProfileTagPushEventsService {
                   item.entry.product.categories.length - 1
                 ].code
               : undefined,
-          })
-      )
+          }),
+      ),
     );
   }
 
@@ -325,8 +325,8 @@ export class ProfileTagPushEventsService {
                 ].code
               : undefined,
             categories: this.categoriesToIds(item.entry.product.categories),
-          })
-      )
+          }),
+      ),
     );
   }
 
@@ -358,8 +358,8 @@ export class ProfileTagPushEventsService {
                   item.entry.product.categories.length - 1
                 ].code
               : undefined,
-          })
-      )
+          }),
+      ),
     );
   }
 
@@ -379,15 +379,15 @@ export class ProfileTagPushEventsService {
       this.eventService.get(CartAddEntrySuccessEvent),
       this.eventService.get(CartUpdateEntrySuccessEvent),
       this.eventService.get(CartRemoveEntrySuccessEvent),
-      this.eventService.get(MergeCartSuccessEvent)
+      this.eventService.get(MergeCartSuccessEvent),
     ).pipe(
       switchMap(() => this.activeCartFacade.takeActive()),
       map(
         (cart) =>
           new CartSnapshotPushEvent({
             cart,
-          })
-      )
+          }),
+      ),
     );
   }
 
@@ -400,7 +400,7 @@ export class ProfileTagPushEventsService {
       return undefined;
     }
     return parseFloat(
-      (event.entry.totalPrice.value / event.entry.quantity).toFixed(2)
+      (event.entry.totalPrice.value / event.entry.quantity).toFixed(2),
     );
   }
   private categoriesToIds(categories: Array<Category>): Array<string> {

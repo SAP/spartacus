@@ -85,7 +85,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
-    mockCheckoutSteps
+    mockCheckoutSteps,
   );
   disableEnableStep = createSpy();
   getCheckoutStep = createSpy().and.returnValue({});
@@ -183,7 +183,7 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
     guard = TestBed.inject(CheckoutB2BStepsSetGuard);
     checkoutPaymentTypeFacade = TestBed.inject(CheckoutPaymentTypeFacade);
     checkoutDeliveryAddressFacade = TestBed.inject(
-      CheckoutDeliveryAddressFacade
+      CheckoutDeliveryAddressFacade,
     );
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
@@ -236,9 +236,9 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
       beforeEach(() => {
         spyOn(
           checkoutDeliveryAddressFacade,
-          'getDeliveryAddressState'
+          'getDeliveryAddressState',
         ).and.returnValue(
-          of({ loading: false, error: false, data: { id: 'test-address' } })
+          of({ loading: false, error: false, data: { id: 'test-address' } }),
         );
       });
 
@@ -274,13 +274,13 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
       beforeEach(() => {
         spyOn(
           checkoutDeliveryModesFacade,
-          'getSelectedDeliveryModeState'
+          'getSelectedDeliveryModeState',
         ).and.returnValue(
           of({
             loading: false,
             error: false,
             data: { code: 'test-delivery-mode' },
-          })
+          }),
         );
       });
 
@@ -306,7 +306,7 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
     describe('step3 (payment details) data set', () => {
       beforeEach(() => {
         spyOn(checkoutPaymentFacade, 'getPaymentDetailsState').and.returnValue(
-          of({ loading: false, error: false, data: { id: 'test-details' } })
+          of({ loading: false, error: false, data: { id: 'test-details' } }),
         );
       });
 
@@ -338,7 +338,7 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
           .subscribe((result) => {
             expect(result.toString()).toEqual('/checkout');
             expect(logger.warn).toHaveBeenCalledWith(
-              `Missing step with route '/checkout/route3' in checkout configuration or this step is disabled.`
+              `Missing step with route '/checkout/route3' in checkout configuration or this step is disabled.`,
             );
             done();
           });
@@ -378,7 +378,7 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
       beforeEach(() => {
         spyOn(
           checkoutPaymentTypeFacade,
-          'getSelectedPaymentTypeState'
+          'getSelectedPaymentTypeState',
         ).and.returnValue(of({ loading: false, error: false, data: {} }));
       });
 
@@ -414,9 +414,9 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
       beforeEach(() => {
         spyOn(
           checkoutDeliveryAddressFacade,
-          'getDeliveryAddressState'
+          'getDeliveryAddressState',
         ).and.returnValue(
-          of({ loading: false, error: false, data: { id: 'test-address' } })
+          of({ loading: false, error: false, data: { id: 'test-address' } }),
         );
       });
 
@@ -443,13 +443,13 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
       beforeEach(() => {
         spyOn(
           checkoutDeliveryModesFacade,
-          'getSelectedDeliveryModeState'
+          'getSelectedDeliveryModeState',
         ).and.returnValue(
           of({
             loading: false,
             error: false,
             data: { code: 'test-delivery-mode' },
-          })
+          }),
         );
       });
 

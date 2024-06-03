@@ -34,13 +34,13 @@ export class BaseSiteEffects {
           catchError((error) =>
             of(
               new SiteContextActions.LoadBaseSiteFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   loadBaseSites$: Observable<
@@ -53,22 +53,22 @@ export class BaseSiteEffects {
         return this.siteConnector.getBaseSites().pipe(
           map(
             (baseSites) =>
-              new SiteContextActions.LoadBaseSitesSuccess(baseSites)
+              new SiteContextActions.LoadBaseSitesSuccess(baseSites),
           ),
           catchError((error) =>
             of(
               new SiteContextActions.LoadBaseSitesFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
     private actions$: Actions,
-    private siteConnector: SiteConnector
+    private siteConnector: SiteConnector,
   ) {}
 }

@@ -27,7 +27,7 @@ describe('Notification Preference Reducer', () => {
     it('should populate the notification preference when load success', () => {
       const { initialState } = fromReducer;
       const action = new UserActions.LoadNotificationPreferencesSuccess(
-        mockNotificationPreference
+        mockNotificationPreference,
       );
       const state = fromReducer.reducer(initialState, action);
 
@@ -48,7 +48,7 @@ describe('Notification Preference Reducer', () => {
     it('should populate the notification preference when update success', () => {
       const { initialState } = fromReducer;
       const action = new UserActions.UpdateNotificationPreferencesSuccess(
-        mockNotificationPreference
+        mockNotificationPreference,
       );
       const state = fromReducer.reducer(initialState, action);
 

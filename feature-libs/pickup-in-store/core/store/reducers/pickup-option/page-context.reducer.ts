@@ -15,6 +15,6 @@ export const pageContextReducer = createReducer(
   on(
     PickupOptionActions.SetPageContext,
     (_state: PickupOptionState['pageContext'], { payload }) =>
-      payload.pageContext
-  )
+      payload.pageContext,
+  ),
 );

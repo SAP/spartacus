@@ -15,7 +15,7 @@ export const initialState: ProductReferencesState = {
 
 export function reducer(
   state = initialState,
-  action: ProductActions.ProductReferencesAction
+  action: ProductActions.ProductReferencesAction,
 ): ProductReferencesState {
   switch (action.type) {
     case ProductActions.LOAD_PRODUCT_REFERENCES_SUCCESS: {
@@ -27,20 +27,20 @@ export function reducer(
         list: [...state.list, ...(list ? list : [])].reduce(
           (
             productReferences: ProductReference[],
-            productReference: ProductReference
+            productReference: ProductReference,
           ) => {
             if (
               !productReferences.some(
                 (obj) =>
                   obj.referenceType === productReference.referenceType &&
-                  obj.target?.code === productReference.target?.code
+                  obj.target?.code === productReference.target?.code,
               )
             ) {
               productReferences.push(productReference);
             }
             return productReferences;
           },
-          []
+          [],
         ),
         productCode,
       };
@@ -55,8 +55,8 @@ export function reducer(
 }
 
 export const getProductReferenceList = (
-  state: ProductReferencesState
+  state: ProductReferencesState,
 ): ProductReference[] => state.list;
 export const getProductReferenceProductCode = (
-  state: ProductReferencesState
+  state: ProductReferencesState,
 ): string => state.productCode;

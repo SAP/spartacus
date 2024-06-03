@@ -51,7 +51,7 @@ const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
 class MockPermissionService {
   getLoadingStatus(
-    _id: string
+    _id: string,
   ): Observable<OrganizationItemStatus<Permission>> {
     return mockItemStatus;
   }
@@ -101,14 +101,14 @@ describe('UserGroupPermissionListService', () => {
     spyOn(permissionService, 'getLoadingStatus').and.callThrough();
 
     expect(service.assign('userGroupCode', 'permissionCode')).toEqual(
-      mockItemStatus
+      mockItemStatus,
     );
     expect(userGroupService.assignPermission).toHaveBeenCalledWith(
       'userGroupCode',
-      'permissionCode'
+      'permissionCode',
     );
     expect(permissionService.getLoadingStatus).toHaveBeenCalledWith(
-      'permissionCode'
+      'permissionCode',
     );
   });
 
@@ -117,14 +117,14 @@ describe('UserGroupPermissionListService', () => {
     spyOn(permissionService, 'getLoadingStatus').and.callThrough();
 
     expect(service.unassign('userGroupCode', 'permissionCode')).toEqual(
-      mockItemStatus
+      mockItemStatus,
     );
     expect(userGroupService.unassignPermission).toHaveBeenCalledWith(
       'userGroupCode',
-      'permissionCode'
+      'permissionCode',
     );
     expect(permissionService.getLoadingStatus).toHaveBeenCalledWith(
-      'permissionCode'
+      'permissionCode',
     );
   });
 });

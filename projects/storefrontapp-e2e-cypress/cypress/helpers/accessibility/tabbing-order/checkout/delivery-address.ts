@@ -15,7 +15,7 @@ const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
   const deliveryAddressPage = waitForPage(
     '/checkout/delivery-address',
-    'getDeliveryAddress'
+    'getDeliveryAddress',
   );
 
   cy.visit('/checkout/delivery-address');
@@ -32,11 +32,11 @@ export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
 }
 
 export function checkoutShippingAddressExistingTabbingOrder(
-  config: TabElement[]
+  config: TabElement[],
 ) {
   const deliveryAddressPage = waitForPage(
     '/checkout/delivery-address',
-    'getDeliveryAddress'
+    'getDeliveryAddress',
   );
 
   cy.visit('/checkout/delivery-address');
@@ -58,13 +58,13 @@ export function checkoutShippingAddressExistingTabbingOrder(
 export function checkoutShippingAddressAccount(config: TabElement[]) {
   const deliveryAddressPage = waitForPage(
     '/checkout/delivery-address',
-    'getDeliveryAddress'
+    'getDeliveryAddress',
   );
 
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/**/addresses/delivery*`,
   }).as('setAddress');
 
@@ -84,7 +84,7 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/current/carts/*`,
   }).as('getCart');
   cy.get('cx-card').within(() => {

@@ -41,27 +41,25 @@ describe('AppliedCouponsComponent', () => {
     'removeVoucher',
   ]);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          AppliedCouponsComponent,
-          MockCxIconComponent,
-          MockedCartCouponComponent,
-        ],
-        providers: [
-          { provide: CartVoucherFacade, useValue: mockCartVoucherService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        AppliedCouponsComponent,
+        MockCxIconComponent,
+        MockedCartCouponComponent,
+      ],
+      providers: [
+        { provide: CartVoucherFacade, useValue: mockCartVoucherService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
           },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockedCartCouponComponent);
@@ -82,10 +80,10 @@ describe('AppliedCouponsComponent', () => {
       component.coupons = [];
       fixture.detectChanges();
       const elTitle = fixture.debugElement.queryAll(
-        By.css('.cx-applied-coupon-title')
+        By.css('.cx-applied-coupon-title'),
       );
       const elValue = fixture.debugElement.queryAll(
-        By.css('.cx-applied-coupon-code')
+        By.css('.cx-applied-coupon-code'),
       );
 
       expect(elTitle.length).toBe(0);
@@ -96,10 +94,10 @@ describe('AppliedCouponsComponent', () => {
       component.coupons = [coupon2, coupon1];
       fixture.detectChanges();
       const couponTitle = fixture.debugElement.query(
-        By.css('.cx-applied-coupon-title')
+        By.css('.cx-applied-coupon-title'),
       ).nativeElement.innerText;
       const elValue = fixture.debugElement.queryAll(
-        By.css('.cx-applied-coupon-code')
+        By.css('.cx-applied-coupon-code'),
       );
       expect(couponTitle).toContain('voucher.vouchersApplied');
       expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
@@ -115,7 +113,7 @@ describe('AppliedCouponsComponent', () => {
       component.coupons = [];
       fixture.detectChanges();
       const elValue = fixture.debugElement.queryAll(
-        By.css('.cx-cart-coupon-code')
+        By.css('.cx-cart-coupon-code'),
       );
       const elButton = fixture.debugElement.query(By.css('.close'));
 
@@ -127,7 +125,7 @@ describe('AppliedCouponsComponent', () => {
       component.coupons = [coupon2, coupon1];
       fixture.detectChanges();
       const elValue = fixture.debugElement.queryAll(
-        By.css('.cx-cart-coupon-code')
+        By.css('.cx-cart-coupon-code'),
       );
       const elButton = fixture.debugElement.queryAll(By.css('.close'));
 
@@ -144,7 +142,7 @@ describe('AppliedCouponsComponent', () => {
       fixture.debugElement.query(By.css('.close')).nativeElement.click();
 
       expect(mockCartVoucherService.removeVoucher).toHaveBeenCalledWith(
-        coupon1.voucherCode
+        coupon1.voucherCode,
       );
     });
 
@@ -152,7 +150,7 @@ describe('AppliedCouponsComponent', () => {
       component.coupons = [coupon2, coupon1];
       fixture.detectChanges();
       const elValue = fixture.debugElement.queryAll(
-        By.css('.cx-cart-coupon-code')
+        By.css('.cx-cart-coupon-code'),
       );
 
       expect(elValue.length).toBe(2);

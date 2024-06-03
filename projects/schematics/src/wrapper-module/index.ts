@@ -61,21 +61,21 @@ function checkWrapperModuleExists(options: SpartacusWrapperOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const feature = getKeyByMappingValueOrThrow(
       featureFeatureModuleMapping,
-      options.markerModuleName
+      options.markerModuleName,
     );
     if (options.debug) {
       context.logger.info(
         formatFeatureStart(
           feature,
-          `checking the wrapper module path for ${options.markerModuleName} ...`
-        )
+          `checking the wrapper module path for ${options.markerModuleName} ...`,
+        ),
       );
     }
 
     const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
     const moduleConfig = getModuleConfig(
       options.markerModuleName,
-      featureConfig
+      featureConfig,
     );
     if (!moduleConfig) {
       return noop();
@@ -92,7 +92,7 @@ function checkWrapperModuleExists(options: SpartacusWrapperOptions): Rule {
           staticImportExists(
             sourceFile,
             moduleConfig.importPath,
-            moduleConfig.name
+            moduleConfig.name,
           )
         ) {
           options.internal = {
@@ -106,8 +106,8 @@ function checkWrapperModuleExists(options: SpartacusWrapperOptions): Rule {
                 feature,
                 `found '${
                   options.markerModuleName
-                }' in the existing wrapper module: ${sourceFile.getFilePath()} .`
-              )
+                }' in the existing wrapper module: ${sourceFile.getFilePath()} .`,
+              ),
             );
           }
           return noop();
@@ -119,8 +119,8 @@ function checkWrapperModuleExists(options: SpartacusWrapperOptions): Rule {
       context.logger.info(
         formatFeatureStart(
           feature,
-          `wrapper module not found, will create a new one.`
-        )
+          `wrapper module not found, will create a new one.`,
+        ),
       );
     }
   };
@@ -145,20 +145,20 @@ function createWrapperModule(options: SpartacusWrapperOptions): Rule {
 
     const feature = getKeyByMappingValueOrThrow(
       featureFeatureModuleMapping,
-      options.markerModuleName
+      options.markerModuleName,
     );
     if (options.debug) {
       context.logger.info(
         formatFeatureStart(
           feature,
-          `creating wrapper module for ${options.markerModuleName} ...`
-        )
+          `creating wrapper module for ${options.markerModuleName} ...`,
+        ),
       );
     }
     const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
     const moduleConfig = getModuleConfig(
       options.markerModuleName,
-      featureConfig
+      featureConfig,
     );
     if (!moduleConfig) {
       return noop();
@@ -182,7 +182,7 @@ function createWrapperModule(options: SpartacusWrapperOptions): Rule {
 
       const featureModule = findFeatureModule(
         featureConfig.featureModule,
-        appSourceFiles
+        appSourceFiles,
       );
       if (!featureModule) {
         continue;
@@ -202,7 +202,7 @@ function createWrapperModule(options: SpartacusWrapperOptions): Rule {
            * referenced anywhere.
            */
           module: featureModule.getBaseNameWithoutExtension(),
-        })
+        }),
       );
     }
 
@@ -210,10 +210,10 @@ function createWrapperModule(options: SpartacusWrapperOptions): Rule {
       debugLogRule(
         formatFeatureComplete(
           feature,
-          `wrapper module created for ${options.markerModuleName} in ${wrapperModulePath} .`
+          `wrapper module created for ${options.markerModuleName} in ${wrapperModulePath} .`,
         ),
-        options.debug
-      )
+        options.debug,
+      ),
     );
     return chain(rules);
   };
@@ -236,20 +236,20 @@ function updateFeatureModule(options: SpartacusWrapperOptions): Rule {
 
     const feature = getKeyByMappingValueOrThrow(
       featureFeatureModuleMapping,
-      options.markerModuleName
+      options.markerModuleName,
     );
     if (options.debug) {
       context.logger.info(
         formatFeatureStart(
           feature,
-          `updating feature module for '${options.markerModuleName}' ...`
-        )
+          `updating feature module for '${options.markerModuleName}' ...`,
+        ),
       );
     }
     const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
     const featureModuleConfig = getModuleConfig(
       options.markerModuleName,
-      featureConfig
+      featureConfig,
     );
     if (!featureModuleConfig) {
       return noop();
@@ -261,7 +261,7 @@ function updateFeatureModule(options: SpartacusWrapperOptions): Rule {
 
       const featureModule = findFeatureModule(
         featureConfig.featureModule,
-        appSourceFiles
+        appSourceFiles,
       );
       if (!featureModule) {
         continue;
@@ -289,8 +289,8 @@ function updateFeatureModule(options: SpartacusWrapperOptions): Rule {
         updateDynamicImportPath(
           dynamicImport,
           featureModule.getRelativePathAsModuleSpecifierTo(
-            wrapperModule.getFilePath()
-          )
+            wrapperModule.getFilePath(),
+          ),
         );
         updateDynamicImportModuleName(dynamicImport, wrapperModuleClassName);
 
@@ -298,7 +298,7 @@ function updateFeatureModule(options: SpartacusWrapperOptions): Rule {
         const ngImports = getModulePropertyInitializer(
           featureModule,
           'imports',
-          false
+          false,
         );
         if (!ngImports) {
           continue;
@@ -314,17 +314,17 @@ function updateFeatureModule(options: SpartacusWrapperOptions): Rule {
       debugLogRule(
         formatFeatureComplete(
           feature,
-          `feature module updated for '${options.markerModuleName}' .`
+          `feature module updated for '${options.markerModuleName}' .`,
         ),
-        options.debug
-      )
+        options.debug,
+      ),
     );
     return chain(rules);
   };
 
   function removeNgImportWrapperElements(
     ngImports: ArrayLiteralExpression,
-    wrapperModuleClassName: string
+    wrapperModuleClassName: string,
   ) {
     for (const element of ngImports.getElements()) {
       if (element.getText() === wrapperModuleClassName) {
@@ -346,12 +346,12 @@ function removeLibraryDynamicImport(options: SpartacusWrapperOptions): Rule {
 
     const feature = getKeyByMappingValueOrThrow(
       featureFeatureModuleMapping,
-      options.featureModuleName
+      options.featureModuleName,
     );
     const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
     const featureModuleConfig = getModuleConfig(
       options.featureModuleName,
-      featureConfig
+      featureConfig,
     );
     if (!featureModuleConfig) {
       return noop();
@@ -365,8 +365,8 @@ function removeLibraryDynamicImport(options: SpartacusWrapperOptions): Rule {
       context.logger.info(
         formatFeatureStart(
           feature,
-          `removing dynamic import in '${featureModulePath}' for '${options.featureModuleName}' ...`
-        )
+          `removing dynamic import in '${featureModulePath}' for '${options.featureModuleName}' ...`,
+        ),
       );
     }
 
@@ -397,8 +397,8 @@ function removeLibraryDynamicImport(options: SpartacusWrapperOptions): Rule {
       context.logger.info(
         formatFeatureComplete(
           feature,
-          `dynamic import removed in '${featureModulePath}' for '${options.featureModuleName}' .`
-        )
+          `dynamic import removed in '${featureModulePath}' for '${options.featureModuleName}' .`,
+        ),
       );
     }
   };
@@ -412,7 +412,7 @@ function removeLibraryDynamicImport(options: SpartacusWrapperOptions): Rule {
  */
 export function cleanupConfig(spartacusProvider: CallExpression): void {
   const objectLiteral = spartacusProvider.getFirstDescendantByKind(
-    SyntaxKind.ObjectLiteralExpression
+    SyntaxKind.ObjectLiteralExpression,
   );
   if (!objectLiteral) {
     return;
@@ -433,7 +433,7 @@ export function cleanupConfig(spartacusProvider: CallExpression): void {
  */
 function updateDynamicImportPath(
   dynamicImport: ArrowFunction,
-  path: string
+  path: string,
 ): void {
   getDynamicImportCallExpression(dynamicImport)
     ?.removeArgument(0)
@@ -447,10 +447,10 @@ function updateDynamicImportPath(
  */
 function updateDynamicImportModuleName(
   dynamicImport: ArrowFunction,
-  wrapperModuleName: string
+  wrapperModuleName: string,
 ): void {
   getDynamicImportPropertyAccess(dynamicImport)?.replaceWithText(
-    `m.${wrapperModuleName}`
+    `m.${wrapperModuleName}`,
   );
 }
 
@@ -459,7 +459,7 @@ function updateDynamicImportModuleName(
  */
 function updateWrapperModule(
   options: SpartacusWrapperOptions,
-  moduleName: string
+  moduleName: string,
 ): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const basePath = process.cwd();
@@ -467,7 +467,7 @@ function updateWrapperModule(
 
     const feature = getKeyByMappingValueOrThrow(
       featureFeatureModuleMapping,
-      moduleName
+      moduleName,
     );
     const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
     const featureModuleConfig = getModuleConfig(moduleName, featureConfig);
@@ -480,8 +480,8 @@ function updateWrapperModule(
       context.logger.info(
         formatFeatureStart(
           feature,
-          `importing the '${moduleName}' to the wrapper module ${wrapperModulePath} ...`
-        )
+          `importing the '${moduleName}' to the wrapper module ${wrapperModulePath} ...`,
+        ),
       );
     }
 
@@ -511,10 +511,10 @@ function updateWrapperModule(
       debugLogRule(
         formatFeatureComplete(
           feature,
-          `imported the '${moduleName}' to the wrapper module ${options.internal?.wrapperModulePath} .`
+          `imported the '${moduleName}' to the wrapper module ${options.internal?.wrapperModulePath} .`,
         ),
-        options.debug
-      )
+        options.debug,
+      ),
     );
     return chain(rules);
   };

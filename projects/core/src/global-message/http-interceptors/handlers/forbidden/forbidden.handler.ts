@@ -25,14 +25,14 @@ export class ForbiddenHandler extends HttpErrorHandler {
       request.url.endsWith(
         this.occEndpoints.buildUrl('user', {
           urlParams: { userId: 'current' },
-        })
+        }),
       )
     ) {
       this.authService.logout();
     }
     this.globalMessageService.add(
       { key: 'httpHandlers.forbidden' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   }
 
@@ -43,7 +43,7 @@ export class ForbiddenHandler extends HttpErrorHandler {
   constructor(
     protected globalMessageService: GlobalMessageService,
     protected authService: AuthService,
-    protected occEndpoints: OccEndpointsService
+    protected occEndpoints: OccEndpointsService,
   ) {
     super(globalMessageService);
   }

@@ -89,7 +89,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {}
 
   ngOnInit(): void {
@@ -101,7 +101,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           if (!loggedIn) {
             this.closeModal();
           }
-        })
+        }),
       );
 
     this.csAgentTokenLoading$ =
@@ -114,14 +114,14 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         } else {
           return of(undefined);
         }
-      })
+      }),
     );
     this.isCollapsed$ = this.asmService
       .getAsmUiState()
       .pipe(
         map((uiState: AsmUi) =>
-          uiState.collapsed === undefined ? false : uiState.collapsed
-        )
+          uiState.collapsed === undefined ? false : uiState.collapsed,
+        ),
       );
     this.subscription.add(
       this.launchDialogService.dialogClose
@@ -149,7 +149,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
               this.routingService.go({ cxRoute: 'cart' });
             }
           }
-        })
+        }),
     );
     this.subscribeForDeeplink();
   }
@@ -187,11 +187,11 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
               this.startSessionWithParameters({
                 ...parameters,
                 emulated: isEmulatedByDeepLink,
-              })
+              }),
             );
           }
         }
-      })
+      }),
     );
   }
 
@@ -199,7 +199,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.customer$
       .pipe(
         filter((curCustomer) => !!curCustomer),
-        take(1)
+        take(1),
       )
       .subscribe((curCustomer) => {
         if (curCustomer?.customerId !== switchCustomerId) {
@@ -208,13 +208,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
               this.launchDialogService.openDialogAndSubscribe(
                 LAUNCH_CALLER.ASM_SWITCH_CUSTOMER,
                 this.element,
-                { curCustomer: curCustomer, switchCustomer: switchCustomer }
+                { curCustomer: curCustomer, switchCustomer: switchCustomer },
               );
             },
             error: (error: HttpErrorModel) => {
               this.globalMessageService.add(
                 error.details?.[0].message ?? '',
-                GlobalMessageType.MSG_TYPE_ERROR
+                GlobalMessageType.MSG_TYPE_ERROR,
               );
             },
           });
@@ -235,7 +235,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         {
           customerId: parameters.customerId,
         },
-        parameters
+        parameters,
       );
     }
   }
@@ -269,7 +269,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   startCustomerEmulationSession(
     { customerId }: { customerId?: string },
-    parameters?: AsmDeepLinkParameters
+    parameters?: AsmDeepLinkParameters,
   ): void {
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
@@ -285,7 +285,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     } else {
       this.globalMessageService.add(
         { key: 'asm.error.noCustomerId' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }
@@ -298,7 +298,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   showCustomList(): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CUSTOMER_LIST,
-      this.element
+      this.element,
     );
   }
 
@@ -309,7 +309,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   createCustomer(): void {
     this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      this.addNewCustomerLink
+      this.addNewCustomerLink,
     );
   }
 

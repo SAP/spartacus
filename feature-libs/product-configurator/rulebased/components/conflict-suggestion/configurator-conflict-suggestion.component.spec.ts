@@ -11,21 +11,19 @@ describe('ConfigurationConflictSuggestionComponent', () => {
   let fixture: ComponentFixture<ConfiguratorConflictSuggestionComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ConfiguratorConflictSuggestionComponent],
-        imports: [I18nTestingModule],
-        providers: [],
-      })
-        .overrideComponent(ConfiguratorConflictSuggestionComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ConfiguratorConflictSuggestionComponent],
+      imports: [I18nTestingModule],
+      providers: [],
     })
-  );
+      .overrideComponent(ConfiguratorConflictSuggestionComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorConflictSuggestionComponent);
@@ -89,7 +87,7 @@ describe('ConfigurationConflictSuggestionComponent', () => {
         0,
         'aria-label',
         'configurator.conflict.suggestionTitle number:2 configurator.conflict.suggestionText attribute:' +
-          component.attribute.label
+          component.attribute.label,
       );
     });
 
@@ -102,7 +100,7 @@ describe('ConfigurationConflictSuggestionComponent', () => {
         0,
         'aria-hidden',
         'true',
-        'configurator.conflict.suggestionTitle number:2'
+        'configurator.conflict.suggestionTitle number:2',
       );
     });
 
@@ -116,7 +114,7 @@ describe('ConfigurationConflictSuggestionComponent', () => {
         'aria-hidden',
         'true',
         'configurator.conflict.suggestionText attribute:' +
-          component.attribute.label
+          component.attribute.label,
       );
     });
   });

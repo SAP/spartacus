@@ -15,7 +15,7 @@ export class ReorderOrderConnector {
 
   public reorder(
     orderId: string,
-    userId: string
+    userId: string,
   ): Observable<CartModificationList> {
     return this.adapter.reorder(orderId, userId);
   }

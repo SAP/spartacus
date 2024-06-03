@@ -19,14 +19,14 @@ describe('Styling utils', () => {
     it('should provide a correct relative path for a dest file in the same folder', () => {
       const relativeStyleConfigImportPath = getRelativeStyleConfigImportPath(
         project,
-        '/src/styles.scss'
+        '/src/styles.scss',
       );
       expect(relativeStyleConfigImportPath).toEqual(`styles-config`);
     });
     it('should provide a correct relative path for a dest file in a feature folder', () => {
       const relativeStyleConfigImportPath = getRelativeStyleConfigImportPath(
         project,
-        '/src/spartacus/styles/feature.scss'
+        '/src/spartacus/styles/feature.scss',
       );
       expect(relativeStyleConfigImportPath).toEqual(`../../styles-config`);
     });

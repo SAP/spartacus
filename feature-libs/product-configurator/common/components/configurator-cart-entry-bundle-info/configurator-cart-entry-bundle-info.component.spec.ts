@@ -52,7 +52,7 @@ class MockCartItemContext implements Partial<CartItemContext> {
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
-    PromotionLocation.SaveForLater
+    PromotionLocation.SaveForLater,
   );
 }
 
@@ -83,7 +83,7 @@ const entry: OrderEntry = {
 
 function setConfiguratorTypeIntoFirstConfigInfo(
   orderEntry: OrderEntry,
-  configuratorType: string
+  configuratorType: string,
 ) {
   const configInfos = orderEntry.configurationInfos;
   if (configInfos && configInfos[0]) {
@@ -120,23 +120,23 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   beforeEach(() => {
     commonConfigUtilsService = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>,
     );
     configCartEntryBundleInfoService = TestBed.inject(
-      ConfiguratorCartEntryBundleInfoService as Type<ConfiguratorCartEntryBundleInfoService>
+      ConfiguratorCartEntryBundleInfoService as Type<ConfiguratorCartEntryBundleInfoService>,
     );
 
     spyOn(
       commonConfigUtilsService,
-      'isBundleBasedConfigurator'
+      'isBundleBasedConfigurator',
     ).and.callThrough();
     spyOn(
       configCartEntryBundleInfoService,
-      'retrieveLineItems'
+      'retrieveLineItems',
     ).and.callThrough();
 
     breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
+      BreakpointService as Type<BreakpointService>,
     );
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
@@ -198,7 +198,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-item-infos'
+        '.cx-item-infos',
       );
     });
 
@@ -220,7 +220,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-item-infos'
+        '.cx-item-infos',
       );
     });
 
@@ -242,7 +242,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-item-infos'
+        '.cx-item-infos',
       );
     });
   });
@@ -261,7 +261,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     it('should return false because the configurator type is not bundle based one', () => {
       setConfiguratorTypeIntoFirstConfigInfo(
         entry,
-        'notBundleBasedConfiguratorType'
+        'notBundleBasedConfiguratorType',
       );
 
       fixture.detectChanges();
@@ -279,7 +279,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       const entryWoConfigInfo: OrderEntry = {};
       fixture.detectChanges();
       expect(component.isBundleBasedConfigurator(entryWoConfigInfo)).toBe(
-        false
+        false,
       );
     });
   });
@@ -303,14 +303,14 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       it('should not display number of bundle items', () => {
         let numberOfItems: number = 0;
         component.numberOfLineItems$.subscribe(
-          (value) => (numberOfItems = value)
+          (value) => (numberOfItems = value),
         );
         expect(numberOfItems).toBe(0);
 
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
-          '#cx-number-items'
+          '#cx-number-items',
         );
       });
 
@@ -318,7 +318,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
-          '.cx-toggle-hide-items'
+          '.cx-toggle-hide-items',
         );
       });
 
@@ -326,7 +326,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
-          'cx-configure-cart-entry'
+          'cx-configure-cart-entry',
         );
       });
     });
@@ -349,14 +349,14 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       it('should display number of bundle items', () => {
         let numberOfItems: number = 0;
         component.numberOfLineItems$.subscribe(
-          (value) => (numberOfItems = value)
+          (value) => (numberOfItems = value),
         );
         expect(numberOfItems).toBe(configurationInfos?.length);
 
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-number-items'
+          '.cx-number-items',
         );
 
         const expectedText = 'configurator.header.items count:' + numberOfItems;
@@ -365,7 +365,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           expect,
           htmlElem,
           '.cx-number-items',
-          expectedText
+          expectedText,
         );
       });
 
@@ -373,14 +373,14 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-toggle-hide-items'
+          '.cx-toggle-hide-items',
         );
 
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
           htmlElem,
           '.cx-toggle-hide-items',
-          'configurator.header.show'
+          'configurator.header.show',
         );
 
         expect(component.hideItems).toBe(true);
@@ -392,7 +392,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           expect,
           htmlElem,
           '.cx-toggle-hide-items',
-          'configurator.header.hide'
+          'configurator.header.hide',
         );
       });
 
@@ -400,7 +400,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          'cx-configure-cart-entry'
+          'cx-configure-cart-entry',
         );
       });
     });
@@ -433,70 +433,70 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-item-infos.open'
+          '.cx-item-infos.open',
         );
 
         CommonConfiguratorTestUtilsService.expectNumberOfElements(
           expect,
           htmlElem,
           '.cx-item-info',
-          1
+          1,
         );
 
         CommonConfiguratorTestUtilsService.expectNumberOfElements(
           expect,
           htmlElem,
           '.cx-item-quantity span.cx-identifier',
-          1
+          1,
         );
 
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
           htmlElem,
           '.cx-item-quantity span.cx-identifier',
-          'configurator.attribute.quantity'
+          'configurator.attribute.quantity',
         );
 
         CommonConfiguratorTestUtilsService.expectNumberOfElements(
           expect,
           htmlElem,
           '.cx-item-quantity span.cx-item',
-          1
+          1,
         );
 
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
           htmlElem,
           '.cx-item-quantity span.cx-item',
-          '5'
+          '5',
         );
 
         CommonConfiguratorTestUtilsService.expectNumberOfElements(
           expect,
           htmlElem,
           '.cx-item-price span.cx-identifier',
-          1
+          1,
         );
 
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
           htmlElem,
           '.cx-item-price span.cx-identifier',
-          'configurator.overviewForm.itemPrice'
+          'configurator.overviewForm.itemPrice',
         );
 
         CommonConfiguratorTestUtilsService.expectNumberOfElements(
           expect,
           htmlElem,
           '.cx-item-price span.cx-item',
-          1
+          1,
         );
 
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
           htmlElem,
           '.cx-item-price span.cx-item',
-          '$1,000.00'
+          '$1,000.00',
         );
       });
     });
@@ -528,56 +528,56 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-item-infos.open'
+          '.cx-item-infos.open',
         );
 
         CommonConfiguratorTestUtilsService.expectNumberOfElements(
           expect,
           htmlElem,
           '.cx-item-info',
-          1
+          1,
         );
 
         CommonConfiguratorTestUtilsService.expectNumberOfElements(
           expect,
           htmlElem,
           '.cx-item-price span.cx-identifier',
-          0
+          0,
         );
 
         CommonConfiguratorTestUtilsService.expectNumberOfElements(
           expect,
           htmlElem,
           '.cx-item-price span.cx-item',
-          0
+          0,
         );
 
         CommonConfiguratorTestUtilsService.expectNumberOfElements(
           expect,
           htmlElem,
           '.cx-item-quantity span.cx-identifier',
-          1
+          1,
         );
 
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
           htmlElem,
           '.cx-item-quantity span.cx-identifier',
-          'configurator.attribute.quantity'
+          'configurator.attribute.quantity',
         );
 
         CommonConfiguratorTestUtilsService.expectNumberOfElements(
           expect,
           htmlElem,
           '.cx-item-quantity span.cx-item',
-          1
+          1,
         );
 
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
           htmlElem,
           '.cx-item-quantity span.cx-item',
-          '10'
+          '10',
         );
       });
     });
@@ -609,7 +609,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           fixture.detectChanges();
           const element = CommonConfiguratorTestUtilsService.getHTMLElement(
             htmlElem,
-            'cx-configure-cart-entry'
+            'cx-configure-cart-entry',
           );
 
           expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
@@ -621,7 +621,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           fixture.detectChanges();
           const element = CommonConfiguratorTestUtilsService.getHTMLElement(
             htmlElem,
-            'cx-configure-cart-entry'
+            'cx-configure-cart-entry',
           );
 
           expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
@@ -633,7 +633,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           fixture.detectChanges();
           const element = CommonConfiguratorTestUtilsService.getHTMLElement(
             htmlElem,
-            'cx-configure-cart-entry'
+            'cx-configure-cart-entry',
           );
 
           expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
@@ -645,7 +645,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           fixture.detectChanges();
           const element = CommonConfiguratorTestUtilsService.getHTMLElement(
             htmlElem,
-            'cx-configure-cart-entry'
+            'cx-configure-cart-entry',
           );
 
           expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
@@ -660,7 +660,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         const htmlElementAfterChanges = fixture.nativeElement;
         expect(
           htmlElementAfterChanges.querySelectorAll('.cx-configure-cart-entry')
-            .length
+            .length,
         ).toBe(0);
       });
 
@@ -672,7 +672,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         const htmlElementAfterChanges = fixture.nativeElement;
         expect(
           htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
-            .length
+            .length,
         ).toBe(1);
       });
     });
@@ -682,7 +682,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         component.hideItems = true;
         fixture.detectChanges();
         expect(
-          component.getButtonText().indexOf('configurator.header.show')
+          component.getButtonText().indexOf('configurator.header.show'),
         ).toBe(0);
       });
 
@@ -690,7 +690,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         component.hideItems = false;
         fixture.detectChanges();
         expect(
-          component.getButtonText().indexOf('configurator.header.hide')
+          component.getButtonText().indexOf('configurator.header.hide'),
         ).toBe(0);
       });
     });
@@ -701,7 +701,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getItemsMsg(numberOfItems)
-            .indexOf('configurator.a11y.cartEntryBundleInfo items:1')
+            .indexOf('configurator.a11y.cartEntryBundleInfo items:1'),
         ).toBe(0);
       });
 
@@ -710,7 +710,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getItemsMsg(numberOfItems)
-            .indexOf('configurator.a11y.cartEntryBundleInfo items:4')
+            .indexOf('configurator.a11y.cartEntryBundleInfo items:4'),
         ).toBe(0);
       });
     });
@@ -725,7 +725,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundle')
+            .indexOf('configurator.a11y.cartEntryBundle'),
         ).toBe(0);
       });
 
@@ -737,7 +737,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundleNameWithPrice')
+            .indexOf('configurator.a11y.cartEntryBundleNameWithPrice'),
         ).toBe(0);
       });
 
@@ -749,7 +749,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundleNameWithQuantity')
+            .indexOf('configurator.a11y.cartEntryBundleNameWithQuantity'),
         ).toBe(0);
       });
 
@@ -760,7 +760,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundleName')
+            .indexOf('configurator.a11y.cartEntryBundleName'),
         ).toBe(0);
       });
     });
@@ -797,7 +797,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           undefined,
           undefined,
           undefined,
-          'configurator.header.items'
+          'configurator.header.items',
         );
       });
 
@@ -809,7 +809,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           undefined,
           undefined,
           'aria-label',
-          'configurator.a11y.cartEntryBundleInfo items:1configurator.header.hide'
+          'configurator.a11y.cartEntryBundleInfo items:1configurator.header.hide',
         );
 
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -820,7 +820,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           undefined,
           undefined,
           undefined,
-          'configurator.header.hide'
+          'configurator.header.hide',
         );
       });
 
@@ -832,7 +832,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           'cx-item-info',
           undefined,
           'aria-describedby',
-          'cx-item-hidden-info-0'
+          'cx-item-hidden-info-0',
         );
       });
 
@@ -845,7 +845,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           undefined,
           undefined,
           undefined,
-          'configurator.a11y.cartEntryBundle'
+          'configurator.a11y.cartEntryBundle',
         );
       });
 
@@ -858,7 +858,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           undefined,
           'aria-hidden',
           'true',
-          'Canon ABC'
+          'Canon ABC',
         );
       });
 
@@ -870,7 +870,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           'cx-item-price',
           undefined,
           'aria-hidden',
-          'true'
+          'true',
         );
       });
 
@@ -883,7 +883,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           1,
           undefined,
           undefined,
-          '$1,000.00'
+          '$1,000.00',
         );
       });
 
@@ -895,7 +895,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           'cx-item-quantity',
           undefined,
           'aria-hidden',
-          'true'
+          'true',
         );
       });
 
@@ -908,7 +908,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           0,
           undefined,
           undefined,
-          '5'
+          '5',
         );
       });
     });
@@ -916,7 +916,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     describe('getHiddenItemInfoId', () => {
       it("should return 'cx-item-hidden-info-4' ID for a corresponding line item", () => {
         expect(
-          component.getHiddenItemInfoId(4).indexOf('cx-item-hidden-info-4')
+          component.getHiddenItemInfoId(4).indexOf('cx-item-hidden-info-4'),
         ).toBe(0);
       });
     });
@@ -927,14 +927,12 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
   let component: ConfiguratorCartEntryBundleInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ConfiguratorCartEntryBundleInfoComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ConfiguratorCartEntryBundleInfoComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);

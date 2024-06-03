@@ -33,7 +33,7 @@ const scssFilePath = 'src/styles/spartacus/checkout.scss';
 describe('Spartacus Checkout schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CHECKOUT,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -84,27 +84,27 @@ describe('Spartacus Checkout schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -113,7 +113,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         { ...libraryNoFeaturesOptions, features: [] },
-        appTree
+        appTree,
       );
     });
 
@@ -154,7 +154,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             checkoutBaseFeatureOptions,
-            appTree
+            appTree,
           );
         });
 
@@ -167,12 +167,12 @@ describe('Spartacus Checkout schematics: ng-add', () => {
 
         it('should NOT install the required feature dependencies', async () => {
           const cartBaseFeatureModule = appTree.readContent(
-            cartBaseFeatureModulePath
+            cartBaseFeatureModulePath,
           );
           expect(cartBaseFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
-            orderFeatureModulePath
+            orderFeatureModulePath,
           );
           expect(orderFeatureModule).toBeFalsy();
 
@@ -198,7 +198,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...checkoutBaseFeatureOptions, lazy: false },
-            appTree
+            appTree,
           );
         });
 
@@ -217,13 +217,13 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             checkoutBaseFeatureOptions,
-            appTree
+            appTree,
           );
 
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             checkoutB2BFeatureOptions,
-            appTree
+            appTree,
           );
         });
 
@@ -237,12 +237,12 @@ describe('Spartacus Checkout schematics: ng-add', () => {
 
         it('should NOT install the required feature dependencies', async () => {
           const cartBaseFeatureModule = appTree.readContent(
-            cartBaseFeatureModulePath
+            cartBaseFeatureModulePath,
           );
           expect(cartBaseFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
-            orderFeatureModulePath
+            orderFeatureModulePath,
           );
           expect(orderFeatureModule).toBeFalsy();
 
@@ -265,7 +265,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
         describe('b2b features', () => {
           it('configuration should be added', () => {
             const configurationModule = appTree.readContent(
-              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
             );
             expect(configurationModule).toMatchSnapshot();
           });
@@ -277,13 +277,13 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...checkoutBaseFeatureOptions, lazy: false },
-            appTree
+            appTree,
           );
 
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...checkoutB2BFeatureOptions, lazy: false },
-            appTree
+            appTree,
           );
         });
 
@@ -302,19 +302,19 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             checkoutBaseFeatureOptions,
-            appTree
+            appTree,
           );
 
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             checkoutB2BFeatureOptions,
-            appTree
+            appTree,
           );
 
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             checkoutScheduledReplenishmentFeatureOptions,
-            appTree
+            appTree,
           );
         });
 
@@ -328,12 +328,12 @@ describe('Spartacus Checkout schematics: ng-add', () => {
 
         it('should NOT install the required feature dependencies', async () => {
           const cartBaseFeatureModule = appTree.readContent(
-            cartBaseFeatureModulePath
+            cartBaseFeatureModulePath,
           );
           expect(cartBaseFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
-            orderFeatureModulePath
+            orderFeatureModulePath,
           );
           expect(orderFeatureModule).toBeFalsy();
 
@@ -356,7 +356,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
         describe('b2b features', () => {
           it('configuration should be added', () => {
             const configurationModule = appTree.readContent(
-              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
             );
             expect(configurationModule).toMatchSnapshot();
           });
@@ -368,19 +368,19 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...checkoutBaseFeatureOptions, lazy: false },
-            appTree
+            appTree,
           );
 
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...checkoutB2BFeatureOptions, lazy: false },
-            appTree
+            appTree,
           );
 
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...checkoutScheduledReplenishmentFeatureOptions, lazy: false },
-            appTree
+            appTree,
           );
         });
 

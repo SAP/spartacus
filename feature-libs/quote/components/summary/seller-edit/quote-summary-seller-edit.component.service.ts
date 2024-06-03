@@ -43,7 +43,7 @@ export class QuoteSummarySellerEditComponentService {
         } else {
           return 0;
         }
-      })
+      }),
     );
   }
 
@@ -54,7 +54,7 @@ export class QuoteSummarySellerEditComponentService {
    */
   getFormatter(): Observable<Intl.NumberFormat> {
     return this.getLocalizationElements().pipe(
-      map((localizationElements) => localizationElements.formatter)
+      map((localizationElements) => localizationElements.formatter),
     );
   }
 
@@ -76,9 +76,9 @@ export class QuoteSummarySellerEditComponentService {
         return this.checkAndReportMissingPercentageSign(
           locale,
           formatter,
-          symbol?.value
+          symbol?.value,
         );
-      })
+      }),
     );
   }
 
@@ -142,7 +142,7 @@ export class QuoteSummarySellerEditComponentService {
   protected checkAndReportMissingPercentageSign(
     locale: string,
     formatter: Intl.NumberFormat,
-    percentageSign?: string
+    percentageSign?: string,
   ): LocalizationElements {
     if (percentageSign) {
       return { locale, formatter, percentageSign: percentageSign };
@@ -155,19 +155,19 @@ export class QuoteSummarySellerEditComponentService {
     const groupingSeparator = getLocaleNumberSymbol(locale, NumberSymbol.Group);
     const decimalSeparator = getLocaleNumberSymbol(
       locale,
-      NumberSymbol.Decimal
+      NumberSymbol.Decimal,
     );
     return this.parseInputForSeparators(
       input,
       groupingSeparator,
-      decimalSeparator
+      decimalSeparator,
     );
   }
 
   protected parseInputForSeparators(
     input: string,
     groupingSeparator: string,
-    decimalSeparator: string
+    decimalSeparator: string,
   ): number {
     const escapeString = '\\';
     const search: RegExp = new RegExp(escapeString + groupingSeparator, 'g');
@@ -180,14 +180,14 @@ export class QuoteSummarySellerEditComponentService {
   protected getValidationErrorsNumericFormat(
     input: string,
     locale: string,
-    unit: string
+    unit: string,
   ): { [key: string]: any } | null {
     input = input.replace(unit, '').trim();
 
     const groupingSeparator = getLocaleNumberSymbol(locale, NumberSymbol.Group);
     const decimalSeparator = getLocaleNumberSymbol(
       locale,
-      NumberSymbol.Decimal
+      NumberSymbol.Decimal,
     );
     const expressionPrefix = '^';
     const expressionOnlyNumericalInput: RegExp = new RegExp(
@@ -195,7 +195,7 @@ export class QuoteSummarySellerEditComponentService {
         '[0123456789' +
         groupingSeparator +
         decimalSeparator +
-        ']*$'
+        ']*$',
     );
 
     if (!expressionOnlyNumericalInput.test(input)) {
@@ -205,13 +205,13 @@ export class QuoteSummarySellerEditComponentService {
       this.performValidationForPercentageValue(
         input,
         groupingSeparator,
-        decimalSeparator
-      )
+        decimalSeparator,
+      ),
     );
   }
 
   protected createValidationError(
-    isError: boolean
+    isError: boolean,
   ): { [key: string]: any } | null {
     return isError ? { wrongFormat: {} } : null;
   }
@@ -234,7 +234,7 @@ export class QuoteSummarySellerEditComponentService {
   protected performValidationForPercentageValue(
     input: string,
     groupingSeparator: string,
-    decimalSeparator: string
+    decimalSeparator: string,
   ): boolean {
     const numberOfDecimalPlaces = this.retrieveMaxNumberOfDecimalPlaces();
     const regexEscape = '\\';

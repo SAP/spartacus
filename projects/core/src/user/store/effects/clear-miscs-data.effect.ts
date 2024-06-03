@@ -18,12 +18,12 @@ export class ClearMiscsDataEffect {
     this.actions$.pipe(
       ofType(
         SiteContextActions.LANGUAGE_CHANGE,
-        SiteContextActions.CURRENCY_CHANGE
+        SiteContextActions.CURRENCY_CHANGE,
       ),
       map(() => {
         return new UserActions.ClearUserMiscsData();
-      })
-    )
+      }),
+    ),
   );
 
   constructor(private actions$: Actions) {}

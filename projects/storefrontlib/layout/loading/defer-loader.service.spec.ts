@@ -69,7 +69,7 @@ describe('DeferLoaderService', () => {
     describe('global INSTANT strategy', () => {
       beforeEach(() => {
         TestBed.configureTestingModule(
-          getModule('server', MockInstantLayoutConfig)
+          getModule('server', MockInstantLayoutConfig),
         );
         service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
@@ -90,7 +90,7 @@ describe('DeferLoaderService', () => {
     describe('global DEFER strategy', () => {
       beforeEach(() => {
         TestBed.configureTestingModule(
-          getModule('server', MockDeferLayoutConfig)
+          getModule('server', MockDeferLayoutConfig),
         );
         service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
@@ -153,7 +153,7 @@ describe('DeferLoaderService', () => {
     describe('global INSTANT strategy', () => {
       beforeEach(() => {
         TestBed.configureTestingModule(
-          getModule('browser', MockInstantLayoutConfig)
+          getModule('browser', MockInstantLayoutConfig),
         );
         service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
@@ -183,7 +183,7 @@ describe('DeferLoaderService', () => {
     describe('global DEFER strategy', () => {
       beforeEach(() => {
         TestBed.configureTestingModule(
-          getModule('browser', MockDeferLayoutConfig)
+          getModule('browser', MockDeferLayoutConfig),
         );
         service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);

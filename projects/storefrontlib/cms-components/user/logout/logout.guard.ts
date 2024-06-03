@@ -32,7 +32,7 @@ export class LogoutGuard {
     protected cms: CmsService,
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
-    protected router: Router
+    protected router: Router,
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -54,9 +54,9 @@ export class LogoutGuard {
               }
               // TODO(#9385): Use CMS page guard here.
               return hasPage;
-            })
+            }),
           );
-      })
+      }),
     );
   }
 

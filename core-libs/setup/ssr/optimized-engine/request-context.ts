@@ -41,7 +41,7 @@ export const getRequestContext = (request: Request): RequestContext => {
  */
 export const preprocessRequestForLogger = (
   request: Request,
-  logger: ExpressServerLogger
+  logger: ExpressServerLogger,
 ) => {
   const requestContext: RequestContext = {
     ...createInitialRequestContext(),
@@ -89,7 +89,7 @@ const createInitialRequestContext = (): RequestContext => {
  */
 const getTraceContext = (
   request: Request,
-  logger: ExpressServerLogger
+  logger: ExpressServerLogger,
 ): W3cTraceContext | undefined => {
   try {
     return parseTraceparent(request.get('traceparent')) ?? undefined;

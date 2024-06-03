@@ -52,7 +52,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     public config: Config,
     protected cd: ChangeDetectorRef,
     protected quickOrderService: QuickOrderFacade,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {
     useFeatureStyles('a11yTruncatedTextForResponsiveView');
   }
@@ -187,8 +187,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     if (this.winRef) {
       return Array.from(
         this.winRef.document.querySelectorAll(
-          '.quick-order-results-products > li button'
-        )
+          '.quick-order-results-products > li button',
+        ),
       );
     } else {
       return [];
@@ -263,7 +263,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
           }
 
           return value;
-        })
+        }),
       )
       .subscribe((value) => {
         this.searchProducts(value.product);
@@ -279,10 +279,10 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
             this.quickOrderService
               .searchProducts(
                 query,
-                this.config?.quickOrder?.searchForm?.maxProducts
+                this.config?.quickOrder?.searchForm?.maxProducts,
               )
-              .pipe(take(1))
-          )
+              .pipe(take(1)),
+          ),
         )
         .subscribe((products) => {
           this.results = products;
@@ -295,7 +295,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
           }
 
           this.cd?.detectChanges();
-        })
+        }),
     );
   }
 

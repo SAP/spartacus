@@ -109,7 +109,7 @@ describe('QuickOrderOrderEntriesContext', () => {
     it('should try add entries to quick order', () => {
       canAdd$.next(true);
       productConnector.get = createSpy().and.callFake((code) =>
-        of(products[code])
+        of(products[code]),
       );
       const results = [];
 
@@ -121,21 +121,21 @@ describe('QuickOrderOrderEntriesContext', () => {
         .unsubscribe();
 
       expect(quickOrderFacade.canAdd).toHaveBeenCalledTimes(
-        mockProductData.length
+        mockProductData.length,
       );
       expect(productConnector.get).toHaveBeenCalledTimes(
-        mockProductData.length
+        mockProductData.length,
       );
       expect(quickOrderFacade.addProduct).toHaveBeenCalledTimes(
-        mockProductData.length
+        mockProductData.length,
       );
       mockProductData.forEach((mockProduct) => {
         expect(productConnector.get).toHaveBeenCalledWith(
-          mockProduct.productCode
+          mockProduct.productCode,
         );
         expect(quickOrderFacade.addProduct).toHaveBeenCalledWith(
           products[mockProduct.productCode],
-          mockProduct.quantity
+          mockProduct.quantity,
         );
       });
       expect(results).toEqual([
@@ -165,7 +165,7 @@ describe('QuickOrderOrderEntriesContext', () => {
     it('should not add entries due to limit', () => {
       canAdd$.next(false);
       productConnector.get = createSpy().and.callFake((code) =>
-        of(products[code])
+        of(products[code]),
       );
       const results = [];
 
@@ -177,7 +177,7 @@ describe('QuickOrderOrderEntriesContext', () => {
         .unsubscribe();
 
       expect(quickOrderFacade.canAdd).toHaveBeenCalledTimes(
-        mockProductData.length
+        mockProductData.length,
       );
       expect(productConnector.get).not.toHaveBeenCalled();
       expect(quickOrderFacade.addProduct).not.toHaveBeenCalled();
@@ -208,7 +208,7 @@ describe('QuickOrderOrderEntriesContext', () => {
           error: {
             errors: [{ type: 'UnknownIdentifierError' }],
           },
-        }))
+        })),
       );
 
       const unableToAddProductsData: ProductData[] = [
@@ -224,10 +224,10 @@ describe('QuickOrderOrderEntriesContext', () => {
         .unsubscribe();
 
       expect(quickOrderFacade.canAdd).toHaveBeenCalledTimes(
-        unableToAddProductsData.length
+        unableToAddProductsData.length,
       );
       expect(productConnector.get).toHaveBeenCalledTimes(
-        unableToAddProductsData.length
+        unableToAddProductsData.length,
       );
       expect(quickOrderFacade.addProduct).not.toHaveBeenCalled();
       expect(results).toEqual([
@@ -241,7 +241,7 @@ describe('QuickOrderOrderEntriesContext', () => {
     it('should catch unknown errors', () => {
       canAdd$.next(true);
       productConnector.get = createSpy().and.returnValue(
-        throwError(() => ({}))
+        throwError(() => ({})),
       );
 
       const unableToAddProductsData: ProductData[] = [
@@ -258,10 +258,10 @@ describe('QuickOrderOrderEntriesContext', () => {
         .unsubscribe();
 
       expect(quickOrderFacade.canAdd).toHaveBeenCalledTimes(
-        unableToAddProductsData.length
+        unableToAddProductsData.length,
       );
       expect(productConnector.get).toHaveBeenCalledTimes(
-        unableToAddProductsData.length
+        unableToAddProductsData.length,
       );
       expect(quickOrderFacade.addProduct).not.toHaveBeenCalled();
       expect(results).toEqual([
@@ -272,7 +272,7 @@ describe('QuickOrderOrderEntriesContext', () => {
       ]);
       expect(logger.warn).toHaveBeenCalledWith(
         'Unrecognized cart add entry action type while mapping messages',
-        {}
+        {},
       );
     });
   });

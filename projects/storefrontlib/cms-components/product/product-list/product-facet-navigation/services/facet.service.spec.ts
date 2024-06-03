@@ -217,7 +217,7 @@ describe('FacetService', () => {
   describe('getLinkParams', () => {
     it('should decode the provided value', () => {
       const result = service.getLinkParams(
-        'test%20test ~ ! @ # $ & * ( ) = : / , ; ? _ . %'
+        'test%20test ~ ! @ # $ & * ( ) = : / , ; ? _ . %',
       );
       expect(result).toEqual({
         query: 'test test ~ ! @ # $ & * ( ) = : / , ; ? _ . %',

@@ -26,7 +26,7 @@ import { PermissionItemService } from '../services/permission-item.service';
 export class PermissionDetailsComponent {
   model$: Observable<Permission> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
-    startWith({})
+    startWith({}),
   );
   isInEditMode$ = this.itemService.isInEditMode$;
 

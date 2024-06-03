@@ -18,7 +18,7 @@ export class AsmDeepLinkService {
   constructor(
     protected routingService: RoutingService,
     protected winRef: WindowRef,
-    protected asmEnablerService: AsmEnablerService
+    protected asmEnablerService: AsmEnablerService,
   ) {
     this.searchParams = new URLSearchParams(this.winRef?.location?.search);
   }

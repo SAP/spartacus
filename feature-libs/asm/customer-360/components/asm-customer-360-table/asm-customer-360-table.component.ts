@@ -83,7 +83,7 @@ export class AsmCustomer360TableComponent
 
   constructor(
     protected asmCustomer360Config: AsmCustomer360Config,
-    protected directionService: DirectionService
+    protected directionService: DirectionService,
   ) {}
 
   ngOnChanges(changes?: SimpleChanges): void {
@@ -91,7 +91,7 @@ export class AsmCustomer360TableComponent
       const entries = this.sortEntries(
         this.entries,
         this.sortProperty,
-        this.listSortOrder
+        this.listSortOrder,
       );
       this.entryPages = this.updateEntryPages(entries);
       this.setPageNumber(this.currentPageNumber);
@@ -122,7 +122,7 @@ export class AsmCustomer360TableComponent
     this.entries = this.sortEntries(
       this.entries,
       this.sortProperty,
-      this.listSortOrder
+      this.listSortOrder,
     );
     this.entryPages = this.updateEntryPages(this.entries);
     this.setPageNumber(this.currentPageNumber);
@@ -144,7 +144,7 @@ export class AsmCustomer360TableComponent
   sortDirection(
     columnProperty: string,
     sortProperty: keyof TableEntry,
-    listSortOrder: SortOrder
+    listSortOrder: SortOrder,
   ): string {
     if (columnProperty === sortProperty) {
       return listSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
@@ -161,7 +161,7 @@ export class AsmCustomer360TableComponent
   tabIndexValue(
     focusedTableColumnIndex: number,
     focusedTableRowIndex: number,
-    columnIndex: number
+    columnIndex: number,
   ): number {
     return focusedTableColumnIndex === columnIndex && focusedTableRowIndex === 0
       ? 0
@@ -178,7 +178,7 @@ export class AsmCustomer360TableComponent
   onKeyDownCell(
     event: KeyboardEvent,
     columnIndex: number,
-    rowIndex: number
+    rowIndex: number,
   ): void {
     let knownKeyPressed = true;
     switch (event.code) {
@@ -226,7 +226,7 @@ export class AsmCustomer360TableComponent
     }
     this.removeCellTabIndex(
       this.focusedTableColumnIndex,
-      this.focusedTableRowIndex
+      this.focusedTableRowIndex,
     );
     this.focusedTableColumnIndex = columnIndex;
     this.focusedTableRowIndex = rowIndex;
@@ -273,7 +273,7 @@ export class AsmCustomer360TableComponent
   protected moveFocusLeftRight(
     event: KeyboardEvent,
     columnIndex: number,
-    rowIndex: number
+    rowIndex: number,
   ): void {
     const maxColumn = this.columns.length - 1;
     if (this.isBackNavigation(event)) {
@@ -323,7 +323,7 @@ export class AsmCustomer360TableComponent
   }
 
   protected updateEntryPages(
-    entries: Array<TableEntry>
+    entries: Array<TableEntry>,
   ): Array<Array<TableEntry>> {
     const newEntryPages = [];
     for (let i = 0; i < entries.length; i += this.pageSize) {
@@ -335,7 +335,7 @@ export class AsmCustomer360TableComponent
   protected sortEntries(
     entries: Array<TableEntry>,
     sortByProperty: keyof TableEntry,
-    sortOrder: SortOrder
+    sortOrder: SortOrder,
   ): Array<TableEntry> {
     if (entries?.length) {
       return entries.sort(
@@ -346,10 +346,10 @@ export class AsmCustomer360TableComponent
               byNullish(SortOrder.DESC),
               whenType(isString, byString(sortOrder)),
               whenType(isNumber, byComparison(sortOrder)),
-              whenType(isBoolean, byBoolean(sortOrder))
-            )
-          )
-        )
+              whenType(isBoolean, byBoolean(sortOrder)),
+            ),
+          ),
+        ),
       );
     } else {
       return [];

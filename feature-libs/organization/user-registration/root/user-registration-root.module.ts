@@ -23,7 +23,7 @@ export function defaultOrganizationUserRegistrationComponentsConfig(): CmsConfig
 @NgModule({
   providers: [
     provideDefaultConfigFactory(
-      defaultOrganizationUserRegistrationComponentsConfig
+      defaultOrganizationUserRegistrationComponentsConfig,
     ),
   ],
 })

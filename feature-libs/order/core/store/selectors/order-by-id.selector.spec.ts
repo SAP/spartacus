@@ -107,11 +107,11 @@ describe('Order By Id Selector', () => {
 
       expect(result).toEqual(false);
       store.dispatch(
-        new OrderActions.LoadOrderById({ userId: 'current', code: 'order1' })
+        new OrderActions.LoadOrderById({ userId: 'current', code: 'order1' }),
       );
       expect(result).toEqual(false);
       store.dispatch(
-        new OrderActions.LoadOrderById({ userId: 'current', code: 'order2' })
+        new OrderActions.LoadOrderById({ userId: 'current', code: 'order2' }),
       );
       expect(result).toEqual(true);
     });

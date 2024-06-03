@@ -30,11 +30,11 @@ export function getReducers(): ActionReducerMap<OrderApprovalState> {
     [ORDER_APPROVAL_FEATURE]: combineReducers({
       entities: StateUtils.entityLoaderReducer<OrderApproval>(
         ORDER_APPROVAL_ENTITIES,
-        orderApprovalsEntitiesReducer
+        orderApprovalsEntitiesReducer,
       ),
       list: StateUtils.entityLoaderReducer<ListModel, any>(
         ORDER_APPROVAL_LIST,
-        orderApprovalsListReducer
+        orderApprovalsListReducer,
       ),
     }),
   };
@@ -43,7 +43,7 @@ export function getReducers(): ActionReducerMap<OrderApprovalState> {
 export const reducerToken: InjectionToken<
   ActionReducerMap<OrderApprovalState>
 > = new InjectionToken<ActionReducerMap<OrderApprovalState>>(
-  'OrganizationReducers'
+  'OrganizationReducers',
 );
 
 export const reducerProvider: Provider = {
@@ -52,7 +52,7 @@ export const reducerProvider: Provider = {
 };
 
 export function clearOrganizationState(
-  reducer: ActionReducer<OrderApprovalState, Action>
+  reducer: ActionReducer<OrderApprovalState, Action>,
 ): ActionReducer<OrderApprovalState, Action> {
   return function (state, action) {
     if (action.type === AuthActions.LOGOUT) {

@@ -14,7 +14,7 @@ import { Comparator, SortOrder } from './sort.model';
 export function byString(
   ordering: SortOrder = SortOrder.ASC,
   locales?: string | Array<string>,
-  opts?: Intl.CollatorOptions
+  opts?: Intl.CollatorOptions,
 ): Comparator<string> {
   return (a: string, b: string) =>
     ((a ?? '').localeCompare(b ?? '', locales, opts) * ordering) as -1 | 0 | 1;

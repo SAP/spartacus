@@ -88,12 +88,12 @@ export class ConfiguratorCartEffects {
                   error instanceof HttpErrorResponse
                     ? normalizeHttpError(error, this.logger)
                     : error,
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   updateCartEntry$: Observable<
@@ -124,13 +124,13 @@ export class ConfiguratorCartEffects {
                     cartId: payload.cartId,
                     entryNumber: payload.cartEntryNumber,
                     error: normalizeHttpError(error, this.logger),
-                  })
-                )
-              )
+                  }),
+                ),
+              ),
             );
-        }
-      )
-    )
+        },
+      ),
+    ),
   );
 
   readConfigurationForCartEntry$: Observable<readConfigurationForCartEntryResultType> =
@@ -151,13 +151,13 @@ export class ConfiguratorCartEffects {
                       currentGroup:
                         this.configuratorBasicEffectService.getFirstGroupWithAttributes(
                           result,
-                          !result.immediateConflictResolution
+                          !result.immediateConflictResolution,
                         ),
                     },
                   });
                 return [
                   new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
-                    result
+                    result,
                   ),
                   updatePriceSummaryAction,
                   new ConfiguratorActions.SearchVariants(result),
@@ -168,10 +168,10 @@ export class ConfiguratorCartEffects {
                   ownerKey: action.payload.owner.key,
                   error: normalizeHttpError(error, this.logger),
                 }),
-              ])
+              ]),
             );
-        })
-      )
+        }),
+      ),
     );
 
   readConfigurationForOrderEntry$: Observable<
@@ -188,7 +188,7 @@ export class ConfiguratorCartEffects {
           .pipe(
             switchMap((result: Configurator.Configuration) => [
               new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
-                result
+                result,
               ),
             ]),
             catchError((error) => [
@@ -196,10 +196,10 @@ export class ConfiguratorCartEffects {
                 ownerKey: action.payload.owner.key,
                 error: normalizeHttpError(error, this.logger),
               }),
-            ])
+            ]),
           );
-      })
-    )
+      }),
+    ),
   );
 
   removeCartBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration> =
@@ -236,10 +236,10 @@ export class ConfiguratorCartEffects {
               return new ConfiguratorActions.RemoveConfiguration({
                 ownerKey: ownerKeysToRemove,
               });
-            })
+            }),
           );
-        })
-      )
+        }),
+      ),
     );
 
   addOwner$: Observable<
@@ -252,14 +252,14 @@ export class ConfiguratorCartEffects {
         return this.store.pipe(
           select(
             ConfiguratorSelectors.getConfigurationFactory(
-              action.payload.ownerKey
-            )
+              action.payload.ownerKey,
+            ),
           ),
           take(1),
           switchMap((configuration) => {
             const newOwner = ConfiguratorModelUtils.createOwner(
               CommonConfigurator.OwnerType.CART_ENTRY,
-              action.payload.cartEntryNo
+              action.payload.cartEntryNo,
             );
             this.commonConfigUtilsService.setOwnerKey(newOwner);
 
@@ -273,10 +273,10 @@ export class ConfiguratorCartEffects {
                 interactionState: configuration.interactionState,
               }),
             ];
-          })
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
@@ -285,6 +285,6 @@ export class ConfiguratorCartEffects {
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
     protected store: Store<StateWithConfigurator>,
-    protected configuratorBasicEffectService: ConfiguratorBasicEffectService
+    protected configuratorBasicEffectService: ConfiguratorBasicEffectService,
   ) {}
 }

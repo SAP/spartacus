@@ -28,7 +28,7 @@ import {
 export function migrateDependencies(
   tree: Tree,
   context: SchematicContext,
-  removedDependencies: string[]
+  removedDependencies: string[],
 ): Rule {
   const packageJson = readPackageJson(tree);
   const { spartacusPeerDeps, installedLibs } =
@@ -39,12 +39,12 @@ export function migrateDependencies(
     packageJson,
     allSpartacusDeps,
     removedDependencies,
-    context.logger
+    context.logger,
   );
 
   const dependencies = createSpartacusLibraryDependencies(
     allSpartacusDeps,
-    installedLibs
+    installedLibs,
   )
     .filter((d) => d.name !== SPARTACUS_SCHEMATICS)
     .sort((d1, d2) => d1.name.localeCompare(d2.name));
@@ -60,7 +60,7 @@ function collectSpartacusLibraryDependencies(packageJson: any): {
 } {
   const dependencies: Record<string, string> = packageJson.dependencies;
   const installedLibs = Object.keys(dependencies).filter((dependency) =>
-    dependency.startsWith(SPARTACUS_SCOPE)
+    dependency.startsWith(SPARTACUS_SCOPE),
   );
 
   const spartacusPeerDeps =
@@ -74,7 +74,7 @@ function collectSpartacusLibraryDependencies(packageJson: any): {
 
 function createSpartacusLibraryDependencies(
   allSpartacusLibraries: string[],
-  skipScopes: string[]
+  skipScopes: string[],
 ): NodeDependency[] {
   const dependenciesToAdd: NodeDependency[] = [];
 
@@ -92,7 +92,8 @@ function createSpartacusLibraryDependencies(
     newDependencies.forEach((newDependency) => {
       if (
         !dependenciesToAdd.some(
-          (existingDependency) => existingDependency.name === newDependency.name
+          (existingDependency) =>
+            existingDependency.name === newDependency.name,
         )
       ) {
         dependenciesToAdd.push(newDependency);
@@ -107,7 +108,7 @@ function checkAndLogRemovedDependencies(
   packageJson: any,
   installedSpartacusLibs: string[],
   removedDependencies: string[],
-  logger: logging.LoggerApi
+  logger: logging.LoggerApi,
 ): void {
   let allSpartacusDeps: string[] = [];
   for (const libraryName of installedSpartacusLibs) {
@@ -132,8 +133,8 @@ function checkAndLogRemovedDependencies(
   if (removed.length) {
     logger.warn(
       `Spartacus libraries no longer require the following dependencies: ${removed.join(
-        ','
-      )}. If you don't use these dependencies in your application, you might want to consider removing them from your dependencies list.`
+        ',',
+      )}. If you don't use these dependencies in your application, you might want to consider removing them from your dependencies list.`,
     );
   }
 }

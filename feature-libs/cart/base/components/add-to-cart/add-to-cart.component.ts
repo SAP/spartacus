@@ -106,7 +106,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
-    @Optional() protected productListItemContext?: ProductListItemContext
+    @Optional() protected productListItemContext?: ProductListItemContext,
   ) {}
 
   ngOnInit() {
@@ -197,7 +197,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         this.activeCartService.addEntry(
           this.productCode,
           quantity,
-          this.pickupStore
+          this.pickupStore,
         );
 
         // A CartUiEventAddToCart is dispatched.  This event is intended for the UI
@@ -211,8 +211,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
             this.productCode,
             quantity,
             cartEntries.length,
-            this.pickupStore
-          )
+            this.pickupStore,
+          ),
         );
       });
   }
@@ -221,7 +221,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     productCode: string,
     quantity: number,
     numberOfEntriesBeforeAdd: number,
-    storeName?: string
+    storeName?: string,
   ) {
     const newEvent = new CartUiEventAddToCart();
     newEvent.productCode = productCode;

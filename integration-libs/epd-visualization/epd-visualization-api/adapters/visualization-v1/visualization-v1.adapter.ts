@@ -38,7 +38,7 @@ export class VisualizationV1Adapter implements VisualizationAdapter {
   constructor(
     protected http: HttpClient,
     protected epdVisualizationConfig: EpdVisualizationConfig,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {
     this.baseUrl = this.getBaseUrl();
   }
@@ -56,7 +56,7 @@ export class VisualizationV1Adapter implements VisualizationAdapter {
 
   protected getUrl(
     visualizationUsageId: UsageId,
-    folderUsageId: UsageId
+    folderUsageId: UsageId,
   ): string {
     const queryParts: string[] = [
       `usage=${encodeURIComponent(JSON.stringify(visualizationUsageId))}`,
@@ -76,13 +76,13 @@ export class VisualizationV1Adapter implements VisualizationAdapter {
    */
   lookupVisualization(
     visualizationUsageId: UsageId,
-    folderUsageId: UsageId
+    folderUsageId: UsageId,
   ): Observable<LookupVisualizationsResponse> {
     return this.http.get(this.getUrl(visualizationUsageId, folderUsageId)).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       }),
-      this.converter.pipeable(LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER)
+      this.converter.pipeable(LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER),
     );
   }
 }

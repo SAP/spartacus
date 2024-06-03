@@ -25,7 +25,7 @@ export class OrderApprovalListComponent implements OnInit {
   constructor(
     protected routing: RoutingService,
     protected orderApprovalService: OrderApprovalService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
   ) {}
 
   sortLabels$: Observable<{ byDate: string; byOrderNumber: string }>;
@@ -45,7 +45,7 @@ export class OrderApprovalListComponent implements OnInit {
           byDate: textByDate,
           byOrderNumber: textByOrderNumber,
         };
-      })
+      }),
     );
   }
 

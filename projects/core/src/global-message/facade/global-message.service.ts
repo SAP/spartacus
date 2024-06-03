@@ -30,7 +30,7 @@ export class GlobalMessageService {
   get(): Observable<GlobalMessageEntities> {
     return this.store.pipe(
       select(GlobalMessageSelectors.getGlobalMessageEntities),
-      filter(isNotUndefined)
+      filter(isNotUndefined),
     );
   }
 
@@ -43,14 +43,14 @@ export class GlobalMessageService {
   add(
     text: string | Translatable,
     type: GlobalMessageType,
-    timeout?: number
+    timeout?: number,
   ): void {
     this.store.dispatch(
       new GlobalMessageActions.AddMessage({
         text: typeof text === 'string' ? { raw: text } : text,
         type,
         timeout,
-      })
+      }),
     );
   }
 
@@ -67,7 +67,7 @@ export class GlobalMessageService {
             type: type,
             index: index,
           })
-        : new GlobalMessageActions.RemoveMessagesByType(type)
+        : new GlobalMessageActions.RemoveMessagesByType(type),
     );
   }
 }

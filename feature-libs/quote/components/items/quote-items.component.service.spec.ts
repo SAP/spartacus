@@ -51,7 +51,7 @@ const activeCartAttachedToQuote: Cart = { code: cartId, entries: [{}] };
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(quote);
 const mockCartAttachedToQuote$ = new BehaviorSubject<Cart>(cartAttachedToQuote);
 const mockActiveCartAttachedToQuote$ = new BehaviorSubject<Cart>(
-  activeCartAttachedToQuote
+  activeCartAttachedToQuote,
 );
 
 class MockQuoteFacade implements Partial<QuoteFacade> {
@@ -160,7 +160,7 @@ describe('QuoteItemsComponentService', () => {
               abstractOrderId: cartId,
               abstractOrderType: AbstractOrderType.SAVED_CART,
             },
-          })
+          }),
         );
       });
 
@@ -183,7 +183,7 @@ describe('QuoteItemsComponentService', () => {
               abstractOrderId: quote.code,
               abstractOrderType: AbstractOrderType.QUOTE,
             },
-          })
+          }),
         );
       });
 
@@ -206,7 +206,7 @@ describe('QuoteItemsComponentService', () => {
               abstractOrderId: cartId,
               abstractOrderType: AbstractOrderType.CART,
             },
-          })
+          }),
         );
       });
 
@@ -237,7 +237,7 @@ describe('QuoteItemsComponentService', () => {
             { readOnly: false },
             AbstractOrderType.CART,
           ],
-        })
+        }),
       );
     });
   });
@@ -253,7 +253,7 @@ describe('QuoteItemsComponentService', () => {
             { readOnly: true },
             AbstractOrderType.SAVED_CART,
           ],
-        })
+        }),
       );
     });
   });

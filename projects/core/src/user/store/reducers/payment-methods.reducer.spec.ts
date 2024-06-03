@@ -22,7 +22,7 @@ describe('User Payment Methods Reducer', () => {
 
       const { initialState } = fromUserPaymentMethodsReducer;
       const action = new UserActions.LoadUserPaymentMethodsSuccess(
-        mockUserPaymentMethods
+        mockUserPaymentMethods,
       );
       const state = fromUserPaymentMethodsReducer.reducer(initialState, action);
       expect(state).toEqual(mockUserPaymentMethods);

@@ -14,10 +14,10 @@ describe('parseTraceparent', () => {
     const longerString = '0'.repeat(56);
 
     expect(() => parseTraceparent(shorterString)).toThrow(
-      InvalidTraceparentLengthError
+      InvalidTraceparentLengthError,
     );
     expect(() => parseTraceparent(longerString)).toThrow(
-      InvalidTraceparentLengthError
+      InvalidTraceparentLengthError,
     );
   });
 
@@ -37,7 +37,7 @@ describe('parseTraceparent', () => {
 
     unsupportedFormats.forEach((traceparent) => {
       expect(() => parseTraceparent(traceparent)).toThrow(
-        InvalidTraceparentFormatError
+        InvalidTraceparentFormatError,
       );
     });
   });

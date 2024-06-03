@@ -18,7 +18,7 @@ describe('Promotions in PDP', () => {
     cy.intercept({
       method: 'GET',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/cms/pages?pageType=ProductPage**`,
     }).as('productPage');
   });

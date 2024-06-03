@@ -11,7 +11,7 @@ export const initialState: ReplenishmentOrder = {};
 
 export function reducer(
   state = initialState,
-  action: OrderActions.ReplenishmentOrderDetailsAction
+  action: OrderActions.ReplenishmentOrderDetailsAction,
 ): ReplenishmentOrder {
   switch (action.type) {
     case OrderActions.LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS:

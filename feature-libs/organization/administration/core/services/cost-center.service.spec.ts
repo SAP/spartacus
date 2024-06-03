@@ -59,7 +59,7 @@ describe('CostCenterService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
       providers: [
@@ -82,7 +82,7 @@ describe('CostCenterService', () => {
     [CostCenterService],
     (costCenterService: CostCenterService) => {
       expect(costCenterService).toBeTruthy();
-    }
+    },
   ));
 
   describe('get costCenter', () => {
@@ -94,7 +94,7 @@ describe('CostCenterService', () => {
         .pipe(ofType(CostCenterActions.LOAD_COST_CENTER), take(1))
         .subscribe((action) => {
           expect(action).toEqual(
-            new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
+            new CostCenterActions.LoadCostCenter({ userId, costCenterCode }),
           );
         });
 
@@ -105,7 +105,7 @@ describe('CostCenterService', () => {
 
     it('get() should be able to get costCenter details when they are present in the store', () => {
       store.dispatch(
-        new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2])
+        new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2]),
       );
       let costCenterDetails: CostCenter;
       service
@@ -118,7 +118,7 @@ describe('CostCenterService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(costCenterDetails).toEqual(costCenter);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
+        new CostCenterActions.LoadCostCenter({ userId, costCenterCode }),
       );
     });
   });
@@ -138,13 +138,13 @@ describe('CostCenterService', () => {
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(costCenters).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CostCenterActions.LoadCostCenters({ userId, params })
+        new CostCenterActions.LoadCostCenters({ userId, params }),
       );
     });
 
     it('getList() should be able to get costCenters when they are present in the store', () => {
       store.dispatch(
-        new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2])
+        new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2]),
       );
       store.dispatch(
         new CostCenterActions.LoadCostCentersSuccess({
@@ -154,7 +154,7 @@ describe('CostCenterService', () => {
             pagination,
             sorts,
           },
-        })
+        }),
       );
       let costCenters: EntitiesModel<CostCenter>;
       service
@@ -167,7 +167,7 @@ describe('CostCenterService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(costCenters).toEqual(costCenterList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new CostCenterActions.LoadCostCenters({ userId, params })
+        new CostCenterActions.LoadCostCenters({ userId, params }),
       );
     });
   });
@@ -178,7 +178,7 @@ describe('CostCenterService', () => {
 
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CostCenterActions.CreateCostCenter({ userId, costCenter })
+        new CostCenterActions.CreateCostCenter({ userId, costCenter }),
       );
     });
   });
@@ -193,7 +193,7 @@ describe('CostCenterService', () => {
           userId,
           costCenterCode,
           costCenter,
-        })
+        }),
       );
     });
   });
@@ -217,7 +217,7 @@ describe('CostCenterService', () => {
           userId,
           costCenterCode,
           params,
-        })
+        }),
       );
     });
 
@@ -232,7 +232,7 @@ describe('CostCenterService', () => {
             pagination,
             sorts,
           },
-        })
+        }),
       );
       let budgets: EntitiesModel<Budget>;
       service
@@ -245,7 +245,7 @@ describe('CostCenterService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(budgets).toEqual(budgetList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new BudgetActions.LoadBudgets({ userId, params })
+        new BudgetActions.LoadBudgets({ userId, params }),
       );
     });
   });
@@ -260,7 +260,7 @@ describe('CostCenterService', () => {
           userId,
           costCenterCode,
           budgetCode,
-        })
+        }),
       );
     });
   });
@@ -275,7 +275,7 @@ describe('CostCenterService', () => {
           userId,
           costCenterCode,
           budgetCode,
-        })
+        }),
       );
     });
   });
@@ -284,7 +284,7 @@ describe('CostCenterService', () => {
     it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
       let loadingStatus: OrganizationItemStatus<CostCenter>;
       store.dispatch(
-        new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
+        new CostCenterActions.LoadCostCenter({ userId, costCenterCode }),
       );
       service
         .getLoadingStatus(costCenterCode)
@@ -300,7 +300,7 @@ describe('CostCenterService', () => {
     it('getLoadingStatus() should should be able to get status fail', () => {
       let loadingStatus: OrganizationItemStatus<CostCenter>;
       store.dispatch(
-        new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
+        new CostCenterActions.LoadCostCenter({ userId, costCenterCode }),
       );
       service
         .getLoadingStatus(costCenterCode)
@@ -310,7 +310,7 @@ describe('CostCenterService', () => {
         new CostCenterActions.LoadCostCenterFail({
           costCenterCode,
           error: new Error(),
-        })
+        }),
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
@@ -323,7 +323,7 @@ describe('CostCenterService', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
       spyOn<any>(service, 'getCostCenterState').and.returnValue(
-        of({ loading: false, success: false, error: true })
+        of({ loading: false, success: false, error: true }),
       );
 
       service.getErrorState('code').subscribe((error) => (errorState = error));

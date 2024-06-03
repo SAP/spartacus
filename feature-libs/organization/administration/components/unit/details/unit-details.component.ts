@@ -27,7 +27,7 @@ import { UnitItemService } from '../services/unit-item.service';
 export class UnitDetailsComponent {
   model$: Observable<B2BUnit> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
-    startWith({})
+    startWith({}),
   );
   isInEditMode$ = this.itemService.isInEditMode$;
 
@@ -37,6 +37,6 @@ export class UnitDetailsComponent {
 
   constructor(
     protected itemService: ItemService<B2BUnit>,
-    protected orgUnitService?: OrgUnitService
+    protected orgUnitService?: OrgUnitService,
   ) {}
 }

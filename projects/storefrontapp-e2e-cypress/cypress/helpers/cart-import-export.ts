@@ -177,21 +177,21 @@ export function verifyCart(config: ImportConfig) {
               return cy.get('div.cx-price').contains(cell);
             case '[importExport:exportEntries.columnNames.engravedTextHeading]':
               cy.get('div.cx-configuration-info .cx-label').contains(
-                'Engraved Text'
+                'Engraved Text',
               );
               return cy
                 .get('div.cx-configuration-info .cx-value')
                 .contains(cell);
             case '[importExport:exportEntries.columnNames.fontSize]':
               cy.get('div.cx-configuration-info .cx-label').contains(
-                'Font Size'
+                'Font Size',
               );
               return cy
                 .get('div.cx-configuration-info .cx-value')
                 .contains(cell);
             case '[importExport:exportEntries.columnNames.fontType]':
               cy.get('div.cx-configuration-info .cx-label').contains(
-                'Font Type'
+                'Font Type',
               );
               return cy
                 .get('div.cx-configuration-info .cx-value')
@@ -216,14 +216,14 @@ export function restoreCart(cart) {
     .click();
   cy.intercept(
     'PATCH',
-    /\.*\/users\/current\/carts\/(\d*)\/restoresavedcart.*/
+    /\.*\/users\/current\/carts\/(\d*)\/restoresavedcart.*/,
   ).as('restoreSavedCart');
   cy.get('cx-saved-cart-form-dialog div.cx-saved-cart-form-footer button')
     .contains('Restore')
     .click();
   cy.wait('@restoreSavedCart').its('response.statusCode').should('eq', 200);
   cy.get('cx-global-message').contains(
-    `Existing cart is activated by ${cart.code} successfully.`
+    `Existing cart is activated by ${cart.code} successfully.`,
   );
 }
 
@@ -237,7 +237,7 @@ export function verifyImportedData(config: ImportConfig, cart) {
     .parent()
     .within(() => {
       cy.get(`td.cx-saved-cart-list-cart-name`).contains(
-        config.savedCartConfig?.name
+        config.savedCartConfig?.name,
       );
       cy.get(`td.cx-saved-cart-list-date-saved`).contains(config.saveTime);
       cy.get(`td.cx-saved-cart-list-quantity`).contains(config.quantity);
@@ -278,7 +278,7 @@ export function exportCart(expectedData?: string) {
     .contains('Export Product to CSV')
     .click();
   cy.get('cx-global-message').contains(
-    'CSV file will download automatically to your device'
+    'CSV file will download automatically to your device',
   );
   if (expectedData) {
     cy.readFile(TEST_DOWNLOAD_FILE).should('contain', expectedData);
@@ -293,7 +293,7 @@ export function importCartTestFromConfig(config: ImportConfig) {
 
   const cartPage = waitForPage(
     config.importButtonPath,
-    `get${config.context}age`
+    `get${config.context}age`,
   );
   cy.visit(config.importButtonPath);
   cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
@@ -303,7 +303,7 @@ export function importCartTestFromConfig(config: ImportConfig) {
     cy.writeFile(`cypress/downloads/${config.fileName}.csv`, file);
   });
   cy.get(
-    'cx-import-entries-dialog cx-file-upload input[type="file"]'
+    'cx-import-entries-dialog cx-file-upload input[type="file"]',
   ).attachFile({ filePath: `../downloads/${config.fileName}.csv` });
 
   if (config.savedCartConfig) {
@@ -311,12 +311,12 @@ export function importCartTestFromConfig(config: ImportConfig) {
       .clear()
       .type(config.savedCartConfig?.name);
     cy.get(
-      'cx-import-entries-dialog textarea[formcontrolname="description"]'
+      'cx-import-entries-dialog textarea[formcontrolname="description"]',
     ).type(config.savedCartConfig?.description);
   }
 
   cy.intercept('GET', /\.*\/users\/current\/carts\/(\d*)\?fields=.*/).as(
-    'import'
+    'import',
   );
   cy.get('cx-import-entries-dialog button').contains('Upload').click();
 
@@ -324,15 +324,15 @@ export function importCartTestFromConfig(config: ImportConfig) {
 
   cy.get('@import').then((xhr: any) => {
     cy.get(
-      'cx-import-entries-summary div.cx-import-entries-summary-status'
+      'cx-import-entries-summary div.cx-import-entries-summary-status',
     ).contains(
-      `Products has been loaded to cart ${config.savedCartConfig?.name || ''}`
+      `Products has been loaded to cart ${config.savedCartConfig?.name || ''}`,
     );
 
     const importedCart = xhr.response.body;
 
     cy.get(
-      'cx-import-entries-summary div.cx-import-entries-summary-footer button'
+      'cx-import-entries-summary div.cx-import-entries-summary-footer button',
     )
       .contains('Close')
       .click();
@@ -353,19 +353,19 @@ export function attemptUpload(csvPath: string) {
   cy.requireLoggedIn();
   const savedCartPage = waitForPage(
     '/my-account/saved-carts',
-    'getSavedCartsPage'
+    'getSavedCartsPage',
   );
   cy.visit('/my-account/saved-carts');
   cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
   cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.get(
-    'cx-import-entries-dialog cx-file-upload input[type="file"]'
+    'cx-import-entries-dialog cx-file-upload input[type="file"]',
   ).attachFile({ filePath: csvPath }, { allowEmpty: true });
   cy.get('cx-import-entries-dialog input[formcontrolname="name"]').type(
-    'Test Cart'
+    'Test Cart',
   );
   cy.get(
-    'cx-import-entries-dialog textarea[formcontrolname="description"]'
+    'cx-import-entries-dialog textarea[formcontrolname="description"]',
   ).type('A test description.');
 
   cy.get('cx-import-entries-dialog button').contains('Upload').click();

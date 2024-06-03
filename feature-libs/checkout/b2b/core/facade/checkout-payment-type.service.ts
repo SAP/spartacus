@@ -45,7 +45,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     {
       reloadOn: this.getCheckoutPaymentTypesQueryReloadEvents(),
       resetOn: this.getCheckoutPaymentTypesQueryResetEvents(),
-    }
+    },
   );
 
   protected setPaymentTypeCommand: Command<
@@ -63,7 +63,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
               userId,
               cartId,
               paymentTypeCode,
-              purchaseOrderNumber
+              purchaseOrderNumber,
             )
             .pipe(
               tap(() =>
@@ -74,15 +74,15 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
                     paymentTypeCode,
                     purchaseOrderNumber,
                   },
-                  CheckoutPaymentTypeSetEvent
-                )
-              )
-            )
-        )
+                  CheckoutPaymentTypeSetEvent,
+                ),
+              ),
+            ),
+        ),
       ),
     {
       strategy: CommandStrategy.CancelPrevious,
-    }
+    },
   );
 
   constructor(
@@ -92,7 +92,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     protected commandService: CommandService,
     protected paymentTypeConnector: CheckoutPaymentTypeConnector,
     protected eventService: EventService,
-    protected checkoutQueryFacade: CheckoutQueryFacade
+    protected checkoutQueryFacade: CheckoutQueryFacade,
   ) {}
 
   protected checkoutPreconditions(): Observable<[string, string]> {
@@ -111,7 +111,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
           throw new Error('Checkout conditions not met');
         }
         return [userId, cartId];
-      })
+      }),
     );
   }
 
@@ -124,15 +124,15 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
       concatMap((state) =>
         (state?.error as HttpErrorModel)
           ? throwError(state.error as HttpErrorModel)
-          : of(state)
+          : of(state),
       ),
-      map((state) => state.data ?? [])
+      map((state) => state.data ?? []),
     );
   }
 
   setPaymentType(
     paymentTypeCode: B2BPaymentTypeEnum,
-    purchaseOrderNumber?: string
+    purchaseOrderNumber?: string,
   ): Observable<unknown> {
     return this.setPaymentTypeCommand.execute({
       paymentTypeCode,
@@ -151,7 +151,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   isAccountPayment(): Observable<boolean> {
     return this.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading),
-      map((state) => state.data?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT)
+      map((state) => state.data?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT),
     );
   }
 
@@ -159,7 +159,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     return this.checkoutQueryFacade
       .getCheckoutDetailsState()
       .pipe(
-        map((state) => ({ ...state, data: state.data?.purchaseOrderNumber }))
+        map((state) => ({ ...state, data: state.data?.purchaseOrderNumber })),
       );
   }
 }

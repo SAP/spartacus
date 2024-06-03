@@ -77,38 +77,36 @@ describe('TextfieldFormComponent', () => {
   let fixture: ComponentFixture<ConfiguratorTextfieldFormComponent>;
   let textfieldService: ConfiguratorTextfieldService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          NgSelectModule,
-          PageLayoutModule,
-        ],
-        declarations: [
-          ConfiguratorTextfieldFormComponent,
-          ConfiguratorTextfieldInputFieldComponent,
-          ConfiguratorTextfieldAddToCartButtonComponent,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorTextfieldService,
-            useClass: MockConfiguratorTextfieldService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        PageLayoutModule,
+      ],
+      declarations: [
+        ConfiguratorTextfieldFormComponent,
+        ConfiguratorTextfieldInputFieldComponent,
+        ConfiguratorTextfieldAddToCartButtonComponent,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorTextfieldService,
+          useClass: MockConfiguratorTextfieldService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldFormComponent);
     component = fixture.componentInstance;
     textfieldService = TestBed.inject(
-      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
+      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>,
     );
   });
 
@@ -127,7 +125,7 @@ describe('TextfieldFormComponent', () => {
     expect(component.configuration$).toBeObservable(
       cold('--p', {
         p: productConfig,
-      })
+      }),
     );
   });
 
@@ -143,7 +141,7 @@ describe('TextfieldFormComponent', () => {
     expect(component.configuration$).toBeObservable(
       cold('--p', {
         p: productConfig,
-      })
+      }),
     );
   });
 
@@ -159,7 +157,7 @@ describe('TextfieldFormComponent', () => {
     expect(component.configuration$).toBeObservable(
       cold('--p', {
         p: productConfig,
-      })
+      }),
     );
   });
 
@@ -180,7 +178,7 @@ describe('TextfieldFormComponent', () => {
     expect(component.isEditable$).toBeObservable(
       cold('-b', {
         b: true,
-      })
+      }),
     );
   });
 
@@ -195,7 +193,7 @@ describe('TextfieldFormComponent', () => {
     expect(component.isEditable$).toBeObservable(
       cold('-b', {
         b: false,
-      })
+      }),
     );
   });
 });

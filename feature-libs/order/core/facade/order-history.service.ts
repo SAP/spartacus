@@ -31,7 +31,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
     protected store: Store<StateWithOrder>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected userIdService: UserIdService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
   ) {}
 
   /**
@@ -52,7 +52,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
         new OrderActions.LoadOrderDetails({
           userId,
           orderCode,
-        })
+        }),
       );
     });
   }
@@ -68,7 +68,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
    * Returns order history list
    */
   getOrderHistoryList(
-    pageSize: number
+    pageSize: number,
   ): Observable<OrderHistoryList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getOrdersState),
@@ -81,7 +81,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
           this.loadOrderList(pageSize);
         }
       }),
-      map((orderListState) => orderListState.value)
+      map((orderListState) => orderListState.value),
     );
   }
 
@@ -119,7 +119,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
             currentPage,
             sort,
             replenishmentOrderCode,
-          })
+          }),
         );
       },
       error: () => {
@@ -154,7 +154,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
           userId,
           orderCode,
           consignmentCode,
-        })
+        }),
       );
     });
   }
@@ -171,7 +171,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
    */
   cancelOrder(
     orderCode: string,
-    cancelRequestInput: CancellationRequestEntryInputList
+    cancelRequestInput: CancellationRequestEntryInputList,
   ): void {
     this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
@@ -179,7 +179,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
           userId,
           orderCode,
           cancelRequestInput,
-        })
+        }),
       );
     });
   }
@@ -189,7 +189,9 @@ export class OrderHistoryService implements OrderHistoryFacade {
    */
   getCancelOrderLoading(): Observable<boolean> {
     return this.processStateStore.pipe(
-      select(ProcessSelectors.getProcessLoadingFactory(CANCEL_ORDER_PROCESS_ID))
+      select(
+        ProcessSelectors.getProcessLoadingFactory(CANCEL_ORDER_PROCESS_ID),
+      ),
     );
   }
 
@@ -198,7 +200,9 @@ export class OrderHistoryService implements OrderHistoryFacade {
    */
   getCancelOrderSuccess(): Observable<boolean> {
     return this.processStateStore.pipe(
-      select(ProcessSelectors.getProcessSuccessFactory(CANCEL_ORDER_PROCESS_ID))
+      select(
+        ProcessSelectors.getProcessSuccessFactory(CANCEL_ORDER_PROCESS_ID),
+      ),
     );
   }
 

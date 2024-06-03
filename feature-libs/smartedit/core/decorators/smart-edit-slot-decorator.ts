@@ -21,7 +21,7 @@ export class SmartEditSlotDecorator extends SlotDecorator {
       this.smartEditService.addSmartEditContract(
         element,
         renderer,
-        slot.properties
+        slot.properties,
       );
     }
   }

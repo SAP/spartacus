@@ -25,11 +25,11 @@ export class ProductImagesComponent {
       distinctUntilChanged(),
       tap((p: Product) => {
         this.mainMediaContainer.next(p.images?.PRIMARY ? p.images.PRIMARY : {});
-      })
+      }),
     );
 
   thumbs$: Observable<any[]> = this.product$.pipe(
-    map((p: Product) => this.createThumbs(p))
+    map((p: Product) => this.createThumbs(p)),
   );
 
   mainImage$: Observable<any> = combineLatest([
@@ -54,7 +54,7 @@ export class ProductImagesComponent {
           thumbnail.zoom.url &&
           container.zoom.url === thumbnail.zoom.url
         );
-      })
+      }),
     );
   }
 
@@ -69,10 +69,10 @@ export class ProductImagesComponent {
             container.zoom &&
             t.media.container &&
             t.media.container.zoom &&
-            t.media.container.zoom.url === container.zoom.url
+            t.media.container.zoom.url === container.zoom.url,
         );
         return thumbs.indexOf(current);
-      })
+      }),
     );
   }
 

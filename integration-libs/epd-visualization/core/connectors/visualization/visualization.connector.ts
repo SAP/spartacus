@@ -27,11 +27,11 @@ export class VisualizationConnector {
    */
   lookupVisualization(
     visualizationUsageId: UsageId,
-    folderUsageId: UsageId
+    folderUsageId: UsageId,
   ): Observable<LookupVisualizationsResponse> {
     return this.visualizationAdapter.lookupVisualization(
       visualizationUsageId,
-      folderUsageId
+      folderUsageId,
     );
   }
 }

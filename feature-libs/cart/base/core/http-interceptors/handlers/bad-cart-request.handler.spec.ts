@@ -135,7 +135,7 @@ describe('BadCartRequestHandler', () => {
     service.handleError(MockRequest, MockCartNotFoundResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.cartNotFound' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -143,7 +143,7 @@ describe('BadCartRequestHandler', () => {
     service.handleError(MockRequest, MockCartErrorResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       'cart error occur.',
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 

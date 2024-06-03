@@ -22,7 +22,7 @@ import { getSourceRoot } from '../../../shared/utils/workspace-utils';
 export function migrateConstructorDeprecation(
   tree: Tree,
   context: SchematicContext,
-  constructorDeprecations: ConstructorDeprecation[]
+  constructorDeprecations: ConstructorDeprecation[],
 ): Tree {
   context.logger.info('Checking constructor deprecations...');
 
@@ -35,7 +35,7 @@ export function migrateConstructorDeprecation(
       if (
         !isCandidateForConstructorDeprecation(
           originalSource,
-          constructorDeprecation
+          constructorDeprecation,
         )
       ) {
         continue;
@@ -52,7 +52,7 @@ export function migrateConstructorDeprecation(
           source,
           sourcePath,
           constructorNode,
-          newConstructorParam
+          newConstructorParam,
         );
         commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
       }
@@ -68,7 +68,7 @@ export function migrateConstructorDeprecation(
           source,
           sourcePath,
           constructorNode,
-          constructorParamToRemove
+          constructorParamToRemove,
         );
         commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
       }

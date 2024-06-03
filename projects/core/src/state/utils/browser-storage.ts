@@ -9,7 +9,7 @@ import { StorageSyncType } from '../config/state-config';
 
 export function getStorage(
   storageType: StorageSyncType,
-  winRef: WindowRef
+  winRef: WindowRef,
 ): Storage | undefined {
   let storage: Storage | undefined;
 
@@ -38,7 +38,7 @@ export function getStorage(
 export function persistToStorage(
   configKey: string,
   value: any,
-  storage: Storage
+  storage: Storage,
 ): void {
   if (!isSsr(storage) && value) {
     storage.setItem(configKey, JSON.stringify(value));

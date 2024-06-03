@@ -78,14 +78,14 @@ export class CustomFormValidators {
    */
   static passwordsMustMatch(
     password: string,
-    passwordConfirmation: string
+    passwordConfirmation: string,
   ): any {
     const validator = (formGroup: UntypedFormGroup) =>
       controlsMustMatch(
         formGroup,
         password,
         passwordConfirmation,
-        'cxPasswordsMustMatch'
+        'cxPasswordsMustMatch',
       );
 
     return validator;
@@ -108,7 +108,7 @@ export class CustomFormValidators {
         formGroup,
         email,
         emailConfirmation,
-        'cxEmailsMustMatch'
+        'cxEmailsMustMatch',
       );
 
     return validator;
@@ -141,12 +141,12 @@ export class CustomFormValidators {
    * @memberof CustomFormValidators
    */
   static noSpecialCharacters(
-    control: AbstractControl
+    control: AbstractControl,
   ): ValidationErrors | null {
     const forbiddenChars = ['/'];
     const str = String(control.value);
     const containsSpecialChars = forbiddenChars.some((char) =>
-      str.includes(char)
+      str.includes(char),
     );
 
     return !containsSpecialChars ? null : { cxContainsSpecialCharacters: true };
@@ -163,7 +163,7 @@ export class CustomFormValidators {
    * @memberof CustomFormValidators
    */
   static patternValidation(
-    isValidFormat: (date: string) => boolean
+    isValidFormat: (date: string) => boolean,
   ): ValidatorFn {
     const validator = (control: AbstractControl): ValidationErrors | null => {
       const errors: ValidationErrors = {};
@@ -194,7 +194,7 @@ export class CustomFormValidators {
   static dateRange(
     startDateKey: string,
     endDateKey: string,
-    getDate: (value: string) => Date | undefined
+    getDate: (value: string) => Date | undefined,
   ): (_: UntypedFormGroup) => ValidationErrors | null {
     return (formGroup: UntypedFormGroup): ValidationErrors | null => {
       const startDateControl = formGroup.controls[startDateKey];
@@ -230,7 +230,7 @@ export function controlsMustMatch(
   formGroup: UntypedFormGroup,
   firstControlName: string,
   secondControlName: string,
-  errorName: string
+  errorName: string,
 ): void {
   const firstControl = formGroup.controls[firstControlName];
   const secondControl = formGroup.controls[secondControlName];
@@ -240,6 +240,6 @@ export function controlsMustMatch(
   }
 
   secondControl.setErrors(
-    firstControl.value !== secondControl.value ? { [errorName]: true } : null
+    firstControl.value !== secondControl.value ? { [errorName]: true } : null,
   );
 }

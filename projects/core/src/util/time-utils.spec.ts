@@ -28,14 +28,14 @@ describe('TimeUtils', () => {
     it('should convert to start of day', () => {
       const result = TimeUtils.convertDateToDatetime(mockDate);
       expect(result).toEqual(
-        `${mockDate}T${startOfDayTime}${TimeUtils.getLocalTimezoneOffset()}`
+        `${mockDate}T${startOfDayTime}${TimeUtils.getLocalTimezoneOffset()}`,
       );
     });
 
     it('should convert to end of day', () => {
       const result = TimeUtils.convertDateToDatetime(mockDate, true);
       expect(result).toEqual(
-        `${mockDate}T${endOfDayTime}${TimeUtils.getLocalTimezoneOffset()}`
+        `${mockDate}T${endOfDayTime}${TimeUtils.getLocalTimezoneOffset()}`,
       );
     });
   });

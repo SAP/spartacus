@@ -19,14 +19,14 @@ export class CpqConfiguratorValueSerializer
       CpqConfiguratorUtils.findFirstChangedAttribute(source);
     const updateValue: Cpq.UpdateValue = this.convertAttribute(
       attribute,
-      source.configId
+      source.configId,
     );
     return updateValue;
   }
 
   protected convertAttribute(
     attribute: Configurator.Attribute,
-    configurationId: string
+    configurationId: string,
   ): Cpq.UpdateValue {
     const updateInfo = CpqConfiguratorUtils.getUpdateInformation(attribute);
     const value = this.findFirstChangedValue(attribute);
@@ -42,7 +42,7 @@ export class CpqConfiguratorValueSerializer
   }
 
   protected findFirstChangedValue(
-    attribute: Configurator.Attribute
+    attribute: Configurator.Attribute,
   ): Configurator.Value {
     if (attribute.values && attribute.values.length > 0) {
       return attribute.values[0];

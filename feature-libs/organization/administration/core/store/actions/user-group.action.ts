@@ -99,7 +99,7 @@ export class LoadUserGroupSuccess extends StateUtils.EntitySuccessAction {
       USER_GROUP_ENTITIES,
       Array.isArray(payload)
         ? payload.map((userGroup) => userGroup?.uid ?? '')
-        : payload?.uid ?? ''
+        : payload?.uid ?? '',
     );
   }
 }
@@ -110,7 +110,7 @@ export class LoadUserGroups extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(USER_GROUP_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
@@ -122,7 +122,7 @@ export class LoadUserGroupsFail extends StateUtils.EntityFailAction {
     super(
       USER_GROUP_LIST,
       StateUtils.serializeSearchConfig(payload.params),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -133,7 +133,7 @@ export class LoadUserGroupsSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(USER_GROUP_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
@@ -146,11 +146,11 @@ export class LoadPermissions extends StateUtils.EntityLoadAction {
       userId: string;
       userGroupId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       USER_GROUP_PERMISSIONS,
-      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId)
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId),
     );
   }
 }
@@ -162,12 +162,12 @@ export class LoadPermissionsFail extends StateUtils.EntityFailAction {
       userGroupId: string;
       params: SearchConfig;
       error: any;
-    }
+    },
   ) {
     super(
       USER_GROUP_PERMISSIONS,
       StateUtils.serializeSearchConfig(payload.params, payload.userGroupId),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -179,11 +179,11 @@ export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
       userGroupId: string;
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       USER_GROUP_PERMISSIONS,
-      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId)
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId),
     );
   }
 }
@@ -195,11 +195,11 @@ export class LoadAvailableOrgCustomers extends StateUtils.EntityLoadAction {
       userId: string;
       userGroupId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       USER_GROUP_AVAILABLE_CUSTOMERS,
-      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId)
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId),
     );
   }
 }
@@ -211,12 +211,12 @@ export class LoadAvailableOrgCustomersFail extends StateUtils.EntityFailAction {
       userGroupId: string;
       params: SearchConfig;
       error: any;
-    }
+    },
   ) {
     super(
       USER_GROUP_AVAILABLE_CUSTOMERS,
       StateUtils.serializeSearchConfig(payload.params, payload.userGroupId),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -228,11 +228,11 @@ export class LoadAvailableOrgCustomersSuccess extends StateUtils.EntitySuccessAc
       userGroupId: string;
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       USER_GROUP_AVAILABLE_CUSTOMERS,
-      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId)
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId),
     );
   }
 }
@@ -265,7 +265,7 @@ export class AssignMember extends StateUtils.EntityLoadAction {
       userId: string;
       userGroupId: string;
       customerId: string;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.customerId);
   }
@@ -278,7 +278,7 @@ export class AssignMemberFail extends StateUtils.EntityFailAction {
       userGroupId: string;
       customerId: string;
       error: any;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.customerId, payload.error);
   }
@@ -298,7 +298,7 @@ export class AssignPermission extends StateUtils.EntityLoadAction {
       userId: string;
       userGroupId: string;
       permissionUid: string;
-    }
+    },
   ) {
     super(PERMISSION_ENTITIES, payload.permissionUid);
   }
@@ -311,7 +311,7 @@ export class AssignPermissionFail extends StateUtils.EntityFailAction {
       userGroupId: string;
       permissionUid: string;
       error: any;
-    }
+    },
   ) {
     super(PERMISSION_ENTITIES, payload.permissionUid, payload.error);
   }
@@ -331,7 +331,7 @@ export class UpdateUserGroup extends StateUtils.EntityLoadAction {
       userId: string;
       userGroupId: string;
       userGroup: UserGroup;
-    }
+    },
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroup.uid ?? '');
   }
@@ -357,7 +357,7 @@ export class DeleteUserGroup extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       userGroupId: string;
-    }
+    },
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroupId);
   }
@@ -384,7 +384,7 @@ export class UnassignMember extends StateUtils.EntityLoadAction {
       userId: string;
       userGroupId: string;
       customerId: string;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.customerId);
   }
@@ -397,7 +397,7 @@ export class UnassignMemberFail extends StateUtils.EntityFailAction {
       userGroupId: string;
       customerId: string;
       error: any;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.customerId, payload.error);
   }
@@ -416,7 +416,7 @@ export class UnassignAllMembers extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       userGroupId: string;
-    }
+    },
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroupId);
   }
@@ -443,7 +443,7 @@ export class UnassignPermission extends StateUtils.EntityLoadAction {
       userId: string;
       userGroupId: string;
       permissionUid: string;
-    }
+    },
   ) {
     super(PERMISSION_ENTITIES, payload.permissionUid);
   }
@@ -456,7 +456,7 @@ export class UnassignPermissionFail extends StateUtils.EntityFailAction {
       userGroupId: string;
       permissionUid: string;
       error: any;
-    }
+    },
   ) {
     super(PERMISSION_ENTITIES, payload.permissionUid, payload.error);
   }

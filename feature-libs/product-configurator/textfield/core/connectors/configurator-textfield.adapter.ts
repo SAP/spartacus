@@ -20,7 +20,7 @@ export abstract class ConfiguratorTextfieldAdapter {
    */
   abstract createConfiguration(
     productCode: string,
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<ConfiguratorTextfield.Configuration>;
 
   /**
@@ -31,7 +31,7 @@ export abstract class ConfiguratorTextfieldAdapter {
    * @returns Observable of cart modifications
    */
   abstract addToCart(
-    parameters: ConfiguratorTextfield.AddToCartParameters
+    parameters: ConfiguratorTextfield.AddToCartParameters,
   ): Observable<CartModification>;
 
   /**
@@ -41,7 +41,7 @@ export abstract class ConfiguratorTextfieldAdapter {
    * @returns Observable of configurations
    */
   abstract readConfigurationForCartEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters,
   ): Observable<ConfiguratorTextfield.Configuration>;
 
   /**
@@ -51,7 +51,7 @@ export abstract class ConfiguratorTextfieldAdapter {
    * @returns {Observable<ConfiguratorTextfield.Configuration>} Observable of configurations
    */
   abstract readConfigurationForOrderEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters,
   ): Observable<ConfiguratorTextfield.Configuration>;
 
   /**
@@ -61,6 +61,6 @@ export abstract class ConfiguratorTextfieldAdapter {
    * @returns Observable of cart modifications
    */
   abstract updateConfigurationForCartEntry(
-    parameters: ConfiguratorTextfield.UpdateCartEntryParameters
+    parameters: ConfiguratorTextfield.UpdateCartEntryParameters,
   ): Observable<CartModification>;
 }

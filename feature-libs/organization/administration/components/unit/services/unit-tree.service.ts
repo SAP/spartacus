@@ -26,11 +26,11 @@ export class UnitTreeService {
   protected minimalExpanded = 1;
 
   protected globalToggle$ = new BehaviorSubject<TREE_TOGGLE | undefined>(
-    undefined
+    undefined,
   );
 
   treeToggle$: BehaviorSubject<Map<string, TREE_TOGGLE>> = new BehaviorSubject(
-    new Map()
+    new Map(),
   );
 
   /**
@@ -96,7 +96,7 @@ export class UnitTreeService {
       unit.id ?? '',
       this.isExpanded(unit.id ?? '', unit.depthLevel)
         ? TREE_TOGGLE.COLLAPSED
-        : TREE_TOGGLE.EXPANDED
+        : TREE_TOGGLE.EXPANDED,
     );
     this.treeToggle$.next(currentState);
   }
@@ -110,12 +110,12 @@ export class UnitTreeService {
   protected expandUntilActiveNode(node: B2BUnitNode, activeUnitId: string) {
     const hasActiveChild = (n: B2BUnitNode, id: string): boolean =>
       !!n.children?.find(
-        (child) => child.id === id || hasActiveChild(child, id)
+        (child) => child.id === id || hasActiveChild(child, id),
       );
 
     const findInvolvedTreeNodes = (
       n: B2BUnitNode,
-      activeItems: string[] = []
+      activeItems: string[] = [],
     ): string[] => {
       if (hasActiveChild(n, activeUnitId)) {
         activeItems.push(n.id ?? '');

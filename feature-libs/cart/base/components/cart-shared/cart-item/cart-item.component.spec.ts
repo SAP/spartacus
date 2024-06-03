@@ -113,34 +113,32 @@ describe('CartItemComponent', () => {
     'isLevel',
   ]);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          ReactiveFormsModule,
-          I18nTestingModule,
-          OutletModule,
-        ],
-        declarations: [
-          CartItemComponent,
-          MockMediaComponent,
-          MockItemCounterComponent,
-          MockPromotionsComponent,
-          MockUrlPipe,
-          MockFeatureLevelDirective,
-          MockOutletDirective,
-          MockCartItemValidationWarningComponent,
-          MockAtMessageDirective,
-        ],
-        providers: [
-          {
-            provide: ControlContainer,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        OutletModule,
+      ],
+      declarations: [
+        CartItemComponent,
+        MockMediaComponent,
+        MockItemCounterComponent,
+        MockPromotionsComponent,
+        MockUrlPipe,
+        MockFeatureLevelDirective,
+        MockOutletDirective,
+        MockCartItemValidationWarningComponent,
+        MockAtMessageDirective,
+      ],
+      providers: [
+        {
+          provide: ControlContainer,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
@@ -168,7 +166,7 @@ describe('CartItemComponent', () => {
 
   it('should provide locally CartItemContext', () => {
     expect(componentInjector.get(CartItemContext)).toBe(
-      componentInjector.get(CartItemContextSource)
+      componentInjector.get(CartItemContextSource),
     );
   });
 
@@ -186,7 +184,7 @@ describe('CartItemComponent', () => {
         compact: { currentValue: cartItemComponent.compact } as SimpleChange,
       });
       expect(cartItemContextSource.compact$.next).toHaveBeenCalledWith(
-        cartItemComponent.compact
+        cartItemComponent.compact,
       );
     });
 
@@ -197,7 +195,7 @@ describe('CartItemComponent', () => {
         readonly: { currentValue: cartItemComponent.readonly } as SimpleChange,
       });
       expect(cartItemContextSource.readonly$.next).toHaveBeenCalledWith(
-        cartItemComponent.readonly
+        cartItemComponent.readonly,
       );
     });
 
@@ -208,7 +206,7 @@ describe('CartItemComponent', () => {
         item: { currentValue: cartItemComponent.item } as SimpleChange,
       });
       expect(cartItemContextSource.item$.next).toHaveBeenCalledWith(
-        cartItemComponent.item
+        cartItemComponent.item,
       );
     });
 
@@ -221,7 +219,7 @@ describe('CartItemComponent', () => {
         } as SimpleChange,
       });
       expect(cartItemContextSource.quantityControl$.next).toHaveBeenCalledWith(
-        cartItemComponent.quantityControl
+        cartItemComponent.quantityControl,
       );
     });
 
@@ -234,7 +232,7 @@ describe('CartItemComponent', () => {
         } as SimpleChange,
       });
       expect(cartItemContextSource.location$.next).toHaveBeenCalledWith(
-        cartItemComponent.promotionLocation
+        cartItemComponent.promotionLocation,
       );
     });
 
@@ -245,7 +243,7 @@ describe('CartItemComponent', () => {
         options: { currentValue: cartItemComponent.options } as SimpleChange,
       });
       expect(cartItemContextSource.options$.next).toHaveBeenCalledWith(
-        cartItemComponent.options
+        cartItemComponent.options,
       );
     });
   });
@@ -284,12 +282,12 @@ describe('CartItemComponent', () => {
     expect(cartItemComponent.item.product.stock).toBeDefined();
 
     expect(
-      cartItemComponent.isProductOutOfStock(cartItemComponent.item.product)
+      cartItemComponent.isProductOutOfStock(cartItemComponent.item.product),
     ).toBeTruthy();
 
     cartItemComponent.item.product.stock.stockLevelStatus = 'InStock';
     expect(
-      cartItemComponent.isProductOutOfStock(cartItemComponent.item.product)
+      cartItemComponent.isProductOutOfStock(cartItemComponent.item.product),
     ).toBeFalsy();
   });
 
@@ -301,10 +299,10 @@ describe('CartItemComponent', () => {
     expect(el.queryAll(By.css('.cx-property')).length).toEqual(variants.length);
     variants.forEach((variant) => {
       const infoContainer: HTMLElement = el.query(
-        By.css('.cx-info-container')
+        By.css('.cx-info-container'),
       ).nativeElement;
       expect(infoContainer.innerText).toContain(
-        `${variant.name}: ${variant.value}`
+        `${variant.name}: ${variant.value}`,
       );
     });
   });

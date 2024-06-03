@@ -44,21 +44,19 @@ describe('CmsParagraphComponent in CmsLib', () => {
     }
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [MockAnchorPipe, ParagraphComponent],
-        providers: [
-          {
-            provide: CmsComponentData,
-            useValue: MockCmsComponentData,
-          },
-          { provide: DomSanitizer, useClass: MockDomSanitizer },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [MockAnchorPipe, ParagraphComponent],
+      providers: [
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
+        },
+        { provide: DomSanitizer, useClass: MockDomSanitizer },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ParagraphComponent);
@@ -77,7 +75,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
     data$.next(componentData);
     fixture.detectChanges();
     expect(el.query(By.css('div')).nativeElement.textContent).toEqual(
-      componentData.content
+      componentData.content,
     );
   });
 
@@ -88,7 +86,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
     spyOn(console, 'warn').and.stub(); // Prevent warning to be showed by Angular when sanitizing
     fixture.detectChanges();
     expect(el.query(By.css('div')).nativeElement.innerHTML).toEqual(
-      `<img src="">`
+      `<img src="">`,
     );
   });
 
@@ -148,7 +146,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
     it('should call DOM sanitizer', () => {
       const bypassSecurityTrustHtmlSpy = spyOn(
         domSanitizer,
-        'bypassSecurityTrustHtml'
+        'bypassSecurityTrustHtml',
       ).and.callThrough();
 
       data$.next(componentData);
@@ -165,7 +163,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
       const documentUrlObject = new URL(window.location.href + '#001');
 
       expect(router.navigateByUrl).toHaveBeenCalledWith(
-        documentUrlObject.pathname + documentUrlObject.hash
+        documentUrlObject.pathname + documentUrlObject.hash,
       );
     });
 

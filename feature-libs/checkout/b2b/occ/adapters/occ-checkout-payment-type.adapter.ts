@@ -33,7 +33,7 @@ export class OccCheckoutPaymentTypeAdapter
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   getPaymentTypes(): Observable<PaymentType[]> {
@@ -49,7 +49,7 @@ export class OccCheckoutPaymentTypeAdapter
         }),
         backOff({ shouldRetry: isJaloError }),
         map((paymentTypeList) => paymentTypeList.paymentTypes ?? []),
-        this.converter.pipeableMany(CHECKOUT_PAYMENT_TYPE_NORMALIZER)
+        this.converter.pipeableMany(CHECKOUT_PAYMENT_TYPE_NORMALIZER),
       );
   }
 
@@ -61,7 +61,7 @@ export class OccCheckoutPaymentTypeAdapter
     userId: string,
     cartId: string,
     paymentType: string,
-    purchaseOrderNumber?: string
+    purchaseOrderNumber?: string,
   ): Observable<Cart> {
     return this.http
       .put(
@@ -69,16 +69,16 @@ export class OccCheckoutPaymentTypeAdapter
           userId,
           cartId,
           paymentType,
-          purchaseOrderNumber
+          purchaseOrderNumber,
         ),
-        {}
+        {},
       )
       .pipe(
         catchError((error) => {
           throw normalizeHttpError(error, this.logger);
         }),
         backOff({ shouldRetry: isJaloError }),
-        this.converter.pipeable(CART_NORMALIZER)
+        this.converter.pipeable(CART_NORMALIZER),
       );
   }
 
@@ -86,7 +86,7 @@ export class OccCheckoutPaymentTypeAdapter
     userId: string,
     cartId: string,
     paymentType: string,
-    purchaseOrderNumber?: string
+    purchaseOrderNumber?: string,
   ): string {
     const queryParams = { paymentType, purchaseOrderNumber };
     return this.occEndpoints.buildUrl('setCartPaymentType', {

@@ -91,7 +91,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     protected activeCartFacade: ActiveCartFacade,
     protected launchDialogService: LaunchDialogService,
     protected routingService: RoutingService,
-    protected el: ElementRef
+    protected el: ElementRef,
   ) {}
 
   ngOnInit(): void {
@@ -103,16 +103,16 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
             dialogData.quantity,
             dialogData.numberOfEntriesBeforeAdd,
             dialogData.pickupStoreName,
-            dialogData.addingEntryResult$
+            dialogData.addingEntryResult$,
           );
-        }
-      )
+        },
+      ),
     );
     this.subscription.add(
       this.routingService
         .getRouterState()
         .pipe(filter((state) => !!state.nextState))
-        .subscribe(() => this.dismissModal('dismiss'))
+        .subscribe(() => this.dismissModal('dismiss')),
     );
   }
 
@@ -134,7 +134,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
               if (valueChange) {
                 this.activeCartFacade.updateEntry(
                   valueChange.entryNumber,
-                  valueChange.quantity
+                  valueChange.quantity,
                 );
                 if (valueChange.quantity === 0) {
                   this.dismissModal('Removed');
@@ -142,11 +142,11 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
               } else {
                 this.form.markAsPristine();
               }
-            })
-          )
+            }),
+          ),
         ),
         map(() => <UntypedFormControl>this.form.get('quantity')),
-        shareReplay({ bufferSize: 1, refCount: true })
+        shareReplay({ bufferSize: 1, refCount: true }),
       );
     }
     return this.quantityControl$;
@@ -159,7 +159,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     pickupStoreName?: string,
     addingEntryResult$?: Observable<
       CartAddEntrySuccessEvent | CartAddEntryFailEvent
-    >
+    >,
   ): void {
     // Display last entry for new product code. This always corresponds to
     // our new item, independently of whether merging occured or not
@@ -174,12 +174,12 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
             return productCodeFromEntry
               ? productCodeFromEntry
               : event.productCode;
-          })
+          }),
         )
       : of(productCode);
 
     this.entry$ = productCode$.pipe(
-      switchMap((code) => this.activeCartFacade.getLastEntry(code))
+      switchMap((code) => this.activeCartFacade.getLastEntry(code)),
     );
 
     this.quantity = quantity;
@@ -187,7 +187,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     this.pickupStoreName = pickupStoreName;
 
     this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
-      numberOfEntriesBeforeAdd
+      numberOfEntriesBeforeAdd,
     );
   }
   /**
@@ -197,12 +197,12 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
    * @returns Has entry been merged?
    */
   protected getAddedEntryWasMerged(
-    numberOfEntriesBeforeAdd: number
+    numberOfEntriesBeforeAdd: number,
   ): Observable<boolean> {
     return this.loaded$.pipe(
       filter((loaded) => loaded),
       switchMap(() => this.activeCartFacade.getEntries()),
-      map((entries) => entries.length === numberOfEntriesBeforeAdd)
+      map((entries) => entries.length === numberOfEntriesBeforeAdd),
     );
   }
 

@@ -65,16 +65,16 @@ describe('AsmStatePersistenceService', () => {
 
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AsmActions.AsmUiUpdate({ collapsed: true })
+      new AsmActions.AsmUiUpdate({ collapsed: true }),
     );
     expect(
       asmAuthStorageService.setEmulatedUserToken({
         access_token: 'token',
         access_token_stored_at: '1000',
-      } as AuthToken)
+      } as AuthToken),
     );
     expect(asmAuthStorageService.setTokenTarget).toHaveBeenCalledWith(
-      TokenTarget.CSAgent
+      TokenTarget.CSAgent,
     );
   });
 
@@ -88,7 +88,7 @@ describe('AsmStatePersistenceService', () => {
       jasmine.objectContaining({
         key: 'asm',
         state$,
-      })
+      }),
     );
     expect(service['getAsmState']).toHaveBeenCalled();
   });
@@ -100,7 +100,7 @@ describe('AsmStatePersistenceService', () => {
       refresh_token: 'refresh_token', // this token should not be saved
     });
     spyOn(asmAuthStorageService, 'getTokenTarget').and.returnValue(
-      of(TokenTarget.User)
+      of(TokenTarget.User),
     );
 
     service['getAsmState']()

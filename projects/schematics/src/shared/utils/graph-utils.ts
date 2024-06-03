@@ -41,7 +41,7 @@ export class Graph {
 export const crossLibraryDependencyGraph: Graph =
   createLibraryDependencyGraph();
 export const crossLibraryInstallationOrder: string[] = kahnsAlgorithm(
-  crossLibraryDependencyGraph
+  crossLibraryDependencyGraph,
 );
 
 export const crossFeatureDependencyGraph: Graph =
@@ -70,7 +70,7 @@ function groupFeatures(): string[] {
 
 function getLastLibraryIndex(
   auxOrder: { library: string; feature: string }[],
-  library: string
+  library: string,
 ): number | undefined {
   let lastIndex: number | undefined;
   for (const [index, aux] of Array.from(auxOrder.entries())) {
@@ -137,11 +137,11 @@ function createLibraryDependencyGraph(): Graph {
   const skip = CORE_SPARTACUS_SCOPES.concat(
     'storefrontapp-e2e-cypress',
     'storefrontapp',
-    'ssr-tests'
+    'ssr-tests',
   );
 
   const spartacusLibraries = Object.keys(collectedDependencies).filter(
-    (dependency) => !skip.includes(dependency)
+    (dependency) => !skip.includes(dependency),
   );
 
   const graph = new Graph(spartacusLibraries);
@@ -150,7 +150,7 @@ function createLibraryDependencyGraph(): Graph {
       collectedDependencies as Record<string, Record<string, string>>
     )[spartacusLib];
     const spartacusPeerDependencies = Object.keys(libraryDependencies).filter(
-      (dependency) => dependency.startsWith(SPARTACUS_SCOPE)
+      (dependency) => dependency.startsWith(SPARTACUS_SCOPE),
     );
     for (const spartacusPackage of spartacusPeerDependencies) {
       if (skip.includes(spartacusPackage)) {

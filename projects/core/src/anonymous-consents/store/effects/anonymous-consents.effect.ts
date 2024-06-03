@@ -49,41 +49,41 @@ export class AnonymousConsentsEffects {
               if (!newConsents) {
                 if (isDevMode()) {
                   this.logger.warn(
-                    'No consents were loaded. Please check the Spartacus documentation as this could be a back-end configuration issue.'
+                    'No consents were loaded. Please check the Spartacus documentation as this could be a back-end configuration issue.',
                   );
                 }
                 return false;
               }
 
               const currentConsentVersions = currentConsents.map(
-                (consent) => consent.templateVersion
+                (consent) => consent.templateVersion,
               );
               const newConsentVersions = newConsents.map(
-                (consent) => consent.templateVersion
+                (consent) => consent.templateVersion,
               );
 
               return this.detectUpdatedVersion(
                 currentConsentVersions,
-                newConsentVersions
+                newConsentVersions,
               );
             }),
             switchMap((updated) =>
               updated
                 ? of(
-                    new AnonymousConsentsActions.LoadAnonymousConsentTemplates()
+                    new AnonymousConsentsActions.LoadAnonymousConsentTemplates(),
                   )
-                : EMPTY
+                : EMPTY,
             ),
             catchError((error) =>
               of(
                 new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   loadAnonymousConsentTemplates$: Observable<AnonymousConsentsActions.AnonymousConsentsActions> =
@@ -103,29 +103,29 @@ export class AnonymousConsentsEffects {
                 ) {
                   updated = this.anonymousConsentService.detectUpdatedTemplates(
                     currentConsentTemplates,
-                    newConsentTemplates
+                    newConsentTemplates,
                   );
                 }
 
                 return [
                   new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-                    newConsentTemplates
+                    newConsentTemplates,
                   ),
                   new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
-                    updated
+                    updated,
                   ),
                 ];
               }),
               catchError((error) =>
                 of(
                   new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
-            )
-        )
-      )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
+            ),
+        ),
+      ),
     );
 
   // TODO(#9416): This won't work with flow different than `Resource Owner Password Flow` which involves redirect (maybe in popup in will work)
@@ -139,9 +139,9 @@ export class AnonymousConsentsEffects {
       withLatestFrom(
         this.actions$.pipe(
           ofType<UserActions.RegisterUserSuccess>(
-            UserActions.REGISTER_USER_SUCCESS
-          )
-        )
+            UserActions.REGISTER_USER_SUCCESS,
+          ),
+        ),
       ),
       filter(([, registerAction]) => Boolean(registerAction)),
       switchMap(() =>
@@ -149,7 +149,7 @@ export class AnonymousConsentsEffects {
           withLatestFrom(
             this.userIdService.getUserId(),
             this.anonymousConsentService.getTemplates(),
-            this.authService.isUserLoggedIn()
+            this.authService.isUserLoggedIn(),
           ),
           filter(([, , , loggedIn]) => loggedIn),
           concatMap(([consents, userId, templates, _loggedIn]) => {
@@ -166,7 +166,7 @@ export class AnonymousConsentsEffects {
                         userId,
                         consentTemplateId: template.id,
                         consentTemplateVersion: template.version,
-                      })
+                      }),
                     );
                     break;
                   }
@@ -177,18 +177,18 @@ export class AnonymousConsentsEffects {
               return actions;
             }
             return EMPTY;
-          })
-        )
-      )
-    )
+          }),
+        ),
+      ),
+    ),
   );
 
   private isRequiredConsent(templateCode: string | undefined): boolean {
     return Boolean(
       templateCode &&
         this.anonymousConsentsConfig.anonymousConsents?.requiredConsents?.includes(
-          templateCode
-        )
+          templateCode,
+        ),
     );
   }
 
@@ -201,8 +201,8 @@ export class AnonymousConsentsEffects {
         Boolean(
           this.anonymousConsentsConfig.anonymousConsents &&
             this.anonymousConsentsConfig.anonymousConsents.requiredConsents &&
-            action
-        )
+            action,
+        ),
       ),
       concatMap(() =>
         this.userConsentService.getConsentsResultSuccess().pipe(
@@ -210,7 +210,7 @@ export class AnonymousConsentsEffects {
           withLatestFrom(
             this.userIdService.getUserId(),
             this.userConsentService.getConsents(),
-            this.authService.isUserLoggedIn()
+            this.authService.isUserLoggedIn(),
           ),
           filter(([, , , loggedIn]) => loggedIn),
           tap(([loaded, _userId, _templates, _loggedIn]) => {
@@ -226,7 +226,7 @@ export class AnonymousConsentsEffects {
             for (const template of templates) {
               if (
                 this.userConsentService.isConsentWithdrawn(
-                  template.currentConsent
+                  template.currentConsent,
                 ) &&
                 this.isRequiredConsent(template.id)
               ) {
@@ -235,15 +235,15 @@ export class AnonymousConsentsEffects {
                     userId,
                     consentTemplateId: template.id,
                     consentTemplateVersion: template.version,
-                  })
+                  }),
                 );
               }
             }
             return actions.length > 0 ? actions : EMPTY;
-          })
-        )
-      )
-    )
+          }),
+        ),
+      ),
+    ),
   );
 
   constructor(
@@ -253,7 +253,7 @@ export class AnonymousConsentsEffects {
     private anonymousConsentsConfig: AnonymousConsentsConfig,
     private anonymousConsentService: AnonymousConsentsService,
     private userConsentService: UserConsentService,
-    private userIdService: UserIdService
+    private userIdService: UserIdService,
   ) {}
 
   /**
@@ -265,7 +265,7 @@ export class AnonymousConsentsEffects {
    */
   private detectUpdatedVersion(
     currentVersions: (number | undefined)[],
-    newVersions: (number | undefined)[]
+    newVersions: (number | undefined)[],
   ): boolean {
     if (currentVersions.length !== newVersions.length) {
       return true;

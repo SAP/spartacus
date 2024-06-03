@@ -20,7 +20,7 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
       configuration: {
         ...ConfiguratorTestUtils.createConfiguration(
           CONFIG_ID,
-          ConfiguratorModelUtils.createInitialOwner()
+          ConfiguratorModelUtils.createInitialOwner(),
         ),
       },
       cartEntryNumber: ENTRY_NUMBER,
@@ -32,7 +32,7 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
     });
 
     converterUnderTest = TestBed.inject(
-      OccConfiguratorCpqUpdateCartEntrySerializer as Type<OccConfiguratorCpqUpdateCartEntrySerializer>
+      OccConfiguratorCpqUpdateCartEntrySerializer as Type<OccConfiguratorCpqUpdateCartEntrySerializer>,
     );
   });
 

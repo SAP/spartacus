@@ -56,7 +56,7 @@ export class QueryService implements OnDestroy {
       reloadOn?: QueryNotifier[];
       /** Resets the query to the initial state */
       resetOn?: QueryNotifier[];
-    }
+    },
   ): Query<T> {
     const initialState: QueryState<T> = {
       data: undefined,
@@ -71,7 +71,7 @@ export class QueryService implements OnDestroy {
     const onSubscribeLoad$ = iif(
       () => state$.value.loading,
       of(undefined),
-      EMPTY
+      EMPTY,
     );
 
     const loadTrigger$ = this.getTriggersStream([
@@ -99,7 +99,7 @@ export class QueryService implements OnDestroy {
         state$.next({ loading: false, error, data: undefined });
         return sourceStream$;
       }),
-      share()
+      share(),
     );
 
     // reload logic
@@ -109,7 +109,7 @@ export class QueryService implements OnDestroy {
           if (!state$.value.loading) {
             state$.next({ ...state$.value, loading: true });
           }
-        })
+        }),
       );
     }
 
@@ -124,18 +124,18 @@ export class QueryService implements OnDestroy {
           ) {
             state$.next(initialState);
           }
-        })
+        }),
       );
     }
 
     const query$ = using(
       () => load$.subscribe(),
-      () => state$
+      () => state$,
     );
 
     const data$ = query$.pipe(
       map((queryState) => queryState.data),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
 
     return { get: () => data$, getState: () => query$ };

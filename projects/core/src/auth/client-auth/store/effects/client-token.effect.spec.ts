@@ -37,12 +37,12 @@ describe('ClientTokenEffect', () => {
 
     clientTokenEffect = TestBed.inject(fromStore.ClientTokenEffect);
     clientAuthenticationTokenService = TestBed.inject(
-      ClientAuthenticationTokenService
+      ClientAuthenticationTokenService,
     );
 
     spyOn(
       clientAuthenticationTokenService,
-      'loadClientAuthenticationToken'
+      'loadClientAuthenticationToken',
     ).and.returnValue(of(testToken));
   });
 
@@ -50,7 +50,7 @@ describe('ClientTokenEffect', () => {
     it('should load a client token', () => {
       const action = new ClientAuthActions.LoadClientToken();
       const completition = new ClientAuthActions.LoadClientTokenSuccess(
-        testToken
+        testToken,
       );
 
       actions$ = hot('-a', { a: action });

@@ -70,7 +70,7 @@ class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
   getCreateTicketPayload = createSpy().and.returnValue(of(mockTicketStarter));
   getTicketCategories = createSpy().and.returnValue(of(mockCategories));
   getTicketAssociatedObjects = createSpy().and.returnValue(
-    of(mockTicketAssociatedObjects)
+    of(mockTicketAssociatedObjects),
   );
   uploadAttachment = createSpy().and.returnValue(EMPTY);
 }
@@ -199,7 +199,7 @@ describe('CustomerTicketingCreateDialogComponent', () => {
         };
 
         (customerTicketingFacade.createTicket as jasmine.Spy).and.returnValue(
-          of(mockTicketDetails)
+          of(mockTicketDetails),
         );
 
         component.createTicketRequest();
@@ -210,7 +210,7 @@ describe('CustomerTicketingCreateDialogComponent', () => {
       it('should close if there is an error creating the ticket', () => {
         spyOn(component, 'close').and.callThrough();
         (customerTicketingFacade.createTicket as jasmine.Spy).and.returnValue(
-          throwError(() => 'error')
+          throwError(() => 'error'),
         );
 
         component.createTicketRequest();
@@ -230,7 +230,7 @@ describe('CustomerTicketingCreateDialogComponent', () => {
       const error = new HttpErrorModel();
       error.details = [{ message: expectedErrorMessage }];
       customerTicketingFacade.createTicket = createSpy().and.returnValue(
-        throwError(error)
+        throwError(error),
       );
       component.form.get('message')?.setValue(mockTicketStarter.message);
       component.form.get('subject')?.setValue(mockTicketStarter.subject);
@@ -240,14 +240,14 @@ describe('CustomerTicketingCreateDialogComponent', () => {
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { raw: expectedErrorMessage },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
 
     it('should handle other error correctly when creating a ticket', () => {
       const expectedErrorMessage = 'error';
       customerTicketingFacade.createTicket = createSpy().and.returnValue(
-        throwError(expectedErrorMessage)
+        throwError(expectedErrorMessage),
       );
       component.form.get('message')?.setValue(mockTicketStarter.message);
       component.form.get('subject')?.setValue(mockTicketStarter.subject);
@@ -257,7 +257,7 @@ describe('CustomerTicketingCreateDialogComponent', () => {
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { raw: 'translated string' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
   });

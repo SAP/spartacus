@@ -55,9 +55,9 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
               cartId,
               cartCode,
             },
-            LoadCartEvent
+            LoadCartEvent,
           );
-        })
+        }),
     );
   }
 
@@ -74,9 +74,9 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
               cartId,
               cartCode,
             },
-            LoadCartEvent
+            LoadCartEvent,
           );
-        })
+        }),
     );
   }
 
@@ -93,9 +93,9 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
               cartId,
               cartCode,
             },
-            LoadCartEvent
+            LoadCartEvent,
           );
-        })
+        }),
     );
   }
 
@@ -119,9 +119,9 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
                */
               cartCode: cartId,
             },
-            LoadCartEvent
-          )
-        )
+            LoadCartEvent,
+          ),
+        ),
     );
   }
 
@@ -129,13 +129,13 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent)
+        this.eventService.get(CurrencySetEvent),
       ).subscribe(() => {
         this.eventService.dispatch(
           {},
-          CheckoutSupportedDeliveryModesQueryReloadEvent
+          CheckoutSupportedDeliveryModesQueryReloadEvent,
         );
-      })
+      }),
     );
   }
 
@@ -143,13 +143,13 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     this.subscriptions.add(
       merge(
         this.eventService.get(LogoutEvent),
-        this.eventService.get(LoginEvent)
+        this.eventService.get(LoginEvent),
       ).subscribe(() => {
         this.eventService.dispatch(
           {},
-          CheckoutSupportedDeliveryModesQueryResetEvent
+          CheckoutSupportedDeliveryModesQueryResetEvent,
         );
-      })
+      }),
     );
   }
 

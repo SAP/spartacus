@@ -14,7 +14,7 @@ export const initialState: FindStoresState = {
 
 export function findStoresReducer(
   state = initialState,
-  action: StoreFinderActions.FindStoresAction
+  action: StoreFinderActions.FindStoresAction,
 ): FindStoresState {
   switch (action.type) {
     case StoreFinderActions.FIND_STORES_SUCCESS: {

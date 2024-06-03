@@ -51,35 +51,33 @@ describe('ConfigAttributeCheckBoxComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeCheckBoxComponent,
-          MockFocusDirective,
-          MockConfiguratorPriceComponent,
-          MockConfiguratorShowMoreComponent,
-        ],
-        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-        providers: [
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeCheckBoxComponent,
+        MockFocusDirective,
+        MockConfiguratorPriceComponent,
+        MockConfiguratorShowMoreComponent,
+      ],
+      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
@@ -135,7 +133,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       '--' +
       value1.valueCode;
     const valueToSelect = fixture.debugElement.query(
-      By.css(checkboxId)
+      By.css(checkboxId),
     ).nativeElement;
     expect(valueToSelect.checked).toBeFalsy();
     // select value
@@ -153,7 +151,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-show-more'
+        'cx-configurator-show-more',
       );
     });
 
@@ -164,7 +162,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-show-more'
+        'cx-configurator-show-more',
       );
     });
   });
@@ -181,7 +179,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         'configurator.a11y.valueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          value1.valueDisplay
+          value1.valueDisplay,
       );
     });
 
@@ -193,7 +191,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         'form-check-input',
         0,
         'aria-describedby',
-        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName',
       );
     });
 
@@ -206,7 +204,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         0,
         'aria-hidden',
         'true',
-        value1.valueDisplay
+        value1.valueDisplay,
       );
     });
   });

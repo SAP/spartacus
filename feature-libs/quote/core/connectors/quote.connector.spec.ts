@@ -32,50 +32,51 @@ const comment = {
 class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
   getQuotes = createSpy('CommerceQuotesAdapter.getQuotes').and.callFake(
     (userId: string, pagination: PaginationModel) =>
-      of(`getQuotes-${userId}-${pagination}`)
+      of(`getQuotes-${userId}-${pagination}`),
   );
   createQuote = createSpy('CommerceQuotesAdapter.createQuote').and.callFake(
     (userId: string, quoteStarter: QuoteStarter) =>
-      of(`createQuote-${userId}-${quoteStarter}`)
+      of(`createQuote-${userId}-${quoteStarter}`),
   );
   getQuote = createSpy('CommerceQuotesAdapter.getQuote').and.callFake(
-    (userId: string, quoteCode: string) => of(`getQuote-${userId}-${quoteCode}`)
+    (userId: string, quoteCode: string) =>
+      of(`getQuote-${userId}-${quoteCode}`),
   );
   editQuote = createSpy('CommerceQuotesAdapter.editQuote').and.callFake(
     (userId: string, quoteCode: string, quoteMetadata: QuoteMetadata) =>
-      of(`editQuote-${userId}-${quoteCode}-${quoteMetadata}`)
+      of(`editQuote-${userId}-${quoteCode}-${quoteMetadata}`),
   );
   performQuoteAction = createSpy(
-    'CommerceQuotesAdapter.performQuoteAction'
+    'CommerceQuotesAdapter.performQuoteAction',
   ).and.callFake(
     (userId: string, quoteCode: string, quoteAction: QuoteActionType) =>
-      of(`performQuoteAction-${userId}-${quoteCode}-${quoteAction}`)
+      of(`performQuoteAction-${userId}-${quoteCode}-${quoteAction}`),
   );
   addComment = createSpy('CommerceQuotesAdapter.addComment').and.callFake(
     (userId: string, quoteCode: string, quoteComment: Comment) =>
-      of(`addComment-${userId}-${quoteCode}-${quoteComment}`)
+      of(`addComment-${userId}-${quoteCode}-${quoteComment}`),
   );
   addDiscount = createSpy('CommerceQuotesAdapter.addDiscount').and.callFake(
     (userId: string, quoteCode: string, discount: QuoteDiscount) =>
-      of(`addDiscount-${userId}-${quoteCode}-${discount}`)
+      of(`addDiscount-${userId}-${quoteCode}-${discount}`),
   );
   addQuoteEntryComment = createSpy(
-    'CommerceQuotesAdapter.addQuoteEntryComment'
+    'CommerceQuotesAdapter.addQuoteEntryComment',
   ).and.callFake(
     (
       userId: string,
       quoteCode: string,
       entryNumber: string,
-      comment: Comment
+      comment: Comment,
     ) =>
       of(
-        `addQuoteEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`
-      )
+        `addQuoteEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`,
+      ),
   );
   downloadAttachment = createSpy(
-    'CommerceQuotesAdapter.downloadAttachment'
+    'CommerceQuotesAdapter.downloadAttachment',
   ).and.callFake((userId: string, quoteCode: string, attachmentId: string) =>
-    of(`downloadAttachment-${userId}-${quoteCode}-${attachmentId}`)
+    of(`downloadAttachment-${userId}-${quoteCode}-${attachmentId}`),
   );
 }
 
@@ -142,12 +143,12 @@ describe('QuoteConnector', () => {
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      `editQuote-${userId}-${quoteCode}-${quoteMetadata.toString()}`
+      `editQuote-${userId}-${quoteCode}-${quoteMetadata.toString()}`,
     );
     expect(quoteAdapter.editQuote).toHaveBeenCalledWith(
       userId,
       quoteCode,
-      quoteMetadata
+      quoteMetadata,
     );
   });
 
@@ -159,12 +160,12 @@ describe('QuoteConnector', () => {
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      `performQuoteAction-${userId}-${quoteCode}-${action.toString()}`
+      `performQuoteAction-${userId}-${quoteCode}-${action.toString()}`,
     );
     expect(quoteAdapter.performQuoteAction).toHaveBeenCalledWith(
       userId,
       quoteCode,
-      action
+      action,
     );
   });
 
@@ -175,12 +176,12 @@ describe('QuoteConnector', () => {
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      `addComment-${userId}-${quoteCode}-${comment.toString()}`
+      `addComment-${userId}-${quoteCode}-${comment.toString()}`,
     );
     expect(quoteAdapter.addComment).toHaveBeenCalledWith(
       userId,
       quoteCode,
-      comment
+      comment,
     );
   });
 
@@ -195,12 +196,12 @@ describe('QuoteConnector', () => {
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      `addDiscount-${userId}-${quoteCode}-${discount.toString()}`
+      `addDiscount-${userId}-${quoteCode}-${discount.toString()}`,
     );
     expect(quoteAdapter.addDiscount).toHaveBeenCalledWith(
       userId,
       quoteCode,
-      discount
+      discount,
     );
   });
 
@@ -211,13 +212,13 @@ describe('QuoteConnector', () => {
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      `addQuoteEntryComment-${userId}-${quoteCode}-${quoteEntryNumber}-${comment.toString()}`
+      `addQuoteEntryComment-${userId}-${quoteCode}-${quoteEntryNumber}-${comment.toString()}`,
     );
     expect(quoteAdapter.addQuoteEntryComment).toHaveBeenCalledWith(
       userId,
       quoteCode,
       'entryNumber1',
-      comment
+      comment,
     );
   });
 
@@ -228,12 +229,12 @@ describe('QuoteConnector', () => {
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      `downloadAttachment-${userId}-${quoteCode}-${attachmentId}`
+      `downloadAttachment-${userId}-${quoteCode}-${attachmentId}`,
     );
     expect(quoteAdapter.downloadAttachment).toHaveBeenCalledWith(
       userId,
       quoteCode,
-      attachmentId
+      attachmentId,
     );
   });
 });

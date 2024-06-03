@@ -47,7 +47,7 @@ describe('JsonLdScriptFactory', () => {
         service.build([{ foo: 'bar-2<script>alert()</script>' }]);
         const scriptElement = winRef.document.getElementById('json-ld');
         expect(scriptElement.innerHTML).toEqual(
-          `[{"foo":"bar-2&lt;script&gt;alert()&lt;/script&gt;"}]`
+          `[{"foo":"bar-2&lt;script&gt;alert()&lt;/script&gt;"}]`,
         );
       });
 
@@ -59,7 +59,7 @@ describe('JsonLdScriptFactory', () => {
         ]);
         const scriptElement = winRef.document.getElementById('json-ld');
         expect(scriptElement.innerHTML).toEqual(
-          `[{"foo":{"bar":{"deep":"before &lt;script&gt;alert()&lt;/script&gt;and after"}}}]`
+          `[{"foo":{"bar":{"deep":"before &lt;script&gt;alert()&lt;/script&gt;and after"}}}]`,
         );
       });
 
@@ -72,7 +72,7 @@ describe('JsonLdScriptFactory', () => {
         ]);
         const scriptElement = winRef.document.getElementById('json-ld');
         expect(scriptElement.innerHTML).toEqual(
-          `[{"foo":"clean up &lt;script&gt;alert()&lt;/script&gt;please","bar":"and here &lt;script&gt;alert()&lt;/script&gt;as well"}]`
+          `[{"foo":"clean up &lt;script&gt;alert()&lt;/script&gt;please","bar":"and here &lt;script&gt;alert()&lt;/script&gt;as well"}]`,
         );
       });
     });

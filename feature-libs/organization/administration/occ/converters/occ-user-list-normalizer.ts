@@ -24,7 +24,7 @@ export class OccUserListNormalizer
 
   convert(
     source: Occ.OrgUnitUserList,
-    target?: EntitiesModel<B2BUser>
+    target?: EntitiesModel<B2BUser>,
   ): EntitiesModel<B2BUser> {
     if (target === undefined) {
       target = { ...(source as any) } as EntitiesModel<B2BUser>;

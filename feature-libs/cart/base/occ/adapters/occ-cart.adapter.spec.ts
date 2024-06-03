@@ -37,7 +37,7 @@ class MockOccEndpointsService {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ) {
     return this.getEndpoint(endpoint);
   }
@@ -277,11 +277,11 @@ describe('OccCartAdapter', () => {
       occCartAdapter
         .save(userId, cartId, mockCartName, mockCartDescription)
         .subscribe((data) =>
-          expect(data).toEqual(mockSavedCartResult.savedCartData)
+          expect(data).toEqual(mockSavedCartResult.savedCartData),
         );
 
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'PATCH' && req.url === `saveCart`
+        (req) => req.method === 'PATCH' && req.url === `saveCart`,
       );
 
       expect(mockReq.cancelled).toBeFalsy();

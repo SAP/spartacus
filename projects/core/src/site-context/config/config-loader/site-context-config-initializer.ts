@@ -28,7 +28,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   constructor(
     protected baseSiteService: BaseSiteService,
     protected javaRegExpConverter: JavaRegExpConverter,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {}
 
   private get currentUrl(): string {
@@ -43,18 +43,18 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   protected resolveConfig(): Observable<SiteContextConfig> {
     return this.baseSiteService.getAll().pipe(
       map((baseSites) =>
-        baseSites?.find((site) => this.isCurrentBaseSite(site))
+        baseSites?.find((site) => this.isCurrentBaseSite(site)),
       ),
       filter((baseSite: any) => {
         if (!baseSite) {
           throw new Error(
-            `Error: Cannot get base site config! Current url (${this.currentUrl}) doesn't match any of url patterns of any base sites.`
+            `Error: Cannot get base site config! Current url (${this.currentUrl}) doesn't match any of url patterns of any base sites.`,
           );
         }
         return Boolean(baseSite);
       }),
       map((baseSite) => this.getConfig(baseSite)),
-      take(1)
+      take(1),
     );
   }
 
@@ -65,11 +65,11 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
         [BASE_SITE_CONTEXT_ID]: [source.uid],
         [LANGUAGE_CONTEXT_ID]: this.getIsoCodes(
           source.baseStore?.languages,
-          source.defaultLanguage || source.baseStore?.defaultLanguage
+          source.defaultLanguage || source.baseStore?.defaultLanguage,
         ),
         [CURRENCY_CONTEXT_ID]: this.getIsoCodes(
           source.baseStore?.currencies,
-          source.baseStore?.defaultCurrency
+          source.baseStore?.defaultCurrency,
         ),
         [THEME_CONTEXT_ID]: [source.theme],
       },
@@ -99,7 +99,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
     const STOREFRONT_PARAM = 'storefront';
 
     return (params || []).map((param) =>
-      param === STOREFRONT_PARAM ? BASE_SITE_CONTEXT_ID : param
+      param === STOREFRONT_PARAM ? BASE_SITE_CONTEXT_ID : param,
     );
   }
 
@@ -108,12 +108,12 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
    */
   private getIsoCodes(
     elements: { isocode?: string }[] | undefined,
-    defaultElement: { isocode?: string } | undefined
+    defaultElement: { isocode?: string } | undefined,
   ) {
     if (elements && defaultElement) {
       const result = this.moveToFirst(
         elements,
-        (el) => el.isocode === defaultElement.isocode
+        (el) => el.isocode === defaultElement.isocode,
       ).map((el) => el.isocode);
       return result;
     }

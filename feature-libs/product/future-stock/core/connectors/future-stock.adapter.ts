@@ -16,7 +16,7 @@ export abstract class FutureStockAdapter {
    */
   abstract getFutureStock(
     userId: string,
-    productCode: string
+    productCode: string,
   ): Observable<ProductFutureStock>;
   /**
    * Abstract method  used to get the future product availability for the list of specified products
@@ -24,6 +24,6 @@ export abstract class FutureStockAdapter {
    */
   abstract getFutureStocks(
     userId: string,
-    productCodes: string
+    productCodes: string,
   ): Observable<ProductFutureStockList>;
 }

@@ -23,7 +23,7 @@ import {
         [PRODUCT_IMAGE_ZOOM_FEATURE]: {
           module: () =>
             import('@spartacus/product/image-zoom').then(
-              (m) => m.ProductImageZoomModule
+              (m) => m.ProductImageZoomModule,
             ),
         },
       },

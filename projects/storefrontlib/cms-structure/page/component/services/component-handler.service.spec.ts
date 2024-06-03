@@ -42,14 +42,14 @@ describe('ComponentHandlerService', () => {
       const launcher = service.getLauncher(
         { component: 'test' },
         undefined,
-        undefined
+        undefined,
       );
       expect(launcher).toBeTruthy();
       expect(testHandler.launcher).toHaveBeenCalledWith(
         { component: 'test' },
         undefined,
         undefined,
-        undefined
+        undefined,
       );
     });
 
@@ -59,7 +59,7 @@ describe('ComponentHandlerService', () => {
       const launcher = service.getLauncher(
         { component: 'unknown' },
         undefined,
-        undefined
+        undefined,
       );
       expect(launcher).toBeUndefined();
     });

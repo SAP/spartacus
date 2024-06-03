@@ -90,7 +90,7 @@ describe('Cart Actions', () => {
           meta: StateUtils.entityFailMeta(
             MULTI_CART_DATA,
             payload.cartId,
-            payload.error
+            payload.error,
           ),
         });
       });
@@ -109,7 +109,7 @@ describe('Cart Actions', () => {
           payload,
           meta: StateUtils.entitySuccessMeta(
             MULTI_CART_DATA,
-            payload.cart.code
+            payload.cart.code,
           ),
         });
       });
@@ -146,7 +146,7 @@ describe('Cart Actions', () => {
           payload,
           meta: StateUtils.entityProcessesIncrementMeta(
             MULTI_CART_DATA,
-            payload.cartId
+            payload.cartId,
           ),
         });
       });
@@ -167,7 +167,7 @@ describe('Cart Actions', () => {
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
-            payload.cartId
+            payload.cartId,
           ),
         });
       });
@@ -186,7 +186,7 @@ describe('Cart Actions', () => {
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
-            payload.cartId
+            payload.cartId,
           ),
         });
       });

@@ -12,7 +12,7 @@ import createSpy = jasmine.createSpy;
 class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url)
+    (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url),
   );
 }
 

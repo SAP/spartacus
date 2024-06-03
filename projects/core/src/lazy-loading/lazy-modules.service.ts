@@ -51,7 +51,7 @@ export class LazyModulesService implements OnDestroy {
     {
       connector: () => new ReplaySubject(),
       resetOnDisconnect: false,
-    }
+    },
   );
 
   private readonly dependencyModules = new Map<any, NgModuleRef<any>>();
@@ -60,7 +60,7 @@ export class LazyModulesService implements OnDestroy {
   constructor(
     protected compiler: Compiler,
     protected injector: Injector,
-    protected events: EventService
+    protected events: EventService,
   ) {
     this.eventSubscription = (
       this.modules$ as Connectable<NgModuleRef<any>>
@@ -78,7 +78,7 @@ export class LazyModulesService implements OnDestroy {
   public resolveModuleInstance(
     moduleFunc: () => Promise<any>,
     feature?: string,
-    dependencyModuleRefs: NgModuleRef<any>[] = []
+    dependencyModuleRefs: NgModuleRef<any>[] = [],
   ): Observable<NgModuleRef<any>> {
     let parentInjector: Injector;
 
@@ -89,7 +89,7 @@ export class LazyModulesService implements OnDestroy {
     } else {
       parentInjector = new CombinedInjector(
         this.injector,
-        dependencyModuleRefs.map((moduleRef) => moduleRef.injector)
+        dependencyModuleRefs.map((moduleRef) => moduleRef.injector),
       );
     }
 
@@ -101,9 +101,9 @@ export class LazyModulesService implements OnDestroy {
           createFrom(ModuleInitializedEvent, {
             feature,
             moduleRef,
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
   }
 
@@ -113,7 +113,7 @@ export class LazyModulesService implements OnDestroy {
    * Module will be instantiated only once, at first request for a this specific module class
    */
   public resolveDependencyModuleInstance(
-    moduleFunc: () => Promise<any>
+    moduleFunc: () => Promise<any>,
   ): Observable<NgModuleRef<any>> {
     // We grab moduleFactory symbol from module function and if there is no
     // such a module created yet, we create it and store it in a
@@ -132,9 +132,9 @@ export class LazyModulesService implements OnDestroy {
         this.events.dispatch(
           createFrom(ModuleInitializedEvent, {
             moduleRef,
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
   }
 
@@ -148,12 +148,12 @@ export class LazyModulesService implements OnDestroy {
    * @returns {Observable<NgModuleRef<any>>}
    */
   public runModuleInitializersForModule(
-    moduleRef: NgModuleRef<any>
+    moduleRef: NgModuleRef<any>,
   ): Observable<NgModuleRef<any>> {
     const moduleInits: any[] = moduleRef.injector.get<any[]>(
       MODULE_INITIALIZER,
       [],
-      { self: true }
+      { self: true },
     );
     const asyncInitPromises: Promise<any>[] =
       this.runModuleInitializerFunctions(moduleInits);
@@ -163,11 +163,11 @@ export class LazyModulesService implements OnDestroy {
           error: (error) => {
             this.logger.error(
               'MODULE_INITIALIZER promise was rejected while lazy loading a module.',
-              error
+              error,
             );
           },
         }),
-        switchMap(() => of(moduleRef))
+        switchMap(() => of(moduleRef)),
       );
     } else {
       return of(moduleRef);
@@ -185,7 +185,7 @@ export class LazyModulesService implements OnDestroy {
    * @return {Promise<any>[]} An array of Promise returned by the functions, if any,
    */
   public runModuleInitializerFunctions(
-    initFunctions: (() => any)[]
+    initFunctions: (() => any)[],
   ): Promise<any>[] {
     const initPromises: Promise<any>[] = [];
     try {
@@ -201,7 +201,7 @@ export class LazyModulesService implements OnDestroy {
     } catch (error) {
       this.logger.error(
         `MODULE_INITIALIZER init function throwed an error. `,
-        error
+        error,
       );
       throw error;
     }
@@ -218,7 +218,7 @@ export class LazyModulesService implements OnDestroy {
    * Resolve any Angular module from an function that return module or moduleFactory
    */
   private resolveModuleFactory(
-    moduleFunc: () => Promise<any>
+    moduleFunc: () => Promise<any>,
   ): Observable<[NgModuleFactory<any>, any]> {
     return from(moduleFunc()).pipe(
       switchMap((module) =>
@@ -229,9 +229,9 @@ export class LazyModulesService implements OnDestroy {
               // for aot production builds as it will be stubbed
               from(this.compiler.compileModuleAsync(module as any)),
               of(module),
-            ])
+            ]),
       ),
-      observeOn(queueScheduler)
+      observeOn(queueScheduler),
     );
   }
 

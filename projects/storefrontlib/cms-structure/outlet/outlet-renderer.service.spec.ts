@@ -42,7 +42,7 @@ describe('OutletRendererService', () => {
     outletRendererService.register(outlet, mockDirective);
 
     expect(outletRendererService['outletRefs'].value.get(outlet)).toEqual(
-      mockDirective
+      mockDirective,
     );
   });
 });

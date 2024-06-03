@@ -11,7 +11,7 @@ import { TabElement } from '../../tabbing-order.model';
 const containerSelector = '.AccountPageTemplate';
 
 export function myAccountV2notificationPreferenceTabbingOrder(
-  config: TabElement[]
+  config: TabElement[],
 ) {
   cy.visit('/my-account/notification-preference');
 

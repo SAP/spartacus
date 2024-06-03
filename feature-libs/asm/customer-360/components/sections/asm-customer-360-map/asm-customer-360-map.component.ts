@@ -53,7 +53,7 @@ export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
     protected changeDetectorRef: ChangeDetectorRef,
     protected storeFinderService: StoreFinderService,
     protected translationService: TranslationService,
-    protected storeFinderConfig: StoreFinderConfig
+    protected storeFinderConfig: StoreFinderConfig,
   ) {}
 
   ngOnInit(): void {
@@ -71,7 +71,7 @@ export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
               undefined,
               undefined,
               undefined,
-              this.storeFinderConfig.googleMaps?.radius
+              this.storeFinderConfig.googleMaps?.radius,
             );
 
             return this.storeFinderService.getFindStoresEntities();
@@ -82,9 +82,9 @@ export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
               this.selectedStore = this.storeData.stores?.[0];
             }
             return of(undefined);
-          })
+          }),
         )
-        .subscribe(() => this.changeDetectorRef.detectChanges())
+        .subscribe(() => this.changeDetectorRef.detectChanges()),
     );
   }
 
@@ -100,7 +100,7 @@ export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
     const { closed, openingTime, closingTime } = opening;
     if (closed) {
       return this.translationService.translate(
-        'asmCustomer360.maps.storeClosed'
+        'asmCustomer360.maps.storeClosed',
       );
     } else if (openingTime) {
       let storeOpening = `${openingTime.formattedHour}`;

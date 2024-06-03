@@ -66,29 +66,27 @@ const sectionContent = 'content';
 describe('VariantConfiguratorPageLayoutHandler', () => {
   let classUnderTest: VariantConfiguratorPageLayoutHandler;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockRouterExtractorService,
-          },
-          {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
-          },
-          {
-            provide: LayoutConfig,
-            useValue: mockLayoutConfig,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockRouterExtractorService,
+        },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+        {
+          provide: LayoutConfig,
+          useValue: mockLayoutConfig,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     classUnderTest = TestBed.inject(
-      VariantConfiguratorPageLayoutHandler as Type<VariantConfiguratorPageLayoutHandler>
+      VariantConfiguratorPageLayoutHandler as Type<VariantConfiguratorPageLayoutHandler>,
     );
   });
 
@@ -103,7 +101,7 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateVCOverview,
-      sectionContent
+      sectionContent,
     );
     expect(handledSlots$).toBeObservable(slots$);
   });
@@ -121,12 +119,12 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateVCOverview,
-      sectionHeader
+      sectionHeader,
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
         a: displayOnlyHeaderSlotsLargeResolution,
-      })
+      }),
     );
   });
   it('should return SPA reduced resolution header slots in case we call overview in read-only mode, and a small resolution is active', () => {
@@ -142,12 +140,12 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateVCOverview,
-      sectionHeader
+      sectionHeader,
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
         a: displayOnlyHeaderSlotsSmallResolution,
-      })
+      }),
     );
   });
 
@@ -162,7 +160,7 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateVCOverview,
-      sectionHeader
+      sectionHeader,
     );
     expect(handledSlots$).toBeObservable(slots$);
   });
@@ -178,7 +176,7 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateOther,
-      sectionHeader
+      sectionHeader,
     );
     expect(handledSlots$).toBeObservable(slots$);
   });

@@ -9,11 +9,11 @@ class MockUserAdapter implements UserProfileAdapter {
   update = createSpy('update').and.returnValue(of({}));
   register = createSpy('register').and.callFake((userId) => of(userId));
   registerGuest = createSpy('registerGuest').and.callFake((userId) =>
-    of(userId)
+    of(userId),
   );
   close = createSpy('remove').and.returnValue(of({}));
   requestForgotPasswordEmail = createSpy(
-    'requestForgotPasswordEmail'
+    'requestForgotPasswordEmail',
   ).and.returnValue(of({}));
   resetPassword = createSpy('resetPassword').and.returnValue(of({}));
   updateEmail = createSpy('updateEmail').and.returnValue(of({}));
@@ -108,7 +108,7 @@ describe('UserConnector', () => {
     expect(adapter.updateEmail).toHaveBeenCalledWith(
       'email',
       'password',
-      'new-email'
+      'new-email',
     );
   });
 
@@ -121,7 +121,7 @@ describe('UserConnector', () => {
     expect(adapter.updatePassword).toHaveBeenCalledWith(
       'email',
       'password',
-      'new-password'
+      'new-password',
     );
   });
 

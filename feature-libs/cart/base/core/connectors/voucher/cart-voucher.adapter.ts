@@ -17,7 +17,7 @@ export abstract class CartVoucherAdapter {
   abstract add(
     userId: string,
     cartId: string,
-    voucherId: string
+    voucherId: string,
   ): Observable<{}>;
 
   /**
@@ -30,6 +30,6 @@ export abstract class CartVoucherAdapter {
   abstract remove(
     userId: string,
     cartId: string,
-    voucherId: string
+    voucherId: string,
   ): Observable<{}>;
 }

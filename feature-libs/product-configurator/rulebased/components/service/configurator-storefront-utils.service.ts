@@ -34,7 +34,7 @@ export class ConfiguratorStorefrontUtilsService {
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected windowRef: WindowRef,
-    protected keyboardFocusService: KeyboardFocusService
+    protected keyboardFocusService: KeyboardFocusService,
   ) {}
 
   /**
@@ -48,13 +48,13 @@ export class ConfiguratorStorefrontUtilsService {
    */
   isCartEntryOrGroupVisited(
     owner: CommonConfigurator.Owner,
-    groupId: string
+    groupId: string,
   ): Observable<boolean> {
     return this.configuratorGroupsService.isGroupVisited(owner, groupId).pipe(
       take(1),
       map((result) =>
-        result ? true : owner.type === CommonConfigurator.OwnerType.CART_ENTRY
-      )
+        result ? true : owner.type === CommonConfigurator.OwnerType.CART_ENTRY,
+      ),
     );
   }
 
@@ -67,7 +67,7 @@ export class ConfiguratorStorefrontUtilsService {
    */
   assembleValuesForMultiSelectAttributes(
     controlArray: UntypedFormControl[],
-    attribute: Configurator.Attribute
+    attribute: Configurator.Attribute,
   ): Configurator.Value[] {
     const localAssembledValues: Configurator.Value[] = [];
 
@@ -85,7 +85,7 @@ export class ConfiguratorStorefrontUtilsService {
       } else {
         if (isDevMode()) {
           this.logger.warn(
-            'ControlArray does not match values, at least one value could not been found'
+            'ControlArray does not match values, at least one value could not been found',
           );
         }
       }
@@ -149,7 +149,7 @@ export class ConfiguratorStorefrontUtilsService {
 
   protected getFocusableElementById(
     focusableElements: HTMLElement[],
-    id?: string
+    id?: string,
   ): HTMLElement | undefined {
     return focusableElements.find((focusableElement) => {
       if (id) {
@@ -164,31 +164,31 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   protected getFocusableConflictDescription(
-    focusableElements: HTMLElement[]
+    focusableElements: HTMLElement[],
   ): HTMLElement | undefined {
     return this.getFocusableElementById(
       focusableElements,
-      'cx-configurator-conflict-description'
+      'cx-configurator-conflict-description',
     );
   }
 
   protected getFocusableElementByValueUiKey(
     focusableElements: HTMLElement[],
-    valueUiKey?: string
+    valueUiKey?: string,
   ): HTMLElement | undefined {
     return this.getFocusableElementById(focusableElements, valueUiKey);
   }
 
   protected getFocusableElementByAttributeId(
     focusableElements: HTMLElement[],
-    attributeName: string
+    attributeName: string,
   ): HTMLElement | undefined {
     return this.getFocusableElementById(focusableElements, attributeName);
   }
 
   protected createAttributeValueUiKey(
     attributeId: string,
-    valueId: string
+    valueId: string,
   ): string {
     return attributeId + this.SEPARATOR + valueId;
   }
@@ -214,7 +214,7 @@ export class ConfiguratorStorefrontUtilsService {
 
   protected focusOnElements(
     focusableElements: HTMLElement[],
-    attribute: Configurator.Attribute
+    attribute: Configurator.Attribute,
   ) {
     let foundFocusableElement =
       this.getFocusableConflictDescription(focusableElements);
@@ -222,7 +222,7 @@ export class ConfiguratorStorefrontUtilsService {
       foundFocusableElement = this.focusOnElementForConflicting(
         attribute,
         foundFocusableElement,
-        focusableElements
+        focusableElements,
       );
     }
     if (foundFocusableElement) {
@@ -233,23 +233,23 @@ export class ConfiguratorStorefrontUtilsService {
   protected focusOnElementForConflicting(
     attribute: Configurator.Attribute,
     foundFocusableElement: HTMLElement | undefined,
-    focusableElements: HTMLElement[]
+    focusableElements: HTMLElement[],
   ) {
     const selectedValue = attribute.values?.find((value) => value.selected);
     if (selectedValue) {
       const valueUiKey = this.createAttributeValueUiKey(
         attribute.name,
-        selectedValue.valueCode
+        selectedValue.valueCode,
       );
       foundFocusableElement = this.getFocusableElementByValueUiKey(
         focusableElements,
-        valueUiKey
+        valueUiKey,
       );
     }
     if (!foundFocusableElement) {
       foundFocusableElement = this.getFocusableElementByAttributeId(
         focusableElements,
-        attribute.name
+        attribute.name,
       );
     }
     return foundFocusableElement;
@@ -353,7 +353,7 @@ export class ConfiguratorStorefrontUtilsService {
   getElement(querySelector: string): HTMLElement | undefined {
     if (this.windowRef.isBrowser()) {
       return this.windowRef.document.querySelector(
-        querySelector
+        querySelector,
       ) as HTMLElement;
     }
   }
@@ -367,7 +367,7 @@ export class ConfiguratorStorefrontUtilsService {
   getElements(querySelector: string): HTMLElement[] | undefined {
     if (this.windowRef.isBrowser()) {
       return Array.from(
-        this.windowRef.document.querySelectorAll(querySelector)
+        this.windowRef.document.querySelectorAll(querySelector),
       );
     }
   }
@@ -463,7 +463,7 @@ export class ConfiguratorStorefrontUtilsService {
    */
   ensureElementVisible(
     querySelector: string,
-    element: HTMLElement | undefined
+    element: HTMLElement | undefined,
   ): void {
     const container = this.getElement(querySelector);
     if (element && container) {

@@ -24,7 +24,7 @@ import {
         [REQUESTED_DELIVERY_DATE_FEATURE]: {
           module: () =>
             import('@spartacus/requested-delivery-date').then(
-              (m) => m.RequestedDeliveryDateModule
+              (m) => m.RequestedDeliveryDateModule,
             ),
         },
       },

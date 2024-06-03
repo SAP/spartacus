@@ -38,7 +38,7 @@ class MockUserAddressService implements Partial<UserAddressService> {
   getAddresses = createSpy().and.returnValue(mockAddresses.asObservable());
   loadAddresses = createSpy();
   getAddressesLoadedSuccess = createSpy().and.returnValue(
-    mockGetAddressesLoadedSuccess.asObservable()
+    mockGetAddressesLoadedSuccess.asObservable(),
   );
 }
 
@@ -48,10 +48,10 @@ const mockGetPaymentMethods = new BehaviorSubject<PaymentDetails[]>([
 const mockGetPaymentMethodsLoadedSuccess = new BehaviorSubject<boolean>(true);
 class MockUserPaymentService implements Partial<UserPaymentService> {
   getPaymentMethods = createSpy().and.returnValue(
-    mockGetPaymentMethods.asObservable()
+    mockGetPaymentMethods.asObservable(),
   );
   getPaymentMethodsLoadedSuccess = createSpy().and.returnValue(
-    mockGetPaymentMethodsLoadedSuccess.asObservable()
+    mockGetPaymentMethodsLoadedSuccess.asObservable(),
   );
   loadPaymentMethods = createSpy();
 }
@@ -68,7 +68,7 @@ class MockCheckoutDeliveryAddressFacade
 {
   setDeliveryAddress = createSpy().and.returnValue(of(undefined));
   getDeliveryAddressState = createSpy().and.returnValue(
-    mockGetDeliveryAddressState.asObservable()
+    mockGetDeliveryAddressState.asObservable(),
   );
 }
 class MockCheckoutDeliveryModesFacade
@@ -79,14 +79,14 @@ class MockCheckoutDeliveryModesFacade
       loading: false,
       error: false,
       data: mockCheckoutDeliveryMode,
-    })
+    }),
   );
   getSupportedDeliveryModesState = createSpy().and.returnValue(
     of({
       loading: false,
       error: false,
       data: [mockCheckoutDeliveryMode],
-    })
+    }),
   );
   setDeliveryMode = createSpy().and.returnValue(of('setDeliveryMode'));
 }
@@ -97,14 +97,14 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
       loading: false,
       error: false,
       data: mockCheckoutPaymentInfo,
-    })
+    }),
   );
   setPaymentDetails = createSpy().and.returnValue(of('setPaymentDetails'));
 }
 
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
   getPreferredDeliveryMode = createSpy().and.returnValue(
-    mockCheckoutDeliveryMode?.code
+    mockCheckoutDeliveryMode?.code,
   );
 }
 
@@ -160,7 +160,7 @@ describe('ExpressCheckoutService', () => {
     userAddressService = TestBed.inject(UserAddressService);
     userPaymentService = TestBed.inject(UserPaymentService);
     checkoutDeliveryAddressFacade = TestBed.inject(
-      CheckoutDeliveryAddressFacade
+      CheckoutDeliveryAddressFacade,
     );
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
@@ -186,7 +186,7 @@ describe('ExpressCheckoutService', () => {
         mockGetAddressesLoadedSuccess.next(false);
 
         userAddressService.loadAddresses = createSpy().and.callFake(() =>
-          mockGetAddressesLoadedSuccess.next(true)
+          mockGetAddressesLoadedSuccess.next(true),
         );
 
         service
@@ -205,7 +205,7 @@ describe('ExpressCheckoutService', () => {
           .pipe(take(1))
           .subscribe((data) => {
             expect(
-              checkoutDeliveryAddressFacade.setDeliveryAddress
+              checkoutDeliveryAddressFacade.setDeliveryAddress,
             ).toHaveBeenCalledWith(mockCheckoutDeliveryAddress);
             expect(data).toBeTruthy();
             done();
@@ -242,7 +242,7 @@ describe('ExpressCheckoutService', () => {
       it('should load payment methods if they are not loaded', (done) => {
         mockGetPaymentMethodsLoadedSuccess.next(false);
         userPaymentService.loadPaymentMethods = createSpy().and.callFake(() =>
-          mockGetPaymentMethodsLoadedSuccess.next(true)
+          mockGetPaymentMethodsLoadedSuccess.next(true),
         );
 
         service
@@ -261,7 +261,7 @@ describe('ExpressCheckoutService', () => {
           .pipe(take(1))
           .subscribe((data) => {
             expect(
-              checkoutPaymentService.setPaymentDetails
+              checkoutPaymentService.setPaymentDetails,
             ).toHaveBeenCalledWith(mockCheckoutPaymentInfo);
             expect(data).toBeTruthy();
             done();
@@ -270,7 +270,7 @@ describe('ExpressCheckoutService', () => {
 
       it('should return false if set payment method error', (done) => {
         checkoutPaymentService.setPaymentDetails = createSpy().and.returnValue(
-          throwError(() => 'err')
+          throwError(() => 'err'),
         );
 
         service
@@ -302,7 +302,7 @@ describe('ExpressCheckoutService', () => {
           .pipe(take(1))
           .subscribe((data) => {
             expect(
-              checkoutDeliveryModesFacade.setDeliveryMode
+              checkoutDeliveryModesFacade.setDeliveryMode,
             ).toHaveBeenCalledWith(mockCheckoutDeliveryMode.code);
             expect(data).toBeTruthy();
             done();

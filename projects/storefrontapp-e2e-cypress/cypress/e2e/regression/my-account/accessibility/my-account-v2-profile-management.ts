@@ -12,12 +12,12 @@ const containerSelector = 'cx-my-account-v2-profile';
 
 export function myAccountV2UserProfileManagementTabbingOrder(
   config: TabElement[],
-  isEdit: boolean = false
+  isEdit: boolean = false,
 ) {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/cms/components`,
   }).as('getComponents');
   cy.visit('/my-account/update-profile');

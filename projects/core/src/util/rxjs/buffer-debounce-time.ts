@@ -9,7 +9,7 @@ import { debounceTime, map, tap } from 'rxjs/operators';
 
 export function bufferDebounceTime<T>(
   time: number = 0,
-  scheduler?: SchedulerLike
+  scheduler?: SchedulerLike,
 ): OperatorFunction<T, T[]> {
   return (source: Observable<T>) => {
     let bufferedValues: T[] = [];
@@ -18,7 +18,7 @@ export function bufferDebounceTime<T>(
       tap((value) => bufferedValues.push(value)),
       debounceTime(time, scheduler),
       map(() => bufferedValues),
-      tap(() => (bufferedValues = []))
+      tap(() => (bufferedValues = [])),
     );
   };
 }

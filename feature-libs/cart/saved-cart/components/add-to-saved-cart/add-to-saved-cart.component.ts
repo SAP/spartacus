@@ -42,7 +42,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     protected authService: AuthService,
     protected routingService: RoutingService,
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {
     useFeatureStyles('a11yExpandedFocusIndicator');
   }
@@ -53,11 +53,11 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
       this.authService.isUserLoggedIn(),
     ]).pipe(
       tap(([_, loggedIn]) => (this.loggedIn = loggedIn)),
-      map(([activeCart]) => activeCart)
+      map(([activeCart]) => activeCart),
     );
 
     this.disableSaveCartForLater$ = this.cart$.pipe(
-      map((cart) => !cart.entries?.length)
+      map((cart) => !cart.entries?.length),
     );
   }
 
@@ -73,7 +73,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
         } else {
           this.routingService.go({ cxRoute: 'login' });
         }
-      })
+      }),
     );
   }
 
@@ -82,7 +82,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.SAVED_CART,
       this.element,
       this.vcr,
-      { cart, layoutOption: 'save' }
+      { cart, layoutOption: 'save' },
     );
 
     if (dialog) {

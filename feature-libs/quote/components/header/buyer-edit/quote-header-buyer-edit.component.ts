@@ -63,7 +63,7 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
 
   protected getCharactersLeft(
     formControlName: string,
-    charactersLimit: number
+    charactersLimit: number,
   ): number {
     return (
       charactersLimit - (this.editForm.get(formControlName)?.value?.length || 0)
@@ -73,7 +73,7 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
   protected defineFormControl(formControlName: string, value: string) {
     this.editForm.addControl(
       formControlName,
-      new FormControl<string | null>(null)
+      new FormControl<string | null>(null),
     );
     this.editForm.get(formControlName)?.setValue(value);
   }

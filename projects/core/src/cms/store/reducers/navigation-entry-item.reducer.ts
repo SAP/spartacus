@@ -11,7 +11,7 @@ export const initialState: NodeItem | undefined = undefined;
 
 export function reducer(
   state = initialState,
-  action: CmsActions.CmsNavigationEntryItemAction
+  action: CmsActions.CmsNavigationEntryItemAction,
 ): NodeItem | undefined {
   switch (action.type) {
     case CmsActions.LOAD_CMS_NAVIGATION_ITEMS_SUCCESS: {
@@ -24,7 +24,7 @@ export function reducer(
               [`${component.uid}_AbstractCMSComponent`]: component,
             };
           },
-          {}
+          {},
         );
 
         return {

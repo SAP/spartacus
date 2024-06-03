@@ -40,19 +40,19 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
     protected cartVoucherService: CartVoucherFacade,
     protected userIdService: UserIdService,
     protected activeCartFacade: ActiveCartFacade,
-    protected asmCustomer360Facade: AsmCustomer360Facade
+    protected asmCustomer360Facade: AsmCustomer360Facade,
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
       this.userIdService.getUserId().subscribe((user) => {
         this.userId = user ?? '';
-      })
+      }),
     );
     this.subscription.add(
       this.activeCartFacade.requireLoadedCart().subscribe((cart) => {
         this.currentCartId = cart?.code;
-      })
+      }),
     );
     this.subscription.add(
       this.cartVoucherService.getAddVoucherResultError().subscribe((error) => {
@@ -60,7 +60,7 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
           this.refreshComponent();
           this.showErrorAlertForApplyAction$.next(true);
         }
-      })
+      }),
     );
     this.showErrorAlert$.next(false);
     this.showErrorAlertForApplyAction$.next(false);
@@ -81,7 +81,7 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
       catchError(() => {
         this.showErrorAlert$.next(true);
         return of([]);
-      })
+      }),
     );
   }
 
@@ -103,7 +103,7 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
       .pipe(
         map((response) => {
           const couponList = response?.value?.find(
-            (item) => item.type === AsmCustomer360Type.COUPON_LIST
+            (item) => item.type === AsmCustomer360Type.COUPON_LIST,
           ) as AsmCustomer360CouponList;
           const newEntries: Array<AsmCustomer360Coupon> = [];
           if (couponList.coupons) {
@@ -118,7 +118,7 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
         catchError(() => {
           this.showErrorAlert$.next(true);
           return of([]);
-        })
+        }),
       );
   }
 
@@ -141,7 +141,7 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
           }
         });
         return entries;
-      })
+      }),
     );
   }
 

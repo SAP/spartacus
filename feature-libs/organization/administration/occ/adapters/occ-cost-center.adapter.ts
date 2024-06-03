@@ -29,7 +29,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   load(userId: string, costCenterCode: string): Observable<CostCenter> {
@@ -40,7 +40,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
 
   loadList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<CostCenter>> {
     return this.http
       .get<Occ.CostCentersList>(this.getAllCostCentersEndpoint(userId, params))
@@ -57,13 +57,13 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   update(
     userId: string,
     costCenterCode: string,
-    costCenter: CostCenter
+    costCenter: CostCenter,
   ): Observable<CostCenter> {
     costCenter = this.converter.convert(costCenter, COST_CENTER_SERIALIZER);
     return this.http
       .patch<Occ.CostCenter>(
         this.getCostCenterEndpoint(userId, costCenterCode),
-        costCenter
+        costCenter,
       )
       .pipe(this.converter.pipeable(COST_CENTER_NORMALIZER));
   }
@@ -71,11 +71,11 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   loadBudgets(
     userId: string,
     costCenterCode: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Budget>> {
     return this.http
       .get<Occ.BudgetsList>(
-        this.getBudgetsEndpoint(userId, costCenterCode, params)
+        this.getBudgetsEndpoint(userId, costCenterCode, params),
       )
       .pipe(this.converter.pipeable(BUDGETS_NORMALIZER));
   }
@@ -83,27 +83,27 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   assignBudget(
     userId: string,
     costCenterCode: string,
-    budgetCode: string
+    budgetCode: string,
   ): Observable<any> {
     return this.http.post<any>(
       this.getBudgetsEndpoint(userId, costCenterCode, { budgetCode }),
-      null
+      null,
     );
   }
 
   unassignBudget(
     userId: string,
     costCenterCode: string,
-    budgetCode: string
+    budgetCode: string,
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getBudgetEndpoint(userId, costCenterCode, budgetCode)
+      this.getBudgetEndpoint(userId, costCenterCode, budgetCode),
     );
   }
 
   protected getCostCenterEndpoint(
     userId: string,
-    costCenterCode: string
+    costCenterCode: string,
   ): string {
     return this.occEndpoints.buildUrl('costCenter', {
       urlParams: { userId, costCenterCode },
@@ -112,7 +112,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
 
   protected getCostCentersEndpoint(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): string {
     return this.occEndpoints.buildUrl('costCenters', {
       urlParams: { userId },
@@ -122,7 +122,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
 
   protected getAllCostCentersEndpoint(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): string {
     return this.occEndpoints.buildUrl('costCentersAll', {
       urlParams: { userId },
@@ -133,7 +133,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   protected getBudgetsEndpoint(
     userId: string,
     costCenterCode: string,
-    params?: SearchConfig | { budgetCode: string }
+    params?: SearchConfig | { budgetCode: string },
   ): string {
     return this.occEndpoints.buildUrl('costCenterBudgets', {
       urlParams: { userId, costCenterCode },
@@ -144,7 +144,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   protected getBudgetEndpoint(
     userId: string,
     costCenterCode: string,
-    budgetCode: string
+    budgetCode: string,
   ): string {
     return this.occEndpoints.buildUrl('costCenterBudget', {
       urlParams: {

@@ -20,7 +20,7 @@ export class CostCenterAssignedBudgetListService extends CostCenterBudgetListSer
 
   protected load(
     pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<Budget> | undefined> {
     return super
       .load(pagination, code)

@@ -17,7 +17,7 @@ import { CostCenterItemService } from '../../../../cost-center/services/cost-cen
 export class UnitCostCenterItemService extends CostCenterItemService {
   save(
     form: UntypedFormGroup,
-    key?: string
+    key?: string,
   ): Observable<OrganizationItemStatus<CostCenter>> {
     // we enable the unit so that the underlying
     // save method can read the complete form.value.

@@ -30,7 +30,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   load(userId: string, orgUnitCustomerId: string): Observable<B2BUser> {
@@ -41,7 +41,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
 
   loadList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<B2BUser>> {
     return this.http
       .get<Occ.OrgUnitUserList>(this.getB2BUsersEndpoint(userId, params))
@@ -58,16 +58,16 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   update(
     userId: string,
     orgCustomerId: string,
-    orgCustomer: B2BUser
+    orgCustomer: B2BUser,
   ): Observable<B2BUser> {
     orgCustomer = this.converter.convert(
       orgCustomer,
-      B2B_USER_SERIALIZER
+      B2B_USER_SERIALIZER,
     ) as B2BUser;
     return this.http
       .patch<Occ.B2BUser>(
         this.getB2BUserEndpoint(userId, orgCustomerId),
-        orgCustomer
+        orgCustomer,
       )
       .pipe(this.converter.pipeable(B2B_USER_NORMALIZER));
   }
@@ -75,11 +75,11 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   loadApprovers(
     userId: string,
     orgCustomerId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<B2BUser>> {
     return this.http
       .get<Occ.OrgUnitUserList>(
-        this.getApproversEndpoint(userId, orgCustomerId, params)
+        this.getApproversEndpoint(userId, orgCustomerId, params),
       )
       .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
   }
@@ -87,32 +87,32 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   assignApprover(
     userId: string,
     orgCustomerId: string,
-    approverId: string
+    approverId: string,
   ): Observable<any> {
     return this.http.post<any>(
       this.getApproverEndpoint(userId, orgCustomerId, approverId),
-      null
+      null,
     );
   }
 
   unassignApprover(
     userId: string,
     orgCustomerId: string,
-    approverId: string
+    approverId: string,
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getApproverEndpoint(userId, orgCustomerId, approverId)
+      this.getApproverEndpoint(userId, orgCustomerId, approverId),
     );
   }
 
   loadPermissions(
     userId: string,
     orgCustomerId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<B2BUser>> {
     return this.http
       .get<Occ.OrgUnitUserList>(
-        this.getPermissionsEndpoint(userId, orgCustomerId, params)
+        this.getPermissionsEndpoint(userId, orgCustomerId, params),
       )
       .pipe(this.converter.pipeable(PERMISSIONS_NORMALIZER));
   }
@@ -120,32 +120,32 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   assignPermission(
     userId: string,
     orgCustomerId: string,
-    permissionId: string
+    permissionId: string,
   ): Observable<any> {
     return this.http.post<any>(
       this.getPermissionEndpoint(userId, orgCustomerId, permissionId),
-      null
+      null,
     );
   }
 
   unassignPermission(
     userId: string,
     orgCustomerId: string,
-    permissionId: string
+    permissionId: string,
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getPermissionEndpoint(userId, orgCustomerId, permissionId)
+      this.getPermissionEndpoint(userId, orgCustomerId, permissionId),
     );
   }
 
   loadUserGroups(
     userId: string,
     orgCustomerId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<UserGroup>> {
     return this.http
       .get<Occ.OrgUnitUserList>(
-        this.getUserGroupsEndpoint(userId, orgCustomerId, params)
+        this.getUserGroupsEndpoint(userId, orgCustomerId, params),
       )
       .pipe(this.converter.pipeable(USER_GROUPS_NORMALIZER));
   }
@@ -153,21 +153,21 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   assignUserGroup(
     userId: string,
     orgCustomerId: string,
-    userGroupId: string
+    userGroupId: string,
   ): Observable<any> {
     return this.http.post<any>(
       this.getUserGroupEndpoint(userId, orgCustomerId, userGroupId),
-      null
+      null,
     );
   }
 
   unassignUserGroup(
     userId: string,
     orgCustomerId: string,
-    userGroupId: string
+    userGroupId: string,
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getUserGroupEndpoint(userId, orgCustomerId, userGroupId)
+      this.getUserGroupEndpoint(userId, orgCustomerId, userGroupId),
     );
   }
 
@@ -190,7 +190,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   protected getApproverEndpoint(
     userId: string,
     orgCustomerId: string,
-    approverId: string
+    approverId: string,
   ): string {
     return this.occEndpoints.buildUrl('b2bUserApprover', {
       urlParams: {
@@ -204,7 +204,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   protected getApproversEndpoint(
     userId: string,
     orgCustomerId: string,
-    params?: SearchConfig | { orgCustomerId: string }
+    params?: SearchConfig | { orgCustomerId: string },
   ): string {
     return this.occEndpoints.buildUrl('b2bUserApprovers', {
       urlParams: { userId, orgCustomerId },
@@ -215,7 +215,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   protected getPermissionEndpoint(
     userId: string,
     orgCustomerId: string,
-    premissionId: string
+    premissionId: string,
   ): string {
     return this.occEndpoints.buildUrl('b2bUserPermission', {
       urlParams: {
@@ -229,7 +229,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   protected getPermissionsEndpoint(
     userId: string,
     orgCustomerId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): string {
     return this.occEndpoints.buildUrl('b2bUserPermissions', {
       urlParams: {
@@ -243,7 +243,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   protected getUserGroupEndpoint(
     userId: string,
     orgCustomerId: string,
-    userGroupId: string
+    userGroupId: string,
   ): string {
     return this.occEndpoints.buildUrl('b2bUserUserGroup', {
       urlParams: {
@@ -257,7 +257,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   protected getUserGroupsEndpoint(
     userId: string,
     orgCustomerId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): string {
     return this.occEndpoints.buildUrl('b2bUserUserGroups', {
       urlParams: { userId, orgCustomerId },

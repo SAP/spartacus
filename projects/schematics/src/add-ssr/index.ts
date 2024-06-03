@@ -81,12 +81,12 @@ export function modifyAppServerModuleFile(): Rule {
     const appServerModulePath = getPathResultsForFile(
       tree,
       'app.module.server.ts',
-      '/src'
+      '/src',
     )[0];
 
     if (!appServerModulePath) {
       throw new SchematicsException(
-        `Project file "app.module.server.ts" not found.`
+        `Project file "app.module.server.ts" not found.`,
       );
     }
 
@@ -95,7 +95,7 @@ export function modifyAppServerModuleFile(): Rule {
       appServerModulePath,
       `provideServer`,
       `@spartacus/setup/ssr`,
-      false
+      false,
     );
     const providerChanges = addToModuleProviders(
       tree,
@@ -103,7 +103,7 @@ export function modifyAppServerModuleFile(): Rule {
       `
      ...provideServer({
         serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
-      }),`
+      }),`,
     );
     const changes = [importChange, ...providerChanges];
     commitChanges(tree, appServerModulePath, changes);
@@ -179,7 +179,7 @@ function addBuildSsrScript(spartacusOptions: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     if (spartacusOptions.debug) {
       context.logger.info(
-        `⌛️ Adding "build:ssr" script to "package.json"... (CCv2 purposes)`
+        `⌛️ Adding "build:ssr" script to "package.json"... (CCv2 purposes)`,
       );
     }
     const pkgPath = '/package.json';
@@ -202,7 +202,7 @@ function addBuildSsrScript(spartacusOptions: SpartacusOptions): Rule {
  * Fixes the configuration for SSR and Prerendering to be able to work with Spartacus.
  */
 function disableSsrAndPrerenderingInAngularJson(
-  spartacusOptions: SpartacusOptions
+  spartacusOptions: SpartacusOptions,
 ): Rule {
   return chain([
     disablePrerenderingForNgBuild(spartacusOptions),
@@ -215,12 +215,12 @@ function disableSsrAndPrerenderingInAngularJson(
  * In angular.json: set "prerender: false" in "options" of the "build" architect section
  */
 function disablePrerenderingForNgBuild(
-  spartacusOptions: SpartacusOptions
+  spartacusOptions: SpartacusOptions,
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (spartacusOptions.debug) {
       context.logger.info(
-        `⌛️ Disabling Prerendering by default for "ng build"...`
+        `⌛️ Disabling Prerendering by default for "ng build"...`,
       );
     }
 
@@ -256,7 +256,7 @@ function disablePrerenderingForNgBuild(
 
     if (spartacusOptions.debug) {
       context.logger.info(
-        `✅ Disabling Prerendering by default for "ng build" complete.`
+        `✅ Disabling Prerendering by default for "ng build" complete.`,
       );
     }
     return tree;
@@ -267,7 +267,7 @@ function disablePrerenderingForNgBuild(
  * In angular.json: add new "configuration" section named "noSsr" to "build" architect section
  */
 function addNoSsrConfigurationToNgBuild(
-  spartacusOptions: SpartacusOptions
+  spartacusOptions: SpartacusOptions,
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (spartacusOptions.debug) {
@@ -311,7 +311,7 @@ function addNoSsrConfigurationToNgBuild(
 
     if (spartacusOptions.debug) {
       context.logger.info(
-        `✅ Adding "noSsr" configuration to "ng build" complete.`
+        `✅ Adding "noSsr" configuration to "ng build" complete.`,
       );
     }
     return tree;
@@ -322,7 +322,7 @@ function addNoSsrConfigurationToNgBuild(
  * In angular.json: use "noSsr" configuration in "serve" architect section
  */
 function useNoSsrConfigurationInNgServe(
-  spartacusOptions: SpartacusOptions
+  spartacusOptions: SpartacusOptions,
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (spartacusOptions.debug) {
@@ -370,7 +370,7 @@ function useNoSsrConfigurationInNgServe(
 
     if (spartacusOptions.debug) {
       context.logger.info(
-        `✅ Using "noSsr" configuration in "ng serve" complete.`
+        `✅ Using "noSsr" configuration in "ng serve" complete.`,
       );
     }
     return tree;
@@ -386,13 +386,13 @@ function removeClientHydration(spartacusOptions: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     if (spartacusOptions.debug) {
       context.logger.info(
-        `⌛️ Removing "provideClientHydration" from "app.module.ts"...`
+        `⌛️ Removing "provideClientHydration" from "app.module.ts"...`,
       );
     }
     const appModulePath = getPathResultsForFile(
       tree,
       'app.module.ts',
-      '/src'
+      '/src',
     )[0];
 
     if (!appModulePath) {
@@ -411,7 +411,7 @@ function removeClientHydration(spartacusOptions: SpartacusOptions): Rule {
     const providerChanges = removeFromModuleProviders(
       sourceFile,
       ts.SyntaxKind.CallExpression,
-      `provideClientHydration()`
+      `provideClientHydration()`,
     );
 
     const changes = [importChange, ...providerChanges];
@@ -419,7 +419,7 @@ function removeClientHydration(spartacusOptions: SpartacusOptions): Rule {
 
     if (spartacusOptions.debug) {
       context.logger.info(
-        `✅ Removing "provideClientHydration" from "app.module.ts" complete.`
+        `✅ Removing "provideClientHydration" from "app.module.ts" complete.`,
       );
     }
     return tree;
@@ -435,7 +435,7 @@ function removeClientHydration(spartacusOptions: SpartacusOptions): Rule {
 function removeFromModuleProviders(
   source: ts.SourceFile,
   kind: ts.SyntaxKind,
-  providerName: string
+  providerName: string,
 ): RemoveChange[] {
   const nodes = getDecoratorMetadata(source, 'NgModule', ANGULAR_CORE);
   const node = nodes[0];
@@ -480,7 +480,7 @@ function removeFromModuleProviders(
     new RemoveChange(
       source.fileName,
       providerSpecifier.pos,
-      `${providerSpecifier.getFullText()}`
+      `${providerSpecifier.getFullText()}`,
     ),
   ];
 }
@@ -501,7 +501,7 @@ export function addSSR(options: SpartacusOptions): Rule {
       modifyIndexHtmlFile(options),
       branchAndMerge(
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
-        MergeStrategy.Overwrite
+        MergeStrategy.Overwrite,
       ),
 
       disableSsrAndPrerenderingInAngularJson(options),

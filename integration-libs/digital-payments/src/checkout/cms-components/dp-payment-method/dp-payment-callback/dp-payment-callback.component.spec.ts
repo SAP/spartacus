@@ -126,10 +126,10 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         signature: mockSignature,
       };
       spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue(
-        mockDpPaymentRequest
+        mockDpPaymentRequest,
       );
       spyOn(dpPaymentService, 'createPaymentDetails').and.returnValue(
-        of(mockPaymentDetails)
+        of(mockPaymentDetails),
       );
 
       component.ngOnInit();
@@ -137,7 +137,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
         mockSessionId,
-        mockSignature
+        mockSignature,
       );
     });
 
@@ -147,7 +147,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         signature: mockSignature,
       };
       spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue(
-        mockDpPaymentRequest
+        mockDpPaymentRequest,
       );
       spyOn(dpPaymentService, 'createPaymentDetails').and.returnValue(of({}));
 
@@ -156,11 +156,11 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
         mockSessionId,
-        mockSignature
+        mockSignature,
       );
       expect(msgService.add).toHaveBeenCalledWith(
         { key: 'dpPaymentForm.error.paymentFetch' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
       expect(component.closeCallback.emit).toHaveBeenCalled();
     });
@@ -173,7 +173,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
       expect(msgService.add).toHaveBeenCalledWith(
         { key: 'dpPaymentForm.error.unknown' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
       expect(component.closeCallback.emit).toHaveBeenCalled();
     });
@@ -183,10 +183,10 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         signature: mockSignature,
       };
       spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue(
-        mockDpPaymentRequest
+        mockDpPaymentRequest,
       );
       spyOn(dpPaymentService, 'createPaymentDetails').and.returnValue(
-        of(mockPaymentDetails)
+        of(mockPaymentDetails),
       );
 
       component.ngOnInit();
@@ -194,10 +194,10 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
         mockSessionId,
-        mockSignature
+        mockSignature,
       );
       expect(component.paymentDetailsAdded.emit).toHaveBeenCalledWith(
-        mockPaymentDetails
+        mockPaymentDetails,
       );
     });
   });
@@ -263,7 +263,7 @@ describe('DpPaymentCallbackComponent without query param', () => {
 
       expect(msgService.add).toHaveBeenCalledWith(
         { key: 'dpPaymentForm.cancelledOrFailed' },
-        GlobalMessageType.MSG_TYPE_WARNING
+        GlobalMessageType.MSG_TYPE_WARNING,
       );
       expect(component.closeCallback.emit).toHaveBeenCalled();
     });

@@ -17,7 +17,7 @@ export const detailInitialState: Order = {};
 
 export function historyReducer(
   state = initialState,
-  action: UnitOrderActions.UnitOrdersAction
+  action: UnitOrderActions.UnitOrdersAction,
 ): OrderHistoryList {
   switch (action.type) {
     case UnitOrderActions.LOAD_UNIT_ORDERS_SUCCESS: {
@@ -33,7 +33,7 @@ export function historyReducer(
 
 export function detailReducer(
   state = detailInitialState,
-  action: UnitOrderActions.UnitOrdersAction
+  action: UnitOrderActions.UnitOrdersAction,
 ): Order {
   switch (action.type) {
     case UnitOrderActions.LOAD_ORDER_DETAILS_SUCCESS: {

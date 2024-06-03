@@ -25,7 +25,7 @@ export class RecentSearchesService {
       map((result) => !!result?.recentSearches),
       take(100),
       takeWhile((val) => !val, true),
-      last()
+      last(),
     );
   }
 
@@ -44,7 +44,7 @@ export class RecentSearchesService {
             )?.Y_TRACKING?.recentSearches?.addListener(
               (recentSearches: string[]) => {
                 this.recentSearchesSource.next(recentSearches);
-              }
+              },
             );
           }
         }

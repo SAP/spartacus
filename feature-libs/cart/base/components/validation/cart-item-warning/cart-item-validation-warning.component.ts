@@ -26,9 +26,9 @@ export class CartItemValidationWarningComponent {
     .pipe(
       map((modificationList) =>
         modificationList.find(
-          (modification) => modification.entry?.product?.code === this.code
-        )
-      )
+          (modification) => modification.entry?.product?.code === this.code,
+        ),
+      ),
     );
 
   constructor(protected cartValidationFacade: CartValidationFacade) {}

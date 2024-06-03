@@ -19,7 +19,7 @@ class MockAuthService implements Partial<AuthService> {
 
 class MockVerificationTokenFacade implements Partial<VerificationTokenFacade> {
   createVerificationToken = createSpy().and.returnValue(
-    of({ tokenId: 'testTokenId', expiresIn: '300' })
+    of({ tokenId: 'testTokenId', expiresIn: '300' }),
   );
 }
 
@@ -33,28 +33,26 @@ describe('VerificationTokenFormComponentService', () => {
   let authService: AuthService;
   let facade: VerificationTokenFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [],
-        providers: [
-          VerificationTokenFormComponentService,
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: VerificationTokenFacade,
-            useClass: MockVerificationTokenFacade,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [],
+      providers: [
+        VerificationTokenFormComponentService,
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: VerificationTokenFacade,
+          useClass: MockVerificationTokenFacade,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     service = TestBed.inject(VerificationTokenFormComponentService);
@@ -100,7 +98,7 @@ describe('VerificationTokenFormComponentService', () => {
         service.login();
         expect(authService.otpLoginWithCredentials).toHaveBeenCalledWith(
           tokenId,
-          tokenCode
+          tokenCode,
         );
       });
 

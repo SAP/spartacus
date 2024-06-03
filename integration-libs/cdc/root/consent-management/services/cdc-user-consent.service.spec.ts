@@ -90,7 +90,7 @@ describe('CdcUserConsentService()', () => {
         },
       });
       cdcJsService.setUserConsentPreferences = createSpy().and.returnValue(
-        of(mockCdcSdkOutput)
+        of(mockCdcSdkOutput),
       );
       service.updateCdcConsent(true, ['others.survey']);
       expect(cdcJsService.setUserConsentPreferences).toHaveBeenCalledWith(
@@ -103,7 +103,7 @@ describe('CdcUserConsentService()', () => {
             },
           },
         },
-        undefined
+        undefined,
       );
     });
     it('withdraw consent via CDC SDK', () => {
@@ -117,7 +117,7 @@ describe('CdcUserConsentService()', () => {
         },
       });
       cdcJsService.setUserConsentPreferences = createSpy().and.returnValue(
-        of(mockCdcSdkOutput)
+        of(mockCdcSdkOutput),
       );
       service.updateCdcConsent(false, ['others.survey']);
       expect(cdcJsService.setUserConsentPreferences).toHaveBeenCalledWith(
@@ -130,7 +130,7 @@ describe('CdcUserConsentService()', () => {
             },
           },
         },
-        undefined
+        undefined,
       );
     });
   });

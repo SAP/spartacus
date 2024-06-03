@@ -37,7 +37,7 @@ export class MockOccEndpointsService implements Partial<OccEndpointsService> {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ) {
     return this.getEndpoint(endpoint);
   }
@@ -110,7 +110,7 @@ describe('OccUserProfileAdapter', () => {
         'userUpdateProfile',
         {
           urlParams: { userId: user.customerId },
-        }
+        },
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -132,7 +132,7 @@ describe('OccUserProfileAdapter', () => {
         .flush(userUpdates);
       expect(converter.convert).toHaveBeenCalledWith(
         userUpdates,
-        USER_PROFILE_SERIALIZER
+        USER_PROFILE_SERIALIZER,
       );
     });
   });
@@ -169,7 +169,7 @@ describe('OccUserProfileAdapter', () => {
         .flush(userSignUp);
       expect(converter.convert).toHaveBeenCalledWith(
         userSignUp,
-        USER_SIGN_UP_SERIALIZER
+        USER_SIGN_UP_SERIALIZER,
       );
     });
   });
@@ -208,7 +208,7 @@ describe('OccUserProfileAdapter', () => {
         );
       });
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-        'userForgotPassword'
+        'userForgotPassword',
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -230,7 +230,7 @@ describe('OccUserProfileAdapter', () => {
       });
 
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-        'userResetPassword'
+        'userResetPassword',
       );
       expect(mockReq.request.headers.get('cx-use-client-token')).toBeTruthy();
       expect(mockReq.request.body).toEqual({
@@ -257,7 +257,7 @@ describe('OccUserProfileAdapter', () => {
         'userCloseAccount',
         {
           urlParams: { userId: 'testUserId' },
-        }
+        },
       );
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
@@ -286,7 +286,7 @@ describe('OccUserProfileAdapter', () => {
 
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
         'userUpdateLoginId',
-        { urlParams: { userId } }
+        { urlParams: { userId } },
       );
       expect(mockReq.cancelled).toBeFalsy();
 
@@ -316,7 +316,7 @@ describe('OccUserProfileAdapter', () => {
 
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
         'userUpdatePassword',
-        { urlParams: { userId } }
+        { urlParams: { userId } },
       );
 
       expect(mockReq.cancelled).toBeFalsy();

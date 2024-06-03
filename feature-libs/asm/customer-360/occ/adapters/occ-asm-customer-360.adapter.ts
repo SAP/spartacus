@@ -36,7 +36,7 @@ export class OccAsmCustomer360Adapter implements AsmCustomer360Adapter {
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService,
-    protected baseSiteService: BaseSiteService
+    protected baseSiteService: BaseSiteService,
   ) {
     this.baseSiteService
       .getActive()
@@ -47,17 +47,17 @@ export class OccAsmCustomer360Adapter implements AsmCustomer360Adapter {
     return InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,
-      new HttpHeaders()
+      new HttpHeaders(),
     );
   }
 
   getAsmCustomer360Data(
-    request: AsmCustomer360Request
+    request: AsmCustomer360Request,
   ): Observable<AsmCustomer360Response> {
     const headers = InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,
-      new HttpHeaders()
+      new HttpHeaders(),
     );
 
     const url = this.occEndpointsService.buildUrl(
@@ -71,7 +71,7 @@ export class OccAsmCustomer360Adapter implements AsmCustomer360Adapter {
       {
         baseSite: false,
         prefix: false,
-      }
+      },
     );
 
     const requestBody = {
@@ -82,9 +82,9 @@ export class OccAsmCustomer360Adapter implements AsmCustomer360Adapter {
       .post<AsmCustomer360Response>(url, requestBody, { headers })
       .pipe(
         catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
+          throwError(normalizeHttpError(error, this.logger)),
         ),
-        this.converterService.pipeable(ASM_CUSTOMER_360_NORMALIZER)
+        this.converterService.pipeable(ASM_CUSTOMER_360_NORMALIZER),
       );
   }
 }

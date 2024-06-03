@@ -19,7 +19,7 @@ export class OrgUnitGuard {
     protected globalMessageService: GlobalMessageService,
     protected orgUnitService: OrgUnitService,
     protected semanticPathService: SemanticPathService,
-    protected router: Router
+    protected router: Router,
   ) {}
 
   canActivate(): boolean | UrlTree {
@@ -27,10 +27,10 @@ export class OrgUnitGuard {
     if (!isUpdatingUnitAllowed) {
       this.globalMessageService.add(
         { key: 'organization.notification.notExist' },
-        GlobalMessageType.MSG_TYPE_WARNING
+        GlobalMessageType.MSG_TYPE_WARNING,
       );
       return this.router.parseUrl(
-        this.semanticPathService.get('organization') ?? ''
+        this.semanticPathService.get('organization') ?? '',
       );
     }
     return isUpdatingUnitAllowed;

@@ -37,7 +37,7 @@ describe(
           (value) => {
             totalCount = Cypress.$(value).length;
             expect(totalCount).to.be.at.least(1);
-          }
+          },
         );
       });
 
@@ -53,5 +53,5 @@ describe(
         cy.saveLocalStorage();
       });
     });
-  }
+  },
 );

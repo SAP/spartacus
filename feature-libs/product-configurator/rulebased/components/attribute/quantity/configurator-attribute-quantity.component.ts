@@ -56,7 +56,7 @@ export class ConfiguratorAttributeQuantityComponent
             this.quantity.enable();
             this.quantityChangeSub.add(this.subscribeToQuantityChange());
           }
-        })
+        }),
     );
   }
 
@@ -65,10 +65,10 @@ export class ConfiguratorAttributeQuantityComponent
       .pipe(
         debounce(() =>
           timer(
-            this.config.productConfigurator?.updateDebounceTime?.quantity ?? 0
-          )
+            this.config.productConfigurator?.updateDebounceTime?.quantity ?? 0,
+          ),
         ),
-        take(1)
+        take(1),
       )
       .subscribe(() => this.onChangeQuantity());
   }

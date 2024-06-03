@@ -16,25 +16,25 @@ describe('config from MetaTag Factory', () => {
       mockMeta.getTag = jasmine.createSpy();
       occServerConfigFromMetaTagFactory(mockMeta as Meta);
       expect(mockMeta.getTag).toHaveBeenCalledWith(
-        'name="occ-backend-base-url"'
+        'name="occ-backend-base-url"',
       );
     });
 
     it('should return server config with baseUrl from meta tag', () => {
-      mockMeta.getTag = () => ({ content: 'testBaseUrl' } as HTMLMetaElement);
+      mockMeta.getTag = () => ({ content: 'testBaseUrl' }) as HTMLMetaElement;
       expect(occServerConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({
         backend: { occ: { baseUrl: 'testBaseUrl' } },
       });
     });
 
     it('should return empty object when meta tag contains empty string', () => {
-      mockMeta.getTag = () => ({ content: '' } as HTMLMetaElement);
+      mockMeta.getTag = () => ({ content: '' }) as HTMLMetaElement;
       expect(occServerConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({});
     });
 
     it('should return empty object when meta tag contains placeholder "OCC_BACKEND_BASE_URL_VALUE"', () => {
       mockMeta.getTag = () =>
-        ({ content: 'OCC_BACKEND_BASE_URL_VALUE' } as HTMLMetaElement);
+        ({ content: 'OCC_BACKEND_BASE_URL_VALUE' }) as HTMLMetaElement;
       expect(occServerConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({});
     });
 
@@ -49,26 +49,26 @@ describe('config from MetaTag Factory', () => {
       mockMeta.getTag = jasmine.createSpy();
       mediaServerConfigFromMetaTagFactory(mockMeta as Meta);
       expect(mockMeta.getTag).toHaveBeenCalledWith(
-        'name="media-backend-base-url"'
+        'name="media-backend-base-url"',
       );
     });
 
     it('should return server config with baseUrl from meta tag', () => {
       mockMeta.getTag = () =>
-        ({ content: 'testMediaBaseUrl' } as HTMLMetaElement);
+        ({ content: 'testMediaBaseUrl' }) as HTMLMetaElement;
       expect(mediaServerConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({
         backend: { media: { baseUrl: 'testMediaBaseUrl' } },
       });
     });
 
     it('should return empty object when meta tag contains empty string', () => {
-      mockMeta.getTag = () => ({ content: '' } as HTMLMetaElement);
+      mockMeta.getTag = () => ({ content: '' }) as HTMLMetaElement;
       expect(mediaServerConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({});
     });
 
     it('should return empty object when meta tag contains placeholder "MEDIA_BACKEND_BASE_URL_VALUE"', () => {
       mockMeta.getTag = () =>
-        ({ content: 'MEDIA_BACKEND_BASE_URL_VALUE' } as HTMLMetaElement);
+        ({ content: 'MEDIA_BACKEND_BASE_URL_VALUE' }) as HTMLMetaElement;
       expect(mediaServerConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({});
     });
 

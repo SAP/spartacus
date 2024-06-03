@@ -16,7 +16,7 @@ export class LanguageStatePersistenceService {
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected languageService: LanguageService,
-    protected config: SiteContextConfig
+    protected config: SiteContextConfig,
   ) {}
 
   protected initialized$ = new ReplaySubject<unknown>(1);

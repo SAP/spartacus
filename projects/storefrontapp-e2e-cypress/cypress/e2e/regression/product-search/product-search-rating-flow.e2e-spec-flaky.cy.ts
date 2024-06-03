@@ -31,12 +31,12 @@ context('Product search rating flow', () => {
           QUERY_ALIAS.FIRST_PAGE,
           productName,
           PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-          `1`
+          `1`,
         );
         createProductQuery(
           QUERY_ALIAS.DSC_N1,
           productName,
-          PRODUCT_LISTING.PRODUCTS_PER_PAGE
+          PRODUCT_LISTING.PRODUCTS_PER_PAGE,
         );
         createProductSortQuery('topRated', QUERY_ALIAS.TOP_RATED_FILTER);
 
@@ -53,7 +53,7 @@ context('Product search rating flow', () => {
         verifyProductSearch(
           QUERY_ALIAS.FIRST_PAGE,
           QUERY_ALIAS.TOP_RATED_FILTER,
-          PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
+          PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED,
         );
 
         // Navigate to previous page
@@ -69,7 +69,7 @@ context('Product search rating flow', () => {
 
         // Filter by category
         cy.intercept({ method: 'GET', path: `${searchUrlPrefix}?fields=*` }).as(
-          'facets'
+          'facets',
         );
         clickFacet('Category');
 
@@ -82,7 +82,7 @@ context('Product search rating flow', () => {
         clearSelectedFacet();
 
         cy.intercept({ method: 'GET', path: `${searchUrlPrefix}?fields=*` }).as(
-          'facets'
+          'facets',
         );
 
         cy.wait(`@facets`).its('response.statusCode').should('eq', 200);

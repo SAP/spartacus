@@ -11,13 +11,11 @@ const newReplenishmentFormData: ScheduleReplenishmentForm = {
 describe('Checkout Replenishment Form Service', () => {
   let service: CheckoutReplenishmentFormService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [CheckoutReplenishmentFormService],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [CheckoutReplenishmentFormService],
+    });
+  }));
 
   beforeEach(() => {
     service = TestBed.inject(CheckoutReplenishmentFormService);
@@ -35,10 +33,10 @@ describe('Checkout Replenishment Form Service', () => {
 
     expect(expectedFormData).toEqual(defaultFormData);
     expect(expectedFormData?.replenishmentStartDate).toMatch(
-      /^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$/
+      /^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$/,
     );
     expect(expectedFormData?.replenishmentStartDate).not.toMatch(
-      /^[0-9]{4}-[0-1][0-9]-[0-3][0-9]T$/
+      /^[0-9]{4}-[0-1][0-9]-[0-3][0-9]T$/,
     );
   });
 

@@ -47,8 +47,8 @@ describe('B2B - Unit-Level Orders History', () => {
       cy.location('pathname').should(
         'eq',
         `/${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
-          'BASE_CURRENCY'
-        )}/`
+          'BASE_CURRENCY',
+        )}/`,
       );
       cy.get('.alert')
         .should('be.visible')
@@ -120,7 +120,7 @@ describe('B2B - Unit-Level Orders History', () => {
       cy.wait(ordersToLoadAlias);
       cy.get('.cx-unit-level-order-history-value').should(
         'contain',
-        '@rustic-hw.com'
+        '@rustic-hw.com',
       );
     });
 
@@ -248,14 +248,14 @@ describe('B2B - Unit-Level Orders History', () => {
     cy.get('cx-breadcrumb').should('contain.text', 'Unit-Level Order Details');
     cy.location('pathname').should(
       'contain',
-      `unitLevelOrderDetails/${order.code}`
+      `unitLevelOrderDetails/${order.code}`,
     );
     cy.contains('Order Number').parent().should('contain', order.code);
   }
 
   function checkThatOrdersAreSorted(
     dataCellSelector: string,
-    ascending: boolean = true
+    ascending: boolean = true,
   ) {
     cy.get(dataCellSelector).then((items) => {
       const unsortedItems = items
@@ -270,7 +270,7 @@ describe('B2B - Unit-Level Orders History', () => {
 
   function checkThatOrdersAreFilteredBy(
     dataCellSelector: string,
-    expectedValue: string
+    expectedValue: string,
   ) {
     cy.get(dataCellSelector)
       .should('have.length.at.least', 1)
@@ -288,7 +288,7 @@ describe('B2B - Unit-Level Orders History', () => {
 
   function setFilter(
     filterSelector: string,
-    filterValue: string
+    filterValue: string,
   ): Chainable<any> {
     cy.get(filterSelector).type(`{selectAll}${filterValue}{enter}`);
     return cy.get('button.unit-level-order-history-search').click();

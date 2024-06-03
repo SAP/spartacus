@@ -35,7 +35,7 @@ class MockGlobalMessageService {
 class MockCDCJsService implements Partial<CdcJsService> {
   didLoad = createSpy().and.returnValues(of(true), of(false));
   registerUserWithoutScreenSet = createSpy().and.callFake(() =>
-    of({ status: 'OK' })
+    of({ status: 'OK' }),
   );
   loginUserWithoutScreenSet = createSpy().and.returnValues(of(true));
 }
@@ -51,31 +51,29 @@ describe('CdcLoginComponentService', () => {
   let cdcJsService: CdcJsService;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [],
-        providers: [
-          CdcLoginFormComponentService,
-          { provide: WindowRef, useClass: MockWinRef },
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: Store, useValue: { dispatch: () => {} } },
-          { provide: CdcJsService, useClass: MockCDCJsService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: LoginFormComponentService,
-            useClass: MockLoginFormComponentService,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [],
+      providers: [
+        CdcLoginFormComponentService,
+        { provide: WindowRef, useClass: MockWinRef },
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: Store, useValue: { dispatch: () => {} } },
+        { provide: CdcJsService, useClass: MockCDCJsService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: LoginFormComponentService,
+          useClass: MockLoginFormComponentService,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     cdcLoginService = TestBed.inject(CdcLoginFormComponentService);
@@ -100,7 +98,7 @@ describe('CdcLoginComponentService', () => {
       cdcLoginService.login();
       expect(cdcJsService.loginUserWithoutScreenSet).toHaveBeenCalledWith(
         userId,
-        password
+        password,
       );
       expect(cdcLoginService['busy$'].value).toBe(false);
     });
@@ -108,7 +106,7 @@ describe('CdcLoginComponentService', () => {
     it('should handle a failed request through CDC SDK', () => {
       cdcJsService.didLoad = createSpy().and.returnValue(of(true));
       (cdcJsService.loginUserWithoutScreenSet as jasmine.Spy).and.returnValue(
-        throwError(() => 'test error: such email does not exist!')
+        throwError(() => 'test error: such email does not exist!'),
       );
       cdcLoginService.login();
       expect(cdcLoginService['busy$'].value).toBe(false);
@@ -126,7 +124,7 @@ describe('CdcLoginComponentService', () => {
         {
           key: 'errorHandlers.scriptFailedToLoad',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
       expect(cdcLoginService['busy$'].value).toBe(false);
     });

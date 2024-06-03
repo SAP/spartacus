@@ -17,7 +17,7 @@ export function getReducers<T>(): ActionReducer<EntityLoaderState<T>> {
 export const reducerToken: InjectionToken<
   ActionReducerMap<EntityLoaderState<any>>
 > = new InjectionToken<ActionReducerMap<EntityLoaderState<any>>>(
-  'ProcessReducers'
+  'ProcessReducers',
 );
 
 export const reducerProvider: Provider = {

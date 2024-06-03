@@ -30,10 +30,10 @@ export class CheckoutCostCenterEventListener implements OnDestroy {
         .subscribe(({ cartId, userId }) => {
           this.eventService.dispatch(
             { cartId, userId },
-            CheckoutSupportedDeliveryModesQueryResetEvent
+            CheckoutSupportedDeliveryModesQueryResetEvent,
           );
           this.eventService.dispatch({}, CheckoutQueryResetEvent);
-        })
+        }),
     );
   }
 

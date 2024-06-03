@@ -32,13 +32,16 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
   constructor(
     router: Router,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    cd?: ChangeDetectorRef
+    cd?: ChangeDetectorRef,
   );
   /**
    * @deprecated since 5.2
    */
   constructor(router: Router);
-  constructor(protected router: Router, protected cd?: ChangeDetectorRef) {}
+  constructor(
+    protected router: Router,
+    protected cd?: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(
@@ -50,7 +53,7 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
           this.cartValidationInProgress = false;
           this.cd?.markForCheck();
         }
-      })
+      }),
     );
   }
 

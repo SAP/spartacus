@@ -6,41 +6,41 @@ import createSpy = jasmine.createSpy;
 
 class MockOrderHistoryAdapter implements OrderHistoryAdapter {
   load = createSpy('OrderHistoryAdapter.load').and.callFake(
-    (userId, orderCode) => of(`order-${userId}-${orderCode}`)
+    (userId, orderCode) => of(`order-${userId}-${orderCode}`),
   );
 
   loadHistory = createSpy('OrderHistoryAdapter.loadHistory').and.callFake(
-    (userId) => of(`orderHistory-${userId}`)
+    (userId) => of(`orderHistory-${userId}`),
   );
 
   getConsignmentTracking = createSpy(
-    'OrderHistoryAdapter.getConsignmentTracking'
+    'OrderHistoryAdapter.getConsignmentTracking',
   ).and.callFake((orderCode, consignmentCode, userId) =>
-    of(`consignmentTracking-${userId}-${orderCode}-${consignmentCode}`)
+    of(`consignmentTracking-${userId}-${orderCode}-${consignmentCode}`),
   );
 
   createReturnRequest = createSpy(
-    'OrderHistoryAdapter.createReturnRequest'
+    'OrderHistoryAdapter.createReturnRequest',
   ).and.callFake((userId, {}) => of(`orderReturnRequest-${userId}`));
 
   loadReturnRequestList = createSpy(
-    'OrderHistoryAdapter.loadReturnRequestList'
+    'OrderHistoryAdapter.loadReturnRequestList',
   ).and.callFake((userId) => of(`loadReturnRequestList-${userId}`));
 
   loadReturnRequestDetail = createSpy(
-    'OrderHistoryAdapter.loadReturnRequestDetail'
+    'OrderHistoryAdapter.loadReturnRequestDetail',
   ).and.callFake((userId, returnRequestCode) =>
-    of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
+    of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`),
   );
 
   cancel = createSpy('OrderHistoryAdapter.cancel').and.callFake(
-    (userId, orderCode, {}) => of(`cancel-${userId}-${orderCode}`)
+    (userId, orderCode, {}) => of(`cancel-${userId}-${orderCode}`),
   );
 
   cancelReturnRequest = createSpy(
-    'OrderHistoryAdapter.cancelReturnRequest'
+    'OrderHistoryAdapter.cancelReturnRequest',
   ).and.callFake((userId, returnRequestCode, {}) =>
-    of(`cancelReturnRequest-${userId}-${returnRequestCode}`)
+    of(`cancelReturnRequest-${userId}-${returnRequestCode}`),
   );
 }
 
@@ -79,7 +79,7 @@ describe('OrderHistoryConnector', () => {
       'user3',
       undefined,
       undefined,
-      undefined
+      undefined,
     );
   });
 
@@ -92,7 +92,7 @@ describe('OrderHistoryConnector', () => {
     expect(adapter.getConsignmentTracking).toHaveBeenCalledWith(
       'orderCode',
       'consignmentCode',
-      'userId'
+      'userId',
     );
   });
 
@@ -120,7 +120,7 @@ describe('OrderHistoryConnector', () => {
       'userId',
       undefined,
       undefined,
-      undefined
+      undefined,
     );
   });
 
@@ -132,7 +132,7 @@ describe('OrderHistoryConnector', () => {
     expect(result).toBe('loadReturnRequestDetail-userId-returnRequestCode');
     expect(adapter.loadReturnRequestDetail).toHaveBeenCalledWith(
       'userId',
-      'returnRequestCode'
+      'returnRequestCode',
     );
   });
 
@@ -147,7 +147,7 @@ describe('OrderHistoryConnector', () => {
     expect(adapter.cancelReturnRequest).toHaveBeenCalledWith(
       'userId',
       'returnRequestCode',
-      { status: 'CANCELLING' }
+      { status: 'CANCELLING' },
     );
   });
 });

@@ -107,33 +107,31 @@ describe('MyAccountV2OrderHistoryComponent', () => {
   let fixture: ComponentFixture<MyAccountV2OrderHistoryComponent>;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          MyAccountV2OrderHistoryComponent,
-          MockUrlPipe,
-          MockPaginationComponent,
-          MockMyAccountV2OrderConsolidatedInformationComponent,
-          MockSpinnerComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useClass: MockRoutingService },
-          {
-            provide: MyAccountV2OrderHistoryService,
-            useClass: MockMyAccountV2OrderHistoryService,
-          },
-          { provide: TranslationService, useClass: MockTranslationService },
-          {
-            provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockReplenishmentOrderHistoryFacade,
-          },
-        ],
-      }).compileComponents();
-      routingService = TestBed.inject(RoutingService);
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        MyAccountV2OrderHistoryComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
+        MockMyAccountV2OrderConsolidatedInformationComponent,
+        MockSpinnerComponent,
+      ],
+      providers: [
+        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: MyAccountV2OrderHistoryService,
+          useClass: MockMyAccountV2OrderHistoryService,
+        },
+        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: ReplenishmentOrderHistoryFacade,
+          useClass: MockReplenishmentOrderHistoryFacade,
+        },
+      ],
+    }).compileComponents();
+    routingService = TestBed.inject(RoutingService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2OrderHistoryComponent);
@@ -151,11 +149,13 @@ describe('MyAccountV2OrderHistoryComponent', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement.query(
-        By.css('.cx-my-account-v2-order-history-header')
-      )
+        By.css('.cx-my-account-v2-order-history-header'),
+      ),
     ).toBeTruthy();
     expect(
-      fixture.debugElement.query(By.css('.cx-my-account-v2-order-history-body'))
+      fixture.debugElement.query(
+        By.css('.cx-my-account-v2-order-history-body'),
+      ),
     ).toBeTruthy();
   });
 
@@ -163,7 +163,7 @@ describe('MyAccountV2OrderHistoryComponent', () => {
     spyOn(routingService, 'go').and.stub();
     fixture.detectChanges();
     const codes = fixture.debugElement.queryAll(
-      By.css('.cx-my-account-v2-order-history-code')
+      By.css('.cx-my-account-v2-order-history-code'),
     );
     codes[1].triggerEventHandler('click');
     expect(routingService.go).toHaveBeenCalledWith({
@@ -175,7 +175,7 @@ describe('MyAccountV2OrderHistoryComponent', () => {
   it('should display pagination', () => {
     fixture.detectChanges();
     const elements = fixture.debugElement.queryAll(
-      By.css('.cx-order-history-pagination')
+      By.css('.cx-order-history-pagination'),
     );
     expect(elements.length).toEqual(1);
   });
@@ -185,7 +185,7 @@ describe('MyAccountV2OrderHistoryComponent', () => {
     component.isLoaded$.next(true);
     fixture.detectChanges();
     const elements = fixture.debugElement.queryAll(
-      By.css('.cx-order-history-pagination')
+      By.css('.cx-order-history-pagination'),
     );
     expect(elements.length).toEqual(0);
     const link = fixture.debugElement.query(By.css('a'));
@@ -197,7 +197,7 @@ describe('MyAccountV2OrderHistoryComponent', () => {
     component.isLoaded$.next(false);
     fixture.detectChanges();
     const elements = fixture.debugElement.queryAll(
-      By.css('.cx-order-history-pagination')
+      By.css('.cx-order-history-pagination'),
     );
     expect(elements.length).toEqual(0);
     const link = fixture.debugElement.query(By.css('cx-spinner'));

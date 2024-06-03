@@ -6,10 +6,10 @@ import createSpy = jasmine.createSpy;
 
 class MockProductAdapter implements ProductAdapter {
   load = createSpy('ProductAdapter.load').and.callFake((code) =>
-    of('product' + code)
+    of('product' + code),
   );
   loadMany = createSpy('ProductAdapter.loadMany').and.callFake(
-    (products) => products
+    (products) => products,
   );
 }
 

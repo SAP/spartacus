@@ -79,21 +79,21 @@ describe('CardComponent', () => {
       });
       it('should have localized h3 title', () => {
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('.title h3')
+          By.css('.title h3'),
         ).nativeElement;
         expect(el.innerText).toContain('organization.budget.title');
       });
 
       it('should have localized h4 subtitle', () => {
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('.title h4')
+          By.css('.title h4'),
         ).nativeElement;
         expect(el.innerText).toContain('organization.budget.subtitle');
       });
 
       it('should have back button by default', () => {
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('button.close')
+          By.css('button.close'),
         ).nativeElement;
         expect(el).toBeDefined();
       });
@@ -111,7 +111,7 @@ describe('CardComponent', () => {
         component.previous = 'organization.assign';
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('button.close')
+          By.css('button.close'),
         ).nativeElement;
         expect(el.innerText).toContain('organization.assign');
       });
@@ -136,18 +136,18 @@ describe('CardComponent', () => {
     });
     it('should not show hint by default', () => {
       const el = fixture.debugElement.query(
-        By.css('cx-popover > .popover-body > p')
+        By.css('cx-popover > .popover-body > p'),
       );
       expect(el).toBeFalsy();
     });
 
     it('should display hint after click info button', () => {
       const infoButton = fixture.debugElement.query(
-        By.css('button[ng-reflect-cx-popover]')
+        By.css('button[ng-reflect-cx-popover]'),
       ).nativeElement;
       infoButton.click();
       const el = fixture.debugElement.query(
-        By.css('cx-popover > .popover-body > p')
+        By.css('cx-popover > .popover-body > p'),
       );
       expect(el).toBeTruthy();
       expect(el.nativeElement.innerText).toBe('organization.budget.hint');

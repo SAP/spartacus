@@ -31,7 +31,7 @@ export class TimeUtils {
 
   static convertDatetimeToDate(datetime: string): string {
     return new Date(
-      `${datetime.substring(0, 19)}${TimeUtils.getLocalTimezoneOffset(true)}`
+      `${datetime.substring(0, 19)}${TimeUtils.getLocalTimezoneOffset(true)}`,
     )
       .toISOString()
       .substring(0, 10);

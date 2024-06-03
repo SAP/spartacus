@@ -32,7 +32,7 @@ describe('Cms Page Index Reducer', () => {
       const action = new CmsActions.LoadCmsPageDataSuccess(pageContext, page);
       const state = fromPage.reducer(PageType.CONTENT_PAGE)(
         initialState,
-        action
+        action,
       );
 
       expect(state).toEqual(page.pageId);
@@ -46,7 +46,7 @@ describe('Cms Page Index Reducer', () => {
       const action = new CmsActions.LoadCmsPageDataFail(pageContext, error);
       const state = fromPage.reducer(PageType.CONTENT_PAGE)(
         initialState,
-        action
+        action,
       );
 
       expect(state).toEqual(initialState);
@@ -60,7 +60,7 @@ describe('Cms Page Index Reducer', () => {
       const action = new CmsActions.CmsSetPageFailIndex(pageContext, newIndex);
       const state = fromPage.reducer(PageType.CONTENT_PAGE)(
         initialState,
-        action
+        action,
       );
 
       expect(state).toEqual('index');

@@ -15,7 +15,7 @@ import { Configurator } from '../../core/model/configurator.model';
 })
 export class ConfiguratorOverviewFilterComponent implements OnChanges {
   constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
   ) {}
 
   @Input() showFilterBar: boolean = true;
@@ -39,13 +39,13 @@ export class ConfiguratorOverviewFilterComponent implements OnChanges {
     const inputConfig = this.createInputConfig(
       config,
       this.collectAttrFilters(),
-      this.collectGroupFilters(config.overview)
+      this.collectGroupFilters(config.overview),
     );
     this.configuratorCommonsService.updateConfigurationOverview(inputConfig);
   }
 
   protected extractGroupFilterState(
-    configuration: Configurator.ConfigurationWithOverview
+    configuration: Configurator.ConfigurationWithOverview,
   ) {
     this.groupFilters = [];
     configuration.overview.possibleGroups?.forEach((group) => {
@@ -58,18 +58,18 @@ export class ConfiguratorOverviewFilterComponent implements OnChanges {
   }
 
   protected extractAttrFilterState(
-    configuration: Configurator.ConfigurationWithOverview
+    configuration: Configurator.ConfigurationWithOverview,
   ) {
     if (configuration.overview.attributeFilters) {
       const isPriceFilterSelected =
         configuration.overview.attributeFilters.indexOf(
-          Configurator.OverviewFilter.PRICE_RELEVANT
+          Configurator.OverviewFilter.PRICE_RELEVANT,
         ) >= 0;
       this.priceFilter.setValue(isPriceFilterSelected);
 
       const isMySelectionsFilterSelected =
         configuration.overview.attributeFilters.indexOf(
-          Configurator.OverviewFilter.USER_INPUT
+          Configurator.OverviewFilter.USER_INPUT,
         ) >= 0;
       this.mySelectionsFilter.setValue(isMySelectionsFilterSelected);
     }
@@ -101,7 +101,7 @@ export class ConfiguratorOverviewFilterComponent implements OnChanges {
   protected createInputConfig(
     config: Configurator.ConfigurationWithOverview,
     attrFilters: Configurator.OverviewFilter[],
-    groupFilers: string[]
+    groupFilers: string[],
   ): Configurator.ConfigurationWithOverview {
     return {
       ...config,

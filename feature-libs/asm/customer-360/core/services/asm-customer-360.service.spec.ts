@@ -103,10 +103,10 @@ describe('Asm360Service', () => {
       .pipe(take(1))
       .subscribe(([response1, response2]) => {
         expect(
-          asmCustomer360Connector.getAsmCustomer360Data
+          asmCustomer360Connector.getAsmCustomer360Data,
         ).toHaveBeenCalledTimes(1);
         expect(
-          asmCustomer360Connector.getAsmCustomer360Data
+          asmCustomer360Connector.getAsmCustomer360Data,
         ).toHaveBeenCalledWith({
           queries: [
             {

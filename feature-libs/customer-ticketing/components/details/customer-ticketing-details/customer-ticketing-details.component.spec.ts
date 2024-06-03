@@ -97,7 +97,7 @@ describe('CustomerTicketingDetailsComponent', () => {
   describe('getStatusClass', () => {
     function assertStatusClassByStatusId(
       expectedClass: string,
-      statusId: string | undefined
+      statusId: string | undefined,
     ) {
       const result = component.getStatusClass(statusId);
       expect(result).toEqual(expectedClass);

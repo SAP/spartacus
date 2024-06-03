@@ -52,7 +52,7 @@
         bindValue="code"
         [cxNgSelectA11y]="{
           ariaLabel: 'orgAccountSummary.filter.status' | cxTranslate,
-          ariaControls: 'cx-account-summary-document-table'
+          ariaControls: 'cx-account-summary-document-table',
         }"
       >
       </ng-select>
@@ -70,7 +70,7 @@
         bindValue="code"
         [cxNgSelectA11y]="{
           ariaLabel: 'orgAccountSummary.filter.filterBy' | cxTranslate,
-          ariaControls: 'cx-account-summary-document-table'
+          ariaControls: 'cx-account-summary-document-table',
         }"
       >
       </ng-select>
@@ -116,7 +116,7 @@
           rangeInput;
           context: {
             formGroup: filterForm.get('documentNumberRange'),
-            type: 'text'
+            type: 'text',
           }
         "
       >
@@ -129,7 +129,7 @@
           rangeInput;
           context: {
             formGroup: filterForm.get('documentDateRange'),
-            type: 'date'
+            type: 'date',
           }
         "
       >
@@ -152,7 +152,7 @@
           rangeInput;
           context: {
             formGroup: filterForm.get('originalAmountRange'),
-            type: 'number'
+            type: 'number',
           }
         "
       >
@@ -165,7 +165,7 @@
           rangeInput;
           context: {
             formGroup: filterForm.get('openAmountRange'),
-            type: 'number'
+            type: 'number',
           }
         "
       >

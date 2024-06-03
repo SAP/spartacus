@@ -31,7 +31,7 @@ export class QuoteConnector {
    */
   getQuotes(
     userId: string,
-    pagination: PaginationModel
+    pagination: PaginationModel,
   ): Observable<QuoteList> {
     return this.quoteAdapter.getQuotes(userId, pagination);
   }
@@ -69,7 +69,7 @@ export class QuoteConnector {
   editQuote(
     userId: string,
     quoteCode: string,
-    quoteMetadata: QuoteMetadata
+    quoteMetadata: QuoteMetadata,
   ): Observable<unknown> {
     return this.quoteAdapter.editQuote(userId, quoteCode, quoteMetadata);
   }
@@ -85,7 +85,7 @@ export class QuoteConnector {
   performQuoteAction(
     userId: string,
     quoteCode: string,
-    quoteAction: QuoteActionType
+    quoteAction: QuoteActionType,
   ): Observable<unknown> {
     return this.quoteAdapter.performQuoteAction(userId, quoteCode, quoteAction);
   }
@@ -101,7 +101,7 @@ export class QuoteConnector {
   addComment(
     userId: string,
     quoteCode: string,
-    quoteComment: QuoteComment
+    quoteComment: QuoteComment,
   ): Observable<unknown> {
     return this.quoteAdapter.addComment(userId, quoteCode, quoteComment);
   }
@@ -117,7 +117,7 @@ export class QuoteConnector {
   addDiscount(
     userId: string,
     quoteCode: string,
-    discount: QuoteDiscount
+    discount: QuoteDiscount,
   ): Observable<unknown> {
     return this.quoteAdapter.addDiscount(userId, quoteCode, discount);
   }
@@ -135,13 +135,13 @@ export class QuoteConnector {
     userId: string,
     quoteCode: string,
     entryNumber: string,
-    comment: QuoteComment
+    comment: QuoteComment,
   ): Observable<unknown> {
     return this.quoteAdapter.addQuoteEntryComment(
       userId,
       quoteCode,
       entryNumber,
-      comment
+      comment,
     );
   }
 
@@ -156,12 +156,12 @@ export class QuoteConnector {
   downloadAttachment(
     userId: string,
     quoteCode: string,
-    attachmentId: string
+    attachmentId: string,
   ): Observable<Blob> {
     return this.quoteAdapter.downloadAttachment(
       userId,
       quoteCode,
-      attachmentId
+      attachmentId,
     );
   }
 }

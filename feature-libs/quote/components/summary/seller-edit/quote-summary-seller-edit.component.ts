@@ -42,7 +42,7 @@ import {
 export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
   protected quoteFacade = inject(QuoteFacade);
   protected quoteHeaderSellerEditComponentService = inject(
-    QuoteSummarySellerEditComponentService
+    QuoteSummarySellerEditComponentService,
   );
   protected quoteUIConfig = inject(QuoteUIConfig);
 
@@ -51,13 +51,13 @@ export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
     this.quoteFacade.getQuoteDetails(),
   ]).pipe(
     filter(([_localizationElements, quote]) =>
-      this.quoteHeaderSellerEditComponentService.isEditable(quote)
+      this.quoteHeaderSellerEditComponentService.isEditable(quote),
     ),
     tap(([localizationElements, quote]) => {
       this.discountUpdatePerforming$.next(false);
       this.fillFormAttributes(localizationElements, quote);
     }),
-    map(([_localizationElements, quote]) => quote)
+    map(([_localizationElements, quote]) => quote),
   );
 
   @ViewChild('element') element: ElementRef;
@@ -79,13 +79,13 @@ export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
 
   protected fillFormAttributes(
     localizationElements: LocalizationElements,
-    quote: Quote
+    quote: Quote,
   ) {
     this.discountPlaceholder = localizationElements.percentageSign;
     const numberFormatValidator =
       this.quoteHeaderSellerEditComponentService.getNumberFormatValidator(
         localizationElements.locale,
-        localizationElements.percentageSign
+        localizationElements.percentageSign,
       );
     this.form.controls.discount.addValidators([numberFormatValidator]);
 
@@ -96,13 +96,13 @@ export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
         : 0;
     if (discountValue) {
       this.form.controls.discount.setValue(
-        localizationElements.formatter.format(discountValue)
+        localizationElements.formatter.format(discountValue),
       );
     }
     this.form.controls.validityDate.setValue(
       this.quoteHeaderSellerEditComponentService.removeTimeFromDate(
-        quote.expirationTime?.toString()
-      )
+        quote.expirationTime?.toString(),
+      ),
     );
   }
 
@@ -111,15 +111,15 @@ export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
       this.dateUpdates
         .pipe(
           debounceTime(
-            this.quoteUIConfig.quote?.updateDebounceTime?.expiryDate ?? 500
-          )
+            this.quoteUIConfig.quote?.updateDebounceTime?.expiryDate ?? 500,
+          ),
         )
         .subscribe((payload) => {
           const quoteMetaData: QuoteMetadata = {
             expirationTime: payload.date,
           };
           this.quoteFacade.editQuote(payload.quoteCode, quoteMetaData);
-        })
+        }),
     );
   }
 
@@ -145,7 +145,7 @@ export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
     if (this.form.controls.discount.valid) {
       combineLatest([
         this.quoteHeaderSellerEditComponentService.parseDiscountValue(
-          this.form.controls.discount.value
+          this.form.controls.discount.value,
         ),
         this.discountUpdatePerforming$,
       ])
@@ -171,7 +171,7 @@ export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
   onSetDate(quoteCode: string): void {
     const dateWithTime =
       this.quoteHeaderSellerEditComponentService.addTimeToDate(
-        this.form.controls.validityDate.value
+        this.form.controls.validityDate.value,
       );
     this.dateUpdates.next({ quoteCode: quoteCode, date: dateWithTime });
   }

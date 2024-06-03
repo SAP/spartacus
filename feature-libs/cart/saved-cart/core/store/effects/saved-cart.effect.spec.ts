@@ -175,7 +175,7 @@ describe('SavedCart Effects', () => {
       expect(effects.restoreSavedCart$).toBeObservable(expected);
       expect(connector.restoreSavedCart).toHaveBeenCalledWith(
         mockUserId,
-        mockCartId
+        mockCartId,
       );
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
@@ -185,7 +185,7 @@ describe('SavedCart Effects', () => {
             previousCartName: mockActiveCart.code,
           },
         },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
 
@@ -217,7 +217,7 @@ describe('SavedCart Effects', () => {
       expect(effects.restoreSavedCart$).toBeObservable(expected);
       expect(connector.restoreSavedCart).toHaveBeenCalledWith(
         mockUserId,
-        mockCartId
+        mockCartId,
       );
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
@@ -227,7 +227,7 @@ describe('SavedCart Effects', () => {
             previousCartName: mockActiveCart.code,
           },
         },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
 
@@ -259,7 +259,7 @@ describe('SavedCart Effects', () => {
       expect(effects.restoreSavedCart$).toBeObservable(expected);
       expect(connector.restoreSavedCart).toHaveBeenCalledWith(
         mockUserId,
-        mockCartId
+        mockCartId,
       );
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
@@ -269,7 +269,7 @@ describe('SavedCart Effects', () => {
             previousCartName: mockActiveCart.code,
           },
         },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
   });
@@ -308,7 +308,7 @@ describe('SavedCart Effects', () => {
         mockUserId,
         mockCartId,
         mockSavedCarts[0].name,
-        mockSavedCarts[0].description
+        mockSavedCarts[0].description,
       );
     });
   });
@@ -345,7 +345,7 @@ describe('SavedCart Effects', () => {
         mockUserId,
         mockCartId,
         mockSavedCarts[0].name,
-        mockSavedCarts[0].description
+        mockSavedCarts[0].description,
       );
     });
   });
@@ -382,7 +382,7 @@ describe('SavedCart Effects', () => {
       expect(connector.cloneSavedCart).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
-        mockSavedCarts[0].name
+        mockSavedCarts[0].name,
       );
     });
   });

@@ -35,7 +35,7 @@ export class MerchandisingCarouselComponent {
     protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService,
     protected routingService: RoutingService,
     protected intersectionService: IntersectionService,
-    protected el: ElementRef
+    protected el: ElementRef,
   ) {
     this.lastEventModelId = '';
   }
@@ -45,7 +45,7 @@ export class MerchandisingCarouselComponent {
    */
   title$: Observable<string | undefined> = this.componentData.data$.pipe(
     filter((data) => Boolean(data)),
-    map((data) => data.title)
+    map((data) => data.title),
   );
 
   private fetchProducts$: Observable<MerchandisingCarouselModel> =
@@ -54,24 +54,24 @@ export class MerchandisingCarouselComponent {
       distinctUntilKeyChanged('strategy'),
       switchMap((data) =>
         this.merchandisingCarouselComponentService.getMerchandisingCarouselModel(
-          data
-        )
+          data,
+        ),
       ),
       tap((data) => {
         if (typeof data.backgroundColor === 'string') {
           this.el.nativeElement.style.setProperty(
             '--cx-color-background',
-            data.backgroundColor
+            data.backgroundColor,
           );
         }
         if (typeof data.textColor === 'string') {
           this.el.nativeElement.style.setProperty(
             '--cx-color-text',
-            data.textColor
+            data.textColor,
           );
         }
       }),
-      shareReplay({ bufferSize: 1, refCount: true })
+      shareReplay({ bufferSize: 1, refCount: true }),
     );
 
   private intersection$: Observable<void> = this.fetchProducts$.pipe(
@@ -81,8 +81,8 @@ export class MerchandisingCarouselComponent {
         switchMap(() => this.componentData.data$),
         map((data) =>
           this.merchandisingCarouselComponentService.getMerchandisingCaourselViewportThreshold(
-            data
-          )
+            data,
+          ),
         ),
         switchMap((threshold) =>
           this.intersectionService
@@ -95,33 +95,33 @@ export class MerchandisingCarouselComponent {
                 return this.merchandisingCarouselComponentService
                   .sendCarouselViewEvent(
                     this.lastEventModelId,
-                    this.fetchProducts$
+                    this.fetchProducts$,
                   )
                   .pipe(
                     tap((model) => {
                       this.lastEventModelId = model.id;
                     }),
-                    switchMap(() => EMPTY)
+                    switchMap(() => EMPTY),
                   );
-              })
-            )
-        )
-      )
-    )
+              }),
+            ),
+        ),
+      ),
+    ),
   );
 
   merchandisingCarouselModel$ = using(
     () => this.intersection$.subscribe(),
-    () => this.fetchProducts$
+    () => this.fetchProducts$,
   );
 
   onMerchandisingCarouselItemClick(
     merchandisingCarouselModel: MerchandisingCarouselModel,
-    clickedProduct: MerchandisingProduct
+    clickedProduct: MerchandisingProduct,
   ): void {
     this.merchandisingCarouselComponentService.sendCarouselItemClickedEvent(
       merchandisingCarouselModel,
-      clickedProduct
+      clickedProduct,
     );
   }
 }

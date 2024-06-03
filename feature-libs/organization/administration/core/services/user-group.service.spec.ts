@@ -88,7 +88,7 @@ describe('UserGroupService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
       providers: [
@@ -111,7 +111,7 @@ describe('UserGroupService', () => {
     [UserGroupService],
     (userGroupService: UserGroupService) => {
       expect(userGroupService).toBeTruthy();
-    }
+    },
   ));
 
   describe('get userGroup', () => {
@@ -126,7 +126,7 @@ describe('UserGroupService', () => {
             new UserGroupActions.LoadUserGroup({
               userId,
               userGroupId,
-            })
+            }),
           );
         });
 
@@ -137,7 +137,7 @@ describe('UserGroupService', () => {
 
     it('get() should be able to get userGroup details when they are present in the store', () => {
       store.dispatch(
-        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2]),
       );
       let userGroupDetails: UserGroup;
       service
@@ -153,7 +153,7 @@ describe('UserGroupService', () => {
         new UserGroupActions.LoadUserGroup({
           userId,
           userGroupId,
-        })
+        }),
       );
     });
   });
@@ -173,13 +173,13 @@ describe('UserGroupService', () => {
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(userGroups).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new UserGroupActions.LoadUserGroups({ userId, params })
+        new UserGroupActions.LoadUserGroups({ userId, params }),
       );
     });
 
     it('getList() should be able to get userGroups when they are present in the store', () => {
       store.dispatch(
-        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2]),
       );
       store.dispatch(
         new UserGroupActions.LoadUserGroupsSuccess({
@@ -189,7 +189,7 @@ describe('UserGroupService', () => {
             pagination,
             sorts,
           },
-        })
+        }),
       );
       let userGroups: EntitiesModel<UserGroup>;
       service
@@ -202,7 +202,7 @@ describe('UserGroupService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(userGroups).toEqual(userGroupList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new UserGroupActions.LoadUserGroups({ userId, params })
+        new UserGroupActions.LoadUserGroups({ userId, params }),
       );
     });
   });
@@ -216,7 +216,7 @@ describe('UserGroupService', () => {
         new UserGroupActions.CreateUserGroup({
           userId,
           userGroup,
-        })
+        }),
       );
     });
   });
@@ -231,7 +231,7 @@ describe('UserGroupService', () => {
           userId,
           userGroupId,
           userGroup,
-        })
+        }),
       );
     });
   });
@@ -245,7 +245,7 @@ describe('UserGroupService', () => {
         new UserGroupActions.DeleteUserGroup({
           userId,
           userGroupId,
-        })
+        }),
       );
     });
   });
@@ -269,13 +269,13 @@ describe('UserGroupService', () => {
           userId,
           userGroupId,
           params,
-        })
+        }),
       );
     });
 
     it('getUserGroupAvailableOrderApprovalPermissions() should be able to get permissions when they are present in the store', () => {
       store.dispatch(
-        new PermissionActions.LoadPermissionSuccess([permission, permission2])
+        new PermissionActions.LoadPermissionSuccess([permission, permission2]),
       );
       store.dispatch(
         new UserGroupActions.LoadPermissionsSuccess({
@@ -286,7 +286,7 @@ describe('UserGroupService', () => {
             pagination,
             sorts,
           },
-        })
+        }),
       );
       let permissions: EntitiesModel<Permission>;
       service
@@ -299,7 +299,7 @@ describe('UserGroupService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(permissions).toEqual(permissionList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new PermissionActions.LoadPermissions({ userId, params })
+        new PermissionActions.LoadPermissions({ userId, params }),
       );
     });
   });
@@ -314,7 +314,7 @@ describe('UserGroupService', () => {
           userId,
           userGroupId,
           permissionUid,
-        })
+        }),
       );
     });
   });
@@ -329,7 +329,7 @@ describe('UserGroupService', () => {
           userId,
           userGroupId,
           permissionUid,
-        })
+        }),
       );
     });
   });
@@ -353,7 +353,7 @@ describe('UserGroupService', () => {
           userId,
           userGroupId,
           params,
-        })
+        }),
       );
     });
 
@@ -368,7 +368,7 @@ describe('UserGroupService', () => {
             pagination,
             sorts,
           },
-        })
+        }),
       );
       let members: EntitiesModel<B2BUser>;
       service
@@ -381,7 +381,7 @@ describe('UserGroupService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(members).toEqual(memberList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new B2BUserActions.LoadB2BUsers({ userId, params })
+        new B2BUserActions.LoadB2BUsers({ userId, params }),
       );
     });
   });
@@ -396,7 +396,7 @@ describe('UserGroupService', () => {
           userId,
           userGroupId,
           customerId,
-        })
+        }),
       );
     });
   });
@@ -411,7 +411,7 @@ describe('UserGroupService', () => {
           userId,
           userGroupId,
           customerId,
-        })
+        }),
       );
     });
   });
@@ -425,7 +425,7 @@ describe('UserGroupService', () => {
         new UserGroupActions.UnassignAllMembers({
           userId,
           userGroupId,
-        })
+        }),
       );
     });
   });
@@ -434,7 +434,7 @@ describe('UserGroupService', () => {
     it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
       let loadingStatus: OrganizationItemStatus<UserGroup>;
       store.dispatch(
-        new UserGroupActions.LoadUserGroup({ userId, userGroupId })
+        new UserGroupActions.LoadUserGroup({ userId, userGroupId }),
       );
       service
         .getLoadingStatus(userGroupId)
@@ -450,7 +450,7 @@ describe('UserGroupService', () => {
     it('getLoadingStatus() should should be able to get status fail', () => {
       let loadingStatus: OrganizationItemStatus<UserGroup>;
       store.dispatch(
-        new UserGroupActions.LoadUserGroup({ userId, userGroupId })
+        new UserGroupActions.LoadUserGroup({ userId, userGroupId }),
       );
       service
         .getLoadingStatus(userGroupId)
@@ -460,7 +460,7 @@ describe('UserGroupService', () => {
         new UserGroupActions.LoadUserGroupFail({
           userGroupId,
           error: new Error(),
-        })
+        }),
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
@@ -473,7 +473,7 @@ describe('UserGroupService', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
       spyOn<any>(service, 'getUserGroupState').and.returnValue(
-        of({ loading: false, success: false, error: true })
+        of({ loading: false, success: false, error: true }),
       );
 
       service.getErrorState('code').subscribe((error) => (errorState = error));

@@ -45,7 +45,7 @@ const mockNoLinkBannerData: CmsBannerComponent = {
 };
 
 const data$: BehaviorSubject<CmsBannerComponent> = new BehaviorSubject(
-  mockBannerData
+  mockBannerData,
 );
 class MockCmsComponentData {
   get data$(): Observable<CmsBannerComponent> {
@@ -120,7 +120,7 @@ describe('BannerComponent', () => {
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual(mockBannerData.urlLink);
       expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
-        mockBannerData
+        mockBannerData,
       );
     });
 
@@ -135,7 +135,7 @@ describe('BannerComponent', () => {
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual('HomePage');
       expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
-        mockBannerDataWithContentPage
+        mockBannerDataWithContentPage,
       );
     });
 
@@ -150,7 +150,7 @@ describe('BannerComponent', () => {
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual('Sony X Camera');
       expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
-        mockBannerDataWithProduct
+        mockBannerDataWithProduct,
       );
     });
 
@@ -165,7 +165,7 @@ describe('BannerComponent', () => {
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual('Cameras');
       expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
-        mockBannerDataWithCategory
+        mockBannerDataWithCategory,
       );
     });
 
@@ -194,13 +194,13 @@ describe('BannerComponent', () => {
     describe('boolean values', () => {
       it('should return null for false', () => {
         expect(
-          bannerComponent.getTarget({ external: false as any })
+          bannerComponent.getTarget({ external: false as any }),
         ).toBeNull();
       });
 
       it('should return _blank for true', () => {
         expect(bannerComponent.getTarget({ external: true as any })).toEqual(
-          '_blank'
+          '_blank',
         );
       });
     });
@@ -224,7 +224,7 @@ describe('BannerComponent', () => {
   describe('getImageAltText()', () => {
     it('should return alt text for single image', () => {
       expect(bannerComponent.getImageAltText(mockBannerData)).toEqual(
-        'hybris Accelerator'
+        'hybris Accelerator',
       );
     });
 
@@ -236,7 +236,7 @@ describe('BannerComponent', () => {
         },
       };
       expect(bannerComponent.getImageAltText(mockDataWithImageGroup)).toEqual(
-        'hybris Accelerator'
+        'hybris Accelerator',
       );
     });
 
@@ -246,7 +246,7 @@ describe('BannerComponent', () => {
         media: undefined,
       };
       expect(
-        bannerComponent.getImageAltText(mockDataWithoutMedia)
+        bannerComponent.getImageAltText(mockDataWithoutMedia),
       ).toBeUndefined();
     });
   });
@@ -262,7 +262,7 @@ describe('BannerComponent', () => {
       fixture.detectChanges();
       const linkElement = el.query(By.css('cx-generic-link')).nativeElement;
       expect(linkElement.getAttribute('ng-reflect-aria-label')).toEqual(
-        'Banner Headline'
+        'Banner Headline',
       );
     });
 
@@ -278,7 +278,7 @@ describe('BannerComponent', () => {
       const linkElement = el.query(By.css('cx-generic-link')).nativeElement;
       fixture.detectChanges();
       expect(linkElement.getAttribute('ng-reflect-aria-label')).toEqual(
-        'hybris Accelerator'
+        'hybris Accelerator',
       );
     });
 

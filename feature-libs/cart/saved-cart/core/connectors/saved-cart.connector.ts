@@ -28,7 +28,7 @@ export class SavedCartConnector {
   cloneSavedCart(
     userId: string,
     cartId: string,
-    saveCartName?: string
+    saveCartName?: string,
   ): Observable<Cart> {
     return this.adapter.cloneSavedCart(userId, cartId, saveCartName);
   }

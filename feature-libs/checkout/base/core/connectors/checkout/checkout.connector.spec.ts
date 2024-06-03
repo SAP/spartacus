@@ -9,12 +9,12 @@ import createSpy = jasmine.createSpy;
 class MockOrderAdapter implements Partial<CheckoutAdapter> {
   placeOrder = createSpy('CheckoutAdapter.placeOrder').and.callFake(
     (userId: string, cartId: string, termsChecked: boolean) =>
-      of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
+      of(`placedOrder-${userId}-${cartId}-${termsChecked}`),
   );
   getCheckoutDetails = createSpy(
-    'CheckoutAdapter.loadCheckoutDetails'
+    'CheckoutAdapter.loadCheckoutDetails',
   ).and.callFake((userId: string, cartId: string) =>
-    of(`loadCheckoutDetails-${userId}-${cartId}`)
+    of(`loadCheckoutDetails-${userId}-${cartId}`),
   );
 }
 

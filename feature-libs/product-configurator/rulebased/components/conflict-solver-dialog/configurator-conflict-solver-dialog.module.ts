@@ -29,7 +29,7 @@ import { defaultConfiguratorConflictSolverLayoutConfig } from './default-configu
 })
 export class ConfiguratorConflictSolverDialogModule {
   constructor(
-    _configuratorConflictSolverDialogLauncherService: ConfiguratorConflictSolverDialogLauncherService
+    _configuratorConflictSolverDialogLauncherService: ConfiguratorConflictSolverDialogLauncherService,
   ) {
     // Intentional empty constructor
   }

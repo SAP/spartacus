@@ -36,7 +36,7 @@ export abstract class UnitOrderFacade {
    * Returns order history list
    */
   abstract getOrderHistoryList(
-    pageSize: number
+    pageSize: number,
   ): Observable<OrderHistoryList | undefined>;
 
   /**
@@ -55,7 +55,7 @@ export abstract class UnitOrderFacade {
     pageSize: number,
     currentPage?: number,
     filters?: string,
-    sort?: string
+    sort?: string,
   ): void;
 
   /**

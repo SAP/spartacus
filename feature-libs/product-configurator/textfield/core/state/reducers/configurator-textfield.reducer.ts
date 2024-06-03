@@ -16,7 +16,7 @@ export const initialState: ConfiguratorTextfield.Configuration = {
 
 export function reducer(
   state = initialState,
-  action: ConfiguratorActions
+  action: ConfiguratorActions,
 ): ConfiguratorTextfield.Configuration {
   switch (action.type) {
     case ConfiguratorTextfieldActions.CREATE_CONFIGURATION_SUCCESS:

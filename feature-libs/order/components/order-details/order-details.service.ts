@@ -25,11 +25,11 @@ export class OrderDetailsService {
 
   constructor(
     private orderHistoryFacade: OrderHistoryFacade,
-    private routingService: RoutingService
+    private routingService: RoutingService,
   ) {
     this.orderCode$ = this.routingService.getRouterState().pipe(
       map((routingData) => routingData.state.params.orderCode),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
 
     this.orderLoad$ = this.orderCode$.pipe(
@@ -40,7 +40,7 @@ export class OrderDetailsService {
           this.orderHistoryFacade.clearOrderDetails();
         }
       }),
-      shareReplay({ bufferSize: 1, refCount: true })
+      shareReplay({ bufferSize: 1, refCount: true }),
     );
   }
 
@@ -50,7 +50,7 @@ export class OrderDetailsService {
 
   getOrderDetails(): Observable<Order> {
     return this.orderLoad$.pipe(
-      switchMap(() => this.orderHistoryFacade.getOrderDetails())
+      switchMap(() => this.orderHistoryFacade.getOrderDetails()),
     );
   }
 }

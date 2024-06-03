@@ -95,7 +95,7 @@ describe('InnerComponentsHostDirective', () => {
       {} as Renderer2,
       {} as ComponentHandlerService,
       {} as CmsInjectorService,
-      {} as EventService
+      {} as EventService,
     );
     expect(directive).toBeTruthy();
   });
@@ -103,45 +103,43 @@ describe('InnerComponentsHostDirective', () => {
   describe('UI tests', () => {
     let fixture: ComponentFixture<HostComponent>;
 
-    beforeEach(
-      waitForAsync(() => {
-        TestBed.configureTestingModule({
-          imports: [PageComponentModule.forRoot()],
-          declarations: [
-            HostComponent,
-            InnerComponentsHostDirective,
-            ComponentWrapperDirective,
-          ],
-          providers: [
-            Renderer2,
-            { provide: CmsConfig, useValue: MockCmsModuleConfig },
-            { provide: CmsService, useClass: MockCmsService },
-            {
-              provide: DynamicAttributeService,
-              useClass: MockDynamicAttributeService,
-            },
-            {
-              provide: ComponentHandler,
-              useExisting: WebComponentHandler,
-              multi: true,
-            },
-            {
-              provide: CxApiService,
-              useValue: { cms: {}, auth: {}, routing: {} },
-            },
-            {
-              provide: ConfigInitializerService,
-              useClass: MockConfigInitializerService,
-            },
-            {
-              provide: CmsComponentData,
-              useValue: MockCmsComponentData,
-            },
-          ],
-        }).compileComponents();
-        fixture = TestBed.createComponent(HostComponent);
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [PageComponentModule.forRoot()],
+        declarations: [
+          HostComponent,
+          InnerComponentsHostDirective,
+          ComponentWrapperDirective,
+        ],
+        providers: [
+          Renderer2,
+          { provide: CmsConfig, useValue: MockCmsModuleConfig },
+          { provide: CmsService, useClass: MockCmsService },
+          {
+            provide: DynamicAttributeService,
+            useClass: MockDynamicAttributeService,
+          },
+          {
+            provide: ComponentHandler,
+            useExisting: WebComponentHandler,
+            multi: true,
+          },
+          {
+            provide: CxApiService,
+            useValue: { cms: {}, auth: {}, routing: {} },
+          },
+          {
+            provide: ConfigInitializerService,
+            useClass: MockConfigInitializerService,
+          },
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsComponentData,
+          },
+        ],
+      }).compileComponents();
+      fixture = TestBed.createComponent(HostComponent);
+    }));
 
     it('should render inner components', () => {
       fixture.detectChanges();
@@ -154,7 +152,7 @@ describe('InnerComponentsHostDirective', () => {
       const contentBefore = fixture.debugElement.nativeElement.textContent;
       expect(contentBefore).toEqual('_A__B__A_');
       const directive = fixture.debugElement.childNodes[0].injector.get(
-        InnerComponentsHostDirective
+        InnerComponentsHostDirective,
       );
       directive.ngOnDestroy();
       const contentAfter = fixture.debugElement.nativeElement.textContent;

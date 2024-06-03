@@ -21,7 +21,7 @@ describe('InterceptorUtil', () => {
       const result = InterceptorUtil.createHeader(
         headerName,
         mockObject,
-        headers
+        headers,
       );
 
       expect(result).toBeTruthy();
@@ -59,7 +59,7 @@ describe('InterceptorUtil', () => {
     it('should return undefined when no header is found', () => {
       const result = InterceptorUtil.getInterceptorParam(
         'test',
-        new HttpHeaders()
+        new HttpHeaders(),
       );
       expect(result).toBeFalsy();
     });

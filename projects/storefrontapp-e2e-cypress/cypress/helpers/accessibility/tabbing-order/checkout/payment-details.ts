@@ -23,13 +23,13 @@ export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/countries?type=BILLING*`,
   }).as('countries');
 
   const paymentPage = waitForPage(
     '/checkout/payment-details',
-    'getPaymentPage'
+    'getPaymentPage',
   );
 
   cy.visit('/checkout/payment-details');

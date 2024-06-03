@@ -58,7 +58,7 @@ describe('AsmBindCartDialogComponent', () => {
       .triggerEventHandler('click');
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      BIND_CART_DIALOG_ACTION.REPLACE
+      BIND_CART_DIALOG_ACTION.REPLACE,
     );
   });
 
@@ -70,7 +70,7 @@ describe('AsmBindCartDialogComponent', () => {
       .triggerEventHandler('click');
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      BIND_CART_DIALOG_ACTION.CANCEL
+      BIND_CART_DIALOG_ACTION.CANCEL,
     );
   });
 });

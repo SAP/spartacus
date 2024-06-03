@@ -62,24 +62,22 @@ describe('AsmSessionTimerComponent', () => {
   let routingService: RoutingService;
   let userIdService: UserIdService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [AsmSessionTimerComponent, MockFormatTimerPipe],
-        providers: [
-          {
-            provide: ChangeDetectorRef,
-            useValue: { markForCheck: createSpy('markForCheck') },
-          },
-          { provide: AsmConfig, useValue: MockAsmConfig },
-          { provide: AsmComponentService, useClass: MockAsmComponentService },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: UserIdService, useClass: MockUserIdService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [AsmSessionTimerComponent, MockFormatTimerPipe],
+      providers: [
+        {
+          provide: ChangeDetectorRef,
+          useValue: { markForCheck: createSpy('markForCheck') },
+        },
+        { provide: AsmConfig, useValue: MockAsmConfig },
+        { provide: AsmComponentService, useClass: MockAsmComponentService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: UserIdService, useClass: MockUserIdService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmSessionTimerComponent);
@@ -99,12 +97,12 @@ describe('AsmSessionTimerComponent', () => {
     config.asm.agentSessionTimer.startingDelayInSeconds = 1;
     spyOn(
       asmComponentService,
-      'logoutCustomerSupportAgentAndCustomer'
+      'logoutCustomerSupportAgentAndCustomer',
     ).and.stub();
     component.ngOnInit();
     tick(2000);
     expect(
-      asmComponentService.logoutCustomerSupportAgentAndCustomer
+      asmComponentService.logoutCustomerSupportAgentAndCustomer,
     ).toHaveBeenCalled();
     component.ngOnDestroy();
   }));
@@ -113,12 +111,12 @@ describe('AsmSessionTimerComponent', () => {
     config.asm.agentSessionTimer.startingDelayInSeconds = 10;
     spyOn(
       asmComponentService,
-      'logoutCustomerSupportAgentAndCustomer'
+      'logoutCustomerSupportAgentAndCustomer',
     ).and.stub();
     component.ngOnInit();
     tick(1000);
     expect(
-      asmComponentService.logoutCustomerSupportAgentAndCustomer
+      asmComponentService.logoutCustomerSupportAgentAndCustomer,
     ).not.toHaveBeenCalled();
     component.ngOnDestroy();
   }));
@@ -155,7 +153,7 @@ describe('AsmSessionTimerComponent', () => {
   it('should reset the time left when agent starts a new customer session', () => {
     spyOn<any>(component, 'resetOnNavigate').and.stub();
     const occUserId$: BehaviorSubject<string> = new BehaviorSubject(
-      OCC_USER_ID_ANONYMOUS
+      OCC_USER_ID_ANONYMOUS,
     );
     spyOn(component, 'resetTimer').and.callThrough();
     spyOn(userIdService, 'getUserId').and.returnValue(occUserId$);

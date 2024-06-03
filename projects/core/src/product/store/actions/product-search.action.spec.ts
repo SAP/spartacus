@@ -83,7 +83,7 @@ describe('Product Search Actions', () => {
       it('should create an action', () => {
         const payload: Suggestion[] = [];
         const action = new fromProductSearch.GetProductSuggestionsSuccess(
-          payload
+          payload,
         );
         expect({ ...action }).toEqual({
           type: fromProductSearch.GET_PRODUCT_SUGGESTIONS_SUCCESS,

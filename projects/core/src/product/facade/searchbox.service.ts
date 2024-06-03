@@ -27,8 +27,8 @@ export class SearchboxService extends ProductSearchService {
           queryText: query,
           searchConfig: searchConfig,
         },
-        true
-      )
+        true,
+      ),
     );
   }
 
@@ -43,7 +43,7 @@ export class SearchboxService extends ProductSearchService {
     this.store.dispatch(
       new ProductActions.ClearProductSearchResult({
         clearSearchboxResults: true,
-      })
+      }),
     );
   }
 
@@ -56,7 +56,7 @@ export class SearchboxService extends ProductSearchService {
       new ProductActions.GetProductSuggestions({
         term: query,
         searchConfig: searchConfig,
-      })
+      }),
     );
   }
 }

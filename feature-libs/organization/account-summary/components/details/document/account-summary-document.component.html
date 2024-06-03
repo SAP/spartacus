@@ -151,7 +151,7 @@
                   <span
                     [ngClass]="{
                       'status-open': document.status === 'open',
-                      'status-closed': document.status === 'closed'
+                      'status-closed': document.status === 'closed',
                     }"
                   >
                     {{
@@ -175,7 +175,7 @@
                         | cxTranslate
                           : {
                               id: document.id,
-                              type: document.orgDocumentType?.name
+                              type: document.orgDocumentType?.name,
                             }
                     }}"
                   >

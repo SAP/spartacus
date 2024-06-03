@@ -40,7 +40,7 @@ export class CheckoutPageMetaResolver
   constructor(
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
-    protected basePageMetaResolver: BasePageMetaResolver
+    protected basePageMetaResolver: BasePageMetaResolver,
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;

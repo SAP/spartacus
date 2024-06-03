@@ -73,7 +73,7 @@ export class OccFieldsService {
     for (const [url, group] of Object.entries(groupedByUrls)) {
       const urlWithFields = this.getUrlWithFields(
         url,
-        Object.values(group).map((lo) => lo.fields)
+        Object.values(group).map((lo) => lo.fields),
       );
       mergedUrls[urlWithFields] = group;
     }

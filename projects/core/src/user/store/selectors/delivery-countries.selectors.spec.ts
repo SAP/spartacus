@@ -42,7 +42,7 @@ describe('Delivery Countries Selectors', () => {
       expect(result).toEqual([]);
 
       store.dispatch(
-        new UserActions.LoadDeliveryCountriesSuccess(mockCountries)
+        new UserActions.LoadDeliveryCountriesSuccess(mockCountries),
       );
 
       expect(result).toEqual(mockCountries);
@@ -70,7 +70,7 @@ describe('Delivery Countries Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new UserActions.LoadDeliveryCountriesSuccess(mockCountries)
+        new UserActions.LoadDeliveryCountriesSuccess(mockCountries),
       );
       expect(result).toEqual(mockCountries[0]);
     });

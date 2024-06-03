@@ -39,7 +39,7 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     protected asmComponentService: AsmComponentService,
     protected userAccountFacade: UserAccountFacade,
     protected launchDialogService?: LaunchDialogService,
-    protected featureModules?: FeatureModulesService
+    protected featureModules?: FeatureModulesService,
   ) {}
 
   ngOnInit() {
@@ -57,7 +57,7 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
         if (user) {
           this.customer = user;
         }
-      })
+      }),
     );
     this.isCustomerEmulationSessionInProgress$ =
       this.asmComponentService.isCustomerEmulationSessionInProgress();
@@ -76,7 +76,7 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
           this.launchDialogService?.openDialogAndSubscribe(
             LAUNCH_CALLER.ASM_CUSTOMER_360,
             this.asmCustomer360LauncherElement,
-            data
+            data,
           );
 
           this.subscription.add(
@@ -84,9 +84,9 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
               .pipe(filter((result) => Boolean(result)))
               .subscribe((event: AsmDialogActionEvent) => {
                 this.asmComponentService.handleAsmDialogAction(event);
-              })
+              }),
           );
-        })
+        }),
     );
   }
 

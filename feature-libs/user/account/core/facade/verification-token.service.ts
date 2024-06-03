@@ -23,14 +23,14 @@ export class VerificationTokenService implements VerificationTokenFacade {
     { verificationTokenCreation: VerificationTokenCreation },
     VerificationToken
   > = this.command.create(({ verificationTokenCreation }) =>
-    this.connector.createVerificationToken(verificationTokenCreation)
+    this.connector.createVerificationToken(verificationTokenCreation),
   );
 
   /**
    * create verification token
    */
   createVerificationToken(
-    verificationTokenCreation: VerificationTokenCreation
+    verificationTokenCreation: VerificationTokenCreation,
   ): Observable<VerificationToken> {
     return this.createVerificationTokenCommand.execute({
       verificationTokenCreation,

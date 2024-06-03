@@ -30,7 +30,7 @@ export class BudgetFormService extends FormService<Budget> {
       new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.noSpecialCharacters,
-      ])
+      ]),
     );
     form.setControl('name', new UntypedFormControl('', Validators.required));
     form.setControl(
@@ -38,43 +38,43 @@ export class BudgetFormService extends FormService<Budget> {
       new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.patternValidation((date) =>
-          this.datePickerService.isValidFormat(date)
+          this.datePickerService.isValidFormat(date),
         ),
-      ])
+      ]),
     );
     form.setControl(
       'endDate',
       new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.patternValidation((date) =>
-          this.datePickerService.isValidFormat(date)
+          this.datePickerService.isValidFormat(date),
         ),
-      ])
+      ]),
     );
     form.setControl(
       'budget',
       new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.mustBePositive,
-      ])
+      ]),
     );
 
     form.setControl(
       'currency',
       new UntypedFormGroup({
         isocode: new UntypedFormControl(undefined, Validators.required),
-      })
+      }),
     );
     form.setControl(
       'orgUnit',
       new UntypedFormGroup({
         uid: new UntypedFormControl(undefined, Validators.required),
-      })
+      }),
     );
     form.setValidators(
       CustomFormValidators.dateRange('startDate', 'endDate', (date) =>
-        this.datePickerService.getDate(date)
-      ) as ValidatorFn
+        this.datePickerService.getDate(date),
+      ) as ValidatorFn,
     );
     this.form = form;
   }

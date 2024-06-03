@@ -16,7 +16,7 @@ export class CdcReconsentComponentService implements OnDestroy {
     protected cdcUserConsentService: CdcUserConsentService,
     protected cdcJsService: CdcJsService,
     protected globalMessageService: GlobalMessageService,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {}
   protected subscription: Subscription = new Subscription();
 
@@ -34,7 +34,7 @@ export class CdcReconsentComponentService implements OnDestroy {
               true,
               consentId,
               userParams?.user,
-              userParams?.regToken
+              userParams?.regToken,
             )
             .subscribe({
               next: (result) => {
@@ -43,7 +43,7 @@ export class CdcReconsentComponentService implements OnDestroy {
                   this.cdcJsService
                     .loginUserWithoutScreenSet(
                       userParams.user,
-                      userParams.password
+                      userParams.password,
                     )
                     .subscribe(() => {
                       this.launchDialogService.closeDialog('relogin triggered');
@@ -53,7 +53,7 @@ export class CdcReconsentComponentService implements OnDestroy {
               error: (error) => {
                 this.handleReconsentUpdateError(
                   'Reconsent Error',
-                  error?.message
+                  error?.message,
                 );
               },
             });
@@ -63,10 +63,10 @@ export class CdcReconsentComponentService implements OnDestroy {
             {
               key: 'errorHandlers.scriptFailedToLoad',
             },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
         }
-      })
+      }),
     );
   }
 
@@ -83,7 +83,7 @@ export class CdcReconsentComponentService implements OnDestroy {
             errorMessage: errorMessage,
           },
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }

@@ -11,7 +11,7 @@ export const initialState: PaymentDetails[] = [];
 
 export function reducer(
   state = initialState,
-  action: UserActions.UserPaymentMethodsAction
+  action: UserActions.UserPaymentMethodsAction,
 ): PaymentDetails[] {
   switch (action.type) {
     case UserActions.LOAD_USER_PAYMENT_METHODS_SUCCESS: {

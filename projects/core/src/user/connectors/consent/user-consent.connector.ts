@@ -22,19 +22,19 @@ export class UserConsentConnector {
   giveConsent(
     userId: string,
     consentTemplateId: string,
-    consentTemplateVersion: number
+    consentTemplateVersion: number,
   ): Observable<ConsentTemplate> {
     return this.adapter.giveConsent(
       userId,
       consentTemplateId,
-      consentTemplateVersion
+      consentTemplateVersion,
     );
   }
 
   withdrawConsent(
     userId: string,
     consentCode: string,
-    consentId?: string
+    consentId?: string,
   ): Observable<{}> {
     return this.adapter.withdrawConsent(userId, consentCode, consentId);
   }

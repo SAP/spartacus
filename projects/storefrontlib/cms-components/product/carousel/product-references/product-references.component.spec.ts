@@ -103,12 +103,12 @@ class MockProductReferenceService {
   loadProductReferences(
     _productCode: string,
     _referenceType?: string,
-    _pageSize?: number
+    _pageSize?: number,
   ): void {}
 
   getProductReferences(
     _productCode: string,
-    _referenceType?: string
+    _referenceType?: string,
   ): Observable<ProductReference[]> {
     return of([mockProductReferences[0], mockProductReferences[1]]);
   }
@@ -213,17 +213,17 @@ describe('ProductReferencesComponent', () => {
 
   it('should render product attributes', () => {
     const productNameElement = fixture.debugElement.query(
-      By.css('a:first-child h4')
+      By.css('a:first-child h4'),
     ).nativeElement;
     expect(productNameElement.innerText).toEqual('product reference 1');
 
     const priceElement = fixture.debugElement.query(
-      By.css('a:last-child .price')
+      By.css('a:last-child .price'),
     ).nativeElement;
     expect(priceElement.innerText).toEqual('$200.00');
 
     const productImage = fixture.debugElement.query(
-      By.css('a:first-child cx-media')
+      By.css('a:first-child cx-media'),
     );
     expect(productImage.nativeElement).toBeTruthy();
 

@@ -99,7 +99,7 @@ describe('WishList Actions', () => {
           meta: StateUtils.entityFailMeta(
             MULTI_CART_DATA,
             payload.cartId,
-            payload.error
+            payload.error,
           ),
         });
       });

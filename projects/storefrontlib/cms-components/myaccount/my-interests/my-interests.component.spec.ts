@@ -210,30 +210,28 @@ describe('MyInterestsComponent', () => {
   ]);
   const productService = jasmine.createSpyObj('ProductService', ['get']);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        providers: [
-          { provide: OccConfig, useValue: MockOccModuleConfig },
-          { provide: LayoutConfig, useValue: MockLayoutConfig },
-          { provide: UserInterestsService, useValue: productInterestService },
-          { provide: ProductService, useValue: productService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        ],
-        declarations: [
-          MyInterestsComponent,
-          MockUrlPipe,
-          MockMediaComponent,
-          MockSpinnerComponent,
-          MockPaginationComponent,
-          MockSortingComponent,
-          MockFeatureLevelDirective,
-          MockAtMessageDirective,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      providers: [
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LayoutConfig, useValue: MockLayoutConfig },
+        { provide: UserInterestsService, useValue: productInterestService },
+        { provide: ProductService, useValue: productService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
+      declarations: [
+        MyInterestsComponent,
+        MockUrlPipe,
+        MockMediaComponent,
+        MockSpinnerComponent,
+        MockPaginationComponent,
+        MockSortingComponent,
+        MockFeatureLevelDirective,
+        MockAtMessageDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyInterestsComponent);
@@ -241,11 +239,11 @@ describe('MyInterestsComponent', () => {
     el = fixture.debugElement;
 
     productInterestService.getAndLoadProductInterests.and.returnValue(
-      of(emptyInterests)
+      of(emptyInterests),
     );
     productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
     productInterestService.getRemoveProdutInterestLoading.and.returnValue(
-      of(false)
+      of(false),
     );
     productInterestService.loadProductInterests.and.stub();
     productInterestService.removeProdutInterest.and.stub();
@@ -261,7 +259,7 @@ describe('MyInterestsComponent', () => {
   it('should display header', () => {
     fixture.detectChanges();
     expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
-      'myInterests.header'
+      'myInterests.header',
     );
   });
 
@@ -278,7 +276,7 @@ describe('MyInterestsComponent', () => {
 
   it('should show interests list', () => {
     productInterestService.getAndLoadProductInterests.and.returnValue(
-      of(mockedInterests)
+      of(mockedInterests),
     );
     productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
     productService.get.withArgs('553638', 'details').and.returnValue(p553638$);
@@ -292,37 +290,37 @@ describe('MyInterestsComponent', () => {
     expect(el.queryAll(By.css('cx-sorting')).length).toEqual(2);
     expect(el.queryAll(By.css('cx-pagination')).length).toEqual(2);
     expect(
-      table.queryAll(By.css('.cx-product-interests-product-item')).length
+      table.queryAll(By.css('.cx-product-interests-product-item')).length,
     ).toEqual(2);
     expect(table.queryAll(By.css('cx-media')).length).toEqual(2);
     expect(
-      table.queryAll(By.css('.cx-product-interests-product-image-link')).length
+      table.queryAll(By.css('.cx-product-interests-product-image-link')).length,
     ).toEqual(2);
     expect(table.queryAll(By.css('.cx-name')).length).toEqual(2);
     expect(
-      table.queryAll(By.css('.cx-product-interests-product-code-link')).length
+      table.queryAll(By.css('.cx-product-interests-product-code-link')).length,
     ).toEqual(2);
     expect(table.queryAll(By.css('.cx-code')).length).toEqual(2);
     expect(
-      table.queryAll(By.css('.cx-product-interests-variant-name')).length
+      table.queryAll(By.css('.cx-product-interests-variant-name')).length,
     ).toEqual(2);
     expect(
-      table.queryAll(By.css('.cx-product-interests-variant-value')).length
+      table.queryAll(By.css('.cx-product-interests-variant-value')).length,
     ).toEqual(2);
     expect(
-      table.queryAll(By.css('.cx-product-interests-product-stock')).length
+      table.queryAll(By.css('.cx-product-interests-product-stock')).length,
     ).toEqual(2);
     expect(
-      table.queryAll(By.css('.cx-product-interests-product-price')).length
+      table.queryAll(By.css('.cx-product-interests-product-price')).length,
     ).toEqual(2);
     expect(table.queryAll(By.css('.cx-product-interests-type')).length).toEqual(
-      2
+      2,
     );
     expect(
-      table.queryAll(By.css('.cx-product-interests-expiration-date')).length
+      table.queryAll(By.css('.cx-product-interests-expiration-date')).length,
     ).toEqual(2);
     expect(
-      table.queryAll(By.css('.cx-product-interests-remove-btn')).length
+      table.queryAll(By.css('.cx-product-interests-remove-btn')).length,
     ).toEqual(2);
   });
 
@@ -333,29 +331,29 @@ describe('MyInterestsComponent', () => {
     expect(productInterestService.loadProductInterests).toHaveBeenCalledWith(
       10,
       0,
-      'name:asc'
+      'name:asc',
     );
 
     component.pageChange(2);
     expect(productInterestService.loadProductInterests).toHaveBeenCalledWith(
       10,
       2,
-      'name:asc'
+      'name:asc',
     );
   });
 
   it('should be able to remove an interest item', () => {
     productInterestService.getAndLoadProductInterests.and.returnValue(
-      of(mockedInterests)
+      of(mockedInterests),
     );
     productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
     productService.get.withArgs('553638', 'details').and.returnValue(p553638$);
     productInterestService.getRemoveProdutInterestLoading.and.returnValue(
-      cold('-a|', { a: true })
+      cold('-a|', { a: true }),
     );
     fixture.detectChanges();
     const button = el.query(
-      By.css('.cx-product-interests-remove-btn')
+      By.css('.cx-product-interests-remove-btn'),
     ).nativeElement;
     expect(button.disabled).toBeFalsy();
 
@@ -366,7 +364,7 @@ describe('MyInterestsComponent', () => {
     expect(button.disabled).toBeTruthy();
     const item: ProductInterestEntryRelation = mockedInterests.results[0];
     expect(productInterestService.removeProdutInterest).toHaveBeenCalledWith(
-      item
+      item,
     );
   });
 });

@@ -223,51 +223,49 @@ function initialize() {
 }
 
 describe('ConfigurationGroupMenuComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorGroupMenuComponent,
-          MockCxIconComponent,
-          MockFocusDirective,
-        ],
-        providers: [
-          HamburgerMenuService,
-          {
-            provide: Router,
-            useClass: MockRouter,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupService,
-          },
-          {
-            provide: DirectionService,
-            useClass: MockDirectionService,
-          },
-          {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        ConfiguratorGroupMenuComponent,
+        MockCxIconComponent,
+        MockFocusDirective,
+      ],
+      providers: [
+        HamburgerMenuService,
+        {
+          provide: Router,
+          useClass: MockRouter,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupService,
+        },
+        {
+          provide: DirectionService,
+          useClass: MockDirectionService,
+        },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     groupVisitedObservable = of(false);
 
     configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>,
     );
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
@@ -276,33 +274,33 @@ describe('ConfigurationGroupMenuComponent', () => {
     spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
 
     hamburgerMenuService = TestBed.inject(
-      HamburgerMenuService as Type<HamburgerMenuService>
+      HamburgerMenuService as Type<HamburgerMenuService>,
     );
     spyOn(hamburgerMenuService, 'toggle').and.stub();
 
     configUtils = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>,
     );
     spyOn(configUtils, 'setFocus').and.stub();
     spyOn(configUtils, 'focusFirstActiveElement').and.stub();
 
     configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>,
     );
     configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
 
     configGroupMenuService = TestBed.inject(
-      ConfiguratorGroupMenuService as Type<ConfiguratorGroupMenuService>
+      ConfiguratorGroupMenuService as Type<ConfiguratorGroupMenuService>,
     );
     spyOn(configGroupMenuService, 'switchGroupOnArrowPress').and.stub();
 
     directionService = TestBed.inject(
-      DirectionService as Type<DirectionService>
+      DirectionService as Type<DirectionService>,
     );
     spyOn(directionService, 'getDirection').and.callThrough();
 
     configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>,
     );
   });
 
@@ -384,7 +382,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-      of(mockProductConfiguration.groups[0])
+      of(mockProductConfiguration.groups[0]),
     );
     initialize();
 
@@ -398,7 +396,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     routerStateObservable = of(mockRouterState);
     initialize();
     expect(
-      component.condenseGroups(mockProductConfiguration.groups)[2].id
+      component.condenseGroups(mockProductConfiguration.groups)[2].id,
     ).toBe(mockProductConfiguration.groups[2].subGroups[0].id);
   });
 
@@ -426,12 +424,12 @@ describe('ConfigurationGroupMenuComponent', () => {
   describe('navigateUp', () => {
     it('should navigate up (and not set focus)', () => {
       spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-        of(mockProductConfiguration.groups[0])
+        of(mockProductConfiguration.groups[0]),
       );
       productConfigurationObservable = of(mockProductConfiguration);
       routerStateObservable = of(mockRouterState);
       spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
-        mockProductConfiguration.groups[0]
+        mockProductConfiguration.groups[0],
       );
       initialize();
       component.navigateUp();
@@ -442,12 +440,12 @@ describe('ConfigurationGroupMenuComponent', () => {
 
     it('should navigate up and set focus if current group is provided', () => {
       spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-        of(mockProductConfiguration.groups[0])
+        of(mockProductConfiguration.groups[0]),
       );
       productConfigurationObservable = of(mockProductConfiguration);
       routerStateObservable = of(mockRouterState);
       spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
-        mockProductConfiguration.groups[0]
+        mockProductConfiguration.groups[0],
       );
       initialize();
 
@@ -459,7 +457,7 @@ describe('ConfigurationGroupMenuComponent', () => {
 
     it('should navigate up, parent group null', () => {
       spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-        of(mockProductConfiguration.groups[0])
+        of(mockProductConfiguration.groups[0]),
       );
       productConfigurationObservable = of(mockProductConfiguration);
       routerStateObservable = of(mockRouterState);
@@ -494,7 +492,7 @@ describe('ConfigurationGroupMenuComponent', () => {
 
       component.click(
         mockProductConfiguration.groups[2],
-        mockProductConfiguration.groups[0]
+        mockProductConfiguration.groups[0],
       );
       expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
       expect(configUtils.setFocus).toHaveBeenCalled();
@@ -519,7 +517,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       component.click(mockProductConfiguration.groups[1]);
 
       expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(
-        0
+        0,
       );
       expect(hamburgerMenuService.toggle).toHaveBeenCalledTimes(0);
     });
@@ -570,7 +568,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .isGroupVisited(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe();
@@ -587,7 +585,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .isGroupVisited(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((visited) => expect(visited).toBe(true));
@@ -602,7 +600,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .isGroupVisited(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((visited) => expect(visited).toBe(false));
@@ -617,7 +615,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .isGroupVisited(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((visited) => expect(visited).toBe(false));
@@ -636,11 +634,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getGroupStatusStyles(
           mockProductConfiguration.groups[1],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((style) =>
-          expect(style).toEqual(baseStyleClass + completeStyleClass)
+          expect(style).toEqual(baseStyleClass + completeStyleClass),
         );
     });
 
@@ -655,7 +653,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getGroupStatusStyles(
           mockProductConfiguration.groups[1],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((style) => expect(style).toEqual(baseStyleClass));
@@ -672,11 +670,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getGroupStatusStyles(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((style) =>
-          expect(style).toEqual(baseStyleClass + warningStyleClass)
+          expect(style).toEqual(baseStyleClass + warningStyleClass),
         );
     });
 
@@ -691,7 +689,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getGroupStatusStyles(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((style) => expect(style).toEqual(baseStyleClass));
@@ -708,11 +706,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getGroupStatusStyles(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((style) =>
-          expect(style).toEqual(baseStyleClass + errorStyleClass)
+          expect(style).toEqual(baseStyleClass + errorStyleClass),
         );
     });
 
@@ -727,11 +725,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getGroupStatusStyles(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((style) =>
-          expect(style).toEqual(baseStyleClass + errorStyleClass)
+          expect(style).toEqual(baseStyleClass + errorStyleClass),
         );
     });
 
@@ -746,13 +744,13 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getGroupStatusStyles(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((style) =>
           expect(style).toEqual(
-            baseStyleClass + warningStyleClass + errorStyleClass
-          )
+            baseStyleClass + warningStyleClass + errorStyleClass,
+          ),
         );
     });
 
@@ -767,11 +765,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getGroupStatusStyles(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((style) =>
-          expect(style).toEqual(baseStyleClass + errorStyleClass)
+          expect(style).toEqual(baseStyleClass + errorStyleClass),
         );
     });
   });
@@ -788,7 +786,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.WARNING'
+        '.cx-menu-item.WARNING',
       );
     });
 
@@ -804,7 +802,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.WARNING'
+        '.cx-menu-item.WARNING',
       );
 
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -814,7 +812,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         'cx-menu-item',
         0,
         'aria-label',
-        'configurator.a11y.groupName group:Group Name'
+        'configurator.a11y.groupName group:Group Name',
       );
     });
 
@@ -838,7 +836,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         'cx-menu-conflict',
         0,
         'aria-label',
-        'configurator.a11y.conflictsInConfiguration numberOfConflicts:(1)'
+        'configurator.a11y.conflictsInConfiguration numberOfConflicts:(1)',
       );
     });
 
@@ -854,7 +852,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.WARNING'
+        '.cx-menu-item.WARNING',
       );
     });
 
@@ -871,7 +869,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.COMPLETE'
+        '.cx-menu-item.COMPLETE',
       );
     });
 
@@ -887,7 +885,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.COMPLETE'
+        '.cx-menu-item.COMPLETE',
       );
     });
 
@@ -903,7 +901,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.COMPLETE'
+        '.cx-menu-item.COMPLETE',
       );
     });
 
@@ -920,7 +918,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.COMPLETE'
+        '.cx-menu-item.COMPLETE',
       );
     });
 
@@ -935,7 +933,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.ERROR'
+        '.cx-menu-item.ERROR',
       );
     });
 
@@ -950,7 +948,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.ERROR'
+        '.cx-menu-item.ERROR',
       );
     });
 
@@ -966,7 +964,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.DISABLED'
+        '.cx-menu-item.DISABLED',
       );
     });
   });
@@ -1009,7 +1007,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   describe('LTR direction', () => {
     it('should navigate back to parent group', () => {
       spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-        of(mockProductConfiguration.groups[0])
+        of(mockProductConfiguration.groups[0]),
       );
       productConfigurationObservable = of(mockProductConfiguration);
       routerStateObservable = of(mockRouterState);
@@ -1029,7 +1027,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         event,
         0,
         mockProductConfiguration.groups[1],
-        currentGroup
+        currentGroup,
       );
       expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
       expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
@@ -1060,7 +1058,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   describe('RTL direction', () => {
     it('should navigate back to parent group', () => {
       spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-        of(mockProductConfiguration.groups[0])
+        of(mockProductConfiguration.groups[0]),
       );
       productConfigurationObservable = of(mockProductConfiguration);
       routerStateObservable = of(mockRouterState);
@@ -1080,7 +1078,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         event,
         0,
         mockProductConfiguration.groups[1],
-        currentGroup
+        currentGroup,
       );
       expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
       expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
@@ -1144,7 +1142,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     it('should set focus for back button', () => {
       component.setFocusForSubGroup(
         mockProductConfiguration.groups[0],
-        'groupId-111'
+        'groupId-111',
       );
       expect(configUtils.setFocus).toHaveBeenCalled();
       expect(configUtils.setFocus).toHaveBeenCalledWith('cx-menu-back');
@@ -1153,7 +1151,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     it('should set focus for selected subgroup', () => {
       component.setFocusForSubGroup(
         mockProductConfiguration.groups[2],
-        GROUP_ID_4
+        GROUP_ID_4,
       );
       expect(configUtils.setFocus).toHaveBeenCalled();
       expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_4);
@@ -1165,16 +1163,16 @@ describe('ConfigurationGroupMenuComponent', () => {
       expect(
         component.containsSelectedGroup(
           mockProductConfiguration.groups[0],
-          GROUP_ID_5
-        )
+          GROUP_ID_5,
+        ),
       ).toBe(false);
     });
     it('should return `false` because group does not contain any subgroup with the current group ID', () => {
       expect(
         component.containsSelectedGroup(
           mockProductConfiguration.groups[2],
-          GROUP_ID_5
-        )
+          GROUP_ID_5,
+        ),
       ).toBe(false);
     });
 
@@ -1182,8 +1180,8 @@ describe('ConfigurationGroupMenuComponent', () => {
       expect(
         component.containsSelectedGroup(
           mockProductConfiguration.groups[2],
-          GROUP_ID_4
-        )
+          GROUP_ID_4,
+        ),
       ).toBe(true);
     });
   });
@@ -1191,13 +1189,13 @@ describe('ConfigurationGroupMenuComponent', () => {
   describe('isGroupSelected', () => {
     it('should return `false` because the current group ID is not equal group ID', () => {
       expect(component.isGroupSelected('groupId-100', 'groupId-99')).toBe(
-        false
+        false,
       );
     });
 
     it('should return `true` because the current group ID is equal group ID', () => {
       expect(component.isGroupSelected('groupId-100', 'groupId-100')).toBe(
-        true
+        true,
       );
     });
   });
@@ -1222,7 +1220,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         subGroups: [],
       };
       expect(component.getAriaLabel(group)).toBe(
-        'configurator.a11y.groupName group:Group Name'
+        'configurator.a11y.groupName group:Group Name',
       );
     });
 
@@ -1236,7 +1234,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         subGroups: [{ id: 'subgroup1', subGroups: [] }],
       };
       expect(component.getAriaLabel(group)).toBe(
-        'configurator.a11y.conflictsInConfiguration numberOfConflicts:(1)'
+        'configurator.a11y.conflictsInConfiguration numberOfConflicts:(1)',
       );
     });
 
@@ -1265,11 +1263,13 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getAriaDescribedby(
           mockProductConfiguration.groups[1],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((describedby) =>
-          expect(describedby).toEqual(' ICONSUCCESS1234-56-7892 inListOfGroups')
+          expect(describedby).toEqual(
+            ' ICONSUCCESS1234-56-7892 inListOfGroups',
+          ),
         );
     });
 
@@ -1284,11 +1284,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getAriaDescribedby(
           mockProductConfiguration.groups[1],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((describedby) =>
-          expect(describedby).toEqual(' inListOfGroups')
+          expect(describedby).toEqual(' inListOfGroups'),
         );
     });
 
@@ -1303,11 +1303,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getAriaDescribedby(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((describedby) =>
-          expect(describedby).toEqual('ICONWARNING1234-56-7891 inListOfGroups')
+          expect(describedby).toEqual('ICONWARNING1234-56-7891 inListOfGroups'),
         );
     });
 
@@ -1322,11 +1322,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getAriaDescribedby(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((describedby) =>
-          expect(describedby).toEqual(' inListOfGroups')
+          expect(describedby).toEqual(' inListOfGroups'),
         );
     });
 
@@ -1341,11 +1341,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getAriaDescribedby(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((describedby) =>
-          expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups')
+          expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups'),
         );
     });
 
@@ -1360,11 +1360,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getAriaDescribedby(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((describedby) =>
-          expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups')
+          expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups'),
         );
     });
 
@@ -1379,13 +1379,13 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getAriaDescribedby(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((describedby) =>
           expect(describedby).toEqual(
-            'ICONWARNING1234-56-7891 ICONERROR1234-56-7891 inListOfGroups'
-          )
+            'ICONWARNING1234-56-7891 ICONERROR1234-56-7891 inListOfGroups',
+          ),
         );
     });
 
@@ -1400,11 +1400,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getAriaDescribedby(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((describedby) =>
-          expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups')
+          expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups'),
         );
     });
 
@@ -1422,13 +1422,13 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getAriaDescribedby(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((describedby) =>
           expect(describedby).toEqual(
-            ' ICONCARET_RIGHT1234-56-7891 inListOfGroups'
-          )
+            ' ICONCARET_RIGHT1234-56-7891 inListOfGroups',
+          ),
         );
     });
 
@@ -1446,13 +1446,13 @@ describe('ConfigurationGroupMenuComponent', () => {
       component
         .getAriaDescribedby(
           mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          mockProductConfiguration,
         )
         .pipe(take(1))
         .subscribe((describedby) =>
           expect(describedby).toEqual(
-            ' ICONERROR1234-56-7891 ICONCARET_RIGHT1234-56-7891 inListOfGroups'
-          )
+            ' ICONERROR1234-56-7891 ICONCARET_RIGHT1234-56-7891 inListOfGroups',
+          ),
         );
     });
   });
@@ -1483,7 +1483,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         0,
         undefined,
         undefined,
-        'configurator.a11y.listOfGroups'
+        'configurator.a11y.listOfGroups',
       );
     });
 
@@ -1496,7 +1496,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         1,
         undefined,
         undefined,
-        'configurator.a11y.inListOfGroups'
+        'configurator.a11y.inListOfGroups',
       );
     });
 
@@ -1508,7 +1508,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         'cx-menu-item',
         0,
         'aria-describedby',
-        ' ICONERRORsubgroup1 inListOfGroups'
+        ' ICONERRORsubgroup1 inListOfGroups',
       );
     });
 
@@ -1520,7 +1520,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         'cx-menu-item',
         0,
         'aria-selected',
-        'false'
+        'false',
       );
     });
 
@@ -1533,7 +1533,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         0,
         'aria-label',
         'configurator.a11y.groupName group:' +
-          mockProductConfiguration.groups[0].subGroups[0].description
+          mockProductConfiguration.groups[0].subGroups[0].description,
       );
     });
 
@@ -1545,7 +1545,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         'WARNING',
         0,
         'aria-label',
-        'configurator.a11y.iconConflict'
+        'configurator.a11y.iconConflict',
       );
     });
 
@@ -1557,7 +1557,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         'ERROR',
         0,
         'aria-label',
-        'configurator.a11y.iconIncomplete'
+        'configurator.a11y.iconIncomplete',
       );
     });
 
@@ -1569,7 +1569,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         'COMPLETE',
         0,
         'aria-label',
-        'configurator.a11y.iconComplete'
+        'configurator.a11y.iconComplete',
       );
     });
   });
@@ -1577,18 +1577,18 @@ describe('ConfigurationGroupMenuComponent', () => {
   describe('getGroupMenuTitle', () => {
     it('should return only group description as title when expert mode is off', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(false)
+        of(false),
       );
       initialize();
 
       expect(
-        component.getGroupMenuTitle(mockProductConfiguration.groups[0])
+        component.getGroupMenuTitle(mockProductConfiguration.groups[0]),
       ).toEqual(mockProductConfiguration.groups[0].description);
     });
 
     it('should return group description and name as title when expert mode is on', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
+        of(true),
       );
       initialize();
 
@@ -1598,31 +1598,31 @@ describe('ConfigurationGroupMenuComponent', () => {
         mockProductConfiguration.groups[0].name +
         ']';
       expect(
-        component.getGroupMenuTitle(mockProductConfiguration.groups[0])
+        component.getGroupMenuTitle(mockProductConfiguration.groups[0]),
       ).toEqual(groupMenuTitle);
     });
 
     it('should return only conflict header group description as title even if expert mode is on', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
+        of(true),
       );
       const configForExpMode = productConfigurationWithConflicts;
       initialize();
 
       expect(component.getGroupMenuTitle(configForExpMode.groups[0])).toEqual(
-        configForExpMode.groups[0].description
+        configForExpMode.groups[0].description,
       );
     });
 
     it('should return only conflict group description as title even if expert mode is on', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
+        of(true),
       );
       const configForExpMode = productConfigurationWithConflicts;
       initialize();
 
       expect(
-        component.getGroupMenuTitle(configForExpMode.groups[0].subGroups[0])
+        component.getGroupMenuTitle(configForExpMode.groups[0].subGroups[0]),
       ).toEqual(configForExpMode.groups[0].subGroups[0].description);
     });
   });
@@ -1641,7 +1641,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         'ERROR',
         0,
         'title',
-        'configurator.icon.groupIncomplete'
+        'configurator.icon.groupIncomplete',
       );
     });
 
@@ -1653,7 +1653,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         'COMPLETE',
         0,
         'title',
-        'configurator.icon.groupComplete'
+        'configurator.icon.groupComplete',
       );
     });
 
@@ -1665,7 +1665,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         'WARNING',
         0,
         'title',
-        'configurator.icon.groupConflict'
+        'configurator.icon.groupConflict',
       );
     });
   });
@@ -1689,7 +1689,7 @@ describe('ConfigurationGroupMenuComponent', () => {
 
     it('should not display conflict header menu item', (done) => {
       let configurationWithConflicts = structuredClone(
-        productConfigurationWithConflicts
+        productConfigurationWithConflicts,
       );
       configurationWithConflicts.immediateConflictResolution = true;
 
@@ -1712,8 +1712,8 @@ describe('ConfigurationGroupMenuComponent', () => {
       isConflictGroupType = true;
       expect(
         component.isConflictGroupType(
-          Configurator.GroupType.CONFLICT_HEADER_GROUP
-        )
+          Configurator.GroupType.CONFLICT_HEADER_GROUP,
+        ),
       ).toBe(true);
     });
 
@@ -1764,7 +1764,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       });
       spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
       spyOn(configGroupMenuService, 'isActiveGroupInGroupList').and.returnValue(
-        false
+        false,
       );
       initialize();
       component['handleFocusLoopInMobileMode'](event);
@@ -1778,7 +1778,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       });
       spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
       spyOn(configGroupMenuService, 'isActiveGroupInGroupList').and.returnValue(
-        true
+        true,
       );
       initialize();
       component['handleFocusLoopInMobileMode'](event);
@@ -1792,7 +1792,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       });
       spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(false);
       spyOn(configGroupMenuService, 'isActiveGroupInGroupList').and.returnValue(
-        true
+        true,
       );
       initialize();
       component['handleFocusLoopInMobileMode'](event);

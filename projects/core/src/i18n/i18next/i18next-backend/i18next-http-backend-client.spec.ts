@@ -28,7 +28,7 @@ describe('I18NEXT_HTTP_BACKEND_CLIENT', () => {
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const i18nextHttpBackendClient = TestBed.inject(
-      I18NEXT_HTTP_BACKEND_CLIENT
+      I18NEXT_HTTP_BACKEND_CLIENT,
     )!;
     testCallback = jasmine.createSpy('testCallback');
 

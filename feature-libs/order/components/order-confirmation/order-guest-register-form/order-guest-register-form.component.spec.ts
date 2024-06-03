@@ -33,24 +33,22 @@ describe('OrderGuestRegisterFormComponent', () => {
   let userRegisterFacade: UserRegisterFacade;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          FormErrorsModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [OrderGuestRegisterFormComponent],
-        providers: [
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
-          { provide: RoutingService, useClass: MockRoutingService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [OrderGuestRegisterFormComponent],
+      providers: [
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderGuestRegisterFormComponent);
@@ -74,7 +72,7 @@ describe('OrderGuestRegisterFormComponent', () => {
 
     expect(userRegisterFacade.registerGuest).toHaveBeenCalledWith(
       'guid',
-      password
+      password,
     );
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
   });

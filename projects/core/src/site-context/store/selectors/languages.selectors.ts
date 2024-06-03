@@ -22,7 +22,7 @@ export const getLanguagesState: MemoizedSelector<
   LanguagesState
 > = createSelector(
   getSiteContextState,
-  (state: SiteContextState) => state.languages
+  (state: SiteContextState) => state.languages,
 );
 
 export const getLanguagesEntities: MemoizedSelector<

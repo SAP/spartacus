@@ -20,13 +20,13 @@
   <ng-template
     [cxAbstractOrderContext]="{
       id: order.code,
-      type: abstractOrderType.ORDER
+      type: abstractOrderType.ORDER,
     }"
     [cxOutlet]="cartOutlets.CART_ITEM_LIST"
     [cxOutletContext]="{
       items: order.entries,
       readonly: true,
-      promotionLocation: promotionLocation
+      promotionLocation: promotionLocation,
     }"
   >
   </ng-template>

@@ -55,7 +55,7 @@ describe('TranslatePipe', () => {
       expect(service.translate).toHaveBeenCalledWith(
         'testKey',
         { param: 'param1' },
-        true
+        true,
       );
       expect(result).toBe('expectedValue');
     });
@@ -64,12 +64,12 @@ describe('TranslatePipe', () => {
       spyOn(service, 'translate').and.returnValue(EMPTY);
       pipe.transform(
         { key: 'testKey', params: { param1: 'value1' } },
-        { param2: 'value2' }
+        { param2: 'value2' },
       );
       expect(service.translate).toHaveBeenCalledWith(
         'testKey',
         { param1: 'value1', param2: 'value2' },
-        true
+        true,
       );
     });
 
@@ -99,7 +99,7 @@ describe('TranslatePipe', () => {
       const markForCheckSpy = spyOn(cd, 'markForCheck').and.callThrough();
       spyOn(service, 'translate').and.returnValues(
         of('value1', 'value2'),
-        of('value3')
+        of('value3'),
       );
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param2' });

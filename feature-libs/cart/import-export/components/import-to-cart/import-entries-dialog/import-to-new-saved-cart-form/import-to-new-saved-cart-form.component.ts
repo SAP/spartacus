@@ -64,14 +64,14 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
     protected importCsvService: ImportCsvFileService,
     protected filesFormValidators: FilesFormValidators,
     protected importExportConfig: ImportExportConfig,
-    protected datePipe: CxDatePipe
+    protected datePipe: CxDatePipe,
   ) {
     super(
       launchDialogService,
       importToCartService,
       importCsvService,
       filesFormValidators,
-      importExportConfig
+      importExportConfig,
     );
   }
 
@@ -109,21 +109,21 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
                   maxEntries: this.maxEntries,
                 })
               : of(null),
-        ]
-      )
+        ],
+      ),
     );
     form.setControl(
       'name',
       new UntypedFormControl('', [
         Validators.required,
         Validators.maxLength(this.nameMaxLength),
-      ])
+      ]),
     );
     form.setControl(
       'description',
       new UntypedFormControl('', [
         Validators.maxLength(this.descriptionMaxLength),
-      ])
+      ]),
     );
     return form;
   }

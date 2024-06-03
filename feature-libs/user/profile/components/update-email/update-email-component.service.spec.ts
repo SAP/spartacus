@@ -119,7 +119,7 @@ describe('UpdateEmailComponentService', () => {
         service.save();
         expect(userService.update).toHaveBeenCalledWith(
           'Qwe123!',
-          'tester@sap.com'
+          'tester@sap.com',
         );
       });
 
@@ -130,7 +130,7 @@ describe('UpdateEmailComponentService', () => {
             key: 'updateEmailForm.emailUpdateSuccess',
             params: { newUid: 'tester@sap.com' },
           },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
       });
 
@@ -139,22 +139,19 @@ describe('UpdateEmailComponentService', () => {
         expect(authService.coreLogout).toHaveBeenCalled();
       });
 
-      it(
-        'should reroute to the login page',
-        waitForAsync(() => {
-          service.save();
-          authService.coreLogout().then(() => {
-            expect(routingService.go).toHaveBeenCalledWith(
-              { cxRoute: 'login' },
-              {
-                state: {
-                  newUid: 'tester@sap.com',
-                },
-              }
-            );
-          });
-        })
-      );
+      it('should reroute to the login page', waitForAsync(() => {
+        service.save();
+        authService.coreLogout().then(() => {
+          expect(routingService.go).toHaveBeenCalledWith(
+            { cxRoute: 'login' },
+            {
+              state: {
+                newUid: 'tester@sap.com',
+              },
+            },
+          );
+        });
+      }));
 
       it('reset form', () => {
         spyOn(service.form, 'reset').and.callThrough();
@@ -162,20 +159,17 @@ describe('UpdateEmailComponentService', () => {
         expect(service.form.reset).toHaveBeenCalled();
       });
 
-      it(
-        'should set the redirect url to the home page before navigating to the login page',
-        waitForAsync(() => {
-          service.save();
-          expect(authRedirectService.setRedirectUrl).toHaveBeenCalledWith(
-            routingService.getUrl({ cxRoute: 'home' })
+      it('should set the redirect url to the home page before navigating to the login page', waitForAsync(() => {
+        service.save();
+        expect(authRedirectService.setRedirectUrl).toHaveBeenCalledWith(
+          routingService.getUrl({ cxRoute: 'home' }),
+        );
+        authService.coreLogout().then(() => {
+          expect(authRedirectService.setRedirectUrl).toHaveBeenCalledBefore(
+            routingService.go,
           );
-          authService.coreLogout().then(() => {
-            expect(authRedirectService.setRedirectUrl).toHaveBeenCalledBefore(
-              routingService.go
-            );
-          });
-        })
-      );
+        });
+      }));
     });
 
     describe('error', () => {

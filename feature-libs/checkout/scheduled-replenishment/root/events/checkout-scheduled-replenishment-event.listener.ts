@@ -32,11 +32,11 @@ export class CheckoutScheduledReplenishmentEventListener implements OnDestroy {
               cartId,
               cartCode,
             },
-            RemoveCartEvent
+            RemoveCartEvent,
           );
 
           this.eventService.dispatch({}, CheckoutQueryResetEvent);
-        })
+        }),
     );
   }
 

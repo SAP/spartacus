@@ -16,25 +16,25 @@ const _stockReducer = createReducer(
   on(
     createAction(
       StockLevelActions.STOCK_LEVEL_SUCCESS,
-      props<{ payload: StockLevelSuccessPayload }>()
+      props<{ payload: StockLevelSuccessPayload }>(),
     ),
     (
       state: StockLevelState,
-      { payload: { productCode, stockLevels } }
+      { payload: { productCode, stockLevels } },
     ): StockLevelState => ({
       ...state,
       [productCode]: stockLevels,
-    })
+    }),
   ),
   on(
     createAction(StockLevelActions.CLEAR_STOCK_DATA),
-    (_state: StockLevelState): StockLevelState => ({})
-  )
+    (_state: StockLevelState): StockLevelState => ({}),
+  ),
 );
 
 export function stockReducer(
   state: StockLevelState | undefined,
-  action: Action
+  action: Action,
 ) {
   return _stockReducer(state, action);
 }
@@ -47,5 +47,5 @@ export const stockAtStoreReducer = createReducer(
   on(StockLevelActions.StockLevelAtStoreSuccess, (state, { payload }) => ({
     ...state,
     [payload.productCode]: { [payload.storeName]: payload.stockLevel },
-  }))
+  })),
 );

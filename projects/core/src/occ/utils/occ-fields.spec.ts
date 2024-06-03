@@ -12,34 +12,34 @@ describe('mergeFields', () => {
     expect(mergeFields(['ala,ula', 'ma'])).toEqual('ala,ula,ma');
     expect(mergeFields(['ala,ula', 'ma,kota'])).toEqual('ala,ula,ma,kota');
     expect(mergeFields(['ala,ula', 'ma,kota,i', 'psa'])).toEqual(
-      'ala,ula,ma,kota,i,psa'
+      'ala,ula,ma,kota,i,psa',
     );
     expect(mergeFields(['ala,ula', 'ma,kota,i', 'psa'])).toEqual(
-      'ala,ula,ma,kota,i,psa'
+      'ala,ula,ma,kota,i,psa',
     );
 
     expect(mergeFields(['ala,ula', 'ala,ela,ma,kota,i', 'kota,psa'])).toEqual(
-      'ala,ula,ela,ma,kota,i,psa'
+      'ala,ula,ela,ma,kota,i,psa',
     );
   });
 
   it('should merge nested fields', () => {
     expect(mergeFields(['ala(lubi)', 'ma'])).toEqual('ala(lubi),ma');
     expect(mergeFields(['ala(lubi),ula', 'ma,ala(chodzi)'])).toEqual(
-      'ala(lubi,chodzi),ula,ma'
+      'ala(lubi,chodzi),ula,ma',
     );
     expect(
-      mergeFields(['ala(lubi(koty)),ula', 'ma,ala(lubi(i,psy),chodzi,pieszo)'])
+      mergeFields(['ala(lubi(koty)),ula', 'ma,ala(lubi(i,psy),chodzi,pieszo)']),
     ).toEqual('ala(lubi(koty,i,psy),chodzi,pieszo),ula,ma');
   });
 
   it('should optimize BASIC, DEFAULT and FULL fields', () => {
     expect(mergeFields(['test(FULL)', 'test(DEFAULT)', 'test(BASIC)'])).toEqual(
-      'test(FULL)'
+      'test(FULL)',
     );
 
     expect(mergeFields(['test(FULL)', 'test(ala,ma)'])).toEqual(
-      'test(FULL,ala,ma)'
+      'test(FULL,ala,ma)',
     );
   });
 
@@ -51,7 +51,7 @@ describe('mergeFields', () => {
 describe('optimizeFields', () => {
   it('should remove BASIC and DEFAULT if FULL is present', () => {
     expect(
-      optimizeFields({ BASIC: {}, FULL: {}, DEFAULT: {}, test: {} })
+      optimizeFields({ BASIC: {}, FULL: {}, DEFAULT: {}, test: {} }),
     ).toEqual({
       FULL: {},
       test: {},
@@ -96,8 +96,8 @@ describe('parseFields', () => {
   it('should parse complex fields', () => {
     expect(
       parseFields(
-        'ala,nie,wie(albo,i(co),wie(ale,nie,wiadomo)),ze,ona(lubi(koty)),ula'
-      )
+        'ala,nie,wie(albo,i(co),wie(ale,nie,wiadomo)),ze,ona(lubi(koty)),ula',
+      ),
     ).toEqual({
       ala: {},
       nie: {},
@@ -136,7 +136,7 @@ describe('parseFields', () => {
 describe('stringifyFields', () => {
   it('should stringify simple fields', () => {
     expect(stringifyFields({ ala: {}, ma: {}, kota: {} })).toEqual(
-      'ala,ma,kota'
+      'ala,ma,kota',
     );
   });
   it('should stringify nested fields', () => {
@@ -145,7 +145,7 @@ describe('stringifyFields', () => {
         ala: {},
         ma: { o: {} },
         kota: { i: { psa: {}, burka: {} } },
-      })
+      }),
     ).toEqual('ala,ma(o),kota(i(psa,burka))');
   });
 });

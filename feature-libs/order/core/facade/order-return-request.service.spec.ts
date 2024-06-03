@@ -32,7 +32,7 @@ describe('OrderReturnRequestService', () => {
         StoreModule.forFeature(ORDER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
+          fromProcessReducers.getReducers(),
         ),
       ],
       providers: [
@@ -52,7 +52,7 @@ describe('OrderReturnRequestService', () => {
     [OrderReturnRequestService],
     (service: OrderReturnRequestService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to create order return request', () => {
@@ -61,7 +61,7 @@ describe('OrderReturnRequestService', () => {
       new OrderActions.CreateOrderReturnRequest({
         userId: OCC_USER_ID_CURRENT,
         returnRequestInput: { orderCode: 'test' },
-      })
+      }),
     );
   });
 
@@ -69,7 +69,7 @@ describe('OrderReturnRequestService', () => {
     store.dispatch(
       new OrderActions.CreateOrderReturnRequestSuccess({
         rma: '000000',
-      })
+      }),
     );
     orderReturnRequestService
       .getOrderReturnRequest()
@@ -83,7 +83,7 @@ describe('OrderReturnRequestService', () => {
       new OrderActions.LoadOrderReturnRequest({
         userId: OCC_USER_ID_CURRENT,
         returnRequestCode: 'test',
-      })
+      }),
     );
   });
 
@@ -92,7 +92,7 @@ describe('OrderReturnRequestService', () => {
       new OrderActions.CreateOrderReturnRequest({
         userId: OCC_USER_ID_CURRENT,
         returnRequestInput: {},
-      })
+      }),
     );
     orderReturnRequestService
       .getReturnRequestLoading()
@@ -104,7 +104,7 @@ describe('OrderReturnRequestService', () => {
     store.dispatch(
       new OrderActions.CreateOrderReturnRequestSuccess({
         rma: '000000',
-      })
+      }),
     );
     orderReturnRequestService
       .getReturnRequestSuccess()
@@ -118,7 +118,7 @@ describe('OrderReturnRequestService', () => {
         returnRequests: [],
         pagination: {},
         sorts: [],
-      })
+      }),
     );
 
     let requestList: ReturnRequestList;
@@ -143,7 +143,7 @@ describe('OrderReturnRequestService', () => {
         pageSize: 10,
         currentPage: 1,
         sort: 'byDate',
-      })
+      }),
     );
   });
 
@@ -159,14 +159,14 @@ describe('OrderReturnRequestService', () => {
   it('should be able to clear order return requests list', () => {
     orderReturnRequestService.clearOrderReturnRequestList();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new OrderActions.ClearOrderReturnRequestList()
+      new OrderActions.ClearOrderReturnRequestList(),
     );
   });
 
   it('should be able to clear order return requests details', () => {
     orderReturnRequestService.clearOrderReturnRequestDetail();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new OrderActions.ClearOrderReturnRequest()
+      new OrderActions.ClearOrderReturnRequest(),
     );
   });
 
@@ -179,7 +179,7 @@ describe('OrderReturnRequestService', () => {
         userId: OCC_USER_ID_CURRENT,
         returnRequestCode: 'test',
         returnRequestModification: { status: 'CANCELLING' },
-      })
+      }),
     );
   });
 
@@ -189,7 +189,7 @@ describe('OrderReturnRequestService', () => {
         userId: 'current',
         returnRequestCode: 'test',
         returnRequestModification: {},
-      })
+      }),
     );
     orderReturnRequestService
       .getCancelReturnRequestLoading()
@@ -208,7 +208,7 @@ describe('OrderReturnRequestService', () => {
   it('should be able to reset CancelReturnRequest process state', () => {
     orderReturnRequestService.resetCancelReturnRequestProcessState();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new OrderActions.ResetCancelReturnProcess()
+      new OrderActions.ResetCancelReturnProcess(),
     );
   });
 });

@@ -22,7 +22,7 @@ import { AnonymousConsentsSelectors } from '../store/selectors/index';
 export class AnonymousConsentsService {
   constructor(
     protected store: Store<StateWithAnonymousConsents>,
-    protected authService: AuthService
+    protected authService: AuthService,
   ) {}
 
   /**
@@ -30,7 +30,7 @@ export class AnonymousConsentsService {
    */
   loadTemplates(): void {
     this.store.dispatch(
-      new AnonymousConsentsActions.LoadAnonymousConsentTemplates()
+      new AnonymousConsentsActions.LoadAnonymousConsentTemplates(),
     );
   }
 
@@ -56,11 +56,11 @@ export class AnonymousConsentsService {
           }
         }),
         filter(([templates, _loading]) => Boolean(templates)),
-        map(([templates, _loading]) => templates)
+        map(([templates, _loading]) => templates),
       ),
       this.store.pipe(
-        select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesValue)
-      )
+        select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesValue),
+      ),
     );
   }
 
@@ -71,8 +71,8 @@ export class AnonymousConsentsService {
   getTemplate(templateCode: string): Observable<ConsentTemplate | undefined> {
     return this.store.pipe(
       select(
-        AnonymousConsentsSelectors.getAnonymousConsentTemplate(templateCode)
-      )
+        AnonymousConsentsSelectors.getAnonymousConsentTemplate(templateCode),
+      ),
     );
   }
 
@@ -81,7 +81,7 @@ export class AnonymousConsentsService {
    */
   getLoadTemplatesLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesLoading)
+      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesLoading),
     );
   }
 
@@ -90,7 +90,7 @@ export class AnonymousConsentsService {
    */
   getLoadTemplatesSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesSuccess)
+      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesSuccess),
     );
   }
 
@@ -99,7 +99,7 @@ export class AnonymousConsentsService {
    */
   getLoadTemplatesError(): Observable<boolean> {
     return this.store.pipe(
-      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesError)
+      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesError),
     );
   }
 
@@ -108,7 +108,7 @@ export class AnonymousConsentsService {
    */
   resetLoadTemplatesState(): void {
     this.store.dispatch(
-      new AnonymousConsentsActions.ResetLoadAnonymousConsentTemplates()
+      new AnonymousConsentsActions.ResetLoadAnonymousConsentTemplates(),
     );
   }
 
@@ -117,7 +117,7 @@ export class AnonymousConsentsService {
    */
   getConsents(): Observable<AnonymousConsent[]> {
     return this.store.pipe(
-      select(AnonymousConsentsSelectors.getAnonymousConsents)
+      select(AnonymousConsentsSelectors.getAnonymousConsents),
     );
   }
 
@@ -126,7 +126,7 @@ export class AnonymousConsentsService {
    */
   setConsents(consents: AnonymousConsent[]): void {
     return this.store.dispatch(
-      new AnonymousConsentsActions.SetAnonymousConsents(consents)
+      new AnonymousConsentsActions.SetAnonymousConsents(consents),
     );
   }
 
@@ -145,11 +145,11 @@ export class AnonymousConsentsService {
         this.store.pipe(
           select(
             AnonymousConsentsSelectors.getAnonymousConsentByTemplateCode(
-              templateId
-            )
-          )
-        )
-      )
+              templateId,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -159,7 +159,7 @@ export class AnonymousConsentsService {
    */
   giveConsent(templateCode: string): void {
     this.store.dispatch(
-      new AnonymousConsentsActions.GiveAnonymousConsent(templateCode)
+      new AnonymousConsentsActions.GiveAnonymousConsent(templateCode),
     );
   }
 
@@ -173,8 +173,8 @@ export class AnonymousConsentsService {
           if (template.id) {
             this.giveConsent(template.id);
           }
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -195,7 +195,7 @@ export class AnonymousConsentsService {
    */
   withdrawConsent(templateCode: string): void {
     this.store.dispatch(
-      new AnonymousConsentsActions.WithdrawAnonymousConsent(templateCode)
+      new AnonymousConsentsActions.WithdrawAnonymousConsent(templateCode),
     );
   }
 
@@ -209,8 +209,8 @@ export class AnonymousConsentsService {
           if (template.id) {
             this.withdrawConsent(template.id);
           }
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -231,8 +231,8 @@ export class AnonymousConsentsService {
   toggleBannerDismissed(dismissed: boolean): void {
     this.store.dispatch(
       new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
-        dismissed
-      )
+        dismissed,
+      ),
     );
     if (dismissed) {
       this.toggleTemplatesUpdated(false);
@@ -244,7 +244,7 @@ export class AnonymousConsentsService {
    */
   isBannerDismissed(): Observable<boolean> {
     return this.store.pipe(
-      select(AnonymousConsentsSelectors.getAnonymousConsentsBannerDismissed)
+      select(AnonymousConsentsSelectors.getAnonymousConsentsBannerDismissed),
     );
   }
 
@@ -256,9 +256,9 @@ export class AnonymousConsentsService {
     return this.getTemplates(true).pipe(
       switchMap(() =>
         this.store.pipe(
-          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
-        )
-      )
+          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate),
+        ),
+      ),
     );
   }
 
@@ -269,8 +269,8 @@ export class AnonymousConsentsService {
   toggleTemplatesUpdated(updated: boolean): void {
     this.store.dispatch(
       new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
-        updated
-      )
+        updated,
+      ),
     );
   }
 
@@ -284,7 +284,7 @@ export class AnonymousConsentsService {
       this.getTemplatesUpdated(),
     ]).pipe(
       tap(() => this.checkConsentVersions()),
-      map(([dismissed, updated]) => !dismissed || updated)
+      map(([dismissed, updated]) => !dismissed || updated),
     );
   }
 
@@ -294,7 +294,7 @@ export class AnonymousConsentsService {
    */
   private checkConsentVersions(): void {
     this.store.dispatch(
-      new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions()
+      new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions(),
     );
   }
 
@@ -305,7 +305,7 @@ export class AnonymousConsentsService {
    */
   detectUpdatedTemplates(
     currentTemplates: ConsentTemplate[],
-    newTemplates: ConsentTemplate[]
+    newTemplates: ConsentTemplate[],
   ): boolean {
     if (newTemplates.length !== currentTemplates.length) {
       return true;
@@ -358,7 +358,7 @@ export class AnonymousConsentsService {
    */
   consentsUpdated(
     newConsents: AnonymousConsent[],
-    previousConsents: AnonymousConsent[]
+    previousConsents: AnonymousConsent[],
   ): boolean {
     const newRawConsents = this.serializeAndEncode(newConsents);
     const previousRawConsents = this.serializeAndEncode(previousConsents);

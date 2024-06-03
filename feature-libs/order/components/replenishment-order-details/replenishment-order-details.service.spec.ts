@@ -87,23 +87,23 @@ describe('ReplenishmentOrderDetailsService', () => {
     });
 
     replenishmentOrderDetailsService = TestBed.inject(
-      ReplenishmentOrderDetailsService
+      ReplenishmentOrderDetailsService,
     );
     replenishmentOrderHistoryFacade = TestBed.inject(
-      ReplenishmentOrderHistoryFacade
+      ReplenishmentOrderHistoryFacade,
     );
 
     spyOn(
       replenishmentOrderHistoryFacade,
-      'loadReplenishmentOrderDetails'
+      'loadReplenishmentOrderDetails',
     ).and.callThrough();
     spyOn(
       replenishmentOrderHistoryFacade,
-      'clearReplenishmentOrderDetails'
+      'clearReplenishmentOrderDetails',
     ).and.callThrough();
     spyOn(
       replenishmentOrderHistoryFacade,
-      'getReplenishmentOrderDetails'
+      'getReplenishmentOrderDetails',
     ).and.returnValue(of(mockReplenishmentOrder));
   });
 
@@ -122,10 +122,10 @@ describe('ReplenishmentOrderDetailsService', () => {
       .unsubscribe();
 
     expect(
-      replenishmentOrderHistoryFacade.loadReplenishmentOrderDetails
+      replenishmentOrderHistoryFacade.loadReplenishmentOrderDetails,
     ).toHaveBeenCalledWith('1');
     expect(
-      replenishmentOrderHistoryFacade.getReplenishmentOrderDetails
+      replenishmentOrderHistoryFacade.getReplenishmentOrderDetails,
     ).toHaveBeenCalled();
     expect(orderDetails).toBe(mockReplenishmentOrder);
   });
@@ -141,10 +141,10 @@ describe('ReplenishmentOrderDetailsService', () => {
       .unsubscribe();
 
     expect(
-      replenishmentOrderHistoryFacade.clearReplenishmentOrderDetails
+      replenishmentOrderHistoryFacade.clearReplenishmentOrderDetails,
     ).toHaveBeenCalled();
     expect(
-      replenishmentOrderHistoryFacade.getReplenishmentOrderDetails
+      replenishmentOrderHistoryFacade.getReplenishmentOrderDetails,
     ).toHaveBeenCalled();
     expect(orderDetails).toBe(mockReplenishmentOrder);
   });
@@ -166,17 +166,17 @@ describe('ReplenishmentOrderDetailsService', () => {
     replenishmentOrderDetailsService['replenishmentOrderCode$'].subscribe(
       (data) => {
         replenishmentOrderCode = data;
-      }
+      },
     );
 
     expect(replenishmentOrderCode).toEqual(
-      mockRouter.state.params.replenishmentOrderCode
+      mockRouter.state.params.replenishmentOrderCode,
     );
 
     routerSubject.next(mockRouterNewOrderCode);
 
     expect(replenishmentOrderCode).toEqual(
-      mockRouterNewOrderCode.state.params.replenishmentOrderCode
+      mockRouterNewOrderCode.state.params.replenishmentOrderCode,
     );
   });
 });

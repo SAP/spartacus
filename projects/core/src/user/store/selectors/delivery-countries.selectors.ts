@@ -24,19 +24,19 @@ export const getDeliveryCountriesEntites: MemoizedSelector<
   DeliveryCountryEntities
 > = createSelector(
   getDeliveryCountriesState,
-  (state: DeliveryCountriesState) => state.entities
+  (state: DeliveryCountriesState) => state.entities,
 );
 
 export const getAllDeliveryCountries: MemoizedSelector<
   StateWithUser,
   Country[]
 > = createSelector(getDeliveryCountriesEntites, (entites) =>
-  Object.keys(entites).map((isocode) => entites[isocode])
+  Object.keys(entites).map((isocode) => entites[isocode]),
 );
 
 export const countrySelectorFactory = (
-  isocode: string
+  isocode: string,
 ): MemoizedSelector<StateWithUser, Country | null> =>
   createSelector(getDeliveryCountriesEntites, (entities) =>
-    Object.keys(entities).length !== 0 ? entities[isocode] : null
+    Object.keys(entities).length !== 0 ? entities[isocode] : null,
   );

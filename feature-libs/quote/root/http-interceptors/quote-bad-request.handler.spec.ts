@@ -117,7 +117,7 @@ describe('QuoteBadRequestHandler', () => {
 
   it('should register 400 responseStatus', () => {
     expect(classUnderTest.responseStatus).toEqual(
-      HttpResponseStatus.BAD_REQUEST
+      HttpResponseStatus.BAD_REQUEST,
     );
   });
 
@@ -129,7 +129,7 @@ describe('QuoteBadRequestHandler', () => {
       {
         key: 'quote.httpHandlers.threshold.underThresholdError',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -141,7 +141,7 @@ describe('QuoteBadRequestHandler', () => {
       {
         key: 'quote.httpHandlers.cartValidationIssue',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -153,7 +153,7 @@ describe('QuoteBadRequestHandler', () => {
       {
         key: 'quote.httpHandlers.quoteCartIssue',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -165,7 +165,7 @@ describe('QuoteBadRequestHandler', () => {
       {
         key: 'quote.httpHandlers.absoluteDiscountIssue',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -177,7 +177,7 @@ describe('QuoteBadRequestHandler', () => {
       {
         key: 'quote.httpHandlers.expirationDateIssue',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -203,7 +203,7 @@ describe('QuoteBadRequestHandler', () => {
   describe('hasMatch', () => {
     it('should detect threshold issues', () => {
       expect(classUnderTest.hasMatch(mockQuoteUnderThresholdResponse)).toBe(
-        true
+        true,
       );
     });
 

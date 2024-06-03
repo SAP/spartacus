@@ -24,7 +24,7 @@ export class CustomerCouponEffects {
         ofType(fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS),
         map(
           (action: fromCustomerCouponsAction.LoadCustomerCoupons) =>
-            action.payload
+            action.payload,
         ),
         mergeMap((payload) => {
           return this.customerCouponConnector
@@ -32,24 +32,24 @@ export class CustomerCouponEffects {
               payload.userId,
               payload.pageSize,
               payload.currentPage,
-              payload.sort
+              payload.sort,
             )
             .pipe(
               map((coupons: CustomerCouponSearchResult) => {
                 return new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
-                  coupons
+                  coupons,
                 );
               }),
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.LoadCustomerCouponsFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   subscribeCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
@@ -58,7 +58,7 @@ export class CustomerCouponEffects {
         ofType(fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON),
         map(
           (action: fromCustomerCouponsAction.SubscribeCustomerCoupon) =>
-            action.payload
+            action.payload,
         ),
         mergeMap((payload) => {
           return this.customerCouponConnector
@@ -66,19 +66,19 @@ export class CustomerCouponEffects {
             .pipe(
               map((data: any) => {
                 return new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
-                  data
+                  data,
                 );
               }),
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   unsubscribeCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
@@ -87,7 +87,7 @@ export class CustomerCouponEffects {
         ofType(fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON),
         map(
           (action: fromCustomerCouponsAction.UnsubscribeCustomerCoupon) =>
-            action.payload
+            action.payload,
         ),
         mergeMap((payload) => {
           return this.customerCouponConnector
@@ -95,19 +95,19 @@ export class CustomerCouponEffects {
             .pipe(
               map(() => {
                 return new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
-                  payload.couponCode
+                  payload.couponCode,
                 );
               }),
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   claimCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
@@ -116,7 +116,7 @@ export class CustomerCouponEffects {
         ofType(fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON),
         map(
           (action: fromCustomerCouponsAction.ClaimCustomerCoupon) =>
-            action.payload
+            action.payload,
         ),
         mergeMap((payload) => {
           return this.customerCouponConnector
@@ -124,19 +124,19 @@ export class CustomerCouponEffects {
             .pipe(
               map((data) => {
                 return new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(
-                  data
+                  data,
                 );
               }),
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.ClaimCustomerCouponFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   disclaimCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
@@ -145,7 +145,7 @@ export class CustomerCouponEffects {
         ofType(fromCustomerCouponsAction.DISCLAIM_CUSTOMER_COUPON),
         map(
           (action: fromCustomerCouponsAction.DisclaimCustomerCoupon) =>
-            action.payload
+            action.payload,
         ),
         mergeMap((payload) => {
           return this.customerCouponConnector
@@ -153,23 +153,23 @@ export class CustomerCouponEffects {
             .pipe(
               map((data) => {
                 return new fromCustomerCouponsAction.DisclaimCustomerCouponSuccess(
-                  data
+                  data,
                 );
               }),
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.DisclaimCustomerCouponFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   constructor(
     private actions$: Actions,
-    private customerCouponConnector: CustomerCouponConnector
+    private customerCouponConnector: CustomerCouponConnector,
   ) {}
 }

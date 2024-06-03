@@ -64,7 +64,7 @@ export function assertMessages(expected: string[]): void {
  */
 export async function waitUntilLogContainsText(
   text: string,
-  checkInterval = 500
+  checkInterval = 500,
 ): Promise<true> {
   return new Promise((resolve) => {
     if (doesLogContainText(text)) {
@@ -72,7 +72,7 @@ export async function waitUntilLogContainsText(
     }
     return setTimeout(
       () => resolve(waitUntilLogContainsText(text)),
-      checkInterval
+      checkInterval,
     );
   });
 }

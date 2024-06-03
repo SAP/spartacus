@@ -52,7 +52,7 @@ export class ProductPageMetaResolver
     protected productService: ProductService,
     protected translation: TranslationService,
     protected basePageMetaResolver: BasePageMetaResolver,
-    protected pageLinkService: PageLinkService
+    protected pageLinkService: PageLinkService,
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
@@ -65,7 +65,7 @@ export class ProductPageMetaResolver
       map((state) => state.state.params['productCode']),
       filter((code) => !!code),
       switchMap((code) => this.productService.get(code, ProductScope.DETAILS)),
-      filter(isNotUndefined)
+      filter(isNotUndefined),
     );
 
   /**
@@ -78,8 +78,8 @@ export class ProductPageMetaResolver
       switchMap((p: Product) =>
         this.translation.translate('pageMetaResolver.product.heading', {
           heading: p.name,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -97,7 +97,7 @@ export class ProductPageMetaResolver
         return this.translation.translate('pageMetaResolver.product.title', {
           title: title,
         });
-      })
+      }),
     );
   }
 
@@ -110,8 +110,8 @@ export class ProductPageMetaResolver
       switchMap((product) =>
         this.translation.translate('pageMetaResolver.product.description', {
           description: product.summary,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -134,7 +134,7 @@ export class ProductPageMetaResolver
           } as BreadcrumbMeta);
         }
         return breadcrumbs;
-      })
+      }),
     );
   }
 
@@ -144,7 +144,7 @@ export class ProductPageMetaResolver
    */
   resolveImage(): Observable<string> {
     return this.product$.pipe(
-      map((product) => (<any>product.images?.PRIMARY)?.zoom?.url ?? null)
+      map((product) => (<any>product.images?.PRIMARY)?.zoom?.url ?? null),
     );
   }
 
@@ -186,7 +186,7 @@ export class ProductPageMetaResolver
           params: product,
         });
         return this.pageLinkService.getCanonicalUrl({}, url);
-      })
+      }),
     );
   }
 
@@ -202,7 +202,7 @@ export class ProductPageMetaResolver
         .get(product.baseProduct, ProductScope.LIST)
         .pipe(
           filter(isNotUndefined),
-          switchMap((baseProduct) => this.findBaseProduct(baseProduct))
+          switchMap((baseProduct) => this.findBaseProduct(baseProduct)),
         );
     }
     return of(product);

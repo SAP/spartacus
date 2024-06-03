@@ -20,11 +20,11 @@ export function getReducers(): ActionReducerMap<UnitOrderState, any> {
   return {
     orders: StateUtils.loaderReducer<OrderHistoryList, any>(
       UNIT_ORDERS,
-      fromUnitOrdersReducer.historyReducer
+      fromUnitOrdersReducer.historyReducer,
     ),
     orderDetail: StateUtils.loaderReducer<Order, any>(
       UNIT_ORDER_DETAILS,
-      fromUnitOrdersReducer.detailReducer
+      fromUnitOrdersReducer.detailReducer,
     ),
   };
 }

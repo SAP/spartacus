@@ -17,7 +17,7 @@ class GtmCollectorMock implements Partial<TmsCollector> {
   pushEvent<T extends CxEvent>(
     _config: TmsCollectorConfig,
     _windowObject: WindowObject,
-    _event: T | any
+    _event: T | any,
   ): void {}
   map<T extends CxEvent>(event: T): T | object {
     return event;
@@ -85,11 +85,11 @@ describe('TmsService', () => {
     service.collect();
     expect(gtmCollector.init).toHaveBeenCalledWith(
       tmsConfig.tagManager.gtm,
-      undefined
+      undefined,
     );
     expect(aepCollector.init).toHaveBeenCalledWith(
       tmsConfig.tagManager.aep,
-      undefined
+      undefined,
     );
   });
 
@@ -98,12 +98,12 @@ describe('TmsService', () => {
     expect(gtmCollector.pushEvent).toHaveBeenCalledWith(
       tmsConfig.tagManager.gtm,
       undefined,
-      loginEvent
+      loginEvent,
     );
     expect(aepCollector.pushEvent).toHaveBeenCalledWith(
       tmsConfig.tagManager.aep,
       undefined,
-      loginEvent
+      loginEvent,
     );
   });
 });

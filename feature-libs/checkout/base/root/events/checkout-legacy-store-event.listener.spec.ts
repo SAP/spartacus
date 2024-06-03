@@ -44,11 +44,11 @@ describe(`CheckoutLegacyStoreEventListener`, () => {
   describe(`onUserAddressAction`, () => {
     it(`should dispatch UserActions.LoadUserAddresses`, () => {
       mockEventStream$.next(
-        createFrom(LoadUserAddressesEvent, { userId: mockUserId })
+        createFrom(LoadUserAddressesEvent, { userId: mockUserId }),
       );
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.LoadUserAddresses(mockUserId)
+        new UserActions.LoadUserAddresses(mockUserId),
       );
     });
   });
@@ -56,11 +56,11 @@ describe(`CheckoutLegacyStoreEventListener`, () => {
   describe(`onUserPaymentAction`, () => {
     it(`should dispatch UserActions.LoadUserPaymentMethods`, () => {
       mockEventStream$.next(
-        createFrom(LoadUserPaymentMethodsEvent, { userId: mockUserId })
+        createFrom(LoadUserPaymentMethodsEvent, { userId: mockUserId }),
       );
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.LoadUserPaymentMethods(mockUserId)
+        new UserActions.LoadUserPaymentMethods(mockUserId),
       );
     });
   });

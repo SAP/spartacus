@@ -31,11 +31,11 @@ export class ConfiguratorVariantEffects {
       filter(
         () =>
           this.configuratorCoreConfig.productConfigurator
-            ?.enableVariantSearch === true
+            ?.enableVariantSearch === true,
       ),
       filter(
         (action: ConfiguratorActions.SearchVariants) =>
-          action.payload.owner.configuratorType === ConfiguratorType.VARIANT
+          action.payload.owner.configuratorType === ConfiguratorType.VARIANT,
       ),
       switchMap((action: ConfiguratorActions.SearchVariants) => {
         return this.configuratorCommonsConnector
@@ -52,10 +52,10 @@ export class ConfiguratorVariantEffects {
                 ownerKey: action.payload.owner.key,
                 error: normalizeHttpError(error, this.logger),
               }),
-            ])
+            ]),
           );
-      })
-    )
+      }),
+    ),
   );
   /**
    * Effect for handling the variant search action in case the feature is not active or the configurator type does not support it.
@@ -69,21 +69,21 @@ export class ConfiguratorVariantEffects {
           (action: ConfiguratorActions.SearchVariants) =>
             this.configuratorCoreConfig.productConfigurator
               ?.enableVariantSearch === false ||
-            action.payload.owner.configuratorType !== ConfiguratorType.VARIANT
+            action.payload.owner.configuratorType !== ConfiguratorType.VARIANT,
         ),
         map(
           (action: ConfiguratorActions.SearchVariants) =>
             new ConfiguratorActions.SearchVariantsSuccess({
               ownerKey: action.payload.owner.key,
               variants: [],
-            })
-        )
-      )
+            }),
+        ),
+      ),
     );
 
   constructor(
     protected actions$: Actions,
     protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
-    protected configuratorCoreConfig: ConfiguratorCoreConfig
+    protected configuratorCoreConfig: ConfiguratorCoreConfig,
   ) {}
 }

@@ -88,8 +88,8 @@ let configurationWithoutVariants: Configurator.Configuration =
     'a',
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
-    )
+      PRODUCT_CODE,
+    ),
   );
 
 let configurationWithVariants: Configurator.Configuration =
@@ -97,8 +97,8 @@ let configurationWithVariants: Configurator.Configuration =
     'a',
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
-    )
+      PRODUCT_CODE,
+    ),
   );
 
 let configurationObs: any;
@@ -126,7 +126,7 @@ const router: ConfiguratorRouter.Data = {
   owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
     '3',
-    ConfiguratorType.VARIANT
+    ConfiguratorType.VARIANT,
   ),
 };
 
@@ -162,13 +162,13 @@ describe('ConfiguratorVariantCarouselComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-variant-carousel-container'
+      '.cx-variant-carousel-container',
     );
 
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'cx-carousel'
+      'cx-carousel',
     );
   });
 
@@ -178,13 +178,13 @@ describe('ConfiguratorVariantCarouselComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-variant-carousel-container'
+      '.cx-variant-carousel-container',
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'cx-carousel'
+      'cx-carousel',
     );
   });
 });

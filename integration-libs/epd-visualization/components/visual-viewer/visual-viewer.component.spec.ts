@@ -196,7 +196,7 @@ class MockVisualViewerService {
   public pauseAnimation(): void {}
 
   public loadVisualization(
-    _productCode: string
+    _productCode: string,
   ): Observable<VisualizationLoadInfo> {
     return of({
       lookupResult: VisualizationLookupResult.UniqueMatchFound,

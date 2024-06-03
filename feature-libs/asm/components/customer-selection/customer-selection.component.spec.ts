@@ -109,37 +109,35 @@ describe('CustomerSelectionComponent', () => {
 
   const validSearchTerm = 'cUstoMer@test.com';
 
-  beforeEach(
-    waitForAsync(() => {
-      customerSearchResults = new BehaviorSubject<CustomerSearchPage>({
-        entries: [],
-      });
-      customerSearchResultsLoading = new BehaviorSubject<boolean>(false);
+  beforeEach(waitForAsync(() => {
+    customerSearchResults = new BehaviorSubject<CustomerSearchPage>({
+      entries: [],
+    });
+    customerSearchResultsLoading = new BehaviorSubject<boolean>(false);
 
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-        declarations: [CustomerSelectionComponent, DotSpinnerComponent],
-        providers: [
-          { provide: AsmService, useClass: MockAsmService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: AsmConfig, useValue: MockAsmConfig },
-          {
-            provide: DirectionService,
-            useClass: MockDirectionService,
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+      declarations: [CustomerSelectionComponent, DotSpinnerComponent],
+      providers: [
+        { provide: AsmService, useClass: MockAsmService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: AsmConfig, useValue: MockAsmConfig },
+        {
+          provide: DirectionService,
+          useClass: MockDirectionService,
+        },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '*' },
           },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '*' },
-            },
-          },
-        ],
-      }).compileComponents();
+        },
+      ],
+    }).compileComponents();
 
-      launchDialogService = TestBed.inject(LaunchDialogService);
-    })
-  );
+    launchDialogService = TestBed.inject(LaunchDialogService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerSelectionComponent);
@@ -163,7 +161,7 @@ describe('CustomerSelectionComponent', () => {
     fixture.detectChanges();
 
     const submitBtn = fixture.debugElement.query(
-      By.css('button[type="submit"]')
+      By.css('button[type="submit"]'),
     );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
 
@@ -191,7 +189,7 @@ describe('CustomerSelectionComponent', () => {
   it('should trigger search for valid search term', fakeAsync(() => {
     spyOn(asmService, 'customerSearch').and.callThrough();
     component.customerSelectionForm.controls.searchTerm.setValue(
-      validSearchTerm
+      validSearchTerm,
     );
     fixture.detectChanges();
     tick(1000);
@@ -203,14 +201,14 @@ describe('CustomerSelectionComponent', () => {
 
   it('should display 3 search results for valid search term', fakeAsync(() => {
     component.customerSelectionForm.controls.searchTerm.setValue(
-      validSearchTerm
+      validSearchTerm,
     );
 
     tick(300);
 
     fixture.detectChanges();
     expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(
-      mockCustomerSearchPage.entries.length
+      mockCustomerSearchPage.entries.length,
     );
   }));
 
@@ -218,7 +216,7 @@ describe('CustomerSelectionComponent', () => {
     spyOn(asmService, 'customerSearchReset').and.stub();
 
     component.customerSelectionForm.controls.searchTerm.setValue(
-      validSearchTerm
+      validSearchTerm,
     );
     fixture.detectChanges();
     expect(el.query(By.css('div.asm-results'))).toBeTruthy();
@@ -234,13 +232,13 @@ describe('CustomerSelectionComponent', () => {
     });
     spyOn(asmService, 'customerSearchReset').and.stub();
     component.customerSelectionForm.controls.searchTerm.setValue(
-      validSearchTerm
+      validSearchTerm,
     );
     fixture.detectChanges();
     expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(1);
     const createAccountButton = el.query(By.css('div.asm-results button'));
     expect(createAccountButton.nativeElement.innerText).toEqual(
-      'asm.customerSearch.noMatchResultasm.customerSearch.createCustomer'
+      'asm.customerSearch.noMatchResultasm.customerSearch.createCustomer',
     );
     createAccountButton.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmService.customerSearchReset).toHaveBeenCalled();
@@ -250,7 +248,7 @@ describe('CustomerSelectionComponent', () => {
     spyOn(asmService, 'customerSearchReset').and.stub();
 
     component.customerSelectionForm.controls.searchTerm.setValue(
-      validSearchTerm
+      validSearchTerm,
     );
 
     tick(300);
@@ -258,15 +256,15 @@ describe('CustomerSelectionComponent', () => {
     fixture.detectChanges();
 
     el.query(By.css('div.asm-results button')).nativeElement.dispatchEvent(
-      new MouseEvent('click')
+      new MouseEvent('click'),
     );
     fixture.detectChanges();
     expect(component.selectedCustomer).toEqual(mockCustomer);
     expect(component.customerSelectionForm.controls.searchTerm.value).toEqual(
-      mockCustomer.name
+      mockCustomer.name,
     );
     expect(
-      el.query(By.css('button[type="submit"]')).nativeElement.disabled
+      el.query(By.css('button[type="submit"]')).nativeElement.disabled,
     ).toBeFalsy();
     expect(asmService.customerSearchReset).toHaveBeenCalled();
 
@@ -276,7 +274,7 @@ describe('CustomerSelectionComponent', () => {
   describe('Search result navigation', () => {
     beforeEach(fakeAsync(() => {
       component.customerSelectionForm.controls.searchTerm.setValue(
-        validSearchTerm
+        validSearchTerm,
       );
 
       tick(300);
@@ -327,10 +325,10 @@ describe('CustomerSelectionComponent', () => {
 
       expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
       expect(component.searchTerm.nativeElement.selectionStart).toEqual(
-        validSearchTerm.length - 4
+        validSearchTerm.length - 4,
       );
       expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
-        validSearchTerm.length - 4
+        validSearchTerm.length - 4,
       );
     });
     it('should focus search text and set cursor -1 from original position', () => {
@@ -352,10 +350,10 @@ describe('CustomerSelectionComponent', () => {
 
       expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
       expect(component.searchTerm.nativeElement.selectionStart).toEqual(
-        validSearchTerm.length - 6
+        validSearchTerm.length - 6,
       );
       expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
-        validSearchTerm.length - 6
+        validSearchTerm.length - 6,
       );
     });
 
@@ -400,10 +398,10 @@ describe('CustomerSelectionComponent', () => {
 
       expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
       expect(component.searchTerm.nativeElement.selectionStart).toEqual(
-        validSearchTerm.length
+        validSearchTerm.length,
       );
       expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
-        validSearchTerm.length
+        validSearchTerm.length,
       );
     });
 
@@ -412,7 +410,7 @@ describe('CustomerSelectionComponent', () => {
       component.createCustomer();
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-        component.createCustomerLink
+        component.createCustomerLink,
       );
     });
   });

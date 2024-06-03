@@ -45,7 +45,7 @@ export const CDS_SCHEMATICS_CONFIG: SchematicConfig = {
 };
 
 function buildCdsConfig(
-  options: SpartacusCdsOptions
+  options: SpartacusCdsOptions,
 ): AdditionalFeatureConfiguration<SpartacusCdsOptions> {
   const customConfig: AdditionalProviders[] = [
     {

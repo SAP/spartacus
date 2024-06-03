@@ -33,7 +33,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('Spartacus CDC schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CDC,
-    collectionPath
+    collectionPath,
   );
   let appTree: UnitTestTree;
   const workspaceOptions: WorkspaceOptions = {
@@ -72,36 +72,38 @@ describe('Spartacus CDC schematics: ng-add', () => {
       SPARTACUS_SCHEMATICS,
       path.join(
         __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
+        '../../../../projects/schematics/src/collection.json',
+      ),
     );
     schematicRunner.registerCollection(
       SPARTACUS_ASM,
-      require.resolve('../../../../feature-libs/asm/schematics/collection.json')
+      require.resolve(
+        '../../../../feature-libs/asm/schematics/collection.json',
+      ),
     );
     schematicRunner.registerCollection(
       SPARTACUS_USER,
       path.join(
         __dirname,
-        '../../../../feature-libs/user/schematics/collection.json'
-      )
+        '../../../../feature-libs/user/schematics/collection.json',
+      ),
     );
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
   describe('Without features', () => {
@@ -109,7 +111,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
     it('should not create any of the feature modules', () => {
@@ -126,12 +128,12 @@ describe('Spartacus CDC schematics: ng-add', () => {
             ...cdcFeatureOptions,
             features: [USER_ACCOUNT_FEATURE_NAME, USER_PROFILE_FEATURE_NAME],
           },
-          appTree
+          appTree,
         );
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...cdcFeatureOptions, javascriptUrl: '<dc>.gigya.com/<api-key>' },
-          appTree
+          appTree,
         );
       });
       it('should set the given javascriptUrl', async () => {
@@ -148,12 +150,12 @@ describe('Spartacus CDC schematics: ng-add', () => {
             ...cdcFeatureOptions,
             features: [USER_ACCOUNT_FEATURE_NAME, USER_PROFILE_FEATURE_NAME],
           },
-          appTree
+          appTree,
         );
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           cdcFeatureOptions,
-          appTree
+          appTree,
         );
       });
       it('should install necessary Spartacus libraries', () => {
@@ -185,11 +187,11 @@ describe('Spartacus CDC schematics: ng-add', () => {
       });
       it('should install the appropriate dependencies', async () => {
         const userAccountWrapperModule = appTree.readContent(
-          userAccountWrapperModulePath
+          userAccountWrapperModulePath,
         );
         expect(userAccountWrapperModule).toMatchSnapshot();
         const userProfileWrapperModule = appTree.readContent(
-          userProfileWrapperModulePath
+          userProfileWrapperModulePath,
         );
         expect(userProfileWrapperModule).toMatchSnapshot();
       });
@@ -203,12 +205,12 @@ describe('Spartacus CDC schematics: ng-add', () => {
             ...cdcFeatureOptions,
             features: [USER_ACCOUNT_FEATURE_NAME, USER_PROFILE_FEATURE_NAME],
           },
-          appTree
+          appTree,
         );
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...cdcFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
       it('should import appropriate modules', async () => {
@@ -232,7 +234,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
               ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
             ],
           },
-          appTree
+          appTree,
         );
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -240,7 +242,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
             ...cdcB2bFeatureOptions,
             javascriptUrl: '<dc>.gigya.com/<api-key>',
           },
-          appTree
+          appTree,
         );
       });
       it('should set the given javascriptUrl', async () => {
@@ -262,12 +264,12 @@ describe('Spartacus CDC schematics: ng-add', () => {
               ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
             ],
           },
-          appTree
+          appTree,
         );
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           cdcB2bFeatureOptions,
-          appTree
+          appTree,
         );
       });
       it('should install necessary Spartacus libraries', () => {
@@ -299,19 +301,19 @@ describe('Spartacus CDC schematics: ng-add', () => {
       });
       it('should install the appropriate dependencies', async () => {
         const userAccountWrapperModule = appTree.readContent(
-          userAccountWrapperModulePath
+          userAccountWrapperModulePath,
         );
         expect(userAccountWrapperModule).toMatchSnapshot();
         const userProfileWrapperModule = appTree.readContent(
-          userProfileWrapperModulePath
+          userProfileWrapperModulePath,
         );
         expect(userProfileWrapperModule).toMatchSnapshot();
         const administrationWrapperModule = appTree.readContent(
-          organizationAdministrationWrapperModulePath
+          organizationAdministrationWrapperModulePath,
         );
         expect(administrationWrapperModule).toMatchSnapshot();
         const organizationUserRegistrationWrapperModule = appTree.readContent(
-          organizationUserRegistrationWrapperModulePath
+          organizationUserRegistrationWrapperModulePath,
         );
         expect(organizationUserRegistrationWrapperModule).toMatchSnapshot();
       });
@@ -330,12 +332,12 @@ describe('Spartacus CDC schematics: ng-add', () => {
               ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
             ],
           },
-          appTree
+          appTree,
         );
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...cdcB2bFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
       it('should import appropriate modules', async () => {

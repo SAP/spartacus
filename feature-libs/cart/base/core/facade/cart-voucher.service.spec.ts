@@ -38,7 +38,7 @@ describe('CartVoucherService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
+          fromProcessReducers.getReducers(),
         ),
       ],
       providers: [
@@ -57,7 +57,7 @@ describe('CartVoucherService', () => {
         userId: 'userId',
         tempCartId: 'tempCartId',
         cartId: cart.code,
-      })
+      }),
     );
   });
 
@@ -71,7 +71,7 @@ describe('CartVoucherService', () => {
           userId: userId,
           cartId: cart.code,
           voucherId: voucherId,
-        })
+        }),
       );
     });
 
@@ -82,7 +82,7 @@ describe('CartVoucherService', () => {
           userId,
           cartId: cart.code,
           voucherId,
-        })
+        }),
       );
       service
         .getAddVoucherResultError()
@@ -96,7 +96,7 @@ describe('CartVoucherService', () => {
           userId,
           cartId: cart.code,
           voucherId,
-        })
+        }),
       );
       service
         .getAddVoucherResultSuccess()
@@ -110,7 +110,7 @@ describe('CartVoucherService', () => {
           userId: 'userId',
           cartId: 'cartId',
           voucherId: voucherId,
-        })
+        }),
       );
       let result = false;
       service
@@ -125,7 +125,7 @@ describe('CartVoucherService', () => {
       spyOn(store, 'dispatch').and.stub();
       service.resetAddVoucherProcessingState();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.CartResetAddVoucher()
+        new CartActions.CartResetAddVoucher(),
       );
     });
   });
@@ -140,7 +140,7 @@ describe('CartVoucherService', () => {
           userId: userId,
           cartId: cart.code,
           voucherId: voucherId,
-        })
+        }),
       );
     });
   });

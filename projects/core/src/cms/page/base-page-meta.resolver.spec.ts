@@ -127,7 +127,7 @@ describe('BasePageMetaResolver', () => {
     let result: BreadcrumbMeta[] | undefined;
 
     spyOn(routingPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
-      of([{ label: 'child route breadcrumb', link: '/child' }])
+      of([{ label: 'child route breadcrumb', link: '/child' }]),
     );
     service
       .resolveBreadcrumbs()

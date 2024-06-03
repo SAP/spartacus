@@ -12,13 +12,13 @@ const productCodes = 'productCode1, productCode2';
 class MockFutureStockAdapter implements Partial<FutureStockAdapter> {
   getFutureStock = createSpy('FutureStockAdapter.getFutureStock').and.callFake(
     (productCode: string, userId: string) =>
-      of(`getFutureStock-${userId}-${productCode}`)
+      of(`getFutureStock-${userId}-${productCode}`),
   );
 
   getFutureStocks = createSpy(
-    'FutureStockAdapter.getFutureStocks'
+    'FutureStockAdapter.getFutureStocks',
   ).and.callFake((productCodes: string, userId: string) =>
-    of(`getFutureStocks-${userId}-${productCodes}`)
+    of(`getFutureStocks-${userId}-${productCodes}`),
   );
 }
 

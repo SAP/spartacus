@@ -83,7 +83,7 @@ describe('DirectionService', () => {
               ltrLanguages: ['en', 'de'],
               rtlLanguages: ['ar', 'he'],
             },
-          })
+          }),
         );
         service.initialize();
       });
@@ -109,7 +109,7 @@ describe('DirectionService', () => {
               detect: true,
               default: DirectionMode.RTL,
             },
-          })
+          }),
         );
         service.initialize();
       });
@@ -127,7 +127,7 @@ describe('DirectionService', () => {
         spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: { detect: false, default: DirectionMode.LTR },
-          })
+          }),
         );
       });
 
@@ -137,7 +137,7 @@ describe('DirectionService', () => {
         expect(languageService.getActive).not.toHaveBeenCalled();
         expect(service.setDirection).toHaveBeenCalledWith(
           winRef.document.documentElement,
-          DirectionMode.LTR
+          DirectionMode.LTR,
         );
       });
     });
@@ -147,7 +147,7 @@ describe('DirectionService', () => {
         spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: { detect: true, default: DirectionMode.LTR },
-          })
+          }),
         );
       });
 
@@ -164,7 +164,7 @@ describe('DirectionService', () => {
         expect(service.getDirection).toHaveBeenCalledWith(TEST_LANGUAGE);
         expect(service.setDirection).toHaveBeenCalledWith(
           winRef.document.documentElement,
-          TEST_DIRECTION
+          TEST_DIRECTION,
         );
       });
 
@@ -176,12 +176,12 @@ describe('DirectionService', () => {
 
         const mockActiveLanguage$ = new Subject<string>();
         spyOn(languageService, 'getActive').and.returnValue(
-          mockActiveLanguage$
+          mockActiveLanguage$,
         );
         spyOn(service, 'setDirection');
         spyOn(service, 'getDirection').and.returnValues(
           TEST_DIRECTION_1,
-          TEST_DIRECTION_2
+          TEST_DIRECTION_2,
         );
 
         service.initialize();
@@ -190,14 +190,14 @@ describe('DirectionService', () => {
         expect(service.getDirection).toHaveBeenCalledWith(TEST_LANGUAGE_1);
         expect(service.setDirection).toHaveBeenCalledWith(
           winRef.document.documentElement,
-          TEST_DIRECTION_1
+          TEST_DIRECTION_1,
         );
 
         mockActiveLanguage$.next(TEST_LANGUAGE_2);
         expect(service.getDirection).toHaveBeenCalledWith(TEST_LANGUAGE_2);
         expect(service.setDirection).toHaveBeenCalledWith(
           winRef.document.documentElement,
-          TEST_DIRECTION_2
+          TEST_DIRECTION_2,
         );
 
         expect(service.getDirection).toHaveBeenCalledTimes(2);

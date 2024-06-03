@@ -38,13 +38,13 @@ export class ProductReviewsEffects {
           catchError((error) =>
             of(
               new ProductActions.LoadProductReviewsFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   postProductReview: Observable<
@@ -60,19 +60,19 @@ export class ProductReviewsEffects {
           .pipe(
             map((reviewResponse) => {
               return new ProductActions.PostProductReviewSuccess(
-                reviewResponse
+                reviewResponse,
               );
             }),
             catchError((error) =>
               of(
                 new ProductActions.PostProductReviewFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   showGlobalMessageOnPostProductReviewSuccess$ = createEffect(
@@ -82,11 +82,11 @@ export class ProductReviewsEffects {
         tap(() => {
           this.globalMessageService.add(
             { key: 'productReview.thankYouForReview' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
+            GlobalMessageType.MSG_TYPE_CONFIRMATION,
           );
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   showGlobalMessageOnPostProductReviewFail$ = createEffect(
@@ -96,16 +96,16 @@ export class ProductReviewsEffects {
         tap(() => {
           this.globalMessageService.add(
             { key: 'productReview.postReviewFail' },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   constructor(
     private actions$: Actions,
     private productReviewsConnector: ProductReviewsConnector,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
   ) {}
 }

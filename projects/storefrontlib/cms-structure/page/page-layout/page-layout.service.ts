@@ -36,12 +36,12 @@ export class PageLayoutService implements OnDestroy {
     private cms: CmsService,
     private config: LayoutConfig,
     private breakpointService: BreakpointService,
-    private unifiedInjector: UnifiedInjector
+    private unifiedInjector: UnifiedInjector,
   ) {
     this.subscription.add(
       this.unifiedInjector
         .getMulti(PAGE_LAYOUT_HANDLER)
-        .subscribe((handlers) => (this.handlers = handlers))
+        .subscribe((handlers) => (this.handlers = handlers)),
     );
   }
 
@@ -75,7 +75,7 @@ export class PageLayoutService implements OnDestroy {
           }
         }
         return true;
-      })
+      }),
     );
   }
 
@@ -96,23 +96,23 @@ export class PageLayoutService implements OnDestroy {
         const config = this.getResponsiveSlotConfig(
           <LayoutSlotConfig>pageTemplateConfig,
           'pageFold',
-          breakpoint
+          breakpoint,
         );
         return config ? config.pageFold : undefined;
-      })
+      }),
     );
   }
 
   private resolveSlots(
     page: Page,
     section: string | undefined,
-    breakpoint: BREAKPOINT
+    breakpoint: BREAKPOINT,
   ): string[] {
     const config = this.getSlotConfig(
       page.template ?? '',
       'slots',
       section,
-      breakpoint
+      breakpoint,
     );
     if (config && config.slots) {
       const pageSlots = page.slots ? Object.keys(page.slots) : [];
@@ -133,7 +133,7 @@ export class PageLayoutService implements OnDestroy {
   get templateName$(): Observable<string> {
     return this.page$.pipe(
       map((page: Page) => page.template),
-      filter(isNotUndefined)
+      filter(isNotUndefined),
     );
   }
 
@@ -147,7 +147,7 @@ export class PageLayoutService implements OnDestroy {
     templateUid: string,
     configAttribute: string,
     section?: string,
-    breakpoint?: BREAKPOINT
+    breakpoint?: BREAKPOINT,
   ): SlotConfig | undefined {
     if (!this.config.layoutSlots) {
       return undefined;
@@ -159,7 +159,7 @@ export class PageLayoutService implements OnDestroy {
         templateUid,
         configAttribute,
         section,
-        breakpoint
+        breakpoint,
       );
     }
 
@@ -167,7 +167,7 @@ export class PageLayoutService implements OnDestroy {
       return this.getResponsiveSlotConfig(
         <LayoutSlotConfig>pageTemplateConfig,
         configAttribute,
-        breakpoint
+        breakpoint,
       );
     }
   }
@@ -176,7 +176,7 @@ export class PageLayoutService implements OnDestroy {
     templateUid: string,
     configAttribute: string,
     section?: string,
-    breakpoint?: BREAKPOINT
+    breakpoint?: BREAKPOINT,
   ): SlotConfig | undefined {
     const pageTemplateConfig: any = this.config.layoutSlots?.[templateUid];
 
@@ -197,7 +197,7 @@ export class PageLayoutService implements OnDestroy {
     const responsiveConfig = this.getResponsiveSlotConfig(
       <LayoutSlotConfig>sectionConfig,
       configAttribute,
-      breakpoint
+      breakpoint,
     );
 
     if (responsiveConfig.hasOwnProperty(configAttribute)) {
@@ -217,7 +217,7 @@ export class PageLayoutService implements OnDestroy {
   protected getResponsiveSlotConfig(
     layoutSlotConfig: LayoutSlotConfig,
     configAttribute: string,
-    breakpoint?: BREAKPOINT
+    breakpoint?: BREAKPOINT,
   ): SlotConfig {
     let slotConfig = <SlotConfig>layoutSlotConfig;
 
@@ -264,7 +264,7 @@ export class PageLayoutService implements OnDestroy {
         `Available CMS page slots: '${(page.slots
           ? Object.keys(page.slots)
           : []
-        ).join(`','`)}'`
+        ).join(`','`)}'`,
       );
       this.logSlots[page.template] = true;
     }
@@ -272,7 +272,7 @@ export class PageLayoutService implements OnDestroy {
     const cacheKey = section || page.template;
     if (cacheKey && !this.warnLogMessages[cacheKey]) {
       this.logger.warn(
-        `No layout config found for ${cacheKey}, you can configure a 'LayoutConfig' to control the rendering of page slots.`
+        `No layout config found for ${cacheKey}, you can configure a 'LayoutConfig' to control the rendering of page slots.`,
       );
       this.warnLogMessages[cacheKey] = true;
     }

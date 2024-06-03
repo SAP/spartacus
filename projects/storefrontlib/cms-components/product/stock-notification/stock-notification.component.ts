@@ -59,7 +59,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     private notificationPrefService: UserNotificationPreferenceService,
     private userIdService: UserIdService,
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
   ) {}
 
   ngOnInit() {
@@ -77,22 +77,22 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
             undefined,
             undefined,
             product.code,
-            NotificationType.BACK_IN_STOCK
+            NotificationType.BACK_IN_STOCK,
           );
         }
       }),
       map(
         ([product]: [Product, String]) =>
-          !!product.stock && product.stock.stockLevelStatus === 'outOfStock'
-      )
+          !!product.stock && product.stock.stockLevelStatus === 'outOfStock',
+      ),
     );
 
     this.hasProductInterests$ = this.interestsService
       .getProductInterests()
       .pipe(
         map(
-          (interests) => !!interests.results && interests.results.length === 1
-        )
+          (interests) => !!interests.results && interests.results.length === 1,
+        ),
       );
     this.subscribeSuccess$ =
       this.interestsService.getAddProductInterestSuccess();
@@ -102,7 +102,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
       .getEnabledPreferences()
       .pipe(
         tap((prefs) => (this.enabledPrefs = prefs)),
-        map((prefs) => prefs.length > 0)
+        map((prefs) => prefs.length > 0),
       );
 
     this.subscriptions.add(
@@ -110,7 +110,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
         if (error) {
           this.onInterestAddingError();
         }
-      })
+      }),
     );
     this.subscriptions.add(
       this.interestsService
@@ -119,7 +119,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
           if (success) {
             this.onInterestRemovingSuccess();
           }
-        })
+        }),
     );
   }
 
@@ -127,7 +127,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     this.openDialog();
     this.interestsService.addProductInterest(
       this.productCode,
-      NotificationType.BACK_IN_STOCK
+      NotificationType.BACK_IN_STOCK,
     );
   }
 
@@ -143,7 +143,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
           },
         ],
       },
-      true
+      true,
     );
   }
 
@@ -153,8 +153,8 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
         .translate('stockNotification.unsubscribeSuccess')
         .pipe(first())
         .subscribe((text) =>
-          this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_INFO)
-        )
+          this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_INFO),
+        ),
     );
     this.interestsService.resetRemoveInterestState();
   }
@@ -174,7 +174,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.STOCK_NOTIFICATION,
       this.element,
       this.vcr,
-      modalInstanceData
+      modalInstanceData,
     );
 
     if (dialog) {

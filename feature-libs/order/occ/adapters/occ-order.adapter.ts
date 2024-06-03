@@ -30,13 +30,13 @@ export class OccOrderAdapter implements OrderAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   public placeOrder(
     userId: string,
     cartId: string,
-    termsChecked: boolean
+    termsChecked: boolean,
   ): Observable<Order> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -50,7 +50,7 @@ export class OccOrderAdapter implements OrderAdapter {
       .post<Occ.Order>(
         this.getPlaceOrderEndpoint(userId, cartId, termsChecked.toString()),
         {},
-        { headers }
+        { headers },
       )
       .pipe(
         catchError((error) => {
@@ -59,14 +59,14 @@ export class OccOrderAdapter implements OrderAdapter {
         backOff({
           shouldRetry: isJaloError,
         }),
-        this.converter.pipeable(ORDER_NORMALIZER)
+        this.converter.pipeable(ORDER_NORMALIZER),
       );
   }
 
   protected getPlaceOrderEndpoint(
     userId: string,
     cartId: string,
-    termsChecked: string
+    termsChecked: string,
   ): string {
     return this.occEndpoints.buildUrl('placeOrder', {
       urlParams: { userId },

@@ -20,7 +20,7 @@ export function migrate(): Rule {
     return migrateMethodPropertiesDeprecation(
       tree,
       context,
-      METHOD_PROPERTY_DATA
+      METHOD_PROPERTY_DATA,
     );
   };
 }

@@ -25,14 +25,14 @@ export class LoadConsignmentTrackingById extends StateUtils.EntityLoadAction {
       orderCode: string;
       consignmentCode: string;
       userId: string;
-    }
+    },
   ) {
     super(
       CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
       getConsignmentTrackingByIdEntityKey(
         payload.orderCode,
-        payload.consignmentCode
-      )
+        payload.consignmentCode,
+      ),
     );
   }
 }
@@ -40,15 +40,15 @@ export class LoadConsignmentTrackingById extends StateUtils.EntityLoadAction {
 export class LoadConsignmentTrackingByIdFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CONSIGNMENT_TRACKING_BY_ID_FAIL;
   constructor(
-    public payload: { orderCode: string; consignmentCode: string; error: any }
+    public payload: { orderCode: string; consignmentCode: string; error: any },
   ) {
     super(
       CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
       getConsignmentTrackingByIdEntityKey(
         payload.orderCode,
-        payload.consignmentCode
+        payload.consignmentCode,
       ),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -60,14 +60,14 @@ export class LoadConsignmentTrackingByIdSuccess extends StateUtils.EntitySuccess
       orderCode: string;
       consignmentCode: string;
       consignmentTracking: ConsignmentTracking;
-    }
+    },
   ) {
     super(
       CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
       getConsignmentTrackingByIdEntityKey(
         payload.orderCode,
-        payload.consignmentCode
-      )
+        payload.consignmentCode,
+      ),
     );
   }
 }

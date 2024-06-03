@@ -25,12 +25,12 @@ import { AuthHttpHeaderService } from '../services/auth-http-header.service';
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
     protected authHttpHeaderService: AuthHttpHeaderService,
-    protected authConfigService: AuthConfigService
+    protected authConfigService: AuthConfigService,
   ) {}
 
   intercept(
     httpRequest: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     const shouldCatchError =
       this.authHttpHeaderService.shouldCatchError(httpRequest);
@@ -45,7 +45,7 @@ export class AuthInterceptor implements HttpInterceptor {
       map((token) => ({
         token,
         request: this.authHttpHeaderService.alterRequest(httpRequest, token),
-      }))
+      })),
     );
 
     return requestAndToken$.pipe(
@@ -60,7 +60,7 @@ export class AuthInterceptor implements HttpInterceptor {
                   return this.authHttpHeaderService.handleExpiredAccessToken(
                     request,
                     next,
-                    token
+                    token,
                   );
                 } else if (
                   // Refresh the expired token
@@ -81,9 +81,9 @@ export class AuthInterceptor implements HttpInterceptor {
                 break;
             }
             throw errResponse;
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
   }
 

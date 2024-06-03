@@ -19,7 +19,7 @@ describe('FindStores Selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           STORE_FINDER_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });
@@ -66,7 +66,7 @@ describe('FindStores Selectors', () => {
       expect(result).toEqual(false);
 
       store.dispatch(
-        new StoreFinderActions.FindStoresSuccess({ queryText: '' })
+        new StoreFinderActions.FindStoresSuccess({ queryText: '' }),
       );
 
       expect(result).toEqual(true);

@@ -18,8 +18,8 @@ describe('Segment Reference', () => {
     interceptGet('segmentRefApi', '/cms/pages*');
     cy.visit(
       `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
-        'BASE_CURRENCY'
-      )}/?segmentrefs=footwear`
+        'BASE_CURRENCY',
+      )}/?segmentrefs=footwear`,
     );
     cy.wait('@segmentRefApi').then((xhr) => {
       expect(xhr.request.headers).to.have.property('segmentrefs', 'footwear');

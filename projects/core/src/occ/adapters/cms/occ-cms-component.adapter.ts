@@ -33,12 +33,12 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   load<T extends CmsComponent>(
     id: string,
-    pageContext: PageContext
+    pageContext: PageContext,
   ): Observable<T> {
     // TODO: (CXSPA-4886) Remove flag in the major
     if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
@@ -48,10 +48,10 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
             this.getComponentEndPoint(id, pageContext, userId),
             {
               headers: this.headers,
-            }
+            },
           );
         }),
-        this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER)
+        this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER),
       );
     }
     return this.http
@@ -67,7 +67,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     fields = 'DEFAULT',
     currentPage = 0,
     pageSize = ids.length,
-    sort?: string
+    sort?: string,
   ): Observable<CmsComponent[]> {
     const requestParams = {
       ...this.getContextParams(pageContext),
@@ -83,11 +83,11 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
             this.getComponentsEndpoint(requestParams, fields, userId),
             {
               headers: this.headers,
-            }
+            },
           );
         }),
         map((componentList) => componentList.component ?? []),
-        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
+        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER),
       );
     }
     return this.http
@@ -95,18 +95,18 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         this.getComponentsEndpoint(requestParams, fields),
         {
           headers: this.headers,
-        }
+        },
       )
       .pipe(
         map((componentList) => componentList.component ?? []),
-        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
+        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER),
       );
   }
 
   protected getComponentEndPoint(
     id: string,
     pageContext: PageContext,
-    userId?: string
+    userId?: string,
   ): string {
     // TODO: (CXSPA-4886) Remove flag in the major
     if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
@@ -129,7 +129,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected getComponentsEndpoint(
     requestParams: any,
     fields: string,
-    userId?: string
+    userId?: string,
   ): string {
     // TODO: (CXSPA-4886) Remove flag in the major
     if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
@@ -152,7 +152,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected getPaginationParams(
     currentPage?: number,
     pageSize?: number,
-    sort?: string
+    sort?: string,
   ): { [key: string]: string } {
     const requestParams: { [key: string]: string } = {};
     if (currentPage !== undefined) {

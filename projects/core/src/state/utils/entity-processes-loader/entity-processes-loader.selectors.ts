@@ -23,7 +23,7 @@ const initialProcessesLoaderState = {
 
 export function entityHasPendingProcessesSelector<T>(
   state: EntityProcessesLoaderState<T>,
-  id: string
+  id: string,
 ): boolean {
   const entityState = entityLoaderStateSelector(state, id);
   return hasPendingProcessesSelector(entityState);
@@ -31,7 +31,7 @@ export function entityHasPendingProcessesSelector<T>(
 
 export function entityIsStableSelector<T>(
   state: EntityProcessesLoaderState<T>,
-  id: string
+  id: string,
 ): boolean {
   const entityState = entityLoaderStateSelector(state, id);
   return isStableSelector(entityState);
@@ -39,7 +39,7 @@ export function entityIsStableSelector<T>(
 
 export function entityProcessesLoaderStateSelector<T>(
   state: EntityProcessesLoaderState<T>,
-  id: string
+  id: string,
 ): ProcessesLoaderState<T> {
   return state.entities[id] || initialProcessesLoaderState;
 }

@@ -56,7 +56,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
     _entryNumber: number,
     _quantity: number,
     _pickupInStore: string,
-    _pickupLocation?: boolean
+    _pickupLocation?: boolean,
   ): void {}
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
@@ -81,7 +81,7 @@ export class MockAnonymousUserActiveCartFacade
     _entryNumber: number,
     _quantity: number,
     _pickupInStore: string,
-    _pickupLocation?: boolean
+    _pickupLocation?: boolean,
   ): void {}
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
@@ -113,7 +113,7 @@ const context$ = of(mockOutletContext);
 
 class MockIntendedPickupLocationFacade {
   getIntendedLocation(
-    _productCode: string
+    _productCode: string,
   ): Observable<AugmentedPointOfService | undefined> {
     const result: AugmentedPointOfService = {
       pickupOption: 'pickup',
@@ -123,7 +123,7 @@ class MockIntendedPickupLocationFacade {
   }
   setIntendedLocation(
     _productCode: string,
-    _location: AugmentedPointOfService
+    _location: AugmentedPointOfService,
   ): void {}
 }
 
@@ -203,7 +203,7 @@ describe('CartPickupOptionsContainerComponent', () => {
         LAUNCH_CALLER.PICKUP_IN_STORE,
         component.element,
         component['vcr'],
-        { productCode: 'productCode1', entryNumber: 1, quantity: 1 }
+        { productCode: 'productCode1', entryNumber: 1, quantity: 1 },
       );
     });
 
@@ -229,7 +229,7 @@ describe('CartPickupOptionsContainerComponent', () => {
       component.onPickupOptionChange(pickupOption);
       expect(pickupOptionService.setPickupOption).toHaveBeenCalledWith(
         entryNumber,
-        pickupOption
+        pickupOption,
       );
 
       tick();
@@ -238,7 +238,7 @@ describe('CartPickupOptionsContainerComponent', () => {
         entryNumber,
         quantity,
         'London School',
-        true
+        true,
       );
     }));
 
@@ -256,7 +256,7 @@ describe('CartPickupOptionsContainerComponent', () => {
 
     it('should set the pickupOption to pickup', () => {
       expect(component.pickupOption$).toBeObservable(
-        cold('(a|)', { a: 'pickup' })
+        cold('(a|)', { a: 'pickup' }),
       );
     });
   });
@@ -285,10 +285,10 @@ describe('CartPickupOptionsContainerComponent', () => {
 
     it('should set the pickupOption to delivery', () => {
       spyOn(pickupOptionService, 'getPickupOption').and.returnValue(
-        of('delivery')
+        of('delivery'),
       );
       expect(component.pickupOption$).toBeObservable(
-        cold('(a|)', { a: 'delivery' })
+        cold('(a|)', { a: 'delivery' }),
       );
     });
   });

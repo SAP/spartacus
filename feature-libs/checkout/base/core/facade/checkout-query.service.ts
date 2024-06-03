@@ -44,20 +44,20 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
       () =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) =>
-            this.checkoutConnector.getCheckoutDetails(userId, cartId)
-          )
+            this.checkoutConnector.getCheckoutDetails(userId, cartId),
+          ),
         ),
       {
         reloadOn: this.getCheckoutQueryReloadEvents(),
         resetOn: this.getCheckoutQueryResetEvents(),
-      }
+      },
     );
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected queryService: QueryService,
-    protected checkoutConnector: CheckoutConnector
+    protected checkoutConnector: CheckoutConnector,
   ) {}
 
   /**
@@ -79,7 +79,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
           throw new Error('Checkout conditions not met');
         }
         return [userId, cartId];
-      })
+      }),
     );
   }
 

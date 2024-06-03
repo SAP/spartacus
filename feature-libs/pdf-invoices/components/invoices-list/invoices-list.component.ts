@@ -58,7 +58,7 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
       ? 'createdAt:asc'
       : 'invoiceDate:asc',
     byCreatedAtDesc: this.featureConfig.isEnabled(
-      'pdfInvoicesSortByInvoiceDate'
+      'pdfInvoicesSortByInvoiceDate',
     )
       ? 'createdAt:desc'
       : 'invoiceDate:desc',
@@ -93,17 +93,17 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
           totalPages: invoicesList.pagination?.totalPages,
           totalResults: invoicesList.pagination?.totalCount,
           sort: this.sortMapping[this.sort],
-        })
+        }),
     ),
     catchError((error) => {
       if (error && this.getNotEnabledError(error)?.length) {
         this.globalMessageService.add(
           { key: 'pdfInvoices.featureNotEnabled' },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       }
       return EMPTY;
-    })
+    }),
   );
 
   protected subscription = new Subscription();
@@ -113,7 +113,7 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
     protected translationService: TranslationService,
     protected downloadService: FileDownloadService,
     protected languageService: LanguageService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   ngOnInit() {
@@ -122,8 +122,8 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
         .getActive()
         .pipe(skip(1))
         .subscribe(() =>
-          this.updateQueryParams({ fields: InvoicesFields.FULL })
-        )
+          this.updateQueryParams({ fields: InvoicesFields.FULL }),
+        ),
     );
 
     this.getSortOptions();
@@ -133,7 +133,7 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
     // Overwrite each value present in partialParams to _queryParams
     Object.keys(partialParams).forEach(
       (key) =>
-        ((this._initQueryParams as any)[key] = (partialParams as any)[key])
+        ((this._initQueryParams as any)[key] = (partialParams as any)[key]),
     );
 
     // Every request that doesn't specify fields should be set to DEFAULT
@@ -174,26 +174,26 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   getSortOptions() {
     this.sortOptions = [];
     Object.keys(this.sortMapping).forEach((sortKey) =>
-      this.sortOptions.push({ code: sortKey, selected: false })
+      this.sortOptions.push({ code: sortKey, selected: false }),
     );
 
     const translations = this.sortOptions.map((sort) =>
-      this.translationService.translate(`pdfInvoices.sorts.${sort.code}`)
+      this.translationService.translate(`pdfInvoices.sorts.${sort.code}`),
     );
 
     combineLatest(translations)
       .pipe(take(1))
       .subscribe((translated) =>
         this.sortOptions.forEach(
-          (sort, index) => (sort.name = translated[index])
-        )
+          (sort, index) => (sort.name = translated[index]),
+        ),
       );
   }
 
   getNotEnabledError(response: HttpErrorModel): ErrorModel[] {
     return response?.details
       ? response.details.filter(
-          (error: any) => error?.type === 'UnknownResourceError'
+          (error: any) => error?.type === 'UnknownResourceError',
         )
       : [];
   }

@@ -26,22 +26,22 @@ export class BillingCountriesEffect {
           return this.siteConnector.getCountries(CountryType.BILLING).pipe(
             map(
               (countries) =>
-                new UserActions.LoadBillingCountriesSuccess(countries)
+                new UserActions.LoadBillingCountriesSuccess(countries),
             ),
             catchError((error) =>
               of(
                 new UserActions.LoadBillingCountriesFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
-        })
-      )
+        }),
+      ),
     );
 
   constructor(
     private actions$: Actions,
-    private siteConnector: SiteConnector
+    private siteConnector: SiteConnector,
   ) {}
 }

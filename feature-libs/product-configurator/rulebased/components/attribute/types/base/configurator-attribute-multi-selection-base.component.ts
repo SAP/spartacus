@@ -28,7 +28,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -55,7 +55,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   get withQuantity(): boolean {
     return this.quantityService.withQuantity(
       this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-      this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
+      this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED,
     );
   }
 
@@ -66,7 +66,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    */
   get disableQuantityActions(): boolean {
     return this.quantityService.disableQuantityActionsMultiSelection(
-      this.attribute
+      this.attribute,
     );
   }
 
@@ -79,12 +79,12 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    */
   extractQuantityParameters(
     initialQuantity?: number,
-    allowZero?: boolean
+    allowZero?: boolean,
   ): ConfiguratorAttributeQuantityComponentOptions {
     const disableQuantityActions$ = this.loading$.pipe(
       map((loading) => {
         return loading || this.disableQuantityActions;
-      })
+      }),
     );
 
     return {
@@ -103,7 +103,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
         ...this.attribute,
         quantity,
       },
-      Configurator.UpdateType.ATTRIBUTE_QUANTITY
+      Configurator.UpdateType.ATTRIBUTE_QUANTITY,
     );
   }
 
@@ -133,7 +133,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    * @return {ConfiguratorPriceComponentOptions} - New price formula
    */
   extractValuePriceFormulaParameters(
-    value: Configurator.Value
+    value: Configurator.Value,
   ): ConfiguratorPriceComponentOptions {
     return {
       quantity: value.quantity,

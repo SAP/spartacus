@@ -206,7 +206,7 @@ class MockLoggerService {
 
 const mockNormalizedJaloError = normalizeHttpError(
   mockJaloError,
-  new MockLoggerService()
+  new MockLoggerService(),
 );
 
 describe('OccCheckoutPaymentAdapter', () => {
@@ -266,7 +266,7 @@ describe('OccCheckoutPaymentAdapter', () => {
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'put').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -292,7 +292,7 @@ describe('OccCheckoutPaymentAdapter', () => {
               return of(cartData);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: unknown;
@@ -358,18 +358,18 @@ describe('OccCheckoutPaymentAdapter', () => {
         .flush(mockPaymentDetails);
 
       expect(converter.pipeable).toHaveBeenCalledWith(
-        PAYMENT_DETAILS_NORMALIZER
+        PAYMENT_DETAILS_NORMALIZER,
       );
       expect(converter.convert).toHaveBeenCalledWith(
         mockPaymentDetails,
-        PAYMENT_DETAILS_SERIALIZER
+        PAYMENT_DETAILS_SERIALIZER,
       );
     });
 
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'get').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -395,11 +395,11 @@ describe('OccCheckoutPaymentAdapter', () => {
               return of(paymentProviderInfo);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
         spyOn(httpClient, 'post').and.returnValues(
           of(html),
-          of(mockPaymentDetails)
+          of(mockPaymentDetails),
         );
 
         let result: PaymentDetails | undefined;
@@ -453,7 +453,7 @@ describe('OccCheckoutPaymentAdapter', () => {
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'get').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -478,7 +478,7 @@ describe('OccCheckoutPaymentAdapter', () => {
               return of(cartData);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: unknown;
@@ -527,7 +527,7 @@ describe('OccCheckoutPaymentAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
-        'application/x-www-form-urlencoded'
+        'application/x-www-form-urlencoded',
       );
       expect(mockReq.request.headers.get('Accept')).toEqual('text/html');
       expect(mockReq.request.responseType).toEqual('text');
@@ -538,7 +538,7 @@ describe('OccCheckoutPaymentAdapter', () => {
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'post').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -563,7 +563,7 @@ describe('OccCheckoutPaymentAdapter', () => {
               return of(mockPaymentProvider);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: unknown;
@@ -613,7 +613,7 @@ describe('OccCheckoutPaymentAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
-        'application/x-www-form-urlencoded'
+        'application/x-www-form-urlencoded',
       );
       expect(mockReq.request.headers.get('Accept')).toEqual('text/html');
       expect(mockReq.request.body.get('param1')).toEqual('mockParam1');
@@ -625,7 +625,7 @@ describe('OccCheckoutPaymentAdapter', () => {
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'post').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -650,7 +650,7 @@ describe('OccCheckoutPaymentAdapter', () => {
               return of(mockPaymentProvider);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: unknown;
@@ -700,7 +700,7 @@ describe('OccCheckoutPaymentAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
-        'application/x-www-form-urlencoded'
+        'application/x-www-form-urlencoded',
       );
       expect(mockReq.request.body.get('param')).toEqual('mockParam');
       expect(mockReq.request.responseType).toEqual('json');
@@ -710,14 +710,14 @@ describe('OccCheckoutPaymentAdapter', () => {
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'post').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
         const subscription = service['createDetailsWithParameters'](
           userId,
           cartId,
-          params
+          params,
         )
           .pipe(take(1))
           .subscribe({ error: (err) => (result = err) });
@@ -739,14 +739,14 @@ describe('OccCheckoutPaymentAdapter', () => {
               return of(mockPaymentDetails);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: unknown;
         const subscription = service['createDetailsWithParameters'](
           userId,
           cartId,
-          params
+          params,
         )
           .pipe(take(1))
           .subscribe((res) => {
@@ -794,7 +794,7 @@ describe('OccCheckoutPaymentAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
-        'application/x-www-form-urlencoded'
+        'application/x-www-form-urlencoded',
       );
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.body.get('param1')).toEqual('mockParam1');
@@ -805,14 +805,14 @@ describe('OccCheckoutPaymentAdapter', () => {
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'post').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
         const subscription = service['createDetailsWithParameters'](
           userId,
           cartId,
-          params
+          params,
         )
           .pipe(take(1))
           .subscribe({ error: (err) => (result = err) });
@@ -834,14 +834,14 @@ describe('OccCheckoutPaymentAdapter', () => {
               return of(mockPaymentDetails);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: unknown;
         const subscription = service['createDetailsWithParameters'](
           userId,
           cartId,
-          params
+          params,
         )
           .pipe(take(1))
           .subscribe((res) => {
@@ -906,14 +906,14 @@ describe('OccCheckoutPaymentAdapter', () => {
         });
       httpMock.expectOne('cardtypes').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(
-        PAYMENT_CARD_TYPE_NORMALIZER
+        PAYMENT_CARD_TYPE_NORMALIZER,
       );
     });
 
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'get').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -939,7 +939,7 @@ describe('OccCheckoutPaymentAdapter', () => {
               return of(cardTypesList);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: CardType[] | undefined;
@@ -989,13 +989,13 @@ describe('OccCheckoutPaymentAdapter', () => {
       const params = service['getParamsForPaymentProvider'](
         paymentDetails,
         parametersSentByBackend,
-        labelsMap
+        labelsMap,
       );
       expect(params['billTo_country']).toEqual(
-        paymentDetails.billingAddress?.country?.isocode
+        paymentDetails.billingAddress?.country?.isocode,
       );
       expect(params['billTo_state']).toEqual(
-        paymentDetails.billingAddress?.region?.isocodeShort
+        paymentDetails.billingAddress?.region?.isocodeShort,
       );
     });
 
@@ -1010,10 +1010,10 @@ describe('OccCheckoutPaymentAdapter', () => {
       const params = service['getParamsForPaymentProvider'](
         paymentDetails,
         parametersSentByBackend,
-        labelsMap
+        labelsMap,
       );
       expect(params['billTo_country']).toEqual(
-        paymentDetails.billingAddress?.country?.isocode
+        paymentDetails.billingAddress?.country?.isocode,
       );
       expect(params['billTo_state']).toEqual('');
     });

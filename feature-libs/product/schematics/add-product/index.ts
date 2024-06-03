@@ -28,7 +28,7 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     const features = analyzeCrossFeatureDependencies(
-      options.features as string[]
+      options.features as string[],
     );
 
     return chain([

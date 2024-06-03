@@ -55,7 +55,7 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
    */
   protected stringifyWithContext(
     message: string,
-    context: ExpressServerLoggerContext
+    context: ExpressServerLoggerContext,
   ): string {
     const logObject = { message, context: this.mapContext(context) };
 
@@ -72,7 +72,7 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
    * @returns - The mapped context with timestamp and request (if available)
    */
   protected mapContext(
-    context: ExpressServerLoggerContext
+    context: ExpressServerLoggerContext,
   ): Record<string, any> {
     const timestamp = new Date().toISOString();
     const outputContext = { timestamp, ...context };

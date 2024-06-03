@@ -24,21 +24,21 @@ import {
 export class SavedCartDetailsService {
   protected savedCartId$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.params.savedCartId),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected savedCart$ = this.savedCartId$.pipe(
     filter((cartId) => Boolean(cartId)),
     tap((savedCartId: string) =>
-      this.savedCartService.loadSavedCart(savedCartId)
+      this.savedCartService.loadSavedCart(savedCartId),
     ),
     switchMap((savedCartId: string) => this.savedCartService.get(savedCartId)),
-    shareReplay({ bufferSize: 1, refCount: true })
+    shareReplay({ bufferSize: 1, refCount: true }),
   );
 
   constructor(
     protected routingService: RoutingService,
-    protected savedCartService: SavedCartFacade
+    protected savedCartService: SavedCartFacade,
   ) {}
 
   getSavedCartId(): Observable<string> {

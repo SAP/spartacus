@@ -26,7 +26,7 @@ export class CartValidationWarningsComponent {
     map((modificationList) => {
       const result = modificationList.filter(
         (modification) =>
-          modification.statusCode === CartValidationStatusCode.NO_STOCK
+          modification.statusCode === CartValidationStatusCode.NO_STOCK,
       );
 
       result.forEach((modification) => {
@@ -35,7 +35,7 @@ export class CartValidationWarningsComponent {
         }
       });
       return result;
-    })
+    }),
   );
 
   constructor(protected cartValidationFacade: CartValidationFacade) {}

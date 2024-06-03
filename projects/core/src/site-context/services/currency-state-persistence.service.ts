@@ -16,7 +16,7 @@ export class CurrencyStatePersistenceService {
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected currencyService: CurrencyService,
-    protected config: SiteContextConfig
+    protected config: SiteContextConfig,
   ) {}
 
   protected initialized$ = new ReplaySubject<unknown>(1);

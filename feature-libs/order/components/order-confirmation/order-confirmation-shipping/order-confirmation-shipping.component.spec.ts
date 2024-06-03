@@ -40,7 +40,7 @@ class MockOrderFacade implements Partial<OrderFacade> {
       ],
       deliveryAddress: { id: 'testAddress' },
       deliveryMode: { code: 'testCode' },
-    })
+    }),
   );
 }
 
@@ -138,7 +138,7 @@ describe('OrderConfirmationShippingComponent', () => {
           ],
           deliveryAddress: { id: 'testAddress' },
           deliveryMode: { code: 'testCode' },
-        })
+        }),
       );
     }
     function configureTestingModule(): TestBed {
@@ -178,7 +178,7 @@ describe('OrderConfirmationShippingComponent', () => {
       expect(component.showItemList).toEqual(false);
 
       component.order$.subscribe((value) =>
-        expect(value).toEqual({ code: 'test' })
+        expect(value).toEqual({ code: 'test' }),
       );
     });
   });

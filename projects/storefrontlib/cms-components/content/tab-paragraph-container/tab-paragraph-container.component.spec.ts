@@ -75,26 +75,24 @@ describe('TabParagraphContainerComponent', () => {
   let cmsService: CmsService;
   let windowRef: WindowRef;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          TestComponent,
-          TabParagraphContainerComponent,
-          ComponentWrapperDirective,
-          OutletDirective,
-        ],
-        providers: [
-          WindowRef,
-          { provide: CmsComponentData, useValue: MockCmsComponentData },
-          { provide: CmsService, useValue: MockCmsService },
-          { provide: CmsConfig, useValue: MockCmsModuleConfig },
-          { provide: LayoutConfig, useValue: MockLayoutConfig },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        TestComponent,
+        TabParagraphContainerComponent,
+        ComponentWrapperDirective,
+        OutletDirective,
+      ],
+      providers: [
+        WindowRef,
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
+        { provide: CmsService, useValue: MockCmsService },
+        { provide: CmsConfig, useValue: MockCmsModuleConfig },
+        { provide: LayoutConfig, useValue: MockLayoutConfig },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TabParagraphContainerComponent);
@@ -113,7 +111,7 @@ describe('TabParagraphContainerComponent', () => {
     spyOn(cmsService, 'getComponentData').and.returnValues(
       of(mockTabComponentData1),
       of(mockTabComponentData2),
-      of(mockTabComponentData3)
+      of(mockTabComponentData3),
     );
     let childComponents: any[];
     component.components$
@@ -134,7 +132,7 @@ describe('TabParagraphContainerComponent', () => {
       {
         activeTab: 1,
       },
-      null
+      null,
     );
     component.ngOnInit();
     // reset the state
@@ -147,7 +145,7 @@ describe('TabParagraphContainerComponent', () => {
       {
         activeTab: -1,
       },
-      null
+      null,
     );
     component.ngOnInit();
     // reset the state
@@ -159,7 +157,7 @@ describe('TabParagraphContainerComponent', () => {
     spyOn(cmsService, 'getComponentData').and.returnValues(
       of(mockTabComponentData1),
       of(mockTabComponentData2),
-      of(mockTabComponentData3)
+      of(mockTabComponentData3),
     );
     fixture.detectChanges();
 
@@ -198,7 +196,7 @@ describe('TabParagraphContainerComponent', () => {
   it('should be able to get ariaLabel', () => {
     fixture.detectChanges();
     expect(component.ariaLabel).toEqual(
-      'TabPanelContainer.tabPanelContainerRegion'
+      'TabPanelContainer.tabPanelContainerRegion',
     );
   });
 });

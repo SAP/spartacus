@@ -37,10 +37,10 @@ class MockSiteConnector {
 describe('CurrencyService', () => {
   const mockSelect0 = createSpy('select').and.returnValue(() => of(undefined));
   const mockSelect1 = createSpy('select').and.returnValue(() =>
-    of(mockCurrencies)
+    of(mockCurrencies),
   );
   const mockSelect2 = createSpy('select').and.returnValue(() =>
-    of(mockActiveCurr)
+    of(mockActiveCurr),
   );
 
   let service: CurrencyService;
@@ -69,7 +69,7 @@ describe('CurrencyService', () => {
     [CurrencyService],
     (currencyService: CurrencyService) => {
       expect(currencyService).toBeTruthy();
-    }
+    },
   ));
 
   it('should not load currencies when service is constructed', () => {
@@ -80,7 +80,7 @@ describe('CurrencyService', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect0);
     service.getAll().subscribe();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new SiteContextActions.LoadCurrencies()
+      new SiteContextActions.LoadCurrencies(),
     );
   });
 
@@ -104,7 +104,7 @@ describe('CurrencyService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
       service.setActive('JPY');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new SiteContextActions.SetActiveCurrency('JPY')
+        new SiteContextActions.SetActiveCurrency('JPY'),
       );
     });
 
@@ -112,7 +112,7 @@ describe('CurrencyService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
       service.setActive(mockActiveCurr);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new SiteContextActions.SetActiveCurrency(mockActiveCurr)
+        new SiteContextActions.SetActiveCurrency(mockActiveCurr),
       );
     });
   });

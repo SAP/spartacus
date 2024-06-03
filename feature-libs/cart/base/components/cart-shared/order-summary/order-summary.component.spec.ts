@@ -30,21 +30,19 @@ describe('OrderSummary', () => {
   let component: OrderSummaryComponent;
   let fixture: ComponentFixture<OrderSummaryComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [CommonModule, PromotionsModule, I18nTestingModule],
-        declarations: [OrderSummaryComponent, MockAppliedCouponsComponent],
-        providers: [
-          { provide: CartVoucherFacade, useValue: {} },
-          {
-            provide: OutletContextData,
-            useValue: { context$ },
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [CommonModule, PromotionsModule, I18nTestingModule],
+      declarations: [OrderSummaryComponent, MockAppliedCouponsComponent],
+      providers: [
+        { provide: CartVoucherFacade, useValue: {} },
+        {
+          provide: OutletContextData,
+          useValue: { context$ },
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderSummaryComponent);

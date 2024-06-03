@@ -30,7 +30,7 @@ export class RequestedDeliveryDateBadRequestHandler extends HttpErrorHandler {
     if (request && this.getErrors(response)?.length) {
       this.globalMessageService.add(
         { key: 'requestedDeliveryDate.errorMessage' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }
@@ -39,7 +39,7 @@ export class RequestedDeliveryDateBadRequestHandler extends HttpErrorHandler {
     return (response.error?.errors).filter(
       (error: any) =>
         error?.type === 'ValidationError' &&
-        error?.message === 'checkout.multi.requestedretrievaldatevalid.error'
+        error?.message === 'checkout.multi.requestedretrievaldatevalid.error',
     );
   }
 

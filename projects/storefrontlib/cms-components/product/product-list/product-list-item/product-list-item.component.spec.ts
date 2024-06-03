@@ -94,37 +94,35 @@ describe('ProductListItemComponent in product-list', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule, OutletModule],
-        declarations: [
-          ProductListItemComponent,
-          MockPictureComponent,
-          MockAddToCartComponent,
-          MockStarRatingComponent,
-          MockUrlPipe,
-          MockCxIconComponent,
-          MockFeatureDirective,
-          MockOutletDirective,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-        ],
-      })
-        .overrideComponent(ProductListItemComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule, OutletModule],
+      declarations: [
+        ProductListItemComponent,
+        MockPictureComponent,
+        MockAddToCartComponent,
+        MockStarRatingComponent,
+        MockUrlPipe,
+        MockCxIconComponent,
+        MockFeatureDirective,
+        MockOutletDirective,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ProductListItemComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListItemComponent);
@@ -144,33 +142,33 @@ describe('ProductListItemComponent in product-list', () => {
   it('should display product name', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-name')
-        .textContent
+        .textContent,
     ).toContain(component.product.name);
   });
 
   it('should display product summary', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-summary')
-        .textContent
+        .textContent,
     ).toContain(component.product.summary);
   });
 
   it('should display product formatted price', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-price')
-        .textContent
+        .textContent,
     ).toContain(component.product.price.formattedValue);
   });
 
   it('should display product image', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('cx-media')
+      fixture.debugElement.nativeElement.querySelector('cx-media'),
     ).not.toBeNull();
   });
 
   it('should display raiting component', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('cx-star-rating')
+      fixture.debugElement.nativeElement.querySelector('cx-star-rating'),
     ).not.toBeNull();
   });
 
@@ -178,7 +176,7 @@ describe('ProductListItemComponent in product-list', () => {
     component.product.averageRating = undefined;
     fixture.detectChanges();
     expect(
-      fixture.debugElement.nativeElement.querySelector('cx-star-rating')
+      fixture.debugElement.nativeElement.querySelector('cx-star-rating'),
     ).toBeNull();
   });
 
@@ -186,7 +184,7 @@ describe('ProductListItemComponent in product-list', () => {
     component.product.averageRating = undefined;
     fixture.detectChanges();
     expect(fixture.debugElement.nativeElement.innerText).toContain(
-      'productDetails.noReviews'
+      'productDetails.noReviews',
     );
   });
 
@@ -200,13 +198,13 @@ describe('ProductListItemComponent in product-list', () => {
 
   it('should provide ProductListItemContext', () => {
     expect(componentInjector.get(ProductListItemContext)).toBe(
-      componentInjector.get(ProductListItemContextSource)
+      componentInjector.get(ProductListItemContextSource),
     );
   });
 
   it('should push changes of input"product" to context', () => {
     const contextSource: ProductListItemContextSource = componentInjector.get(
-      ProductListItemContextSource
+      ProductListItemContextSource,
     );
     spyOn(contextSource.product$, 'next');
     component.product = mockProduct;

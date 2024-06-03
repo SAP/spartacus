@@ -98,14 +98,14 @@ describe('LoginGuard', () => {
       loginGuard
         .canActivate(
           'a' as unknown as ActivatedRouteSnapshot,
-          'b' as unknown as RouterStateSnapshot
+          'b' as unknown as RouterStateSnapshot,
         )
         .pipe(take(1))
         .subscribe((res) => {
           expect(res).toBe(true);
           expect(cmsPageGuard.canActivate).toHaveBeenCalledWith(
             'a' as unknown as CmsActivatedRouteSnapshot,
-            'b' as unknown as RouterStateSnapshot
+            'b' as unknown as RouterStateSnapshot,
           );
           expect(authService.loginWithRedirect).not.toHaveBeenCalled();
           done();
@@ -118,20 +118,20 @@ describe('LoginGuard', () => {
       spyOn(cmsPageGuard, 'canActivate').and.callThrough();
       spyOn(authService, 'loginWithRedirect').and.callThrough();
       spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
-        OAuthFlow.ResourceOwnerPasswordFlow
+        OAuthFlow.ResourceOwnerPasswordFlow,
       );
 
       loginGuard
         .canActivate(
           'a' as unknown as ActivatedRouteSnapshot,
-          'b' as unknown as RouterStateSnapshot
+          'b' as unknown as RouterStateSnapshot,
         )
         .pipe(take(1))
         .subscribe((res) => {
           expect(res).toBe(true);
           expect(cmsPageGuard.canActivate).toHaveBeenCalledWith(
             'a' as unknown as CmsActivatedRouteSnapshot,
-            'b' as unknown as RouterStateSnapshot
+            'b' as unknown as RouterStateSnapshot,
           );
           expect(authService.loginWithRedirect).not.toHaveBeenCalled();
           done();
@@ -145,7 +145,7 @@ describe('LoginGuard', () => {
       loginGuard
         .canActivate(
           'a' as unknown as ActivatedRouteSnapshot,
-          'b' as unknown as RouterStateSnapshot
+          'b' as unknown as RouterStateSnapshot,
         )
         .subscribe()
         .unsubscribe();
@@ -161,7 +161,7 @@ describe('LoginGuard', () => {
       loginGuard
         .canActivate(
           'a' as unknown as ActivatedRouteSnapshot,
-          'b' as unknown as RouterStateSnapshot
+          'b' as unknown as RouterStateSnapshot,
         )
         .subscribe((result) => {
           expect(result).toBe(false);

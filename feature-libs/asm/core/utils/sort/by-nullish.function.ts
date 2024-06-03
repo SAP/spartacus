@@ -10,7 +10,7 @@ import { Comparator, SortOrder } from './sort.model';
  * Sorts based on items being nullish or not.  Ascending is nullish items first.
  */
 export function byNullish<T>(
-  ordering: SortOrder = SortOrder.ASC
+  ordering: SortOrder = SortOrder.ASC,
 ): Comparator<T> {
   return (a: T, b: T) => {
     const aNullish = a === null || a === undefined;

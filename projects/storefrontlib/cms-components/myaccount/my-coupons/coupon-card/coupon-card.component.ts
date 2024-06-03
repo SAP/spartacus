@@ -40,7 +40,7 @@ export class CouponCardComponent {
   constructor(
     protected myCouponsComponentService: MyCouponsComponentService,
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
   ) {}
 
   onSubscriptionChange(): void {
@@ -55,7 +55,7 @@ export class CouponCardComponent {
       LAUNCH_CALLER.COUPON,
       this.element,
       this.vcr,
-      { coupon: this.coupon }
+      { coupon: this.coupon },
     );
 
     if (dialog) {

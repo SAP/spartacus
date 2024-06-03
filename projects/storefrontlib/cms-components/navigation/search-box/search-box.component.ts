@@ -113,7 +113,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     @Optional()
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
   ) {}
 
   /**
@@ -140,11 +140,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         ...this.config,
       };
     }),
-    tap((config) => (this.config = config))
+    tap((config) => (this.config = config)),
   );
 
   results$: Observable<SearchResults> = this.config$.pipe(
-    switchMap((config) => this.searchBoxComponentService.getResults(config))
+    switchMap((config) => this.searchBoxComponentService.getResults(config)),
   );
 
   ngOnInit(): void {
@@ -175,7 +175,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       this.searchBoxComponentService.sharedEvent.subscribe(
         (event: KeyboardEvent) => {
           this.propagateEvent(event);
-        }
+        },
       );
 
     this.subscriptions.add(UIEventSubscription);
@@ -209,7 +209,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       if (!this.searchBoxActive) {
         this.searchBoxComponentService.toggleBodyClass(
           SEARCHBOX_IS_ACTIVE,
-          true
+          true,
         );
         this.searchBoxActive = true;
         this.searchInput.nativeElement.focus();
@@ -288,8 +288,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private getResultElements(): HTMLElement[] {
     return Array.from(
       this.winRef.document.querySelectorAll(
-        '.products > li a, .suggestions > li a, .recent-searches > li a'
-      )
+        '.products > li a, .suggestions > li a, .recent-searches > li a',
+      ),
     );
   }
 

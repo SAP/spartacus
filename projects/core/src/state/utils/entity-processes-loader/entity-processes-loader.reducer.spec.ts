@@ -15,7 +15,7 @@ describe('EntityProcessesLoader reducer', () => {
       const action = {} as any;
       const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
         undefined,
-        action
+        action,
       );
 
       const expectedState = StateUtils.initialEntityState;
@@ -31,11 +31,11 @@ describe('EntityProcessesLoader reducer', () => {
       it('should increment processesCount state', () => {
         const action = new EntityProcessesIncrementAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
         );
         const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
           undefined,
-          action
+          action,
         );
         const expectedState = {
           entities: {
@@ -56,7 +56,7 @@ describe('EntityProcessesLoader reducer', () => {
       it('should decrement processesCount state', () => {
         const action = new EntityProcessesDecrementAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
         );
         const initialState = {
           entities: {
@@ -71,7 +71,7 @@ describe('EntityProcessesLoader reducer', () => {
         };
         const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
           initialState,
-          action
+          action,
         );
         const expectedState = {
           entities: {
@@ -92,7 +92,7 @@ describe('EntityProcessesLoader reducer', () => {
       it('should reset processes loader state', () => {
         const action = new EntityProcessesLoaderResetAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
         );
         const initialState = {
           entities: {
@@ -108,7 +108,7 @@ describe('EntityProcessesLoader reducer', () => {
 
         const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
           initialState,
-          action
+          action,
         );
         const expectedState = {
           entities: {
@@ -133,11 +133,11 @@ describe('EntityProcessesLoader reducer', () => {
       it('should increment processesCount state', () => {
         const action = new EntityProcessesIncrementAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITIES_ID
+          TEST_ENTITIES_ID,
         );
         const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
           undefined,
-          action
+          action,
         );
         const expectedState = {
           entities: {
@@ -165,7 +165,7 @@ describe('EntityProcessesLoader reducer', () => {
       it('should decrement processesCount state', () => {
         const action = new EntityProcessesDecrementAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITIES_ID
+          TEST_ENTITIES_ID,
         );
         const initialState = {
           entities: {
@@ -180,7 +180,7 @@ describe('EntityProcessesLoader reducer', () => {
         };
         const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
           initialState,
-          action
+          action,
         );
         const expectedState = {
           entities: {
@@ -208,7 +208,7 @@ describe('EntityProcessesLoader reducer', () => {
       it('should reset processes loader state', () => {
         const action = new EntityProcessesLoaderResetAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITIES_ID
+          TEST_ENTITIES_ID,
         );
         const initialState = {
           entities: {
@@ -238,7 +238,7 @@ describe('EntityProcessesLoader reducer', () => {
 
         const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
           initialState,
-          action
+          action,
         );
         const expectedState = {
           entities: {

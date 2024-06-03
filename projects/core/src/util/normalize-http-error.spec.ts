@@ -21,7 +21,7 @@ describe('normalizeHttpError', () => {
       normalizeHttpError(error, logger);
       expect(console.error).toHaveBeenCalledWith(
         'Error passed to normalizeHttpError is not HttpErrorResponse instance',
-        error
+        error,
       );
     });
 
@@ -32,7 +32,7 @@ describe('normalizeHttpError', () => {
       normalizeHttpError(error, logger);
       expect(logger.error).toHaveBeenCalledWith(
         'Error passed to normalizeHttpError is not HttpErrorResponse instance',
-        error
+        error,
       );
     });
   });
@@ -54,7 +54,7 @@ describe('normalizeHttpError', () => {
           status: mockError.status,
           statusText: mockError.statusText,
           url: mockError.url,
-        })
+        }),
       );
       expect(result instanceof HttpErrorModel).toBeTruthy();
     });
@@ -79,7 +79,7 @@ describe('normalizeHttpError', () => {
               message: 'errorMessage',
             },
           ],
-        })
+        }),
       );
       expect(result instanceof HttpErrorModel).toBeTruthy();
     });
@@ -105,7 +105,7 @@ describe('normalizeHttpError', () => {
               type: 'errorType',
             },
           ],
-        })
+        }),
       );
       expect(result instanceof HttpErrorModel).toBeTruthy();
     });

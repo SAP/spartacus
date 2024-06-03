@@ -38,7 +38,7 @@ describe('PermissionNormalizer', () => {
     [OccPermissionNormalizer],
     (permissionNormalizer: OccPermissionNormalizer) => {
       expect(permissionNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert permission', () => {

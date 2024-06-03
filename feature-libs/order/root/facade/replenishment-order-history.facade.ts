@@ -108,7 +108,7 @@ export abstract class ReplenishmentOrderHistoryFacade {
    * Returns replenishment order history list
    */
   abstract getReplenishmentOrderHistoryList(
-    pageSize: number
+    pageSize: number,
   ): Observable<ReplenishmentOrderList | undefined>;
 
   /**
@@ -135,7 +135,7 @@ export abstract class ReplenishmentOrderHistoryFacade {
   abstract loadReplenishmentOrderList(
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): void;
 
   /**

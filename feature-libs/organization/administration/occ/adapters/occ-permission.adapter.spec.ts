@@ -24,7 +24,7 @@ class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { orderApprovalPermissionCode } }) =>
-      url === 'permission' ? url + orderApprovalPermissionCode : url
+      url === 'permission' ? url + orderApprovalPermissionCode : url,
   );
 }
 
@@ -65,13 +65,13 @@ describe('OccPermissionAdapter', () => {
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'GET' &&
-          req.url === 'permission' + orderApprovalPermissionCode
+          req.url === 'permission' + orderApprovalPermissionCode,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(permission);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        PERMISSION_NORMALIZER
+        PERMISSION_NORMALIZER,
       );
     });
   });
@@ -80,13 +80,13 @@ describe('OccPermissionAdapter', () => {
     it('should load permission list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'permissions'
+        (req) => req.method === 'GET' && req.url === 'permissions',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([permission]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        PERMISSIONS_NORMALIZER
+        PERMISSIONS_NORMALIZER,
       );
     });
   });
@@ -96,19 +96,19 @@ describe('OccPermissionAdapter', () => {
       service.create(userId, permission).subscribe();
       expect(converterService.convert).toHaveBeenCalledWith(
         permission,
-        PERMISSION_SERIALIZER
+        PERMISSION_SERIALIZER,
       );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'POST' &&
           req.url === 'permissions' &&
-          req.body.code === permission.code
+          req.body.code === permission.code,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(permission);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        PERMISSION_NORMALIZER
+        PERMISSION_NORMALIZER,
       );
     });
   });
@@ -120,20 +120,20 @@ describe('OccPermissionAdapter', () => {
         .subscribe();
       expect(converterService.convert).toHaveBeenCalledWith(
         permission,
-        PERMISSION_SERIALIZER
+        PERMISSION_SERIALIZER,
       );
 
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'PATCH' &&
           req.url === 'permission' + orderApprovalPermissionCode &&
-          req.body.code === permission.code
+          req.body.code === permission.code,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(permission);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        PERMISSION_NORMALIZER
+        PERMISSION_NORMALIZER,
       );
     });
   });

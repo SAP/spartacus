@@ -25,7 +25,7 @@ export function createReplenishmentRequestRoute(requestMethod: string) {
   cy.intercept({
     method: requestMethod,
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/*/replenishmentOrders*`,
   }).as(replenishmentAlias);
 
@@ -49,7 +49,7 @@ export function waitForReplenishmentOrders() {
       cy.waitForOrderToBePlacedRequest(
         POWERTOOLS_BASESITE,
         undefined,
-        orderData.body.replenishmentOrderCode
+        orderData.body.replenishmentOrderCode,
       );
 
       const replenishmentHistoryAlias = visitReplenishmentHistory();
@@ -65,13 +65,13 @@ export function waitForReplenishmentOrders() {
       });
 
       cy.get(
-        `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-header h3`
+        `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-header h3`,
       ).should('contain', replenishmentOrderHistoryHeaderValue);
       cy.get(
-        `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-code > .cx-replenishment-order-history-value`
+        `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-code > .cx-replenishment-order-history-value`,
       ).should('contain', orderData.body.replenishmentOrderCode);
       cy.get(
-        `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-total > .cx-replenishment-order-history-value`
+        `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-total > .cx-replenishment-order-history-value`,
       ).should('contain', orderData.body.totalPriceWithTax.formattedValue);
     });
   });
@@ -81,7 +81,7 @@ export function verifySorting() {
   visitReplenishmentHistory();
 
   cy.intercept({ method: 'GET', query: { sort: 'byReplenishmentNumber' } }).as(
-    'query_order_asc'
+    'query_order_asc',
   );
 
   cy.get('.top cx-sorting .ng-select').ngSelect('Replenishment Number');
@@ -89,12 +89,12 @@ export function verifySorting() {
   cy.wait('@query_order_asc').its('response.statusCode').should('eq', 200);
 
   cy.get(
-    `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-code > .cx-replenishment-order-history-value`
+    `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-code > .cx-replenishment-order-history-value`,
   ).then(($orders) => {
     expect(
       $orders[0].textContent
         .toString()
-        .localeCompare($orders[1].textContent.toString())
+        .localeCompare($orders[1].textContent.toString()),
     ).to.equal(-1);
   });
 }
@@ -109,26 +109,26 @@ export function cancelReplenishmentInHistory() {
     verifyFirstRowReplenishmentIsNotCancelled();
 
     cy.get(
-      `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-cancel:first button`
+      `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-cancel:first button`,
     )
       .should('exist')
       .click();
 
     verifyReplenishmentIsCancelled(
-      body.replenishmentOrders[0].replenishmentOrderCode
+      body.replenishmentOrders[0].replenishmentOrderCode,
     );
 
     verifyFirstRowReplenishmentIsCancelled();
 
     cy.get(
-      `${replenishmentOrderHistorySelector} tr:first .cx-replenishment-order-history-cancel button`
+      `${replenishmentOrderHistorySelector} tr:first .cx-replenishment-order-history-cancel button`,
     ).should('not.exist');
   });
 }
 
 export function verifyFirstRowReplenishmentIsCancelled() {
   cy.get(
-    `${replenishmentOrderHistorySelector} tr:first .cx-replenishment-order-history-value`
+    `${replenishmentOrderHistorySelector} tr:first .cx-replenishment-order-history-value`,
   )
     .eq(4)
     .should('contain', 'Cancelled');
@@ -136,7 +136,7 @@ export function verifyFirstRowReplenishmentIsCancelled() {
 
 export function verifyFirstRowReplenishmentIsNotCancelled() {
   cy.get(
-    `${replenishmentOrderHistorySelector} tr:first .cx-replenishment-order-history-value`
+    `${replenishmentOrderHistorySelector} tr:first .cx-replenishment-order-history-value`,
   )
     .eq(4)
     .should('not.contain', 'Cancelled');

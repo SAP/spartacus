@@ -60,11 +60,11 @@ describe('OccSavedCartAdapter', () => {
       adapter
         .load(mockUserId, mockCartId)
         .subscribe((data) =>
-          expect(data).toEqual(mockSavedCartResult.savedCartData)
+          expect(data).toEqual(mockSavedCartResult.savedCartData),
         );
 
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === `/savedCart`
+        (req) => req.method === 'GET' && req.url === `/savedCart`,
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -81,14 +81,14 @@ describe('OccSavedCartAdapter', () => {
         .subscribe((data) => expect(data).toEqual(mockSavedCartList.carts));
 
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === `/savedCarts`
+        (req) => req.method === 'GET' && req.url === `/savedCarts`,
       );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockSavedCartList);
       expect(converterService.pipeableMany).toHaveBeenCalledWith(
-        CART_NORMALIZER
+        CART_NORMALIZER,
       );
     });
   });
@@ -98,11 +98,11 @@ describe('OccSavedCartAdapter', () => {
       adapter
         .restoreSavedCart(mockUserId, mockCartId)
         .subscribe((data) =>
-          expect(data).toEqual(mockSavedCartResult.savedCartData)
+          expect(data).toEqual(mockSavedCartResult.savedCartData),
         );
 
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'PATCH' && req.url === `/restoreSavedCart`
+        (req) => req.method === 'PATCH' && req.url === `/restoreSavedCart`,
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -117,11 +117,11 @@ describe('OccSavedCartAdapter', () => {
       adapter
         .cloneSavedCart(mockUserId, mockCartId, mockCartName)
         .subscribe((data) =>
-          expect(data).toEqual(mockSavedCartResult.savedCartData)
+          expect(data).toEqual(mockSavedCartResult.savedCartData),
         );
 
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'POST' && req.url === `/cloneSavedCart`
+        (req) => req.method === 'POST' && req.url === `/cloneSavedCart`,
       );
 
       expect(mockReq.cancelled).toBeFalsy();

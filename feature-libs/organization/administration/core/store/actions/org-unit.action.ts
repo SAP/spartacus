@@ -122,7 +122,7 @@ export class LoadOrgUnitSuccess extends StateUtils.EntitySuccessAction {
       ORG_UNIT_ENTITIES,
       Array.isArray(payload)
         ? payload.map((orgUnit) => orgUnit?.uid ?? '')
-        : payload?.uid ?? ''
+        : payload?.uid ?? '',
     );
   }
 }
@@ -132,7 +132,7 @@ export class LoadOrgUnitNodes extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-    }
+    },
   ) {
     super(ORG_UNIT_NODE_LIST, ORG_UNIT_NODES);
   }
@@ -176,7 +176,7 @@ export class CreateUnitSuccess extends StateUtils.EntitySuccessAction {
 export class UpdateUnit extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_ORG_UNIT;
   constructor(
-    public payload: { userId: string; unitCode: string; unit: B2BUnit }
+    public payload: { userId: string; unitCode: string; unit: B2BUnit },
   ) {
     super(ORG_UNIT_ENTITIES, payload.unit.uid ?? '');
   }
@@ -231,7 +231,7 @@ export class LoadApprovalProcessesFail extends StateUtils.EntityFailAction {
     super(
       ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
       ORG_UNIT_APPROVAL_PROCESSES,
-      payload.error
+      payload.error,
     );
   }
 }
@@ -252,14 +252,14 @@ export class LoadAssignedUsers extends StateUtils.EntityLoadAction {
       orgUnitId: string;
       roleId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
       StateUtils.serializeSearchConfig(
         payload.params,
-        `${payload.orgUnitId},${payload.roleId}`
-      )
+        `${payload.orgUnitId},${payload.roleId}`,
+      ),
     );
   }
 }
@@ -271,14 +271,14 @@ export class ClearAssignedUsers extends StateUtils.EntityRemoveAction {
       orgUnitId: string;
       roleId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
       StateUtils.serializeSearchConfig(
         payload.params,
-        `${payload.orgUnitId},${payload.roleId}`
-      )
+        `${payload.orgUnitId},${payload.roleId}`,
+      ),
     );
   }
 }
@@ -291,15 +291,15 @@ export class LoadAssignedUsersFail extends StateUtils.EntityFailAction {
       roleId: string;
       params: SearchConfig;
       error: any;
-    }
+    },
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
       StateUtils.serializeSearchConfig(
         payload.params,
-        `${payload.orgUnitId},${payload.roleId}`
+        `${payload.orgUnitId},${payload.roleId}`,
       ),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -312,14 +312,14 @@ export class LoadAssignedUsersSuccess extends StateUtils.EntitySuccessAction {
       roleId: string;
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
       StateUtils.serializeSearchConfig(
         payload.params,
-        `${payload.orgUnitId},${payload.roleId}`
-      )
+        `${payload.orgUnitId},${payload.roleId}`,
+      ),
     );
   }
 }
@@ -331,7 +331,7 @@ export class AssignRole extends StateUtils.EntityLoadAction {
       userId: string;
       orgCustomerId: string;
       roleId: string;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId);
   }
@@ -343,7 +343,7 @@ export class AssignRoleFail extends StateUtils.EntityFailAction {
     public payload: {
       orgCustomerId: string;
       error: any;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
@@ -352,7 +352,7 @@ export class AssignRoleFail extends StateUtils.EntityFailAction {
 export class AssignRoleSuccess extends StateUtils.EntitySuccessAction {
   readonly type = ASSIGN_ROLE_SUCCESS;
   constructor(
-    public payload: { uid: string; roleId: string; selected: boolean }
+    public payload: { uid: string; roleId: string; selected: boolean },
   ) {
     super(B2B_USER_ENTITIES, payload.uid, payload);
   }
@@ -365,7 +365,7 @@ export class UnassignRole extends StateUtils.EntityLoadAction {
       userId: string;
       orgCustomerId: string;
       roleId: string;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId);
   }
@@ -377,7 +377,7 @@ export class UnassignRoleFail extends StateUtils.EntityFailAction {
     public payload: {
       orgCustomerId: string;
       error: any;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
@@ -386,7 +386,7 @@ export class UnassignRoleFail extends StateUtils.EntityFailAction {
 export class UnassignRoleSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UNASSIGN_ROLE_SUCCESS;
   constructor(
-    public payload: { uid: string; roleId: string; selected: boolean }
+    public payload: { uid: string; roleId: string; selected: boolean },
   ) {
     super(B2B_USER_ENTITIES, payload.uid, payload);
   }
@@ -400,7 +400,7 @@ export class AssignApprover extends StateUtils.EntityLoadAction {
       orgUnitId: string;
       orgCustomerId: string;
       roleId: string;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId);
   }
@@ -412,7 +412,7 @@ export class AssignApproverFail extends StateUtils.EntityFailAction {
     public payload: {
       orgCustomerId: string;
       error: any;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
@@ -421,7 +421,7 @@ export class AssignApproverFail extends StateUtils.EntityFailAction {
 export class AssignApproverSuccess extends StateUtils.EntitySuccessAction {
   readonly type = ASSIGN_APPROVER_SUCCESS;
   constructor(
-    public payload: { uid: string; roleId: string; selected: boolean }
+    public payload: { uid: string; roleId: string; selected: boolean },
   ) {
     super(B2B_USER_ENTITIES, payload.uid, payload);
   }
@@ -435,7 +435,7 @@ export class UnassignApprover extends StateUtils.EntityLoadAction {
       orgUnitId: string;
       orgCustomerId: string;
       roleId: string;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId);
   }
@@ -447,7 +447,7 @@ export class UnassignApproverFail extends StateUtils.EntityFailAction {
     public payload: {
       orgCustomerId: string;
       error: any;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
@@ -456,7 +456,7 @@ export class UnassignApproverFail extends StateUtils.EntityFailAction {
 export class UnassignApproverSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UNASSIGN_APPROVER_SUCCESS;
   constructor(
-    public payload: { uid: string; roleId: string; selected: boolean }
+    public payload: { uid: string; roleId: string; selected: boolean },
   ) {
     super(B2B_USER_ENTITIES, payload.uid, payload);
   }
@@ -465,7 +465,7 @@ export class UnassignApproverSuccess extends StateUtils.EntitySuccessAction {
 export class CreateAddress extends StateUtils.EntityLoadAction {
   readonly type = CREATE_ADDRESS;
   constructor(
-    public payload: { userId: string; orgUnitId: string; address: Address }
+    public payload: { userId: string; orgUnitId: string; address: Address },
   ) {
     super(ADDRESS_ENTITIES, payload.address.id ?? null);
   }
@@ -493,7 +493,7 @@ export class UpdateAddress extends StateUtils.EntityLoadAction {
       orgUnitId: string;
       addressId: string;
       address: Address;
-    }
+    },
   ) {
     super(ADDRESS_ENTITIES, payload.address.id ?? '');
   }
@@ -520,7 +520,7 @@ export class DeleteAddress extends StateUtils.EntityLoadAction {
       userId: string;
       orgUnitId: string;
       addressId: string;
-    }
+    },
   ) {
     super(ADDRESS_ENTITIES, payload.addressId);
   }
@@ -547,7 +547,7 @@ export class LoadAddressSuccess extends StateUtils.EntitySuccessAction {
       ADDRESS_ENTITIES,
       Array.isArray(payload)
         ? payload.map((address) => address?.id ?? '')
-        : payload?.id ?? ''
+        : payload?.id ?? '',
     );
   }
 }
@@ -572,7 +572,7 @@ export class LoadAddressesSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       page: ListModel;
       orgUnitId: string;
-    }
+    },
   ) {
     super(ADDRESS_LIST, payload.orgUnitId);
   }

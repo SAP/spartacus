@@ -104,7 +104,7 @@ interface WrapperAnalysisResult {
  */
 export function addFeatures<OPTIONS extends LibraryOptions>(
   options: OPTIONS,
-  features: string[]
+  features: string[],
 ): Rule {
   return (_tree: Tree, context: SchematicContext): Rule => {
     if (options.debug) {
@@ -130,7 +130,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
       if (!schematicsConfiguration) {
         throw new SchematicsException(
           `[Internal] No feature config found for ${feature}. ` +
-            `Please check if the schematics config is added to projects/schematics/src/shared/schematics-config-mappings.ts`
+            `Please check if the schematics config is added to projects/schematics/src/shared/schematics-config-mappings.ts`,
         );
       }
 
@@ -146,8 +146,8 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
           externalSchematic(
             SPARTACUS_SCHEMATICS,
             'wrapper-module',
-            wrapperOptions
-          )
+            wrapperOptions,
+          ),
         );
       }
     }
@@ -163,7 +163,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
  */
 function analyzeWrappers<OPTIONS extends LibraryOptions>(
   schematicsConfiguration: SchematicConfig,
-  options: OPTIONS
+  options: OPTIONS,
 ): WrapperAnalysisResult[] {
   if (!schematicsConfiguration.importAfter?.length) {
     return [];
@@ -197,7 +197,7 @@ function analyzeWrappers<OPTIONS extends LibraryOptions>(
 export function getSpartacusFeaturesModule(
   tree: Tree,
   basePath: string,
-  tsconfigPath: string
+  tsconfigPath: string,
 ): SourceFile | undefined {
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
@@ -219,7 +219,7 @@ export function getSpartacusFeaturesModule(
  * Returns the NgModule decorator, if exists.
  */
 function getSpartacusFeaturesNgModuleDecorator(
-  sourceFile: SourceFile
+  sourceFile: SourceFile,
 ): CallExpression | undefined {
   let spartacusFeaturesModule: CallExpression | undefined;
 
@@ -232,7 +232,7 @@ function getSpartacusFeaturesNgModuleDecorator(
         isImportedFrom(expression, ANGULAR_CORE)
       ) {
         const classDeclaration = node.getFirstAncestorByKind(
-          tsMorph.SyntaxKind.ClassDeclaration
+          tsMorph.SyntaxKind.ClassDeclaration,
         );
         if (classDeclaration) {
           const identifier = classDeclaration.getNameNode();
@@ -260,10 +260,10 @@ function getSpartacusFeaturesNgModuleDecorator(
  */
 export function getModuleConfig(
   featureModuleName: string,
-  featureConfig: SchematicConfig
+  featureConfig: SchematicConfig,
 ): Module | undefined {
   const featureModuleConfigs = ([] as Module[]).concat(
-    featureConfig.featureModule
+    featureConfig.featureModule,
   );
   for (const featureModuleConfig of featureModuleConfigs) {
     if (featureModuleConfig.name === featureModuleName) {
@@ -281,12 +281,12 @@ export function getModuleConfig(
  */
 export function analyzeApplication<OPTIONS extends LibraryOptions>(
   options: OPTIONS,
-  allFeatures: string[]
+  allFeatures: string[],
 ): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const spartacusFeatureModuleExists = checkAppStructure(
       tree,
-      options.project
+      options.project,
     );
     /**
      * Mutates the options, and sets the internal properties
@@ -300,7 +300,7 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
     if (!options.internal.existingSpartacusApplication) {
       const dependentFeaturesMessage = createDependentFeaturesLog(
         options,
-        allFeatures
+        allFeatures,
       );
       if (dependentFeaturesMessage) {
         context.logger.info(dependentFeaturesMessage);
@@ -322,14 +322,14 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
       for (const { wrapperOptions } of wrappers) {
         const markerFeature = getKeyByMappingValueOrThrow(
           featureFeatureModuleMapping,
-          wrapperOptions.markerModuleName
+          wrapperOptions.markerModuleName,
         );
 
         const markerFeatureConfig =
           getSchematicsConfigByFeatureOrThrow(markerFeature);
         const markerModuleConfig = getModuleConfig(
           wrapperOptions.markerModuleName,
-          markerFeatureConfig
+          markerFeatureConfig,
         );
         if (
           !markerModuleConfig ||
@@ -341,13 +341,13 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
         const targetModuleName = wrapperOptions.featureModuleName;
         const targetFeature = getKeyByMappingValueOrThrow(
           featureFeatureModuleMapping,
-          targetModuleName
+          targetModuleName,
         );
         const targetFeatureConfig =
           getSchematicsConfigByFeatureOrThrow(targetFeature);
         const targetModuleConfig = getModuleConfig(
           targetModuleName,
-          targetFeatureConfig
+          targetFeatureConfig,
         );
 
         let message = `Attempted to append '${targetModuleName}' module `;
@@ -375,7 +375,7 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
 function markerModuleExists<OPTIONS extends LibraryOptions>(
   options: OPTIONS,
   tree: Tree,
-  markerModuleConfig: Module
+  markerModuleConfig: Module,
 ): boolean {
   const basePath = process.cwd();
   const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
@@ -396,7 +396,7 @@ function markerModuleExists<OPTIONS extends LibraryOptions>(
  */
 export function findFeatureModule(
   moduleConfig: Module | Module[],
-  appSourceFiles: SourceFile[]
+  appSourceFiles: SourceFile[],
 ): SourceFile | undefined {
   const moduleConfigs = ([] as Module[]).concat(moduleConfig);
   for (const sourceFile of appSourceFiles) {
@@ -416,7 +416,7 @@ export function findFeatureModule(
 
 function isStaticallyImported(
   sourceFile: SourceFile,
-  moduleConfig: Module
+  moduleConfig: Module,
 ): boolean {
   if (
     !staticImportExists(sourceFile, moduleConfig.importPath, moduleConfig.name)
@@ -440,7 +440,7 @@ function isStaticallyImported(
 
 function isDynamicallyImported(
   sourceFile: SourceFile,
-  moduleConfig: Module
+  moduleConfig: Module,
 ): boolean {
   return !!findDynamicImport(sourceFile, {
     moduleSpecifier: moduleConfig.importPath,
@@ -453,7 +453,7 @@ function isDynamicallyImported(
  * and returns referenced local source file.
  */
 export function getDynamicallyImportedLocalSourceFile(
-  dynamicImport: ArrowFunction
+  dynamicImport: ArrowFunction,
 ): SourceFile | undefined {
   const importPath = getDynamicImportImportPath(dynamicImport) ?? '';
   if (!isRelative(importPath)) {
@@ -469,11 +469,11 @@ export function getDynamicallyImportedLocalSourceFile(
 
 function createDependentFeaturesLog(
   options: SpartacusOptions,
-  features: string[]
+  features: string[],
 ): string | undefined {
   const selectedFeatures = options.features ?? [];
   const notSelectedFeatures = features.filter(
-    (feature) => !selectedFeatures.includes(feature)
+    (feature) => !selectedFeatures.includes(feature),
   );
 
   if (!notSelectedFeatures.length) {
@@ -481,6 +481,6 @@ function createDependentFeaturesLog(
   }
 
   return `\n⚙️ Configuring the dependent features of ${selectedFeatures.join(
-    ', '
+    ', ',
   )}: ${notSelectedFeatures.join(', ')}\n`;
 }

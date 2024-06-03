@@ -26,7 +26,7 @@ export class BlobErrorInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((errResponse: any) => {
@@ -46,12 +46,12 @@ export class BlobErrorInterceptor implements HttpInterceptor {
                   error,
                   url: errResponse.url ?? undefined,
                 });
-              })
+              }),
             );
         } else {
           throw errResponse;
         }
-      })
+      }),
     );
   }
 }

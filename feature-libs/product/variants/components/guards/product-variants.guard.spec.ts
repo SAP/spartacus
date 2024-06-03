@@ -97,7 +97,7 @@ describe('ProductVariantsGuard', () => {
       .pipe(take(1))
       .subscribe((val) => {
         expect(val.toString()).toEqual(
-          '/product/purchasableTest123/nonPurchasableProduct'
+          '/product/purchasableTest123/nonPurchasableProduct',
         );
         done();
       });

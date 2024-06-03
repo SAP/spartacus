@@ -16,38 +16,38 @@ import { StateWithProcess } from '../process-state';
 import { getProcessState } from './feature.selector';
 
 export function getProcessStateFactory<T>(
-  processId: string
+  processId: string,
 ): MemoizedSelector<StateWithProcess<T>, LoaderState<T>> {
   return createSelector(
     getProcessState(),
     (entityState: StateUtils.EntityLoaderState<T>) =>
-      StateUtils.entityLoaderStateSelector(entityState, processId)
+      StateUtils.entityLoaderStateSelector(entityState, processId),
   );
 }
 
 export function getProcessLoadingFactory<T>(
-  processId: string
+  processId: string,
 ): MemoizedSelector<StateWithProcess<T>, boolean> {
   return createSelector(
     getProcessStateFactory<T>(processId),
-    (loaderState: LoaderState<T>) => loaderLoadingSelector(loaderState)
+    (loaderState: LoaderState<T>) => loaderLoadingSelector(loaderState),
   );
 }
 
 export function getProcessSuccessFactory<T>(
-  processId: string
+  processId: string,
 ): MemoizedSelector<StateWithProcess<T>, boolean> {
   return createSelector(
     getProcessStateFactory<T>(processId),
-    (loaderState: LoaderState<T>) => loaderSuccessSelector(loaderState)
+    (loaderState: LoaderState<T>) => loaderSuccessSelector(loaderState),
   );
 }
 
 export function getProcessErrorFactory<T>(
-  processId: string
+  processId: string,
 ): MemoizedSelector<StateWithProcess<T>, boolean> {
   return createSelector(
     getProcessStateFactory<T>(processId),
-    (loaderState: LoaderState<T>) => loaderErrorSelector(loaderState)
+    (loaderState: LoaderState<T>) => loaderErrorSelector(loaderState),
   );
 }

@@ -49,7 +49,7 @@ export class DisableInfoComponent<T extends BaseItem> implements OnInit {
 
   constructor(
     protected itemService: ItemService<T>,
-    protected disableInfoService: DisableInfoService<T>
+    protected disableInfoService: DisableInfoService<T>,
   ) {}
 
   protected get defaultInfoConfig() {

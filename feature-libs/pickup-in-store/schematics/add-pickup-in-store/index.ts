@@ -23,14 +23,14 @@ import {
 import { peerDependencies } from '../../package.json';
 
 export function addPickupInStoreFeatures(
-  options: SpartacusPickupInStoreOptions
+  options: SpartacusPickupInStoreOptions,
 ): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     const features = analyzeCrossFeatureDependencies(
-      options.features as string[]
+      options.features as string[],
     );
 
     return chain([

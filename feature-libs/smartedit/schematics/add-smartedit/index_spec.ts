@@ -25,7 +25,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('Spartacus SmartEdit schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SMARTEDIT,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -65,27 +65,27 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -94,7 +94,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -134,7 +134,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           smarteditFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -156,7 +156,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...smarteditFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
@@ -174,7 +174,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
             ...smarteditFeatureOptions,
             storefrontPreviewRoute: 'cx-preview',
           },
-          appTree
+          appTree,
         );
       });
 
@@ -192,7 +192,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
             ...smarteditFeatureOptions,
             allowOrigin: 'localhost:9002',
           },
-          appTree
+          appTree,
         );
       });
 

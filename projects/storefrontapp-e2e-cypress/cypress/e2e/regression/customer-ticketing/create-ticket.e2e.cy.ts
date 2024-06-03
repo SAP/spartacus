@@ -152,7 +152,7 @@ describe('ticketing', () => {
       const TICKET_SUBJECT_MAX_LENGTH = 255;
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: customerTicketing.generateDummyStringOfLength(
-          TICKET_SUBJECT_MAX_LENGTH + 1
+          TICKET_SUBJECT_MAX_LENGTH + 1,
         ),
         message: 'Exceeding character limit',
         ticketCategory: {
@@ -173,7 +173,7 @@ describe('ticketing', () => {
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: 'Exceeding character limit',
         message: customerTicketing.generateDummyStringOfLength(
-          TICKET_MESSAGE_MAX_LENGTH + 1
+          TICKET_MESSAGE_MAX_LENGTH + 1,
         ),
         ticketCategory: {
           id: customerTicketing.TestCategory.complaint.toUpperCase(),

@@ -33,7 +33,7 @@ describe('Delivery Countries Reducer', () => {
 
       const { initialState } = fromReducer;
       const action = new UserActions.LoadDeliveryCountriesSuccess(
-        mockCountries
+        mockCountries,
       );
       const state = fromReducer.reducer(initialState, action);
       expect(state.entities).toEqual(mockCountriesList);

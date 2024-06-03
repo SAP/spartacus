@@ -25,7 +25,7 @@ class CdcUserAuthenticationTokenServiceMock
     _UIDSignature: string,
     _signatureTimestamp: string,
     _idToken: string,
-    _baseSite: string
+    _baseSite: string,
   ): Observable<AuthToken> {
     return;
   }
@@ -74,7 +74,7 @@ describe('UserToken effect', () => {
   describe('loadCdcUserToken$', () => {
     it('should load a user token', () => {
       spyOn(userTokenService, 'loadTokenUsingCustomFlow').and.returnValue(
-        of(testToken)
+        of(testToken),
       );
       spyOn(cdcAuthService, 'loginWithToken').and.callThrough();
       const action = new CdcAuthActions.LoadCdcUserToken({

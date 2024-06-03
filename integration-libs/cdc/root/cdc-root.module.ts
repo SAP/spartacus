@@ -23,15 +23,15 @@ import { CdcJsService } from './service/cdc-js.service';
 
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
-  configInit: ConfigInitializerService
+  configInit: ConfigInitializerService,
 ): () => Promise<Config> {
   return () =>
     lastValueFrom(
       configInit.getStable('context', 'cdc').pipe(
         tap(() => {
           cdcJsService.initialize();
-        })
-      )
+        }),
+      ),
     );
 }
 

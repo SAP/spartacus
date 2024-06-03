@@ -13,7 +13,7 @@ export class OccConfiguratorTestUtils {
   static createValueSupplements(
     valueKey: string,
     formattedValuePrice: string,
-    valuePrice: number
+    valuePrice: number,
   ): OccConfigurator.ValueSupplements {
     const occValue: OccConfigurator.ValueSupplements = {
       attributeValueKey: valueKey,
@@ -33,7 +33,7 @@ export class OccConfiguratorTestUtils {
 
   static createListOfValueSupplements(
     attributeNr: number,
-    amountOfValues: number
+    amountOfValues: number,
   ): OccConfigurator.ValueSupplements[] {
     const occValues: OccConfigurator.ValueSupplements[] = [];
     for (let index = 0; index < amountOfValues; index++) {
@@ -44,7 +44,7 @@ export class OccConfiguratorTestUtils {
       const occValue = this.createValueSupplements(
         valueKey,
         formattedValuePrice,
-        valuePrice
+        valuePrice,
       );
       occValues.push(occValue);
     }
@@ -54,11 +54,11 @@ export class OccConfiguratorTestUtils {
   static createSupplements(
     attributeNr: number,
     attributeKey: string,
-    amountOfValues: number
+    amountOfValues: number,
   ): OccConfigurator.Supplements {
     const priceSupplements = this.createListOfValueSupplements(
       attributeNr,
-      amountOfValues
+      amountOfValues,
     );
     return {
       csticUiKey: attributeKey,
@@ -72,7 +72,7 @@ export class OccConfiguratorTestUtils {
     amountOfGroups: number,
     amountOfSubgroups: number,
     amountOfSupplements: number,
-    amountOfValues: number
+    amountOfValues: number,
   ): OccConfigurator.Supplements[] {
     const occSupplements: OccConfigurator.Supplements[] = [];
     for (let i = 0; i < amountOfGroups; i++) {
@@ -90,7 +90,7 @@ export class OccConfiguratorTestUtils {
         const occSupplement = this.createSupplements(
           attributeNr,
           csticUiKey,
-          amountOfValues
+          amountOfValues,
         );
         occSupplements.push(occSupplement);
       }
@@ -103,14 +103,14 @@ export class OccConfiguratorTestUtils {
     amountOfGroups: number,
     amountOfSubgroups: number,
     amountOfSupplements: number,
-    amountOfValues: number
+    amountOfValues: number,
   ): OccConfigurator.Prices {
     const supplements = this.createListOfSupplements(
       isMultiLevel,
       amountOfGroups,
       amountOfSubgroups,
       amountOfSupplements,
-      amountOfValues
+      amountOfValues,
     );
     return {
       configId: 'configId',

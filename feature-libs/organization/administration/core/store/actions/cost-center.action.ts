@@ -71,7 +71,7 @@ export class LoadCostCenterSuccess extends StateUtils.EntitySuccessAction {
       COST_CENTER_ENTITIES,
       Array.isArray(payload)
         ? payload.map((costCenter) => costCenter?.code ?? '')
-        : payload?.code ?? ''
+        : payload?.code ?? '',
     );
   }
 }
@@ -82,7 +82,7 @@ export class LoadCostCenters extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(COST_CENTER_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
@@ -94,7 +94,7 @@ export class LoadCostCentersFail extends StateUtils.EntityFailAction {
     super(
       COST_CENTER_LIST,
       StateUtils.serializeSearchConfig(payload.params),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -105,7 +105,7 @@ export class LoadCostCentersSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(COST_CENTER_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
@@ -139,7 +139,7 @@ export class UpdateCostCenter extends StateUtils.EntityLoadAction {
       userId: string;
       costCenterCode: string;
       costCenter: CostCenter;
-    }
+    },
   ) {
     super(COST_CENTER_ENTITIES, payload.costCenter.code ?? '');
   }
@@ -166,11 +166,11 @@ export class LoadAssignedBudgets extends StateUtils.EntityLoadAction {
       userId: string;
       costCenterCode: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      StateUtils.serializeSearchConfig(payload.params, payload.costCenterCode)
+      StateUtils.serializeSearchConfig(payload.params, payload.costCenterCode),
     );
   }
 }
@@ -182,12 +182,12 @@ export class LoadAssignedBudgetsFail extends StateUtils.EntityFailAction {
       costCenterCode: string;
       params: SearchConfig;
       error: any;
-    }
+    },
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
       StateUtils.serializeSearchConfig(payload.params, payload.costCenterCode),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -199,11 +199,11 @@ export class LoadAssignedBudgetsSuccess extends StateUtils.EntitySuccessAction {
       costCenterCode: string;
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      StateUtils.serializeSearchConfig(payload.params, payload.costCenterCode)
+      StateUtils.serializeSearchConfig(payload.params, payload.costCenterCode),
     );
   }
 }
@@ -215,7 +215,7 @@ export class AssignBudget extends StateUtils.EntityLoadAction {
       userId: string;
       costCenterCode: string;
       budgetCode: string;
-    }
+    },
   ) {
     super(BUDGET_ENTITIES, payload.budgetCode);
   }
@@ -242,7 +242,7 @@ export class UnassignBudget extends StateUtils.EntityLoadAction {
       userId: string;
       costCenterCode: string;
       budgetCode: string;
-    }
+    },
   ) {
     super(BUDGET_ENTITIES, payload.budgetCode);
   }

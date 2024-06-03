@@ -25,12 +25,12 @@ export class OccConfiguratorVariantNormalizer
   constructor(
     protected config: OccConfig,
     protected translation: TranslationService,
-    protected uiSettingsConfig: ConfiguratorUISettingsConfig
+    protected uiSettingsConfig: ConfiguratorUISettingsConfig,
   ) {}
 
   convert(
     source: OccConfigurator.Configuration,
-    target?: Configurator.Configuration
+    target?: Configurator.Configuration,
   ): Configurator.Configuration {
     const resultTarget: Configurator.Configuration = {
       ...target,
@@ -51,7 +51,7 @@ export class OccConfiguratorVariantNormalizer
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
-      this.convertGroup(group, resultTarget.groups, flatGroups)
+      this.convertGroup(group, resultTarget.groups, flatGroups),
     );
     resultTarget.flatGroups = flatGroups;
 
@@ -61,12 +61,12 @@ export class OccConfiguratorVariantNormalizer
   convertGroup(
     source: OccConfigurator.Group,
     groupList: Configurator.Group[],
-    flatGroupList: Configurator.Group[]
+    flatGroupList: Configurator.Group[],
   ) {
     const attributes: Configurator.Attribute[] = [];
     if (source.attributes) {
       source.attributes.forEach((sourceAttribute) =>
-        this.convertAttribute(sourceAttribute, attributes)
+        this.convertAttribute(sourceAttribute, attributes),
       );
     }
 
@@ -86,7 +86,7 @@ export class OccConfiguratorVariantNormalizer
 
     if (source.subGroups) {
       source.subGroups.forEach((sourceSubGroup) =>
-        this.convertGroup(sourceSubGroup, group.subGroups, flatGroupList)
+        this.convertGroup(sourceSubGroup, group.subGroups, flatGroupList),
       );
     }
 
@@ -106,7 +106,7 @@ export class OccConfiguratorVariantNormalizer
 
   convertAttribute(
     sourceAttribute: OccConfigurator.Attribute,
-    attributeList: Configurator.Attribute[]
+    attributeList: Configurator.Attribute[],
   ): void {
     const numberOfConflicts = sourceAttribute.conflicts
       ? sourceAttribute.conflicts.length
@@ -117,7 +117,7 @@ export class OccConfiguratorVariantNormalizer
 
     if (sourceAttribute.images) {
       sourceAttribute.images.forEach((occImage) =>
-        this.convertImage(occImage, attributeImages)
+        this.convertImage(occImage, attributeImages),
       );
     }
 
@@ -125,7 +125,7 @@ export class OccConfiguratorVariantNormalizer
 
     if (sourceAttribute.domainValues) {
       sourceAttribute.domainValues.forEach((value) =>
-        this.convertValue(value, attributeValues)
+        this.convertValue(value, attributeValues),
       );
     }
     const uiType = this.convertAttributeType(sourceAttribute);
@@ -179,7 +179,7 @@ export class OccConfiguratorVariantNormalizer
   }
 
   protected isRetractValueSelected(
-    sourceAttribute: OccConfigurator.Attribute
+    sourceAttribute: OccConfigurator.Attribute,
   ): boolean {
     return sourceAttribute.domainValues &&
       sourceAttribute.domainValues.filter((value) => value.selected).length
@@ -189,7 +189,7 @@ export class OccConfiguratorVariantNormalizer
 
   protected setRetractValueDisplay(
     attributeType: Configurator.UiType,
-    value: Configurator.Value
+    value: Configurator.Value,
   ) {
     if (
       attributeType === Configurator.UiType.DROPDOWN ||
@@ -211,7 +211,7 @@ export class OccConfiguratorVariantNormalizer
   }
 
   protected hasSourceAttributeConflicts(
-    sourceAttribute: OccConfigurator.Attribute
+    sourceAttribute: OccConfigurator.Attribute,
   ): boolean {
     return sourceAttribute.conflicts
       ? sourceAttribute.conflicts.length > 0
@@ -219,7 +219,7 @@ export class OccConfiguratorVariantNormalizer
   }
 
   protected isSourceAttributeTypeReadOnly(
-    sourceAttribute: OccConfigurator.Attribute
+    sourceAttribute: OccConfigurator.Attribute,
   ): boolean {
     return (
       sourceAttribute.type === OccConfigurator.UiType.READ_ONLY ||
@@ -231,7 +231,7 @@ export class OccConfiguratorVariantNormalizer
   }
 
   protected isRetractBlocked(
-    sourceAttribute: OccConfigurator.Attribute
+    sourceAttribute: OccConfigurator.Attribute,
   ): boolean {
     return sourceAttribute.retractBlocked
       ? sourceAttribute.retractBlocked
@@ -240,7 +240,7 @@ export class OccConfiguratorVariantNormalizer
 
   protected addRetractValue(
     sourceAttribute: OccConfigurator.Attribute,
-    values: Configurator.Value[]
+    values: Configurator.Value[],
   ) {
     const isRetractBlocked = this.isRetractBlocked(sourceAttribute);
     const isConflicting = this.hasSourceAttributeConflicts(sourceAttribute);
@@ -271,12 +271,12 @@ export class OccConfiguratorVariantNormalizer
 
   convertValue(
     occValue: OccConfigurator.Value,
-    values: Configurator.Value[]
+    values: Configurator.Value[],
   ): void {
     const valueImages: Configurator.Image[] = [];
     if (occValue.images) {
       occValue.images.forEach((occImage) =>
-        this.convertImage(occImage, valueImages)
+        this.convertImage(occImage, valueImages),
       );
     }
 
@@ -294,7 +294,7 @@ export class OccConfiguratorVariantNormalizer
 
   convertImage(
     occImage: OccConfigurator.Image,
-    images: Configurator.Image[]
+    images: Configurator.Image[],
   ): void {
     const image: Configurator.Image = {
       /**
@@ -318,7 +318,7 @@ export class OccConfiguratorVariantNormalizer
 
   protected getSingleSelectionUiType(
     coreSourceType: string,
-    uiType: Configurator.UiType
+    uiType: Configurator.UiType,
   ): Configurator.UiType {
     switch (coreSourceType) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
@@ -351,7 +351,7 @@ export class OccConfiguratorVariantNormalizer
 
   protected getMultiSelectionUiType(
     coreSourceType: string,
-    uiType: Configurator.UiType
+    uiType: Configurator.UiType,
   ): Configurator.UiType {
     switch (coreSourceType) {
       case OccConfigurator.UiType.CHECK_BOX_LIST: {
@@ -369,7 +369,7 @@ export class OccConfiguratorVariantNormalizer
   protected getReadOnlyUiType(
     sourceAttribute: OccConfigurator.Attribute,
     coreSourceType: string,
-    uiType: Configurator.UiType
+    uiType: Configurator.UiType,
   ): Configurator.UiType {
     switch (coreSourceType) {
       case OccConfigurator.UiType.READ_ONLY: {
@@ -402,7 +402,7 @@ export class OccConfiguratorVariantNormalizer
 
   protected getInputUiType(
     coreSourceType: string,
-    uiType: Configurator.UiType
+    uiType: Configurator.UiType,
   ): Configurator.UiType {
     switch (coreSourceType) {
       case OccConfigurator.UiType.STRING: {
@@ -418,7 +418,7 @@ export class OccConfiguratorVariantNormalizer
   }
 
   convertAttributeType(
-    sourceAttribute: OccConfigurator.Attribute
+    sourceAttribute: OccConfigurator.Attribute,
   ): Configurator.UiType {
     let uiType = Configurator.UiType.NOT_IMPLEMENTED;
     const sourceType: string = sourceAttribute.type?.toString() ?? '';
@@ -434,7 +434,7 @@ export class OccConfiguratorVariantNormalizer
 
   protected determineCoreUiType(sourceType: string) {
     const indexCustomSeparator = sourceType.indexOf(
-      Configurator.CustomUiTypeIndicator
+      Configurator.CustomUiTypeIndicator,
     );
     return indexCustomSeparator > 0
       ? sourceType.substring(0, indexCustomSeparator)
@@ -442,7 +442,7 @@ export class OccConfiguratorVariantNormalizer
   }
 
   convertGroupType(
-    groupType: OccConfigurator.GroupType
+    groupType: OccConfigurator.GroupType,
   ): Configurator.GroupType {
     switch (groupType) {
       case OccConfigurator.GroupType.CSTIC_GROUP:
@@ -463,7 +463,7 @@ export class OccConfiguratorVariantNormalizer
           .translate('configurator.group.conflictHeader')
           .pipe(take(1))
           .subscribe(
-            (conflictHeaderText) => (group.description = conflictHeaderText)
+            (conflictHeaderText) => (group.description = conflictHeaderText),
           );
         break;
       case Configurator.GroupType.CONFLICT_GROUP:
@@ -474,7 +474,7 @@ export class OccConfiguratorVariantNormalizer
           })
           .pipe(take(1))
           .subscribe(
-            (conflictGroupText) => (group.description = conflictGroupText)
+            (conflictGroupText) => (group.description = conflictGroupText),
           );
         group.name = conflictDescription;
         break;
@@ -490,7 +490,7 @@ export class OccConfiguratorVariantNormalizer
   }
 
   convertImageType(
-    imageType: OccConfigurator.ImageType
+    imageType: OccConfigurator.ImageType,
   ): Configurator.ImageType {
     switch (imageType) {
       case OccConfigurator.ImageType.GALLERY:
@@ -501,7 +501,7 @@ export class OccConfiguratorVariantNormalizer
   }
 
   convertImageFormatType(
-    formatType: OccConfigurator.ImageFormatType
+    formatType: OccConfigurator.ImageFormatType,
   ): Configurator.ImageFormatType {
     switch (formatType) {
       case OccConfigurator.ImageFormatType.VALUE_IMAGE:

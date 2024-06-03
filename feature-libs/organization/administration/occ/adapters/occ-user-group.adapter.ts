@@ -31,7 +31,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   load(userId: string, userGroupId: string): Observable<UserGroup> {
@@ -42,7 +42,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
 
   loadList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<UserGroup>> {
     return this.http
       .get<Occ.OrgUnitUserGroupList>(this.getUserGroupsEndpoint(userId, params))
@@ -52,11 +52,11 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   loadAvailableOrderApprovalPermissions(
     userId: string,
     userGroupId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Permission>> {
     return this.http
       .get<Occ.OrgUnitUserGroupList>(
-        this.getPermissionsEndpoint(userId, userGroupId, params)
+        this.getPermissionsEndpoint(userId, userGroupId, params),
       )
       .pipe(this.converter.pipeable(PERMISSIONS_NORMALIZER));
   }
@@ -64,11 +64,11 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   loadAvailableOrgCustomers(
     userId: string,
     userGroupId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<B2BUser>> {
     return this.http
       .get<Occ.OrgUnitUserGroupList>(
-        this.getAvailableCustomersEndpoint(userId, userGroupId, params)
+        this.getAvailableCustomersEndpoint(userId, userGroupId, params),
       )
       .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
   }
@@ -83,7 +83,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   delete(userId: string, userGroupId: string): Observable<UserGroup> {
     return this.http
       .delete<Occ.OrgUnitUserGroup>(
-        this.getUserGroupEndpoint(userId, userGroupId)
+        this.getUserGroupEndpoint(userId, userGroupId),
       )
       .pipe(this.converter.pipeable(USER_GROUP_NORMALIZER));
   }
@@ -91,13 +91,13 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   update(
     userId: string,
     userGroupId: string,
-    userGroup: UserGroup
+    userGroup: UserGroup,
   ): Observable<UserGroup> {
     userGroup = this.converter.convert(userGroup, USER_GROUP_SERIALIZER);
     return this.http
       .patch<Occ.OrgUnitUserGroup>(
         this.getUserGroupEndpoint(userId, userGroupId),
-        userGroup
+        userGroup,
       )
       .pipe(this.converter.pipeable(USER_GROUP_NORMALIZER));
   }
@@ -105,36 +105,36 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   assignMember(
     userId: string,
     userGroupId: string,
-    orgCustomerId: string
+    orgCustomerId: string,
   ): Observable<any> {
     return this.http.post<any>(
       this.getMembersEndpoint(userId, userGroupId, {
         orgCustomerId,
       }),
-      null
+      null,
     );
   }
 
   assignOrderApprovalPermission(
     userId: string,
     userGroupId: string,
-    orderApprovalPermissionCode: string
+    orderApprovalPermissionCode: string,
   ): Observable<any> {
     return this.http.post<any>(
       this.getOrderApprovalPermissionsEndpoint(userId, userGroupId, {
         orderApprovalPermissionCode,
       }),
-      null
+      null,
     );
   }
 
   unassignMember(
     userId: string,
     userGroupId: string,
-    orgCustomerId: string
+    orgCustomerId: string,
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getMemberEndpoint(userId, userGroupId, orgCustomerId)
+      this.getMemberEndpoint(userId, userGroupId, orgCustomerId),
     );
   }
 
@@ -145,14 +145,14 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   unassignOrderApprovalPermission(
     userId: string,
     userGroupId: string,
-    orderApprovalPermissionCode: string
+    orderApprovalPermissionCode: string,
   ): Observable<any> {
     return this.http.delete<any>(
       this.getOrderApprovalPermissionEndpoint(
         userId,
         userGroupId,
-        orderApprovalPermissionCode
-      )
+        orderApprovalPermissionCode,
+      ),
     );
   }
 
@@ -167,7 +167,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
 
   protected getUserGroupsEndpoint(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): string {
     return this.occEndpoints.buildUrl('userGroups', {
       urlParams: { userId },
@@ -178,7 +178,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   protected getAvailableCustomersEndpoint(
     userId: string,
     userGroupId: string,
-    params?: SearchConfig | { orgCustomerId: string }
+    params?: SearchConfig | { orgCustomerId: string },
   ): string {
     return this.occEndpoints.buildUrl('userGroupAvailableOrgCustomers', {
       urlParams: { userId, userGroupId },
@@ -189,18 +189,18 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   protected getPermissionsEndpoint(
     userId: string,
     userGroupId: string,
-    params?: SearchConfig | { orgCustomerId: string }
+    params?: SearchConfig | { orgCustomerId: string },
   ): string {
     return this.occEndpoints.buildUrl(
       'userGroupAvailableOrderApprovalPermissions',
-      { urlParams: { userId, userGroupId }, queryParams: params }
+      { urlParams: { userId, userGroupId }, queryParams: params },
     );
   }
 
   protected getMemberEndpoint(
     userId: string,
     userGroupId: string,
-    orgCustomerId: string
+    orgCustomerId: string,
   ): string {
     return this.occEndpoints.buildUrl('userGroupMember', {
       urlParams: {
@@ -214,7 +214,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   protected getMembersEndpoint(
     userId: string,
     userGroupId: string,
-    params?: SearchConfig | { orgCustomerId: string }
+    params?: SearchConfig | { orgCustomerId: string },
   ): string {
     return this.occEndpoints.buildUrl('userGroupMembers', {
       urlParams: { userId, userGroupId },
@@ -225,7 +225,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   protected getOrderApprovalPermissionsEndpoint(
     userId: string,
     userGroupId: string,
-    params?: SearchConfig | { orderApprovalPermissionCode: string }
+    params?: SearchConfig | { orderApprovalPermissionCode: string },
   ): string {
     return this.occEndpoints.buildUrl('userGroupOrderApprovalPermissions', {
       urlParams: { userId, userGroupId },
@@ -236,7 +236,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   protected getOrderApprovalPermissionEndpoint(
     userId: string,
     userGroupId: string,
-    orderApprovalPermissionCode: string
+    orderApprovalPermissionCode: string,
   ): string {
     return this.occEndpoints.buildUrl('userGroupOrderApprovalPermission', {
       urlParams: {

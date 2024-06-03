@@ -22,7 +22,7 @@ export function testUpdatePassword(myAccountV2?: boolean) {
   it('should update the password with success', () => {
     alerts.getSuccessAlert().should('not.exist');
     cy.get('[formcontrolname="oldPassword"]').type(
-      standardUser.registrationData.password
+      standardUser.registrationData.password,
     );
     cy.get('[formcontrolname="newPassword"]').type(newPassword);
     cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);

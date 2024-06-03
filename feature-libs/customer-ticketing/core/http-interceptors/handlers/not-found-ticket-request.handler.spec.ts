@@ -104,7 +104,7 @@ describe('NotFoundTicketRequestHandler', () => {
     });
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'customerTicketingDetails.ticketNotFound' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -125,7 +125,7 @@ describe('NotFoundTicketRequestHandler', () => {
           spyOn(routingService, 'getRouterState').and.returnValue(
             of({
               state: { semanticRoute: 'supportTicketDetails' },
-            } as RouterState)
+            } as RouterState),
           );
         });
 

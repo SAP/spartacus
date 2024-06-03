@@ -14,7 +14,7 @@ const costCenter = {
 
 class MockUserCostCenterAdapter implements UserCostCenterAdapter {
   loadActiveList = createSpy(
-    'CostCenterAdapter.loadActiveList'
+    'CostCenterAdapter.loadActiveList',
   ).and.returnValue(of([costCenter]));
 }
 
@@ -31,10 +31,10 @@ describe('UserCostCenterConnector', () => {
     });
 
     service = TestBed.inject(
-      UserCostCenterConnector as Type<UserCostCenterConnector>
+      UserCostCenterConnector as Type<UserCostCenterConnector>,
     );
     adapter = TestBed.inject(
-      UserCostCenterAdapter as Type<UserCostCenterAdapter>
+      UserCostCenterAdapter as Type<UserCostCenterAdapter>,
     );
   });
 

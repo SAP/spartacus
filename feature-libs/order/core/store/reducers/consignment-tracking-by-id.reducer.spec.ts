@@ -24,7 +24,7 @@ describe('Consignment Tracking By Id Reducer', () => {
       });
       const state = fromTrackingReducer.reducer(
         initialStateOfConsignmentTrackingById,
-        action
+        action,
       );
       expect(state).toEqual(mockTracking);
     });
@@ -39,7 +39,7 @@ describe('Consignment Tracking By Id Reducer', () => {
       });
       const state = fromTrackingReducer.reducer(
         initialStateOfConsignmentTrackingById,
-        action
+        action,
       );
       expect(state).toEqual(initialStateOfConsignmentTrackingById);
     });

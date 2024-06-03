@@ -35,7 +35,7 @@ export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
   constructor(
     protected context: AsmCustomer360SectionContext<AsmCustomer360PromotionList>,
     protected asmCustomer360Facade: AsmCustomer360Facade,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
         if (cartId && this.entries$.value.length === 0) {
           this.refreshPromotions();
         }
-      })
+      }),
     );
   }
 
@@ -60,7 +60,7 @@ export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
       .pipe(
         map((response) => {
           const promotionList = response?.value?.find(
-            (item) => item.type === AsmCustomer360Type.PROMOTION_LIST
+            (item) => item.type === AsmCustomer360Type.PROMOTION_LIST,
           ) as AsmCustomer360PromotionList;
           const newEntries: Array<AsmCustomer360Promotion> = [];
           if (promotionList.promotions) {
@@ -77,7 +77,7 @@ export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
         catchError(() => {
           this.showErrorAlert$.next(true);
           return of([]);
-        })
+        }),
       )
       .subscribe((newEntries) => {
         this.entries$.next(newEntries);
@@ -101,7 +101,7 @@ export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
         catchError(() => {
           this.showErrorAlert$.next(true);
           return of([]);
-        })
+        }),
       )
       .subscribe((newEntries) => {
         this.entries$.next(newEntries);

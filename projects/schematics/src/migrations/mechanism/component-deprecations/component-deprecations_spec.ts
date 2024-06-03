@@ -324,7 +324,7 @@ describe('component selectors migration', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../test/migrations-test.json')
+      require.resolve('../../test/migrations-test.json'),
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -336,7 +336,7 @@ describe('component selectors migration', () => {
         compilerOptions: {
           lib: ['es2015'],
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -348,7 +348,7 @@ describe('component selectors migration', () => {
             sourceRoot: 'src',
           },
         },
-      })
+      }),
     );
 
     previousWorkingDir = shx.pwd();
@@ -407,14 +407,14 @@ describe('component selectors migration', () => {
       writeFile(
         host,
         tsFileName,
-        COMPONENT_INHERITANCE_INLINE_TEMPLATE_TEST_CLASS
+        COMPONENT_INHERITANCE_INLINE_TEMPLATE_TEST_CLASS,
       );
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent(tsFileName);
       expect(content).toEqual(
-        COMPONENT_INHERITANCE_INLINE_TEMPLATE_EXPECTED_CLASS
+        COMPONENT_INHERITANCE_INLINE_TEMPLATE_EXPECTED_CLASS,
       );
     });
   });
@@ -425,7 +425,7 @@ describe('component selectors migration', () => {
         writeFile(
           host,
           tsFileName,
-          PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS
+          PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS,
         );
         writeFile(host, htmlFileName, PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE);
 
@@ -440,7 +440,7 @@ describe('component selectors migration', () => {
         writeFile(
           host,
           tsFileName,
-          PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS
+          PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS,
         );
         writeFile(host, htmlFileName, PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE);
 
@@ -455,14 +455,14 @@ describe('component selectors migration', () => {
         writeFile(
           host,
           tsFileName,
-          PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS
+          PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS,
         );
 
         await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
         const content = appTree.readContent(tsFileName);
         expect(content).toEqual(
-          PRODUCT_IMAGES_COMPONENT_INHERITANCE_EXPECTED_CLASS
+          PRODUCT_IMAGES_COMPONENT_INHERITANCE_EXPECTED_CLASS,
         );
       });
     });
@@ -477,7 +477,7 @@ describe('component selectors migration', () => {
 
       const content = appTree.readContent(htmlFileName);
       expect(content).toEqual(
-        HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE_EXPECTED
+        HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE_EXPECTED,
       );
     });
   });

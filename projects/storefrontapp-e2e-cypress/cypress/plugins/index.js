@@ -23,7 +23,7 @@ module.exports = (on, config) => {
               return reject(err);
             }
             resolve(null);
-          }
+          },
         );
       });
     },

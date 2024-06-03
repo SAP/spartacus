@@ -25,7 +25,7 @@ export class CostCenterFormService extends FormService<CostCenter> {
       new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.noSpecialCharacters,
-      ])
+      ]),
     );
     form.setControl('name', new UntypedFormControl('', Validators.required));
 
@@ -33,13 +33,13 @@ export class CostCenterFormService extends FormService<CostCenter> {
       'currency',
       new UntypedFormGroup({
         isocode: new UntypedFormControl(undefined, Validators.required),
-      })
+      }),
     );
     form.setControl(
       'unit',
       new UntypedFormGroup({
         uid: new UntypedFormControl(undefined, Validators.required),
-      })
+      }),
     );
     this.form = form;
   }

@@ -48,7 +48,7 @@ export class VideoComponent {
       this.setMedia(data);
       this.setControls(data);
       this.setRouting(data);
-    })
+    }),
   );
 
   constructor(
@@ -56,7 +56,7 @@ export class VideoComponent {
     protected mediaService: MediaService,
     protected urlService: SemanticPathService,
     protected cmsService: CmsService,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
   ) {}
 
   protected setMedia(data: CmsVideoComponent) {
@@ -70,14 +70,14 @@ export class VideoComponent {
       data?.videoMedia
     ) {
       this.thumbnail = this.mediaService.getMedia(
-        data.videoMedia as MediaContainer
+        data.videoMedia as MediaContainer,
       );
     } else if (
       data?.thumbnailSelector === ContainerBackgroundOptions.UPLOAD_THUMBNAIL &&
       data?.thumbnail
     ) {
       this.thumbnail = this.mediaService.getMedia(
-        data.thumbnail as MediaContainer
+        data.thumbnail as MediaContainer,
       );
     } else {
       this.thumbnail = undefined;

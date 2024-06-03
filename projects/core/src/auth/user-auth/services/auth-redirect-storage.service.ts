@@ -39,7 +39,7 @@ export class AuthRedirectStorageService {
    */
   setRedirectUrl(redirectUrl: string | undefined): void {
     (this.redirectUrl$ as BehaviorSubject<string | undefined>).next(
-      redirectUrl
+      redirectUrl,
     );
   }
 }

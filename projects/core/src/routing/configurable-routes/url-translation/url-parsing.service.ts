@@ -36,7 +36,7 @@ export class UrlParsingService {
    */
   matchPath(
     urlSegments: string | string[],
-    pathSegments: string | string[]
+    pathSegments: string | string[],
   ): boolean {
     urlSegments = Array.isArray(urlSegments)
       ? urlSegments

@@ -49,7 +49,7 @@ context('Product Configuration', () => {
     conflictDialog.checkIsOpen();
 
     conflictDialog.checkViewInConfigurationLinkNotDisplayed(
-      'CAMERA_VIEWFINDER'
+      'CAMERA_VIEWFINDER',
     );
     conflictDialog.checkViewInConfigurationLinkNotDisplayed('CAMERA_MAX_ISO');
 

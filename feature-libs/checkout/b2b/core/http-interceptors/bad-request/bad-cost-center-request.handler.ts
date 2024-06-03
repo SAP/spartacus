@@ -42,14 +42,14 @@ export class BadCostCenterRequestHandler extends HttpErrorHandler {
     if (this.getErrors(response).some((e) => this.isEntityValidationError(e))) {
       this.globalMessageService.add(
         { key: 'checkoutB2B.invalidCostCenter' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error: any) => error.type !== ResponseError.NO_LONGER_VALID
+      (error: any) => error.type !== ResponseError.NO_LONGER_VALID,
     );
   }
 

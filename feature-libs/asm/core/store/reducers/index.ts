@@ -27,7 +27,7 @@ export function getReducers(): ActionReducerMap<AsmState> {
       StateUtils.loaderReducer<CustomerSearchPage>(CUSTOMER_SEARCH_DATA),
     customerListCustomersSearchResult:
       StateUtils.loaderReducer<CustomerSearchPage>(
-        CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA
+        CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA,
       ),
     asmUi: fromAsmUiReducer.reducer,
   };
@@ -42,7 +42,7 @@ export const reducerProvider: Provider = {
 };
 
 export function clearCustomerSupportAgentAsmState(
-  reducer: ActionReducer<AsmState, Action>
+  reducer: ActionReducer<AsmState, Action>,
 ): ActionReducer<AsmState, Action> {
   return function (state: AsmState | undefined, action: Action) {
     if (action.type === AsmActions.LOGOUT_CUSTOMER_SUPPORT_AGENT) {

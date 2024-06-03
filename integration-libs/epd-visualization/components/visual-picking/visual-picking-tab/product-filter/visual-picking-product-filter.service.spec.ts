@@ -102,7 +102,7 @@ describe('VisualPickingProductFilterService', () => {
           expect(filteredProductReferences).toBeTruthy();
           expect(filteredProductReferences.length).toBe(1);
           expect(filteredProductReferences[0].target?.code).toBe(
-            'productCode1'
+            'productCode1',
           );
           done();
         });
@@ -142,13 +142,13 @@ describe('VisualPickingProductFilterService', () => {
           expect(filteredProductReferences).toBeTruthy();
           expect(filteredProductReferences.length).toBe(3);
           expect(filteredProductReferences[0].target?.code).toBe(
-            'productCode1'
+            'productCode1',
           );
           expect(filteredProductReferences[1].target?.code).toBe(
-            'productCode2'
+            'productCode2',
           );
           expect(filteredProductReferences[2].target?.code).toBe(
-            'productCode3'
+            'productCode3',
           );
           done();
         });
@@ -188,13 +188,13 @@ describe('VisualPickingProductFilterService', () => {
           expect(filteredProductReferences).toBeTruthy();
           expect(filteredProductReferences.length).toBe(3);
           expect(filteredProductReferences[0].target?.code).toBe(
-            'productCode1'
+            'productCode1',
           );
           expect(filteredProductReferences[1].target?.code).toBe(
-            'productCode2'
+            'productCode2',
           );
           expect(filteredProductReferences[2].target?.code).toBe(
-            'productCode3'
+            'productCode3',
           );
           done();
         });

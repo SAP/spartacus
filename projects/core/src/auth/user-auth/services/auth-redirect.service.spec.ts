@@ -77,7 +77,7 @@ describe('AuthRedirectService', () => {
     it('should clear saved redirect URL', () => {
       service.redirect();
       expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
-        undefined
+        undefined,
       );
     });
   });
@@ -85,24 +85,24 @@ describe('AuthRedirectService', () => {
   it('should save redirect url on every navigation end', async () => {
     await zone.run(() => router.navigateByUrl('/some/url'));
     expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
-      '/some/url/after/redirects'
+      '/some/url/after/redirects',
     );
 
     await zone.run(() => router.navigateByUrl('/other/url'));
     expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
-      '/other/url'
+      '/other/url',
     );
   });
 
   it('should NOT save redirect url on navigation end, when the URL is part of the auth flow', async () => {
     await zone.run(() => router.navigateByUrl('/login'));
     expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalledWith(
-      '/login'
+      '/login',
     );
     await zone.run(() => router.navigateByUrl('/other/url'));
 
     expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
-      '/other/url'
+      '/other/url',
     );
   });
 
@@ -113,7 +113,7 @@ describe('AuthRedirectService', () => {
       });
       service.saveCurrentNavigationUrl();
       expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
-        '/anticipated/url'
+        '/anticipated/url',
       );
     });
 
@@ -146,7 +146,7 @@ describe('AuthRedirectService', () => {
     it('should save the passed url', () => {
       service.setRedirectUrl('/custom/url');
       expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
-        '/custom/url'
+        '/custom/url',
       );
     });
     it('should not save the url if the url is part of the user auth flow', () => {

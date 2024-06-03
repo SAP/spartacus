@@ -59,7 +59,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(
     _text: string | Translatable,
     _type: GlobalMessageType,
-    _timeout?: number
+    _timeout?: number,
   ): void {}
 }
 
@@ -122,12 +122,12 @@ describe('QuickOrderFormComponent', () => {
       spyOn(quickOrderService, 'addProduct').and.callThrough();
       spyOn(
         quickOrderService,
-        'clearNonPurchasableProductError'
+        'clearNonPurchasableProductError',
       ).and.callThrough();
       component.add(mockProduct, mockEvent);
 
       expect(
-        quickOrderService.clearNonPurchasableProductError
+        quickOrderService.clearNonPurchasableProductError,
       ).toHaveBeenCalled();
       expect(quickOrderService.addProduct).toHaveBeenCalledWith(mockProduct);
     });
@@ -137,15 +137,15 @@ describe('QuickOrderFormComponent', () => {
       spyOn(quickOrderService, 'addProduct').and.callThrough();
       spyOn(
         quickOrderService,
-        'setNonPurchasableProductError'
+        'setNonPurchasableProductError',
       ).and.callThrough();
       component.add(mockNonPurchasableProduct, mockEvent);
 
       expect(quickOrderService.addProduct).not.toHaveBeenCalledWith(
-        mockProduct
+        mockProduct,
       );
       expect(
-        quickOrderService.setNonPurchasableProductError
+        quickOrderService.setNonPurchasableProductError,
       ).toHaveBeenCalledWith(mockNonPurchasableProduct);
       expect(component.clear).toHaveBeenCalled();
     });
@@ -213,7 +213,7 @@ describe('QuickOrderFormComponent', () => {
 
   it('should not change focus on focusNextChild if results list is empty', () => {
     const inputSearch: HTMLElement = fixture.debugElement.query(
-      By.css('.quick-order-form-input > input')
+      By.css('.quick-order-form-input > input'),
     ).nativeElement;
     inputSearch.focus();
 

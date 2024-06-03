@@ -30,7 +30,7 @@ export class CpqConfiguratorSerializer
 
   protected convertQuantity(
     attribute: Configurator.Attribute,
-    configId: string
+    configId: string,
   ): Cpq.UpdateAttribute {
     const updateInformation =
       CpqConfiguratorUtils.getUpdateInformation(attribute);
@@ -46,7 +46,7 @@ export class CpqConfiguratorSerializer
 
   protected convertAttribute(
     attribute: Configurator.Attribute,
-    configurationId: string
+    configurationId: string,
   ): Cpq.UpdateAttribute {
     const updateInformation =
       CpqConfiguratorUtils.getUpdateInformation(attribute);

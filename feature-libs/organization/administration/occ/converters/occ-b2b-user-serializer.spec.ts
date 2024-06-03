@@ -40,7 +40,7 @@ describe('B2BUserSerializer', () => {
     [OccB2bUserSerializer],
     (b2bUserSerializer: OccB2bUserSerializer) => {
       expect(b2bUserSerializer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert B2B User', () => {

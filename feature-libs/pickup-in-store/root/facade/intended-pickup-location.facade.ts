@@ -38,7 +38,7 @@ export abstract class IntendedPickupLocationFacade {
    * @param productCode The product code of the product the user wants to collect.
    */
   abstract getIntendedLocation(
-    productCode: string
+    productCode: string,
   ): Observable<AugmentedPointOfService | undefined>;
 
   /**
@@ -48,7 +48,7 @@ export abstract class IntendedPickupLocationFacade {
    */
   abstract setIntendedLocation(
     productCode: string,
-    location: AugmentedPointOfService
+    location: AugmentedPointOfService,
   ): void;
 
   /**
@@ -69,6 +69,6 @@ export abstract class IntendedPickupLocationFacade {
    */
   abstract setPickupOption(
     productCode: string,
-    pickupOption: PickupOption
+    pickupOption: PickupOption,
   ): void;
 }

@@ -20,13 +20,13 @@ export class ScheduledReplenishmentOrderConnector {
     cartId: string,
     scheduleReplenishmentForm: ScheduleReplenishmentForm,
     termsChecked: boolean,
-    userId: string
+    userId: string,
   ): Observable<ReplenishmentOrder> {
     return this.adapter.scheduleReplenishmentOrder(
       cartId,
       scheduleReplenishmentForm,
       termsChecked,
-      userId
+      userId,
     );
   }
 }

@@ -36,22 +36,22 @@ export const getRegionsDataAndLoading: MemoizedSelector<
     loading: StateUtils.loaderLoadingSelector(state),
     regions: StateUtils.loaderValueSelector(state).entities,
     country: StateUtils.loaderValueSelector(state).country,
-  })
+  }),
 );
 
 export const getRegionsCountry: MemoizedSelector<StateWithUser, string | null> =
   createSelector(
     getRegionsLoaderState,
     (state: LoaderState<RegionsState>) =>
-      StateUtils.loaderValueSelector(state).country
+      StateUtils.loaderValueSelector(state).country,
   );
 
 export const getRegionsLoading: MemoizedSelector<StateWithUser, boolean> =
   createSelector(getRegionsLoaderState, (state: LoaderState<RegionsState>) =>
-    StateUtils.loaderLoadingSelector(state)
+    StateUtils.loaderLoadingSelector(state),
   );
 
 export const getRegionsLoaded: MemoizedSelector<StateWithUser, boolean> =
   createSelector(getRegionsLoaderState, (state: LoaderState<RegionsState>) =>
-    StateUtils.loaderSuccessSelector(state)
+    StateUtils.loaderSuccessSelector(state),
   );

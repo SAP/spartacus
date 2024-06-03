@@ -19,7 +19,7 @@ export class BadGatewayHandler extends HttpErrorHandler {
   handleError() {
     this.globalMessageService.add(
       { key: 'httpHandlers.badGateway' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   }
 

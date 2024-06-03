@@ -19,7 +19,7 @@ export class ProfileTagLifecycleService {
   constructor(
     protected consentService: ConsentService,
     protected config: CdsConfig,
-    protected actionsSubject: ActionsSubject
+    protected actionsSubject: ActionsSubject,
   ) {}
 
   consentChanged(): Observable<ConsentChangedPushEvent> {
@@ -35,14 +35,14 @@ export class ProfileTagLifecycleService {
         }),
         map((granted) => {
           return new ConsentChangedPushEvent(granted);
-        })
+        }),
       );
   }
 
   loginSuccessful(): Observable<boolean> {
     return this.actionsSubject.pipe(
       filter((action) => action.type === AuthActions.LOGIN),
-      map(() => true)
+      map(() => true),
     );
   }
 }

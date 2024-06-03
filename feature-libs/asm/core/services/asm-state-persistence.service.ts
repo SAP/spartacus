@@ -34,7 +34,7 @@ export class AsmStatePersistenceService implements OnDestroy {
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected store: Store<StateWithAsm>,
-    protected authStorageService: AsmAuthStorageService
+    protected authStorageService: AsmAuthStorageService,
   ) {}
 
   /**
@@ -51,7 +51,7 @@ export class AsmStatePersistenceService implements OnDestroy {
         key: this.key,
         state$: this.getAsmState(),
         onRead: (state) => this.onRead(state),
-      })
+      }),
     );
   }
 
@@ -65,7 +65,7 @@ export class AsmStatePersistenceService implements OnDestroy {
         // Since getAsmState() may be called while the module is lazy loded
         // The asm state slice may not exist yet in the first store emissions.
         filter((store) => !!store.asm),
-        select(AsmSelectors.getAsmUi)
+        select(AsmSelectors.getAsmUi),
       ),
       of(this.authStorageService.getEmulatedUserToken()),
       this.authStorageService.getTokenTarget(),
@@ -82,7 +82,7 @@ export class AsmStatePersistenceService implements OnDestroy {
           emulatedUserToken: emulatedToken,
           tokenTarget,
         };
-      })
+      }),
     );
   }
 

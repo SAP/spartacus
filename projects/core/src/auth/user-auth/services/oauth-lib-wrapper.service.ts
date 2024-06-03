@@ -28,7 +28,7 @@ export class OAuthLibWrapperService {
     protected oAuthService: OAuthService,
     protected authConfigService: AuthConfigService,
     @Inject(PLATFORM_ID) protected platformId: Object,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {
     this.initialize();
   }
@@ -66,7 +66,7 @@ export class OAuthLibWrapperService {
    */
   authorizeWithPasswordFlow(
     userId: string,
-    password: string
+    password: string,
   ): Promise<TokenResponse> {
     return this.oAuthService.fetchTokenUsingPasswordFlow(userId, password);
   }
@@ -139,7 +139,7 @@ export class OAuthLibWrapperService {
       const subscription = this.events$
         .pipe(
           filter((event) => event.type === 'token_received'),
-          take(1)
+          take(1),
         )
         .subscribe((event) => (tokenReceivedEvent = event));
 

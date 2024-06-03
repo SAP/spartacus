@@ -22,7 +22,7 @@ describe('User Addresses Reducer', () => {
 
       const { initialState } = fromUserAddressesReducer;
       const action = new UserActions.LoadUserAddressesSuccess(
-        mockUserAddresses
+        mockUserAddresses,
       );
       const state = fromUserAddressesReducer.reducer(initialState, action);
 

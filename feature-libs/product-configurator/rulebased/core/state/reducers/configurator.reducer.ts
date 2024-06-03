@@ -34,7 +34,7 @@ export function configuratorReducer(
   action:
     | ConfiguratorActions.ConfiguratorAction
     | ConfiguratorActions.ConfiguratorCartAction
-    | ConfiguratorActions.ConfiguratorVariantAction
+    | ConfiguratorActions.ConfiguratorVariantAction,
 ): Configurator.Configuration {
   ensureReducerMapCreated();
   if (reducerMap.has(action.type)) {
@@ -49,71 +49,71 @@ function ensureReducerMapCreated() {
     reducerMap = new Map();
     reducerMap.set(
       ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS,
-      handleActionUpdateConfigurationFinalizeSuccess
+      handleActionUpdateConfigurationFinalizeSuccess,
     );
     reducerMap.set(
       ConfiguratorActions.UPDATE_CART_ENTRY,
-      handleActionUpdateCartEntry
+      handleActionUpdateCartEntry,
     );
     reducerMap.set(
       ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS,
-      handleCreateSuccess
+      handleCreateSuccess,
     );
     reducerMap.set(
       ConfiguratorActions.READ_CONFIGURATION_SUCCESS,
-      handleReadSucess
+      handleReadSucess,
     );
     reducerMap.set(
       ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS,
-      handleCartEntryReadSucess
+      handleCartEntryReadSucess,
     );
     reducerMap.set(
       ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS,
-      handleUpdatePriceSummarySuccess
+      handleUpdatePriceSummarySuccess,
     );
     reducerMap.set(
       ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS,
-      handleGetConfigurationOverviewSuccess
+      handleGetConfigurationOverviewSuccess,
     );
     reducerMap.set(
       ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW_SUCCESS,
-      handleUpdateConfigurationOverviewSuccess
+      handleUpdateConfigurationOverviewSuccess,
     );
     reducerMap.set(
       ConfiguratorActions.SEARCH_VARIANTS_SUCCESS,
-      handleSearchVariantsSuccess
+      handleSearchVariantsSuccess,
     );
     reducerMap.set(
       ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION_SUCCESS,
-      handleReadOrderEntryConfigurationSuccess
+      handleReadOrderEntryConfigurationSuccess,
     );
     reducerMap.set(
       ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
-      handleSetNextOwnerCartEntry
+      handleSetNextOwnerCartEntry,
     );
     reducerMap.set(
       ConfiguratorActions.SET_INTERACTION_STATE,
-      handleSetInteractionState
+      handleSetInteractionState,
     );
     reducerMap.set(
       ConfiguratorActions.SET_CURRENT_GROUP,
-      handleSetCurrentGroup
+      handleSetCurrentGroup,
     );
     reducerMap.set(
       ConfiguratorActions.SET_MENU_PARENT_GROUP,
-      handleSetMenuParentGroup
+      handleSetMenuParentGroup,
     );
     reducerMap.set(
       ConfiguratorActions.SET_GROUPS_VISITED,
-      handleSetGroupsVisited
+      handleSetGroupsVisited,
     );
     reducerMap.set(
       ConfiguratorActions.DISMISS_CONFLICT_DIALOG,
-      handleActionDismissConflictSolverDialog
+      handleActionDismissConflictSolverDialog,
     );
     reducerMap.set(
       ConfiguratorActions.CHECK_CONFLICT_DIALOG,
-      handleActionCheckConflictSolverDialog
+      handleActionCheckConflictSolverDialog,
     );
     reducerMap.set(ConfiguratorActions.CHANGE_GROUP, handleChangeGroup);
   }
@@ -121,7 +121,7 @@ function ensureReducerMapCreated() {
 
 function handleActionUpdateConfigurationFinalizeSuccess(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.UpdateConfigurationFinalizeSuccess
+  action: ConfiguratorActions.UpdateConfigurationFinalizeSuccess,
 ): Configurator.Configuration | undefined {
   const result: Configurator.Configuration = takeOverChanges(action, state);
   checkConflictSolverDialog(result);
@@ -134,7 +134,7 @@ function handleActionUpdateConfigurationFinalizeSuccess(
 }
 
 function checkConflictSolverDialog(
-  configuration: Configurator.Configuration
+  configuration: Configurator.Configuration,
 ): void {
   configuration.interactionState.showConflictSolverDialog =
     configuration.immediateConflictResolution && !configuration.consistent;
@@ -145,7 +145,7 @@ function checkConflictSolverDialog(
 
 function handleActionDismissConflictSolverDialog(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.DissmissConflictDialoge
+  action: ConfiguratorActions.DissmissConflictDialoge,
 ): Configurator.Configuration | undefined {
   if (action.type === ConfiguratorActions.DISMISS_CONFLICT_DIALOG) {
     const result: Configurator.Configuration = {
@@ -160,7 +160,7 @@ function handleActionDismissConflictSolverDialog(
 }
 
 function handleActionCheckConflictSolverDialog(
-  state: Configurator.Configuration
+  state: Configurator.Configuration,
 ): Configurator.Configuration | undefined {
   const result: Configurator.Configuration = {
     ...state,
@@ -173,7 +173,7 @@ function handleActionCheckConflictSolverDialog(
 }
 
 function handleActionUpdateCartEntry(
-  state: Configurator.Configuration
+  state: Configurator.Configuration,
 ): Configurator.Configuration | undefined {
   const result = { ...state };
   result.isCartEntryUpdateRequired = false;
@@ -182,7 +182,7 @@ function handleActionUpdateCartEntry(
 
 function handleCreateSuccess(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.CreateConfigurationSuccess
+  action: ConfiguratorActions.CreateConfigurationSuccess,
 ): Configurator.Configuration | undefined {
   const result = setInitialCurrentGroup(takeOverChanges(action, state));
   checkConflictSolverDialog(result);
@@ -195,7 +195,7 @@ function handleReadSucess(
   action:
     | ConfiguratorActions.CreateConfigurationSuccess
     | ConfiguratorActions.ReadConfigurationSuccess
-    | ConfiguratorActions.ReadCartEntryConfigurationSuccess
+    | ConfiguratorActions.ReadCartEntryConfigurationSuccess,
 ): Configurator.Configuration | undefined {
   const result = setInitialCurrentGroup(takeOverChanges(action, state));
   checkConflictSolverDialog(result);
@@ -204,21 +204,21 @@ function handleReadSucess(
 
 function handleCartEntryReadSucess(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.ReadCartEntryConfigurationSuccess
+  action: ConfiguratorActions.ReadCartEntryConfigurationSuccess,
 ): Configurator.Configuration | undefined {
   return setInitialCurrentGroup(takeOverChanges(action, state));
 }
 
 function handleUpdatePriceSummarySuccess(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.UpdatePriceSummarySuccess
+  action: ConfiguratorActions.UpdatePriceSummarySuccess,
 ): Configurator.Configuration | undefined {
   return setInitialCurrentGroup(takeOverPricingChanges(action, state));
 }
 
 function handleGetConfigurationOverviewSuccess(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.GetConfigurationOverviewSuccess
+  action: ConfiguratorActions.GetConfigurationOverviewSuccess,
 ): Configurator.Configuration | undefined {
   const content = {
     ...action.payload.overview,
@@ -237,7 +237,7 @@ function handleGetConfigurationOverviewSuccess(
 
 function handleUpdateConfigurationOverviewSuccess(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.UpdateConfigurationOverviewSuccess
+  action: ConfiguratorActions.UpdateConfigurationOverviewSuccess,
 ): Configurator.Configuration | undefined {
   const content = {
     ...action.payload.overview,
@@ -255,7 +255,7 @@ function handleUpdateConfigurationOverviewSuccess(
 
 function handleSearchVariantsSuccess(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.SearchVariantsSuccess
+  action: ConfiguratorActions.SearchVariantsSuccess,
 ): Configurator.Configuration | undefined {
   return {
     ...state,
@@ -265,7 +265,7 @@ function handleSearchVariantsSuccess(
 
 function handleReadOrderEntryConfigurationSuccess(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.ReadOrderEntryConfigurationSuccess
+  action: ConfiguratorActions.ReadOrderEntryConfigurationSuccess,
 ): Configurator.Configuration | undefined {
   const configuration = { ...action.payload };
 
@@ -280,12 +280,12 @@ function handleReadOrderEntryConfigurationSuccess(
 
 function handleSetNextOwnerCartEntry(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.SetNextOwnerCartEntry
+  action: ConfiguratorActions.SetNextOwnerCartEntry,
 ): Configurator.Configuration | undefined {
   const content = { ...action.payload.configuration };
   content.nextOwner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
-    action.payload.cartEntryNo
+    action.payload.cartEntryNo,
   );
   const result = {
     ...state,
@@ -297,7 +297,7 @@ function handleSetNextOwnerCartEntry(
 
 function handleSetInteractionState(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.SetInteractionState
+  action: ConfiguratorActions.SetInteractionState,
 ): Configurator.Configuration | undefined {
   const newInteractionState: Configurator.InteractionState =
     action.payload.interactionState;
@@ -310,7 +310,7 @@ function handleSetInteractionState(
 
 function handleSetCurrentGroup(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.SetCurrentGroup
+  action: ConfiguratorActions.SetCurrentGroup,
 ): Configurator.Configuration | undefined {
   const newCurrentGroup: string = action.payload.currentGroup;
   const result = {
@@ -326,7 +326,7 @@ function handleSetCurrentGroup(
 
 function handleSetMenuParentGroup(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.SetMenuParentGroup
+  action: ConfiguratorActions.SetMenuParentGroup,
 ): Configurator.Configuration | undefined {
   const newMenuParentGroup = action.payload.menuParentGroup;
 
@@ -340,7 +340,7 @@ function handleSetMenuParentGroup(
 }
 function handleSetGroupsVisited(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.SetGroupsVisited
+  action: ConfiguratorActions.SetGroupsVisited,
 ): Configurator.Configuration | undefined {
   const groupIds: string[] = action.payload.visitedGroups;
 
@@ -351,13 +351,13 @@ function handleSetGroupsVisited(
   //Set Current state items
   if (state.interactionState.groupsVisited) {
     Object.keys(state.interactionState.groupsVisited).forEach((groupId) =>
-      setGroupsVisited(changedInteractionState, groupId)
+      setGroupsVisited(changedInteractionState, groupId),
     );
   }
 
   //Add new Groups
   groupIds.forEach((groupId) =>
-    setGroupsVisited(changedInteractionState, groupId)
+    setGroupsVisited(changedInteractionState, groupId),
   );
 
   return {
@@ -370,7 +370,7 @@ function handleSetGroupsVisited(
 }
 function handleChangeGroup(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.ChangeGroup
+  action: ConfiguratorActions.ChangeGroup,
 ): Configurator.Configuration | undefined {
   const isConflictResolutionMode = action.payload.conflictResolutionMode;
   return {
@@ -384,7 +384,7 @@ function handleChangeGroup(
 
 function setGroupsVisited(
   changedInteractionState: Configurator.InteractionState,
-  groupId: string
+  groupId: string,
 ) {
   const groupsVisited = changedInteractionState.groupsVisited;
   if (groupsVisited) {
@@ -393,7 +393,7 @@ function setGroupsVisited(
 }
 
 function setInitialCurrentGroup(
-  state: Configurator.Configuration
+  state: Configurator.Configuration,
 ): Configurator.Configuration {
   if (state.interactionState.currentGroup) {
     return state;
@@ -403,12 +403,12 @@ function setInitialCurrentGroup(
   if (flatGroups && flatGroups.length > 0) {
     initialCurrentGroup = state.immediateConflictResolution
       ? flatGroups.find(
-          (group) => !group.id.startsWith(Configurator.ConflictIdPrefix)
+          (group) => !group.id.startsWith(Configurator.ConflictIdPrefix),
         )?.id
       : flatGroups[0].id;
   }
   const menuParentGroup = initialCurrentGroup?.startsWith(
-    Configurator.ConflictIdPrefix
+    Configurator.ConflictIdPrefix,
   )
     ? Configurator.ConflictHeaderId
     : undefined;
@@ -429,7 +429,7 @@ function takeOverChanges(
     | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
     | ConfiguratorActions.ReadOrderEntryConfigurationSuccess,
-  state: Configurator.Configuration
+  state: Configurator.Configuration,
 ): Configurator.Configuration {
   const content = { ...action.payload };
   const groups = content.groups.length > 0 ? content.groups : state.groups;
@@ -450,7 +450,7 @@ function takeOverChanges(
 
 function takeOverPricingChanges(
   action: ConfiguratorActions.UpdatePriceSummarySuccess,
-  state: Configurator.Configuration
+  state: Configurator.Configuration,
 ): Configurator.Configuration {
   const content = { ...action.payload };
   const priceSupplements = content.priceSupplements;
@@ -458,7 +458,7 @@ function takeOverPricingChanges(
     priceSupplements && priceSupplements.length > 0
       ? ConfiguratorStateUtils.mergeGroupsWithSupplements(
           state.groups,
-          priceSupplements
+          priceSupplements,
         )
       : state.groups;
 

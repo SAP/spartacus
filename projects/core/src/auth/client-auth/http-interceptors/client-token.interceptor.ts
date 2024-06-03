@@ -32,12 +32,12 @@ export class ClientTokenInterceptor implements HttpInterceptor {
   constructor(
     protected clientTokenService: ClientTokenService,
     protected clientErrorHandlingService: ClientErrorHandlingService,
-    protected occEndpoints: OccEndpointsService
+    protected occEndpoints: OccEndpointsService,
   ) {}
 
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     const isClientTokenRequest = this.isClientTokenRequest(request);
     if (isClientTokenRequest) {
@@ -70,18 +70,18 @@ export class ClientTokenInterceptor implements HttpInterceptor {
             ) {
               return this.clientErrorHandlingService.handleExpiredClientToken(
                 request,
-                next
+                next,
               );
             }
             throw errResponse;
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
   protected getClientToken(
-    isClientTokenRequest: boolean
+    isClientTokenRequest: boolean,
   ): Observable<ClientToken | undefined> {
     if (isClientTokenRequest) {
       return this.clientTokenService.getClientToken();
@@ -92,7 +92,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
   protected isClientTokenRequest(request: HttpRequest<any>): boolean {
     const isRequestMapping = InterceptorUtil.getInterceptorParam(
       USE_CLIENT_TOKEN,
-      request.headers
+      request.headers,
     );
     return Boolean(isRequestMapping);
   }

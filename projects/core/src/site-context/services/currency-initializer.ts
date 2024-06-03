@@ -21,7 +21,7 @@ export class CurrencyInitializer implements OnDestroy {
   constructor(
     protected currencyService: CurrencyService,
     protected currencyStatePersistenceService: CurrencyStatePersistenceService,
-    protected configInit: ConfigInitializerService
+    protected configInit: ConfigInitializerService,
   ) {}
 
   /**
@@ -33,7 +33,7 @@ export class CurrencyInitializer implements OnDestroy {
       .pipe(
         // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
         switchMap(() => this.currencyStatePersistenceService.initSync()),
-        switchMap(() => this.setFallbackValue())
+        switchMap(() => this.setFallbackValue()),
       )
       .subscribe();
   }
@@ -47,7 +47,7 @@ export class CurrencyInitializer implements OnDestroy {
     return this.configInit
       .getStable('context')
       .pipe(
-        tap((config: SiteContextConfig) => this.setDefaultFromConfig(config))
+        tap((config: SiteContextConfig) => this.setDefaultFromConfig(config)),
       );
   }
 
@@ -58,7 +58,7 @@ export class CurrencyInitializer implements OnDestroy {
   protected setDefaultFromConfig(config: SiteContextConfig): void {
     const contextParam = getContextParameterDefault(
       config,
-      CURRENCY_CONTEXT_ID
+      CURRENCY_CONTEXT_ID,
     );
     if (!this.currencyService.isInitialized() && contextParam) {
       this.currencyService.setActive(contextParam);

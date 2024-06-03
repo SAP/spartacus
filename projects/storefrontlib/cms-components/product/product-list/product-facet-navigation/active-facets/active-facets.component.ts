@@ -40,7 +40,7 @@ export class ActiveFacetsComponent {
 
   getLinkParams(facet: Breadcrumb) {
     return this.facetService.getLinkParams(
-      facet.removeQuery?.query?.value ?? ''
+      facet.removeQuery?.query?.value ?? '',
     );
   }
 
@@ -54,7 +54,7 @@ export class ActiveFacetsComponent {
    */
   getFocusKey(facetList: FacetList, facet: Breadcrumb) {
     return facetList.facets?.find((f) =>
-      f.values?.find((val) => val.name === facet.facetValueName)
+      f.values?.find((val) => val.name === facet.facetValueName),
     )
       ? ''
       : facet.facetValueName;

@@ -103,7 +103,9 @@ describe('AsmAuthHttpHeaderService', () => {
   describe('shouldCatchError', () => {
     it('should return true for occ calls', () => {
       expect(
-        service.shouldCatchError(new HttpRequest('GET', 'some-server/occ/cart'))
+        service.shouldCatchError(
+          new HttpRequest('GET', 'some-server/occ/cart'),
+        ),
       ).toBeTrue();
     });
 
@@ -112,14 +114,14 @@ describe('AsmAuthHttpHeaderService', () => {
         service.shouldCatchError(
           new HttpRequest('GET', 'some-server/csagent', {
             headers: new HttpHeaders({ 'cx-use-csagent-token': 'true' }),
-          })
-        )
+          }),
+        ),
       ).toBeTrue();
     });
 
     it('should return false for any other requests', () => {
       expect(
-        service.shouldCatchError(new HttpRequest('GET', 'some-server/auth'))
+        service.shouldCatchError(new HttpRequest('GET', 'some-server/auth')),
       ).toBeFalse();
     });
   });
@@ -127,7 +129,7 @@ describe('AsmAuthHttpHeaderService', () => {
   describe('alterRequest', () => {
     it('should add header for occ calls', () => {
       const request = service.alterRequest(
-        new HttpRequest('GET', 'some-server/occ/cart')
+        new HttpRequest('GET', 'some-server/occ/cart'),
       );
       expect(request.headers.get('Authorization')).toEqual('Bearer acc_token');
     });
@@ -136,7 +138,7 @@ describe('AsmAuthHttpHeaderService', () => {
       const request = service.alterRequest(
         new HttpRequest('GET', 'some-server/csagent', {
           headers: new HttpHeaders({ 'cx-use-csagent-token': 'true' }),
-        })
+        }),
       );
       expect(request.headers.get('Authorization')).toEqual('Bearer acc_token');
     });
@@ -145,14 +147,14 @@ describe('AsmAuthHttpHeaderService', () => {
       const request = service.alterRequest(
         new HttpRequest('GET', 'some-server/csagent', {
           headers: new HttpHeaders({ 'cx-use-csagent-token': 'true' }),
-        })
+        }),
       );
       expect(request.headers.has('cx-use-csagent-token')).toBe(false);
     });
 
     it('should not do anything for other requests', () => {
       const request = service.alterRequest(
-        new HttpRequest('GET', 'some-server/non-occ/cart')
+        new HttpRequest('GET', 'some-server/non-occ/cart'),
       );
       expect(request.headers.has('Authorization')).toBe(false);
     });
@@ -168,7 +170,7 @@ describe('AsmAuthHttpHeaderService', () => {
 
       expect(authService.coreLogout).toHaveBeenCalled();
       expect(
-        authRedirectService.saveCurrentNavigationUrl
+        authRedirectService.saveCurrentNavigationUrl,
       ).toHaveBeenCalledBefore(routingService.go);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     });
@@ -177,7 +179,7 @@ describe('AsmAuthHttpHeaderService', () => {
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(
         csAgentAuthService,
-        'isCustomerSupportAgentLoggedIn'
+        'isCustomerSupportAgentLoggedIn',
       ).and.returnValue(of(true));
       spyOn(csAgentAuthService, 'logoutCustomerSupportAgent').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
@@ -192,7 +194,7 @@ describe('AsmAuthHttpHeaderService', () => {
         {
           key: 'asm.csagentTokenExpired',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
   });

@@ -27,7 +27,7 @@ const scssFilePath = 'src/styles/spartacus/epd-visualization.scss';
 describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_EPD_VISUALIZATION,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -70,28 +70,28 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       SPARTACUS_SCHEMATICS,
       path.join(
         __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
+        '../../../../projects/schematics/src/collection.json',
+      ),
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -100,7 +100,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -115,7 +115,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           visualizationFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -159,7 +159,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
           (task) =>
             task.name === 'run-schematic' &&
             (task.options as RunSchematicTaskOptions<{}>).collection ===
-              '@sap/epd-visualization'
+              '@sap/epd-visualization',
         );
 
         expect(tasks.length).toEqual(0);
@@ -171,7 +171,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...visualizationFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
@@ -188,7 +188,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           visualizationFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -215,7 +215,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
           (task) =>
             task.name === 'run-schematic' &&
             (task.options as RunSchematicTaskOptions<{}>).collection ===
-              '@sap/epd-visualization'
+              '@sap/epd-visualization',
         );
 
         expect(tasks.length).toEqual(0);
@@ -227,7 +227,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...visualizationFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 

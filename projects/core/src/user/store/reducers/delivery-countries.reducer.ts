@@ -14,7 +14,7 @@ export const initialState: DeliveryCountriesState = {
 
 export function reducer(
   state = initialState,
-  action: UserActions.DeliveryCountriesAction | UserActions.ClearUserMiscsData
+  action: UserActions.DeliveryCountriesAction | UserActions.ClearUserMiscsData,
 ): DeliveryCountriesState {
   switch (action.type) {
     case UserActions.LOAD_DELIVERY_COUNTRIES_SUCCESS: {
@@ -28,7 +28,7 @@ export function reducer(
         },
         {
           ...state.entities,
-        }
+        },
       );
 
       return {

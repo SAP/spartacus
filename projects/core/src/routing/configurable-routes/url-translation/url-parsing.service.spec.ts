@@ -58,47 +58,47 @@ describe('UrlParsingService', () => {
 
     it('should return segments of url and ignore its query params and hash fragment', () => {
       expect(
-        service.getPrimarySegments('test/path?query1=value1#hash-fragment')
+        service.getPrimarySegments('test/path?query1=value1#hash-fragment'),
       ).toEqual(['test', 'path']);
     });
 
     it('should return primary segments of url and ignore its secondary outlets segments (case 1)', () => {
       expect(
         service.getPrimarySegments(
-          'test/path/(secondaryOutlet:secondary-test-path)'
-        )
+          'test/path/(secondaryOutlet:secondary-test-path)',
+        ),
       ).toEqual(['test', 'path']);
     });
 
     it('should return primary segments of url and ignore its secondary outlets segments (case 2)', () => {
       expect(
         service.getPrimarySegments(
-          'test/path(secondaryOutlet:secondary-test-path)'
-        )
+          'test/path(secondaryOutlet:secondary-test-path)',
+        ),
       ).toEqual(['test', 'path']);
     });
 
     it('should return primary segments of url and ignore its secondary outlets segments (case 3)', () => {
       expect(
         service.getPrimarySegments(
-          'test/(path//secondaryOutlet:secondary-test-path)'
-        )
+          'test/(path//secondaryOutlet:secondary-test-path)',
+        ),
       ).toEqual(['test', 'path']);
     });
 
     it('should return primary segments of url and ignore its secondary outlets segments (case 4)', () => {
       expect(
         service.getPrimarySegments(
-          'test/(primary:path//secondaryOutlet:secondary-test-path)'
-        )
+          'test/(primary:path//secondaryOutlet:secondary-test-path)',
+        ),
       ).toEqual(['test', 'path']);
     });
 
     it('should return primary segments of url and ignore its query params, hash fragment and secondary outlets segments', () => {
       expect(
         service.getPrimarySegments(
-          'test/(primary:path//secondaryOutlet:secondary-test-path)?query1=value1#hash-fragment'
-        )
+          'test/(primary:path//secondaryOutlet:secondary-test-path)?query1=value1#hash-fragment',
+        ),
       ).toEqual(['test', 'path']);
     });
   });
@@ -110,25 +110,25 @@ describe('UrlParsingService', () => {
 
     it('should match URL string with path array', () => {
       expect(service.matchPath('test/url/123', ['test', 'url', ':param'])).toBe(
-        true
+        true,
       );
     });
 
     it('should match URL array with path string', () => {
       expect(service.matchPath(['test', 'url', '123'], 'test/url/:param')).toBe(
-        true
+        true,
       );
     });
 
     it('should match URL array with path array', () => {
       expect(
-        service.matchPath(['test', 'url', '123'], ['test', 'url', ':param'])
+        service.matchPath(['test', 'url', '123'], ['test', 'url', ':param']),
       ).toBe(true);
     });
 
     it('should not match URL array with path array', () => {
       expect(
-        service.matchPath(['test', '123'], ['test', 'url', ':param'])
+        service.matchPath(['test', '123'], ['test', 'url', ':param']),
       ).toBe(false);
     });
 
@@ -166,7 +166,7 @@ describe('UrlParsingService', () => {
 
     it('should match URL string with path string containing many params', () => {
       expect(service.matchPath('test/url/123', ':param1/url/:param2')).toBe(
-        true
+        true,
       );
     });
   });

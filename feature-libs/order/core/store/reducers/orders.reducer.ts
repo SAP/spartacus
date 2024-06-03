@@ -15,7 +15,7 @@ export const initialState: OrderHistoryList = {
 
 export function reducer(
   state = initialState,
-  action: OrderActions.UserOrdersAction
+  action: OrderActions.UserOrdersAction,
 ): OrderHistoryList {
   switch (action.type) {
     case OrderActions.LOAD_USER_ORDERS_SUCCESS: {

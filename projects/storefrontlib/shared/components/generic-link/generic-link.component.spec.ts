@@ -86,7 +86,7 @@ describe('GenericLinkComponent', () => {
       it('should not have any style classes', () => {
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a')
+          By.css('a'),
         ).nativeElement;
         expect(el.classList.length).toEqual(0);
       });
@@ -95,7 +95,7 @@ describe('GenericLinkComponent', () => {
         component.class = 'first-class';
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a')
+          By.css('a'),
         ).nativeElement;
         expect(el.classList).toContain('first-class');
         expect(el.classList.length).toEqual(1);
@@ -105,7 +105,7 @@ describe('GenericLinkComponent', () => {
         component.class = 'first-class second-class';
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a')
+          By.css('a'),
         ).nativeElement;
         expect(el.classList).toContain('first-class');
         expect(el.classList).toContain('second-class');
@@ -115,7 +115,7 @@ describe('GenericLinkComponent', () => {
       it('should not have any style attributes', () => {
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a')
+          By.css('a'),
         ).nativeElement;
         expect(el.style.length).toEqual(0);
       });
@@ -124,7 +124,7 @@ describe('GenericLinkComponent', () => {
         component.style = 'color: red;';
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a')
+          By.css('a'),
         ).nativeElement;
         expect(el.style.color).toEqual('red');
       });
@@ -134,7 +134,7 @@ describe('GenericLinkComponent', () => {
           'color: red;border: solid 1px var(--cx-color-primary)';
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a')
+          By.css('a'),
         ).nativeElement;
         expect(el.style.color).toEqual('red');
         expect(el.style.border).toEqual('solid 1px var(--cx-color-primary)');
@@ -166,7 +166,7 @@ describe('GenericLinkComponent', () => {
       it('should not have any style classes', () => {
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a')
+          By.css('a'),
         ).nativeElement;
         expect(el.classList.length).toEqual(0);
       });
@@ -175,7 +175,7 @@ describe('GenericLinkComponent', () => {
         component.class = 'first-class';
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a')
+          By.css('a'),
         ).nativeElement;
         expect(el.classList).toContain('first-class');
         expect(el.classList.length).toEqual(1);
@@ -185,7 +185,7 @@ describe('GenericLinkComponent', () => {
         component.class = 'first-class second-class';
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a')
+          By.css('a'),
         ).nativeElement;
         expect(el.classList).toContain('first-class');
         expect(el.classList).toContain('second-class');
@@ -195,7 +195,7 @@ describe('GenericLinkComponent', () => {
       it('should not have any style attributes', () => {
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a')
+          By.css('a'),
         ).nativeElement;
         expect(el.style.length).toEqual(0);
       });
@@ -204,7 +204,7 @@ describe('GenericLinkComponent', () => {
         component.style = 'color: red;';
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a')
+          By.css('a'),
         ).nativeElement;
         expect(el.style.color).toEqual('red');
       });
@@ -214,7 +214,7 @@ describe('GenericLinkComponent', () => {
           'color: red;border: solid 1px var(--cx-color-primary)';
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a')
+          By.css('a'),
         ).nativeElement;
         expect(el.style.color).toEqual('red');
         expect(el.style.border).toEqual('solid 1px var(--cx-color-primary)');

@@ -22,7 +22,7 @@ export class VisualViewerAnimationSliderService {
     private elementRef: ElementRef,
     private windowRef: WindowRef,
     private renderer: Renderer2,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
     this.eventListenerUtils.initialize(this.renderer);
   }
@@ -162,36 +162,36 @@ export class VisualViewerAnimationSliderService {
     if (this.disabled) {
       this.eventListenerUtils.detachAllEventListeners(document);
       this.eventListenerUtils.detachAllEventListeners(
-        this.barElement.nativeElement
+        this.barElement.nativeElement,
       );
       this.eventListenerUtils.detachAllEventListeners(
-        this.handleElement.nativeElement
+        this.handleElement.nativeElement,
       );
     } else {
       this.eventListenerUtils.attachEventListener(
         this.handleElement.nativeElement,
         'mousedown',
-        this.onMouseDown.bind(this)
+        this.onMouseDown.bind(this),
       );
       this.eventListenerUtils.attachEventListener(
         this.barElement.nativeElement,
         'mousedown',
-        this.onMouseDownOnBar.bind(this)
+        this.onMouseDownOnBar.bind(this),
       );
       this.eventListenerUtils.attachEventListener(
         this.handleElement.nativeElement,
         'touchstart',
-        this.onTouchStart.bind(this)
+        this.onTouchStart.bind(this),
       );
       this.eventListenerUtils.attachEventListener(
         this.barElement.nativeElement,
         'touchstart',
-        this.onTouchStartOnBar.bind(this)
+        this.onTouchStartOnBar.bind(this),
       );
       this.eventListenerUtils.attachEventListener(
         this.handleElement.nativeElement,
         'focus',
-        this.onHandleFocus.bind(this)
+        this.onHandleFocus.bind(this),
       );
     }
   }
@@ -226,7 +226,7 @@ export class VisualViewerAnimationSliderService {
 
   private findTouch(
     touchList: TouchList,
-    touchIdentifier?: number
+    touchIdentifier?: number,
   ): Touch | undefined {
     for (let i = 0; i < touchList.length; i++) {
       const touch = touchList.item(i) as Touch;
@@ -253,14 +253,14 @@ export class VisualViewerAnimationSliderService {
     this.eventListenerUtils.attachEventListener(
       document,
       'touchmove',
-      this.onTouchMove.bind(this)
+      this.onTouchMove.bind(this),
     );
 
     this.eventListenerUtils.detachEventListeners(document, 'touchend');
     this.eventListenerUtils.attachEventListener(
       document,
       'touchend',
-      this.onTouchEnd.bind(this)
+      this.onTouchEnd.bind(this),
     );
 
     this.touchIdentifier = (event.changedTouches as TouchList)[0].identifier;
@@ -279,14 +279,14 @@ export class VisualViewerAnimationSliderService {
     this.eventListenerUtils.attachEventListener(
       document,
       'mousemove',
-      this.onMouseMove.bind(this)
+      this.onMouseMove.bind(this),
     );
 
     this.eventListenerUtils.detachEventListeners(document, 'mouseup');
     this.eventListenerUtils.attachEventListener(
       document,
       'mouseup',
-      this.onMouseUp.bind(this)
+      this.onMouseUp.bind(this),
     );
   }
 
@@ -309,7 +309,7 @@ export class VisualViewerAnimationSliderService {
   private onTouchMove(event: TouchEvent): void {
     const touchInitiatedOnSlider = this.findTouch(
       event.changedTouches,
-      this.touchIdentifier
+      this.touchIdentifier,
     );
     if (touchInitiatedOnSlider === undefined) {
       return;
@@ -323,7 +323,7 @@ export class VisualViewerAnimationSliderService {
   private onTouchEnd(event: TouchEvent): void {
     const touchInitiatedOnSlider = this.findTouch(
       event.changedTouches,
-      this.touchIdentifier
+      this.touchIdentifier,
     );
     if (touchInitiatedOnSlider === undefined) {
       return;
@@ -338,12 +338,12 @@ export class VisualViewerAnimationSliderService {
     this.eventListenerUtils.attachEventListener(
       nativeElement,
       'blur',
-      this.onHandleBlur.bind(this)
+      this.onHandleBlur.bind(this),
     );
     this.eventListenerUtils.attachEventListener(
       nativeElement,
       'keydown',
-      this.onKeyboardEvent.bind(this)
+      this.onKeyboardEvent.bind(this),
     );
   }
 
@@ -368,7 +368,7 @@ export class VisualViewerAnimationSliderService {
 
   private getKeyHandler(
     keyCode: string,
-    rightToLeft: boolean
+    rightToLeft: boolean,
   ): ((value: number) => number) | undefined {
     const increaseStep = (currentValue: number) =>
       currentValue + this.stepDelta;

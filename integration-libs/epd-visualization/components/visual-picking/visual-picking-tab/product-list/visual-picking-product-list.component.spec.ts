@@ -200,12 +200,12 @@ describe('VisualPickingProductListComponent', () => {
       const setterSpy = spyOnProperty(
         mockVisualPickingProductListService,
         'selectedProductCodes',
-        'set'
+        'set',
       );
       const getterSpy = spyOnProperty(
         mockVisualPickingProductListService,
         'selectedProductCodes',
-        'get'
+        'get',
       );
       visualPickingProductListComponent.selectedProductCodes =
         visualPickingProductListComponent.selectedProductCodes;
@@ -219,12 +219,12 @@ describe('VisualPickingProductListComponent', () => {
       const setterSpy = spyOnProperty(
         mockVisualPickingProductListService,
         'itemsPerSlide',
-        'set'
+        'set',
       );
       const getterSpy = spyOnProperty(
         mockVisualPickingProductListService,
         'itemsPerSlide',
-        'get'
+        'get',
       );
       visualPickingProductListComponent.itemsPerSlide =
         visualPickingProductListComponent.itemsPerSlide;
@@ -238,12 +238,12 @@ describe('VisualPickingProductListComponent', () => {
       const setterSpy = spyOnProperty(
         mockVisualPickingProductListService,
         'activeSlideStartIndex',
-        'set'
+        'set',
       );
       const getterSpy = spyOnProperty(
         mockVisualPickingProductListService,
         'activeSlideStartIndex',
-        'get'
+        'get',
       );
       visualPickingProductListComponent.activeSlideStartIndex =
         visualPickingProductListComponent.activeSlideStartIndex;

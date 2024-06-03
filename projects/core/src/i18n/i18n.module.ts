@@ -22,7 +22,7 @@ import { TranslationService } from './translation.service';
 
 export function initI18nConfig(
   configInitializer: I18nConfigInitializer,
-  config: I18nConfig
+  config: I18nConfig,
 ): ConfigInitializer | null {
   /**
    * If `fallbackLang` was already configured statically

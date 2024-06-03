@@ -47,7 +47,7 @@ export class SavedCartService implements SavedCartFacade {
     protected userIdService: UserIdService,
     protected userAccountFacade: UserAccountFacade,
     protected multiCartService: MultiCartFacade,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   /**
@@ -57,7 +57,7 @@ export class SavedCartService implements SavedCartFacade {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) => {
         return this.store.dispatch(
-          new SavedCartActions.LoadSavedCart({ userId, cartId })
+          new SavedCartActions.LoadSavedCart({ userId, cartId }),
         );
       },
       error: () => {
@@ -77,7 +77,7 @@ export class SavedCartService implements SavedCartFacade {
     return this.getSavedCart(cartId).pipe(
       observeOn(queueScheduler),
       withLatestFrom(
-        this.eventService.get(DeleteSavedCartEvent).pipe(startWith({}))
+        this.eventService.get(DeleteSavedCartEvent).pipe(startWith({})),
       ),
       filter(([state, _event]) => !!state),
       tap(([state, event]) => {
@@ -90,7 +90,7 @@ export class SavedCartService implements SavedCartFacade {
         }
       }),
       filter(([state]) => state.success || !!state.error),
-      map(([state]) => state.value)
+      map(([state]) => state.value),
     );
   }
 
@@ -101,7 +101,7 @@ export class SavedCartService implements SavedCartFacade {
    * @returns observable of selected cart with loader state
    */
   getSavedCart(
-    cartId: string
+    cartId: string,
   ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>> {
     return this.multiCartService.getCartEntity(cartId);
   }
@@ -122,7 +122,7 @@ export class SavedCartService implements SavedCartFacade {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) => {
         return this.store.dispatch(
-          new SavedCartActions.LoadSavedCarts({ userId })
+          new SavedCartActions.LoadSavedCarts({ userId }),
         );
       },
       error: () => {
@@ -145,7 +145,7 @@ export class SavedCartService implements SavedCartFacade {
         }
       }),
       map(([savedCartList, _]) => savedCartList),
-      shareReplay({ bufferSize: 1, refCount: true })
+      shareReplay({ bufferSize: 1, refCount: true }),
     );
   }
 
@@ -168,9 +168,9 @@ export class SavedCartService implements SavedCartFacade {
               ? cart?.name !== `wishlist${user?.customerId}`
               : true) &&
             !isSelectiveCart(cart?.code) &&
-            cart?.saveTime
-        )
-      )
+            cart?.saveTime,
+        ),
+      ),
     );
   }
 
@@ -182,8 +182,8 @@ export class SavedCartService implements SavedCartFacade {
   getSavedCartListProcessLoading(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
-        ProcessSelectors.getProcessLoadingFactory(SAVED_CART_LIST_PROCESS_ID)
-      )
+        ProcessSelectors.getProcessLoadingFactory(SAVED_CART_LIST_PROCESS_ID),
+      ),
     );
   }
 
@@ -195,8 +195,8 @@ export class SavedCartService implements SavedCartFacade {
   getSavedCartListProcess(): Observable<StateUtils.LoaderState<any>> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
-        ProcessSelectors.getProcessStateFactory(SAVED_CART_LIST_PROCESS_ID)
-      )
+        ProcessSelectors.getProcessStateFactory(SAVED_CART_LIST_PROCESS_ID),
+      ),
     );
   }
 
@@ -219,7 +219,7 @@ export class SavedCartService implements SavedCartFacade {
           new SavedCartActions.RestoreSavedCart({
             userId,
             cartId,
-          })
+          }),
         );
       },
       error: () => {
@@ -237,9 +237,9 @@ export class SavedCartService implements SavedCartFacade {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessLoadingFactory(
-          SAVED_CART_RESTORE_CART_PROCESS_ID
-        )
-      )
+          SAVED_CART_RESTORE_CART_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -252,9 +252,9 @@ export class SavedCartService implements SavedCartFacade {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessSuccessFactory(
-          SAVED_CART_RESTORE_CART_PROCESS_ID
-        )
-      )
+          SAVED_CART_RESTORE_CART_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -267,9 +267,9 @@ export class SavedCartService implements SavedCartFacade {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessErrorFactory(
-          SAVED_CART_RESTORE_CART_PROCESS_ID
-        )
-      )
+          SAVED_CART_RESTORE_CART_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -316,7 +316,7 @@ export class SavedCartService implements SavedCartFacade {
             cartId,
             saveCartName,
             saveCartDescription,
-          })
+          }),
         );
       },
       error: () => {
@@ -334,9 +334,9 @@ export class SavedCartService implements SavedCartFacade {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessLoadingFactory(
-          SAVED_CART_SAVE_CART_PROCESS_ID
-        )
-      )
+          SAVED_CART_SAVE_CART_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -349,9 +349,9 @@ export class SavedCartService implements SavedCartFacade {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessSuccessFactory(
-          SAVED_CART_SAVE_CART_PROCESS_ID
-        )
-      )
+          SAVED_CART_SAVE_CART_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -363,8 +363,10 @@ export class SavedCartService implements SavedCartFacade {
   getSaveCartProcessError(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
-        ProcessSelectors.getProcessErrorFactory(SAVED_CART_SAVE_CART_PROCESS_ID)
-      )
+        ProcessSelectors.getProcessErrorFactory(
+          SAVED_CART_SAVE_CART_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -396,7 +398,7 @@ export class SavedCartService implements SavedCartFacade {
             cartId,
             saveCartName,
             saveCartDescription,
-          })
+          }),
         );
       },
       error: () => {
@@ -414,7 +416,7 @@ export class SavedCartService implements SavedCartFacade {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) => {
         return this.store.dispatch(
-          new SavedCartActions.CloneSavedCart({ userId, cartId, saveCartName })
+          new SavedCartActions.CloneSavedCart({ userId, cartId, saveCartName }),
         );
       },
       error: () => {
@@ -432,9 +434,9 @@ export class SavedCartService implements SavedCartFacade {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessLoadingFactory(
-          SAVED_CART_CLONE_CART_PROCESS_ID
-        )
-      )
+          SAVED_CART_CLONE_CART_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -447,9 +449,9 @@ export class SavedCartService implements SavedCartFacade {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessSuccessFactory(
-          SAVED_CART_CLONE_CART_PROCESS_ID
-        )
-      )
+          SAVED_CART_CLONE_CART_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -462,9 +464,9 @@ export class SavedCartService implements SavedCartFacade {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessErrorFactory(
-          SAVED_CART_CLONE_CART_PROCESS_ID
-        )
-      )
+          SAVED_CART_CLONE_CART_PROCESS_ID,
+        ),
+      ),
     );
   }
 

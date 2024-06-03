@@ -23,14 +23,14 @@ import {
 import { peerDependencies } from '../../package.json';
 
 export function addEstimatedDeliveryDateFeature(
-  options: SpartacusEstimatedDeliveryDateOptions
+  options: SpartacusEstimatedDeliveryDateOptions,
 ): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     const features = analyzeCrossFeatureDependencies(
-      options.features as string[]
+      options.features as string[],
     );
 
     return chain([

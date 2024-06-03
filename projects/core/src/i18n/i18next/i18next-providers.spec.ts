@@ -43,7 +43,7 @@ describe('i18nextProviders', () => {
 
       const mockStableConfig$ = new Subject<I18nConfig>();
       spyOn(configInitializerService, 'getStable').and.returnValue(
-        mockStableConfig$
+        mockStableConfig$,
       );
       spyOn(i18nextInitializer, 'initialize').and.callThrough();
 
@@ -69,7 +69,7 @@ describe('i18nextProviders', () => {
       spyOn(i18nextInitializer, 'initialize').and.returnValue(
         new Promise((resolve) => {
           mockResolveI18nextInitialize = resolve;
-        })
+        }),
       );
       spyOn(configInitializerService, 'getStable').and.callThrough();
 

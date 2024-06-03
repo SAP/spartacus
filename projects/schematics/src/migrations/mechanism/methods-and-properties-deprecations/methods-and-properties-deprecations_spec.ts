@@ -180,7 +180,7 @@ describe('updateCmsComponentState migration', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../test/migrations-test.json')
+      require.resolve('../../test/migrations-test.json'),
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -192,7 +192,7 @@ describe('updateCmsComponentState migration', () => {
         compilerOptions: {
           lib: ['es2015'],
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -208,7 +208,7 @@ describe('updateCmsComponentState migration', () => {
             },
           },
         },
-      })
+      }),
     );
 
     previousWorkingDir = shx.pwd();
@@ -233,9 +233,9 @@ describe('updateCmsComponentState migration', () => {
     const regex = new RegExp(
       buildMethodComment(
         GET_COMPONENT_STATE_OLD_API,
-        GET_COMPONENTS_STATE_NEW_API
+        GET_COMPONENTS_STATE_NEW_API,
       ),
-      'g'
+      'g',
     );
     const commentOccurrences = (content.match(regex) || []).length;
     expect(commentOccurrences).toEqual(3);
@@ -249,7 +249,7 @@ describe('updateCmsComponentState migration', () => {
     const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(
       `// TODO:Spartacus - '${GET_COMPONENT_ENTITIES_OLD_API}' has been removed, please use some of the newer API methods.`,
-      'g'
+      'g',
     );
     const commentOccurrences = (content.match(regex) || []).length;
     expect(commentOccurrences).toEqual(3);
@@ -259,7 +259,7 @@ describe('updateCmsComponentState migration', () => {
     writeFile(
       host,
       '/src/index.ts',
-      COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS
+      COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS,
     );
 
     await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -268,9 +268,9 @@ describe('updateCmsComponentState migration', () => {
     const regex = new RegExp(
       buildMethodComment(
         COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
-        COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API
+        COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API,
       ),
-      'g'
+      'g',
     );
     const commentOccurrences = (content.match(regex) || []).length;
     expect(commentOccurrences).toEqual(3);
@@ -285,9 +285,9 @@ describe('updateCmsComponentState migration', () => {
     const regex = new RegExp(
       buildMethodComment(
         COMPONENT_SELECTOR_FACTORY_OLD_API,
-        COMPONENTS_SELECTOR_FACTORY_NEW_API
+        COMPONENTS_SELECTOR_FACTORY_NEW_API,
       ),
-      'g'
+      'g',
     );
     const commentOccurrences = (content.match(regex) || []).length;
     expect(commentOccurrences).toEqual(3);
@@ -297,7 +297,7 @@ describe('updateCmsComponentState migration', () => {
     writeFile(
       host,
       '/src/index.ts',
-      ACTION_CONST_TEST_NO_SPARTACUS_IMPORT_CLASS
+      ACTION_CONST_TEST_NO_SPARTACUS_IMPORT_CLASS,
     );
 
     await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -322,7 +322,7 @@ describe('updateCmsComponentState migration', () => {
 
     const loadCmsComponentRegex = new RegExp(
       `^// TODO:Spartacus - please convert all the parameters to the 'payload' object's properties for '${LOAD_CMS_COMPONENT_CLASS}' action$`,
-      'gm'
+      'gm',
     );
     const loadCmsComponentOccurrences = (
       content.match(loadCmsComponentRegex) || []
@@ -331,7 +331,7 @@ describe('updateCmsComponentState migration', () => {
 
     const loadCmsComponentFailRegex = new RegExp(
       `// TODO:Spartacus - please convert all the parameters to the 'payload' object's properties for '${LOAD_CMS_COMPONENT_FAIL_CLASS}' action`,
-      'g'
+      'g',
     );
     const loadCmsComponentFailOccurrences = (
       content.match(loadCmsComponentFailRegex) || []
@@ -340,7 +340,7 @@ describe('updateCmsComponentState migration', () => {
 
     const loadCmsComponentSuccessRegex = new RegExp(
       `// TODO:Spartacus - please convert all the parameters to the 'payload' object's properties for '${LOAD_CMS_COMPONENT_SUCCESS_CLASS}' action`,
-      'g'
+      'g',
     );
     const loadCmsComponentSuccessOccurrences = (
       content.match(loadCmsComponentSuccessRegex) || []
@@ -349,7 +349,7 @@ describe('updateCmsComponentState migration', () => {
 
     const cmsGetComponentFromPageRegex = new RegExp(
       `// TODO:Spartacus - please convert all the parameters to the 'payload' object's properties for '${CMS_GET_COMPONENT_FROM_PAGE}' action`,
-      'g'
+      'g',
     );
     const cmsGetComponentFromPageRegexOccurrences = (
       content.match(cmsGetComponentFromPageRegex) || []

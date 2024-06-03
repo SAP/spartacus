@@ -17,7 +17,7 @@ import { CurrentBudgetService } from './current-budget.service';
 export class BudgetRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
   constructor(
     translation: TranslationService,
-    protected currentItemService: CurrentBudgetService
+    protected currentItemService: CurrentBudgetService,
   ) {
     super(translation);
   }

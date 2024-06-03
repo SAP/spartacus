@@ -120,7 +120,7 @@ context('B2B - Saved Cart', () => {
         savedCart.restoreCart(
           sampleData.products[1],
           sampleData.savedActiveCartForm[2],
-          true
+          true,
         );
       });
 
@@ -129,7 +129,7 @@ context('B2B - Saved Cart', () => {
           sampleData.products[1],
           sampleData.savedActiveCartForm[2],
           true,
-          { isCloneCartActive: true, cloneName: 'newClonedName' }
+          { isCloneCartActive: true, cloneName: 'newClonedName' },
         );
       });
 
@@ -141,7 +141,7 @@ context('B2B - Saved Cart', () => {
 
         savedCart.restoreCart(
           sampleData.products[1],
-          sampleData.savedActiveCartForm[2]
+          sampleData.savedActiveCartForm[2],
         );
       });
 
@@ -155,7 +155,7 @@ context('B2B - Saved Cart', () => {
           sampleData.products[1],
           sampleData.savedActiveCartForm[2],
           false,
-          { isCloneCartActive: true }
+          { isCloneCartActive: true },
         );
       });
     });
@@ -168,7 +168,7 @@ context('B2B - Saved Cart', () => {
       it('should update saved cart name and description, and delete it from the modal', () => {
         savedCart.updateSavedCartAndDelete(
           sampleData.products[1],
-          sampleData.savedActiveCartForm[3]
+          sampleData.savedActiveCartForm[3],
         );
       });
 
@@ -176,7 +176,7 @@ context('B2B - Saved Cart', () => {
         savedCart.updateSavedCartAndDelete(
           sampleData.products[1],
           sampleData.savedActiveCartForm[0],
-          true
+          true,
         );
       });
 
@@ -184,7 +184,7 @@ context('B2B - Saved Cart', () => {
         savedCart.updateSavedCartAndRestore(
           sampleData.products[1],
           sampleData.savedActiveCartForm[0],
-          false
+          false,
         );
       });
 
@@ -192,7 +192,7 @@ context('B2B - Saved Cart', () => {
         savedCart.updateSavedCartAndRestore(
           sampleData.products[1],
           sampleData.savedActiveCartForm[0],
-          true
+          true,
         );
       });
     });

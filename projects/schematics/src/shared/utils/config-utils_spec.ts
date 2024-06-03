@@ -142,13 +142,13 @@ featureModules: {[ORDER_FEATURE]: {module: () => import('@spartacus/order').then
       beforeEach(() => {
         sourceFile = project.createSourceFile(
           'feature-module.ts',
-          `const x = {a: 1}`
+          `const x = {a: 1}`,
         );
       });
 
       it('should not change the object', () => {
         const objectLiteral = sourceFile.getDescendantsOfKind(
-          SyntaxKind.ObjectLiteralExpression
+          SyntaxKind.ObjectLiteralExpression,
         )[0];
 
         removeProperty(objectLiteral, 'b');
@@ -159,13 +159,13 @@ featureModules: {[ORDER_FEATURE]: {module: () => import('@spartacus/order').then
       beforeEach(() => {
         sourceFile = project.createSourceFile(
           'feature-module.ts',
-          `const x = {a: 1, b: 2}`
+          `const x = {a: 1, b: 2}`,
         );
       });
 
       it('should remove the property, but keep the object', () => {
         const objectLiteral = sourceFile.getDescendantsOfKind(
-          SyntaxKind.ObjectLiteralExpression
+          SyntaxKind.ObjectLiteralExpression,
         )[0];
 
         removeProperty(objectLiteral, 'a');
@@ -176,13 +176,13 @@ featureModules: {[ORDER_FEATURE]: {module: () => import('@spartacus/order').then
       beforeEach(() => {
         sourceFile = project.createSourceFile(
           'feature-module.ts',
-          `const x = {a: 1}`
+          `const x = {a: 1}`,
         );
       });
 
       it('should remove the property, but keep the object', () => {
         const objectLiteral = sourceFile.getDescendantsOfKind(
-          SyntaxKind.ObjectLiteralExpression
+          SyntaxKind.ObjectLiteralExpression,
         )[0];
 
         removeProperty(objectLiteral, 'a');
@@ -193,13 +193,13 @@ featureModules: {[ORDER_FEATURE]: {module: () => import('@spartacus/order').then
       beforeEach(() => {
         sourceFile = project.createSourceFile(
           'feature-module.ts',
-          `const x = {a: {b: {c: 1}}}`
+          `const x = {a: {b: {c: 1}}}`,
         );
       });
 
       it('should remove the property, but keep the object', () => {
         const objectLiteral = sourceFile.getDescendantsOfKind(
-          SyntaxKind.ObjectLiteralExpression
+          SyntaxKind.ObjectLiteralExpression,
         )[0];
 
         removeProperty(objectLiteral, 'c');

@@ -24,7 +24,7 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
   constructor(
     protected quickOrderService: QuickOrderFacade,
     protected siteContextParamsService: SiteContextParamsService,
-    protected statePersistenceService: StatePersistenceService
+    protected statePersistenceService: StatePersistenceService,
   ) {}
 
   /**
@@ -45,7 +45,7 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
         ]),
         storageType: StorageSyncType.SESSION_STORAGE,
         onRead: (state) => this.onRead(state),
-      })
+      }),
     );
   }
 

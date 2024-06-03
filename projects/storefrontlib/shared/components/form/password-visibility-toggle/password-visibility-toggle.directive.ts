@@ -30,7 +30,7 @@ export class PasswordVisibilityToggleDirective implements AfterViewInit {
     protected config: FormConfig,
     protected elementRef: ElementRef,
     protected viewContainerRef: ViewContainerRef,
-    protected changeDetectorRef: ChangeDetectorRef
+    protected changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngAfterViewInit(): void {
@@ -43,7 +43,7 @@ export class PasswordVisibilityToggleDirective implements AfterViewInit {
 
   protected insertComponent(): void {
     const component = this.viewContainerRef.createComponent(
-      PasswordVisibilityToggleComponent
+      PasswordVisibilityToggleComponent,
     );
     component.instance.inputElement = this.elementRef.nativeElement;
     this.inputWrapper?.appendChild(component.location.nativeElement);

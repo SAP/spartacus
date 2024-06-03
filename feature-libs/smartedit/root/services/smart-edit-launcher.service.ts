@@ -28,7 +28,7 @@ export class SmartEditLauncherService {
   constructor(
     protected config: SmartEditConfig,
     protected location: Location,
-    protected scriptLoader: ScriptLoader
+    protected scriptLoader: ScriptLoader,
   ) {}
 
   /**

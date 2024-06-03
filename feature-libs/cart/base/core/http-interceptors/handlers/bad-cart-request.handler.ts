@@ -39,21 +39,21 @@ export class BadCartRequestHandler extends HttpErrorHandler {
 
   protected handleCartNotFoundError(
     _request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): void {
     this.getErrors(response)
       .filter((e) => isCartNotFoundError(e))
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.cartNotFound' },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
   }
 
   protected handleOtherCartErrors(
     _request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): void {
     this.getErrors(response)
       .filter((e) => e.reason !== 'notFound' || e.subjectType !== 'cart')
@@ -62,14 +62,14 @@ export class BadCartRequestHandler extends HttpErrorHandler {
           error.message
             ? error.message
             : { key: 'httpHandlers.otherCartErrors' },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error: any) => error.type !== 'JaloObjectNoLongerValidError'
+      (error: any) => error.type !== 'JaloObjectNoLongerValidError',
     );
   }
 }

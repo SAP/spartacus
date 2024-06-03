@@ -18,7 +18,7 @@ export function waitForDeliveryAddressdata() {
 export function visitCheckoutDeliveryModePage() {
   const deliveryModePage = waitForPage(
     '/checkout/delivery-mode',
-    'getDeliveryModePage'
+    'getDeliveryModePage',
   );
   cy.visit('/checkout/delivery-mode');
   cy.wait(`@${deliveryModePage}`).its('response.statusCode').should('eq', 200);

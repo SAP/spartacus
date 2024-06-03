@@ -16,7 +16,7 @@ describe('Product Actions', () => {
           meta: EntityScopedLoaderActions.entityScopedLoadMeta(
             PRODUCT_DETAIL_ENTITY,
             productCode,
-            ''
+            '',
           ),
         });
       });
@@ -35,7 +35,7 @@ describe('Product Actions', () => {
             PRODUCT_DETAIL_ENTITY,
             productCode,
             '',
-            payload
+            payload,
           ),
         });
       });
@@ -52,7 +52,7 @@ describe('Product Actions', () => {
           meta: EntityScopedLoaderActions.entityScopedSuccessMeta(
             PRODUCT_DETAIL_ENTITY,
             payload.code,
-            ''
+            '',
           ),
         });
       });
@@ -67,7 +67,7 @@ describe('Product Actions', () => {
           meta: EntityScopedLoaderActions.entityScopedResetMeta(
             PRODUCT_DETAIL_ENTITY,
             undefined,
-            ProductScope.PRICE
+            ProductScope.PRICE,
           ),
         });
       });

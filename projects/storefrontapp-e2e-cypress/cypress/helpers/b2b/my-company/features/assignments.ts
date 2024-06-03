@@ -26,7 +26,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
         loginAsMyCompanyAdmin();
 
         cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
-          'getEntity'
+          'getEntity',
         );
         if (config.preserveCookies) {
           cy.getCookie(codeRow.useCookie).then((cookie) => {
@@ -56,18 +56,18 @@ export function assignmentsTest(config: MyCompanyConfig) {
           cy.getCookie(codeRow.useCookie).then((cookie) => {
             cy.url().should(
               'contain',
-              `${config.baseUrl}/${cookie.value}${subConfig.baseUrl}`
+              `${config.baseUrl}/${cookie.value}${subConfig.baseUrl}`,
             );
           });
         } else {
           cy.url().should(
             'contain',
-            `${config.baseUrl}/${codeRow.updateValue}${subConfig.baseUrl}`
+            `${config.baseUrl}/${codeRow.updateValue}${subConfig.baseUrl}`,
           );
         }
 
         cy.get('cx-org-card .header h3').contains(
-          ignoreCaseSensivity(subConfig.name)
+          ignoreCaseSensivity(subConfig.name),
         );
 
         checkListEmpty();
@@ -82,7 +82,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
 
           cy.intercept({ method: 'POST', path: '**' }).as('save');
           cy.intercept({ method: 'GET', path: `**${entityId}**` }).as(
-            'getEntityData'
+            'getEntityData',
           );
           cy.get('div.header button').contains('Save').click();
           cy.wait('@save');
@@ -94,17 +94,17 @@ export function assignmentsTest(config: MyCompanyConfig) {
           cy.wait('@getEntityData');
 
           const headerRows = subConfig.createConfig.rows?.filter(
-            (row) => row.useInHeader
+            (row) => row.useInHeader,
           );
           if (headerRows.length) {
             headerRows.forEach((hRow) => {
               cy.get('cx-org-sub-list table tr td').contains(
-                ignoreCaseSensivity(hRow.createValue)
+                ignoreCaseSensivity(hRow.createValue),
               );
             });
           } else {
             const nameRow = subConfig.createConfig.rows?.find(
-              (row) => row.sortLabel === 'name'
+              (row) => row.sortLabel === 'name',
             );
             cy.get('cx-org-sub-list table tr td').contains(nameRow.createValue);
           }
@@ -123,29 +123,29 @@ export function assignmentsTest(config: MyCompanyConfig) {
 
           cy.intercept({ method: 'PATCH', path: '**' }).as('save');
           cy.intercept({ method: 'GET', path: `**${entityId}**` }).as(
-            'getEntityData'
+            'getEntityData',
           );
           cy.get('div.header button').contains('Save').click();
           cy.wait('@save');
           cy.wait('@getEntityData');
 
           cy.get('cx-org-notification').contains(
-            ASSIGNMENT_LABELS.UPDATE_SUCCESS
+            ASSIGNMENT_LABELS.UPDATE_SUCCESS,
           );
           cy.get('cx-org-notification').should('not.exist');
 
           const headerRows = subConfig.editConfig.rows?.filter(
-            (row) => row.useInHeader
+            (row) => row.useInHeader,
           );
           if (headerRows.length) {
             headerRows.forEach((hRow) => {
               cy.get('cx-org-sub-list table tr td').contains(
-                ignoreCaseSensivity(hRow.updateValue)
+                ignoreCaseSensivity(hRow.updateValue),
               );
             });
           } else {
             const nameRow = subConfig.editConfig.rows?.find(
-              (row) => row.sortLabel === 'name'
+              (row) => row.sortLabel === 'name',
             );
             cy.get('cx-org-sub-list table tr td').contains(nameRow.updateValue);
           }
@@ -155,7 +155,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
       if (subConfig.deleteEntity) {
         it('should delete', () => {
           cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
-            'getEntity'
+            'getEntity',
           );
           cy.intercept({ method: 'DELETE', path: `**` }).as('deleteEntity');
 
@@ -167,7 +167,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
 
           cy.intercept({ method: 'DELETE', path: '**' }).as('delete');
           cy.intercept({ method: 'GET', path: `**${entityId}**` }).as(
-            'getEntityData'
+            'getEntityData',
           );
           cy.get('cx-org-confirmation')
             .contains(CONFIRMATION_LABELS.CONFIRM)
@@ -327,7 +327,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
         .click();
       cy.get('cx-org-sub-list').should(
         'not.contain.html',
-        `<button class="link"> ${ASSIGNMENT_LABELS.UNASSIGN} </button>`
+        `<button class="link"> ${ASSIGNMENT_LABELS.UNASSIGN} </button>`,
       );
     }
   });

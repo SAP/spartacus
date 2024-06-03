@@ -21,7 +21,7 @@ const getFileName = (lang: string, chunk: string) =>
 if (!fs.existsSync(assetsDistDir)) {
   /* eslint-disable-next-line no-console */
   console.log(
-    `Cannot generate translations. Directory '${assetsDistDir}' does not exist.`
+    `Cannot generate translations. Directory '${assetsDistDir}' does not exist.`,
   );
 } else {
   // clear translations dist

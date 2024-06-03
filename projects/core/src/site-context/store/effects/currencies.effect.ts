@@ -36,18 +36,18 @@ export class CurrenciesEffects {
         return this.siteConnector.getCurrencies().pipe(
           map(
             (currencies) =>
-              new SiteContextActions.LoadCurrenciesSuccess(currencies)
+              new SiteContextActions.LoadCurrenciesSuccess(currencies),
           ),
           catchError((error) =>
             of(
               new SiteContextActions.LoadCurrenciesFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   activateCurrency$: Observable<SiteContextActions.CurrencyChange> =
@@ -59,14 +59,14 @@ export class CurrenciesEffects {
         filter(([previous]) => !!previous),
         map(
           ([previous, current]) =>
-            new SiteContextActions.CurrencyChange({ previous, current })
-        )
-      )
+            new SiteContextActions.CurrencyChange({ previous, current }),
+        ),
+      ),
     );
 
   constructor(
     private actions$: Actions,
     private siteConnector: SiteConnector,
-    private state: Store<StateWithSiteContext>
+    private state: Store<StateWithSiteContext>,
   ) {}
 }

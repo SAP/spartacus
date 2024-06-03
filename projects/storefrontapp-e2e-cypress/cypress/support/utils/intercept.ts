@@ -14,7 +14,7 @@
 export function interceptGet(
   alias: string,
   path: string,
-  baseSitePrefix?: boolean
+  baseSitePrefix?: boolean,
 ): string {
   return interceptAndAlias('GET', alias, path, baseSitePrefix);
 }
@@ -28,7 +28,7 @@ export function interceptGet(
 export function interceptPost(
   alias: string,
   path: string,
-  baseSitePrefix?: boolean
+  baseSitePrefix?: boolean,
 ): string {
   return interceptAndAlias('POST', alias, path, baseSitePrefix);
 }
@@ -43,7 +43,7 @@ export function interceptPost(
 export function interceptPatch(
   alias: string,
   path: string,
-  baseSitePrefix?: boolean
+  baseSitePrefix?: boolean,
 ): string {
   return interceptAndAlias('PATCH', alias, path, baseSitePrefix);
 }
@@ -58,7 +58,7 @@ export function interceptPatch(
 export function interceptDelete(
   alias: string,
   path: string,
-  baseSitePrefix?: boolean
+  baseSitePrefix?: boolean,
 ): string {
   return interceptAndAlias('DELETE', alias, path, baseSitePrefix);
 }
@@ -75,7 +75,7 @@ function interceptAndAlias(
   method: string,
   alias: string,
   path: string,
-  baseSitePrefix: boolean = true
+  baseSitePrefix: boolean = true,
 ) {
   const aliasName = alias;
   cy.intercept({

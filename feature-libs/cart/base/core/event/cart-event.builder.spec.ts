@@ -113,10 +113,10 @@ describe('CartEventBuilder', () => {
       let activeCartSubscribed = false;
       let activeCartIdSubscribed = false;
       spyOn(activeCartService, 'getActive').and.callFake(() =>
-        of(MOCK_ACTIVE_CART).pipe(tap(() => (activeCartSubscribed = true)))
+        of(MOCK_ACTIVE_CART).pipe(tap(() => (activeCartSubscribed = true))),
       );
       spyOn(activeCartService, 'getActiveCartId').and.callFake(() =>
-        of('1').pipe(tap(() => (activeCartIdSubscribed = true)))
+        of('1').pipe(tap(() => (activeCartIdSubscribed = true))),
       );
 
       const subscription = eventService
@@ -130,7 +130,7 @@ describe('CartEventBuilder', () => {
         new CartActions.CartRemoveEntrySuccess({
           entryNumber: '0',
           ...MOCK_ACTIVE_CART_EVENT,
-        })
+        }),
       );
 
       expect(activeCartSubscribed).toBeTruthy();
@@ -238,20 +238,20 @@ describe('CartEventBuilder', () => {
             new CartActions.CartRemoveEntrySuccess({
               entryNumber: '0',
               ...MOCK_ACTIVE_CART_EVENT,
-            })
+            }),
           );
           actions$.next(
             new CartActions.CartRemoveEntrySuccess({
               entryNumber: '0',
               ...MOCK_NOT_ACTIVE_CART_EVENT,
-            })
+            }),
           );
 
           actions$.next(
             new CartActions.CartRemoveEntrySuccess({
               entryNumber: '1',
               ...MOCK_ACTIVE_CART_EVENT,
-            })
+            }),
           );
 
           expect(result.length).toBe(2);
@@ -287,14 +287,14 @@ describe('CartEventBuilder', () => {
               error: 'remove failed',
               entryNumber: '0',
               ...MOCK_ACTIVE_CART_EVENT,
-            })
+            }),
           );
           actions$.next(
             new CartActions.CartRemoveEntryFail({
               error: 'remove failed',
               entryNumber: '0',
               ...MOCK_NOT_ACTIVE_CART_EVENT,
-            })
+            }),
           );
 
           actions$.next(
@@ -302,7 +302,7 @@ describe('CartEventBuilder', () => {
               error: 'remove failed',
               entryNumber: '1',
               ...MOCK_ACTIVE_CART_EVENT,
-            })
+            }),
           );
 
           expect(results.length).toBe(2);
@@ -335,7 +335,7 @@ describe('CartEventBuilder', () => {
               entryNumber: '0',
               quantity: 2,
               ...MOCK_ACTIVE_CART_EVENT,
-            })
+            }),
           );
           expect(results.length).toBe(1);
           expect(results[0].constructor).toEqual(CartUpdateEntrySuccessEvent);
@@ -365,7 +365,7 @@ describe('CartEventBuilder', () => {
               entryNumber: '0',
               quantity: 2,
               ...MOCK_ACTIVE_CART_EVENT,
-            })
+            }),
           );
           expect(results.length).toBe(1);
           expect(results[0].constructor).toEqual(CartUpdateEntryFailEvent);
@@ -609,7 +609,7 @@ describe('CartEventBuilder', () => {
             oldCartId: 'old-cart-id',
             tempCartId: 'abc',
             ...MOCK_ACTIVE_CART_EVENT,
-          })
+          }),
         );
 
         expect(result).toEqual(jasmine.objectContaining(eventData));

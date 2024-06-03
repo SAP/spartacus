@@ -27,7 +27,7 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
   constructor(
     protected orderDetailsService: OrderDetailsService,
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
   ) {}
 
   @ViewChild('element') element: ElementRef;
@@ -47,7 +47,7 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.REORDER,
       this.element,
       this.vcr,
-      { orderCode }
+      { orderCode },
     );
 
     if (dialog) {

@@ -32,7 +32,7 @@ describe('Future Stock', { testIsolation: false }, () => {
     it('when not logged in, future stock dropdown should not be visible (CXSPA-236)', () => {
       const productPage = waitForProductPage(
         productIdWithFutureStock,
-        'getProductPage'
+        'getProductPage',
       );
 
       cy.visit(`/product/${productIdWithFutureStock}`);
@@ -45,7 +45,7 @@ describe('Future Stock', { testIsolation: false }, () => {
       const loginPage = waitForPage('/login', 'getLoginPage');
       const productPage = waitForProductPage(
         productIdWithFutureStock,
-        'getProductPage'
+        'getProductPage',
       );
 
       cy.visit(`/product/${productIdWithFutureStock}`);
@@ -75,7 +75,7 @@ describe('Future Stock', { testIsolation: false }, () => {
       cy.get('cx-future-stock-accordion button').click();
       cy.contains(
         'cx-future-stock-accordion',
-        'This product has no future availability information'
+        'This product has no future availability information',
       );
     });
   });

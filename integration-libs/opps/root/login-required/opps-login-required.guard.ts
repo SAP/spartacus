@@ -28,7 +28,7 @@ export class OppsLoginRequiredGuard {
   protected config = inject(OppsConfig);
   canActivate(
     route: CmsActivatedRouteSnapshot,
-    _state: RouterStateSnapshot
+    _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     const navigation = this.router.getCurrentNavigation();
     return this.authService.isUserLoggedIn().pipe(
@@ -37,7 +37,7 @@ export class OppsLoginRequiredGuard {
         if (!isUserLoggedIn) {
           if (!this.config.opps?.loginRequired?.urlParameter && isDevMode()) {
             this.logger.warn(
-              `There is no url query parameter configured for OPPS login-required feature`
+              `There is no url query parameter configured for OPPS login-required feature`,
             );
           }
           const urlParameter =
@@ -49,14 +49,14 @@ export class OppsLoginRequiredGuard {
             const url = this.router.serializeUrl(navigation.finalUrl);
             this.authRedirectService.setRedirectUrl(url);
             return of(
-              this.router.parseUrl(this.semanticPathService.get('login') ?? '')
+              this.router.parseUrl(this.semanticPathService.get('login') ?? ''),
             );
           }
           return of(true);
         } else {
           return of(true);
         }
-      })
+      }),
     );
   }
 }

@@ -27,7 +27,7 @@ describe('Languages Selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           SITE_CONTEXT_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });

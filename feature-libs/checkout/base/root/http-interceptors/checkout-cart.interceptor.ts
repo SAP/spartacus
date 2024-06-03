@@ -27,12 +27,12 @@ import { switchMap, take, tap } from 'rxjs/operators';
 export class CheckoutCartInterceptor implements HttpInterceptor {
   constructor(
     protected routingService: RoutingService,
-    protected multiCartFacade: MultiCartFacade
+    protected multiCartFacade: MultiCartFacade,
   ) {}
 
   intercept(
     request: HttpRequest<unknown>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     return this.routingService.getRouterState().pipe(
       take(1),
@@ -54,9 +54,9 @@ export class CheckoutCartInterceptor implements HttpInterceptor {
                 }
               }
             },
-          })
+          }),
         );
-      })
+      }),
     );
   }
 

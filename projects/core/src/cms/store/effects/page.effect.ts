@@ -36,7 +36,7 @@ export class PageEffects {
       ofType(
         SiteContextActions.LANGUAGE_CHANGE,
         AuthActions.LOGOUT,
-        AuthActions.LOGIN
+        AuthActions.LOGIN,
       ),
       switchMap(() =>
         this.routingService.getRouterState().pipe(
@@ -45,14 +45,14 @@ export class PageEffects {
               routerState &&
               routerState.state &&
               routerState.state.cmsRequired &&
-              !routerState.nextState
+              !routerState.nextState,
           ),
           take(1),
           map((routerState) => routerState.state.context),
-          mergeMap((context) => of(new CmsActions.LoadCmsPageData(context)))
-        )
-      )
-    )
+          mergeMap((context) => of(new CmsActions.LoadCmsPageData(context))),
+        ),
+      ),
+    ),
   );
 
   loadPageData$: Observable<Action> = createEffect(() =>
@@ -70,11 +70,11 @@ export class PageEffects {
                     (cmsStructure.components ?? []).map((component) => ({
                       component,
                       pageContext,
-                    }))
+                    })),
                   ),
                   new CmsActions.LoadCmsPageDataSuccess(
                     pageContext,
-                    cmsStructure.page ?? {}
+                    cmsStructure.page ?? {},
                   ),
                 ];
 
@@ -85,8 +85,8 @@ export class PageEffects {
                   actions.unshift(
                     new CmsActions.CmsSetPageSuccessIndex(
                       { id: pageLabel, type: pageContext.type },
-                      cmsStructure.page ?? {}
-                    )
+                      cmsStructure.page ?? {},
+                    ),
                   );
                 }
 
@@ -96,20 +96,20 @@ export class PageEffects {
                 of(
                   new CmsActions.LoadCmsPageDataFail(
                     pageContext,
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
-            )
-          )
-        )
-      )
-    )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   constructor(
     private actions$: Actions,
     private cmsPageConnector: CmsPageConnector,
-    private routingService: RoutingService
+    private routingService: RoutingService,
   ) {}
 }

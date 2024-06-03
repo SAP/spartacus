@@ -35,14 +35,14 @@ export class ConfiguratorCartEntryBundleInfoService {
           (configurationInfo) =>
             configurationInfo &&
             (configurationInfo.configurationLabel ||
-              configurationInfo.configurationValue)
+              configurationInfo.configurationValue),
         );
       const firstLabel = configurationInfos[0]?.configurationLabel;
       const firstValue = configurationInfos[0]?.configurationValue;
 
       if (firstLabel !== ConfigurationInfoSpecialFields.VERSION) {
         configurationInfos.forEach((configurationInfo) =>
-          lineItems.push(this.prepareLineItem(configurationInfo))
+          lineItems.push(this.prepareLineItem(configurationInfo)),
         );
       } else if (
         firstLabel === ConfigurationInfoSpecialFields.VERSION &&
@@ -75,7 +75,7 @@ export class ConfiguratorCartEntryBundleInfoService {
     let preparedLabel: string = label.trim();
 
     const lastCharacter: string = preparedLabel.charAt(
-      preparedLabel.length - 1
+      preparedLabel.length - 1,
     );
     if (lastCharacter === ':') {
       preparedLabel = preparedLabel.substring(0, preparedLabel.length - 1);
@@ -85,17 +85,17 @@ export class ConfiguratorCartEntryBundleInfoService {
   }
 
   protected processConfigurationInfos(
-    configurationInfos: ConfigurationInfo[]
+    configurationInfos: ConfigurationInfo[],
   ): LineItem[] {
     const lineItemMap: Map<number, LineItem> = new Map();
     configurationInfos.forEach((configurationInfo) =>
-      this.processConfigurationInfoEntry(lineItemMap, configurationInfo)
+      this.processConfigurationInfoEntry(lineItemMap, configurationInfo),
     );
     // sort
     const lineItemMapSorted: Map<number, LineItem> = new Map<number, LineItem>(
       Array.from(lineItemMap).sort((a, b) => {
         return a[0] - b[0];
-      })
+      }),
     );
     // convert to array
     const lineItems: LineItem[] = Array.from(lineItemMapSorted.values());
@@ -104,12 +104,12 @@ export class ConfiguratorCartEntryBundleInfoService {
 
   protected processConfigurationInfoEntry(
     lineItemMap: Map<number, LineItem>,
-    configurationInfo: ConfigurationInfo
+    configurationInfo: ConfigurationInfo,
   ): void {
     if (configurationInfo.configurationLabel) {
       const configurationInfoSplit: string[] =
         configurationInfo.configurationLabel.split(
-          ConfigurationInfoSpecialFields.LINE_ITEM_DELIMITER
+          ConfigurationInfoSpecialFields.LINE_ITEM_DELIMITER,
         );
       if (
         configurationInfoSplit[0] === ConfigurationInfoSpecialFields.LINE_ITEM
@@ -121,7 +121,7 @@ export class ConfiguratorCartEntryBundleInfoService {
         this.addLineItemData(
           lineItemMap,
           configurationInfoSplit,
-          configurationInfoValue
+          configurationInfoValue,
         );
       }
     }
@@ -130,7 +130,7 @@ export class ConfiguratorCartEntryBundleInfoService {
   protected addLineItemData(
     lineItemMap: Map<number, LineItem>,
     configurationInfoSplit: string[],
-    configurationInfoValue: string
+    configurationInfoValue: string,
   ): void {
     if (configurationInfoSplit.length === 3) {
       const lineItemNumber: number = Number(configurationInfoSplit[1]);
@@ -162,7 +162,7 @@ export class ConfiguratorCartEntryBundleInfoService {
 
   protected getOrCreateLineItem(
     lineItemMap: Map<number, LineItem>,
-    lineItemNumber: number
+    lineItemNumber: number,
   ): LineItem {
     const lineItem: LineItem = lineItemMap.get(lineItemNumber) ?? {
       name: '',

@@ -19,7 +19,7 @@ export class PageSlotService {
   constructor(
     protected cmsComponentsService: CmsComponentsService,
     @Inject(PLATFORM_ID) protected platformId: any,
-    @Inject(DOCUMENT) protected document: Document
+    @Inject(DOCUMENT) protected document: Document,
   ) {
     this.resolvePrerenderedSlots();
   }
@@ -30,12 +30,12 @@ export class PageSlotService {
   protected resolvePrerenderedSlots(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.prerenderedSlots = Array.from(
-        this.document.querySelectorAll('cx-page-slot')
+        this.document.querySelectorAll('cx-page-slot'),
       )
         .filter(
           (el: Element) =>
             el.getBoundingClientRect().top <
-            this.document.documentElement.clientHeight
+            this.document.documentElement.clientHeight,
         )
         .map((el: Element) => el.getAttribute('position'));
     }
@@ -62,7 +62,7 @@ export class PageSlotService {
    */
   getComponentDeferOptions(
     slot: string | undefined,
-    componentType: string
+    componentType: string,
   ): IntersectionOptions {
     if (slot && this.shouldNotDefer(slot)) {
       return { deferLoading: DeferLoadingStrategy.INSTANT };

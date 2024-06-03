@@ -24,7 +24,7 @@ export class UserInterestsConnector {
     currentPage?: number,
     sort?: string,
     productCode?: string,
-    notificationType?: NotificationType
+    notificationType?: NotificationType,
   ): Observable<ProductInterestSearchResult> {
     return this.adapter.getInterests(
       userId,
@@ -32,13 +32,13 @@ export class UserInterestsConnector {
       currentPage,
       sort,
       productCode,
-      notificationType
+      notificationType,
     );
   }
 
   removeInterest(
     userId: string,
-    item: ProductInterestEntryRelation
+    item: ProductInterestEntryRelation,
   ): Observable<any[]> {
     return this.adapter.removeInterest(userId, item);
   }
@@ -46,7 +46,7 @@ export class UserInterestsConnector {
   addInterest(
     userId: string,
     productCode: string,
-    notificationType: NotificationType
+    notificationType: NotificationType,
   ): Observable<any> {
     return this.adapter.addInterest(userId, productCode, notificationType);
   }

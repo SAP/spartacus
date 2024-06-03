@@ -60,7 +60,7 @@ const routerStateSubject = new BehaviorSubject<RouterState>({
 
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState = createSpy().and.returnValue(
-    routerStateSubject.asObservable()
+    routerStateSubject.asObservable(),
   );
 }
 
@@ -130,10 +130,10 @@ describe('SavedCartOrderEntriesContext', () => {
       expect(multiCartService.addEntries).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
-        mockProductData
+        mockProductData,
       );
       expect(productImportInfoService.getResults).toHaveBeenCalledWith(
-        mockCartId
+        mockCartId,
       );
     });
   });

@@ -61,7 +61,7 @@ export class SplitViewService {
   getActiveView(): Observable<number> {
     return this._views$.pipe(
       map((views) => this.getActive(views)),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -72,7 +72,7 @@ export class SplitViewService {
     return this._views$.pipe(
       map((views) => views[position]),
       // we must filter here, since outlet driven views will destroyed the view
-      filter((view) => Boolean(view))
+      filter((view) => Boolean(view)),
     );
   }
 

@@ -24,7 +24,7 @@ export function addShippingAddress() {
   cy.request({
     method: 'POST',
     url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/test-user-with-orders@sap.cx.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
@@ -80,9 +80,9 @@ export function addPaymentMethod() {
       cy.request({
         method: 'POST',
         url: `${Cypress.env('API_URL')}/${Cypress.env(
-          'OCC_PREFIX'
+          'OCC_PREFIX',
         )}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/test-user-with-orders@sap.cx.com/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
@@ -119,7 +119,7 @@ export function selectShippingAddress() {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/cms/pages`,
     query: {
       pageLabelOrId: '/checkout/delivery-address',
@@ -139,7 +139,7 @@ export function selectShippingAddress() {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/cms/pages`,
     query: {
       pageLabelOrId: '/checkout/delivery-mode',
@@ -148,7 +148,7 @@ export function selectShippingAddress() {
   cy.intercept({
     method: 'PUT',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/**/deliverymode`,
   }).as('putDeliveryMode');
   cy.get('button.btn-primary').click();
@@ -160,7 +160,7 @@ export function selectDeliveryMethod() {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/cms/pages`,
     query: {
       pageLabelOrId: '/checkout/payment-details',
@@ -193,7 +193,7 @@ export function verifyAndPlaceOrder() {
     .find('.cx-card-label-bold')
     .should('contain', 'Standard Delivery');
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
-    'not.be.empty'
+    'not.be.empty',
   );
 
   cy.get('.form-check-input').check();

@@ -24,7 +24,7 @@ export class StockConnector {
    */
   loadStockLevels(
     productCode: string,
-    location: LocationSearchParams
+    location: LocationSearchParams,
   ): Observable<StoreFinderStockSearchPage> {
     return this.adapter.loadStockLevels(productCode, location);
   }
@@ -36,7 +36,7 @@ export class StockConnector {
    */
   loadStockLevelAtStore(
     productCode: string,
-    storeName: string
+    storeName: string,
   ): Observable<Stock> {
     return this.adapter.loadStockLevelAtStore(productCode, storeName);
   }

@@ -27,7 +27,7 @@ const endpoint = '/productReferences';
 
 class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.returnValue(
-    endpoint
+    endpoint,
   );
 }
 
@@ -99,7 +99,7 @@ describe('OccProductReferencesAdapter', () => {
       httpMock.expectOne(endpoint).flush(productReferences);
 
       expect(converter.pipeable).toHaveBeenCalledWith(
-        PRODUCT_REFERENCES_NORMALIZER
+        PRODUCT_REFERENCES_NORMALIZER,
       );
     });
   });

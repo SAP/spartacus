@@ -27,7 +27,7 @@ describe('deepMerge utility', () => {
         a: 1,
         b: olderDate,
         c: 3,
-      })
+      }),
     );
   });
 
@@ -44,7 +44,7 @@ describe('deepMerge utility', () => {
         a: 'val a',
         b: 'val b',
         c: { d: { f: 'override', h: 'val h' }, e: 'val e' },
-      })
+      }),
     );
   });
 
@@ -64,7 +64,7 @@ describe('deepMerge utility', () => {
         a: 'val a',
         b: 'val b',
         c: { d: { f: 'override', h: newerDate }, e: 'val e' },
-      })
+      }),
     );
   });
 
@@ -97,7 +97,7 @@ describe('deepMerge utility', () => {
     const c = { a: ['test3'] };
     const merged = deepMerge(a, b, c);
     expect(merged).toEqual(
-      jasmine.objectContaining({ a: ['test3'], b: ['testb'] })
+      jasmine.objectContaining({ a: ['test3'], b: ['testb'] }),
     );
   });
 
@@ -122,23 +122,21 @@ describe('deepMerge utility', () => {
   });
 
   describe('protptype pollution gurads', () => {
-    it(
-      'should avoid property injection',
-      waitForAsync(async () => {
-        // arrange
-        class TestContainer {
-          constructor(public name: string) {}
+    it('should avoid property injection', waitForAsync(async () => {
+      // arrange
+      class TestContainer {
+        constructor(public name: string) {}
 
-          getName() {
-            return this.name;
-          }
+        getName() {
+          return this.name;
         }
+      }
 
-        const actual = new TestContainer('Merged');
-        const untouchedObject = new TestContainer('Untouched');
-        const baseObject = {};
+      const actual = new TestContainer('Merged');
+      const untouchedObject = new TestContainer('Untouched');
+      const baseObject = {};
 
-        const prototypePollutionVector = await new Response(`
+      const prototypePollutionVector = await new Response(`
           {
             "__proto__": {
               "radioactiveWaste": true
@@ -146,32 +144,29 @@ describe('deepMerge utility', () => {
           }
         `).json();
 
-        // act
-        deepMerge(actual as {}, prototypePollutionVector);
+      // act
+      deepMerge(actual as {}, prototypePollutionVector);
 
-        // assert
-        expect('radioactiveWaste' in baseObject).toBe(false);
-        expect('radioactiveWaste' in untouchedObject).toBe(false);
-        expect('radioactiveWaste' in actual).toBe(false);
-      })
-    );
+      // assert
+      expect('radioactiveWaste' in baseObject).toBe(false);
+      expect('radioactiveWaste' in untouchedObject).toBe(false);
+      expect('radioactiveWaste' in actual).toBe(false);
+    }));
 
-    it(
-      'should avoid denial of service',
-      waitForAsync(async () => {
-        class TestContainer {
-          constructor(public name: string) {}
+    it('should avoid denial of service', waitForAsync(async () => {
+      class TestContainer {
+        constructor(public name: string) {}
 
-          getName() {
-            return this.name;
-          }
+        getName() {
+          return this.name;
         }
+      }
 
-        const actual = new TestContainer('Merged');
-        const untouchedObject = new TestContainer('Untouched');
-        const baseObject = {};
+      const actual = new TestContainer('Merged');
+      const untouchedObject = new TestContainer('Untouched');
+      const baseObject = {};
 
-        const prototypePollutionVector = await new Response(`
+      const prototypePollutionVector = await new Response(`
           {
             "__proto__": {
               "toString": "attack success"
@@ -179,12 +174,11 @@ describe('deepMerge utility', () => {
           }
         `).json();
 
-        deepMerge(actual as {}, prototypePollutionVector);
+      deepMerge(actual as {}, prototypePollutionVector);
 
-        expect(typeof baseObject.toString).toBe('function');
-        expect(typeof untouchedObject.toString).toBe('function');
-        expect(typeof actual.toString).toBe('function');
-      })
-    );
+      expect(typeof baseObject.toString).toBe('function');
+      expect(typeof untouchedObject.toString).toBe('function');
+      expect(typeof actual.toString).toBe('function');
+    }));
   });
 });

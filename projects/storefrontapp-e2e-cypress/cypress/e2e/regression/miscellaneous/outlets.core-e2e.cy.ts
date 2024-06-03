@@ -12,17 +12,17 @@ context('Outlets', () => {
         cy.wrap($ContentPage1Template.children()).should('have.length', 3);
         cy.get('p:nth-child(1)').should(
           'contain',
-          'Before slot 1, slots: 2, template: ContentPage1Template, sections: null'
+          'Before slot 1, slots: 2, template: ContentPage1Template, sections: null',
         );
         cy.get('p:nth-child(2)').should(
           'contain',
-          'Replace slot 1, slots: 2, template: ContentPage1Template, sections: null'
+          'Replace slot 1, slots: 2, template: ContentPage1Template, sections: null',
         );
         cy.get('p:nth-child(3)').should(
           'contain',
-          'After slot 1, slots: 2, template: ContentPage1Template, sections: null'
+          'After slot 1, slots: 2, template: ContentPage1Template, sections: null',
         );
-      }
+      },
     );
   });
   it('should work for slots', () => {
@@ -32,30 +32,30 @@ context('Outlets', () => {
         cy.wrap($Section2A.children()).should('have.length', 3);
         cy.get('p:nth-child(1)').should(
           'contain',
-          'Before slot 1, components: 1'
+          'Before slot 1, components: 1',
         );
         cy.get('p:nth-child(2)').should(
           'contain',
-          'Replace slot 1, components: 1'
+          'Replace slot 1, components: 1',
         );
         cy.get('p:nth-child(3)').should(
           'contain',
-          'After slot 1, components: 1'
+          'After slot 1, components: 1',
         );
       });
       cy.get('.Section2B').within(($Section2B) => {
         cy.wrap($Section2B.children()).should('have.length', 3);
         cy.get('p:nth-child(1)').should(
           'contain',
-          'Before slot 2, components: 0'
+          'Before slot 2, components: 0',
         );
         cy.get('p:nth-child(2)').should(
           'contain',
-          'Replace slot 2, components: 0'
+          'Replace slot 2, components: 0',
         );
         cy.get('p:nth-child(3)').should(
           'contain',
-          'After slot 2, components: 0'
+          'After slot 2, components: 0',
         );
       });
     });
@@ -68,15 +68,15 @@ context('Outlets', () => {
         cy.wrap($Section2A.children()).should('have.length', 3);
         cy.get('p:nth-child(1)').should(
           'contain',
-          'Before component, uid: Paragraph1Component'
+          'Before component, uid: Paragraph1Component',
         );
         cy.get('p:nth-child(2)').should(
           'contain',
-          'Replace component, uid: Paragraph1Component'
+          'Replace component, uid: Paragraph1Component',
         );
         cy.get('p:nth-child(3)').should(
           'contain',
-          'After component, uid: Paragraph1Component'
+          'After component, uid: Paragraph1Component',
         );
       });
     });

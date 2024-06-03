@@ -29,7 +29,7 @@ import { MultiCartSelectors } from '../store/selectors/index';
 export class MultiCartService implements MultiCartFacade {
   constructor(
     protected store: Store<StateWithMultiCart>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   /**
@@ -39,7 +39,7 @@ export class MultiCartService implements MultiCartFacade {
    */
   getCart(cartId: string): Observable<Cart> {
     return this.store.pipe(
-      select(MultiCartSelectors.getCartSelectorFactory(cartId))
+      select(MultiCartSelectors.getCartSelectorFactory(cartId)),
     );
   }
 
@@ -57,10 +57,10 @@ export class MultiCartService implements MultiCartFacade {
    * @param cartId
    */
   getCartEntity(
-    cartId: string
+    cartId: string,
   ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>> {
     return this.store.pipe(
-      select(MultiCartSelectors.getCartEntitySelectorFactory(cartId))
+      select(MultiCartSelectors.getCartEntitySelectorFactory(cartId)),
     );
   }
 
@@ -77,7 +77,7 @@ export class MultiCartService implements MultiCartFacade {
       // Start of loading should be showed instantly (no debounce)
       // Extra actions are only dispatched after some loading
       debounce((isStable) => (isStable ? timer(0) : of(undefined))),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -117,14 +117,14 @@ export class MultiCartService implements MultiCartFacade {
         oldCartId,
         toMergeCartGuid,
         tempCartId,
-      })
+      }),
     );
 
     return this.getCartIdByType(
-      extraData?.active ? CartType.ACTIVE : CartType.NEW_CREATED
+      extraData?.active ? CartType.ACTIVE : CartType.NEW_CREATED,
     ).pipe(
       switchMap((cartId) => this.getCart(cartId)),
-      filter(isNotUndefined)
+      filter(isNotUndefined),
     );
   }
 
@@ -151,7 +151,7 @@ export class MultiCartService implements MultiCartFacade {
         cartId,
         extraData,
         tempCartId,
-      })
+      }),
     );
   }
 
@@ -174,7 +174,7 @@ export class MultiCartService implements MultiCartFacade {
         userId,
         cartId,
         extraData,
-      })
+      }),
     );
   }
 
@@ -184,7 +184,7 @@ export class MultiCartService implements MultiCartFacade {
    */
   getEntries(cartId: string): Observable<OrderEntry[]> {
     return this.store.pipe(
-      select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId))
+      select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId)),
     );
   }
 
@@ -198,18 +198,18 @@ export class MultiCartService implements MultiCartFacade {
    */
   getLastEntry(
     cartId: string,
-    productCode: string
+    productCode: string,
   ): Observable<OrderEntry | undefined> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId)),
       map((entries) => {
         const filteredEntries = entries.filter(
-          (entry) => entry.product?.code === productCode
+          (entry) => entry.product?.code === productCode,
         );
         return filteredEntries
           ? filteredEntries[filteredEntries.length - 1]
           : undefined;
-      })
+      }),
     );
   }
 
@@ -227,7 +227,7 @@ export class MultiCartService implements MultiCartFacade {
     cartId: string,
     productCode: string,
     quantity: number,
-    pickupStore?: string
+    pickupStore?: string,
   ): void {
     this.store.dispatch(
       new CartActions.CartAddEntry({
@@ -236,7 +236,7 @@ export class MultiCartService implements MultiCartFacade {
         productCode,
         quantity,
         pickupStore,
-      })
+      }),
     );
   }
 
@@ -250,7 +250,7 @@ export class MultiCartService implements MultiCartFacade {
   addEntries(
     userId: string,
     cartId: string,
-    products: Array<{ productCode: string; quantity: number }>
+    products: Array<{ productCode: string; quantity: number }>,
   ): void {
     products.forEach((product) => {
       this.store.dispatch(
@@ -259,7 +259,7 @@ export class MultiCartService implements MultiCartFacade {
           cartId,
           productCode: product.productCode,
           quantity: product.quantity,
-        })
+        }),
       );
     });
   }
@@ -277,7 +277,7 @@ export class MultiCartService implements MultiCartFacade {
         userId,
         cartId,
         entryNumber: `${entryNumber}`,
-      })
+      }),
     );
   }
 
@@ -297,7 +297,7 @@ export class MultiCartService implements MultiCartFacade {
     entryNumber: number,
     quantity?: number,
     pickupStore?: string,
-    pickupToDelivery: boolean = false
+    pickupToDelivery: boolean = false,
   ): void {
     if (quantity !== undefined && quantity <= 0) {
       this.removeEntry(userId, cartId, entryNumber);
@@ -310,7 +310,7 @@ export class MultiCartService implements MultiCartFacade {
           pickupToDelivery,
           entryNumber: `${entryNumber}`,
           quantity: quantity,
-        })
+        }),
       );
     }
   }
@@ -323,12 +323,12 @@ export class MultiCartService implements MultiCartFacade {
    */
   getEntry(
     cartId: string,
-    productCode: string
+    productCode: string,
   ): Observable<OrderEntry | undefined> {
     return this.store.pipe(
       select(
-        MultiCartSelectors.getCartEntrySelectorFactory(cartId, productCode)
-      )
+        MultiCartSelectors.getCartEntrySelectorFactory(cartId, productCode),
+      ),
     );
   }
 
@@ -345,7 +345,7 @@ export class MultiCartService implements MultiCartFacade {
         userId,
         cartId,
         email,
-      })
+      }),
     );
   }
 
@@ -364,7 +364,7 @@ export class MultiCartService implements MultiCartFacade {
       new CartActions.DeleteCart({
         userId,
         cartId,
-      })
+      }),
     );
   }
 
@@ -381,8 +381,8 @@ export class MultiCartService implements MultiCartFacade {
           userId,
           cartId,
           extraData,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -394,7 +394,7 @@ export class MultiCartService implements MultiCartFacade {
   getCartIdByType(cartType: CartType): Observable<string> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartIdByTypeFactory(cartType)),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 }

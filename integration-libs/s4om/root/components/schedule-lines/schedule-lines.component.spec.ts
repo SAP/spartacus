@@ -40,25 +40,23 @@ describe('ScheduleLinesCartEntryComponent', () => {
   let htmlElem: HTMLElement;
   let mockCartItemContext: MockCartItemContext;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-        declarations: [
-          ScheduleLinesComponent,
-          MockConfigureScheduleLineComponent,
-        ],
-        providers: [
-          { provide: CartItemContext, useClass: MockCartItemContext },
-          {
-            provide: TranslationService,
-            useClass: MockTranslationService,
-          },
-          { provide: LanguageService, useClass: MockLanguageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      declarations: [
+        ScheduleLinesComponent,
+        MockConfigureScheduleLineComponent,
+      ],
+      providers: [
+        { provide: CartItemContext, useClass: MockCartItemContext },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
+        { provide: LanguageService, useClass: MockLanguageService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ScheduleLinesComponent);
@@ -100,7 +98,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
 
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-schedule-line-info').length).toBe(
-        0
+        0,
       );
     });
 
@@ -121,7 +119,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-schedule-line-info').length).toBe(
-        2
+        2,
       );
     });
 
@@ -141,26 +139,26 @@ describe('ScheduleLinesCartEntryComponent', () => {
 
       it("should contain div element with class name 'cx-visually-hidden' that contains a hidden schedule line info", function () {
         const divElementWithVisuallyHiddenClass = htmlElem.querySelector(
-          '.cx-visually-hidden'
+          '.cx-visually-hidden',
         );
 
         expect(divElementWithVisuallyHiddenClass?.innerHTML).toContain(
-          's4omScheduleLines.a11y.scheduleLineEntryInfo'
+          's4omScheduleLines.a11y.scheduleLineEntryInfo',
         );
       });
 
       it("should contain div element with 'cx-schedule-line-info' and aria-describedby attribute that refers to a corresponding attribute-value pair", () => {
         const divElementWithScheduleLineInfoClass = htmlElem.querySelector(
-          '.cx-schedule-line-info'
+          '.cx-schedule-line-info',
         );
 
         expect(
           divElementWithScheduleLineInfoClass?.attributes?.hasOwnProperty(
-            'aria-describedby'
-          )
+            'aria-describedby',
+          ),
         );
         expect(
-          divElementWithScheduleLineInfoClass?.getAttribute('aria-describedby')
+          divElementWithScheduleLineInfoClass?.getAttribute('aria-describedby'),
         ).toEqual('cx-schedule-line-info-0');
       });
 
@@ -168,7 +166,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
         const divElementWithCxLabelClass = htmlElem.querySelector('.cx-label');
 
         expect(
-          divElementWithCxLabelClass?.attributes?.hasOwnProperty('aria-hidden')
+          divElementWithCxLabelClass?.attributes?.hasOwnProperty('aria-hidden'),
         );
         expect(divElementWithCxLabelClass?.ariaHidden).toEqual('true');
 
@@ -177,15 +175,15 @@ describe('ScheduleLinesCartEntryComponent', () => {
 
         expect(
           divElementWithCxValueClasses[0]?.attributes?.hasOwnProperty(
-            'aria-hidden'
-          )
+            'aria-hidden',
+          ),
         );
         expect(divElementWithCxValueClasses[0]?.ariaHidden).toEqual('true');
 
         expect(
           divElementWithCxValueClasses[1]?.attributes?.hasOwnProperty(
-            'aria-hidden'
-          )
+            'aria-hidden',
+          ),
         );
         expect(divElementWithCxValueClasses[1]?.ariaHidden).toEqual('true');
       });

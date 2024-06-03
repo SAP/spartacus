@@ -150,7 +150,7 @@ describe('AsmCustomer360SupportTicketsComponent', () => {
     const tableBody = el.query(By.css('.cx-asm-customer-360-table tbody'));
     const tableRows = tableBody.queryAll(By.css('tr'));
     const linkCell = tableRows[0].query(
-      By.css('.cx-asm-customer-360-table-link')
+      By.css('.cx-asm-customer-360-table-link'),
     );
     linkCell.nativeElement.click();
     expect(contextSource.navigate$.next).toHaveBeenCalledWith({

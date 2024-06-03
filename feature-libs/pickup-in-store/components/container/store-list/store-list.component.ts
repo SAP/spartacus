@@ -32,17 +32,17 @@ export class StoreListComponent implements OnInit {
 
   constructor(
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
   ) {
     // Intentional empty constructor
   }
 
   ngOnInit() {
     this.stores$ = this.pickupLocationsSearchService.getSearchResults(
-      this.productCode
+      this.productCode,
     );
     this.hasSearchStarted$ = this.pickupLocationsSearchService.hasSearchStarted(
-      this.productCode
+      this.productCode,
     );
     this.isSearchRunning$ = this.pickupLocationsSearchService.isSearchRunning();
   }

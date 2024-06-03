@@ -58,7 +58,7 @@ export function registerDownloadAttachmentRoute() {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env(
-      'OCC_PREFIX'
+      'OCC_PREFIX',
     )}/${SHOP_NAME}/users/*/quotes/*/attachments/*`,
   }).as(DOWNLOAD_ATTACHMENT.substring(1)); // strip the '@'
 }

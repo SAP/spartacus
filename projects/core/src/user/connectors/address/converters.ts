@@ -10,7 +10,7 @@ import { EntitiesModel } from '../../../model/misc.model';
 import { Converter } from '../../../util/converter.service';
 
 export const ADDRESS_NORMALIZER = new InjectionToken<Converter<any, Address>>(
-  'AddressNormalizer'
+  'AddressNormalizer',
 );
 
 export const ADDRESS_LIST_NORMALIZER = new InjectionToken<
@@ -18,7 +18,7 @@ export const ADDRESS_LIST_NORMALIZER = new InjectionToken<
 >('AddressesNormalizer');
 
 export const ADDRESS_SERIALIZER = new InjectionToken<Converter<Address, any>>(
-  'AddressSerializer'
+  'AddressSerializer',
 );
 
 export const ADDRESS_VALIDATION_NORMALIZER = new InjectionToken<

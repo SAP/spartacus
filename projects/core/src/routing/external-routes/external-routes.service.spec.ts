@@ -54,7 +54,7 @@ describe('ExternalRoutesService', () => {
     it('should prepend the external route not accepting internal routes', () => {
       service.addRoutes();
       expect(router.config[0].matcher).toEqual(
-        'oppositeTo-globUrlMatcherFor-/internal/path/pattern'
+        'oppositeTo-globUrlMatcherFor-/internal/path/pattern',
       );
     });
   });

@@ -18,23 +18,21 @@ describe('PersistFocusService', () => {
   let service: PersistFocusService;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent],
-        providers: [
-          PersistFocusService,
-          {
-            provide: SelectFocusUtility,
-            useClass: MockSelectFocusUtility,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent],
+      providers: [
+        PersistFocusService,
+        {
+          provide: SelectFocusUtility,
+          useClass: MockSelectFocusUtility,
+        },
+      ],
+    }).compileComponents();
 
-      service = TestBed.inject(PersistFocusService);
-      fixture = TestBed.createComponent(MockComponent);
-    })
-  );
+    service = TestBed.inject(PersistFocusService);
+    fixture = TestBed.createComponent(MockComponent);
+  }));
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
@@ -121,7 +119,7 @@ describe('PersistFocusService', () => {
   describe('Persistence Group', () => {
     it('should return configured persistence group', () => {
       const el: HTMLElement = fixture.debugElement.query(
-        By.css('#a')
+        By.css('#a'),
       ).nativeElement;
 
       const group = service.getPersistenceGroup(el, { group: 'g' });
@@ -130,7 +128,7 @@ describe('PersistFocusService', () => {
 
     it('should return falsy if no config is added', () => {
       const el: HTMLElement = fixture.debugElement.query(
-        By.css('#a')
+        By.css('#a'),
       ).nativeElement;
 
       const group = service.getPersistenceGroup(el);
@@ -139,7 +137,7 @@ describe('PersistFocusService', () => {
 
     it('should return persisted group from attr', () => {
       const el: HTMLElement = fixture.debugElement.query(
-        By.css('#b')
+        By.css('#b'),
       ).nativeElement;
 
       const group = service.getPersistenceGroup(el);
@@ -148,7 +146,7 @@ describe('PersistFocusService', () => {
 
     it('should return configured group regardless of attr', () => {
       const el: HTMLElement = fixture.debugElement.query(
-        By.css('#b')
+        By.css('#b'),
       ).nativeElement;
 
       const group = service.getPersistenceGroup(el, { group: 'g' });

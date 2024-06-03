@@ -49,7 +49,7 @@ describe('PDF Invoices', { testIsolation: false }, () => {
       s4Helper.findRowInOrderHistoryTable(
         ordersAlias,
         pdfInvoicesOrderId,
-        pdfInvoicesHelper.poNumber
+        pdfInvoicesHelper.poNumber,
       );
     });
 
@@ -57,7 +57,7 @@ describe('PDF Invoices', { testIsolation: false }, () => {
       cy.intercept({
         method: 'GET',
         pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/current/orders/*`,
       }).as('getOrderDetail');
 
@@ -80,7 +80,7 @@ describe('PDF Invoices', { testIsolation: false }, () => {
         pdfInvoicesHelper.poNumber,
         s4Helper.s4omCostCenter,
         s4Helper.s4omB2BUnit,
-        false
+        false,
       );
 
       pdfInvoicesHelper.verifyPDFInvoicesOrderDetailPage();

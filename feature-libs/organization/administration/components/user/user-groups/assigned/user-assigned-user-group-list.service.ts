@@ -20,11 +20,11 @@ export class UserAssignedUserGroupListService extends UserUserGroupListService {
 
   protected load(
     pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<UserGroup> | undefined> {
     return super.load(pagination, code).pipe(
       filter((list) => Boolean(list)),
-      map((userGroups) => this.filterSelected(userGroups))
+      map((userGroups) => this.filterSelected(userGroups)),
     );
   }
 }

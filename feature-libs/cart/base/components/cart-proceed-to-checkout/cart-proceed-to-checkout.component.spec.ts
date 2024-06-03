@@ -25,24 +25,22 @@ describe('CartProceedToCheckoutComponent', () => {
   let component: CartProceedToCheckoutComponent;
   let fixture: ComponentFixture<CartProceedToCheckoutComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule, ProgressButtonModule],
-        declarations: [CartProceedToCheckoutComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: Router,
-            useClass: MockRouter,
-          },
-          {
-            provide: ChangeDetectorRef,
-            useValue: { markForCheck: createSpy('markForCheck') },
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule, ProgressButtonModule],
+      declarations: [CartProceedToCheckoutComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: Router,
+          useClass: MockRouter,
+        },
+        {
+          provide: ChangeDetectorRef,
+          useValue: { markForCheck: createSpy('markForCheck') },
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartProceedToCheckoutComponent);

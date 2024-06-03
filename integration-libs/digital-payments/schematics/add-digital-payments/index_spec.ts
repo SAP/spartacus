@@ -31,7 +31,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('Spartacus Digital-Payments schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_DIGITAL_PAYMENTS,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -78,35 +78,35 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
       SPARTACUS_SCHEMATICS,
       path.join(
         __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
+        '../../../../projects/schematics/src/collection.json',
+      ),
     );
     schematicRunner.registerCollection(
       SPARTACUS_CHECKOUT,
       path.join(
         __dirname,
-        '../../../../feature-libs/checkout/schematics/collection.json'
-      )
+        '../../../../feature-libs/checkout/schematics/collection.json',
+      ),
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -115,7 +115,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -130,13 +130,13 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           checkoutFeatureOptions,
-          appTree
+          appTree,
         );
 
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           digitalPaymentsFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -163,7 +163,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
         expect(userFeatureModule).toBeFalsy();
 
         const cartFeatureModule = appTree.readContent(
-          cartBaseFeatureModulePath
+          cartBaseFeatureModulePath,
         );
         expect(cartFeatureModule).toBeFalsy();
 
@@ -185,13 +185,13 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...checkoutFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
 
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...digitalPaymentsFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 

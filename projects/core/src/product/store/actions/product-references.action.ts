@@ -22,7 +22,7 @@ export class LoadProductReferences implements Action {
       productCode: string;
       referenceType?: string;
       pageSize?: number;
-    }
+    },
   ) {}
 }
 
@@ -37,7 +37,7 @@ export class LoadProductReferencesSuccess implements Action {
     public payload: {
       productCode: string;
       list: ProductReference[];
-    }
+    },
   ) {}
 }
 

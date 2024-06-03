@@ -25,18 +25,18 @@ export class BudgetCostCenterListService extends SubListService<Budget> {
 
   constructor(
     protected tableService: TableService,
-    protected budgetService: BudgetService
+    protected budgetService: BudgetService,
   ) {
     super(tableService);
   }
 
   protected load(
     _pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<CostCenter>> {
     return this.budgetService.getCostCenters(code).pipe(
       filter((list) => Boolean(list)),
-      map((costCenter) => this.filterSelected(costCenter))
+      map((costCenter) => this.filterSelected(costCenter)),
     );
   }
 

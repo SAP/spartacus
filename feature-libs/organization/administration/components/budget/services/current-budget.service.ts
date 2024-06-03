@@ -20,7 +20,7 @@ import { CurrentItemService } from '../../shared/current-item.service';
 export class CurrentBudgetService extends CurrentItemService<Budget> {
   constructor(
     protected routingService: RoutingService,
-    protected budgetService: BudgetService
+    protected budgetService: BudgetService,
   ) {
     super(routingService);
   }

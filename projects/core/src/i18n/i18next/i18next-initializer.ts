@@ -25,7 +25,7 @@ export class I18nextInitializer implements OnDestroy {
     @Inject(I18NEXT_INSTANCE) protected i18next: i18n,
     protected config: I18nConfig,
     protected languageService: LanguageService,
-    protected i18nextBackendService: I18nextBackendService
+    protected i18nextBackendService: I18nextBackendService,
   ) {}
 
   /**
@@ -82,7 +82,7 @@ export class I18nextInitializer implements OnDestroy {
           chunkName,
           resources[lang][chunkName],
           true,
-          true
+          true,
         );
       });
     });

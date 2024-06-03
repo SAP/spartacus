@@ -45,7 +45,7 @@ describe('LimitCellComponent', () => {
 
   it('should render time span threshold', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('span.text')
+      By.css('span.text'),
     ).nativeNode;
     expect(el.innerText).toEqual('10000 $ orgPurchaseLimit.per.QUARTER');
   });

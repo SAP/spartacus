@@ -82,7 +82,7 @@ describe('DefaultPointOfServiceEffect', () => {
     actions$ = hot('-a', { a: action });
     const expected = cold('-(b)', { b: actionSuccess });
     expect(
-      defaultPointOfServiceEffect.loadDefaultPointOfService$
+      defaultPointOfServiceEffect.loadDefaultPointOfService$,
     ).toBeObservable(expected);
   });
 
@@ -94,7 +94,7 @@ describe('DefaultPointOfServiceEffect', () => {
       JSON.stringify({
         name: 'preferredStore',
         displayName: '',
-      })
+      }),
     );
 
     const action = LoadDefaultPointOfService();
@@ -107,14 +107,14 @@ describe('DefaultPointOfServiceEffect', () => {
     actions$ = hot('-a', { a: action });
     const expected = cold('-(b)', { b: actionSuccess });
     expect(
-      defaultPointOfServiceEffect.loadDefaultPointOfService$
+      defaultPointOfServiceEffect.loadDefaultPointOfService$,
     ).toBeObservable(expected);
   });
 
   it('should emit empty name and displayName if there is a error', () => {
     const error = new HttpErrorResponse({ error: 'error' });
     spyOn(userProfileService, 'get').and.returnValue(
-      new Observable((subscriber) => subscriber.error(error))
+      new Observable((subscriber) => subscriber.error(error)),
     );
     const action = LoadDefaultPointOfService();
     const actionSuccess = LoadDefaultPointOfServiceSuccess({
@@ -126,7 +126,7 @@ describe('DefaultPointOfServiceEffect', () => {
     actions$ = hot('-a', { a: action });
     const expected = cold('-(b)', { b: actionSuccess });
     expect(
-      defaultPointOfServiceEffect.loadDefaultPointOfService$
+      defaultPointOfServiceEffect.loadDefaultPointOfService$,
     ).toBeObservable(expected);
   });
 
@@ -141,7 +141,7 @@ describe('DefaultPointOfServiceEffect', () => {
     actions$ = hot('-a', { a: action });
     const expected = cold('-(b)', { b: actionSuccess });
     expect(
-      defaultPointOfServiceEffect.setDefaultPointOfService$
+      defaultPointOfServiceEffect.setDefaultPointOfService$,
     ).toBeObservable(expected);
   });
 
@@ -157,7 +157,7 @@ describe('DefaultPointOfServiceEffect', () => {
     actions$ = hot('-a', { a: action });
     const expected = cold('-(b)', { b: actionSuccess });
     expect(
-      defaultPointOfServiceEffect.setDefaultPointOfService$
+      defaultPointOfServiceEffect.setDefaultPointOfService$,
     ).toBeObservable(expected);
   });
 });

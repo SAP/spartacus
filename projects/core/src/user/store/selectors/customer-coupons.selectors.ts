@@ -28,7 +28,7 @@ export const getCustomerCouponsLoaded: MemoizedSelector<
 > = createSelector(
   getCustomerCouponsState,
   (state: LoaderState<CustomerCouponSearchResult>) =>
-    loaderSuccessSelector(state)
+    loaderSuccessSelector(state),
 );
 
 export const getCustomerCouponsLoading: MemoizedSelector<
@@ -37,7 +37,7 @@ export const getCustomerCouponsLoading: MemoizedSelector<
 > = createSelector(
   getCustomerCouponsState,
   (state: LoaderState<CustomerCouponSearchResult>) =>
-    loaderLoadingSelector(state)
+    loaderLoadingSelector(state),
 );
 
 export const getCustomerCoupons: MemoizedSelector<
@@ -45,5 +45,6 @@ export const getCustomerCoupons: MemoizedSelector<
   CustomerCouponSearchResult
 > = createSelector(
   getCustomerCouponsState,
-  (state: LoaderState<CustomerCouponSearchResult>) => loaderValueSelector(state)
+  (state: LoaderState<CustomerCouponSearchResult>) =>
+    loaderValueSelector(state),
 );

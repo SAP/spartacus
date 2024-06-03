@@ -48,11 +48,11 @@ describe('Configurator selectors', () => {
 
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>,
     );
     owner = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
-      productCode
+      productCode,
     );
 
     configuration = {
@@ -69,8 +69,10 @@ describe('Configurator selectors', () => {
     store
       .pipe(
         select(
-          ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
-        )
+          ConfiguratorSelectors.getConfigurationFactory(
+            configuration.owner.key,
+          ),
+        ),
       )
       .subscribe((value) => {
         result = value;
@@ -82,17 +84,17 @@ describe('Configurator selectors', () => {
     let result: Configurator.Configuration;
     store.dispatch(
       new ConfiguratorActions.CreateConfigurationSuccess(
-        configurationWithInteractionState
-      )
+        configurationWithInteractionState,
+      ),
     );
 
     store
       .pipe(
         select(
           ConfiguratorSelectors.getConfigurationFactory(
-            configurationWithInteractionState.owner.key
-          )
-        )
+            configurationWithInteractionState.owner.key,
+          ),
+        ),
       )
       .subscribe((value) => {
         result = value;
@@ -103,7 +105,9 @@ describe('Configurator selectors', () => {
   it('should return pending changes as false for an initial call', () => {
     store
       .pipe(
-        select(ConfiguratorSelectors.hasPendingChanges(configuration.owner.key))
+        select(
+          ConfiguratorSelectors.hasPendingChanges(configuration.owner.key),
+        ),
       )
       .subscribe((hasPendingChanges) => expect(hasPendingChanges).toBe(false));
   });
@@ -112,7 +116,9 @@ describe('Configurator selectors', () => {
     store.dispatch(new ConfiguratorActions.UpdateConfiguration(configuration));
     store
       .pipe(
-        select(ConfiguratorSelectors.hasPendingChanges(configuration.owner.key))
+        select(
+          ConfiguratorSelectors.hasPendingChanges(configuration.owner.key),
+        ),
       )
       .subscribe((hasPendingChanges) => expect(hasPendingChanges).toBe(true));
   });
@@ -122,11 +128,11 @@ describe('Configurator selectors', () => {
       new ConfiguratorActions.SetCurrentGroup({
         entityKey: configuration.owner.key,
         currentGroup: GROUP_ID,
-      })
+      }),
     );
     store
       .pipe(
-        select(ConfiguratorSelectors.getCurrentGroup(configuration.owner.key))
+        select(ConfiguratorSelectors.getCurrentGroup(configuration.owner.key)),
       )
       .subscribe((value) => expect(value).toEqual(GROUP_ID));
   });
@@ -137,9 +143,9 @@ describe('Configurator selectors', () => {
         select(
           ConfiguratorSelectors.isGroupVisited(
             configuration.owner.key,
-            GROUP_ID
-          )
-        )
+            GROUP_ID,
+          ),
+        ),
       )
       .subscribe((value) => expect(value).toEqual(false));
   });
@@ -149,16 +155,16 @@ describe('Configurator selectors', () => {
       new ConfiguratorActions.SetGroupsVisited({
         entityKey: configuration.owner.key,
         visitedGroups: [GROUP_ID],
-      })
+      }),
     );
     store
       .pipe(
         select(
           ConfiguratorSelectors.isGroupVisited(
             configuration.owner.key,
-            GROUP_ID
-          )
-        )
+            GROUP_ID,
+          ),
+        ),
       )
       .subscribe((value) => expect(value).toEqual(true));
   });
@@ -168,7 +174,7 @@ describe('Configurator selectors', () => {
       new ConfiguratorActions.SetGroupsVisited({
         entityKey: configuration.owner.key,
         visitedGroups: [GROUP_ID],
-      })
+      }),
     );
     store
       .pipe(
@@ -176,8 +182,8 @@ describe('Configurator selectors', () => {
           ConfiguratorSelectors.areGroupsVisited(configuration.owner.key, [
             GROUP_ID2,
             GROUP_ID,
-          ])
-        )
+          ]),
+        ),
       )
       .subscribe((value) => expect(value).toEqual(false));
   });
@@ -187,7 +193,7 @@ describe('Configurator selectors', () => {
       new ConfiguratorActions.SetGroupsVisited({
         entityKey: configuration.owner.key,
         visitedGroups: [GROUP_ID, GROUP_ID2],
-      })
+      }),
     );
     store
       .pipe(
@@ -195,8 +201,8 @@ describe('Configurator selectors', () => {
           ConfiguratorSelectors.areGroupsVisited(configuration.owner.key, [
             GROUP_ID,
             GROUP_ID2,
-          ])
-        )
+          ]),
+        ),
       )
       .subscribe((value) => expect(value).toEqual(true));
   });

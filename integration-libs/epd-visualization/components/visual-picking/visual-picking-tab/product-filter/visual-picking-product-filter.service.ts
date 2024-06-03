@@ -41,7 +41,7 @@ export class VisualPickingProductFilterService {
 
   protected applyFilter(
     filterToApply: string,
-    unfilteredProductReferences: ProductReference[]
+    unfilteredProductReferences: ProductReference[],
   ): ProductReference[] {
     filterToApply = filterToApply.toLowerCase();
     const filteredProductReferences = unfilteredProductReferences.filter(
@@ -54,7 +54,7 @@ export class VisualPickingProductFilterService {
             fieldValue.toLowerCase().indexOf(filterToApply) !== -1
           );
         });
-      }
+      },
     );
     return filteredProductReferences;
   }
@@ -65,7 +65,7 @@ export class VisualPickingProductFilterService {
    * @returns An Observable that produces a ProductReference[] each time the filter is updated or the set of product references to filter changes.
    */
   public getFilteredProducts(
-    unfilteredProductReferences$: Observable<ProductReference[]>
+    unfilteredProductReferences$: Observable<ProductReference[]>,
   ): Observable<ProductReference[]> {
     return combineLatest([
       concat(of(''), this.filter$),
@@ -73,11 +73,11 @@ export class VisualPickingProductFilterService {
     ]).pipe(
       filter(
         ([filterStr, productReferences]) =>
-          filterStr !== undefined && productReferences !== undefined
+          filterStr !== undefined && productReferences !== undefined,
       ),
       map(([filterToApply, productReferences]) =>
-        this.applyFilter(filterToApply, productReferences)
-      )
+        this.applyFilter(filterToApply, productReferences),
+      ),
     );
   }
 }

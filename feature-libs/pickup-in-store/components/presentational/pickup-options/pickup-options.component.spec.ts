@@ -28,13 +28,13 @@ describe('PickupOptionsComponent', () => {
     component.selectedOption = 'delivery';
     component.ngOnChanges();
     expect(component.pickupOptionsForm.get('pickupOption')?.value).toBe(
-      'delivery'
+      'delivery',
     );
 
     component.selectedOption = 'pickup';
     component.ngOnChanges();
     expect(component.pickupOptionsForm.get('pickupOption')?.value).toBe(
-      'pickup'
+      'pickup',
     );
   });
 
@@ -57,7 +57,7 @@ describe('PickupOptionsComponent', () => {
     fixture.detectChanges();
     component.ngOnChanges();
     expect(component.pickupOptionsForm.get('pickupOption')?.disabled).toBe(
-      true
+      true,
     );
   });
 
@@ -66,7 +66,7 @@ describe('PickupOptionsComponent', () => {
       fixture.detectChanges();
 
       const label = fixture.debugElement.nativeElement.querySelector(
-        '[data-pickup="delivery"] + label'
+        '[data-pickup="delivery"] + label',
       );
       expect(label.textContent).toContain('pickupOptions.delivery');
     });
@@ -75,7 +75,7 @@ describe('PickupOptionsComponent', () => {
       fixture.detectChanges();
 
       const label = fixture.debugElement.nativeElement.querySelector(
-        '[data-pickup="pickup"] + label'
+        '[data-pickup="pickup"] + label',
       );
       expect(label.textContent).toContain('pickupOptions.pickup');
       expect(label.textContent).toContain('pickupOptions.selectStore');
@@ -86,7 +86,7 @@ describe('PickupOptionsComponent', () => {
       fixture.detectChanges();
 
       const label = fixture.debugElement.nativeElement.querySelector(
-        '[data-pickup="pickup"] + label'
+        '[data-pickup="pickup"] + label',
       );
       expect(label.textContent).toContain('pickupOptions.pickup');
       expect(label.textContent).toContain('pickupOptions.changeStore');
@@ -99,7 +99,7 @@ describe('PickupOptionsComponent', () => {
 
       // for delivery
       let radioButton = fixture.debugElement.nativeElement.querySelector(
-        '[data-pickup="delivery"]'
+        '[data-pickup="delivery"]',
       );
       radioButton.click();
 
@@ -107,7 +107,7 @@ describe('PickupOptionsComponent', () => {
 
       // for pickup
       radioButton = fixture.debugElement.nativeElement.querySelector(
-        '[data-pickup="pickup"]'
+        '[data-pickup="pickup"]',
       );
       radioButton.click();
 

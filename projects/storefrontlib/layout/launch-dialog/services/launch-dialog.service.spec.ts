@@ -44,7 +44,7 @@ class MockRoutingRenderStrategy {
   public render(
     _config: LaunchRoute,
     _caller: LAUNCH_CALLER | string,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {}
 
   public remove(_caller: LAUNCH_CALLER | string, _config: LaunchOptions) {}
@@ -61,7 +61,7 @@ class MockInlineRenderStrategy {
   public render(
     _config: LaunchInlineDialog,
     _caller: LAUNCH_CALLER | string,
-    _vcr: ViewContainerRef
+    _vcr: ViewContainerRef,
   ) {}
 
   public remove(_caller: LAUNCH_CALLER | string, _config: LaunchOptions) {}
@@ -106,7 +106,7 @@ describe('LaunchDialogService', () => {
 
     service = TestBed.inject(LaunchDialogService);
     component = TestBed.createComponent(
-      TestContainerComponent
+      TestContainerComponent,
     ).componentInstance;
     componentRef = TestBed.createComponent(TestContainerComponent).componentRef;
     routingRenderStrategy = TestBed.inject(MockRoutingRenderStrategy);
@@ -128,14 +128,14 @@ describe('LaunchDialogService', () => {
       expect(routingRenderStrategy.render).toHaveBeenCalledWith(
         urlConfig as LaunchRoute,
         'TEST_URL',
-        undefined
+        undefined,
       );
 
       service.launch('TEST_INLINE', component.vcr);
       expect(inlineRenderStrategy.render).toHaveBeenCalledWith(
         inlineConfig as LaunchInlineDialog,
         'TEST_INLINE',
-        component.vcr
+        component.vcr,
       );
     });
 
@@ -155,13 +155,13 @@ describe('LaunchDialogService', () => {
       service.clear('TEST_URL' as LAUNCH_CALLER);
       expect(routingRenderStrategy.remove).toHaveBeenCalledWith(
         'TEST_URL',
-        urlConfig
+        urlConfig,
       );
 
       service.clear('TEST_INLINE' as LAUNCH_CALLER);
       expect(inlineRenderStrategy.remove).toHaveBeenCalledWith(
         'TEST_INLINE',
-        inlineConfig
+        inlineConfig,
       );
     });
   });
@@ -184,7 +184,7 @@ describe('LaunchDialogService', () => {
         'TEST_DIALOG' as LAUNCH_CALLER,
         undefined,
         component.vcr,
-        { test: 123 }
+        { test: 123 },
       );
 
       expect(service.launch).toHaveBeenCalledWith(
@@ -192,7 +192,7 @@ describe('LaunchDialogService', () => {
         component.vcr,
         {
           test: 123,
-        }
+        },
       );
     });
 
@@ -204,13 +204,13 @@ describe('LaunchDialogService', () => {
       const openDialog = service.openDialog(
         'TEST_DIALOG' as LAUNCH_CALLER,
         undefined,
-        component.vcr
+        component.vcr,
       );
 
       openDialog?.subscribe();
 
       expect(service.clear).toHaveBeenCalledWith(
-        'TEST_DIALOG' as LAUNCH_CALLER
+        'TEST_DIALOG' as LAUNCH_CALLER,
       );
       expect(componentRef.destroy).toHaveBeenCalled();
     });
@@ -223,14 +223,14 @@ describe('LaunchDialogService', () => {
       service.openDialogAndSubscribe(
         'TEST_DIALOG' as LAUNCH_CALLER,
         undefined,
-        { test: 123 }
+        { test: 123 },
       );
 
       expect(service.openDialog).toHaveBeenCalledWith(
         'TEST_DIALOG' as LAUNCH_CALLER,
         undefined,
         undefined,
-        { test: 123 }
+        { test: 123 },
       );
     });
   });

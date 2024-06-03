@@ -49,7 +49,7 @@ export class AsmService {
    */
   getCustomerSearchResultsLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(AsmSelectors.getCustomerSearchResultsLoading)
+      select(AsmSelectors.getCustomerSearchResultsLoading),
     );
   }
 

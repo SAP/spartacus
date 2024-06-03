@@ -58,14 +58,14 @@ describe(`JavaRegExpConverter`, () => {
     it(`should return null for unsupported JS modifiers`, () => {
       test_toJsRegExp({ input: '(?iX)pattern', expected: null });
       expect(logger.warn).toHaveBeenCalledWith(
-        'WARNING: Could not convert Java regexp into Javascript. Original regexp: (?iX)pattern \nMessage: SyntaxError: Invalid regular expression: /(?iX)pattern/: Invalid group'
+        'WARNING: Could not convert Java regexp into Javascript. Original regexp: (?iX)pattern \nMessage: SyntaxError: Invalid regular expression: /(?iX)pattern/: Invalid group',
       );
     });
 
     it(`should return null for unsupported JS regexp features`, () => {
       test_toJsRegExp({ input: 'x*+', expected: null });
       expect(logger.warn).toHaveBeenCalledWith(
-        'WARNING: Could not convert Java regexp into Javascript. Original regexp: x*+ \nMessage: SyntaxError: Invalid regular expression: /x*+/: Nothing to repeat'
+        'WARNING: Could not convert Java regexp into Javascript. Original regexp: x*+ \nMessage: SyntaxError: Invalid regular expression: /x*+/: Nothing to repeat',
       );
     });
 

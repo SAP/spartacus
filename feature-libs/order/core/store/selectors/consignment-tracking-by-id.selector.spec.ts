@@ -68,14 +68,14 @@ describe('Consignment Tracking By Id Selector', () => {
           orderCode: order1,
           consignmentCode: cons1,
           consignmentTracking: tracking1,
-        })
+        }),
       );
       store.dispatch(
         new OrderActions.LoadConsignmentTrackingByIdSuccess({
           orderCode: order2,
           consignmentCode: cons2,
           consignmentTracking: tracking2,
-        })
+        }),
       );
       expect(result).toEqual(testEntities);
     });
@@ -86,7 +86,9 @@ describe('Consignment Tracking By Id Selector', () => {
       let result: StateUtils.LoaderState<Order>;
       store
         .pipe(
-          select(OrderSelectors.getConsignmentTrackingByIdEntity(order2, cons2))
+          select(
+            OrderSelectors.getConsignmentTrackingByIdEntity(order2, cons2),
+          ),
         )
         .subscribe((value) => {
           result = value;
@@ -97,14 +99,14 @@ describe('Consignment Tracking By Id Selector', () => {
           orderCode: order1,
           consignmentCode: cons1,
           consignmentTracking: tracking1,
-        })
+        }),
       );
       store.dispatch(
         new OrderActions.LoadConsignmentTrackingByIdSuccess({
           orderCode: order2,
           consignmentCode: cons2,
           consignmentTracking: tracking2,
-        })
+        }),
       );
       expect(result).toEqual(entity);
     });
@@ -122,14 +124,14 @@ describe('Consignment Tracking By Id Selector', () => {
           orderCode: order1,
           consignmentCode: cons1,
           consignmentTracking: tracking1,
-        })
+        }),
       );
       store.dispatch(
         new OrderActions.LoadConsignmentTrackingByIdSuccess({
           orderCode: order2,
           consignmentCode: cons2,
           consignmentTracking: tracking2,
-        })
+        }),
       );
       expect(result).toEqual(entity.value);
     });
@@ -140,8 +142,8 @@ describe('Consignment Tracking By Id Selector', () => {
       store
         .pipe(
           select(
-            OrderSelectors.getConsignmentTrackingByIdLoading(order2, cons2)
-          )
+            OrderSelectors.getConsignmentTrackingByIdLoading(order2, cons2),
+          ),
         )
         .subscribe((value) => (result = value));
 
@@ -151,7 +153,7 @@ describe('Consignment Tracking By Id Selector', () => {
           userId: 'current',
           orderCode: order1,
           consignmentCode: cons1,
-        })
+        }),
       );
       expect(result).toEqual(false);
       store.dispatch(
@@ -159,7 +161,7 @@ describe('Consignment Tracking By Id Selector', () => {
           userId: 'current',
           orderCode: order2,
           consignmentCode: cons2,
-        })
+        }),
       );
       expect(result).toEqual(true);
     });
@@ -170,8 +172,8 @@ describe('Consignment Tracking By Id Selector', () => {
       store
         .pipe(
           select(
-            OrderSelectors.getConsignmentTrackingByIdSuccess(order2, cons2)
-          )
+            OrderSelectors.getConsignmentTrackingByIdSuccess(order2, cons2),
+          ),
         )
         .subscribe((value) => (result = value));
 
@@ -181,7 +183,7 @@ describe('Consignment Tracking By Id Selector', () => {
           orderCode: order1,
           consignmentCode: cons1,
           consignmentTracking: tracking1,
-        })
+        }),
       );
       expect(result).toEqual(false);
       store.dispatch(
@@ -189,7 +191,7 @@ describe('Consignment Tracking By Id Selector', () => {
           orderCode: order2,
           consignmentCode: cons2,
           consignmentTracking: tracking2,
-        })
+        }),
       );
       expect(result).toEqual(true);
     });

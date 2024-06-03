@@ -24,7 +24,7 @@ export class UserAccountEventListener implements OnDestroy {
 
   constructor(
     protected eventService: EventService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {
     this.onAuth();
   }
@@ -37,9 +37,9 @@ export class UserAccountEventListener implements OnDestroy {
       this.eventService.get(LogoutEvent).subscribe(() => {
         this.globalMessageService.add(
           { key: 'authMessages.signedOutSuccessfully' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
-      })
+      }),
     );
   }
 

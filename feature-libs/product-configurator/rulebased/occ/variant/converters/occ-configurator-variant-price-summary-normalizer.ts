@@ -15,7 +15,7 @@ export class OccConfiguratorVariantPriceSummaryNormalizer
 {
   convert(
     source: OccConfigurator.Prices,
-    target?: Configurator.PriceSummary
+    target?: Configurator.PriceSummary,
   ): Configurator.PriceSummary {
     const resultTarget: Configurator.PriceSummary = {
       ...target,

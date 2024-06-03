@@ -29,14 +29,14 @@ export class SceneConnector {
     nodeIds?: string[],
     $expand?: string[],
     $filter?: string[],
-    contentType?: string
+    contentType?: string,
   ): Observable<NodesResponse> {
     return this.sceneAdapter.getNodes(
       sceneId,
       nodeIds,
       $expand,
       $filter,
-      contentType
+      contentType,
     );
   }
 }

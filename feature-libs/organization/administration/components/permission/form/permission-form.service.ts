@@ -42,20 +42,20 @@ export class PermissionFormService
       new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.noSpecialCharacters,
-      ])
+      ]),
     );
     form.setControl(
       'orgUnit',
       new UntypedFormGroup({
         uid: new UntypedFormControl(undefined, Validators.required),
-      })
+      }),
     );
 
     form.setControl(
       'orderApprovalPermissionType',
       new UntypedFormGroup({
         code: new UntypedFormControl(undefined, Validators.required),
-      })
+      }),
     );
 
     // subscribe to permission type changes and amend accordingly.
@@ -65,9 +65,9 @@ export class PermissionFormService
         ?.get('code')
         ?.valueChanges.pipe(
           distinctUntilChanged(),
-          filter((code) => !!code)
+          filter((code) => !!code),
         )
-        .subscribe((code: PermissionType) => this.amend(form, code))
+        .subscribe((code: PermissionType) => this.amend(form, code)),
     );
 
     this.form = form;
@@ -101,13 +101,13 @@ export class PermissionFormService
           'currency',
           new UntypedFormGroup({
             isocode: new UntypedFormControl(undefined, Validators.required),
-          })
+          }),
         );
       }
       if (!form.get('threshold')) {
         form.setControl(
           'threshold',
-          new UntypedFormControl('', Validators.required)
+          new UntypedFormControl('', Validators.required),
         );
       }
     }
@@ -120,7 +120,7 @@ export class PermissionFormService
       if (!form.get('periodRange')) {
         form.setControl(
           'periodRange',
-          new UntypedFormControl('', Validators.required)
+          new UntypedFormControl('', Validators.required),
         );
       }
     }

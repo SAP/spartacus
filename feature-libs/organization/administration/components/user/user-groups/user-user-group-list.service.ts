@@ -27,14 +27,14 @@ export class UserUserGroupListService extends SubListService<UserGroup> {
   constructor(
     protected tableService: TableService,
     protected userService: B2BUserService,
-    protected userGroupService: UserGroupService
+    protected userGroupService: UserGroupService,
   ) {
     super(tableService);
   }
 
   protected load(
     pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<UserGroup> | undefined> {
     return this.userService.getUserGroups(code, pagination);
   }
@@ -45,7 +45,7 @@ export class UserUserGroupListService extends SubListService<UserGroup> {
    */
   assign(
     userCode: string,
-    userGroupCode: string
+    userGroupCode: string,
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userService.assignUserGroup(userCode, userGroupCode);
     return this.userGroupService.getLoadingStatus(userGroupCode);
@@ -57,7 +57,7 @@ export class UserUserGroupListService extends SubListService<UserGroup> {
    */
   unassign(
     userCode: string,
-    userGroupCode: string
+    userGroupCode: string,
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userService.unassignUserGroup(userCode, userGroupCode);
     return this.userGroupService.getLoadingStatus(userGroupCode);

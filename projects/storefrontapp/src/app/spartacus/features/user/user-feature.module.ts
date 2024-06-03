@@ -37,7 +37,7 @@ import { environment } from '../../../../environments/environment';
         [USER_ACCOUNT_FEATURE]: {
           module: () =>
             import('./user-account-wrapper.module').then(
-              (m) => m.UserAccountWrapperModule
+              (m) => m.UserAccountWrapperModule,
             ),
         },
       },
@@ -54,7 +54,7 @@ import { environment } from '../../../../environments/environment';
         [USER_PROFILE_FEATURE]: {
           module: () =>
             import('./user-profile-wrapper.module').then(
-              (m) => m.UserProfileWrapperModule
+              (m) => m.UserProfileWrapperModule,
             ),
         },
       },

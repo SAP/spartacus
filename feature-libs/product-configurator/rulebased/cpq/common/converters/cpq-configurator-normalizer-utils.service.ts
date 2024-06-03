@@ -31,7 +31,7 @@ export class CpqConfiguratorNormalizerUtilsService {
    */
   convertQuantity(
     value: Cpq.Value,
-    attribute: Cpq.Attribute
+    attribute: Cpq.Attribute,
   ): number | undefined {
     if (!value.selected) {
       return undefined;
@@ -61,7 +61,7 @@ export class CpqConfiguratorNormalizerUtilsService {
    */
   convertValuePrice(
     value: Cpq.Value,
-    currency: string
+    currency: string,
   ): Configurator.PriceDetails | undefined {
     let price;
     if (value.price) {
@@ -83,7 +83,7 @@ export class CpqConfiguratorNormalizerUtilsService {
    */
   calculateValuePriceTotal(
     quantity: number,
-    valuePrice?: Configurator.PriceDetails
+    valuePrice?: Configurator.PriceDetails,
   ): Configurator.PriceDetails | undefined {
     let valuePriceTotal;
     if (valuePrice) {
@@ -106,7 +106,7 @@ export class CpqConfiguratorNormalizerUtilsService {
    */
   calculateAttributePriceTotal(
     attribute: Configurator.Attribute,
-    currency: string
+    currency: string,
   ): Configurator.PriceDetails {
     const priceTotal = attribute.values
       ?.filter((entry) => entry.selected && entry.valuePriceTotal)
@@ -127,18 +127,18 @@ export class CpqConfiguratorNormalizerUtilsService {
    */
   protected formatPriceForLocale(
     price: Configurator.PriceDetails,
-    availableLocale: string
+    availableLocale: string,
   ): void {
     const currencySymbol: string = getCurrencySymbol(
       price.currencyIso,
       'narrow',
-      availableLocale
+      availableLocale,
     );
     price.formattedValue = formatCurrency(
       price.value,
       availableLocale,
       currencySymbol,
-      price.currencyIso
+      price.currencyIso,
     );
   }
 
@@ -197,7 +197,7 @@ export class CpqConfiguratorNormalizerUtilsService {
    * @returns {Configurator.PriceSummary} - price summary
    */
   convertPriceSummary(
-    cpqConfiguration: Cpq.Configuration
+    cpqConfiguration: Cpq.Configuration,
   ): Configurator.PriceSummary {
     const priceSummary: Configurator.PriceSummary = {};
     if (cpqConfiguration.currencyISOCode) {
@@ -258,8 +258,8 @@ export class CpqConfiguratorNormalizerUtilsService {
     return attribute.label
       ? attribute.label
       : attribute.name
-      ? attribute.name
-      : '';
+        ? attribute.name
+        : '';
   }
 
   /**
@@ -301,7 +301,7 @@ export class CpqConfiguratorNormalizerUtilsService {
   protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
       this.logger.warn(
-        `CpqConfiguratorNormalizerUtilsService: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
+        `CpqConfiguratorNormalizerUtilsService: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`,
       );
     }
   }

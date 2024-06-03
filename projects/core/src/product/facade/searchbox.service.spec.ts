@@ -42,7 +42,7 @@ describe('SearchboxService', () => {
   ];
 
   const mockSelect = (
-    selector: MemoizedSelector<StateWithProduct, ProductSearchPage>
+    selector: MemoizedSelector<StateWithProduct, ProductSearchPage>,
   ) => {
     switch (selector) {
       case ProductSelectors.getSearchResults:
@@ -64,7 +64,7 @@ describe('SearchboxService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           PRODUCT_FEATURE,
-          fromStoreReducers.getReducers()
+          fromStoreReducers.getReducers(),
         ),
       ],
       providers: [
@@ -87,7 +87,7 @@ describe('SearchboxService', () => {
     [ProductSearchService],
     (productSearchService: ProductSearchService) => {
       expect(productSearchService).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to clear search results', () => {
@@ -95,7 +95,7 @@ describe('SearchboxService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new ProductActions.ClearProductSearchResult({
         clearSearchboxResults: true,
-      })
+      }),
     );
   });
 
@@ -110,8 +110,8 @@ describe('SearchboxService', () => {
             queryText: 'test query',
             searchConfig: searchConfig,
           },
-          true
-        )
+          true,
+        ),
       );
     });
 
@@ -133,7 +133,7 @@ describe('SearchboxService', () => {
         new ProductActions.GetProductSuggestions({
           term: 'test term',
           searchConfig: searchConfig,
-        })
+        }),
       );
     });
 

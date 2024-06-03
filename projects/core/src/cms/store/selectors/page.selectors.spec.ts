@@ -87,7 +87,7 @@ describe('Cms PageData Selectors', () => {
       let result: StateUtils.EntityLoaderState<string>;
       store
         .pipe(
-          select(CmsSelectors.getPageStateIndexEntityLoaderState(pageContext))
+          select(CmsSelectors.getPageStateIndexEntityLoaderState(pageContext)),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -207,8 +207,8 @@ describe('Cms PageData Selectors', () => {
       store
         .pipe(
           select(
-            CmsSelectors.getCurrentSlotSelectorFactory(pageContext, 'left')
-          )
+            CmsSelectors.getCurrentSlotSelectorFactory(pageContext, 'left'),
+          ),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();

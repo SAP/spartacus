@@ -21,7 +21,7 @@ import { PRODUCT_FUTURE_STOCK_FEATURE } from '@spartacus/product/future-stock/ro
         [PRODUCT_FUTURE_STOCK_FEATURE]: {
           module: () =>
             import('@spartacus/product/future-stock').then(
-              (m) => m.FutureStockModule
+              (m) => m.FutureStockModule,
             ),
         },
       },

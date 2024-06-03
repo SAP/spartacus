@@ -18,7 +18,7 @@ export abstract class CheckoutDeliveryAddressAdapter {
   abstract createAddress(
     userId: string,
     cartId: string,
-    address: Address
+    address: Address,
   ): Observable<Address>;
 
   /**
@@ -31,7 +31,7 @@ export abstract class CheckoutDeliveryAddressAdapter {
   abstract setAddress(
     userId: string,
     cartId: string,
-    addressId: string
+    addressId: string,
   ): Observable<unknown>;
 
   /**
@@ -42,6 +42,6 @@ export abstract class CheckoutDeliveryAddressAdapter {
    */
   abstract clearCheckoutDeliveryAddress(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<unknown>;
 }

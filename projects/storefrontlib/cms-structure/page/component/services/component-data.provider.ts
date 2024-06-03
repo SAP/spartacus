@@ -22,7 +22,7 @@ import { CmsComponentsService } from '../../../services/cms-components.service';
 export class ComponentDataProvider {
   constructor(
     protected componentsService: CmsComponentsService,
-    protected cmsService: CmsService
+    protected cmsService: CmsService,
   ) {}
 
   /**
@@ -47,7 +47,7 @@ export class ComponentDataProvider {
               ...staticComponentData,
               ...data,
             })),
-            startWith(staticComponentData)
+            startWith(staticComponentData),
           );
         } else {
           return this.cmsService.getComponentData<T>(uid);

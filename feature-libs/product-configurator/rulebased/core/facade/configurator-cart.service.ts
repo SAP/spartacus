@@ -29,7 +29,7 @@ export class ConfiguratorCartService {
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected checkoutQueryFacade: CheckoutQueryFacade,
     protected userIdService: UserIdService,
-    protected configuratorUtilsService: ConfiguratorUtilsService
+    protected configuratorUtilsService: ConfiguratorUtilsService,
   ) {}
 
   /**
@@ -39,24 +39,24 @@ export class ConfiguratorCartService {
    * @returns Observable of product configurations
    */
   readConfigurationForCartEntry(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
-          owner.key
-        )
+          owner.key,
+        ),
       ),
       //needed as we cannot read the cart in general and for the OV
       //in parallel, this can lead to cache issues with promotions
       delayWhen(() =>
-        this.activeCartService.isStable().pipe(filter((stable) => stable))
+        this.activeCartService.isStable().pipe(filter((stable) => stable)),
       ),
       delayWhen(() =>
         this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
           map((state) => state.loading),
-          filter((loading) => !loading)
-        )
+          filter((loading) => !loading),
+        ),
       ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {
@@ -77,8 +77,8 @@ export class ConfiguratorCartService {
                     };
                   this.store.dispatch(
                     new ConfiguratorActions.ReadCartEntryConfiguration(
-                      readFromCartEntryParameters
-                    )
+                      readFromCartEntryParameters,
+                    ),
                   );
                 });
             });
@@ -87,14 +87,14 @@ export class ConfiguratorCartService {
       filter(
         (configurationState) =>
           configurationState.value !== undefined &&
-          this.isConfigurationCreated(configurationState.value)
+          this.isConfigurationCreated(configurationState.value),
       ),
       //save to assume configuration is defined after previous filter
       map((configurationState) =>
         this.configuratorUtilsService.getConfigurationFromState(
-          configurationState
-        )
-      )
+          configurationState,
+        ),
+      ),
     );
   }
 
@@ -106,18 +106,18 @@ export class ConfiguratorCartService {
    * @returns Observable of product configurations
    */
   readConfigurationForOrderEntry(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
-          owner.key
-        )
+          owner.key,
+        ),
       ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {
           const ownerIdParts = this.commonConfigUtilsService.decomposeOwnerId(
-            owner.id
+            owner.id,
           );
           this.userIdService
             .getUserId()
@@ -132,8 +132,8 @@ export class ConfiguratorCartService {
                 };
               this.store.dispatch(
                 new ConfiguratorActions.ReadOrderEntryConfiguration(
-                  readFromOrderEntryParameters
-                )
+                  readFromOrderEntryParameters,
+                ),
               );
             });
         }
@@ -141,14 +141,14 @@ export class ConfiguratorCartService {
       filter(
         (configurationState) =>
           configurationState.value !== undefined &&
-          this.isConfigurationCreated(configurationState.value)
+          this.isConfigurationCreated(configurationState.value),
       ),
       //save to assume configuration is defined after previous filter
       map((configurationState) =>
         this.configuratorUtilsService.getConfigurationFromState(
-          configurationState
-        )
-      )
+          configurationState,
+        ),
+      ),
     );
   }
 
@@ -164,7 +164,7 @@ export class ConfiguratorCartService {
     productCode: string,
     configId: string,
     owner: CommonConfigurator.Owner,
-    quantity?: number
+    quantity?: number,
   ): void {
     this.activeCartService
       .requireLoadedCart()
@@ -183,7 +183,7 @@ export class ConfiguratorCartService {
               owner: owner,
             };
             this.store.dispatch(
-              new ConfiguratorActions.AddToCart(addToCartParameters)
+              new ConfiguratorActions.AddToCart(addToCartParameters),
             );
           });
       });
@@ -214,7 +214,7 @@ export class ConfiguratorCartService {
               };
 
             this.store.dispatch(
-              new ConfiguratorActions.UpdateCartEntry(parameters)
+              new ConfiguratorActions.UpdateCartEntry(parameters),
             );
           });
       });
@@ -233,11 +233,11 @@ export class ConfiguratorCartService {
       map((entries) =>
         entries
           ? entries.filter((entry) =>
-              this.commonConfigUtilsService.getNumberOfIssues(entry)
+              this.commonConfigUtilsService.getNumberOfIssues(entry),
             )
-          : []
+          : [],
       ),
-      map((entries) => entries.length > 0)
+      map((entries) => entries.length > 0),
     );
   }
 
@@ -254,12 +254,12 @@ export class ConfiguratorCartService {
       }),
       map((entries) => {
         const filteredEntries = entries.filter(
-          (entry) => entry.entryNumber?.toString() === entryNumber
+          (entry) => entry.entryNumber?.toString() === entryNumber,
         );
         return filteredEntries
           ? filteredEntries[filteredEntries.length - 1]
           : undefined;
-      })
+      }),
     );
   }
 
@@ -268,19 +268,19 @@ export class ConfiguratorCartService {
    */
   removeCartBoundConfigurations(): void {
     this.store.dispatch(
-      new ConfiguratorActions.RemoveCartBoundConfigurations()
+      new ConfiguratorActions.RemoveCartBoundConfigurations(),
     );
   }
 
   protected isConfigurationCreated(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): boolean {
     const configId: String = configuration.configId;
     return configId.length !== 0;
   }
 
   protected configurationNeedsReading(
-    configurationState: StateUtils.LoaderState<Configurator.Configuration>
+    configurationState: StateUtils.LoaderState<Configurator.Configuration>,
   ): boolean {
     const configuration = configurationState.value;
     return (

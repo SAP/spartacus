@@ -33,7 +33,7 @@ export class CheckoutPaymentEventListener implements OnDestroy {
 
   constructor(
     protected eventService: EventService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {
     this.onPaymentCreated();
     this.onPaymentSet();
@@ -52,10 +52,10 @@ export class CheckoutPaymentEventListener implements OnDestroy {
 
           this.globalMessageService.add(
             { key: 'paymentForm.paymentAddedSuccessfully' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
+            GlobalMessageType.MSG_TYPE_CONFIRMATION,
           );
           this.eventService.dispatch({}, CheckoutQueryResetEvent);
-        })
+        }),
     );
   }
 
@@ -63,7 +63,7 @@ export class CheckoutPaymentEventListener implements OnDestroy {
     this.subscriptions.add(
       this.eventService.get(CheckoutPaymentDetailsSetEvent).subscribe(() => {
         this.eventService.dispatch({}, CheckoutQueryResetEvent);
-      })
+      }),
     );
   }
 
@@ -71,13 +71,13 @@ export class CheckoutPaymentEventListener implements OnDestroy {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent)
+        this.eventService.get(CurrencySetEvent),
       ).subscribe(() => {
         this.eventService.dispatch(
           {},
-          CheckoutPaymentCardTypesQueryReloadEvent
+          CheckoutPaymentCardTypesQueryReloadEvent,
         );
-      })
+      }),
     );
   }
 

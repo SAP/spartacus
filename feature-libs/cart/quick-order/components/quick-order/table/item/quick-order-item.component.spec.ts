@@ -106,13 +106,13 @@ describe('QuickOrderItemComponent', () => {
 
     expect(quickOrderService.updateEntryQuantity).toHaveBeenCalledWith(
       mockIndex,
-      5
+      5,
     );
   });
 
   it('should update quantity on secondary product add', () => {
     spyOn(quickOrderService, 'getProductAdded').and.returnValue(
-      mockCodeSubject
+      mockCodeSubject,
     );
     component.ngOnInit();
     quickOrderService.setProductAdded(mockEntry.product.code);

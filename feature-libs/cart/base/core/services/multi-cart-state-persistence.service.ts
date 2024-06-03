@@ -27,7 +27,7 @@ export class MultiCartStatePersistenceService implements OnDestroy {
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected store: Store<StateWithMultiCart>,
-    protected siteContextParamsService: SiteContextParamsService
+    protected siteContextParamsService: SiteContextParamsService,
   ) {}
 
   public initSync() {
@@ -40,7 +40,7 @@ export class MultiCartStatePersistenceService implements OnDestroy {
         ]),
         storageType: StorageSyncType.LOCAL_STORAGE,
         onRead: (state) => this.onRead(state),
-      })
+      }),
     );
   }
 
@@ -57,7 +57,7 @@ export class MultiCartStatePersistenceService implements OnDestroy {
         return {
           active: indexState[CartType.ACTIVE] ?? '',
         };
-      })
+      }),
     );
   }
 

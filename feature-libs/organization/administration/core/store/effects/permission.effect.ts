@@ -41,12 +41,12 @@ export class PermissionEffects {
               new PermissionActions.LoadPermissionFail({
                 permissionCode,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   loadPermissions$: Observable<
@@ -62,7 +62,7 @@ export class PermissionEffects {
           switchMap((permissions: EntitiesModel<Permission>) => {
             const { values, page } = StateUtils.normalizeListPage(
               permissions,
-              'code'
+              'code',
             );
             return [
               new PermissionActions.LoadPermissionSuccess(values),
@@ -77,12 +77,12 @@ export class PermissionEffects {
               new PermissionActions.LoadPermissionsFail({
                 params: payload.params,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   createPermission$: Observable<
@@ -108,11 +108,11 @@ export class PermissionEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   updatePermission$: Observable<
@@ -138,11 +138,11 @@ export class PermissionEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   loadPermissionTypes$: Observable<
@@ -156,23 +156,23 @@ export class PermissionEffects {
           map(
             (permissionTypeList: OrderApprovalPermissionType[]) =>
               new PermissionActions.LoadPermissionTypesSuccess(
-                permissionTypeList
-              )
+                permissionTypeList,
+              ),
           ),
           catchError((error: HttpErrorResponse) =>
             of(
               new PermissionActions.LoadPermissionTypesFail({
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   constructor(
     private actions$: Actions,
-    private permissionConnector: PermissionConnector
+    private permissionConnector: PermissionConnector,
   ) {}
 }

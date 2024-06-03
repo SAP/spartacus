@@ -46,7 +46,7 @@ export class UnitUserRolesFormComponent {
         this.item = { ...this.item, ...item };
       }
     }),
-    map((item) => this.formService.getForm(item))
+    map((item) => this.formService.getForm(item)),
   );
 
   availableRoles: B2BUserRole[] = this.userService.getAllRoles();
@@ -56,7 +56,7 @@ export class UnitUserRolesFormComponent {
     protected itemService: ItemService<B2BUser>,
     protected formService: UnitUserRolesFormService,
     protected userService: B2BUserService,
-    protected userItemService: UserItemService
+    protected userItemService: UserItemService,
   ) {}
 
   save(form: UntypedFormGroup) {
@@ -70,7 +70,7 @@ export class UnitUserRolesFormComponent {
       .update(this.item?.customerId ?? '', { roles: rolesAndRights })
       .pipe(
         take(1),
-        filter((data) => data.status === LoadStatus.SUCCESS)
+        filter((data) => data.status === LoadStatus.SUCCESS),
       )
       .subscribe((data) => {
         this.notify({ ...this.item, ...data.item });

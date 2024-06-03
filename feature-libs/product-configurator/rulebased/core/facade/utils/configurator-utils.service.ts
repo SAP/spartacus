@@ -23,7 +23,7 @@ export class ConfiguratorUtilsService {
   getParentGroup(
     groups: Configurator.Group[],
     group: Configurator.Group,
-    parentGroup?: Configurator.Group
+    parentGroup?: Configurator.Group,
   ): Configurator.Group | undefined {
     if (groups.includes(group)) {
       return parentGroup;
@@ -50,7 +50,7 @@ export class ConfiguratorUtilsService {
    */
   getGroupById(
     groups: Configurator.Group[],
-    groupId: string
+    groupId: string,
   ): Configurator.Group {
     const currentGroup = groups.find((group) => group.id === groupId);
     if (currentGroup) {
@@ -69,7 +69,7 @@ export class ConfiguratorUtilsService {
    */
   getOptionalGroupById(
     groups: Configurator.Group[],
-    groupId: string
+    groupId: string,
   ): Configurator.Group | undefined {
     const currentGroup = groups.find((group) => group.id === groupId);
     return currentGroup
@@ -79,7 +79,7 @@ export class ConfiguratorUtilsService {
 
   protected getGroupByIdIfPresent(
     groups: Configurator.Group[],
-    groupId: string
+    groupId: string,
   ): Configurator.Group | undefined {
     const currentGroup = groups.find((group) => group.id === groupId);
     if (currentGroup) {
@@ -91,7 +91,7 @@ export class ConfiguratorUtilsService {
 
   protected getGroupFromSubGroups(
     groups: Configurator.Group[],
-    groupId: string
+    groupId: string,
   ): Configurator.Group | undefined {
     const groupFound = groups
       .map((group) => {
@@ -142,7 +142,7 @@ export class ConfiguratorUtilsService {
   createConfigurationExtract(
     changedAttribute: Configurator.Attribute,
     configuration: Configurator.Configuration,
-    updateType?: Configurator.UpdateType
+    updateType?: Configurator.UpdateType,
   ): Configurator.Configuration {
     if (!updateType) {
       updateType = Configurator.UpdateType.ATTRIBUTE;
@@ -166,7 +166,7 @@ export class ConfiguratorUtilsService {
       this.buildGroupPath(
         changedAttribute.groupId,
         configuration.groups,
-        groupPath
+        groupPath,
       );
     } else {
       throw Error('GroupId must be available at attribute level during update');
@@ -179,12 +179,12 @@ export class ConfiguratorUtilsService {
         'At this point we expect that group is available in the configuration: ' +
           changedAttribute.groupId +
           ', ' +
-          JSON.stringify(configuration.groups.map((cGroup) => cGroup.id))
+          JSON.stringify(configuration.groups.map((cGroup) => cGroup.id)),
       );
     }
 
     let currentGroupInExtract: Configurator.Group = this.buildGroupForExtract(
-      groupPath[groupPathLength - 1]
+      groupPath[groupPathLength - 1],
     );
 
     let currentLeafGroupInExtract: Configurator.Group = currentGroupInExtract;
@@ -193,7 +193,7 @@ export class ConfiguratorUtilsService {
 
     for (let index = groupPath.length - 1; index > 0; index--) {
       currentLeafGroupInExtract = this.buildGroupForExtract(
-        groupPath[index - 1]
+        groupPath[index - 1],
       );
       currentGroupInExtract.subGroups = [currentLeafGroupInExtract];
       currentGroupInExtract = currentLeafGroupInExtract;
@@ -214,11 +214,11 @@ export class ConfiguratorUtilsService {
   buildGroupPath(
     groupId: string,
     groupList: Configurator.Group[],
-    groupPath: Configurator.Group[]
+    groupPath: Configurator.Group[],
   ): boolean {
     let haveFoundGroup = false;
     const group: Configurator.Group | undefined = groupList.find(
-      (currentGroup) => currentGroup.id === groupId
+      (currentGroup) => currentGroup.id === groupId,
     );
 
     if (group) {
@@ -246,7 +246,7 @@ export class ConfiguratorUtilsService {
    * @returns {Configurator.Configuration} - The actual product configuration
    */
   getConfigurationFromState(
-    configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration>
+    configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration>,
   ): Configurator.Configuration {
     const configuration = configurationState.value;
     if (configuration) {
@@ -257,7 +257,7 @@ export class ConfiguratorUtilsService {
   }
 
   protected buildGroupForExtract(
-    group: Configurator.Group
+    group: Configurator.Group,
   ): Configurator.Group {
     const changedGroup: Configurator.Group = {
       groupType: group.groupType,

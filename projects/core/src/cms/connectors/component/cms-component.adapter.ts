@@ -19,7 +19,7 @@ export abstract class CmsComponentAdapter {
   abstract load<T extends CmsComponent>(
     id: string,
     pageContext: PageContext,
-    fields?: string
+    fields?: string,
   ): Observable<T>;
 
   /**
@@ -30,6 +30,6 @@ export abstract class CmsComponentAdapter {
    */
   abstract findComponentsByIds(
     ids: string[],
-    pageContext: PageContext
+    pageContext: PageContext,
   ): Observable<CmsComponent[]>;
 }

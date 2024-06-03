@@ -22,7 +22,7 @@ import { CurrencySetEvent, LanguageSetEvent } from './site-context.events';
 export class SiteContextEventBuilder {
   constructor(
     protected actionsSubject: ActionsSubject,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {
     this.register();
   }
@@ -41,13 +41,13 @@ export class SiteContextEventBuilder {
   protected registerSetLanguage(): void {
     const languageEvent$ = this.actionsSubject.pipe(
       ofType<SiteContextActions.SetActiveLanguage>(
-        SiteContextActions.SET_ACTIVE_LANGUAGE
+        SiteContextActions.SET_ACTIVE_LANGUAGE,
       ),
       map((languageAction) =>
         createFrom(LanguageSetEvent, {
           activeLanguage: languageAction.payload,
-        })
-      )
+        }),
+      ),
     );
 
     this.eventService.register(LanguageSetEvent, languageEvent$);
@@ -59,13 +59,13 @@ export class SiteContextEventBuilder {
   protected registerSetCurrency(): void {
     const currencyEvent$ = this.actionsSubject.pipe(
       ofType<SiteContextActions.SetActiveCurrency>(
-        SiteContextActions.SET_ACTIVE_CURRENCY
+        SiteContextActions.SET_ACTIVE_CURRENCY,
       ),
       map((currencyAction) =>
         createFrom(CurrencySetEvent, {
           activeCurrency: currencyAction.payload,
-        })
-      )
+        }),
+      ),
     );
 
     this.eventService.register(CurrencySetEvent, currencyEvent$);

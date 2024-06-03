@@ -25,6 +25,6 @@ export function getStubbedBasesites() {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/basesites`,
     },
-    { body: baseSites }
+    { body: baseSites },
   );
 }

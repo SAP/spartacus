@@ -29,7 +29,7 @@ describe('MultiCartStatePersistenceService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           MULTI_CART_FEATURE,
-          fromCartReducers.getMultiCartReducers()
+          fromCartReducers.getMultiCartReducers(),
         ),
       ],
       providers: [
@@ -58,10 +58,10 @@ describe('MultiCartStatePersistenceService', () => {
     service['onRead'](null);
     expect(store.dispatch).toHaveBeenCalledTimes(2);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CartActions.ClearCartState()
+      new CartActions.ClearCartState(),
     );
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CartActions.SetActiveCartId('')
+      new CartActions.SetActiveCartId(''),
     );
   });
 
@@ -69,10 +69,10 @@ describe('MultiCartStatePersistenceService', () => {
     service['onRead']({ active: 'cartId' });
     expect(store.dispatch).toHaveBeenCalledTimes(2);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CartActions.ClearCartState()
+      new CartActions.ClearCartState(),
     );
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CartActions.SetActiveCartId('cartId')
+      new CartActions.SetActiveCartId('cartId'),
     );
   });
 
@@ -88,7 +88,7 @@ describe('MultiCartStatePersistenceService', () => {
         key: 'cart',
         context$,
         state$,
-      })
+      }),
     );
     expect(service['getCartState']).toHaveBeenCalled();
     expect(siteContextParamsService.getValues).toHaveBeenCalledWith([

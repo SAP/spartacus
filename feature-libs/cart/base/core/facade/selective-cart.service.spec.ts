@@ -80,7 +80,7 @@ describe('Selective Cart Service', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           MULTI_CART_FEATURE,
-          fromReducers.getMultiCartReducers()
+          fromReducers.getMultiCartReducers(),
         ),
         StoreModule.forFeature('process', fromProcessReducers.getReducers()),
       ],
@@ -139,7 +139,7 @@ describe('Selective Cart Service', () => {
   it('should not load selective cart for anonymous user', () => {
     spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
     spyOn(userIdService, 'getUserId').and.returnValue(
-      of(OCC_USER_ID_ANONYMOUS)
+      of(OCC_USER_ID_ANONYMOUS),
     );
     spyOn(multiCartFacade, 'loadCart').and.stub();
     service.getCart().subscribe().unsubscribe();
@@ -164,7 +164,7 @@ describe('Selective Cart Service', () => {
 
     expect(result).toEqual([mockCartEntry]);
     expect(multiCartFacade['getEntries']).toHaveBeenCalledWith(
-      'selectivecartelectronics-spa-test-customer-id'
+      'selectivecartelectronics-spa-test-customer-id',
     );
   });
 
@@ -179,13 +179,13 @@ describe('Selective Cart Service', () => {
       OCC_USER_ID_CURRENT,
       'selectivecartelectronics-spa-test-customer-id',
       'productCode1',
-      2
+      2,
     );
     expect(multiCartFacade['addEntry']).toHaveBeenCalledWith(
       OCC_USER_ID_CURRENT,
       'selectivecartelectronics-spa-test-customer-id',
       'productCode2',
-      2
+      2,
     );
   });
 
@@ -198,7 +198,7 @@ describe('Selective Cart Service', () => {
     expect(multiCartFacade['removeEntry']).toHaveBeenCalledWith(
       'current',
       'selectivecartelectronics-spa-test-customer-id',
-      3
+      3,
     );
   });
 
@@ -210,7 +210,7 @@ describe('Selective Cart Service', () => {
       'current',
       'selectivecartelectronics-spa-test-customer-id',
       1,
-      2
+      2,
     );
   });
 
@@ -226,7 +226,7 @@ describe('Selective Cart Service', () => {
     expect(result).toEqual(mockCartEntry);
     expect(multiCartFacade['getEntry']).toHaveBeenCalledWith(
       'selectivecartelectronics-spa-test-customer-id',
-      'code123'
+      'code123',
     );
   });
 

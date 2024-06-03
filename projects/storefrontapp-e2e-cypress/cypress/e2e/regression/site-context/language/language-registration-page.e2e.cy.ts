@@ -16,7 +16,7 @@ describe('Language switch - registration page', () => {
 
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
-    siteContextSelector.LANGUAGES
+    siteContextSelector.LANGUAGES,
   );
 
   describe('registration page', () => {
@@ -26,7 +26,7 @@ describe('Language switch - registration page', () => {
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + registerPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + registerPath,
       );
     });
 
@@ -35,13 +35,13 @@ describe('Language switch - registration page', () => {
         registerPath,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
 
       cy.get('[formcontrolname="titleCode"]').ngSelect(deutschName);
       cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
         'have.text',
-        deutschName
+        deutschName,
       );
     });
   });

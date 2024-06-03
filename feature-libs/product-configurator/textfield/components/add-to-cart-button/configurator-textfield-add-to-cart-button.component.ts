@@ -19,7 +19,7 @@ export class ConfiguratorTextfieldAddToCartButtonComponent {
   @Input() productCode: string;
 
   constructor(
-    protected configuratorTextfieldService: ConfiguratorTextfieldService
+    protected configuratorTextfieldService: ConfiguratorTextfieldService,
   ) {}
 
   /**
@@ -31,13 +31,13 @@ export class ConfiguratorTextfieldAddToCartButtonComponent {
       case CommonConfigurator.OwnerType.PRODUCT:
         this.configuratorTextfieldService.addToCart(
           owner.id,
-          this.configuration
+          this.configuration,
         );
         break;
       case CommonConfigurator.OwnerType.CART_ENTRY:
         this.configuratorTextfieldService.updateCartEntry(
           owner.id,
-          this.configuration
+          this.configuration,
         );
         break;
     }

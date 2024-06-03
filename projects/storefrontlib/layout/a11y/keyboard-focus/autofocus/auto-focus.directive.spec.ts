@@ -51,22 +51,20 @@ class MockAutoFocusService {
 describe('AutoFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: AutoFocusService;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent, CustomFocusDirective],
-        providers: [
-          {
-            provide: AutoFocusService,
-            useClass: MockAutoFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent, CustomFocusDirective],
+      providers: [
+        {
+          provide: AutoFocusService,
+          useClass: MockAutoFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
-      service = TestBed.inject(AutoFocusService);
-    })
-  );
+    fixture = TestBed.createComponent(MockComponent);
+    service = TestBed.inject(AutoFocusService);
+  }));
 
   const event = {
     preventDefault: () => {},
@@ -78,7 +76,7 @@ describe('AutoFocusDirective', () => {
   describe('default', () => {
     it('should focus host element by default if autofocus is not provided', () => {
       const host: HTMLElement = fixture.debugElement.query(
-        By.css('#a')
+        By.css('#a'),
       ).nativeElement;
       spyOn(service, 'findFirstFocusable');
       fixture.detectChanges();
@@ -86,7 +84,7 @@ describe('AutoFocusDirective', () => {
         autofocus: true,
       });
       expect(service.findFirstFocusable).toHaveBeenCalledTimes(
-        totalNumberOfAutofocusTimes
+        totalNumberOfAutofocusTimes,
       );
     });
   });
@@ -94,7 +92,7 @@ describe('AutoFocusDirective', () => {
   describe('autofocus = true', () => {
     it('should mimic focus if autofocus is required', () => {
       const host: HTMLElement = fixture.debugElement.query(
-        By.css('#b')
+        By.css('#b'),
       ).nativeElement;
       spyOn(service, 'findFirstFocusable');
       fixture.detectChanges();
@@ -102,13 +100,13 @@ describe('AutoFocusDirective', () => {
         autofocus: true,
       });
       expect(service.findFirstFocusable).toHaveBeenCalledTimes(
-        totalNumberOfAutofocusTimes
+        totalNumberOfAutofocusTimes,
       );
     });
 
     it('should handle focus when autofocus is a selector', () => {
       const host: HTMLElement = fixture.debugElement.query(
-        By.css('#d')
+        By.css('#d'),
       ).nativeElement;
       spyOn(service, 'findFirstFocusable');
       fixture.detectChanges();
@@ -124,7 +122,7 @@ describe('AutoFocusDirective', () => {
       fixture.detectChanges();
       host.triggerEventHandler('focus', event);
       expect(service.findFirstFocusable).toHaveBeenCalledTimes(
-        totalNumberOfAutofocusTimes + 1
+        totalNumberOfAutofocusTimes + 1,
       );
     });
   });
@@ -152,7 +150,7 @@ describe('AutoFocusDirective', () => {
     fixture.detectChanges();
     host.triggerEventHandler('focus', event);
     expect(service.findFirstFocusable).toHaveBeenCalledTimes(
-      totalNumberOfAutofocusTimes
+      totalNumberOfAutofocusTimes,
     );
   });
 });

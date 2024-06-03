@@ -47,31 +47,29 @@ describe('UpdateEmailComponent', () => {
 
   let service: UpdateEmailComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [UpdateEmailComponent, MockCxSpinnerComponent],
-        providers: [
-          {
-            provide: UpdateEmailComponentService,
-            useClass: MockUpdateEmailService,
-          },
-        ],
-      })
-        .overrideComponent(UpdateEmailComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [UpdateEmailComponent, MockCxSpinnerComponent],
+      providers: [
+        {
+          provide: UpdateEmailComponentService,
+          useClass: MockUpdateEmailService,
+        },
+      ],
     })
-  );
+      .overrideComponent(UpdateEmailComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateEmailComponent);
@@ -91,7 +89,7 @@ describe('UpdateEmailComponent', () => {
       component.form.disable();
       fixture.detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
-        By.css('button.btn-primary')
+        By.css('button.btn-primary'),
       ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });

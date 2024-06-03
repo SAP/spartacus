@@ -13,15 +13,13 @@ describe('PromotionsComponent', () => {
 
   const mockPromotions: Promotion[] = [mockPromotion];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [],
-        declarations: [PromotionsComponent],
-        providers: [],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [],
+      declarations: [PromotionsComponent],
+      providers: [],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PromotionsComponent);
@@ -36,7 +34,7 @@ describe('PromotionsComponent', () => {
     component.promotions = mockPromotions;
     fixture.detectChanges();
     const promotionsContent = fixture.debugElement.query(
-      By.css('.cx-promotions')
+      By.css('.cx-promotions'),
     ).nativeElement.textContent;
 
     expect(promotionsContent).toContain(mockPromotion.description);

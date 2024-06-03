@@ -35,7 +35,7 @@ describe('UserGroupNormalizer', () => {
     });
 
     service = TestBed.inject(
-      OccUserGroupNormalizer as Type<OccUserGroupNormalizer>
+      OccUserGroupNormalizer as Type<OccUserGroupNormalizer>,
     );
   });
 
@@ -43,7 +43,7 @@ describe('UserGroupNormalizer', () => {
     [OccUserGroupNormalizer],
     (userGroupNormalizer: OccUserGroupNormalizer) => {
       expect(userGroupNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert userGroup', () => {

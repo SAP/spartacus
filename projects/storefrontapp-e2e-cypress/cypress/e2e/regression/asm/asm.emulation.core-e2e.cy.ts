@@ -74,7 +74,7 @@ context('Assisted Service Module', () => {
       login(customer.email, customer.password);
       getErrorAlert().should(
         'contain',
-        'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.'
+        'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.',
       );
     });
 
@@ -147,14 +147,14 @@ context('Assisted Service Module', () => {
       cy.get('cx-product-list').should('exist');
       cy.get('cx-product-list cx-product-grid-item').should(
         'have.length.at.least',
-        1
+        1,
       );
 
       navigateToCategory('Streetwear', 'streetwear', true);
       cy.get('cx-product-list').should('exist');
       cy.get('cx-product-list cx-product-grid-item').should(
         'have.length.at.least',
-        1
+        1,
       );
 
       navigateToCategory('Snow', 'snow', true);

@@ -30,7 +30,7 @@ export abstract class UserPasswordFacade {
    */
   abstract update(
     oldPassword: string,
-    newPassword: string
+    newPassword: string,
   ): Observable<unknown>;
 
   /**

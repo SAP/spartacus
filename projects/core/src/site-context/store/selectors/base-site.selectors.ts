@@ -21,21 +21,21 @@ export const getBaseSiteState: MemoizedSelector<
   BaseSiteState
 > = createSelector(
   getSiteContextState,
-  (state: SiteContextState) => state.baseSite
+  (state: SiteContextState) => state.baseSite,
 );
 
 export const getActiveBaseSite: MemoizedSelector<StateWithSiteContext, string> =
   createSelector(
     getSiteContextState,
     (state: SiteContextState) =>
-      state && state.baseSite && state.baseSite.activeSite
+      state && state.baseSite && state.baseSite.activeSite,
   );
 
 export const getBaseSiteData: MemoizedSelector<StateWithSiteContext, BaseSite> =
   createSelector(
     getSiteContextState,
     (state: SiteContextState) =>
-      state && state.baseSite && state.baseSite.details
+      state && state.baseSite && state.baseSite.details,
   );
 
 export const getBaseSitesEntities: MemoizedSelector<

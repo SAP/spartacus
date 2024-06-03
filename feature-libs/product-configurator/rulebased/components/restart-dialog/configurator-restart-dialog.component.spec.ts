@@ -81,34 +81,32 @@ describe('ConfiguratorRestartDialogComponent', () => {
     return <jasmine.Spy>f;
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      initializeMocks();
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorRestartDialogComponent,
-          MockCxIconComponent,
-          MockKeyboadFocusDirective,
-        ],
-        imports: [I18nTestingModule],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: ConfiguratorCommonsService,
-            useValue: mockConfigCommonsService,
-          },
-          {
-            provide: RoutingService,
-            useValue: mockRoutingService,
-          },
-          {
-            provide: ProductService,
-            useValue: mockProductService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initializeMocks();
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorRestartDialogComponent,
+        MockCxIconComponent,
+        MockKeyboadFocusDirective,
+      ],
+      imports: [I18nTestingModule],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: ConfiguratorCommonsService,
+          useValue: mockConfigCommonsService,
+        },
+        {
+          provide: RoutingService,
+          useValue: mockRoutingService,
+        },
+        {
+          provide: ProductService,
+          useValue: mockProductService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     initialize();
@@ -135,31 +133,31 @@ describe('ConfiguratorRestartDialogComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-dialog-title'
+      '.cx-dialog-title',
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.close'
+      '.close',
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '#cx-configurator-restart-dialog-description'
+      '#cx-configurator-restart-dialog-description',
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.btn-primary'
+      '.btn-primary',
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.btn-secondary'
+      '.btn-secondary',
     );
   });
 
@@ -169,7 +167,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
       .triggerEventHandler('click');
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
     expect(
-      mockConfigCommonsService.forceNewConfiguration
+      mockConfigCommonsService.forceNewConfiguration,
     ).not.toHaveBeenCalled();
     expect(mockRoutingService.go).toHaveBeenCalledWith(
       {
@@ -183,7 +181,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
         queryParams: {
           productCode: product.code,
         },
-      }
+      },
     );
   });
 
@@ -193,7 +191,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
       .triggerEventHandler('click');
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
     expect(mockConfigCommonsService.forceNewConfiguration).toHaveBeenCalledWith(
-      owner
+      owner,
     );
     expect(mockRoutingService.go).not.toHaveBeenCalled();
   });
@@ -213,7 +211,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
   function checkBackToPDPBehavior() {
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
     expect(
-      mockConfigCommonsService.forceNewConfiguration
+      mockConfigCommonsService.forceNewConfiguration,
     ).not.toHaveBeenCalled();
     expect(mockRoutingService.go).toHaveBeenCalledWith({
       cxRoute: 'product',
@@ -229,7 +227,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
         'close',
         0,
         'title',
-        'configurator.a11y.closeRestartDialog'
+        'configurator.a11y.closeRestartDialog',
       );
     });
     it("should contain action button element with class name 'cx-configurator-dialog-resume' and 'aria-describedby' attribute that points to the text for the resume button", () => {
@@ -240,7 +238,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
         'btn-primary',
         0,
         'aria-describedby',
-        'cx-configurator-restart-dialog-description'
+        'cx-configurator-restart-dialog-description',
       );
     });
     it("should contain action button element with class name 'cx-configurator-dialog-discard' and 'aria-describedby' attribute that points to the text for the start new button", () => {
@@ -251,7 +249,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
         'btn-secondary',
         0,
         'aria-describedby',
-        'cx-configurator-restart-dialog-description'
+        'cx-configurator-restart-dialog-description',
       );
     });
     it("should contain 'role' and 'aria-modal' attributes that indicate that the appeared pop-up is a modal dialog", () => {
@@ -262,7 +260,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
         'cx-modal-container',
         0,
         'aria-modal',
-        'true'
+        'true',
       );
     });
   });

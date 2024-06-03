@@ -21,7 +21,7 @@ import { JsonLdBuilder } from '../schema.interface';
 export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
   constructor(
     protected reviewService: ProductReviewService,
-    protected config: SeoConfig
+    protected config: SeoConfig,
   ) {}
 
   build(product: Product): Observable<any> {
@@ -32,8 +32,8 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
               aggregateRating: this.buildAggregatedReviews(product, reviews),
               review: reviews.map((review) => this.buildReviews(review)),
             }
-          : {}
-      )
+          : {},
+      ),
     );
   }
 

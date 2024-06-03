@@ -56,7 +56,7 @@ describe('SavedCartConnector', () => {
     connector.restoreSavedCart(mockUserId, mockCartId);
     expect(adapter.restoreSavedCart).toHaveBeenCalledWith(
       mockUserId,
-      mockCartId
+      mockCartId,
     );
   });
 
@@ -65,7 +65,7 @@ describe('SavedCartConnector', () => {
     expect(adapter.cloneSavedCart).toHaveBeenCalledWith(
       mockUserId,
       mockCartId,
-      mockCartName
+      mockCartName,
     );
   });
 });

@@ -126,7 +126,7 @@ describe('BulkPricingTableComponent', () => {
     it('should format mockTierWithMaxQuantity', () => {
       const expectedFormattedQuantity = '1 - 5';
       const formattedQuantity = component.formatQuantity(
-        mockTierWithMaxQuantity
+        mockTierWithMaxQuantity,
       );
 
       expect(formattedQuantity).toBe(expectedFormattedQuantity);
@@ -135,7 +135,7 @@ describe('BulkPricingTableComponent', () => {
     it('should format mockTierWithoutMaxQuantity', () => {
       const expectedFormattedQuantity = '1+';
       const formattedQuantity = component.formatQuantity(
-        mockTierWithoutMaxQuantity
+        mockTierWithoutMaxQuantity,
       );
 
       expect(formattedQuantity).toBe(expectedFormattedQuantity);

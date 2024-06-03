@@ -70,7 +70,7 @@ describe('MultiCartService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           MULTI_CART_FEATURE,
-          fromReducers.getMultiCartReducers()
+          fromReducers.getMultiCartReducers(),
         ),
       ],
       providers: [
@@ -102,7 +102,7 @@ describe('MultiCartService', () => {
           },
           cart: testCart,
           cartId: testCart.code,
-        })
+        }),
       );
 
       expect(result).toEqual(testCart);
@@ -147,7 +147,7 @@ describe('MultiCartService', () => {
           },
           cart: testCart,
           cartId: testCart.code,
-        })
+        }),
       );
 
       expect(result).toEqual({
@@ -177,7 +177,7 @@ describe('MultiCartService', () => {
           },
           cart: testCart,
           cartId: testCart.code,
-        })
+        }),
       );
 
       expect(result).toEqual(testCart.entries[1]);
@@ -199,7 +199,7 @@ describe('MultiCartService', () => {
           },
           cart: testCart,
           cartId: testCart.code,
-        })
+        }),
       );
 
       expect(result).toBeUndefined();
@@ -226,7 +226,7 @@ describe('MultiCartService', () => {
           },
           cart: testCart,
           cartId: testCart.code,
-        })
+        }),
       );
       service
         .isStable('xxx')
@@ -245,7 +245,7 @@ describe('MultiCartService', () => {
           extraData: {
             active: true,
           },
-        })
+        }),
       );
 
       service
@@ -277,7 +277,7 @@ describe('MultiCartService', () => {
       expect(result).toEqual(undefined);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.CreateCart(payload)
+        new CartActions.CreateCart(payload),
       );
 
       store.dispatch(
@@ -285,13 +285,13 @@ describe('MultiCartService', () => {
           ...payload,
           cart: testCart,
           cartId: testCart.code as string,
-        })
+        }),
       );
       store.dispatch(
         new CartActions.SetCartTypeIndex({
           cartType: CartType.NEW_CREATED,
           cartId: testCart.code,
-        })
+        }),
       );
       expect(result).toEqual(testCart);
     });
@@ -311,13 +311,13 @@ describe('MultiCartService', () => {
           cart: testCart,
           cartId: testCart.code as string,
           extraData: { active: true },
-        })
+        }),
       );
       store.dispatch(
         new CartActions.SetCartTypeIndex({
           cartType: CartType.ACTIVE,
           cartId: testCart.code,
-        })
+        }),
       );
       expect(result).toEqual(testCart);
     });
@@ -339,7 +339,7 @@ describe('MultiCartService', () => {
           extraData: {},
           cartId: 'cartId',
           tempCartId: 'temp-uuid',
-        })
+        }),
       );
     });
   });
@@ -361,7 +361,7 @@ describe('MultiCartService', () => {
           extraData: {
             active: true,
           },
-        })
+        }),
       );
     });
   });
@@ -383,7 +383,7 @@ describe('MultiCartService', () => {
           },
           cart: testCart,
           cartId: testCart.code,
-        })
+        }),
       );
 
       expect(result).toEqual(testCart.entries);
@@ -401,7 +401,7 @@ describe('MultiCartService', () => {
           productCode: 'productCode',
           quantity: 2,
           pickupStore: undefined,
-        })
+        }),
       );
     });
 
@@ -415,7 +415,7 @@ describe('MultiCartService', () => {
           productCode: 'productCode',
           quantity: 2,
           pickupStore: 'pickupStore',
-        })
+        }),
       );
     });
   });
@@ -433,7 +433,7 @@ describe('MultiCartService', () => {
           userId: 'userId',
           productCode: 'productCode',
           quantity: 2,
-        })
+        }),
       );
       // @ts-ignore
       expect(store.dispatch.calls.argsFor(1)[0]).toEqual(
@@ -442,7 +442,7 @@ describe('MultiCartService', () => {
           userId: 'userId',
           productCode: 'productCode2',
           quantity: 3,
-        })
+        }),
       );
     });
   });
@@ -455,7 +455,7 @@ describe('MultiCartService', () => {
           cartId: 'cartId',
           userId: 'userId',
           entryNumber: '0',
-        })
+        }),
       );
     });
   });
@@ -472,7 +472,7 @@ describe('MultiCartService', () => {
           quantity: 2,
           pickupStore: undefined,
           pickupToDelivery: false,
-        })
+        }),
       );
     });
 
@@ -487,7 +487,7 @@ describe('MultiCartService', () => {
           quantity: undefined,
           pickupStore: 'pickupStore',
           pickupToDelivery: false,
-        })
+        }),
       );
     });
 
@@ -502,7 +502,7 @@ describe('MultiCartService', () => {
           quantity: 4,
           pickupStore: undefined,
           pickupToDelivery: true,
-        })
+        }),
       );
     });
 
@@ -534,7 +534,7 @@ describe('MultiCartService', () => {
           },
           cart: testCart,
           cartId: testCart.code,
-        })
+        }),
       );
 
       expect(result).toEqual(testCart.entries[0]);
@@ -558,7 +558,7 @@ describe('MultiCartService', () => {
           },
           cart: testCart,
           cartId: testCart.code,
-        })
+        }),
       );
 
       expect(result).toEqual(testCart.entries[1]);
@@ -574,7 +574,7 @@ describe('MultiCartService', () => {
           userId: 'userId',
           cartId: 'cartId',
           email: 'test@email.com',
-        })
+        }),
       );
     });
   });
@@ -586,7 +586,7 @@ describe('MultiCartService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.RemoveCart({
           cartId: 'cartId',
-        })
+        }),
       );
     });
   });
@@ -599,7 +599,7 @@ describe('MultiCartService', () => {
         new CartActions.DeleteCart({
           userId: 'userId',
           cartId: 'cartId',
-        })
+        }),
       );
     });
   });
@@ -617,7 +617,7 @@ describe('MultiCartService', () => {
           extraData: {
             active: true,
           },
-        })
+        }),
       );
     });
   });
@@ -635,7 +635,7 @@ describe('MultiCartService', () => {
         new CartActions.SetCartTypeIndex({
           cartType: CartType.ACTIVE,
           cartId: 'testCartId',
-        })
+        }),
       );
 
       expect(result).toEqual('testCartId');

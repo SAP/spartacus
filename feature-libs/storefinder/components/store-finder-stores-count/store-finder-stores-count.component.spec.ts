@@ -17,7 +17,7 @@ const mockLocation = {
 class MockStoreFinderService implements Partial<StoreFinderService> {
   viewAllStores = createSpy('viewAllStores');
   getViewAllStoresEntities = createSpy(
-    'getViewAllStoresEntities'
+    'getViewAllStoresEntities',
   ).and.returnValue(of([mockLocation]));
   getViewAllStoresLoading = createSpy('getViewAllStoresLoading');
 }
@@ -32,24 +32,22 @@ describe('StoreFinderStoresCountComponent', () => {
   let el: DebugElement;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [SpinnerModule, I18nTestingModule, RouterTestingModule],
-        declarations: [StoreFinderStoresCountComponent],
-        providers: [
-          {
-            provide: StoreFinderService,
-            useClass: MockStoreFinderService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [SpinnerModule, I18nTestingModule, RouterTestingModule],
+      declarations: [StoreFinderStoresCountComponent],
+      providers: [
+        {
+          provide: StoreFinderService,
+          useClass: MockStoreFinderService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderStoresCountComponent);
@@ -76,7 +74,7 @@ describe('StoreFinderStoresCountComponent', () => {
   it('should handle space key to navigate to country from keyboard', () => {
     spyOn(component, 'navigateToLocation').and.callThrough();
     const countryBtn = el.query(
-      By.css('.btn-link[aria-label="United States(50)"]')
+      By.css('.btn-link[aria-label="United States(50)"]'),
     );
     expect(countryBtn).toBeTruthy();
     const event = new KeyboardEvent('keydown', {

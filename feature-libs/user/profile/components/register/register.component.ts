@@ -69,9 +69,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     {
       validators: CustomFormValidators.passwordsMustMatch(
         'password',
-        'passwordconf'
+        'passwordconf',
       ),
-    }
+    },
   );
 
   additionalRegistrationConsents: {
@@ -95,14 +95,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsService: AnonymousConsentsService,
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
-    protected registerComponentService: RegisterComponentService
+    protected registerComponentService: RegisterComponentService,
   ) {}
 
   ngOnInit() {
     this.titles$ = this.registerComponentService.getTitles().pipe(
       map((titles: Title[]) => {
         return titles.sort(sortTitles);
-      })
+      }),
     );
 
     // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
@@ -118,16 +118,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
           if (
             messages &&
             messages.some(
-              (message) => message.raw === 'This field is required.'
+              (message) => message.raw === 'This field is required.',
             )
           ) {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             this.globalMessageService.add(
               { key: 'register.titleRequired' },
-              GlobalMessageType.MSG_TYPE_ERROR
+              GlobalMessageType.MSG_TYPE_ERROR,
             );
           }
-        })
+        }),
     );
 
     const registerConsent =
@@ -140,14 +140,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
       map(
         ([consent, template]: [
           AnonymousConsent | undefined,
-          ConsentTemplate | undefined
+          ConsentTemplate | undefined,
         ]) => {
           return {
             consent,
             template: template?.description ? template.description : '',
           };
-        }
-      )
+        },
+      ),
     );
 
     this.additionalRegistrationConsents =
@@ -157,7 +157,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.registerForm.get('newsletter')!.valueChanges.subscribe(() => {
         this.toggleAnonymousConsent();
-      })
+      }),
     );
   }
 

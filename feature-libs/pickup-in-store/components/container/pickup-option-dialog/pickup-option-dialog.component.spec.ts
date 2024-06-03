@@ -37,7 +37,7 @@ export class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef,
-    _data?: any
+    _data?: any,
   ) {
     return EMPTY;
   }
@@ -73,7 +73,7 @@ export class MockActiveCartService {
     _entryNumber: number,
     _quantity: number,
     _pickupInStore: string,
-    _pickupLocation?: boolean
+    _pickupLocation?: boolean,
   ): void {}
 }
 
@@ -154,7 +154,7 @@ describe('PickupOptionDialogComponent', () => {
         guid: 'test',
         user: { uid: 'anonymous' },
         code: 'code',
-      })
+      }),
     );
     component.ngOnInit();
     expect(component.cartId).toEqual('test');
@@ -167,7 +167,7 @@ describe('PickupOptionDialogComponent', () => {
         guid: 'test',
         user: { uid: 'test@sap.com' },
         code: 'code',
-      })
+      }),
     );
     component.ngOnInit();
     expect(component.cartId).toEqual('code');
@@ -187,7 +187,7 @@ describe('PickupOptionDialogComponent', () => {
     spyOn(pickupLocationsSearchService, 'toggleHideOutOfStock');
     component.onHideOutOfStock();
     expect(
-      pickupLocationsSearchService.toggleHideOutOfStock
+      pickupLocationsSearchService.toggleHideOutOfStock,
     ).toHaveBeenCalled();
   });
 
@@ -197,7 +197,7 @@ describe('PickupOptionDialogComponent', () => {
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      mockCloseReason
+      mockCloseReason,
     );
   });
 
@@ -207,17 +207,17 @@ describe('PickupOptionDialogComponent', () => {
     spyOn(launchDialogService, 'closeDialog');
     spyOn(
       intendedPickupLocationFacade,
-      'getIntendedLocation'
+      'getIntendedLocation',
     ).and.callThrough();
     spyOn(intendedPickupLocationFacade, 'setPickupOption').and.callThrough();
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      mockCloseReason
+      mockCloseReason,
     );
 
     expect(
-      intendedPickupLocationFacade.getIntendedLocation
+      intendedPickupLocationFacade.getIntendedLocation,
     ).toHaveBeenCalledWith('productCode');
   });
 
@@ -231,13 +231,13 @@ describe('PickupOptionDialogComponent', () => {
   it('should filter if store name is defined', () => {
     const mockCloseReason = 'CLOSE_WITHOUT_SELECTION';
     spyOn(intendedPickupLocationFacade, 'getIntendedLocation').and.returnValue(
-      of({ name: 'testStoreName', pickupOption: 'pickup' })
+      of({ name: 'testStoreName', pickupOption: 'pickup' }),
     );
     spyOn(launchDialogService, 'closeDialog');
 
     component.close(mockCloseReason);
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      mockCloseReason
+      mockCloseReason,
     );
   });
 
@@ -247,7 +247,7 @@ describe('PickupOptionDialogComponent', () => {
 
     element.click();
     expect(component.close).toHaveBeenCalledWith(
-      component.CLOSE_WITHOUT_SELECTION
+      component.CLOSE_WITHOUT_SELECTION,
     );
   });
 
@@ -259,7 +259,7 @@ describe('PickupOptionDialogComponent', () => {
 
     element?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(component.close).toHaveBeenCalledWith(
-      component.CLOSE_WITHOUT_SELECTION
+      component.CLOSE_WITHOUT_SELECTION,
     );
   });
 });

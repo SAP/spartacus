@@ -70,7 +70,7 @@ export abstract class SavedCartFacade {
    * @returns observable of selected cart with loader state
    */
   abstract getSavedCart(
-    cartId: string
+    cartId: string,
   ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>;
 
   /**

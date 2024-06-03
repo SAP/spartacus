@@ -35,17 +35,17 @@ const ORDER_NUMBER = '0001';
 const ORDER_ENTRY_NUMBER = '10';
 const owner = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.PRODUCT,
-  PRODUCT_CODE
+  PRODUCT_CODE,
 );
 
 const ownerCartRelated = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.CART_ENTRY,
-  CART_ENTRY_NUMBER
+  CART_ENTRY_NUMBER,
 );
 
 const ownerOrderRelated = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.ORDER_ENTRY,
-  ORDER_NUMBER + '+' + ORDER_ENTRY_NUMBER
+  ORDER_NUMBER + '+' + ORDER_ENTRY_NUMBER,
 );
 
 const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
@@ -70,7 +70,7 @@ const productConfiguration: ConfiguratorTextfield.Configuration = {
   ],
   owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE
+    PRODUCT_CODE,
   ),
 };
 
@@ -104,7 +104,7 @@ const changedProductConfiguration: ConfiguratorTextfield.Configuration = {
   ],
   owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE
+    PRODUCT_CODE,
   ),
 };
 
@@ -130,39 +130,37 @@ describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
   const mockConfigLoaderStateReturned = createSpy('select').and.returnValue(
-    () => of(loaderState)
+    () => of(loaderState),
   );
   const mockConfigLoaderStateNothingPresent = createSpy(
-    'select'
+    'select',
   ).and.returnValue(() => of(loaderStateNothingPresent));
   const mockConfigReturned = createSpy('select').and.returnValue(() =>
-    of(productConfiguration)
+    of(productConfiguration),
   );
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [StoreModule.forRoot({})],
-        providers: [
-          ConfiguratorTextfieldService,
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
-          },
-          {
-            provide: UserIdService,
-            useClass: MockUserIdService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot({})],
+      providers: [
+        ConfiguratorTextfieldService,
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(
-      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
+      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>,
     );
     store = TestBed.inject(
-      Store as Type<Store<StateWithConfigurationTextfield>>
+      Store as Type<Store<StateWithConfigurationTextfield>>,
     );
 
     spyOn(store, 'dispatch').and.callThrough();
@@ -174,7 +172,7 @@ describe('ConfiguratorTextfieldService', () => {
   describe('createConfiguration', () => {
     it('should return a configuration if one is present', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(
-        mockConfigLoaderStateReturned
+        mockConfigLoaderStateReturned,
       );
       const configurationFromStore =
         serviceUnderTest.createConfiguration(owner);
@@ -183,14 +181,14 @@ describe('ConfiguratorTextfieldService', () => {
 
       configurationFromStore
         .subscribe((configuration) =>
-          expect(configuration.configurationInfos.length).toBe(1)
+          expect(configuration.configurationInfos.length).toBe(1),
         )
         .unsubscribe();
     });
 
     it('should create a configuration if nothing is present in store yet', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(
-        mockConfigLoaderStateNothingPresent
+        mockConfigLoaderStateNothingPresent,
       );
       const configurationFromStore =
         serviceUnderTest.createConfiguration(owner);
@@ -203,8 +201,8 @@ describe('ConfiguratorTextfieldService', () => {
             new ConfiguratorTextfieldActions.CreateConfiguration({
               productCode: owner.id,
               owner: owner,
-            })
-          )
+            }),
+          ),
         )
         .unsubscribe();
     });
@@ -216,7 +214,7 @@ describe('ConfiguratorTextfieldService', () => {
         serviceUnderTest['ensureConfigurationDefined'](undefined);
       expect(initialConfiguration).toBeDefined();
       expect(initialConfiguration.owner).toEqual(
-        ConfiguratorModelUtils.createInitialOwner()
+        ConfiguratorModelUtils.createInitialOwner(),
       );
     });
   });
@@ -230,14 +228,14 @@ describe('ConfiguratorTextfieldService', () => {
 
     configurationFromStore
       .subscribe((configuration) =>
-        expect(configuration.configurationInfos.length).toBe(1)
+        expect(configuration.configurationInfos.length).toBe(1),
       )
       .unsubscribe();
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
-        readFromCartEntryParams
-      )
+        readFromCartEntryParams,
+      ),
     );
   });
 
@@ -250,25 +248,25 @@ describe('ConfiguratorTextfieldService', () => {
 
     configurationFromStore
       .subscribe((configuration) =>
-        expect(configuration.configurationInfos.length).toBe(1)
+        expect(configuration.configurationInfos.length).toBe(1),
       )
       .unsubscribe();
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
-        readFromOrderEntryParams
-      )
+        readFromOrderEntryParams,
+      ),
     );
   });
 
   it('should access the store when calling createConfiguration', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(
-      mockConfigLoaderStateReturned
+      mockConfigLoaderStateReturned,
     );
     serviceUnderTest
       .createConfiguration(owner)
       .subscribe((configurationFromStore) =>
-        expect(configurationFromStore).toBe(productConfiguration)
+        expect(configurationFromStore).toBe(productConfiguration),
       )
       .unsubscribe();
   });
@@ -277,19 +275,19 @@ describe('ConfiguratorTextfieldService', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
     spyOn(
       serviceUnderTest,
-      'createNewConfigurationWithChange'
+      'createNewConfigurationWithChange',
     ).and.callThrough();
 
     serviceUnderTest.updateConfiguration(changedAttribute);
 
     expect(
-      serviceUnderTest.createNewConfigurationWithChange
+      serviceUnderTest.createNewConfigurationWithChange,
     ).toHaveBeenCalledWith(changedAttribute, productConfiguration);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorTextfieldActions.UpdateConfiguration(
-        changedProductConfiguration
-      )
+        changedProductConfiguration,
+      ),
     );
   });
 
@@ -300,13 +298,13 @@ describe('ConfiguratorTextfieldService', () => {
     };
     const result = serviceUnderTest.createNewConfigurationWithChange(
       attribute,
-      productConfiguration
+      productConfiguration,
     );
 
     expect(result).toBeDefined();
     expect(result.configurationInfos[0].configurationValue).toBe(CHANGED_VALUE);
     expect(result.configurationInfos[0].status).toBe(
-      ConfiguratorTextfield.ConfigurationStatus.SUCCESS
+      ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
     );
   });
 
@@ -316,12 +314,12 @@ describe('ConfiguratorTextfieldService', () => {
     };
     const result = serviceUnderTest.createNewConfigurationWithChange(
       unknownAttribute,
-      productConfiguration
+      productConfiguration,
     );
 
     expect(result).toBeDefined();
     expect(result.configurationInfos[0].configurationValue).toBe(
-      ATTRIBUTE_VALUE
+      ATTRIBUTE_VALUE,
     );
   });
 
@@ -335,7 +333,7 @@ describe('ConfiguratorTextfieldService', () => {
     };
 
     const addToCartAction = new ConfiguratorTextfieldActions.AddToCart(
-      addToCartParams
+      addToCartParams,
     );
 
     serviceUnderTest.addToCart(PRODUCT_CODE, productConfiguration);
@@ -347,8 +345,8 @@ describe('ConfiguratorTextfieldService', () => {
     serviceUnderTest.updateCartEntry(CART_ENTRY_NUMBER, productConfiguration);
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
-        updateCartEntryParams
-      )
+        updateCartEntryParams,
+      ),
     );
   });
 });

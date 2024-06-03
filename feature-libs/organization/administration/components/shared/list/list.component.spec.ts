@@ -104,7 +104,7 @@ class MockTableComponent {
 class MockListComponent extends ListComponent<Mock> {
   constructor(
     protected baseListService: ListService<Mock>,
-    protected organizationItemService: ItemService<Mock>
+    protected organizationItemService: ItemService<Mock>,
   ) {
     super(baseListService, organizationItemService);
   }
@@ -186,7 +186,7 @@ describe('ListComponent', () => {
     it('should delegate launch to service.launch', () => {
       component.launchItem(mockList.values[0]);
       expect(itemService.launchDetails).toHaveBeenCalledWith(
-        mockList.values[0]
+        mockList.values[0],
       );
     });
 
@@ -245,18 +245,18 @@ describe('ListComponent', () => {
     });
     it('should not show hint by default', () => {
       const el = fixture.debugElement.query(
-        By.css('cx-popover > .popover-body > p')
+        By.css('cx-popover > .popover-body > p'),
       );
       expect(el).toBeFalsy();
     });
 
     it('should display hint after click info button', () => {
       const infoButton = fixture.debugElement.query(
-        By.css('button[ng-reflect-cx-popover]')
+        By.css('button[ng-reflect-cx-popover]'),
       ).nativeElement;
       infoButton.click();
       const el = fixture.debugElement.query(
-        By.css('cx-popover > .popover-body > p')
+        By.css('cx-popover > .popover-body > p'),
       );
       expect(el).toBeTruthy();
       expect(el.nativeElement.innerText).toBe('orgBudget.hint');

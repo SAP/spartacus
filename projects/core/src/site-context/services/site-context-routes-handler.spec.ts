@@ -82,7 +82,7 @@ describe('SiteContextRoutesHandler', () => {
   it('should set context parameter on init', () => {
     expect(mockSiteContextParamsService.setValue).toHaveBeenCalledWith(
       'language',
-      'test'
+      'test',
     );
   });
 
@@ -90,7 +90,7 @@ describe('SiteContextRoutesHandler', () => {
     mockRouterEvents.next(new NavigationStart(1, 'en'));
     expect(mockSiteContextParamsService.setValue).toHaveBeenCalledWith(
       'language',
-      'en'
+      'en',
     );
   });
 

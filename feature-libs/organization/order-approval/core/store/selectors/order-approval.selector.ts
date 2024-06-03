@@ -27,7 +27,7 @@ export const getOrderApprovalManagementState: MemoizedSelector<
   OrderApprovalManagement
 > = createSelector(
   getOrderApprovalState,
-  (state: OrderApprovalState) => state[ORDER_APPROVAL_FEATURE]
+  (state: OrderApprovalState) => state[ORDER_APPROVAL_FEATURE],
 );
 
 export const getOrderApprovalsState: MemoizedSelector<
@@ -35,11 +35,11 @@ export const getOrderApprovalsState: MemoizedSelector<
   StateUtils.EntityLoaderState<OrderApproval>
 > = createSelector(
   getOrderApprovalManagementState,
-  (state: OrderApprovalManagement) => state && state.entities
+  (state: OrderApprovalManagement) => state && state.entities,
 );
 
 export const getOrderApproval = (
-  orderApprovalCode: string
+  orderApprovalCode: string,
 ): MemoizedSelector<
   OrderApprovalState,
   StateUtils.LoaderState<OrderApproval>
@@ -47,11 +47,11 @@ export const getOrderApproval = (
   createSelector(
     getOrderApprovalsState,
     (state: StateUtils.EntityLoaderState<OrderApproval>) =>
-      StateUtils.entityLoaderStateSelector(state, orderApprovalCode)
+      StateUtils.entityLoaderStateSelector(state, orderApprovalCode),
   );
 
 export const getOrderApprovalList = (
-  params: SearchConfig
+  params: SearchConfig,
 ): MemoizedSelector<
   OrderApprovalState,
   StateUtils.LoaderState<EntitiesModel<OrderApproval>>
@@ -59,5 +59,5 @@ export const getOrderApprovalList = (
   createSelector(
     getOrderApprovalManagementState,
     (state: OrderApprovalManagement) =>
-      StateUtils.denormalizeSearch<OrderApproval>(state, params)
+      StateUtils.denormalizeSearch<OrderApproval>(state, params),
   );

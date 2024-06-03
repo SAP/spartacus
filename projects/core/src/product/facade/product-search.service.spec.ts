@@ -18,7 +18,7 @@ describe('ProductSearchService', () => {
   };
 
   const mockSelect = (
-    selector: MemoizedSelector<StateWithProduct, ProductSearchPage>
+    selector: MemoizedSelector<StateWithProduct, ProductSearchPage>,
   ) => {
     switch (selector) {
       case ProductSelectors.getSearchResults:
@@ -36,7 +36,7 @@ describe('ProductSearchService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           PRODUCT_FEATURE,
-          fromStoreReducers.getReducers()
+          fromStoreReducers.getReducers(),
         ),
       ],
       providers: [ProductSearchService],
@@ -51,7 +51,7 @@ describe('ProductSearchService', () => {
     [ProductSearchService],
     (productSearchService: ProductSearchService) => {
       expect(productSearchService).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to get search results', () => {
@@ -68,7 +68,7 @@ describe('ProductSearchService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new ProductActions.ClearProductSearchResult({
         clearPageResults: true,
-      })
+      }),
     );
   });
 
@@ -81,7 +81,7 @@ describe('ProductSearchService', () => {
         new ProductActions.SearchProducts({
           queryText: 'test query',
           searchConfig: searchConfig,
-        })
+        }),
       );
     });
   });

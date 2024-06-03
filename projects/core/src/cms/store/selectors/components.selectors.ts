@@ -16,16 +16,16 @@ export const getComponentsState: MemoizedSelector<
 > = createSelector(getCmsState, (state) => state.components);
 
 export const componentsContextSelectorFactory = (
-  uid: string
+  uid: string,
 ): MemoizedSelector<StateWithCms, ComponentsContext | undefined> => {
   return createSelector(getComponentsState, (componentsState) =>
-    StateUtils.entitySelector(componentsState, uid)
+    StateUtils.entitySelector(componentsState, uid),
   );
 };
 
 export const componentsLoaderStateSelectorFactory = (
   uid: string,
-  context: string
+  context: string,
 ): MemoizedSelector<StateWithCms, StateUtils.LoaderState<boolean>> => {
   return createSelector(
     componentsContextSelectorFactory(uid),
@@ -33,7 +33,7 @@ export const componentsLoaderStateSelectorFactory = (
       (componentsContext &&
         componentsContext.pageContext &&
         componentsContext.pageContext[context]) ||
-      StateUtils.initialLoaderState
+      StateUtils.initialLoaderState,
   );
 };
 
@@ -48,19 +48,19 @@ export const componentsLoaderStateSelectorFactory = (
  */
 export const componentsContextExistsSelectorFactory = (
   uid: string,
-  context: string
+  context: string,
 ): MemoizedSelector<StateWithCms, boolean> => {
   return createSelector(
     componentsLoaderStateSelectorFactory(uid, context),
-    (loaderState) => StateUtils.loaderValueSelector(loaderState)
+    (loaderState) => StateUtils.loaderValueSelector(loaderState),
   );
 };
 
 export const componentsDataSelectorFactory = (
-  uid: string
+  uid: string,
 ): MemoizedSelector<StateWithCms, CmsComponent | undefined> => {
   return createSelector(componentsContextSelectorFactory(uid), (state) =>
-    state ? state.component : undefined
+    state ? state.component : undefined,
   );
 };
 
@@ -75,7 +75,7 @@ export const componentsDataSelectorFactory = (
  */
 export const componentsSelectorFactory = (
   uid: string,
-  context: string
+  context: string,
 ): MemoizedSelector<StateWithCms, CmsComponent | null | undefined> => {
   return createSelector(
     componentsDataSelectorFactory(uid),
@@ -89,6 +89,6 @@ export const componentsSelectorFactory = (
         case undefined:
           return undefined;
       }
-    }
+    },
   );
 };

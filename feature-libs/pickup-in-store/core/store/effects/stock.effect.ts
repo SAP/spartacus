@@ -18,7 +18,7 @@ export class StockEffect {
 
   constructor(
     private actions$: Actions,
-    private stockConnector: StockConnector
+    private stockConnector: StockConnector,
   ) {
     // Intentional empty constructor
   }
@@ -34,18 +34,18 @@ export class StockEffect {
               new StockLevelActions.StockLevelSuccess({
                 productCode,
                 stockLevels,
-              })
+              }),
           ),
           catchError((error) =>
             of(
               new StockLevelActions.StockLevelFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
-        )
-      )
-    )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   loadStockLevelAtStore$ = createEffect(() =>
@@ -57,10 +57,10 @@ export class StockEffect {
           map((stockLevel) =>
             StockLevelActions.StockLevelAtStoreSuccess({
               payload: { productCode, storeName, stockLevel },
-            })
-          )
-        )
-      )
-    )
+            }),
+          ),
+        ),
+      ),
+    ),
   );
 }

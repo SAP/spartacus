@@ -26,7 +26,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -38,28 +38,26 @@ describe('AnonymousConsentManagementBannerComponent', () => {
   let anonymousConsentsService: AnonymousConsentsService;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [AnonymousConsentManagementBannerComponent],
-        providers: [
-          {
-            provide: AnonymousConsentsService,
-            useClass: MockAnonymousConsentsService,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [AnonymousConsentManagementBannerComponent],
+      providers: [
+        {
+          provide: AnonymousConsentsService,
+          useClass: MockAnonymousConsentsService,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      AnonymousConsentManagementBannerComponent
+      AnonymousConsentManagementBannerComponent,
     );
     component = fixture.componentInstance;
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
@@ -83,7 +81,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
       expect(launchDialogService.openDialog).toHaveBeenCalledWith(
         LAUNCH_CALLER.ANONYMOUS_CONSENT,
         undefined,
-        component['vcr']
+        component['vcr'],
       );
     });
   });
@@ -92,7 +90,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
     it('should give all anonymous consents and call hideBanner()', () => {
       spyOn<any>(component['subscriptions'], 'add').and.callThrough();
       spyOn(anonymousConsentsService, 'giveAllConsents').and.returnValue(
-        of([])
+        of([]),
       );
       spyOn(component, 'hideBanner').and.stub();
 
@@ -109,7 +107,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
       spyOn(anonymousConsentsService, 'toggleBannerDismissed').and.stub();
       component.hideBanner();
       expect(
-        anonymousConsentsService.toggleBannerDismissed
+        anonymousConsentsService.toggleBannerDismissed,
       ).toHaveBeenCalledWith(true);
     });
   });

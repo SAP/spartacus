@@ -38,7 +38,7 @@ context('Anonymous consents - config flow', () => {
           {
             showAnonymousConsents: false,
             hideConsents: [],
-          }
+          },
         );
 
         const homePage = waitForPage('homepage', 'getHomePage');
@@ -56,7 +56,7 @@ context('Anonymous consents - config flow', () => {
       });
 
       showAnonymousConfigTest();
-    }
+    },
   );
 
   describe('when config registerConsig is changed, requiredConsents and hideConsents exist, ', () => {
@@ -68,7 +68,7 @@ context('Anonymous consents - config flow', () => {
         {
           showAnonymousConsents: true,
           hideConsents: [STORE_USER_INFORMATION],
-        }
+        },
       );
       const homePage = waitForPage('homepage', 'getHomePage');
       cy.visit('/');

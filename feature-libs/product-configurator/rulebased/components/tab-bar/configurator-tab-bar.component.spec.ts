@@ -63,7 +63,7 @@ let configurationObs: Observable<Configurator.Configuration>;
 const configWithOverview: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     'CONFIG_ID',
-    ConfiguratorModelUtils.createInitialOwner()
+    ConfiguratorModelUtils.createInitialOwner(),
   ),
   productCode: PRODUCT_CODE,
   overview: { configId: 'CONFIG_ID', productCode: PRODUCT_CODE },
@@ -103,41 +103,39 @@ describe('ConfigTabBarComponent', () => {
   let routingService: RoutingService;
   let keyboardFocusService: KeyboardFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      mockRouterState.state.params.displayOnly = false;
+  beforeEach(waitForAsync(() => {
+    mockRouterState.state.params.displayOnly = false;
 
-      routerStateObservable = of(mockRouterState);
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterModule, RouterTestingModule],
-        declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorTabBarComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+    routerStateObservable = of(mockRouterState);
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterModule, RouterTestingModule],
+      declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorTabBarComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
     component = fixture.componentInstance;
@@ -145,24 +143,24 @@ describe('ConfigTabBarComponent', () => {
     configurationObs = of(
       ConfiguratorTestUtils.createConfiguration(
         'a',
-        ConfiguratorModelUtils.createInitialOwner()
-      )
+        ConfiguratorModelUtils.createInitialOwner(),
+      ),
     );
     component.ghostStyle = false;
 
     configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>,
     );
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>,
     );
     keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
+      KeyboardFocusService as Type<KeyboardFocusService>,
     );
     spyOn(keyboardFocusService, 'clear').and.callThrough();
     spyOn(
       configuratorStorefrontUtilsService,
-      'focusFirstActiveElement'
+      'focusFirstActiveElement',
     ).and.callThrough();
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
   });
@@ -207,7 +205,7 @@ describe('ConfigTabBarComponent', () => {
     mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
     component.pageType$
       .subscribe((pageType) =>
-        expect(pageType).toBe(ConfiguratorRouter.PageType.OVERVIEW)
+        expect(pageType).toBe(ConfiguratorRouter.PageType.OVERVIEW),
       )
       .unsubscribe();
   });
@@ -216,7 +214,7 @@ describe('ConfigTabBarComponent', () => {
     mockRouterState.state.semanticRoute = undefined;
     component.pageType$
       .subscribe((pageType) =>
-        expect(pageType).toBe(ConfiguratorRouter.PageType.CONFIGURATION)
+        expect(pageType).toBe(ConfiguratorRouter.PageType.CONFIGURATION),
       )
       .unsubscribe();
   });
@@ -234,7 +232,7 @@ describe('ConfigTabBarComponent', () => {
           0,
           'aria-label',
           'configurator.a11y.configurationPage',
-          'configurator.tabBar.configuration'
+          'configurator.tabBar.configuration',
         );
       });
 
@@ -249,7 +247,7 @@ describe('ConfigTabBarComponent', () => {
           0,
           'aria-label',
           'configurator.a11y.configurationPageLink',
-          'configurator.tabBar.configuration'
+          'configurator.tabBar.configuration',
         );
       });
 
@@ -264,7 +262,7 @@ describe('ConfigTabBarComponent', () => {
           0,
           'aria-selected',
           'true',
-          'configurator.tabBar.configuration'
+          'configurator.tabBar.configuration',
         );
       });
 
@@ -279,7 +277,7 @@ describe('ConfigTabBarComponent', () => {
           0,
           'aria-selected',
           'false',
-          'configurator.tabBar.configuration'
+          'configurator.tabBar.configuration',
         );
       });
 
@@ -294,7 +292,7 @@ describe('ConfigTabBarComponent', () => {
           0,
           'role',
           'tab',
-          'configurator.tabBar.configuration'
+          'configurator.tabBar.configuration',
         );
       });
     });
@@ -311,7 +309,7 @@ describe('ConfigTabBarComponent', () => {
           1,
           'aria-label',
           'configurator.a11y.overviewPage',
-          'configurator.tabBar.overview'
+          'configurator.tabBar.overview',
         );
       });
 
@@ -326,7 +324,7 @@ describe('ConfigTabBarComponent', () => {
           1,
           'aria-label',
           'configurator.a11y.overviewPageLink',
-          'configurator.tabBar.overview'
+          'configurator.tabBar.overview',
         );
       });
 
@@ -341,7 +339,7 @@ describe('ConfigTabBarComponent', () => {
           1,
           'aria-selected',
           'false',
-          'configurator.tabBar.overview'
+          'configurator.tabBar.overview',
         );
       });
 
@@ -356,7 +354,7 @@ describe('ConfigTabBarComponent', () => {
           1,
           'aria-selected',
           'true',
-          'configurator.tabBar.overview'
+          'configurator.tabBar.overview',
         );
       });
 
@@ -371,7 +369,7 @@ describe('ConfigTabBarComponent', () => {
           1,
           'role',
           'tab',
-          'configurator.tabBar.overview'
+          'configurator.tabBar.overview',
         );
       });
     });
@@ -393,16 +391,16 @@ describe('ConfigTabBarComponent', () => {
     it('should return tabindex 0 if on overview page', () => {
       expect(
         component.getTabIndexForOverviewTab(
-          ConfiguratorRouter.PageType.OVERVIEW
-        )
+          ConfiguratorRouter.PageType.OVERVIEW,
+        ),
       ).toBe(0);
     });
 
     it('should return tabindex -1 if on configuration page', () => {
       expect(
         component.getTabIndexForOverviewTab(
-          ConfiguratorRouter.PageType.CONFIGURATION
-        )
+          ConfiguratorRouter.PageType.CONFIGURATION,
+        ),
       ).toBe(-1);
     });
   });
@@ -422,15 +420,15 @@ describe('ConfigTabBarComponent', () => {
   describe('getTabIndeForConfigTab', () => {
     it('should return tabindex -1 if on overview page', () => {
       expect(
-        component.getTabIndexForConfigTab(ConfiguratorRouter.PageType.OVERVIEW)
+        component.getTabIndexForConfigTab(ConfiguratorRouter.PageType.OVERVIEW),
       ).toBe(-1);
     });
 
     it('should return tabindex 0 if on configuration page', () => {
       expect(
         component.getTabIndexForConfigTab(
-          ConfiguratorRouter.PageType.CONFIGURATION
-        )
+          ConfiguratorRouter.PageType.CONFIGURATION,
+        ),
       ).toBe(0);
     });
   });
@@ -441,7 +439,7 @@ describe('ConfigTabBarComponent', () => {
         owner: configWithOverview.owner,
       };
       expect(component['determinePageFromRouterData'](routerData)).toBe(
-        ConfiguratorRouter.PageType.CONFIGURATION
+        ConfiguratorRouter.PageType.CONFIGURATION,
       );
     });
   });
@@ -507,7 +505,7 @@ describe('ConfigTabBarComponent', () => {
       component.switchTabOnArrowPress(event, '#overviewTab');
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
-        'configurator.tabBar.configuration'
+        'configurator.tabBar.configuration',
       );
     });
 
@@ -519,7 +517,7 @@ describe('ConfigTabBarComponent', () => {
       component.switchTabOnArrowPress(event, '#overviewTab');
       let focusedElement = document.activeElement;
       expect(focusedElement?.innerHTML).toBe(
-        'configurator.tabBar.configuration'
+        'configurator.tabBar.configuration',
       );
     });
   });
@@ -527,25 +525,25 @@ describe('ConfigTabBarComponent', () => {
   describe('Focus handling on navigation', () => {
     it('focusOverviewInTabBar should call clear and focusFirstActiveElement', fakeAsync(() => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-        of(configWithOverview)
+        of(configWithOverview),
       );
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
       expect(
-        configuratorStorefrontUtilsService.focusFirstActiveElement
+        configuratorStorefrontUtilsService.focusFirstActiveElement,
       ).toHaveBeenCalledTimes(1);
     }));
 
     it('focusOverviewInTabBar should not call clear and focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-        configurationObs
+        configurationObs,
       );
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(keyboardFocusService.clear).toHaveBeenCalledTimes(0);
       expect(
-        configuratorStorefrontUtilsService.focusFirstActiveElement
+        configuratorStorefrontUtilsService.focusFirstActiveElement,
       ).toHaveBeenCalledTimes(0);
     }));
 
@@ -554,13 +552,13 @@ describe('ConfigTabBarComponent', () => {
       tick(1); // needed because of delay(0) in focusConfigurationInTabBar
       expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
       expect(
-        configuratorStorefrontUtilsService.focusFirstActiveElement
+        configuratorStorefrontUtilsService.focusFirstActiveElement,
       ).toHaveBeenCalledTimes(1);
     }));
 
     it('navigateToOverview should navigate to overview page and should call focusFirstActiveElement inside focusOverviewInTabBar', fakeAsync(() => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-        of(configWithOverview)
+        of(configWithOverview),
       );
       spyOn(routingService, 'go').and.callThrough();
       component['navigateToOverview'](mockRouterData);
@@ -573,10 +571,10 @@ describe('ConfigTabBarComponent', () => {
             ownerType: mockRouterData.owner.type,
           },
         },
-        { queryParams: { productCode: mockRouterData.productCode } }
+        { queryParams: { productCode: mockRouterData.productCode } },
       );
       expect(
-        configuratorStorefrontUtilsService.focusFirstActiveElement
+        configuratorStorefrontUtilsService.focusFirstActiveElement,
       ).toHaveBeenCalledTimes(1);
     }));
 
@@ -592,10 +590,10 @@ describe('ConfigTabBarComponent', () => {
             ownerType: mockRouterData.owner.type,
           },
         },
-        { queryParams: { productCode: mockRouterData.productCode } }
+        { queryParams: { productCode: mockRouterData.productCode } },
       );
       expect(
-        configuratorStorefrontUtilsService.focusFirstActiveElement
+        configuratorStorefrontUtilsService.focusFirstActiveElement,
       ).toHaveBeenCalledTimes(1);
     }));
   });

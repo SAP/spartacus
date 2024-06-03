@@ -51,7 +51,7 @@ export class ConfiguratorAttributeInputFieldComponent
     protected config: ConfiguratorUISettingsConfig,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
   ) {
     super();
 
@@ -68,8 +68,8 @@ export class ConfiguratorAttributeInputFieldComponent
           result
             ? this.isRequiredErrorMsg(this.attribute) &&
               this.isUserInput(this.attribute)
-            : false
-        )
+            : false,
+        ),
       );
   }
 
@@ -88,9 +88,9 @@ export class ConfiguratorAttributeInputFieldComponent
         debounce(() =>
           timer(
             this.config.productConfigurator?.updateDebounceTime?.input ??
-              this.FALLBACK_DEBOUNCE_TIME
-          )
-        )
+              this.FALLBACK_DEBOUNCE_TIME,
+          ),
+        ),
       )
       .subscribe(() => this.onChange());
   }
@@ -104,7 +104,7 @@ export class ConfiguratorAttributeInputFieldComponent
           userInput: this.attributeInputForm.value,
           selectedSingleValue: this.attributeInputForm.value,
         },
-        Configurator.UpdateType.ATTRIBUTE
+        Configurator.UpdateType.ATTRIBUTE,
       );
     }
   }

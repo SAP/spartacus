@@ -11,7 +11,7 @@ import * as configurationOverview from './product-configurator-overview';
  */
 export function checkGroupHeaderDisplayed(
   groupName: string,
-  groupIdx: number
+  groupIdx: number,
 ): void {
   configurationOverview.checkGroupHeaderDisplayed(groupName, groupIdx);
 }
@@ -29,12 +29,12 @@ export function checkGroupHeaderNotDisplayed(groupName: string): void {
 export function checkAttrDisplayed(
   attributeName: string,
   valueName: string,
-  attributeIdx: number
+  attributeIdx: number,
 ): void {
   configurationOverview.checkAttrDisplayed(
     attributeName,
     valueName,
-    attributeIdx
+    attributeIdx,
   );
 }
 
@@ -43,7 +43,7 @@ export function checkAttrDisplayed(
  */
 export function checkAttrPriceDisplayed(
   priceString: string,
-  attributeIdx: number
+  attributeIdx: number,
 ): void {
   configurationOverview.checkAttrPriceDisplayed(priceString, attributeIdx);
 }
@@ -53,7 +53,7 @@ export function checkAttrPriceDisplayed(
  */
 export function checkAttrType(
   attributeType: 'product' | 'simple',
-  attributeIdx: number
+  attributeIdx: number,
 ): void {
   const expected =
     attributeType === 'product' ? 'have.class' : 'not.have.class';

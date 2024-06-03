@@ -55,7 +55,7 @@ describe('InlineRenderStrategy', () => {
 
     service = TestBed.inject(InlineRenderStrategy);
     component = TestBed.createComponent(
-      TestContainerComponent
+      TestContainerComponent,
     ).componentInstance;
 
     spyOn(component.vcr, 'createComponent');

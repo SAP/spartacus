@@ -22,7 +22,7 @@ export class MyAccountV2ConsentManagementFormComponent
   ngOnInit(): void {
     if (this.consent) {
       this.consentGiven = Boolean(
-        this.consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN
+        this.consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN,
       );
     } else {
       if (this.consentTemplate && this.consentTemplate.currentConsent) {
@@ -31,7 +31,7 @@ export class MyAccountV2ConsentManagementFormComponent
         } else if (this.consentTemplate.currentConsent.consentGivenDate) {
           this.consentGiven = true;
           const date = new Date(
-            this.consentTemplate.currentConsent.consentGivenDate
+            this.consentTemplate.currentConsent.consentGivenDate,
           );
           this.consentApprovedTime = `${date.getDate()}/${
             date.getMonth() + 1

@@ -9,7 +9,7 @@ describe('processGlobPatterns', () => {
         '/included/some/url/with+escaped+chars',
         '!/excluded/relative/*.txt',
         '!/api/?*',
-      ])
+      ]),
     ).toEqual([
       { positive: true, regex: '^\\/included\\/absolute\\/.*$' },
       { positive: false, regex: '^\\/excluded\\/absolute\\/.*$' },

@@ -62,7 +62,7 @@ function registerOrderOutletFactory(): () => void {
     };
     if (isMyAccountV2) {
       const template = componentFactoryResolver.resolveComponentFactory(
-        config.component
+        config.component,
       );
       outletService.add(config.id, template, config.position);
     }
@@ -159,7 +159,7 @@ const moduleComponents = [
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
     provideDefaultConfig(defaultReorderLayoutConfig),
     provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
+      inject(USE_MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {},
     ),
     {
       provide: MODULE_INITIALIZER,

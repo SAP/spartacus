@@ -33,7 +33,7 @@ describe('Cms Page Actions', () => {
           meta: StateUtils.entityFailMeta(
             pageContext.type,
             pageContext.id,
-            payload
+            payload,
           ),
         });
       });
@@ -44,7 +44,7 @@ describe('Cms Page Actions', () => {
         const newIndex = 'index';
         const action = new CmsActions.CmsSetPageFailIndex(
           pageContext,
-          newIndex
+          newIndex,
         );
 
         expect({ ...action }).toEqual({

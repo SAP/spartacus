@@ -100,7 +100,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
   const value1 = createValue(
     Configurator.RetractValueCode,
     'Please select a value',
-    true
+    true,
   );
   const value2 = createValue('2', 'val2', false);
   const value3 = createValue('3', 'val3', false);
@@ -108,7 +108,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
   const values: Configurator.Value[] = [value1, value2, value3];
 
   function createComponentWithData(
-    isCartEntryOrGroupVisited: boolean = true
+    isCartEntryOrGroupVisited: boolean = true,
   ): ConfiguratorAttributeDropDownComponent {
     showRequiredErrorMessage = isCartEntryOrGroupVisited;
 
@@ -135,50 +135,48 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     return component;
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeDropDownComponent,
-          ConfiguratorAttributeInputFieldComponent,
-          ConfiguratorAttributeNumericInputFieldComponent,
-          MockFocusDirective,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-          MockFeatureLevelDirective,
-          MockConfiguratorShowMoreComponent,
-        ],
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        providers: [
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-          { provide: Config, useClass: MockConfig },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeDropDownComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeDropDownComponent,
+        ConfiguratorAttributeInputFieldComponent,
+        ConfiguratorAttributeNumericInputFieldComponent,
+        MockFocusDirective,
+        MockConfiguratorAttributeQuantityComponent,
+        MockConfiguratorPriceComponent,
+        MockFeatureLevelDirective,
+        MockConfiguratorShowMoreComponent,
+      ],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        { provide: Config, useClass: MockConfig },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeDropDownComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   afterEach(() => {
     document.body.removeChild(htmlElem);
@@ -191,7 +189,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'select.cx-required-error-msg'
+      'select.cx-required-error-msg',
     );
   });
 
@@ -200,7 +198,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'select.cx-required-error-msg'
+      'select.cx-required-error-msg',
     );
   });
 
@@ -212,7 +210,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-value-label-pair'
+      '.cx-value-label-pair',
     );
   });
 
@@ -223,7 +221,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-value-label-pair'
+      '.cx-value-label-pair',
     );
   });
 
@@ -235,7 +233,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'cx-configurator-show-more'
+      'cx-configurator-show-more',
     );
   });
 
@@ -248,7 +246,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'cx-configurator-show-more'
+      'cx-configurator-show-more',
     );
   });
 
@@ -262,18 +260,18 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     component.ownerKey = ownerKey;
     spyOn(
       component['configuratorCommonsService'],
-      'updateConfiguration'
+      'updateConfiguration',
     ).and.callThrough();
     component.onSelect(component.attributeDropDownForm.value);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledWith(
       ownerKey,
       {
         ...component.attribute,
         selectedSingleValue: component.attributeDropDownForm.value,
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   });
 
@@ -290,7 +288,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-attribute-level-quantity-price'
+        '.cx-attribute-level-quantity-price',
       );
     });
 
@@ -320,13 +318,13 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
   });
@@ -343,7 +341,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
     });
 
@@ -366,7 +364,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
   });
@@ -393,7 +391,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-input-field'
+        'cx-configurator-attribute-input-field',
       );
     });
 
@@ -406,7 +404,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-numeric-input-field'
+        'cx-configurator-attribute-numeric-input-field',
       );
     });
   });
@@ -426,7 +424,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         undefined,
         undefined,
         'configurator.a11y.listbox count:' +
-          (component.attribute.values ? component.attribute.values.length : 0)
+          (component.attribute.values ? component.attribute.values.length : 0),
       );
     });
 
@@ -438,7 +436,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         'form-control',
         0,
         'aria-describedby',
-        'cx-configurator--label--attributeName'
+        'cx-configurator--label--attributeName',
       );
     });
 
@@ -454,7 +452,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
           component.attribute.label +
           ' value:' +
           value2.valueDisplay,
-        value2.valueDisplay
+        value2.valueDisplay,
       );
     });
 
@@ -486,7 +484,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
           value1.valuePrice?.formattedValue +
           ' value:' +
           value1.valueDisplay,
-        value1.valueDisplay
+        value1.valueDisplay,
       );
     });
 
@@ -518,7 +516,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
           value1.valuePrice?.formattedValue +
           ' value:' +
           value1.valueDisplay,
-        value1.valueDisplay
+        value1.valueDisplay,
       );
     });
   });

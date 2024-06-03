@@ -11,12 +11,12 @@ import { interceptPost } from '../../../support/utils/intercept';
 export function listenForCreateVerificationToken(): string {
   return interceptPost(
     'createVerificationToken',
-    '/users/anonymous/verificationToken?*'
+    '/users/anonymous/verificationToken?*',
   );
 }
 
 export function listenForUserVerficationCodeEmailReceive(
-  customerEmail: string
+  customerEmail: string,
 ) {
   const mailCCV2Url =
     Cypress.env('MAIL_CCV2_URL') +
@@ -93,7 +93,7 @@ describe('OTP Login', () => {
             lableP.length;
           const verificationCode = emailBody.substring(
             verificationCodeStartIndex,
-            verificationCodeStartIndex + 8
+            verificationCodeStartIndex + 8,
           );
           cy.log('Extracted verification code: ' + verificationCode);
 

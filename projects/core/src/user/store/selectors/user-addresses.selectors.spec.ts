@@ -51,7 +51,7 @@ describe('User Addresses Selectors', () => {
       expect(result).toEqual([]);
 
       store.dispatch(
-        new UserActions.LoadUserAddressesSuccess(mockUserAddresses)
+        new UserActions.LoadUserAddressesSuccess(mockUserAddresses),
       );
 
       expect(result).toEqual(mockUserAddresses);

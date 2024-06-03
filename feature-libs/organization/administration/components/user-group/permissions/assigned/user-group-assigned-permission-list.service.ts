@@ -23,7 +23,7 @@ export class UserGroupAssignedPermissionsListService extends UserGroupPermission
    */
   protected load(
     pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<Permission> | undefined> {
     return super
       .load(pagination, code)

@@ -67,7 +67,7 @@ export class UserFormComponent implements OnInit {
         if (units && units.length === 1) {
           this.form?.get('orgUnit.uid')?.setValue(units[0]?.id);
         }
-      })
+      }),
     );
 
   titles$: Observable<Title[]> = this.userProfileFacade.getTitles();
@@ -79,7 +79,7 @@ export class UserFormComponent implements OnInit {
     protected itemService: ItemService<B2BUser>,
     protected unitService: OrgUnitService,
     protected userProfileFacade: UserProfileFacade,
-    protected b2bUserService: B2BUserService
+    protected b2bUserService: B2BUserService,
   ) {}
 
   ngOnInit(): void {

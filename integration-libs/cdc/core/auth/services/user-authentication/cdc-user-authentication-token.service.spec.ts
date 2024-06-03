@@ -77,7 +77,7 @@ describe('CdcUserAuthenticationTokenService', () => {
           UIDSignature,
           signatureTimestamp,
           idToken,
-          baseSite
+          baseSite,
         )
         .subscribe((result) => {
           expect(result).toEqual(token);
@@ -101,7 +101,7 @@ describe('CdcUserAuthenticationTokenService', () => {
           UIDSignature,
           signatureTimestamp,
           idToken,
-          baseSite
+          baseSite,
         )
         .subscribe((result) => {
           expect(result).toEqual(token);
@@ -111,7 +111,7 @@ describe('CdcUserAuthenticationTokenService', () => {
         expect(req.url).toBe(loginEndpoint);
         expect(req.method).toBe('POST');
         expect(req.body.get('UIDSignature')).toEqual(
-          encodeURIComponent(UIDSignature)
+          encodeURIComponent(UIDSignature),
         );
         expect(req.body.get('id_token')).toEqual(encodeURIComponent(idToken));
         expect(req.body.get('baseSite')).toEqual(encodeURIComponent(baseSite));
@@ -134,7 +134,7 @@ describe('CdcUserAuthenticationTokenService', () => {
           UIDSignature,
           signatureTimestamp,
           idToken,
-          baseSite
+          baseSite,
         )
         .subscribe({
           error: (error: HttpErrorResponse) => {

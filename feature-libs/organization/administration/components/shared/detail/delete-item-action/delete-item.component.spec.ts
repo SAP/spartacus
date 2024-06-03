@@ -105,7 +105,7 @@ describe('DeleteItemComponent', () => {
       eventData.next({ confirm: true });
       expect(organizationItemService.delete).toHaveBeenCalledWith(
         mockItem.code,
-        undefined
+        undefined,
       );
     });
 
@@ -118,7 +118,7 @@ describe('DeleteItemComponent', () => {
       eventData.next({ confirm: true });
       expect(organizationItemService.delete).toHaveBeenCalledWith(
         mockItem.code,
-        'unitId'
+        'unitId',
       );
     });
 
@@ -128,7 +128,7 @@ describe('DeleteItemComponent', () => {
       const deletedItem = { code: 'b1', active: false };
       spyOn(messageService, 'add').and.returnValue(eventData);
       organizationItemService.delete = createSpy().and.returnValue(
-        of({ status: LoadStatus.SUCCESS, item: deletedItem })
+        of({ status: LoadStatus.SUCCESS, item: deletedItem }),
       );
       component.delete(mockItem);
       eventData.next({ confirm: true });

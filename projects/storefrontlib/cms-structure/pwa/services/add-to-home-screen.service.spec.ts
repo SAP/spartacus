@@ -42,7 +42,7 @@ describe('AddToHomeScreenService', () => {
     [AddToHomeScreenService],
     (service: AddToHomeScreenService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 
   it('should enableAddToHomeScreen after beforeinstallprompt is fired', () => {
@@ -61,7 +61,7 @@ describe('AddToHomeScreenService', () => {
     expect(addToHomeService.disableAddToHomeScreen).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'pwa.addedToHomeScreen' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
   });
 

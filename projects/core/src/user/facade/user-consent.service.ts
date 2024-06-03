@@ -41,7 +41,7 @@ export class UserConsentService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
     protected authService: AuthService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   /**
@@ -64,7 +64,7 @@ export class UserConsentService {
         select(UsersSelectors.getConsentsValue),
         withLatestFrom(
           this.getConsentsResultLoading(),
-          this.getConsentsResultSuccess()
+          this.getConsentsResultSuccess(),
         ),
         filter(([_templates, loading, _success]) => !loading),
         tap(([templates, _loading, success]) => {
@@ -76,11 +76,11 @@ export class UserConsentService {
           }
         }),
         filter(([templates, _loading]) => Boolean(templates)),
-        map(([templates, _loading]) => templates)
+        map(([templates, _loading]) => templates),
       ),
       (<Store<StateWithUser>>this.store).pipe(
-        select(UsersSelectors.getConsentsValue)
-      )
+        select(UsersSelectors.getConsentsValue),
+      ),
     );
   }
 
@@ -89,7 +89,7 @@ export class UserConsentService {
    */
   getConsentsResultLoading(): Observable<boolean> {
     return (<Store<StateWithUser>>this.store).pipe(
-      select(UsersSelectors.getConsentsLoading)
+      select(UsersSelectors.getConsentsLoading),
     );
   }
 
@@ -98,7 +98,7 @@ export class UserConsentService {
    */
   getConsentsResultSuccess(): Observable<boolean> {
     return (<Store<StateWithUser>>this.store).pipe(
-      select(UsersSelectors.getConsentsSuccess)
+      select(UsersSelectors.getConsentsSuccess),
     );
   }
 
@@ -107,7 +107,7 @@ export class UserConsentService {
    */
   getConsentsResultError(): Observable<boolean> {
     return (<Store<StateWithUser>>this.store).pipe(
-      select(UsersSelectors.getConsentsError)
+      select(UsersSelectors.getConsentsError),
     );
   }
 
@@ -140,17 +140,17 @@ export class UserConsentService {
       this.userIdService.getUserId(),
     ]).pipe(
       filter(
-        ([loggedIn, userId]) => loggedIn && userId === OCC_USER_ID_CURRENT
+        ([loggedIn, userId]) => loggedIn && userId === OCC_USER_ID_CURRENT,
       ),
       switchMap(() => this.getConsents(true)),
       take(1),
       switchMap(() =>
         (<Store<StateWithUser>>this.store).pipe(
-          select(UsersSelectors.getConsentByTemplateId(templateId))
-        )
+          select(UsersSelectors.getConsentByTemplateId(templateId)),
+        ),
       ),
       filter(isNotUndefined),
-      map((template) => template.currentConsent)
+      map((template) => template.currentConsent),
     );
   }
 
@@ -193,7 +193,7 @@ export class UserConsentService {
           userId,
           consentTemplateId,
           consentTemplateVersion,
-        })
+        }),
       );
     });
   }
@@ -203,7 +203,7 @@ export class UserConsentService {
    */
   getGiveConsentResultLoading(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessLoadingFactory(GIVE_CONSENT_PROCESS_ID))
+      select(getProcessLoadingFactory(GIVE_CONSENT_PROCESS_ID)),
     );
   }
 
@@ -212,7 +212,7 @@ export class UserConsentService {
    */
   getGiveConsentResultSuccess(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessSuccessFactory(GIVE_CONSENT_PROCESS_ID))
+      select(getProcessSuccessFactory(GIVE_CONSENT_PROCESS_ID)),
     );
   }
 
@@ -221,7 +221,7 @@ export class UserConsentService {
    */
   getGiveConsentResultError(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessErrorFactory(GIVE_CONSENT_PROCESS_ID))
+      select(getProcessErrorFactory(GIVE_CONSENT_PROCESS_ID)),
     );
   }
 
@@ -243,7 +243,7 @@ export class UserConsentService {
           userId,
           consentCode,
           consentId,
-        })
+        }),
       );
     });
   }
@@ -253,7 +253,7 @@ export class UserConsentService {
    */
   getWithdrawConsentResultLoading(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessLoadingFactory(WITHDRAW_CONSENT_PROCESS_ID))
+      select(getProcessLoadingFactory(WITHDRAW_CONSENT_PROCESS_ID)),
     );
   }
 
@@ -262,7 +262,7 @@ export class UserConsentService {
    */
   getWithdrawConsentResultSuccess(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessSuccessFactory(WITHDRAW_CONSENT_PROCESS_ID))
+      select(getProcessSuccessFactory(WITHDRAW_CONSENT_PROCESS_ID)),
     );
   }
 
@@ -271,7 +271,7 @@ export class UserConsentService {
    */
   getWithdrawConsentResultError(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessErrorFactory(WITHDRAW_CONSENT_PROCESS_ID))
+      select(getProcessErrorFactory(WITHDRAW_CONSENT_PROCESS_ID)),
     );
   }
 
@@ -280,7 +280,7 @@ export class UserConsentService {
    */
   resetWithdrawConsentProcessState(): void {
     return this.store.dispatch(
-      new UserActions.ResetWithdrawUserConsentProcess()
+      new UserActions.ResetWithdrawUserConsentProcess(),
     );
   }
 
@@ -293,7 +293,7 @@ export class UserConsentService {
    */
   filterConsentTemplates(
     templateList: ConsentTemplate[],
-    hideTemplateIds: string[] = []
+    hideTemplateIds: string[] = [],
   ): ConsentTemplate[] {
     if (hideTemplateIds.length === 0) {
       return templateList;

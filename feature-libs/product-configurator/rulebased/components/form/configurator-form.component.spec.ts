@@ -66,7 +66,7 @@ const MOCK_ROUTER_STATE_WITH_TEMPLATE: any = {
 
 const OWNER = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.PRODUCT,
-  PRODUCT_CODE
+  PRODUCT_CODE,
 );
 
 const groups = ConfigurationTestData.productConfiguration.groups;
@@ -173,7 +173,7 @@ class MockGlobalMessageService {
 function checkConfigurationObs(
   routerMarbels: string,
   configurationServiceMarbels: string,
-  expectedMarbels: string
+  expectedMarbels: string,
 ) {
   routerStateObservable = cold(routerMarbels, {
     a: mockRouterState,
@@ -187,14 +187,14 @@ function checkConfigurationObs(
   const fixture = TestBed.createComponent(ConfiguratorFormComponent);
   const component = fixture.componentInstance;
   expect(component.configuration$).toBeObservable(
-    cold(expectedMarbels, { x: configRead, y: configRead2 })
+    cold(expectedMarbels, { x: configRead, y: configRead2 }),
   );
 }
 
 function checkCurrentGroupObs(
   routerMarbels: string,
   groupMarbels: string,
-  expectedMarbels: string
+  expectedMarbels: string,
 ) {
   routerStateObservable = cold(routerMarbels, {
     a: mockRouterState,
@@ -209,7 +209,7 @@ function checkCurrentGroupObs(
     cold(expectedMarbels, {
       u: groups[0],
       v: groups[1],
-    })
+    }),
   );
 }
 
@@ -225,7 +225,7 @@ const configuration: Configurator.Configuration =
   structuredClone(productConfiguration);
 
 const group: Configurator.Group = structuredClone(
-  productConfiguration.groups[0]
+  productConfiguration.groups[0],
 );
 
 function createComponentWithData(): ConfiguratorFormComponent {
@@ -259,96 +259,94 @@ let configExpertModeService: ConfiguratorExpertModeService;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
 
 describe('ConfigurationFormComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          MockConfiguratorDefaultFormComponent,
-          ConfiguratorFormComponent,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-          {
-            provide: ConfiguratorExpertModeService,
-            useClass: MockConfiguratorExpertModeService,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        MockConfiguratorDefaultFormComponent,
+        ConfiguratorFormComponent,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+        {
+          provide: ConfiguratorExpertModeService,
+          useClass: MockConfiguratorExpertModeService,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeHeaderComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>,
     );
 
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
     spyOn(
       configuratorGroupsService,
-      'navigateToConflictSolver'
+      'navigateToConflictSolver',
     ).and.callThrough();
 
     spyOn(
       configuratorGroupsService,
-      'navigateToFirstIncompleteGroup'
+      'navigateToFirstIncompleteGroup',
     ).and.callThrough();
 
     configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>,
     );
     spyOn(
       configuratorCommonsService,
-      'isConfigurationLoading'
+      'isConfigurationLoading',
     ).and.callThrough();
     spyOn(
       configuratorCommonsService,
-      'getOrCreateConfiguration'
+      'getOrCreateConfiguration',
     ).and.callThrough();
     spyOn(configuratorCommonsService, 'getConfiguration').and.callThrough();
     spyOn(
       configuratorCommonsService,
-      'checkConflictSolverDialog'
+      'checkConflictSolverDialog',
     ).and.callThrough();
 
     globalMessageService = TestBed.inject(
-      GlobalMessageService as Type<GlobalMessageService>
+      GlobalMessageService as Type<GlobalMessageService>,
     );
     spyOn(globalMessageService, 'add').and.callThrough();
 
     isConfigurationLoadingObservable = of(false);
 
     configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>,
     );
     spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
 
     hasConfigurationConflictsObservable = of(false);
 
     launchDialogService = TestBed.inject(
-      LaunchDialogService as Type<LaunchDialogService>
+      LaunchDialogService as Type<LaunchDialogService>,
     );
     spyOn(launchDialogService, 'openDialogAndSubscribe').and.callThrough();
   });
@@ -362,10 +360,10 @@ describe('ConfigurationFormComponent', () => {
       createComponentWithData().ngOnInit();
 
       expect(
-        configuratorGroupsService.navigateToConflictSolver
+        configuratorGroupsService.navigateToConflictSolver,
       ).toHaveBeenCalledTimes(0);
       expect(
-        configuratorGroupsService.navigateToFirstIncompleteGroup
+        configuratorGroupsService.navigateToFirstIncompleteGroup,
       ).toHaveBeenCalledTimes(0);
     });
 
@@ -378,10 +376,10 @@ describe('ConfigurationFormComponent', () => {
       createComponentWithData();
 
       expect(
-        configuratorGroupsService.navigateToConflictSolver
+        configuratorGroupsService.navigateToConflictSolver,
       ).toHaveBeenCalledTimes(1);
       expect(
-        configuratorGroupsService.navigateToFirstIncompleteGroup
+        configuratorGroupsService.navigateToFirstIncompleteGroup,
       ).toHaveBeenCalledTimes(0);
     });
 
@@ -393,10 +391,10 @@ describe('ConfigurationFormComponent', () => {
       hasConfigurationConflictsObservable = of(true);
       createComponentWithData();
       expect(
-        configuratorGroupsService.navigateToConflictSolver
+        configuratorGroupsService.navigateToConflictSolver,
       ).toHaveBeenCalledTimes(0);
       expect(
-        configuratorGroupsService.navigateToFirstIncompleteGroup
+        configuratorGroupsService.navigateToFirstIncompleteGroup,
       ).toHaveBeenCalledTimes(1);
     });
 
@@ -407,10 +405,10 @@ describe('ConfigurationFormComponent', () => {
       createComponentWithData();
 
       expect(
-        configuratorGroupsService.navigateToConflictSolver
+        configuratorGroupsService.navigateToConflictSolver,
       ).toHaveBeenCalledTimes(0);
       expect(
-        configuratorGroupsService.navigateToFirstIncompleteGroup
+        configuratorGroupsService.navigateToFirstIncompleteGroup,
       ).toHaveBeenCalledTimes(1);
     });
 
@@ -420,7 +418,7 @@ describe('ConfigurationFormComponent', () => {
       })),
         createComponentWithData().ngOnInit();
       expect(configExpertModeService.setExpModeRequested).toHaveBeenCalledTimes(
-        0
+        0,
       );
     });
   });
@@ -433,12 +431,12 @@ describe('ConfigurationFormComponent', () => {
         expect,
         htmlElem,
         '.cx-ghost-attribute',
-        6
+        6,
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-group'
+        'cx-configurator-group',
       );
     });
 
@@ -448,12 +446,12 @@ describe('ConfigurationFormComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-group'
+        'cx-configurator-group',
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-ghost-attribute'
+        '.cx-ghost-attribute',
       );
     });
   });
@@ -474,7 +472,7 @@ describe('ConfigurationFormComponent', () => {
     it('should forward configuration template ID to facade service', () => {
       checkConfigurationObs('b', 'x', 'x');
       expect(
-        configuratorCommonsService.getOrCreateConfiguration
+        configuratorCommonsService.getOrCreateConfiguration,
       ).toHaveBeenCalledWith(OWNER, CONFIG_ID_TEMPLATE);
     });
   });
@@ -509,7 +507,7 @@ describe('ConfigurationFormComponent', () => {
       routerStateObservable = mockRouterStateWithQueryParams({});
       createComponentWithData();
       expect(configuratorCommonsService.getConfiguration).toHaveBeenCalledTimes(
-        1
+        1,
       );
     });
 
@@ -518,7 +516,7 @@ describe('ConfigurationFormComponent', () => {
       configurationCreateObservable = of(configRead);
       createComponentWithData();
       expect(
-        configuratorCommonsService.checkConflictSolverDialog
+        configuratorCommonsService.checkConflictSolverDialog,
       ).toHaveBeenCalledTimes(1);
     });
 
@@ -534,7 +532,7 @@ describe('ConfigurationFormComponent', () => {
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.CONFIGURATOR_RESTART_DIALOG,
         undefined,
-        { owner: config.owner }
+        { owner: config.owner },
       );
     }));
 
@@ -581,7 +579,7 @@ describe('ConfigurationFormComponent', () => {
         true,
         false,
         false,
-        false
+        false,
       );
       createComponentWithData();
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
@@ -595,7 +593,7 @@ describe('ConfigurationFormComponent', () => {
         true,
         false,
         true,
-        false
+        false,
       );
       createComponentWithData();
       expect(globalMessageService.add).toHaveBeenCalledTimes(3);

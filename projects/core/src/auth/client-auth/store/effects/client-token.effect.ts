@@ -32,17 +32,17 @@ export class ClientTokenEffect {
               catchError((error) =>
                 of(
                   new ClientAuthActions.LoadClientTokenFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   constructor(
     private actions$: Actions,
-    private clientAuthenticationTokenService: ClientAuthenticationTokenService
+    private clientAuthenticationTokenService: ClientAuthenticationTokenService,
   ) {}
 }

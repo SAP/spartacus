@@ -21,7 +21,7 @@ function testPDPPage(productId: string): void {
   const productPage = waitForProductPage(productId, 'getProductPage');
 
   cy.visit(
-    `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}/product/${productId}`
+    `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}/product/${productId}`,
   );
 
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
@@ -29,7 +29,7 @@ function testPDPPage(productId: string): void {
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
     strategyRequestAlias,
     productId,
-    merchandisingCarousel.DEFAULT_LANGUAGE
+    merchandisingCarousel.DEFAULT_LANGUAGE,
   );
 }
 
@@ -52,7 +52,7 @@ context('Merchandising Carousel - Product page', () => {
     it("should update the products' language when the storefront language is changed on a PDP page", () => {
       merchandisingCarousel.verifyFirstCarouselItemTextContent(
         merchandisingCarousel.englishFilmProductText,
-        merchandisingCarousel.japaneseFilmProductText
+        merchandisingCarousel.japaneseFilmProductText,
       );
 
       switchSiteContext(merchandisingCarousel.japaneseLanguage, LANGUAGE_LABEL);
@@ -60,24 +60,24 @@ context('Merchandising Carousel - Product page', () => {
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
         strategyRequestAlias,
         merchandisingCarousel.STRATEGY_RESPONSE.products[0].id,
-        merchandisingCarousel.japaneseLanguage
+        merchandisingCarousel.japaneseLanguage,
       );
 
       merchandisingCarousel.verifyFirstCarouselItemTextContent(
         merchandisingCarousel.japaneseFilmProductText,
-        merchandisingCarousel.englishFilmProductText
+        merchandisingCarousel.englishFilmProductText,
       );
     });
 
     it("should update the products' currency when the storefront currency is changed on a PDP page", () => {
       merchandisingCarousel.verifyFirstCarouselItemPrice(
-        merchandisingCarousel.dollarCurrencySymbol
+        merchandisingCarousel.dollarCurrencySymbol,
       );
 
       switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
 
       merchandisingCarousel.verifyFirstCarouselItemPrice(
-        merchandisingCarousel.yenCurrencySymbol
+        merchandisingCarousel.yenCurrencySymbol,
       );
     });
 
@@ -86,18 +86,18 @@ context('Merchandising Carousel - Product page', () => {
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
         strategyRequestAlias,
-        merchandisingCarousel.DEFAULT_LANGUAGE
+        merchandisingCarousel.DEFAULT_LANGUAGE,
       );
     });
 
     it('should render products on a PDP page when a carousel item on a PDP page is clicked', () => {
       merchandisingCarousel.clickOnCarouselItem(
-        merchandisingCarousel.STRATEGY_RESPONSE.products[1].id
+        merchandisingCarousel.STRATEGY_RESPONSE.products[1].id,
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
         strategyRequestAlias,
-        merchandisingCarousel.STRATEGY_RESPONSE.products[1].id
+        merchandisingCarousel.STRATEGY_RESPONSE.products[1].id,
       );
     });
   });

@@ -119,16 +119,16 @@ describe('MessagingComponent', () => {
     it('should not render an item link when there is no item attached to the message', () => {
       expect(
         fixture.debugElement.query(
-          By.css('.cx-message-card:nth-child(1) .cx-message-item-link')
-        )
+          By.css('.cx-message-card:nth-child(1) .cx-message-item-link'),
+        ),
       ).toBeNull();
     });
 
     it('should render an item link when there is an item attached to the message', () => {
       expect(
         fixture.debugElement.query(
-          By.css('.cx-message-card:nth-child(2) .cx-message-item-link')
-        ).nativeElement.text
+          By.css('.cx-message-card:nth-child(2) .cx-message-item-link'),
+        ).nativeElement.text,
       ).toEqual('Product 123:');
     });
 
@@ -144,7 +144,7 @@ describe('MessagingComponent', () => {
 
     it('should not render an item selection control (drop down list box) when there are no items provided', () => {
       expect(
-        fixture.debugElement.query(By.css('.cx-message-item-selection'))
+        fixture.debugElement.query(By.css('.cx-message-item-selection')),
       ).toBeNull();
     });
 
@@ -153,8 +153,8 @@ describe('MessagingComponent', () => {
       fixture.detectChanges();
       expect(
         fixture.debugElement.queryAll(
-          By.css('.cx-message-item-selection option')
-        ).length
+          By.css('.cx-message-item-selection option'),
+        ).length,
       ).toBe(mockItemList.length);
     });
 
@@ -171,13 +171,13 @@ describe('MessagingComponent', () => {
       fixture.detectChanges();
 
       const itemDDLB = fixture.debugElement.query(
-        By.css('.cx-message-item-selection')
+        By.css('.cx-message-item-selection'),
       ).nativeElement;
       itemDDLB.value = 'p1';
       itemDDLB.dispatchEvent(new Event('change'));
 
       const messageInput = fixture.debugElement.query(
-        By.css('.cx-message-input input')
+        By.css('.cx-message-input input'),
       ).nativeElement;
       messageInput.value = 'yet another text';
       messageInput.dispatchEvent(new Event('input'));
@@ -198,7 +198,7 @@ describe('MessagingComponent', () => {
     });
     it('should prefix item name to the message text if an item is provided', () => {
       expect(component.getMessageText(mockMessageEventWithItem)).toEqual(
-        'Product 123: mockMessage'
+        'Product 123: mockMessage',
       );
     });
   });
@@ -206,7 +206,7 @@ describe('MessagingComponent', () => {
     beforeEach(() => {
       component.fileUploadComponent = jasmine.createSpyObj(
         'fileUploadComponent',
-        ['removeFile']
+        ['removeFile'],
       );
     });
     it('should remove all files uploaded', () => {

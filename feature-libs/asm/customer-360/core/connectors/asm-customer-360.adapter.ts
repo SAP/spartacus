@@ -15,6 +15,6 @@ export abstract class AsmCustomer360Adapter {
    * Fetches data needed for certain ASM components.
    */
   abstract getAsmCustomer360Data(
-    request: AsmCustomer360Request
+    request: AsmCustomer360Request,
   ): Observable<AsmCustomer360Response>;
 }

@@ -14,7 +14,7 @@ class MockUserAccountConnector implements Partial<UserAccountConnector> {
   get = createSpy().and.callFake((uid: string) =>
     of({
       uid,
-    })
+    }),
   );
 }
 

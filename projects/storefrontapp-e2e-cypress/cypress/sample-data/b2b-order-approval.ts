@@ -734,7 +734,7 @@ export const approvalOrderDetail = {
 };
 
 export const rejectedOrderDetails = JSON.parse(
-  JSON.stringify(approvalOrderDetail)
+  JSON.stringify(approvalOrderDetail),
 );
 rejectedOrderDetails.approvalDecisionRequired = false;
 rejectedOrderDetails.order.permissionResults = rejectedOrderPermissionResults;
@@ -742,7 +742,7 @@ rejectedOrderDetails.order.status = 'REJECTED';
 rejectedOrderDetails.order.statusDisplay = 'rejected';
 
 export const approvedOrderDetails = JSON.parse(
-  JSON.stringify(approvalOrderDetail)
+  JSON.stringify(approvalOrderDetail),
 );
 approvedOrderDetails.approvalDecisionRequired = false;
 approvedOrderDetails.order.permissionResults = approvedOrderPermissionResults;

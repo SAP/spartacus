@@ -37,7 +37,7 @@ class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { userId } }) =>
-      url === 'b2bUser' ? `${url}/${userId}` : url
+      url === 'b2bUser' ? `${url}/${userId}` : url,
   );
 }
 
@@ -58,11 +58,11 @@ describe('OccB2BUserAdapter', () => {
       ],
     });
     converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
+      ConverterService as Type<ConverterService>,
     );
     service = TestBed.inject(OccB2BUserAdapter as Type<OccB2BUserAdapter>);
     httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
+      HttpTestingController as Type<HttpTestingController>,
     );
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(converterService, 'convert').and.callThrough();
@@ -86,7 +86,7 @@ describe('OccB2BUserAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgCustomer);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_USER_NORMALIZER
+        B2B_USER_NORMALIZER,
       );
     });
   });
@@ -95,13 +95,13 @@ describe('OccB2BUserAdapter', () => {
     it('should load B2B User list', () => {
       service.loadList(userId, params).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'b2bUsers'
+        (req) => req.method === 'GET' && req.url === 'b2bUsers',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([orgCustomer]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_USERS_NORMALIZER
+        B2B_USERS_NORMALIZER,
       );
     });
   });
@@ -111,19 +111,19 @@ describe('OccB2BUserAdapter', () => {
       service.create(userId, orgCustomer).subscribe();
       expect(converterService.convert).toHaveBeenCalledWith(
         orgCustomer,
-        B2B_USER_SERIALIZER
+        B2B_USER_SERIALIZER,
       );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'POST' &&
           req.url === 'b2bUsers' &&
-          req.body.uid === orgCustomer.uid
+          req.body.uid === orgCustomer.uid,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgCustomer);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_USER_NORMALIZER
+        B2B_USER_NORMALIZER,
       );
     });
   });
@@ -133,7 +133,7 @@ describe('OccB2BUserAdapter', () => {
       service.update(userId, orgCustomerId, orgCustomer).subscribe();
       expect(converterService.convert).toHaveBeenCalledWith(
         orgCustomer,
-        B2B_USER_SERIALIZER
+        B2B_USER_SERIALIZER,
       );
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -146,7 +146,7 @@ describe('OccB2BUserAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgCustomer);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_USER_NORMALIZER
+        B2B_USER_NORMALIZER,
       );
     });
   });
@@ -155,13 +155,13 @@ describe('OccB2BUserAdapter', () => {
     it('should load approvers', () => {
       service.loadApprovers(userId, orgCustomerId, params).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'b2bUserApprovers'
+        (req) => req.method === 'GET' && req.url === 'b2bUserApprovers',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([orgCustomer]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_USERS_NORMALIZER
+        B2B_USERS_NORMALIZER,
       );
     });
   });
@@ -170,7 +170,7 @@ describe('OccB2BUserAdapter', () => {
     it('should assign approver', () => {
       service.assignApprover(userId, orgCustomerId, approverId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'POST' && req.url === 'b2bUserApprover'
+        (req) => req.method === 'POST' && req.url === 'b2bUserApprover',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -182,7 +182,7 @@ describe('OccB2BUserAdapter', () => {
     it('should unassign approver', () => {
       service.unassignApprover(userId, orgCustomerId, approverId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'DELETE' && req.url === 'b2bUserApprover'
+        (req) => req.method === 'DELETE' && req.url === 'b2bUserApprover',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -194,13 +194,13 @@ describe('OccB2BUserAdapter', () => {
     it('should load permissions', () => {
       service.loadPermissions(userId, orgCustomerId, params).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'b2bUserPermissions'
+        (req) => req.method === 'GET' && req.url === 'b2bUserPermissions',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([orgCustomer]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        PERMISSIONS_NORMALIZER
+        PERMISSIONS_NORMALIZER,
       );
     });
   });
@@ -209,7 +209,7 @@ describe('OccB2BUserAdapter', () => {
     it('should assign permission', () => {
       service.assignPermission(userId, orgCustomerId, permissionId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'POST' && req.url === 'b2bUserPermission'
+        (req) => req.method === 'POST' && req.url === 'b2bUserPermission',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -223,7 +223,7 @@ describe('OccB2BUserAdapter', () => {
         .unassignPermission(userId, orgCustomerId, permissionId)
         .subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'DELETE' && req.url === 'b2bUserPermission'
+        (req) => req.method === 'DELETE' && req.url === 'b2bUserPermission',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -235,13 +235,13 @@ describe('OccB2BUserAdapter', () => {
     it('should load user groups', () => {
       service.loadUserGroups(userId, orgCustomerId, params).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'b2bUserUserGroups'
+        (req) => req.method === 'GET' && req.url === 'b2bUserUserGroups',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([orgCustomer]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        USER_GROUPS_NORMALIZER
+        USER_GROUPS_NORMALIZER,
       );
     });
   });
@@ -250,7 +250,7 @@ describe('OccB2BUserAdapter', () => {
     it('should assign UserGroup', () => {
       service.assignUserGroup(userId, orgCustomerId, userGroupId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'POST' && req.url === 'b2bUserUserGroup'
+        (req) => req.method === 'POST' && req.url === 'b2bUserUserGroup',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -262,7 +262,7 @@ describe('OccB2BUserAdapter', () => {
     it('should unassign UserGroup', () => {
       service.unassignUserGroup(userId, orgCustomerId, userGroupId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'DELETE' && req.url === 'b2bUserUserGroup'
+        (req) => req.method === 'DELETE' && req.url === 'b2bUserUserGroup',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

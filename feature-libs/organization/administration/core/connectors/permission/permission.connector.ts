@@ -26,7 +26,7 @@ export class PermissionConnector {
 
   getList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Permission>> {
     return this.adapter.loadList(userId, params);
   }
@@ -38,7 +38,7 @@ export class PermissionConnector {
   update(
     userId: string,
     permissionCode: string,
-    permission: Permission
+    permission: Permission,
   ): Observable<Permission> {
     return this.adapter.update(userId, permissionCode, permission);
   }

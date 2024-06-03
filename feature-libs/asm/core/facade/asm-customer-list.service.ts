@@ -30,7 +30,7 @@ export class AsmCustomerListService implements AsmCustomerListFacade {
   constructor(
     protected queryService: QueryService,
     protected asmConnector: AsmConnector,
-    protected store: Store<StateWithAsm>
+    protected store: Store<StateWithAsm>,
   ) {}
 
   getCustomerLists(): Observable<CustomerListsPage | undefined> {
@@ -53,7 +53,7 @@ export class AsmCustomerListService implements AsmCustomerListFacade {
    */
   getCustomerListCustomersSearchResults(): Observable<CustomerSearchPage> {
     return this.store.pipe(
-      select(AsmSelectors.getCustomerListCustomersSearchResults)
+      select(AsmSelectors.getCustomerListCustomersSearchResults),
     );
   }
 
@@ -62,7 +62,7 @@ export class AsmCustomerListService implements AsmCustomerListFacade {
    */
   getCustomerListCustomersSearchResultsLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(AsmSelectors.getCustomerListCustomersSearchResultsLoading)
+      select(AsmSelectors.getCustomerListCustomersSearchResultsLoading),
     );
   }
 
@@ -78,7 +78,7 @@ export class AsmCustomerListService implements AsmCustomerListFacade {
    */
   getCustomerListCustomersSearchResultsError(): Observable<boolean> {
     return this.store.pipe(
-      select(AsmSelectors.getCustomerListCustomersSearchResultsError)
+      select(AsmSelectors.getCustomerListCustomersSearchResultsError),
     );
   }
 }

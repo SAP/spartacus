@@ -19,7 +19,7 @@ import { HttpErrorModel } from '../model/misc.model';
  */
 export function normalizeHttpError(
   error: HttpErrorResponse | HttpErrorModel | any,
-  logger: LoggerService
+  logger: LoggerService,
 ): HttpErrorModel | undefined {
   if (error instanceof HttpErrorModel) {
     return error;

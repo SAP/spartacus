@@ -38,12 +38,12 @@ export class ProductIntroComponent {
     // Observe EventService for reviews availability:
     this.eventService.get(ComponentCreateEvent).pipe(
       filter((event) => event.id === this.reviewsComponentId),
-      map(() => true)
+      map(() => true),
     ),
     this.eventService.get(ComponentDestroyEvent).pipe(
       filter((event) => event.id === this.reviewsComponentId),
-      map(() => false)
-    )
+      map(() => false),
+    ),
   );
 
   protected reviewsComponentId = 'ProductReviewsTabComponent';
@@ -54,7 +54,7 @@ export class ProductIntroComponent {
     protected currentProductService: CurrentProductService,
     protected translationService: TranslationService,
     protected winRef: WindowRef,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   /**
@@ -118,7 +118,7 @@ export class ProductIntroComponent {
    */
   private getTabByLabel(
     label: string,
-    tabsComponent: HTMLElement
+    tabsComponent: HTMLElement,
   ): HTMLElement | undefined {
     // NOTE: Reads through button tags to click on correct tab
     // There may be a better way of doing this now/after refactor
@@ -127,7 +127,7 @@ export class ProductIntroComponent {
 
     // Look through button tab elements until finding tab with label
     return Array.from(tabElements).find((buttonElement) =>
-      buttonElement.innerHTML.includes(label)
+      buttonElement.innerHTML.includes(label),
     );
   }
 }

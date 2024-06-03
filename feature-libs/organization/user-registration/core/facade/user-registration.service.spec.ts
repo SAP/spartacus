@@ -19,7 +19,7 @@ class MockUserRegistrationConnector
 {
   registerUser = createSpy().and.callFake(
     (mockOrganizationUser: OrganizationUserRegistration) =>
-      of(mockOrganizationUser)
+      of(mockOrganizationUser),
   );
 }
 
@@ -46,7 +46,7 @@ describe('UserRegistrationService', () => {
     [UserRegistrationService],
     (userRegistrationService: UserRegistrationService) => {
       expect(userRegistrationService).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to register user', () => {

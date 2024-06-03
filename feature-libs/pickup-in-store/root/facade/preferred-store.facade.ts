@@ -52,6 +52,6 @@ export abstract class PreferredStoreFacade {
    * @param productCode The product code to check the stock level of
    */
   abstract getPreferredStoreWithProductInStock(
-    productCode: string
+    productCode: string,
   ): Observable<PointOfServiceNames>;
 }

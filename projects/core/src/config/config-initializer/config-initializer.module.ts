@@ -23,7 +23,7 @@ import { ConfigInitializerService } from './config-initializer.service';
 
 export function configInitializerFactory(
   configInitializer: ConfigInitializerService,
-  initializers: ConfigInitializer[]
+  initializers: ConfigInitializer[],
 ): () => Promise<void> {
   const isReady = () => configInitializer.initialize(initializers);
   return isReady;
@@ -33,7 +33,7 @@ export function configInitializerFactory(
  * @deprecated since 2211.22  - should not be a public API
  */
 export function locationInitializedFactory(
-  configInitializer: ConfigInitializerService
+  configInitializer: ConfigInitializerService,
 ): Promise<Config> {
   return lastValueFrom(configInitializer.getStable());
 }

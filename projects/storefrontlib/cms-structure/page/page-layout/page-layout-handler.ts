@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
 
 export const PAGE_LAYOUT_HANDLER = new InjectionToken<PageLayoutHandler>(
-  'PageLayoutHandler'
+  'PageLayoutHandler',
 );
 
 export interface PageLayoutHandler {
@@ -17,6 +17,6 @@ export interface PageLayoutHandler {
     slots: Observable<string[]>,
     pageTemplate?: string,
     section?: string,
-    breakpoint?: BREAKPOINT
+    breakpoint?: BREAKPOINT,
   ): Observable<string[]>;
 }

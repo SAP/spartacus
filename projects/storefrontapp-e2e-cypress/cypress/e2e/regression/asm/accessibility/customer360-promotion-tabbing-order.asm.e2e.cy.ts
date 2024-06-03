@@ -22,7 +22,7 @@ describe('Tabbing order for ASM', () => {
 
     it('should allow to navigate with tab key for customer360 customer coupon list (CXSPA-3945)', () => {
       asmTabbingOrderForCustomer360CustomerCouponList(
-        config.asmCustomer360CustomerCouponList
+        config.asmCustomer360CustomerCouponList,
       );
     });
   });

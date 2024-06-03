@@ -54,7 +54,7 @@ export class StoreFinderMapComponent implements OnChanges {
       this.locations,
       (markerIndex) => {
         this.selectStoreItemClickHandle(markerIndex);
-      }
+      },
     );
   }
 

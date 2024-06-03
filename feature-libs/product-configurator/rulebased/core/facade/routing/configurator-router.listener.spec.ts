@@ -64,37 +64,35 @@ describe('ConfiguratorRouterListener', () => {
   let configuratorCartService: ConfiguratorCartService;
   let configuratorQuantityService: ConfiguratorQuantityService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: ConfiguratorCartService,
-            useValue: mockConfiguratorCartService,
-          },
-          {
-            provide: RoutingService,
-            useValue: mockRoutingService,
-          },
-          {
-            provide: ConfiguratorQuantityService,
-            useClass: MockConfiguratorQuantityService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: ConfiguratorCartService,
+          useValue: mockConfiguratorCartService,
+        },
+        {
+          provide: RoutingService,
+          useValue: mockRoutingService,
+        },
+        {
+          provide: ConfiguratorQuantityService,
+          useClass: MockConfiguratorQuantityService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     configuratorCartService = TestBed.inject(
-      ConfiguratorCartService as Type<ConfiguratorCartService>
+      ConfiguratorCartService as Type<ConfiguratorCartService>,
     );
     configuratorQuantityService = TestBed.inject(
-      ConfiguratorQuantityService as Type<ConfiguratorQuantityService>
+      ConfiguratorQuantityService as Type<ConfiguratorQuantityService>,
     );
 
     spyOn(
       configuratorCartService,
-      'removeCartBoundConfigurations'
+      'removeCartBoundConfigurations',
     ).and.callThrough();
     spyOn(configuratorQuantityService, 'setQuantity').and.callThrough();
   });
@@ -103,37 +101,37 @@ describe('ConfiguratorRouterListener', () => {
     it('should subscribe to routingService and call facade service for the deletion of cart bound configurations in case navigation is done outside configurators', () => {
       routerState = routerStateCartRoute;
       TestBed.inject(
-        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>
+        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>,
       );
       expect(
-        configuratorCartService.removeCartBoundConfigurations
+        configuratorCartService.removeCartBoundConfigurations,
       ).toHaveBeenCalled();
     });
 
     it('should subscribe to routingService and call facade service for the deletion of cart bound configurations in case no semantic route available', () => {
       routerState = routerStateNoSemanticRoute;
       TestBed.inject(
-        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>
+        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>,
       );
       expect(
-        configuratorCartService.removeCartBoundConfigurations
+        configuratorCartService.removeCartBoundConfigurations,
       ).toHaveBeenCalled();
     });
 
     it('should not call facade service for deletion in case navigation is in the configurator feature lib', () => {
       routerState = routerStateConfigRoute;
       TestBed.inject(
-        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>
+        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>,
       );
       expect(
-        configuratorCartService.removeCartBoundConfigurations
+        configuratorCartService.removeCartBoundConfigurations,
       ).toHaveBeenCalledTimes(0);
     });
 
     it('should reset quantity if quantity service available', () => {
       routerState = routerStateCartRoute;
       TestBed.inject(
-        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>
+        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>,
       );
       expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(1);
     });
@@ -142,7 +140,7 @@ describe('ConfiguratorRouterListener', () => {
   describe('ngOnDestroy', () => {
     it('should unsubscribe subscription', () => {
       const classUnderTest = TestBed.inject(
-        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>
+        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>,
       );
       const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
       classUnderTest.ngOnDestroy();

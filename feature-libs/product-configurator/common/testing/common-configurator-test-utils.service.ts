@@ -18,11 +18,11 @@ export class CommonConfiguratorTestUtilsService {
   static expectElementPresent(
     expect: any,
     htmlElement: Element,
-    querySelector: string
+    querySelector: string,
   ) {
     expect(htmlElement.querySelectorAll(querySelector).length).toBeGreaterThan(
       0,
-      `expected element identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
+      `expected element identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`,
     );
   }
 
@@ -38,11 +38,11 @@ export class CommonConfiguratorTestUtilsService {
     expect: any,
     htmlElement: Element,
     querySelector: string,
-    numberOfElements: number
+    numberOfElements: number,
   ) {
     expect(htmlElement.querySelectorAll(querySelector).length).toBe(
       numberOfElements,
-      `expected elements identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
+      `expected elements identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`,
     );
   }
 
@@ -59,7 +59,7 @@ export class CommonConfiguratorTestUtilsService {
     htmlElement: Element,
     querySelector: string,
     expectedText: string,
-    index?: number
+    index?: number,
   ) {
     let text;
     if (index) {
@@ -86,13 +86,13 @@ export class CommonConfiguratorTestUtilsService {
     querySelector: string,
     attributeName: string,
     expectedValue: string,
-    index: number = 0
+    index: number = 0,
   ) {
     const element = htmlElement.querySelectorAll(querySelector)[index];
     expect(element)
       .withContext(
         `expected element identified by selector '${querySelector}[${index}]'
-        to be present, but it has NOT!`
+        to be present, but it has NOT!`,
       )
       .toBeDefined();
 
@@ -100,7 +100,7 @@ export class CommonConfiguratorTestUtilsService {
     expect(attributeValue)
       .withContext(
         `expected element identified by selector '${querySelector}[${index}]'
-         to have an attribute with name '${attributeName}', but it has NOT!`
+         to have an attribute with name '${attributeName}', but it has NOT!`,
       )
       .not.toBe(null);
 
@@ -117,11 +117,11 @@ export class CommonConfiguratorTestUtilsService {
   static expectElementNotPresent(
     expect: any,
     htmlElement: Element,
-    querySelector: string
+    querySelector: string,
   ) {
     expect(htmlElement.querySelectorAll(querySelector).length).toBe(
       0,
-      `expected element identified by selector '${querySelector}' to be NOT present, but it is! innerHtml: ${htmlElement.innerHTML}`
+      `expected element identified by selector '${querySelector}' to be NOT present, but it is! innerHtml: ${htmlElement.innerHTML}`,
     );
   }
 
@@ -137,11 +137,11 @@ export class CommonConfiguratorTestUtilsService {
     expect: any,
     htmlElement: Element,
     querySelector: string,
-    expectedNumber: number
+    expectedNumber: number,
   ) {
     expect(htmlElement.querySelectorAll(querySelector).length).toBe(
       expectedNumber,
-      `expected elements identified by selector '${querySelector}' to be present times, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
+      `expected elements identified by selector '${querySelector}' to be present times, but it is NOT! innerHtml: ${htmlElement.innerHTML}`,
     );
   }
 
@@ -149,7 +149,7 @@ export class CommonConfiguratorTestUtilsService {
     htmlElements: HTMLElement,
     tag: string,
     tagClass?: string,
-    tagIndex?: number
+    tagIndex?: number,
   ): Element | undefined {
     const foundElement: Element[] = [];
     const elements = htmlElements.getElementsByTagName(tag);
@@ -159,7 +159,7 @@ export class CommonConfiguratorTestUtilsService {
       CommonConfiguratorTestUtilsService.collectElements(
         elements,
         tagClass,
-        foundElement
+        foundElement,
       );
       return tagIndex ? foundElement[tagIndex] : foundElement[0];
     }
@@ -168,7 +168,7 @@ export class CommonConfiguratorTestUtilsService {
   protected static collectElements(
     elements: HTMLCollectionOf<Element>,
     tagClass: string,
-    foundElement: Element[]
+    foundElement: Element[],
   ) {
     for (let i = 0; i < elements.length; i++) {
       const classList = elements[i].classList;
@@ -199,13 +199,13 @@ export class CommonConfiguratorTestUtilsService {
     tagIndex?: number,
     a11yAttr?: string,
     a11yAttrContent?: string,
-    innerHTML?: string
+    innerHTML?: string,
   ) {
     const item = CommonConfiguratorTestUtilsService.getHTMLElement(
       htmlElement,
       tag,
       tagClass,
-      tagIndex
+      tagIndex,
     );
     const attributes = item?.attributes;
     if (a11yAttr) {

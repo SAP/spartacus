@@ -20,7 +20,7 @@ class MockOccEndpointsService {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ) {
     return this.getEndpoint(endpoint);
   }
@@ -49,7 +49,7 @@ class MockLoggerService {
 
 const mockNormalizedJaloError = normalizeHttpError(
   mockJaloError,
-  new MockLoggerService()
+  new MockLoggerService(),
 );
 
 describe(`OccPickupLocationAdapter`, () => {
@@ -58,18 +58,16 @@ describe(`OccPickupLocationAdapter`, () => {
   let httpMock: HttpTestingController;
   let occEndpointService: OccEndpointsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        providers: [
-          OccPickupLocationAdapter,
-          { provide: OccEndpointsService, useClass: MockOccEndpointsService },
-          { provide: LoggerService, useClass: MockLoggerService },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        OccPickupLocationAdapter,
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        { provide: LoggerService, useClass: MockLoggerService },
+      ],
+    });
+  }));
   beforeEach(() => {
     occAdapter = TestBed.inject(OccPickupLocationAdapter);
     httpMock = TestBed.inject(HttpTestingController);

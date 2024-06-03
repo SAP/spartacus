@@ -36,7 +36,7 @@ describe('Cms Component Selectors', () => {
 
         store
           .pipe(
-            select(CmsSelectors.componentsContextSelectorFactory(componentUid))
+            select(CmsSelectors.componentsContextSelectorFactory(componentUid)),
           )
           .subscribe((value) => (result = value));
 
@@ -50,7 +50,7 @@ describe('Cms Component Selectors', () => {
 
         store
           .pipe(
-            select(CmsSelectors.componentsContextSelectorFactory(componentUid))
+            select(CmsSelectors.componentsContextSelectorFactory(componentUid)),
           )
           .subscribe((value) => (result = value));
 
@@ -63,7 +63,7 @@ describe('Cms Component Selectors', () => {
             component,
             uid: componentUid,
             pageContext,
-          })
+          }),
         );
 
         const serializedPageContext = serializePageContext(pageContext, true);
@@ -95,9 +95,9 @@ describe('Cms Component Selectors', () => {
             select(
               CmsSelectors.componentsLoaderStateSelectorFactory(
                 componentUid,
-                'ContentPage-xxx'
-              )
-            )
+                'ContentPage-xxx',
+              ),
+            ),
           )
           .subscribe((value) => (result = value));
 
@@ -118,7 +118,7 @@ describe('Cms Component Selectors', () => {
               component,
               uid: componentUid,
               pageContext,
-            })
+            }),
           );
 
           let result: StateUtils.LoaderState<boolean>;
@@ -128,9 +128,9 @@ describe('Cms Component Selectors', () => {
               select(
                 CmsSelectors.componentsLoaderStateSelectorFactory(
                   componentUid,
-                  'does-not-exist'
-                )
-              )
+                  'does-not-exist',
+                ),
+              ),
             )
             .subscribe((value) => (result = value));
 
@@ -151,7 +151,7 @@ describe('Cms Component Selectors', () => {
               component,
               uid: componentUid,
               pageContext,
-            })
+            }),
           );
 
           let result: StateUtils.LoaderState<boolean>;
@@ -161,9 +161,9 @@ describe('Cms Component Selectors', () => {
               select(
                 CmsSelectors.componentsLoaderStateSelectorFactory(
                   componentUid,
-                  serializedPageContext
-                )
-              )
+                  serializedPageContext,
+                ),
+              ),
             )
             .subscribe((value) => (result = value));
 
@@ -193,7 +193,7 @@ describe('Cms Component Selectors', () => {
             component,
             uid: componentUid,
             pageContext,
-          })
+          }),
         );
 
         let result: boolean;
@@ -202,9 +202,9 @@ describe('Cms Component Selectors', () => {
             select(
               CmsSelectors.componentsContextExistsSelectorFactory(
                 componentUid,
-                'does-not-exist'
-              )
-            )
+                'does-not-exist',
+              ),
+            ),
           )
           .subscribe((value) => (result = value));
 
@@ -227,7 +227,7 @@ describe('Cms Component Selectors', () => {
             uid: componentUid,
             error: undefined,
             pageContext,
-          })
+          }),
         );
 
         let result: boolean;
@@ -236,9 +236,9 @@ describe('Cms Component Selectors', () => {
             select(
               CmsSelectors.componentsContextExistsSelectorFactory(
                 componentUid,
-                serializedPageContext
-              )
-            )
+                serializedPageContext,
+              ),
+            ),
           )
           .subscribe((value) => (result = value));
 
@@ -260,7 +260,7 @@ describe('Cms Component Selectors', () => {
             component,
             uid: componentUid,
             pageContext,
-          })
+          }),
         );
 
         let result: boolean;
@@ -269,9 +269,9 @@ describe('Cms Component Selectors', () => {
             select(
               CmsSelectors.componentsContextExistsSelectorFactory(
                 componentUid,
-                serializedPageContext
-              )
-            )
+                serializedPageContext,
+              ),
+            ),
           )
           .subscribe((value) => (result = value));
 
@@ -293,7 +293,7 @@ describe('Cms Component Selectors', () => {
           component,
           uid: componentUid,
           pageContext,
-        })
+        }),
       );
 
       let result: CmsComponent;
@@ -328,7 +328,7 @@ describe('Cms Component Selectors', () => {
             component,
             uid: componentUid,
             pageContext,
-          })
+          }),
         );
 
         let result: CmsComponent;
@@ -337,9 +337,9 @@ describe('Cms Component Selectors', () => {
             select(
               CmsSelectors.componentsSelectorFactory(
                 componentUid,
-                'does-not-exist'
-              )
-            )
+                'does-not-exist',
+              ),
+            ),
           )
           .subscribe((value) => (result = value));
 
@@ -360,7 +360,7 @@ describe('Cms Component Selectors', () => {
             uid: componentUid,
             error: undefined,
             pageContext,
-          })
+          }),
         );
 
         let result: CmsComponent;
@@ -369,9 +369,9 @@ describe('Cms Component Selectors', () => {
             select(
               CmsSelectors.componentsSelectorFactory(
                 componentUid,
-                serializedPageContext
-              )
-            )
+                serializedPageContext,
+              ),
+            ),
           )
           .subscribe((value) => (result = value));
 
@@ -393,7 +393,7 @@ describe('Cms Component Selectors', () => {
             component,
             uid: componentUid,
             pageContext,
-          })
+          }),
         );
 
         let result: CmsComponent;
@@ -402,9 +402,9 @@ describe('Cms Component Selectors', () => {
             select(
               CmsSelectors.componentsSelectorFactory(
                 componentUid,
-                serializedPageContext
-              )
-            )
+                serializedPageContext,
+              ),
+            ),
           )
           .subscribe((value) => (result = value));
 

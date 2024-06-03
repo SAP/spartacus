@@ -76,7 +76,7 @@ describe('S4HANA Order management', { testIsolation: false }, () => {
         s4omHelper.cartWithS4OMB2bProductAndPremiumShipping,
         true,
         order_type.PLACE_ORDER,
-        s4omHelper.s4omTabbingOrderConfig
+        s4omHelper.s4omTabbingOrderConfig,
       );
 
       b2bCheckout.placeOrder('/order-confirmation');
@@ -91,7 +91,7 @@ describe('S4HANA Order management', { testIsolation: false }, () => {
         null,
         s4omHelper.s4omPONumber,
         s4omHelper.s4omCostCenter,
-        s4omHelper.s4omB2BUnit
+        s4omHelper.s4omB2BUnit,
       );
       s4omHelper.verifyScheduleLineInfo();
       s4omHelper.setOrderConfirmationIdInSessionStorage('s4omOrderId');
@@ -109,7 +109,7 @@ describe('S4HANA Order management', { testIsolation: false }, () => {
       s4omHelper.findRowInOrderHistoryTable(
         ordersAlias,
         s4omPastOrderId,
-        poNumber
+        poNumber,
       );
     });
 
@@ -117,7 +117,7 @@ describe('S4HANA Order management', { testIsolation: false }, () => {
       cy.intercept({
         method: 'GET',
         pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/current/orders/*`,
       }).as('getOrderDetail');
 
@@ -137,7 +137,7 @@ describe('S4HANA Order management', { testIsolation: false }, () => {
         s4omHelper.s4omPONumber,
         s4omHelper.s4omCostCenter,
         s4omHelper.s4omB2BUnit,
-        false
+        false,
       );
       s4omHelper.verifyScheduleLineInfo();
     });

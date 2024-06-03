@@ -27,7 +27,7 @@ describe('MockUrlPipe', () => {
 
     it('should transform array with cxRoute', () => {
       expect(pipe.transform(['foo', { cxRoute: 'product' }, 'bar'])).toEqual(
-        'foo cxRoute:product bar'
+        'foo cxRoute:product bar',
       );
     });
 
@@ -36,7 +36,7 @@ describe('MockUrlPipe', () => {
         pipe.transform({
           cxRoute: 'product',
           params: { name: 'ABC', code: 123 },
-        })
+        }),
       ).toEqual('cxRoute:product code:123 name:ABC');
     });
 
@@ -44,7 +44,7 @@ describe('MockUrlPipe', () => {
       expect(
         pipe.transform([
           { cxRoute: 'product', params: { name: 'ABC', code: 123 } },
-        ])
+        ]),
       ).toEqual('cxRoute:product code:123 name:ABC');
     });
   });
@@ -69,7 +69,7 @@ describe('MockUrlPipe', () => {
         pipe.transform({
           cxRoute: 'product',
           params: { name: 'ABC', code: 123 },
-        })
+        }),
       ).toEqual('cxRoute:product code:123 name:ABC');
     });
 
@@ -78,7 +78,7 @@ describe('MockUrlPipe', () => {
         pipe.transform({
           cxRoute: 'product',
           params: { description: 'Super long description...', code: 123 },
-        })
+        }),
       ).toEqual('cxRoute:product code:123');
     });
   });

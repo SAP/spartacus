@@ -39,7 +39,7 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
         this.handleOrganizationConflict(
           message,
           this.costCenterMask,
-          'costCenter'
+          'costCenter',
         );
         // Handle unit conflict
         this.handleOrganizationConflict(message, this.unitMask, 'unit');
@@ -47,7 +47,7 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
         this.handleOrganizationConflict(
           message,
           this.permissionMask,
-          'permission'
+          'permission',
         );
         // Handle unknown conflict
         this.handleOrganizationConflict(message, this.unknownMask, 'unknown');
@@ -62,21 +62,21 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
         this.unitMask,
         this.permissionMask,
         this.unknownMask,
-      ].some((mask) => mask.test(error.message ?? ''))
+      ].some((mask) => mask.test(error.message ?? '')),
     );
   }
 
   protected handleOrganizationConflict(
     message: string,
     mask: RegExp,
-    key: string
+    key: string,
   ): void {
     const result = message.match(mask);
     const params = { code: result?.[1] };
     if (result) {
       this.globalMessageService.add(
         { key: `organization.httpHandlers.conflict.${key}`, params },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }
@@ -84,7 +84,7 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
       (error: any) =>
-        error.type === 'ModelSavingError' || error.type === 'DuplicateUidError'
+        error.type === 'ModelSavingError' || error.type === 'DuplicateUidError',
     );
   }
 

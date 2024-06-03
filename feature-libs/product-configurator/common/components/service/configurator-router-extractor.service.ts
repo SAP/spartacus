@@ -22,7 +22,7 @@ export class ConfiguratorRouterExtractorService {
   protected readonly ROUTE_FRAGMENT_OVERVIEW = 'configureOverview';
   constructor(
     protected configUtilsService: CommonConfiguratorUtilsService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
   ) {}
 
   extractRouterData(): Observable<ConfiguratorRouter.Data> {
@@ -61,12 +61,12 @@ export class ConfiguratorRouterExtractorService {
         };
 
         return routerData;
-      })
+      }),
     );
   }
 
   createOwnerFromRouterState(
-    routerState: RouterState
+    routerState: RouterState,
   ): CommonConfigurator.Owner {
     const owner: CommonConfigurator.Owner =
       ConfiguratorModelUtils.createInitialOwner();
@@ -98,7 +98,7 @@ export class ConfiguratorRouterExtractorService {
    * @returns Configurator type
    */
   protected getConfiguratorTypeFromSemanticRoute(
-    semanticRoute: string
+    semanticRoute: string,
   ): string {
     if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_OVERVIEW)) {
       return semanticRoute.split(this.ROUTE_FRAGMENT_OVERVIEW)[1];

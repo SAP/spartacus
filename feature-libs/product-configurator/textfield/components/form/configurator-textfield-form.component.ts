@@ -26,21 +26,21 @@ export class ConfiguratorTextfieldFormComponent {
         switch (routerData.owner.type) {
           case CommonConfigurator.OwnerType.CART_ENTRY: {
             return this.configuratorTextfieldService.readConfigurationForCartEntry(
-              routerData.owner
+              routerData.owner,
             );
           }
           case CommonConfigurator.OwnerType.ORDER_ENTRY: {
             return this.configuratorTextfieldService.readConfigurationForOrderEntry(
-              routerData.owner
+              routerData.owner,
             );
           }
           default: {
             return this.configuratorTextfieldService.createConfiguration(
-              routerData.owner
+              routerData.owner,
             );
           }
         }
-      })
+      }),
     );
 
   isEditable$: Observable<boolean> = this.configRouterExtractorService
@@ -48,13 +48,13 @@ export class ConfiguratorTextfieldFormComponent {
     .pipe(
       map(
         (routerData) =>
-          routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
-      )
+          routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION,
+      ),
     );
 
   constructor(
     protected configuratorTextfieldService: ConfiguratorTextfieldService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
   ) {}
 
   /**
@@ -62,7 +62,7 @@ export class ConfiguratorTextfieldFormComponent {
    * @param attribute - Configuration attribute, always containing a string typed value
    */
   updateConfiguration(
-    attribute: ConfiguratorTextfield.ConfigurationInfo
+    attribute: ConfiguratorTextfield.ConfigurationInfo,
   ): void {
     this.configuratorTextfieldService.updateConfiguration(attribute);
   }

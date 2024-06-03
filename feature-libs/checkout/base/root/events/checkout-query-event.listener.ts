@@ -39,10 +39,10 @@ export class CheckoutQueryEventListener implements OnDestroy {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent)
+        this.eventService.get(CurrencySetEvent),
       ).subscribe(() => {
         this.eventService.dispatch({}, CheckoutQueryReloadEvent);
-      })
+      }),
     );
   }
 
@@ -54,10 +54,10 @@ export class CheckoutQueryEventListener implements OnDestroy {
         this.eventService.get(SaveCartSuccessEvent),
         this.eventService.get(RestoreSavedCartSuccessEvent),
         this.eventService.get(MergeCartSuccessEvent),
-        this.eventService.get(OrderPlacedEvent)
+        this.eventService.get(OrderPlacedEvent),
       ).subscribe(() => {
         this.eventService.dispatch({}, CheckoutQueryResetEvent);
-      })
+      }),
     );
   }
 

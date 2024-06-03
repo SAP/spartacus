@@ -57,28 +57,28 @@ const customer = {
 class MockUserGroupConnector implements Partial<UserGroupConnector> {
   get = createSpy().and.returnValue(of(userGroup));
   getList = createSpy().and.returnValue(
-    of({ values: [userGroup], pagination, sorts })
+    of({ values: [userGroup], pagination, sorts }),
   );
   create = createSpy().and.returnValue(of(userGroup));
   update = createSpy().and.returnValue(of(userGroup));
   delete = createSpy().and.returnValue(of(userGroup));
   getAvailableOrderApprovalPermissions = createSpy().and.returnValue(
-    of({ values: [permission], pagination, sorts })
+    of({ values: [permission], pagination, sorts }),
   );
   assignOrderApprovalPermission = createSpy().and.returnValue(
-    of({ id: permissionUid, selected: true })
+    of({ id: permissionUid, selected: true }),
   );
   unassignOrderApprovalPermission = createSpy().and.returnValue(
-    of({ id: permissionUid, selected: false })
+    of({ id: permissionUid, selected: false }),
   );
   getAvailableOrgCustomers = createSpy().and.returnValue(
-    of({ values: [customer], pagination, sorts })
+    of({ values: [customer], pagination, sorts }),
   );
   assignMember = createSpy().and.returnValue(
-    of({ id: customerId, selected: true })
+    of({ id: customerId, selected: true }),
   );
   unassignMember = createSpy().and.returnValue(
-    of({ id: customerId, selected: false })
+    of({ id: customerId, selected: false }),
   );
   unassignAllMembers = createSpy().and.returnValue(of(null));
 }
@@ -138,10 +138,10 @@ describe('UserGroup Effects', () => {
     });
 
     effects = TestBed.inject(
-      fromEffects.UserGroupEffects as Type<fromEffects.UserGroupEffects>
+      fromEffects.UserGroupEffects as Type<fromEffects.UserGroupEffects>,
     );
     userGroupConnector = TestBed.inject(
-      UserGroupConnector as Type<UserGroupConnector>
+      UserGroupConnector as Type<UserGroupConnector>,
     );
     expected = null;
   });
@@ -162,7 +162,7 @@ describe('UserGroup Effects', () => {
 
     it('should return LoadUserGroupFail action if userGroup not updated', () => {
       userGroupConnector.get = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new UserGroupActions.LoadUserGroup({
         userId,
@@ -202,7 +202,7 @@ describe('UserGroup Effects', () => {
 
     it('should return LoadUserGroupsFail action if userGroups not loaded', () => {
       userGroupConnector.getList = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new UserGroupActions.LoadUserGroups({
         userId,
@@ -227,7 +227,7 @@ describe('UserGroup Effects', () => {
         userGroup,
       });
       const completion1 = new UserGroupActions.CreateUserGroupSuccess(
-        userGroup
+        userGroup,
       );
       const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
@@ -239,7 +239,7 @@ describe('UserGroup Effects', () => {
 
     it('should return CreateUserGroupFail action if userGroup not created', () => {
       userGroupConnector.create = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new UserGroupActions.CreateUserGroup({
         userId,
@@ -274,13 +274,13 @@ describe('UserGroup Effects', () => {
       expect(userGroupConnector.update).toHaveBeenCalledWith(
         userId,
         userGroupId,
-        userGroup
+        userGroup,
       );
     });
 
     it('should return UpdateUserGroupFail action if userGroup not created', () => {
       userGroupConnector.update = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new UserGroupActions.UpdateUserGroup({
         userId,
@@ -299,7 +299,7 @@ describe('UserGroup Effects', () => {
       expect(userGroupConnector.update).toHaveBeenCalledWith(
         userId,
         userGroupId,
-        userGroup
+        userGroup,
       );
     });
   });
@@ -311,7 +311,7 @@ describe('UserGroup Effects', () => {
         userGroupId,
       });
       const completion1 = new UserGroupActions.DeleteUserGroupSuccess(
-        userGroup
+        userGroup,
       );
       const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
@@ -320,13 +320,13 @@ describe('UserGroup Effects', () => {
       expect(effects.deleteUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.delete).toHaveBeenCalledWith(
         userId,
-        userGroupId
+        userGroupId,
       );
     });
 
     it('should return DeleteUserGroupFail action if userGroup not created', () => {
       userGroupConnector.delete = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new UserGroupActions.DeleteUserGroup({
         userId,
@@ -343,7 +343,7 @@ describe('UserGroup Effects', () => {
       expect(effects.deleteUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.delete).toHaveBeenCalledWith(
         userId,
-        userGroupId
+        userGroupId,
       );
     });
   });
@@ -369,10 +369,10 @@ describe('UserGroup Effects', () => {
       expected = cold('-(bc)', { b: completion, c: completion2 });
 
       expect(effects.loadAvailableOrderApprovalPermissions$).toBeObservable(
-        expected
+        expected,
       );
       expect(
-        userGroupConnector.getAvailableOrderApprovalPermissions
+        userGroupConnector.getAvailableOrderApprovalPermissions,
       ).toHaveBeenCalledWith(userId, userGroupId, params);
     });
 
@@ -393,10 +393,10 @@ describe('UserGroup Effects', () => {
       expected = cold('-b', { b: completion });
 
       expect(effects.loadAvailableOrderApprovalPermissions$).toBeObservable(
-        expected
+        expected,
       );
       expect(
-        userGroupConnector.getAvailableOrderApprovalPermissions
+        userGroupConnector.getAvailableOrderApprovalPermissions,
       ).toHaveBeenCalledWith(userId, userGroupId, params);
     });
   });
@@ -418,7 +418,7 @@ describe('UserGroup Effects', () => {
 
       expect(effects.assignPermissionToUserGroup$).toBeObservable(expected);
       expect(
-        userGroupConnector.assignOrderApprovalPermission
+        userGroupConnector.assignOrderApprovalPermission,
       ).toHaveBeenCalledWith(userId, userGroupId, permissionUid);
     });
 
@@ -441,7 +441,7 @@ describe('UserGroup Effects', () => {
 
       expect(effects.assignPermissionToUserGroup$).toBeObservable(expected);
       expect(
-        userGroupConnector.assignOrderApprovalPermission
+        userGroupConnector.assignOrderApprovalPermission,
       ).toHaveBeenCalledWith(userId, userGroupId, permissionUid);
     });
   });
@@ -462,7 +462,7 @@ describe('UserGroup Effects', () => {
 
       expect(effects.unassignPermissionFromUserGroup$).toBeObservable(expected);
       expect(
-        userGroupConnector.unassignOrderApprovalPermission
+        userGroupConnector.unassignOrderApprovalPermission,
       ).toHaveBeenCalledWith(userId, userGroupId, permissionUid);
     });
 
@@ -485,7 +485,7 @@ describe('UserGroup Effects', () => {
 
       expect(effects.unassignPermissionFromUserGroup$).toBeObservable(expected);
       expect(
-        userGroupConnector.unassignOrderApprovalPermission
+        userGroupConnector.unassignOrderApprovalPermission,
       ).toHaveBeenCalledWith(userId, userGroupId, permissionUid);
     });
   });
@@ -505,7 +505,7 @@ describe('UserGroup Effects', () => {
           userGroupId,
           page: { ids: [customerId], pagination, sorts },
           params,
-        }
+        },
       );
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });
@@ -514,13 +514,13 @@ describe('UserGroup Effects', () => {
       expect(userGroupConnector.getAvailableOrgCustomers).toHaveBeenCalledWith(
         userId,
         userGroupId,
-        params
+        params,
       );
     });
 
     it('should return LoadUserGroupAvailableOrgCustomersFail action if users not loaded', () => {
       userGroupConnector.getAvailableOrgCustomers = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new UserGroupActions.LoadAvailableOrgCustomers({
         userId,
@@ -539,7 +539,7 @@ describe('UserGroup Effects', () => {
       expect(userGroupConnector.getAvailableOrgCustomers).toHaveBeenCalledWith(
         userId,
         userGroupId,
-        params
+        params,
       );
     });
   });
@@ -563,13 +563,13 @@ describe('UserGroup Effects', () => {
       expect(userGroupConnector.assignMember).toHaveBeenCalledWith(
         userId,
         userGroupId,
-        customerId
+        customerId,
       );
     });
 
     it('should return CreateUserGroupOrderApprovalPermissionFail action if user not assigned', () => {
       userGroupConnector.assignMember = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new UserGroupActions.AssignMember({
         userId,
@@ -589,7 +589,7 @@ describe('UserGroup Effects', () => {
       expect(userGroupConnector.assignMember).toHaveBeenCalledWith(
         userId,
         userGroupId,
-        customerId
+        customerId,
       );
     });
   });
@@ -612,13 +612,13 @@ describe('UserGroup Effects', () => {
       expect(userGroupConnector.unassignMember).toHaveBeenCalledWith(
         userId,
         userGroupId,
-        customerId
+        customerId,
       );
     });
 
     it('should return DeleteUserGroupMemberSuccessFail action if users not unassigned', () => {
       userGroupConnector.unassignMember = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new UserGroupActions.UnassignMember({
         userId,
@@ -638,7 +638,7 @@ describe('UserGroup Effects', () => {
       expect(userGroupConnector.unassignMember).toHaveBeenCalledWith(
         userId,
         userGroupId,
-        customerId
+        customerId,
       );
     });
   });
@@ -659,13 +659,13 @@ describe('UserGroup Effects', () => {
       expect(effects.unassignAllMembersFromUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.unassignAllMembers).toHaveBeenCalledWith(
         userId,
-        userGroupId
+        userGroupId,
       );
     });
 
     it('should return DeleteUserGroupMemberSuccessFail action if users not unassigned', () => {
       userGroupConnector.unassignAllMembers = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new UserGroupActions.UnassignAllMembers({
         userId,
@@ -682,7 +682,7 @@ describe('UserGroup Effects', () => {
       expect(effects.unassignAllMembersFromUserGroup$).toBeObservable(expected);
       expect(userGroupConnector.unassignAllMembers).toHaveBeenCalledWith(
         userId,
-        userGroupId
+        userGroupId,
       );
     });
   });

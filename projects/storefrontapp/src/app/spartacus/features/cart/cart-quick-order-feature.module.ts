@@ -23,7 +23,7 @@ import { provideConfig } from '@spartacus/core';
         [CART_QUICK_ORDER_FEATURE]: {
           module: () =>
             import('@spartacus/cart/quick-order').then(
-              (m) => m.QuickOrderModule
+              (m) => m.QuickOrderModule,
             ),
         },
       },

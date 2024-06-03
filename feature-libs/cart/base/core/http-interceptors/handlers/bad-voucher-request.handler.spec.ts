@@ -117,7 +117,7 @@ describe('BadVoucherRequestHandler', () => {
     service.handleError(MockRequest, MockVoucherInvalidErrorResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.invalidCodeProvided' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -125,7 +125,7 @@ describe('BadVoucherRequestHandler', () => {
     service.handleError(MockRequest, MockVoucherExceededErrorResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.voucherExceeded' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 });

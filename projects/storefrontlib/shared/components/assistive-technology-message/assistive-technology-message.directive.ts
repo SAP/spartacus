@@ -31,7 +31,7 @@ export class AtMessageDirective {
   constructor(
     protected elementRef: ElementRef<HTMLElement>,
     @Optional() protected templateRef: TemplateRef<HTMLElement>,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   protected get host(): HTMLElement {
@@ -60,12 +60,12 @@ export class AtMessageDirective {
           // Override current assitive message.
           if (globalMessageEntities[GlobalMessageType.MSG_TYPE_ASSISTIVE]) {
             this.globalMessageService.remove(
-              GlobalMessageType.MSG_TYPE_ASSISTIVE
+              GlobalMessageType.MSG_TYPE_ASSISTIVE,
             );
           }
           this.globalMessageService.add(
             message,
-            GlobalMessageType.MSG_TYPE_ASSISTIVE
+            GlobalMessageType.MSG_TYPE_ASSISTIVE,
           );
         });
     }

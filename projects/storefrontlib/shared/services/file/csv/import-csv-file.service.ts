@@ -48,7 +48,7 @@ export class ImportCsvFileService {
       separator: string;
       isDataParsable?: (data: string[][]) => boolean;
       maxEntries?: number;
-    }
+    },
   ): Observable<CsvFileValidationErrors | null> {
     const validationErrors: CsvFileValidationErrors = {};
     return (
@@ -64,8 +64,8 @@ export class ImportCsvFileService {
       }),
       catchError((errors) => of(errors)),
       map(() =>
-        Object.keys(validationErrors).length === 0 ? null : validationErrors
-      )
+        Object.keys(validationErrors).length === 0 ? null : validationErrors,
+      ),
     );
   }
 
@@ -80,13 +80,13 @@ export class ImportCsvFileService {
   protected parse(
     csvString: string,
     separator: string,
-    ignoreHeader = true
+    ignoreHeader = true,
   ): string[][] {
     return csvString
       .split('\n')
       .map((row) => row.split(separator).map((cell) => cell.replace(/"/g, '')))
       .filter(
-        (value, index) => !(ignoreHeader && index === 0) && value[0] !== ''
+        (value, index) => !(ignoreHeader && index === 0) && value[0] !== '',
       );
   }
 
@@ -100,7 +100,7 @@ export class ImportCsvFileService {
   protected validateTooManyEntries(
     data: string[][],
     errors: ValidationErrors,
-    maxEntries?: number
+    maxEntries?: number,
   ): void {
     if (maxEntries && data.length > maxEntries) {
       errors.tooManyEntries = { maxEntries };
@@ -111,7 +111,7 @@ export class ImportCsvFileService {
   protected validateNotParsable(
     data: string[][],
     errors: ValidationErrors,
-    isDataParsable?: (data: string[][]) => boolean
+    isDataParsable?: (data: string[][]) => boolean,
   ): void {
     if (isDataParsable && !isDataParsable(data)) {
       errors.notParsable = true;

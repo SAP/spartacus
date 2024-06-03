@@ -36,7 +36,7 @@ export class UnitAddressDetailsComponent {
   model$: Observable<Address> = this.itemService.key$.pipe(
     withLatestFrom(this.unit$),
     switchMap(([code, unit]) => this.itemService.load(unit?.uid, code)),
-    shareReplay({ bufferSize: 1, refCount: true })
+    shareReplay({ bufferSize: 1, refCount: true }),
   );
 
   getCountry(isoCode: string | undefined): Observable<Country | undefined> {
@@ -47,14 +47,14 @@ export class UnitAddressDetailsComponent {
         }
       }),
       map((countries) =>
-        countries.find((country) => country.isocode === isoCode)
-      )
+        countries.find((country) => country.isocode === isoCode),
+      ),
     );
   }
 
   constructor(
     protected itemService: ItemService<Address>,
     protected currentUnitService: CurrentUnitService,
-    protected userAddressService: UserAddressService
+    protected userAddressService: UserAddressService,
   ) {}
 }

@@ -28,12 +28,12 @@ export class LoginGuard {
   constructor(
     protected authService: AuthService,
     protected authConfigService: AuthConfigService,
-    protected cmsPageGuard: CmsPageGuard
+    protected cmsPageGuard: CmsPageGuard,
   ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     return this.authService.isUserLoggedIn().pipe(
       take(1),
@@ -52,7 +52,7 @@ export class LoginGuard {
           }
           return EMPTY;
         }
-      })
+      }),
     );
   }
 }

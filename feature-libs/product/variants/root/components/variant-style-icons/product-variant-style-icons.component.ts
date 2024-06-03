@@ -35,7 +35,7 @@ export class ProductVariantStyleIconsComponent implements OnInit, OnDestroy {
   constructor(
     private config: OccConfig,
     @Optional()
-    protected productListItemContext?: ProductListItemContext
+    protected productListItemContext?: ProductListItemContext,
   ) {}
 
   protected subscriptions = new Subscription();
@@ -57,7 +57,7 @@ export class ProductVariantStyleIconsComponent implements OnInit, OnDestroy {
           this.variants = product.variantOptions;
           this.setVariantsNames();
         }
-      })
+      }),
     );
   }
 
@@ -71,10 +71,10 @@ export class ProductVariantStyleIconsComponent implements OnInit, OnDestroy {
   }
 
   getVariantThumbnailUrl(
-    variantOptionQualifiers: VariantOptionQualifier[]
+    variantOptionQualifiers: VariantOptionQualifier[],
   ): string {
     const thumbnail = variantOptionQualifiers.find(
-      (item) => item.qualifier === VariantQualifier.THUMBNAIL
+      (item) => item.qualifier === VariantQualifier.THUMBNAIL,
     );
     return thumbnail
       ? `${this.config?.backend?.occ?.baseUrl}${thumbnail.image?.url}`
@@ -82,14 +82,14 @@ export class ProductVariantStyleIconsComponent implements OnInit, OnDestroy {
   }
 
   private getVariantName(
-    variantOptionQualifiers: VariantOptionQualifier[]
+    variantOptionQualifiers: VariantOptionQualifier[],
   ): string | undefined {
     const rollupProperty = variantOptionQualifiers.find(
-      (item) => item.qualifier === VariantQualifier.ROLLUP_PROPERTY
+      (item) => item.qualifier === VariantQualifier.ROLLUP_PROPERTY,
     );
     const property = rollupProperty
       ? variantOptionQualifiers.find(
-          (item) => item.qualifier === rollupProperty.value
+          (item) => item.qualifier === rollupProperty.value,
         )
       : null;
     return property ? property.value : '';

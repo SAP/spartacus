@@ -18,7 +18,7 @@ import {
 export class PageLinkService {
   constructor(
     protected pageMetaConfig: PageMetaConfig,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {}
 
   /**
@@ -34,13 +34,13 @@ export class PageLinkService {
     };
     return this.buildCanonicalUrl(
       url ?? this.winRef.location.href ?? '',
-      config
+      config,
     );
   }
 
   protected buildCanonicalUrl(
     url: string,
-    options: CanonicalUrlOptions
+    options: CanonicalUrlOptions,
   ): string {
     if (options.forceHttps) {
       url = url.replace(/^http(?!s):/i, 'https:');
@@ -64,7 +64,7 @@ export class PageLinkService {
 
   protected removeQueryParams(
     url: string,
-    config: CanonicalUrlOptions
+    config: CanonicalUrlOptions,
   ): string {
     const queryPos = url.indexOf('?');
     if (queryPos > -1) {

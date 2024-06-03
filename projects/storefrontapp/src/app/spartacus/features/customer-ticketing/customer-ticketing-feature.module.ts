@@ -23,7 +23,7 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
         [CUSTOMER_TICKETING_FEATURE]: {
           module: () =>
             import('./customer-ticketing-wrapper.module').then(
-              (m) => m.CustomerTicketingWrapperModule
+              (m) => m.CustomerTicketingWrapperModule,
             ),
         },
       },

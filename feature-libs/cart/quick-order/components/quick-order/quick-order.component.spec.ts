@@ -57,11 +57,11 @@ const mockEntries$ = new BehaviorSubject<OrderEntry[]>([mockEntry]);
 const mockSoftDeletedEntries$ = new BehaviorSubject<Record<string, OrderEntry>>(
   {
     mockProduct2: mockEntry2,
-  }
+  },
 );
 const mockCanAdd$ = new BehaviorSubject<boolean>(true);
 const mockNonPurchasableProduct$ = new BehaviorSubject<Product | null>(
-  mockNonPurchasableProduct
+  mockNonPurchasableProduct,
 );
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
@@ -71,7 +71,7 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   clearList(): void {}
   addToCart(): Observable<[OrderEntry[], QuickOrderAddEntryEvent[]]> {
     return combineLatest([mockEntries$.asObservable()]).pipe(
-      map(([entries]) => [entries, []])
+      map(([entries]) => [entries, []]),
     );
   }
   restoreSoftDeletedEntry(_productCode: string): void {}
@@ -113,7 +113,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(
     _text: string | Translatable,
     _type: GlobalMessageType,
-    _timeout?: number
+    _timeout?: number,
   ): void {}
 }
 
@@ -212,7 +212,7 @@ describe('QuickOrderComponent', () => {
 
   it('should display header', () => {
     expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
-      'quickOrderList.header'
+      'quickOrderList.header',
     );
   });
 
@@ -233,14 +233,14 @@ describe('QuickOrderComponent', () => {
       {
         key: 'quickOrderTable.listCleared',
       },
-      GlobalMessageType.MSG_TYPE_INFO
+      GlobalMessageType.MSG_TYPE_INFO,
     );
   });
 
   describe('should trigger add to cart', () => {
     it('in standard way', () => {
       spyOn(quickOrderService, 'addToCart').and.returnValue(
-        of([[mockEntry], []])
+        of([[mockEntry], []]),
       );
       spyOn(globalMessageService, 'add').and.stub();
 
@@ -251,13 +251,13 @@ describe('QuickOrderComponent', () => {
         {
           key: 'quickOrderTable.addedtoCart',
         },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
 
     it('with warning and success messages', () => {
       spyOn(quickOrderService, 'addToCart').and.returnValue(
-        of([[mockEntry, mockEntry2], [mockQuickOrderAddEntryEvent]])
+        of([[mockEntry, mockEntry2], [mockQuickOrderAddEntryEvent]]),
       );
 
       component.addToCart([mockEntry, mockEntry2]);
@@ -275,7 +275,7 @@ describe('QuickOrderComponent', () => {
 
       expect(quickOrderService.addToCart).not.toHaveBeenCalled();
       expect(
-        el.query(By.css('.quick-order-add-to-cart-information-message'))
+        el.query(By.css('.quick-order-add-to-cart-information-message')),
       ).toBeTruthy();
     });
   });
@@ -292,7 +292,7 @@ describe('QuickOrderComponent', () => {
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('.clear-button')).nativeElement.disabled
+      el.query(By.css('.clear-button')).nativeElement.disabled,
     ).toBeTruthy();
   });
 
@@ -302,7 +302,7 @@ describe('QuickOrderComponent', () => {
 
       component.undoDeletion(mockEntry);
       expect(quickOrderService.restoreSoftDeletedEntry).toHaveBeenCalledWith(
-        mockEntry.product?.code
+        mockEntry.product?.code,
       );
     });
 
@@ -320,7 +320,7 @@ describe('QuickOrderComponent', () => {
 
       component.clearDeletion(mockEntry);
       expect(quickOrderService.hardDeleteEntry).toHaveBeenCalledWith(
-        mockEntry.product?.code
+        mockEntry.product?.code,
       );
     });
 
@@ -362,13 +362,13 @@ describe('QuickOrderComponent', () => {
   it('should trigger clearNonPurchasableProductError on clearNonPurchasableError', () => {
     spyOn(
       quickOrderService,
-      'clearNonPurchasableProductError'
+      'clearNonPurchasableProductError',
     ).and.callThrough();
 
     component.clearNonPurchasableError();
 
     expect(
-      quickOrderService.clearNonPurchasableProductError
+      quickOrderService.clearNonPurchasableProductError,
     ).toHaveBeenCalled();
   });
 });

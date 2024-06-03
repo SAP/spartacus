@@ -18,10 +18,10 @@ const mockWindowRef = {
 
 const mockRenderer2 = {
   createElement: createSpy('createElement').and.callFake((type: string) =>
-    document.createElement(type)
+    document.createElement(type),
   ),
   setProperty: createSpy('setProperty').and.callFake(
-    (el: HTMLElement, prop: string, val: string) => (el[prop] = val)
+    (el: HTMLElement, prop: string, val: string) => (el[prop] = val),
   ),
 };
 
@@ -82,17 +82,17 @@ describe('AnchorPipe', () => {
       expect(renderer.setProperty).toHaveBeenCalledWith(
         mockLink1,
         'href',
-        `${currentUrlWithoutFragment}#head1`
+        `${currentUrlWithoutFragment}#head1`,
       );
       expect(renderer.setProperty).toHaveBeenCalledWith(
         mockLink5,
         'href',
-        `${currentUrlWithoutFragment}#head5`
+        `${currentUrlWithoutFragment}#head5`,
       );
       expect(renderer.setProperty).toHaveBeenCalledWith(
         mockLink6,
         'href',
-        `${currentUrlWithoutFragment}#`
+        `${currentUrlWithoutFragment}#`,
       );
     });
 

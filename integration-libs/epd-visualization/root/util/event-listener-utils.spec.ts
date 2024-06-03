@@ -8,7 +8,7 @@ class MockRenderer {
   listen(
     _target: any,
     _eventName: string,
-    _callback: (event: any) => boolean | void
+    _callback: (event: any) => boolean | void,
   ): () => void {
     return this.endListenCallback;
   }
@@ -44,14 +44,14 @@ describe('EventListenerUtils', () => {
       eventListenerUtils.attachEventListener(
         document,
         FAKE_EVENT_1,
-        eventCallback
+        eventCallback,
       );
 
       expect(listeners().length).toEqual(1);
       expect(listeners()[0].eventName).toEqual(FAKE_EVENT_1);
       expect(listeners()[0].nativeElement).toBe(document);
       expect(
-        listeners()[0].endListener === mockRenderer.endListenCallback
+        listeners()[0].endListener === mockRenderer.endListenCallback,
       ).toEqual(true);
       expect(mockRenderer.endListenCallback).toHaveBeenCalledTimes(0);
 
@@ -60,7 +60,7 @@ describe('EventListenerUtils', () => {
       expect(listeners()[0].eventName).toEqual(FAKE_EVENT_1);
       expect(listeners()[0].nativeElement).toBe(document);
       expect(
-        listeners()[0].endListener === mockRenderer.endListenCallback
+        listeners()[0].endListener === mockRenderer.endListenCallback,
       ).toEqual(true);
       expect(mockRenderer.endListenCallback).toHaveBeenCalledTimes(0);
     });
@@ -78,32 +78,32 @@ describe('EventListenerUtils', () => {
       eventListenerUtils.attachEventListener(
         document,
         FAKE_EVENT_1,
-        eventCallback1
+        eventCallback1,
       );
 
       expect(listeners().length).toEqual(1);
       expect(listeners()[0].eventName).toEqual(FAKE_EVENT_1);
       expect(listeners()[0].nativeElement).toBe(document);
       expect(
-        listeners()[0].endListener === mockRenderer.endListenCallback
+        listeners()[0].endListener === mockRenderer.endListenCallback,
       ).toEqual(true);
 
       eventListenerUtils.attachEventListener(
         document,
         FAKE_EVENT_2,
-        eventCallback2
+        eventCallback2,
       );
 
       expect(listeners().length).toEqual(2);
       expect(listeners()[0].eventName).toEqual(FAKE_EVENT_1);
       expect(listeners()[0].nativeElement).toBe(document);
       expect(
-        listeners()[0].endListener === mockRenderer.endListenCallback
+        listeners()[0].endListener === mockRenderer.endListenCallback,
       ).toEqual(true);
       expect(listeners()[1].eventName).toEqual(FAKE_EVENT_2);
       expect(listeners()[1].nativeElement).toBe(document);
       expect(
-        listeners()[1].endListener === mockRenderer.endListenCallback
+        listeners()[1].endListener === mockRenderer.endListenCallback,
       ).toEqual(true);
 
       eventListenerUtils.detachAllEventListeners(document);

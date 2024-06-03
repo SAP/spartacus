@@ -96,7 +96,7 @@ describe('CDCUpdatePasswordComponentService', () => {
         service.updatePassword();
         expect(userService.update).not.toHaveBeenCalled();
         expect(
-          cdcJsService.updateUserPasswordWithoutScreenSet
+          cdcJsService.updateUserPasswordWithoutScreenSet,
         ).toHaveBeenCalledWith('Old123!', 'New123!');
       });
 
@@ -104,13 +104,13 @@ describe('CDCUpdatePasswordComponentService', () => {
         service.updatePassword();
         expect(userService.update).not.toHaveBeenCalled();
         expect(
-          cdcJsService.updateUserPasswordWithoutScreenSet
+          cdcJsService.updateUserPasswordWithoutScreenSet,
         ).toHaveBeenCalled();
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
             key: 'updatePasswordForm.passwordUpdateSuccess',
           },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
       });
 
@@ -119,7 +119,7 @@ describe('CDCUpdatePasswordComponentService', () => {
         service.updatePassword();
         expect(userService.update).not.toHaveBeenCalled();
         expect(
-          cdcJsService.updateUserPasswordWithoutScreenSet
+          cdcJsService.updateUserPasswordWithoutScreenSet,
         ).toHaveBeenCalled();
         expect(service.form.reset).toHaveBeenCalled();
       });
@@ -132,7 +132,7 @@ describe('CDCUpdatePasswordComponentService', () => {
             throwError(() => ({
               status: 'ERROR',
               errorDetails: 'Error occured',
-            }))
+            })),
           );
         TestBed.compileComponents();
       });
@@ -141,7 +141,7 @@ describe('CDCUpdatePasswordComponentService', () => {
         service.updatePassword();
         expect(userService.update).not.toHaveBeenCalled();
         expect(
-          cdcJsService.updateUserPasswordWithoutScreenSet
+          cdcJsService.updateUserPasswordWithoutScreenSet,
         ).not.toHaveBeenCalled();
         expect(globalMessageService.add).not.toHaveBeenCalled();
       });
@@ -156,7 +156,7 @@ describe('CDCUpdatePasswordComponentService', () => {
         expect(authService.coreLogout).not.toHaveBeenCalled();
         expect(globalMessageService.add).toHaveBeenCalledWith(
           'Error occured',
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
         done();
       });

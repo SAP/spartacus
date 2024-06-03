@@ -168,7 +168,7 @@ describe('PageLayoutService', () => {
     describe('mobile (xs)', () => {
       beforeEach(() => {
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.xs)
+          of(BREAKPOINT.xs),
         );
       });
 
@@ -201,7 +201,7 @@ describe('PageLayoutService', () => {
     describe('tablet (md)', () => {
       beforeEach(() => {
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.md)
+          of(BREAKPOINT.md),
         );
       });
 
@@ -228,7 +228,7 @@ describe('PageLayoutService', () => {
     describe('desktop (lg)', () => {
       beforeEach(() => {
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.lg)
+          of(BREAKPOINT.lg),
         );
       });
 
@@ -261,7 +261,7 @@ describe('PageLayoutService', () => {
     describe('mobile (xs)', () => {
       beforeEach(() => {
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.xs)
+          of(BREAKPOINT.xs),
         );
       });
       it('should render global footer slots', () => {
@@ -277,7 +277,7 @@ describe('PageLayoutService', () => {
     describe('mobile (md)', () => {
       beforeEach(() => {
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.md)
+          of(BREAKPOINT.md),
         );
       });
 
@@ -294,7 +294,7 @@ describe('PageLayoutService', () => {
     describe('desktop (lg)', () => {
       beforeEach(() => {
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.lg)
+          of(BREAKPOINT.lg),
         );
       });
       it('should render specific footer slots', () => {
@@ -312,7 +312,7 @@ describe('PageLayoutService', () => {
     beforeEach(() => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of(page_3));
       spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-        of(BREAKPOINT.lg)
+        of(BREAKPOINT.lg),
       );
     });
 
@@ -331,7 +331,7 @@ describe('PageLayoutService', () => {
       Object.keys(BREAKPOINT).forEach((breakpoint) => {
         it('should return page-fold for large ' + breakpoint, () => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(breakpoint as BREAKPOINT)
+            of(breakpoint as BREAKPOINT),
           );
           let results;
           pageLayoutService
@@ -347,7 +347,7 @@ describe('PageLayoutService', () => {
       const pageTemplate = 'template_with_2_specific_page_folds';
       it('should return extra small page slot for XS', () => {
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.xs)
+          of(BREAKPOINT.xs),
         );
         let results;
         pageLayoutService
@@ -358,7 +358,7 @@ describe('PageLayoutService', () => {
       });
       it('should also return extra small page slot for SM', () => {
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.sm)
+          of(BREAKPOINT.sm),
         );
         let results;
         pageLayoutService
@@ -369,7 +369,7 @@ describe('PageLayoutService', () => {
       });
       it('should return medium page slot for MD', () => {
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.md)
+          of(BREAKPOINT.md),
         );
         let results;
         pageLayoutService
@@ -380,7 +380,7 @@ describe('PageLayoutService', () => {
       });
       it('should also return medium page slot for LG', () => {
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.lg)
+          of(BREAKPOINT.lg),
         );
         let results;
         pageLayoutService
@@ -391,7 +391,7 @@ describe('PageLayoutService', () => {
       });
       it('should also return medium page slot for XL', () => {
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.xl)
+          of(BREAKPOINT.xl),
         );
         let results;
         pageLayoutService
@@ -405,7 +405,7 @@ describe('PageLayoutService', () => {
     describe('any breakpoint', () => {
       beforeEach(() => {
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.md)
+          of(BREAKPOINT.md),
         );
       });
       it('should not return page slot when page slot is not defined', () => {
@@ -455,7 +455,7 @@ describe('PageLayoutService', () => {
   describe('no page layout confguration', () => {
     it('should not return page slot when there is no layout configuration', () => {
       spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-        of(BREAKPOINT.md)
+        of(BREAKPOINT.md),
       );
       let results;
       pageLayoutService

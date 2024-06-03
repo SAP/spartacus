@@ -45,7 +45,7 @@ export class LoadBudgetSuccess extends StateUtils.EntitySuccessAction {
       BUDGET_ENTITIES,
       Array.isArray(payload)
         ? payload.map((budget) => budget?.code ?? '')
-        : payload?.code ?? ''
+        : payload?.code ?? '',
     );
   }
 }
@@ -56,7 +56,7 @@ export class LoadBudgets extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(BUDGET_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
@@ -68,7 +68,7 @@ export class LoadBudgetsFail extends StateUtils.EntityFailAction {
     super(
       BUDGET_LIST,
       StateUtils.serializeSearchConfig(payload.params),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -79,7 +79,7 @@ export class LoadBudgetsSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(BUDGET_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
@@ -109,7 +109,7 @@ export class CreateBudgetSuccess extends StateUtils.EntitySuccessAction {
 export class UpdateBudget extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_BUDGET;
   constructor(
-    public payload: { userId: string; budgetCode: string; budget: Budget }
+    public payload: { userId: string; budgetCode: string; budget: Budget },
   ) {
     super(BUDGET_ENTITIES, payload.budget.code ?? '');
   }

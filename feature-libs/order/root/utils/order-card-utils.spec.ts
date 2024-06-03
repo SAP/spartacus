@@ -49,7 +49,7 @@ describe('Order Card utils', () => {
         'phone',
         'mobile',
         mockAddress,
-        'Canada'
+        'Canada',
       );
       expect(card.title).toEqual('title');
       expect(card.textBold).toEqual('John Doe');
@@ -65,7 +65,7 @@ describe('Order Card utils', () => {
         'phone',
         'mobile',
         mockAddress2,
-        'Canada'
+        'Canada',
       );
       expect(card2.textBold).toEqual(undefined);
       const card3 = deliveryAddressCard(
@@ -73,7 +73,7 @@ describe('Order Card utils', () => {
         'phone',
         'mobile',
         mockAddress3,
-        'Canada'
+        'Canada',
       );
       expect(card3.textBold).toEqual('John');
     });

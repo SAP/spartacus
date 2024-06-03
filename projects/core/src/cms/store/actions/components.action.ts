@@ -20,7 +20,7 @@ export class LoadCmsComponent extends StateUtils.EntityLoadAction {
     public payload: {
       uid: string;
       pageContext?: PageContext;
-    }
+    },
   ) {
     super(COMPONENT_ENTITY, payload.uid);
   }
@@ -29,14 +29,14 @@ export class LoadCmsComponent extends StateUtils.EntityLoadAction {
 export class LoadCmsComponentFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_COMPONENT_FAIL;
   constructor(
-    public payload: { uid: string; error?: any; pageContext: PageContext }
+    public payload: { uid: string; error?: any; pageContext: PageContext },
   ) {
     super(COMPONENT_ENTITY, payload.uid, payload.error);
   }
 }
 
 export class LoadCmsComponentSuccess<
-  T extends CmsComponent
+  T extends CmsComponent,
 > extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_CMS_COMPONENT_SUCCESS;
   constructor(
@@ -44,24 +44,24 @@ export class LoadCmsComponentSuccess<
       component: T;
       uid?: string;
       pageContext: PageContext;
-    }
+    },
   ) {
     super(COMPONENT_ENTITY, payload.uid || payload.component.uid || '');
   }
 }
 
 export class CmsGetComponentFromPage<
-  T extends CmsComponent
+  T extends CmsComponent,
 > extends StateUtils.EntitySuccessAction {
   readonly type = CMS_GET_COMPONENT_FROM_PAGE;
   constructor(
     public payload:
       | { component: T; pageContext: PageContext }
-      | { component: T; pageContext: PageContext }[]
+      | { component: T; pageContext: PageContext }[],
   ) {
     super(
       COMPONENT_ENTITY,
-      ([] as any[]).concat(payload).map((cmp) => cmp.component.uid)
+      ([] as any[]).concat(payload).map((cmp) => cmp.component.uid),
     );
   }
 }

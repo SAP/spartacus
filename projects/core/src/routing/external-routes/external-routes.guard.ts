@@ -13,7 +13,7 @@ import { WindowRef } from '../../window/window-ref';
 export class ExternalRoutesGuard {
   constructor(
     protected winRef: WindowRef,
-    @Inject(PLATFORM_ID) protected platformId: Object
+    @Inject(PLATFORM_ID) protected platformId: Object,
   ) {}
 
   /**
@@ -21,7 +21,7 @@ export class ExternalRoutesGuard {
    */
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): boolean {
     if (isPlatformBrowser(this.platformId)) {
       this.redirect(route, state);

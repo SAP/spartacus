@@ -14,11 +14,11 @@ describe('Language switch - my-account pages', () => {
 
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
-    siteContextSelector.LANGUAGES
+    siteContextSelector.LANGUAGES,
   );
   siteContextSelector.stub(
     siteContextSelector.TITLE_REQUEST,
-    siteContextSelector.TITLES
+    siteContextSelector.TITLES,
   );
 
   // Core test.
@@ -35,7 +35,7 @@ describe('Language switch - my-account pages', () => {
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + addressBookPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + addressBookPath,
       );
     });
 
@@ -44,7 +44,7 @@ describe('Language switch - my-account pages', () => {
         addressBookPath,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
       // TODO: need to add test when there's translations on that page (not the header)
     });
@@ -54,16 +54,16 @@ describe('Language switch - my-account pages', () => {
         addressBookPath,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
       cy.get('cx-address-book button').contains('Edit').click({ force: true });
 
       cy.get(
-        'cx-address-form .ng-select[formcontrolname="titleCode"]'
+        'cx-address-form .ng-select[formcontrolname="titleCode"]',
       ).ngSelect(deutschName);
 
       cy.get(
-        'cx-address-form .ng-select[formcontrolname="titleCode"] .ng-value-label'
+        'cx-address-form .ng-select[formcontrolname="titleCode"] .ng-value-label',
       ).should('have.text', deutschName);
     });
   });
@@ -81,7 +81,7 @@ describe('Language switch - my-account pages', () => {
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + closeAccountPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + closeAccountPath,
       );
     });
 
@@ -90,7 +90,7 @@ describe('Language switch - my-account pages', () => {
         closeAccountPath,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
       // TODO: need to add test when there's translations on that page (not the header)
     });
@@ -105,7 +105,7 @@ describe('Language switch - my-account pages', () => {
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + consentManagementPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + consentManagementPath,
       );
     });
 
@@ -114,7 +114,7 @@ describe('Language switch - my-account pages', () => {
         consentManagementPath,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
       // TODO: need to add test when there's translations on that page (not the header)
     });
@@ -129,7 +129,7 @@ describe('Language switch - my-account pages', () => {
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + paymentDetailsPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + paymentDetailsPath,
       );
     });
 
@@ -138,7 +138,7 @@ describe('Language switch - my-account pages', () => {
         paymentDetailsPath,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
       // TODO: need to add test when there's translations on that page (not the header)
     });
@@ -153,7 +153,7 @@ describe('Language switch - my-account pages', () => {
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + updateEmailPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + updateEmailPath,
       );
     });
 
@@ -162,7 +162,7 @@ describe('Language switch - my-account pages', () => {
         updateEmailPath,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
       // TODO: need to add test when there's translations on that page (not the header)
     });
@@ -177,7 +177,7 @@ describe('Language switch - my-account pages', () => {
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + updatePasswordPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + updatePasswordPath,
       );
     });
 
@@ -186,7 +186,7 @@ describe('Language switch - my-account pages', () => {
         updatePasswordPath,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
       // TODO: need to add test when there's translations on that page (not the header)
     });

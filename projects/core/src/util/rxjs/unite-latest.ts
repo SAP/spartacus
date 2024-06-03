@@ -24,7 +24,7 @@ type Observables = [Observable<any>] | Observable<any>[];
  * @param sources
  */
 export function uniteLatest<R extends Observables>(
-  sources: R
+  sources: R,
 ): Observable<ReturnTypes<R>> {
   return defer(() => {
     let subNo = 0;

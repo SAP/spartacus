@@ -23,7 +23,7 @@ declare global {
       requireDeliveryAddressAdded: (
         address: {},
         token: {},
-        cartId?: string
+        cartId?: string,
       ) => Cypress.Chainable<{}>;
     }
   }
@@ -56,9 +56,9 @@ Cypress.Commands.add(
       return cy.request({
         method: 'POST',
         url: `${Cypress.env('API_URL')}/${Cypress.env(
-          'OCC_PREFIX'
+          'OCC_PREFIX',
         )}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/current/carts/${cartCode}/addresses/delivery`,
         body: _address,
         form: false,
@@ -69,5 +69,5 @@ Cypress.Commands.add(
     }
 
     addAddress().then((resp) => cy.wrap(resp));
-  }
+  },
 );

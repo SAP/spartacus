@@ -101,7 +101,7 @@ describe('QuoteBadRequestHandler', () => {
 
     it('should know that it is not responsible in case no messages are present', () => {
       expect(classUnderTest.hasMatch(mockQuoteNotFoundResponseWoMessages)).toBe(
-        false
+        false,
       );
     });
   });

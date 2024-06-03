@@ -31,13 +31,13 @@ export class OccCheckoutDeliveryAddressAdapter
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   public createAddress(
     userId: string,
     cartId: string,
-    address: Address
+    address: Address,
   ): Observable<Address> {
     address = this.converter.convert(address, ADDRESS_SERIALIZER);
 
@@ -47,7 +47,7 @@ export class OccCheckoutDeliveryAddressAdapter
         address,
         {
           headers: new HttpHeaders().set('Content-Type', 'application/json'),
-        }
+        },
       )
       .pipe(
         catchError((error) => {
@@ -56,13 +56,13 @@ export class OccCheckoutDeliveryAddressAdapter
         backOff({
           shouldRetry: isJaloError,
         }),
-        this.converter.pipeable(ADDRESS_NORMALIZER)
+        this.converter.pipeable(ADDRESS_NORMALIZER),
       );
   }
 
   protected getCreateDeliveryAddressEndpoint(
     userId: string,
-    cartId: string
+    cartId: string,
   ): string {
     return this.occEndpoints.buildUrl('createDeliveryAddress', {
       urlParams: {
@@ -75,12 +75,12 @@ export class OccCheckoutDeliveryAddressAdapter
   public setAddress(
     userId: string,
     cartId: string,
-    addressId: string
+    addressId: string,
   ): Observable<unknown> {
     return this.http
       .put<unknown>(
         this.getSetDeliveryAddressEndpoint(userId, cartId, addressId),
-        {}
+        {},
       )
       .pipe(
         catchError((error) => {
@@ -88,14 +88,14 @@ export class OccCheckoutDeliveryAddressAdapter
         }),
         backOff({
           shouldRetry: isJaloError,
-        })
+        }),
       );
   }
 
   protected getSetDeliveryAddressEndpoint(
     userId: string,
     cartId: string,
-    addressId?: string
+    addressId?: string,
   ): string {
     return this.occEndpoints.buildUrl('setDeliveryAddress', {
       urlParams: { userId, cartId },
@@ -105,7 +105,7 @@ export class OccCheckoutDeliveryAddressAdapter
 
   clearCheckoutDeliveryAddress(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<unknown> {
     return this.http
       .delete<unknown>(this.getRemoveDeliveryAddressEndpoint(userId, cartId))
@@ -115,13 +115,13 @@ export class OccCheckoutDeliveryAddressAdapter
         }),
         backOff({
           shouldRetry: isJaloError,
-        })
+        }),
       );
   }
 
   protected getRemoveDeliveryAddressEndpoint(
     userId: string,
-    cartId: string
+    cartId: string,
   ): string {
     return this.occEndpoints.buildUrl('removeDeliveryAddress', {
       urlParams: {

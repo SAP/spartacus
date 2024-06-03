@@ -25,7 +25,7 @@ export class MyAccountV2OrderHistoryComponent extends OrderHistoryComponent {
       tap((orders: OrderHistoryListView | undefined) => {
         this.isLoaded$.next(true);
         super.setOrderHistoryParams(orders);
-      })
+      }),
     );
   pageChange(page: number): void {
     this.isLoaded$.next(false);

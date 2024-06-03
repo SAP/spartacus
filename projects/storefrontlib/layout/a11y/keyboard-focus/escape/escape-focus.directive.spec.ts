@@ -60,30 +60,28 @@ describe('EscapeFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: EscapeFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent, CustomFocusDirective],
-        providers: [
-          {
-            provide: EscapeFocusService,
-            useClass: MockEscapeFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent, CustomFocusDirective],
+      providers: [
+        {
+          provide: EscapeFocusService,
+          useClass: MockEscapeFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
-      component = fixture.componentInstance;
-      service = TestBed.inject(EscapeFocusService);
+    fixture = TestBed.createComponent(MockComponent);
+    component = fixture.componentInstance;
+    service = TestBed.inject(EscapeFocusService);
 
-      spyOn(service, 'shouldFocus').and.callThrough();
-      spyOn(service, 'handleEscape').and.callThrough();
+    spyOn(service, 'shouldFocus').and.callThrough();
+    spyOn(service, 'handleEscape').and.callThrough();
 
-      spyOn(component, 'handleEmit');
+    spyOn(component, 'handleEmit');
 
-      fixture.detectChanges();
-    })
-  );
+    fixture.detectChanges();
+  }));
 
   describe('config', () => {
     it('should use focusOnEscape by default', () => {
@@ -115,20 +113,20 @@ describe('EscapeFocusDirective', () => {
       expect(service.handleEscape).toHaveBeenCalledWith(
         el.nativeElement,
         { focusOnEscape: true },
-        mockEvent as KeyboardEvent
+        mockEvent as KeyboardEvent,
       );
     });
 
     it('should add tabindex -1 to host if no tabindex is available', () => {
       const el: HTMLElement = fixture.debugElement.query(
-        By.css('#b')
+        By.css('#b'),
       ).nativeElement;
       expect(el.getAttribute('tabindex')).toEqual('-1');
     });
 
     it('should not add tabindex -1 to host if tabindex is already set', () => {
       const el: HTMLElement = fixture.debugElement.query(
-        By.css('#d-1')
+        By.css('#d-1'),
       ).nativeElement;
       expect(el.getAttribute('tabindex')).not.toEqual('-1');
     });

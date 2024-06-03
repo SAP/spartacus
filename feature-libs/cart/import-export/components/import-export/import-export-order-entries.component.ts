@@ -25,13 +25,13 @@ export class ImportExportOrderEntriesComponent {
     this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
 
   shouldDisplayImport$: Observable<boolean> = this.context$.pipe(
-    map((orderEntriesContext) => !!orderEntriesContext?.addEntries)
+    map((orderEntriesContext) => !!orderEntriesContext?.addEntries),
   );
 
   shouldDisplayExport$: Observable<boolean> = this.context$.pipe(
     switchMap(
-      (orderEntriesContext) => orderEntriesContext?.getEntries?.() ?? of([])
+      (orderEntriesContext) => orderEntriesContext?.getEntries?.() ?? of([]),
     ),
-    map((entries) => !!entries?.length)
+    map((entries) => !!entries?.length),
   );
 }

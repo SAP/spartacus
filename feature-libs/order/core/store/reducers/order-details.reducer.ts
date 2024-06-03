@@ -11,7 +11,7 @@ export const initialState: Order = {};
 
 export function reducer(
   state = initialState,
-  action: OrderActions.OrderDetailsAction
+  action: OrderActions.OrderDetailsAction,
 ): Order {
   switch (action.type) {
     case OrderActions.LOAD_ORDER_DETAILS_SUCCESS: {

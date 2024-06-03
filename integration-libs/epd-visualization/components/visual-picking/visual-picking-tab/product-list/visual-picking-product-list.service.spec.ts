@@ -48,7 +48,7 @@ const productReferences = [sparePart1, sparePart2, sparePart3];
 
 class MockCurrentProductService {
   getProduct(
-    scopes?: (ProductScope | string)[] | ProductScope | string
+    scopes?: (ProductScope | string)[] | ProductScope | string,
   ): Observable<Product | null> {
     expect(scopes).toBeUndefined();
 
@@ -62,7 +62,7 @@ class MockProductReferenceService {
   loadProductReferences(
     productCode: string,
     referenceType?: string,
-    pageSize?: number
+    pageSize?: number,
   ): void {
     expect(productCode).toBe(currentProduct.code);
     expect(referenceType).toBe(SPAREPART);
@@ -73,7 +73,7 @@ class MockProductReferenceService {
 
   getProductReferences(
     productCode: string,
-    referenceType: string
+    referenceType: string,
   ): Observable<ProductReference[]> {
     expect(productCode).toBe(currentProduct.code);
     expect(referenceType).toBe(SPAREPART);
@@ -96,7 +96,7 @@ class MockVisualPickingProductFilterService {
   _filter = '';
 
   getFilteredProducts(
-    _unfilteredProductReferences$: Observable<ProductReference[]>
+    _unfilteredProductReferences$: Observable<ProductReference[]>,
   ): Observable<ProductReference[]> {
     return of([sparePart2, sparePart3]);
   }
@@ -127,11 +127,11 @@ describe('VisualPickingProductListService', () => {
     }).compileComponents();
 
     visualPickingProductListService = TestBed.inject(
-      VisualPickingProductListService
+      VisualPickingProductListService,
     );
 
     visualPickingProductFilterService = TestBed.inject(
-      VisualPickingProductFilterService
+      VisualPickingProductFilterService,
     );
   });
 
@@ -140,7 +140,7 @@ describe('VisualPickingProductListService', () => {
       const filterSetterSpy = spyOnProperty(
         visualPickingProductFilterService,
         'filter',
-        'set'
+        'set',
       );
 
       visualPickingProductListService.initialize();
@@ -153,7 +153,7 @@ describe('VisualPickingProductListService', () => {
 
       spyOn(
         visualPickingProductListService['productReferenceService'],
-        'loadProductReferences'
+        'loadProductReferences',
       );
 
       const fromValues: ArrayLike<ProductReference[] | undefined> = [
@@ -163,7 +163,7 @@ describe('VisualPickingProductListService', () => {
 
       spyOn(
         visualPickingProductListService['productReferenceService'],
-        'getProductReferences'
+        'getProductReferences',
       ).and.returnValue(from(fromValues));
 
       visualPickingProductListService
@@ -181,7 +181,7 @@ describe('VisualPickingProductListService', () => {
 
       spyOn(
         visualPickingProductListService['productReferenceService'],
-        'loadProductReferences'
+        'loadProductReferences',
       );
 
       const oneProductReference = [sparePart1];
@@ -195,7 +195,7 @@ describe('VisualPickingProductListService', () => {
       ];
       spyOn(
         visualPickingProductListService['productReferenceService'],
-        'getProductReferences'
+        'getProductReferences',
       ).and.returnValue(from(fromValues));
 
       let count = 0;
@@ -232,15 +232,15 @@ describe('VisualPickingProductListService', () => {
           expect(productReferencesList.length).toBe(3);
           expect(productReferencesList[0].referenceType).toBe(SPAREPART);
           expect(productReferencesList[0].target?.code).toBe(
-            sparePart1.target?.code
+            sparePart1.target?.code,
           );
           expect(productReferencesList[1].referenceType).toBe(SPAREPART);
           expect(productReferencesList[1].target?.code).toBe(
-            sparePart2.target?.code
+            sparePart2.target?.code,
           );
           expect(productReferencesList[2].referenceType).toBe(SPAREPART);
           expect(productReferencesList[2].target?.code).toBe(
-            sparePart3.target?.code
+            sparePart3.target?.code,
           );
           done();
         });
@@ -254,7 +254,7 @@ describe('VisualPickingProductListService', () => {
       const filterSetterSpy = spyOnProperty(
         visualPickingProductFilterService,
         'filter',
-        'set'
+        'set',
       );
 
       visualPickingProductFilterService.filter = '2';
@@ -265,11 +265,11 @@ describe('VisualPickingProductListService', () => {
           expect(filteredProductReferences.length).toBe(2);
           expect(filteredProductReferences[0].referenceType).toBe(SPAREPART);
           expect(filteredProductReferences[0].target?.code).toBe(
-            sparePart2.target?.code
+            sparePart2.target?.code,
           );
           expect(filteredProductReferences[1].referenceType).toBe(SPAREPART);
           expect(filteredProductReferences[1].target?.code).toBe(
-            sparePart3.target?.code
+            sparePart3.target?.code,
           );
 
           expect(filterSetterSpy).toHaveBeenCalledWith('2');
@@ -287,7 +287,7 @@ describe('VisualPickingProductListService', () => {
           of([
             sparePart1.target?.code as string,
             sparePart3.target?.code as string,
-          ])
+          ]),
         )
         .subscribe(
           (visualPickingProductListItems: VisualPickingProductListItem[]) => {
@@ -295,17 +295,17 @@ describe('VisualPickingProductListService', () => {
             expect(visualPickingProductListItems.length).toBe(3);
             expect(visualPickingProductListItems[0].selected).toBe(true);
             expect(visualPickingProductListItems[0].product?.code).toBe(
-              sparePart1.target?.code
+              sparePart1.target?.code,
             );
             expect(visualPickingProductListItems[1].selected).toBe(false);
             expect(visualPickingProductListItems[1].product?.code).toBe(
-              sparePart2.target?.code
+              sparePart2.target?.code,
             );
             expect(visualPickingProductListItems[2].selected).toBe(true);
             expect(visualPickingProductListItems[2].product?.code).toBe(
-              sparePart3.target?.code
+              sparePart3.target?.code,
             );
-          }
+          },
         );
     });
   });
@@ -324,18 +324,18 @@ describe('VisualPickingProductListService', () => {
         .subscribe((filteredItems: VisualPickingProductListItem[]) => {
           expect(filteredItems.length).toEqual(2);
           expect(filteredItems[0].product.code).toEqual(
-            sparePart2.target?.code
+            sparePart2.target?.code,
           );
           expect(filteredItems[0].selected).toEqual(false);
 
           expect(filteredItems[1].product.code).toEqual(
-            sparePart3.target?.code
+            sparePart3.target?.code,
           );
           expect(filteredItems[1].selected).toEqual(true);
 
           setTimeout(() => {
             expect(visualPickingProductListService.activeSlideStartIndex).toBe(
-              expectedSelectedIndex
+              expectedSelectedIndex,
             );
 
             done();
@@ -350,7 +350,7 @@ describe('VisualPickingProductListService', () => {
         expectedSelectedProductCodes;
 
       expect(visualPickingProductListService.selectedProductCodes).toEqual(
-        expectedSelectedProductCodes
+        expectedSelectedProductCodes,
       );
     });
   });

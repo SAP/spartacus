@@ -71,7 +71,7 @@ const myAccountV2ProfileMapping: CmsConfig = {
       },
     }),
     provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_PROFILE) ? myAccountV2ProfileMapping : {}
+      inject(USE_MY_ACCOUNT_V2_PROFILE) ? myAccountV2ProfileMapping : {},
     ),
   ],
 })

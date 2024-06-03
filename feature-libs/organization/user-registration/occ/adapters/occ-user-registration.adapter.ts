@@ -31,11 +31,11 @@ export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   registerUser(
-    userData: OrganizationUserRegistration
+    userData: OrganizationUserRegistration,
   ): Observable<OrganizationUserRegistration> {
     const url: string = this.getOrganizationUserRegistrationEndpoint();
     let headers = new HttpHeaders({
@@ -44,7 +44,7 @@ export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     userData = this.converter.convert(
       userData,
-      ORGANIZATION_USER_REGISTRATION_SERIALIZER
+      ORGANIZATION_USER_REGISTRATION_SERIALIZER,
     );
 
     return this.http
@@ -52,7 +52,7 @@ export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
       .pipe(
         catchError((error) => {
           throw normalizeHttpError(error, this.logger);
-        })
+        }),
       );
   }
 

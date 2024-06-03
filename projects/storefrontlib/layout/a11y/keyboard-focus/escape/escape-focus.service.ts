@@ -24,7 +24,7 @@ export class EscapeFocusService extends PersistFocusService {
   handleEscape(
     host: HTMLElement,
     config: EscapeFocusConfig,
-    event: KeyboardEvent
+    event: KeyboardEvent,
   ): void {
     if (this.shouldFocus(config)) {
       if (host !== event.target) {

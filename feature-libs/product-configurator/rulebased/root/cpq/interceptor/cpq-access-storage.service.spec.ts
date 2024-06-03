@@ -62,41 +62,39 @@ describe('CpqAccessStorageService', () => {
   let serviceUnderTest: CpqAccessStorageService;
   let cpqAccessLoaderService: CpqAccessLoaderService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        providers: [
-          {
-            provide: CpqAccessLoaderService,
-            useClass: CpqAccessLoaderServiceMock,
-          },
-          {
-            provide: CpqConfiguratorAuthConfig,
-            useValue: defaultCpqConfiguratorAuthConfig,
-          },
-          {
-            provide: AuthService,
-            useClass: AuthServiceMock,
-          },
-        ],
-      });
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        {
+          provide: CpqAccessLoaderService,
+          useClass: CpqAccessLoaderServiceMock,
+        },
+        {
+          provide: CpqConfiguratorAuthConfig,
+          useValue: defaultCpqConfiguratorAuthConfig,
+        },
+        {
+          provide: AuthService,
+          useClass: AuthServiceMock,
+        },
+      ],
+    });
 
-      serviceUnderTest = TestBed.inject(
-        CpqAccessStorageService as Type<CpqAccessStorageService>
-      );
-      cpqAccessLoaderService = TestBed.inject(
-        CpqAccessLoaderService as Type<CpqAccessLoaderService>
-      );
+    serviceUnderTest = TestBed.inject(
+      CpqAccessStorageService as Type<CpqAccessStorageService>,
+    );
+    cpqAccessLoaderService = TestBed.inject(
+      CpqAccessLoaderService as Type<CpqAccessLoaderService>,
+    );
 
-      accessDataSoonExpiring.accessTokenExpirationTime =
-        Date.now() + TIME_UNTIL_TOKEN_EXPIRES;
+    accessDataSoonExpiring.accessTokenExpirationTime =
+      Date.now() + TIME_UNTIL_TOKEN_EXPIRES;
 
-      accessDataObs = accessDataSubject = new Subject<CpqAccessData>();
-      authDataObs = authDataSubject = new BehaviorSubject<Boolean>(true);
-      httpBehaviour = true;
-    })
-  );
+    accessDataObs = accessDataSubject = new Subject<CpqAccessData>();
+    authDataObs = authDataSubject = new BehaviorSubject<Boolean>(true);
+    httpBehaviour = true;
+  }));
 
   afterEach(() => {
     authDataSubject.next(false); // stops the auto pulling of access data
@@ -112,7 +110,7 @@ describe('CpqAccessStorageService', () => {
       expect(returnedData).toBeDefined();
       expect(returnedData.accessToken).toEqual(accessData.accessToken);
       expect(returnedData.accessTokenExpirationTime).toEqual(
-        accessData.accessTokenExpirationTime
+        accessData.accessTokenExpirationTime,
       );
       expect(returnedData.endpoint).toEqual(accessData.endpoint);
     });
@@ -145,7 +143,7 @@ describe('CpqAccessStorageService', () => {
 
   it('should not return access data if token is expired', fakeAsync(() => {
     accessDataObs = accessDataSubject = new BehaviorSubject<CpqAccessData>(
-      expiredAccessData
+      expiredAccessData,
     );
     let hasCpqAccessDataEmitted = false;
     serviceUnderTest.getCpqAccessData().subscribe(() => {
@@ -216,7 +214,7 @@ describe('CpqAccessStorageService', () => {
         expect(data).toBe(accessData);
         //We expect one more call to the backend as token expired
         expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(
-          2
+          2,
         );
       });
     });
@@ -329,7 +327,7 @@ describe('CpqAccessStorageService', () => {
     it('should throw error in case auth configuration is incomplete', () => {
       serviceUnderTest['config'].productConfigurator.cpq = undefined;
       expect(() =>
-        serviceUnderTest['fetchNextTokenIn'](accessData)
+        serviceUnderTest['fetchNextTokenIn'](accessData),
       ).toThrowError();
     });
   });
@@ -338,7 +336,7 @@ describe('CpqAccessStorageService', () => {
     it('should throw error in case auth configuration is incomplete', () => {
       serviceUnderTest['config'].productConfigurator.cpq = undefined;
       expect(() =>
-        serviceUnderTest['isTokenExpired'](accessData)
+        serviceUnderTest['isTokenExpired'](accessData),
       ).toThrowError();
     });
   });

@@ -12,7 +12,7 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 export class MockFeatureLevelDirective {
   constructor(
     protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
+    protected viewContainer: ViewContainerRef,
   ) {}
 
   @Input() set cxFeatureLevel(_feature: string | number) {

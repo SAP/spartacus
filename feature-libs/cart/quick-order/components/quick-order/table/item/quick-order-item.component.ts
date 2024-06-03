@@ -48,7 +48,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
 
   constructor(
     protected cd: ChangeDetectorRef,
-    protected quickOrderService: QuickOrderFacade
+    protected quickOrderService: QuickOrderFacade,
   ) {
     useFeatureStyles('a11yCartItemsLinksStyles');
   }
@@ -58,9 +58,9 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
       this.quantityControl.valueChanges.subscribe(() => {
         this.quickOrderService.updateEntryQuantity(
           this.index,
-          this.quantityControl.value
+          this.quantityControl.value,
         );
-      })
+      }),
     );
 
     this.subscription.add(this.watchProductAdd());

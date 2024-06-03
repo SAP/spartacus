@@ -52,7 +52,7 @@ export interface ConsignmentTrackingState {
 
 export function getConsignmentTrackingByIdEntityKey(
   orderCode: string,
-  consignmentCode: string
+  consignmentCode: string,
 ): string {
   return `${orderCode},${consignmentCode}`;
 }

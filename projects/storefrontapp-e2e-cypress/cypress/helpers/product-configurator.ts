@@ -48,7 +48,7 @@ export function defineAliases(backendUrl: string) {
  */
 export function checkUpdatingMessageNotDisplayed(): void {
   cy.get('cx-configurator-update-message div.cx-update-msg').should(
-    'not.be.visible'
+    'not.be.visible',
   );
 }
 
@@ -62,7 +62,7 @@ export function checkUpdatingMessageNotDisplayed(): void {
 export function checkFocus(
   attributeName: string,
   uiType: uiType,
-  valueName: string
+  valueName: string,
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}`;
@@ -76,10 +76,10 @@ export function checkFocus(
  */
 export function checkCurrentGroupActive(currentGroup: string): void {
   cy.get(
-    'cx-configurator-group-title:contains(' + `${currentGroup}` + ')'
+    'cx-configurator-group-title:contains(' + `${currentGroup}` + ')',
   ).should('be.visible');
   cy.get('button.active:contains(' + `${currentGroup}` + ')').should(
-    'be.visible'
+    'be.visible',
   );
 }
 
@@ -91,7 +91,7 @@ export function checkCurrentGroupActive(currentGroup: string): void {
  */
 function clickOnPreviousOrNextBtn(
   btnSelector: string,
-  activeGroup?: string
+  activeGroup?: string,
 ): void {
   cy.get(btnSelector)
     .click()
@@ -174,7 +174,7 @@ export function checkNextBtnDisabled(): void {
  */
 export function checkAttributeDisplayed(
   attributeName: string,
-  uiType: uiType
+  uiType: uiType,
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.get(`#${attributeId}`).scrollIntoView().should('be.visible');
@@ -188,7 +188,7 @@ export function checkAttributeDisplayed(
  */
 export function checkAttributeNotDisplayed(
   attributeName: string,
-  uiType: uiType
+  uiType: uiType,
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.get(`#${attributeId}`).should('be.not.visible');
@@ -213,7 +213,7 @@ export function maskCharacter(searchValue: string, character: string): string {
 export function checkAttrValueDisplayed(
   attributeName: string,
   uiType: uiType,
-  valueName: string
+  valueName: string,
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   let valueLocator: string;
@@ -237,7 +237,7 @@ export function checkAttrValueDisplayed(
 export function checkAttrValueNotDisplayed(
   attributeName: string,
   uiType: uiType,
-  valueName: string
+  valueName: string,
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   let valueLocator: string;
@@ -290,7 +290,7 @@ export function selectAttribute(
   attributeName: string,
   uiType: uiType,
   valueName: string,
-  waitForUpdateMsg: boolean = true
+  waitForUpdateMsg: boolean = true,
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.log('attributeId: ' + attributeId);
@@ -340,7 +340,7 @@ export function selectAttribute(
       break;
     default:
       throw new Error(
-        `Selecting Attribute '${attributeName}' of UiType '${uiType}' not supported`
+        `Selecting Attribute '${attributeName}' of UiType '${uiType}' not supported`,
       );
   }
 
@@ -359,14 +359,14 @@ export function selectAttribute(
 export function checkValueSelected(
   uiType: uiType,
   attributeName: string,
-  valueName: string
+  valueName: string,
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   let valueId = `${attributeId}--${valueName}`;
   if (uiType === 'radioGroupProduct' || uiType === 'checkBoxListProduct') {
     cy.get(`#${valueId} .cx-product-card`).should(
       'have.class',
-      'cx-product-card-selected'
+      'cx-product-card-selected',
     );
   } else {
     if (uiType === 'dropdownProduct') {
@@ -443,7 +443,7 @@ export function checkAddToCartBtnDisplayed(): void {
  */
 export function checkTotalPrice(formattedPrice: string): void {
   cy.get(
-    'cx-configurator-price-summary div.cx-total-price div.cx-amount'
+    'cx-configurator-price-summary div.cx-total-price div.cx-amount',
   ).should(($div) => {
     expect($div).to.contain(formattedPrice);
   });
@@ -486,7 +486,7 @@ export function clickHamburger(): void {
  */
 export function checkHamburgerDisplayed(): void {
   cy.get(
-    'cx-configurator-group-title cx-hamburger-menu [aria-label="Menu"]'
+    'cx-configurator-group-title cx-hamburger-menu [aria-label="Menu"]',
   ).should('be.visible');
 }
 
@@ -513,7 +513,7 @@ export function searchForProduct(productName: string): void {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/products/suggestions?term=${productName}*`,
   }).as('productSearch');
 
@@ -535,7 +535,7 @@ export function searchForProduct(productName: string): void {
  */
 export function completeOrderProcess(
   productName: string,
-  navigateToOrderDetails: boolean = false
+  navigateToOrderDetails: boolean = false,
 ): void {
   const user: SampleUser = login.registerUser(true);
   verifyGlobalMessageAfterRegistration();
@@ -589,7 +589,7 @@ export function checkQuantityNotDisplayed() {
 export function checkQuantityStepper(expectedValue: number) {
   cy.get(quantityStepperSelector + ' input').should(
     'have.value',
-    expectedValue.toString()
+    expectedValue.toString(),
   );
 }
 
@@ -629,6 +629,6 @@ export function decreaseQuantity() {
  */
 export function enterQuantityValue(quantity: number) {
   cy.get(quantityStepperSelector + ' input').type(
-    `{selectall}${quantity.toString()}{enter}`
+    `{selectall}${quantity.toString()}{enter}`,
   );
 }

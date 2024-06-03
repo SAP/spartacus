@@ -74,20 +74,20 @@ export class AccountSummaryDocumentFilterComponent
 
   constructor(
     protected translation: TranslationService,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
   ) {}
 
   ngOnInit() {
     this.subscription.add(
       this.getStatusOptions().subscribe(
-        (statusOptions) => (this.statusOptions = [...statusOptions])
-      )
+        (statusOptions) => (this.statusOptions = [...statusOptions]),
+      ),
     );
 
     this.subscription.add(
       this.getFilterByOptions().subscribe(
-        (filterOptions) => (this.filterByOptions = [...filterOptions])
-      )
+        (filterOptions) => (this.filterByOptions = [...filterOptions]),
+      ),
     );
   }
 
@@ -182,14 +182,14 @@ export class AccountSummaryDocumentFilterComponent
     ).map((code) => ({ code }));
 
     const translations = statusOptions.map((status) =>
-      this.translation.translate(`orgAccountSummary.statuses.${status.code}`)
+      this.translation.translate(`orgAccountSummary.statuses.${status.code}`),
     );
 
     return zip(...translations).pipe(
       map((texts) => {
         texts.forEach((text, index) => (statusOptions[index].name = text));
         return statusOptions;
-      })
+      }),
     );
   }
 
@@ -200,15 +200,15 @@ export class AccountSummaryDocumentFilterComponent
 
     const translations = filterByOptions.map((status) =>
       this.translation.translate(
-        `orgAccountSummary.filterByOptions.${status.code}`
-      )
+        `orgAccountSummary.filterByOptions.${status.code}`,
+      ),
     );
 
     return zip(...translations).pipe(
       map((texts) => {
         texts.forEach((text, index) => (filterByOptions[index].name = text));
         return filterByOptions;
-      })
+      }),
     );
   }
 
@@ -221,7 +221,7 @@ export class AccountSummaryDocumentFilterComponent
   }: DocumentQueryParams): void {
     const generateRangeGroup = (
       filterByOption: FilterByOptions,
-      validator?: GroupValidator
+      validator?: GroupValidator,
     ): FormGroup => {
       return this.fb.group(
         {
@@ -234,13 +234,13 @@ export class AccountSummaryDocumentFilterComponent
             validator?.endRange,
           ],
         },
-        { validators: validator?.groupValidator } as AbstractControlOptions
+        { validators: validator?.groupValidator } as AbstractControlOptions,
       );
     };
 
     const generateDateRangeGroup = (
       filterByOption: FilterByOptions,
-      validator?: GroupValidator | null
+      validator?: GroupValidator | null,
     ): FormGroup => {
       return this.fb.group(
         {
@@ -257,7 +257,7 @@ export class AccountSummaryDocumentFilterComponent
             validator?.endRange,
           ],
         },
-        { validators: validator?.groupValidator } as AbstractControlOptions
+        { validators: validator?.groupValidator } as AbstractControlOptions,
       );
     };
 
@@ -283,7 +283,7 @@ export class AccountSummaryDocumentFilterComponent
 
     function isFromLargerThanTo(
       from: AbstractControl<any, any>,
-      to: AbstractControl<any, any>
+      to: AbstractControl<any, any>,
     ) {
       const fromValue = parseFloat(from.value) || 0;
       const toValue = parseFloat(to.value) || 0;
@@ -299,7 +299,7 @@ export class AccountSummaryDocumentFilterComponent
         filterByKey === FilterByOptions.DOCUMENT_NUMBER &&
         (filterByValue ?? ''),
       documentNumberRange: generateRangeGroup(
-        FilterByOptions.DOCUMENT_NUMBER_RANGE
+        FilterByOptions.DOCUMENT_NUMBER_RANGE,
       ),
       documentDateRange: generateDateRangeGroup(FilterByOptions.DATE_RANGE, {
         groupValidator: validRange('date'),
@@ -317,7 +317,7 @@ export class AccountSummaryDocumentFilterComponent
     this.subscription.add(
       this.filterForm
         .get('filterBy')
-        ?.valueChanges.subscribe(() => this.filterByChanged())
+        ?.valueChanges.subscribe(() => this.filterByChanged()),
     );
   }
 

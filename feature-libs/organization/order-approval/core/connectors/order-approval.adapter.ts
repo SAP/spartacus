@@ -22,17 +22,17 @@ export abstract class OrderApprovalAdapter {
    */
   abstract load(
     userId: string,
-    orderApprovalCode: string
+    orderApprovalCode: string,
   ): Observable<OrderApproval>;
 
   abstract loadList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<OrderApproval>>;
 
   abstract makeDecision(
     userId: string,
     orderApprovalCode: string,
-    orderApprovalDecision: OrderApprovalDecision
+    orderApprovalDecision: OrderApprovalDecision,
   ): Observable<OrderApprovalDecision>;
 }

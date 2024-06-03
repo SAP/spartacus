@@ -25,14 +25,14 @@ export class UnitUserRolesItemService extends ItemService<B2BUser> {
     protected routingService: RoutingService,
     protected formService: UnitUserRolesFormService,
     protected unitService: OrgUnitService,
-    protected b2bUserService: B2BUserService
+    protected b2bUserService: B2BUserService,
   ) {
     super(currentItemService, routingService, formService);
   }
 
   save(
     form: UntypedFormGroup,
-    key?: string
+    key?: string,
   ): Observable<OrganizationItemStatus<B2BUser>> {
     // we enable the unit so that the underlying
     // save method can read the complete form.value.
@@ -46,13 +46,13 @@ export class UnitUserRolesItemService extends ItemService<B2BUser> {
 
   update(
     customerId: string,
-    _user: B2BUser
+    _user: B2BUser,
   ): Observable<OrganizationItemStatus<B2BUser>> {
     return this.b2bUserService.getLoadingStatus(customerId);
   }
 
   protected create(
-    _customer: B2BUser
+    _customer: B2BUser,
   ): Observable<OrganizationItemStatus<B2BUser>> {
     return this.b2bUserService.getLoadingStatus('');
   }

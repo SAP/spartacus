@@ -84,7 +84,7 @@ export class LockFocusDirective
   constructor(
     protected elementRef: ElementRef,
     protected service: LockFocusService,
-    protected renderer: Renderer2
+    protected renderer: Renderer2,
   ) {
     super(elementRef, service);
   }
@@ -139,7 +139,7 @@ export class LockFocusDirective
         const group = this.group;
         this.service.findFocusable(this.host).forEach((el) =>
           // we must do this in after view init as
-          this.renderer.setAttribute(el, FOCUS_GROUP_ATTR, group)
+          this.renderer.setAttribute(el, FOCUS_GROUP_ATTR, group),
         );
       }
 
@@ -190,7 +190,7 @@ export class LockFocusDirective
       this.isLocked = i === -1;
       if (!(this.hasFocusableChildren && i === 0) || i === 0) {
         this.focusable.forEach((el) =>
-          this.renderer.setAttribute(el, 'tabindex', i.toString())
+          this.renderer.setAttribute(el, 'tabindex', i.toString()),
         );
       }
     }
@@ -216,7 +216,7 @@ export class LockFocusDirective
     return this.service.findFocusable(
       this.host,
       this.shouldLock,
-      UNLOCK_HIDDEN_ELEMENTS
+      UNLOCK_HIDDEN_ELEMENTS,
     );
   }
 }

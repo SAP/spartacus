@@ -35,7 +35,7 @@ class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { userGroupId } }) =>
-      url === 'userGroup' ? url + userGroupId : url
+      url === 'userGroup' ? url + userGroupId : url,
   );
 }
 
@@ -56,11 +56,11 @@ describe('OccUserGroupAdapter', () => {
       ],
     });
     converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
+      ConverterService as Type<ConverterService>,
     );
     service = TestBed.inject(OccUserGroupAdapter as Type<OccUserGroupAdapter>);
     httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
+      HttpTestingController as Type<HttpTestingController>,
     );
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(converterService, 'convert').and.callThrough();
@@ -78,13 +78,13 @@ describe('OccUserGroupAdapter', () => {
     it('should load userGroup details for given userGroup uid', () => {
       service.load(userId, userGroupId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'userGroup' + userGroupId
+        (req) => req.method === 'GET' && req.url === 'userGroup' + userGroupId,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(userGroup);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        USER_GROUP_NORMALIZER
+        USER_GROUP_NORMALIZER,
       );
     });
   });
@@ -93,13 +93,13 @@ describe('OccUserGroupAdapter', () => {
     it('should load userGroup list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'userGroups'
+        (req) => req.method === 'GET' && req.url === 'userGroups',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([userGroup]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        USER_GROUPS_NORMALIZER
+        USER_GROUPS_NORMALIZER,
       );
     });
   });
@@ -109,19 +109,19 @@ describe('OccUserGroupAdapter', () => {
       service.create(userId, userGroup).subscribe();
       expect(converterService.convert).toHaveBeenCalledWith(
         userGroup,
-        USER_GROUP_SERIALIZER
+        USER_GROUP_SERIALIZER,
       );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'POST' &&
           req.url === 'userGroups' &&
-          req.body.uid === userGroup.uid
+          req.body.uid === userGroup.uid,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(userGroup);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        USER_GROUP_NORMALIZER
+        USER_GROUP_NORMALIZER,
       );
     });
   });
@@ -131,19 +131,19 @@ describe('OccUserGroupAdapter', () => {
       service.update(userId, userGroupId, userGroup).subscribe();
       expect(converterService.convert).toHaveBeenCalledWith(
         userGroup,
-        USER_GROUP_SERIALIZER
+        USER_GROUP_SERIALIZER,
       );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'PATCH' &&
           req.url === 'userGroup' + userGroupId &&
-          req.body.uid === userGroup.uid
+          req.body.uid === userGroup.uid,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(userGroup);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        USER_GROUP_NORMALIZER
+        USER_GROUP_NORMALIZER,
       );
     });
   });
@@ -153,7 +153,7 @@ describe('OccUserGroupAdapter', () => {
       service.delete(userId, userGroupId).subscribe();
       const mockReq = httpMock.expectOne(
         (req) =>
-          req.method === 'DELETE' && req.url === 'userGroup' + userGroupId
+          req.method === 'DELETE' && req.url === 'userGroup' + userGroupId,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -166,13 +166,13 @@ describe('OccUserGroupAdapter', () => {
       service.loadAvailableOrgCustomers(userId, userGroupId, {}).subscribe();
       const mockReq = httpMock.expectOne(
         (req) =>
-          req.method === 'GET' && req.url === 'userGroupAvailableOrgCustomers'
+          req.method === 'GET' && req.url === 'userGroupAvailableOrgCustomers',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([member]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2B_USERS_NORMALIZER
+        B2B_USERS_NORMALIZER,
       );
     });
   });
@@ -181,7 +181,7 @@ describe('OccUserGroupAdapter', () => {
     it('should assign member to userGroup', () => {
       service.assignMember(userId, userGroupId, memberUid).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'POST' && req.url === 'userGroupMembers'
+        (req) => req.method === 'POST' && req.url === 'userGroupMembers',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -193,7 +193,7 @@ describe('OccUserGroupAdapter', () => {
     it('should unassign member from userGroup', () => {
       service.unassignMember(userId, userGroupId, memberUid).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'DELETE' && req.url === 'userGroupMember'
+        (req) => req.method === 'DELETE' && req.url === 'userGroupMember',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -205,7 +205,7 @@ describe('OccUserGroupAdapter', () => {
     it('should unassign all members from userGroup', () => {
       service.unassignAllMembers(userId, userGroupId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'DELETE' && req.url === 'userGroupMembers'
+        (req) => req.method === 'DELETE' && req.url === 'userGroupMembers',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -221,13 +221,13 @@ describe('OccUserGroupAdapter', () => {
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'GET' &&
-          req.url === 'userGroupAvailableOrderApprovalPermissions'
+          req.url === 'userGroupAvailableOrderApprovalPermissions',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([permission]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        PERMISSIONS_NORMALIZER
+        PERMISSIONS_NORMALIZER,
       );
     });
   });
@@ -240,7 +240,7 @@ describe('OccUserGroupAdapter', () => {
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'POST' &&
-          req.url === 'userGroupOrderApprovalPermissions'
+          req.url === 'userGroupOrderApprovalPermissions',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -256,7 +256,7 @@ describe('OccUserGroupAdapter', () => {
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'DELETE' &&
-          req.url === 'userGroupOrderApprovalPermission'
+          req.url === 'userGroupOrderApprovalPermission',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

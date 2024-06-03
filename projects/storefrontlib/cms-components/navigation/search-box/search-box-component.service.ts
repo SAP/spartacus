@@ -36,7 +36,7 @@ export class SearchBoxComponentService {
     protected routingService: RoutingService,
     protected translationService: TranslationService,
     protected winRef: WindowRef,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   /**
@@ -89,8 +89,8 @@ export class SearchBoxComponentService {
         };
       }),
       tap((results) =>
-        this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, this.hasResults(results))
-      )
+        this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, this.hasResults(results)),
+      ),
     );
   }
 
@@ -128,7 +128,7 @@ export class SearchBoxComponentService {
         freeText: eventData.freeText,
         productCode: eventData.productCode,
       },
-      SearchBoxProductSelectedEvent
+      SearchBoxProductSelectedEvent,
     );
   }
 
@@ -138,7 +138,7 @@ export class SearchBoxComponentService {
    * @param eventData data for the "SearchBoxSuggestionSelectedEvent"
    */
   dispatchSuggestionSelectedEvent(
-    eventData: SearchBoxSuggestionSelectedEvent
+    eventData: SearchBoxSuggestionSelectedEvent,
   ): void {
     this.eventService.dispatch<SearchBoxSuggestionSelectedEvent>(
       {
@@ -146,7 +146,7 @@ export class SearchBoxComponentService {
         selectedSuggestion: eventData.selectedSuggestion,
         searchSuggestions: eventData.searchSuggestions,
       },
-      SearchBoxSuggestionSelectedEvent
+      SearchBoxSuggestionSelectedEvent,
     );
   }
 
@@ -172,7 +172,7 @@ export class SearchBoxComponentService {
    * Otherwise it emits an empty object.
    */
   protected getProductResults(
-    config: SearchBoxConfig
+    config: SearchBoxConfig,
   ): Observable<ProductSearchPage> {
     if (config.displayProducts) {
       return this.searchService.getResults();
@@ -186,24 +186,24 @@ export class SearchBoxComponentService {
    * available, we try to get an exact match suggestion.
    */
   protected getProductSuggestions(
-    config: SearchBoxConfig
+    config: SearchBoxConfig,
   ): Observable<string[]> {
     if (!config.displaySuggestions) {
       return of([]);
     } else {
       return this.searchService.getSuggestionResults().pipe(
         map((res) =>
-          res.map((suggestion) => suggestion.value).filter(isNotUndefined)
+          res.map((suggestion) => suggestion.value).filter(isNotUndefined),
         ),
         switchMap((suggestions) => {
           if (suggestions.length === 0) {
             return this.getExactSuggestion(config).pipe(
-              map((match) => (match ? [match] : []))
+              map((match) => (match ? [match] : [])),
             );
           } else {
             return of(suggestions);
           }
-        })
+        }),
       );
     }
   }
@@ -213,7 +213,7 @@ export class SearchBoxComponentService {
    * a suggestion to provide easy access to the search result page
    */
   protected getExactSuggestion(
-    config: SearchBoxConfig
+    config: SearchBoxConfig,
   ): Observable<string | undefined> {
     return this.getProductResults(config).pipe(
       switchMap((productResult) => {
@@ -222,7 +222,7 @@ export class SearchBoxComponentService {
               term: productResult.freeTextSearch,
             })
           : of(undefined);
-      })
+      }),
     );
   }
 
@@ -231,7 +231,7 @@ export class SearchBoxComponentService {
    * Otherwise it emits null.
    */
   protected getSearchMessage(
-    config: SearchBoxConfig
+    config: SearchBoxConfig,
   ): Observable<string | undefined> {
     return combineLatest([
       this.getProductResults(config),
@@ -249,7 +249,7 @@ export class SearchBoxComponentService {
         } else {
           return of(undefined);
         }
-      })
+      }),
     );
   }
 
@@ -265,7 +265,7 @@ export class SearchBoxComponentService {
 
   private fetchTranslation(
     translationKey: string,
-    options?: any
+    options?: any,
   ): Observable<string> {
     return this.translationService.translate(translationKey, options);
   }

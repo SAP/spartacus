@@ -67,34 +67,32 @@ describe('StorefrontComponent', () => {
   let el: DebugElement;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [
-          StorefrontComponent,
-          MockHeaderComponent,
-          MockGlobalMessageComponent,
-          MockFooterComponent,
-          DynamicSlotComponent,
-          MockPageLayoutComponent,
-          MockFeatureDirective,
-          MockSchemaComponent,
-          MockOutletDirective,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: HamburgerMenuService,
-            useClass: MockHamburgerMenuService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [
+        StorefrontComponent,
+        MockHeaderComponent,
+        MockGlobalMessageComponent,
+        MockFooterComponent,
+        DynamicSlotComponent,
+        MockPageLayoutComponent,
+        MockFeatureDirective,
+        MockSchemaComponent,
+        MockOutletDirective,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: HamburgerMenuService,
+          useClass: MockHamburgerMenuService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StorefrontComponent);
@@ -111,7 +109,7 @@ describe('StorefrontComponent', () => {
     spyOn(routingService, 'isNavigating').and.returnValue(of(true));
     fixture.detectChanges();
     expect(
-      el.nativeElement.classList.contains('start-navigating')
+      el.nativeElement.classList.contains('start-navigating'),
     ).toBeTruthy();
   });
 

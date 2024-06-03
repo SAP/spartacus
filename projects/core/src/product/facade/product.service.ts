@@ -20,7 +20,7 @@ import { ProductSelectors } from '../store/selectors/index';
 export class ProductService {
   constructor(
     protected store: Store<StateWithProduct>,
-    protected productLoading: ProductLoadingService
+    protected productLoading: ProductLoadingService,
   ) {}
 
   /**
@@ -38,7 +38,7 @@ export class ProductService {
    */
   get(
     productCode: string,
-    scopes: (ProductScope | string)[] | ProductScope | string = DEFAULT_SCOPE
+    scopes: (ProductScope | string)[] | ProductScope | string = DEFAULT_SCOPE,
   ): Observable<Product | undefined> {
     return productCode
       ? this.productLoading.get(productCode, ([] as string[]).concat(scopes))
@@ -50,12 +50,12 @@ export class ProductService {
    */
   isLoading(
     productCode: string,
-    scope: ProductScope | string = ''
+    scope: ProductScope | string = '',
   ): Observable<boolean> {
     return this.store.pipe(
       select(
-        ProductSelectors.getSelectedProductLoadingFactory(productCode, scope)
-      )
+        ProductSelectors.getSelectedProductLoadingFactory(productCode, scope),
+      ),
     );
   }
 
@@ -64,12 +64,12 @@ export class ProductService {
    */
   isSuccess(
     productCode: string,
-    scope: ProductScope | string = ''
+    scope: ProductScope | string = '',
   ): Observable<boolean> {
     return this.store.pipe(
       select(
-        ProductSelectors.getSelectedProductSuccessFactory(productCode, scope)
-      )
+        ProductSelectors.getSelectedProductSuccessFactory(productCode, scope),
+      ),
     );
   }
 
@@ -78,12 +78,12 @@ export class ProductService {
    */
   hasError(
     productCode: string,
-    scope: ProductScope | string = ''
+    scope: ProductScope | string = '',
   ): Observable<boolean> {
     return this.store.pipe(
       select(
-        ProductSelectors.getSelectedProductErrorFactory(productCode, scope)
-      )
+        ProductSelectors.getSelectedProductErrorFactory(productCode, scope),
+      ),
     );
   }
 }

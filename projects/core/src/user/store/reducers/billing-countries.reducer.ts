@@ -13,7 +13,7 @@ export const initialState: BillingCountriesState = {
 
 export function reducer(
   state = initialState,
-  action: UserActions.BillingCountriesAction | UserActions.ClearUserMiscsData
+  action: UserActions.BillingCountriesAction | UserActions.ClearUserMiscsData,
 ): BillingCountriesState {
   switch (action.type) {
     case UserActions.LOAD_BILLING_COUNTRIES_SUCCESS: {
@@ -27,7 +27,7 @@ export function reducer(
         },
         {
           ...state.entities,
-        }
+        },
       );
 
       return {

@@ -16,7 +16,7 @@ const userData: OrganizationUserRegistration = {
 
 class MockUserRegistrationAdapter implements UserRegistrationAdapter {
   registerUser = createSpy(
-    'UserRegistrationAdapter.registerUser'
+    'UserRegistrationAdapter.registerUser',
   ).and.returnValue(of(userData));
 }
 

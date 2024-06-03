@@ -36,20 +36,18 @@ describe('WishListComponent', () => {
 
   let wishListService: WishListFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [WishListComponent, MockWishListItemComponent],
-        providers: [
-          {
-            provide: WishListFacade,
-            useClass: MockWishListService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [WishListComponent, MockWishListItemComponent],
+      providers: [
+        {
+          provide: WishListFacade,
+          useClass: MockWishListService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WishListComponent);

@@ -18,7 +18,7 @@ describe('Navigation Entry Item Actions', () => {
           payload,
           meta: StateUtils.entityLoadMeta(
             NAVIGATION_DETAIL_ENTITY,
-            payload.nodeId
+            payload.nodeId,
           ),
         });
       });
@@ -30,7 +30,7 @@ describe('Navigation Entry Item Actions', () => {
         const nodeId = 'test_uid';
         const action = new CmsActions.LoadCmsNavigationItemsFail(
           nodeId,
-          payload
+          payload,
         );
 
         expect({ ...action }).toEqual({
@@ -39,7 +39,7 @@ describe('Navigation Entry Item Actions', () => {
           meta: StateUtils.entityFailMeta(
             NAVIGATION_DETAIL_ENTITY,
             nodeId,
-            payload
+            payload,
           ),
         });
       });
@@ -61,7 +61,7 @@ describe('Navigation Entry Item Actions', () => {
           payload,
           meta: StateUtils.entitySuccessMeta(
             NAVIGATION_DETAIL_ENTITY,
-            payload.nodeId
+            payload.nodeId,
           ),
         });
       });

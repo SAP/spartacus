@@ -23,11 +23,11 @@ export const initialLoaderState: LoaderState<any> = {
  */
 export function loaderReducer<T, V extends Action = Action>(
   entityType: string,
-  reducer?: (state: T | undefined, action: Action | V) => T | undefined
+  reducer?: (state: T | undefined, action: Action | V) => T | undefined,
 ): (state: LoaderState<T> | undefined, action: LoaderAction) => LoaderState<T> {
   return (
     state: LoaderState<T> = initialLoaderState,
-    action: LoaderAction
+    action: LoaderAction,
   ): LoaderState<T> => {
     if (
       action.meta &&

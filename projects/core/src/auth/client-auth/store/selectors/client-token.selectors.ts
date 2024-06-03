@@ -15,5 +15,5 @@ export const getClientTokenState: MemoizedSelector<
   LoaderState<ClientToken>
 > = createSelector(
   getClientAuthState,
-  (state: ClientAuthState) => state.clientToken
+  (state: ClientAuthState) => state.clientToken,
 );

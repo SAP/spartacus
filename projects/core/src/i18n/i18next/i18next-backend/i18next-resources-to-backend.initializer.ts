@@ -17,7 +17,7 @@ export class I18nextResourcesToBackendInitializer
 {
   constructor(
     protected config: I18nConfig,
-    @Inject(I18NEXT_INSTANCE) protected i18next: i18n
+    @Inject(I18NEXT_INSTANCE) protected i18next: i18n,
   ) {}
 
   hasMatch(): boolean {

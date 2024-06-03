@@ -6,7 +6,7 @@ import { JsonLdDirective } from './json-ld.directive';
 class TestComponent {}
 
 function createTestComponent(
-  template: string
+  template: string,
 ): ComponentFixture<TestComponent> {
   return TestBed.overrideComponent(TestComponent, {
     set: { template: template },
@@ -32,7 +32,7 @@ describe('JsonLdDirective', () => {
     fixture = createTestComponent(template);
     fixture.detectChanges();
     expect(fixture.nativeElement.innerHTML).toContain(
-      '<script type="application/ld+json">{"foo":"bar"}</script>'
+      '<script type="application/ld+json">{"foo":"bar"}</script>',
     );
   });
 

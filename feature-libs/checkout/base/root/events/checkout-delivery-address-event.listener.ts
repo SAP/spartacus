@@ -40,7 +40,7 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected eventService: EventService,
     protected globalMessageService: GlobalMessageService,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
   ) {
     this.onDeliveryAddressCreated();
     this.onDeliveryAddressSet();
@@ -62,13 +62,13 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
           filter(
             (event) =>
               event instanceof UpdateUserAddressEvent ||
-              event instanceof DeleteUserAddressEvent
+              event instanceof DeleteUserAddressEvent,
           ),
           switchMap(({ userId }) =>
             this.activeCartFacade
               .takeActiveCartId()
-              .pipe(map((cartId) => ({ cartId, userId })))
-          )
+              .pipe(map((cartId) => ({ cartId, userId }))),
+          ),
         )
         .subscribe(({ cartId, userId }) => {
           // we want to LL the checkout (if not already loaded), in order to clear the checkout data that's potentially set on the back-end
@@ -76,9 +76,9 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
 
           this.eventService.dispatch(
             { cartId, userId },
-            CheckoutSupportedDeliveryModesQueryResetEvent
+            CheckoutSupportedDeliveryModesQueryResetEvent,
           );
-        })
+        }),
     );
   }
 
@@ -93,16 +93,16 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
 
           this.globalMessageService.add(
             { key: 'addressForm.userAddressAddSuccess' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
+            GlobalMessageType.MSG_TYPE_CONFIRMATION,
           );
 
           this.eventService.dispatch(
             { userId, cartId },
-            CheckoutSupportedDeliveryModesQueryResetEvent
+            CheckoutSupportedDeliveryModesQueryResetEvent,
           );
 
           this.eventService.dispatch({}, CheckoutQueryResetEvent);
-        })
+        }),
     );
   }
 
@@ -113,11 +113,11 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
         .subscribe(({ userId, cartId }) => {
           this.eventService.dispatch(
             { userId, cartId },
-            CheckoutSupportedDeliveryModesQueryResetEvent
+            CheckoutSupportedDeliveryModesQueryResetEvent,
           );
 
           this.eventService.dispatch({}, CheckoutQueryResetEvent);
-        })
+        }),
     );
   }
 
@@ -126,8 +126,8 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
       this.eventService
         .get(CheckoutDeliveryAddressClearedEvent)
         .subscribe(() =>
-          this.eventService.dispatch({}, CheckoutQueryResetEvent)
-        )
+          this.eventService.dispatch({}, CheckoutQueryResetEvent),
+        ),
     );
   }
 
@@ -136,8 +136,8 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
       this.eventService
         .get(DeleteCartEvent)
         .subscribe(() =>
-          this.eventService.dispatch({}, CheckoutQueryResetEvent)
-        )
+          this.eventService.dispatch({}, CheckoutQueryResetEvent),
+        ),
     );
   }
 

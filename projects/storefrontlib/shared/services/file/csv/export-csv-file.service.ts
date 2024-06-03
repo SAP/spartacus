@@ -41,7 +41,7 @@ export class ExportCsvFileService {
   download(
     objectsArray: string[][],
     separator: string,
-    fileOptions: ExportFileOptions
+    fileOptions: ExportFileOptions,
   ): void {
     const { fileName, type, extension } = fileOptions;
     const fileContent = this.convert(objectsArray, separator);

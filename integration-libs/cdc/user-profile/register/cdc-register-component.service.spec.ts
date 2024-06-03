@@ -68,7 +68,7 @@ class MockEventService implements Partial<EventService> {
 class MockCDCJsService implements Partial<CdcJsService> {
   didLoad = createSpy().and.callFake(() => of(true));
   registerUserWithoutScreenSet = createSpy().and.callFake(() =>
-    of({ status: 'OK' })
+    of({ status: 'OK' }),
   );
   onLoginEventHandler = createSpy();
 }
@@ -166,7 +166,7 @@ describe('CdcRegisterComponentService', () => {
     eventService = TestBed.inject(EventService);
     converter = TestBed.inject(ConverterService);
     cdcConsentManagementService = TestBed.inject(
-      CdcConsentManagementComponentService
+      CdcConsentManagementComponentService,
     );
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
     fb = TestBed.inject(UntypedFormBuilder);
@@ -181,7 +181,7 @@ describe('CdcRegisterComponentService', () => {
     [CDCRegisterComponentService],
     (userRegisterService: UserRegisterService) => {
       expect(userRegisterService).toBeTruthy();
-    }
+    },
   ));
 
   it('should get titles from UserRegisterService', () => {
@@ -230,17 +230,17 @@ describe('CdcRegisterComponentService', () => {
       cdcUserRegisterService.register(userRegisterFormData).subscribe({
         error: () => {
           expect(
-            cdcJsService.registerUserWithoutScreenSet
+            cdcJsService.registerUserWithoutScreenSet,
           ).not.toHaveBeenCalled();
           expect(connector.register).not.toHaveBeenCalled();
           expect(globalMessageService.add).toHaveBeenCalledWith(
             {
               key: 'errorHandlers.scriptFailedToLoad',
             },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
           expect(
-            cdcJsService.registerUserWithoutScreenSet
+            cdcJsService.registerUserWithoutScreenSet,
           ).not.toHaveBeenCalled();
           done();
         },
@@ -249,7 +249,7 @@ describe('CdcRegisterComponentService', () => {
 
     it('should not do anything when CDC registration fails', (done) => {
       cdcJsService.registerUserWithoutScreenSet = createSpy().and.returnValue(
-        throwError(() => 'ERROR')
+        throwError(() => 'ERROR'),
       );
       cdcUserRegisterService.generatePreferencesObject =
         createSpy().and.returnValue({});
@@ -258,7 +258,7 @@ describe('CdcRegisterComponentService', () => {
         error: () => {
           expect(connector.register).not.toHaveBeenCalled();
           expect(
-            cdcJsService.registerUserWithoutScreenSet
+            cdcJsService.registerUserWithoutScreenSet,
           ).toHaveBeenCalledWith({
             titleCode: 'Mr.',
             firstName: 'firstName',
@@ -281,7 +281,7 @@ describe('CdcRegisterComponentService', () => {
         error: () => {
           expect(connector.register).not.toHaveBeenCalled();
           expect(
-            cdcJsService.registerUserWithoutScreenSet
+            cdcJsService.registerUserWithoutScreenSet,
           ).toHaveBeenCalledWith({
             titleCode: 'Mr.',
             firstName: 'firstName',
@@ -368,7 +368,7 @@ describe('CdcRegisterComponentService', () => {
           id: 'consent3.terms3',
           description: 'sample consent 3',
         },
-      ])
+      ]),
     );
     let result = cdcUserRegisterService.fetchCdcConsentsForRegistration();
     expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();
@@ -383,7 +383,7 @@ describe('CdcRegisterComponentService', () => {
   it('generateAdditionalConsentsFormControl', () => {
     spyOn(
       cdcUserRegisterService,
-      'fetchCdcConsentsForRegistration'
+      'fetchCdcConsentsForRegistration',
     ).and.returnValue([
       {
         id: 'consent1.terms1',
@@ -393,14 +393,14 @@ describe('CdcRegisterComponentService', () => {
     fb.array = createSpy().and.returnValue([]);
     cdcUserRegisterService.generateAdditionalConsentsFormControl();
     expect(
-      cdcUserRegisterService.fetchCdcConsentsForRegistration
+      cdcUserRegisterService.fetchCdcConsentsForRegistration,
     ).toHaveBeenCalled();
     expect(fb.array).toHaveBeenCalled();
   });
   it('loadAdditionalConsents', () => {
     spyOn(
       cdcUserRegisterService,
-      'fetchCdcConsentsForRegistration'
+      'fetchCdcConsentsForRegistration',
     ).and.returnValue([
       {
         id: 'consent2.terms2',
@@ -414,7 +414,7 @@ describe('CdcRegisterComponentService', () => {
 
     let result = cdcUserRegisterService.getAdditionalConsents();
     expect(
-      cdcUserRegisterService.fetchCdcConsentsForRegistration
+      cdcUserRegisterService.fetchCdcConsentsForRegistration,
     ).toHaveBeenCalled();
     expect(result).toEqual([
       {

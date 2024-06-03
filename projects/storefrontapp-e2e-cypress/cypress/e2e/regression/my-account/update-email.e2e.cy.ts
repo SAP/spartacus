@@ -57,7 +57,7 @@ describe('My Account - Update Email', () => {
         cy.visit('/login');
         login(
           standardUser.registrationData.email,
-          standardUser.registrationData.password
+          standardUser.registrationData.password,
         );
         alerts.getErrorAlert().should('contain', 'Bad credentials');
       });

@@ -59,13 +59,13 @@ describe('CartValidationStateService', () => {
 
   it('should clear validation data after configured number of routing steps', () => {
     (service.cartValidationResult$ as ReplaySubject<CartModification[]>).next(
-      []
+      [],
     );
     routerStateSubject.next({ navigationId: 1 });
 
     routerStateSubject.next({ navigationId: 5 });
     (service.cartValidationResult$ as ReplaySubject<CartModification[]>).next(
-      mockData
+      mockData,
     );
 
     (service as any).checkForValidationResultClear$

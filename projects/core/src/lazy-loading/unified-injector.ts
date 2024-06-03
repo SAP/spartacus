@@ -31,12 +31,12 @@ export class UnifiedInjector {
    */
   readonly injectors$: Observable<Injector> = this.lazyModules.modules$.pipe(
     map((moduleRef) => moduleRef.injector),
-    startWith(this.rootInjector)
+    startWith(this.rootInjector),
   );
 
   constructor(
     protected rootInjector: Injector,
-    protected lazyModules: LazyModulesService
+    protected lazyModules: LazyModulesService,
   ) {}
 
   /**
@@ -51,7 +51,7 @@ export class UnifiedInjector {
    */
   get<T>(
     token: Type<T> | InjectionToken<T> | AbstractType<T>,
-    notFoundValue?: T
+    notFoundValue?: T,
   ): Observable<T> {
     return this.injectors$.pipe(
       map((injector, index) =>
@@ -60,10 +60,10 @@ export class UnifiedInjector {
           notFoundValue ?? NOT_FOUND_SYMBOL,
           // we want to get only Self instances from all injectors except the
           // first one, which is a root injector
-          index ? { self: true } : undefined
-        )
+          index ? { self: true } : undefined,
+        ),
       ),
-      filter((instance) => instance !== NOT_FOUND_SYMBOL)
+      filter((instance) => instance !== NOT_FOUND_SYMBOL),
     );
   }
 
@@ -73,22 +73,22 @@ export class UnifiedInjector {
    * @param token
    */
   getMulti<T>(
-    token: Type<T> | InjectionToken<T> | AbstractType<T>
+    token: Type<T> | InjectionToken<T> | AbstractType<T>,
   ): Observable<T[]>;
   getMulti<T>(token: any): Observable<T>;
   getMulti<T>(
-    token: Type<T> | InjectionToken<T> | AbstractType<T> | any
+    token: Type<T> | InjectionToken<T> | AbstractType<T> | any,
   ): Observable<T[]> {
     return this.get(token, []).pipe(
       filter((instances) => {
         if (!Array.isArray(instances)) {
           throw new Error(
-            `Multi-providers mixed with single providers for ${token.toString()}!`
+            `Multi-providers mixed with single providers for ${token.toString()}!`,
           );
         }
         return instances.length > 0;
       }),
-      scan((acc, services) => [...acc, ...services], [])
+      scan((acc, services) => [...acc, ...services], []),
     );
   }
 }

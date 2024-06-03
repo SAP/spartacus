@@ -19,23 +19,23 @@ export const getGlobalMessageEntities: MemoizedSelector<
   GlobalMessageEntities
 > = createSelector(
   getGlobalMessageState,
-  (state: GlobalMessageState) => state.entities
+  (state: GlobalMessageState) => state.entities,
 );
 
 export const getGlobalMessageEntitiesByType = (
-  type: GlobalMessageType
+  type: GlobalMessageType,
 ): MemoizedSelector<StateWithGlobalMessage, Translatable[]> => {
   return createSelector(
     getGlobalMessageEntities,
-    (entities) => entities && entities[type]
+    (entities) => entities && entities[type],
   );
 };
 
 export const getGlobalMessageCountByType = (
-  type: GlobalMessageType
+  type: GlobalMessageType,
 ): MemoizedSelector<StateWithGlobalMessage, number> => {
   return createSelector(
     getGlobalMessageEntitiesByType(type),
-    (entities) => entities && entities.length
+    (entities) => entities && entities.length,
   );
 };

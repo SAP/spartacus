@@ -32,7 +32,7 @@ export class ImportOrderEntriesComponent {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected contextService: ContextService
+    protected contextService: ContextService,
   ) {}
 
   orderEntriesContext$: Observable<OrderEntriesContext | undefined> =
@@ -42,7 +42,7 @@ export class ImportOrderEntriesComponent {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.IMPORT_TO_CART,
       this.element,
-      { orderEntriesContext }
+      { orderEntriesContext },
     );
   }
 }

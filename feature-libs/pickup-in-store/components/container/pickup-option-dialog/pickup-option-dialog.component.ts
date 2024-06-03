@@ -66,7 +66,7 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected launchDialogService: LaunchDialogService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected pickupOptionFacade: PickupOptionFacade
+    protected pickupOptionFacade: PickupOptionFacade,
   ) {
     // Intentional empty constructor
   }
@@ -87,8 +87,8 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
           this.productCode = productCode;
           this.entryNumber = entryNumber;
           this.quantity = quantity;
-        }
-      )
+        },
+      ),
     );
 
     this.getHideOutOfStockState$ =
@@ -97,7 +97,7 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.pickupOptionFacade
         .getPageContext()
-        .subscribe((_data) => (this.isPDP = _data === 'PDP'))
+        .subscribe((_data) => (this.isPDP = _data === 'PDP')),
     );
 
     this.subscription.add(
@@ -108,9 +108,9 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
           tap((cart) => {
             this.cartId = cart.user.uid === 'anonymous' ? cart.guid : cart.code;
             this.userId = cart.user.uid;
-          })
+          }),
         )
-        .subscribe()
+        .subscribe(),
     );
   }
 
@@ -157,7 +157,7 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
         .pipe(
           filter(
             (store: AugmentedPointOfService | undefined) =>
-              typeof store !== 'undefined'
+              typeof store !== 'undefined',
           ),
           map((store) => store as AugmentedPointOfService),
           filter((store) => !store.name),
@@ -165,9 +165,9 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
           tap(() =>
             this.intendedPickupLocationService.setPickupOption(
               this.productCode,
-              'delivery'
-            )
-          )
+              'delivery',
+            ),
+          ),
         )
         .subscribe();
       this.pickupOptionFacade.setPickupOption(this.entryNumber, 'delivery');
@@ -183,11 +183,11 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
               this.entryNumber,
               this.quantity,
               (store as AugmentedPointOfService).name as string,
-              false
-            )
-          )
+              false,
+            ),
+          ),
         )
-        .subscribe()
+        .subscribe(),
     );
   }
 

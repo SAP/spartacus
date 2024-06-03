@@ -18,12 +18,12 @@ export const getAddressesLoaderState: MemoizedSelector<
 
 export const getAddresses: MemoizedSelector<StateWithUser, Address[]> =
   createSelector(getAddressesLoaderState, (state: LoaderState<Address[]>) =>
-    StateUtils.loaderValueSelector(state)
+    StateUtils.loaderValueSelector(state),
   );
 
 export const getAddressesLoading: MemoizedSelector<StateWithUser, boolean> =
   createSelector(getAddressesLoaderState, (state: LoaderState<Address[]>) =>
-    StateUtils.loaderLoadingSelector(state)
+    StateUtils.loaderLoadingSelector(state),
   );
 
 export const getAddressesLoadedSuccess: MemoizedSelector<
@@ -33,5 +33,5 @@ export const getAddressesLoadedSuccess: MemoizedSelector<
   getAddressesLoaderState,
   (state: LoaderState<Address[]>) =>
     StateUtils.loaderSuccessSelector(state) &&
-    !StateUtils.loaderLoadingSelector(state)
+    !StateUtils.loaderLoadingSelector(state),
 );

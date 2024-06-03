@@ -9,7 +9,7 @@ describe('InvalidTraceparentFormatError', () => {
   it('should have the correct message', () => {
     const error = new InvalidTraceparentLengthError(20);
     expect(error.message).toBe(
-      `Traceparent header has invalid length: ${20}. Expected 55 characters.`
+      `Traceparent header has invalid length: ${20}. Expected 55 characters.`,
     );
   });
 });

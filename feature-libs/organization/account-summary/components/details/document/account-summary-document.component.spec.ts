@@ -65,7 +65,7 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
 
   getDocumentAttachment(
     orgDocumentId?: string,
-    orgDocumentAttachmentId?: string
+    orgDocumentAttachmentId?: string,
   ): Observable<Blob> {
     if (orgDocumentId && orgDocumentAttachmentId) {
       return of(blob);
@@ -130,7 +130,7 @@ describe('AccountSummaryDocumentComponent', () => {
       .subscribe((value: AccountSummaryList) => (accountSummaryList = value));
     expect(accountSummaryList).toEqual(mockAccountSummaryList);
     expect(component.documentTypeOptions).toEqual(
-      mockAccountSummaryList.orgDocumentTypes
+      mockAccountSummaryList.orgDocumentTypes,
     );
     expect(component.sortOptions).toEqual(mockAccountSummaryList.sorts);
   });
@@ -242,34 +242,34 @@ describe('AccountSummaryDocumentComponent', () => {
 
   it('Should have table headers', () => {
     const tableElement = fixture.debugElement.query(
-      By.css('.cx-account-summary-document-table')
+      By.css('.cx-account-summary-document-table'),
     );
 
     const tableHeaders = tableElement.queryAll(By.css('th'));
     expect(tableHeaders?.length).toEqual(8);
     expect(tableHeaders[0].properties.innerText).toEqual(
-      'orgAccountSummary.document.id'
+      'orgAccountSummary.document.id',
     );
     expect(tableHeaders[1].properties.innerText).toEqual(
-      'orgAccountSummary.document.type'
+      'orgAccountSummary.document.type',
     );
     expect(tableHeaders[2].properties.innerText).toEqual(
-      'orgAccountSummary.document.date'
+      'orgAccountSummary.document.date',
     );
     expect(tableHeaders[3].properties.innerText).toEqual(
-      'orgAccountSummary.document.dueDate'
+      'orgAccountSummary.document.dueDate',
     );
     expect(tableHeaders[4].properties.innerText).toEqual(
-      'orgAccountSummary.document.originalAmount'
+      'orgAccountSummary.document.originalAmount',
     );
     expect(tableHeaders[5].properties.innerText).toEqual(
-      'orgAccountSummary.document.openAmount'
+      'orgAccountSummary.document.openAmount',
     );
     expect(tableHeaders[6].properties.innerText).toEqual(
-      'orgAccountSummary.document.status'
+      'orgAccountSummary.document.status',
     );
     expect(tableHeaders[7].children[0].attributes.title).toEqual(
-      'orgAccountSummary.document.attachment'
+      'orgAccountSummary.document.attachment',
     );
   });
 
@@ -278,7 +278,7 @@ describe('AccountSummaryDocumentComponent', () => {
       /[a-zA-Z]+ \d{1,2}, \d{4}/gm.test(formattedDate);
 
     const tableElement = fixture.debugElement.query(
-      By.css('.cx-account-summary-document-table')
+      By.css('.cx-account-summary-document-table'),
     );
 
     const tableRows = tableElement.queryAll(By.css('tr'));
@@ -286,41 +286,41 @@ describe('AccountSummaryDocumentComponent', () => {
 
     tableRows?.forEach((row, rowNumber) => {
       const tableCells = row.queryAll(
-        By.css('.cx-account-summary-document-value')
+        By.css('.cx-account-summary-document-value'),
       );
 
       expect(tableCells?.length).toEqual(8);
 
       expect(tableCells[0].nativeElement.innerText).toEqual(
-        mockAccountSummaryList.orgDocuments?.[rowNumber]?.id
+        mockAccountSummaryList.orgDocuments?.[rowNumber]?.id,
       );
 
       expect(tableCells[1].nativeElement.innerText).toEqual(
-        mockAccountSummaryList.orgDocuments?.[rowNumber]?.orgDocumentType?.name
+        mockAccountSummaryList.orgDocuments?.[rowNumber]?.orgDocumentType?.name,
       );
 
       expect(isDate(tableCells[2].nativeElement.innerText)).toEqual(
-        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.createdAtDate
+        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.createdAtDate,
       );
 
       expect(isDate(tableCells[3].nativeElement.innerText)).toEqual(
-        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.dueAtDate
+        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.dueAtDate,
       );
 
       expect(tableCells[4].nativeElement.innerText).toEqual(
-        mockAccountSummaryList.orgDocuments?.[rowNumber]?.formattedAmount
+        mockAccountSummaryList.orgDocuments?.[rowNumber]?.formattedAmount,
       );
 
       expect(tableCells[5].nativeElement.innerText).toEqual(
-        mockAccountSummaryList.orgDocuments?.[rowNumber]?.formattedOpenAmount
+        mockAccountSummaryList.orgDocuments?.[rowNumber]?.formattedOpenAmount,
       );
 
       expect(tableCells[6].nativeElement.innerText).toEqual(
-        `orgAccountSummary.statuses.${mockAccountSummaryList.orgDocuments?.[rowNumber]?.status}`
+        `orgAccountSummary.statuses.${mockAccountSummaryList.orgDocuments?.[rowNumber]?.status}`,
       );
 
       expect(!!tableCells[7].query(By.css('cx-icon'))).toEqual(
-        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.attachments?.[0]
+        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.attachments?.[0],
       );
     });
   });
@@ -328,11 +328,11 @@ describe('AccountSummaryDocumentComponent', () => {
   it('should download the attachment file', async () => {
     const documentWithAttachment =
       mockAccountSummaryList.orgDocuments?.find(
-        (doc) => doc?.attachments?.length && doc?.attachments?.length > 0
+        (doc) => doc?.attachments?.length && doc?.attachments?.length > 0,
       ) || {};
 
     spyOn(accountSummaryFacade, 'getDocumentAttachment').and.returnValue(
-      of(blob)
+      of(blob),
     );
     const fakeUrl =
       'blob:http://localhost:9877/50d43852-5f76-41e0-bb36-599d4b99af07';
@@ -340,18 +340,18 @@ describe('AccountSummaryDocumentComponent', () => {
 
     component.downloadAttachment(
       documentWithAttachment.id,
-      documentWithAttachment?.attachments?.[0].id
+      documentWithAttachment?.attachments?.[0].id,
     );
     fixture.detectChanges();
 
     expect(accountSummaryFacade.getDocumentAttachment).toHaveBeenCalledWith(
       documentWithAttachment.id,
-      documentWithAttachment.attachments?.[0].id
+      documentWithAttachment.attachments?.[0].id,
     );
 
     expect(downloadService.download).toHaveBeenCalledWith(
       fakeUrl,
-      documentWithAttachment.attachments?.[0].id
+      documentWithAttachment.attachments?.[0].id,
     );
   });
 });

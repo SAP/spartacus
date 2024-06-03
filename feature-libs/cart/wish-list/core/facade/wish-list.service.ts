@@ -35,12 +35,12 @@ export class WishListService implements WishListFacade {
     protected store: Store<StateWithMultiCart>,
     protected userAccountFacade: UserAccountFacade,
     protected multiCartFacade: MultiCartFacade,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   createWishList(userId: string, name?: string, description?: string): void {
     this.store.dispatch(
-      new WishListActions.CreateWishList({ userId, name, description })
+      new WishListActions.CreateWishList({ userId, name, description }),
     );
   }
 
@@ -61,7 +61,7 @@ export class WishListService implements WishListFacade {
         }
       }),
       filter(([wishListId]) => Boolean(wishListId)),
-      switchMap(([wishListId]) => this.multiCartFacade.getCart(wishListId))
+      switchMap(([wishListId]) => this.multiCartFacade.getCart(wishListId)),
     );
   }
 
@@ -70,13 +70,13 @@ export class WishListService implements WishListFacade {
       new WishListActions.LoadWishList({
         userId,
         cartId: getWishlistName(customerId),
-      })
+      }),
     );
   }
 
   addEntry(productCode: string): void {
     this.getWishListIdWithUserId().subscribe(([wishListId, userId]) =>
-      this.multiCartFacade.addEntry(userId, wishListId, productCode, 1)
+      this.multiCartFacade.addEntry(userId, wishListId, productCode, 1),
     );
   }
 
@@ -85,16 +85,18 @@ export class WishListService implements WishListFacade {
       this.multiCartFacade.removeEntry(
         userId,
         wishListId,
-        entry.entryNumber as number
-      )
+        entry.entryNumber as number,
+      ),
     );
   }
 
   getWishListLoading(): Observable<boolean> {
     return this.getWishListId().pipe(
       switchMap((wishListId) =>
-        this.multiCartFacade.isStable(wishListId).pipe(map((stable) => !stable))
-      )
+        this.multiCartFacade
+          .isStable(wishListId)
+          .pipe(map((stable) => !stable)),
+      ),
     );
   }
 
@@ -107,7 +109,7 @@ export class WishListService implements WishListFacade {
       distinctUntilChanged(),
       withLatestFrom(
         this.userIdService.getUserId(),
-        this.userAccountFacade.get()
+        this.userAccountFacade.get(),
       ),
       tap(([wishListId, userId, user]) => {
         if (!Boolean(wishListId) && user?.customerId) {
@@ -116,7 +118,7 @@ export class WishListService implements WishListFacade {
       }),
       filter(([wishListId]) => Boolean(wishListId)),
       map(([wishListId, userId]) => [wishListId, userId]),
-      take(1)
+      take(1),
     );
   }
 }

@@ -30,21 +30,19 @@ describe('ReturnRequestItemsComponent', () => {
   let component: ReturnRequestItemsComponent;
   let fixture: ComponentFixture<ReturnRequestItemsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ReturnRequestItemsComponent,
-          MockMediaComponent,
-          MockFeatureLevelDirective,
-        ],
-        providers: [
-          { provide: ReturnRequestService, useClass: MockCheckoutService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ReturnRequestItemsComponent,
+        MockMediaComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        { provide: ReturnRequestService, useClass: MockCheckoutService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReturnRequestItemsComponent);

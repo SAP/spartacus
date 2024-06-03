@@ -59,7 +59,7 @@ describe('Payment Methods', () => {
         cy.intercept({
           method: 'GET',
           pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
+            'BASE_SITE',
           )}/users/*/paymentdetails`,
           query: {
             lang: 'en',
@@ -87,7 +87,7 @@ describe('Payment Methods', () => {
         // should see confirmation message
         cy.get('.cx-card-delete-msg').should(
           'contain',
-          'Are you sure you want to delete this payment method?'
+          'Are you sure you want to delete this payment method?',
         );
 
         cy.get('.btn-secondary').should('contain', 'Cancel');

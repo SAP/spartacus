@@ -42,7 +42,7 @@ export class UserListService extends ListService<UserModel> {
 
   constructor(
     protected tableService: TableService,
-    protected userService: B2BUserService
+    protected userService: B2BUserService,
   ) {
     super(tableService);
   }
@@ -52,11 +52,11 @@ export class UserListService extends ListService<UserModel> {
   }
 
   protected load(
-    pagination: PaginationModel
+    pagination: PaginationModel,
   ): Observable<EntitiesModel<UserModel>> {
     return this.userService.getList(pagination).pipe(
       filter(isNotUndefined),
-      map((raw) => this.convertUsers(raw))
+      map((raw) => this.convertUsers(raw)),
     );
   }
 
@@ -77,7 +77,7 @@ export class UserListService extends ListService<UserModel> {
         ...value,
         unit: value.orgUnit,
         roles: value.roles?.filter((role: any) =>
-          availableRoles.includes(role)
+          availableRoles.includes(role),
         ),
       })),
     };

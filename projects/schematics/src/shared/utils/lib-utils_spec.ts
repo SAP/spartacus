@@ -28,7 +28,7 @@ const xxxFeaturePath = `src/app/spartacus/features/xxx/xxx-feature.module.ts`;
 describe('Lib utils', () => {
   const schematicRunner = new SchematicTestRunner(
     'schematics',
-    path.join(__dirname, '../../collection.json')
+    path.join(__dirname, '../../collection.json'),
   );
 
   let appTree: Tree;
@@ -133,20 +133,20 @@ describe('Lib utils', () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runSchematic(
       'add-spartacus',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -169,8 +169,8 @@ describe('Lib utils', () => {
       appTree = await firstValueFrom(
         schematicRunner.callRule(
           addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG),
-          appTree
-        )
+          appTree,
+        ),
       );
 
       expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
@@ -183,8 +183,8 @@ describe('Lib utils', () => {
       appTree = await firstValueFrom(
         schematicRunner.callRule(
           addLibraryFeature(BASE_OPTIONS, featureConfig),
-          appTree
-        )
+          appTree,
+        ),
       );
 
       expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
@@ -194,8 +194,8 @@ describe('Lib utils', () => {
         appTree = await firstValueFrom(
           schematicRunner.callRule(
             addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG),
-            appTree
-          )
+            appTree,
+          ),
         );
 
         expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
@@ -205,7 +205,7 @@ describe('Lib utils', () => {
       it('should add it in the eager way', async () => {
         const rule = addLibraryFeature(
           { ...BASE_OPTIONS, lazy: false },
-          BASE_FEATURE_CONFIG
+          BASE_FEATURE_CONFIG,
         );
         appTree = await firstValueFrom(schematicRunner.callRule(rule, appTree));
 
@@ -241,8 +241,8 @@ describe('Lib utils', () => {
         appTree = await firstValueFrom(
           schematicRunner.callRule(
             addLibraryFeature(BASE_OPTIONS, featureConfig),
-            appTree
-          )
+            appTree,
+          ),
         );
 
         expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
@@ -263,8 +263,8 @@ describe('Lib utils', () => {
         appTree = await firstValueFrom(
           schematicRunner.callRule(
             addLibraryFeature(BASE_OPTIONS, featureConfig),
-            appTree
-          )
+            appTree,
+          ),
         );
 
         // after
@@ -277,13 +277,13 @@ describe('Lib utils', () => {
           it('should add it', async () => {
             const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
             appTree = await firstValueFrom(
-              schematicRunner.callRule(rule, appTree)
+              schematicRunner.callRule(rule, appTree),
             );
 
             expect(appTree.exists(scssFilePath)).toEqual(true);
             const content = appTree.read(scssFilePath)?.toString(UTF_8);
             expect(content).toEqual(
-              `${STYLES_CONFIG_IMPORT}\n${FEATURE_MODULE_STYLE_IMPORT}\n`
+              `${STYLES_CONFIG_IMPORT}\n${FEATURE_MODULE_STYLE_IMPORT}\n`,
             );
           });
         });
@@ -291,13 +291,13 @@ describe('Lib utils', () => {
           beforeEach(() => {
             appTree.create(
               scssFilePath,
-              `@import "${FEATURE_MODULE_IMPORT_PATH}";`
+              `@import "${FEATURE_MODULE_IMPORT_PATH}";`,
             );
           });
           it('should NOT append it', async () => {
             const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
             appTree = await firstValueFrom(
-              schematicRunner.callRule(rule, appTree)
+              schematicRunner.callRule(rule, appTree),
             );
 
             expect(appTree.exists(scssFilePath)).toEqual(true);
@@ -313,13 +313,13 @@ describe('Lib utils', () => {
           it('should append it', async () => {
             const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
             appTree = await firstValueFrom(
-              schematicRunner.callRule(rule, appTree)
+              schematicRunner.callRule(rule, appTree),
             );
 
             expect(appTree.exists(scssFilePath)).toEqual(true);
             const content = appTree.read(scssFilePath)?.toString(UTF_8);
             expect(content).toEqual(
-              `${randomContent}\n@import "${FEATURE_MODULE_IMPORT_PATH}";`
+              `${randomContent}\n@import "${FEATURE_MODULE_IMPORT_PATH}";`,
             );
           });
         });
@@ -331,7 +331,7 @@ describe('Lib utils', () => {
             styles: undefined,
           });
           appTree = await firstValueFrom(
-            schematicRunner.callRule(rule, appTree)
+            schematicRunner.callRule(rule, appTree),
           );
 
           expect(appTree.exists(scssFilePath)).toEqual(false);
@@ -343,7 +343,7 @@ describe('Lib utils', () => {
           expect(appTree.exists(STYLES_CONFIG_FILE_PATH)).toEqual(true);
           const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
           appTree = await firstValueFrom(
-            schematicRunner.callRule(rule, appTree)
+            schematicRunner.callRule(rule, appTree),
           );
 
           expect(appTree.exists(scssFilePath)).toEqual(true);
@@ -358,7 +358,7 @@ describe('Lib utils', () => {
           appTree.delete(STYLES_CONFIG_FILE_PATH);
           const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
           appTree = await firstValueFrom(
-            schematicRunner.callRule(rule, appTree)
+            schematicRunner.callRule(rule, appTree),
           );
 
           expect(appTree.exists(scssFilePath)).toEqual(true);
@@ -374,8 +374,8 @@ describe('Lib utils', () => {
       appTree = await firstValueFrom(
         schematicRunner.callRule(
           addLibraryFeature(CHECKOUT_OPTIONS, CHECKOUT_FEATURE_CONFIG),
-          appTree
-        )
+          appTree,
+        ),
       );
     });
 
@@ -390,14 +390,14 @@ describe('Lib utils', () => {
         .callRule(
           addPackageJsonDependenciesForLibrary(
             peerDependencies,
-            CHECKOUT_OPTIONS
+            CHECKOUT_OPTIONS,
           ),
-          appTree
+          appTree,
         )
         .toPromise();
 
       const packageJson = JSON.parse(
-        appTree.read('package.json')?.toString(UTF_8) ?? ''
+        appTree.read('package.json')?.toString(UTF_8) ?? '',
       ).dependencies as Record<string, string>;
 
       expect(packageJson[SPARTACUS_ORDER]).toBeTruthy();

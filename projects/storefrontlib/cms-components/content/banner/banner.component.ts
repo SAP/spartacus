@@ -31,13 +31,13 @@ export class BannerComponent {
     tap((data) => {
       this.setRouterLink(data);
       this.styleClasses = data.styleClasses;
-    })
+    }),
   );
 
   constructor(
     protected component: CmsComponentData<CmsBannerComponent>,
     protected urlService: SemanticPathService,
-    protected cmsService: CmsService
+    protected cmsService: CmsService,
   ) {}
 
   /**

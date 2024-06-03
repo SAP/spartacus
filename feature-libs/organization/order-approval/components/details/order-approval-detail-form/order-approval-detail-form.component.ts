@@ -37,8 +37,8 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
       .getOrderApprovalCodeFromRoute()
       .pipe(
         switchMap((approvalCode: string) =>
-          this.orderApprovalService.getOrderApprovalLoading(approvalCode)
-        )
+          this.orderApprovalService.getOrderApprovalLoading(approvalCode),
+        ),
       );
 
   protected decisionResultLoading$ =
@@ -50,8 +50,8 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
   ]).pipe(
     map(
       ([approvalLoading, decisionResultLoading]) =>
-        approvalLoading || decisionResultLoading
-    )
+        approvalLoading || decisionResultLoading,
+    ),
   );
 
   orderApproval$: Observable<OrderApproval | undefined> =
@@ -60,7 +60,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
   constructor(
     protected orderApprovalDetailService: OrderApprovalDetailService,
     protected orderApprovalService: OrderApprovalService,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
   ) {
     this.orderApprovalService.resetMakeDecisionProcessState();
   }

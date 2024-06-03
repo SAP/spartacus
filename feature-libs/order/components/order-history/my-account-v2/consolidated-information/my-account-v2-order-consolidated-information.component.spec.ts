@@ -66,30 +66,28 @@ describe('MyAccountV2OrderConsolidatedInformationComponent', () => {
   let fixture: ComponentFixture<MyAccountV2OrderConsolidatedInformationComponent>;
   let service: MyAccountV2OrderConsignmentsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          MyAccountV2OrderConsolidatedInformationComponent,
-          MockUrlPipe,
-          MockMediaComponent,
-        ],
-        providers: [
-          {
-            provide: MyAccountV2OrderConsignmentsService,
-            useClass: MockMyAccountV2OrderConsignmentsService,
-          },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
-      service = TestBed.inject(MyAccountV2OrderConsignmentsService);
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        MyAccountV2OrderConsolidatedInformationComponent,
+        MockUrlPipe,
+        MockMediaComponent,
+      ],
+      providers: [
+        {
+          provide: MyAccountV2OrderConsignmentsService,
+          useClass: MockMyAccountV2OrderConsignmentsService,
+        },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
+    service = TestBed.inject(MyAccountV2OrderConsignmentsService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      MyAccountV2OrderConsolidatedInformationComponent
+      MyAccountV2OrderConsolidatedInformationComponent,
     );
     component = fixture.componentInstance;
   });
@@ -127,7 +125,7 @@ describe('MyAccountV2OrderConsolidatedInformationComponent', () => {
   it('should return delivery unconsigned consignments', () => {
     service.getUnconsignedEntries = createSpy().and.stub();
     component.getDeliveryUnconsignedEntries(
-      mock_order1.unconsignedEntries ?? []
+      mock_order1.unconsignedEntries ?? [],
     );
     expect(service.getUnconsignedEntries).toHaveBeenCalled();
   });
@@ -144,7 +142,7 @@ describe('MyAccountV2OrderConsolidatedInformationComponent', () => {
     component.order = mock_order1;
     fixture.detectChanges();
     expect(
-      fixture.debugElement.query(By.css('.cx-consolidated-order-info'))
+      fixture.debugElement.query(By.css('.cx-consolidated-order-info')),
     ).toBeTruthy();
   });
 });

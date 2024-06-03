@@ -39,7 +39,7 @@ describe('BadGatewayHandler', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.badGateway' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 });

@@ -99,14 +99,14 @@ describe('UserPermissionListService', () => {
     spyOn(permissionService, 'getLoadingStatus').and.callThrough();
 
     expect(service.assign('customerId', 'permissionCode')).toEqual(
-      mockItemStatus
+      mockItemStatus,
     );
     expect(userService.assignPermission).toHaveBeenCalledWith(
       'customerId',
-      'permissionCode'
+      'permissionCode',
     );
     expect(permissionService.getLoadingStatus).toHaveBeenCalledWith(
-      'permissionCode'
+      'permissionCode',
     );
   });
 
@@ -115,14 +115,14 @@ describe('UserPermissionListService', () => {
     spyOn(permissionService, 'getLoadingStatus').and.callThrough();
 
     expect(service.unassign('customerId', 'permissionCode')).toEqual(
-      mockItemStatus
+      mockItemStatus,
     );
     expect(userService.unassignPermission).toHaveBeenCalledWith(
       'customerId',
-      'permissionCode'
+      'permissionCode',
     );
     expect(permissionService.getLoadingStatus).toHaveBeenCalledWith(
-      'permissionCode'
+      'permissionCode',
     );
   });
 });

@@ -27,14 +27,15 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
 
   constructor(
     protected preferredStoreFacade: PreferredStoreFacade,
-    @Optional() protected outlet: OutletContextData<PointOfServiceNames>
+    @Optional() protected outlet: OutletContextData<PointOfServiceNames>,
   ) {}
 
   ngOnInit() {
     this.subscription.add(
       this.outlet?.context$.subscribe(
-        (pointOfServiceNames) => (this.pointOfServiceName = pointOfServiceNames)
-      )
+        (pointOfServiceNames) =>
+          (this.pointOfServiceName = pointOfServiceNames),
+      ),
     );
   }
 

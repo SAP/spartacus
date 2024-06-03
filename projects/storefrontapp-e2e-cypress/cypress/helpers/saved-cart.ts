@@ -23,7 +23,7 @@ export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 
 export function verifyCartPageTabbingOrder() {
   cy.get(
-    'cx-cart-item-list cx-item-counter input[type=number]:not([disabled])'
+    'cx-cart-item-list cx-item-counter input[type=number]:not([disabled])',
   ); // wait until counter is accessible
 
   tabbingOrder('cx-page-layout.CartPageTemplate', config.cart);
@@ -31,17 +31,17 @@ export function verifyCartPageTabbingOrder() {
 
 export function verifyModalTabbingOrder() {
   cy.get(
-    'cx-cart-item-list cx-item-counter input[type=number]:not([disabled])'
+    'cx-cart-item-list cx-item-counter input[type=number]:not([disabled])',
   ); // wait until counter is accessible
 
   clickSavedCartButtonsFromCartPage(1);
 
   cy.get('cx-saved-cart-form-dialog').within(() => {
     cy.get('[formcontrolname="name"]').type(
-      sampleData.savedActiveCartForm[1].name
+      sampleData.savedActiveCartForm[1].name,
     );
     cy.get('[formcontrolname="description"]').type(
-      sampleData.savedActiveCartForm[1].description
+      sampleData.savedActiveCartForm[1].description,
     );
   });
 
@@ -64,8 +64,8 @@ export function interceptSaveCartEndpoint(cartCode: string) {
   cy.intercept(
     'PATCH',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/carts/${cartCode}/save?*`
+      'BASE_SITE',
+    )}/users/current/carts/${cartCode}/save?*`,
   ).as(SAVE_CART_ENDPOINT_ALIAS);
 
   return SAVE_CART_ENDPOINT_ALIAS;
@@ -75,8 +75,8 @@ export function interceptAddToCartEndpoint() {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts/*/entries*`
+      'BASE_SITE',
+    )}/users/*/carts/*/entries*`,
   ).as(ADD_TO_CART_ENDPOINT_ALIAS);
 
   return ADD_TO_CART_ENDPOINT_ALIAS;
@@ -86,8 +86,8 @@ export function interceptGetAllSavedCartEndpoint() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/carts?savedCartsOnly=true*`
+      'BASE_SITE',
+    )}/users/current/carts?savedCartsOnly=true*`,
   ).as(GET_ALL_SAVED_CART_ENDPOINT_ALIAS);
 
   return GET_ALL_SAVED_CART_ENDPOINT_ALIAS;
@@ -97,8 +97,8 @@ export function interceptRestoreSavedCartEndpoint(cartCode: string) {
   cy.intercept(
     'PATCH',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/carts/${cartCode}/restoresavedcart?*`
+      'BASE_SITE',
+    )}/users/current/carts/${cartCode}/restoresavedcart?*`,
   ).as(RESTORE_SAVED_CART_ENDPOINT_ALIAS);
 
   return RESTORE_SAVED_CART_ENDPOINT_ALIAS;
@@ -108,8 +108,8 @@ export function interceptGetSavedCartEndpoint(cartCode: string) {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/carts/${cartCode}/savedcart?*`
+      'BASE_SITE',
+    )}/users/current/carts/${cartCode}/savedcart?*`,
   ).as(GET_SAVED_CART_ENDPOINT_ALIAS);
 
   return GET_SAVED_CART_ENDPOINT_ALIAS;
@@ -119,8 +119,8 @@ export function interceptDeleteCartEndpoint(cartCode: string) {
   cy.intercept(
     'DELETE',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/carts/${cartCode}?*`
+      'BASE_SITE',
+    )}/users/current/carts/${cartCode}?*`,
   ).as(DELETE_CART_ENDPOINT_ALIAS);
 
   return DELETE_CART_ENDPOINT_ALIAS;
@@ -130,8 +130,8 @@ export function interceptCloneSavedCartEndpoint(cartCode: string) {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/carts/${cartCode}/clonesavedcart?*`
+      'BASE_SITE',
+    )}/users/current/carts/${cartCode}/clonesavedcart?*`,
   ).as(CLONE_SAVED_CART_ENDPOINT_ALIAS);
 
   return CLONE_SAVED_CART_ENDPOINT_ALIAS;
@@ -148,7 +148,7 @@ export function visitSavedCartListingPage() {
   const getAllSavedCartAlias = interceptGetAllSavedCartEndpoint();
   const savedCartListingPageAlias = waitForPage(
     '/my-account/saved-carts',
-    'savedCartListPage'
+    'savedCartListPage',
   );
 
   cy.visit(`/my-account/saved-carts`);
@@ -165,7 +165,7 @@ export function visitSavedCartDetailsPage(cartCode: string) {
 
   const savedCartDetailsPageAlias = waitForPage(
     `/my-account/saved-cart/${cartCode}`,
-    'savedCartDetailsPage'
+    'savedCartDetailsPage',
   );
 
   cy.visit(`/my-account/saved-cart/${cartCode}`);
@@ -239,7 +239,7 @@ export function saveActiveCart(verify = true) {
 
   cy.window()
     .then((win) =>
-      JSON.parse(win.localStorage.getItem('spartacus⚿electronics-spa⚿cart'))
+      JSON.parse(win.localStorage.getItem('spartacus⚿electronics-spa⚿cart')),
     )
     .then(({ active }) => {
       const alias = interceptSaveCartEndpoint(active);
@@ -263,7 +263,7 @@ export function saveActiveCart(verify = true) {
         .getSuccessAlert()
         .should(
           'contain',
-          `Your cart items have been successfully saved for later in the "${sampleData.savedActiveCartForm[0].name}" cart`
+          `Your cart items have been successfully saved for later in the "${sampleData.savedActiveCartForm[0].name}" cart`,
         );
 
       cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
@@ -295,24 +295,24 @@ export function verifyActiveCartWasSaved(cartCode: string) {
     expect(body.carts[0].code).to.equal(cartCode);
     expect(body.carts[0].name).to.equal(sampleData.savedActiveCartForm[0].name);
     expect(body.carts[0].description).to.equal(
-      sampleData.savedActiveCartForm[0].description
+      sampleData.savedActiveCartForm[0].description,
     );
   });
 
   cy.get(
-    'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value'
+    'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value',
   ).should('contain', sampleData.savedActiveCartForm[0].name);
 
   cy.get(
-    'cx-saved-cart-list .cx-saved-cart-list-cart-id > .cx-saved-cart-list-value'
+    'cx-saved-cart-list .cx-saved-cart-list-cart-id > .cx-saved-cart-list-value',
   ).should('contain', cartCode);
 
   cy.get(
-    'cx-saved-cart-list .cx-saved-cart-list-quantity > .cx-saved-cart-list-value'
+    'cx-saved-cart-list .cx-saved-cart-list-quantity > .cx-saved-cart-list-value',
   ).should('contain', sampleData.savedCarts.carts[0].totalUnitCount);
 
   cy.get(
-    'cx-saved-cart-list .cx-saved-cart-list-total > .cx-saved-cart-list-value'
+    'cx-saved-cart-list .cx-saved-cart-list-total > .cx-saved-cart-list-value',
   ).should('contain', sampleData.savedCarts.carts[0].totalPrice.formattedValue);
 }
 
@@ -334,7 +334,7 @@ export function restoreCart(
   isEmptyCart: boolean = false,
   cloneSavedCart: { isCloneCartActive: boolean; cloneName?: string } = {
     isCloneCartActive: false,
-  }
+  },
 ) {
   cy.window()
     .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
@@ -351,28 +351,28 @@ export function restoreCart(
         // asserts the cart matches what is shown in the table
 
         cy.get(
-          'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value'
+          'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value',
         ).should('contain', cart.code);
 
         cy.get(
-          'cx-saved-cart-list .cx-saved-cart-list-cart-id > .cx-saved-cart-list-value'
+          'cx-saved-cart-list .cx-saved-cart-list-cart-id > .cx-saved-cart-list-value',
         ).should('contain', cart.code);
 
         cy.get(
-          'cx-saved-cart-list .cx-saved-cart-list-quantity > .cx-saved-cart-list-value'
+          'cx-saved-cart-list .cx-saved-cart-list-quantity > .cx-saved-cart-list-value',
         ).should('contain', sampleData.savedCarts.carts[0].totalUnitCount);
 
         cy.get(
-          'cx-saved-cart-list .cx-saved-cart-list-total > .cx-saved-cart-list-value'
+          'cx-saved-cart-list .cx-saved-cart-list-total > .cx-saved-cart-list-value',
         ).should(
           'contain',
-          sampleData.savedCarts.carts[0].totalPrice.formattedValue
+          sampleData.savedCarts.carts[0].totalPrice.formattedValue,
         );
 
         const cloneSavedCartAlias = interceptCloneSavedCartEndpoint(cart.code);
 
         const restoreSavedCartAlias = interceptRestoreSavedCartEndpoint(
-          cart.code
+          cart.code,
         );
 
         //get the previous active cart before it gets replaced
@@ -380,8 +380,8 @@ export function restoreCart(
         cy.window()
           .then((win) =>
             JSON.parse(
-              win.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
-            )
+              win.localStorage.getItem('spartacus⚿electronics-spa⚿cart'),
+            ),
           )
           .then(({ active }) => {
             cy.get('cx-saved-cart-list button:first').should('exist').click();
@@ -413,14 +413,14 @@ export function restoreCart(
                 .getSuccessAlert()
                 .should(
                   'contain',
-                  `Existing cart is activated by ${cart.code} successfully`
+                  `Existing cart is activated by ${cart.code} successfully`,
                 );
             } else {
               alerts
                 .getSuccessAlert()
                 .should(
                   'contain',
-                  `Existing cart is activated by ${cart.code} successfully. Your previous items were saved in a cart ${active}.`
+                  `Existing cart is activated by ${cart.code} successfully. Your previous items were saved in a cart ${active}.`,
                 );
             }
           });
@@ -430,11 +430,11 @@ export function restoreCart(
         if (cloneSavedCart.isCloneCartActive) {
           if (cloneSavedCart?.cloneName) {
             cy.get(
-              'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value'
+              'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value',
             ).should('contain', cloneSavedCart.cloneName);
           } else {
             cy.get(
-              'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value'
+              'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value',
             ).should('contain', 'Copy of');
           }
         }
@@ -444,7 +444,7 @@ export function restoreCart(
 
         cy.get('.cart-details-wrapper .cx-total').should(
           'contain',
-          `Cart #${cart.code}`
+          `Cart #${cart.code}`,
         );
 
         verifyCartDetails(cart);
@@ -455,7 +455,7 @@ export function restoreCart(
 export function updateSavedCartAndDelete(
   product: SampleProduct,
   savedCartForm: any,
-  deleteEntry: boolean = false
+  deleteEntry: boolean = false,
 ) {
   cy.window()
     .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
@@ -519,7 +519,7 @@ export function updateSavedCartAndDelete(
 
         if (deleteEntry) {
           cy.get(
-            'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-remove-btn'
+            'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-remove-btn',
           ).click();
         } else {
           cy.get('cx-saved-cart-details-action .btn-secondary').click();
@@ -527,11 +527,11 @@ export function updateSavedCartAndDelete(
           cy.get('cx-saved-cart-form-dialog').within(() => {
             cy.get('.cx-saved-cart-value').should(
               'contain',
-              sampleData.savedActiveCartForm[4].name
+              sampleData.savedActiveCartForm[4].name,
             );
             cy.get('.cx-saved-cart-value').should(
               'contain',
-              sampleData.savedActiveCartForm[4].description
+              sampleData.savedActiveCartForm[4].description,
             );
 
             cy.get('button').contains('Delete').click();
@@ -549,7 +549,7 @@ export function updateSavedCartAndDelete(
 
         cy.get('cx-saved-cart-list .cx-saved-cart-list-no-saved-carts').should(
           'contain',
-          'No Saved Carts Found'
+          'No Saved Carts Found',
         );
       });
     });
@@ -557,7 +557,7 @@ export function updateSavedCartAndDelete(
 
 export function updateSavedCartAndRestore(
   product: SampleProduct,
-  savedCartForm: any
+  savedCartForm: any,
 ) {
   cy.window()
     .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
@@ -619,7 +619,7 @@ export function updateSavedCartAndRestore(
 
         // restore saved cart
         const restoreSavedCartAlias = interceptRestoreSavedCartEndpoint(
-          cart.code
+          cart.code,
         );
         const getAllSavedCartAlias = interceptGetAllSavedCartEndpoint();
 
@@ -637,7 +637,7 @@ export function updateSavedCartAndRestore(
           .getSuccessAlert()
           .should(
             'contain',
-            `Existing cart is activated by ${cart.code} successfully`
+            `Existing cart is activated by ${cart.code} successfully`,
           );
 
         cy.wait(`@${getAllSavedCartAlias}`)
@@ -646,7 +646,7 @@ export function updateSavedCartAndRestore(
 
         cy.get('cx-saved-cart-list .cx-saved-cart-list-no-saved-carts').should(
           'contain',
-          'No Saved Carts Found'
+          'No Saved Carts Found',
         );
 
         // assert that restored cart became active cart
@@ -657,7 +657,7 @@ export function updateSavedCartAndRestore(
 
         cy.get('.cart-details-wrapper .cx-total').should(
           'contain',
-          `Cart #${cart.code}`
+          `Cart #${cart.code}`,
         );
 
         verifyCartDetails(cart);
