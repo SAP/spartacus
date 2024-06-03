@@ -48,21 +48,21 @@ context('Restart Dialog for Product Configuration', () => {
     configurationVc.navigateToOverviewPage();
     configurationOv.checkNumberOfAttributesDisplayed(0); // default config has no selections
     configuration.clickExitConfigurationBtn();
-    configurationVc.clickOnConfigureBtnInCatalog(testProduct);
+    configurationVc.clickOnConfigureBtnInCatalog();
     restartDialog.checkIsClosed();
   });
 
   it('navigate back to product details page without a decision on close (CXSPA-1786)', () => {
     restartDialog.close(testProduct);
 
-    configurationVc.clickOnConfigureBtnInCatalog(testProduct);
+    configurationVc.clickOnConfigureBtnInCatalog();
     restartDialog.checkIsOpen();
     restartDialog.checkDialog();
   });
 });
 
 function navigateToConfigurationAndCheckDialog() {
-  configurationVc.clickOnConfigureBtnInCatalog(testProduct);
+  configurationVc.clickOnConfigureBtnInCatalog();
   restartDialog.checkIsOpen();
   restartDialog.checkDialog();
 }
