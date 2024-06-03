@@ -30,7 +30,7 @@ export class UpdateEmailComponentService {
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected authService: AuthService,
-    protected authRedirectService: AuthRedirectService
+    protected authRedirectService: AuthRedirectService,
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
@@ -38,7 +38,7 @@ export class UpdateEmailComponentService {
   updateSucceed$ = new Subject();
 
   isUpdating$ = this.busy$.pipe(
-    tap((state) => (state === true ? this.form.disable() : this.form.enable()))
+    tap((state) => (state === true ? this.form.disable() : this.form.enable())),
   );
 
   form: UntypedFormGroup = new UntypedFormGroup(
@@ -52,7 +52,7 @@ export class UpdateEmailComponentService {
     },
     {
       validators: CustomFormValidators.emailsMustMatch('email', 'confirmEmail'),
-    }
+    },
   );
 
   save(): void {
@@ -81,7 +81,7 @@ export class UpdateEmailComponentService {
         key: 'updateEmailForm.emailUpdateSuccess',
         params: { newUid },
       },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
     this.busy$.next(false);
     this.form.reset();
@@ -89,7 +89,7 @@ export class UpdateEmailComponentService {
 
     // sets the redirect url after login
     this.authRedirectService.setRedirectUrl(
-      this.routingService.getUrl({ cxRoute: 'home' })
+      this.routingService.getUrl({ cxRoute: 'home' }),
     );
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout().then(() => {
@@ -99,7 +99,7 @@ export class UpdateEmailComponentService {
           state: {
             newUid,
           },
-        }
+        },
       );
     });
   }

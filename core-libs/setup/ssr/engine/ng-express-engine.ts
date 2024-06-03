@@ -89,7 +89,7 @@ export function ngExpressEngine(setupOptions: NgSetupOptions) {
   return function (
     filePath: string,
     options: object,
-    callback: (err?: Error | null, html?: string) => void
+    callback: (err?: Error | null, html?: string) => void,
   ) {
     try {
       const renderOptions = { ...options } as RenderOptions;

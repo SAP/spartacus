@@ -44,7 +44,7 @@ context('Reset Password Page', () => {
       {
         body: {},
         statusCode: 202,
-      }
+      },
     ).as('postResetPassword');
     alerts.getSuccessAlert().should('not.exist');
 

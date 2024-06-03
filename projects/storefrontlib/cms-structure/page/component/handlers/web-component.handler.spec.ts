@@ -57,7 +57,7 @@ describe('WebComponentHandler', () => {
     handler
       .launcher(
         { component: '#my-webcomponent' },
-        fixture.componentInstance.vcr
+        fixture.componentInstance.vcr,
       )
       .pipe(take(1))
       .subscribe(({ elementRef }) => {
@@ -73,7 +73,7 @@ describe('WebComponentHandler', () => {
     handler
       .launcher(
         { component: 'test.js#my-webcomponent' },
-        fixture.componentInstance.vcr
+        fixture.componentInstance.vcr,
       )
       .pipe(take(1))
       .subscribe()
@@ -82,7 +82,7 @@ describe('WebComponentHandler', () => {
     // get last added script
     const scripts =
       fixture.debugElement.nativeElement.parentElement.querySelectorAll(
-        'script'
+        'script',
       );
     const script = scripts[scripts.length - 1];
     expect(script.src).toContain('test.js');

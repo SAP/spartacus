@@ -28,7 +28,7 @@ export class I18nConfigInitializer implements ConfigInitializer {
           // the first language in the array is the default one
           fallbackLang: config?.context?.language?.[0],
         },
-      }))
+      })),
     );
   }
 }

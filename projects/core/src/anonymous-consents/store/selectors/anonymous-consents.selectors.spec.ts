@@ -27,7 +27,7 @@ describe('anonymous consents selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ANONYMOUS_CONSENTS_STORE_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });
@@ -39,7 +39,9 @@ describe('anonymous consents selectors', () => {
   describe('getAnonymousConsents', () => {
     it('should return the consents from the state', () => {
       store.dispatch(
-        new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
+        new AnonymousConsentsActions.SetAnonymousConsents(
+          mockAnonymousConsents,
+        ),
       );
 
       let result: AnonymousConsent[];
@@ -55,7 +57,9 @@ describe('anonymous consents selectors', () => {
   describe('getAnonymousConsentByTemplateCode', () => {
     it('should return the consents from the state', () => {
       store.dispatch(
-        new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
+        new AnonymousConsentsActions.SetAnonymousConsents(
+          mockAnonymousConsents,
+        ),
       );
       const expected: AnonymousConsent = {
         consentState: undefined,
@@ -68,9 +72,9 @@ describe('anonymous consents selectors', () => {
         .pipe(
           select(
             AnonymousConsentsSelectors.getAnonymousConsentByTemplateCode(
-              mockTemplateCode
-            )
-          )
+              mockTemplateCode,
+            ),
+          ),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();

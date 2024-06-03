@@ -45,26 +45,24 @@ describe('PagedList Component', () => {
   let template: any;
   let headerTemplateFixture: ComponentFixture<MockHeaderTemplateComponent>;
   let headerTemplate: any;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [
-          PagedListComponent,
-          MockCxIconComponent,
-          MockHeaderTemplateComponent,
-          MockTemplateComponent,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [
+        PagedListComponent,
+        MockCxIconComponent,
+        MockHeaderTemplateComponent,
+        MockTemplateComponent,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PagedListComponent);
     component = fixture.componentInstance;
 
     headerTemplateFixture = TestBed.createComponent(
-      MockHeaderTemplateComponent
+      MockHeaderTemplateComponent,
     );
     headerTemplateFixture.detectChanges();
     headerTemplate = headerTemplateFixture.componentInstance.template;
@@ -85,7 +83,7 @@ describe('PagedList Component', () => {
       component.template = template;
       component.ngOnInit();
       expect(logger.error).toHaveBeenCalledWith(
-        'No template reference provided to render the header for the `cx-epd-visualization-paged-list`'
+        'No template reference provided to render the header for the `cx-epd-visualization-paged-list`',
       );
     });
 
@@ -95,7 +93,7 @@ describe('PagedList Component', () => {
       component.headerTemplate = headerTemplate;
       component.ngOnInit();
       expect(logger.error).toHaveBeenCalledWith(
-        'No template reference provided to render the items for the `cx-epd-visualization-paged-list`'
+        'No template reference provided to render the items for the `cx-epd-visualization-paged-list`',
       );
     });
 
@@ -163,7 +161,7 @@ describe('PagedList Component', () => {
         expect(el.nativeElement).toBeTruthy();
 
         expect((<HTMLElement>el.nativeElement).innerText).toEqual(
-          'test list with title'
+          'test list with title',
         );
       });
 
@@ -196,7 +194,7 @@ describe('PagedList Component', () => {
 
       it('should have disabled previous button on slide 1', () => {
         const el = fixture.debugElement.query(
-          By.css('button.previous[disabled]')
+          By.css('button.previous[disabled]'),
         );
         expect(el.nativeElement).toBeTruthy();
       });
@@ -215,7 +213,7 @@ describe('PagedList Component', () => {
 
       it('should enabled previous button after clicking on next button', () => {
         const prevButton = fixture.debugElement.query(
-          By.css('button.previous')
+          By.css('button.previous'),
         );
         expect(prevButton.nativeElement.disabled).toBe(true);
 
@@ -228,7 +226,7 @@ describe('PagedList Component', () => {
 
       it('should toggle disabled state of previous/next buttons after navigating to next slide', () => {
         const prevButton = fixture.debugElement.query(
-          By.css('button.previous')
+          By.css('button.previous'),
         );
         const nextButton = fixture.debugElement.query(By.css('button.next'));
         (<HTMLElement>nextButton.nativeElement).click();
@@ -240,28 +238,28 @@ describe('PagedList Component', () => {
 
       it('should have 2 slide indicators', () => {
         const el = fixture.debugElement.queryAll(
-          By.css('div.indicators button.slide-indicator')
+          By.css('div.indicators button.slide-indicator'),
         );
         expect(el.length).toEqual(2);
       });
 
       it('should have disabled indicator', () => {
         const el = fixture.debugElement.queryAll(
-          By.css('div.indicators button.slide-indicator')
+          By.css('div.indicators button.slide-indicator'),
         );
         expect(el[0].nativeElement.disabled).toEqual(true);
       });
 
       it('should have enabled indicator', () => {
         const el = fixture.debugElement.queryAll(
-          By.css('div.indicators button.slide-indicator')
+          By.css('div.indicators button.slide-indicator'),
         );
         expect(el[1].nativeElement.disabled).toEqual(false);
       });
 
       it('should toggle disabled state after navigating with the slide indicators', () => {
         const indicators = fixture.debugElement.queryAll(
-          By.css('div.indicators button.slide-indicator')
+          By.css('div.indicators button.slide-indicator'),
         );
         expect(indicators[0].nativeElement.disabled).toBe(true);
         expect(indicators[1].nativeElement.disabled).toBe(false);
@@ -295,7 +293,7 @@ describe('PagedList Component', () => {
 
       it('should have 2 indicators', () => {
         const el = fixture.debugElement.queryAll(
-          By.css('div.indicators button.slide-indicator')
+          By.css('div.indicators button.slide-indicator'),
         );
         expect(el.length).toEqual(2);
       });
@@ -322,7 +320,7 @@ describe('PagedList Component', () => {
 
       it('should have 3 slide indicators', () => {
         const el = fixture.debugElement.queryAll(
-          By.css('div.indicators button.slide-indicator')
+          By.css('div.indicators button.slide-indicator'),
         );
         expect(el.length).toEqual(3);
       });
@@ -349,7 +347,7 @@ describe('PagedList Component', () => {
 
       it('should have no slide indicators ', () => {
         const el = fixture.debugElement.queryAll(
-          By.css('div.indicators button.slide-indicator')
+          By.css('div.indicators button.slide-indicator'),
         );
         expect(el.length).toEqual(0);
       });

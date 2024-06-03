@@ -78,7 +78,7 @@ describe('CellComponent', () => {
 
   it('should render text', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('span.text')
+      By.css('span.text'),
     ).nativeNode;
     expect(el.innerText).toEqual('my name');
   });

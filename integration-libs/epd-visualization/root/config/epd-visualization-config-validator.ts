@@ -11,7 +11,7 @@ import {
 } from './epd-visualization-config';
 
 export function epdVisualizationConfigValidator(
-  epdVisualizationConfig: EpdVisualizationConfig
+  epdVisualizationConfig: EpdVisualizationConfig,
 ): string | void {
   const epdVisualization = epdVisualizationConfig.epdVisualization;
   if (!epdVisualization) {
@@ -48,7 +48,7 @@ function invalidUrlProtocolMessage(propertyName: string) {
 }
 
 function invalidApis(
-  epdVisualization: EpdVisualizationInnerConfig
+  epdVisualization: EpdVisualizationInnerConfig,
 ): string | undefined {
   if (!epdVisualization.apis) {
     return unconfiguredPropertyMessage('epdVisualization.apis');
@@ -63,7 +63,7 @@ function invalidApis(
   if (!apiBaseUrl) {
     return invalidUrlMessage(
       configApisBaseUrlProperty,
-      epdVisualization.apis.baseUrl
+      epdVisualization.apis.baseUrl,
     );
   }
   if (!isHttpOrHttps(apiBaseUrl)) {
@@ -74,7 +74,7 @@ function invalidApis(
 }
 
 function invalidUi5(
-  epdVisualization: EpdVisualizationInnerConfig
+  epdVisualization: EpdVisualizationInnerConfig,
 ): string | undefined {
   if (!epdVisualization.ui5) {
     return unconfiguredPropertyMessage('epdVisualization.ui5');
@@ -89,7 +89,7 @@ function invalidUi5(
   if (!ui5BootStrapUrl) {
     return invalidUrlMessage(
       configUi5BootstrapUrlProperty,
-      epdVisualization.ui5.bootstrapUrl
+      epdVisualization.ui5.bootstrapUrl,
     );
   }
 
@@ -101,19 +101,19 @@ function invalidUi5(
 }
 
 function invalidUsageIds(
-  epdVisualization: EpdVisualizationInnerConfig
+  epdVisualization: EpdVisualizationInnerConfig,
 ): string | undefined {
   if (!epdVisualization.usageIds) {
     return unconfiguredPropertyMessage('epdVisualization.usageIds');
   }
   if (!epdVisualization.usageIds.folderUsageId.name) {
     return unconfiguredPropertyMessage(
-      'epdVisualization.usageIds.folderUsageId.name'
+      'epdVisualization.usageIds.folderUsageId.name',
     );
   }
   if (!epdVisualization.usageIds.folderUsageId.keys?.length) {
     return unconfiguredPropertyMessage(
-      'epdVisualization.usageIds.folderUsageId.keys'
+      'epdVisualization.usageIds.folderUsageId.keys',
     );
   }
   for (
@@ -123,29 +123,29 @@ function invalidUsageIds(
   ) {
     if (!epdVisualization.usageIds.folderUsageId.keys[i].name) {
       return unconfiguredPropertyMessage(
-        `epdVisualization.usageIds.folderUsageId.keys[${i}].name`
+        `epdVisualization.usageIds.folderUsageId.keys[${i}].name`,
       );
     }
     if (!epdVisualization.usageIds.folderUsageId.keys[i].value) {
       return unconfiguredPropertyMessage(
-        `epdVisualization.usageIds.folderUsageId.keys[${i}].value`
+        `epdVisualization.usageIds.folderUsageId.keys[${i}].value`,
       );
     }
   }
 
   if (!epdVisualization.usageIds.productUsageId.source) {
     return unconfiguredPropertyMessage(
-      'epdVisualization.usageIds.productUsageId.source'
+      'epdVisualization.usageIds.productUsageId.source',
     );
   }
   if (!epdVisualization.usageIds.productUsageId.category) {
     return unconfiguredPropertyMessage(
-      'epdVisualization.usageIds.productUsageId.category'
+      'epdVisualization.usageIds.productUsageId.category',
     );
   }
   if (!epdVisualization.usageIds.productUsageId.keyName) {
     return unconfiguredPropertyMessage(
-      'epdVisualization.usageIds.productUsageId.keyName'
+      'epdVisualization.usageIds.productUsageId.keyName',
     );
   }
 
@@ -153,7 +153,7 @@ function invalidUsageIds(
 }
 
 function invalidVisualPicking(
-  epdVisualization: EpdVisualizationInnerConfig
+  epdVisualization: EpdVisualizationInnerConfig,
 ): string | undefined {
   if (!epdVisualization.visualPicking) {
     return unconfiguredPropertyMessage('epdVisualization.visualPicking');
@@ -161,7 +161,7 @@ function invalidVisualPicking(
 
   if (!epdVisualization.visualPicking.productReferenceType) {
     return unconfiguredPropertyMessage(
-      'epdVisualization.visualPicking.productReferenceType'
+      'epdVisualization.visualPicking.productReferenceType',
     );
   }
 

@@ -20,7 +20,7 @@ describe('Order By Id Reducer', () => {
       const action = new OrderActions.LoadOrderByIdSuccess(mockOrder);
       const state = fromTrackingReducer.reducer(
         initialStateOfOrderById,
-        action
+        action,
       );
       expect(state).toEqual(mockOrder);
     });
@@ -34,7 +34,7 @@ describe('Order By Id Reducer', () => {
       });
       const state = fromTrackingReducer.reducer(
         initialStateOfOrderById,
-        action
+        action,
       );
       expect(state).toEqual(initialStateOfOrderById);
     });

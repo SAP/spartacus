@@ -29,11 +29,11 @@ Cypress.Commands.add('requirePlacedOrder', (token, cartId) => {
     return cy.request({
       method: 'POST',
       url: `${Cypress.env('API_URL')}/${Cypress.env(
-        'OCC_PREFIX'
+        'OCC_PREFIX',
       )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
-        'OCC_PREFIX_USER_ENDPOINT'
+        'OCC_PREFIX_USER_ENDPOINT',
       )}/current/${Cypress.env(
-        'OCC_PREFIX_ORDER_ENDPOINT'
+        'OCC_PREFIX_ORDER_ENDPOINT',
       )}?cartId=${cartId}&termsChecked=true`,
       form: false,
       headers: {

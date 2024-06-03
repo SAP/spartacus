@@ -24,14 +24,14 @@ import {
 import { peerDependencies } from '../../package.json';
 
 export function addPDFInvoicesFeature(
-  options: SpartacusPDFInvoicesOptions
+  options: SpartacusPDFInvoicesOptions,
 ): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     const features = analyzeCrossFeatureDependencies(
-      options.features as string[]
+      options.features as string[],
     );
 
     return chain([

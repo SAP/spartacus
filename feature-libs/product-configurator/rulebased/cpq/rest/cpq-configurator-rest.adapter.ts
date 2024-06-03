@@ -25,7 +25,7 @@ export class CpqConfiguratorRestAdapter
 {
   constructor(
     protected cpqRestService: CpqConfiguratorRestService,
-    protected cpqOccService: CpqConfiguratorOccService
+    protected cpqOccService: CpqConfiguratorOccService,
   ) {}
 
   getConfiguratorType(): string {
@@ -37,7 +37,7 @@ export class CpqConfiguratorRestAdapter
   }
 
   createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<Configurator.Configuration> {
     // no error handling for missing owner id needed, as it's a
     // mandatory attribute in owner
@@ -45,25 +45,25 @@ export class CpqConfiguratorRestAdapter
       map((configResponse) => {
         configResponse.owner = owner;
         return configResponse;
-      })
+      }),
     );
   }
 
   readConfiguration(
     configId: string,
     groupId: string,
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<Configurator.Configuration> {
     return this.cpqRestService.readConfiguration(configId, groupId).pipe(
       map((configResponse) => {
         configResponse.owner = owner;
         return configResponse;
-      })
+      }),
     );
   }
 
   updateConfiguration(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration> {
     const updateMethod =
       configuration.updateType === Configurator.UpdateType.VALUE_QUANTITY
@@ -73,24 +73,24 @@ export class CpqConfiguratorRestAdapter
       map((configResponse: Configurator.Configuration) => {
         configResponse.owner = configuration.owner;
         return configResponse;
-      })
+      }),
     );
   }
 
   updateConfigurationOverview(): Observable<Configurator.Overview> {
     throw new Error(
-      'Update the configuration overview is not supported for the CPQ configurator'
+      'Update the configuration overview is not supported for the CPQ configurator',
     );
   }
 
   addToCart(
-    parameters: Configurator.AddToCartParameters
+    parameters: Configurator.AddToCartParameters,
   ): Observable<CartModification> {
     return this.cpqOccService.addToCart(parameters);
   }
 
   readConfigurationForCartEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters,
   ): Observable<Configurator.Configuration> {
     return this.cpqOccService.getConfigIdForCartEntry(parameters).pipe(
       switchMap((configId) => {
@@ -98,20 +98,20 @@ export class CpqConfiguratorRestAdapter
           map((configResponse) => {
             configResponse.owner = parameters.owner;
             return configResponse;
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
   updateConfigurationForCartEntry(
-    parameters: Configurator.UpdateConfigurationForCartEntryParameters
+    parameters: Configurator.UpdateConfigurationForCartEntryParameters,
   ): Observable<CartModification> {
     return this.cpqOccService.updateCartEntry(parameters);
   }
 
   readConfigurationForOrderEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters,
   ): Observable<Configurator.Configuration> {
     return this.cpqOccService.getConfigIdForOrderEntry(parameters).pipe(
       switchMap((configId) => {
@@ -119,20 +119,20 @@ export class CpqConfiguratorRestAdapter
           map((configResponse) => {
             configResponse.owner = parameters.owner;
             return configResponse;
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
   readPriceSummary(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration> {
     return of(configuration); // so that UI does not run into exception
   }
 
   getConfigurationOverview(
-    configId: string
+    configId: string,
   ): Observable<Configurator.Overview> {
     return this.cpqRestService.readConfigurationOverview(configId);
   }

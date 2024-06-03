@@ -24,10 +24,10 @@ export abstract class CdcAuthFacade {
     UIDSignature: string,
     signatureTimestamp: string,
     idToken: string,
-    baseSite: string
+    baseSite: string,
   ): void;
 
   abstract loginWithToken(
-    token: Partial<AuthToken> & { expires_in?: number }
+    token: Partial<AuthToken> & { expires_in?: number },
   ): void;
 }

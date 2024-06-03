@@ -108,7 +108,7 @@ export class LoadB2BUserSuccess extends StateUtils.EntitySuccessAction {
       B2B_USER_ENTITIES,
       Array.isArray(payload)
         ? payload.map((orgUnitCustomer) => orgUnitCustomer?.customerId ?? '')
-        : payload?.customerId ?? ''
+        : payload?.customerId ?? '',
     );
   }
 }
@@ -141,7 +141,7 @@ export class UpdateB2BUser extends StateUtils.EntityLoadAction {
       userId: string;
       orgCustomerId: string;
       orgCustomer: B2BUser;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomer.customerId ?? '');
   }
@@ -167,7 +167,7 @@ export class LoadB2BUsers extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(USER_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
@@ -179,7 +179,7 @@ export class LoadB2BUsersFail extends StateUtils.EntityFailAction {
     super(
       USER_LIST,
       StateUtils.serializeSearchConfig(payload.params),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -190,7 +190,7 @@ export class LoadB2BUsersSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(USER_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
@@ -203,11 +203,11 @@ export class LoadB2BUserApprovers extends StateUtils.EntityLoadAction {
       userId: string;
       orgCustomerId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       B2B_USER_APPROVERS,
-      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId)
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId),
     );
   }
 }
@@ -219,12 +219,12 @@ export class LoadB2BUserApproversFail extends StateUtils.EntityFailAction {
       orgCustomerId: string;
       params: SearchConfig;
       error: any;
-    }
+    },
   ) {
     super(
       B2B_USER_APPROVERS,
       StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -236,11 +236,11 @@ export class LoadB2BUserApproversSuccess extends StateUtils.EntitySuccessAction 
       orgCustomerId: string;
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       B2B_USER_APPROVERS,
-      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId)
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId),
     );
   }
 }
@@ -252,7 +252,7 @@ export class AssignB2BUserApprover extends StateUtils.EntityLoadAction {
       userId: string;
       orgCustomerId: string;
       approverId: string;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.approverId);
   }
@@ -265,7 +265,7 @@ export class AssignB2BUserApproverFail extends StateUtils.EntityFailAction {
       orgCustomerId: string;
       approverId: string;
       error: any;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.approverId);
   }
@@ -277,7 +277,7 @@ export class AssignB2BUserApproverSuccess extends StateUtils.EntitySuccessAction
     public payload: {
       approverId: string;
       selected: boolean;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.approverId, payload);
   }
@@ -290,7 +290,7 @@ export class UnassignB2BUserApprover extends StateUtils.EntityLoadAction {
       userId: string;
       orgCustomerId: string;
       approverId: string;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.approverId);
   }
@@ -303,7 +303,7 @@ export class UnassignB2BUserApproverFail extends StateUtils.EntityFailAction {
       orgCustomerId: string;
       approverId: string;
       error: any;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.approverId);
   }
@@ -315,7 +315,7 @@ export class UnassignB2BUserApproverSuccess extends StateUtils.EntitySuccessActi
     public payload: {
       approverId: string;
       selected: boolean;
-    }
+    },
   ) {
     super(B2B_USER_ENTITIES, payload.approverId, payload);
   }
@@ -328,11 +328,11 @@ export class LoadB2BUserPermissions extends StateUtils.EntityLoadAction {
       userId: string;
       orgCustomerId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       B2B_USER_PERMISSIONS,
-      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId)
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId),
     );
   }
 }
@@ -344,7 +344,7 @@ export class LoadB2BUserPermissionsFail extends StateUtils.EntityFailAction {
       orgCustomerId: string;
       params: SearchConfig;
       error: any;
-    }
+    },
   ) {
     super(B2B_USER_PERMISSIONS, payload.orgCustomerId, payload.error);
   }
@@ -357,11 +357,11 @@ export class LoadB2BUserPermissionsSuccess extends StateUtils.EntitySuccessActio
       orgCustomerId: string;
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       B2B_USER_PERMISSIONS,
-      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId)
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId),
     );
   }
 }
@@ -373,7 +373,7 @@ export class AssignB2BUserPermission extends StateUtils.EntityLoadAction {
       userId: string;
       orgCustomerId: string;
       permissionId: string;
-    }
+    },
   ) {
     super(PERMISSION_ENTITIES, payload.permissionId);
   }
@@ -386,7 +386,7 @@ export class AssignB2BUserPermissionFail extends StateUtils.EntityFailAction {
       orgCustomerId: string;
       permissionId: string;
       error: any;
-    }
+    },
   ) {
     super(PERMISSION_ENTITIES, payload.permissionId, payload.error);
   }
@@ -398,7 +398,7 @@ export class AssignB2BUserPermissionSuccess extends StateUtils.EntitySuccessActi
     public payload: {
       permissionId: string;
       selected: boolean;
-    }
+    },
   ) {
     super(PERMISSION_ENTITIES, payload.permissionId, payload);
   }
@@ -411,7 +411,7 @@ export class UnassignB2BUserPermission extends StateUtils.EntityLoadAction {
       userId: string;
       orgCustomerId: string;
       permissionId: string;
-    }
+    },
   ) {
     super(PERMISSION_ENTITIES, payload.permissionId);
   }
@@ -424,7 +424,7 @@ export class UnassignB2BUserPermissionFail extends StateUtils.EntityFailAction {
       orgCustomerId: string;
       permissionId: string;
       error: any;
-    }
+    },
   ) {
     super(PERMISSION_ENTITIES, payload.permissionId, payload.error);
   }
@@ -436,7 +436,7 @@ export class UnassignB2BUserPermissionSuccess extends StateUtils.EntitySuccessAc
     public payload: {
       permissionId: string;
       selected: boolean;
-    }
+    },
   ) {
     super(PERMISSION_ENTITIES, payload.permissionId, payload);
   }
@@ -449,11 +449,11 @@ export class LoadB2BUserUserGroups extends StateUtils.EntityLoadAction {
       userId: string;
       orgCustomerId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       B2B_USER_USER_GROUPS,
-      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId)
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId),
     );
   }
 }
@@ -465,12 +465,12 @@ export class LoadB2BUserUserGroupsFail extends StateUtils.EntityFailAction {
       orgCustomerId: string;
       params: SearchConfig;
       error: any;
-    }
+    },
   ) {
     super(
       B2B_USER_USER_GROUPS,
       StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -482,11 +482,11 @@ export class LoadB2BUserUserGroupsSuccess extends StateUtils.EntitySuccessAction
       orgCustomerId: string;
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       B2B_USER_USER_GROUPS,
-      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId)
+      StateUtils.serializeSearchConfig(payload.params, payload.orgCustomerId),
     );
   }
 }
@@ -498,7 +498,7 @@ export class AssignB2BUserUserGroup extends StateUtils.EntityLoadAction {
       userId: string;
       orgCustomerId: string;
       userGroupId: string;
-    }
+    },
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroupId);
   }
@@ -511,7 +511,7 @@ export class AssignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
       orgCustomerId: string;
       userGroupId: string;
       error: any;
-    }
+    },
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
@@ -523,7 +523,7 @@ export class AssignB2BUserUserGroupSuccess extends StateUtils.EntitySuccessActio
     public payload: {
       uid: string;
       selected: boolean;
-    }
+    },
   ) {
     super(USER_GROUP_ENTITIES, payload.uid, payload);
   }
@@ -536,7 +536,7 @@ export class UnassignB2BUserUserGroup extends StateUtils.EntityLoadAction {
       userId: string;
       orgCustomerId: string;
       userGroupId: string;
-    }
+    },
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroupId);
   }
@@ -549,7 +549,7 @@ export class UnassignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
       orgCustomerId: string;
       userGroupId: string;
       error: any;
-    }
+    },
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
@@ -561,7 +561,7 @@ export class UnassignB2BUserUserGroupSuccess extends StateUtils.EntitySuccessAct
     public payload: {
       uid: string;
       selected: boolean;
-    }
+    },
   ) {
     super(USER_GROUP_ENTITIES, payload.uid, payload);
   }

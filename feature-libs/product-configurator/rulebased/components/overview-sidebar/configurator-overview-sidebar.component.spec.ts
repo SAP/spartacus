@@ -38,14 +38,14 @@ function initTestComponent() {
   component.ghostStyle = false;
   fixture.detectChanges();
   configuratorStorefrontUtilsService = TestBed.inject(
-    ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>,
   );
 
   spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
   spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
   spyOn(
     configuratorStorefrontUtilsService,
-    'getSpareViewportHeight'
+    'getSpareViewportHeight',
   ).and.callThrough();
 }
 
@@ -90,31 +90,29 @@ class MockConfiguratorOverviewMenuComponent {
 }
 
 describe('ConfiguratorOverviewSidebarComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          MockConfiguratorOverviewFilterComponent,
-          MockConfiguratorOverviewMenuComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        MockConfiguratorOverviewFilterComponent,
+        MockConfiguratorOverviewMenuComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   it('should create component', () => {
     initTestComponent();
@@ -126,7 +124,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'cx-configurator-overview-menu'
+      'cx-configurator-overview-menu',
     );
   });
 
@@ -140,7 +138,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'cx-configurator-overview-filter'
+      'cx-configurator-overview-filter',
     );
   });
 
@@ -156,7 +154,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'cx-configurator-overview-menu'
+      'cx-configurator-overview-menu',
     );
   });
 

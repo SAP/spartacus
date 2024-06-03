@@ -70,25 +70,23 @@ class MockCxIconComponent {
 
 describe('ConfiguratorOverviewFilterBarComponent', () => {
   describe('in a component test environment', () => {
-    beforeEach(
-      waitForAsync(() => {
-        initTestData();
-        initMocks();
-        TestBed.configureTestingModule({
-          imports: [I18nTestingModule],
-          declarations: [
-            ConfiguratorOverviewFilterBarComponent,
-            MockCxIconComponent,
-          ],
-          providers: [
-            {
-              provide: ConfiguratorCommonsService,
-              useValue: mockConfigCommonsService,
-            },
-          ],
-        }).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      initTestData();
+      initMocks();
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          ConfiguratorOverviewFilterBarComponent,
+          MockCxIconComponent,
+        ],
+        providers: [
+          {
+            provide: ConfiguratorCommonsService,
+            useValue: mockConfigCommonsService,
+          },
+        ],
+      }).compileComponents();
+    }));
 
     it('should create component', () => {
       initTestComponent();
@@ -103,7 +101,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'configurator.overviewFilter.byPrice'
+        'configurator.overviewFilter.byPrice',
       );
     });
 
@@ -115,7 +113,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'configurator.overviewFilter.mySelections'
+        'configurator.overviewFilter.mySelections',
       );
     });
 
@@ -128,7 +126,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         htmlElem,
         '.cx-overview-filter-applied',
         'Group 1',
-        0
+        0,
       );
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
@@ -136,7 +134,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         htmlElem,
         '.cx-overview-filter-applied',
         'Group 2',
-        1
+        1,
       );
     });
 
@@ -150,7 +148,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         htmlElem,
         '.cx-overview-filter-applied',
         'configurator.overviewFilter.removeAll',
-        2
+        2,
       );
     });
 
@@ -166,7 +164,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         });
 
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        mockConfigCommonsService.updateConfigurationOverview,
       ).toHaveBeenCalledTimes(3); // My Selections, Group 1, Remove All
     });
 
@@ -180,7 +178,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
           '.cx-overview-filter-applied',
           'title',
           'configurator.overviewFilter.removeByPrice',
-          0
+          0,
         );
       });
 
@@ -193,7 +191,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
           '.cx-overview-filter-applied',
           'title',
           'configurator.overviewFilter.removeMySelections',
-          0
+          0,
         );
       });
 
@@ -207,7 +205,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
           '.cx-overview-filter-applied',
           'title',
           'configurator.overviewFilter.removeAllFilters',
-          2
+          2,
         );
       });
 
@@ -220,7 +218,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
           '.cx-overview-filter-applied',
           'title',
           'configurator.overviewFilter.removeByGroup group:Group 1',
-          0
+          0,
         );
       });
     });
@@ -231,20 +229,20 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       initTestData();
       initMocks();
       component = new ConfiguratorOverviewFilterBarComponent(
-        mockConfigCommonsService
+        mockConfigCommonsService,
       );
     });
 
     describe('getGroupFilterDescription', () => {
       it('should return description for existing group', () => {
         expect(
-          component.getGroupFilterDescription(ovConfig.overview, '2')
+          component.getGroupFilterDescription(ovConfig.overview, '2'),
         ).toEqual('Group 2');
       });
 
       it('should return empty string for non existing group', () => {
         expect(
-          component.getGroupFilterDescription(ovConfig.overview, 'x')
+          component.getGroupFilterDescription(ovConfig.overview, 'x'),
         ).toEqual('');
       });
     });
@@ -254,7 +252,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expectedInputConfig.overview.attributeFilters = [PRICE_RELEVANT];
       component.onAttrFilterRemove(ovConfig, MY_SELECTIONS);
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        mockConfigCommonsService.updateConfigurationOverview,
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 
@@ -263,7 +261,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expectedInputConfig.overview.groupFilters = ['3'];
       component.onGroupFilterRemove(ovConfig, '1');
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        mockConfigCommonsService.updateConfigurationOverview,
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 
@@ -274,7 +272,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expectedInputConfig.overview.attributeFilters = [];
       component.onRemoveAll(ovConfig);
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        mockConfigCommonsService.updateConfigurationOverview,
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 
@@ -295,7 +293,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       let inputConfig = component['createInputConfig'](
         ovConfig,
         [PRICE_RELEVANT],
-        ['3', '5']
+        ['3', '5'],
       );
       expectedInputConfig.overview.attributeFilters = [PRICE_RELEVANT];
       expectedInputConfig.overview.groupFilters = ['3', '5'];

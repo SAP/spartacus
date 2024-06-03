@@ -77,7 +77,7 @@ describe('Order Details effect', () => {
 
     actions$ = TestBed.inject(Actions);
     orderDetailsEffect = TestBed.inject(
-      fromOrderDetailsEffect.OrderDetailsEffect
+      fromOrderDetailsEffect.OrderDetailsEffect,
     );
     orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
     store = TestBed.inject(Store);
@@ -89,7 +89,7 @@ describe('Order Details effect', () => {
       const action = new OrderActions.LoadOrderDetails(mockOrderDetailsParams);
 
       const completion = new OrderActions.LoadOrderDetailsSuccess(
-        mockOrderDetails
+        mockOrderDetails,
       );
 
       actions$ = hot('-a', { a: action });
@@ -100,7 +100,7 @@ describe('Order Details effect', () => {
 
     it('should handle failures for load order details', () => {
       spyOn(orderHistoryConnector, 'get').and.returnValue(
-        throwError(() => 'Error')
+        throwError(() => 'Error'),
       );
 
       const action = new OrderActions.LoadOrderDetails(mockOrderDetailsParams);
@@ -130,7 +130,7 @@ describe('Order Details effect', () => {
 
     it('should handle failures for cancel an order', () => {
       spyOn(orderHistoryConnector, 'cancel').and.returnValue(
-        throwError(() => 'Error')
+        throwError(() => 'Error'),
       );
 
       const action = new OrderActions.CancelOrder(mockCancelOrderParams);
@@ -157,7 +157,7 @@ describe('Order Details effect', () => {
       });
 
       const resetOrderDetailsAction = new OrderActions.LoadOrderDetailsSuccess(
-        mockOrder
+        mockOrder,
       );
 
       actions$ = hot('-a', { a: action });

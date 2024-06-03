@@ -25,7 +25,7 @@ import { filter, map, tap } from 'rxjs/operators';
 export class AddToWishListComponent {
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
     filter(isNotNullable),
-    tap((product) => this.setStockInfo(product))
+    tap((product) => this.setStockInfo(product)),
   );
 
   wishListEntries$: Observable<OrderEntry[]>;
@@ -37,7 +37,7 @@ export class AddToWishListComponent {
         this.wishListEntries$ = this.getWishListEntries();
         this.loading$ = this.wishListFacade.getWishListLoading();
       }
-    })
+    }),
   );
 
   hasStock = false;
@@ -46,7 +46,7 @@ export class AddToWishListComponent {
   constructor(
     protected wishListFacade: WishListFacade,
     protected currentProductService: CurrentProductService,
-    protected authService: AuthService
+    protected authService: AuthService,
   ) {
     useFeatureStyles('a11yVisibleFocusOverflows');
   }
@@ -63,7 +63,7 @@ export class AddToWishListComponent {
 
   getProductInWishList(
     product: Product,
-    entries: OrderEntry[]
+    entries: OrderEntry[],
   ): OrderEntry | undefined {
     const item = entries.find((entry) => entry.product?.code === product.code);
     return item;
@@ -71,14 +71,14 @@ export class AddToWishListComponent {
 
   protected setStockInfo(product: Product): void {
     this.hasStock = Boolean(
-      product.stock && product.stock.stockLevelStatus !== 'outOfStock'
+      product.stock && product.stock.stockLevelStatus !== 'outOfStock',
     );
   }
 
   protected getWishListEntries(): Observable<OrderEntry[]> {
     return this.wishListFacade.getWishList().pipe(
       filter((wishlist) => Boolean(wishlist)),
-      map((wishList) => wishList.entries ?? [])
+      map((wishList) => wishList.entries ?? []),
     );
   }
 }

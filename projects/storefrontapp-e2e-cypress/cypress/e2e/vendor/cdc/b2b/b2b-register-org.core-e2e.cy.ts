@@ -49,7 +49,7 @@ describe('Register B2B Organisation when CDC enabled', () => {
       it('should fill registration form and register user', () => {
         fillOrganizationUserRegistrationForm(
           getSampleUser(),
-          'Please register my account'
+          'Please register my account',
         );
       });
 
@@ -84,7 +84,7 @@ describe('Register B2B Organisation when CDC enabled', () => {
           sampleB2BUser.phone = '';
           fillOrganizationUserRegistrationForm(
             sampleB2BUser,
-            'Please register my account'
+            'Please register my account',
           );
 
           cy.get('cx-user-registration-form').within(() => {
@@ -115,6 +115,6 @@ describe('Register B2B Organisation when CDC enabled', () => {
           verifyFormErrors();
         });
       });
-    }
+    },
   );
 });

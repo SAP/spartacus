@@ -84,13 +84,13 @@ describe('OccPersonalizationIdInterceptor with personalization enabled', () => {
       });
 
       const perHeader: string = mockReq.request.headers.get(
-        'test-personalization-id'
+        'test-personalization-id',
       );
       expect(perHeader).toBeTruthy();
       expect(perHeader).toEqual('test id');
 
       mockReq.flush('someData');
-    }
+    },
   ));
 
   it('should keep the new personalization-id, if it is different from the existing id ', inject(
@@ -107,9 +107,9 @@ describe('OccPersonalizationIdInterceptor with personalization enabled', () => {
       });
       mockReq.flush('', { headers: { ['test-personalization-id']: 'new id' } });
       expect(winRef.localStorage.getItem('personalization-id')).toEqual(
-        'new id'
+        'new id',
       );
-    }
+    },
   ));
 });
 
@@ -159,12 +159,12 @@ describe('OccPersonalizationIdInterceptor with personalization disabled', () => 
         return req.method === 'GET';
       });
       const perHeader: string = mockReq.request.headers.get(
-        'test-personalization-id'
+        'test-personalization-id',
       );
       expect(perHeader).toBeNull();
       mockReq.flush('someData');
 
       expect(winRef.localStorage.getItem('personalization-id')).toBeUndefined();
-    }
+    },
   ));
 });

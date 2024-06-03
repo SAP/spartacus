@@ -58,7 +58,7 @@ describe('RequestedDeliveryDateBadRequestHandler', () => {
       {
         key: 'requestedDeliveryDate.errorMessage',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 });

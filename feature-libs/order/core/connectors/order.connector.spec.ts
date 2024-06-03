@@ -9,7 +9,7 @@ import createSpy = jasmine.createSpy;
 class MockOrderAdapter implements Partial<OrderAdapter> {
   placeOrder = createSpy('OrderAdapter.placeOrder').and.callFake(
     (userId: string, cartId: string, termsChecked: boolean) =>
-      of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
+      of(`placedOrder-${userId}-${cartId}-${termsChecked}`),
   );
 }
 

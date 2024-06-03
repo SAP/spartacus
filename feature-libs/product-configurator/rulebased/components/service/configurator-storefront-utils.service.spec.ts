@@ -42,7 +42,7 @@ function createNode(name: string): HTMLElement {
 function createFocusedElements(
   attribute: string,
   amountOfAttributes: number,
-  amountOfValues: number
+  amountOfValues: number,
 ): HTMLElement[] {
   const focusedElements: HTMLElement[] = [];
   for (let i = 1; i <= amountOfAttributes; i++) {
@@ -75,7 +75,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
   let focusedElements: any;
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
-    'testProduct'
+    'testProduct',
   );
   let windowRef: WindowRef;
   let keyboardFocusService: KeyboardFocusService;
@@ -101,7 +101,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     htmlElem = fixture.nativeElement;
     windowRef = TestBed.inject(WindowRef as Type<WindowRef>);
     keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
+      KeyboardFocusService as Type<KeyboardFocusService>,
     );
     querySelectorOriginal = document.querySelector;
   });
@@ -130,14 +130,14 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       .createSpy('HTML Element')
       .and.returnValue(theElement);
     spyOn(theElement, 'getBoundingClientRect').and.returnValue(
-      new DOMRect(100, 2000, 100, 100)
+      new DOMRect(100, 2000, 100, 100),
     );
     spyOn(windowRef, 'isBrowser').and.returnValue(true);
     const nativeWindow = windowRef.nativeWindow;
     if (nativeWindow) {
       spyOn(nativeWindow, 'scroll').and.callThrough();
       classUnderTest.scrollToConfigurationElement(
-        '.VariantConfigurationTemplate'
+        '.VariantConfigurationTemplate',
       );
 
       expect(nativeWindow.scroll).toHaveBeenCalledWith(0, 0);
@@ -174,7 +174,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     const values: Configurator.Value[] =
       classUnderTest.assembleValuesForMultiSelectAttributes(
         controlArray,
-        attribute
+        attribute,
       );
     if (attribute.values) {
       expect(values.length).toBe(2);
@@ -198,7 +198,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     const values: Configurator.Value[] =
       classUnderTest.assembleValuesForMultiSelectAttributes(
         controlArray,
-        attribute
+        attribute,
       );
     expect(values.length).toBe(1);
   });
@@ -214,7 +214,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     const values: Configurator.Value[] =
       classUnderTest.assembleValuesForMultiSelectAttributes(
         controlArray,
-        attribute
+        attribute,
       );
     expect(values.length).toBe(0);
   });
@@ -236,7 +236,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
   describe('createOvMenuItemId', () => {
     it('should create a menu item id for a child group with prefix', () => {
       expect(classUnderTest.createOvMenuItemId('A', 'B')).toBe(
-        'A--B-ovMenuItem'
+        'A--B-ovMenuItem',
       );
     });
   });
@@ -249,8 +249,8 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         classUnderTest['focusOnElementForConflicting'](
           attribute,
           foundFocusableElement,
-          []
-        )
+          [],
+        ),
       ).toBe(foundFocusableElement);
     });
   });
@@ -264,7 +264,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           .createSpy('HTML Element')
           .and.returnValue(focusedElements);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
-          focusedElements
+          focusedElements,
         );
         classUnderTest.focusFirstActiveElement('elementSelector');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
@@ -319,11 +319,11 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       function verify(
         focusedElements: any,
         haveBeenCalledTimes = 0,
-        focusedElementIndex?: number
+        focusedElementIndex?: number,
       ): void {
         classUnderTest.focusValue(attribute);
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(
-          haveBeenCalledTimes
+          haveBeenCalledTimes,
         );
 
         focusedElements.forEach((focusedElement: any, index: number) => {
@@ -355,7 +355,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
         spyFocusForFocusedElements(focusedElements);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
-          focusedElements
+          focusedElements,
         );
         verify(focusedElements, 1, 0);
       });
@@ -364,7 +364,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
         spyFocusForFocusedElements(focusedElements);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
-          focusedElements
+          focusedElements,
         );
 
         const value1 = createValue('value_1', false);
@@ -382,7 +382,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         ].concat(focusedElements);
         spyFocusForFocusedElements(focusedElements);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
-          focusedElements
+          focusedElements,
         );
 
         const value1 = createValue('value_1', false);
@@ -397,7 +397,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
         spyFocusForFocusedElements(focusedElements);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
-          focusedElements
+          focusedElements,
         );
         attribute.name = 'NO_ATTR_2';
 
@@ -408,7 +408,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
         spyFocusForFocusedElements(focusedElements);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
-          focusedElements
+          focusedElements,
         );
         document.querySelector = jasmine
           .createSpy('HTML Element')
@@ -421,7 +421,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(false);
         spyFocusForFocusedElements(focusedElements);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
-          focusedElements
+          focusedElements,
         );
 
         verify(focusedElements);
@@ -542,7 +542,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
     function createElements(
       tagName: string,
-      amountOfElement: number
+      amountOfElement: number,
     ): Array<HTMLElement> {
       const nodes: Array<HTMLElement> = [];
       for (let index = 0; index < amountOfElement; index++) {
@@ -598,10 +598,10 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
     it('should return false because element scrollHeight is not larger than element clientHeight', () => {
       const form = htmlElem.querySelector(
-        'cx-configurator-form'
+        'cx-configurator-form',
       ) as HTMLElement;
       const labels: HTMLElement[] = Array.from(
-        htmlElem.querySelectorAll('label')
+        htmlElem.querySelectorAll('label'),
       );
       labels.forEach((label) => {
         label.style.padding = '5px';
@@ -614,10 +614,10 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
     it('should return true because element scrollHeight is larger than element clientHeight', () => {
       const form = htmlElem.querySelector(
-        'cx-configurator-form'
+        'cx-configurator-form',
       ) as HTMLElement;
       const labels: HTMLElement[] = Array.from(
-        htmlElem.querySelectorAll('label')
+        htmlElem.querySelectorAll('label'),
       );
       labels.forEach((label) => {
         label.style.padding = '25px';
@@ -649,7 +649,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       });
 
       spyOn(form, 'getBoundingClientRect').and.returnValue(
-        new DOMRect(100, 100, 250, 500)
+        new DOMRect(100, 100, 250, 500),
       );
     });
 
@@ -707,7 +707,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       form.style.border = 'thick double #32a1ce;';
 
       spyOn(form, 'getBoundingClientRect').and.returnValue(
-        new DOMRect(100, 100, 250, 500)
+        new DOMRect(100, 100, 250, 500),
       );
     });
 
@@ -725,7 +725,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       spyOnProperty(window, 'innerWidth').and.returnValue(1000);
 
       expect(
-        classUnderTest['getHeight']('cx-configurator-form')
+        classUnderTest['getHeight']('cx-configurator-form'),
       ).toBeGreaterThan(0);
     });
   });
@@ -781,7 +781,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       addToCart.style.padding = '20px';
       addToCart.style.height = '80px';
       spyOn(addToCart, 'getBoundingClientRect').and.returnValue(
-        new DOMRect(100, 100, 1000, 80)
+        new DOMRect(100, 100, 1000, 80),
       );
       spyOn<any>(classUnderTest, 'getHeight').and.returnValue(100);
 
@@ -808,7 +808,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       ovMenu = document.createElement(testSelector);
       document.body.append(ovMenu);
       spyOnProperty(ovMenu, 'offsetHeight').and.returnValue(
-        elementOffsetHeight
+        elementOffsetHeight,
       );
       spyOnProperty(ovMenu, 'scrollTop').and.returnValue(150);
 
@@ -817,7 +817,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       menuItem.className = 'cx-menu-item';
 
       spyOn(menuItem, 'getBoundingClientRect').and.returnValue(
-        new DOMRect(100, 100, 100, 25)
+        new DOMRect(100, 100, 100, 25),
       );
       spyOnProperty(menuItem, 'offsetTop').and.returnValue(offsetTop);
       spyOnProperty(menuItem, 'offsetHeight').and.returnValue(50);
@@ -831,7 +831,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         .and.returnValue(ovMenu);
       classUnderTest.ensureElementVisible(
         'cx-configurator-overview-menu',
-        undefined
+        undefined,
       );
       expect(ovMenu.scrollTop).toBe(0);
     });

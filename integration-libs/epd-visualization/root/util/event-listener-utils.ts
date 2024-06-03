@@ -23,7 +23,7 @@ export class EventListenerUtils {
   attachEventListener(
     nativeElement: any,
     eventName: string,
-    callback: (event: any) => void
+    callback: (event: any) => void,
   ): void {
     const listener: Listener = {
       nativeElement,
@@ -38,16 +38,16 @@ export class EventListenerUtils {
       this.listeners.filter(
         (listener) =>
           listener.nativeElement === nativeElement &&
-          listener.eventName === eventName
-      )
+          listener.eventName === eventName,
+      ),
     );
   }
 
   detachAllEventListeners(nativeElement: any): void {
     this._detachEventListeners(
       this.listeners.filter(
-        (listener) => listener.nativeElement === nativeElement
-      )
+        (listener) => listener.nativeElement === nativeElement,
+      ),
     );
   }
 
@@ -57,7 +57,7 @@ export class EventListenerUtils {
       listener.endListener();
     });
     this.listeners = this.listeners.filter(
-      (listener) => !listenersSet.has(listener)
+      (listener) => !listenersSet.has(listener),
     );
   }
 }

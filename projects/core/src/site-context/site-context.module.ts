@@ -29,7 +29,7 @@ import { SiteContextStoreModule } from './store/site-context-store.module';
  */
 export function initSiteContextConfig(
   configInitializer: SiteContextConfigInitializer,
-  config: SiteContextConfig
+  config: SiteContextConfig,
 ): ConfigInitializer | null {
   /**
    * Load config for `context` from backend only when there is no static config for `context.baseSite`

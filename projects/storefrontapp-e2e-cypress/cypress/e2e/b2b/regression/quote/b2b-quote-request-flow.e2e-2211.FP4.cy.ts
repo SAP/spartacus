@@ -53,27 +53,27 @@ context('Quote', () => {
       quote.prepareQuote(
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
-        true
+        true,
       );
       quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
       quote.addHeaderComment(
-        'Can you please make me a good offer for this large volume of goods?'
+        'Can you please make me a good offer for this large volume of goods?',
       );
 
       quote.checkComment(
         1,
-        'Can you please make me a good offer for this large volume of goods?'
+        'Can you please make me a good offer for this large volume of goods?',
       );
 
       quote.addItemComment(
         TEST_PRODUCT_HAMMER_DRILLING_NAME,
-        'since there is a newer model out, is it possible to get a discount for this item?'
+        'since there is a newer model out, is it possible to get a discount for this item?',
       );
 
       quote.checkItemComment(
         2,
         TEST_PRODUCT_HAMMER_DRILLING_NAME,
-        'since there is a newer model out, is it possible to get a discount for this item?'
+        'since there is a newer model out, is it possible to get a discount for this item?',
       );
 
       quote.clickItemLinkInComment(2, TEST_PRODUCT_HAMMER_DRILLING_NAME);
@@ -101,7 +101,7 @@ context('Quote', () => {
       quote.prepareQuote(
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
-        true
+        true,
       );
       quote.cancelQuote(quote.STATUS_BUYER_CANCEL, true);
       quote.checkQuoteListDisplayed();

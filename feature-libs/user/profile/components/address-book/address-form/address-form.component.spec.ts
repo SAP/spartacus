@@ -133,37 +133,35 @@ describe('AddressFormComponent', () => {
   const defaultAddressCheckbox = (): DebugElement =>
     fixture.debugElement.query(By.css('[formcontrolname=defaultAddress]'));
 
-  beforeEach(
-    waitForAsync(() => {
-      mockGlobalMessageService = {
-        add: createSpy(),
-      };
+  beforeEach(waitForAsync(() => {
+    mockGlobalMessageService = {
+      add: createSpy(),
+    };
 
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [AddressFormComponent, MockNgSelectA11yDirective],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          { provide: UserAddressService, useClass: MockUserAddressService },
-          { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-          { provide: UserProfileFacade, useClass: MockUserProfileFacade },
-        ],
-      })
-        .overrideComponent(AddressFormComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
-
-      userProfileFacade = TestBed.inject(UserProfileFacade);
-      userAddressService = TestBed.inject(UserAddressService);
-      launchDialogService = TestBed.inject(LaunchDialogService);
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [AddressFormComponent, MockNgSelectA11yDirective],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
+      ],
     })
-  );
+      .overrideComponent(AddressFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+
+    userProfileFacade = TestBed.inject(UserProfileFacade);
+    userAddressService = TestBed.inject(UserAddressService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressFormComponent);
@@ -199,7 +197,7 @@ describe('AddressFormComponent', () => {
 
   it('should call ngOnInit to get countries, titles and regions data when data exist', () => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
-      of(mockCountries)
+      of(mockCountries),
     );
     spyOn(userProfileFacade, 'getTitles').and.returnValue(of(mockTitles));
     spyOn(userAddressService, 'getRegions').and.returnValue(of(mockRegions));
@@ -242,10 +240,10 @@ describe('AddressFormComponent', () => {
     spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
     component['handleAddressVerificationResults'](
-      mockAddressVerificationResult
+      mockAddressVerificationResult,
     );
     expect(component.submitAddress.emit).toHaveBeenCalledWith(
-      component.addressForm.value
+      component.addressForm.value,
     );
   });
 
@@ -261,7 +259,7 @@ describe('AddressFormComponent', () => {
       },
     };
     component['handleAddressVerificationResults'](
-      mockAddressVerificationResult
+      mockAddressVerificationResult,
     );
 
     spyOn(component, 'openSuggestedAddress');
@@ -285,10 +283,10 @@ describe('AddressFormComponent', () => {
 
     component.ngOnInit();
     component['handleAddressVerificationResults'](
-      mockAddressVerificationResult
+      mockAddressVerificationResult,
     );
     expect(component.openSuggestedAddress).toHaveBeenCalledWith(
-      mockAddressVerificationResult
+      mockAddressVerificationResult,
     );
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
   });
@@ -313,7 +311,7 @@ describe('AddressFormComponent', () => {
     spyOn(userAddressService, 'verifyAddress').and.returnValue(
       of({
         decision: 'ACCEPT',
-      })
+      }),
     );
     component.ngOnInit();
     component.addressForm.setValue(mockAddress);
@@ -339,7 +337,7 @@ describe('AddressFormComponent', () => {
   it('should toggleDefaultAddress() adapt control value', () => {
     component.setAsDefaultField = true;
     spyOn(userAddressService, 'getAddresses').and.returnValue(
-      of([mockAddress])
+      of([mockAddress]),
     );
 
     fixture.detectChanges();
@@ -355,10 +353,10 @@ describe('AddressFormComponent', () => {
     component.ngOnInit();
     component.regions$.subscribe();
     expect(
-      component.addressForm['controls'].country['controls'].isocode.value
+      component.addressForm['controls'].country['controls'].isocode.value,
     ).toEqual(mockCountryIsocode);
     expect(userAddressService.getRegions).toHaveBeenCalledWith(
-      mockCountryIsocode
+      mockCountryIsocode,
     );
   });
 
@@ -370,7 +368,7 @@ describe('AddressFormComponent', () => {
     component.regions$.subscribe();
     component.verifyAddress();
     expect(
-      component.addressForm['controls'].region['controls'].isocode.value
+      component.addressForm['controls'].region['controls'].isocode.value,
     ).toEqual(mockCountryIsocode);
     expect(component.verifyAddress).toHaveBeenCalled();
   });
@@ -410,7 +408,7 @@ describe('AddressFormComponent', () => {
       component.cancelBtnLabel = 'Back to cart';
       fixture.detectChanges();
       expect(
-        fixture.nativeElement.querySelector('.btn-secondary').innerText
+        fixture.nativeElement.querySelector('.btn-secondary').innerText,
       ).toEqual('Back to cart');
     });
 
@@ -418,7 +416,7 @@ describe('AddressFormComponent', () => {
       component.cancelBtnLabel = undefined;
       fixture.detectChanges();
       expect(
-        fixture.nativeElement.querySelector('.btn-secondary').innerText
+        fixture.nativeElement.querySelector('.btn-secondary').innerText,
       ).toEqual('addressForm.chooseAddress');
     });
   });
@@ -460,7 +458,7 @@ describe('AddressFormComponent', () => {
 
   it('should show the "Set as default" checkbox when there is one or more saved addresses', () => {
     spyOn(userAddressService, 'getAddresses').and.returnValue(
-      of([mockAddress])
+      of([mockAddress]),
     );
 
     fixture.detectChanges();

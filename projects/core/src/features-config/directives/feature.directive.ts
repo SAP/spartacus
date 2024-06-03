@@ -14,7 +14,7 @@ export class FeatureDirective {
   constructor(
     protected templateRef: TemplateRef<any>,
     protected viewContainer: ViewContainerRef,
-    protected featureConfig: FeatureConfigService
+    protected featureConfig: FeatureConfigService,
   ) {}
 
   private hasView = false;

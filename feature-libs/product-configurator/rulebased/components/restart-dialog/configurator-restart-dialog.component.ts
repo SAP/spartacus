@@ -25,17 +25,17 @@ export class ConfiguratorRestartDialogComponent {
     protected launchDialogService: LaunchDialogService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected routingService: RoutingService,
-    protected productService: ProductService
+    protected productService: ProductService,
   ) {}
 
   dialogData$: Observable<{ owner: CommonConfigurator.Owner }> =
     this.launchDialogService.data$.pipe(
       // In case conflict solver opens as well we need to filter out is data
-      filter((dialogData) => dialogData && dialogData.owner)
+      filter((dialogData) => dialogData && dialogData.owner),
     );
 
   product$ = this.dialogData$.pipe(
-    switchMap((dialogData) => this.productService.get(dialogData.owner.id))
+    switchMap((dialogData) => this.productService.get(dialogData.owner.id)),
   );
 
   iconTypes = ICON_TYPE;
@@ -73,7 +73,7 @@ export class ConfiguratorRestartDialogComponent {
         queryParams: {
           productCode: product.code,
         },
-      }
+      },
     );
   }
 

@@ -47,5 +47,5 @@ context(
 
       productDetails.apparelProductDetailsTest();
     });
-  }
+  },
 );

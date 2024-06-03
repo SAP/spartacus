@@ -43,7 +43,7 @@ export class ConfigModule {
    */
   static withConfigFactory(
     configFactory: ConfigFactory,
-    deps?: any[]
+    deps?: any[],
   ): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,

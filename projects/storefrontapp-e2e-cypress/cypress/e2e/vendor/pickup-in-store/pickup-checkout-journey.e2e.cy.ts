@@ -44,9 +44,9 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
     it('A user who has a cart with multiple entries checkout with BOPIS (CXSPA-201)', () => {
       const url = new RegExp(
         `\/${encodeURIComponent(
-          EMAIL_ADDRESS
+          EMAIL_ADDRESS,
         )}\/carts\/[0-9a-zA-Z|-]*\/entries`,
-        'g'
+        'g',
       );
 
       cy.intercept({
@@ -85,18 +85,18 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
       cy.wait('@apiAddToCart').then((interception) => {
         expect(interception.response.statusCode).to.equal(200);
         expect(interception.request.body).to.have.property(
-          'deliveryPointOfService'
+          'deliveryPointOfService',
         );
         cy.get(L.PICKUP_STORE_LOCATION)
           .invoke('text')
           .should(
             'be.equal',
-            interception.request.body.deliveryPointOfService.name
+            interception.request.body.deliveryPointOfService.name,
           );
       });
 
       cy.log(
-        'From the cart, the user can change the location they wish to pick up the product from.'
+        'From the cart, the user can change the location they wish to pick up the product from.',
       );
       cy.get(L.VIEW_CART).click();
       cy.url().should('include', '/cart');
@@ -108,11 +108,11 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
 
       cy.wait('@changePickupInStore').then((interception) => {
         expect(interception.request.body).to.have.property(
-          'deliveryPointOfService'
+          'deliveryPointOfService',
         );
 
         cy.log(
-          'The user also add another item only for delivery. (Multiple items in cart)'
+          'The user also add another item only for delivery. (Multiple items in cart)',
         );
 
         // The user also add another item only for delivery.(Multiple items in cart)
@@ -121,7 +121,7 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
         cy.get(L.VIEW_CART).click();
 
         cy.log(
-          `The user decides to login so the order will show in the user's account.`
+          `The user decides to login so the order will show in the user's account.`,
         );
         register();
 
@@ -158,11 +158,11 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
         cy.log('order review');
 
         cy.get(
-          `cx-pickup-in-store-details-review ${L.PICKUP_OPTIONS_RADIO_DELIVERY}`
+          `cx-pickup-in-store-details-review ${L.PICKUP_OPTIONS_RADIO_DELIVERY}`,
         ).should('not.exist');
 
         cy.log(
-          '  - The user completes checkout and sees the order details. On here they can see their pickup location.'
+          '  - The user completes checkout and sees the order details. On here they can see their pickup location.',
         );
         cy.get(L.REVIEW_ORDER_TERM_CONDITION).click();
         cy.get(L.REVIEW_ORDER_SUBMIT).click();

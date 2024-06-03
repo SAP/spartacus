@@ -37,7 +37,7 @@ describe('missing packages', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../test/migrations-test.json')
+      require.resolve('../../test/migrations-test.json'),
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -55,7 +55,7 @@ describe('missing packages', () => {
         compilerOptions: {
           lib: ['es2015'],
         },
-      })
+      }),
     );
 
     writeFile(
@@ -70,7 +70,7 @@ describe('missing packages', () => {
             },
           },
         },
-      })
+      }),
     );
 
     writeFile(
@@ -81,7 +81,7 @@ describe('missing packages', () => {
         dependencies: {
           '@spartacus/checkout': '4.0.0',
         },
-      })
+      }),
     );
 
     previousWorkingDir = shx.pwd();

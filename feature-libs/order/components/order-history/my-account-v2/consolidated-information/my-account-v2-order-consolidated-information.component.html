@@ -20,7 +20,7 @@
             context: {
               count: getConsignmentsCount(
                 getPickupConsignments(order.consignments ?? [])
-              )
+              ),
             }
           "
         ></ng-container>
@@ -53,7 +53,7 @@
             context: {
               count: getConsignmentsCount(
                 getDeliveryConsignments(order.consignments ?? [])
-              )
+              ),
             }
           "
         ></ng-container>
@@ -94,7 +94,7 @@
               *ngTemplateOutlet="
                 showManyItems;
                 context: {
-                  count: getOrderEntriesCount(order.unconsignedEntries)
+                  count: getOrderEntriesCount(order.unconsignedEntries),
                 }
               "
             ></ng-container>
@@ -122,7 +122,7 @@
             context: {
               count: getOrderEntriesCount(
                 getDeliveryUnconsignedEntries(order.unconsignedEntries ?? [])
-              )
+              ),
             }
           "
         ></ng-container>
@@ -148,7 +148,7 @@
             context: {
               count: getOrderEntriesCount(
                 getPickupUnconsignedEntries(order.unconsignedEntries ?? [])
-              )
+              ),
             }
           "
         ></ng-container>
@@ -167,7 +167,7 @@
           [routerLink]="
             {
               cxRoute: 'returnRequestDetails',
-              params: returnRequest
+              params: returnRequest,
             } | cxUrl
           "
           class="cx-order-status-critical-link"

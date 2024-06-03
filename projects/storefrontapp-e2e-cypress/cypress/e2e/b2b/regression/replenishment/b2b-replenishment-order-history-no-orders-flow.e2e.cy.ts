@@ -26,7 +26,7 @@ describe('Order History with no orders', { testIsolation: false }, () => {
   orderHistoryTest.checkRedirectNotLoggedInUser(replenishmentOrderHistoryUrl);
   orderHistoryTest.checkRedirectLoggedInUser(
     b2bAccountShipToUser,
-    replenishmentOrderHistoryUrl
+    replenishmentOrderHistoryUrl,
   );
   orderHistoryTest.checkStartShoppingButton();
 });

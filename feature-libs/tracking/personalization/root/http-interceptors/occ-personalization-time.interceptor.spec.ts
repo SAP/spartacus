@@ -83,13 +83,13 @@ describe('OccPersonalizationTimeInterceptor with personalization enabled', () =>
       });
 
       const perHeader: string = mockReq.request.headers.get(
-        'test-personalization-time'
+        'test-personalization-time',
       );
       expect(perHeader).toBeTruthy();
       expect(perHeader).toEqual('test timestamp');
 
       mockReq.flush('someData');
-    }
+    },
   ));
 
   it('should keep the new personalization-time, if it is different from the existing time', inject(
@@ -108,9 +108,9 @@ describe('OccPersonalizationTimeInterceptor with personalization enabled', () =>
         headers: { ['test-personalization-time']: 'new timestamp' },
       });
       expect(winRef.localStorage.getItem('personalization-time')).toEqual(
-        'new timestamp'
+        'new timestamp',
       );
-    }
+    },
   ));
 });
 
@@ -160,12 +160,12 @@ describe('OccPersonalizationTimeInterceptor with personalization disabled', () =
         return req.method === 'GET';
       });
       const perHeader: string = mockReq.request.headers.get(
-        'test-personalization-time'
+        'test-personalization-time',
       );
       expect(perHeader).toBeNull();
       mockReq.flush('someData');
 
       expect(winRef.localStorage.getItem('personalization-time')).toBeFalsy();
-    }
+    },
   ));
 });

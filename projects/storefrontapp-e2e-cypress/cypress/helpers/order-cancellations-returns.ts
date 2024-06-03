@@ -21,7 +21,7 @@ import * as sampleData from '../sample-data/order-cancellations-returns';
 export function visitOrderDetailPage() {
   const alias = waitForPage(
     `/my-account/order/${ORDER_CODE}`,
-    'orderDetailPage'
+    'orderDetailPage',
   );
 
   cy.visit(`/my-account/order/${ORDER_CODE}`);
@@ -31,7 +31,7 @@ export function visitOrderDetailPage() {
 export function visitCancelOrderPage() {
   const alias = waitForPage(
     `/my-account/order/cancel/${ORDER_CODE}`,
-    'cancelOrderPage'
+    'cancelOrderPage',
   );
 
   cy.visit(`/my-account/order/cancel/${ORDER_CODE}`);
@@ -41,7 +41,7 @@ export function visitCancelOrderPage() {
 export function visitReturnOrderPage() {
   const alias = waitForPage(
     `/my-account/order/return/${ORDER_CODE}`,
-    'returnOrderPage'
+    'returnOrderPage',
   );
 
   cy.visit(`/my-account/order/return/${ORDER_CODE}`);
@@ -53,10 +53,10 @@ export function getStubbedCancellableOrderDetails() {
     {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orders/${ORDER_CODE}`,
     },
-    { body: cancellableOrder }
+    { body: cancellableOrder },
   );
 }
 
@@ -65,10 +65,10 @@ export function getStubbedReturnableOrderDetails() {
     {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orders/${ORDER_CODE}`,
     },
-    { body: returnableOrder }
+    { body: returnableOrder },
   );
 }
 
@@ -77,10 +77,10 @@ export function confirmCancelOrder() {
     {
       method: 'POST',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orders/${ORDER_CODE}/cancellation`,
     },
-    { body: {} }
+    { body: {} },
   );
 }
 
@@ -89,10 +89,10 @@ export function confirmReturnOrder() {
     {
       method: 'POST',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orderReturns`,
     },
-    { body: returnRequestDetails }
+    { body: returnRequestDetails },
   );
 }
 
@@ -101,10 +101,10 @@ export function getStubbedReturnRequestList() {
     {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orderReturns`,
     },
-    { body: returnRequestList }
+    { body: returnRequestList },
   ).as('return_request_list');
 }
 
@@ -120,17 +120,17 @@ export function getStubbedReturnRequestDetails() {
     {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orderReturns/${RMA}`,
     },
-    { body: returnRequestDetails }
+    { body: returnRequestDetails },
   ).as('return_request_details');
 }
 
 export function visitReturnRequestDetailsPage() {
   const alias = waitForPage(
     `/my-account/return-request/${RMA}`,
-    'returnRequestDetailsPage'
+    'returnRequestDetailsPage',
   );
 
   cy.visit(`/my-account/return-request/${RMA}`);
@@ -142,10 +142,10 @@ export function cancelReturnRequest() {
     {
       method: 'PATCH',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orderReturns/${RMA}`,
     },
-    { body: {} }
+    { body: {} },
   );
 }
 
@@ -157,10 +157,10 @@ export function getStubbedReturnRequestListAfterCancel() {
     {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orderReturns`,
     },
-    { body: returnRequestList }
+    { body: returnRequestList },
   ).as('return_request_list_after_cancel');
 }
 
@@ -169,10 +169,10 @@ export function getStubbedReturnRequestDetailsAfterCancel() {
     {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/orderReturns/${RMA}`,
     },
-    { body: cancelledReturnRequest }
+    { body: cancelledReturnRequest },
   ).as('return_request_details_after_cancel');
 }
 
@@ -188,7 +188,7 @@ export function testCancelOrder() {
       // accessibility
       verifyTabbingOrder(
         'cx-page-layout.AccountPageTemplate',
-        config.cancelOrReturnOrder
+        config.cancelOrReturnOrder,
       );
 
       // validate input
@@ -205,7 +205,7 @@ export function testCancelOrder() {
       // accessibility
       verifyTabbingOrder(
         'cx-page-layout.AccountPageTemplate',
-        config.confirmCancelOrReturnOrder
+        config.confirmCancelOrReturnOrder,
       );
 
       // confirm cancel
@@ -213,7 +213,7 @@ export function testCancelOrder() {
       cy.get('cx-amend-order-actions .btn-primary').eq(0).click();
       cy.get('cx-global-message').should(
         'contain',
-        `Your cancellation request was submitted (original order ${sampleData.ORDER_CODE} will be updated)`
+        `Your cancellation request was submitted (original order ${sampleData.ORDER_CODE} will be updated)`,
       );
       cy.get('cx-breadcrumb').should('contain', 'Order History');
     });
@@ -232,7 +232,7 @@ export function testReturnOrder() {
       // accessibility
       verifyTabbingOrder(
         'cx-page-layout.AccountPageTemplate',
-        config.cancelOrReturnOrder
+        config.cancelOrReturnOrder,
       );
 
       // validate input
@@ -249,7 +249,7 @@ export function testReturnOrder() {
       // accessibility
       verifyTabbingOrder(
         'cx-page-layout.AccountPageTemplate',
-        config.confirmCancelOrReturnOrder
+        config.confirmCancelOrReturnOrder,
       );
 
       // confirm return
@@ -257,7 +257,7 @@ export function testReturnOrder() {
       cy.get('cx-amend-order-actions .btn-primary').eq(0).click();
       cy.get('cx-global-message').should(
         'contain',
-        `Your return request (${sampleData.RMA}) was submitted`
+        `Your return request (${sampleData.RMA}) was submitted`,
       );
       cy.get('cx-breadcrumb').should('contain', 'Return Request Details');
     });
@@ -269,7 +269,7 @@ function assertButtons(isConfirm = false) {
   if (isConfirm) {
     cy.get('cx-amend-order-actions .btn-primary').should(
       'contain',
-      'Submit Request'
+      'Submit Request',
     );
   } else {
     cy.get('cx-amend-order-actions .btn-primary').should('contain', 'Continue');
@@ -280,7 +280,7 @@ function assertOrderItems(order: any, isConfirm = false) {
   if (!isConfirm) {
     cy.get('cx-amend-order-items button.cx-action-link').should(
       'contain',
-      'Set all quantities to maximum '
+      'Set all quantities to maximum ',
     );
   }
 

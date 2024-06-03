@@ -120,7 +120,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef,
-    _data?: any
+    _data?: any,
   ) {
     return of();
   }
@@ -137,7 +137,7 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
 
   performQuoteAction(
     _quote: Quote,
-    _quoteAction: QuoteActionType
+    _quoteAction: QuoteActionType,
   ): Observable<unknown> {
     return EMPTY;
   }
@@ -271,13 +271,13 @@ describe('QuoteSummaryActionsComponent', () => {
     component.onClick(
       QuoteActionType.SUBMIT,
       quoteForSubmitAction,
-      currentCart
+      currentCart,
     );
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
-      { confirmationContext: confirmationContextForSubmitAction }
+      { confirmationContext: confirmationContextForSubmitAction },
     );
   });
 
@@ -307,13 +307,13 @@ describe('QuoteSummaryActionsComponent', () => {
     component.onClick(
       QuoteActionType.EDIT,
       quoteInBuyerOfferState,
-      currentCart
+      currentCart,
     );
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
-      { confirmationContext: confirmationContextForEditAction }
+      { confirmationContext: confirmationContextForEditAction },
     );
   });
 
@@ -333,7 +333,7 @@ describe('QuoteSummaryActionsComponent', () => {
     component.onClick(
       QuoteActionType.CANCEL,
       quoteInBuyerDraftState,
-      currentCart
+      currentCart,
     );
     expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
   });
@@ -354,7 +354,7 @@ describe('QuoteSummaryActionsComponent', () => {
     component.onClick(
       QuoteActionType.EDIT,
       quoteInBuyerDraftState,
-      currentCart
+      currentCart,
     );
     expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
   });
@@ -377,7 +377,7 @@ describe('QuoteSummaryActionsComponent', () => {
     component.onClick(
       QuoteActionType.EDIT,
       quoteInBuyerDraftState,
-      currentCart
+      currentCart,
     );
     expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
   });
@@ -409,13 +409,13 @@ describe('QuoteSummaryActionsComponent', () => {
     component.onClick(
       QuoteActionType.EDIT,
       quoteInBuyerDraftState,
-      currentCart
+      currentCart,
     );
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
-      { confirmationContext: confirmationContextForEditAction }
+      { confirmationContext: confirmationContextForEditAction },
     );
   });
 
@@ -443,7 +443,7 @@ describe('QuoteSummaryActionsComponent', () => {
       LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
-      { confirmationContext: confirmationContextForRequoteAction }
+      { confirmationContext: confirmationContextForRequoteAction },
     );
   });
 
@@ -473,7 +473,7 @@ describe('QuoteSummaryActionsComponent', () => {
       LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
-      { confirmationContext: confirmationContextForRequoteAction }
+      { confirmationContext: confirmationContextForRequoteAction },
     );
   });
 
@@ -533,12 +533,12 @@ describe('QuoteSummaryActionsComponent', () => {
 
       const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
-        '.btn:first-child'
+        '.btn:first-child',
       );
       CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
         expect,
         submitBtn,
-        'disabled'
+        'disabled',
       );
     });
 
@@ -549,12 +549,12 @@ describe('QuoteSummaryActionsComponent', () => {
 
       const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
-        '.btn:first-child'
+        '.btn:first-child',
       );
       CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
         expect,
         submitBtn,
-        'disabled'
+        'disabled',
       );
     });
 
@@ -565,12 +565,12 @@ describe('QuoteSummaryActionsComponent', () => {
 
       const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
-        '.btn:first-child'
+        '.btn:first-child',
       );
       CommonQuoteTestUtilsService.expectElementToContainAttribute(
         expect,
         submitBtn,
-        'disabled'
+        'disabled',
       );
       expect(globalMessageService.add).toHaveBeenCalled();
     });
@@ -582,12 +582,12 @@ describe('QuoteSummaryActionsComponent', () => {
 
       const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
-        '.btn:first-child'
+        '.btn:first-child',
       );
       CommonQuoteTestUtilsService.expectElementToContainAttribute(
         expect,
         submitBtn,
-        'disabled'
+        'disabled',
       );
     });
 
@@ -597,12 +597,12 @@ describe('QuoteSummaryActionsComponent', () => {
 
       const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
-        '.btn:first-child'
+        '.btn:first-child',
       );
       CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
         expect,
         submitBtn,
-        'disabled'
+        'disabled',
       );
     });
 
@@ -630,12 +630,12 @@ describe('QuoteSummaryActionsComponent', () => {
     component.onClick(
       QuoteActionType.SUBMIT,
       newMockQuoteWithSubmitAction,
-      currentCart
+      currentCart,
     );
     launchDialogService.closeDialog('yes');
     expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
       newMockQuoteWithSubmitAction,
-      QuoteActionType.SUBMIT
+      QuoteActionType.SUBMIT,
     );
   });
 
@@ -652,12 +652,12 @@ describe('QuoteSummaryActionsComponent', () => {
     fixture.detectChanges();
     const editButton = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
-      '.btn-secondary'
+      '.btn-secondary',
     );
     editButton.click();
     expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
       newMockQuoteWithSubmitAction,
-      QuoteActionType.CANCEL
+      QuoteActionType.CANCEL,
     );
   });
 
@@ -666,7 +666,7 @@ describe('QuoteSummaryActionsComponent', () => {
     fixture.detectChanges();
     const requoteButton = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
-      '.btn-primary'
+      '.btn-primary',
     );
     requoteButton.click();
     expect(quoteFacade.requote).toHaveBeenCalledWith(mockQuote.code);
@@ -678,8 +678,8 @@ describe('QuoteSummaryActionsComponent', () => {
         component['isConfirmationDialogRequired'](
           QuoteActionType.SUBMIT,
           QuoteState.BUYER_DRAFT,
-          false
-        )
+          false,
+        ),
       ).toBe(true);
     });
     it('should return true if state and action match', () => {
@@ -687,8 +687,8 @@ describe('QuoteSummaryActionsComponent', () => {
         component['isConfirmationDialogRequired'](
           QuoteActionType.EDIT,
           QuoteState.BUYER_OFFER,
-          false
-        )
+          false,
+        ),
       ).toBe(true);
     });
     it('should return true for action matches for ALL role when cart is empty', () => {
@@ -696,8 +696,8 @@ describe('QuoteSummaryActionsComponent', () => {
         component['isConfirmationDialogRequired'](
           QuoteActionType.EDIT,
           QuoteState.BUYER_DRAFT,
-          false
-        )
+          false,
+        ),
       ).toBe(true);
     });
     it('should return false for action matches for ALL role when cart is not empty', () => {
@@ -705,8 +705,8 @@ describe('QuoteSummaryActionsComponent', () => {
         component['isConfirmationDialogRequired'](
           QuoteActionType.EDIT,
           QuoteState.BUYER_DRAFT,
-          true
-        )
+          true,
+        ),
       ).toBe(false);
     });
     it('should return false if action does not match', () => {
@@ -714,8 +714,8 @@ describe('QuoteSummaryActionsComponent', () => {
         component['isConfirmationDialogRequired'](
           QuoteActionType.CHECKOUT,
           QuoteState.BUYER_DRAFT,
-          false
-        )
+          false,
+        ),
       ).toBe(false);
     });
     it('should return false if state does not match', () => {
@@ -723,8 +723,8 @@ describe('QuoteSummaryActionsComponent', () => {
         component['isConfirmationDialogRequired'](
           QuoteActionType.SUBMIT,
           QuoteState.CANCELLED,
-          false
-        )
+          false,
+        ),
       ).toBe(false);
     });
   });
@@ -734,16 +734,16 @@ describe('QuoteSummaryActionsComponent', () => {
       expect(() =>
         component['getConfirmDialogConfig'](
           QuoteActionType.ORDER,
-          QuoteState.BUYER_DRAFT
-        )
+          QuoteState.BUYER_DRAFT,
+        ),
       ).toThrow();
     });
     it('should return configured config if state/action are matching', () => {
       expect(
         component['getConfirmDialogConfig'](
           QuoteActionType.EDIT,
-          QuoteState.BUYER_OFFER
-        )
+          QuoteState.BUYER_OFFER,
+        ),
       ).toEqual({
         i18nKeyPrefix: 'quote.confirmDialog.buyer_offer.edit',
         showWarningNote: true,
@@ -756,8 +756,8 @@ describe('QuoteSummaryActionsComponent', () => {
       expect(
         component['getConfirmDialogConfig'](
           QuoteActionType.EDIT,
-          QuoteState.BUYER_DRAFT
-        )
+          QuoteState.BUYER_DRAFT,
+        ),
       ).toEqual({
         i18nKeyPrefix: 'quote.confirmDialog.all.edit',
         showWarningNote: true,
@@ -787,7 +787,7 @@ describe('QuoteSummaryActionsComponent', () => {
     it("should do nothing if dialog was closed selecting 'no'", () => {
       component['handleConfirmationDialogClose'](
         QuoteActionType.SUBMIT,
-        context
+        context,
       );
       launchDialogService.closeDialog('no');
       expect(quoteFacade.performQuoteAction).not.toHaveBeenCalled();
@@ -800,7 +800,7 @@ describe('QuoteSummaryActionsComponent', () => {
       launchDialogService.closeDialog('yes');
       expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
         mockQuote,
-        QuoteActionType.EDIT
+        QuoteActionType.EDIT,
       );
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
@@ -818,16 +818,16 @@ describe('QuoteSummaryActionsComponent', () => {
     it("should perform quote action if dialog was closed selecting 'yes' and display the given success message", () => {
       component['handleConfirmationDialogClose'](
         QuoteActionType.SUBMIT,
-        context
+        context,
       );
       launchDialogService.closeDialog('yes');
       expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
         mockQuote,
-        QuoteActionType.SUBMIT
+        QuoteActionType.SUBMIT,
       );
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'successMessage' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
   });
@@ -835,17 +835,17 @@ describe('QuoteSummaryActionsComponent', () => {
   describe('getMessageType', () => {
     it('should return INFO for reject action', () => {
       expect(component['getMessageType'](QuoteActionType.REJECT)).toBe(
-        GlobalMessageType.MSG_TYPE_INFO
+        GlobalMessageType.MSG_TYPE_INFO,
       );
     });
     it('should return INFO for cancel action', () => {
       expect(component['getMessageType'](QuoteActionType.CANCEL)).toBe(
-        GlobalMessageType.MSG_TYPE_INFO
+        GlobalMessageType.MSG_TYPE_INFO,
       );
     });
     it('should return CONFIRMATION for submit action', () => {
       expect(component['getMessageType'](QuoteActionType.SUBMIT)).toBe(
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
   });
@@ -865,7 +865,7 @@ describe('QuoteSummaryActionsComponent', () => {
         component.getButtonStyle(allowedActions, {
           type: QuoteActionType.SUBMIT,
           isPrimary: true,
-        })
+        }),
       ).toEqual('btn-primary');
     });
     it("should return 'btn-secondary' style for action marked as non-primary", () => {
@@ -873,7 +873,7 @@ describe('QuoteSummaryActionsComponent', () => {
         component.getButtonStyle(allowedActions, {
           type: QuoteActionType.SUBMIT,
           isPrimary: false,
-        })
+        }),
       ).toEqual('btn-secondary');
     });
     it("should return 'btn-secondary' style for cancel-action if there are only 2 actions", () => {
@@ -881,7 +881,7 @@ describe('QuoteSummaryActionsComponent', () => {
         component.getButtonStyle(allowedActions.slice(1), {
           type: QuoteActionType.CANCEL,
           isPrimary: false,
-        })
+        }),
       ).toEqual('btn-secondary');
     });
     it("should return 'btn-tertiary style for cancel-action if there are more than 2 actions", () => {
@@ -889,7 +889,7 @@ describe('QuoteSummaryActionsComponent', () => {
         component.getButtonStyle(allowedActions, {
           type: QuoteActionType.CANCEL,
           isPrimary: false,
-        })
+        }),
       ).toEqual('btn-tertiary');
     });
   });
@@ -897,24 +897,26 @@ describe('QuoteSummaryActionsComponent', () => {
   describe('stateToRoleTypeForDialogConfig', () => {
     it('should return buyer-role', () => {
       expect(
-        component['stateToRoleTypeForDialogConfig'](QuoteState.BUYER_DRAFT)
+        component['stateToRoleTypeForDialogConfig'](QuoteState.BUYER_DRAFT),
       ).toBe(QuoteRoleType.BUYER);
     });
     it('should return seller-role', () => {
       expect(
-        component['stateToRoleTypeForDialogConfig'](QuoteState.SELLER_SUBMITTED)
+        component['stateToRoleTypeForDialogConfig'](
+          QuoteState.SELLER_SUBMITTED,
+        ),
       ).toBe(QuoteRoleType.SELLER);
     });
     it('should return seller-approver-role', () => {
       expect(
         component['stateToRoleTypeForDialogConfig'](
-          QuoteState.SELLERAPPROVER_APPROVED
-        )
+          QuoteState.SELLERAPPROVER_APPROVED,
+        ),
       ).toBe(QuoteRoleType.SELLERAPPROVER);
     });
     it('should return default (ALL) role type if no role matches', () => {
       expect(
-        component['stateToRoleTypeForDialogConfig'](QuoteState.CANCELLED)
+        component['stateToRoleTypeForDialogConfig'](QuoteState.CANCELLED),
       ).toBe(QuoteRoleType.ALL);
     });
   });
@@ -923,14 +925,14 @@ describe('QuoteSummaryActionsComponent', () => {
     it('should call handleScroll method', () => {
       spyOn(quoteStorefrontUtilsService, 'getElement').and.returnValue(slot);
       spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
-        500
+        500,
       );
       component.handleScroll();
 
       expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
         'cx-quote-summary-actions section',
         'bottom',
-        '0'
+        '0',
       );
     });
   });
@@ -975,7 +977,7 @@ describe('QuoteSummaryActionsComponent', () => {
           .and.returnValue(250);
 
         spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
-          800
+          800,
         );
 
         component.ngAfterViewInit();
@@ -983,7 +985,7 @@ describe('QuoteSummaryActionsComponent', () => {
         expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
           'cx-quote-summary-actions section',
           'bottom',
-          '0'
+          '0',
         );
       });
 
@@ -993,14 +995,14 @@ describe('QuoteSummaryActionsComponent', () => {
           .and.returnValue(378);
 
         spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
-          500
+          500,
         );
         component.ngAfterViewInit();
 
         expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
           'cx-quote-summary-actions section',
           'bottom',
-          '-128px'
+          '-128px',
         );
       });
 

@@ -57,27 +57,27 @@ export class UnitFormComponent implements OnInit {
     switchMap(() =>
       this.unitService.getActiveUnitList().pipe(
         map((units) =>
-          units?.filter((unit) => unit.id !== this.form?.value.uid)
+          units?.filter((unit) => unit.id !== this.form?.value.uid),
         ),
         tap((units) => {
           if (units && units.length === 1) {
             this.form?.get('parentOrgUnit.uid')?.setValue(units[0]?.id);
           }
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
 
   approvalProcess$: Observable<B2BApprovalProcess[]> = this.unitService
     .getApprovalProcesses()
     .pipe(
       filter(isNotUndefined),
-      filter((items) => items.length > 0)
+      filter((items) => items.length > 0),
     );
 
   constructor(
     protected itemService: ItemService<B2BUnit>,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +86,7 @@ export class UnitFormComponent implements OnInit {
 
   createUidWithName(
     name: AbstractControl | null,
-    code: AbstractControl | null
+    code: AbstractControl | null,
   ): void {
     createCodeForEntityName(name, code);
   }

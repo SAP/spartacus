@@ -28,20 +28,22 @@ export class IntendedPickupLocationService
   }
 
   getIntendedLocation(
-    productCode: string
+    productCode: string,
   ): Observable<AugmentedPointOfService | undefined> {
     return this.store.pipe(
       select(
         PickupLocationsSelectors.getIntendedPickupLocationByProductCode(
-          productCode
-        )
-      )
+          productCode,
+        ),
+      ),
     );
   }
 
   getPickupOption(productCode: string): Observable<PickupOption> {
     return this.store.pipe(
-      select(PickupLocationsSelectors.getPickupOptionByProductCode(productCode))
+      select(
+        PickupLocationsSelectors.getPickupOptionByProductCode(productCode),
+      ),
     );
   }
 
@@ -49,22 +51,22 @@ export class IntendedPickupLocationService
     this.store.dispatch(
       PickupLocationActions.SetPickupOption({
         payload: { productCode, pickupOption },
-      })
+      }),
     );
   }
 
   setIntendedLocation(
     productCode: string,
-    location: AugmentedPointOfService
+    location: AugmentedPointOfService,
   ): void {
     this.store.dispatch(
-      PickupLocationActions.AddLocation({ payload: { productCode, location } })
+      PickupLocationActions.AddLocation({ payload: { productCode, location } }),
     );
   }
 
   removeIntendedLocation(productCode: string): void {
     this.store.dispatch(
-      PickupLocationActions.RemoveLocation({ payload: productCode })
+      PickupLocationActions.RemoveLocation({ payload: productCode }),
     );
   }
 }

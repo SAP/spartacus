@@ -81,7 +81,7 @@ describe('Customer Coupon Selectors', () => {
       expect(result).toEqual(emptyCustomerSearcherResult);
 
       store.dispatch(
-        new UserActions.LoadCustomerCouponsSuccess(customerSearcherResult)
+        new UserActions.LoadCustomerCouponsSuccess(customerSearcherResult),
       );
       expect(result).toEqual(customerSearcherResult);
     });
@@ -97,7 +97,7 @@ describe('Customer Coupon Selectors', () => {
       expect(result).toEqual(false);
 
       store.dispatch(
-        new UserActions.LoadCustomerCouponsSuccess(customerSearcherResult)
+        new UserActions.LoadCustomerCouponsSuccess(customerSearcherResult),
       );
       expect(result).toEqual(true);
     });

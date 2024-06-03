@@ -50,7 +50,7 @@ export class AutoFocusDirective
 
   constructor(
     protected elementRef: ElementRef,
-    protected service: AutoFocusService
+    protected service: AutoFocusService,
   ) {
     super(elementRef, service);
   }

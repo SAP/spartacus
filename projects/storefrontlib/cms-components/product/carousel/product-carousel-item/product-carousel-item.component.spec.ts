@@ -72,29 +72,27 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule, OutletModule],
-        declarations: [
-          ProductCarouselItemComponent,
-          MockUrlPipe,
-          MockOutletDirective,
-          MockMediaComponent,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule, OutletModule],
+      declarations: [
+        ProductCarouselItemComponent,
+        MockUrlPipe,
+        MockOutletDirective,
+        MockMediaComponent,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselItemComponent);
@@ -114,19 +112,19 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
   it('should display product name', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-name')
-        .textContent
+        .textContent,
     ).toContain(component.item.name);
   });
 
   it('should display product formatted price', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('.price').textContent
+      fixture.debugElement.nativeElement.querySelector('.price').textContent,
     ).toContain(component.item.price.formattedValue);
   });
 
   it('should display product image', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('cx-media')
+      fixture.debugElement.nativeElement.querySelector('cx-media'),
     ).not.toBeNull();
   });
 
@@ -140,13 +138,13 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
 
   it('should provide ProductListItemContext', () => {
     expect(componentInjector.get(ProductListItemContext)).toBe(
-      componentInjector.get(ProductListItemContextSource)
+      componentInjector.get(ProductListItemContextSource),
     );
   });
 
   it('should push changes of input"product" to context', () => {
     const contextSource: ProductListItemContextSource = componentInjector.get(
-      ProductListItemContextSource
+      ProductListItemContextSource,
     );
     spyOn(contextSource.product$, 'next');
     component.item = mockProduct;
@@ -157,38 +155,26 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
   });
 
   describe('UI test', () => {
-    it(
-      'should render product name in template',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('h3'));
-        expect(el.nativeElement).toBeTruthy();
-        expect(el.nativeElement.innerText).toEqual('Test product');
-      })
-    );
+    it('should render product name in template', waitForAsync(() => {
+      const el = fixture.debugElement.query(By.css('h3'));
+      expect(el.nativeElement).toBeTruthy();
+      expect(el.nativeElement.innerText).toEqual('Test product');
+    }));
 
-    it(
-      'should render product price in template',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('.price'));
-        expect(el.nativeElement).toBeTruthy();
-        expect(el.nativeElement.innerText).toEqual('$100,00');
-      })
-    );
+    it('should render product price in template', waitForAsync(() => {
+      const el = fixture.debugElement.query(By.css('.price'));
+      expect(el.nativeElement).toBeTruthy();
+      expect(el.nativeElement.innerText).toEqual('$100,00');
+    }));
 
-    it(
-      'should render product primary image for the first item',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('cx-media'));
-        expect(el.nativeElement).toBeTruthy();
-      })
-    );
+    it('should render product primary image for the first item', waitForAsync(() => {
+      const el = fixture.debugElement.query(By.css('cx-media'));
+      expect(el.nativeElement).toBeTruthy();
+    }));
 
-    it(
-      'should render missing product image for the 2nd item as well',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('cx-media'));
-        expect(el.nativeElement).toBeTruthy();
-      })
-    );
+    it('should render missing product image for the 2nd item as well', waitForAsync(() => {
+      const el = fixture.debugElement.query(By.css('cx-media'));
+      expect(el.nativeElement).toBeTruthy();
+    }));
   });
 });

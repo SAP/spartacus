@@ -28,7 +28,7 @@ export class ConfiguratorAttributeQuantityService {
    * @returns {boolean} Quantity actions disabled?
    */
   disableQuantityActionsMultiSelection(
-    attribute: Configurator.Attribute
+    attribute: Configurator.Attribute,
   ): boolean {
     return (
       attribute.dataType ===
@@ -61,7 +61,7 @@ export class ConfiguratorAttributeQuantityService {
    */
   withQuantity(
     dataType: Configurator.DataType,
-    uiType: Configurator.UiType
+    uiType: Configurator.UiType,
   ): boolean {
     switch (uiType) {
       case Configurator.UiType.DROPDOWN_PRODUCT:

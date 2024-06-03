@@ -123,14 +123,14 @@ context('CPQ Configuration', () => {
       configurationCpq.selectAttributeAndWait(
         ATTR_COF_CUPS,
         RADGRP,
-        VAL_COF_CUPS_300
+        VAL_COF_CUPS_300,
       );
       configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_300);
 
       configurationCpq.selectAttributeAndWait(
         ATTR_COF_CUPS,
         RADGRP,
-        VAL_COF_CUPS_500
+        VAL_COF_CUPS_500,
       );
       configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_500);
     });
@@ -143,25 +143,25 @@ context('CPQ Configuration', () => {
       configurationCpq.checkValueNotSelected(
         CHKBOX,
         ATTR_COF_MODE,
-        VAL_COF_MODE
+        VAL_COF_MODE,
       );
 
       configurationCpq.selectAttributeAndWait(
         ATTR_COF_MODE,
         CHKBOX,
-        VAL_COF_MODE
+        VAL_COF_MODE,
       );
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
 
       configurationCpq.selectAttributeAndWait(
         ATTR_COF_MODE,
         CHKBOX,
-        VAL_COF_MODE
+        VAL_COF_MODE,
       );
       configurationCpq.checkValueNotSelected(
         CHKBOX,
         ATTR_COF_MODE,
-        VAL_COF_MODE
+        VAL_COF_MODE,
       );
     });
 
@@ -173,44 +173,44 @@ context('CPQ Configuration', () => {
       configurationCpq.checkValueNotSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
-        VAL_CAM_BODY_D850
+        VAL_CAM_BODY_D850,
       );
       configurationCpq.checkValueNotSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
-        VAL_CAM_BODY_EOS80D
+        VAL_CAM_BODY_EOS80D,
       );
 
       configuration.selectAttribute(
         ATTR_CAM_BODY,
         RADGRP_PROD,
-        VAL_CAM_BODY_D850
+        VAL_CAM_BODY_D850,
       );
       configuration.checkValueSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
-        VAL_CAM_BODY_D850
+        VAL_CAM_BODY_D850,
       );
       configurationCpq.checkValueNotSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
-        VAL_CAM_BODY_EOS80D
+        VAL_CAM_BODY_EOS80D,
       );
 
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_BODY,
         RADGRP_PROD,
-        VAL_CAM_BODY_EOS80D
+        VAL_CAM_BODY_EOS80D,
       );
       configurationCpq.checkValueNotSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
-        VAL_CAM_BODY_D850
+        VAL_CAM_BODY_D850,
       );
       configuration.checkValueSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
-        VAL_CAM_BODY_EOS80D
+        VAL_CAM_BODY_EOS80D,
       );
     });
 
@@ -225,18 +225,18 @@ context('CPQ Configuration', () => {
       configurationCpq.checkValueNotSelected(
         DDLB_PROD,
         ATTR_CAM_INS,
-        VAL_CB_INS_Y2
+        VAL_CB_INS_Y2,
       );
 
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_INS,
         DDLB_PROD,
-        VAL_CB_INS_Y2
+        VAL_CB_INS_Y2,
       );
       configurationCpq.checkValueNotSelected(
         DDLB_PROD,
         ATTR_CAM_INS,
-        VAL_NO_OPT_SEL
+        VAL_NO_OPT_SEL,
       );
       configuration.checkValueSelected(DDLB_PROD, ATTR_CAM_INS, VAL_CB_INS_Y2);
     });
@@ -248,35 +248,35 @@ context('CPQ Configuration', () => {
       configuration.checkValueSelected(
         CHKBOX_PROD,
         ATTR_CAM_MC,
-        VAL_CAM_MC_128
+        VAL_CAM_MC_128,
       );
       configurationCpq.checkValueNotSelected(
         CHKBOX_PROD,
         ATTR_CAM_MC,
-        VAL_CAM_MC_64
+        VAL_CAM_MC_64,
       );
 
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_MC,
         CHKBOX_PROD,
-        VAL_CAM_MC_64
+        VAL_CAM_MC_64,
       );
       configuration.checkValueSelected(
         CHKBOX_PROD,
         ATTR_CAM_MC,
-        VAL_CAM_MC_128
+        VAL_CAM_MC_128,
       );
       configuration.checkValueSelected(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_64);
 
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_MC,
         CHKBOX_PROD,
-        VAL_CAM_MC_128
+        VAL_CAM_MC_128,
       );
       configurationCpq.checkValueNotSelected(
         CHKBOX_PROD,
         ATTR_CAM_MC,
-        VAL_CAM_MC_128
+        VAL_CAM_MC_128,
       );
       configuration.checkValueSelected(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_64);
     });
@@ -333,17 +333,17 @@ context('CPQ Configuration', () => {
           configurationCpq.waitForProductCardsLoad(12);
 
           configurationCpq.checkAttributeHeaderDisplayed(
-            ATTR_NAMES.GRP_CAM_MAIN
+            ATTR_NAMES.GRP_CAM_MAIN,
           );
 
           configuration.clickOnNextBtn(GRP_CAM_ACC);
           configurationCpq.checkAttributeHeaderDisplayed(
-            ATTR_NAMES.GRP_CAM_ACC
+            ATTR_NAMES.GRP_CAM_ACC,
           );
 
           configuration.clickOnNextBtn(GRP_CAM_IAW);
           configurationCpq.checkAttributeHeaderDisplayed(
-            ATTR_NAMES.GRP_CAM_IAW
+            ATTR_NAMES.GRP_CAM_IAW,
           );
         });
     });
@@ -355,27 +355,27 @@ context('CPQ Configuration', () => {
       configurationCpq.selectProductCard(
         RADGRP,
         ATTR_CAM_BODY,
-        VAL_CAM_BODY_D850
+        VAL_CAM_BODY_D850,
       );
       configurationCpq.checkPrice(
         RADGRP_PROD,
         '$1,500.00',
         ATTR_CAM_BODY,
-        VAL_CAM_BODY_D850
+        VAL_CAM_BODY_D850,
       );
 
       configurationCpq.checkPrice(
         CHKBOX_PROD,
         '1x($100.00) +$100.00',
         ATTR_CAM_MC,
-        VAL_CAM_MC_128
+        VAL_CAM_MC_128,
       );
       configurationCpq.setQuantity(CHKBOX_PROD, 2, ATTR_CAM_MC, VAL_CAM_MC_128);
       configurationCpq.checkPrice(
         CHKBOX_PROD,
         '2x($100.00) +$200.00',
         ATTR_CAM_MC,
-        VAL_CAM_MC_128
+        VAL_CAM_MC_128,
       );
 
       configurationCpq.selectProductCard(CHKBOX, ATTR_CAM_LEN, VAL_CAM_LEN_SI);
@@ -384,33 +384,33 @@ context('CPQ Configuration', () => {
         CHKBOX_PROD,
         '$800.00',
         ATTR_CAM_LEN,
-        VAL_CAM_LEN_SI
+        VAL_CAM_LEN_SI,
       );
       configurationCpq.checkPrice(
         CHKBOX_PROD,
         '$700.00',
         ATTR_CAM_LEN,
-        VAL_CAM_LEN_NI
+        VAL_CAM_LEN_NI,
       );
 
       configuration.clickOnNextBtn(GRP_CAM_ACC);
       configurationCpq.deSelectProductCard(
         RADGRP,
         ATTR_CAM_BAG,
-        VAL_CAM_BAG_LP
+        VAL_CAM_BAG_LP,
       );
 
       configuration.clickOnNextBtn(GRP_CAM_IAW);
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_PROF,
         RADGRP,
-        VAL_CAM_PROF_Y
+        VAL_CAM_PROF_Y,
       );
       //wait for this option to disappear
       configuration.checkAttrValueNotDisplayed(
         ATTR_CAM_INS,
         DDLB_PROD,
-        VAL_CB_INS_Y2
+        VAL_CB_INS_Y2,
       );
 
       configurationCpq.selectProductCard(DDLB, ATTR_CAM_INS, VAL_CB_INS_P4);
@@ -418,7 +418,7 @@ context('CPQ Configuration', () => {
         DDLB_PROD,
         '$600.00',
         ATTR_CAM_INS,
-        VAL_CB_INS_P4
+        VAL_CB_INS_P4,
       );
       configuration.navigateToOverviewPage();
 

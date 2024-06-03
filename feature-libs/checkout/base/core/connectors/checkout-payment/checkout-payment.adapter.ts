@@ -18,7 +18,7 @@ export abstract class CheckoutPaymentAdapter {
   abstract createPaymentDetails(
     userId: string,
     cartId: string,
-    paymentDetails: PaymentDetails
+    paymentDetails: PaymentDetails,
   ): Observable<PaymentDetails>;
 
   /**
@@ -31,7 +31,7 @@ export abstract class CheckoutPaymentAdapter {
   abstract setPaymentDetails(
     userId: string,
     cartId: string,
-    paymentDetailsId: string
+    paymentDetailsId: string,
   ): Observable<unknown>;
 
   /**

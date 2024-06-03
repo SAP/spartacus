@@ -39,7 +39,7 @@ context('B2B - User Registration', () => {
       it('should fill registration form and register user (CXSPA-215)', () => {
         fillOrganizationUserRegistrationForm(
           getSampleUser(),
-          'Please register my account'
+          'Please register my account',
         );
       });
 
@@ -82,7 +82,7 @@ context('B2B - User Registration', () => {
           fillOrganizationUserRegistrationForm(user);
           submitOrganizationUserRegistrationForm();
           verifyGlobalMessageAfterRegistration(
-            'User with this e-mail address already exists.'
+            'User with this e-mail address already exists.',
           );
         });
       });

@@ -18,7 +18,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef,
-    _data?: any
+    _data?: any,
   ) {
     return EMPTY;
   }
@@ -35,25 +35,23 @@ describe('Order detail reorder component', () => {
   let fixture: ComponentFixture<OrderDetailReorderComponent>;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [OrderDetailReorderComponent],
-        providers: [
-          RouterTestingModule,
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-          {
-            provide: OrderDetailsService,
-            useClass: MockOrderDetailsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [OrderDetailReorderComponent],
+      providers: [
+        RouterTestingModule,
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+        {
+          provide: OrderDetailsService,
+          useClass: MockOrderDetailsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailReorderComponent);
@@ -86,7 +84,7 @@ describe('Order detail reorder component', () => {
       LAUNCH_CALLER.REORDER,
       component.element,
       component['vcr'],
-      dialogData
+      dialogData,
     );
   });
 });

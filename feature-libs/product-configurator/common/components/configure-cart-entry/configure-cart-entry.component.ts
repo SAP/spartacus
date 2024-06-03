@@ -58,7 +58,7 @@ export class ConfigureCartEntryComponent {
       resolveIssues: this.msgBanner && this.hasIssues(),
       navigateToCheckout: isInCheckout,
       productCode: this.cartEntry.product?.code,
-    }))
+    })),
   );
 
   /**
@@ -88,7 +88,7 @@ export class ConfigureCartEntryComponent {
    * @returns - an owner type
    */
   retrieveOwnerTypeFromAbstractOrderType(
-    abstractOrderKey: AbstractOrderKey
+    abstractOrderKey: AbstractOrderKey,
   ): CommonConfigurator.OwnerType {
     switch (abstractOrderKey.type) {
       case AbstractOrderType.ORDER: {
@@ -122,7 +122,7 @@ export class ConfigureCartEntryComponent {
     return this.cartEntry.orderCode
       ? this.commonConfigUtilsService.getComposedOwnerId(
           this.cartEntry.orderCode,
-          entryNumber
+          entryNumber,
         )
       : entryNumber.toString();
   }
@@ -141,7 +141,7 @@ export class ConfigureCartEntryComponent {
     return abstractOrderKey.type !== AbstractOrderType.CART
       ? this.commonConfigUtilsService.getComposedOwnerId(
           abstractOrderKey.id,
-          entryNumber
+          entryNumber,
         )
       : entryNumber.toString();
   }
@@ -211,11 +211,11 @@ export class ConfigureCartEntryComponent {
     return this.routingService.getRouterState().pipe(
       map((routerState) => {
         return routerState.state.semanticRoute === 'checkoutReviewOrder';
-      })
+      }),
     );
   }
 
   constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
   ) {}
 }

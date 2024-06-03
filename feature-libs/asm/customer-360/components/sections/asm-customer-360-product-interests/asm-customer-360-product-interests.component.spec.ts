@@ -173,13 +173,13 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
 
   it('should render a header', () => {
     const productListing = el.query(
-      By.css('cx-asm-customer-360-product-listing')
+      By.css('cx-asm-customer-360-product-listing'),
     );
 
     const title = productListing.query(By.css('.title-link'));
 
     expect(title.nativeElement.textContent).toBe(
-      ' asmCustomer360.productInterests.header '
+      ' asmCustomer360.productInterests.header ',
     );
   });
 
@@ -187,27 +187,27 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
     breakpointSubject.next(BREAKPOINT.lg);
     fixture.detectChanges();
     expect(el.queryAll(By.css('cx-asm-customer-360-product-item')).length).toBe(
-      2
+      2,
     );
 
     breakpointSubject.next(BREAKPOINT.md);
 
     fixture.detectChanges();
     expect(el.queryAll(By.css('cx-asm-customer-360-product-item')).length).toBe(
-      1
+      1,
     );
 
     const productItem = el.queryAll(
-      By.css('cx-asm-customer-360-product-item')
+      By.css('cx-asm-customer-360-product-item'),
     )[0];
     expect(
       productItem.query(By.css('.cx-asm-customer-360-product-item-name'))
-        .nativeElement.textContent
+        .nativeElement.textContent,
     ).toContain(mockProduct1.name);
 
     expect(
       productItem.query(By.css('.cx-asm-customer-360-product-item-code'))
-        .nativeElement.textContent
+        .nativeElement.textContent,
     ).toContain(mockProduct1.code);
   });
 });

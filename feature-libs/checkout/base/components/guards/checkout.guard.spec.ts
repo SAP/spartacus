@@ -38,7 +38,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
 ];
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
-    mockCheckoutSteps
+    mockCheckoutSteps,
   );
   getCheckoutStepRoute = createSpy().and.returnValue('checkoutReviewOrder');
 }
@@ -99,9 +99,9 @@ describe(`CheckoutGuard`, () => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
-              mockCheckoutSteps[0].routeName
+              mockCheckoutSteps[0].routeName,
             )?.paths?.[0]
-          }`
+          }`,
         );
         done();
       })
@@ -117,9 +117,9 @@ describe(`CheckoutGuard`, () => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
-              mockCheckoutSteps[0].routeName
+              mockCheckoutSteps[0].routeName,
             )?.paths?.[0]
-          }`
+          }`,
         );
         done();
       })
@@ -133,9 +133,9 @@ describe(`CheckoutGuard`, () => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
-              mockCheckoutSteps[0].routeName
+              mockCheckoutSteps[0].routeName,
             )?.paths?.[0]
-          }`
+          }`,
         );
         done();
       })
@@ -153,10 +153,10 @@ describe(`CheckoutGuard`, () => {
           `/${
             mockRoutingConfigService.getRouteConfig(
               mockCheckoutStepService.getCheckoutStepRoute(
-                CheckoutStepType.REVIEW_ORDER
-              ) as string
+                CheckoutStepType.REVIEW_ORDER,
+              ) as string,
             )?.paths?.[0]
-          }`
+          }`,
         );
         done();
       })

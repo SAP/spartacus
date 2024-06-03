@@ -404,76 +404,74 @@ describe('ConfigAddToCartButtonComponent', () => {
   let configuratorQuantityService: ConfiguratorQuantityService;
   let keyboardFocusService: KeyboardFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ConfiguratorAddToCartButtonComponent,
-          MockItemCounterComponent,
-          MockCxIconComponent,
-          MockFeatureLevelDirective,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorQuantityService,
-            useClass: MockConfiguratorQuantityService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorCartService,
-            useClass: MockConfiguratorCartService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: OrderHistoryFacade,
-            useClass: MockOrderHistoryFacade,
-          },
-          {
-            provide: CommonConfiguratorUtilsService,
-            useClass: MockCommonConfiguratorUtilsService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorAddToCartButtonComponent,
-            useClass: MockConfiguratorAddToCartButtonComponent,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-          },
-          {
-            provide: IntersectionService,
-            useClass: MockIntersectionService,
-          },
-          {
-            provide: MultiCartFacade,
-            useClass: MockMultiCartFacade,
-          },
-          { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
-        ],
-      })
-        .overrideComponent(ConfiguratorAddToCartButtonComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ConfiguratorAddToCartButtonComponent,
+        MockItemCounterComponent,
+        MockCxIconComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorQuantityService,
+          useClass: MockConfiguratorQuantityService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorCartService,
+          useClass: MockConfiguratorCartService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: OrderHistoryFacade,
+          useClass: MockOrderHistoryFacade,
+        },
+        {
+          provide: CommonConfiguratorUtilsService,
+          useClass: MockCommonConfiguratorUtilsService,
+        },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorAddToCartButtonComponent,
+          useClass: MockConfiguratorAddToCartButtonComponent,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+        },
+        {
+          provide: IntersectionService,
+          useClass: MockIntersectionService,
+        },
+        {
+          provide: MultiCartFacade,
+          useClass: MockMultiCartFacade,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAddToCartButtonComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     elementMock = {
@@ -489,7 +487,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     configuratorQuantityService = TestBed.inject(ConfiguratorQuantityService);
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService
+      ConfiguratorStorefrontUtilsService,
     );
     intersectionService = TestBed.inject(IntersectionService);
     keyboardFocusService = TestBed.inject(KeyboardFocusService);
@@ -500,13 +498,13 @@ describe('ConfigAddToCartButtonComponent', () => {
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
     spyOn(configuratorQuantityService, 'setQuantity').and.callThrough();
     configuratorCartService = TestBed.inject(
-      ConfiguratorCartService as Type<ConfiguratorCartService>
+      ConfiguratorCartService as Type<ConfiguratorCartService>,
     );
     spyOn(configuratorCartService, 'getEntry').and.callThrough();
     spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
     spyOn(
       configuratorStorefrontUtilsService,
-      'focusFirstActiveElement'
+      'focusFirstActiveElement',
     ).and.callThrough();
     spyOn(keyboardFocusService, 'clear').and.callThrough();
   });
@@ -522,25 +520,25 @@ describe('ConfigAddToCartButtonComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-add-to-cart-btn-container'
+      '.cx-add-to-cart-btn-container',
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-quantity-add-to-cart-container'
+      '.cx-quantity-add-to-cart-container',
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-quantity'
+      '.cx-quantity',
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'button.cx-add-to-cart-btn'
+      'button.cx-add-to-cart-btn',
     );
   });
 
@@ -551,20 +549,20 @@ describe('ConfigAddToCartButtonComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-display-only-btn-container'
+      '.cx-display-only-btn-container',
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'button.btn-secondary.cx-display-only-btn'
+      'button.btn-secondary.cx-display-only-btn',
     );
 
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       'button.btn-secondary.cx-display-only-btn',
-      'configurator.addToCart.buttonClose'
+      'configurator.addToCart.buttonClose',
     );
   });
 
@@ -601,7 +599,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       initialize();
       component.quantityControl.setValue(QUANTITY_CHANGED);
       expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(
-        QUANTITY_CHANGED
+        QUANTITY_CHANGED,
       );
     });
   });
@@ -612,10 +610,10 @@ describe('ConfigAddToCartButtonComponent', () => {
       performUpdateCart();
       expect(routingService.go).toHaveBeenCalledWith(
         navParamsOverview,
-        queryParams
+        queryParams,
       );
       expect(
-        configuratorGroupsService.setGroupStatusVisited
+        configuratorGroupsService.setGroupStatusVisited,
       ).toHaveBeenCalled();
     });
 
@@ -629,7 +627,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       mockProductConfiguration.isCartEntryUpdateRequired = false;
       performUpdateOnOV();
       expect(
-        configuratorCommonsService.removeConfiguration
+        configuratorCommonsService.removeConfiguration,
       ).toHaveBeenCalledTimes(0);
     });
 
@@ -638,7 +636,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       performUpdateCart();
       expect(
-        configuratorCommonsService.removeConfiguration
+        configuratorCommonsService.removeConfiguration,
       ).toHaveBeenCalledTimes(0);
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
@@ -661,7 +659,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       component.onAddToCart(mockProductConfiguration, mockRouterData);
       expect(routingService.go).toHaveBeenCalledWith(
         navParamsOverview,
-        queryParams
+        queryParams,
       );
     });
 
@@ -669,7 +667,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       ensureProductBound();
       component.onAddToCart(mockProductConfiguration, mockRouterData);
       expect(
-        configuratorCommonsService.removeConfiguration
+        configuratorCommonsService.removeConfiguration,
       ).toHaveBeenCalledTimes(1);
     });
 
@@ -696,7 +694,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       //not needed to remove the configuration here, as clean up is done in router listener
       performAddToCartOnOverview();
       expect(
-        configuratorCommonsService.removeConfiguration
+        configuratorCommonsService.removeConfiguration,
       ).toHaveBeenCalledTimes(0);
     });
   });
@@ -710,11 +708,11 @@ describe('ConfigAddToCartButtonComponent', () => {
         mockProductConfiguration,
         mockOwner.configuratorType,
         false,
-        mockProductConfiguration.productCode
+        mockProductConfiguration.productCode,
       );
       expect(routingService.go).toHaveBeenCalledWith(
         navParamsOverview,
-        queryParams
+        queryParams,
       );
     });
 
@@ -726,14 +724,14 @@ describe('ConfigAddToCartButtonComponent', () => {
         { ...mockProductConfiguration, nextOwner: undefined },
         mockOwner.configuratorType,
         false,
-        mockProductConfiguration.productCode
+        mockProductConfiguration.productCode,
       );
       expect(routingService.go).toHaveBeenCalledWith(
         {
           ...navParamsOverview,
           params: { ...navParamsOverview.params, entityKey: 'INITIAL' },
         },
-        queryParams
+        queryParams,
       );
     });
   });
@@ -745,7 +743,7 @@ describe('ConfigAddToCartButtonComponent', () => {
         mockProductConfiguration.owner,
         true,
         true,
-        true
+        true,
       );
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
@@ -755,7 +753,7 @@ describe('ConfigAddToCartButtonComponent', () => {
         mockProductConfiguration.owner,
         true,
         true,
-        false
+        false,
       );
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
@@ -826,17 +824,17 @@ describe('ConfigAddToCartButtonComponent', () => {
   describe('Floating button', () => {
     it('should make button sticky', (done) => {
       spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
-        elementMock as unknown as HTMLElement
+        elementMock as unknown as HTMLElement,
       );
       spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
       component.ngOnInit();
       component.container$.pipe(take(1), delay(0)).subscribe(() => {
         expect(
-          configuratorStorefrontUtilsService.changeStyling
+          configuratorStorefrontUtilsService.changeStyling,
         ).toHaveBeenCalledWith(
           'cx-configurator-add-to-cart-button',
           'position',
-          'sticky'
+          'sticky',
         );
         done();
       });
@@ -844,17 +842,17 @@ describe('ConfigAddToCartButtonComponent', () => {
 
     it('should make button fixed when not intersecting', (done) => {
       spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
-        elementMock as unknown as HTMLElement
+        elementMock as unknown as HTMLElement,
       );
       component.ngOnInit();
       component.container$.pipe(take(1), delay(0)).subscribe(() => {
         spyOn(intersectionService, 'isIntersecting').and.callThrough();
         expect(
-          configuratorStorefrontUtilsService.changeStyling
+          configuratorStorefrontUtilsService.changeStyling,
         ).toHaveBeenCalledWith(
           'cx-configurator-add-to-cart-button',
           'position',
-          'fixed'
+          'fixed',
         );
         done();
       });
@@ -869,7 +867,7 @@ describe('ConfigAddToCartButtonComponent', () => {
         totalPrice: '$623.56',
       };
       expect(component.extractConfigPrices(mockProductConfiguration)).toEqual(
-        result
+        result,
       );
     });
 
@@ -881,8 +879,8 @@ describe('ConfigAddToCartButtonComponent', () => {
       };
       expect(
         component.extractConfigPrices(
-          mockProductConfigurationWithoutPriceSummary
-        )
+          mockProductConfigurationWithoutPriceSummary,
+        ),
       ).toEqual(result);
     });
 
@@ -893,7 +891,7 @@ describe('ConfigAddToCartButtonComponent', () => {
         totalPrice: '$623.56',
       };
       expect(
-        component.extractConfigPrices(mockProductConfigurationWithoutBasePrice)
+        component.extractConfigPrices(mockProductConfigurationWithoutBasePrice),
       ).toEqual(result);
     });
 
@@ -904,7 +902,7 @@ describe('ConfigAddToCartButtonComponent', () => {
         totalPrice: '$623.56',
       };
       expect(
-        component.extractConfigPrices(mockProductConfigurationWithoutBasePrice)
+        component.extractConfigPrices(mockProductConfigurationWithoutBasePrice),
       ).toEqual(result);
     });
 
@@ -916,8 +914,8 @@ describe('ConfigAddToCartButtonComponent', () => {
       };
       expect(
         component.extractConfigPrices(
-          mockProductConfigurationWithoutSelectedOptions
-        )
+          mockProductConfigurationWithoutSelectedOptions,
+        ),
       ).toEqual(result);
     });
 
@@ -928,7 +926,9 @@ describe('ConfigAddToCartButtonComponent', () => {
         totalPrice: '0',
       };
       expect(
-        component.extractConfigPrices(mockProductConfigurationWithoutTotalPrice)
+        component.extractConfigPrices(
+          mockProductConfigurationWithoutTotalPrice,
+        ),
       ).toEqual(result);
     });
 
@@ -940,8 +940,8 @@ describe('ConfigAddToCartButtonComponent', () => {
       };
       expect(
         component.extractConfigPrices(
-          mockProductConfigurationWithPriceSummaryButNoPrices
-        )
+          mockProductConfigurationWithPriceSummaryButNoPrices,
+        ),
       ).toEqual(result);
     });
 
@@ -964,10 +964,10 @@ describe('ConfigAddToCartButtonComponent', () => {
         'aria-label',
         component.getButtonResourceKey(
           mockRouterData,
-          mockProductConfiguration
+          mockProductConfiguration,
         ) +
           ' ' +
-          expectedA11YString
+          expectedA11YString,
       );
     });
   });
@@ -978,7 +978,7 @@ describe('ConfigAddToCartButtonComponent', () => {
 
     function prepareTestData(
       isOwnerCartEntry: boolean,
-      isCartEntryUpdateRequired: boolean
+      isCartEntryUpdateRequired: boolean,
     ) {
       routerData = {
         pageType: ConfiguratorRouter.PageType.CONFIGURATION,
@@ -993,28 +993,28 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('should return `configurator.addToCart.buttonUpdateCart` for cart', () => {
       prepareTestData(true, true);
       expect(component.getButtonResourceKey(routerData, config)).toBe(
-        'configurator.addToCart.buttonUpdateCart'
+        'configurator.addToCart.buttonUpdateCart',
       );
     });
 
     it('should return `configurator.addToCart.buttonUpdateCart` for quote', () => {
       prepareTestData(true, true);
       expect(component.getButtonResourceKey(routerData, config, true)).toBe(
-        'configurator.addToCart.buttonUpdateCart'
+        'configurator.addToCart.buttonUpdateCart',
       );
     });
 
     it('should return `configurator.addToCart.buttonAfterAddToCart`', () => {
       prepareTestData(true, false);
       expect(component.getButtonResourceKey(routerData, config)).toBe(
-        'configurator.addToCart.buttonAfterAddToCart'
+        'configurator.addToCart.buttonAfterAddToCart',
       );
     });
 
     it('should return `configurator.addToCart.buttonForQuote` for quote', () => {
       prepareTestData(true, false);
       expect(component.getButtonResourceKey(routerData, config, true)).toBe(
-        'configurator.addToCart.buttonForQuote'
+        'configurator.addToCart.buttonForQuote',
       );
     });
 
@@ -1022,7 +1022,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       prepareTestData(false, false);
 
       expect(component.getButtonResourceKey(routerData, config)).toBe(
-        'configurator.addToCart.button'
+        'configurator.addToCart.button',
       );
     });
   });
@@ -1064,19 +1064,19 @@ describe('ConfigAddToCartButtonComponent', () => {
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
       expect(
-        configuratorStorefrontUtilsService.focusFirstActiveElement
+        configuratorStorefrontUtilsService.focusFirstActiveElement,
       ).toHaveBeenCalledTimes(1);
     }));
 
     it('focusOverviewInTabBar should not call clear and focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-        of(mockProductConfigurationWithoutBasePrice)
+        of(mockProductConfigurationWithoutBasePrice),
       );
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(keyboardFocusService.clear).toHaveBeenCalledTimes(0);
       expect(
-        configuratorStorefrontUtilsService.focusFirstActiveElement
+        configuratorStorefrontUtilsService.focusFirstActiveElement,
       ).toHaveBeenCalledTimes(0);
     }));
 
@@ -1084,7 +1084,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       component['navigateToOverview'](
         mockRouterData.owner.configuratorType,
         mockRouterData.owner,
-        mockProductConfiguration.productCode
+        mockProductConfiguration.productCode,
       );
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(routingService.go).toHaveBeenCalledWith(
@@ -1095,10 +1095,10 @@ describe('ConfigAddToCartButtonComponent', () => {
             entityKey: mockRouterData.owner.id,
           },
         },
-        queryParams
+        queryParams,
       );
       expect(
-        configuratorStorefrontUtilsService.focusFirstActiveElement
+        configuratorStorefrontUtilsService.focusFirstActiveElement,
       ).toHaveBeenCalledTimes(1);
     }));
   });
@@ -1128,7 +1128,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       component['getTranslationKeyForAddToCart'](true)
         .subscribe((translationKey) => {
           expect(translationKey).toBe(
-            'configurator.addToCart.confirmationQuoteUpdate'
+            'configurator.addToCart.confirmationQuoteUpdate',
           );
         })
         .unsubscribe();
@@ -1148,7 +1148,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       component['getTranslationKeyForAddToCart'](false)
         .subscribe((translationKey) => {
           expect(translationKey).toBe(
-            'configurator.addToCart.confirmationUpdate'
+            'configurator.addToCart.confirmationUpdate',
           );
         })
         .unsubscribe();

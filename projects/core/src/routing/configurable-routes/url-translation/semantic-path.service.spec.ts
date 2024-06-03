@@ -82,7 +82,7 @@ describe('SemanticPathService', () => {
         expectedResult: any[];
       }) {
         spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
-          ...routesConfigs
+          ...routesConfigs,
         );
         expect(service.transform(urlCommands)).toEqual(expectedResult);
       }

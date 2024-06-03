@@ -20,20 +20,20 @@ export class UnitOrderConnector {
     pageSize?: number,
     currentPage?: number,
     filters?: string,
-    sort?: string
+    sort?: string,
   ): Observable<OrderHistoryList> {
     return this.adapter.loadUnitOrderHistory(
       userId,
       pageSize,
       currentPage,
       filters,
-      sort
+      sort,
     );
   }
 
   public getUnitOrderDetail(
     userId: string,
-    orderCode: string
+    orderCode: string,
   ): Observable<Order> {
     return this.adapter.loadUnitOrderDetail(userId, orderCode);
   }

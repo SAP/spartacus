@@ -33,7 +33,7 @@ export class CancelOrReturnItemsComponent {
 
   setAll(form: UntypedFormGroup): void {
     this.entries.forEach((entry) =>
-      this.getControl(form, entry).setValue(this.getMaxAmendQuantity(entry))
+      this.getControl(form, entry).setValue(this.getMaxAmendQuantity(entry)),
     );
   }
 

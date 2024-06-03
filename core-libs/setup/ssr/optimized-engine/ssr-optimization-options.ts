@@ -147,7 +147,7 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   reuseCurrentRendering: true,
   debug: false,
   renderingStrategyResolver: defaultRenderingStrategyResolver(
-    defaultRenderingStrategyResolverOptions
+    defaultRenderingStrategyResolverOptions,
   ),
   logger: new DefaultExpressServerLogger(),
 };

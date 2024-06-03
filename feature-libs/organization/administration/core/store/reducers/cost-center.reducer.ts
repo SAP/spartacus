@@ -12,7 +12,7 @@ export const costCentersInitialState: ListModel | undefined = undefined;
 
 export function costCentersEntitiesReducer(
   state = costCenterInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): CostCenter | undefined {
   switch (action.type) {
     case CostCenterActions.LOAD_COST_CENTER_SUCCESS:
@@ -25,7 +25,7 @@ export function costCentersEntitiesReducer(
 
 export function costCentersListReducer(
   state = costCentersInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case CostCenterActions.LOAD_COST_CENTERS_SUCCESS:
@@ -36,7 +36,7 @@ export function costCentersListReducer(
 
 export function costCenterAssignedBudgetsListReducer(
   state = costCentersInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case CostCenterActions.LOAD_ASSIGNED_BUDGETS_SUCCESS:

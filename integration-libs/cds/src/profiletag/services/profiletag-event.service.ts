@@ -50,7 +50,7 @@ export class ProfileTagEventService implements OnDestroy {
   private profileTagWindow: ProfileTagWindowObject;
   private profileTagEvents$ = merge(
     this.setConsentReference(),
-    this.debugModeChanged()
+    this.debugModeChanged(),
   );
 
   protected logger = inject(LoggerService);
@@ -59,7 +59,7 @@ export class ProfileTagEventService implements OnDestroy {
     private winRef: WindowRef,
     private config: CdsConfig,
     private baseSiteService: BaseSiteService,
-    @Inject(PLATFORM_ID) private platform: any
+    @Inject(PLATFORM_ID) private platform: any,
   ) {
     this.initWindow();
     this.setConsentReferenceFromLocalStorage();
@@ -68,7 +68,7 @@ export class ProfileTagEventService implements OnDestroy {
   private setConsentReferenceFromLocalStorage(): void {
     if (this.winRef.isBrowser() && this.winRef.localStorage) {
       const profileTagMetadata = JSON.parse(
-        this.winRef.localStorage.getItem('profiletag') || '{"cr":{}}'
+        this.winRef.localStorage.getItem('profiletag') || '{"cr":{}}',
       );
       this.subscription.add(
         this.baseSiteService
@@ -78,9 +78,9 @@ export class ProfileTagEventService implements OnDestroy {
             this.latestConsentReference = new BehaviorSubject(
               profileTagMetadata.cr[
                 `${baseSite}-consentReference`
-              ]?.consentReference
+              ]?.consentReference,
             );
-          })
+          }),
       );
     }
   }
@@ -93,11 +93,11 @@ export class ProfileTagEventService implements OnDestroy {
     if (!this.consentReference$ && this.winRef.nativeWindow) {
       this.consentReference$ = fromEvent(
         this.winRef.nativeWindow,
-        InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED
+        InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED,
       ).pipe(
         map((event) => <ConsentReferenceEvent>event),
         map((event) => event.detail.consentReference),
-        shareReplay(1)
+        shareReplay(1),
       );
     }
     return this.consentReference$;
@@ -114,7 +114,7 @@ export class ProfileTagEventService implements OnDestroy {
       filter((siteId: string) => Boolean(siteId)),
       distinctUntilChanged(),
       tap(() => this.addScript()),
-      tap((siteId: string) => this.createConfig(siteId))
+      tap((siteId: string) => this.createConfig(siteId)),
     );
   }
 
@@ -123,7 +123,7 @@ export class ProfileTagEventService implements OnDestroy {
       this.profileTagWindow?.Y_TRACKING?.eventLayer?.push(event);
     } catch (e) {
       this.logger.log(
-        `Unexpected error when calling profiletag push method ${e}`
+        `Unexpected error when calling profiletag push method ${e}`,
       );
     }
   }
@@ -133,7 +133,7 @@ export class ProfileTagEventService implements OnDestroy {
       ? this.getConsentReference().pipe(
           tap((consentReference) => {
             this.latestConsentReference.next(consentReference);
-          })
+          }),
         )
       : of(null);
   }
@@ -142,10 +142,10 @@ export class ProfileTagEventService implements OnDestroy {
     return this.winRef.nativeWindow
       ? fromEvent(
           this.winRef.nativeWindow,
-          InternalProfileTagEventNames.DEBUG_FLAG_CHANGED
+          InternalProfileTagEventNames.DEBUG_FLAG_CHANGED,
         ).pipe(
           map((event) => <DebugEvent>event),
-          tap((event) => (this.profileTagDebug = event.detail.debug))
+          tap((event) => (this.profileTagDebug = event.detail.debug)),
         )
       : of();
   }
@@ -168,7 +168,7 @@ export class ProfileTagEventService implements OnDestroy {
    */
   private isScriptLoaded(scriptSource: string): boolean {
     return !!this.winRef.document.querySelector(
-      `script[src="${scriptSource}"]`
+      `script[src="${scriptSource}"]`,
     );
   }
 

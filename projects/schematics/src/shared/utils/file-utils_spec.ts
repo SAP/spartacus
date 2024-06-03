@@ -296,7 +296,7 @@ export class ServiceNameService extends LaunchDialogService {
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner(
   SPARTACUS_SCHEMATICS,
-  collectionPath
+  collectionPath,
 );
 
 describe('File utils', () => {
@@ -322,20 +322,20 @@ describe('File utils', () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runSchematic(
       'add-spartacus',
       defaultOptions,
-      appTree
+      appTree,
     );
   });
 
@@ -391,7 +391,7 @@ describe('File utils', () => {
       const result = insertComponentSelectorComment(
         HTML_EXAMPLE,
         componentDeprecation.selector,
-        (componentDeprecation.removedProperties || [])[0]
+        (componentDeprecation.removedProperties || [])[0],
       );
 
       expect(result).toBeTruthy();
@@ -407,7 +407,7 @@ describe('File utils', () => {
       const result = insertHtmlComment(
         HTML_EXAMPLE_NGIF,
         (componentDeprecation.removedProperties || [])[0],
-        angularCompiler
+        angularCompiler,
       );
 
       expect(result).toBeTruthy();
@@ -437,7 +437,7 @@ describe('File utils', () => {
         filePath,
         173,
         'AppComponent',
-        change
+        change,
       );
       commitChanges(appTree, filePath, [testChange], InsertDirection.LEFT);
 
@@ -514,7 +514,7 @@ describe('File utils', () => {
         'xxx.ts',
         INHERITANCE_TEST_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
 
       expect(
@@ -522,7 +522,7 @@ describe('File utils', () => {
           class: USER_ADDRESS_SERVICE,
           importPath: SPARTACUS_CORE,
           deprecatedParams: [],
-        })
+        }),
       ).toEqual(false);
     });
     it('should return false if the inheriting class import condition not satisfied', () => {
@@ -530,7 +530,7 @@ describe('File utils', () => {
         'xxx.ts',
         INHERITANCE_IMPORT_TEST_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
@@ -541,7 +541,7 @@ describe('File utils', () => {
           class: USER_ADDRESS_SERVICE,
           importPath: SPARTACUS_CORE,
           deprecatedParams,
-        })
+        }),
       ).toEqual(false);
     });
     it('should return false if the parameter import condition not satisfied', () => {
@@ -549,7 +549,7 @@ describe('File utils', () => {
         'xxx.ts',
         IMPORT_MISSING_TEST_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
@@ -560,7 +560,7 @@ describe('File utils', () => {
           class: USER_ADDRESS_SERVICE,
           importPath: SPARTACUS_CORE,
           deprecatedParams,
-        })
+        }),
       ).toEqual(false);
     });
     it('should return false if the constructor condition is not satisfied', () => {
@@ -568,7 +568,7 @@ describe('File utils', () => {
         'xxx.ts',
         NO_CONSTRUCTOR_TEST_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
@@ -579,7 +579,7 @@ describe('File utils', () => {
           class: USER_ADDRESS_SERVICE,
           importPath: SPARTACUS_CORE,
           deprecatedParams,
-        })
+        }),
       ).toEqual(false);
     });
     it('should return true even if the parameter lengths condition is not satisfied', () => {
@@ -587,7 +587,7 @@ describe('File utils', () => {
         'xxx.ts',
         PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
@@ -598,7 +598,7 @@ describe('File utils', () => {
           class: USER_ADDRESS_SERVICE,
           importPath: SPARTACUS_CORE,
           deprecatedParams,
-        })
+        }),
       ).toEqual(true);
     });
     it('should return false if the parameter order is not satisfied', () => {
@@ -606,7 +606,7 @@ describe('File utils', () => {
         'xxx.ts',
         WRONG_PARAMETER_ORDER_TEST_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
@@ -618,7 +618,7 @@ describe('File utils', () => {
           class: USER_ADDRESS_SERVICE,
           importPath: SPARTACUS_CORE,
           deprecatedParams,
-        })
+        }),
       ).toEqual(false);
     });
     it('should return false if the super() call does NOT exist', () => {
@@ -626,7 +626,7 @@ describe('File utils', () => {
         'xxx.ts',
         NO_SUPER_TEST_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
@@ -637,7 +637,7 @@ describe('File utils', () => {
           class: USER_ADDRESS_SERVICE,
           importPath: SPARTACUS_CORE,
           deprecatedParams,
-        })
+        }),
       ).toEqual(false);
     });
     it('should return false if an expression call exists, but it is NOT the super(); call', () => {
@@ -645,7 +645,7 @@ describe('File utils', () => {
         'xxx.ts',
         EXPRESSION_NO_SUPER_TEST_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
@@ -656,7 +656,7 @@ describe('File utils', () => {
           class: USER_ADDRESS_SERVICE,
           importPath: SPARTACUS_CORE,
           deprecatedParams,
-        })
+        }),
       ).toEqual(false);
     });
     it('should return false if the expected number of parameters is not passed to super() call', () => {
@@ -664,7 +664,7 @@ describe('File utils', () => {
         'xxx.ts',
         SUPER_PARAMETER_NUMBER_TEST_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
@@ -675,7 +675,7 @@ describe('File utils', () => {
           class: USER_ADDRESS_SERVICE,
           importPath: SPARTACUS_CORE,
           deprecatedParams,
-        })
+        }),
       ).toEqual(false);
     });
   });
@@ -686,11 +686,11 @@ describe('File utils', () => {
         'xxx.ts',
         INHERITANCE_VALID_TEST_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
 
       expect(
-        isInheriting(getSourceNodes(source), USER_ADDRESS_SERVICE)
+        isInheriting(getSourceNodes(source), USER_ADDRESS_SERVICE),
       ).toEqual(true);
     });
     it('should return false if the class is NOT inheriting the provided service name', () => {
@@ -698,7 +698,7 @@ describe('File utils', () => {
         'xxx.ts',
         INHERITANCE_VALID_TEST_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
 
       expect(isInheriting(getSourceNodes(source), 'Xxx')).toEqual(false);
@@ -712,7 +712,7 @@ describe('File utils', () => {
         sourcePath,
         VALID_ADD_CONSTRUCTOR_PARAM_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const nodes = getSourceNodes(source);
       const constructorNode = findConstructor(nodes);
@@ -725,17 +725,17 @@ describe('File utils', () => {
         source,
         sourcePath,
         constructorNode,
-        paramToAdd
+        paramToAdd,
       );
       expect(changes.length).toEqual(3);
       expect(changes[0].description).toEqual(
-        `Inserted , authService: AuthService into position 288 of ${sourcePath}`
+        `Inserted , authService: AuthService into position 288 of ${sourcePath}`,
       );
       expect(changes[1].description).toEqual(
-        `Inserted , AuthService into position 124 of ${sourcePath}`
+        `Inserted , AuthService into position 124 of ${sourcePath}`,
       );
       expect(changes[2].description).toEqual(
-        `Inserted , authService into position 311 of ${sourcePath}`
+        `Inserted , authService into position 311 of ${sourcePath}`,
       );
     });
     describe('when the class has additional services injected', () => {
@@ -745,7 +745,7 @@ describe('File utils', () => {
           sourcePath,
           VALID_ADD_CONSTRUCTOR_PARAM_WITH_ADDITIONAL_INJECTED_SERVICE_CLASS,
           ts.ScriptTarget.Latest,
-          true
+          true,
         );
         const nodes = getSourceNodes(source);
         const constructorNode = findConstructor(nodes);
@@ -758,17 +758,17 @@ describe('File utils', () => {
           source,
           sourcePath,
           constructorNode,
-          paramToAdd
+          paramToAdd,
         );
         expect(changes.length).toEqual(3);
         expect(changes[0].description).toEqual(
-          `Inserted , authService: AuthService into position 354 of ${sourcePath}`
+          `Inserted , authService: AuthService into position 354 of ${sourcePath}`,
         );
         expect(changes[1].description).toEqual(
-          `Inserted , AuthService into position 140 of ${sourcePath}`
+          `Inserted , AuthService into position 140 of ${sourcePath}`,
         );
         expect(changes[2].description).toEqual(
-          `Inserted , authService into position 384 of ${sourcePath}`
+          `Inserted , authService into position 384 of ${sourcePath}`,
         );
       });
     });
@@ -779,7 +779,7 @@ describe('File utils', () => {
           sourcePath,
           VALID_ADD_CONSTRUCTOR_PARAM_CLASS,
           ts.ScriptTarget.Latest,
-          true
+          true,
         );
         const nodes = getSourceNodes(source);
         const constructorNode = findConstructor(nodes);
@@ -796,20 +796,20 @@ describe('File utils', () => {
           source,
           sourcePath,
           constructorNode,
-          paramToAdd
+          paramToAdd,
         );
         expect(changes.length).toEqual(4);
         expect(changes[0].description).toEqual(
-          `Inserted , @Inject(PLATFORM_ID) platform: any into position 288 of ${sourcePath}`
+          `Inserted , @Inject(PLATFORM_ID) platform: any into position 288 of ${sourcePath}`,
         );
         expect(changes[1].description).toContain(
-          `import { Inject } from '@angular/core' into position 153 of ${sourcePath}`
+          `import { Inject } from '@angular/core' into position 153 of ${sourcePath}`,
         );
         expect(changes[2].description).toContain(
-          `import { PLATFORM_ID } from '@angular/core' into position 153 of ${sourcePath}`
+          `import { PLATFORM_ID } from '@angular/core' into position 153 of ${sourcePath}`,
         );
         expect(changes[3].description).toEqual(
-          `Inserted , platform into position 311 of ${sourcePath}`
+          `Inserted , platform into position 311 of ${sourcePath}`,
         );
       });
     });
@@ -822,7 +822,7 @@ describe('File utils', () => {
         sourcePath,
         VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const nodes = getSourceNodes(source);
       const constructorNode = findConstructor(nodes);
@@ -835,24 +835,24 @@ describe('File utils', () => {
         source,
         sourcePath,
         constructorNode,
-        paramToRemove
+        paramToRemove,
       );
       expect(changes.length).toEqual(6);
       expect(changes[0].description).toEqual(
-        `Removed FeatureConfigService, into position 81 of ${sourcePath}`
+        `Removed FeatureConfigService, into position 81 of ${sourcePath}`,
       );
       expect(changes[1].description).toEqual(
-        `Removed , into position 308 of ${sourcePath}`
+        `Removed , into position 308 of ${sourcePath}`,
       );
       expect(changes[2].description).toEqual(
-        `Removed featureConfigService?: FeatureConfigService into position 318 of ${sourcePath}`
+        `Removed featureConfigService?: FeatureConfigService into position 318 of ${sourcePath}`,
       );
       expect(changes[3]).toEqual(new NoopChange());
       expect(changes[4].description).toEqual(
-        `Removed , into position 400 of ${sourcePath}`
+        `Removed , into position 400 of ${sourcePath}`,
       );
       expect(changes[5].description).toEqual(
-        `Removed featureConfigService into position 402 of ${sourcePath}`
+        `Removed featureConfigService into position 402 of ${sourcePath}`,
       );
     });
   });
@@ -883,7 +883,7 @@ describe('File utils', () => {
     it('should build a proper comment', () => {
       const comment = 'test';
       expect(buildSpartacusComment(comment)).toEqual(
-        `// ${TODO_SPARTACUS} ${comment}\n`
+        `// ${TODO_SPARTACUS} ${comment}\n`,
       );
     });
   });
@@ -895,7 +895,7 @@ describe('File utils', () => {
         filePath,
         CONFIG_DEPRECATION_TEST,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
 
       const testComment = `// test comment\n`;
@@ -903,7 +903,7 @@ describe('File utils', () => {
         filePath,
         source,
         ANONYMOUS_CONSENTS,
-        testComment
+        testComment,
       );
       expect(changes.length).toEqual(3);
     });
@@ -920,7 +920,7 @@ describe('File utils', () => {
         filePath,
         source,
         identifierName,
-        commentToInsert
+        commentToInsert,
       );
       expect(changes).toEqual([
         new InsertChange(filePath, 158, commentToInsert),
@@ -953,7 +953,7 @@ describe('File utils', () => {
       const lines = getLineFromTSFile(
         appTree,
         lineFilePath,
-        content.indexOf(testLine)
+        content.indexOf(testLine),
       );
 
       expect(lines[0]).toEqual(content.indexOf(testLine));
@@ -967,7 +967,7 @@ describe('File utils', () => {
         sourcePath,
         SINGLE_DECORATOR_CONSTRUCTOR,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const paramToRemove: ClassType = {
         className: PLATFORM,
@@ -984,14 +984,14 @@ describe('File utils', () => {
       const changes = removeInjectImports(
         source,
         constructorNode,
-        paramToRemove
+        paramToRemove,
       );
       expect(changes.length).toEqual(2);
       expect(changes[0].description).toEqual(
-        `Removed Inject, into position 10 of ${sourcePath}`
+        `Removed Inject, into position 10 of ${sourcePath}`,
       );
       expect(changes[1].description).toContain(
-        `Removed PLATFORM_ID into position 30 of ${sourcePath}`
+        `Removed PLATFORM_ID into position 30 of ${sourcePath}`,
       );
     });
     it('should remove ONLY injection token when there are many decorators in the constructor', () => {
@@ -1000,7 +1000,7 @@ describe('File utils', () => {
         sourcePath,
         MULTIPLE_DECORATOR_CONSTRUCTOR,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const paramToRemove: ClassType = {
         className: PLATFORM,
@@ -1017,11 +1017,11 @@ describe('File utils', () => {
       const changes = removeInjectImports(
         source,
         constructorNode,
-        paramToRemove
+        paramToRemove,
       );
       expect(changes.length).toEqual(1);
       expect(changes[0].description).toContain(
-        `Removed PLATFORM_ID into position 30 of ${sourcePath}`
+        `Removed PLATFORM_ID into position 30 of ${sourcePath}`,
       );
     });
   });
@@ -1032,7 +1032,7 @@ describe('File utils', () => {
         'xxx.ts',
         SINGLE_DECORATOR_CONSTRUCTOR,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const nodes = getSourceNodes(source);
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -1045,7 +1045,7 @@ describe('File utils', () => {
         'xxx.ts',
         MULTIPLE_DECORATOR_CONSTRUCTOR,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const nodes = getSourceNodes(source);
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

@@ -14,7 +14,7 @@ export const userGroupsInitialState: ListModel | undefined = undefined;
 
 export function userGroupEntitiesReducer(
   state = userGroupInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): UserGroup | undefined {
   switch (action.type) {
     case UserGroupActions.LOAD_USER_GROUP_SUCCESS:
@@ -33,7 +33,7 @@ export function userGroupEntitiesReducer(
 
 export function userGroupsListReducer(
   state = userGroupsInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case UserGroupActions.LOAD_USER_GROUPS_SUCCESS:
@@ -44,7 +44,7 @@ export function userGroupsListReducer(
 
 export function userGroupAvailableOrderApprovalPermissionsListReducer(
   state = userGroupsInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case UserGroupActions.LOAD_USER_GROUP_PERMISSIONS_SUCCESS:
@@ -55,7 +55,7 @@ export function userGroupAvailableOrderApprovalPermissionsListReducer(
 
 export function userGroupAvailablOrgCustomersListReducer(
   state = userGroupsInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_SUCCESS:

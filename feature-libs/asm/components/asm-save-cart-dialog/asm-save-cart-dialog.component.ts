@@ -37,7 +37,7 @@ export class AsmSaveCartDialogComponent implements OnInit {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected savedCartFacade: SavedCartFacade
+    protected savedCartFacade: SavedCartFacade,
   ) {}
 
   ngOnInit(): void {

@@ -20,13 +20,13 @@ export class CurrentUnitAddressService extends CurrentItemService<Address> {
   readonly item$: Observable<Address | undefined> = this.b2bUnit$.pipe(
     filter((unitUid) => Boolean(unitUid)),
     switchMap((unitUid) =>
-      this.key$.pipe(switchMap((code: string) => this.getItem(unitUid, code)))
-    )
+      this.key$.pipe(switchMap((code: string) => this.getItem(unitUid, code))),
+    ),
   );
 
   constructor(
     protected routingService: RoutingService,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
   ) {
     super(routingService);
   }
@@ -41,7 +41,7 @@ export class CurrentUnitAddressService extends CurrentItemService<Address> {
 
   protected getItem(
     unitUid: string,
-    addressId: string
+    addressId: string,
   ): Observable<Address | undefined> {
     return addressId
       ? this.unitService.getAddress(unitUid, addressId)

@@ -11,7 +11,7 @@ export const initialState: NotificationPreference[] = [];
 
 export function reducer(
   state = initialState,
-  action: UserActions.NotificationPreferenceAction
+  action: UserActions.NotificationPreferenceAction,
 ): NotificationPreference[] {
   switch (action.type) {
     case UserActions.LOAD_NOTIFICATION_PREFERENCES_FAIL: {

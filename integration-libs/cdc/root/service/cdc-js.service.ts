@@ -65,7 +65,7 @@ export class CdcJsService implements OnDestroy {
     @Inject(PLATFORM_ID) protected platform: any,
     protected globalMessageService: GlobalMessageService,
     protected eventService: EventService,
-    protected consentStore: CdcConsentsLocalStorageService
+    protected consentStore: CdcConsentsLocalStorageService,
   ) {}
 
   /**
@@ -129,7 +129,7 @@ export class CdcJsService implements OnDestroy {
                 };
               }
             }
-          })
+          }),
       );
     }
   }
@@ -141,7 +141,7 @@ export class CdcJsService implements OnDestroy {
    */
   private getJavascriptUrlForCurrentSite(baseSite: string): string {
     const filteredConfigs = (this.cdcConfig.cdc ?? []).filter(
-      (conf) => conf.baseSite === baseSite
+      (conf) => conf.baseSite === baseSite,
     );
     if (filteredConfigs && filteredConfigs.length > 0) {
       return filteredConfigs[0].javascriptUrl;
@@ -187,7 +187,7 @@ export class CdcJsService implements OnDestroy {
         response.UIDSignature,
         response.signatureTimestamp,
         response.id_token !== undefined ? response.id_token : '',
-        baseSite
+        baseSite,
       );
     }
   }
@@ -198,13 +198,13 @@ export class CdcJsService implements OnDestroy {
    * @param user: UserSignUp
    */
   registerUserWithoutScreenSet(
-    user: UserSignUp
+    user: UserSignUp,
   ): Observable<{ status: string }> {
     if (!user.uid || !user.password) {
       return throwError(() => null);
     } else {
       return this.invokeAPI('accounts.initRegistration', {}).pipe(
-        switchMap((response) => this.onInitRegistrationHandler(user, response))
+        switchMap((response) => this.onInitRegistrationHandler(user, response)),
       );
     }
   }
@@ -217,7 +217,7 @@ export class CdcJsService implements OnDestroy {
    */
   protected onInitRegistrationHandler(
     user: UserSignUp,
-    response: any
+    response: any,
   ): Observable<{ status: string }> {
     if (!response?.regToken || !user?.uid || !user?.password) {
       return throwError(() => null);
@@ -238,7 +238,7 @@ export class CdcJsService implements OnDestroy {
         take(1),
         tap({
           error: (errorResponse) => this.handleRegisterError(errorResponse),
-        })
+        }),
       );
     }
   }
@@ -253,7 +253,7 @@ export class CdcJsService implements OnDestroy {
   loginUserWithoutScreenSet(
     email: string,
     password: string,
-    context?: any
+    context?: any,
   ): Observable<{ status: string }> {
     const missingConsentErrorCode = 206001;
     let ignoreInterruptions = false;
@@ -281,13 +281,13 @@ export class CdcJsService implements OnDestroy {
                   password,
                   response.missingRequiredFields,
                   response.errorMessage,
-                  response.regToken
+                  response.regToken,
                 );
               }
             },
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -297,7 +297,7 @@ export class CdcJsService implements OnDestroy {
    * @param orgInfo
    */
   registerOrganisationWithoutScreenSet(
-    orgInfo: OrganizationUserRegistrationForm
+    orgInfo: OrganizationUserRegistrationForm,
   ): Observable<{ status: string }> {
     if (
       !orgInfo?.companyName ||
@@ -338,7 +338,7 @@ export class CdcJsService implements OnDestroy {
         take(1),
         tap({
           error: (errorResponse) => this.handleRegisterError(errorResponse),
-        })
+        }),
       );
     }
   }
@@ -360,7 +360,7 @@ export class CdcJsService implements OnDestroy {
     return this.zone.run(() =>
       this.gigyaSDK?.accounts?.b2b?.openDelegatedAdminLogin({
         orgId: orgId,
-      })
+      }),
     );
   }
 
@@ -379,7 +379,7 @@ export class CdcJsService implements OnDestroy {
         'Error';
       this.globalMessageService.add(
         errorMessage,
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }
@@ -398,7 +398,7 @@ export class CdcJsService implements OnDestroy {
             errorMessage: response.errorMessage,
           },
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }
@@ -406,7 +406,7 @@ export class CdcJsService implements OnDestroy {
   protected getSessionExpirationValue(): Observable<number> {
     if (this.cdcConfig?.cdc !== undefined) {
       const filteredConfigs: any = this.cdcConfig.cdc.filter(
-        (conf) => conf.baseSite === this.getCurrentBaseSite()
+        (conf) => conf.baseSite === this.getCurrentBaseSite(),
       );
       if (filteredConfigs && filteredConfigs.length > 0) {
         return of(filteredConfigs[0].sessionExpiration);
@@ -467,7 +467,7 @@ export class CdcJsService implements OnDestroy {
         take(1),
         tap({
           error: (response) => this.handleResetPassResponse(response),
-        })
+        }),
       );
     }
   }
@@ -480,7 +480,7 @@ export class CdcJsService implements OnDestroy {
     if (response && response.status === 'OK') {
       this.globalMessageService.add(
         { key: 'forgottenPassword.passwordResetEmailSent' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     } else {
       const errorMessage = response?.errorMessage || {
@@ -488,7 +488,7 @@ export class CdcJsService implements OnDestroy {
       };
       this.globalMessageService.add(
         errorMessage,
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }
@@ -521,8 +521,8 @@ export class CdcJsService implements OnDestroy {
         tap(() =>
           this.userProfileFacade.update(user).subscribe({
             error: (error) => of(error),
-          })
-        )
+          }),
+        ),
       );
     }
   }
@@ -535,7 +535,7 @@ export class CdcJsService implements OnDestroy {
    */
   updateUserPasswordWithoutScreenSet(
     oldPassword: string,
-    newPassword: string
+    newPassword: string,
   ): Observable<{ status: string }> {
     if (
       !oldPassword ||
@@ -551,7 +551,7 @@ export class CdcJsService implements OnDestroy {
       }).pipe(
         tap({
           error: (error) => of(error),
-        })
+        }),
       );
     }
   }
@@ -593,14 +593,14 @@ export class CdcJsService implements OnDestroy {
         {
           key: 'cdcProfile.profileUpdateSuccess',
         },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     } else {
       this.globalMessageService.add(
         {
           key: 'cdcProfile.profileUpdateFailure',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }
@@ -612,7 +612,7 @@ export class CdcJsService implements OnDestroy {
    */
   updateUserEmailWithoutScreenSet(
     password: string,
-    newEmail: string
+    newEmail: string,
   ): Observable<{ status: string }> {
     if (
       !password ||
@@ -654,13 +654,13 @@ export class CdcJsService implements OnDestroy {
                         complete: () => {
                           this.logoutUser();
                         },
-                      })
+                      }),
                     ),
-                })
-              )
-            )
+                }),
+              ),
+            ),
           );
-        })
+        }),
       );
     }
   }
@@ -672,7 +672,7 @@ export class CdcJsService implements OnDestroy {
   protected getLoggedInUserEmail(): Observable<User> {
     return this.userProfileFacade.get().pipe(
       filter((user): user is User => Boolean(user)),
-      take(1)
+      take(1),
     );
   }
 
@@ -685,7 +685,7 @@ export class CdcJsService implements OnDestroy {
     formattedAddress: string,
     zipCode?: string,
     city?: string,
-    country?: string
+    country?: string,
   ): Observable<{ status: string }> {
     if (!formattedAddress || formattedAddress?.length === 0) {
       return throwError(() => 'No address provided');
@@ -708,7 +708,7 @@ export class CdcJsService implements OnDestroy {
    * @returns CDC SDK Function
    */
   protected getSdkFunctionFromName(
-    methodName: string
+    methodName: string,
   ): (payload: Object) => void {
     //accounts.setAccountInfo or accounts.b2b.openDelegatedAdmin
     const nestedMethods = methodName.split('.');
@@ -757,12 +757,12 @@ export class CdcJsService implements OnDestroy {
    * @returns - Observable with site consent details
    */
   getSiteConsentDetails(
-    persistToLocalStorage: boolean = false
+    persistToLocalStorage: boolean = false,
   ): Observable<CdcSiteConsentTemplate> {
     const baseSite: string = this.getCurrentBaseSite();
     const javascriptURL: string = this.getJavascriptUrlForCurrentSite(baseSite);
     const queryParams = new URLSearchParams(
-      javascriptURL.substring(javascriptURL.indexOf('?'))
+      javascriptURL.substring(javascriptURL.indexOf('?')),
     );
     const siteApiKey: string | null = queryParams.get('apikey');
     return this.invokeAPI('accounts.getSiteConsentDetails', {
@@ -774,7 +774,7 @@ export class CdcJsService implements OnDestroy {
             this.consentStore.persistCdcConsentsToStorage(response);
           }
         },
-      })
+      }),
     );
   }
 
@@ -790,7 +790,7 @@ export class CdcJsService implements OnDestroy {
     uid: string,
     lang: string,
     preferences: any,
-    regToken?: string
+    regToken?: string,
   ): Observable<{ errorCode: number; errorMessage: string }> {
     const regSource: string = this.winRef.nativeWindow?.location?.href || '';
     return this.invokeAPI(setAccountInfoAPI, {
@@ -804,7 +804,7 @@ export class CdcJsService implements OnDestroy {
         error: (error) => {
           throwError(error);
         },
-      })
+      }),
     );
   }
 
@@ -822,14 +822,14 @@ export class CdcJsService implements OnDestroy {
     password: string,
     reconsentIds: string[],
     errorMessage: string,
-    regToken: string
+    regToken: string,
   ): void {
     const consentIds: string[] = [];
     reconsentIds.forEach((template) => {
       const removePreference = template.replace('preferences.', '');
       const removeIsConsentGranted = removePreference.replace(
         '.isConsentGranted',
-        ''
+        '',
       );
       consentIds.push(removeIsConsentGranted);
     });

@@ -23,7 +23,7 @@ export class UnitOrderEffect {
 
   constructor(
     private actions$: Actions,
-    private orderConnector: UnitOrderConnector
+    private orderConnector: UnitOrderConnector,
   ) {}
 
   loadUnitOrders$: Observable<UnitOrderActions.UnitOrdersAction> = createEffect(
@@ -38,7 +38,7 @@ export class UnitOrderEffect {
               payload.pageSize,
               payload.currentPage,
               payload.filters,
-              payload.sort
+              payload.sort,
             )
             .pipe(
               map((orders: OrderHistoryList) => {
@@ -47,13 +47,13 @@ export class UnitOrderEffect {
               catchError((error) =>
                 of(
                   new UnitOrderActions.LoadUnitOrdersFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
   );
 
   resetUserOrders$: Observable<UnitOrderActions.ClearUnitOrders> = createEffect(
@@ -62,8 +62,8 @@ export class UnitOrderEffect {
         ofType(SiteContextActions.LANGUAGE_CHANGE),
         map(() => {
           return new UnitOrderActions.ClearUnitOrders();
-        })
-      )
+        }),
+      ),
   );
 
   loadOrderDetails$: Observable<UnitOrderActions.UnitOrdersAction> =
@@ -81,12 +81,12 @@ export class UnitOrderEffect {
               catchError((error) =>
                 of(
                   new UnitOrderActions.LoadOrderDetailsFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 }

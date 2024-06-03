@@ -12,7 +12,7 @@ describe('User Register Actions', () => {
         type: UserActions.REGISTER_USER_SUCCESS,
         meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
-          REGISTER_USER_PROCESS_ID
+          REGISTER_USER_PROCESS_ID,
         ),
         payload: undefined,
       });

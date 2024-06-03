@@ -43,7 +43,7 @@ describe('Billing Countries effect', () => {
     it('should load the billing countries', () => {
       const action = new UserActions.LoadBillingCountries();
       const completion = new UserActions.LoadBillingCountriesSuccess(
-        mockCountries
+        mockCountries,
       );
 
       actions$ = hot('-a', { a: action });

@@ -60,7 +60,7 @@ export abstract class MultiCartFacade {
    * @param cartId
    */
   abstract getCartEntity(
-    cartId: string
+    cartId: string,
   ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>;
 
   /**
@@ -137,7 +137,7 @@ export abstract class MultiCartFacade {
    */
   abstract getLastEntry(
     cartId: string,
-    productCode: string
+    productCode: string,
   ): Observable<OrderEntry | undefined>;
 
   /**
@@ -154,7 +154,7 @@ export abstract class MultiCartFacade {
     cartId: string,
     productCode: string,
     quantity: number,
-    pickupStore?: string
+    pickupStore?: string,
   ): void;
 
   /**
@@ -167,7 +167,7 @@ export abstract class MultiCartFacade {
   abstract addEntries(
     userId: string,
     cartId: string,
-    products: Array<{ productCode: string; quantity: number }>
+    products: Array<{ productCode: string; quantity: number }>,
   ): void;
 
   /**
@@ -180,7 +180,7 @@ export abstract class MultiCartFacade {
   abstract removeEntry(
     userId: string,
     cartId: string,
-    entryNumber: number
+    entryNumber: number,
   ): void;
 
   /**
@@ -197,7 +197,7 @@ export abstract class MultiCartFacade {
     entryNumber: number,
     quantity?: number,
     pickupStore?: string,
-    pickupToDelivery?: boolean
+    pickupToDelivery?: boolean,
   ): void;
 
   /**
@@ -208,7 +208,7 @@ export abstract class MultiCartFacade {
    */
   abstract getEntry(
     cartId: string,
-    productCode: string
+    productCode: string,
   ): Observable<OrderEntry | undefined>;
 
   /**

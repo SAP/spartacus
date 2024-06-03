@@ -10,7 +10,7 @@ describe('entityScopedLoaderReducer', () => {
       const action = {} as any;
       const state = entityScopedLoaderReducer(TEST_ENTITY_TYPE)(
         undefined,
-        action
+        action,
       );
 
       const expectedState = StateUtils.initialEntityState;
@@ -26,11 +26,11 @@ describe('entityScopedLoaderReducer', () => {
       it('LOAD ACTION should set load state', () => {
         const action = new EntityScopedLoaderActions.EntityScopedLoadAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
         );
         const state = entityScopedLoaderReducer(TEST_ENTITY_TYPE)(
           undefined,
-          action
+          action,
         );
         const expectedState = {
           entities: {
@@ -54,11 +54,11 @@ describe('entityScopedLoaderReducer', () => {
       it('LOAD ACTION should set load state', () => {
         const action = new EntityScopedLoaderActions.EntityScopedLoadAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITIES_ID
+          TEST_ENTITIES_ID,
         );
         const state = entityScopedLoaderReducer(TEST_ENTITY_TYPE)(
           undefined,
-          action
+          action,
         );
         const expectedState = {
           entities: {
@@ -94,11 +94,11 @@ describe('entityScopedLoaderReducer', () => {
         const action = new EntityScopedLoaderActions.EntityScopedLoadAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
-          SCOPE
+          SCOPE,
         );
         const state = entityScopedLoaderReducer(TEST_ENTITY_TYPE)(
           undefined,
-          action
+          action,
         );
         const expectedState: any = {
           entities: {
@@ -123,11 +123,11 @@ describe('entityScopedLoaderReducer', () => {
         const action = new EntityScopedLoaderActions.EntityScopedLoadAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITIES_ID,
-          SCOPE
+          SCOPE,
         );
         const state = entityScopedLoaderReducer(TEST_ENTITY_TYPE)(
           undefined,
-          action
+          action,
         );
         const expectedState = {
           entities: {

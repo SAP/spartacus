@@ -15,7 +15,7 @@ export const cdsHelper = {
         method: 'GET',
         path: '/strategy/*/strategies/*/products**',
       },
-      { body: merchandisingCarousel.STRATEGY_RESPONSE }
+      { body: merchandisingCarousel.STRATEGY_RESPONSE },
     ).as(alias);
   },
   allowInsecureCookies(): void {

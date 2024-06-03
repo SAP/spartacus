@@ -57,7 +57,7 @@ describe('Order details page', { testIsolation: false }, () => {
         cy.waitForOrderToBePlacedRequest(
           undefined,
           undefined,
-          orderData.body.code
+          orderData.body.code,
         );
         cy.visit('/my-account/orders');
         cy.get('.cx-order-history-code > .cx-order-history-value')
@@ -75,7 +75,7 @@ describe('Order details page', { testIsolation: false }, () => {
         cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
         cy.get('.cx-summary-total > .cx-summary-amount').should(
           'contain',
-          formattedValue
+          formattedValue,
         );
       });
     });

@@ -48,13 +48,13 @@ export class ProductImageZoomTriggerComponent implements OnDestroy {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
   ) {}
 
   triggerZoom(): void {
     const component = this.launchDialogService.launch(
       LAUNCH_CALLER.PRODUCT_IMAGE_ZOOM,
-      this.vcr
+      this.vcr,
     );
     if (component) {
       this.subscriptions.add(
@@ -73,9 +73,9 @@ export class ProductImageZoomTriggerComponent implements OnDestroy {
               comp?.destroy();
               this.dialogClose.emit();
               this.expandButton.nativeElement.focus();
-            })
+            }),
           )
-          .subscribe()
+          .subscribe(),
       );
     }
   }

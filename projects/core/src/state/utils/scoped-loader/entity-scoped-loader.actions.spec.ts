@@ -17,14 +17,14 @@ describe('EntityScopedLoaderActions', () => {
         const action = new EntityScopedLoaderActions.EntityScopedLoadAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
-          SCOPE
+          SCOPE,
         );
         expect({ ...action }).toEqual({
           type: ENTITY_LOAD_ACTION,
           meta: EntityScopedLoaderActions.entityScopedLoadMeta(
             TEST_ENTITY_TYPE,
             TEST_ENTITY_ID,
-            SCOPE
+            SCOPE,
           ),
         });
       });
@@ -36,7 +36,7 @@ describe('EntityScopedLoaderActions', () => {
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
           SCOPE,
-          'error'
+          'error',
         );
         expect({ ...action }).toEqual({
           type: ENTITY_FAIL_ACTION,
@@ -44,7 +44,7 @@ describe('EntityScopedLoaderActions', () => {
             TEST_ENTITY_TYPE,
             TEST_ENTITY_ID,
             SCOPE,
-            'error'
+            'error',
           ),
         });
       });
@@ -57,14 +57,14 @@ describe('EntityScopedLoaderActions', () => {
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
           SCOPE,
-          payload
+          payload,
         );
         expect({ ...action }).toEqual({
           type: ENTITY_SUCCESS_ACTION,
           meta: EntityScopedLoaderActions.entityScopedSuccessMeta(
             TEST_ENTITY_TYPE,
             TEST_ENTITY_ID,
-            SCOPE
+            SCOPE,
           ),
           payload,
         });
@@ -76,14 +76,14 @@ describe('EntityScopedLoaderActions', () => {
         const action = new EntityScopedLoaderActions.EntityScopedResetAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
-          SCOPE
+          SCOPE,
         );
         expect({ ...action }).toEqual({
           type: ENTITY_RESET_ACTION,
           meta: EntityScopedLoaderActions.entityScopedResetMeta(
             TEST_ENTITY_TYPE,
             TEST_ENTITY_ID,
-            SCOPE
+            SCOPE,
           ),
         });
       });
@@ -96,7 +96,7 @@ describe('EntityScopedLoaderActions', () => {
         const meta = EntityScopedLoaderActions.entityScopedLoadMeta(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
-          SCOPE
+          SCOPE,
         );
         expect(meta).toEqual({
           loader: {
@@ -115,7 +115,7 @@ describe('EntityScopedLoaderActions', () => {
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
           SCOPE,
-          'error'
+          'error',
         );
         expect(meta).toEqual({
           loader: {
@@ -133,7 +133,7 @@ describe('EntityScopedLoaderActions', () => {
         const meta = EntityScopedLoaderActions.entityScopedSuccessMeta(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
-          SCOPE
+          SCOPE,
         );
         expect(meta).toEqual({
           loader: {
@@ -151,7 +151,7 @@ describe('EntityScopedLoaderActions', () => {
         const meta = EntityScopedLoaderActions.entityScopedResetMeta(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
-          SCOPE
+          SCOPE,
         );
         expect(meta).toEqual({
           loader: {},

@@ -24,7 +24,7 @@ export class CpqConfiguratorRestService {
   constructor(
     protected http: HttpClient,
     protected converterService: ConverterService,
-    protected endpointService: CpqConfiguratorEndpointService
+    protected endpointService: CpqConfiguratorEndpointService,
   ) {}
 
   /**
@@ -35,12 +35,12 @@ export class CpqConfiguratorRestService {
    * @returns {Observable<Configurator.Configuration>} - Created configuration
    */
   createConfiguration(
-    productSystemId: string
+    productSystemId: string,
   ): Observable<Configurator.Configuration> {
     return this.callConfigurationInit(productSystemId).pipe(
       switchMap((configCreatedResponse) => {
         return this.callConfigurationDisplay(
-          configCreatedResponse.configurationId
+          configCreatedResponse.configurationId,
         ).pipe(
           this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
           map((resultConfiguration) => {
@@ -48,9 +48,9 @@ export class CpqConfiguratorRestService {
               ...resultConfiguration,
               configId: configCreatedResponse.configurationId,
             };
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -63,7 +63,7 @@ export class CpqConfiguratorRestService {
    */
   readConfiguration(
     configId: string,
-    tabId?: string
+    tabId?: string,
   ): Observable<Configurator.Configuration> {
     return this.callConfigurationDisplay(configId, tabId).pipe(
       this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
@@ -72,7 +72,7 @@ export class CpqConfiguratorRestService {
           ...resultConfiguration,
           configId: configId,
         };
-      })
+      }),
     );
   }
 
@@ -83,7 +83,7 @@ export class CpqConfiguratorRestService {
    * @returns {Observable<Configurator.Overview>} - Retrieved overview
    */
   readConfigurationOverview(
-    configId: string
+    configId: string,
   ): Observable<Configurator.Overview> {
     return this.getConfigurationWithAllTabsAndAttributes(configId).pipe(
       this.converterService.pipeable(CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER),
@@ -92,7 +92,7 @@ export class CpqConfiguratorRestService {
           ...resultConfiguration,
           configId: configId,
         };
-      })
+      }),
     );
   }
 
@@ -102,7 +102,7 @@ export class CpqConfiguratorRestService {
    * It will fire a request for each tab to collect all required data.
    */
   protected getConfigurationWithAllTabsAndAttributes(
-    configId: string
+    configId: string,
   ): Observable<Cpq.Configuration> {
     return this.callConfigurationDisplay(configId).pipe(
       switchMap((currentTab) => {
@@ -115,7 +115,7 @@ export class CpqConfiguratorRestService {
               tabRequests.push(of(currentTab));
             } else {
               tabRequests.push(
-                this.callConfigurationDisplay(configId, tab.id.toString())
+                this.callConfigurationDisplay(configId, tab.id.toString()),
               );
             }
           });
@@ -126,12 +126,12 @@ export class CpqConfiguratorRestService {
         // fire requests for remaining tabs and wait until all are finished
         return forkJoin(tabRequests);
       }),
-      map(this.mergeTabResults)
+      map(this.mergeTabResults),
     );
   }
 
   protected mergeTabResults(
-    tabReqResultList: Cpq.Configuration[]
+    tabReqResultList: Cpq.Configuration[],
   ): Cpq.Configuration {
     const config = {
       // first tab will be the current tab. It might not contain all error messages (bug in CPQ). So we just use the last tab.
@@ -166,17 +166,17 @@ export class CpqConfiguratorRestService {
    * @returns {Observable<Configurator.Configuration>} - Updated configuration
    */
   updateAttribute(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration> {
     const updateAttribute: Cpq.UpdateAttribute = this.converterService.convert(
       configuration,
-      CPQ_CONFIGURATOR_SERIALIZER
+      CPQ_CONFIGURATOR_SERIALIZER,
     );
     return this.callUpdateAttribute(updateAttribute).pipe(
       switchMap(() => {
         return this.callConfigurationDisplay(
           configuration.configId,
-          updateAttribute.tabId
+          updateAttribute.tabId,
         ).pipe(
           this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
           map((resultConfiguration) => {
@@ -184,9 +184,9 @@ export class CpqConfiguratorRestService {
               ...resultConfiguration,
               configId: configuration.configId,
             };
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -198,17 +198,17 @@ export class CpqConfiguratorRestService {
    * @returns {Observable<Configurator.Configuration>} - Updated configuration
    */
   updateValueQuantity(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration> {
     const updateValue: Cpq.UpdateValue = this.converterService.convert(
       configuration,
-      CPQ_CONFIGURATOR_QUANTITY_SERIALIZER
+      CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
     );
     return this.callUpdateValue(updateValue).pipe(
       switchMap(() => {
         return this.callConfigurationDisplay(
           configuration.configId,
-          updateValue.tabId
+          updateValue.tabId,
         ).pipe(
           this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
           map((resultConfiguration) => {
@@ -216,9 +216,9 @@ export class CpqConfiguratorRestService {
               ...resultConfiguration,
               configId: configuration.configId,
             };
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -232,38 +232,38 @@ export class CpqConfiguratorRestService {
       {
         Quantity: updateValue.quantity,
       },
-      this.endpointService.CPQ_MARKER_HEADER
+      this.endpointService.CPQ_MARKER_HEADER,
     );
   }
 
   protected callConfigurationInit(
-    productSystemId: string
+    productSystemId: string,
   ): Observable<Cpq.ConfigurationCreatedResponseData> {
     return this.http.post<Cpq.ConfigurationCreatedResponseData>(
       this.endpointService.buildUrl('configurationInit'),
       {
         ProductSystemId: productSystemId,
       },
-      this.endpointService.CPQ_MARKER_HEADER
+      this.endpointService.CPQ_MARKER_HEADER,
     );
   }
 
   protected callConfigurationDisplay(
     configId: string,
-    tabId?: string
+    tabId?: string,
   ): Observable<Cpq.Configuration> {
     return this.http.get<Cpq.Configuration>(
       this.endpointService.buildUrl(
         'configurationDisplay',
         { configId: configId },
-        tabId ? [{ name: 'tabId', value: tabId }] : undefined
+        tabId ? [{ name: 'tabId', value: tabId }] : undefined,
       ),
-      this.endpointService.CPQ_MARKER_HEADER
+      this.endpointService.CPQ_MARKER_HEADER,
     );
   }
 
   protected callUpdateAttribute(
-    updateAttribute: Cpq.UpdateAttribute
+    updateAttribute: Cpq.UpdateAttribute,
   ): Observable<any> {
     return this.http.patch<any>(
       this.endpointService.buildUrl('attributeUpdate', {
@@ -271,7 +271,7 @@ export class CpqConfiguratorRestService {
         attributeCode: updateAttribute.standardAttributeCode,
       }),
       updateAttribute.changeAttributeValue,
-      this.endpointService.CPQ_MARKER_HEADER
+      this.endpointService.CPQ_MARKER_HEADER,
     );
   }
 }

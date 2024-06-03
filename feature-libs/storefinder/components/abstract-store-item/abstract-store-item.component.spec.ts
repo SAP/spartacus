@@ -33,7 +33,7 @@ describe('AbstractStoreItemComponent', () => {
   it('should return string with map directions in form of link', () => {
     const result = component.getDirections({});
     expect(result).toEqual(
-      'https://www.google.com/maps/dir/Current+Location/1,1'
+      'https://www.google.com/maps/dir/Current+Location/1,1',
     );
   });
 

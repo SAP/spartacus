@@ -51,7 +51,7 @@ class MockCheckoutPaymentTypeConnector
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
   getCheckoutDetailsState = createSpy().and.returnValue(
-    of(of({ loading: false, error: false, data: undefined }))
+    of(of({ loading: false, error: false, data: undefined })),
   );
 }
 
@@ -86,7 +86,7 @@ describe(`CheckoutPaymentTypeService`, () => {
     [CheckoutPaymentTypeService],
     (checkoutPaymentTypeService: CheckoutPaymentTypeService) => {
       expect(checkoutPaymentTypeService).toBeTruthy();
-    }
+    },
   ));
 
   describe(`getPaymentTypesState`, () => {
@@ -113,7 +113,7 @@ describe(`CheckoutPaymentTypeService`, () => {
           loading: false,
           error: false,
           data: [mockPaymentType],
-        })
+        }),
       );
 
       service
@@ -132,7 +132,7 @@ describe(`CheckoutPaymentTypeService`, () => {
           loading: false,
           error: false,
           data: undefined,
-        })
+        }),
       );
 
       service
@@ -155,7 +155,7 @@ describe(`CheckoutPaymentTypeService`, () => {
             mockUserId,
             mockCartId,
             mockPaymentType.code,
-            mockPurchaseOrderNumber
+            mockPurchaseOrderNumber,
           );
           done();
         });
@@ -173,7 +173,7 @@ describe(`CheckoutPaymentTypeService`, () => {
               paymentTypeCode: mockB2bPaymentType,
               purchaseOrderNumber: mockPurchaseOrderNumber,
             },
-            CheckoutPaymentTypeSetEvent
+            CheckoutPaymentTypeSetEvent,
           );
           done();
         });
@@ -189,7 +189,7 @@ describe(`CheckoutPaymentTypeService`, () => {
           data: {
             paymentType: mockPaymentType,
           },
-        })
+        }),
       );
 
       service
@@ -213,7 +213,7 @@ describe(`CheckoutPaymentTypeService`, () => {
           loading: false,
           error: false,
           data: mockPaymentType,
-        })
+        }),
       );
 
       service
@@ -231,7 +231,7 @@ describe(`CheckoutPaymentTypeService`, () => {
           loading: false,
           error: false,
           data: { code: B2BPaymentTypeEnum.CARD_PAYMENT },
-        })
+        }),
       );
 
       service
@@ -253,7 +253,7 @@ describe(`CheckoutPaymentTypeService`, () => {
           data: {
             purchaseOrderNumber: mockPurchaseOrderNumber,
           },
-        })
+        }),
       );
 
       service

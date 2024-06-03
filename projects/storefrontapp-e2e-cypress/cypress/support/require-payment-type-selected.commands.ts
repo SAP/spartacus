@@ -20,7 +20,7 @@ declare global {
        */
       requirePaymentTypeSelected: (
         auth: {},
-        cartId?: string
+        cartId?: string,
       ) => Cypress.Chainable<{}>;
     }
   }
@@ -34,7 +34,7 @@ Cypress.Commands.add('requirePaymentTypeSelected', (auth, cartId) => {
     return cy.request({
       method: 'PUT',
       url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/carts/${cartCode}/paymenttype?paymentType=${payType}`,
       form: false,
       headers: {

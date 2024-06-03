@@ -16,7 +16,7 @@ import { MerchandisingSiteContext } from '../model/merchandising-site-context.mo
 export class CdsMerchandisingSiteContextService {
   constructor(
     protected baseSiteService: BaseSiteService,
-    protected languageService: LanguageService
+    protected languageService: LanguageService,
   ) {}
 
   getSiteContext(): Observable<MerchandisingSiteContext> {
@@ -30,7 +30,7 @@ export class CdsMerchandisingSiteContextService {
           language,
         };
         return siteContext;
-      })
+      }),
     );
   }
 }

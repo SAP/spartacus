@@ -80,7 +80,7 @@ describe('CdsMerchandisingUserContextService', () => {
       ],
     });
     cdsMerchandisingUserContextService = TestBed.inject(
-      CdsMerchandisingUserContextService
+      CdsMerchandisingUserContextService,
     );
     routingService = TestBed.inject(RoutingService);
     productSearchService = TestBed.inject(ProductSearchService);
@@ -100,10 +100,10 @@ describe('CdsMerchandisingUserContextService', () => {
       searchPhrase: undefined,
     };
     spyOn(routingService, 'getPageContext').and.returnValue(
-      of(new PageContext('homepage', PageType.CONTENT_PAGE))
+      of(new PageContext('homepage', PageType.CONTENT_PAGE)),
     );
     spyOn(productSearchService, 'getResults').and.returnValue(
-      of(emptyPageSearchResults)
+      of(emptyPageSearchResults),
     );
 
     let merchandisingUserContext: MerchandisingUserContext;
@@ -121,16 +121,16 @@ describe('CdsMerchandisingUserContextService', () => {
       searchPhrase: undefined,
     };
     spyOn(routingService, 'getPageContext').and.returnValue(
-      of(new PageContext('homepage', PageType.CONTENT_PAGE))
+      of(new PageContext('homepage', PageType.CONTENT_PAGE)),
     );
     spyOn(productSearchService, 'getResults').and.returnValue(
-      of(emptyPageSearchResults)
+      of(emptyPageSearchResults),
     );
     spyOn(profileTagEventService, 'getConsentReference').and.returnValue(
-      of(consentReference)
+      of(consentReference),
     );
     spyOn(profileTagLifecycleService, 'consentChanged').and.returnValue(
-      of(consentGrantedEvent)
+      of(consentGrantedEvent),
     );
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
@@ -149,10 +149,10 @@ describe('CdsMerchandisingUserContextService', () => {
     };
 
     spyOn(productSearchService, 'getResults').and.returnValue(
-      of(emptyPageSearchResults)
+      of(emptyPageSearchResults),
     );
     spyOn(routingService, 'getPageContext').and.returnValue(
-      of(new PageContext('brand123', PageType.CATEGORY_PAGE))
+      of(new PageContext('brand123', PageType.CATEGORY_PAGE)),
     );
 
     let merchandisingUserContext: MerchandisingUserContext;
@@ -172,10 +172,10 @@ describe('CdsMerchandisingUserContextService', () => {
     };
 
     spyOn(routingService, 'getPageContext').and.returnValue(
-      of(new PageContext('574', PageType.CATEGORY_PAGE))
+      of(new PageContext('574', PageType.CATEGORY_PAGE)),
     );
     spyOn(productSearchService, 'getResults').and.returnValue(
-      of(emptyPageSearchResults)
+      of(emptyPageSearchResults),
     );
 
     let merchandisingUserContext: MerchandisingUserContext;
@@ -193,10 +193,10 @@ describe('CdsMerchandisingUserContextService', () => {
     };
 
     spyOn(routingService, 'getPageContext').and.returnValue(
-      of(new PageContext('12345', PageType.PRODUCT_PAGE))
+      of(new PageContext('12345', PageType.PRODUCT_PAGE)),
     );
     spyOn(productSearchService, 'getResults').and.returnValue(
-      of(emptyPageSearchResults)
+      of(emptyPageSearchResults),
     );
 
     let merchandisingUserContext: MerchandisingUserContext;
@@ -237,10 +237,10 @@ describe('CdsMerchandisingUserContextService', () => {
     facetService.facetList$ = of(merchandisingFacets);
 
     spyOn(routingService, 'getPageContext').and.returnValue(
-      of(new PageContext('homepage', PageType.CONTENT_PAGE))
+      of(new PageContext('homepage', PageType.CONTENT_PAGE)),
     );
     spyOn(productSearchService, 'getResults').and.returnValue(
-      of(pageSearchResults)
+      of(pageSearchResults),
     );
 
     let merchandisingUserContext: MerchandisingUserContext;

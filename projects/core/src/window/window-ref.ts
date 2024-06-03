@@ -21,7 +21,7 @@ export class WindowRef {
     @Inject(DOCUMENT) document: any,
     @Inject(PLATFORM_ID) protected platformId: Object,
     @Optional() @Inject(SERVER_REQUEST_URL) protected serverUrl?: string,
-    @Optional() @Inject(SERVER_REQUEST_ORIGIN) protected serverOrigin?: string
+    @Optional() @Inject(SERVER_REQUEST_ORIGIN) protected serverOrigin?: string,
   ) {
     this.document = document as Document;
   }
@@ -73,12 +73,12 @@ export class WindowRef {
     } else {
       if (!this.serverUrl) {
         throw new Error(
-          'Cannot resolve the href as the SERVER_REQUEST_URL is undefined'
+          'Cannot resolve the href as the SERVER_REQUEST_URL is undefined',
         );
       }
       if (!this.serverOrigin) {
         throw new Error(
-          'Cannot resolve the origin as the SERVER_REQUEST_ORIGIN is undefined'
+          'Cannot resolve the origin as the SERVER_REQUEST_ORIGIN is undefined',
         );
       }
       return {
@@ -101,7 +101,7 @@ export class WindowRef {
       return fromEvent(this.nativeWindow, 'resize').pipe(
         debounceTime(300),
         startWith({ target: this.nativeWindow }),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       );
     }
   }

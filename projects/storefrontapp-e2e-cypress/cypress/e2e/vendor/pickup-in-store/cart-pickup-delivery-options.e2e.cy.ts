@@ -20,7 +20,7 @@ describe('Pickup delivery options', () => {
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should(
         'have.attr',
         'aria-checked',
-        'true'
+        'true',
       );
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).click();
       cy.get(L.USE_MY_LOCATION).click();

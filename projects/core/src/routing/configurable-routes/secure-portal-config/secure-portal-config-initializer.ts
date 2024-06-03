@@ -21,7 +21,7 @@ export class SecurePortalConfigInitializer implements ConfigInitializer {
 
   constructor(
     protected baseSiteService: BaseSiteService,
-    protected configInit: ConfigInitializerService
+    protected configInit: ConfigInitializerService,
   ) {}
 
   /**
@@ -37,14 +37,14 @@ export class SecurePortalConfigInitializer implements ConfigInitializer {
           tap((baseSite) => {
             if (!baseSite) {
               throw new Error(
-                `Error: Cannot get base site config for ${siteUid}.`
+                `Error: Cannot get base site config for ${siteUid}.`,
               );
             }
           }),
           map((baseSite) => this.getRoutingConfig(baseSite)),
-          take(1)
+          take(1),
         );
-      })
+      }),
     );
   }
 

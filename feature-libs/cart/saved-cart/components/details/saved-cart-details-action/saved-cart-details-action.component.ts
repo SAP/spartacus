@@ -33,7 +33,7 @@ export class SavedCartDetailsActionComponent implements OnDestroy {
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {}
 
   openDialog(cart: Cart, type: SavedCartFormType): void {
@@ -41,7 +41,7 @@ export class SavedCartDetailsActionComponent implements OnDestroy {
       LAUNCH_CALLER.SAVED_CART,
       this.element,
       this.vcr,
-      { cart, layoutOption: type }
+      { cart, layoutOption: type },
     );
 
     if (dialog) {

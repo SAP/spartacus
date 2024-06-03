@@ -7,7 +7,7 @@ import createSpy = jasmine.createSpy;
 class MockUserPaymentAdapter implements UserPaymentAdapter {
   delete = createSpy('load').and.returnValue(of({}));
   loadAll = createSpy('loadAll').and.callFake((userId) =>
-    of(`loadList-${userId}`)
+    of(`loadList-${userId}`),
   );
   setDefault = createSpy('setDefault').and.returnValue(of({}));
 }

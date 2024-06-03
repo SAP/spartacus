@@ -14,21 +14,19 @@ describe('ConfiguratorShowMoreComponent', () => {
   let htmlElem: HTMLElement;
   let config: Config;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ConfiguratorShowMoreComponent],
-        providers: [{ provide: Config, useClass: MockConfig }],
-      })
-        .overrideComponent(ConfiguratorShowMoreComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ConfiguratorShowMoreComponent],
+      providers: [{ provide: Config, useClass: MockConfig }],
     })
-  );
+      .overrideComponent(ConfiguratorShowMoreComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorShowMoreComponent);
@@ -51,12 +49,12 @@ describe('ConfiguratorShowMoreComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'span'
+      'span',
     );
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'button'
+      'button',
     );
   });
 
@@ -67,12 +65,12 @@ describe('ConfiguratorShowMoreComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'span'
+      'span',
     );
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'button'
+      'button',
     );
   });
 
@@ -91,7 +89,7 @@ describe('ConfiguratorShowMoreComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'button'
+      'button',
     );
     expect(component.showMore).toBe(false);
     expect(component.textToShow).toBe(component.text);
@@ -119,7 +117,7 @@ describe('ConfiguratorShowMoreComponent', () => {
       fixture.detectChanges();
       expect(component.textNormalized).toBe(suspiciousTextWithoutFormatting);
       expect(component['normalize'](suspiciousTextWithFormatting)).toBe(
-        suspiciousTextWithoutFormatting
+        suspiciousTextWithoutFormatting,
       );
     });
 
@@ -132,7 +130,7 @@ describe('ConfiguratorShowMoreComponent', () => {
         expect,
         htmlElem,
         'span',
-        sanitizedText
+        sanitizedText,
       );
     });
   });
@@ -153,7 +151,7 @@ describe('ConfiguratorShowMoreComponent', () => {
         undefined,
         0,
         'aria-label',
-        'configurator.a11y.itemDescription item:Camera bundle'
+        'configurator.a11y.itemDescription item:Camera bundle',
       );
     });
 
@@ -166,7 +164,7 @@ describe('ConfiguratorShowMoreComponent', () => {
         0,
         undefined,
         undefined,
-        'configurator.button.less'
+        'configurator.button.less',
       );
     });
 
@@ -181,7 +179,7 @@ describe('ConfiguratorShowMoreComponent', () => {
         0,
         undefined,
         undefined,
-        'configurator.button.more'
+        'configurator.button.more',
       );
     });
   });

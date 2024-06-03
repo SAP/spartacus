@@ -30,7 +30,7 @@ export abstract class CustomerTicketingDialogComponent {
   inputCharactersLimit: number = this.getInputCharactersLimit;
   inputCharactersForSubject: number = this.getInputCharactersForSubject;
   isDataLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
+    false,
   );
 
   focusConfig: FocusConfig = {
@@ -92,7 +92,7 @@ export abstract class CustomerTicketingDialogComponent {
     protected customerTicketingConfig: CustomerTicketingConfig,
     protected filesFormValidators: FilesFormValidators,
     protected customerTicketingFacade: CustomerTicketingFacade,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
   ) {}
 
   protected buildForm(): void {
@@ -102,7 +102,7 @@ export abstract class CustomerTicketingDialogComponent {
       new FormControl('', [
         Validators.required,
         Validators.maxLength(this.inputCharactersLimit),
-      ])
+      ]),
     );
     form.setControl(
       'file',
@@ -110,7 +110,7 @@ export abstract class CustomerTicketingDialogComponent {
         this.filesFormValidators.maxSize(this.maxSize),
         this.filesFormValidators.maxEntries(MAX_ENTRIES_FOR_ATTACHMENT),
         this.filesFormValidators.allowedTypes(this.allowedTypes),
-      ])
+      ]),
     );
     this.form = form;
   }

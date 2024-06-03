@@ -19,7 +19,7 @@ import { CmsPageAdapter } from './cms-page.adapter';
 export class CmsPageConnector {
   constructor(
     protected cmsPageAdapter: CmsPageAdapter,
-    protected cmsStructureConfigService: CmsStructureConfigService
+    protected cmsStructureConfigService: CmsStructureConfigService,
   ) {}
 
   /**
@@ -43,13 +43,13 @@ export class CmsPageConnector {
                 } else {
                   throw error;
                 }
-              })
+              }),
             );
           } else {
             return of({});
           }
         }),
-        switchMap((page) => this.mergeDefaultPageStructure(pageContext, page))
+        switchMap((page) => this.mergeDefaultPageStructure(pageContext, page)),
       );
   }
 
@@ -61,11 +61,11 @@ export class CmsPageConnector {
    */
   private mergeDefaultPageStructure(
     pageContext: PageContext,
-    pageStructure: CmsStructureModel
+    pageStructure: CmsStructureModel,
   ): Observable<CmsStructureModel> {
     return this.cmsStructureConfigService.mergePageStructure(
       pageContext.id,
-      pageStructure
+      pageStructure,
     );
   }
 }

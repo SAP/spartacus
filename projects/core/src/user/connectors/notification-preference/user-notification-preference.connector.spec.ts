@@ -17,10 +17,10 @@ const mockNotificationPreference: NotificationPreference[] = [
 
 class MocktAdapter implements UserNotificationPreferenceAdapter {
   loadAll = createSpy('loadAll').and.callFake((userId) =>
-    of(`loadAll-notification-preferences-${userId}`)
+    of(`loadAll-notification-preferences-${userId}`),
   );
   update = createSpy('update').and.callFake((userId, preferences) =>
-    of(`update-notification-preferences-${userId}-${preferences[0].channel}`)
+    of(`update-notification-preferences-${userId}-${preferences[0].channel}`),
   );
 }
 
@@ -58,7 +58,7 @@ describe('UserNotificationPreferenceConnector', () => {
     expect(result).toEqual('update-notification-preferences-testUser-EMAIL');
     expect(adapter.update).toHaveBeenCalledWith(
       user,
-      mockNotificationPreference
+      mockNotificationPreference,
     );
   });
 });

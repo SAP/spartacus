@@ -13,7 +13,7 @@ import { deepMerge, isObject } from '../../config/utils/deep-merge';
  */
 export function mergeFields(fields: (string | object)[]): string {
   const parsedFields = fields.map((f) =>
-    typeof f === 'string' ? parseFields(f) : f
+    typeof f === 'string' ? parseFields(f) : f,
   );
   const mergedFields = optimizeFields(deepMerge({}, ...parsedFields));
   return stringifyFields(mergedFields);
@@ -34,7 +34,7 @@ export function optimizeFields(fields: object = {}): object {
   }
   Object.keys(fields).forEach((key) => {
     (fields[key as keyof object] as object) = optimizeFields(
-      fields[key as keyof object]
+      fields[key as keyof object],
     );
   });
   return fields;
@@ -48,7 +48,7 @@ export function optimizeFields(fields: object = {}): object {
  */
 export function parseFields(
   fields: string,
-  startIndex = 0
+  startIndex = 0,
 ): [object, number] | object {
   const parsedFields: Record<string, object> = {};
 
@@ -130,7 +130,7 @@ function getObjectPart<T>(data: T, fields: object): T {
     if ((data as unknown as object).hasOwnProperty(key)) {
       result[key as keyof T] = getObjectPart(
         data[key as keyof object],
-        fields[key as keyof object]
+        fields[key as keyof object],
       );
     }
   });

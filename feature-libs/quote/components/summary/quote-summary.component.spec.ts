@@ -78,40 +78,40 @@ describe('QuoteSummaryComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-summary-heading'
+        '.cx-ghost-summary-heading',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-title'
+        '.cx-ghost-title',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-summary-partials'
+        '.cx-ghost-summary-partials',
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-row',
-        4
+        4,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-summary-label',
-        4
+        4,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-summary-amount',
-        4
+        4,
       );
     });
 
@@ -122,14 +122,14 @@ describe('QuoteSummaryComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-actions'
+        '.cx-ghost-actions',
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-button',
-        3
+        3,
       );
     });
   });

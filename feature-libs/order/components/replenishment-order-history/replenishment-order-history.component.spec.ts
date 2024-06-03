@@ -53,7 +53,7 @@ const mockReplenishmentOrders: ReplenishmentOrderList = {
 };
 
 const replenishmentOrderHistory = new BehaviorSubject<ReplenishmentOrderList>(
-  mockReplenishmentOrders
+  mockReplenishmentOrders,
 );
 
 @Component({
@@ -95,7 +95,7 @@ class MockReplenishmentOrderHistoryFacade
   loadReplenishmentOrderList(
     _pageSize: number,
     _currentPage?: number,
-    _sort?: string
+    _sort?: string,
   ): void {}
   clearReplenishmentOrderList() {}
 }
@@ -108,7 +108,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -122,36 +122,34 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   let launchDialogService: LaunchDialogService;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          ReplenishmentOrderHistoryComponent,
-          MockUrlPipe,
-          MockPaginationComponent,
-          MockSortingComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useClass: MockRoutingService },
-          {
-            provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockReplenishmentOrderHistoryFacade,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        ReplenishmentOrderHistoryComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
+        MockSortingComponent,
+      ],
+      providers: [
+        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: ReplenishmentOrderHistoryFacade,
+          useClass: MockReplenishmentOrderHistoryFacade,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
+    }).compileComponents();
 
-      replenishmentOrderHistoryFacade = TestBed.inject(
-        ReplenishmentOrderHistoryFacade
-      );
-      routingService = TestBed.inject(RoutingService);
-      launchDialogService = TestBed.inject(LaunchDialogService);
-    })
-  );
+    replenishmentOrderHistoryFacade = TestBed.inject(
+      ReplenishmentOrderHistoryFacade,
+    );
+    routingService = TestBed.inject(RoutingService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderHistoryComponent);
@@ -179,7 +177,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
-      By.css('.cx-replenishment-order-history-table tbody tr')
+      By.css('.cx-replenishment-order-history-table tbody tr'),
     );
     rows[1].triggerEventHandler('click', null);
 
@@ -201,36 +199,36 @@ describe('ReplenishmentOrderHistoryComponent', () => {
 
     expect(
       fixture.debugElement.query(
-        By.css('.cx-replenishment-order-history-no-order')
-      )
+        By.css('.cx-replenishment-order-history-no-order'),
+      ),
     ).not.toBeNull();
   });
 
   it('should set correctly sort code', () => {
     spyOn(
       replenishmentOrderHistoryFacade,
-      'loadReplenishmentOrderList'
+      'loadReplenishmentOrderList',
     ).and.stub();
 
     component.changeSortCode('byReplenishmentNumber');
 
     expect(component.sortType).toBe('byReplenishmentNumber');
     expect(
-      replenishmentOrderHistoryFacade.loadReplenishmentOrderList
+      replenishmentOrderHistoryFacade.loadReplenishmentOrderList,
     ).toHaveBeenCalledWith(5, 0, 'byReplenishmentNumber');
   });
 
   it('should set correctly page', () => {
     spyOn(
       replenishmentOrderHistoryFacade,
-      'loadReplenishmentOrderList'
+      'loadReplenishmentOrderList',
     ).and.stub();
 
     component.sortType = 'byDate';
     component.pageChange(1);
 
     expect(
-      replenishmentOrderHistoryFacade.loadReplenishmentOrderList
+      replenishmentOrderHistoryFacade.loadReplenishmentOrderList,
     ).toHaveBeenCalledWith(5, 1, 'byDate');
   });
 
@@ -247,7 +245,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
       LAUNCH_CALLER.REPLENISHMENT_ORDER,
       component.element,
       component['vcr'],
-      mockReplenishmentOrders.replenishmentOrders[1].replenishmentOrderCode
+      mockReplenishmentOrders.replenishmentOrders[1].replenishmentOrderCode,
     );
   });
 
@@ -265,7 +263,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
     fixture.detectChanges();
 
     const button = el.query(
-      By.css('.cx-order-cancel:last-child')
+      By.css('.cx-order-cancel:last-child'),
     ).nativeElement;
 
     expect(button.textContent).toContain('orderHistory.cancel');
@@ -303,20 +301,20 @@ describe('ReplenishmentOrderHistoryComponent', () => {
       .nativeElement;
 
     expect(element.textContent).toContain(
-      mockReplenishmentOrders.replenishmentOrders[1].purchaseOrderNumber
+      mockReplenishmentOrders.replenishmentOrders[1].purchaseOrderNumber,
     );
   });
 
   it('should clear replenishment order history data when component destroy', () => {
     spyOn(
       replenishmentOrderHistoryFacade,
-      'clearReplenishmentOrderList'
+      'clearReplenishmentOrderList',
     ).and.stub();
 
     component.ngOnDestroy();
 
     expect(
-      replenishmentOrderHistoryFacade.clearReplenishmentOrderList
+      replenishmentOrderHistoryFacade.clearReplenishmentOrderList,
     ).toHaveBeenCalledWith();
   });
 });

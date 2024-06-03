@@ -33,7 +33,7 @@ class MockReplenishmentOrderHistoryAdapter
 {
   load(
     _userId: string,
-    _replenishmentOrderCode: string
+    _replenishmentOrderCode: string,
   ): Observable<ReplenishmentOrder> {
     return of({});
   }
@@ -43,14 +43,14 @@ class MockReplenishmentOrderHistoryAdapter
     _replenishmentOrderCode: string,
     _pageSize?: number,
     _currentPage?: number,
-    _sort?: string
+    _sort?: string,
   ): Observable<OrderHistoryList> {
     return of({});
   }
 
   cancelReplenishmentOrder(
     _userId: string,
-    _replenishmentOrderCode: string
+    _replenishmentOrderCode: string,
   ): Observable<ReplenishmentOrder> {
     return of({});
   }
@@ -99,7 +99,7 @@ describe('ReplenishmentOrderHistoryConnector', () => {
 
   it('loadReplenishmentDetailsHistory should call adapter', () => {
     spyOn(adapter, 'loadReplenishmentDetailsHistory').and.returnValue(
-      of(mockOrderHistoryList)
+      of(mockOrderHistoryList),
     );
 
     let result: OrderHistoryList;
@@ -115,13 +115,13 @@ describe('ReplenishmentOrderHistoryConnector', () => {
       replenishmentCode,
       undefined,
       undefined,
-      undefined
+      undefined,
     );
   });
 
   it('cancelReplenishmentOrder should call adapter', () => {
     spyOn(adapter, 'cancelReplenishmentOrder').and.returnValue(
-      of(mockReplenishmentOrder)
+      of(mockReplenishmentOrder),
     );
 
     let result: ReplenishmentOrder;
@@ -134,7 +134,7 @@ describe('ReplenishmentOrderHistoryConnector', () => {
     expect(result).toBe(mockReplenishmentOrder);
     expect(adapter.cancelReplenishmentOrder).toHaveBeenCalledWith(
       userId,
-      replenishmentCode
+      replenishmentCode,
     );
   });
 
@@ -150,7 +150,7 @@ describe('ReplenishmentOrderHistoryConnector', () => {
       'user3',
       undefined,
       undefined,
-      undefined
+      undefined,
     );
   });
 });

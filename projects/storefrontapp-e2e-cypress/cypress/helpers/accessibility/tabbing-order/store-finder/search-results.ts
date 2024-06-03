@@ -14,7 +14,7 @@ export function searchResultsTabbingOrder(config: TabElement[]) {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/stores?fields=*`,
   }).as('storesList');
 

@@ -36,7 +36,7 @@ describe('SiteContextEventBuilder', () => {
         payload,
       } as SiteContextActions.SetActiveLanguage);
       expect(result).toEqual(
-        jasmine.objectContaining({ activeLanguage: payload })
+        jasmine.objectContaining({ activeLanguage: payload }),
       );
     });
 
@@ -54,7 +54,7 @@ describe('SiteContextEventBuilder', () => {
         payload,
       } as SiteContextActions.SetActiveLanguage);
       expect(result).toEqual(
-        jasmine.objectContaining({ activeLanguage: payload })
+        jasmine.objectContaining({ activeLanguage: payload }),
       );
 
       payload = 'de';
@@ -63,7 +63,7 @@ describe('SiteContextEventBuilder', () => {
         payload,
       } as SiteContextActions.SetActiveLanguage);
       expect(result).toEqual(
-        jasmine.objectContaining({ activeLanguage: payload })
+        jasmine.objectContaining({ activeLanguage: payload }),
       );
 
       payload = 'ja';
@@ -72,7 +72,7 @@ describe('SiteContextEventBuilder', () => {
         payload,
       } as SiteContextActions.SetActiveLanguage);
       expect(result).toEqual(
-        jasmine.objectContaining({ activeLanguage: payload })
+        jasmine.objectContaining({ activeLanguage: payload }),
       );
     });
   });
@@ -92,7 +92,7 @@ describe('SiteContextEventBuilder', () => {
         payload,
       } as SiteContextActions.SetActiveCurrency);
       expect(result).toEqual(
-        jasmine.objectContaining({ activeCurrency: payload })
+        jasmine.objectContaining({ activeCurrency: payload }),
       );
     });
   });

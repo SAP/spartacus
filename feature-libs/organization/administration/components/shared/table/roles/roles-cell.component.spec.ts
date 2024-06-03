@@ -42,10 +42,10 @@ describe('RolesCellComponent', () => {
     expect(el.length).toEqual(2);
 
     expect((el[0].nativeElement as HTMLElement).innerText).toEqual(
-      'organization.userRoles.approver'
+      'organization.userRoles.approver',
     );
     expect((el[1].nativeElement as HTMLElement).innerText).toEqual(
-      'organization.userRoles.worker'
+      'organization.userRoles.worker',
     );
   });
 });

@@ -49,7 +49,7 @@ export class CartEventBuilder {
     protected actionsSubject: ActionsSubject,
     protected event: EventService,
     protected activeCartService: ActiveCartFacade,
-    protected stateEventService: StateEventService
+    protected stateEventService: StateEventService,
   ) {
     this.register();
   }
@@ -214,13 +214,13 @@ export class CartEventBuilder {
         return of(action).pipe(
           withLatestFrom(
             this.activeCartService.getActive(),
-            this.activeCartService.getActiveCartId()
-          )
+            this.activeCartService.getActiveCartId(),
+          ),
         );
       }),
       filter(
         ([action, _activeCart, activeCartId]) =>
-          action.payload['cartId'] === activeCartId
+          action.payload['cartId'] === activeCartId,
       ),
       map(([action, activeCart]) =>
         createFrom(mapping.event as Type<T>, {
@@ -229,8 +229,8 @@ export class CartEventBuilder {
           entry: action.payload.entry
             ? action.payload.entry
             : activeCart.entries?.[Number(action.payload.entryNumber)],
-        })
-      )
+        }),
+      ),
     );
     return this.event.register(mapping.event as Type<T>, eventStream$);
   }
@@ -241,10 +241,10 @@ export class CartEventBuilder {
    * @param actionType type(s) of actions
    */
   protected getAction(
-    actionType: string | string[]
+    actionType: string | string[],
   ): Observable<{ type: string; payload?: any }> {
     return this.actionsSubject.pipe(
-      ofType(...([] as string[]).concat(actionType))
+      ofType(...([] as string[]).concat(actionType)),
     );
   }
 }

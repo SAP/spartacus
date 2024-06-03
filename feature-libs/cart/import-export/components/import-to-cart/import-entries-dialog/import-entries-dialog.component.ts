@@ -49,7 +49,7 @@ export class ImportEntriesDialogComponent {
 
   context$: Observable<AddOrderEntriesContext> =
     this.launchDialogService.data$.pipe(
-      map((data) => data.orderEntriesContext)
+      map((data) => data.orderEntriesContext),
     );
 
   constructor(protected launchDialogService: LaunchDialogService) {
@@ -75,7 +75,7 @@ export class ImportEntriesDialogComponent {
         name: string;
         description: string;
       };
-    }
+    },
   ): void {
     this.formState = false;
     this.summary$.next({
@@ -92,7 +92,7 @@ export class ImportEntriesDialogComponent {
             ...this.summary$.value,
             loading: false,
           });
-        })
+        }),
       )
       .subscribe((action: ProductImportInfo) => {
         this.populateSummary(action);

@@ -17,7 +17,7 @@ describe('CDC B2B scenarios', () => {
     Cypress.env('OCC_PREFIX_USER_ENDPOINT', b2bCheckout.USER_REQUEST_ENDPOINT);
     Cypress.env(
       'OCC_PREFIX_ORDER_ENDPOINT',
-      b2bCheckout.ORDER_REQUEST_ENDPOINT
+      b2bCheckout.ORDER_REQUEST_ENDPOINT,
     );
   });
 
@@ -53,14 +53,14 @@ describe('CDC B2B scenarios', () => {
 
     it('should hide edit, disbale, change password and unit details naviation buttons in user details', () => {
       cy.visit(
-        `/powertools-spa/en/USD/organization/users/${cdc.b2bUser.customerId}`
+        `/powertools-spa/en/USD/organization/users/${cdc.b2bUser.customerId}`,
       );
       waitForCmsComponentsToLoad('powertools-spa');
       cy.get('a.link.edit').should('not.exist');
       cy.get('button.button.active').should('not.exist');
       cy.get('div.orgUnit').should('exist');
       cy.get(
-        'cx-org-list > cx-split-view > cx-org-user-details > cx-org-card > cx-view > div.main > section.details > div:nth-child(5)'
+        'cx-org-list > cx-split-view > cx-org-user-details > cx-org-card > cx-view > div.main > section.details > div:nth-child(5)',
       ).within(() => {
         cy.get('a.link').should('not.exist');
       });
@@ -71,12 +71,12 @@ describe('CDC B2B scenarios', () => {
       alerts.getWarningAlert().should('contain', 'This item does not exist');
 
       cy.visit(
-        `/powertools-spa/en/USD/organization/users/${cdc.b2bUser.customerId}/edit`
+        `/powertools-spa/en/USD/organization/users/${cdc.b2bUser.customerId}/edit`,
       );
       alerts.getWarningAlert().should('contain', 'This item does not exist');
 
       cy.visit(
-        `/powertools-spa/en/USD/organization/users/${cdc.b2bUser.customerId}/change-password`
+        `/powertools-spa/en/USD/organization/users/${cdc.b2bUser.customerId}/change-password`,
       );
       alerts.getWarningAlert().should('contain', 'This item does not exist');
     });
@@ -112,7 +112,7 @@ describe('CDC B2B scenarios', () => {
 
     it('should hide edit, disbale, child units in unit details', () => {
       cy.visit(
-        `/powertools-spa/en/USD/organization/units/${cdc.b2bUser.orgUnit}`
+        `/powertools-spa/en/USD/organization/units/${cdc.b2bUser.orgUnit}`,
       );
       waitForCmsComponentsToLoad('powertools-spa');
       cy.get('a.link.edit').should('not.exist');
@@ -127,12 +127,12 @@ describe('CDC B2B scenarios', () => {
       alerts.getWarningAlert().should('contain', 'This item does not exist');
 
       cy.visit(
-        `/powertools-spa/en/USD/organization/units/${cdc.b2bUser.orgUnit}/edit`
+        `/powertools-spa/en/USD/organization/units/${cdc.b2bUser.orgUnit}/edit`,
       );
       alerts.getWarningAlert().should('contain', 'This item does not exist');
 
       cy.visit(
-        `/powertools-spa/en/USD/organization/units/${cdc.b2bUser.orgUnit}/children`
+        `/powertools-spa/en/USD/organization/units/${cdc.b2bUser.orgUnit}/children`,
       );
       alerts.getWarningAlert().should('contain', 'This item does not exist');
     });
@@ -183,7 +183,7 @@ describe('CDC B2B scenarios', () => {
       cdc.verifyUpdatePasswordSuccess(
         cdc.b2bUser.email,
         cdc.updatedPassword,
-        cdc.b2bUser.fullName
+        cdc.b2bUser.fullName,
       );
       cdc.restoreUserPassword(cdc.b2bUser);
     });
@@ -194,7 +194,7 @@ describe('CDC B2B scenarios', () => {
       cdc.verifyUpdateEmailSuccess(
         tempEmail,
         cdc.b2bUser.password,
-        cdc.b2bUser.fullName
+        cdc.b2bUser.fullName,
       );
       cdc.restoreUserEmail({ ...cdc.b2bUser, email: tempEmail });
     });
@@ -232,7 +232,7 @@ describe('CDC B2B scenarios', () => {
       cdc.updateEmailWithoutScreenset(
         cdc.b2bUser.email,
         'WRONG_Pswd', //wrong password
-        true //error testing
+        true, //error testing
       );
       cdc.verifyUpdateEmailError();
     });
@@ -240,12 +240,12 @@ describe('CDC B2B scenarios', () => {
     it('should update email (CXSPA-3016)', () => {
       cdc.updateEmailWithoutScreenset(
         cdc.updatedB2BEmail,
-        cdc.b2bUser.password
+        cdc.b2bUser.password,
       );
       cdc.verifyUpdateEmailSuccess(
         cdc.updatedB2BEmail,
         cdc.b2bUser.password,
-        cdc.b2bUser.fullName
+        cdc.b2bUser.fullName,
       );
       cdc.restoreUserEmail(cdc.b2bUser);
     });
@@ -265,7 +265,7 @@ describe('CDC B2B scenarios', () => {
       cdc.updatePasswordWithoutScreenset(
         'WRONG_Pswd', //wrong password
         cdc.updatedPassword,
-        true
+        true,
       );
       cdc.verifyUpdatePasswordError();
     });
@@ -273,12 +273,12 @@ describe('CDC B2B scenarios', () => {
     it('should update password in Native UI (CXSPA-3016)', () => {
       cdc.updatePasswordWithoutScreenset(
         cdc.b2bUser.password,
-        cdc.updatedPassword
+        cdc.updatedPassword,
       );
       cdc.verifyUpdatePasswordSuccess(
         cdc.b2bUser.email,
         cdc.updatedPassword,
-        cdc.b2bUser.fullName
+        cdc.b2bUser.fullName,
       );
       cdc.restoreUserPassword(cdc.b2bUser);
     });

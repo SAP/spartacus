@@ -14,14 +14,12 @@ describe('ProgressButtonComponent', () => {
   let fixture: ComponentFixture<ProgressButtonComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ProgressButtonComponent, TestHostComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ProgressButtonComponent, TestHostComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProgressButtonComponent);
@@ -36,7 +34,7 @@ describe('ProgressButtonComponent', () => {
 
   it('should display empty button', () => {
     expect(
-      el.query(By.css('.cx-progress-button-container .loader-container'))
+      el.query(By.css('.cx-progress-button-container .loader-container')),
     ).toBeNull();
   });
 
@@ -45,7 +43,7 @@ describe('ProgressButtonComponent', () => {
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('.cx-progress-button-container .loader-container'))
+      el.query(By.css('.cx-progress-button-container .loader-container')),
     ).toBeTruthy();
   });
 
@@ -56,7 +54,7 @@ describe('ProgressButtonComponent', () => {
     const button = el.query(By.css('.btn-primary')).nativeElement;
 
     expect(
-      el.query(By.css('.cx-progress-button-container .loader-container'))
+      el.query(By.css('.cx-progress-button-container .loader-container')),
     ).toBeFalsy();
     expect(button.disabled).toBeTruthy();
   });

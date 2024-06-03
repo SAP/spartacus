@@ -23,7 +23,7 @@ export class UnitItemService extends ItemService<B2BUnit> {
     protected currentItemService: CurrentUnitService,
     protected routingService: RoutingService,
     protected formService: UnitFormService,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
   ) {
     super(currentItemService, routingService, formService);
   }
@@ -41,14 +41,14 @@ export class UnitItemService extends ItemService<B2BUnit> {
 
   update(
     code: string,
-    value: B2BUnit
+    value: B2BUnit,
   ): Observable<OrganizationItemStatus<B2BUnit>> {
     this.unitService.update(code, value);
     return this.unitService.getLoadingStatus(value.uid ?? '');
   }
 
   protected create(
-    value: B2BUnit
+    value: B2BUnit,
   ): Observable<OrganizationItemStatus<B2BUnit>> {
     this.unitService.create(value);
     return this.unitService.getLoadingStatus(value.uid ?? '');

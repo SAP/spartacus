@@ -37,7 +37,7 @@ export class DirectionService implements OnDestroy {
   constructor(
     protected configInit: ConfigInitializerService,
     protected languageService: LanguageService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {}
 
   /**
@@ -53,11 +53,11 @@ export class DirectionService implements OnDestroy {
           } else {
             this.setDirection(
               this.winRef.document.documentElement,
-              this.config?.default
+              this.config?.default,
             );
           }
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -75,9 +75,9 @@ export class DirectionService implements OnDestroy {
         .subscribe((isoCode: string) =>
           this.setDirection(
             this.winRef.document.documentElement,
-            this.getDirection(isoCode)
-          )
-        )
+            this.getDirection(isoCode),
+          ),
+        ),
     );
     this.startsDetecting = true;
   }

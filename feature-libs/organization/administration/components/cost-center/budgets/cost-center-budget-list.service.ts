@@ -27,14 +27,14 @@ export class CostCenterBudgetListService extends SubListService<Budget> {
   constructor(
     protected tableService: TableService,
     protected costCenterService: CostCenterService,
-    protected budgetService: BudgetService
+    protected budgetService: BudgetService,
   ) {
     super(tableService);
   }
 
   protected load(
     pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<Budget> | undefined> {
     return this.costCenterService.getBudgets(code, pagination);
   }
@@ -45,7 +45,7 @@ export class CostCenterBudgetListService extends SubListService<Budget> {
    */
   assign(
     costCenterCode: string,
-    budgetCode: string
+    budgetCode: string,
   ): Observable<OrganizationItemStatus<Budget>> {
     this.costCenterService.assignBudget(costCenterCode, budgetCode);
     return this.budgetService.getLoadingStatus(budgetCode);
@@ -57,7 +57,7 @@ export class CostCenterBudgetListService extends SubListService<Budget> {
    */
   unassign(
     costCenterCode: string,
-    budgetCode: string
+    budgetCode: string,
   ): Observable<OrganizationItemStatus<Budget>> {
     this.costCenterService.unassignBudget(costCenterCode, budgetCode);
     return this.budgetService.getLoadingStatus(budgetCode);

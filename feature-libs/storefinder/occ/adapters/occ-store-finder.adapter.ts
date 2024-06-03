@@ -30,40 +30,40 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
   ) {}
 
   search(
     query: string,
     searchConfig: SearchConfig,
     longitudeLatitude?: GeoPoint,
-    radius?: number
+    radius?: number,
   ): Observable<StoreFinderSearchPage> {
     return this.callOccFindStores(
       query,
       searchConfig,
       longitudeLatitude,
-      radius
+      radius,
     ).pipe(this.converterService.pipeable(STORE_FINDER_SEARCH_PAGE_NORMALIZER));
   }
 
   loadCounts(): Observable<StoreCount[]> {
     return this.http
       .get<Occ.StoreCountList>(
-        this.occEndpointsService.buildUrl('storescounts')
+        this.occEndpointsService.buildUrl('storescounts'),
       )
       .pipe(
         map(
-          ({ countriesAndRegionsStoreCount }) => countriesAndRegionsStoreCount
+          ({ countriesAndRegionsStoreCount }) => countriesAndRegionsStoreCount,
         ),
-        this.converterService.pipeableMany(STORE_COUNT_NORMALIZER)
+        this.converterService.pipeableMany(STORE_COUNT_NORMALIZER),
       );
   }
 
   load(storeId: string): Observable<PointOfService> {
     return this.http
       .get<Occ.PointOfService>(
-        this.occEndpointsService.buildUrl('store', { urlParams: { storeId } })
+        this.occEndpointsService.buildUrl('store', { urlParams: { storeId } }),
       )
       .pipe(this.converterService.pipeable(POINT_OF_SERVICE_NORMALIZER));
   }
@@ -72,7 +72,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     query: string,
     searchConfig?: SearchConfig,
     longitudeLatitude?: GeoPoint,
-    radius?: number
+    radius?: number,
   ): Observable<Occ.StoreFinderSearchPage> {
     const params: any = {};
 
@@ -98,7 +98,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     }
 
     return this.http.get<Occ.StoreFinderSearchPage>(
-      this.occEndpointsService.buildUrl('stores', { queryParams: params })
+      this.occEndpointsService.buildUrl('stores', { queryParams: params }),
     );
   }
 }

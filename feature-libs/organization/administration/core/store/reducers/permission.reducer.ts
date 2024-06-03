@@ -17,7 +17,7 @@ export const permissionsInitialState: ListModel | undefined = undefined;
 
 export function permissionsEntitiesReducer(
   state = permissionInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): Permission | undefined {
   switch (action.type) {
     case PermissionActions.LOAD_PERMISSION_SUCCESS:
@@ -38,7 +38,7 @@ export function permissionsEntitiesReducer(
 
 export function permissionsListReducer(
   state = permissionsInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case PermissionActions.LOAD_PERMISSIONS_SUCCESS:

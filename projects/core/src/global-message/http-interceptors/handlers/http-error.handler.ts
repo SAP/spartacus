@@ -15,7 +15,7 @@ import { GlobalMessageService } from '../../facade/global-message.service';
 export abstract class HttpErrorHandler implements Applicable {
   constructor(
     protected globalMessageService: GlobalMessageService,
-    @Inject(PLATFORM_ID) protected platformId?: Object
+    @Inject(PLATFORM_ID) protected platformId?: Object,
   ) {}
 
   /**
@@ -32,7 +32,7 @@ export abstract class HttpErrorHandler implements Applicable {
    */
   abstract handleError(
     request: HttpRequest<any>,
-    errorResponse: HttpErrorResponse
+    errorResponse: HttpErrorResponse,
   ): void;
 
   /**

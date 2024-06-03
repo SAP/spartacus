@@ -50,7 +50,7 @@ describe('User Cost Centers Selectors', () => {
       expect(result).toEqual([]);
 
       store.dispatch(
-        new UserActions.LoadActiveCostCentersSuccess(mockCostCenters)
+        new UserActions.LoadActiveCostCentersSuccess(mockCostCenters),
       );
       expect(result).toEqual(mockCostCenters);
     });

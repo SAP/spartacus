@@ -16,24 +16,24 @@ export abstract class UserProfileAdapter {
   abstract registerGuest(guid: string, password: string): Observable<User>;
 
   abstract requestForgotPasswordEmail(
-    userEmailAddress: string
+    userEmailAddress: string,
   ): Observable<unknown>;
 
   abstract resetPassword(
     token: string,
-    newPassword: string
+    newPassword: string,
   ): Observable<unknown>;
 
   abstract updateEmail(
     userId: string,
     currentPassword: string,
-    newUserId: string
+    newUserId: string,
   ): Observable<unknown>;
 
   abstract updatePassword(
     userId: string,
     oldPassword: string,
-    newPassword: string
+    newPassword: string,
   ): Observable<unknown>;
 
   abstract close(userId: string): Observable<unknown>;

@@ -71,7 +71,7 @@ describe('SplitViewComponent', () => {
 
   it('should update splitViewService when screen changes to xs', () => {
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-      of(BREAKPOINT.xs)
+      of(BREAKPOINT.xs),
     );
     fixture.detectChanges();
     expect(splitViewService.updateSplitView).toHaveBeenCalled();

@@ -55,7 +55,7 @@ export function verifyPrice(subtotal: string, discount: string) {
 
 export function refreshCartAndVerifyIfCouponAdded(
   couponCode: string,
-  userType = UserType.LOGGED
+  userType = UserType.LOGGED,
 ) {
   verifyRefreshCart(userType).then(({ subTotal, totalDiscounts }) => {
     const subtotal = subTotal.formattedValue;
@@ -80,7 +80,7 @@ export function refreshCartAndVerifyIfCoupons(couponCode: string) {
 export function verifyBannerAfterAddingCoupon(couponCode) {
   cy.get('cx-global-message').should(
     'contain',
-    `${couponCode} has been applied`
+    `${couponCode} has been applied`,
   );
 }
 
@@ -101,21 +101,21 @@ export function verifyMyCoupons() {
   cy.get('.cx-available-coupon .coupon-id').should('have.length', 2);
   cy.get('.cx-available-coupon .coupon-id').should(
     'contain',
-    springFestivalCoupon
+    springFestivalCoupon,
   );
   cy.get('.cx-available-coupon .coupon-id').should('contain', midAutumnCoupon);
 }
 
 export function ApplyMyCoupons(
   couponCode: string,
-  checkOrderPromotion: boolean = false
+  checkOrderPromotion: boolean = false,
 ) {
   cy.get('.cx-available-coupon').within(() => {
     cy.findByText(couponCode).parent().click();
   });
   cy.get('cx-global-message').should(
     'contain',
-    `${couponCode} has been applied`
+    `${couponCode} has been applied`,
   );
   getCouponItemFromCart(couponCode).should('exist');
   if (checkOrderPromotion) {
@@ -127,7 +127,7 @@ export function claimCoupon(couponCode: string) {
   cy.request({
     method: 'POST',
     url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/current/customercoupons/${couponCode}/claim`,
     headers: {
       Authorization: `bearer ${
@@ -242,7 +242,7 @@ export function verifyCouponInReviewOrder(couponCode?: string) {
 export function verifyCouponAndPromotion(
   couponCode: string,
   totalPrice: string,
-  savedPrice: string
+  savedPrice: string,
 ) {
   //verify coupon in cart
   getCouponItemFromCart(couponCode).should('exist');
@@ -254,7 +254,7 @@ export function verifyCouponAndPromotion(
 
 export function verifyCouponAndSavedPrice(
   couponCode: string,
-  savedPrice: string
+  savedPrice: string,
 ) {
   //verify coupon in cart
   getCouponItemFromCart(couponCode).should('exist');
@@ -267,7 +267,7 @@ export function verifyCouponAndSavedPrice(
 
 export function verifyCouponAndSavedPriceInOrder(
   couponCode: string,
-  savedPrice: string
+  savedPrice: string,
 ) {
   //verify coupon in order
   getCouponItemOrderSummary(couponCode).should('exist');
@@ -281,7 +281,7 @@ export function verifyCouponAndSavedPriceInOrder(
 export function verifyOrderHistoryForCouponAndPrice(
   orderData: any,
   couponCode?: string,
-  savedPrice?: string
+  savedPrice?: string,
 ) {
   waitForOrderToBePlacedRequest(orderData.body.code);
   navigateToOrderHistoryPage(orderData, couponCode);
@@ -314,8 +314,8 @@ export function registerOrderDetailsRoute(orderCode: string) {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orders/${orderCode}?fields=*&lang=en&curr=USD`
+      'BASE_SITE',
+    )}/users/current/orders/${orderCode}?fields=*&lang=en&curr=USD`,
   ).as('order_details');
 }
 
@@ -420,7 +420,7 @@ function registerProductDetailsRoute(productCode: string) {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/products/${productCode}?fields=*&lang=en&curr=USD`,
   }).as('product_details');
 }
@@ -430,7 +430,7 @@ function registerCartRefreshRoute(userType = UserType.LOGGED) {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/${userType}/carts/${
       userType === UserType.ANONYMOUS ? '*' : '[0-9]*'
     }?fields=*&lang=en&curr=USD`,
@@ -449,7 +449,7 @@ function registerReviewOrderRoute(cartId?: string) {
 function visitReviewOrderPage() {
   const reviewOrderPage = checkout.waitForPage(
     '/checkout/review-order',
-    'getReviewOrder'
+    'getReviewOrder',
   );
   cy.visit('/checkout/review-order');
   cy.wait(`@${reviewOrderPage}`).its('response.statusCode').should('eq', 200);
@@ -483,7 +483,7 @@ function interceptVoucherPostRequest() {
   cy.intercept({
     method: 'POST',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/*/carts/*/vouchers?voucherId=*&lang=en&curr=USD`,
   }).as(`fetchVoucher`);
 }

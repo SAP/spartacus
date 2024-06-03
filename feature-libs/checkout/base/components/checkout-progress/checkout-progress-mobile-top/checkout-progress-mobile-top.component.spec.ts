@@ -33,7 +33,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
-    mockCheckoutSteps
+    mockCheckoutSteps,
   );
   activeStepIndex$: Observable<number> = of(0);
 }
@@ -60,21 +60,16 @@ describe('CheckoutProgressMobileTopComponent', () => {
   let component: CheckoutProgressMobileTopComponent;
   let fixture: ComponentFixture<CheckoutProgressMobileTopComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          CheckoutProgressMobileTopComponent,
-          MockTranslateUrlPipe,
-        ],
-        providers: [
-          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [CheckoutProgressMobileTopComponent, MockTranslateUrlPipe],
+      providers: [
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutProgressMobileTopComponent);
@@ -92,7 +87,7 @@ describe('CheckoutProgressMobileTopComponent', () => {
     expect(steps.innerText).toContain('step 0');
 
     expect(steps.innerText).toContain(
-      mockActiveCart.subTotal?.formattedValue && mockActiveCart.totalItems
+      mockActiveCart.subTotal?.formattedValue && mockActiveCart.totalItems,
     );
   });
 });

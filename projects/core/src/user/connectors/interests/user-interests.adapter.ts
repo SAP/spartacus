@@ -28,7 +28,7 @@ export abstract class UserInterestsAdapter {
     currentPage?: number,
     sort?: string,
     productCode?: string,
-    notificationType?: NotificationType
+    notificationType?: NotificationType,
   ): Observable<ProductInterestSearchResult>;
 
   /**
@@ -39,7 +39,7 @@ export abstract class UserInterestsAdapter {
    */
   abstract removeInterest(
     userId: string,
-    item: ProductInterestEntryRelation
+    item: ProductInterestEntryRelation,
   ): Observable<any[]>;
 
   /**
@@ -52,6 +52,6 @@ export abstract class UserInterestsAdapter {
   abstract addInterest(
     userId: string,
     productCode: string,
-    notificationType: NotificationType
+    notificationType: NotificationType,
   ): Observable<any>;
 }

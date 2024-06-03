@@ -59,7 +59,7 @@ export class AsmCustomer360ProductReviewsComponent implements OnInit {
     protected asmCustomer360Config: AsmCustomer360Config,
     protected context: AsmCustomer360SectionContext<AsmCustomer360ReviewList>,
     protected datePipe: CxDatePipe,
-    protected translation: TranslationService
+    protected translation: TranslationService,
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +75,7 @@ export class AsmCustomer360ProductReviewsComponent implements OnInit {
             entry.localizedReviewStatus
           }`,
         }));
-      })
+      }),
     );
   }
 
@@ -91,7 +91,7 @@ export class AsmCustomer360ProductReviewsComponent implements OnInit {
     return date
       ? this.datePipe.transform(
           date,
-          this.asmCustomer360Config?.asmCustomer360?.dateTimeFormat
+          this.asmCustomer360Config?.asmCustomer360?.dateTimeFormat,
         ) ?? ''
       : '';
   }

@@ -25,6 +25,6 @@ export abstract class CheckoutPaymentTypeAdapter {
     userId: string,
     cartId: string,
     typeCode: string,
-    purchaseOrderNumber?: string
+    purchaseOrderNumber?: string,
   ): Observable<unknown>;
 }

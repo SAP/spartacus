@@ -30,7 +30,7 @@ export function defaultProductConfiguratorTextfieldComponentsConfig(): CmsConfig
   imports: [],
   providers: [
     provideDefaultConfigFactory(
-      defaultProductConfiguratorTextfieldComponentsConfig
+      defaultProductConfiguratorTextfieldComponentsConfig,
     ),
   ],
 })

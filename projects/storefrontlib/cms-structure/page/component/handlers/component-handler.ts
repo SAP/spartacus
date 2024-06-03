@@ -37,7 +37,7 @@ export abstract class ComponentHandler implements Applicable {
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
     elementInjector?: Injector,
-    module?: NgModuleRef<any>
+    module?: NgModuleRef<any>,
   ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }>;
 
   abstract hasMatch(componentMapping: CmsComponentMapping): boolean;

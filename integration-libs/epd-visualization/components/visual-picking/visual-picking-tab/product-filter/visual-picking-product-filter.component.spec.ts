@@ -27,7 +27,7 @@ class MockVisualPickingProductFilterService {
   _filter = '';
 
   getFilteredProducts(
-    _unfilteredProductReferences$: Observable<ProductReference[]>
+    _unfilteredProductReferences$: Observable<ProductReference[]>,
   ): Observable<ProductReference[]> {
     return of([]);
   }

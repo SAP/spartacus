@@ -39,26 +39,24 @@ describe('SaveForLaterComponent', () => {
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
-    ['getCart', 'isStable', 'removeEntry', 'getEntries']
+    ['getCart', 'isStable', 'removeEntry', 'getEntries'],
   );
 
   const mockCmsService = jasmine.createSpyObj('CmsService', [
     'getComponentData',
   ]);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [SaveForLaterComponent, MockCartItemListComponent],
-        imports: [I18nTestingModule],
-        providers: [
-          { provide: CmsService, useValue: mockCmsService },
-          { provide: ActiveCartFacade, useValue: mockActiveCartService },
-          { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [SaveForLaterComponent, MockCartItemListComponent],
+      imports: [I18nTestingModule],
+      providers: [
+        { provide: CmsService, useValue: mockCmsService },
+        { provide: ActiveCartFacade, useValue: mockActiveCartService },
+        { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SaveForLaterComponent);
@@ -67,14 +65,14 @@ describe('SaveForLaterComponent', () => {
     mockSelectiveCartService.isStable.and.returnValue(of(true));
     mockActiveCartService.isStable.and.returnValue(of(true));
     mockActiveCartService.getActive.and.returnValue(
-      of({ code: '00001', totalItems: 0 } as Cart)
+      of({ code: '00001', totalItems: 0 } as Cart),
     );
     mockCmsService.getComponentData.and.returnValue(of({ content: 'content' }));
     mockSelectiveCartService.getCart.and.returnValue(
-      of({ code: '123' } as Cart)
+      of({ code: '123' } as Cart),
     );
     mockSelectiveCartService.getEntries.and.returnValue(
-      of([{}] as OrderEntry[])
+      of([{}] as OrderEntry[]),
     );
   });
 
@@ -88,7 +86,7 @@ describe('SaveForLaterComponent', () => {
       of({
         code: '123',
         totalItems: 5,
-      } as Cart)
+      } as Cart),
     );
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.cx-total'));
@@ -101,12 +99,12 @@ describe('SaveForLaterComponent', () => {
       of({
         code: '123',
         totalItems: 5,
-      } as Cart)
+      } as Cart),
     );
     fixture.detectChanges();
     expect(
       fixture.debugElement.query(By.css('.cx-empty-cart-info')).nativeElement
-        .innerText
+        .innerText,
     ).toEqual('content');
   });
 
@@ -121,7 +119,7 @@ describe('SaveForLaterComponent', () => {
     expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(mockItem);
     expect(mockActiveCartService.addEntry).toHaveBeenCalledWith(
       mockItem.product.code,
-      mockItem.quantity
+      mockItem.quantity,
     );
   });
 });

@@ -45,17 +45,17 @@ describe('Replenishment Orders effect', () => {
 
     actions$ = TestBed.inject(Actions);
     userReplenishmentOrdersEffect = TestBed.inject(
-      fromEffect.ReplenishmentOrdersEffect
+      fromEffect.ReplenishmentOrdersEffect,
     );
     replenishmentOrderHistoryConnector = TestBed.inject(
-      ReplenishmentOrderHistoryConnector
+      ReplenishmentOrderHistoryConnector,
     );
   });
 
   describe('loadUserReplenishmentOrders$', () => {
     it('should load User Replenishment Orders', () => {
       spyOn(replenishmentOrderHistoryConnector, 'loadHistory').and.returnValue(
-        of(mockUserReplenishmentOrders)
+        of(mockUserReplenishmentOrders),
       );
       const action = new OrderActions.LoadUserReplenishmentOrders({
         userId: 'test@sap.com',
@@ -63,20 +63,20 @@ describe('Replenishment Orders effect', () => {
       });
 
       const completion = new OrderActions.LoadUserReplenishmentOrdersSuccess(
-        mockUserReplenishmentOrders
+        mockUserReplenishmentOrders,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(
-        userReplenishmentOrdersEffect.loadUserReplenishmentOrders$
+        userReplenishmentOrdersEffect.loadUserReplenishmentOrders$,
       ).toBeObservable(expected);
     });
 
     it('should handle failures for load user Replenishment Orders', () => {
       spyOn(replenishmentOrderHistoryConnector, 'loadHistory').and.returnValue(
-        throwError(() => 'Error')
+        throwError(() => 'Error'),
       );
 
       const action = new OrderActions.LoadUserReplenishmentOrders({
@@ -85,14 +85,14 @@ describe('Replenishment Orders effect', () => {
       });
 
       const completion = new OrderActions.LoadUserReplenishmentOrdersFail(
-        normalizeHttpError('Error', new MockLoggerService())
+        normalizeHttpError('Error', new MockLoggerService()),
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(
-        userReplenishmentOrdersEffect.loadUserReplenishmentOrders$
+        userReplenishmentOrdersEffect.loadUserReplenishmentOrders$,
       ).toBeObservable(expected);
     });
   });

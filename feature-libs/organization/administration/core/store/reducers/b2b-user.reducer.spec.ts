@@ -257,7 +257,7 @@ describe('B2B User Entities Reducer', () => {
         };
 
         const action = new B2BUserActions.UnassignB2BUserApproverSuccess(
-          payload
+          payload,
         );
         const result = b2bUserEntitiesReducer(b2bUserInitialState, action);
 
@@ -278,7 +278,7 @@ describe('B2B User Entities Reducer', () => {
         };
 
         const action = new B2BUserActions.UnassignB2BUserApproverSuccess(
-          payload
+          payload,
         );
         const result = b2bUserEntitiesReducer(payloadB2BUser, action);
 

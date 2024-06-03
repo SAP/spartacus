@@ -22,22 +22,20 @@ describe('PaginationComponent', () => {
   let fixture: ComponentFixture<PaginationComponent>;
   let debugEl: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [PaginationComponent],
-        providers: [
-          {
-            provide: PaginationConfig,
-            useValue: mockPaginationConfig,
-          },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [PaginationComponent],
+      providers: [
+        {
+          provide: PaginationConfig,
+          useValue: mockPaginationConfig,
+        },
 
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        ],
-      }).compileComponents();
-    })
-  );
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaginationComponent);
@@ -53,21 +51,21 @@ describe('PaginationComponent', () => {
     it('should return true for current page = 1', () => {
       component.pagination.currentPage = 1;
       expect(
-        component.isCurrent({ type: PaginationItemType.PAGE, number: 1 })
+        component.isCurrent({ type: PaginationItemType.PAGE, number: 1 }),
       ).toBeTruthy();
     });
 
     it('should return true for current page = 5', () => {
       component.pagination.currentPage = 5;
       expect(
-        component.isCurrent({ type: PaginationItemType.PAGE, number: 5 })
+        component.isCurrent({ type: PaginationItemType.PAGE, number: 5 }),
       ).toBeTruthy();
     });
 
     it('should not return isCurrent for current page = 2', () => {
       component.pagination.currentPage = 1;
       expect(
-        component.isCurrent({ type: PaginationItemType.PAGE, number: 2 })
+        component.isCurrent({ type: PaginationItemType.PAGE, number: 2 }),
       ).toBeFalsy();
     });
 
@@ -118,7 +116,7 @@ describe('PaginationComponent', () => {
           component.getQueryParams({
             type: PaginationItemType.PAGE,
             number: 2,
-          }) as Params
+          }) as Params,
         ).toEqual({});
       });
     });

@@ -21,11 +21,11 @@ import { NavigationNode } from './navigation-node.model';
 export class NavigationService {
   constructor(
     protected cmsService: CmsService,
-    protected semanticPathService: SemanticPathService
+    protected semanticPathService: SemanticPathService,
   ) {}
 
   public createNavigation(
-    data$: Observable<CmsNavigationComponent>
+    data$: Observable<CmsNavigationComponent>,
   ): Observable<NavigationNode> {
     return combineLatest([data$, this.getNavigationNode(data$)]).pipe(
       map(([data, nav]) => {
@@ -33,7 +33,7 @@ export class NavigationService {
           title: data.name,
           children: [nav],
         };
-      })
+      }),
     );
   }
 
@@ -43,7 +43,7 @@ export class NavigationService {
    * loaded so far.
    */
   public getNavigationNode(
-    data$: Observable<CmsNavigationComponent>
+    data$: Observable<CmsNavigationComponent>,
   ): Observable<NavigationNode> {
     if (!data$) {
       return EMPTY;
@@ -67,22 +67,24 @@ export class NavigationService {
               }[] = [];
               this.loadNavigationEntryItems(navigation, false, expectedItems);
               const existingItems = Object.keys(items).map(
-                (key) => items[key].uid ?? ''
+                (key) => items[key].uid ?? '',
               );
               const missingItems = expectedItems.filter(
-                (it) => it.id && !existingItems.includes(it.id)
+                (it) => it.id && !existingItems.includes(it.id),
               );
               if (missingItems.length > 0) {
                 this.cmsService.loadNavigationItems(
                   navigation.uid ?? '',
-                  missingItems
+                  missingItems,
                 );
               }
             }),
             filter(Boolean),
-            map((items) => this.populateNavigationNode(navigation, items) ?? {})
+            map(
+              (items) => this.populateNavigationNode(navigation, items) ?? {},
+            ),
           );
-      })
+      }),
     );
   }
 
@@ -95,7 +97,7 @@ export class NavigationService {
   private loadNavigationEntryItems(
     nodeData: CmsNavigationNode,
     root: boolean,
-    itemsList: { superType: string | undefined; id: string | undefined }[] = []
+    itemsList: { superType: string | undefined; id: string | undefined }[] = [],
   ): void {
     if (nodeData.entries && nodeData.entries.length > 0) {
       nodeData.entries.forEach((entry) => {
@@ -108,7 +110,7 @@ export class NavigationService {
 
     if (nodeData.children && nodeData.children.length > 0) {
       nodeData.children.forEach((child) =>
-        this.loadNavigationEntryItems(child, false, itemsList)
+        this.loadNavigationEntryItems(child, false, itemsList),
       );
     }
 
@@ -124,7 +126,7 @@ export class NavigationService {
    */
   private populateNavigationNode(
     nodeData: any,
-    items: any
+    items: any,
   ): NavigationNode | null {
     const node: NavigationNode = {};
 

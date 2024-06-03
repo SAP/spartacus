@@ -31,7 +31,7 @@ const scssFilePath = 'src/styles/spartacus/estimated-delivery-date.scss';
 describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_ESTIMATED_DELIVERY_DATE,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -76,31 +76,31 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
     schematicRunner.registerCollection(
       SPARTACUS_CART_BASE,
-      '../feature-libs/cart/schematics/collection.json'
+      '../feature-libs/cart/schematics/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -109,13 +109,13 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
     it('should not create any of the feature modules', () => {
       expect(
-        appTree.exists(estimatedDeliveryDateFeatureModulePath)
+        appTree.exists(estimatedDeliveryDateFeatureModulePath),
       ).toBeFalsy();
     });
   });
@@ -126,13 +126,13 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           cartBaseFeatureOptions,
-          appTree
+          appTree,
         );
 
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           estimatedDeliveryDateFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -164,7 +164,7 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
 
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(
-          estimatedDeliveryDateFeatureModulePath
+          estimatedDeliveryDateFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
 
@@ -191,19 +191,19 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         { ...cartBaseFeatureOptions, lazy: false },
-        appTree
+        appTree,
       );
 
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         { ...estimatedDeliveryDateFeatureOptions, lazy: false },
-        appTree
+        appTree,
       );
     });
 
     it('should import appropriate modules', async () => {
       const module = appTree.readContent(
-        estimatedDeliveryDateFeatureModulePath
+        estimatedDeliveryDateFeatureModulePath,
       );
       expect(module).toMatchSnapshot();
 

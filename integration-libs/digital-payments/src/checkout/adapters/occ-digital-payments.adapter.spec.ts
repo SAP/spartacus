@@ -65,7 +65,7 @@ describe('OccDigitalPaymentsAdapter', () => {
       urlParams: { userId, cartId },
     });
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      DP_DETAILS_NORMALIZER
+      DP_DETAILS_NORMALIZER,
     );
     mockReq.flush('');
   });
@@ -79,7 +79,7 @@ describe('OccDigitalPaymentsAdapter', () => {
       urlParams: { userId, cartId },
     });
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      DP_REQUEST_NORMALIZER
+      DP_REQUEST_NORMALIZER,
     );
     mockReq.flush('');
   });

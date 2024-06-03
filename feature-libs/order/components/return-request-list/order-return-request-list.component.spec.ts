@@ -44,7 +44,7 @@ class MockOrderReturnRequestService {
     _userId: string,
     _pageSize: number,
     _currentPage?: number,
-    _sort?: string
+    _sort?: string,
   ): void {}
 
   clearOrderReturnRequestList() {}
@@ -61,26 +61,24 @@ describe('OrderReturnRequestListComponent', () => {
   let fixture: ComponentFixture<OrderReturnRequestListComponent>;
   let returnService: OrderReturnRequestFacade;
   let el: DebugElement;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
-        declarations: [OrderReturnRequestListComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: OrderReturnRequestFacade,
-            useClass: MockOrderReturnRequestService,
-          },
-          {
-            provide: TranslationService,
-            useClass: MockTranslationService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
+      declarations: [OrderReturnRequestListComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: OrderReturnRequestFacade,
+          useClass: MockOrderReturnRequestService,
+        },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
+      ],
+    }).compileComponents();
 
-      returnService = TestBed.inject(OrderReturnRequestFacade);
-    })
-  );
+    returnService = TestBed.inject(OrderReturnRequestFacade);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderReturnRequestListComponent);
@@ -132,7 +130,7 @@ describe('OrderReturnRequestListComponent', () => {
     expect(returnService.loadOrderReturnRequestList).toHaveBeenCalledWith(
       5,
       0,
-      'byOrderNumber'
+      'byOrderNumber',
     );
   });
 
@@ -155,7 +153,7 @@ describe('OrderReturnRequestListComponent', () => {
     expect(returnService.loadOrderReturnRequestList).toHaveBeenCalledWith(
       5,
       1,
-      'byDate'
+      'byDate',
     );
   });
 
@@ -182,7 +180,9 @@ describe('OrderReturnRequestListComponent', () => {
     const sortComponents = el.queryAll(By.css('cx-sorting'));
     expect(sortComponents.length).toBe(2);
     expect(
-      sortComponents[1].query(By.css('div[aria-controls="order-return-table"]'))
+      sortComponents[1].query(
+        By.css('div[aria-controls="order-return-table"]'),
+      ),
     ).not.toBeNull();
   });
 });

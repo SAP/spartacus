@@ -38,7 +38,7 @@ export interface RoutingResolveBreadcrumbsOptions {
 export class RoutingPageMetaResolver {
   constructor(
     protected activatedRoutesService: ActivatedRoutesService,
-    protected injector: Injector
+    protected injector: Injector,
   ) {}
 
   /**
@@ -46,7 +46,7 @@ export class RoutingPageMetaResolver {
    */
   protected readonly routes$ = this.activatedRoutesService.routes$.pipe(
     // drop the first route - the special `root` route:
-    map((routes) => (routes = routes.slice(1, routes.length)))
+    map((routes) => (routes = routes.slice(1, routes.length))),
   );
 
   /**
@@ -79,9 +79,9 @@ export class RoutingPageMetaResolver {
           const url = parent.url + (urlPart ? `/${urlPart}` : ''); // don't add slash for a route with path '', to avoid double slash ...//...
 
           return results.concat({ route, resolver, url });
-        }, [])
+        }, []),
       ),
-      shareReplay({ bufferSize: 1, refCount: true })
+      shareReplay({ bufferSize: 1, refCount: true }),
     );
 
   /**
@@ -89,24 +89,24 @@ export class RoutingPageMetaResolver {
    * It emits on every completed routing navigation.
    */
   resolveBreadcrumbs(
-    options?: RoutingResolveBreadcrumbsOptions
+    options?: RoutingResolveBreadcrumbsOptions,
   ): Observable<BreadcrumbMeta[]> {
     return this.routesWithExtras$.pipe(
       map((routesWithExtras) =>
         options?.includeCurrentRoute
           ? routesWithExtras
-          : this.trimCurrentRoute(routesWithExtras)
+          : this.trimCurrentRoute(routesWithExtras),
       ),
       switchMap((routesWithExtras) =>
         routesWithExtras.length
           ? combineLatest(
               routesWithExtras.map((routeWithExtras) =>
-                this.resolveRouteBreadcrumb(routeWithExtras)
-              )
+                this.resolveRouteBreadcrumb(routeWithExtras),
+              ),
             )
-          : of([])
+          : of([]),
       ),
-      map((breadcrumbArrays) => breadcrumbArrays.flat())
+      map((breadcrumbArrays) => breadcrumbArrays.flat()),
     );
   }
 
@@ -157,7 +157,7 @@ export class RoutingPageMetaResolver {
    * (which likely defines the breadcrumb config).
    */
   private trimCurrentRoute(
-    routesWithExtras: RouteWithExtras[]
+    routesWithExtras: RouteWithExtras[],
   ): RouteWithExtras[] {
     // If the last route is '', we trim:
     // - the '' route
@@ -184,7 +184,7 @@ export class RoutingPageMetaResolver {
    * Returns the breadcrumb config placed in the route's `data` configuration.
    */
   protected getPageMetaConfig(
-    route: ActivatedRouteSnapshotWithPageMeta
+    route: ActivatedRouteSnapshotWithPageMeta,
   ): RoutePageMetaConfig | undefined {
     // Note: we use `route.routeConfig.data` (not `route.data`) to save us from
     // an edge case bug. In Angular, by design the `data` of ActivatedRoute is inherited

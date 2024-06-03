@@ -41,7 +41,7 @@ export function addImport(
   host: Tree,
   filePath: string,
   importText: string,
-  importPath: string
+  importPath: string,
 ): void {
   const moduleSource = getTsSourceFile(host, filePath);
   if (!isImported(moduleSource, importText, importPath)) {
@@ -54,7 +54,7 @@ export function createImportChange(
   host: Tree,
   filePath: string,
   importText: string,
-  importPath: string
+  importPath: string,
 ): Change {
   const source = getTsSourceFile(host, filePath);
   if (isImported(source, importText, importPath)) {
@@ -67,7 +67,7 @@ export function addToModuleImports(
   host: Tree,
   modulePath: string,
   importText: string,
-  moduleSource?: ts.SourceFile
+  moduleSource?: ts.SourceFile,
 ): InsertChange[] {
   return addToMetadata(host, modulePath, importText, 'imports', moduleSource);
 }
@@ -76,14 +76,14 @@ export function addToModuleDeclarations(
   host: Tree,
   modulePath: string,
   declarations: string,
-  moduleSource?: ts.SourceFile
+  moduleSource?: ts.SourceFile,
 ): InsertChange[] {
   return addToMetadata(
     host,
     modulePath,
     declarations,
     'declarations',
-    moduleSource
+    moduleSource,
   );
 }
 
@@ -91,7 +91,7 @@ export function addToModuleExports(
   host: Tree,
   modulePath: string,
   exportsText: string,
-  moduleSource?: ts.SourceFile
+  moduleSource?: ts.SourceFile,
 ): InsertChange[] {
   return addToMetadata(host, modulePath, exportsText, 'exports', moduleSource);
 }
@@ -100,7 +100,7 @@ export function addToModuleProviders(
   host: Tree,
   modulePath: string,
   importText: string,
-  moduleSource?: ts.SourceFile
+  moduleSource?: ts.SourceFile,
 ): InsertChange[] {
   return addToMetadata(host, modulePath, importText, 'providers', moduleSource);
 }
@@ -110,21 +110,21 @@ export function addToMetadata(
   modulePath: string,
   text: string,
   metadataType: 'imports' | 'declarations' | 'exports' | 'providers',
-  moduleSource?: ts.SourceFile
+  moduleSource?: ts.SourceFile,
 ): InsertChange[] {
   moduleSource = moduleSource || getTsSourceFile(host, modulePath);
   return addSymbolToNgModuleMetadata(
     moduleSource,
     modulePath,
     metadataType,
-    text
+    text,
   ) as InsertChange[];
 }
 
 export function addToModuleImportsAndCommitChanges(
   host: Tree,
   modulePath: string,
-  importText: string
+  importText: string,
 ): void {
   const metadataChanges = addToModuleImports(host, modulePath, importText);
   commitChanges(host, modulePath, metadataChanges, InsertDirection.RIGHT);
@@ -148,7 +148,7 @@ export function buildRelativePath(from: string, to: string): string {
 
   const relativePath = relative(
     normalize(fromParts.join('/') || '/'),
-    normalize(toParts.join('/') || '/')
+    normalize(toParts.join('/') || '/'),
   );
   let pathPrefix = '';
 
@@ -180,7 +180,7 @@ export function getTemplateInfo(source: ts.SourceFile):
   // if the 'templateUrl' is not specified, check for the inline template
   const inlineTemplateResult = getTemplateUrlOrInlineTemplate(
     source,
-    'template'
+    'template',
   );
   if (inlineTemplateResult) {
     return {
@@ -194,7 +194,7 @@ export function getTemplateInfo(source: ts.SourceFile):
 
 function getTemplateUrlOrInlineTemplate(
   source: ts.SourceFile,
-  templateOrTemplateUrl: 'template' | 'templateUrl'
+  templateOrTemplateUrl: 'template' | 'templateUrl',
 ): { contentOrUrl: string; start?: number } | undefined {
   const decorator = getDecoratorMetadata(source, 'Component', ANGULAR_CORE)[0];
   if (!decorator) {
@@ -203,7 +203,7 @@ function getTemplateUrlOrInlineTemplate(
 
   const templateMetadata = getMetadataProperty(
     decorator,
-    templateOrTemplateUrl
+    templateOrTemplateUrl,
   );
   if (!templateMetadata) {
     return undefined;
@@ -212,13 +212,13 @@ function getTemplateUrlOrInlineTemplate(
   let stringNode: ts.StringLiteral | ts.NoSubstitutionTemplateLiteral;
   stringNode = stringNode = findNodes(
     templateMetadata,
-    ts.SyntaxKind.NoSubstitutionTemplateLiteral
+    ts.SyntaxKind.NoSubstitutionTemplateLiteral,
   )[0] as ts.NoSubstitutionTemplateLiteral;
   if (!stringNode) {
     // fallback to single/double quotes
     stringNode = findNodes(
       templateMetadata,
-      ts.SyntaxKind.StringLiteral
+      ts.SyntaxKind.StringLiteral,
     )[0] as ts.StringLiteral;
   }
 

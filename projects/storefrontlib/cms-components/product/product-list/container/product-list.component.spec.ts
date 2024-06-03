@@ -101,52 +101,50 @@ describe('ProductListComponent', () => {
   let fixture: ComponentFixture<ProductListComponent>;
   let componentService: ProductListComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ListNavigationModule,
-          FormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          InfiniteScrollModule,
-          SpinnerModule,
-        ],
-        providers: [
-          {
-            provide: PageLayoutService,
-            useClass: MockPageLayoutService,
-          },
-          {
-            provide: ProductListComponentService,
-            useClass: MockProductListComponentService,
-          },
-          {
-            provide: ViewConfig,
-            useClass: MockViewConfig,
-          },
-          {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
-          },
-        ],
-        declarations: [
-          ProductListComponent,
-          ProductFacetNavigationComponent,
-          ProductGridItemComponent,
-          MockStarRatingComponent,
-          MockAddToCartComponent,
-          MediaComponent,
-          ProductViewComponent,
-          MockProductListItemComponent,
-          MockUrlPipe,
-          MockCxIconComponent,
-          ProductScrollComponent,
-          MockFeatureLevelDirective,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ListNavigationModule,
+        FormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        InfiniteScrollModule,
+        SpinnerModule,
+      ],
+      providers: [
+        {
+          provide: PageLayoutService,
+          useClass: MockPageLayoutService,
+        },
+        {
+          provide: ProductListComponentService,
+          useClass: MockProductListComponentService,
+        },
+        {
+          provide: ViewConfig,
+          useClass: MockViewConfig,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+      ],
+      declarations: [
+        ProductListComponent,
+        ProductFacetNavigationComponent,
+        ProductGridItemComponent,
+        MockStarRatingComponent,
+        MockAddToCartComponent,
+        MediaComponent,
+        ProductViewComponent,
+        MockProductListItemComponent,
+        MockUrlPipe,
+        MockCxIconComponent,
+        ProductScrollComponent,
+        MockFeatureLevelDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListComponent);

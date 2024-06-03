@@ -57,24 +57,22 @@ describe('CategoryNavigationComponent', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [CategoryNavigationComponent, MockNavigationComponent],
-        providers: [
-          {
-            provide: NavigationService,
-            useValue: mockNavigationService,
-          },
-          {
-            provide: CmsComponentData,
-            useValue: MockCmsNavigationComponent,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [CategoryNavigationComponent, MockNavigationComponent],
+      providers: [
+        {
+          provide: NavigationService,
+          useValue: mockNavigationService,
+        },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsNavigationComponent,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CategoryNavigationComponent);

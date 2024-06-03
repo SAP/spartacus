@@ -22,7 +22,7 @@ import {
 
 export function configValidatorFactory(
   configInitializer: ConfigInitializerService,
-  validators: ConfigValidator[]
+  validators: ConfigValidator[],
 ): () => void {
   const logger = inject(LoggerService);
   return () => {
@@ -30,7 +30,7 @@ export function configValidatorFactory(
       configInitializer
         .getStable()
         .subscribe((config) =>
-          validateConfig(config, validators || [], logger)
+          validateConfig(config, validators || [], logger),
         );
     }
   };

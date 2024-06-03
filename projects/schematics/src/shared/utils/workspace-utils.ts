@@ -32,7 +32,7 @@ const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
 
 export function getSourceRoot(
   host: Tree,
-  options: { project?: string | undefined; path?: string | undefined } = {}
+  options: { project?: string | undefined; path?: string | undefined } = {},
 ): string {
   const workspace = getWorkspace(host).workspace;
 
@@ -50,7 +50,7 @@ export function getSourceRoot(
 
 export function getWorkspace(
   host: Tree,
-  files = DEFAULT_POSSIBLE_PROJECT_FILES
+  files = DEFAULT_POSSIBLE_PROJECT_FILES,
 ): { path: string; workspace: WorkspaceSchema } {
   const angularJson = getAngularJsonFile(host, files);
   const path = files.filter((filePath) => host.exists(filePath))[0];
@@ -63,10 +63,10 @@ export function getWorkspace(
 
 export function getAngularJsonFile(
   tree: Tree,
-  possibleProjectFiles = DEFAULT_POSSIBLE_PROJECT_FILES
+  possibleProjectFiles = DEFAULT_POSSIBLE_PROJECT_FILES,
 ): WorkspaceSchema {
   const path = possibleProjectFiles.filter((filePath) =>
-    tree.exists(filePath)
+    tree.exists(filePath),
   )[0];
   if (!path) {
     throw new SchematicsException(`Could not find Angular`);
@@ -82,11 +82,11 @@ export function getAngularJsonFile(
 }
 
 export function getProjectFromWorkspace<
-  TProjectType extends ProjectType.Application
+  TProjectType extends ProjectType.Application,
 >(
   tree: Tree,
   options: SpartacusOptions,
-  files = DEFAULT_POSSIBLE_PROJECT_FILES
+  files = DEFAULT_POSSIBLE_PROJECT_FILES,
 ): WorkspaceProject<TProjectType> {
   const { workspace } = getWorkspace(tree, files);
 
@@ -101,7 +101,7 @@ export function getProjectFromWorkspace<
 
   if (project.projectType !== 'application') {
     throw new SchematicsException(
-      `Spartacus requires a project type of "application".`
+      `Spartacus requires a project type of "application".`,
     );
   }
 
@@ -117,11 +117,11 @@ export function getDefaultProjectNameFromWorkspace(tree: Tree): string {
 export function getProjectTargets(project: WorkspaceProject): WorkspaceTargets;
 export function getProjectTargets(
   workspaceOrHost: WorkspaceSchema | Tree,
-  projectName: string
+  projectName: string,
 ): WorkspaceTargets;
 export function getProjectTargets(
   projectOrHost: WorkspaceProject | Tree | WorkspaceSchema,
-  projectName = ''
+  projectName = '',
 ): WorkspaceTargets {
   const project = isWorkspaceProject(projectOrHost)
     ? projectOrHost
@@ -151,10 +151,10 @@ export function buildDefaultPath(project: WorkspaceProject): string {
 }
 
 export function getProject<
-  TProjectType extends ProjectType = ProjectType.Application
+  TProjectType extends ProjectType = ProjectType.Application,
 >(
   workspaceOrHost: WorkspaceSchema | Tree,
-  projectName: string
+  projectName: string,
 ): WorkspaceProject<TProjectType> {
   const workspace = isWorkspaceSchema(workspaceOrHost)
     ? workspaceOrHost
@@ -164,7 +164,7 @@ export function getProject<
 }
 
 export function isWorkspaceSchema(
-  workspace: any
+  workspace: any,
 ): workspace is WorkspaceSchema {
   return !!(workspace && (workspace as WorkspaceSchema).projects);
 }
@@ -177,7 +177,7 @@ export function validateSpartacusInstallation(packageJson: any): void {
   if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_CORE)) {
     throw new SchematicsException(
       `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
-    To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
+    To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`,
     );
   }
 }
@@ -186,10 +186,7 @@ export function scaffoldStructure(options: SpartacusOptions): Rule {
   const APP_PATH = 'app/spartacus';
   return (_tree: Tree, _context: SchematicContext) => {
     return chain([
-      debugLogRule(
-        `⌛️ Scaffolding Spartacus file structure...`,
-        options.debug
-      ),
+      debugLogRule(`⌛️ Scaffolding Spartacus file structure...`, options.debug),
 
       ensureModuleExists({
         name: SPARTACUS_MODULE,

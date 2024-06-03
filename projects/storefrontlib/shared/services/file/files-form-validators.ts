@@ -73,7 +73,7 @@ export class FilesFormValidators {
       if (allowedTypes && control.value) {
         const files: File[] = Array.from(control.value);
         errors.fileNotAllowed = files.some(
-          ({ name }) => !allowedTypes.includes(this.getExtension(name))
+          ({ name }) => !allowedTypes.includes(this.getExtension(name)),
         );
       }
       return errors[Object.keys(errors)?.[0]] ? errors : null;

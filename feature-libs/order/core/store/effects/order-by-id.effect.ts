@@ -35,11 +35,11 @@ export class OrderByIdEffect {
               new OrderActions.LoadOrderByIdFail({
                 code,
                 error: normalizeHttpError(error, this.logger),
-              })
+              }),
             );
-          })
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 }

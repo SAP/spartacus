@@ -67,7 +67,7 @@ export class QualtricsLoaderService implements OnDestroy {
     switchMap(() => this.isDataLoaded()),
     map((dataLoaded: boolean) => (dataLoaded ? this.window?.QSI : EMPTY)),
     filter((qsi: any) => Boolean(qsi)),
-    tap((qsi: any) => (this.qsiApi = qsi))
+    tap((qsi: any) => (this.qsiApi = qsi)),
   );
 
   get window(): QualtricsWindow | undefined {
@@ -77,7 +77,7 @@ export class QualtricsLoaderService implements OnDestroy {
   constructor(
     protected winRef: WindowRef,
     @Inject(PLATFORM_ID) protected platformId: any,
-    protected scriptLoader: ScriptLoader
+    protected scriptLoader: ScriptLoader,
   ) {
     this.initialize();
   }

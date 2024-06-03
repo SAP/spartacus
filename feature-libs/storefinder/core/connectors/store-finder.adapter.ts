@@ -13,7 +13,7 @@ export abstract class StoreFinderAdapter {
     query: string,
     searchConfig: SearchConfig,
     longitudeLatitude?: GeoPoint,
-    radius?: number
+    radius?: number,
   ): Observable<StoreFinderSearchPage>;
 
   abstract loadCounts(): Observable<StoreCount[]>;

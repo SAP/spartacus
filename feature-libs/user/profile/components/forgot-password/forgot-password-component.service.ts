@@ -28,13 +28,13 @@ export class ForgotPasswordComponentService {
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
     protected authConfigService: AuthConfigService,
-    protected globalMessage: GlobalMessageService
+    protected globalMessage: GlobalMessageService,
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
 
   isUpdating$ = this.busy$.pipe(
-    tap((state) => (state === true ? this.form.disable() : this.form.enable()))
+    tap((state) => (state === true ? this.form.disable() : this.form.enable())),
   );
 
   form: UntypedFormGroup = new UntypedFormGroup({
@@ -69,7 +69,7 @@ export class ForgotPasswordComponentService {
   protected onSuccess(): void {
     this.globalMessage.add(
       { key: 'forgottenPassword.passwordResetEmailSent' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
     this.busy$.next(false);
     this.form.reset();

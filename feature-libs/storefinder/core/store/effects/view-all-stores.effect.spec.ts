@@ -26,7 +26,7 @@ const storesCountResult: StoreCount[] = [
 
 const mockStoreFinderConnector = {
   getCounts: createSpy('connector.getCounts').and.returnValue(
-    of(storesCountResult)
+    of(storesCountResult),
   ),
 };
 
@@ -52,7 +52,7 @@ describe('ViewAllStores Effects', () => {
     it('should return searchResult from ViewAllStoresSuccess', () => {
       const action = new StoreFinderActions.ViewAllStores();
       const completion = new StoreFinderActions.ViewAllStoresSuccess(
-        storesCountResult
+        storesCountResult,
       );
 
       actions$ = hot('-a', { a: action });
@@ -63,7 +63,7 @@ describe('ViewAllStores Effects', () => {
     it('should return search result on clear store finder data', () => {
       const action = new StoreFinderActions.ClearStoreFinderData();
       const completion = new StoreFinderActions.ViewAllStoresSuccess(
-        storesCountResult
+        storesCountResult,
       );
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

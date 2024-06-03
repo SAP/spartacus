@@ -20,7 +20,7 @@ export function reducer(
   state = initialState,
   action:
     | OrderActions.UserReplenishmentOrdersAction
-    | OrderActions.ReplenishmentOrderDetailsAction
+    | OrderActions.ReplenishmentOrderDetailsAction,
 ): ReplenishmentOrderList {
   switch (action.type) {
     case OrderActions.LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS: {
@@ -34,7 +34,7 @@ export function reducer(
       const index = userReplenishmentOrders.findIndex(
         (replenishmentOrder: ReplenishmentOrder) =>
           replenishmentOrder.replenishmentOrderCode ===
-          cancelledReplenishmentOrder.replenishmentOrderCode
+          cancelledReplenishmentOrder.replenishmentOrderCode,
       );
 
       if (index === -1) {

@@ -34,7 +34,7 @@ class MockOutletDirective {
     [
       { componentType: 'TestContainerComponent' },
       { componentType: 'TestOtherComponent' },
-    ]
+    ],
   );
 }
 const testTemplate = {} as any;
@@ -79,7 +79,7 @@ describe('OutletRenderStrategy', () => {
     spyOn(outletService, 'add');
     spyOn(outletRendererService, 'render');
     spyOn(outletRendererService, 'getOutletRef').and.returnValue(
-      of(new MockOutletDirective() as any)
+      of(new MockOutletDirective() as any),
     );
   });
 
@@ -102,11 +102,11 @@ describe('OutletRenderStrategy', () => {
         expect(outletService.add).toHaveBeenCalledWith(
           config.outlet,
           testTemplate,
-          config.position
+          config.position,
         );
 
         expect(outletRendererService.render).toHaveBeenCalledWith(
-          config.outlet
+          config.outlet,
         );
       });
 
@@ -119,11 +119,11 @@ describe('OutletRenderStrategy', () => {
         expect(outletService.add).toHaveBeenCalledWith(
           config.outlet,
           testTemplate,
-          OutletPosition.BEFORE
+          OutletPosition.BEFORE,
         );
 
         expect(outletRendererService.render).toHaveBeenCalledWith(
-          config.outlet
+          config.outlet,
         );
       });
     });

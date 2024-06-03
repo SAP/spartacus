@@ -9,7 +9,7 @@ class MockGuardsComposer implements Partial<GuardsComposer> {
   canActivate(
     _guards: CanActivate[],
     _route: CmsActivatedRouteSnapshot,
-    _state: RouterStateSnapshot
+    _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     return of(true);
   }
@@ -43,7 +43,7 @@ describe('BeforeCmsPageGuardService', () => {
       expect(guardsComposer.canActivate).toHaveBeenCalledWith(
         service['guards'],
         route,
-        state
+        state,
       );
       expect(value).toEqual(true);
       done();

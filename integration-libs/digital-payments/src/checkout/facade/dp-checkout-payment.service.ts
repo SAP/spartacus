@@ -26,13 +26,13 @@ export class DpCheckoutPaymentService {
     protected dpAdapter: DigitalPaymentsAdapter,
     protected command: CommandService,
     protected query: QueryService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   protected RequestUrlQuery: Query<DpPaymentRequest> = this.query.create(() =>
     this.userIdService
       .takeUserId()
-      .pipe(switchMap((userId) => this.dpAdapter.createPaymentRequest(userId)))
+      .pipe(switchMap((userId) => this.dpAdapter.createPaymentRequest(userId))),
   );
 
   getCardRegistrationDetails(): Observable<DpPaymentRequest | undefined> {
@@ -54,18 +54,18 @@ export class DpCheckoutPaymentService {
             this.dpAdapter.createPaymentDetails(
               payload.sessionId,
               payload.signature,
-              userId
-            )
-          )
+              userId,
+            ),
+          ),
         ),
     {
       strategy: CommandStrategy.Queue,
-    }
+    },
   );
 
   createPaymentDetails(
     sessionId: string,
-    signature: string
+    signature: string,
   ): Observable<PaymentDetails> {
     return this.createPaymentDetailsCommand.execute({ sessionId, signature });
   }

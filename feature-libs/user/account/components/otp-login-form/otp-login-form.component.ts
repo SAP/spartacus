@@ -45,7 +45,7 @@ export class OneTimePasswordLoginFormComponent {
         this.form.patchValue({ userId });
       }
       state === true ? this.form.disable() : this.form.enable();
-    })
+    }),
   );
 
   form: UntypedFormGroup = new UntypedFormGroup({
@@ -78,7 +78,7 @@ export class OneTimePasswordLoginFormComponent {
 
   protected goToVerificationTokenForm(
     verificationToken: VerificationToken,
-    verificationTokenCreation: VerificationTokenCreation
+    verificationTokenCreation: VerificationTokenCreation,
   ): void {
     this.routingService.go(
       {
@@ -91,7 +91,7 @@ export class OneTimePasswordLoginFormComponent {
           tokenId: verificationToken.tokenId,
           expiresIn: verificationToken.expiresIn,
         },
-      }
+      },
     );
   }
 

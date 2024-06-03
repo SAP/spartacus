@@ -16,7 +16,7 @@ import { UnitTreeService } from '../services/unit-tree.service';
 export class UnitListComponent {
   constructor(
     protected unitTreeService: UnitTreeService,
-    protected orgUnitService?: OrgUnitService
+    protected orgUnitService?: OrgUnitService,
   ) {}
 
   readonly isUpdatingUnitAllowed = this.orgUnitService

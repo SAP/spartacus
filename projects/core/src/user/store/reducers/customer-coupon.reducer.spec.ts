@@ -86,7 +86,7 @@ describe('CustomerCoupon Reducer', () => {
     it('should populate the customer coupon state', () => {
       const { initialState } = fromCustomerCouponsReducer;
       const action = new UserActions.LoadCustomerCouponsSuccess(
-        customerSearcherResult1
+        customerSearcherResult1,
       );
       const state = fromCustomerCouponsReducer.reducer(initialState, action);
 
@@ -97,11 +97,11 @@ describe('CustomerCoupon Reducer', () => {
   describe('SUBSCRIBE_CUSTOMER_COUPON_SUCCESS action', () => {
     it('should populate the customer coupon state', () => {
       const action = new UserActions.SubscribeCustomerCouponSuccess(
-        customerCouponNotification
+        customerCouponNotification,
       );
       const state = fromCustomerCouponsReducer.reducer(
         MockinitialState,
-        action
+        action,
       );
 
       expect(state.coupons[0].notificationOn).toEqual(true);
@@ -111,11 +111,11 @@ describe('CustomerCoupon Reducer', () => {
   describe('UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS action', () => {
     it('should populate the customer coupon state', () => {
       const action = new UserActions.UnsubscribeCustomerCouponSuccess(
-        'coupon1'
+        'coupon1',
       );
       const state = fromCustomerCouponsReducer.reducer(
         MockinitialState,
-        action
+        action,
       );
 
       expect(state.coupons[0].notificationOn).toEqual(false);

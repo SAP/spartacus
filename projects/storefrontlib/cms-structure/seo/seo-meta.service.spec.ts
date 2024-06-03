@@ -53,7 +53,7 @@ describe('SeoMetaService', () => {
     removeMetaTagSpy = spyOn(ngMetaService, 'removeTag');
     addCanonicalLinkSpy = spyOn(
       TestBed.inject(PageMetaLinkService),
-      'setCanonicalLink'
+      'setCanonicalLink',
     );
   });
 
@@ -118,7 +118,7 @@ describe('SeoMetaService', () => {
     it('Should build the canonical url with the link builder', () => {
       seoMetaService.init();
       expect(addCanonicalLinkSpy).toHaveBeenCalledWith(
-        'https://www.canonicalUrl.com'
+        'https://www.canonicalUrl.com',
       );
     });
   });

@@ -18,7 +18,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('Spartacus Schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -48,14 +48,14 @@ describe('Spartacus Schematics: ng-add', () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
   });
 
@@ -63,7 +63,7 @@ describe('Spartacus Schematics: ng-add', () => {
     const tree = await schematicRunner.runSchematic(
       'ng-add',
       { ...defaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
 
     const packageJson = tree.readContent('/package.json');
@@ -78,7 +78,7 @@ describe('Spartacus Schematics: ng-add', () => {
     const tree = await schematicRunner.runSchematic(
       'ng-add',
       { ...defaultOptions, name: 'schematics-test', ssr: true },
-      appTree
+      appTree,
     );
 
     const packageJsonBuffer = tree.read('/package.json');
@@ -86,7 +86,7 @@ describe('Spartacus Schematics: ng-add', () => {
     const appServerModulePath = getPathResultsForFile(
       tree,
       'app.module.server.ts',
-      '/src'
+      '/src',
     )[0];
     const appServerModuleBuffer = tree.read(appServerModulePath);
     expect(appServerModuleBuffer).toBeTruthy();
@@ -108,7 +108,7 @@ describe('Spartacus Schematics: ng-add', () => {
         name: 'schematics-test',
         ssr: true,
       },
-      appTree
+      appTree,
     );
 
     const appModule = tree.readContent('src/app/app.module.ts');

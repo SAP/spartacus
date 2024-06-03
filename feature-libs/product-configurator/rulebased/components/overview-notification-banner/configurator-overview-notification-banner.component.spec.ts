@@ -75,7 +75,7 @@ const routerData: ConfiguratorRouter.Data = {
   owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
     '3',
-    configuratorType
+    configuratorType,
   ),
 };
 
@@ -85,7 +85,7 @@ const orderRouterData: ConfiguratorRouter.Data = {
   owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.ORDER_ENTRY,
     '3',
-    configuratorType
+    configuratorType,
   ),
 };
 
@@ -108,7 +108,7 @@ let htmlElem: HTMLElement;
 function initialize(router: ConfiguratorRouter.Data) {
   routerObs = of(router);
   fixture = TestBed.createComponent(
-    ConfiguratorOverviewNotificationBannerComponent
+    ConfiguratorOverviewNotificationBannerComponent,
   );
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
@@ -123,29 +123,27 @@ class MockCxIconComponent {
 }
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterModule, RouterTestingModule],
-        declarations: [
-          ConfiguratorOverviewNotificationBannerComponent,
-          MockTranslatePipe,
-          MockUrlPipe,
-          MockCxIconComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfigRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterModule, RouterTestingModule],
+      declarations: [
+        ConfiguratorOverviewNotificationBannerComponent,
+        MockTranslatePipe,
+        MockUrlPipe,
+        MockCxIconComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfigRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   it('should create', () => {
     configurationObs = of(productConfiguration);
@@ -159,17 +157,17 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'cx-icon'
+      'cx-icon',
     );
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-error-msg'
+      '.cx-error-msg',
     );
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-conflict-msg'
+      '.cx-conflict-msg',
     );
   });
 
@@ -179,35 +177,35 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'cx-icon'
+      'cx-icon',
     );
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-error-msg'
+      '.cx-error-msg',
     );
   });
 
   it('should display 2 banners when there are detailed issues counted', () => {
     configurationObs = of(
-      productConfigurationWithDetailedIssuesCountedInOverview
+      productConfigurationWithDetailedIssuesCountedInOverview,
     );
     initialize(routerData);
     CommonConfiguratorTestUtilsService.expectNumberOfElements(
       expect,
       htmlElem,
       'cx-icon',
-      2
+      2,
     );
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-error-msg'
+      '.cx-error-msg',
     );
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-conflict-msg'
+      '.cx-conflict-msg',
     );
   });
 
@@ -217,12 +215,12 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'cx-icon'
+      'cx-icon',
     );
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-error-msg'
+      '.cx-error-msg',
     );
   });
 
@@ -231,34 +229,34 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     initialize(routerData);
     component.numberOfIssues$.subscribe((numberOfIssues) =>
       expect(numberOfIssues).toBe(
-        productConfigurationWithConflicts.totalNumberOfIssues
-      )
+        productConfigurationWithConflicts.totalNumberOfIssues,
+      ),
     );
   });
 
   it('should count issues from OV in case OV is available', () => {
     configurationObs = of(
-      productConfigurationWithOnlyTotalIssuesCountedInOverview
+      productConfigurationWithOnlyTotalIssuesCountedInOverview,
     );
     initialize(routerData);
     component.numberOfIssues$.subscribe((numberOfIssues) =>
       expect(numberOfIssues).toBe(
         productConfigurationWithOnlyTotalIssuesCountedInOverview.overview
-          ?.totalNumberOfIssues
-      )
+          ?.totalNumberOfIssues,
+      ),
     );
   });
 
   it('should count only missing mandatory fields as issues in case detailed issue numbers are available', () => {
     configurationObs = of(
-      productConfigurationWithDetailedIssuesCountedInOverview
+      productConfigurationWithDetailedIssuesCountedInOverview,
     );
     initialize(routerData);
     component.numberOfIssues$.subscribe((numberOfIssues) =>
       expect(numberOfIssues).toBe(
         productConfigurationWithDetailedIssuesCountedInOverview.overview
-          ?.numberOfIncompleteCharacteristics
-      )
+          ?.numberOfIncompleteCharacteristics,
+      ),
     );
   });
 
@@ -272,36 +270,36 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     configurationObs = of(config);
     initialize(routerData);
     component.numberOfIssues$.subscribe((numberOfIssues) =>
-      expect(numberOfIssues).toBe(0)
+      expect(numberOfIssues).toBe(0),
     );
   });
 
   it('should count only conflicts as warnings in case detailed issue numbers are available', () => {
     configurationObs = of(
-      productConfigurationWithDetailedIssuesCountedInOverview
+      productConfigurationWithDetailedIssuesCountedInOverview,
     );
     initialize(routerData);
     component.numberOfConflicts$.subscribe((numberOfConflicts) =>
       expect(numberOfConflicts).toBe(
         productConfigurationWithDetailedIssuesCountedInOverview.overview
-          ?.numberOfConflicts
-      )
+          ?.numberOfConflicts,
+      ),
     );
     component.skipConflictsOnIssueNavigation$.subscribe((skipConflicts) =>
-      expect(skipConflicts).toBe(true)
+      expect(skipConflicts).toBe(true),
     );
   });
 
   it('should count zero warnings as in case detailed issue numbers are not available', () => {
     configurationObs = of(
-      productConfigurationWithOnlyTotalIssuesCountedInOverview
+      productConfigurationWithOnlyTotalIssuesCountedInOverview,
     );
     initialize(routerData);
     component.numberOfConflicts$.subscribe((numberOfConflicts) =>
-      expect(numberOfConflicts).toBe(0)
+      expect(numberOfConflicts).toBe(0),
     );
     component.skipConflictsOnIssueNavigation$.subscribe((skipConflicts) =>
-      expect(skipConflicts).toBe(false)
+      expect(skipConflicts).toBe(false),
     );
   });
 
@@ -309,10 +307,10 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     configurationObs = of(productConfigurationWithConflicts);
     initialize(routerData);
     component.numberOfConflicts$.subscribe((numberOfConflicts) =>
-      expect(numberOfConflicts).toBe(0)
+      expect(numberOfConflicts).toBe(0),
     );
     component.skipConflictsOnIssueNavigation$.subscribe((skipConflicts) =>
-      expect(skipConflicts).toBe(false)
+      expect(skipConflicts).toBe(false),
     );
   });
 });

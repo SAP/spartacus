@@ -23,7 +23,7 @@ export function getReducers(): ActionReducerMap<StoresState> {
     findStores: StateUtils.loaderReducer(STORE_FINDER_DATA, findStoresReducer),
     viewAllStores: StateUtils.loaderReducer(
       STORE_FINDER_DATA,
-      viewAllStoresReducer
+      viewAllStoresReducer,
     ),
   };
 }
@@ -37,7 +37,7 @@ export const reducerProvider: Provider = {
 };
 
 export function clearStoreFinderState(
-  reducer: ActionReducer<StoresState, Action>
+  reducer: ActionReducer<StoresState, Action>,
 ): ActionReducer<StoresState, Action> {
   return function (state, action) {
     if (action.type === SiteContextActions.LANGUAGE_CHANGE) {

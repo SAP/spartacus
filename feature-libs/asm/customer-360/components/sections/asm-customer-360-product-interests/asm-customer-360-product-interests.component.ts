@@ -22,7 +22,7 @@ export class AsmCustomer360ProductInterestsComponent {
 
   constructor(
     public sectionContext: AsmCustomer360SectionContext<AsmCustomer360ProductInterestList>,
-    protected productService: ProductService
+    protected productService: ProductService,
   ) {
     this.products$ = this.sectionContext.data$.pipe(
       concatMap((interestList) => {
@@ -35,12 +35,12 @@ export class AsmCustomer360ProductInterestsComponent {
                 .get(interest.product.code, ProductScope.DETAILS)
                 .pipe(
                   filter((product): product is Product => Boolean(product)),
-                  take(1)
+                  take(1),
                 ) as Product;
-            })
+            }),
           );
         }
-      })
+      }),
     );
   }
 }

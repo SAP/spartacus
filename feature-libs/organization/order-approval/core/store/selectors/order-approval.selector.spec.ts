@@ -43,7 +43,7 @@ describe('OrderApproval Selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORDER_APPROVAL_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });
@@ -63,7 +63,7 @@ describe('OrderApproval Selectors', () => {
         new OrderApprovalActions.LoadOrderApprovalSuccess([
           orderApproval,
           orderApproval2,
-        ])
+        ]),
       );
       expect(result).toEqual({
         entities: { entities },
@@ -83,7 +83,7 @@ describe('OrderApproval Selectors', () => {
         new OrderApprovalActions.LoadOrderApprovalSuccess([
           orderApproval,
           orderApproval2,
-        ])
+        ]),
       );
       expect(result).toEqual({ entities });
     });
@@ -100,7 +100,7 @@ describe('OrderApproval Selectors', () => {
         new OrderApprovalActions.LoadOrderApprovalSuccess([
           orderApproval,
           orderApproval2,
-        ])
+        ]),
       );
       expect(result).toEqual(entities.testCode);
     });

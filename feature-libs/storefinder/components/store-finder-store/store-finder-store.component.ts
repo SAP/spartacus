@@ -26,7 +26,7 @@ export class StoreFinderStoreComponent implements OnInit {
   constructor(
     private storeFinderService: StoreFinderService,
     private route: ActivatedRoute,
-    private routingService: RoutingService
+    private routingService: RoutingService,
   ) {}
 
   ngOnInit() {

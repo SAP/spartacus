@@ -42,7 +42,7 @@ export const REMOVE_CONFIGURATION =
 export class CreateConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(
-    public payload: { productCode: string; owner: CommonConfigurator.Owner }
+    public payload: { productCode: string; owner: CommonConfigurator.Owner },
   ) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
@@ -100,7 +100,7 @@ export class UpdateCartEntryConfigurationFail extends StateUtils.LoaderFailActio
 export class ReadCartEntryConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION;
   constructor(
-    public payload: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+    public payload: CommonConfigurator.ReadConfigurationFromCartEntryParameters,
   ) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
@@ -123,7 +123,7 @@ export class ReadCartEntryConfigurationFail extends StateUtils.LoaderFailAction 
 export class ReadOrderEntryConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION;
   constructor(
-    public payload: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+    public payload: CommonConfigurator.ReadConfigurationFromOrderEntryParameters,
   ) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }

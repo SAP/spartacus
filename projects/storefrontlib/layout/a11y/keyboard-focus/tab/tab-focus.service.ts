@@ -19,7 +19,7 @@ export class TabFocusService extends AutoFocusService {
     host: HTMLElement,
     config: TabFocusConfig,
     increment: MOVE_FOCUS,
-    event: KeyboardEvent
+    event: KeyboardEvent,
   ): void {
     if (config?.tab) {
       const next =
@@ -42,7 +42,7 @@ export class TabFocusService extends AutoFocusService {
   protected findNextScrollable(
     host: HTMLElement,
     config: TabFocusConfig,
-    increment: MOVE_FOCUS
+    increment: MOVE_FOCUS,
   ): HTMLElement | undefined {
     const active = this.getActiveChild(host, config);
 
@@ -54,7 +54,7 @@ export class TabFocusService extends AutoFocusService {
 
     // find current virtual slide
     const currentVirtualSlide = Math.round(
-      active.offsetLeft / (host.scrollWidth / virtualSlideCount)
+      active.offsetLeft / (host.scrollWidth / virtualSlideCount),
     );
 
     let nextVirtualSlide = currentVirtualSlide + increment;
@@ -71,7 +71,7 @@ export class TabFocusService extends AutoFocusService {
     const firstItemOnNextSlide = this.getChildren(host, config)?.find(
       (tab) =>
         tab.offsetLeft >=
-        (host.scrollWidth / virtualSlideCount) * nextVirtualSlide
+        (host.scrollWidth / virtualSlideCount) * nextVirtualSlide,
     );
 
     return firstItemOnNextSlide;
@@ -80,11 +80,11 @@ export class TabFocusService extends AutoFocusService {
   protected findNext(
     host: HTMLElement,
     config: TabFocusConfig,
-    increment: MOVE_FOCUS
+    increment: MOVE_FOCUS,
   ): HTMLElement | undefined {
     const childs = this.getChildren(host, config);
     let activeIndex = childs?.findIndex(
-      (c) => c === this.getActiveChild(host, config)
+      (c) => c === this.getActiveChild(host, config),
     );
 
     if (!activeIndex || activeIndex === -1) {
@@ -107,7 +107,7 @@ export class TabFocusService extends AutoFocusService {
    */
   protected getActiveChild(
     host: HTMLElement,
-    config: TabFocusConfig
+    config: TabFocusConfig,
   ): HTMLElement {
     const persisted = this.getPersisted(host, config?.group);
     if (persisted) {
@@ -123,7 +123,7 @@ export class TabFocusService extends AutoFocusService {
 
   protected getChildren(
     host: HTMLElement,
-    config: TabFocusConfig
+    config: TabFocusConfig,
   ): HTMLElement[] {
     if (typeof config.tab === 'string' && config.tab !== 'scroll') {
       return this.selectFocusUtil.query(host, config.tab);
@@ -142,7 +142,7 @@ export class TabFocusService extends AutoFocusService {
   findFocusable(
     host: HTMLElement,
     locked = false,
-    invisible = false
+    invisible = false,
   ): HTMLElement[] {
     return this.selectFocusUtil.findFocusable(host, locked, invisible);
   }

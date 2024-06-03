@@ -22,7 +22,7 @@ export class CartVoucherService implements CartVoucherFacade {
   constructor(
     protected store: Store<StateWithProcess<void>>,
     protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   addVoucher(voucherId: string, cartId?: string): void {
@@ -32,8 +32,8 @@ export class CartVoucherService implements CartVoucherFacade {
           userId: occUserId,
           cartId: cartIdentifier,
           voucherId: voucherId,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -44,8 +44,8 @@ export class CartVoucherService implements CartVoucherFacade {
           userId: occUserId,
           cartId: cartIdentifier,
           voucherId: voucherId,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -54,7 +54,7 @@ export class CartVoucherService implements CartVoucherFacade {
    */
   getAddVoucherResultError(): Observable<boolean> {
     return this.store.pipe(
-      select(ProcessSelectors.getProcessErrorFactory(ADD_VOUCHER_PROCESS_ID))
+      select(ProcessSelectors.getProcessErrorFactory(ADD_VOUCHER_PROCESS_ID)),
     );
   }
 
@@ -63,7 +63,7 @@ export class CartVoucherService implements CartVoucherFacade {
    */
   getAddVoucherResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(ProcessSelectors.getProcessSuccessFactory(ADD_VOUCHER_PROCESS_ID))
+      select(ProcessSelectors.getProcessSuccessFactory(ADD_VOUCHER_PROCESS_ID)),
     );
   }
 
@@ -72,7 +72,7 @@ export class CartVoucherService implements CartVoucherFacade {
    */
   getAddVoucherResultLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(ProcessSelectors.getProcessLoadingFactory(ADD_VOUCHER_PROCESS_ID))
+      select(ProcessSelectors.getProcessLoadingFactory(ADD_VOUCHER_PROCESS_ID)),
     );
   }
 
@@ -87,7 +87,7 @@ export class CartVoucherService implements CartVoucherFacade {
     if (cartId) {
       return this.userIdService.getUserId().pipe(
         take(1),
-        map((userId) => [userId, cartId])
+        map((userId) => [userId, cartId]),
       );
     } else {
       return combineLatest([

@@ -17,7 +17,7 @@ describe('MultiLinePipe', () => {
       expect(pipe.transform('Test test')).toBe('Test<br />test');
       expect(pipe.transform('Test of test')).toBe('Test of<br />test');
       expect(pipe.transform('Test of other test')).toBe(
-        'Test of other<br />test'
+        'Test of other<br />test',
       );
     });
   });

@@ -46,8 +46,8 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       interceptGet('couponCodesApi', '/cms/pages*');
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
-          'BASE_CURRENCY'
-        )}/?${e2eUrlParam}=Summer100`
+          'BASE_CURRENCY',
+        )}/?${e2eUrlParam}=Summer100`,
       );
       cy.wait('@couponCodesApi').then((xhr) => {
         expect(xhr.request.headers).to.have.property(e2eHeader, 'Summer100');
@@ -60,7 +60,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       cy.intercept({
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/cms/pages?pageType=ProductPage**`,
       }).as('productPage');
     });
@@ -69,10 +69,10 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       loginUser(oppsTester);
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
-          'BASE_CURRENCY'
+          'BASE_CURRENCY',
         )}/product/${oppsProduct.productID}/${
           oppsProduct.productName
-        }?${e2eLoginConfig}=true`
+        }?${e2eLoginConfig}=true`,
       );
       cy.wait(`@productPage`);
       cy.get(`${infoContainer} .code`).should('contain', oppsProduct.productID);
@@ -81,10 +81,10 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
     it('should redirect to login page if user is not logged in, and once user logs in, show PDP', () => {
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
-          'BASE_CURRENCY'
+          'BASE_CURRENCY',
         )}/product/${oppsProduct.productID}/${
           oppsProduct.productName
-        }?${e2eLoginConfig}=true`
+        }?${e2eLoginConfig}=true`,
       );
       cy.url().should('contain', 'login');
       loginUser(oppsTester);
@@ -99,17 +99,17 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       cy.intercept({
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/cms/pages?pageType=ProductPage**`,
       }).as('productPage');
     });
     it('should fetch appropriate banner customization based on coupon codes & show login page if user is not logged in', () => {
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
-          'BASE_CURRENCY'
+          'BASE_CURRENCY',
         )}/product/${oppsProduct.productID}/${
           oppsProduct.productName
-        }?${e2eUrlParam}=Winter200&${e2eLoginConfig}=true&test=12`
+        }?${e2eUrlParam}=Winter200&${e2eLoginConfig}=true&test=12`,
       );
       cy.url().should('contain', 'login');
       loginUser(oppsTester);

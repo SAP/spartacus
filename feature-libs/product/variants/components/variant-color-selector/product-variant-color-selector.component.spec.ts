@@ -39,7 +39,7 @@ class MockRoutingService {
   go(
     _commands: any[] | UrlCommands,
     _query?: object,
-    _extras?: NavigationExtras
+    _extras?: NavigationExtras,
   ): void {}
 }
 
@@ -48,17 +48,15 @@ describe('ProductVariantColorSelectorComponent', () => {
   let fixture: ComponentFixture<ProductVariantColorSelectorComponent>;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProductVariantColorSelectorComponent],
-        imports: [RouterTestingModule, I18nTestingModule],
-        providers: [{ provide: RoutingService, useClass: MockRoutingService }],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProductVariantColorSelectorComponent],
+      imports: [RouterTestingModule, I18nTestingModule],
+      providers: [{ provide: RoutingService, useClass: MockRoutingService }],
+    }).compileComponents();
 
-      routingService = TestBed.inject(RoutingService);
-    })
-  );
+    routingService = TestBed.inject(RoutingService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantColorSelectorComponent);
@@ -82,10 +80,10 @@ describe('ProductVariantColorSelectorComponent', () => {
 
   it('should find variant with proper qualifier', () => {
     const result = component.getVariantOptionValue(
-      mockVariant.selected.variantOptionQualifiers
+      mockVariant.selected.variantOptionQualifiers,
     );
     expect(result).toEqual(
-      mockVariant.selected.variantOptionQualifiers[0].value
+      mockVariant.selected.variantOptionQualifiers[0].value,
     );
   });
 

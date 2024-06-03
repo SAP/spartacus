@@ -29,14 +29,14 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 class MockReplenishmentOrderConnector {
   load(
     _userId: string,
-    _replenishmentOrderCode: string
+    _replenishmentOrderCode: string,
   ): Observable<ReplenishmentOrder> {
     return of({});
   }
 
   cancelReplenishmentOrder(
     _userId: string,
-    _replenishmentOrderCode: string
+    _replenishmentOrderCode: string,
   ): Observable<ReplenishmentOrder> {
     return of({});
   }
@@ -46,7 +46,7 @@ class MockGlobalMessageService {
   add(
     _text: string | Translatable,
     _type: GlobalMessageType,
-    _timeout?: number
+    _timeout?: number,
   ): void {}
 }
 
@@ -93,7 +93,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.LoadReplenishmentOrderDetailsSuccess(
-        mockReplenishmentOrder
+        mockReplenishmentOrder,
       );
 
       actions$ = hot('-a', { a: action });
@@ -112,7 +112,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.LoadReplenishmentOrderDetailsFail(
-        normalizeHttpError(mockError, new MockLoggerService())
+        normalizeHttpError(mockError, new MockLoggerService()),
       );
 
       actions$ = hot('-a', { a: action });
@@ -127,7 +127,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
   describe('cancelReplenishmentOrder$', () => {
     it('should cancel a replenishment order', () => {
       spyOn(connector, 'cancelReplenishmentOrder').and.returnValue(
-        of(mockReplenishmentOrder)
+        of(mockReplenishmentOrder),
       );
 
       const action = new OrderActions.CancelReplenishmentOrder({
@@ -135,7 +135,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.CancelReplenishmentOrderSuccess(
-        mockReplenishmentOrder
+        mockReplenishmentOrder,
       );
 
       actions$ = hot('-a', { a: action });
@@ -148,7 +148,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
 
     it('should return an error when it fails to cancel a replenishment order', () => {
       spyOn(connector, 'cancelReplenishmentOrder').and.returnValue(
-        throwError(() => mockError)
+        throwError(() => mockError),
       );
 
       const action = new OrderActions.CancelReplenishmentOrder({
@@ -156,7 +156,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.CancelReplenishmentOrderFail(
-        normalizeHttpError(mockError, new MockLoggerService())
+        normalizeHttpError(mockError, new MockLoggerService()),
       );
 
       actions$ = hot('-a', { a: action });

@@ -55,7 +55,7 @@ describe('UserGroup Actions', () => {
           meta: StateUtils.entityFailMeta(
             USER_GROUP_ENTITIES,
             userGroupId,
-            error
+            error,
           ),
         });
       });
@@ -187,7 +187,7 @@ describe('UserGroup Actions', () => {
           meta: StateUtils.entityFailMeta(
             USER_GROUP_ENTITIES,
             userGroupId,
-            error
+            error,
           ),
         });
       });
@@ -239,7 +239,7 @@ describe('UserGroup Actions', () => {
           meta: StateUtils.entityFailMeta(
             USER_GROUP_ENTITIES,
             userGroupId,
-            error
+            error,
           ),
         });
       });
@@ -290,7 +290,7 @@ describe('UserGroup Actions', () => {
           meta: StateUtils.entityFailMeta(
             USER_GROUP_ENTITIES,
             userGroupId,
-            error
+            error,
           ),
         });
       });
@@ -323,7 +323,7 @@ describe('UserGroup Actions', () => {
           payload: { userId, userGroupId, params },
           meta: StateUtils.entityLoadMeta(
             USER_GROUP_PERMISSIONS,
-            userGroupId + query
+            userGroupId + query,
           ),
         });
       });
@@ -347,7 +347,7 @@ describe('UserGroup Actions', () => {
           meta: StateUtils.entityFailMeta(
             USER_GROUP_PERMISSIONS,
             userGroupId + query,
-            error
+            error,
           ),
         });
       });
@@ -370,7 +370,7 @@ describe('UserGroup Actions', () => {
           },
           meta: StateUtils.entitySuccessMeta(
             USER_GROUP_PERMISSIONS,
-            userGroupId + query
+            userGroupId + query,
           ),
         });
       });
@@ -412,7 +412,7 @@ describe('UserGroup Actions', () => {
           meta: StateUtils.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionUid,
-            error
+            error,
           ),
         });
       });
@@ -430,7 +430,7 @@ describe('UserGroup Actions', () => {
           payload: { permissionUid: permissionUid, selected: true },
           meta: StateUtils.entitySuccessMeta(
             PERMISSION_ENTITIES,
-            permissionUid
+            permissionUid,
           ),
         });
       });
@@ -472,7 +472,7 @@ describe('UserGroup Actions', () => {
           meta: StateUtils.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionUid,
-            error
+            error,
           ),
         });
       });
@@ -490,7 +490,7 @@ describe('UserGroup Actions', () => {
           payload: { permissionUid: permissionUid, selected: false },
           meta: StateUtils.entitySuccessMeta(
             PERMISSION_ENTITIES,
-            permissionUid
+            permissionUid,
           ),
         });
       });
@@ -511,7 +511,7 @@ describe('UserGroup Actions', () => {
           payload: { userId, userGroupId, params },
           meta: StateUtils.entityLoadMeta(
             USER_GROUP_AVAILABLE_CUSTOMERS,
-            userGroupId + query
+            userGroupId + query,
           ),
         });
       });
@@ -535,7 +535,7 @@ describe('UserGroup Actions', () => {
           meta: StateUtils.entityFailMeta(
             USER_GROUP_AVAILABLE_CUSTOMERS,
             userGroupId + query,
-            error
+            error,
           ),
         });
       });
@@ -558,7 +558,7 @@ describe('UserGroup Actions', () => {
           },
           meta: StateUtils.entitySuccessMeta(
             USER_GROUP_AVAILABLE_CUSTOMERS,
-            userGroupId + query
+            userGroupId + query,
           ),
         });
       });

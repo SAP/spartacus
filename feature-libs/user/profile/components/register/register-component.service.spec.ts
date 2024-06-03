@@ -41,7 +41,7 @@ describe('RegisterComponentService', () => {
     [RegisterComponentService],
     (registerComponentService: RegisterComponentService) => {
       expect(registerComponentService).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to register user from UserRegisterService', () => {
@@ -72,7 +72,7 @@ describe('RegisterComponentService', () => {
       service.postRegisterMessage();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'register.postRegisterMessage' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
   });

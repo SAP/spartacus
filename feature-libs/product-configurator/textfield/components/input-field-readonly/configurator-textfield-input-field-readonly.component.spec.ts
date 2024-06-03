@@ -10,18 +10,16 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorTextfieldInputFieldReadonlyComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ConfiguratorTextfieldInputFieldReadonlyComponent],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ConfiguratorTextfieldInputFieldReadonlyComponent],
+    });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ConfiguratorTextfieldInputFieldReadonlyComponent
+      ConfiguratorTextfieldInputFieldReadonlyComponent,
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -69,7 +67,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
         undefined,
         undefined,
         undefined,
-        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:input123'
+        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:input123',
       );
     });
 
@@ -81,7 +79,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
         undefined,
         undefined,
         'aria-hidden',
-        'true'
+        'true',
       );
     });
 
@@ -93,7 +91,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
         undefined,
         undefined,
         'aria-describedby',
-        'cx-configurator-textfieldlabelattributeName'
+        'cx-configurator-textfieldlabelattributeName',
       );
     });
 
@@ -105,7 +103,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
         undefined,
         undefined,
         'aria-hidden',
-        'true'
+        'true',
       );
     });
   });

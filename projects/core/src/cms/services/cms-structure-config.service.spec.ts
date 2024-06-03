@@ -130,7 +130,7 @@ describe('CmsStructureConfigService', () => {
           });
 
         expect(Object.keys(result.page.slots)).toContain(
-          'EmptyCartMiddleContent'
+          'EmptyCartMiddleContent',
         );
         expect(Object.keys(result.page.slots)).toContain('GobalSlot');
         expect(Object.keys(result.page.slots).length).toEqual(2);
@@ -153,7 +153,7 @@ describe('CmsStructureConfigService', () => {
           .subscribe((res) => (result = res));
 
         expect(Object.keys(result.page.slots['GobalSlot'])).not.toContain(
-          'components'
+          'components',
         );
       });
 
@@ -208,7 +208,7 @@ describe('CmsStructureConfigService', () => {
           .getComponentFromConfig('ComponentOne')
           .subscribe((res) => (component = res));
         expect(component).toEqual(
-          globalSlotConfig.cmsStructure.components.ComponentOne
+          globalSlotConfig.cmsStructure.components.ComponentOne,
         );
       });
       it('should return undefined if component is not present in config', () => {

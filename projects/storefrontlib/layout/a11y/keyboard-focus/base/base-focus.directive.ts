@@ -44,7 +44,7 @@ export abstract class BaseFocusDirective implements OnInit, OnChanges {
 
   constructor(
     protected elementRef: ElementRef<HTMLElement>,
-    protected service: BaseFocusService
+    protected service: BaseFocusService,
   ) {}
 
   ngOnInit(): void {
@@ -100,7 +100,7 @@ export abstract class BaseFocusDirective implements OnInit, OnChanges {
     return (
       this.tabindex === undefined &&
       ['button', 'input', 'select', 'textarea'].indexOf(
-        this.host.tagName.toLowerCase()
+        this.host.tagName.toLowerCase(),
       ) === -1 &&
       !(
         this.host.tagName === 'A' &&

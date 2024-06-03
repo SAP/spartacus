@@ -22,7 +22,7 @@ export class QuoteStorefrontUtilsService {
   getElement(querySelector: string): HTMLElement | undefined {
     if (this.windowRef.isBrowser()) {
       return this.windowRef.document.querySelector(
-        querySelector
+        querySelector,
       ) as HTMLElement;
     }
   }

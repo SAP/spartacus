@@ -22,7 +22,7 @@ declare global {
        */
       requireLoggedIn: (
         user?: AccountData,
-        options?: RequireLoggedInDebugOptions
+        options?: RequireLoggedInDebugOptions,
       ) => Cypress.Chainable<{ username: string; password: string }>;
     }
   }
@@ -63,7 +63,7 @@ Cypress.Commands.add(
     function registerUser(
       uid: string,
       registrationData: RegistrationData,
-      access_token: string
+      access_token: string,
     ) {
       return cy.request({
         method: 'POST',
@@ -110,8 +110,8 @@ Cypress.Commands.add(
             registerUser(
               username,
               account.registrationData,
-              response.body.access_token
-            )
+              response.body.access_token,
+            ),
           )
           .then(() => login(username, account.registrationData.password))
           .then((response) => {
@@ -132,5 +132,5 @@ Cypress.Commands.add(
     });
 
     return cy.wrap({ username, password: account.registrationData.password });
-  }
+  },
 );

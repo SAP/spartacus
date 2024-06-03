@@ -42,7 +42,7 @@ describe('Tabbing order for ASM', () => {
 
     it('should allow to navigate with tab key for save deeplink inactive cart dialog (CXSPA-3313)', () => {
       asmTabbingOrderWithSaveInactiveCartDialog(
-        config.asmInactiveCartSaveDialog
+        config.asmInactiveCartSaveDialog,
       );
     });
   });

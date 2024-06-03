@@ -61,7 +61,7 @@ describe('Permission Actions', () => {
           meta: StateUtils.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionCode,
-            error
+            error,
           ),
         });
       });
@@ -100,7 +100,7 @@ describe('Permission Actions', () => {
           payload: permission,
           meta: StateUtils.entitySuccessMeta(
             PERMISSION_ENTITIES,
-            permissionCode
+            permissionCode,
           ),
         });
       });
@@ -198,7 +198,7 @@ describe('Permission Actions', () => {
           meta: StateUtils.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionCode,
-            error
+            error,
           ),
         });
       });
@@ -207,7 +207,7 @@ describe('Permission Actions', () => {
     describe('CreatePermissionSuccess', () => {
       it('should create the action', () => {
         const action = new PermissionActions.CreatePermissionSuccess(
-          permission
+          permission,
         );
 
         expect({ ...action }).toEqual({
@@ -215,7 +215,7 @@ describe('Permission Actions', () => {
           payload: permission,
           meta: StateUtils.entitySuccessMeta(
             PERMISSION_ENTITIES,
-            permissionCode
+            permissionCode,
           ),
         });
       });
@@ -255,7 +255,7 @@ describe('Permission Actions', () => {
           meta: StateUtils.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionCode,
-            error
+            error,
           ),
         });
       });
@@ -264,7 +264,7 @@ describe('Permission Actions', () => {
     describe('UpdatePermissionSuccess', () => {
       it('should create the action', () => {
         const action = new PermissionActions.UpdatePermissionSuccess(
-          permission
+          permission,
         );
 
         expect({ ...action }).toEqual({
@@ -272,7 +272,7 @@ describe('Permission Actions', () => {
           payload: permission,
           meta: StateUtils.entitySuccessMeta(
             PERMISSION_ENTITIES,
-            permissionCode
+            permissionCode,
           ),
         });
       });
@@ -288,7 +288,7 @@ describe('Permission Actions', () => {
           type: PermissionActions.LOAD_PERMISSION_TYPES,
           meta: StateUtils.entityLoadMeta(
             PERMISSION_TYPES_LIST,
-            PERMISSION_TYPES
+            PERMISSION_TYPES,
           ),
         });
       });
@@ -310,7 +310,7 @@ describe('Permission Actions', () => {
           meta: StateUtils.entityFailMeta(
             PERMISSION_TYPES_LIST,
             PERMISSION_TYPES,
-            error
+            error,
           ),
         });
       });
@@ -319,7 +319,7 @@ describe('Permission Actions', () => {
     describe('LoadPermissionTypesSuccess', () => {
       it('should execute LoadPermissionTypesSuccess action', () => {
         const action = new PermissionActions.LoadPermissionTypesSuccess(
-          permissionTypes
+          permissionTypes,
         );
 
         expect({ ...action }).toEqual({
@@ -327,7 +327,7 @@ describe('Permission Actions', () => {
           payload: permissionTypes,
           meta: StateUtils.entitySuccessMeta(
             PERMISSION_TYPES_LIST,
-            PERMISSION_TYPES
+            PERMISSION_TYPES,
           ),
         });
       });

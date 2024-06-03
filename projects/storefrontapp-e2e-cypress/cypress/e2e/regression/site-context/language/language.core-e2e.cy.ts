@@ -28,7 +28,7 @@ context('Language Switcher', () => {
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + productPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + productPath,
       );
     });
   });

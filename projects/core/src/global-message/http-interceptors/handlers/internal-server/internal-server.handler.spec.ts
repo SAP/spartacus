@@ -31,7 +31,7 @@ describe('InternalServerErrorHandler', () => {
 
   it('should register 500 responseStatus ', () => {
     expect(service.responseStatus).toEqual(
-      HttpResponseStatus.INTERNAL_SERVER_ERROR
+      HttpResponseStatus.INTERNAL_SERVER_ERROR,
     );
   });
 
@@ -41,7 +41,7 @@ describe('InternalServerErrorHandler', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.internalServerError' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 });

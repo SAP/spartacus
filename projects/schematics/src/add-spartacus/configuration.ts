@@ -41,7 +41,7 @@ export function addSpartacusConfiguration(options: SpartacusOptions): Rule {
 
     if (!buildPaths.length) {
       throw new SchematicsException(
-        'Could not find any tsconfig file. Cannot configure SpartacusConfigurationModule.'
+        'Could not find any tsconfig file. Cannot configure SpartacusConfigurationModule.',
       );
     }
 
@@ -61,7 +61,7 @@ function addConfiguration(
   tree: Tree,
   tsconfigPath: string,
   basePath: string,
-  options: SpartacusOptions
+  options: SpartacusOptions,
 ): void {
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
@@ -81,7 +81,7 @@ function addConfiguration(
 
 function addCommonConfiguration(
   sourceFile: SourceFile,
-  options: SpartacusOptions
+  options: SpartacusOptions,
 ): void {
   addModuleProvider(sourceFile, {
     import: [
@@ -155,7 +155,7 @@ function createSiteContextConfig(options: SpartacusOptions): string {
  */
 function addStorefrontConfig(
   sourceFile: SourceFile,
-  options: SpartacusOptions
+  options: SpartacusOptions,
 ): void {
   const backendConfig = createBackendConfiguration(options);
   addModuleProvider(sourceFile, {

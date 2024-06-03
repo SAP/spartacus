@@ -19,18 +19,18 @@ import { ProfileTagEventService } from '../services/profiletag-event.service';
 export class DebugInterceptor implements HttpInterceptor {
   constructor(
     private profileTagEventTracker: ProfileTagEventService,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
   ) {}
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     if (!this.isOccUrl(request.url)) {
       return next.handle(request);
     }
     const cdsHeaders = request.headers.set(
       'X-Profile-Tag-Debug',
-      this.profileTagEventTracker.profileTagDebug.toString()
+      this.profileTagEventTracker.profileTagDebug.toString(),
     );
     const cdsRequest = request.clone({ headers: cdsHeaders });
     return next.handle(cdsRequest);

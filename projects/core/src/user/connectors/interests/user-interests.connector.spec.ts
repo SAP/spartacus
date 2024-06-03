@@ -11,7 +11,7 @@ import createSpy = jasmine.createSpy;
 
 class MockUserInterestsAdapter implements UserInterestsAdapter {
   getInterests = createSpy('getInterests').and.callFake((userId) =>
-    of(`loadList-${userId}`)
+    of(`loadList-${userId}`),
   );
   removeInterest = createSpy('removeInterest').and.returnValue(of([]));
   addInterest = createSpy('addInterest').and.stub();
@@ -45,7 +45,7 @@ describe('UserInterestsConnector', () => {
         0,
         'name:asc',
         '343898',
-        NotificationType.BACK_IN_STOCK
+        NotificationType.BACK_IN_STOCK,
       )
       .subscribe((res) => (result = res));
     expect(result).toEqual('loadList-user-id');
@@ -55,7 +55,7 @@ describe('UserInterestsConnector', () => {
       0,
       'name:asc',
       '343898',
-      NotificationType.BACK_IN_STOCK
+      NotificationType.BACK_IN_STOCK,
     );
   });
 
@@ -71,7 +71,7 @@ describe('UserInterestsConnector', () => {
     expect(result).toEqual([]);
     expect(adapter.removeInterest).toHaveBeenCalledWith(
       'user-id',
-      relationData
+      relationData,
     );
   });
 });

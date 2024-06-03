@@ -64,7 +64,7 @@ export class LoadPermissionSuccess extends StateUtils.EntitySuccessAction {
       PERMISSION_ENTITIES,
       Array.isArray(payload)
         ? payload.map((permission) => permission?.code ?? '')
-        : payload?.code ?? ''
+        : payload?.code ?? '',
     );
   }
 }
@@ -75,7 +75,7 @@ export class LoadPermissions extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(PERMISSION_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
@@ -87,7 +87,7 @@ export class LoadPermissionsFail extends StateUtils.EntityFailAction {
     super(
       PERMISSION_LIST,
       StateUtils.serializeSearchConfig(payload.params),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -98,7 +98,7 @@ export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(PERMISSION_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
@@ -132,7 +132,7 @@ export class UpdatePermission extends StateUtils.EntityLoadAction {
       userId: string;
       permissionCode: string;
       permission: Permission;
-    }
+    },
   ) {
     super(PERMISSION_ENTITIES, payload.permission.code ?? '');
   }

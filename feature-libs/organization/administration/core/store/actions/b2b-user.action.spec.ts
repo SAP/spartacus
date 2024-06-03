@@ -61,7 +61,7 @@ describe('B2BUser Actions', () => {
           meta: StateUtils.entityFailMeta(
             B2B_USER_ENTITIES,
             orgCustomerId,
-            error
+            error,
           ),
         });
       });
@@ -174,7 +174,7 @@ describe('B2BUser Actions', () => {
           payload: { userId, orgCustomer },
           meta: StateUtils.entityLoadMeta(
             B2B_USER_ENTITIES,
-            orgCustomer.customerId
+            orgCustomer.customerId,
           ),
         });
       });
@@ -209,7 +209,7 @@ describe('B2BUser Actions', () => {
           meta: StateUtils.entityFailMeta(
             B2B_USER_ENTITIES,
             orgCustomerId,
-            error
+            error,
           ),
         });
       });
@@ -275,7 +275,7 @@ describe('B2BUser Actions', () => {
           meta: StateUtils.entityFailMeta(
             B2B_USER_ENTITIES,
             orgCustomerId,
-            error
+            error,
           ),
         });
       });
@@ -308,7 +308,7 @@ describe('B2BUser Actions', () => {
           payload: { userId, orgCustomerId, params },
           meta: StateUtils.entityLoadMeta(
             B2B_USER_APPROVERS,
-            `${orgCustomerId}${query}`
+            `${orgCustomerId}${query}`,
           ),
         });
       });
@@ -332,7 +332,7 @@ describe('B2BUser Actions', () => {
           meta: StateUtils.entityFailMeta(
             B2B_USER_APPROVERS,
             `${orgCustomerId}${query}`,
-            error
+            error,
           ),
         });
       });
@@ -355,7 +355,7 @@ describe('B2BUser Actions', () => {
           },
           meta: StateUtils.entitySuccessMeta(
             B2B_USER_APPROVERS,
-            `${orgCustomerId}${query}`
+            `${orgCustomerId}${query}`,
           ),
         });
       });
@@ -478,7 +478,7 @@ describe('B2BUser Actions', () => {
           payload: { userId, orgCustomerId, params },
           meta: StateUtils.entityLoadMeta(
             B2B_USER_PERMISSIONS,
-            `${orgCustomerId}${query}`
+            `${orgCustomerId}${query}`,
           ),
         });
       });
@@ -502,7 +502,7 @@ describe('B2BUser Actions', () => {
           meta: StateUtils.entityFailMeta(
             B2B_USER_PERMISSIONS,
             orgCustomerId,
-            error
+            error,
           ),
         });
       });
@@ -525,7 +525,7 @@ describe('B2BUser Actions', () => {
           },
           meta: StateUtils.entitySuccessMeta(
             B2B_USER_PERMISSIONS,
-            `${orgCustomerId}${query}`
+            `${orgCustomerId}${query}`,
           ),
         });
       });
@@ -565,7 +565,7 @@ describe('B2BUser Actions', () => {
           meta: StateUtils.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionId,
-            error
+            error,
           ),
         });
       });
@@ -620,7 +620,7 @@ describe('B2BUser Actions', () => {
           meta: StateUtils.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionId,
-            error
+            error,
           ),
         });
       });
@@ -656,7 +656,7 @@ describe('B2BUser Actions', () => {
           payload: { userId, orgCustomerId, params },
           meta: StateUtils.entityLoadMeta(
             B2B_USER_USER_GROUPS,
-            `${orgCustomerId}${query}`
+            `${orgCustomerId}${query}`,
           ),
         });
       });
@@ -680,7 +680,7 @@ describe('B2BUser Actions', () => {
           meta: StateUtils.entityFailMeta(
             B2B_USER_USER_GROUPS,
             `${orgCustomerId}${query}`,
-            error
+            error,
           ),
         });
       });
@@ -703,7 +703,7 @@ describe('B2BUser Actions', () => {
           },
           meta: StateUtils.entitySuccessMeta(
             B2B_USER_USER_GROUPS,
-            `${orgCustomerId}${query}`
+            `${orgCustomerId}${query}`,
           ),
         });
       });
@@ -743,7 +743,7 @@ describe('B2BUser Actions', () => {
           meta: StateUtils.entityFailMeta(
             USER_GROUP_ENTITIES,
             userGroupId,
-            error
+            error,
           ),
         });
       });
@@ -798,7 +798,7 @@ describe('B2BUser Actions', () => {
           meta: StateUtils.entityFailMeta(
             USER_GROUP_ENTITIES,
             userGroupId,
-            error
+            error,
           ),
         });
       });

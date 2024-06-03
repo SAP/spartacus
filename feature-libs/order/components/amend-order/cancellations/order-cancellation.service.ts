@@ -31,7 +31,7 @@ export class OrderCancellationService extends OrderAmendService {
     protected orderDetailsService: OrderDetailsService,
     protected orderHistoryFacade: OrderHistoryFacade,
     protected routing: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {
     super(orderDetailsService);
   }
@@ -47,9 +47,9 @@ export class OrderCancellationService extends OrderAmendService {
             (entry) =>
               entry.entryNumber !== -1 &&
               entry.cancellableQuantity &&
-              entry.cancellableQuantity > 0
-          ) ?? []
-      )
+              entry.cancellableQuantity > 0,
+          ) ?? [],
+      ),
     );
   }
 
@@ -63,7 +63,7 @@ export class OrderCancellationService extends OrderAmendService {
           ({
             orderEntryNumber: Number(entryNumber),
             quantity: <number>entries[entryNumber],
-          } as CancelOrReturnRequestEntryInput)
+          }) as CancelOrReturnRequestEntryInput,
       );
 
     this.form.reset();
@@ -85,7 +85,7 @@ export class OrderCancellationService extends OrderAmendService {
         key: 'orderDetails.cancellationAndReturn.cancelSuccess',
         params: { orderCode },
       },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
     this.routing.go({
       cxRoute: 'orders',

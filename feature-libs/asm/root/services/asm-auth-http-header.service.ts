@@ -39,7 +39,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected occEndpointsService: OccEndpointsService,
-    protected authRedirectService: AuthRedirectService
+    protected authRedirectService: AuthRedirectService,
   ) {
     super(
       authService,
@@ -48,7 +48,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
       routingService,
       occEndpointsService,
       globalMessageService,
-      authRedirectService
+      authRedirectService,
     );
   }
 
@@ -83,7 +83,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
    */
   public alterRequest(
     request: HttpRequest<any>,
-    token?: AuthToken
+    token?: AuthToken,
   ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isCSAgentRequest = this.isCSAgentTokenRequest(request);
@@ -98,7 +98,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
       });
       return InterceptorUtil.removeHeader(
         USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-        req
+        req,
       );
     }
     return req;
@@ -107,7 +107,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
   protected isCSAgentTokenRequest(request: HttpRequest<any>): boolean {
     const isRequestWithCSAgentToken = InterceptorUtil.getInterceptorParam(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-      request.headers
+      request.headers,
     );
     return Boolean(isRequestWithCSAgentToken);
   }
@@ -130,7 +130,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
             {
               key: 'asm.csagentTokenExpired',
             },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
         } else {
           super.handleExpiredRefreshToken();

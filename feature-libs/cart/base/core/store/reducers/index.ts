@@ -15,7 +15,7 @@ import {
 } from './multi-cart.reducer';
 
 export function clearMultiCartState(
-  reducer: ActionReducer<any>
+  reducer: ActionReducer<any>,
 ): ActionReducer<any> {
   return function (state, action) {
     if (action.type === AuthActions.LOGOUT) {
@@ -35,7 +35,7 @@ export function getMultiCartReducers(): ActionReducerMap<MultiCartState, any> {
   return {
     carts: StateUtils.entityProcessesLoaderReducer<Cart | undefined>(
       MULTI_CART_DATA,
-      cartEntitiesReducer
+      cartEntitiesReducer,
     ),
     index: cartTypeIndexReducer,
   };

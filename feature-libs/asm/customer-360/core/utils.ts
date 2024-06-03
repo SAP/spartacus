@@ -16,7 +16,7 @@ import { UrlCommand, User } from '@spartacus/core';
 export function getAsmDialogActionEvent(
   customerEntry: User,
   action: AsmDialogActionType,
-  route?: UrlCommand
+  route?: UrlCommand,
 ): AsmDialogActionEvent {
   const event: AsmDialogActionEvent = {
     actionType: action,

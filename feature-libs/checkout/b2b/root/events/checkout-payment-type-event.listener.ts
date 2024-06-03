@@ -43,10 +43,10 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
         .subscribe(({ userId, cartId }) => {
           this.eventService.dispatch(
             { userId, cartId },
-            CheckoutSupportedDeliveryModesQueryResetEvent
+            CheckoutSupportedDeliveryModesQueryResetEvent,
           );
           this.eventService.dispatch({}, CheckoutQueryResetEvent);
-        })
+        }),
     );
   }
 
@@ -54,10 +54,10 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent)
+        this.eventService.get(CurrencySetEvent),
       ).subscribe(() => {
         this.eventService.dispatch({}, CheckoutPaymentTypesQueryReloadEvent);
-      })
+      }),
     );
   }
 
@@ -65,10 +65,10 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
     this.subscriptions.add(
       merge(
         this.eventService.get(LogoutEvent),
-        this.eventService.get(LoginEvent)
+        this.eventService.get(LoginEvent),
       ).subscribe(() => {
         this.eventService.dispatch({}, CheckoutPaymentTypesQueryResetEvent);
-      })
+      }),
     );
   }
 

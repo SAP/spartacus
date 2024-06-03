@@ -36,6 +36,6 @@ export class ActivatedRoutesService {
 
         return routes;
       }),
-      shareReplay({ bufferSize: 1, refCount: true })
+      shareReplay({ bufferSize: 1, refCount: true }),
     );
 }

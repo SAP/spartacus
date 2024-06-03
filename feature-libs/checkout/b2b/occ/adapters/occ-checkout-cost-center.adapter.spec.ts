@@ -59,7 +59,7 @@ const mockJaloError = new HttpErrorResponse({
 
 const mockNormalizedJaloError = normalizeHttpError(
   mockJaloError,
-  new MockLoggerService()
+  new MockLoggerService(),
 );
 
 describe(`OccCheckoutCostCenterAdapter`, () => {
@@ -117,7 +117,7 @@ describe(`OccCheckoutCostCenterAdapter`, () => {
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'put').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -143,7 +143,7 @@ describe(`OccCheckoutCostCenterAdapter`, () => {
               return of(cartData);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: Cart | undefined;

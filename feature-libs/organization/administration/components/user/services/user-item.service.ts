@@ -23,7 +23,7 @@ export class UserItemService extends ItemService<B2BUser> {
     protected currentItemService: CurrentUserService,
     protected routingService: RoutingService,
     protected formService: UserFormService,
-    protected userService: B2BUserService
+    protected userService: B2BUserService,
   ) {
     super(currentItemService, routingService, formService);
   }
@@ -35,7 +35,7 @@ export class UserItemService extends ItemService<B2BUser> {
 
   update(
     code: string,
-    value: B2BUser
+    value: B2BUser,
   ): Observable<OrganizationItemStatus<B2BUser>> {
     delete value.approvers;
     this.userService.update(code, value);
@@ -43,7 +43,7 @@ export class UserItemService extends ItemService<B2BUser> {
   }
 
   protected create(
-    value: B2BUser
+    value: B2BUser,
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userService.create(value);
     return this.userService.getLoadingStatus(value.uid ?? '');

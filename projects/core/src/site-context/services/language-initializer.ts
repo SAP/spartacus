@@ -19,7 +19,7 @@ export class LanguageInitializer implements OnDestroy {
   constructor(
     protected languageService: LanguageService,
     protected languageStatePersistenceService: LanguageStatePersistenceService,
-    protected configInit: ConfigInitializerService
+    protected configInit: ConfigInitializerService,
   ) {}
 
   protected subscription: Subscription;
@@ -33,7 +33,7 @@ export class LanguageInitializer implements OnDestroy {
       .pipe(
         // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
         switchMap(() => this.languageStatePersistenceService.initSync()),
-        switchMap(() => this.setFallbackValue())
+        switchMap(() => this.setFallbackValue()),
       )
       .subscribe();
   }
@@ -47,7 +47,7 @@ export class LanguageInitializer implements OnDestroy {
     return this.configInit
       .getStable('context')
       .pipe(
-        tap((config: SiteContextConfig) => this.setDefaultFromConfig(config))
+        tap((config: SiteContextConfig) => this.setDefaultFromConfig(config)),
       );
   }
 
@@ -58,7 +58,7 @@ export class LanguageInitializer implements OnDestroy {
   protected setDefaultFromConfig(config: SiteContextConfig): void {
     const contextParam = getContextParameterDefault(
       config,
-      LANGUAGE_CONTEXT_ID
+      LANGUAGE_CONTEXT_ID,
     );
     if (!this.languageService.isInitialized() && contextParam) {
       this.languageService.setActive(contextParam);

@@ -29,7 +29,7 @@ export class CpqAccessStorageService implements OnDestroy {
   constructor(
     protected cpqAccessLoaderService: CpqAccessLoaderService,
     protected authService: AuthService,
-    protected config: CpqConfiguratorAuthConfig
+    protected config: CpqConfiguratorAuthConfig,
   ) {}
 
   ngOnDestroy(): void {
@@ -84,7 +84,7 @@ export class CpqAccessStorageService implements OnDestroy {
     this.cpqAccessData$ = this._cpqAccessData$.pipe(
       // Never expose expired tokens - either cache was invalidated with expired token,
       // or the cached one expired before a new one was fetched.
-      filter((data) => !this.isTokenExpired(data))
+      filter((data) => !this.isTokenExpired(data)),
     );
     this.currentAuthServiceSubscription?.unsubscribe(); // cancel subscriptions created for old
 
@@ -114,9 +114,9 @@ export class CpqAccessStorageService implements OnDestroy {
       .pipe(
         expand((data) =>
           timer(this.fetchNextTokenIn(data)).pipe(
-            switchMap(() => this.cpqAccessLoaderService.getCpqAccessData())
-          )
-        )
+            switchMap(() => this.cpqAccessLoaderService.getCpqAccessData()),
+          ),
+        ),
       )
       .subscribe(this._cpqAccessData$); // also propagate errors
   }

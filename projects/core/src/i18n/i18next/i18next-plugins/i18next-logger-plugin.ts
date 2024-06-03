@@ -36,5 +36,5 @@ export const I18NEXT_LOGGER_PLUGIN = new InjectionToken<LoggerModule>(
         error: (args) => logger.error(...args),
       };
     },
-  }
+  },
 );

@@ -68,7 +68,7 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
 
   downloadAttachment(
     _quoteCode: string,
-    _attachmentId: string
+    _attachmentId: string,
   ): Observable<Blob> {
     return of(mockQuoteAttachment());
   }
@@ -152,7 +152,7 @@ describe('QuoteLinksComponent', () => {
     CommonQuoteTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'section'
+      'section',
     );
   });
 
@@ -161,7 +161,7 @@ describe('QuoteLinksComponent', () => {
       expect,
       htmlElem,
       'a.link',
-      2
+      2,
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(
@@ -169,7 +169,7 @@ describe('QuoteLinksComponent', () => {
       htmlElem,
       'a.link',
       'quote.links.newCart',
-      0
+      0,
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(
@@ -177,7 +177,7 @@ describe('QuoteLinksComponent', () => {
       htmlElem,
       'a.link',
       'quote.links.quotes',
-      1
+      1,
     );
   });
 
@@ -186,13 +186,13 @@ describe('QuoteLinksComponent', () => {
     const link = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
       'a.link',
-      0
+      0,
     );
     link.click();
     expect(cartUtilsService.goToNewCart).toHaveBeenCalled();
     expect(eventService.dispatch).toHaveBeenCalledWith(
       {},
-      QuoteDetailsReloadQueryEvent
+      QuoteDetailsReloadQueryEvent,
     );
   });
 
@@ -201,7 +201,7 @@ describe('QuoteLinksComponent', () => {
     const link = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
       'a.link',
-      1
+      1,
     );
     link.click();
     tick();
@@ -224,18 +224,18 @@ describe('QuoteLinksComponent', () => {
       fixture.detectChanges();
       const buttonContainerSection = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
-        'section'
+        'section',
       );
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         buttonContainerSection,
-        'button'
+        'button',
       );
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         'button',
-        'download'
+        'download',
       );
     });
 
@@ -244,32 +244,32 @@ describe('QuoteLinksComponent', () => {
       fixture.detectChanges();
       const buttonContainerSection = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
-        'section'
+        'section',
       );
       CommonQuoteTestUtilsService.expectElementNotPresent(
         expect,
         buttonContainerSection,
-        'button'
+        'button',
       );
     });
 
     it('should download the proposal document attached when Download button is clicked', () => {
       const spyDownloadAttachment = spyOn(
         quoteFacade,
-        'downloadAttachment'
+        'downloadAttachment',
       ).and.returnValue(of(mockQuoteAttachment()));
       const spyDownload = spyOn(fileDownloadService, 'download');
       mockQuoteDetails$.next(vendorQuote);
       fixture.detectChanges();
       const downloadBtn = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
-        'button'
+        'button',
       );
       downloadBtn.click();
       fixture.detectChanges();
       expect(spyDownloadAttachment).toHaveBeenCalledWith(
         vendorQuote.code,
-        vendorQuote.code
+        vendorQuote.code,
       );
       fixture.whenStable().then(() => {
         fixture.detectChanges();

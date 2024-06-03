@@ -45,7 +45,7 @@ context('Assisted Service Module', () => {
 
           cy.log('--> Enter users cart number');
           cy.get(
-            'cx-customer-emulation input[formcontrolname="cartNumber"]'
+            'cx-customer-emulation input[formcontrolname="cartNumber"]',
           ).type(anonymousCartCodeForBindCart);
         });
 
@@ -56,7 +56,7 @@ context('Assisted Service Module', () => {
       cart.goToCart();
       cy.get('cx-cart-details').then(() => {
         const customerCartCode = JSON.parse(
-          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart'),
         ).active;
         expect(customerCartCode).to.equal(anonymousCartCodeForBindCart);
       });
@@ -74,7 +74,7 @@ context('Assisted Service Module', () => {
       cart.goToCart();
       cy.get('cx-cart-details').then(() => {
         const customerCartCode = JSON.parse(
-          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart'),
         ).active;
         expect(customerCartCode).to.equal(anonymousCartCodeForBindCart);
       });
@@ -119,7 +119,7 @@ context('Assisted Service Module', () => {
       cy.log('--> Create current active cart');
       cart.addProductFromPdp(cart.products[1].code).then(() => {
         const activeCartCode = JSON.parse(
-          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart'),
         ).active;
         cy.wrap(activeCartCode).as('activeCartCode');
       });
@@ -146,7 +146,7 @@ context('Assisted Service Module', () => {
       cart.goToCart();
       cy.get('cx-cart-details').then(() => {
         const customerCartCode = JSON.parse(
-          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart'),
         ).active;
         cy.get<string>('@anonymousCartCode').then((anonymousCartCode) => {
           expect(customerCartCode).to.equal(anonymousCartCode);
@@ -161,7 +161,7 @@ context('Assisted Service Module', () => {
       cy.wait(`@${loginPage}`);
       login(
         customerForReplaceBindCart.email,
-        customerForReplaceBindCart.password
+        customerForReplaceBindCart.password,
       );
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -169,7 +169,7 @@ context('Assisted Service Module', () => {
       cart.goToCart();
       cy.get('cx-cart-details').then(() => {
         const customerCartCode = JSON.parse(
-          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart'),
         ).active;
         expect(customerCartCode).to.equal(anonymousCartCodeForReplaceBindCart);
       });

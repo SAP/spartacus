@@ -61,7 +61,7 @@ describe('TrapFocusService', () => {
       const host = fixture.debugElement.query(By.css('#b')).nativeElement;
       const children = fixture.debugElement.queryAll(By.css('#b > *'));
       spyOn(service, 'findFocusable').and.returnValue(
-        children.map((c) => c.nativeElement)
+        children.map((c) => c.nativeElement),
       );
       expect(service.hasFocusableChildren(host)).toBeTruthy();
     });
@@ -79,7 +79,7 @@ describe('TrapFocusService', () => {
       host = fixture.debugElement.query(By.css('#b')).nativeElement;
       children = fixture.debugElement.queryAll(By.css('#b > *'));
       spyOn(service, 'findFocusable').and.returnValue(
-        children.map((c) => c.nativeElement)
+        children.map((c) => c.nativeElement),
       );
     });
 
@@ -102,7 +102,7 @@ describe('TrapFocusService', () => {
           host,
           { trap: true },
           MOVE_FOCUS.NEXT,
-          event as KeyboardEvent
+          event as KeyboardEvent,
         );
         expect(next.focus).toHaveBeenCalled();
       });
@@ -123,7 +123,7 @@ describe('TrapFocusService', () => {
             host,
             { trap: true },
             MOVE_FOCUS.NEXT,
-            event as KeyboardEvent
+            event as KeyboardEvent,
           );
           expect(next.focus).toHaveBeenCalled();
         });
@@ -133,7 +133,7 @@ describe('TrapFocusService', () => {
             host,
             { trap: TrapFocus.end },
             MOVE_FOCUS.NEXT,
-            event as KeyboardEvent
+            event as KeyboardEvent,
           );
           expect(next.focus).toHaveBeenCalled();
         });
@@ -143,7 +143,7 @@ describe('TrapFocusService', () => {
             host,
             { trap: false },
             MOVE_FOCUS.NEXT,
-            event as KeyboardEvent
+            event as KeyboardEvent,
           );
           expect(next.focus).not.toHaveBeenCalled();
         });
@@ -153,7 +153,7 @@ describe('TrapFocusService', () => {
             host,
             { trap: TrapFocus.start },
             MOVE_FOCUS.NEXT,
-            event as KeyboardEvent
+            event as KeyboardEvent,
           );
           expect(next.focus).not.toHaveBeenCalled();
         });
@@ -171,7 +171,7 @@ describe('TrapFocusService', () => {
             host,
             { trap: TrapFocus.start },
             MOVE_FOCUS.NEXT,
-            event as KeyboardEvent
+            event as KeyboardEvent,
           );
 
           expect(event.preventDefault).not.toHaveBeenCalled();
@@ -191,7 +191,7 @@ describe('TrapFocusService', () => {
           host,
           { trap: true },
           MOVE_FOCUS.PREV,
-          event as KeyboardEvent
+          event as KeyboardEvent,
         );
         expect(prev.focus).toHaveBeenCalled();
       });
@@ -206,7 +206,7 @@ describe('TrapFocusService', () => {
           host,
           { trap: TrapFocus.start },
           MOVE_FOCUS.PREV,
-          event as KeyboardEvent
+          event as KeyboardEvent,
         );
         expect(prev.focus).toHaveBeenCalled();
       });
@@ -227,7 +227,7 @@ describe('TrapFocusService', () => {
             host,
             { trap: true },
             MOVE_FOCUS.PREV,
-            event as KeyboardEvent
+            event as KeyboardEvent,
           );
           expect(next.focus).toHaveBeenCalled();
         });
@@ -237,7 +237,7 @@ describe('TrapFocusService', () => {
             host,
             { trap: false },
             MOVE_FOCUS.PREV,
-            event as KeyboardEvent
+            event as KeyboardEvent,
           );
           expect(next.focus).not.toHaveBeenCalled();
         });
@@ -247,7 +247,7 @@ describe('TrapFocusService', () => {
             host,
             { trap: TrapFocus.end },
             MOVE_FOCUS.PREV,
-            event as KeyboardEvent
+            event as KeyboardEvent,
           );
           expect(next.focus).not.toHaveBeenCalled();
         });
@@ -265,7 +265,7 @@ describe('TrapFocusService', () => {
             host,
             { trap: TrapFocus.end },
             MOVE_FOCUS.PREV,
-            event as KeyboardEvent
+            event as KeyboardEvent,
           );
 
           expect(event.preventDefault).not.toHaveBeenCalled();

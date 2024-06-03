@@ -63,10 +63,10 @@ export interface Applicable {
 export function resolveApplicable<T extends Applicable>(
   applicables: T[],
   matchParams: any[] = [],
-  priorityParams: any[] = []
+  priorityParams: any[] = [],
 ): T | undefined {
   const matchedApplicables = (applicables ?? []).filter(
-    (applicable) => !applicable.hasMatch || applicable.hasMatch(...matchParams)
+    (applicable) => !applicable.hasMatch || applicable.hasMatch(...matchParams),
   );
 
   if (matchedApplicables.length < 2) {

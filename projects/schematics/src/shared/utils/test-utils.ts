@@ -113,7 +113,7 @@ export const oppsFeatureModulePath =
 export function writeFile(
   host: TempScopedNodeJsSyncHost,
   filePath: string,
-  contents: string
+  contents: string,
 ): void {
   host.sync.write(normalize(filePath), virtualFs.stringToFileBuffer(contents));
 }
@@ -122,7 +122,7 @@ export function runMigration(
   appTree: UnitTestTree,
   schematicRunner: SchematicTestRunner,
   migrationScript: string,
-  options = {}
+  options = {},
 ): Promise<UnitTestTree> {
   return schematicRunner.runSchematic(migrationScript, options, appTree);
 }
@@ -145,7 +145,7 @@ export function getSuperNode(constructorNode: ts.Node): ts.Node | undefined {
 
 export function getParams(
   constructorNode: ts.Node,
-  camelizedParamNames: string[]
+  camelizedParamNames: string[],
 ): string[] {
   const superNode = getSuperNode(constructorNode);
   if (!superNode) {
@@ -154,7 +154,7 @@ export function getParams(
 
   const callExpressions = findNodes(
     constructorNode,
-    ts.SyntaxKind.CallExpression
+    ts.SyntaxKind.CallExpression,
   );
   if (!callExpressions || callExpressions.length === 0) {
     throw new Error('No call expressions found in constructor');
@@ -162,7 +162,7 @@ export function getParams(
   const params = findNodes(callExpressions[0], ts.SyntaxKind.Identifier);
 
   camelizedParamNames = camelizedParamNames.map((param) =>
-    strings.camelize(param)
+    strings.camelize(param),
   );
 
   return params

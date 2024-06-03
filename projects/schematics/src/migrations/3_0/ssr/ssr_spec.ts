@@ -25,7 +25,7 @@ describe('ssr migration', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../migrations.json')
+      require.resolve('../../migrations.json'),
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -38,7 +38,7 @@ describe('ssr migration', () => {
         dependencies: {
           '@spartacus/core': '^2.0.0',
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -47,7 +47,7 @@ describe('ssr migration', () => {
         compilerOptions: {
           lib: ['es2015'],
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -66,7 +66,7 @@ describe('ssr migration', () => {
             },
           },
         },
-      })
+      }),
     );
 
     previousWorkingDir = shx.pwd();
@@ -99,7 +99,7 @@ describe('ssr migration', () => {
         `
   import { ngExpressEngine as engine } from '@nguniversal/express-engine';
   import { NgExpressEngineDecorator } from '@spartacus/core';
-  `
+  `,
       );
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);

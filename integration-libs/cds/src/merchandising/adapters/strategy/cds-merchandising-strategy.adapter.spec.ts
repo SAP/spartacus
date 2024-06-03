@@ -46,7 +46,7 @@ const strategyRequestUndefinedConsentReference = {
 
 class MockCdsEndpointsService {
   getUrl = createSpy('MockCdsEndpointsService.getUrl').and.callFake(
-    (endpoint) => endpoint
+    (endpoint) => endpoint,
   );
 }
 
@@ -124,7 +124,7 @@ describe('MerchandisingStrategyAdapter', () => {
       expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
         STRATEGY_PRODUCTS_ENDPOINT_KEY,
         strategyIdObject,
-        strategyRequest.queryParams
+        strategyRequest.queryParams,
       );
 
       mockStrategyProductsRequest.flush(expectedProductsFromStrategy);
@@ -134,7 +134,7 @@ describe('MerchandisingStrategyAdapter', () => {
       strategyAdapter
         .loadProductsForStrategy(
           STRATEGY_ID,
-          strategyRequestUndefinedConsentReference
+          strategyRequestUndefinedConsentReference,
         )
         .subscribe((products) => {
           expect(products).toEqual(expectedProductsFromStrategy);
@@ -151,13 +151,13 @@ describe('MerchandisingStrategyAdapter', () => {
       });
 
       expect(
-        mockStrategyProductsRequest.request.headers.get('consent-reference')
+        mockStrategyProductsRequest.request.headers.get('consent-reference'),
       ).toBeFalsy();
 
       expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
         STRATEGY_PRODUCTS_ENDPOINT_KEY,
         strategyIdObject,
-        strategyRequest.queryParams
+        strategyRequest.queryParams,
       );
 
       mockStrategyProductsRequest.flush(expectedProductsFromStrategy);

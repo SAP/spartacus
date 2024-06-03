@@ -188,7 +188,7 @@ class MockCustomerTicketingFacade {
   getTickets(
     _pageSize: number,
     _currentPage?: number,
-    _sort?: string
+    _sort?: string,
   ): Observable<TicketList> {
     return of(mockTicketList);
   }
@@ -206,47 +206,45 @@ describe('CustomerTicketingListComponent', () => {
   let routingService: RoutingService;
   let customerTicketingFacade: CustomerTicketingFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          CustomerTicketingListComponent,
-          MockPaginationComponent,
-          MockSortingComponent,
-          MockUrlPipe,
-          MockCustomerTicketingCreateComponent,
-        ],
-        providers: [
-          {
-            provide: CustomerTicketingFacade,
-            useClass: MockCustomerTicketingFacade,
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        CustomerTicketingListComponent,
+        MockPaginationComponent,
+        MockSortingComponent,
+        MockUrlPipe,
+        MockCustomerTicketingCreateComponent,
+      ],
+      providers: [
+        {
+          provide: CustomerTicketingFacade,
+          useClass: MockCustomerTicketingFacade,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
 
-      const translationService = TestBed.inject(TranslationService);
-      spyOn(translationService, 'translate').and.callFake((input) => {
-        switch (input) {
-          case 'customerTicketing.ticketId':
-            return of('ticket-id');
-          case 'customerTicketing.changedOn':
-            return of(new Date(0).toISOString());
-          default:
-            return EMPTY;
-        }
-      });
+    const translationService = TestBed.inject(TranslationService);
+    spyOn(translationService, 'translate').and.callFake((input) => {
+      switch (input) {
+        case 'customerTicketing.ticketId':
+          return of('ticket-id');
+        case 'customerTicketing.changedOn':
+          return of(new Date(0).toISOString());
+        default:
+          return EMPTY;
+      }
+    });
 
-      customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
+    customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
 
-      fixture = TestBed.createComponent(CustomerTicketingListComponent);
-      component = fixture.componentInstance;
-      routingService = TestBed.inject(RoutingService);
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(CustomerTicketingListComponent);
+    component = fixture.componentInstance;
+    routingService = TestBed.inject(RoutingService);
+    fixture.detectChanges();
+  }));
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -256,7 +254,7 @@ describe('CustomerTicketingListComponent', () => {
     const TWO_TICKETS = '(3)';
 
     const ticketsCount = fixture.debugElement.query(
-      By.css('.cx-ticketing-list-title-text')
+      By.css('.cx-ticketing-list-title-text'),
     );
 
     expect(ticketsCount.nativeElement.textContent).toContain(TWO_TICKETS);
@@ -274,7 +272,7 @@ describe('CustomerTicketingListComponent', () => {
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
-      By.css('.cx-ticketing-list-table tbody tr')
+      By.css('.cx-ticketing-list-table tbody tr'),
     );
     rows[1].triggerEventHandler('click', null);
 
@@ -288,7 +286,7 @@ describe('CustomerTicketingListComponent', () => {
 
   it('should display next page', () => {
     spyOn(customerTicketingFacade, 'getTickets').and.returnValue(
-      of(mockTicketList2)
+      of(mockTicketList2),
     );
 
     component.pageChange(1);

@@ -25,7 +25,7 @@ describe('Find Stores Reducer', () => {
 
       const loadingState = fromReducers.findStoresReducer(
         initialState,
-        loadAction
+        loadAction,
       );
       const resultAction = new StoreFinderActions.FindStoresSuccess(results);
       const state = fromReducers.findStoresReducer(loadingState, resultAction);
@@ -44,7 +44,7 @@ describe('Find Stores Reducer', () => {
 
       const loadingState = fromReducers.findStoresReducer(
         initialState,
-        loadAction
+        loadAction,
       );
       const resultAction = new StoreFinderActions.FindStoreByIdSuccess(results);
       const state = fromReducers.findStoresReducer(loadingState, resultAction);

@@ -34,7 +34,7 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
 
   constructor(
     protected productService: ProductService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
   ) {}
 
   ngOnInit() {
@@ -45,7 +45,7 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
         .pipe(
           map((respProduct) => {
             return respProduct ? respProduct : noCommerceProduct;
-          })
+          }),
         );
     } else {
       this.product$ = of(noCommerceProduct);
@@ -59,7 +59,7 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    * @returns {(ImageGroup | ImageGroup[] | undefined)} - primary image. View can handle an undefined image
    */
   getProductPrimaryImage(
-    product: Product
+    product: Product,
   ): ImageGroup | ImageGroup[] | undefined {
     return product?.images?.PRIMARY;
   }
@@ -115,7 +115,7 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
               attribute: this.attributeOverview.attribute,
               price: this.attributeOverview.valuePriceTotal?.formattedValue,
               quantity: this.attributeOverview.quantity,
-            }
+            },
           )
           .pipe(take(1))
           .subscribe((text) => (translatedText = text));

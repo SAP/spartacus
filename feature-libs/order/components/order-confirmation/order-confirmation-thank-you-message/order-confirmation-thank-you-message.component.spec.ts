@@ -50,28 +50,26 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
   let orderFacade: OrderFacade;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          OrderConfirmationThankYouMessageComponent,
-          MockAddtoHomeScreenBannerComponent,
-          MockGuestRegisterFormComponent,
-          MockFeatureLevelDirective,
-        ],
-        providers: [
-          { provide: OrderFacade, useClass: MockOrderFacade },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        OrderConfirmationThankYouMessageComponent,
+        MockAddtoHomeScreenBannerComponent,
+        MockGuestRegisterFormComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        { provide: OrderFacade, useClass: MockOrderFacade },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      OrderConfirmationThankYouMessageComponent
+      OrderConfirmationThankYouMessageComponent,
     );
     component = fixture.componentInstance;
     orderFacade = TestBed.inject(OrderFacade);
@@ -87,19 +85,19 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement.query(By.css('.cx-page-title')).nativeElement
-        .innerHTML
+        .innerHTML,
     ).toContain(mockOrder.code);
   });
 
   it('should display replenishment order code', () => {
     orderFacade.getOrderDetails = createSpy().and.returnValue(
-      of({ ...mockOrder, replenishmentOrderCode })
+      of({ ...mockOrder, replenishmentOrderCode }),
     );
 
     fixture.detectChanges();
     expect(
       fixture.debugElement.query(By.css('.cx-page-title')).nativeElement
-        .innerHTML
+        .innerHTML,
     ).toContain(replenishmentOrderCode);
   });
 
@@ -107,19 +105,19 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.query(By.css('cx-guest-register-form'))
+      fixture.debugElement.query(By.css('cx-guest-register-form')),
     ).not.toBeNull();
   });
 
   it('should not display guest register form for login user', () => {
     orderFacade.getOrderDetails = createSpy().and.returnValue(
-      of({ guid: 'guid', guestCustomer: false })
+      of({ guid: 'guid', guestCustomer: false }),
     );
 
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.query(By.css('cx-guest-register-form'))
+      fixture.debugElement.query(By.css('cx-guest-register-form')),
     ).toBeNull();
   });
 
@@ -132,7 +130,7 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
 
     expect(addSpy).toHaveBeenCalledWith(
       expectedMessage,
-      GlobalMessageType.MSG_TYPE_ASSISTIVE
+      GlobalMessageType.MSG_TYPE_ASSISTIVE,
     );
   });
 });

@@ -494,7 +494,7 @@ describe('constructor migrations', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../test/migrations-test.json')
+      require.resolve('../../test/migrations-test.json'),
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -506,7 +506,7 @@ describe('constructor migrations', () => {
         compilerOptions: {
           lib: ['es2015'],
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -522,7 +522,7 @@ describe('constructor migrations', () => {
             },
           },
         },
-      })
+      }),
     );
 
     previousWorkingDir = shx.pwd();
@@ -576,14 +576,14 @@ describe('constructor migrations', () => {
       writeFile(
         host,
         '/src/index.ts',
-        CORRECT_PARAM_ORDER_FOR_PARAMS_NOT_AT_THE_END
+        CORRECT_PARAM_ORDER_FOR_PARAMS_NOT_AT_THE_END,
       );
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(
-        CORRECT_PARAM_ORDER_FOR_PARAMS_NOT_AT_THE_END_EXPECTED
+        CORRECT_PARAM_ORDER_FOR_PARAMS_NOT_AT_THE_END_EXPECTED,
       );
     });
   });
@@ -624,7 +624,7 @@ describe('constructor migrations', () => {
         filePath,
         content,
         ts.ScriptTarget.Latest,
-        true
+        true,
       );
       const nodes = getSourceNodes(source);
       const constructorNode = getConstructor(nodes);
@@ -644,7 +644,7 @@ describe('constructor migrations', () => {
         writeFile(
           host,
           filePath,
-          ADD_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS
+          ADD_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS,
         );
 
         await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -655,7 +655,7 @@ describe('constructor migrations', () => {
           filePath,
           content,
           ts.ScriptTarget.Latest,
-          true
+          true,
         );
         const nodes = getSourceNodes(source);
         const constructorNode = getConstructor(nodes);
@@ -676,13 +676,13 @@ describe('constructor migrations', () => {
         writeFile(
           host,
           filePath,
-          ADD_PARAMETER_WITH_ALREADY_ADDED_SERVICE_VALID_TEST_CLASS
+          ADD_PARAMETER_WITH_ALREADY_ADDED_SERVICE_VALID_TEST_CLASS,
         );
 
         await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
         const content = appTree.readContent(filePath);
         expect(content).toEqual(
-          ADD_PARAMETER_WITH_ALREADY_ADDED_SERVICE_EXPECTED_CLASS
+          ADD_PARAMETER_WITH_ALREADY_ADDED_SERVICE_EXPECTED_CLASS,
         );
       });
     });
@@ -702,14 +702,14 @@ describe('constructor migrations', () => {
         writeFile(
           host,
           '/src/index.ts',
-          REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS
+          REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS,
         );
 
         await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
         const content = appTree.readContent('/src/index.ts');
         expect(content).toEqual(
-          REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_EXPECTED_CLASS
+          REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_EXPECTED_CLASS,
         );
       });
     });
@@ -718,7 +718,7 @@ describe('constructor migrations', () => {
         writeFile(
           host,
           '/src/index.ts',
-          REMOVE_PARAMETER_BUT_NOT_IMPORT_VALID_TEST_CLASS
+          REMOVE_PARAMETER_BUT_NOT_IMPORT_VALID_TEST_CLASS,
         );
 
         await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -744,7 +744,7 @@ describe('constructor migrations', () => {
       writeFile(
         host,
         '/src/index.ts',
-        ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS
+        ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS,
       );
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -759,7 +759,7 @@ describe('constructor migrations', () => {
       writeFile(
         host,
         '/src/index.ts',
-        ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS
+        ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS,
       );
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);

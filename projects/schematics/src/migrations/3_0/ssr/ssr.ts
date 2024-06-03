@@ -64,7 +64,7 @@ function updateImport(): Rule {
       isImported(
         getTsSourceFile(tree, serverFilePath),
         NG_EXPRESS_ENGINE_DECORATOR,
-        SPARTACUS_CORE
+        SPARTACUS_CORE,
       )
     ) {
       const importRemovalChange = removeImport(
@@ -72,7 +72,7 @@ function updateImport(): Rule {
         {
           className: NG_EXPRESS_ENGINE_DECORATOR,
           importPath: SPARTACUS_CORE,
-        }
+        },
       );
       commitChanges(tree, serverFilePath, [importRemovalChange]);
 
@@ -80,7 +80,7 @@ function updateImport(): Rule {
         tree,
         serverFilePath,
         NG_EXPRESS_ENGINE_DECORATOR,
-        SPARTACUS_SETUP_SSR
+        SPARTACUS_SETUP_SSR,
       );
       commitChanges(tree, serverFilePath, [addImportChange]);
     }

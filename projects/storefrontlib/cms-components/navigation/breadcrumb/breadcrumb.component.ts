@@ -27,7 +27,7 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,
     protected pageMetaService: PageMetaService,
-    private translation: TranslationService
+    private translation: TranslationService,
   ) {
     super(component, pageMetaService);
     useFeatureStyles('a11yTruncatedTextForResponsiveView');
@@ -44,8 +44,8 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
       this.translation.translate('common.home'),
     ]).pipe(
       map(([meta, textHome]) =>
-        meta?.breadcrumbs ? meta.breadcrumbs : [{ label: textHome, link: '/' }]
-      )
+        meta?.breadcrumbs ? meta.breadcrumbs : [{ label: textHome, link: '/' }],
+      ),
     );
   }
 }

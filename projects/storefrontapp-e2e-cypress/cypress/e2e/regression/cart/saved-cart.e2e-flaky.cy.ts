@@ -128,7 +128,7 @@ context('Saved Cart', () => {
         savedCart.restoreCart(
           sampleData.products[2],
           sampleData.savedActiveCartForm[2],
-          true
+          true,
         );
       });
 
@@ -137,7 +137,7 @@ context('Saved Cart', () => {
           sampleData.products[2],
           sampleData.savedActiveCartForm[2],
           true,
-          { isCloneCartActive: true, cloneName: 'newClonedName' }
+          { isCloneCartActive: true, cloneName: 'newClonedName' },
         );
       });
 
@@ -149,7 +149,7 @@ context('Saved Cart', () => {
 
         savedCart.restoreCart(
           sampleData.products[2],
-          sampleData.savedActiveCartForm[2]
+          sampleData.savedActiveCartForm[2],
         );
       });
 
@@ -163,7 +163,7 @@ context('Saved Cart', () => {
           sampleData.products[2],
           sampleData.savedActiveCartForm[2],
           false,
-          { isCloneCartActive: true }
+          { isCloneCartActive: true },
         );
       });
     });
@@ -177,7 +177,7 @@ context('Saved Cart', () => {
       it('should update saved cart name and description, and delete it from the modal', () => {
         savedCart.updateSavedCartAndDelete(
           sampleData.products[2],
-          sampleData.savedActiveCartForm[3]
+          sampleData.savedActiveCartForm[3],
         );
       });
 
@@ -185,14 +185,14 @@ context('Saved Cart', () => {
         savedCart.updateSavedCartAndDelete(
           sampleData.products[2],
           sampleData.savedActiveCartForm[0],
-          true
+          true,
         );
       });
 
       it('should update saved cart name and description, and restore it', () => {
         savedCart.updateSavedCartAndRestore(
           sampleData.products[2],
-          sampleData.savedActiveCartForm[0]
+          sampleData.savedActiveCartForm[0],
         );
       });
     });

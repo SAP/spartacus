@@ -35,7 +35,7 @@ import { ROUTING_FEATURE } from './store/routing-state';
 import { LOCATION_INITIALIZED } from '@angular/common';
 
 export function initConfigurableRoutes(
-  service: ConfigurableRoutesService
+  service: ConfigurableRoutesService,
 ): () => void {
   const result = () => service.init(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
   return result;
@@ -43,7 +43,7 @@ export function initConfigurableRoutes(
 
 export function initSecurePortalConfig(
   configInitializer: SecurePortalConfigInitializer,
-  routingConfig: RoutingConfig
+  routingConfig: RoutingConfig,
 ): ConfigInitializer | null {
   if (routingConfig.routing?.protected === undefined) {
     return configInitializer;

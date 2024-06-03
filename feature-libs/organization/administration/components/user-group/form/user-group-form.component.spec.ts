@@ -134,7 +134,7 @@ describe('UserGroupFormComponent', () => {
       component.form.get('uid').patchValue(undefined);
       component.createUidWithName(
         component.form.get('name'),
-        component.form.get('uid')
+        component.form.get('uid'),
       );
 
       expect(component.form.get('uid').value).toEqual('unit-test-value');
@@ -146,7 +146,7 @@ describe('UserGroupFormComponent', () => {
       component.form.get('uid').patchValue('test uid');
       component.createUidWithName(
         component.form.get('name'),
-        component.form.get('uid')
+        component.form.get('uid'),
       );
 
       expect(component.form.get('uid').value).toEqual('test uid');

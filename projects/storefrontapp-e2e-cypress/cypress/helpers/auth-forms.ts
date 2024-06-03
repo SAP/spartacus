@@ -18,7 +18,7 @@ export interface LoginUser {
 export function fillRegistrationForm(
   { firstName, lastName, email, password }: SampleUser,
   giveRegistrationConsent,
-  hiddenConsent?
+  hiddenConsent?,
 ) {
   cy.log(`🛒 Registering user ${email} from the registration page`);
   cy.get('cx-register form').should('be.visible');
@@ -60,14 +60,14 @@ export function fillKymaLoginForm({ username, password }: LoginUser) {
         cy.get('input[name="password"]').clear().type(password);
         cy.get('input[type=submit]').click();
       });
-    }
+    },
   );
 }
 
 export function register(
   user: SampleUser,
   giveRegistrationConsent = false,
-  hiddenConsent?
+  hiddenConsent?,
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
   const loginPage = waitForPage('/login', 'getLoginPage');

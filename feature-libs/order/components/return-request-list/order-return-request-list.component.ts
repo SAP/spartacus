@@ -21,7 +21,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
 export class OrderReturnRequestListComponent implements OnDestroy {
   constructor(
     private returnRequestService: OrderReturnRequestFacade,
-    private translation: TranslationService
+    private translation: TranslationService,
   ) {}
 
   private PAGE_SIZE = 5;
@@ -33,7 +33,7 @@ export class OrderReturnRequestListComponent implements OnDestroy {
         if (requestList?.pagination?.sort) {
           this.sortType = requestList.pagination.sort;
         }
-      })
+      }),
     );
 
   /**
@@ -43,7 +43,7 @@ export class OrderReturnRequestListComponent implements OnDestroy {
   tabTitleParam$: Observable<number> = this.returnRequests$.pipe(
     map((returnRequests) => returnRequests?.pagination?.totalResults),
     filter(isNotUndefined),
-    take(1)
+    take(1),
   );
 
   ngOnDestroy(): void {
@@ -77,7 +77,7 @@ export class OrderReturnRequestListComponent implements OnDestroy {
           byDate: textByDate,
           byRMA: textByRma,
         };
-      })
+      }),
     );
   }
 
@@ -88,7 +88,7 @@ export class OrderReturnRequestListComponent implements OnDestroy {
     this.returnRequestService.loadOrderReturnRequestList(
       this.PAGE_SIZE,
       event.currentPage,
-      event.sortCode
+      event.sortCode,
     );
   }
 }

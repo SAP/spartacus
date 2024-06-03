@@ -50,7 +50,7 @@ describe('config deprecations migration', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../test/migrations-test.json')
+      require.resolve('../../test/migrations-test.json'),
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -62,7 +62,7 @@ describe('config deprecations migration', () => {
         compilerOptions: {
           lib: ['es2015'],
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -78,7 +78,7 @@ describe('config deprecations migration', () => {
             },
           },
         },
-      })
+      }),
     );
 
     previousWorkingDir = shx.pwd();
@@ -102,7 +102,7 @@ describe('config deprecations migration', () => {
     const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(
       `// ${TODO_SPARTACUS} '${ANONYMOUS_CONSENTS}' has been removed, as this feature is now enabled by default.\n`,
-      'g'
+      'g',
     );
     const commentOccurrences = (content.match(regex) || []).length;
     expect(commentOccurrences).toEqual(3);

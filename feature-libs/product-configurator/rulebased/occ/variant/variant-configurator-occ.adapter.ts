@@ -44,7 +44,7 @@ export class VariantConfiguratorOccAdapter
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService,
-    protected configExpertModeService: ConfiguratorExpertModeService
+    protected configExpertModeService: ConfiguratorExpertModeService,
   ) {}
 
   getConfiguratorType(): string {
@@ -67,7 +67,7 @@ export class VariantConfiguratorOccAdapter
   createConfiguration(
     owner: CommonConfigurator.Owner,
     configIdTemplate?: string,
-    forceReset: boolean = false
+    forceReset: boolean = false,
   ): Observable<Configurator.Configuration> {
     const productCode = owner.id;
     const expMode = this.getExpModeRequested();
@@ -79,7 +79,7 @@ export class VariantConfiguratorOccAdapter
             ? { configIdTemplate, expMode, forceReset }
             : { expMode, forceReset },
         }),
-        { context: this.indicateSendUserForAsm() }
+        { context: this.indicateSendUserForAsm() },
       )
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
@@ -91,14 +91,14 @@ export class VariantConfiguratorOccAdapter
             ...resultConfiguration,
             owner: owner,
           };
-        })
+        }),
       );
   }
 
   readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: CommonConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner,
   ): Observable<Configurator.Configuration> {
     const expMode = this.getExpModeRequested();
     return this.http
@@ -107,7 +107,7 @@ export class VariantConfiguratorOccAdapter
           urlParams: { configId },
           queryParams: { groupId, expMode },
         }),
-        { context: this.indicateSendUserForAsm() }
+        { context: this.indicateSendUserForAsm() },
       )
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
@@ -120,12 +120,12 @@ export class VariantConfiguratorOccAdapter
             owner: configurationOwner,
             newConfiguration: false,
           };
-        })
+        }),
       );
   }
 
   updateConfiguration(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration> {
     const configId = configuration.configId;
     const expMode = this.getExpModeRequested();
@@ -134,11 +134,11 @@ export class VariantConfiguratorOccAdapter
       {
         urlParams: { configId },
         queryParams: { expMode },
-      }
+      },
     );
     const occConfiguration = this.converterService.convert(
       configuration,
-      VARIANT_CONFIGURATOR_SERIALIZER
+      VARIANT_CONFIGURATOR_SERIALIZER,
     );
 
     return this.http
@@ -155,21 +155,21 @@ export class VariantConfiguratorOccAdapter
             ...resultConfiguration,
             owner: configuration.owner,
           };
-        })
+        }),
       );
   }
 
   addToCart(
-    parameters: Configurator.AddToCartParameters
+    parameters: Configurator.AddToCartParameters,
   ): Observable<CartModification> {
     const url = this.occEndpointsService.buildUrl(
       'addVariantConfigurationToCart',
-      { urlParams: { userId: parameters.userId, cartId: parameters.cartId } }
+      { urlParams: { userId: parameters.userId, cartId: parameters.cartId } },
     );
 
     const occAddToCartParameters = this.converterService.convert(
       parameters,
-      VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER
+      VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
     );
 
     const headers = new HttpHeaders({
@@ -182,7 +182,7 @@ export class VariantConfiguratorOccAdapter
   }
 
   readConfigurationForCartEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters,
   ): Observable<Configurator.Configuration> {
     const expMode = this.getExpModeRequested();
     const url = this.occEndpointsService.buildUrl(
@@ -194,7 +194,7 @@ export class VariantConfiguratorOccAdapter
           cartEntryNumber: parameters.cartEntryNumber,
         },
         queryParams: { expMode },
-      }
+      },
     );
 
     return this.http.get<OccConfigurator.Configuration>(url).pipe(
@@ -207,12 +207,12 @@ export class VariantConfiguratorOccAdapter
           ...resultConfiguration,
           owner: parameters.owner,
         };
-      })
+      }),
     );
   }
 
   updateConfigurationForCartEntry(
-    parameters: Configurator.UpdateConfigurationForCartEntryParameters
+    parameters: Configurator.UpdateConfigurationForCartEntryParameters,
   ): Observable<CartModification> {
     const url = this.occEndpointsService.buildUrl(
       'updateVariantConfigurationForCartEntry',
@@ -222,7 +222,7 @@ export class VariantConfiguratorOccAdapter
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
         },
-      }
+      },
     );
 
     const headers = new HttpHeaders({
@@ -231,7 +231,7 @@ export class VariantConfiguratorOccAdapter
 
     const occUpdateCartEntryParameters = this.converterService.convert(
       parameters,
-      VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
+      VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
     );
 
     return this.http
@@ -240,7 +240,7 @@ export class VariantConfiguratorOccAdapter
   }
 
   readConfigurationForOrderEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters,
   ): Observable<Configurator.Configuration> {
     const ownerType = parameters.owner.type;
     let url;
@@ -253,7 +253,7 @@ export class VariantConfiguratorOccAdapter
             quoteId: parameters.orderId,
             quoteEntryNumber: parameters.orderEntryNumber,
           },
-        }
+        },
       );
     } else if (ownerType === CommonConfigurator.OwnerType.SAVED_CART_ENTRY) {
       url = this.occEndpointsService.buildUrl(
@@ -264,7 +264,7 @@ export class VariantConfiguratorOccAdapter
             cartId: parameters.orderId,
             cartEntryNumber: parameters.orderEntryNumber,
           },
-        }
+        },
       );
     } else {
       url = this.occEndpointsService.buildUrl(
@@ -275,7 +275,7 @@ export class VariantConfiguratorOccAdapter
             orderId: parameters.orderId,
             orderEntryNumber: parameters.orderEntryNumber,
           },
-        }
+        },
       );
     }
 
@@ -298,12 +298,12 @@ export class VariantConfiguratorOccAdapter
           ...resultConfiguration,
           owner: parameters.owner,
         };
-      })
+      }),
     );
   }
 
   readPriceSummary(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration> {
     const url = this.occEndpointsService.buildUrl(
       'readVariantConfigurationPriceSummary',
@@ -312,7 +312,7 @@ export class VariantConfiguratorOccAdapter
           configId: configuration.configId,
         },
         queryParams: { groupId: configuration.interactionState.currentGroup },
-      }
+      },
     );
 
     return this.http.get(url, { context: this.indicateSendUserForAsm() }).pipe(
@@ -324,16 +324,16 @@ export class VariantConfiguratorOccAdapter
           priceSupplements: configResult.priceSupplements,
         };
         return result;
-      })
+      }),
     );
   }
 
   getConfigurationOverview(
-    configId: string
+    configId: string,
   ): Observable<Configurator.Overview> {
     const url = this.occEndpointsService.buildUrl(
       'getVariantConfigurationOverview',
-      { urlParams: { configId } }
+      { urlParams: { configId } },
     );
 
     return this.http
@@ -341,21 +341,23 @@ export class VariantConfiguratorOccAdapter
         context: this.indicateSendUserForAsm(),
       })
       .pipe(
-        this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER)
+        this.converterService.pipeable(
+          VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
+        ),
       );
   }
 
   updateConfigurationOverview(
-    ovInput: Configurator.Overview
+    ovInput: Configurator.Overview,
   ): Observable<Configurator.Overview> {
     const url = this.occEndpointsService.buildUrl(
       'getVariantConfigurationOverview',
-      { urlParams: { configId: ovInput.configId } }
+      { urlParams: { configId: ovInput.configId } },
     );
 
     const occOverview = this.converterService.convert(
       ovInput,
-      VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER
+      VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER,
     );
 
     return this.http
@@ -364,21 +366,21 @@ export class VariantConfiguratorOccAdapter
       })
       .pipe(
         this.converterService.pipeable(
-          VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+          VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
         ),
         map((overview) => ({
           ...overview,
           attributeFilters: ovInput.attributeFilters,
           groupFilters: ovInput.groupFilters,
           possibleGroups: ovInput.possibleGroups,
-        }))
+        })),
       );
   }
 
   searchVariants(configId: string): Observable<Configurator.Variant[]> {
     const url = this.occEndpointsService.buildUrl(
       'searchConfiguratorVariants',
-      { urlParams: { configId } }
+      { urlParams: { configId } },
     );
     //no need to work with a converter here, as Configurator.Variant is a projection of the OCC
     //variant representation

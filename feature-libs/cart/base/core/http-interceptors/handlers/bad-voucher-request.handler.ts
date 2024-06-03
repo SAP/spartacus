@@ -43,35 +43,35 @@ export class BadVoucherRequestHandler extends HttpErrorHandler {
 
   protected handleVoucherExceededError(
     _request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): void {
     this.getErrors(response)
       .filter((e) => voucherExceededError(e))
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.voucherExceeded' },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
   }
 
   protected handleVoucherInvalidError(
     _request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): void {
     this.getErrors(response)
       .filter((e) => voucherInvalidError(e))
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.invalidCodeProvided' },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error: ErrorModel) => error.type !== 'JaloObjectNoLongerValidError'
+      (error: ErrorModel) => error.type !== 'JaloObjectNoLongerValidError',
     );
   }
 }

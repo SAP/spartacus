@@ -32,7 +32,7 @@ export class RoutingService {
     protected semanticPathService: SemanticPathService,
     protected routingParamsService: RoutingParamsService,
     protected router: Router,
-    protected location: Location
+    protected location: Location,
   ) {}
 
   /**
@@ -102,8 +102,8 @@ export class RoutingService {
     let url = this.router.serializeUrl(
       this.router.createUrlTree(
         this.semanticPathService.transform(commands),
-        extras
-      )
+        extras,
+      ),
     );
     if (!url.startsWith('/')) {
       url = `/${url}`;
@@ -119,7 +119,7 @@ export class RoutingService {
   getFullUrl(commands: UrlCommands, extras?: NavigationExtras) {
     return `${this.winRef.document.location.origin}${this.getUrl(
       commands,
-      extras
+      extras,
     )}`;
   }
 
@@ -142,7 +142,7 @@ export class RoutingService {
     const isLastPageInApp =
       this.winRef.nativeWindow &&
       this.winRef.document.referrer.includes(
-        this.winRef.nativeWindow.location.origin
+        this.winRef.nativeWindow.location.origin,
       );
     if (isLastPageInApp) {
       this.location.back();

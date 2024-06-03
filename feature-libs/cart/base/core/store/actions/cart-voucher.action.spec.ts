@@ -21,7 +21,7 @@ describe('Cart-voucher Actions', () => {
           payload: payload,
           meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
-            ADD_VOUCHER_PROCESS_ID
+            ADD_VOUCHER_PROCESS_ID,
           ),
         });
       });
@@ -44,7 +44,7 @@ describe('Cart-voucher Actions', () => {
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             ADD_VOUCHER_PROCESS_ID,
-            error
+            error,
           ),
         });
       });
@@ -63,7 +63,7 @@ describe('Cart-voucher Actions', () => {
           payload,
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
-            ADD_VOUCHER_PROCESS_ID
+            ADD_VOUCHER_PROCESS_ID,
           ),
         });
       });
@@ -76,7 +76,7 @@ describe('Cart-voucher Actions', () => {
           type: CartActions.CART_RESET_ADD_VOUCHER,
           meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
-            ADD_VOUCHER_PROCESS_ID
+            ADD_VOUCHER_PROCESS_ID,
           ),
         });
       });
@@ -97,7 +97,7 @@ describe('Cart-voucher Actions', () => {
           payload: payload,
           meta: StateUtils.entityProcessesIncrementMeta(
             MULTI_CART_DATA,
-            cartId
+            cartId,
           ),
         });
       });
@@ -114,7 +114,7 @@ describe('Cart-voucher Actions', () => {
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
-            cartId
+            cartId,
           ),
         });
       });
@@ -133,7 +133,7 @@ describe('Cart-voucher Actions', () => {
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
-            'cartId'
+            'cartId',
           ),
         });
       });

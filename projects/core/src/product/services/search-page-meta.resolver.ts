@@ -36,7 +36,7 @@ export class SearchPageMetaResolver
     .getResults()
     .pipe(
       filter((data) => !!data?.pagination),
-      map((results) => results.pagination?.totalResults)
+      map((results) => results.pagination?.totalResults),
     );
 
   protected query$: Observable<string> = this.routingService
@@ -47,7 +47,7 @@ export class SearchPageMetaResolver
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
     protected translation: TranslationService,
-    protected basePageMetaResolver: BasePageMetaResolver
+    protected basePageMetaResolver: BasePageMetaResolver,
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -65,10 +65,10 @@ export class SearchPageMetaResolver
               this.translation.translate('pageMetaResolver.search.title', {
                 count,
                 query: query || defaultQuery,
-              })
-            )
-          )
-      )
+              }),
+            ),
+          ),
+      ),
     );
   }
 

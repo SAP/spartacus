@@ -23,7 +23,7 @@ export class ContextService {
   get<T>(contextToken: ContextToken): Observable<T | undefined> {
     return this.resolveContext<T>(contextToken).pipe(
       distinctUntilChanged(),
-      shareReplay({ refCount: true, bufferSize: 1 })
+      shareReplay({ refCount: true, bufferSize: 1 }),
     );
   }
 
@@ -31,7 +31,7 @@ export class ContextService {
    * Resolves the context for the given token.
    */
   protected resolveContext<T>(
-    contextToken: ContextToken
+    contextToken: ContextToken,
   ): Observable<T | undefined> {
     return this.routingContextService.get(contextToken);
   }

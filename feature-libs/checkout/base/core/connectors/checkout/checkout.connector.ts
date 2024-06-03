@@ -15,7 +15,7 @@ export class CheckoutConnector {
 
   public getCheckoutDetails(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<CheckoutState> {
     return this.adapter.getCheckoutDetails(userId, cartId);
   }

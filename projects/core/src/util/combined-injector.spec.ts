@@ -91,12 +91,12 @@ describe('CombinedInjector', () => {
   describe('when using self flag', () => {
     it('should throw error if default value is not provided', () => {
       expect(() =>
-        injector.get('a' as any, undefined, { self: true })
+        injector.get('a' as any, undefined, { self: true }),
       ).toThrowError();
     });
     it('should return default value', () => {
       expect(injector.get('a' as any, 'default', { self: true })).toEqual(
-        'default'
+        'default',
       );
     });
   });

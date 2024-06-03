@@ -18,7 +18,7 @@ export class ScheduleLinesComponent {
   constructor(
     @Optional() protected cartItemContext: CartItemContext,
     protected translationService: TranslationService,
-    protected datePipe: CxDatePipe
+    protected datePipe: CxDatePipe,
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =

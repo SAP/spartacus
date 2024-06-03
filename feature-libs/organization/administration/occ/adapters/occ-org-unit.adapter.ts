@@ -37,7 +37,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   load(userId: string, orgUnitId: string): Observable<B2BUnit> {
@@ -55,7 +55,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   update(
     userId: string,
     orgUnitId: string,
-    orgUnit: B2BUnit
+    orgUnit: B2BUnit,
   ): Observable<B2BUnit> {
     orgUnit = this.converter.convert(orgUnit, B2BUNIT_SERIALIZER);
     return this.http
@@ -78,7 +78,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   loadApprovalProcesses(userId: string): Observable<B2BApprovalProcess[]> {
     return this.http
       .get<Occ.B2BApprovalProcessList>(
-        this.getOrgUnitsApprovalProcessesEndpoint(userId)
+        this.getOrgUnitsApprovalProcessesEndpoint(userId),
       )
       .pipe(this.converter.pipeable(B2BUNIT_APPROVAL_PROCESSES_NORMALIZER));
   }
@@ -87,11 +87,11 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<B2BUser>> {
     return this.http
       .get<Occ.OrgUnitUserList>(
-        this.getUsersEndpoint(userId, orgUnitId, roleId, params)
+        this.getUsersEndpoint(userId, orgUnitId, roleId, params),
       )
       .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
   }
@@ -99,21 +99,21 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   assignRole(
     userId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): Observable<any> {
     return this.http.post<any>(
       this.getRolesEndpoint(userId, orgCustomerId, { roleId }),
-      null
+      null,
     );
   }
 
   unassignRole(
     userId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getRoleEndpoint(userId, orgCustomerId, roleId)
+      this.getRoleEndpoint(userId, orgCustomerId, roleId),
     );
   }
 
@@ -121,11 +121,11 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): Observable<any> {
     return this.http.post<any>(
       this.getApproversEndpoint(userId, orgUnitId, orgCustomerId, { roleId }),
-      null
+      null,
     );
   }
 
@@ -133,16 +133,16 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getApproverEndpoint(userId, orgUnitId, orgCustomerId, roleId)
+      this.getApproverEndpoint(userId, orgUnitId, orgCustomerId, roleId),
     );
   }
 
   loadAddresses(
     userId: string,
-    orgUnitId: string
+    orgUnitId: string,
   ): Observable<EntitiesModel<Address>> {
     return this.http
       .get<Occ.AddressList>(this.getAddressesEndpoint(userId, orgUnitId))
@@ -152,7 +152,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   createAddress(
     userId: string,
     orgUnitId: string,
-    address: Address
+    address: Address,
   ): Observable<Address> {
     address = this.converter.convert(address, ADDRESS_SERIALIZER);
     return this.http
@@ -164,13 +164,13 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     addressId: string,
-    address: Address
+    address: Address,
   ): Observable<Address> {
     address = this.converter.convert(address, ADDRESS_SERIALIZER);
     return this.http
       .patch<Occ.Address>(
         this.getAddressEndpoint(userId, orgUnitId, addressId),
-        address
+        address,
       )
       .pipe(this.converter.pipeable(ADDRESS_NORMALIZER));
   }
@@ -178,11 +178,11 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   deleteAddress(
     userId: string,
     orgUnitId: string,
-    addressId: string
+    addressId: string,
   ): Observable<any> {
     return this.http
       .delete<Occ.Address>(
-        this.getAddressEndpoint(userId, orgUnitId, addressId)
+        this.getAddressEndpoint(userId, orgUnitId, addressId),
       )
       .pipe(this.converter.pipeable(ADDRESS_NORMALIZER));
   }
@@ -219,7 +219,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): string {
     return this.occEndpoints.buildUrl('orgUnitUsers', {
       urlParams: {
@@ -234,7 +234,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   protected getRolesEndpoint(
     userId: string,
     orgCustomerId: string,
-    params: { roleId: string }
+    params: { roleId: string },
   ): string {
     return this.occEndpoints.buildUrl('orgUnitUserRoles', {
       urlParams: { userId, orgCustomerId },
@@ -245,7 +245,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   protected getRoleEndpoint(
     userId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): string {
     return this.occEndpoints.buildUrl('orgUnitUserRole', {
       urlParams: {
@@ -260,7 +260,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     orgCustomerId: string,
-    params: { roleId: string }
+    params: { roleId: string },
   ): string {
     return this.occEndpoints.buildUrl('orgUnitApprovers', {
       urlParams: { userId, orgUnitId, orgCustomerId },
@@ -272,7 +272,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): string {
     return this.occEndpoints.buildUrl('orgUnitApprover', {
       urlParams: {
@@ -296,7 +296,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   protected getAddressEndpoint(
     userId: string,
     orgUnitId: string,
-    addressId: string
+    addressId: string,
   ): string {
     return this.occEndpoints.buildUrl('orgUnitsAddress', {
       urlParams: {

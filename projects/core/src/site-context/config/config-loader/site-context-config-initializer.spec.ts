@@ -140,7 +140,7 @@ describe(`SiteContextConfigInitializer`, () => {
 
       expect(javaRegExpConverter.toJsRegExp).toHaveBeenCalledTimes(3);
       expect(javaRegExpConverter.toJsRegExp).not.toHaveBeenCalledWith(
-        '^testUrl22$'
+        '^testUrl22$',
       );
       expect(result?.context?.baseSite).toEqual(['test2']);
     });

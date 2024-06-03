@@ -22,7 +22,7 @@ export type IOutletContextData = { item: Consignment };
 })
 export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
   constructor(
-    @Optional() protected outlet: OutletContextData<IOutletContextData>
+    @Optional() protected outlet: OutletContextData<IOutletContextData>,
   ) {}
 
   @Input() pointOfService$: Observable<PointOfService> | undefined;
@@ -31,8 +31,8 @@ export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
     this.pointOfService$ = this.outlet?.context$?.pipe(
       map((context) => context.item?.deliveryPointOfService),
       filter(
-        (pointOfService): pointOfService is PointOfService => !!pointOfService
-      )
+        (pointOfService): pointOfService is PointOfService => !!pointOfService,
+      ),
     );
   }
 }

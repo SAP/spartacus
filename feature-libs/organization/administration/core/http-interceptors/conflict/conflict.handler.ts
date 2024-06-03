@@ -39,14 +39,14 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
           message,
           this.userMask,
           'user',
-          request?.body?.email
+          request?.body?.email,
         );
         // Handle user group conflict
         this.handleConflict(
           message,
           this.userGroupMask,
           'userGroup',
-          request?.body?.uid
+          request?.body?.uid,
         );
         // Handle unit conflict
         this.handleConflict(message, this.unitMask, 'unit');
@@ -57,8 +57,8 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
   protected matchMask(response: HttpErrorResponse): boolean {
     return this.getErrors(response).some((error) =>
       [this.budgetMask, this.userMask, this.userGroupMask, this.unitMask].some(
-        (mask) => mask.test(error.message ?? '')
-      )
+        (mask) => mask.test(error.message ?? ''),
+      ),
     );
   }
 
@@ -66,21 +66,21 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
     message: string,
     mask: RegExp,
     key: string,
-    code?: string
+    code?: string,
   ): void {
     const result = message.match(mask);
     const params = { code: result?.[1] ?? code };
     if (result) {
       this.globalMessageService.add(
         { key: `organization.httpHandlers.conflict.${key}`, params },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error: any) => error.type === 'AlreadyExistsError'
+      (error: any) => error.type === 'AlreadyExistsError',
     );
   }
 

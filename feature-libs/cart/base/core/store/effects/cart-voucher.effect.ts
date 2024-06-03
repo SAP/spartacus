@@ -24,7 +24,7 @@ export class CartVoucherEffects {
   constructor(
     private actions$: Actions,
     private cartVoucherConnector: CartVoucherConnector,
-    private messageService: GlobalMessageService
+    private messageService: GlobalMessageService,
   ) {}
 
   addCartVoucher$: Observable<
@@ -43,7 +43,7 @@ export class CartVoucherEffects {
               this.showGlobalMessage(
                 'voucher.applyVoucherSuccess',
                 payload.voucherId,
-                GlobalMessageType.MSG_TYPE_CONFIRMATION
+                GlobalMessageType.MSG_TYPE_CONFIRMATION,
               );
               return new CartActions.CartAddVoucherSuccess({
                 ...payload,
@@ -60,11 +60,11 @@ export class CartVoucherEffects {
                   userId: payload.userId,
                   cartId: payload.cartId,
                 }),
-              ])
-            )
+              ]),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   removeCartVoucher$: Observable<
@@ -81,7 +81,7 @@ export class CartVoucherEffects {
               this.showGlobalMessage(
                 'voucher.removeVoucherSuccess',
                 payload.voucherId,
-                GlobalMessageType.MSG_TYPE_INFO
+                GlobalMessageType.MSG_TYPE_INFO,
               );
               return new CartActions.CartRemoveVoucherSuccess({
                 userId: payload.userId,
@@ -101,21 +101,21 @@ export class CartVoucherEffects {
                   userId: payload.userId,
                   cartId: payload.cartId,
                 }),
-              ])
-            )
+              ]),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   private showGlobalMessage(
     text: string,
     param: string,
-    messageType: GlobalMessageType
+    messageType: GlobalMessageType,
   ) {
     this.messageService.add(
       { key: text, params: { voucherCode: param } },
-      messageType
+      messageType,
     );
   }
 }

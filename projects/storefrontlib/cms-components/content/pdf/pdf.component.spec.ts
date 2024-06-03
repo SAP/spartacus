@@ -50,7 +50,7 @@ const mockComponentData: CmsPDFDocumentComponent = {
 };
 
 const data$: BehaviorSubject<CmsPDFDocumentComponent> = new BehaviorSubject(
-  mockComponentData
+  mockComponentData,
 );
 
 class MockCmsPDFDocumentComponentData {

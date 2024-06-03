@@ -8,14 +8,14 @@ describe('QuoteRootModule', () => {
   it('should define quoteCartGuard feature linked to the respective component', () => {
     const featureConfigQuoteCartGuard = defaultQuoteCartGuardComponentConfig();
     expect(
-      featureConfigQuoteCartGuard.featureModules.quote_cart_guard.cmsComponents
+      featureConfigQuoteCartGuard.featureModules.quote_cart_guard.cmsComponents,
     ).toEqual(['QuoteCartGuardComponent']);
   });
 
   it('should define quoteRequestComponent feature linked to the quote request component that is loaded with the cart page', () => {
     const featureConfigQuoteRequest = defaultQuoteRequestComponentsConfig();
     expect(
-      featureConfigQuoteRequest.featureModules.quote_request.cmsComponents
+      featureConfigQuoteRequest.featureModules.quote_request.cmsComponents,
     ).toEqual(['QuoteRequestComponent']);
   });
 
@@ -32,7 +32,7 @@ describe('QuoteRootModule', () => {
   it('should define quote feature that should contain the quote list component forming the quote list page', () => {
     const featureConfigQuoteRequest = defaultQuoteComponentsConfig();
     expect(
-      featureConfigQuoteRequest.featureModules.quote.cmsComponents
+      featureConfigQuoteRequest.featureModules.quote.cmsComponents,
     ).toContain('AccountMyQuotesComponent');
   });
 });

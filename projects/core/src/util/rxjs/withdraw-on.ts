@@ -17,11 +17,11 @@ import { startWith, switchMap } from 'rxjs/operators';
  * @param notifier
  */
 export function withdrawOn<T>(
-  notifier: Observable<any>
+  notifier: Observable<any>,
 ): OperatorFunction<T, T> {
   return (source: Observable<T>) =>
     notifier.pipe(
       startWith(undefined),
-      switchMap(() => source)
+      switchMap(() => source),
     );
 }

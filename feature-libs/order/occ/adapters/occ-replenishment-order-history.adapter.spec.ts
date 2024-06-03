@@ -100,7 +100,7 @@ describe('OccReplenishmentOrderHistoryAdapter', () => {
             userId: mockUserId,
             replenishmentOrderCode: mockReplenishmentOrderCode,
           },
-        }
+        },
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -114,12 +114,12 @@ describe('OccReplenishmentOrderHistoryAdapter', () => {
       httpMock
         .expectOne(
           (req) =>
-            req.method === 'GET' && req.url === '/replenishmentOrderDetails'
+            req.method === 'GET' && req.url === '/replenishmentOrderDetails',
         )
         .flush({});
 
       expect(converter.pipeable).toHaveBeenCalledWith(
-        REPLENISHMENT_ORDER_NORMALIZER
+        REPLENISHMENT_ORDER_NORMALIZER,
       );
     });
   });
@@ -132,7 +132,7 @@ describe('OccReplenishmentOrderHistoryAdapter', () => {
           mockReplenishmentOrderCode,
           PAGE_SIZE,
           CURRENT_PAGE,
-          SORT
+          SORT,
         )
         .subscribe((data) => {
           expect(data).toEqual(mockOrderHistoryList);
@@ -157,7 +157,7 @@ describe('OccReplenishmentOrderHistoryAdapter', () => {
             currentPage: CURRENT_PAGE.toString(),
             sort: SORT,
           },
-        }
+        },
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -173,7 +173,7 @@ describe('OccReplenishmentOrderHistoryAdapter', () => {
         .expectOne(
           (req) =>
             req.method === 'GET' &&
-            req.url === '/replenishmentOrderDetailsHistory'
+            req.url === '/replenishmentOrderDetailsHistory',
         )
         .flush({});
 
@@ -202,7 +202,7 @@ describe('OccReplenishmentOrderHistoryAdapter', () => {
             userId: mockUserId,
             replenishmentOrderCode: mockReplenishmentOrderCode,
           },
-        }
+        },
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -218,12 +218,12 @@ describe('OccReplenishmentOrderHistoryAdapter', () => {
       httpMock
         .expectOne(
           (req) =>
-            req.method === 'PATCH' && req.url === '/cancelReplenishmentOrder'
+            req.method === 'PATCH' && req.url === '/cancelReplenishmentOrder',
         )
         .flush({});
 
       expect(converter.pipeable).toHaveBeenCalledWith(
-        REPLENISHMENT_ORDER_NORMALIZER
+        REPLENISHMENT_ORDER_NORMALIZER,
       );
     });
   });
@@ -249,7 +249,7 @@ describe('OccReplenishmentOrderHistoryAdapter', () => {
             currentPage: CURRENT_PAGE.toString(),
             sort: SORT,
           },
-        }
+        },
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -267,7 +267,7 @@ describe('OccReplenishmentOrderHistoryAdapter', () => {
         .flush({});
 
       expect(converter.pipeable).toHaveBeenCalledWith(
-        REPLENISHMENT_ORDER_HISTORY_NORMALIZER
+        REPLENISHMENT_ORDER_HISTORY_NORMALIZER,
       );
     });
   });

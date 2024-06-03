@@ -28,29 +28,27 @@ describe('OrderDetailActionsComponent', () => {
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      mockOrderDetailsService = <OrderDetailsService>{
-        getOrderDetails() {
-          return of(mockOrder);
-        },
-      };
+  beforeEach(waitForAsync(() => {
+    mockOrderDetailsService = <OrderDetailsService>{
+      getOrderDetails() {
+        return of(mockOrder);
+      },
+    };
 
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        providers: [
-          { provide: OrderDetailsService, useValue: mockOrderDetailsService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { cancellationAndReturn: true },
-            },
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      providers: [
+        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { cancellationAndReturn: true },
           },
-        ],
-        declarations: [OrderDetailActionsComponent, MockUrlPipe],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+      declarations: [OrderDetailActionsComponent, MockUrlPipe],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailActionsComponent);
@@ -79,7 +77,7 @@ describe('OrderDetailActionsComponent', () => {
     const element: DebugElement = el.queryAll(By.css('a.btn-secondary'))[0];
 
     expect(element.nativeElement.textContent).toContain(
-      'orderDetails.cancellationAndReturn.returnAction'
+      'orderDetails.cancellationAndReturn.returnAction',
     );
   });
 

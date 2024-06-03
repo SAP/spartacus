@@ -55,7 +55,7 @@ describe('CpqConfigurationOccService', () => {
       id: productCode,
       key: ConfiguratorModelUtils.getOwnerKey(
         CommonConfigurator.OwnerType.PRODUCT,
-        productCode
+        productCode,
       ),
       configuratorType: ConfiguratorType.CPQ,
     },
@@ -73,7 +73,7 @@ describe('CpqConfigurationOccService', () => {
           id: entryNumber.toString(),
           key: ConfiguratorModelUtils.getOwnerKey(
             CommonConfigurator.OwnerType.PRODUCT,
-            entryNumber.toString()
+            entryNumber.toString(),
           ),
           configuratorType: ConfiguratorType.CPQ,
         }),
@@ -90,7 +90,7 @@ describe('CpqConfigurationOccService', () => {
         id: productCode,
         key: ConfiguratorModelUtils.getOwnerKey(
           CommonConfigurator.OwnerType.CART_ENTRY,
-          productCode
+          productCode,
         ),
         configuratorType: ConfiguratorType.CPQ,
       },
@@ -106,7 +106,7 @@ describe('CpqConfigurationOccService', () => {
         id: productCode,
         key: ConfiguratorModelUtils.getOwnerKey(
           CommonConfigurator.OwnerType.ORDER_ENTRY,
-          productCode
+          productCode,
         ),
         configuratorType: ConfiguratorType.CPQ,
       },
@@ -128,7 +128,7 @@ describe('CpqConfigurationOccService', () => {
   const configuration: Configurator.Configuration = {
     ...ConfiguratorTestUtils.createConfiguration(
       configId,
-      ConfiguratorModelUtils.createInitialOwner()
+      ConfiguratorModelUtils.createInitialOwner(),
     ),
     productCode: productCode,
   };
@@ -154,7 +154,7 @@ describe('CpqConfigurationOccService', () => {
     buildUrl(
       endpoint: string,
       _attributes?: DynamicAttributes,
-      _propertiesToOmit?: BaseOccUrlProperties
+      _propertiesToOmit?: BaseOccUrlProperties,
     ) {
       return this.getEndpoint(endpoint);
     }
@@ -178,17 +178,17 @@ describe('CpqConfigurationOccService', () => {
     });
 
     httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
+      HttpTestingController as Type<HttpTestingController>,
     );
     converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
+      ConverterService as Type<ConverterService>,
     );
     occEnpointsService = TestBed.inject(
-      OccEndpointsService as Type<OccEndpointsService>
+      OccEndpointsService as Type<OccEndpointsService>,
     );
 
     serviceUnderTest = TestBed.inject(
-      CpqConfiguratorOccService as Type<CpqConfiguratorOccService>
+      CpqConfiguratorOccService as Type<CpqConfiguratorOccService>,
     );
 
     spyOn(occEnpointsService, 'buildUrl').and.callThrough();
@@ -206,7 +206,7 @@ describe('CpqConfigurationOccService', () => {
     });
     expect(converterService.convert).toHaveBeenCalledWith(
       addToCartParams,
-      CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER
+      CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
     );
 
     const mockReq = httpMock.expectOne((req) => {
@@ -215,7 +215,7 @@ describe('CpqConfigurationOccService', () => {
     mockReq.flush(cartResponse);
 
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CART_MODIFICATION_NORMALIZER
+      CART_MODIFICATION_NORMALIZER,
     );
 
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
@@ -225,7 +225,7 @@ describe('CpqConfigurationOccService', () => {
           userId: userId,
           cartId: documentId,
         },
-      }
+      },
     );
   });
 
@@ -251,7 +251,7 @@ describe('CpqConfigurationOccService', () => {
           cartId: documentId,
           cartEntryNumber: '3',
         },
-      }
+      },
     );
   });
 
@@ -277,7 +277,7 @@ describe('CpqConfigurationOccService', () => {
           orderId: documentId,
           orderEntryNumber: '3',
         },
-      }
+      },
     );
   });
 
@@ -288,7 +288,7 @@ describe('CpqConfigurationOccService', () => {
     });
     expect(converterService.convert).toHaveBeenCalledWith(
       updateCartParams,
-      CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
+      CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
     );
 
     const mockReq = httpMock.expectOne((req) => {
@@ -299,7 +299,7 @@ describe('CpqConfigurationOccService', () => {
     mockReq.flush(cartResponse);
 
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CART_MODIFICATION_NORMALIZER
+      CART_MODIFICATION_NORMALIZER,
     );
 
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
@@ -310,7 +310,7 @@ describe('CpqConfigurationOccService', () => {
           cartId: documentId,
           cartEntryNumber: '3',
         },
-      }
+      },
     );
   });
 
@@ -325,7 +325,7 @@ describe('CpqConfigurationOccService', () => {
     mockReq.flush(cpqConfiguration);
 
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CPQ_CONFIGURATOR_NORMALIZER
+      CPQ_CONFIGURATOR_NORMALIZER,
     );
 
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
@@ -334,7 +334,7 @@ describe('CpqConfigurationOccService', () => {
         urlParams: {
           productCode: productCode,
         },
-      }
+      },
     );
   });
 
@@ -349,7 +349,7 @@ describe('CpqConfigurationOccService', () => {
     mockReq.flush(cpqConfiguration);
 
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CPQ_CONFIGURATOR_NORMALIZER
+      CPQ_CONFIGURATOR_NORMALIZER,
     );
 
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
@@ -359,7 +359,7 @@ describe('CpqConfigurationOccService', () => {
           configurationId: configId,
         },
         queryParams: undefined,
-      }
+      },
     );
   });
 
@@ -374,7 +374,7 @@ describe('CpqConfigurationOccService', () => {
     mockReq.flush(cpqConfiguration);
 
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CPQ_CONFIGURATOR_NORMALIZER
+      CPQ_CONFIGURATOR_NORMALIZER,
     );
 
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
@@ -386,7 +386,7 @@ describe('CpqConfigurationOccService', () => {
         queryParams: {
           tabId: tabId,
         },
-      }
+      },
     );
   });
 
@@ -401,7 +401,7 @@ describe('CpqConfigurationOccService', () => {
     mockReq.flush(cpqConfiguration);
 
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER
+      CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
     );
 
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
@@ -410,7 +410,7 @@ describe('CpqConfigurationOccService', () => {
         urlParams: {
           configurationId: configId,
         },
-      }
+      },
     );
   });
 
@@ -422,7 +422,7 @@ describe('CpqConfigurationOccService', () => {
 
     expect(converterService.convert).toHaveBeenCalledWith(
       configuration,
-      CPQ_CONFIGURATOR_SERIALIZER
+      CPQ_CONFIGURATOR_SERIALIZER,
     );
 
     const mockReq = httpMock.expectOne((req) => {
@@ -431,7 +431,7 @@ describe('CpqConfigurationOccService', () => {
     mockReq.flush(cpqConfiguration);
 
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CPQ_CONFIGURATOR_NORMALIZER
+      CPQ_CONFIGURATOR_NORMALIZER,
     );
 
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
@@ -444,7 +444,7 @@ describe('CpqConfigurationOccService', () => {
         queryParams: {
           tabId: tabId,
         },
-      }
+      },
     );
   });
 
@@ -456,7 +456,7 @@ describe('CpqConfigurationOccService', () => {
 
     expect(converterService.convert).toHaveBeenCalledWith(
       configuration,
-      CPQ_CONFIGURATOR_QUANTITY_SERIALIZER
+      CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
     );
 
     const mockReq = httpMock.expectOne((req) => {
@@ -467,7 +467,7 @@ describe('CpqConfigurationOccService', () => {
     mockReq.flush(cpqConfiguration);
 
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CPQ_CONFIGURATOR_NORMALIZER
+      CPQ_CONFIGURATOR_NORMALIZER,
     );
 
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
@@ -481,7 +481,7 @@ describe('CpqConfigurationOccService', () => {
         queryParams: {
           tabId: tabId,
         },
-      }
+      },
     );
   });
 
@@ -508,7 +508,7 @@ describe('CpqConfigurationOccService', () => {
           cartId: documentId,
           cartEntryNumber: '3',
         },
-      }
+      },
     );
   });
 
@@ -535,7 +535,7 @@ describe('CpqConfigurationOccService', () => {
           orderId: documentId,
           orderEntryNumber: entryNumberString,
         },
-      }
+      },
     );
   });
 
@@ -569,7 +569,7 @@ describe('CpqConfigurationOccService', () => {
           quoteId: documentId,
           quoteEntryNumber: entryNumberString,
         },
-      }
+      },
     );
   });
 
@@ -603,7 +603,7 @@ describe('CpqConfigurationOccService', () => {
           savedCartId: documentId,
           entryNumber: entryNumberString,
         },
-      }
+      },
     );
   });
 });

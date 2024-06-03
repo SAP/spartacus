@@ -19,19 +19,19 @@ export function getTransferStateReducer(
   platformId: Object,
   transferState?: TransferState,
   config?: StateConfig,
-  authStatePersistenceService?: AuthStatePersistenceService
+  authStatePersistenceService?: AuthStatePersistenceService,
 ) {
   if (transferState && config?.state?.ssrTransfer?.keys) {
     if (isPlatformBrowser(platformId)) {
       return getBrowserTransferStateReducer(
         transferState,
         config.state.ssrTransfer.keys,
-        Boolean(authStatePersistenceService?.isUserLoggedIn())
+        Boolean(authStatePersistenceService?.isUserLoggedIn()),
       );
     } else if (isPlatformServer(platformId)) {
       return getServerTransferStateReducer(
         transferState,
-        config.state.ssrTransfer.keys
+        config.state.ssrTransfer.keys,
       );
     }
   }
@@ -41,11 +41,11 @@ export function getTransferStateReducer(
 
 export function getServerTransferStateReducer(
   transferState: TransferState,
-  keys: { [key: string]: StateTransferType }
+  keys: { [key: string]: StateTransferType },
 ) {
   const transferStateKeys = filterKeysByType(
     keys,
-    StateTransferType.TRANSFER_STATE
+    StateTransferType.TRANSFER_STATE,
   );
 
   return function (reducer: any) {
@@ -64,11 +64,11 @@ export function getServerTransferStateReducer(
 export function getBrowserTransferStateReducer(
   transferState: TransferState,
   keys: { [key: string]: StateTransferType },
-  isLoggedIn: boolean
+  isLoggedIn: boolean,
 ) {
   const transferStateKeys = filterKeysByType(
     keys,
-    StateTransferType.TRANSFER_STATE
+    StateTransferType.TRANSFER_STATE,
   );
 
   return function (reducer: any) {
@@ -83,7 +83,7 @@ export function getBrowserTransferStateReducer(
           const transferredStateSlice = getStateSlice(
             transferStateKeys,
             [],
-            cxKey
+            cxKey,
           );
 
           state = deepMerge({}, state, transferredStateSlice);

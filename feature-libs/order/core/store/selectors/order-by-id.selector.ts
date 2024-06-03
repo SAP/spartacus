@@ -16,34 +16,34 @@ export const getOrderByIdEntities: MemoizedSelector<
 > = createSelector(getOrderState, (state: OrderState) => state.orderById);
 
 export const getOrderByIdEntity = (
-  code: string
+  code: string,
 ): MemoizedSelector<StateWithOrder, StateUtils.LoaderState<Order>> =>
   createSelector(
     getOrderByIdEntities,
     (state: StateUtils.EntityLoaderState<Order>) =>
-      StateUtils.entityLoaderStateSelector(state, code)
+      StateUtils.entityLoaderStateSelector(state, code),
   );
 
 export const getOrderById = (
-  code: string
+  code: string,
 ): MemoizedSelector<StateWithOrder, Order> => {
   return createSelector(getOrderByIdEntity(code), (orderByIDState) =>
-    StateUtils.loaderValueSelector(orderByIDState)
+    StateUtils.loaderValueSelector(orderByIDState),
   );
 };
 
 export const getOrderByIdLoading = (
-  code: string
+  code: string,
 ): MemoizedSelector<StateWithOrder, boolean> => {
   return createSelector(getOrderByIdEntity(code), (loaderState) =>
-    StateUtils.loaderLoadingSelector(loaderState)
+    StateUtils.loaderLoadingSelector(loaderState),
   );
 };
 
 export const getOrderByIdSuccess = (
-  code: string
+  code: string,
 ): MemoizedSelector<StateWithOrder, boolean> => {
   return createSelector(getOrderByIdEntity(code), (loaderState) =>
-    StateUtils.loaderSuccessSelector(loaderState)
+    StateUtils.loaderSuccessSelector(loaderState),
   );
 };

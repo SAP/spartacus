@@ -15,7 +15,7 @@ const ALL = 'all';
 
 export function serializeSearchConfig(
   config: SearchConfig,
-  id?: string
+  id?: string,
 ): string {
   return `${id ?? ''}?pageSize=${config.pageSize ?? ''}&currentPage=${
     config.currentPage ?? ''
@@ -24,7 +24,7 @@ export function serializeSearchConfig(
 
 export function denormalizeSearch<T>(
   state: EntityListState<T>,
-  params?: SearchConfig
+  params?: SearchConfig,
 ): LoaderState<EntitiesModel<T>> {
   return denormalizeCustomB2BSearch<T>(state.list, state.entities, params);
 }
@@ -33,11 +33,11 @@ export function denormalizeCustomB2BSearch<T>(
   list: EntityLoaderState<ListModel>,
   entities: EntityLoaderState<T>,
   params?: SearchConfig,
-  id?: string
+  id?: string,
 ): LoaderState<EntitiesModel<T>> {
   const serializedList: any = entityLoaderStateSelector(
     list,
-    params ? serializeSearchConfig(params, id) : id ?? ALL
+    params ? serializeSearchConfig(params, id) : id ?? ALL,
   );
   if (!serializedList.value || !serializedList.value.ids) {
     return serializedList;
@@ -45,7 +45,7 @@ export function denormalizeCustomB2BSearch<T>(
   const res: LoaderState<EntitiesModel<T>> = Object.assign({}, serializedList, {
     value: {
       values: serializedList.value.ids.map(
-        (code: string) => entityLoaderStateSelector(entities, code).value
+        (code: string) => entityLoaderStateSelector(entities, code).value,
       ),
     },
   });
@@ -58,7 +58,7 @@ export function denormalizeCustomB2BSearch<T>(
 
 export function normalizeListPage<T>(
   list: EntitiesModel<T>,
-  id: string
+  id: string,
 ): { values: T[]; page: ListModel } {
   const values = list.values || [];
   const page: ListModel = {
@@ -75,7 +75,7 @@ export function normalizeListPage<T>(
 
 export function serializeParams(
   params: string | string[],
-  searchConfig: SearchConfig
+  searchConfig: SearchConfig,
 ): string {
   return [params, serializeSearchConfig(searchConfig)].toString();
 }

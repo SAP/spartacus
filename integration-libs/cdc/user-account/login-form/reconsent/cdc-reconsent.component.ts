@@ -50,7 +50,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected anonymousConsentsService: AnonymousConsentsService,
-    protected cdcReconsentService: CdcReconsentComponentService
+    protected cdcReconsentService: CdcReconsentComponentService,
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +61,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
         this.reconsentEvent['regToken'] = data.regToken;
         this.reconsentEvent['errorMessage'] = data.errorMessage;
         this.loadConsents(data.consentIds);
-      })
+      }),
     );
   }
 
@@ -76,7 +76,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
         });
         this.totalConsents = output.length;
         return output;
-      })
+      }),
     );
     this.loaded$ = of(true);
   }
@@ -102,7 +102,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
       this.loaded$ = of(false);
       this.cdcReconsentService.saveConsentAndLogin(
         this.selectedConsents,
-        this.reconsentEvent
+        this.reconsentEvent,
       );
     } else {
       this.cdcReconsentService.handleReconsentUpdateError(reason, message);

@@ -25,7 +25,7 @@ let child: childProcess.ChildProcess | any;
 export async function startSsrServer(port = 4000) {
   child = childProcess.spawn(
     `NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log`,
-    { detached: true, shell: true }
+    { detached: true, shell: true },
   );
 
   await Log.waitUntilLogContainsText(`Node Express server listening on `);

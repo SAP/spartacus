@@ -25,5 +25,5 @@ export interface ConfigInitializer {
 }
 
 export const CONFIG_INITIALIZER_FORROOT_GUARD = new InjectionToken<void>(
-  'CONFIG_INITIALIZER_FORROOT_GUARD'
+  'CONFIG_INITIALIZER_FORROOT_GUARD',
 );

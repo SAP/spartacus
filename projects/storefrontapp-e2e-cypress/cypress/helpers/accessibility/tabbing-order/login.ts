@@ -13,7 +13,7 @@ const containerSelector = '.LoginPageTemplate';
 
 export function loginTabbingOrder(
   config: TabElement[],
-  prefillForm: boolean = false
+  prefillForm: boolean = false,
 ) {
   cy.visit('/login');
 

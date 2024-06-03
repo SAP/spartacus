@@ -26,7 +26,7 @@ import { UserGroupItemService } from '../services/user-group-item.service';
 export class UserGroupDetailsComponent {
   model$: Observable<UserGroup> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
-    startWith({})
+    startWith({}),
   );
   isInEditMode$ = this.itemService.isInEditMode$;
 

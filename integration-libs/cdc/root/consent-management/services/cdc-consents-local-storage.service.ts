@@ -46,7 +46,7 @@ export class CdcConsentsLocalStorageService implements OnDestroy {
       >({
         key: KEY,
         state$: of(consents),
-      })
+      }),
     );
   }
 

@@ -19,5 +19,5 @@ export const SCHEMA_BUILDER = new InjectionToken('SchemaBuilderToken');
  * See see https://schema.org/product for more information.
  */
 export const JSONLD_PRODUCT_BUILDER = new InjectionToken(
-  'JsonLdProductBuilderToken'
+  'JsonLdProductBuilderToken',
 );

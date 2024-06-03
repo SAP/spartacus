@@ -43,7 +43,7 @@ describe('MultiCartEffectsService', () => {
       });
 
       expect(service.getActiveCartTypeOnLoadSuccess(action)).toEqual(
-        setActiveCartIdAction
+        setActiveCartIdAction,
       );
     });
 
@@ -61,7 +61,7 @@ describe('MultiCartEffectsService', () => {
       });
 
       expect(service.getActiveCartTypeOnLoadSuccess(action)).toEqual(
-        setActiveCartIdAction
+        setActiveCartIdAction,
       );
     });
 

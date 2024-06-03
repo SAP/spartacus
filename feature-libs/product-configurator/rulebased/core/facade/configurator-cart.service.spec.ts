@@ -101,35 +101,33 @@ describe('ConfiguratorCartService', () => {
   let store: Store<StateWithConfigurator>;
   let configuratorUtils: CommonConfiguratorUtilsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      cartObs = of(cart);
-      isStableObs = of(true);
-      checkoutLoadingObs = of({ loading: true, error: false, data: undefined });
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        providers: [
-          ConfiguratorCartService,
+  beforeEach(waitForAsync(() => {
+    cartObs = of(cart);
+    isStableObs = of(true);
+    checkoutLoadingObs = of({ loading: true, error: false, data: undefined });
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        ConfiguratorCartService,
 
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
-          },
-          {
-            provide: CheckoutQueryFacade,
-            useClass: MockCheckoutQueryFacade,
-          },
-          {
-            provide: UserIdService,
-            useClass: MockUserIdService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+        {
+          provide: CheckoutQueryFacade,
+          useClass: MockCheckoutQueryFacade,
+        },
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(ConfiguratorCartService);
     store = TestBed.inject(Store);
@@ -166,7 +164,7 @@ describe('ConfiguratorCartService', () => {
         };
 
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfigurationLoaderState)
+        () => () => of(productConfigurationLoaderState),
       );
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -197,13 +195,13 @@ describe('ConfiguratorCartService', () => {
           value: {
             ...ConfiguratorTestUtils.createConfiguration(
               '',
-              ConfiguratorModelUtils.createInitialOwner()
+              ConfiguratorModelUtils.createInitialOwner(),
             ),
           },
         };
 
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfigurationLoaderState)
+        () => () => of(productConfigurationLoaderState),
       );
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -213,7 +211,7 @@ describe('ConfiguratorCartService', () => {
         .unsubscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.ReadCartEntryConfiguration(params)
+        new ConfiguratorActions.ReadCartEntryConfiguration(params),
       );
     });
 
@@ -231,17 +229,17 @@ describe('ConfiguratorCartService', () => {
           value: {
             ...ConfiguratorTestUtils.createConfiguration(
               '',
-              ConfiguratorModelUtils.createInitialOwner()
+              ConfiguratorModelUtils.createInitialOwner(),
             ),
           },
         };
 
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfigurationLoaderState)
+        () => () => of(productConfigurationLoaderState),
       );
 
       expect(
-        serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY)
+        serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY),
       ).toBeObservable(cold('-----|', {}));
     });
 
@@ -259,17 +257,17 @@ describe('ConfiguratorCartService', () => {
           value: {
             ...ConfiguratorTestUtils.createConfiguration(
               '',
-              ConfiguratorModelUtils.createInitialOwner()
+              ConfiguratorModelUtils.createInitialOwner(),
             ),
           },
         };
 
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfigurationLoaderState)
+        () => () => of(productConfigurationLoaderState),
       );
 
       expect(
-        serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY)
+        serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY),
       ).toBeObservable(cold('--|'));
     });
   });
@@ -282,7 +280,7 @@ describe('ConfiguratorCartService', () => {
         };
 
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfigurationLoaderState)
+        () => () => of(productConfigurationLoaderState),
       );
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -307,13 +305,13 @@ describe('ConfiguratorCartService', () => {
           value: {
             ...ConfiguratorTestUtils.createConfiguration(
               '',
-              ConfiguratorModelUtils.createInitialOwner()
+              ConfiguratorModelUtils.createInitialOwner(),
             ),
           },
         };
 
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfigurationLoaderState)
+        () => () => of(productConfigurationLoaderState),
       );
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
@@ -322,7 +320,7 @@ describe('ConfiguratorCartService', () => {
         .unsubscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.ReadOrderEntryConfiguration(params)
+        new ConfiguratorActions.ReadOrderEntryConfiguration(params),
       );
     });
   });
@@ -343,7 +341,7 @@ describe('ConfiguratorCartService', () => {
       serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID, OWNER_PRODUCT);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.AddToCart(addToCartParams)
+        new ConfiguratorActions.AddToCart(addToCartParams),
       );
     });
 
@@ -362,7 +360,7 @@ describe('ConfiguratorCartService', () => {
       serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID, OWNER_PRODUCT, 100);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.AddToCart(addToCartParams)
+        new ConfiguratorActions.AddToCart(addToCartParams),
       );
     });
   });
@@ -382,7 +380,7 @@ describe('ConfiguratorCartService', () => {
       serviceUnderTest.updateCartEntry(productConfiguration);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.UpdateCartEntry(params)
+        new ConfiguratorActions.UpdateCartEntry(params),
       );
     });
   });
@@ -393,7 +391,7 @@ describe('ConfiguratorCartService', () => {
         x: cart,
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
-        cold('aa', { a: false })
+        cold('aa', { a: false }),
       );
     });
 
@@ -413,7 +411,7 @@ describe('ConfiguratorCartService', () => {
         y: cartIssues,
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
-        cold('ab', { a: false, b: true })
+        cold('ab', { a: false, b: true }),
       );
     });
     it('should handle cart with no entries', () => {
@@ -426,7 +424,7 @@ describe('ConfiguratorCartService', () => {
         y: cartEmpty,
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
-        cold('aa', { a: false })
+        cold('aa', { a: false }),
       );
     });
   });
@@ -443,7 +441,7 @@ describe('ConfiguratorCartService', () => {
       });
 
       expect(serviceUnderTest.getEntry('4')).toBeObservable(
-        cold('a', { a: undefined })
+        cold('a', { a: undefined }),
       );
     });
 
@@ -458,7 +456,7 @@ describe('ConfiguratorCartService', () => {
       });
 
       expect(serviceUnderTest.getEntry('4')).toBeObservable(
-        cold('a', { a: undefined })
+        cold('a', { a: undefined }),
       );
     });
 
@@ -472,7 +470,7 @@ describe('ConfiguratorCartService', () => {
       });
 
       expect(serviceUnderTest.getEntry('5')).toBeObservable(
-        cold('a', { a: undefined })
+        cold('a', { a: undefined }),
       );
     });
 
@@ -486,7 +484,7 @@ describe('ConfiguratorCartService', () => {
       });
 
       expect(serviceUnderTest.getEntry('2')).toBeObservable(
-        cold('a', { a: newestCart.entries ? newestCart.entries[1] : {} })
+        cold('a', { a: newestCart.entries ? newestCart.entries[1] : {} }),
       );
     });
   });
@@ -497,7 +495,7 @@ describe('ConfiguratorCartService', () => {
       serviceUnderTest.removeCartBoundConfigurations();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.RemoveCartBoundConfigurations()
+        new ConfiguratorActions.RemoveCartBoundConfigurations(),
       );
     });
   });

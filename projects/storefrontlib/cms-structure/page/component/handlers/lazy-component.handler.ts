@@ -51,7 +51,7 @@ export class LazyComponentHandler implements ComponentHandler {
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
     elementInjector?: Injector,
-    module?: NgModuleRef<any>
+    module?: NgModuleRef<any>,
   ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }> {
     return from(componentMapping.component()).pipe(
       switchMap((component) =>
@@ -59,9 +59,9 @@ export class LazyComponentHandler implements ComponentHandler {
           { ...componentMapping, component },
           viewContainerRef,
           elementInjector,
-          module
-        )
-      )
+          module,
+        ),
+      ),
     );
   }
 }

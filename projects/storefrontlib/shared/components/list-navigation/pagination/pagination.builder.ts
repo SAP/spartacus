@@ -86,7 +86,7 @@ export class PaginationBuilder {
   protected addPages(
     pages: PaginationItem[],
     pageCount: number,
-    current: number
+    current: number,
   ): void {
     const start = this.getStartOfRange(pageCount, current);
     if (this.config.rangeCount !== undefined && start !== null) {
@@ -135,15 +135,15 @@ export class PaginationBuilder {
       const type = isGap
         ? PaginationItemType.GAP
         : isSubstituted
-        ? PaginationItemType.FIRST
-        : PaginationItemType.PAGE;
+          ? PaginationItemType.FIRST
+          : PaginationItemType.PAGE;
       return [
         Object.assign(
           {
             label: isGap ? this.config.dotsLabel : String(gapNumber + 1),
             type,
           },
-          isGap ? null : { number: gapNumber }
+          isGap ? null : { number: gapNumber },
         ),
       ];
     } else {
@@ -172,15 +172,15 @@ export class PaginationBuilder {
       const type = isGap
         ? PaginationItemType.GAP
         : isSubstituted
-        ? PaginationItemType.LAST
-        : PaginationItemType.PAGE;
+          ? PaginationItemType.LAST
+          : PaginationItemType.PAGE;
       return [
         Object.assign(
           {
             label: isGap ? this.config.dotsLabel : String(nextPageNumber + 1),
             type,
           },
-          isGap ? null : { number: nextPageNumber }
+          isGap ? null : { number: nextPageNumber },
         ),
       ];
     } else {
@@ -233,7 +233,7 @@ export class PaginationBuilder {
   protected addNavigation(
     pages: PaginationItem[],
     pageCount: number,
-    current: number
+    current: number,
   ): void {
     const before = this.getBeforeLinks(current);
     const after = this.getAfterLinks(pageCount, current);
@@ -264,7 +264,7 @@ export class PaginationBuilder {
             label: this.config.startLabel,
             type: PaginationItemType.START,
           },
-          current > 0 ? { number: 0 } : null
+          current > 0 ? { number: 0 } : null,
         );
       };
       list.push(start());
@@ -276,7 +276,7 @@ export class PaginationBuilder {
             label: this.config.previousLabel,
             type: PaginationItemType.PREVIOUS,
           },
-          current > 0 ? { number: current - 1 } : null
+          current > 0 ? { number: current - 1 } : null,
         );
       };
       list.push(previous());
@@ -289,7 +289,7 @@ export class PaginationBuilder {
    */
   protected getAfterLinks(
     pageCount: number,
-    current: number
+    current: number,
   ): PaginationItem[] {
     const list = [];
 
@@ -300,7 +300,7 @@ export class PaginationBuilder {
             label: this.config.nextLabel,
             type: PaginationItemType.NEXT,
           },
-          current < pageCount - 1 ? { number: current + 1 } : null
+          current < pageCount - 1 ? { number: current + 1 } : null,
         );
       };
       list.push(next());
@@ -312,7 +312,7 @@ export class PaginationBuilder {
             label: this.config.endLabel,
             type: PaginationItemType.END,
           },
-          current < pageCount - 1 ? { number: pageCount - 1 } : null
+          current < pageCount - 1 ? { number: pageCount - 1 } : null,
         );
       };
       list.push(end());
@@ -370,7 +370,7 @@ export class PaginationBuilder {
   protected get config(): PaginationOptions {
     return Object.assign(
       FALLBACK_PAGINATION_OPTIONS,
-      this.paginationConfig.pagination
+      this.paginationConfig.pagination,
     );
   }
 }

@@ -80,48 +80,48 @@ describe('ReturnRequestService', () => {
 
   it('should load return request data if return request data not exist', () => {
     spyOn(orderReturnRequestService, 'getOrderReturnRequest').and.returnValue(
-      of(undefined)
+      of(undefined),
     );
     service.getReturnRequest().subscribe().unsubscribe();
     expect(
-      orderReturnRequestService.loadOrderReturnRequestDetail
+      orderReturnRequestService.loadOrderReturnRequestDetail,
     ).toHaveBeenCalled();
   });
 
   it('should load return request data if rma is not equal to returnCode in route parameter', () => {
     spyOn(orderReturnRequestService, 'getOrderReturnRequest').and.returnValue(
-      of({ rma: '1111', returnEntries: [] })
+      of({ rma: '1111', returnEntries: [] }),
     );
     service.getReturnRequest().subscribe().unsubscribe();
     expect(
-      orderReturnRequestService.loadOrderReturnRequestDetail
+      orderReturnRequestService.loadOrderReturnRequestDetail,
     ).toHaveBeenCalled();
   });
 
   it('should NOT load return request data if loading is true', () => {
     spyOn(orderReturnRequestService, 'getOrderReturnRequest').and.returnValue(
-      of(undefined)
+      of(undefined),
     );
     spyOn(orderReturnRequestService, 'getReturnRequestLoading').and.returnValue(
-      of(true)
+      of(true),
     );
     service.getReturnRequest().subscribe().unsubscribe();
     expect(
-      orderReturnRequestService.loadOrderReturnRequestDetail
+      orderReturnRequestService.loadOrderReturnRequestDetail,
     ).not.toHaveBeenCalled();
   });
 
   it('should be able to clear return request data', () => {
     service.clearReturnRequest();
     expect(
-      orderReturnRequestService.clearOrderReturnRequestDetail
+      orderReturnRequestService.clearOrderReturnRequestDetail,
     ).toHaveBeenCalled();
   });
 
   it('should be able to cancel return request', () => {
     service.cancelReturnRequest('test');
     expect(
-      orderReturnRequestService.cancelOrderReturnRequest
+      orderReturnRequestService.cancelOrderReturnRequest,
     ).toHaveBeenCalledWith('test', {
       status: 'CANCELLING',
     });
@@ -137,7 +137,7 @@ describe('ReturnRequestService', () => {
         key: 'returnRequest.cancelSuccess',
         params: { rma: '1' },
       },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
   });
 
@@ -149,7 +149,7 @@ describe('ReturnRequestService', () => {
         state: {
           activeTab: 1,
         },
-      }
+      },
     );
   });
 });

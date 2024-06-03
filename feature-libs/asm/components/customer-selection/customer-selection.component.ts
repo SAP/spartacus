@@ -65,7 +65,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     protected asmService: AsmService,
     protected config: AsmConfig,
     protected directionService: DirectionService,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {}
 
   ngOnInit(): void {
@@ -82,7 +82,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
         .pipe(debounceTime(300))
         .subscribe((searchTermValue) => {
           this.handleSearchTerm(searchTermValue);
-        })
+        }),
     );
   }
 
@@ -109,7 +109,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   selectCustomerFromList(event: UIEvent, customer: User) {
     this.selectedCustomer = customer;
     this.customerSelectionForm.controls.searchTerm.setValue(
-      this.selectedCustomer.name
+      this.selectedCustomer.name,
     );
     this.asmService.customerSearchReset();
     this.searchTerm.nativeElement.focus();
@@ -235,7 +235,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.asmService.customerSearchReset();
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      this.createCustomerLink
+      this.createCustomerLink,
     );
   }
   /**

@@ -12,7 +12,7 @@ describe('GlobService', () => {
   describe('getValidator', () => {
     function test_matcher(
       patterns: string[],
-      testCase: { input: string; expected: boolean }
+      testCase: { input: string; expected: boolean },
     ) {
       it(`test case "${testCase.input}"`, () => {
         const matcher = service.getValidator(patterns);

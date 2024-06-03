@@ -210,7 +210,7 @@ describe('OrderApprovalDetailFormComponent', () => {
       {
         decision,
         comment: testComment,
-      }
+      },
     );
 
     getOrderApproval$.next({
@@ -228,8 +228,8 @@ describe('OrderApprovalDetailFormComponent', () => {
       .queryAll(By.css('a'))
       .find((button) =>
         (button.nativeElement as HTMLElement).textContent.includes(
-          'orderApprovalDetails.back'
-        )
+          'orderApprovalDetails.back',
+        ),
       );
     expect(backToListLink).toBeTruthy('back to list button should be visible');
   }
@@ -247,16 +247,16 @@ describe('OrderApprovalDetailFormComponent', () => {
 
   function assertSpinnerDisplayed() {
     expect(el.query(By.css('cx-spinner'))).toBeTruthy(
-      'assertSpinnerDisplayed: <cx-spinner> tag should be found when spinner is diaplayed.'
+      'assertSpinnerDisplayed: <cx-spinner> tag should be found when spinner is diaplayed.',
     );
     expect(el.query(By.css('form'))).toBeFalsy(
-      'assertSpinnerDisplayed: no <form> tags should be found when the spinner is displayed.'
+      'assertSpinnerDisplayed: no <form> tags should be found when the spinner is displayed.',
     );
     expect(el.query(By.css('button'))).toBeFalsy(
-      'assertSpinnerDisplayed: no <button> tags should be found when the spinner is displayed.'
+      'assertSpinnerDisplayed: no <button> tags should be found when the spinner is displayed.',
     );
     expect(el.query(By.css('a'))).toBeFalsy(
-      'assertSpinnerDisplayed: no <a> tags should be found when the spinner is displayed.'
+      'assertSpinnerDisplayed: no <a> tags should be found when the spinner is displayed.',
     );
   }
 
@@ -264,7 +264,7 @@ describe('OrderApprovalDetailFormComponent', () => {
     return el
       .queryAll(By.css('button'))
       .find((button) =>
-        (button.nativeElement as HTMLElement).textContent.includes(labelKey)
+        (button.nativeElement as HTMLElement).textContent.includes(labelKey),
       );
   }
 
@@ -275,12 +275,12 @@ describe('OrderApprovalDetailFormComponent', () => {
 
   function assertButtonPresent(labelKey: string) {
     expect(getButtonWithLabel(labelKey)).toBeTruthy(
-      `Button with label key "${labelKey}" should be present`
+      `Button with label key "${labelKey}" should be present`,
     );
   }
   function assertButtonAbsent(labelKey: string) {
     expect(getButtonWithLabel(labelKey)).toBeFalsy(
-      `Button with label key "${labelKey}" should NOT be present`
+      `Button with label key "${labelKey}" should NOT be present`,
     );
   }
 });

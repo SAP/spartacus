@@ -21,7 +21,7 @@ export class CdcUserAuthenticationTokenService {
 
   constructor(
     protected http: HttpClient,
-    protected authConfigService: AuthConfigService
+    protected authConfigService: AuthConfigService,
   ) {}
 
   /**
@@ -38,7 +38,7 @@ export class CdcUserAuthenticationTokenService {
     UIDSignature: string,
     signatureTimestamp: string,
     idToken: string,
-    baseSite: string
+    baseSite: string,
   ): Observable<Partial<AuthToken> & { expires_in?: number }> {
     const url = this.authConfigService.getTokenEndpoint();
     const params = new HttpParams()
@@ -56,7 +56,7 @@ export class CdcUserAuthenticationTokenService {
       .pipe(
         catchError((error: any) => {
           throw normalizeHttpError(error, this.logger);
-        })
+        }),
       );
   }
 }

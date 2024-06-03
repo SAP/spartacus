@@ -23,7 +23,7 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   load(productCode: string, maxCount?: number): Observable<Review[]> {
@@ -32,7 +32,7 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
       .pipe(
         map((productResponse) => productResponse.reviews),
         map((reviews) => reviews ?? []),
-        this.converter.pipeableMany(PRODUCT_REVIEW_NORMALIZER)
+        this.converter.pipeableMany(PRODUCT_REVIEW_NORMALIZER),
       );
   }
 

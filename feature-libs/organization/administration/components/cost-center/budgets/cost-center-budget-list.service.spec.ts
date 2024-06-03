@@ -104,7 +104,7 @@ describe('CostCenterBudgetListService', () => {
     expect(service.assign(costCenterCode, budgetCode)).toEqual(mockItemStatus);
     expect(costCenterService.assignBudget).toHaveBeenCalledWith(
       costCenterCode,
-      budgetCode
+      budgetCode,
     );
     expect(budgetService.getLoadingStatus).toHaveBeenCalledWith(budgetCode);
   });
@@ -114,11 +114,11 @@ describe('CostCenterBudgetListService', () => {
     spyOn(budgetService, 'getLoadingStatus').and.callThrough();
 
     expect(service.unassign(costCenterCode, budgetCode)).toEqual(
-      mockItemStatus
+      mockItemStatus,
     );
     expect(costCenterService.unassignBudget).toHaveBeenCalledWith(
       costCenterCode,
-      budgetCode
+      budgetCode,
     );
     expect(budgetService.getLoadingStatus).toHaveBeenCalledWith(budgetCode);
   });

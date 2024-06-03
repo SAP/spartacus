@@ -45,7 +45,7 @@ describe('OccConfiguratorCpqAddToCartSerializer', () => {
     });
 
     serializerUnderTest = TestBed.inject(
-      OccConfiguratorCpqAddToCartSerializer as Type<OccConfiguratorCpqAddToCartSerializer>
+      OccConfiguratorCpqAddToCartSerializer as Type<OccConfiguratorCpqAddToCartSerializer>,
     );
   });
 
@@ -54,7 +54,7 @@ describe('OccConfiguratorCpqAddToCartSerializer', () => {
     expect(convertedParameters.userId).toEqual(targetParameters.userId);
     expect(convertedParameters.configId).toEqual(targetParameters.configId);
     expect(convertedParameters.product?.code).toEqual(
-      targetParameters.product?.code
+      targetParameters.product?.code,
     );
   });
 });

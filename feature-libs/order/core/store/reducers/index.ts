@@ -40,38 +40,38 @@ export function getReducers(): ActionReducerMap<OrderState, any> {
   return {
     orders: StateUtils.loaderReducer<OrderHistoryList, any>(
       ORDERS,
-      fromUserOrdersReducer.reducer
+      fromUserOrdersReducer.reducer,
     ),
     orderDetail: StateUtils.loaderReducer<Order, any>(
       ORDER_DETAILS,
-      fromOrderDetailsReducer.reducer
+      fromOrderDetailsReducer.reducer,
     ),
     replenishmentOrders: StateUtils.loaderReducer<ReplenishmentOrderList, any>(
       REPLENISHMENT_ORDERS,
-      fromUserReplenishmentOrdersReducer.reducer
+      fromUserReplenishmentOrdersReducer.reducer,
     ),
     orderReturn: StateUtils.loaderReducer<ReturnRequest>(
-      RETURN_REQUEST_DETAILS
+      RETURN_REQUEST_DETAILS,
     ),
     orderReturnList: StateUtils.loaderReducer<ReturnRequestList, any>(
       RETURN_REQUESTS,
-      fromOrderReturnRequestReducer.reducer
+      fromOrderReturnRequestReducer.reducer,
     ),
     consignmentTracking: fromConsignmentTrackingReducer.reducer,
     replenishmentOrder: StateUtils.loaderReducer<ReplenishmentOrder, any>(
       REPLENISHMENT_ORDER_DETAILS,
-      fromReplenishmentOrderDetailsReducer.reducer
+      fromReplenishmentOrderDetailsReducer.reducer,
     ),
     orderById: StateUtils.entityLoaderReducer<Order, any>(
       ORDER_BY_ID_ENTITIES,
-      fromOrderByIDReducer.reducer
+      fromOrderByIDReducer.reducer,
     ),
     consignmentTrackingById: StateUtils.entityLoaderReducer<
       ConsignmentTracking,
       any
     >(
       CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
-      fromConsignmentTrackingByIDReducer.reducer
+      fromConsignmentTrackingByIDReducer.reducer,
     ),
   };
 }

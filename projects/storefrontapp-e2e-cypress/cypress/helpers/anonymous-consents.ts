@@ -60,7 +60,7 @@ export function anonoymousConsentConfig(
   consentManagementPage: {
     showAnonymousConsents: boolean;
     hideConsents: string[];
-  }
+  },
 ) {
   cy.cxConfig({
     anonymousConsents: {
@@ -75,7 +75,7 @@ export function anonoymousConsentConfig(
 export function registerNewUserAndLogin(
   newUser: SampleUser,
   giveRegistrationConsent = false,
-  hiddenConsent?
+  hiddenConsent?,
 ) {
   cy.visit('/login/register');
   register(newUser, giveRegistrationConsent, hiddenConsent);
@@ -185,7 +185,7 @@ export function registerUserAndCheckMyAccountConsent(
   user,
   consentCheckBox,
   position,
-  hiddenConsent?
+  hiddenConsent?,
 ) {
   registerNewUserAndLogin(user, consentCheckBox, hiddenConsent);
   checkBanner();
@@ -214,7 +214,7 @@ export function giveRegistrationConsentTest() {
     registerUserAndCheckMyAccountConsent(
       userGiveConsentRegistrationTest,
       clickRegistrationConsent,
-      firstCheckBoxPosition
+      firstCheckBoxPosition,
     );
   });
 }
@@ -231,7 +231,7 @@ export function movingFromAnonymousToRegisteredUser() {
     registerUserAndCheckMyAccountConsent(
       userTransferConsentTest,
       noRegistrationConsent,
-      secondCheckBoxPosition
+      secondCheckBoxPosition,
     );
 
     cy.log('Giving first consent as logged in user');
@@ -333,7 +333,7 @@ export function anonymousConfigTestFlow() {
       userFromConfigTest,
       giveRegistrationConsentTest,
       secondCheckBoxPosition,
-      personalizationConsentLabel
+      personalizationConsentLabel,
     );
 
     checkInputConsentState(0, BE_DISABLED);

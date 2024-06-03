@@ -29,14 +29,14 @@ import { getItemStatus } from '../utils/get-item-status';
 export class BudgetService {
   constructor(
     protected store: Store<StateWithOrganization>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   loadBudget(budgetCode: string): void {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
         this.store.dispatch(
-          new BudgetActions.LoadBudget({ userId, budgetCode })
+          new BudgetActions.LoadBudget({ userId, budgetCode }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -55,7 +55,7 @@ export class BudgetService {
   }
 
   private getBudgetState(
-    budgetCode: string
+    budgetCode: string,
   ): Observable<StateUtils.LoaderState<Budget>> {
     return this.store.select(getBudget(budgetCode));
   }
@@ -67,7 +67,7 @@ export class BudgetService {
   }
 
   private getBudgetList(
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<StateUtils.LoaderState<EntitiesModel<Budget>>> {
     return this.store.select(getBudgetList(params));
   }
@@ -79,12 +79,12 @@ export class BudgetService {
         if (!(state.loading || state.success || state.error)) {
           this.loadBudget(budgetCode);
         }
-      })
+      }),
     );
 
     return using(
       () => loading$.subscribe(),
-      () => this.getBudgetValue(budgetCode)
+      () => this.getBudgetValue(budgetCode),
     );
   }
 
@@ -97,9 +97,9 @@ export class BudgetService {
         }
       }),
       filter((process: StateUtils.LoaderState<EntitiesModel<Budget>>) =>
-        Boolean(process.success || process.error)
+        Boolean(process.success || process.error),
       ),
-      map((result) => result.value)
+      map((result) => result.value),
     );
   }
 
@@ -109,14 +109,14 @@ export class BudgetService {
         (budget) =>
           ({
             values: budget.costCenters ?? [],
-          } as EntitiesModel<CostCenter>)
-      )
+          }) as EntitiesModel<CostCenter>,
+      ),
     );
   }
 
   getErrorState(budgetCode: string): Observable<boolean> {
     return this.getBudgetState(budgetCode).pipe(
-      map((state) => state.error ?? false)
+      map((state) => state.error ?? false),
     );
   }
 
@@ -134,7 +134,7 @@ export class BudgetService {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
         this.store.dispatch(
-          new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
+          new BudgetActions.UpdateBudget({ userId, budgetCode, budget }),
         ),
       error: () => {
         // TODO: for future releases, refactor this part to thrown errors
@@ -143,7 +143,7 @@ export class BudgetService {
   }
 
   getLoadingStatus(
-    budgetCode: string
+    budgetCode: string,
   ): Observable<OrganizationItemStatus<Budget>> {
     return getItemStatus(this.getBudgetState(budgetCode));
   }

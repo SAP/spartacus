@@ -23,13 +23,13 @@ const orderApprvalDecision: OrderApprovalDecision = {
 
 class MockOrderApprovalAdapter implements OrderApprovalAdapter {
   load = createSpy('OrderApprovalAdapter.load').and.returnValue(
-    of(orderApproval)
+    of(orderApproval),
   );
   loadList = createSpy('OrderApprovalAdapter.loadList').and.returnValue(
-    of([orderApproval])
+    of([orderApproval]),
   );
   makeDecision = createSpy('OrderApprovalAdapter.makeDecision').and.returnValue(
-    of(orderApprvalDecision)
+    of(orderApprvalDecision),
   );
 }
 
@@ -69,7 +69,7 @@ describe('OrderApprovalConnector', () => {
     expect(adapter.makeDecision).toHaveBeenCalledWith(
       userId,
       orderApprovalCode,
-      orderApprvalDecision
+      orderApprvalDecision,
     );
   });
 });

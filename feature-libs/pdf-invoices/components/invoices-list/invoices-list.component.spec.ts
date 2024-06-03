@@ -129,7 +129,7 @@ class MockPDFInvoicesFacade implements Partial<PDFInvoicesFacade> {
   getInvoicesForOrder(
     params: InvoiceQueryParams,
     _userId?: string,
-    _orderId?: string
+    _orderId?: string,
   ): Observable<OrderInvoiceList> {
     return of(params ? mockOrderInvoiceList : {});
   }
@@ -137,7 +137,7 @@ class MockPDFInvoicesFacade implements Partial<PDFInvoicesFacade> {
     invoiceId: string,
     _externalSystemId?: string,
     _userId?: string,
-    _orderId?: string
+    _orderId?: string,
   ): Observable<Blob> {
     if (invoiceId) {
       return of(blob);
@@ -226,7 +226,7 @@ describe('InvoicesListComponent', () => {
 
   it('should show feature not enabled error when the API returns error', () => {
     spyOn(pdfInvoicesFacade, 'getInvoicesForOrder').and.returnValue(
-      throwError(mockInvoicesNotEnabledError)
+      throwError(mockInvoicesNotEnabledError),
     );
     spyOn(component, 'getNotEnabledError').and.callThrough();
 
@@ -236,7 +236,7 @@ describe('InvoicesListComponent', () => {
     expect(component.getNotEnabledError).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'pdfInvoices.featureNotEnabled' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -307,7 +307,7 @@ describe('InvoicesListComponent', () => {
 
     // Expect sort to be updated and currentPage to be set back to 0
     expect(component._initQueryParams.sort).toEqual(
-      component['sortMapping'][newSortCode]
+      component['sortMapping'][newSortCode],
     );
     const newPage = 3;
     expect(component._initQueryParams.currentPage).not.toEqual(newPage);
@@ -338,25 +338,25 @@ describe('InvoicesListComponent', () => {
 
   it('Should have table headers', () => {
     const tableElement = fixture.debugElement.query(
-      By.css('.cx-invoices-list-table')
+      By.css('.cx-invoices-list-table'),
     );
 
     const tableHeaders = tableElement.queryAll(By.css('th'));
     expect(tableHeaders?.length).toEqual(5);
     expect(tableHeaders[0].properties.innerText).toEqual(
-      'pdfInvoices.invoicesTable.invoiceId'
+      'pdfInvoices.invoicesTable.invoiceId',
     );
     expect(tableHeaders[1].properties.innerText).toEqual(
-      'pdfInvoices.invoicesTable.createdAt'
+      'pdfInvoices.invoicesTable.createdAt',
     );
     expect(tableHeaders[2].properties.innerText).toEqual(
-      'pdfInvoices.invoicesTable.netAmount'
+      'pdfInvoices.invoicesTable.netAmount',
     );
     expect(tableHeaders[3].properties.innerText).toEqual(
-      'pdfInvoices.invoicesTable.totalAmount'
+      'pdfInvoices.invoicesTable.totalAmount',
     );
     expect(tableHeaders[4].children[0].attributes.title).toEqual(
-      'pdfInvoices.invoicesTable.attachment'
+      'pdfInvoices.invoicesTable.attachment',
     );
   });
 
@@ -365,7 +365,7 @@ describe('InvoicesListComponent', () => {
       /[a-zA-Z]+ \d{1,2}, \d{4}/gm.test(formattedDate);
 
     const tableElement = fixture.debugElement.query(
-      By.css('.cx-invoices-list-table')
+      By.css('.cx-invoices-list-table'),
     );
 
     const tableRows = tableElement.queryAll(By.css('tr'));
@@ -377,22 +377,22 @@ describe('InvoicesListComponent', () => {
       expect(tableCells?.length).toEqual(5);
 
       expect(tableCells[0].nativeElement.innerText).toEqual(
-        mockOrderInvoiceList.invoices?.[rowNumber]?.invoiceId
+        mockOrderInvoiceList.invoices?.[rowNumber]?.invoiceId,
       );
 
       expect(isDate(tableCells[1].nativeElement.innerText)).toEqual(
-        !!mockOrderInvoiceList.invoices?.[rowNumber]?.createdAt
+        !!mockOrderInvoiceList.invoices?.[rowNumber]?.createdAt,
       );
 
       if (
         mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.formattedValue
       ) {
         expect(tableCells[2].nativeElement.innerText).toEqual(
-          mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.formattedValue
+          mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.formattedValue,
         );
       } else {
         expect(tableCells[2].nativeElement.innerHTML).toEqual(
-          ` ${mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.currencyIso}&nbsp;${mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.value} `
+          ` ${mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.currencyIso}&nbsp;${mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.value} `,
         );
       }
 
@@ -401,16 +401,16 @@ describe('InvoicesListComponent', () => {
       ) {
         expect(tableCells[3].nativeElement.innerText).toEqual(
           mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount
-            ?.formattedValue
+            ?.formattedValue,
         );
       } else {
         expect(tableCells[3].nativeElement.innerHTML).toEqual(
-          ` ${mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.currencyIso}&nbsp;${mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.value} `
+          ` ${mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.currencyIso}&nbsp;${mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.value} `,
         );
       }
 
       expect(!!tableCells[4].query(By.css('cx-icon'))).toEqual(
-        !!mockOrderInvoiceList.invoices?.[rowNumber]
+        !!mockOrderInvoiceList.invoices?.[rowNumber],
       );
     });
   });
@@ -429,18 +429,18 @@ describe('InvoicesListComponent', () => {
     expect(invoicePDF).not.toBeUndefined();
     component.downloadPDFInvoice(
       invoicePDF.invoiceId || '',
-      invoicePDF.externalSystemId
+      invoicePDF.externalSystemId,
     );
     fixture.detectChanges();
 
     expect(pdfInvoicesFacade.getInvoicePDF).toHaveBeenCalledWith(
       invoicePDF.invoiceId,
-      undefined
+      undefined,
     );
 
     expect(downloadService.download).toHaveBeenCalledWith(
       fakeUrl,
-      `${invoicePDF.invoiceId}.pdf`
+      `${invoicePDF.invoiceId}.pdf`,
     );
   });
 
@@ -457,18 +457,18 @@ describe('InvoicesListComponent', () => {
 
     component.downloadPDFInvoice(
       invoicePDF.invoiceId || '',
-      invoicePDF.externalSystemId
+      invoicePDF.externalSystemId,
     );
     fixture.detectChanges();
 
     expect(pdfInvoicesFacade.getInvoicePDF).toHaveBeenCalledWith(
       invoicePDF.invoiceId,
-      invoicePDF.externalSystemId
+      invoicePDF.externalSystemId,
     );
 
     expect(downloadService.download).toHaveBeenCalledWith(
       fakeUrl,
-      `${invoicePDF.invoiceId}.pdf`
+      `${invoicePDF.invoiceId}.pdf`,
     );
   });
 });

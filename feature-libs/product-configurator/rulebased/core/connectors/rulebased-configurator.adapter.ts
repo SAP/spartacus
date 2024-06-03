@@ -19,7 +19,7 @@ export abstract class RulebasedConfiguratorAdapter {
   abstract createConfiguration(
     owner: CommonConfigurator.Owner,
     configIdTemplate?: string,
-    forceReset?: boolean
+    forceReset?: boolean,
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -34,7 +34,7 @@ export abstract class RulebasedConfiguratorAdapter {
   abstract readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: CommonConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner,
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -43,7 +43,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param configuration updated configuration object
    */
   abstract updateConfiguration(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -52,7 +52,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param configurationOverview Configuration overview with filter options that should be applied
    */
   abstract updateConfigurationOverview(
-    configurationOverview: Configurator.Overview
+    configurationOverview: Configurator.Overview,
   ): Observable<Configurator.Overview>;
 
   /**
@@ -61,7 +61,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param parameters add to cart parameters object
    */
   abstract addToCart(
-    parameters: Configurator.AddToCartParameters
+    parameters: Configurator.AddToCartParameters,
   ): Observable<CartModification>;
 
   /**
@@ -70,7 +70,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param parameters read from cart entry parameters object
    */
   abstract readConfigurationForCartEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters,
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -79,7 +79,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param parameters update cart entry configuration parameters object
    */
   abstract updateConfigurationForCartEntry(
-    parameters: Configurator.UpdateConfigurationForCartEntryParameters
+    parameters: Configurator.UpdateConfigurationForCartEntryParameters,
   ): Observable<CartModification>;
 
   /**
@@ -89,7 +89,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * @returns  {Observable<Configurator.Configuration>} Configuration with only the overview aspect provided
    */
   abstract readConfigurationForOrderEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters,
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -98,7 +98,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param configId configuration id
    */
   abstract readPriceSummary(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -108,7 +108,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param owner configuration owner
    */
   abstract getConfigurationOverview(
-    configId: string
+    configId: string,
   ): Observable<Configurator.Overview>;
 
   /**

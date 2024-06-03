@@ -33,7 +33,7 @@ export function addFeatureToggles(options: SpartacusOptions): Rule {
 
     if (!buildPaths.length) {
       throw new SchematicsException(
-        `Could not find any tsconfig file. Can't find ${SPARTACUS_FEATURES_NG_MODULE}.`
+        `Could not find any tsconfig file. Can't find ${SPARTACUS_FEATURES_NG_MODULE}.`,
       );
     }
 
@@ -42,7 +42,7 @@ export function addFeatureToggles(options: SpartacusOptions): Rule {
       const spartacusFeaturesModule = getSpartacusFeaturesModule(
         tree,
         basePath,
-        tsconfigPath
+        tsconfigPath,
       );
       if (spartacusFeaturesModule) {
         _addFeatureToggles(spartacusFeaturesModule);
@@ -82,12 +82,12 @@ function createFeatureTogglesProvider(): string {
 
   //for each key in `defaultFeatureToggles` map it to a key with value true
   const featureTogglesAllEnabled: Record<string, boolean> = Object.keys(
-    defaultFeatureToggles
+    defaultFeatureToggles,
   ).reduce((acc, key) => ({ ...acc, [key]: true }), {});
   const featureTogglesString = JSON.stringify(
     featureTogglesAllEnabled,
     null,
-    2
+    2,
   );
   return `provideFeatureToggles(${featureTogglesString})`;
 }
@@ -106,8 +106,8 @@ function createFeatureTogglesProvider(): string {
  * For more, see the script `copy-feature-toggles` in the schematics's `package.json`.
  */
 function getDefaultFeatureToggles(): Record<string, boolean> {
-  const {
-    defaultFeatureToggles,
-  } = require(FEATURE_TOGGLES_COPIED_FROM_CORE_LIB_PATH);
+  const { defaultFeatureToggles } = require(
+    FEATURE_TOGGLES_COPIED_FROM_CORE_LIB_PATH,
+  );
   return defaultFeatureToggles;
 }

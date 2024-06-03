@@ -55,7 +55,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
         item = {} as any;
       }
       return this.itemService.getForm(item);
-    })
+    }),
   );
 
   /**
@@ -63,12 +63,12 @@ export class FormComponent<T> implements OnInit, OnDestroy {
    */
   disabled$ = this.form$.pipe(
     switchMap((form) => form?.statusChanges ?? EMPTY),
-    map((status) => status === DISABLED_STATUS)
+    map((status) => status === DISABLED_STATUS),
   );
 
   constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService
+    protected messageService: MessageService,
   ) {}
 
   save(form: UntypedFormGroup): void {
@@ -82,9 +82,9 @@ export class FormComponent<T> implements OnInit, OnDestroy {
               item: data.item,
               status: data.status,
               action: key ? 'update' : 'create',
-            }))
-          )
-        )
+            })),
+          ),
+        ),
       )
       .subscribe(({ item, action, status }) => {
         if (status === LoadStatus.SUCCESS) {

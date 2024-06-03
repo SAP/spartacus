@@ -47,7 +47,7 @@ describe('OccQuoteEntryNormalizer', () => {
     expect(result.entries?.length).toBe(1);
     expect(converterService.convert).toHaveBeenCalledWith(
       product,
-      PRODUCT_NORMALIZER
+      PRODUCT_NORMALIZER,
     );
   });
 });

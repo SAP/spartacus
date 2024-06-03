@@ -22,7 +22,7 @@ export class ItemActiveDirective<T extends BaseItem = BaseItem>
 
   constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService
+    protected messageService: MessageService,
   ) {}
 
   ngOnInit() {
@@ -30,10 +30,10 @@ export class ItemActiveDirective<T extends BaseItem = BaseItem>
       .pipe(
         distinctUntilChanged(
           (previous: BaseItem | undefined, current: BaseItem | undefined) =>
-            previous?.active === current?.active
+            previous?.active === current?.active,
         ),
         filter(isNotNullable),
-        filter((item) => item.active === false)
+        filter((item) => item.active === false),
       )
       .subscribe((item) => this.handleDisabledItems(item));
   }

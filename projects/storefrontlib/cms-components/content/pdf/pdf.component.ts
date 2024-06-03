@@ -23,12 +23,12 @@ export class PDFComponent {
       if (data?.pdfFile?.url) {
         this.url = this.mediaService.getMedia(data.pdfFile)?.src;
       }
-    })
+    }),
   );
 
   constructor(
     protected component: CmsComponentData<CmsPDFDocumentComponent>,
-    protected mediaService: MediaService
+    protected mediaService: MediaService,
   ) {}
 
   addPdfExtension(title?: string) {

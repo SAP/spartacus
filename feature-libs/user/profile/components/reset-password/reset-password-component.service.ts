@@ -27,19 +27,19 @@ export class ResetPasswordComponentService {
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
-    protected globalMessage: GlobalMessageService
+    protected globalMessage: GlobalMessageService,
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
 
   isUpdating$ = this.busy$.pipe(
-    tap((state) => (state === true ? this.form.disable() : this.form.enable()))
+    tap((state) => (state === true ? this.form.disable() : this.form.enable())),
   );
 
   resetToken$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(
-      map((routerState: RouterState) => routerState.state.queryParams['token'])
+      map((routerState: RouterState) => routerState.state.queryParams['token']),
     );
 
   form: UntypedFormGroup = new UntypedFormGroup(
@@ -53,9 +53,9 @@ export class ResetPasswordComponentService {
     {
       validators: CustomFormValidators.passwordsMustMatch(
         'password',
-        'passwordConfirm'
+        'passwordConfirm',
       ),
-    }
+    },
   );
 
   /**
@@ -83,7 +83,7 @@ export class ResetPasswordComponentService {
   protected onSuccess(): void {
     this.globalMessage.add(
       { key: 'forgottenPassword.passwordResetSuccess' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
     this.busy$.next(false);
     this.form.reset();
@@ -97,7 +97,7 @@ export class ResetPasswordComponentService {
         if (err.message) {
           this.globalMessage.add(
             { raw: err.message },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
         }
       });

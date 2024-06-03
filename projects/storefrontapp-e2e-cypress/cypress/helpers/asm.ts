@@ -47,7 +47,7 @@ const asmForB2BCustomer = 'Gi Sun';
 export function placeOrderForB2CCustomer(
   customer: string,
   pwd: string,
-  productCode: string
+  productCode: string,
 ): void {
   cy.login(customer, pwd).then(() => {
     const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
@@ -56,7 +56,7 @@ export function placeOrderForB2CCustomer(
       cy.requireDeliveryAddressAdded(
         getSampleUser().address,
         auth.token,
-        cartId
+        cartId,
       );
       cy.requireDeliveryMethodSelected(auth.token, cartId);
       cy.requirePaymentMethodAdded(cartId);
@@ -68,7 +68,7 @@ export function placeOrderForB2CCustomer(
 export function addProductToB2CCart(
   customer: string,
   pwd: string,
-  productCode: string
+  productCode: string,
 ): void {
   cy.login(customer, pwd).then(() => {
     const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
@@ -79,7 +79,7 @@ export function addProductToB2CCart(
 export function addProductToB2BCart(
   customer: string,
   pwd: string,
-  productCode: string
+  productCode: string,
 ): void {
   cy.login(customer, pwd).then(() => {
     const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
@@ -91,7 +91,7 @@ export function listenForAuthenticationRequest(): string {
   return interceptPost(
     'csAgentAuthentication',
     '/authorizationserver/oauth/token',
-    false
+    false,
   );
 }
 
@@ -99,7 +99,7 @@ export function listenForCustomerSearchRequest(): string {
   return interceptGet(
     'customerSearch',
     '/assistedservicewebservices/customers/search?*',
-    false
+    false,
   );
 }
 
@@ -107,7 +107,7 @@ export function listenForCustomerListsRequest(): string {
   return interceptGet(
     'customerLists',
     '/assistedservicewebservices/customerlists?*',
-    false
+    false,
   );
 }
 
@@ -123,7 +123,7 @@ export function listenForCartBindingRequest(): string {
   return interceptPost(
     'cartBinding',
     '/assistedservicewebservices/bind-cart?*',
-    false
+    false,
   );
 }
 
@@ -140,14 +140,14 @@ export function listenForCustomerCreateRequest(): string {
   return interceptPost(
     'customerCreating',
     '/assistedservicewebservices/customers?*',
-    false
+    false,
   );
 }
 
 export function removeCustomerCoupon(
   customer: string,
   pwd: string,
-  couponCode: string
+  couponCode: string,
 ): void {
   cy.login(customer, pwd).then(() => {
     const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
@@ -155,9 +155,9 @@ export function removeCustomerCoupon(
     cy.request({
       method: 'DELETE',
       url: `${Cypress.env('API_URL')}/${Cypress.env(
-        'OCC_PREFIX'
+        'OCC_PREFIX',
       )}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/customercoupons/${couponCode}/claim`,
       headers: {
         Authorization: `bearer ${auth.token.access_token}`,
@@ -267,7 +267,7 @@ export function asmCustomerLists(): void {
             .its('response.statusCode')
             .should('eq', 200);
         });
-    }
+    },
   );
 
   cy.get('cx-customer-list table').should('not.contain', 'Account');
@@ -350,7 +350,7 @@ export function asmB2bCustomerLists(): void {
             .its('response.statusCode')
             .should('eq', 200);
         });
-    }
+    },
   );
   cy.get('cx-customer-list table').contains('Account');
   cy.get('cx-customer-list button.cx-asm-customer-list-btn-cancel').click();
@@ -372,7 +372,7 @@ export function asmB2bCustomerLists(): void {
             .its('response.statusCode')
             .should('eq', 200);
         });
-    }
+    },
   );
 
   cy.log('--> click cart to jump to the cart view page.');
@@ -427,7 +427,7 @@ export function asmB2bCustomerListPagination(): void {
             .its('response.statusCode')
             .should('eq', 200);
         });
-    }
+    },
   );
   cy.get('cx-pagination').should('be.visible');
   cy.get('button').contains('Cancel').click();
@@ -463,7 +463,7 @@ export function asmCustomerListPagination(): void {
             .its('response.statusCode')
             .should('eq', 200);
         });
-    }
+    },
   );
   cy.get('cx-pagination').should('not.be.visible');
   cy.get('button').contains('Cancel').click();
@@ -481,7 +481,7 @@ export function startCustomerEmulation(customer, b2b = false): void {
       .type(customer.email);
     cy.get('[formcontrolname="searchTerm"]').should(
       'have.value',
-      `${customer.email}`
+      `${customer.email}`,
     );
   });
   cy.wait(customerSearchRequestAlias)
@@ -494,7 +494,7 @@ export function startCustomerEmulation(customer, b2b = false): void {
   cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
   cy.get('cx-customer-emulation .cx-asm-customerInfo label.cx-asm-name').should(
     'contain',
-    customer.fullName
+    customer.fullName,
   );
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('not.exist');
@@ -547,7 +547,7 @@ export function testCustomerEmulation() {
     navigateToAMyAccountPage(
       'Personal Details',
       '/my-account/update-profile',
-      'updateProfilePage'
+      'updateProfilePage',
     );
 
     profile.updateProfile(customer);
@@ -561,7 +561,7 @@ export function testCustomerEmulation() {
     navigateToAMyAccountPage(
       'Address Book',
       '/my-account/address-book',
-      'addressBookPage'
+      'addressBookPage',
     );
 
     cy.get('cx-address-book').should('be.visible');
@@ -580,7 +580,7 @@ export function testCustomerEmulation() {
     navigateToAMyAccountPage(
       'Consent Management',
       '/my-account/consents',
-      'consentManagementPage'
+      'consentManagementPage',
     );
 
     consent.giveConsent();
@@ -596,7 +596,7 @@ export function testCustomerEmulation() {
     cy.wait(`@getHomePage`).its('response.statusCode').should('eq', 200);
     cy.get('cx-global-message div').should(
       'contain',
-      'You have successfully signed out.'
+      'You have successfully signed out.',
     );
     cy.get('cx-page-slot.Section1 cx-banner').first().should('be.visible');
 
@@ -607,7 +607,7 @@ export function testCustomerEmulation() {
     asm.startCustomerEmulation(customer);
 
     cy.log(
-      '--> Stop customer emulation using the end emulation button in the ASM UI'
+      '--> Stop customer emulation using the end emulation button in the ASM UI',
     );
     cy.get('cx-customer-emulation')
       .findByText(/End Session/i)
@@ -640,7 +640,7 @@ export function testCustomerEmulation() {
     navigateToAMyAccountPage(
       'Personal Details',
       '/my-account/update-profile',
-      'updateProfilePage'
+      'updateProfilePage',
     );
     profile.verifyUpdatedProfile();
 
@@ -649,7 +649,7 @@ export function testCustomerEmulation() {
     navigateToAMyAccountPage(
       'Address Book',
       '/my-account/address-book',
-      'addressBookPage'
+      'addressBookPage',
     );
 
     cy.get('cx-address-book cx-card').should('be.visible');
@@ -660,7 +660,7 @@ export function testCustomerEmulation() {
     navigateToAMyAccountPage(
       'Consent Management',
       '/my-account/consents',
-      'consentManagementPage'
+      'consentManagementPage',
     );
     cy.get('input[type="checkbox"]').first().should('be.checked');
 
@@ -730,7 +730,7 @@ export function asmOpenCreateCustomerDialogOnCustomerSelectionDropdown(): void {
 
 export function asmCloseCreateCustomerDialog(): void {
   cy.get(
-    'cx-asm-create-customer-form div.modal-footer button.cx-asm-create-customer-btn-cancel'
+    'cx-asm-create-customer-form div.modal-footer button.cx-asm-create-customer-btn-cancel',
   ).click();
   cy.get('cx-asm-create-customer-form').should('not.exist');
 }
@@ -742,7 +742,7 @@ export function asmCloseCreateCustomerDialog(): void {
  * specifies if cypress should wait till registration request be completed.
  */
 export function submitCreateCustomerForm(
-  waitForRequestCompletion: boolean = true
+  waitForRequestCompletion: boolean = true,
 ) {
   const customerCreateRequestAlias = asm.listenForCustomerCreateRequest();
 
@@ -776,13 +776,13 @@ export function verifyFormErrors() {
 
   cy.get('cx-asm-create-customer-form').within(() => {
     cy.get('[formcontrolname="firstName"] + cx-form-errors').contains(
-      requiredFieldMessage
+      requiredFieldMessage,
     );
     cy.get('[formcontrolname="lastName"] + cx-form-errors').contains(
-      requiredFieldMessage
+      requiredFieldMessage,
     );
     cy.get('[formcontrolname="email"] + cx-form-errors').contains(
-      requiredFieldMessage
+      requiredFieldMessage,
     );
 
     cy.get('[formcontrolname="email"] + cx-form-errors').within(() => {
@@ -811,7 +811,7 @@ export function getCustomerId(agentUserName, agentPwd, customerUid) {
         method: 'get',
         url:
           `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
+            'BASE_SITE',
           )}/users/` + customerUid,
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
@@ -831,7 +831,7 @@ export function getInactiveCartIdAndAddProducts(
   customerEmail,
   customerPwd,
   productCode?,
-  quantity?
+  quantity?,
 ) {
   let token = null;
   return new Promise((resolve, reject) => {
@@ -844,7 +844,7 @@ export function getInactiveCartIdAndAddProducts(
               inactiveCartId,
               productCode,
               quantity,
-              token
+              token,
             ).then((response) => {
               if (response.status === 200) {
                 resolve(inactiveCartId);
@@ -865,7 +865,7 @@ export function getCurrentCartIdAndAddProducts(
   customerName,
   customerPwd,
   productCode?,
-  quantity?
+  quantity?,
 ) {
   return new Promise((resolve, reject) => {
     fetchingToken(customerName, customerPwd, false).then((res) => {
@@ -878,7 +878,7 @@ export function getCurrentCartIdAndAddProducts(
               activeCartId,
               productCode,
               quantity,
-              token
+              token,
             ).then((response) => {
               if (response.status === 200) {
                 resolve(activeCartId);

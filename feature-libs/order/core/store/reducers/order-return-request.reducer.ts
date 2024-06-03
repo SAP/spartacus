@@ -15,7 +15,7 @@ export const initialState: ReturnRequestList = {
 
 export function reducer(
   state = initialState,
-  action: OrderActions.OrderReturnRequestAction
+  action: OrderActions.OrderReturnRequestAction,
 ): ReturnRequestList {
   switch (action.type) {
     case OrderActions.LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS: {

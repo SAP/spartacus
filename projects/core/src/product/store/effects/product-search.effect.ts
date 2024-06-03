@@ -32,22 +32,22 @@ export class ProductsSearchEffects {
                 map((data) => {
                   return new ProductActions.SearchProductsSuccess(
                     data,
-                    action.auxiliary
+                    action.auxiliary,
                   );
                 }),
                 catchError((error) =>
                   of(
                     new ProductActions.SearchProductsFail(
                       normalizeHttpError(error, this.logger),
-                      action.auxiliary
-                    )
-                  )
-                )
+                      action.auxiliary,
+                    ),
+                  ),
+                ),
               );
-          })
-        )
-      )
-    )
+          }),
+        ),
+      ),
+    ),
   );
 
   getProductSuggestions$: Observable<
@@ -66,23 +66,23 @@ export class ProductsSearchEffects {
                 return new ProductActions.GetProductSuggestionsSuccess([]);
               }
               return new ProductActions.GetProductSuggestionsSuccess(
-                suggestions
+                suggestions,
               );
             }),
             catchError((error) =>
               of(
                 new ProductActions.GetProductSuggestionsFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
     private actions$: Actions,
-    private productSearchConnector: ProductSearchConnector
+    private productSearchConnector: ProductSearchConnector,
   ) {}
 }

@@ -122,7 +122,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     occConfiguratorVariantOverviewNormalizer = TestBed.inject(
-      OccConfiguratorVariantOverviewNormalizer as Type<OccConfiguratorVariantOverviewNormalizer>
+      OccConfiguratorVariantOverviewNormalizer as Type<OccConfiguratorVariantOverviewNormalizer>,
     );
   });
 
@@ -190,7 +190,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     };
 
     occConfiguratorVariantOverviewNormalizer.setGeneralDescription(
-      generalTargetGroup
+      generalTargetGroup,
     );
     expect(generalTargetGroup.groupDescription).toBe(generalGroupDescription);
   });
@@ -216,7 +216,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(attribute.value).toBe(generalGroupValueName);
       expect(attribute.valuePrice?.currencyIso).toBe(occPrice.currencyIso);
       expect(attribute.valuePrice?.formattedValue).toBe(
-        occPrice.formattedValue
+        occPrice.formattedValue,
       );
       expect(attribute.valuePrice?.value).toBe(occPrice.value);
     }
@@ -226,7 +226,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     let target: Configurator.Overview = { configId: '123', productCode: 'abc' };
     occConfiguratorVariantOverviewNormalizer['setIssueCounters'](
       target,
-      overview
+      overview,
     );
     expect(target.totalNumberOfIssues).toBe(2);
     expect(target.numberOfIncompleteCharacteristics).toBe(1);
@@ -242,7 +242,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     };
     occConfiguratorVariantOverviewNormalizer['setIssueCounters'](
       target,
-      source
+      source,
     );
     expect(target.totalNumberOfIssues).toBe(2);
     expect(target.numberOfIncompleteCharacteristics).toBeUndefined();

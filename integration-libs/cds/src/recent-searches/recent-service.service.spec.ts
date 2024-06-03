@@ -34,7 +34,7 @@ describe('RecentSearchesService', () => {
 
     spyOn(recentSearchesService['recentSearchesSource'], 'next');
     spyOn<any>(recentSearchesService, 'checkAvailability').and.returnValue(
-      of(true)
+      of(true),
     );
 
     (<any>windowRef.nativeWindow).Y_TRACKING = {
@@ -50,21 +50,21 @@ describe('RecentSearchesService', () => {
     tick(0); // Simulate the end of the observable chain
 
     expect(
-      recentSearchesService['recentSearchesSource'].next
+      recentSearchesService['recentSearchesSource'].next,
     ).toHaveBeenCalledWith(mockRecentSearches);
   }));
 
   it('should not emit recent searches when not available', fakeAsync(() => {
     spyOn(recentSearchesService['recentSearchesSource'], 'next');
     spyOn<any>(recentSearchesService, 'checkAvailability').and.returnValue(
-      of(false)
+      of(false),
     );
     recentSearchesService['addRecentSearchesListener']();
 
     tick(150 * 5); // Simulate 5 intervals (the maximum in checkAvailability)
 
     expect(
-      recentSearchesService['recentSearchesSource'].next
+      recentSearchesService['recentSearchesSource'].next,
     ).not.toHaveBeenCalled();
   }));
 });

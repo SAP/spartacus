@@ -32,7 +32,7 @@ export class UserRegistrationFormComponent implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(
-    protected userRegistrationFormService: UserRegistrationFormService
+    protected userRegistrationFormService: UserRegistrationFormService,
   ) {}
 
   submit(): void {
@@ -44,7 +44,7 @@ export class UserRegistrationFormComponent implements OnDestroy {
           .subscribe({
             complete: () => this.isLoading$.next(false),
             error: () => this.isLoading$.next(false),
-          })
+          }),
       );
     } else {
       this.registerForm.markAllAsTouched();

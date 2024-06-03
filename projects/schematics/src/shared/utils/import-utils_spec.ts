@@ -45,7 +45,7 @@ import { appModulePath, cartBaseFeatureModulePath } from './test-utils';
 describe('Import utils', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
-    path.join(__dirname, '../../collection.json')
+    path.join(__dirname, '../../collection.json'),
   );
 
   let tree: Tree;
@@ -81,20 +81,20 @@ describe('Import utils', () => {
     tree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     tree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      tree
+      tree,
     );
 
     tree = await schematicRunner.runSchematic(
       'add-spartacus',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      tree
+      tree,
     );
 
     buildPath = getProjectTsConfigPaths(tree, BASE_OPTIONS.project)
@@ -107,8 +107,8 @@ describe('Import utils', () => {
           USER_PROFILE_FEATURE_NAME,
           CART_BASE_FEATURE_NAME,
         ]),
-        tree
-      )
+        tree,
+      ),
     );
   });
 
@@ -135,19 +135,19 @@ describe('Import utils', () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
 
       const cartFeatureModule = program.getSourceFileOrThrow(
-        cartBaseFeatureModulePath
+        cartBaseFeatureModulePath,
       );
 
       const result = collectDynamicImports(cartFeatureModule);
       expect(result.length).toBe(3);
       expect(result[0].print()).toEqual(
-        `() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)`
+        `() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)`,
       );
       expect(result[1].print()).toEqual(
-        `() => import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule)`
+        `() => import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule)`,
       );
       expect(result[2].print()).toEqual(
-        `() => import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule)`
+        `() => import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule)`,
       );
     });
   });
@@ -157,7 +157,7 @@ describe('Import utils', () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
 
       const cartFeatureModule = program.getSourceFileOrThrow(
-        cartBaseFeatureModulePath
+        cartBaseFeatureModulePath,
       );
 
       const dynamicImports = collectDynamicImports(cartFeatureModule);
@@ -171,7 +171,7 @@ describe('Import utils', () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
 
       const cartFeatureModule = program.getSourceFileOrThrow(
-        cartBaseFeatureModulePath
+        cartBaseFeatureModulePath,
       );
 
       const dynamicImports = collectDynamicImports(cartFeatureModule);
@@ -185,7 +185,7 @@ describe('Import utils', () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
 
       const cartFeatureModule = program.getSourceFileOrThrow(
-        cartBaseFeatureModulePath
+        cartBaseFeatureModulePath,
       );
 
       const dynamicImports = collectDynamicImports(cartFeatureModule);
@@ -199,7 +199,7 @@ describe('Import utils', () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
 
       const cartFeatureModule = program.getSourceFileOrThrow(
-        cartBaseFeatureModulePath
+        cartBaseFeatureModulePath,
       );
 
       const results = createImports(cartFeatureModule, {
@@ -207,7 +207,7 @@ describe('Import utils', () => {
         namedImports: ['xxx'],
       });
       expect(results[0].print()).toEqual(
-        `import { xxx } from "@spartacus/core";`
+        `import { xxx } from "@spartacus/core";`,
       );
     });
   });
@@ -216,13 +216,13 @@ describe('Import utils', () => {
     it('should create the specified import', async () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
       const cartFeatureModule = program.getSourceFileOrThrow(
-        cartBaseFeatureModulePath
+        cartBaseFeatureModulePath,
       );
 
       const result = staticImportExists(
         cartFeatureModule,
         SPARTACUS_CORE,
-        'I18nConfig'
+        'I18nConfig',
       );
       expect(result).toBeTruthy();
     });
@@ -250,7 +250,7 @@ describe('Import utils', () => {
     it('should be able to find it', () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
       const cartFeatureModule = program.getSourceFileOrThrow(
-        cartBaseFeatureModulePath
+        cartBaseFeatureModulePath,
       );
 
       const result = findDynamicImport(cartFeatureModule, {
@@ -258,13 +258,13 @@ describe('Import utils', () => {
         namedImports: [CART_BASE_MODULE],
       });
       expect(result?.print()).toMatchInlineSnapshot(
-        `"() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)"`
+        `"() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)"`,
       );
     });
     it('should return undefined if the import can not be found', () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
       const cartFeatureModule = program.getSourceFileOrThrow(
-        cartBaseFeatureModulePath
+        cartBaseFeatureModulePath,
       );
 
       const result = findDynamicImport(cartFeatureModule, {
@@ -281,7 +281,7 @@ describe('Import utils', () => {
       const appModule = program.getSourceFileOrThrow(appModulePath);
 
       expect(
-        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE)
+        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE),
       ).toBeTruthy();
 
       const removedImports = removeImports(appModule, [
@@ -291,7 +291,7 @@ describe('Import utils', () => {
         },
       ]);
       expect(
-        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE)
+        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE),
       ).toBeFalsy();
       expect(removedImports.length).toBe(1);
     });
@@ -304,7 +304,7 @@ describe('Import utils', () => {
       const NON_EXISTING_MODULE = 'nonExistingModule';
 
       expect(
-        staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE)
+        staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE),
       ).toBeFalsy();
 
       const removedImports = removeImports(appModule, [
@@ -315,7 +315,7 @@ describe('Import utils', () => {
       ]);
       saveAndFormat(appModule);
       expect(
-        staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE)
+        staticImportExists(appModule, NON_EXISTING_PATH, NON_EXISTING_MODULE),
       ).toBeFalsy();
       expect(removedImports.length).toBe(0);
     });

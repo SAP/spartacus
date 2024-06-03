@@ -170,7 +170,7 @@ class MockCustomerTicketingConnector
   getTickets = createSpy().and.returnValue(of(mockTicketList));
   createTicketEvent = createSpy().and.returnValue(of(mockCreateEventResponse));
   getTicketAssociatedObjects = createSpy().and.returnValue(
-    of(mockTicketAssociatedObjects)
+    of(mockTicketAssociatedObjects),
   );
   getTicketCategories = createSpy().and.returnValue(of(mockCategories));
   uploadAttachment = createSpy().and.returnValue(of(`uploadAttachment`));
@@ -205,7 +205,7 @@ describe('CustomerTicketingService', () => {
     [CustomerTicketingService],
     (customerTicketingService: CustomerTicketingService) => {
       expect(customerTicketingService).toBeTruthy();
-    }
+    },
   ));
 
   describe('getTicket', () => {
@@ -216,7 +216,7 @@ describe('CustomerTicketingService', () => {
         .subscribe((data) => {
           expect(connector.getTicket).toHaveBeenCalledWith(
             mockUserId,
-            mockRoutingParams.ticketCode
+            mockRoutingParams.ticketCode,
           );
           expect(data).toEqual(mockTicketDetails);
           done();
@@ -230,7 +230,7 @@ describe('CustomerTicketingService', () => {
         .subscribe((state) => {
           expect(connector.getTicket).toHaveBeenCalledWith(
             mockUserId,
-            mockRoutingParams.ticketCode
+            mockRoutingParams.ticketCode,
           );
           expect(state).toEqual({
             loading: false,
@@ -256,7 +256,7 @@ describe('CustomerTicketingService', () => {
             mockUserId,
             mockCurrentPage,
             mockPageSize,
-            mockSort
+            mockSort,
           );
           expect(data).toEqual(mockTicketList);
           done();
@@ -276,7 +276,7 @@ describe('CustomerTicketingService', () => {
             mockUserId,
             mockCurrentPage,
             mockPageSize,
-            mockSort
+            mockSort,
           );
           expect(state).toEqual({
             loading: false,
@@ -323,7 +323,7 @@ describe('CustomerTicketingService', () => {
         .pipe(take(1))
         .subscribe((data) => {
           expect(connector.getTicketAssociatedObjects).toHaveBeenCalledWith(
-            mockUserId
+            mockUserId,
           );
           expect(data).toEqual(mockTicketAssociatedObjects);
           done();
@@ -336,7 +336,7 @@ describe('CustomerTicketingService', () => {
         .pipe(take(1))
         .subscribe((state) => {
           expect(connector.getTicketAssociatedObjects).toHaveBeenCalledWith(
-            mockUserId
+            mockUserId,
           );
           expect(state).toEqual({
             loading: false,
@@ -355,7 +355,7 @@ describe('CustomerTicketingService', () => {
       };
 
       spyOn(service, 'getTicketAssociatedObjectsState').and.returnValue(
-        throwError(errorResponse.error)
+        throwError(errorResponse.error),
       );
 
       service.getTicketAssociatedObjects().subscribe(
@@ -364,7 +364,7 @@ describe('CustomerTicketingService', () => {
         },
         (error) => {
           expect(error).toEqual(errorResponse.error);
-        }
+        },
       );
     });
   });
@@ -384,7 +384,7 @@ describe('CustomerTicketingService', () => {
           expect(connector.createTicketEvent).toHaveBeenCalledWith(
             mockUserId,
             mockRoutingParams.ticketCode,
-            mockTicketEvent
+            mockTicketEvent,
           );
           expect(data).toEqual(mockCreateEventResponse);
           done();
@@ -419,7 +419,7 @@ describe('CustomerTicketingService', () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        TicketReopenedEvent
+        TicketReopenedEvent,
       );
       done();
     });
@@ -440,7 +440,7 @@ describe('CustomerTicketingService', () => {
 
       expect(eventService.dispatch).not.toHaveBeenCalledWith(
         {},
-        TicketReopenedEvent
+        TicketReopenedEvent,
       );
       done();
     });
@@ -471,7 +471,7 @@ describe('CustomerTicketingService', () => {
             mockUserId,
             'mockId',
             'mockCode',
-            '' as unknown as File
+            '' as unknown as File,
           );
           done();
         });
@@ -488,7 +488,7 @@ describe('CustomerTicketingService', () => {
             mockUserId,
             '1',
             'mockCode',
-            'mockId'
+            'mockId',
           );
           done();
         });
@@ -511,7 +511,7 @@ describe('CustomerTicketingService', () => {
         .subscribe((data) => {
           expect(connector.createTicket).toHaveBeenCalledWith(
             mockUserId,
-            mockTicketStarter
+            mockTicketStarter,
           );
           expect(data).toEqual(mockCreatedTicketResponse);
           done();

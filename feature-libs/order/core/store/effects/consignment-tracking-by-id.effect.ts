@@ -24,14 +24,14 @@ export class ConsignmentTrackingByIdEffects {
       this.actions$.pipe(
         ofType(OrderActions.LOAD_CONSIGNMENT_TRACKING_BY_ID),
         map(
-          (action: OrderActions.LoadConsignmentTrackingById) => action.payload
+          (action: OrderActions.LoadConsignmentTrackingById) => action.payload,
         ),
         switchMap((payload) => {
           return this.orderConnector
             .getConsignmentTracking(
               payload.orderCode,
               payload.consignmentCode,
-              payload.userId
+              payload.userId,
             )
             .pipe(
               map(
@@ -40,7 +40,7 @@ export class ConsignmentTrackingByIdEffects {
                     orderCode: payload.orderCode,
                     consignmentCode: payload.consignmentCode,
                     consignmentTracking: tracking,
-                  })
+                  }),
               ),
               catchError((error) =>
                 of(
@@ -48,11 +48,11 @@ export class ConsignmentTrackingByIdEffects {
                     orderCode: payload.orderCode,
                     consignmentCode: payload.consignmentCode,
                     error: normalizeHttpError(error, this.logger),
-                  })
-                )
-              )
+                  }),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 }

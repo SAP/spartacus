@@ -22,24 +22,24 @@ export class NotificationPreferenceEffects {
       this.actions$.pipe(
         ofType(UserActions.LOAD_NOTIFICATION_PREFERENCES),
         map(
-          (action: UserActions.LoadNotificationPreferences) => action.payload
+          (action: UserActions.LoadNotificationPreferences) => action.payload,
         ),
         switchMap((payload) =>
           this.connector.loadAll(payload).pipe(
             map(
               (preferences) =>
-                new UserActions.LoadNotificationPreferencesSuccess(preferences)
+                new UserActions.LoadNotificationPreferencesSuccess(preferences),
             ),
             catchError((error) =>
               of(
                 new UserActions.LoadNotificationPreferencesFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
-          )
-        )
-      )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
 
   updatePreferences$: Observable<UserActions.NotificationPreferenceAction> =
@@ -47,30 +47,30 @@ export class NotificationPreferenceEffects {
       this.actions$.pipe(
         ofType(UserActions.UPDATE_NOTIFICATION_PREFERENCES),
         map(
-          (action: UserActions.UpdateNotificationPreferences) => action.payload
+          (action: UserActions.UpdateNotificationPreferences) => action.payload,
         ),
         mergeMap((payload) =>
           this.connector.update(payload.userId, payload.preferences).pipe(
             map(
               () =>
                 new UserActions.UpdateNotificationPreferencesSuccess(
-                  payload.preferences
-                )
+                  payload.preferences,
+                ),
             ),
             catchError((error) =>
               of(
                 new UserActions.UpdateNotificationPreferencesFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
-          )
-        )
-      )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
 
   constructor(
     private actions$: Actions,
-    private connector: UserNotificationPreferenceConnector
+    private connector: UserNotificationPreferenceConnector,
   ) {}
 }

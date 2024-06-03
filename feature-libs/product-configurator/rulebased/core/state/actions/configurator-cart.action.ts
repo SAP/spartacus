@@ -39,7 +39,7 @@ export const REMOVE_CART_BOUND_CONFIGURATIONS =
 export class ReadCartEntryConfiguration extends StateUtils.EntityLoadAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION;
   constructor(
-    public payload: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+    public payload: CommonConfigurator.ReadConfigurationFromCartEntryParameters,
   ) {
     super(CONFIGURATOR_DATA, payload.owner.key);
   }
@@ -62,7 +62,7 @@ export class ReadCartEntryConfigurationFail extends StateUtils.EntityFailAction 
 export class ReadOrderEntryConfiguration extends StateUtils.EntityLoadAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION;
   constructor(
-    public payload: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+    public payload: CommonConfigurator.ReadConfigurationFromOrderEntryParameters,
   ) {
     super(CONFIGURATOR_DATA, payload.owner.key);
   }
@@ -92,7 +92,7 @@ export class AddToCart extends StateUtils.EntityProcessesIncrementAction {
 export class UpdateCartEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = UPDATE_CART_ENTRY;
   constructor(
-    public payload: Configurator.UpdateConfigurationForCartEntryParameters
+    public payload: Configurator.UpdateConfigurationForCartEntryParameters,
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -117,7 +117,7 @@ export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {
     public payload: {
       configuration: Configurator.Configuration;
       cartEntryNo: string;
-    }
+    },
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);
   }

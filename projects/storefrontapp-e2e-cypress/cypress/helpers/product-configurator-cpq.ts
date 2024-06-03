@@ -29,7 +29,7 @@ const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
 export function goToConfigurationPage(
   shopName: string,
   productId: string,
-  configurationType: 'vc' | 'cpq' = 'vc'
+  configurationType: 'vc' | 'cpq' = 'vc',
 ): Chainable<Window> {
   const location = `/${shopName}/en/USD/configure/${configurationType}/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
@@ -47,7 +47,7 @@ export function goToConfigurationPage(
  */
 export function goToCPQConfigurationPage(
   shopName: string,
-  productId: string
+  productId: string,
 ): Chainable<Window> {
   const location = `/${shopName}/en/USD/configure/cpq/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
@@ -100,7 +100,7 @@ export function checkProductTitleDisplayed(): void {
  * @param {string[]} attributeHeaders - List of attribute headers to check
  */
 export function checkAttributeHeaderDisplayed(
-  attributeHeaders: string[]
+  attributeHeaders: string[],
 ): void {
   attributeHeaders.forEach((header) => {
     cy.get(`cx-configurator-attribute-header`)
@@ -119,7 +119,7 @@ export function selectProductCard(
   cardType: cardType,
   attributeName: string,
   valueName: string,
-  cpqOverOcc?: boolean
+  cpqOverOcc?: boolean,
 ) {
   const uiType: configuration.uiType = convertCardTypeToUiType(cardType);
   selectAttributeAndWait(attributeName, uiType, valueName, cpqOverOcc);
@@ -136,7 +136,7 @@ export function deSelectProductCard(
   cardType: cardType,
   attributeName: string,
   valueName: string,
-  cpqOverOcc?: boolean
+  cpqOverOcc?: boolean,
 ) {
   const uiType: configuration.uiType = convertCardTypeToUiType(cardType);
   selectAttributeAndWait(attributeName, uiType, valueName, cpqOverOcc);
@@ -174,7 +174,7 @@ export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  cpqOverOcc?: boolean
+  cpqOverOcc?: boolean,
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName);
   cy.wait('@updateConfig');
@@ -193,14 +193,14 @@ export function selectAttributeAndWait(
 export function checkValueNotSelected(
   uiType: configuration.uiType,
   attributeName: string,
-  valueName: string
+  valueName: string,
 ) {
   const attributeId = configuration.getAttributeId(attributeName, uiType);
   let valueId = `${attributeId}--${valueName}`;
   if (uiType === 'radioGroupProduct' || uiType === 'checkBoxListProduct') {
     cy.get(`#${valueId} .cx-product-card`).should(
       'not.have.class',
-      'cx-product-card-selected'
+      'cx-product-card-selected',
     );
   } else {
     if (uiType.startsWith('dropdown')) {
@@ -223,7 +223,7 @@ export function setQuantity(
   quantity: number,
   attributeName: string,
   valueName?: string,
-  cpqOverOcc?: boolean
+  cpqOverOcc?: boolean,
 ): void {
   let containerId = configuration.getAttributeId(attributeName, uiType);
   if (valueName) {
@@ -231,7 +231,7 @@ export function setQuantity(
   }
   cy.log('conatinerId: ' + containerId);
   cy.get(`#${containerId} cx-configurator-attribute-quantity input`).type(
-    '{selectall}' + quantity
+    '{selectall}' + quantity,
   );
   configuration.checkUpdatingMessageNotDisplayed();
   cy.wait('@updateConfig');
@@ -252,7 +252,7 @@ export function checkPrice(
   uiType: configuration.uiType,
   priceFormula: string,
   attributeName: string,
-  valueName?: string
+  valueName?: string,
 ): void {
   let containerId = configuration.getAttributeId(attributeName, uiType);
   if (valueName) {
@@ -261,7 +261,7 @@ export function checkPrice(
   cy.log('conatinerId: ' + containerId);
   cy.get(`#${containerId} cx-configurator-price`).should(
     'contain.text',
-    priceFormula
+    priceFormula,
   );
 }
 

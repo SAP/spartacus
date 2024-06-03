@@ -65,14 +65,14 @@ export class FacetComponent {
   /** Temporary getter, not ment for public use */
   get isFacetKeyboardNavigationEnabled(): boolean {
     return !!this.featureConfigService?.isEnabled(
-      'a11yFacetKeyboardNavigation'
+      'a11yFacetKeyboardNavigation',
     );
   }
 
   constructor(
     protected facetService: FacetService,
     protected elementRef: ElementRef<HTMLElement>,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
   ) {}
 
   /**

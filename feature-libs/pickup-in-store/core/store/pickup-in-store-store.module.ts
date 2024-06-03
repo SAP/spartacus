@@ -34,7 +34,7 @@ import { STOCK_FEATURE } from './stock-state';
       pickupLocationsReducersToken,
       {
         metaReducers: pickupLocationsMetaReducers,
-      }
+      },
     ),
     StoreModule.forFeature(PICKUP_OPTION_FEATURE, pickupOptionReducersToken, {
       metaReducers: pickupOptionMetaReducers,

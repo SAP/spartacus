@@ -15,7 +15,7 @@ export function productPageTabbingOrder(config: TabElement[]) {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/products/779841/reviews*`,
   }).as('reviews');
 

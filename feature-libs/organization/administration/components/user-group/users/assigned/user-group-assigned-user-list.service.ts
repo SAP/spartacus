@@ -22,7 +22,7 @@ export class UserGroupAssignedUserListService extends UserGroupUserListService {
    */
   protected load(
     pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<B2BUser> | undefined> {
     return super
       .load(pagination, code)

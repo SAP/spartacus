@@ -40,13 +40,13 @@ export const rddDeliveryModeTabbingConfig: TabbingOrderConfig = {
 export function selectAccountDeliveryMode() {
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
     b2bDeliveryModeStub,
-    b2bDeliveryAddress.id
+    b2bDeliveryAddress.id,
   );
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
   interceptGet(
     'cart_refresh',
-    '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*'
+    '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*',
   );
 
   cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
@@ -60,15 +60,15 @@ export function selectAccountDeliveryMode() {
   cy.get('cx-delivery-mode input').first().should('not.be.checked');
 
   cy.get('input[type=radio][formcontrolname=deliveryModeId]').should(
-    'not.be.disabled'
+    'not.be.disabled',
   );
   cy.get(
-    'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
+    'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)',
   ).then(() => {
     // Accessibility
     verifyTabbingOrder(
       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      rddDeliveryModeTabbingConfig.deliveryMode
+      rddDeliveryModeTabbingConfig.deliveryMode,
     );
   });
   cy.wait(`@cart_refresh`).then((xhr) => {
@@ -79,7 +79,7 @@ export function selectAccountDeliveryMode() {
         const alert = alerts.getAlert();
         alert.should('contain', 'Delivery Date updated successfully.');
         cy.get('cx-global-message .alert', { timeout: 5000 }).should(
-          'not.exist'
+          'not.exist',
         );
       }
     }
@@ -114,14 +114,14 @@ export function verifyDeliveryDateErrorMessage() {
   const alert = alerts.getErrorAlert();
   alert.should(
     'contain',
-    'Something went wrong. Unable to update the requested date.'
+    'Something went wrong. Unable to update the requested date.',
   );
 }
 
 export function verifyDeliveryDateInfoMessage() {
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
     b2bDeliveryModeStub,
-    b2bDeliveryAddress.id
+    b2bDeliveryAddress.id,
   );
 
   cy.wait(`@${getCheckoutDetails}`)
@@ -169,7 +169,7 @@ export function interceptPutRequestedRetrievalAtEndpoint() {
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/**/requestedretrievaldate?requestedRetrievalAt=*`,
   }).as('putRetrievalAt');
 }

@@ -33,12 +33,12 @@ context('B2B - Credit Card Checkout flow', () => {
     checkout.checkSummaryAmount(cartWithB2bProduct);
 
     cy.log(
-      '💳 Preventing navigation to payment method if shipping address form is empty'
+      '💳 Preventing navigation to payment method if shipping address form is empty',
     );
     checkout.proceedWithEmptyShippingAdressForm();
 
     cy.log(
-      '💳 Preventing navigation to payment method if shipping address for has errors'
+      '💳 Preventing navigation to payment method if shipping address for has errors',
     );
     checkout.proceedWithIncorrectShippingAddressForm({
       ...user,
@@ -55,7 +55,7 @@ context('B2B - Credit Card Checkout flow', () => {
     checkout.proceedWithEmptyPaymentForm();
 
     cy.log(
-      '💳 Preventing navigation to review order if payment form has errors'
+      '💳 Preventing navigation to review order if payment form has errors',
     );
     checkout.proceedWithIncorrectPaymentForm({
       ...user,
@@ -65,7 +65,7 @@ context('B2B - Credit Card Checkout flow', () => {
     cy.log('💳 Entering payment method');
     checkout.fillPaymentFormWithCheapProduct(
       { payment: { number: user.payment.number } },
-      undefined
+      undefined,
     );
 
     cy.log('💳 Reviewing and placing order');
@@ -73,7 +73,7 @@ context('B2B - Credit Card Checkout flow', () => {
       user,
       cartWithB2bProduct,
       false,
-      order_type.PLACE_ORDER
+      order_type.PLACE_ORDER,
     );
 
     b2bCheckout.placeOrder('/order-confirmation');
@@ -83,7 +83,7 @@ context('B2B - Credit Card Checkout flow', () => {
       user,
       products[0],
       cartWithB2bProduct,
-      false
+      false,
     );
   });
 });

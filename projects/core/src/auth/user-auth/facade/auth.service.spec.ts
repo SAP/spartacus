@@ -105,7 +105,7 @@ describe('AuthService', () => {
     oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
     authRedirectService = TestBed.inject(AuthRedirectService);
     authMultisiteIsolationService = TestBed.inject(
-      AuthMultisiteIsolationService
+      AuthMultisiteIsolationService,
     );
     store = TestBed.inject(Store);
   });
@@ -141,7 +141,7 @@ describe('AuthService', () => {
     describe('when the token is NOT received', () => {
       it('should NOT redirect', async () => {
         spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
-          Promise.resolve({ result: true, tokenReceived: false })
+          Promise.resolve({ result: true, tokenReceived: false }),
         );
         spyOn(authRedirectService, 'redirect').and.stub();
 
@@ -167,7 +167,7 @@ describe('AuthService', () => {
     it('should login user', async () => {
       spyOn(
         oAuthLibWrapperService,
-        'authorizeWithPasswordFlow'
+        'authorizeWithPasswordFlow',
       ).and.callThrough();
       spyOn(userIdService, 'setUserId').and.callThrough();
       spyOn(authRedirectService, 'redirect').and.callThrough();
@@ -177,7 +177,7 @@ describe('AuthService', () => {
       await service.loginWithCredentials('username', 'pass');
 
       expect(
-        oAuthLibWrapperService.authorizeWithPasswordFlow
+        oAuthLibWrapperService.authorizeWithPasswordFlow,
       ).toHaveBeenCalledWith('username', 'pass');
       expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
@@ -189,7 +189,7 @@ describe('AuthService', () => {
     it('should login user', async () => {
       spyOn(
         oAuthLibWrapperService,
-        'authorizeWithPasswordFlow'
+        'authorizeWithPasswordFlow',
       ).and.callThrough();
       spyOn(userIdService, 'setUserId').and.callThrough();
       spyOn(authRedirectService, 'redirect').and.callThrough();
@@ -201,7 +201,7 @@ describe('AuthService', () => {
       await service.otpLoginWithCredentials(tokenId, tokenCode);
 
       expect(
-        oAuthLibWrapperService.authorizeWithPasswordFlow
+        oAuthLibWrapperService.authorizeWithPasswordFlow,
       ).toHaveBeenCalledWith(tokenId, tokenCode);
       expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
@@ -226,14 +226,14 @@ describe('AuthService', () => {
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
       expect(store.dispatch).not.toHaveBeenCalled();
       expect(
-        (service.logoutInProgress$ as BehaviorSubject<boolean>).value
+        (service.logoutInProgress$ as BehaviorSubject<boolean>).value,
       ).toBe(true);
 
       tick(100);
 
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
       expect(
-        (service.logoutInProgress$ as BehaviorSubject<boolean>).value
+        (service.logoutInProgress$ as BehaviorSubject<boolean>).value,
       ).toBe(false);
     }));
   });

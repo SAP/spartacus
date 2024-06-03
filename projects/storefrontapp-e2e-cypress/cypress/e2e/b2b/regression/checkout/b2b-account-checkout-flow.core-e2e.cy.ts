@@ -29,14 +29,14 @@ context('B2B - Account Checkout flow', () => {
       b2bAccountShipToUser,
       cartWithB2bProductAndPremiumShipping,
       true,
-      order_type.PLACE_ORDER
+      order_type.PLACE_ORDER,
     );
 
     b2bCheckout.placeOrder('/order-confirmation');
     b2bCheckout.reviewB2bOrderConfirmation(
       b2bAccountShipToUser,
       b2bProduct,
-      cartWithB2bProductAndPremiumShipping
+      cartWithB2bProductAndPremiumShipping,
     );
   });
 });

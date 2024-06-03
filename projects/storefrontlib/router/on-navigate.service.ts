@@ -51,7 +51,7 @@ export class OnNavigateService {
     protected config: OnNavigateConfig,
     protected router: Router,
     protected viewportScroller: ViewportScroller,
-    protected injector: Injector
+    protected injector: Injector,
   ) {}
 
   /**
@@ -78,7 +78,7 @@ export class OnNavigateService {
       this.subscription = this.router.events
         .pipe(
           filter((event): event is Scroll => event instanceof Scroll),
-          pairwise()
+          pairwise(),
         )
         .subscribe((event) => {
           const previousRoute = event[0];
@@ -127,11 +127,11 @@ export class OnNavigateService {
    */
   private scrollToPosition(
     currentRoute: Scroll,
-    position: [number, number] | null
+    position: [number, number] | null,
   ): void {
     const scrollTo = (
       anchor: string | null,
-      scrollPosition: [number, number]
+      scrollPosition: [number, number],
     ) => {
       if (anchor && this.routerConfiguration.anchorScrolling === 'enabled') {
         this.viewportScroller.scrollToAnchor(anchor);
@@ -148,7 +148,7 @@ export class OnNavigateService {
         const positionToScroll = position || defaultPosition;
         scrollTo(anchor, positionToScroll);
       },
-      position ? 0 : 100
+      position ? 0 : 100,
     );
   }
 
@@ -163,7 +163,7 @@ export class OnNavigateService {
       this.config.enableResetViewOnNavigate?.ignoreRoutes?.some(
         (configRoute) =>
           this.isNavigationEnd(route.routerEvent) &&
-          route.routerEvent.urlAfterRedirects.split('/').includes(configRoute)
+          route.routerEvent.urlAfterRedirects.split('/').includes(configRoute),
       ) ?? false
     );
   }
@@ -194,7 +194,7 @@ export class OnNavigateService {
    * @private
    */
   private isNavigationEnd(
-    event: NavigationEnd | NavigationSkipped
+    event: NavigationEnd | NavigationSkipped,
   ): event is NavigationEnd {
     return event.type === EventType.NavigationEnd;
   }

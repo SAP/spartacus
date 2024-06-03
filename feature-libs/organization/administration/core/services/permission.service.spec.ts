@@ -56,7 +56,7 @@ describe('PermissionService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
       providers: [
@@ -79,7 +79,7 @@ describe('PermissionService', () => {
     [PermissionService],
     (permissionService: PermissionService) => {
       expect(permissionService).toBeTruthy();
-    }
+    },
   ));
 
   describe('get permission', () => {
@@ -91,7 +91,7 @@ describe('PermissionService', () => {
         .pipe(ofType(PermissionActions.LOAD_PERMISSION), take(1))
         .subscribe((action) => {
           expect(action).toEqual(
-            new PermissionActions.LoadPermission({ userId, permissionCode })
+            new PermissionActions.LoadPermission({ userId, permissionCode }),
           );
         });
 
@@ -102,7 +102,7 @@ describe('PermissionService', () => {
 
     it('get() should be able to get permission details when they are present in the store', () => {
       store.dispatch(
-        new PermissionActions.LoadPermissionSuccess([permission, permission2])
+        new PermissionActions.LoadPermissionSuccess([permission, permission2]),
       );
       let permissionDetails: Permission;
       service
@@ -115,7 +115,7 @@ describe('PermissionService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(permissionDetails).toEqual(permission);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new PermissionActions.LoadPermission({ userId, permissionCode })
+        new PermissionActions.LoadPermission({ userId, permissionCode }),
       );
     });
   });
@@ -135,13 +135,13 @@ describe('PermissionService', () => {
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(permissions).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new PermissionActions.LoadPermissions({ userId, params })
+        new PermissionActions.LoadPermissions({ userId, params }),
       );
     });
 
     it('getList() should be able to get permissions when they are present in the store', () => {
       store.dispatch(
-        new PermissionActions.LoadPermissionSuccess([permission, permission2])
+        new PermissionActions.LoadPermissionSuccess([permission, permission2]),
       );
       store.dispatch(
         new PermissionActions.LoadPermissionsSuccess({
@@ -151,7 +151,7 @@ describe('PermissionService', () => {
             pagination,
             sorts,
           },
-        })
+        }),
       );
       let permissions: EntitiesModel<Permission>;
       service
@@ -164,7 +164,7 @@ describe('PermissionService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(permissions).toEqual(permissionList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new PermissionActions.LoadPermissions({ userId, params })
+        new PermissionActions.LoadPermissions({ userId, params }),
       );
     });
   });
@@ -175,7 +175,7 @@ describe('PermissionService', () => {
 
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new PermissionActions.CreatePermission({ userId, permission })
+        new PermissionActions.CreatePermission({ userId, permission }),
       );
     });
   });
@@ -190,7 +190,7 @@ describe('PermissionService', () => {
           userId,
           permissionCode,
           permission,
-        })
+        }),
       );
     });
   });
@@ -207,13 +207,13 @@ describe('PermissionService', () => {
 
       expect(permissionTypes).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new PermissionActions.LoadPermissionTypes()
+        new PermissionActions.LoadPermissionTypes(),
       );
     });
 
     it('getTypes() should trigger load permission types when they are present in the store', () => {
       store.dispatch(
-        new PermissionActions.LoadPermissionTypesSuccess(mockPermissionTypes)
+        new PermissionActions.LoadPermissionTypesSuccess(mockPermissionTypes),
       );
       let permissionTypesReceived: OrderApprovalPermissionType[];
       service
@@ -225,7 +225,7 @@ describe('PermissionService', () => {
 
       expect(permissionTypesReceived).toEqual(mockPermissionTypes);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new PermissionActions.LoadPermissionTypes()
+        new PermissionActions.LoadPermissionTypes(),
       );
     });
   });
@@ -234,7 +234,7 @@ describe('PermissionService', () => {
     it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
       let loadingStatus: OrganizationItemStatus<Permission>;
       store.dispatch(
-        new PermissionActions.LoadPermission({ userId, permissionCode })
+        new PermissionActions.LoadPermission({ userId, permissionCode }),
       );
       service
         .getLoadingStatus(permissionCode)
@@ -250,7 +250,7 @@ describe('PermissionService', () => {
     it('getLoadingStatus() should should be able to get status fail', () => {
       let loadingStatus: OrganizationItemStatus<Permission>;
       store.dispatch(
-        new PermissionActions.LoadPermission({ userId, permissionCode })
+        new PermissionActions.LoadPermission({ userId, permissionCode }),
       );
       service
         .getLoadingStatus(permissionCode)
@@ -260,7 +260,7 @@ describe('PermissionService', () => {
         new PermissionActions.LoadPermissionFail({
           permissionCode,
           error: new Error(),
-        })
+        }),
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
@@ -273,7 +273,7 @@ describe('PermissionService', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
       spyOn<any>(service, 'getPermissionState').and.returnValue(
-        of({ loading: false, success: false, error: true })
+        of({ loading: false, success: false, error: true }),
       );
 
       service.getErrorState('code').subscribe((error) => (errorState = error));

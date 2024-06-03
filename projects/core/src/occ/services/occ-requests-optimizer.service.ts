@@ -22,7 +22,7 @@ import {
 export class OccRequestsOptimizerService {
   constructor(
     protected http: HttpClient,
-    protected occFields: OccFieldsService
+    protected occFields: OccFieldsService,
   ) {}
 
   /**
@@ -33,7 +33,7 @@ export class OccRequestsOptimizerService {
    */
   scopedDataLoad<T>(
     scopedDataWithUrls: ScopedDataWithUrl[],
-    dataFactory?: (url: string) => Observable<T>
+    dataFactory?: (url: string) => Observable<T>,
   ): ScopedData<T>[] {
     const result: ScopedData<T>[] = [];
 
@@ -48,7 +48,7 @@ export class OccRequestsOptimizerService {
         string,
         {
           [scope: string]: OccFieldsModel;
-        }
+        },
       ]) => {
         const groupedModels = Object.values(groupedModelsSet);
 
@@ -67,12 +67,12 @@ export class OccRequestsOptimizerService {
             result.push({
               ...modelData.scopedData,
               data$: data$?.pipe(
-                map((data) => extractFields<T>(data, modelData.fields))
+                map((data) => extractFields<T>(data, modelData.fields)),
               ),
             });
           });
         }
-      }
+      },
     );
 
     return result;

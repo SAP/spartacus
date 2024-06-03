@@ -24,9 +24,9 @@ export class CheckoutGuard {
       map((steps) => {
         return this.router.parseUrl(
           this.routingConfigService.getRouteConfig(steps[0].routeName)
-            ?.paths?.[0] as string
+            ?.paths?.[0] as string,
         );
-      })
+      }),
     );
 
   constructor(
@@ -35,7 +35,7 @@ export class CheckoutGuard {
     protected checkoutConfigService: CheckoutConfigService,
     protected expressCheckoutService: ExpressCheckoutService,
     protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -45,17 +45,17 @@ export class CheckoutGuard {
         switchMap((expressCheckoutPossible) => {
           const reviewOrderRoute =
             this.checkoutStepService.getCheckoutStepRoute(
-              CheckoutStepType.REVIEW_ORDER
+              CheckoutStepType.REVIEW_ORDER,
             );
           return expressCheckoutPossible && reviewOrderRoute
             ? of(
                 this.router.parseUrl(
                   this.routingConfigService.getRouteConfig(reviewOrderRoute)
-                    ?.paths?.[0] as string
-                )
+                    ?.paths?.[0] as string,
+                ),
               )
             : this.firstStep$;
-        })
+        }),
       );
 
     return this.activeCartFacade
@@ -64,8 +64,8 @@ export class CheckoutGuard {
         switchMap((isGuestCart) =>
           this.checkoutConfigService.isExpressCheckout() && !isGuestCart
             ? expressCheckout$
-            : this.firstStep$
-        )
+            : this.firstStep$,
+        ),
       );
   }
 }

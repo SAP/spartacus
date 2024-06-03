@@ -36,7 +36,7 @@ class MockVerificationTokenService
   implements Partial<VerificationTokenService>
 {
   createVerificationToken = createSpy().and.callFake(() =>
-    of(verificationToken)
+    of(verificationToken),
   );
 }
 
@@ -58,28 +58,26 @@ describe('OneTimePasswordLoginFormComponent', () => {
   let service: VerificationTokenFacade;
   let winRef: WindowRef;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          SpinnerModule,
-        ],
-        declarations: [OneTimePasswordLoginFormComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: VerificationTokenFacade,
-            useClass: MockVerificationTokenService,
-          },
-          { provide: WindowRef, useClass: MockWinRef },
-          { provide: RoutingService, useClass: MockRoutingService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        SpinnerModule,
+      ],
+      declarations: [OneTimePasswordLoginFormComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: VerificationTokenFacade,
+          useClass: MockVerificationTokenService,
+        },
+        { provide: WindowRef, useClass: MockWinRef },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     winRef = TestBed.inject(WindowRef);
@@ -106,7 +104,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
       } as Window);
       component.isUpdating$.subscribe().unsubscribe();
       expect(component.form.value.userId).toEqual(
-        verificationTokenCreation.loginId
+        verificationTokenCreation.loginId,
       );
     });
 
@@ -121,7 +119,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
       it('should request email', () => {
         component.onSubmit();
         expect(service.createVerificationToken).toHaveBeenCalledWith(
-          verificationTokenCreation
+          verificationTokenCreation,
         );
       });
 
@@ -158,7 +156,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
       component.form.disable();
       fixture.detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
-        By.css('button')
+        By.css('button'),
       ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });

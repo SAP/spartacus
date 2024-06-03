@@ -54,7 +54,7 @@ export class ProductFacetNavigationComponent {
     // method represents the actual UI state.
     observeOn(asapScheduler),
     switchMap(() => (this.hasTrigger ? this.open$ : of(true))),
-    delayWhen((launched) => interval(launched ? 0 : this.CLOSE_DELAY))
+    delayWhen((launched) => interval(launched ? 0 : this.CLOSE_DELAY)),
   );
 
   /**
@@ -65,7 +65,7 @@ export class ProductFacetNavigationComponent {
   isActive$ = this.open$.pipe(
     // deffer emitting a new value to the next micro-task to ensure the active class is
     //  applied after the DOM is created
-    observeOn(asapScheduler)
+    observeOn(asapScheduler),
   );
 
   constructor(protected breakpointService: BreakpointService) {}

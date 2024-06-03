@@ -243,7 +243,7 @@ export function generateMappings(): {
 
 function populateFeatureMapping(
   mapping: Map<string, string[]>,
-  featureConfig: SchematicConfig
+  featureConfig: SchematicConfig,
 ): void {
   const feature = featureConfig.library.mainScope;
   const featureName = featureConfig.library.featureName;
@@ -259,7 +259,7 @@ function populateFeatureMapping(
 
 function populateFeatureModuleMapping(
   mapping: Map<string, string[]>,
-  featureConfig: SchematicConfig
+  featureConfig: SchematicConfig,
 ): void {
   const feature = featureConfig.library.featureName;
 
@@ -278,7 +278,7 @@ function populateFeatureModuleMapping(
 
 function populateRootModulesMapping(
   mapping: Map<string, string[]>,
-  featureConfig: SchematicConfig
+  featureConfig: SchematicConfig,
 ): void {
   const feature = featureConfig.library.featureName;
 
@@ -297,7 +297,7 @@ function populateRootModulesMapping(
 
 function populateConfigMapping(
   mapping: Map<string, SchematicConfig>,
-  featureConfig: SchematicConfig
+  featureConfig: SchematicConfig,
 ): void {
   mapping.set(featureConfig.library.featureName, featureConfig);
 }
@@ -308,7 +308,7 @@ function populateConfigMapping(
  */
 export function getKeyByMappingValue(
   mapping: Map<string, string[]>,
-  value: string
+  value: string,
 ): string | undefined {
   try {
     return getKeyByMappingValueOrThrow(mapping, value);
@@ -326,7 +326,7 @@ export function getKeyByMappingValue(
  */
 export function getKeyByMappingValueOrThrow(
   mapping: Map<string, string[]>,
-  value: string
+  value: string,
 ): string {
   for (const key of Array.from(mapping.keys())) {
     if ((mapping.get(key) ?? []).includes(value)) {
@@ -342,12 +342,12 @@ export function getKeyByMappingValueOrThrow(
  * for the given feature.
  */
 export function getSchematicsConfigByFeatureOrThrow(
-  feature: string
+  feature: string,
 ): SchematicConfig {
   const featureConfig = featureSchematicConfigMapping.get(feature);
   if (!featureConfig) {
     throw new SchematicsException(
-      `Config not found for the given feature '${feature}'`
+      `Config not found for the given feature '${feature}'`,
     );
   }
 

@@ -22,7 +22,7 @@ import { StateWithUser } from '../store/user-state';
 export class UserCostCenterService {
   constructor(
     protected store: Store<StateWithUser>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   /**
@@ -55,9 +55,9 @@ export class UserCostCenterService {
         }
       }),
       filter((process: LoaderState<CostCenter[]>) =>
-        Boolean(process.success || process.error)
+        Boolean(process.success || process.error),
       ),
-      map((result) => result.value ?? [])
+      map((result) => result.value ?? []),
     );
   }
 
@@ -74,7 +74,7 @@ export class UserCostCenterService {
         } else {
           return [];
         }
-      })
+      }),
     );
   }
 }

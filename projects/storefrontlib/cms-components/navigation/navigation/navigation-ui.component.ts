@@ -89,17 +89,17 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     private elemRef: ElementRef,
     protected hamburgerMenuService: HamburgerMenuService,
     protected winRef: WindowRef,
-    @Optional() protected featureConfigService?: FeatureConfigService
+    @Optional() protected featureConfigService?: FeatureConfigService,
   ) {
     this.subscriptions.add(
       this.router.events
         .pipe(filter((event) => event instanceof NavigationEnd))
-        .subscribe(() => this.clear())
+        .subscribe(() => this.clear()),
     );
     this.subscriptions.add(
       this.resize.pipe(debounceTime(50)).subscribe(() => {
         this.alignWrappersToRightIfStickOut();
-      })
+      }),
     );
   }
 
@@ -122,7 +122,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         .pipe(distinctUntilChanged(), filter(Boolean))
         .subscribe(() => {
           this.reinitializeMenu();
-        })
+        }),
     );
   }
 
@@ -168,7 +168,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       this.clear();
       if (
         !this.featureConfigService?.isEnabled(
-          'a11yNavigationUiKeyboardControls'
+          'a11yNavigationUiKeyboardControls',
         )
       ) {
         this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
@@ -245,7 +245,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         const previousLink =
           parentElement?.previousElementSibling?.querySelector('a');
         e.code === 'ArrowDown' ? nextLink?.focus() : previousLink?.focus();
-      })
+      }),
     );
   }
 
@@ -263,7 +263,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     if (this.openNodes[this.openNodes.length - 1]) {
       this.renderer.removeClass(
         this.openNodes[this.openNodes.length - 1],
-        'is-open'
+        'is-open',
       );
       this.openNodes.pop();
       this.updateClasses();
@@ -287,7 +287,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   getTotalDepth(node: NavigationNode, depth = 0): number {
     if (node.children && node.children.length > 0) {
       return Math.max(
-        ...node.children.map((n) => this.getTotalDepth(n, depth + 1))
+        ...node.children.map((n) => this.getTotalDepth(n, depth + 1)),
       );
     } else {
       return depth;
@@ -329,7 +329,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         this.renderer.setStyle(
           wrapper,
           'margin-left',
-          `${node.offsetWidth - wrapper.offsetWidth}px`
+          `${node.offsetWidth - wrapper.offsetWidth}px`,
         );
       }
     }

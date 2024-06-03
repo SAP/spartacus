@@ -30,19 +30,17 @@ describe('Scheduled Replenishment Order Connector', () => {
   let adapter: ScheduledReplenishmentOrderAdapter;
   let connector: ScheduledReplenishmentOrderConnector;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          ScheduledReplenishmentOrderConnector,
-          {
-            provide: ScheduledReplenishmentOrderAdapter,
-            useClass: MockScheduledReplenishmentOrderAdapter,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        ScheduledReplenishmentOrderConnector,
+        {
+          provide: ScheduledReplenishmentOrderAdapter,
+          useClass: MockScheduledReplenishmentOrderAdapter,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     adapter = TestBed.inject(ScheduledReplenishmentOrderAdapter);
@@ -55,7 +53,7 @@ describe('Scheduled Replenishment Order Connector', () => {
 
   it('scheduleReplenishmentOrder should call adapter', (done) => {
     adapter.scheduleReplenishmentOrder = createSpy().and.returnValue(
-      of(mockReplenishmentOrder)
+      of(mockReplenishmentOrder),
     );
 
     connector
@@ -63,7 +61,7 @@ describe('Scheduled Replenishment Order Connector', () => {
         'cartId',
         mockReplenishmentOrderFormData,
         true,
-        'userId'
+        'userId',
       )
       .pipe(take(1))
       .subscribe((result) => {
@@ -71,7 +69,7 @@ describe('Scheduled Replenishment Order Connector', () => {
           'cartId',
           mockReplenishmentOrderFormData,
           true,
-          'userId'
+          'userId',
         );
         expect(result).toEqual(mockReplenishmentOrder);
         done();

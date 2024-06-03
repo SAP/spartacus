@@ -20,7 +20,7 @@ export class AsmCustomer360Connector {
   constructor(protected asmCustomer360Adapter: AsmCustomer360Adapter) {}
 
   getAsmCustomer360Data(
-    request: AsmCustomer360Request
+    request: AsmCustomer360Request,
   ): Observable<AsmCustomer360Response> {
     return this.asmCustomer360Adapter.getAsmCustomer360Data(request);
   }

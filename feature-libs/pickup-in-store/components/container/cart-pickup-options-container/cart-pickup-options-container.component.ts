@@ -59,7 +59,7 @@ type OrderEntryWithRequiredFields = RequiredDeepPath<
 >;
 /** Custom type guard to ensure we have an order entry with all the required fields */
 export function orderEntryWithRequiredFields(
-  orderEntry: OrderEntry | undefined
+  orderEntry: OrderEntry | undefined,
 ): orderEntry is OrderEntryWithRequiredFields {
   return (
     !!orderEntry &&
@@ -111,7 +111,7 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
     protected outlet: OutletContextData<{
       item: OrderEntry;
       cartType: CartType;
-    }>
+    }>,
   ) {
     // Intentional empty constructor
   }
@@ -123,7 +123,7 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
           this.cartType = context.cartType;
           return context.item;
         }),
-        filter(orderEntryWithRequiredFields)
+        filter(orderEntryWithRequiredFields),
       ) ?? EMPTY;
 
     this.cmsService
@@ -134,18 +134,18 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
         tap((cmsPage) => {
           this.page = cmsPage.pageId;
           this.pickupOptionFacade.setPageContext(cmsPage.pageId ?? '');
-        })
+        }),
       )
       .subscribe();
 
     this.availableForPickup$ = outletContext.pipe(
       map((orderEntry) => !!orderEntry.product.availableForPickup),
-      startWith(false)
+      startWith(false),
     );
 
     this.pickupOption$ = outletContext.pipe(
       withLatestFrom(
-        this.activeCartFacade.getActive().pipe(filter(cartWithIdAndUserId))
+        this.activeCartFacade.getActive().pipe(filter(cartWithIdAndUserId)),
       ),
       tap(([orderEntry, cart]) => {
         this.entryNumber = orderEntry.entryNumber;
@@ -160,7 +160,7 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
           : 'delivery';
         this.pickupOptionFacade.setPickupOption(this.entryNumber, pickupOption);
         return this.pickupOptionFacade.getPickupOption(this.entryNumber);
-      })
+      }),
     );
 
     this.disableControls$ = this.activeCartFacade.getEntries().pipe(
@@ -171,10 +171,10 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
           map(
             (orderEntry) =>
               productCodes.filter((productCode) => productCode === orderEntry)
-                .length > 1
-          )
-        )
-      )
+                .length > 1,
+          ),
+        ),
+      ),
     );
 
     this.storeDetails$ = outletContext.pipe(
@@ -188,11 +188,11 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
           of(storeName as string).pipe(
             tap((_storeName) => {
               return this.pickupLocationsSearchService.loadStoreDetails(
-                _storeName
+                _storeName,
               );
             }),
             concatMap((_storeName) =>
-              this.pickupLocationsSearchService.getStoreDetails(_storeName)
+              this.pickupLocationsSearchService.getStoreDetails(_storeName),
             ),
             filter((storeDetails) => !!storeDetails),
             tap((storeDetails) => {
@@ -201,9 +201,9 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
                 {
                   ...storeDetails,
                   pickupOption: 'pickup',
-                }
+                },
               );
-            })
+            }),
           ),
           this.intendedPickupLocationService
             .getIntendedLocation(productCode)
@@ -225,13 +225,13 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
                       map(({ name }) => name),
                       tap((_storeName) =>
                         this.pickupLocationsSearchService.loadStoreDetails(
-                          _storeName
-                        )
+                          _storeName,
+                        ),
                       ),
                       concatMap((_storeName: string) =>
                         this.pickupLocationsSearchService.getStoreDetails(
-                          _storeName
-                        )
+                          _storeName,
+                        ),
                       ),
                       filter((storeDetails) => !!storeDetails),
                       tap((storeDetails) => {
@@ -240,17 +240,17 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
                           {
                             ...storeDetails,
                             pickupOption: 'delivery',
-                          }
+                          },
                         );
-                      })
-                    )
-                )
-              )
-            )
-        )
+                      }),
+                    ),
+                ),
+              ),
+            ),
+        ),
       ),
       map(({ displayName, name }) => ({ displayName, name })),
-      tap((_) => (this.displayNameIsSet = true))
+      tap((_) => (this.displayNameIsSet = true)),
     );
   }
 
@@ -261,7 +261,7 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
         this.entryNumber,
         this.quantity,
         undefined,
-        true
+        true,
       );
       return;
     }
@@ -277,11 +277,11 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
                   this.entryNumber,
                   this.quantity,
                   name,
-                  true
-                )
-              )
+                  true,
+                ),
+              ),
             )
-            .subscribe()
+            .subscribe(),
         );
       });
 
@@ -303,7 +303,7 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
         productCode: this.productCode,
         entryNumber: this.entryNumber,
         quantity: this.quantity,
-      }
+      },
     );
 
     if (dialog) {

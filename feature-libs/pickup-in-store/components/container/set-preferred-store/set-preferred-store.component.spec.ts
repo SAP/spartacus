@@ -46,7 +46,7 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
 
     component.setAsPreferred();
     expect(preferredStoreFacade.setPreferredStore).toHaveBeenCalledWith(
-      pointOfServiceName
+      pointOfServiceName,
     );
   });
 
@@ -96,7 +96,7 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
 
     component.setAsPreferred();
     expect(preferredStoreFacade.setPreferredStore).toHaveBeenCalledWith(
-      pointOfServiceName
+      pointOfServiceName,
     );
   });
 

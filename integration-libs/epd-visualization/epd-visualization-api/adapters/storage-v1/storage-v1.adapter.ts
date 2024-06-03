@@ -37,7 +37,7 @@ export class StorageV1Adapter implements SceneAdapter {
   constructor(
     protected http: HttpClient,
     protected epdVisualizationConfig: EpdVisualizationConfig,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {
     this.baseUrl = this.getBaseUrl();
   }
@@ -58,7 +58,7 @@ export class StorageV1Adapter implements SceneAdapter {
     nodeIds?: string[],
     $expand?: string[],
     $filter?: string[],
-    contentType?: string
+    contentType?: string,
   ): string {
     const queryParts: string[] = [];
     if (nodeIds) {
@@ -93,7 +93,7 @@ export class StorageV1Adapter implements SceneAdapter {
     nodeIds?: string[],
     $expand?: string[],
     $filter?: string[],
-    contentType?: string
+    contentType?: string,
   ): Observable<NodesResponse> {
     return this.http
       .get(this.getUrl(sceneId, nodeIds, $expand, $filter, contentType))
@@ -101,7 +101,7 @@ export class StorageV1Adapter implements SceneAdapter {
         catchError((error) => {
           throw normalizeHttpError(error, this.logger);
         }),
-        this.converter.pipeable(NODES_RESPONSE_NORMALIZER)
+        this.converter.pipeable(NODES_RESPONSE_NORMALIZER),
       );
   }
 }

@@ -30,7 +30,7 @@ describe('NotificationPreferenceComponent', () => {
       'updatePreferences',
       'getUpdatePreferencesResultLoading',
       'resetNotificationPreferences',
-    ]
+    ],
   );
 
   const notificationPreference: NotificationPreference[] = [
@@ -48,20 +48,18 @@ describe('NotificationPreferenceComponent', () => {
     },
   ];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [NotificationPreferenceComponent, MockCxSpinnerComponent],
-        providers: [
-          {
-            provide: UserNotificationPreferenceService,
-            useValue: notificationPreferenceService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [NotificationPreferenceComponent, MockCxSpinnerComponent],
+      providers: [
+        {
+          provide: UserNotificationPreferenceService,
+          useValue: notificationPreferenceService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationPreferenceComponent);
@@ -71,13 +69,13 @@ describe('NotificationPreferenceComponent', () => {
     notificationPreferenceService.loadPreferences.and.stub();
     notificationPreferenceService.updatePreferences.and.stub();
     notificationPreferenceService.getPreferences.and.returnValue(
-      of(notificationPreference)
+      of(notificationPreference),
     );
     notificationPreferenceService.getPreferencesLoading.and.returnValue(
-      of(false)
+      of(false),
     );
     notificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
-      of(false)
+      of(false),
     );
     notificationPreferenceService.resetNotificationPreferences.and.stub();
   });
@@ -93,11 +91,11 @@ describe('NotificationPreferenceComponent', () => {
     expect(el.query(By.css('.pref-note'))).toBeTruthy();
     expect(
       el.queryAll(By.css('.form-check-input')).length ===
-        notificationPreference.length
+        notificationPreference.length,
     ).toBeTruthy();
     expect(
       el.queryAll(By.css('.pref-channel')).length ===
-        notificationPreference.length
+        notificationPreference.length,
     ).toBeTruthy();
   });
 
@@ -109,10 +107,10 @@ describe('NotificationPreferenceComponent', () => {
 
   it('should be able to disable a channel when get loading', () => {
     notificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
-      of(false)
+      of(false),
     );
     notificationPreferenceService.getPreferencesLoading.and.returnValue(
-      cold('-a|', { a: true })
+      cold('-a|', { a: true }),
     );
     fixture.detectChanges();
 
@@ -130,10 +128,10 @@ describe('NotificationPreferenceComponent', () => {
 
   it('should be able to disable a channel when update loading', () => {
     notificationPreferenceService.getPreferencesLoading.and.returnValue(
-      of(false)
+      of(false),
     );
     notificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
-      cold('-a|', { a: true })
+      cold('-a|', { a: true }),
     );
     fixture.detectChanges();
 

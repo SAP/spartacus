@@ -21,7 +21,7 @@ export class ProductInterestsEffect {
 
   constructor(
     private actions$: Actions,
-    private userInterestsConnector: UserInterestsConnector
+    private userInterestsConnector: UserInterestsConnector,
   ) {}
 
   loadProductInteres$: Observable<UserActions.ProductInterestsAction> =
@@ -37,7 +37,7 @@ export class ProductInterestsEffect {
               payload.currentPage,
               payload.sort,
               payload.productCode,
-              payload.notificationType
+              payload.notificationType,
             )
             .pipe(
               map((interests: ProductInterestSearchResult) => {
@@ -46,13 +46,13 @@ export class ProductInterestsEffect {
               catchError((error) =>
                 of(
                   new UserActions.LoadProductInterestsFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   removeProductInterest$: Observable<Action> = createEffect(() =>
@@ -72,20 +72,20 @@ export class ProductInterestsEffect {
                       notificationType:
                         payload.item.productInterestEntry?.[0].interestType,
                     }
-                  : { userId: payload.userId }
+                  : { userId: payload.userId },
               ),
               new UserActions.RemoveProductInterestSuccess(data),
             ]),
             catchError((error) =>
               of(
                 new UserActions.RemoveProductInterestFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
-          )
-      )
-    )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
+          ),
+      ),
+    ),
   );
 
   addProductInterest$: Observable<Action> = createEffect(() =>
@@ -97,7 +97,7 @@ export class ProductInterestsEffect {
           .addInterest(
             payload.userId,
             payload.productCode,
-            payload.notificationType
+            payload.notificationType,
           )
           .pipe(
             switchMap((res: any) => [
@@ -111,12 +111,12 @@ export class ProductInterestsEffect {
             catchError((error) =>
               of(
                 new UserActions.AddProductInterestFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
-          )
-      )
-    )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
+          ),
+      ),
+    ),
   );
 }

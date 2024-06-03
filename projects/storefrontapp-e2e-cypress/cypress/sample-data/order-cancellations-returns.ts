@@ -249,7 +249,7 @@ export const returnRequestList = {
 };
 
 export const cancelledReturnRequest = JSON.parse(
-  JSON.stringify(returnRequestDetails)
+  JSON.stringify(returnRequestDetails),
 );
 cancelledReturnRequest.cancellable = false;
 cancelledReturnRequest.status = 'CANCELLING';

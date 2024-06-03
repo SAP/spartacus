@@ -24,7 +24,7 @@ export class IconLoaderService {
   constructor(
     protected winRef: WindowRef,
     protected iconConfig: IconConfig,
-    protected sanitizer: DomSanitizer
+    protected sanitizer: DomSanitizer,
   ) {}
 
   /**
@@ -34,7 +34,7 @@ export class IconLoaderService {
     if (this.isResourceType(type, IconResourceType.SVG)) {
       const url = this.sanitizer.sanitize(
         SecurityContext.URL,
-        this.getSvgPath(type) || null
+        this.getSvgPath(type) || null,
       );
       if (url) {
         const useElement = this.winRef.document.createElement('use');
@@ -76,13 +76,15 @@ export class IconLoaderService {
    */
   private isResourceType(
     iconType: ICON_TYPE | string,
-    resourceType: IconResourceType
+    resourceType: IconResourceType,
   ): boolean {
     return (
       this.config?.resources !== undefined &&
       !!this.config.resources.find(
         (res) =>
-          res.types && res.type === resourceType && res.types.includes(iconType)
+          res.types &&
+          res.type === resourceType &&
+          res.types.includes(iconType),
       )
     );
   }
@@ -98,7 +100,7 @@ export class IconLoaderService {
       (res) =>
         res.type === IconResourceType.SVG &&
         res.types &&
-        res.types.includes(iconType)
+        res.types.includes(iconType),
     );
     if (svgResource) {
       return svgResource.url
@@ -123,7 +125,7 @@ export class IconLoaderService {
       // using DOM APIs, so need to sanitize our URLs manually
       const sanitizedUrl = this.sanitizer.sanitize(
         SecurityContext.URL,
-        resource.url
+        resource.url,
       );
       if (sanitizedUrl) {
         const head = this.winRef.document.getElementsByTagName('head')[0];
@@ -138,7 +140,7 @@ export class IconLoaderService {
 
   private findResource(
     iconType: ICON_TYPE | string,
-    resourceType: IconResourceType
+    resourceType: IconResourceType,
   ): IconConfigResource | undefined {
     if (!this.config?.resources) {
       return;
@@ -146,14 +148,14 @@ export class IconLoaderService {
 
     let resource = this.config.resources.find(
       (res) =>
-        res.type === resourceType && res.types && res.types.includes(iconType)
+        res.type === resourceType && res.types && res.types.includes(iconType),
     );
     // no specific resource found, let's try to find a one-size-fits-all resource
     if (!resource) {
       resource = this.config.resources.find(
         (res) =>
           (res.type === resourceType && !res.types) ||
-          (res.types && res.types.length === 0)
+          (res.types && res.types.length === 0),
       );
     }
     return resource;

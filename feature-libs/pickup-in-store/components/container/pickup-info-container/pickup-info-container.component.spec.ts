@@ -70,10 +70,10 @@ describe('PickupInfoContainerComponent', () => {
     component.ngOnInit();
     expect(activeCartService.getActive).toHaveBeenCalled();
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledWith(
-      'London School'
+      'London School',
     );
     expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledWith(
-      'London School'
+      'London School',
     );
     expect(component.storesDetailsData).toEqual(result);
   });

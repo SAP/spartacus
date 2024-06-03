@@ -36,18 +36,18 @@ export class LanguagesEffects {
         return this.siteConnector.getLanguages().pipe(
           map(
             (languages) =>
-              new SiteContextActions.LoadLanguagesSuccess(languages)
+              new SiteContextActions.LoadLanguagesSuccess(languages),
           ),
           catchError((error) =>
             of(
               new SiteContextActions.LoadLanguagesFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   activateLanguage$: Observable<SiteContextActions.LanguageChange> =
@@ -59,14 +59,14 @@ export class LanguagesEffects {
         filter(([previous]) => !!previous),
         map(
           ([previous, current]) =>
-            new SiteContextActions.LanguageChange({ previous, current })
-        )
-      )
+            new SiteContextActions.LanguageChange({ previous, current }),
+        ),
+      ),
     );
 
   constructor(
     private actions$: Actions,
     private siteConnector: SiteConnector,
-    private state: Store<StateWithSiteContext>
+    private state: Store<StateWithSiteContext>,
   ) {}
 }

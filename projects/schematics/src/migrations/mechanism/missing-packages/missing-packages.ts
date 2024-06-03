@@ -18,7 +18,7 @@ export interface MissingPackageMigration {
 export function migrateMissingPackage(
   tree: Tree,
   context: SchematicContext,
-  missingPackageConfig: MissingPackageMigration
+  missingPackageConfig: MissingPackageMigration,
 ): Tree {
   const project = getDefaultProjectNameFromWorkspace(tree);
 
@@ -55,7 +55,7 @@ export function migrateMissingPackage(
   function warnIfPackageNotPresent() {
     const packagePresent = getPackageJsonDependency(
       tree,
-      missingPackageConfig.package
+      missingPackageConfig.package,
     );
     if (!packagePresent) {
       const comment =

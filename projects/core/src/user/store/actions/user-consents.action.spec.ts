@@ -65,7 +65,7 @@ describe('user consent actions', () => {
           payload,
           meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
-            GIVE_CONSENT_PROCESS_ID
+            GIVE_CONSENT_PROCESS_ID,
           ),
         });
       });
@@ -79,7 +79,7 @@ describe('user consent actions', () => {
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             GIVE_CONSENT_PROCESS_ID,
-            payload
+            payload,
           ),
         });
       });
@@ -96,7 +96,7 @@ describe('user consent actions', () => {
           consentTemplate,
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
-            GIVE_CONSENT_PROCESS_ID
+            GIVE_CONSENT_PROCESS_ID,
           ),
         });
       });
@@ -108,7 +108,7 @@ describe('user consent actions', () => {
           type: UserActions.RESET_GIVE_USER_CONSENT_PROCESS,
           meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
-            GIVE_CONSENT_PROCESS_ID
+            GIVE_CONSENT_PROCESS_ID,
           ),
         });
       });

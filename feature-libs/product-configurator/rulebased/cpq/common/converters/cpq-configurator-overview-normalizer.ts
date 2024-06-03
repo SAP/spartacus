@@ -21,12 +21,12 @@ export class CpqConfiguratorOverviewNormalizer
 
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
   ) {}
 
   convert(
     source: Cpq.Configuration,
-    target?: Configurator.Overview
+    target?: Configurator.Overview,
   ): Configurator.Overview {
     const resultTarget: Configurator.Overview = {
       ...target,
@@ -44,7 +44,7 @@ export class CpqConfiguratorOverviewNormalizer
 
   protected convertTab(
     tab: Cpq.Tab,
-    currency: string
+    currency: string,
   ): Configurator.GroupOverview {
     let ovAttributes: Configurator.AttributeOverview[] = [];
     tab.attributes?.forEach((attr) => {
@@ -60,7 +60,7 @@ export class CpqConfiguratorOverviewNormalizer
         .translate('configurator.group.general')
         .pipe(take(1))
         .subscribe(
-          (generalText) => (groupOverview.groupDescription = generalText)
+          (generalText) => (groupOverview.groupDescription = generalText),
         );
     }
     return groupOverview;
@@ -68,7 +68,7 @@ export class CpqConfiguratorOverviewNormalizer
 
   protected convertAttribute(
     attr: Cpq.Attribute,
-    currency: string
+    currency: string,
   ): Configurator.AttributeOverview[] {
     const attributeOverviewType: Configurator.AttributeOverviewType =
       attr?.values &&
@@ -82,7 +82,7 @@ export class CpqConfiguratorOverviewNormalizer
         type: attributeOverviewType,
         attribute:
           this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
-            attr
+            attr,
           ),
         attributeId: attr.stdAttrCode.toString(),
       });
@@ -92,7 +92,7 @@ export class CpqConfiguratorOverviewNormalizer
 
   protected convertAttributeValue(
     attr: Cpq.Attribute,
-    currency: string
+    currency: string,
   ): Configurator.AttributeOverview[] {
     const ovValues: Configurator.AttributeOverview[] = [];
     switch (attr.displayAs) {
@@ -111,7 +111,7 @@ export class CpqConfiguratorOverviewNormalizer
       case Cpq.DisplayAs.RADIO_BUTTON:
       case Cpq.DisplayAs.DROPDOWN:
         const selectedValue = attr.values?.find(
-          (val) => val.selected && val.paV_ID !== this.NO_OPTION_SELECTED
+          (val) => val.selected && val.paV_ID !== this.NO_OPTION_SELECTED,
         );
         if (selectedValue) {
           ovValues.push(this.extractValue(selectedValue, attr, currency));
@@ -136,7 +136,7 @@ export class CpqConfiguratorOverviewNormalizer
   protected extractValue(
     valueSelected: Cpq.Value,
     attr: Cpq.Attribute,
-    currency: string
+    currency: string,
   ): Configurator.AttributeOverview {
     const ovValue: Configurator.AttributeOverview = {
       attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
@@ -145,24 +145,24 @@ export class CpqConfiguratorOverviewNormalizer
       productCode: valueSelected.productSystemId,
       quantity: this.cpqConfiguratorNormalizerUtilsService.convertQuantity(
         valueSelected,
-        attr
+        attr,
       ),
       valuePrice: this.cpqConfiguratorNormalizerUtilsService.convertValuePrice(
         valueSelected,
-        currency
+        currency,
       ),
     };
     ovValue.valuePriceTotal =
       this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
         ovValue.quantity ?? 1,
-        ovValue.valuePrice
+        ovValue.valuePrice,
       );
     return ovValue;
   }
 
   protected extractValueUserInput(
     attr: Cpq.Attribute,
-    currency: string
+    currency: string,
   ): Configurator.AttributeOverview {
     const value = attr.values ? attr.values[0] : undefined;
     const ovValue: Configurator.AttributeOverview = {
@@ -175,12 +175,12 @@ export class CpqConfiguratorOverviewNormalizer
       ovValue.valuePrice =
         this.cpqConfiguratorNormalizerUtilsService.convertValuePrice(
           value,
-          currency
+          currency,
         );
       ovValue.valuePriceTotal =
         this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
           ovValue.quantity ?? 1,
-          ovValue.valuePrice
+          ovValue.valuePrice,
         );
     }
     return ovValue;

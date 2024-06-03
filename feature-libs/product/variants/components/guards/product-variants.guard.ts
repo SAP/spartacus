@@ -27,10 +27,10 @@ export class ProductVariantsGuard {
   constructor(
     protected productService: ProductService,
     protected semanticPathService: SemanticPathService,
-    protected router: Router
+    protected router: Router,
   ) {}
   canActivate(
-    activatedRoute: ActivatedRouteSnapshot
+    activatedRoute: ActivatedRouteSnapshot,
   ): Observable<boolean | UrlTree> {
     const productCode = activatedRoute.params?.productCode;
     if (!productCode) {
@@ -52,14 +52,14 @@ export class ProductVariantsGuard {
                     this.semanticPathService.transform({
                       cxRoute: 'product',
                       params: _product,
-                    })
+                    }),
                   );
-                })
+                }),
               );
           }
         }
         return of(true);
-      })
+      }),
     );
   }
   /**
@@ -72,7 +72,7 @@ export class ProductVariantsGuard {
       const results: VariantOption[] = product.variantOptions.filter(
         (variant) => {
           return variant.stock && variant.stock.stockLevel ? variant : false;
-        }
+        },
       );
       return results && results.length
         ? results[0]?.code

@@ -33,7 +33,7 @@ export class ProductVariantsContainerComponent implements OnInit {
       filter(isNotNullable),
       filter(
         (product): product is RequiredPick<Product, 'baseOptions'> =>
-          !!product.baseOptions
+          !!product.baseOptions,
       ),
       distinctUntilChanged(),
       tap((product) => {
@@ -42,7 +42,7 @@ export class ProductVariantsContainerComponent implements OnInit {
             this.variants[option.variantType] = option;
           }
         });
-      })
+      }),
     );
   }
 }

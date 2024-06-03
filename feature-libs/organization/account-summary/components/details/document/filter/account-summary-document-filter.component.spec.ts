@@ -142,7 +142,7 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
     const filterFormItems = () =>
       fixture.debugElement.queryAll(
-        By.css('label.cx-account-summary-document-filter-form-item')
+        By.css('label.cx-account-summary-document-filter-form-item'),
       );
 
     /**
@@ -154,13 +154,13 @@ describe('AccountSummaryDocumentFilterComponent', () => {
     let formItems = filterFormItems();
     expect(formItems?.length).toEqual(3);
     expect(
-      formItems[0].query(By.css('ng-select'))?.attributes?.formControlName
+      formItems[0].query(By.css('ng-select'))?.attributes?.formControlName,
     ).toEqual('status');
     expect(
-      formItems[1].query(By.css('ng-select'))?.attributes?.formControlName
+      formItems[1].query(By.css('ng-select'))?.attributes?.formControlName,
     ).toEqual('filterBy');
     expect(
-      formItems[2].query(By.css('input'))?.attributes?.formControlName
+      formItems[2].query(By.css('input'))?.attributes?.formControlName,
     ).toEqual('documentNumber');
 
     // Set document number and press Search. Expect search to have been triggered.
@@ -182,16 +182,16 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
     // Change 'Filter By' to be 'Number Range'
     component.filterForm.controls.filterBy.setValue(
-      FilterByOptions.DOCUMENT_NUMBER_RANGE
+      FilterByOptions.DOCUMENT_NUMBER_RANGE,
     );
     fixture.detectChanges();
     formItems = filterFormItems();
     expect(formItems.length).toEqual(4);
     expect(
-      formItems[2].query(By.css('input'))?.attributes?.formControlName
+      formItems[2].query(By.css('input'))?.attributes?.formControlName,
     ).toEqual('from');
     expect(
-      formItems[3].query(By.css('input'))?.attributes?.formControlName
+      formItems[3].query(By.css('input'))?.attributes?.formControlName,
     ).toEqual('to');
 
     // Set document range and press Search.
@@ -208,10 +208,10 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
     // Expect values to have been set and search to have been triggered.
     expect(formItems[2].query(By.css('input'))?.nativeElement.value).toEqual(
-      startRange
+      startRange,
     );
     expect(formItems[3].query(By.css('input'))?.nativeElement.value).toEqual(
-      endRange
+      endRange,
     );
     expect(eventSpy).toHaveBeenCalledWith({
       status: DocumentStatus.ALL,
@@ -226,13 +226,13 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
     // Change 'Filter By' to be 'Document Type'
     component.filterForm.controls.filterBy.setValue(
-      FilterByOptions.DOCUMENT_TYPE
+      FilterByOptions.DOCUMENT_TYPE,
     );
     fixture.detectChanges();
     formItems = filterFormItems();
     expect(formItems.length).toEqual(3);
     expect(
-      formItems[2].query(By.css('ng-select'))?.attributes?.formControlName
+      formItems[2].query(By.css('ng-select'))?.attributes?.formControlName,
     ).toEqual('documentType');
 
     // Set document type and press Search.
@@ -286,7 +286,7 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
     // Change 'Filter By' to be 'Due Date Range'
     component.filterForm.controls.filterBy.setValue(
-      FilterByOptions.DUE_DATE_RANGE
+      FilterByOptions.DUE_DATE_RANGE,
     );
     fixture.detectChanges();
     formItems = filterFormItems();
@@ -317,16 +317,16 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
     // Change 'Filter By' to be 'Original Amount Range'
     component.filterForm.controls.filterBy.setValue(
-      FilterByOptions.AMOUNT_RANGE
+      FilterByOptions.AMOUNT_RANGE,
     );
     fixture.detectChanges();
     formItems = filterFormItems();
     expect(formItems.length).toEqual(4);
     expect(
-      formItems[2].query(By.css('input'))?.attributes?.formControlName
+      formItems[2].query(By.css('input'))?.attributes?.formControlName,
     ).toEqual('from');
     expect(
-      formItems[3].query(By.css('input'))?.attributes?.formControlName
+      formItems[3].query(By.css('input'))?.attributes?.formControlName,
     ).toEqual('to');
 
     // Set original amount range and press Search.
@@ -343,10 +343,10 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
     // Expect values to have been set and search to have been triggered.
     expect(formItems[2].query(By.css('input'))?.nativeElement.value).toEqual(
-      startRange
+      startRange,
     );
     expect(formItems[3].query(By.css('input'))?.nativeElement.value).toEqual(
-      endRange
+      endRange,
     );
     expect(eventSpy).toHaveBeenCalledWith({
       status: DocumentStatus.CLOSED,
@@ -358,16 +358,16 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
     // Change 'Filter By' to be 'Open Amount Range'
     component.filterForm.controls.filterBy.setValue(
-      FilterByOptions.OPEN_AMOUNT_RANGE
+      FilterByOptions.OPEN_AMOUNT_RANGE,
     );
     fixture.detectChanges();
     formItems = filterFormItems();
     expect(formItems.length).toEqual(4);
     expect(
-      formItems[2].query(By.css('input'))?.attributes?.formControlName
+      formItems[2].query(By.css('input'))?.attributes?.formControlName,
     ).toEqual('from');
     expect(
-      formItems[3].query(By.css('input'))?.attributes?.formControlName
+      formItems[3].query(By.css('input'))?.attributes?.formControlName,
     ).toEqual('to');
 
     // Set open amount range and press Search.
@@ -384,10 +384,10 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
     // Expect values to have been set and search to have been triggered.
     expect(formItems[2].query(By.css('input'))?.nativeElement.value).toEqual(
-      startRange
+      startRange,
     );
     expect(formItems[3].query(By.css('input'))?.nativeElement.value).toEqual(
-      endRange
+      endRange,
     );
     expect(eventSpy).toHaveBeenCalledWith({
       status: DocumentStatus.CLOSED,
@@ -405,13 +405,13 @@ describe('AccountSummaryDocumentFilterComponent', () => {
     formItems = filterFormItems();
     expect(formItems?.length).toEqual(3);
     expect(
-      formItems[0].query(By.css('ng-select'))?.attributes?.formControlName
+      formItems[0].query(By.css('ng-select'))?.attributes?.formControlName,
     ).toEqual('status');
     expect(
-      formItems[1].query(By.css('ng-select'))?.attributes?.formControlName
+      formItems[1].query(By.css('ng-select'))?.attributes?.formControlName,
     ).toEqual('filterBy');
     expect(
-      formItems[2].query(By.css('input'))?.attributes?.formControlName
+      formItems[2].query(By.css('input'))?.attributes?.formControlName,
     ).toEqual('documentNumber');
 
     filterByValue = '';

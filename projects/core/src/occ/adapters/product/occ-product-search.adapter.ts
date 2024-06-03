@@ -32,7 +32,7 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   readonly DEFAULT_SEARCH_CONFIG: SearchConfig = {
@@ -41,7 +41,7 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
 
   search(
     query: string,
-    searchConfig: SearchConfig = this.DEFAULT_SEARCH_CONFIG
+    searchConfig: SearchConfig = this.DEFAULT_SEARCH_CONFIG,
   ): Observable<ProductSearchPage> {
     const context = new HttpContext().set(OCC_HTTP_TOKEN, {
       sendUserIdAsHeader: true,
@@ -54,28 +54,28 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
         tap(
           (productSearchPage) =>
             productSearchPage.keywordRedirectUrl &&
-            this.router?.navigate([productSearchPage.keywordRedirectUrl])
-        )
+            this.router?.navigate([productSearchPage.keywordRedirectUrl]),
+        ),
       );
   }
 
   loadSuggestions(
     term: string,
-    pageSize: number = 3
+    pageSize: number = 3,
   ): Observable<Suggestion[]> {
     return this.http
       .get<Occ.SuggestionList>(
-        this.getSuggestionEndpoint(term, pageSize.toString())
+        this.getSuggestionEndpoint(term, pageSize.toString()),
       )
       .pipe(
         map((suggestionsList) => suggestionsList.suggestions ?? []),
-        this.converter.pipeableMany(PRODUCT_SUGGESTION_NORMALIZER)
+        this.converter.pipeableMany(PRODUCT_SUGGESTION_NORMALIZER),
       );
   }
 
   protected getSearchEndpoint(
     query: string,
-    searchConfig: SearchConfig
+    searchConfig: SearchConfig,
   ): string {
     return this.occEndpoints.buildUrl('productSearch', {
       queryParams: { query, ...searchConfig },

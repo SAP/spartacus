@@ -87,7 +87,7 @@ describe('schematics-config-mappings', () => {
         CHECKOUT_B2B_MODULE,
       ]);
       expect(result.get(CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME)).toEqual(
-        [CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE]
+        [CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE],
       );
       expect(result.get(ORDER_FEATURE_NAME)).toEqual([ORDER_MODULE]);
       expect(result.get(CDC_FEATURE_NAME)).toEqual([
@@ -111,7 +111,7 @@ describe('schematics-config-mappings', () => {
 
       expect(result.get(ASM_FEATURE_NAME)).toEqual([ASM_ROOT_MODULE]);
       expect(result.get(CART_BASE_FEATURE_NAME)).toContain(
-        CART_BASE_ROOT_MODULE
+        CART_BASE_ROOT_MODULE,
       );
       expect(result.get(CHECKOUT_BASE_FEATURE_NAME)).toEqual([
         CHECKOUT_BASE_ROOT_MODULE,
@@ -120,7 +120,7 @@ describe('schematics-config-mappings', () => {
         CHECKOUT_B2B_ROOT_MODULE,
       ]);
       expect(result.get(CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME)).toEqual(
-        [CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE]
+        [CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE],
       );
       expect(result.get(ORDER_FEATURE_NAME)).toEqual([ORDER_ROOT_MODULE]);
       expect(result.get(CDC_FEATURE_NAME)).toEqual([CDC_ROOT_MODULE]);
@@ -137,13 +137,13 @@ describe('schematics-config-mappings', () => {
 
       expect(result.get(ASM_FEATURE_NAME)).toEqual(ASM_SCHEMATICS_CONFIG);
       expect(result.get(CHECKOUT_BASE_FEATURE_NAME)).toEqual(
-        CHECKOUT_BASE_SCHEMATICS_CONFIG
+        CHECKOUT_BASE_SCHEMATICS_CONFIG,
       );
       expect(result.get(CHECKOUT_B2B_FEATURE_NAME)).toEqual(
-        CHECKOUT_B2B_SCHEMATICS_CONFIG
+        CHECKOUT_B2B_SCHEMATICS_CONFIG,
       );
       expect(result.get(CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME)).toEqual(
-        CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG
+        CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
       );
     });
   });
@@ -162,7 +162,7 @@ describe('schematics-config-mappings', () => {
         getKeyByMappingValueOrThrow(mapping, '3');
       } catch (e) {
         expect((e as any).message).toEqual(
-          `Value 3 not found in the given map.`
+          `Value 3 not found in the given map.`,
         );
       }
     });
@@ -186,7 +186,7 @@ describe('schematics-config-mappings', () => {
   describe('getSchematicsConfigByFeatureOrThrow', () => {
     it('should return the config', () => {
       const config = getSchematicsConfigByFeatureOrThrow(
-        CHECKOUT_BASE_FEATURE_NAME
+        CHECKOUT_BASE_FEATURE_NAME,
       );
       expect(config).toBeTruthy();
     });
@@ -196,7 +196,7 @@ describe('schematics-config-mappings', () => {
         getSchematicsConfigByFeatureOrThrow(feature);
       } catch (e) {
         expect((e as any).message).toEqual(
-          `Config not found for the given feature '${feature}'`
+          `Config not found for the given feature '${feature}'`,
         );
       }
     });

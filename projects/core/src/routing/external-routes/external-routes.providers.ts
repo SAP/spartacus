@@ -7,7 +7,7 @@
 import { ExternalRoutesService } from './external-routes.service';
 
 export function addExternalRoutesFactory(
-  service: ExternalRoutesService
+  service: ExternalRoutesService,
 ): () => void {
   const result = () => {
     service.addRoutes();

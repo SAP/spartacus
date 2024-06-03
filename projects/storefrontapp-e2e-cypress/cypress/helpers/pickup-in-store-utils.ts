@@ -6,14 +6,14 @@
 
 export function mockLocation(
   latitude: number,
-  longitude: number
+  longitude: number,
 ): Partial<Cypress.VisitOptions> {
   return {
     onBeforeLoad(win) {
       cy.stub(win.navigator.geolocation, 'getCurrentPosition').callsFake(
         (successCallback, _options) => {
           return successCallback({ coords: { latitude, longitude } });
-        }
+        },
       );
     },
   };
@@ -221,7 +221,7 @@ export const fillPaymentFormAndBillingAdress = () => {
 
   cy.get(LOCATORS.CARD_CVV).type(paymentDetails.cvv);
   cy.get('[formcontrolname="isocode"]').ngSelect(
-    defaultBillingAddress.address.country
+    defaultBillingAddress.address.country,
   );
 
   cy.get('[formcontrolname="firstName"]')
@@ -247,7 +247,7 @@ export const fillPaymentFormAndBillingAdress = () => {
     .type(defaultBillingAddress.address.postal);
 
   cy.get('[formcontrolname="isocodeShort"]').ngSelect(
-    defaultBillingAddress.address.state
+    defaultBillingAddress.address.state,
   );
 };
 

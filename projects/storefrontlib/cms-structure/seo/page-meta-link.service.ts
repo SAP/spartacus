@@ -13,7 +13,7 @@ import { WindowRef } from '@spartacus/core';
 export class PageMetaLinkService {
   constructor(
     protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2
+    protected rendererFactory: RendererFactory2,
   ) {}
 
   /**
@@ -24,7 +24,7 @@ export class PageMetaLinkService {
    */
   setCanonicalLink(url: string | undefined): void {
     let link: HTMLLinkElement = this.winRef.document.querySelector(
-      'link[rel="canonical"]'
+      'link[rel="canonical"]',
     ) as HTMLLinkElement;
 
     if (!url) {

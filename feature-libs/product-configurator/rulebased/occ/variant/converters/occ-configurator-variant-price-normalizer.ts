@@ -16,7 +16,7 @@ export class OccConfiguratorVariantPriceNormalizer
 {
   convert(
     source: OccConfigurator.Prices,
-    target?: Configurator.Configuration
+    target?: Configurator.Configuration,
   ): Configurator.Configuration {
     const priceSupplements: Configurator.AttributeSupplement[] = [];
     source.attributes?.forEach((attr) => {
@@ -42,7 +42,7 @@ export class OccConfiguratorVariantPriceNormalizer
 
   convertAttributeSupplements(
     source: OccConfigurator.Supplements,
-    priceSupplements: Configurator.AttributeSupplement[]
+    priceSupplements: Configurator.AttributeSupplement[],
   ) {
     const attributeSupplement: Configurator.AttributeSupplement = {
       attributeUiKey: source?.csticUiKey,
@@ -57,7 +57,7 @@ export class OccConfiguratorVariantPriceNormalizer
 
   convertValueSupplement(
     source: OccConfigurator.ValueSupplements,
-    valueSupplements: Configurator.ValueSupplement[]
+    valueSupplements: Configurator.ValueSupplement[],
   ) {
     const valueSupplement: Configurator.ValueSupplement = {
       attributeValueKey: source?.attributeValueKey,

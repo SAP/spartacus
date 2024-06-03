@@ -78,7 +78,7 @@ export function verifyPaymentCard(cardLength: number) {
 export function visitPaymentDetailsPage() {
   const paymentDetailPage = waitForPage(
     '/my-account/payment-details',
-    'getPaymentDetail'
+    'getPaymentDetail',
   );
   cy.selectUserMenuOption({ option: 'Payment Details' });
   cy.wait(`@${paymentDetailPage}`).its('response.statusCode').should('eq', 200);
@@ -92,9 +92,9 @@ export function addPaymentMethod(paymentDetail: PaymentDetail) {
       cy.request({
         method: 'POST',
         url: `${Cypress.env('API_URL')}/${Cypress.env(
-          'OCC_PREFIX'
+          'OCC_PREFIX',
         )}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/current/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
@@ -117,7 +117,7 @@ export function testRenderEmptyPaymentDetailsPage() {
       cy.get('.cx-payment .cx-header').should('contain', 'Payment methods');
       cy.get('.cx-payment .cx-body').should(
         'contain',
-        'New payment methods are added during checkout.'
+        'New payment methods are added during checkout.',
       );
     });
   });

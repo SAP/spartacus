@@ -78,11 +78,11 @@ describe('StockEffect', () => {
       error: 'Error',
     });
     spyOn(stockConnector, 'loadStockLevels').and.returnValue(
-      throwError(() => error)
+      throwError(() => error),
     );
     const action = new StockLevel({ productCode: 'P0001', location: '' });
     const actionFail = new StockLevelFail(
-      normalizeHttpError(error, new MockLoggerService())
+      normalizeHttpError(error, new MockLoggerService()),
     );
 
     actions$ = hot('-a', { a: action });
@@ -110,7 +110,7 @@ describe('StockEffect', () => {
     expect(stockEffects.loadStockLevelAtStore$).toBeObservable(expected);
     expect(stockConnector.loadStockLevelAtStore).toHaveBeenCalledWith(
       'P0001',
-      'London School'
+      'London School',
     );
   });
 });

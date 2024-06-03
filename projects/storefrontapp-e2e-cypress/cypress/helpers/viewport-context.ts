@@ -12,7 +12,7 @@ const viewportConfigs: Viewport[] = Object.entries(formats).map(
       viewport: key,
       ...value,
     } as Viewport;
-  }
+  },
 );
 
 type Viewports = keyof typeof formats;
@@ -35,7 +35,7 @@ function capitalize(str: string) {
  */
 export function viewportContext(
   viewportList: Viewports[],
-  callback: () => unknown
+  callback: () => unknown,
 ) {
   // When we set `CYPRESS_VIEWPORT` with one of the viewport name value we only want to run tests in this viewport.
   // eg. with `CYPRESS_VIEWPORT="desktop" tests will be run only in desktop viewport size
@@ -43,7 +43,7 @@ export function viewportContext(
   const viewports = viewportConfigs
     .filter((conf) => viewportList.includes(conf.viewport))
     .filter((conf) =>
-      viewportFromConfig ? conf.viewport === viewportFromConfig : true
+      viewportFromConfig ? conf.viewport === viewportFromConfig : true,
     );
   viewports.forEach((viewport: Viewport) => {
     context(
@@ -51,7 +51,7 @@ export function viewportContext(
       { viewportWidth: viewport.width, viewportHeight: viewport.height },
       () => {
         callback();
-      }
+      },
     );
   });
 }
@@ -70,6 +70,6 @@ export function isMobile(): boolean {
  */
 export function getViewport(): Viewports | undefined {
   return viewportConfigs.find(
-    (config) => config.width === Cypress.config('viewportWidth')
+    (config) => config.width === Cypress.config('viewportWidth'),
   )?.viewport;
 }

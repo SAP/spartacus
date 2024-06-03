@@ -18,7 +18,7 @@ export class OrderConfirmationGuard {
   constructor(
     protected orderFacade: OrderFacade,
     protected router: Router,
-    protected semanticPathService: SemanticPathService
+    protected semanticPathService: SemanticPathService,
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -28,10 +28,10 @@ export class OrderConfirmationGuard {
           return true;
         } else {
           return this.router.parseUrl(
-            this.semanticPathService.get('orders') ?? ''
+            this.semanticPathService.get('orders') ?? '',
           );
         }
-      })
+      }),
     );
   }
 }

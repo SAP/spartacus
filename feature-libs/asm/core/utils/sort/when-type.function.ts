@@ -13,7 +13,7 @@ import { Comparator } from './sort.model';
  */
 export function whenType<T, S extends T>(
   typeGuard: (value: T) => value is S,
-  comparator: Comparator<S>
+  comparator: Comparator<S>,
 ): Comparator<T> {
   return (a: T, b: T) => {
     if (typeGuard(a) && typeGuard(b)) {

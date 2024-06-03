@@ -26,19 +26,17 @@ describe('CartTotalsComponent', () => {
   let component: CartTotalsComponent;
   let fixture: ComponentFixture<CartTotalsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [CartTotalsComponent, MockOrderSummaryComponent],
-        providers: [
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [CartTotalsComponent, MockOrderSummaryComponent],
+      providers: [
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartTotalsComponent);

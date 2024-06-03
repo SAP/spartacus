@@ -19,7 +19,7 @@ export function getConfiguratorTextfieldReducers(): ActionReducerMap<Configurati
     loaderState: StateUtils.loaderReducer<ConfiguratorTextfield.Configuration>(
       CONFIGURATION_TEXTFIELD_DATA,
       // @ts-ignore TODO (#12620)
-      configuratorTextfieldReducer
+      configuratorTextfieldReducer,
     ),
   };
 }
@@ -27,7 +27,7 @@ export function getConfiguratorTextfieldReducers(): ActionReducerMap<Configurati
 export const configuratorTextfieldReducerToken: InjectionToken<
   ActionReducerMap<ConfigurationTextfieldState>
 > = new InjectionToken<ActionReducerMap<ConfigurationTextfieldState>>(
-  'ConfiguratorReducers'
+  'ConfiguratorReducers',
 );
 
 export const configuratorTextfieldReducerProvider: Provider = {

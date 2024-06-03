@@ -18,7 +18,7 @@ export class ConfiguratorModelUtils {
    */
   static getOwnerKey(
     ownerType?: CommonConfigurator.OwnerType,
-    ownerId?: string
+    ownerId?: string,
   ): string {
     if (!ownerId || !ownerType) {
       throw new Error('We expect an owner ID and an owner type');
@@ -57,7 +57,7 @@ export class ConfiguratorModelUtils {
   static createOwner(
     ownerType: CommonConfigurator.OwnerType,
     ownerId: string,
-    configuratorType: string = ConfiguratorType.VARIANT
+    configuratorType: string = ConfiguratorType.VARIANT,
   ): CommonConfigurator.Owner {
     return {
       type: ownerType,

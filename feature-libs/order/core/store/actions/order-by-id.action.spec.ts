@@ -41,7 +41,7 @@ describe('Order By Id Actions', () => {
         meta: StateUtils.entityFailMeta(
           ORDER_BY_ID_ENTITIES,
           'order1',
-          'error'
+          'error',
         ),
       });
     });

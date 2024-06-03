@@ -43,7 +43,7 @@ describe('Regions Selectors', () => {
       expect(result).toEqual([]);
 
       store.dispatch(
-        new UserActions.LoadRegionsSuccess({ entities: mockRegions, country })
+        new UserActions.LoadRegionsSuccess({ entities: mockRegions, country }),
       );
 
       expect(result).toEqual(mockRegions);
@@ -62,7 +62,7 @@ describe('Regions Selectors', () => {
         new UserActions.LoadRegionsSuccess({
           entities: mockEmptyRegions,
           country,
-        })
+        }),
       );
       expect(result).toEqual(country);
     });
@@ -93,7 +93,7 @@ describe('Regions Selectors', () => {
         new UserActions.LoadRegionsSuccess({
           entities: mockEmptyRegions,
           country,
-        })
+        }),
       );
       expect(result).toEqual(true);
     });

@@ -189,7 +189,7 @@ describe('BudgetFormComponent', () => {
       component.form.get('code')?.patchValue(undefined);
       component.createCodeWithName(
         component.form.get('name'),
-        component.form.get('code')
+        component.form.get('code'),
       );
 
       expect(component.form.get('code')?.value).toEqual('unit-test-value');
@@ -201,7 +201,7 @@ describe('BudgetFormComponent', () => {
       component.form.get('code')?.patchValue('test code');
       component.createCodeWithName(
         component.form.get('name'),
-        component.form.get('code')
+        component.form.get('code'),
       );
 
       expect(component.form.get('code')?.value).toEqual('test code');

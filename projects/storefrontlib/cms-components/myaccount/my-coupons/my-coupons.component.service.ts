@@ -29,7 +29,7 @@ export class MyCouponsComponentService {
 
   constructor(
     protected routingService: RoutingService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
   ) {}
 
   launchSearchPage(coupon: CustomerCoupon): void {
@@ -42,7 +42,7 @@ export class MyCouponsComponentService {
         queryParams: {
           couponcode: coupon.couponId,
         },
-      }
+      },
     );
   }
 
@@ -77,8 +77,8 @@ export class MyCouponsComponentService {
             byEndDateAsc: textByEndDateAsc,
             byEndDateDesc: textByEndDateDesc,
           };
-        }
-      )
+        },
+      ),
     );
   }
 }

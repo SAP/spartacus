@@ -1,6 +1,6 @@
 <ng-container
   *ngIf="{
-    orderHistory: orders$ | async
+    orderHistory: orders$ | async,
   } as type"
 >
   <ng-container *ngIf="type.orderHistory as orderHistory">
@@ -83,7 +83,7 @@
                     [routerLink]="
                       {
                         cxRoute: 'unitLevelOrderDetail',
-                        params: order
+                        params: order,
                       } | cxUrl
                     "
                     class="cx-unit-level-order-history-value"
@@ -99,7 +99,7 @@
                     [routerLink]="
                       {
                         cxRoute: 'unitLevelOrderDetail',
-                        params: order
+                        params: order,
                       } | cxUrl
                     "
                     class="cx-unit-level-order-history-value"
@@ -115,7 +115,7 @@
                     [routerLink]="
                       {
                         cxRoute: 'unitLevelOrderDetail',
-                        params: order
+                        params: order,
                       } | cxUrl
                     "
                     class="cx-unit-level-order-history-value"
@@ -134,7 +134,7 @@
                     [routerLink]="
                       {
                         cxRoute: 'unitLevelOrderDetail',
-                        params: order
+                        params: order,
                       } | cxUrl
                     "
                     class="cx-unit-level-order-history-value"
@@ -153,7 +153,7 @@
                     [routerLink]="
                       {
                         cxRoute: 'unitLevelOrderDetail',
-                        params: order
+                        params: order,
                       } | cxUrl
                     "
                     class="cx-unit-level-order-history-value"
@@ -169,7 +169,7 @@
                     [routerLink]="
                       {
                         cxRoute: 'unitLevelOrderDetail',
-                        params: order
+                        params: order,
                       } | cxUrl
                     "
                     class="cx-unit-level-order-history-value"

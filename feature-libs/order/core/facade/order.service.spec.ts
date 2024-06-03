@@ -63,7 +63,7 @@ describe(`OrderService`, () => {
     [OrderService],
     (orderService: OrderService) => {
       expect(orderService).toBeTruthy();
-    }
+    },
   ));
 
   describe(`placeOrder`, () => {
@@ -73,7 +73,7 @@ describe(`OrderService`, () => {
       expect(connector.placeOrder).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
-        termsChecked
+        termsChecked,
       );
     });
 
@@ -87,7 +87,7 @@ describe(`OrderService`, () => {
           cartCode: mockCartId,
           order: mockOrder,
         },
-        OrderPlacedEvent
+        OrderPlacedEvent,
       );
     });
   });

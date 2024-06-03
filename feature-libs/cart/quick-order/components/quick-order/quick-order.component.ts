@@ -45,7 +45,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
         if (!!limit) {
           this.quickOrderService.setListLimit(limit);
         }
-      })
+      }),
     );
   isCartStable$: Observable<boolean> = combineLatest([
     this.activeCartService.getActiveCartId(),
@@ -62,7 +62,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   protected cartSuccesses$ = new BehaviorSubject<OrderEntry[]>([]);
   protected showAddToCartInformation$ = new BehaviorSubject<boolean>(false);
   protected nonPurchasableProductError$ = new BehaviorSubject<Product | null>(
-    null
+    null,
   );
 
   constructor(
@@ -70,7 +70,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     protected component: CmsComponentData<CmsQuickOrderComponent>,
     protected globalMessageService: GlobalMessageService,
     protected quickOrderService: QuickOrderFacade,
-    protected quickOrderStatePersistenceService: QuickOrderStatePersistenceService
+    protected quickOrderStatePersistenceService: QuickOrderStatePersistenceService,
   ) {}
 
   ngOnInit(): void {
@@ -113,7 +113,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
       {
         key: 'quickOrderTable.listCleared',
       },
-      GlobalMessageType.MSG_TYPE_INFO
+      GlobalMessageType.MSG_TYPE_INFO,
     );
   }
 
@@ -132,7 +132,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
         errors.forEach((err) => {
           if (!err.entry) {
             err.entry = orderEntries.find(
-              (e) => e.product?.code === err.productCode
+              (e) => e.product?.code === err.productCode,
             );
           }
         });
@@ -198,13 +198,13 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
 
   protected extractSuccesses(
     errors: QuickOrderAddEntryEvent[],
-    entries: OrderEntry[]
+    entries: OrderEntry[],
   ): void {
     const successAddedEntries: OrderEntry[] = [];
 
     entries.forEach((entry) => {
       const element = errors.find(
-        (error) => error.productCode === entry.product?.code
+        (error) => error.productCode === entry.product?.code,
       );
       if (!element) {
         successAddedEntries.push(entry);
@@ -225,7 +225,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
       {
         key: 'quickOrderTable.addedtoCart',
       },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
   }
 

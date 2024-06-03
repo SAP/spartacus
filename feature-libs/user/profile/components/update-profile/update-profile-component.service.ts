@@ -21,7 +21,7 @@ import { filter, switchMap, tap } from 'rxjs/operators';
 export class UpdateProfileComponentService {
   constructor(
     protected userProfile: UserProfileFacade,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   user$ = this.userProfile
@@ -35,7 +35,7 @@ export class UpdateProfileComponentService {
   isUpdating$: Observable<boolean> = this.user$.pipe(
     tap((user) => this.form.patchValue(user)),
     switchMap((_user: User) => this.busy$),
-    tap((state) => (state === true ? this.form.disable() : this.form.enable()))
+    tap((state) => (state === true ? this.form.disable() : this.form.enable())),
   );
 
   titles$: Observable<Title[]> = this.userProfile.getTitles();
@@ -69,7 +69,7 @@ export class UpdateProfileComponentService {
       {
         key: 'updateProfileForm.profileUpdateSuccess',
       },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
 
     this.busy$.next(false);

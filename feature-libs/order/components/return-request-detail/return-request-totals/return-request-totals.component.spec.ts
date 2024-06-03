@@ -21,17 +21,15 @@ describe('ReturnRequestTotalsComponent', () => {
   let component: ReturnRequestTotalsComponent;
   let fixture: ComponentFixture<ReturnRequestTotalsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ReturnRequestTotalsComponent],
-        providers: [
-          { provide: ReturnRequestService, useClass: MockReturnRequestService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ReturnRequestTotalsComponent],
+      providers: [
+        { provide: ReturnRequestService, useClass: MockReturnRequestService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReturnRequestTotalsComponent);

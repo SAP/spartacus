@@ -31,11 +31,11 @@ export class OccConfiguratorTextfieldAddToCartSerializer
    */
   convert(
     source: ConfiguratorTextfield.AddToCartParameters,
-    target?: OccConfiguratorTextfield.AddToCartParameters
+    target?: OccConfiguratorTextfield.AddToCartParameters,
   ): OccConfiguratorTextfield.AddToCartParameters {
     const configurationInfos: ConfigurationInfo[] = [];
     source.configuration?.configurationInfos.forEach((info) =>
-      this.convertInfo(info, configurationInfos)
+      this.convertInfo(info, configurationInfos),
     );
 
     const resultTarget: OccConfiguratorTextfield.AddToCartParameters = {
@@ -52,7 +52,7 @@ export class OccConfiguratorTextfieldAddToCartSerializer
 
   protected convertInfo(
     source: ConfiguratorTextfield.ConfigurationInfo,
-    occConfigurationInfos: OccConfiguratorTextfield.ConfigurationInfo[]
+    occConfigurationInfos: OccConfiguratorTextfield.ConfigurationInfo[],
   ): void {
     const occInfo: OccConfiguratorTextfield.ConfigurationInfo = {
       configurationLabel: source.configurationLabel,

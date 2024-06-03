@@ -58,7 +58,7 @@ describe('OrganizationUserRegistrationConflictHandler', () => {
       {
         key: 'userRegistrationForm.httpHandlers.conflict',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 });

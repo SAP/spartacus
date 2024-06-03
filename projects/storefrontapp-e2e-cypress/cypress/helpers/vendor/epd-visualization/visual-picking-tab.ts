@@ -13,8 +13,8 @@ export function configureDefaultProduct() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages?pageType=ProductPage**`
+      'BASE_SITE',
+    )}/cms/pages?pageType=ProductPage**`,
   ).as('productPage');
 
   cy.visit('/product/CX704/7%E2%80%9Dx12%E2%80%9D-mini-metal-lathe');
@@ -47,7 +47,7 @@ export function verifyTabbingOrder() {
   // Wait for the viewer to load the visualization.
 
   cy.get('cx-epd-visualization-viewer', { timeout: 50000 }).should(
-    'be.visible'
+    'be.visible',
   );
   cy.get('cx-epd-visualization-viewer-toolbar-button', {
     timeout: 50000,
@@ -130,7 +130,7 @@ export function verifyTabbingOrder() {
           if ($ii.find('.cx-add-to-cart .cx-out-of-stock').length > 0) {
             cy.get('.cx-add-to-cart .cx-out-of-stock').should(
               'contain',
-              'Out of stock'
+              'Out of stock',
             );
           }
         });

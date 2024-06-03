@@ -50,7 +50,7 @@ context('Product Configuration', () => {
     configurationVc.checkCommerceRelease(
       electronicsShop,
       testProduct,
-      commerceRelease
+      commerceRelease,
     );
   });
 
@@ -73,19 +73,19 @@ context('Product Configuration', () => {
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProduct,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
 
       verifyTabbingOrder(
         containerSelectorConfigForm,
-        tabConfig.productConfigurationPage
+        tabConfig.productConfigurationPage,
       );
 
       configurationVc.selectAttributeAndWait(
         CAMERA_MODE,
         RADIO_GROUP,
         CAMERA_MODE_PROFESSIONAL,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configuration.navigateToOverviewPage();
       configurationVc.checkGlobalMessageNotDisplayed();
@@ -94,7 +94,7 @@ context('Product Configuration', () => {
 
       verifyTabbingOrder(
         containerSelectorOverviewForm,
-        tabConfig.productConfigurationOverview
+        tabConfig.productConfigurationOverview,
       );
     });
   });
@@ -105,25 +105,25 @@ context('Product Configuration', () => {
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProduct,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
 
       configurationVc.selectAttributeAndWait(
         CAMERA_COLOR,
         RADIO_GROUP,
         CAMERA_COLOR_METALLIC,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
 
       configuration.checkFocus(
         CAMERA_COLOR,
         RADIO_GROUP,
-        CAMERA_COLOR_METALLIC
+        CAMERA_COLOR_METALLIC,
       );
 
       configurationVc.clickOnNextBtnAndWait(
         SPECIFICATION,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configuration.checkFocus(CAMERA_PIXELS, RADIO_GROUP, CAMERA_PIXELS_P8);
 
@@ -131,13 +131,13 @@ context('Product Configuration', () => {
         CAMERA_SD_CARD,
         CHECKBOX_LIST,
         CAMERA_SD_CARD_SDXC,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
 
       configuration.checkFocus(
         CAMERA_SD_CARD,
         CHECKBOX_LIST,
-        CAMERA_SD_CARD_SDXC
+        CAMERA_SD_CARD_SDXC,
       );
     });
   });

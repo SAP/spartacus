@@ -24,14 +24,14 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   getCustomerCoupons(
     userId: string,
     pageSize: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<CustomerCouponSearchResult> {
     // Currently OCC only supports calls for customer coupons in case of logged users
     if (userId === OCC_USER_ID_ANONYMOUS) {
@@ -69,7 +69,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
 
   turnOnNotification(
     userId: string,
-    couponCode: string
+    couponCode: string,
   ): Observable<CustomerCouponNotification> {
     const url = this.occEndpoints.buildUrl('couponNotification', {
       urlParams: { userId, couponCode },
@@ -81,7 +81,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
 
   claimCustomerCoupon(
     userId: string,
-    couponCode: string
+    couponCode: string,
   ): Observable<CustomerCoupon2Customer> {
     const url = this.occEndpoints.buildUrl('claimCoupon', {
       urlParams: { userId, couponCode },
@@ -93,7 +93,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
 
   disclaimCustomerCoupon(
     userId: string,
-    couponCode: string
+    couponCode: string,
   ): Observable<CustomerCoupon2Customer> {
     const url = this.occEndpoints.buildUrl('claimCoupon', {
       urlParams: { userId, couponCode },

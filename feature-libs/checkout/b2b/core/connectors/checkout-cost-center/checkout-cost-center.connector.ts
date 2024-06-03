@@ -16,7 +16,7 @@ export class CheckoutCostCenterConnector {
   setCostCenter(
     userId: string,
     cartId: string,
-    costCenterId: string
+    costCenterId: string,
   ): Observable<Cart> {
     return this.adapter.setCostCenter(userId, cartId, costCenterId);
   }

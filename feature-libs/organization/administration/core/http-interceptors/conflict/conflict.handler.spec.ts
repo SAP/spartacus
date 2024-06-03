@@ -100,7 +100,7 @@ describe('OrganizationConflictHandler', () => {
         key: 'organization.httpHandlers.conflict.budget',
         params: { code: 'BurritoPurchases1' },
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -113,7 +113,7 @@ describe('OrganizationConflictHandler', () => {
         key: 'organization.httpHandlers.conflict.user',
         params: { code: 'test@test.com' },
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -121,7 +121,7 @@ describe('OrganizationConflictHandler', () => {
     spyOn(globalMessageService, 'add');
     service.handleError(
       MockUpdateUserGroupRequest,
-      MockUserGroupConflictResponse
+      MockUserGroupConflictResponse,
     );
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -129,7 +129,7 @@ describe('OrganizationConflictHandler', () => {
         key: 'organization.httpHandlers.conflict.userGroup',
         params: { code: 'testGroupId' },
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -142,7 +142,7 @@ describe('OrganizationConflictHandler', () => {
         key: 'organization.httpHandlers.conflict.unit',
         params: { code: 'TU22' },
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 

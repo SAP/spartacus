@@ -30,6 +30,6 @@ export abstract class SavedCartAdapter {
   abstract cloneSavedCart(
     userId: string,
     cartId: string,
-    saveCartName?: string
+    saveCartName?: string,
   ): Observable<Cart>;
 }

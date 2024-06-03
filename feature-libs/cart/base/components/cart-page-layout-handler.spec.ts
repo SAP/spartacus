@@ -32,7 +32,7 @@ describe('CartPageLayoutHandler', () => {
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
       mockSelectiveCartService,
-      mockCartConfigService
+      mockCartConfigService,
     );
 
     let result;
@@ -44,12 +44,12 @@ describe('CartPageLayoutHandler', () => {
 
   it('should remove empty content slot when cart has items', () => {
     spyOn(mockActiveCartService, 'getActive').and.returnValue(
-      of({ totalItems: 3 })
+      of({ totalItems: 3 }),
     );
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
       mockSelectiveCartService,
-      mockCartConfigService
+      mockCartConfigService,
     );
 
     let result;
@@ -61,12 +61,12 @@ describe('CartPageLayoutHandler', () => {
 
   it('should remove empty content slot when save for later has items', () => {
     spyOn(mockSelectiveCartService, 'getCart').and.returnValue(
-      of({ totalItems: 3 })
+      of({ totalItems: 3 }),
     );
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
       mockSelectiveCartService,
-      mockCartConfigService
+      mockCartConfigService,
     );
 
     let result;
@@ -79,12 +79,12 @@ describe('CartPageLayoutHandler', () => {
   it('should not check save for later cart if the feature is disabled', () => {
     spyOn(mockSelectiveCartService, 'getCart').and.stub();
     spyOn(mockCartConfigService, 'isSelectiveCartEnabled').and.returnValue(
-      false
+      false,
     );
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
       mockSelectiveCartService,
-      mockCartConfigService
+      mockCartConfigService,
     );
 
     let result;
@@ -99,7 +99,7 @@ describe('CartPageLayoutHandler', () => {
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
       mockSelectiveCartService,
-      mockCartConfigService
+      mockCartConfigService,
     );
     const slots$ = handler.handle(mockSlots$, 'different page');
     expect(slots$).toBe(mockSlots$);
@@ -111,7 +111,7 @@ describe('CartPageLayoutHandler', () => {
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
       mockSelectiveCartService,
-      mockCartConfigService
+      mockCartConfigService,
     );
 
     let result;

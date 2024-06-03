@@ -56,25 +56,23 @@ class MockConfiguratorOverviewFilterBarComponent {
 
 describe('ConfiguratorOverviewFilterComponent', () => {
   describe('in a component test environment', () => {
-    beforeEach(
-      waitForAsync(() => {
-        initTestData();
-        initMocks();
-        TestBed.configureTestingModule({
-          imports: [I18nTestingModule, ReactiveFormsModule],
-          declarations: [
-            ConfiguratorOverviewFilterComponent,
-            MockConfiguratorOverviewFilterBarComponent,
-          ],
-          providers: [
-            {
-              provide: ConfiguratorCommonsService,
-              useValue: mockConfigCommonsService,
-            },
-          ],
-        }).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      initTestData();
+      initMocks();
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, ReactiveFormsModule],
+        declarations: [
+          ConfiguratorOverviewFilterComponent,
+          MockConfiguratorOverviewFilterBarComponent,
+        ],
+        providers: [
+          {
+            provide: ConfiguratorCommonsService,
+            useValue: mockConfigCommonsService,
+          },
+        ],
+      }).compileComponents();
+    }));
 
     it('should create component', () => {
       initTestComponent();
@@ -87,7 +85,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-option',
-        4 //2 default + 2 groups
+        4, //2 default + 2 groups
       );
     });
 
@@ -97,7 +95,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-header',
-        2
+        2,
       );
     });
 
@@ -109,7 +107,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-option',
-        2 //2 default
+        2, //2 default
       );
     });
 
@@ -118,7 +116,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-overview-filter-bar'
+        'cx-configurator-overview-filter-bar',
       );
     });
 
@@ -129,7 +127,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-overview-filter-bar'
+        'cx-configurator-overview-filter-bar',
       );
     });
 
@@ -142,7 +140,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         });
 
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        mockConfigCommonsService.updateConfigurationOverview,
       ).toHaveBeenCalledTimes(4); // Price Relevant, My Selections, Group 1, Group 2
     });
 
@@ -154,7 +152,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           htmlElem,
           '.cx-overview-filter-option label',
           'for',
-          'cx-configurator-overview-filter-option-price'
+          'cx-configurator-overview-filter-option-price',
         );
       });
 
@@ -165,7 +163,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           htmlElem,
           '#cx-configurator-overview-filter-option-price',
           'aria-label',
-          'configurator.a11y.filterOverviewByPrice'
+          'configurator.a11y.filterOverviewByPrice',
         );
       });
 
@@ -177,7 +175,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           '.cx-overview-filter-option label',
           'for',
           'cx-configurator-overview-filter-option-mySelections',
-          1
+          1,
         );
       });
 
@@ -188,7 +186,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           htmlElem,
           '#cx-configurator-overview-filter-option-mySelections',
           'aria-label',
-          'configurator.a11y.filterOverviewByMySelections'
+          'configurator.a11y.filterOverviewByMySelections',
         );
       });
 
@@ -200,7 +198,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           '.cx-overview-filter-option label',
           'for',
           'cx-configurator-overview-filter-option-group-1',
-          2
+          2,
         );
       });
 
@@ -211,7 +209,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           htmlElem,
           '#cx-configurator-overview-filter-option-group-1',
           'aria-label',
-          'configurator.a11y.filterOverviewByGroup groupName:Group 1'
+          'configurator.a11y.filterOverviewByGroup groupName:Group 1',
         );
       });
     });
@@ -222,7 +220,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       initTestData();
       initMocks();
       component = new ConfiguratorOverviewFilterComponent(
-        mockConfigCommonsService
+        mockConfigCommonsService,
       );
       component.config = ovConfig;
     });
@@ -306,7 +304,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       ];
       component.onFilter(ovConfig);
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        mockConfigCommonsService.updateConfigurationOverview,
       ).toHaveBeenCalledWith({
         ...ovConfig,
         overview: {
@@ -323,7 +321,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       let inputConfig = component['createInputConfig'](
         ovConfig,
         [Configurator.OverviewFilter.PRICE_RELEVANT],
-        ['3', '5']
+        ['3', '5'],
       );
       expect(inputConfig).toEqual({
         ...ovConfig,

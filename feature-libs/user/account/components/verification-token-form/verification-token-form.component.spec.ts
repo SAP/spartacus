@@ -35,7 +35,7 @@ class MockFormComponentService
   isUpdating$ = isBusySubject;
   login = createSpy().and.stub();
   createVerificationToken = createSpy().and.returnValue(
-    of({ tokenId: 'testTokenId', expiresIn: '300' })
+    of({ tokenId: 'testTokenId', expiresIn: '300' }),
   );
   displayMessage = createSpy('displayMessage').and.stub();
 }
@@ -57,31 +57,29 @@ describe('VerificationTokenFormComponent', () => {
   let service: VerificationTokenFormComponentService;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          SpinnerModule,
-        ],
-        declarations: [VerificationTokenFormComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: VerificationTokenFormComponentService,
-            useClass: MockFormComponentService,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-          ChangeDetectorRef,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        SpinnerModule,
+      ],
+      declarations: [VerificationTokenFormComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: VerificationTokenFormComponentService,
+          useClass: MockFormComponentService,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+        ChangeDetectorRef,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VerificationTokenFormComponent);
@@ -96,7 +94,7 @@ describe('VerificationTokenFormComponent', () => {
         password: 'pw4all',
         loginId: 'test@sap.com',
       },
-      ''
+      '',
     );
   });
 
@@ -109,7 +107,7 @@ describe('VerificationTokenFormComponent', () => {
       component.form.disable();
       fixture.detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
-        By.css('button')
+        By.css('button'),
       ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });
@@ -176,10 +174,10 @@ describe('VerificationTokenFormComponent', () => {
       expect(service.createVerificationToken).toHaveBeenCalledWith(
         'example@example.com',
         'password',
-        ONE_TIME_PASSWORD_LOGIN_PURPOSE
+        ONE_TIME_PASSWORD_LOGIN_PURPOSE,
       );
       expect(service.displayMessage).toHaveBeenCalledWith(
-        'example@example.com'
+        'example@example.com',
       );
     });
   });

@@ -40,7 +40,7 @@ class MockPDFInvoicesFacade implements Partial<PDFInvoicesFacade> {
   getInvoicesForOrder(
     _params: InvoiceQueryParams,
     _userId?: string,
-    _orderId?: string
+    _orderId?: string,
   ): Observable<OrderInvoiceList> {
     return of({
       invoices: [],
@@ -52,7 +52,7 @@ class MockPDFInvoicesFacade implements Partial<PDFInvoicesFacade> {
     _invoiceId: string,
     _externalSystemId?: string,
     _userId?: string,
-    _orderId?: string
+    _orderId?: string,
   ): Observable<Blob> {
     return EMPTY;
   }

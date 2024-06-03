@@ -40,7 +40,7 @@ Object.keys(translations).forEach((lang) => {
     writeProperties(
       '../../lang/properties',
       chunk + '_' + lang + '.properties',
-      properties
+      properties,
     );
   });
 });

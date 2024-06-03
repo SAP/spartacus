@@ -98,14 +98,14 @@ describe('UnitAssignedApproverListService', () => {
       B2BUserRole.APPROVER,
       {
         pageSize: 10,
-      }
+      },
     );
     expect(unitService.getUsers).toHaveBeenCalledWith(
       'u1',
       B2BUserRole.APPROVER,
       {
         pageSize: 10,
-      }
+      },
     );
   });
 });

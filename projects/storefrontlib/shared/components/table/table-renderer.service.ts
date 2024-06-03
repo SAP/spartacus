@@ -33,7 +33,7 @@ export class TableRendererService {
   constructor(
     protected outletService: OutletService,
     protected componentFactoryResolver: ComponentFactoryResolver,
-    protected config: TableConfig
+    protected config: TableConfig,
   ) {}
 
   /**
@@ -69,7 +69,7 @@ export class TableRendererService {
    */
   protected getHeaderRenderer(
     structure: TableStructure,
-    field: string
+    field: string,
   ): Type<any> | undefined {
     return (
       structure.options?.cells?.[field]?.headerComponent ||
@@ -83,7 +83,7 @@ export class TableRendererService {
    */
   protected getDataRenderer(
     structure: TableStructure,
-    field: string
+    field: string,
   ): Type<any> | undefined {
     return (
       structure.options?.cells?.[field]?.dataComponent ||
@@ -109,7 +109,7 @@ export class TableRendererService {
     type: string,
     options: TableOptions | undefined,
     i18nRoot: string,
-    field: string
+    field: string,
   ): TableHeaderOutletContext {
     return {
       _type: type,
@@ -137,7 +137,7 @@ export class TableRendererService {
     options: TableOptions | undefined,
     i18nRoot: string,
     field: string,
-    data: any
+    data: any,
   ): TableDataOutletContext {
     return {
       ...data,

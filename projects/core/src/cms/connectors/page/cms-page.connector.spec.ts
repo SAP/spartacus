@@ -8,7 +8,7 @@ import createSpy = jasmine.createSpy;
 
 class MockCmsPageAdapter implements CmsPageAdapter {
   load = createSpy('CmsComponentAdapter.load').and.callFake(({ id }) =>
-    of('page' + id)
+    of('page' + id),
   );
 }
 
@@ -57,11 +57,11 @@ describe('CmsPageConnector', () => {
       const structureConfigService = TestBed.inject(CmsStructureConfigService);
       service.get(context).subscribe();
       expect(structureConfigService.shouldIgnoreBackend).toHaveBeenCalledWith(
-        context.id
+        context.id,
       );
       expect(structureConfigService.mergePageStructure).toHaveBeenCalledWith(
         context.id,
-        'page123' as any
+        'page123' as any,
       );
     });
   });

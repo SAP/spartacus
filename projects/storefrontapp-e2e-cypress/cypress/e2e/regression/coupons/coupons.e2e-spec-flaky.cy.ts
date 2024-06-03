@@ -71,7 +71,7 @@ describe('Cart Coupon', () => {
         cartCoupon.addProductToCart(cartCoupon.productCode1);
         cartCoupon.applyCoupon(
           cartCoupon.couponForCart,
-          cartCoupon.UserType.ANONYMOUS
+          cartCoupon.UserType.ANONYMOUS,
         );
         cart.loginCartUser(cartUser).then(() => {
           const stateAuth = getStateAuth();
@@ -92,7 +92,7 @@ describe('Cart Coupon', () => {
           cartCoupon.addProductToCart(cartCoupon.productCode2);
           cartCoupon.applyCoupon(
             cartCoupon.couponForProduct,
-            cartCoupon.UserType.ANONYMOUS
+            cartCoupon.UserType.ANONYMOUS,
           );
         });
         cart.loginCartUser(cartUser).then(() => {
@@ -113,7 +113,7 @@ describe('Cart Coupon', () => {
           cartCoupon.addProductToCart(cartCoupon.productCode2);
           cartCoupon.applyCoupon(
             cartCoupon.couponForCart,
-            cartCoupon.UserType.ANONYMOUS
+            cartCoupon.UserType.ANONYMOUS,
           );
         });
         cart.loginCartUser(cartUser).then(() => {
@@ -161,7 +161,7 @@ describe('Cart Coupon', () => {
         cartCoupon.visitProductPage(cartCoupon.productCode1);
         cartCoupon.addProductToCart(cartCoupon.productCode1);
         cartCoupon.applyCouponAndProceedToGuestCheckout(
-          cartCoupon.couponForCart
+          cartCoupon.couponForCart,
         );
         cartCoupon.goThroughGuestCheckout().then(() => {
           cartCoupon.verifyCouponInReviewOrder(cartCoupon.couponForCart);

@@ -58,7 +58,7 @@ export const profileTagHelper = {
 
   grantConsent() {
     cy.intercept({ method: 'POST', path: '/consent/*/consentReferences' }).as(
-      'consentReferenceCreation'
+      'consentReferenceCreation',
     );
     clickAllowAllFromBanner();
     cy.wait('@consentReferenceCreation')
@@ -67,7 +67,7 @@ export const profileTagHelper = {
   },
   getEvent(window: any, eventName: EventNames): any[] {
     return window.Y_TRACKING.eventLayer.filter(
-      (event) => event.name === eventName
+      (event) => event.name === eventName,
     );
   },
   eventCount(window: any, eventName: EventNames): number {

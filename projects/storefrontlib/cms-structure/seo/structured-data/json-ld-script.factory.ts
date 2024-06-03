@@ -22,14 +22,14 @@ import { SeoConfig } from '../config';
 export class JsonLdScriptFactory {
   protected renderer: Renderer2 = this.rendererFactory.createRenderer(
     null,
-    null
+    null,
   );
 
   constructor(
     @Inject(PLATFORM_ID) protected platformId: string,
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
-    protected config: SeoConfig
+    protected config: SeoConfig,
   ) {}
 
   build(schema: {}[]): void {

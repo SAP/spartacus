@@ -68,13 +68,13 @@ export class StatePersistenceService {
             return storage
               ? (readFromStorage(
                   storage,
-                  this.generateKeyWithContext(context, key)
+                  this.generateKeyWithContext(context, key),
                 ) as T | undefined)
               : undefined;
           }),
-          tap((state) => onRead(state))
+          tap((state) => onRead(state)),
         )
-        .subscribe()
+        .subscribe(),
     );
 
     if (storage) {
@@ -83,9 +83,9 @@ export class StatePersistenceService {
           persistToStorage(
             this.generateKeyWithContext(context, key),
             state,
-            storage
+            storage,
           );
-        })
+        }),
       );
     }
 
@@ -116,14 +116,14 @@ export class StatePersistenceService {
     if (storage) {
       return readFromStorage(
         storage,
-        this.generateKeyWithContext(context, key)
+        this.generateKeyWithContext(context, key),
       ) as T | undefined;
     }
   }
 
   protected generateKeyWithContext(
     context: string | Array<string>,
-    key: string
+    key: string,
   ): string {
     return `spartacus⚿${([] as Array<string>)
       .concat(context)

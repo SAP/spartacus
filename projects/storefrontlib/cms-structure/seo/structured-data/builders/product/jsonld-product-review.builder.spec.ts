@@ -75,7 +75,7 @@ describe('JsonLdProductReviewBuilder', () => {
 
     it('should contain a schema with aggregateRating.ratingCount = 3', () => {
       spyOn(reviewService, 'getByProductCode').and.returnValue(
-        of([review1, review2, review3])
+        of([review1, review2, review3]),
       );
       service
         .build(simpleProductMock)
@@ -87,7 +87,7 @@ describe('JsonLdProductReviewBuilder', () => {
 
     it('should contain a schema with aggregateRating.reviewCount = 2 out of 3', () => {
       spyOn(reviewService, 'getByProductCode').and.returnValue(
-        of([review1, review2, review3])
+        of([review1, review2, review3]),
       );
       service
         .build(simpleProductMock)
@@ -101,7 +101,7 @@ describe('JsonLdProductReviewBuilder', () => {
   describe('ReviewDetails', () => {
     it('should have a schema with 2 reviews', () => {
       spyOn(reviewService, 'getByProductCode').and.returnValue(
-        of([review1, review2])
+        of([review1, review2]),
       );
       service
         .build(simpleProductMock)
@@ -112,7 +112,7 @@ describe('JsonLdProductReviewBuilder', () => {
     });
     it('should have a schema with 3 reviews', () => {
       spyOn(reviewService, 'getByProductCode').and.returnValue(
-        of([review1, review2, review3])
+        of([review1, review2, review3]),
       );
       service
         .build(simpleProductMock)

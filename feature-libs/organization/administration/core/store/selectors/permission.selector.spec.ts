@@ -57,7 +57,7 @@ describe('Permission Selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });
@@ -74,7 +74,7 @@ describe('Permission Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new PermissionActions.LoadPermissionSuccess([permission, permission2])
+        new PermissionActions.LoadPermissionSuccess([permission, permission2]),
       );
       expect(result).toEqual({
         entities: { entities },
@@ -92,7 +92,7 @@ describe('Permission Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new PermissionActions.LoadPermissionSuccess([permission, permission2])
+        new PermissionActions.LoadPermissionSuccess([permission, permission2]),
       );
       expect(result).toEqual({ entities });
     });
@@ -106,7 +106,7 @@ describe('Permission Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new PermissionActions.LoadPermissionSuccess([permission, permission2])
+        new PermissionActions.LoadPermissionSuccess([permission, permission2]),
       );
       expect(result).toEqual(entities.testCode);
     });
@@ -120,7 +120,7 @@ describe('Permission Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new PermissionActions.LoadPermissionTypesSuccess(permissionTypes)
+        new PermissionActions.LoadPermissionTypesSuccess(permissionTypes),
       );
       expect(result).toEqual(entities2.testCode);
     });

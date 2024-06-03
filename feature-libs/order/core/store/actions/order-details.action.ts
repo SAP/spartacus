@@ -27,7 +27,7 @@ export class LoadOrderDetails extends StateUtils.LoaderLoadAction {
     public payload: {
       userId: string;
       orderCode: string;
-    }
+    },
   ) {
     super(ORDER_DETAILS);
   }
@@ -61,7 +61,7 @@ export class CancelOrder extends StateUtils.EntityLoadAction {
       userId: string;
       orderCode: string;
       cancelRequestInput: CancellationRequestEntryInputList;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, CANCEL_ORDER_PROCESS_ID);
   }

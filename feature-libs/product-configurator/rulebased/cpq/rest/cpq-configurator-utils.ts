@@ -18,7 +18,7 @@ export class CpqConfiguratorUtils {
    * @returns {CpqUpdateInformation} Update information
    */
   static getUpdateInformation(
-    attribute: Configurator.Attribute
+    attribute: Configurator.Attribute,
   ): CpqUpdateInformation {
     //attribute code cannot be made mandatory because of VC,
     //but in the CPQ context it is mandatory. The same is true of the group id
@@ -32,7 +32,7 @@ export class CpqConfiguratorUtils {
       };
     } else {
       throw new Error(
-        'Attribute code of group id not present: ' + JSON.stringify(attribute)
+        'Attribute code of group id not present: ' + JSON.stringify(attribute),
       );
     }
   }
@@ -42,7 +42,7 @@ export class CpqConfiguratorUtils {
    * @returns {Configurator.Attribute} First attribute of first group
    */
   static findFirstChangedAttribute(
-    source: Configurator.Configuration
+    source: Configurator.Configuration,
   ): Configurator.Attribute {
     const firstGroup: Configurator.Group = source.groups[0];
     if (firstGroup.attributes) {

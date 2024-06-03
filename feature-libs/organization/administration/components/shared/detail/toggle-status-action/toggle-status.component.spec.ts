@@ -84,7 +84,7 @@ describe('ToggleStatusComponent', () => {
     it('should use unit.active instead of input', () => {
       component.disabled = undefined;
       expect(
-        component.isDisabled({ unit: { active: false } } as any)
+        component.isDisabled({ unit: { active: false } } as any),
       ).toBeTruthy();
     });
   });
@@ -104,7 +104,7 @@ describe('ToggleStatusComponent', () => {
         {
           code: 'b1',
           active: true,
-        }
+        },
       );
     });
 
@@ -117,7 +117,7 @@ describe('ToggleStatusComponent', () => {
         {
           code: 'b1',
           active: true,
-        }
+        },
       );
     });
 
@@ -126,7 +126,7 @@ describe('ToggleStatusComponent', () => {
       const updatedItem = { code: 'b1', active: true };
       spyOn(messageService, 'add').and.returnValue(new Subject());
       spyOn(organizationItemService, 'update').and.returnValue(
-        of({ status: LoadStatus.SUCCESS, item: updatedItem })
+        of({ status: LoadStatus.SUCCESS, item: updatedItem }),
       );
       component.toggle(mockItem);
       expect(messageService.add).toHaveBeenCalledWith({
@@ -184,7 +184,7 @@ describe('ToggleStatusComponent', () => {
         {
           code: 'b2',
           active: false,
-        }
+        },
       );
     });
 
@@ -194,7 +194,7 @@ describe('ToggleStatusComponent', () => {
       const updatedItem = { code: 'b1', active: false };
       spyOn(messageService, 'add').and.returnValue(eventData);
       organizationItemService.update = createSpy().and.returnValue(
-        of({ status: LoadStatus.SUCCESS, item: updatedItem })
+        of({ status: LoadStatus.SUCCESS, item: updatedItem }),
       );
       component.toggle(mockItem);
       eventData.next({ confirm: true });

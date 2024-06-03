@@ -24,7 +24,7 @@ export class UserGroupItemService extends ItemService<UserGroup> {
     protected currentItemService: CurrentUserGroupService,
     protected routingService: RoutingService,
     protected formService: UserGroupFormService,
-    protected userGroupService: UserGroupService
+    protected userGroupService: UserGroupService,
   ) {
     super(currentItemService, routingService, formService);
   }
@@ -36,7 +36,7 @@ export class UserGroupItemService extends ItemService<UserGroup> {
 
   update(
     code: string,
-    value: UserGroup
+    value: UserGroup,
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.update(code, value);
     return this.userGroupService.getLoadingStatus(value.uid ?? '');
@@ -49,7 +49,7 @@ export class UserGroupItemService extends ItemService<UserGroup> {
   }
 
   protected create(
-    value: UserGroup
+    value: UserGroup,
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.create(value);
     return this.userGroupService.getLoadingStatus(value.uid ?? '');

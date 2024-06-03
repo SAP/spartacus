@@ -33,7 +33,7 @@ export class ProductCarouselItemComponent implements OnChanges {
   @Input() item: Product;
 
   constructor(
-    protected productListItemContextSource: ProductListItemContextSource
+    protected productListItemContextSource: ProductListItemContextSource,
   ) {}
 
   ngOnChanges(changes?: SimpleChanges): void {

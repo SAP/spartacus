@@ -27,7 +27,7 @@ export class OccCartValidationAdapter implements CartValidationAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   validate(cartId: string, userId: string): Observable<CartModificationList> {
@@ -39,7 +39,7 @@ export class OccCartValidationAdapter implements CartValidationAdapter {
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       }),
-      this.converter.pipeable(CART_VALIDATION_NORMALIZER)
+      this.converter.pipeable(CART_VALIDATION_NORMALIZER),
     );
   }
 }

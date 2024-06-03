@@ -27,12 +27,12 @@ export class VariantConfiguratorPageLayoutHandler implements PageLayoutHandler {
     protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
     protected breakpointService: BreakpointService,
     protected layoutConfig: LayoutConfig,
-    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService
+    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
   ) {}
   handle(
     slots$: Observable<string[]>,
     pageTemplate?: string,
-    section?: string
+    section?: string,
   ) {
     if (
       pageTemplate === VariantConfiguratorPageLayoutHandler.templateName &&
@@ -51,17 +51,17 @@ export class VariantConfiguratorPageLayoutHandler implements PageLayoutHandler {
                     this.layoutConfig,
                     VariantConfiguratorPageLayoutHandler.templateName,
                     VariantConfiguratorPageLayoutHandler.sectionDisplayOnlyName,
-                    BREAKPOINT.lg
+                    BREAKPOINT.lg,
                   );
                 } else {
                   return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
                     this.layoutConfig,
                     VariantConfiguratorPageLayoutHandler.templateName,
                     VariantConfiguratorPageLayoutHandler.sectionDisplayOnlyName,
-                    BREAKPOINT.xs
+                    BREAKPOINT.xs,
                   );
                 }
-              })
+              }),
             );
           }
         });

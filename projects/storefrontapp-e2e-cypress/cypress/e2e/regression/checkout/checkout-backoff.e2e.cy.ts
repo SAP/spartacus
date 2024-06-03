@@ -32,7 +32,7 @@ context('Checkout back-off test', () => {
       let retry = 1;
       cy.intercept(
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)&lang=en&curr=USD`,
         (req) => {
           if (retry <= 3) {
@@ -53,7 +53,7 @@ context('Checkout back-off test', () => {
               statusCode: 200,
             });
           }
-        }
+        },
       ).as('testBackoff');
 
       cy.get('cx-delivery-mode input#deliveryMode-premium-gross')

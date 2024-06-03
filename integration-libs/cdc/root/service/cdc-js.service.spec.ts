@@ -195,7 +195,7 @@ describe('CdcJsService', () => {
         (service as any)['loaded$'].next(true);
       });
       spyOn(baseSiteService, 'getActive').and.returnValue(
-        of('electronics-spa')
+        of('electronics-spa'),
       );
       spyOn(languageService, 'getActive').and.returnValue(of('en'));
 
@@ -226,7 +226,7 @@ describe('CdcJsService', () => {
       });
 
       spyOn(baseSiteService, 'getActive').and.returnValue(
-        of('electronics-spa')
+        of('electronics-spa'),
       );
       spyOn(languageService, 'getActive').and.returnValue(of('en'));
 
@@ -304,7 +304,7 @@ describe('CdcJsService', () => {
       service.loadCdcJavascript();
 
       expect(service['addCdcEventHandlers']).toHaveBeenCalledWith(
-        'electronics-spa'
+        'electronics-spa',
       );
     });
   });
@@ -316,7 +316,7 @@ describe('CdcJsService', () => {
       service['addCdcEventHandlers']('electronics-spa');
 
       expect(
-        service['gigyaSDK'].accounts.addEventHandlers
+        service['gigyaSDK'].accounts.addEventHandlers,
       ).toHaveBeenCalledWith({ onLogin: jasmine.any(Function) });
     });
   });
@@ -339,7 +339,7 @@ describe('CdcJsService', () => {
         response.UIDSignature,
         response.signatureTimestamp,
         response.id_token,
-        'electronics-spa'
+        'electronics-spa',
       );
     });
 
@@ -373,7 +373,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'initRegistration');
       service.registerUserWithoutScreenSet({});
       expect(
-        service['gigyaSDK'].accounts.initRegistration
+        service['gigyaSDK'].accounts.initRegistration,
       ).not.toHaveBeenCalled();
     });
 
@@ -381,10 +381,10 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'initRegistration').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       spyOn(service as any, 'onInitRegistrationHandler').and.returnValue(
-        of({ status: 'OK' })
+        of({ status: 'OK' }),
       );
       expect(service.registerUserWithoutScreenSet).toBeTruthy();
       service
@@ -394,7 +394,7 @@ describe('CdcJsService', () => {
         })
         .subscribe(() => {
           expect(
-            service['gigyaSDK'].accounts.initRegistration
+            service['gigyaSDK'].accounts.initRegistration,
           ).toHaveBeenCalled();
           done();
         });
@@ -406,7 +406,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'register').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       expect(service['onInitRegistrationHandler']).toBeTruthy();
       service['onInitRegistrationHandler'](
@@ -417,7 +417,7 @@ describe('CdcJsService', () => {
           lastName: 'lname',
           preferences: {},
         },
-        { regToken: 'TOKEN' }
+        { regToken: 'TOKEN' },
       ).subscribe({
         complete: () => {
           expect(service['gigyaSDK'].accounts.register).toHaveBeenCalledWith({
@@ -451,7 +451,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'login').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       expect(service.loginUserWithoutScreenSet).toBeTruthy();
       service.loginUserWithoutScreenSet('uid', 'password').subscribe(() => {
@@ -477,7 +477,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'login').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       expect(service.loginUserWithoutScreenSet).toBeTruthy();
       service
@@ -498,7 +498,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'login').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'NOT OK', errorCode: 206001 });
-        }
+        },
       );
       spyOn(service, 'raiseCdcReconsentEvent').and.stub();
       service.loginUserWithoutScreenSet('uid', 'password').subscribe({
@@ -514,7 +514,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'resetPassword').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       expect(service.resetPasswordWithoutScreenSet).toBeTruthy();
       service.resetPasswordWithoutScreenSet('').subscribe({
@@ -524,7 +524,7 @@ describe('CdcJsService', () => {
         },
       });
       expect(
-        service['gigyaSDK']?.accounts.resetPassword
+        service['gigyaSDK']?.accounts.resetPassword,
       ).not.toHaveBeenCalled();
     });
 
@@ -532,7 +532,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK']?.accounts, 'resetPassword').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       expect(service.resetPasswordWithoutScreenSet).toBeTruthy();
       service.resetPasswordWithoutScreenSet('test@mail.com').subscribe(() => {
@@ -576,7 +576,7 @@ describe('CdcJsService', () => {
             errorMessage: 'Error',
           },
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
   });
@@ -615,7 +615,7 @@ describe('CdcJsService', () => {
       expect(globalMessageService.remove).not.toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         'Error',
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
   });
@@ -631,7 +631,7 @@ describe('CdcJsService', () => {
         {
           key: 'cdcProfile.profileUpdateSuccess',
         },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
@@ -646,7 +646,7 @@ describe('CdcJsService', () => {
         {
           key: 'cdcProfile.profileUpdateFailure',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
@@ -661,7 +661,7 @@ describe('CdcJsService', () => {
         {
           key: 'httpHandlers.unknownError',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
@@ -673,7 +673,7 @@ describe('CdcJsService', () => {
       service['handleResetPassResponse'](errorResponse);
       expect(globalMessageService.add).toHaveBeenCalledWith(
         errorResponse.errorMessage,
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
@@ -687,7 +687,7 @@ describe('CdcJsService', () => {
       expect(globalMessageService.remove).not.toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'forgottenPassword.passwordResetEmailSent' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
 
@@ -701,7 +701,7 @@ describe('CdcJsService', () => {
         {
           key: 'httpHandlers.unknownError',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
@@ -736,14 +736,14 @@ describe('CdcJsService', () => {
   describe('getCurrentBaseSiteChannel', () => {
     it('should return the channel value of the base site - B2C', () => {
       spyOn(baseSiteService, 'get').and.returnValue(
-        of({ uid: 'electronics-spa', channel: 'B2C' })
+        of({ uid: 'electronics-spa', channel: 'B2C' }),
       );
       expect(service['getCurrentBaseSiteChannel']()).toBe('B2C');
     });
 
     it('should return the channel of the base site - B2B', () => {
       spyOn(baseSiteService, 'get').and.returnValue(
-        of({ uid: 'powertools-spa', channel: 'B2B' })
+        of({ uid: 'powertools-spa', channel: 'B2B' }),
       );
       expect(service['getCurrentBaseSiteChannel']()).toBe('B2B');
     });
@@ -754,7 +754,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       expect(service.updateProfileWithoutScreenSet).toBeTruthy();
       service.updateProfileWithoutScreenSet({}).subscribe({
@@ -764,7 +764,7 @@ describe('CdcJsService', () => {
         },
       });
       expect(
-        service['gigyaSDK'].accounts.setAccountInfo
+        service['gigyaSDK'].accounts.setAccountInfo,
       ).not.toHaveBeenCalled();
     });
 
@@ -772,7 +772,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       expect(service.resetPasswordWithoutScreenSet).toBeTruthy();
       let sampleUser: User = {
@@ -784,7 +784,7 @@ describe('CdcJsService', () => {
       service.updateProfileWithoutScreenSet(sampleUser).subscribe(() => {
         service.updateProfileWithoutScreenSet({}).subscribe(() => {
           expect(
-            service['gigyaSDK'].accounts.setAccountInfo
+            service['gigyaSDK'].accounts.setAccountInfo,
           ).toHaveBeenCalledWith({
             profile: {
               firstName: sampleUser.firstName,
@@ -808,7 +808,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       expect(service.updateProfileWithoutScreenSet).toBeTruthy();
       service.updateUserPasswordWithoutScreenSet('', '').subscribe({
@@ -818,7 +818,7 @@ describe('CdcJsService', () => {
         },
       });
       expect(
-        service['gigyaSDK']?.accounts.setAccountInfo
+        service['gigyaSDK']?.accounts.setAccountInfo,
       ).not.toHaveBeenCalled();
     });
 
@@ -826,7 +826,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       expect(service.updateUserPasswordWithoutScreenSet).toBeTruthy();
       let oldPass = 'OldPass123!';
@@ -836,7 +836,7 @@ describe('CdcJsService', () => {
         .updateUserPasswordWithoutScreenSet(oldPass, newPass)
         .subscribe(() => {
           expect(
-            service['gigyaSDK']?.accounts.setAccountInfo
+            service['gigyaSDK']?.accounts.setAccountInfo,
           ).toHaveBeenCalledWith({
             password: oldPass,
             newPassword: newPass,
@@ -850,7 +850,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'ERROR' });
-        }
+        },
       );
       expect(service.updateUserPasswordWithoutScreenSet).toBeTruthy();
       let oldPass = 'OldPass123!';
@@ -859,7 +859,7 @@ describe('CdcJsService', () => {
       service.updateUserPasswordWithoutScreenSet(oldPass, newPass).subscribe({
         error: () => {
           expect(
-            service['gigyaSDK']?.accounts.setAccountInfo
+            service['gigyaSDK']?.accounts.setAccountInfo,
           ).toHaveBeenCalledWith({
             password: oldPass,
             newPassword: newPass,
@@ -876,7 +876,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       expect(service.updateProfileWithoutScreenSet).toBeTruthy();
       service.updateUserEmailWithoutScreenSet('', '').subscribe({
@@ -886,7 +886,7 @@ describe('CdcJsService', () => {
         },
       });
       expect(
-        service['gigyaSDK']?.accounts.setAccountInfo
+        service['gigyaSDK']?.accounts.setAccountInfo,
       ).not.toHaveBeenCalled();
     });
 
@@ -894,12 +894,12 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       spyOn(service['gigyaSDK']?.accounts, 'login').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
 
       expect(service.updateUserEmailWithoutScreenSet).toBeTruthy();
@@ -907,7 +907,7 @@ describe('CdcJsService', () => {
 
       service.updateUserEmailWithoutScreenSet(pass, newEmail).subscribe(() => {
         expect(
-          service['gigyaSDK']?.accounts.setAccountInfo
+          service['gigyaSDK']?.accounts.setAccountInfo,
         ).toHaveBeenCalledWith({
           profile: {
             email: newEmail,
@@ -934,12 +934,12 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       spyOn(service['gigyaSDK']?.accounts, 'login').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'ERROR' });
-        }
+        },
       );
 
       expect(service.updateUserEmailWithoutScreenSet).toBeTruthy();
@@ -947,7 +947,7 @@ describe('CdcJsService', () => {
 
       service.updateUserEmailWithoutScreenSet(pass, newEmail).subscribe(() => {
         expect(
-          service['gigyaSDK']?.accounts.setAccountInfo
+          service['gigyaSDK']?.accounts.setAccountInfo,
         ).toHaveBeenCalledWith({
           profile: {
             email: newEmail,
@@ -966,7 +966,7 @@ describe('CdcJsService', () => {
   describe('getLoggedInUserEmail', () => {
     it('should return the logged in user email', () => {
       userProfileFacade.get = createSpy().and.returnValue(
-        of({ uid: newEmail })
+        of({ uid: newEmail }),
       );
 
       service['getLoggedInUserEmail']().subscribe((user: User) => {
@@ -988,7 +988,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       expect(service.updateProfileWithoutScreenSet).toBeTruthy();
       service.updateAddressWithoutScreenSet('').subscribe({
@@ -998,7 +998,7 @@ describe('CdcJsService', () => {
         },
       });
       expect(
-        service['gigyaSDK'].accounts.setAccountInfo
+        service['gigyaSDK'].accounts.setAccountInfo,
       ).not.toHaveBeenCalled();
     });
 
@@ -1006,13 +1006,13 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       expect(service.updateAddressWithoutScreenSet).toBeTruthy();
       let sampleAddress = 'Address1, address2 , US';
       service.updateAddressWithoutScreenSet(sampleAddress).subscribe(() => {
         expect(
-          service['gigyaSDK'].accounts.setAccountInfo
+          service['gigyaSDK'].accounts.setAccountInfo,
         ).toHaveBeenCalledWith({
           profile: {
             address: sampleAddress,
@@ -1064,7 +1064,7 @@ describe('CdcJsService', () => {
         },
       };
       userProfileFacade.get = createSpy().and.returnValue(
-        of({ uid: newEmail })
+        of({ uid: newEmail }),
       );
       spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
       spyOn(authService, 'logout');
@@ -1092,13 +1092,13 @@ describe('CdcJsService', () => {
     it('should retrieve organization context', (done) => {
       spyOn(
         service['gigyaSDK']?.accounts.b2b,
-        'getOrganizationContext'
+        'getOrganizationContext',
       ).and.returnValue(of({ orgId: orgId }));
       service.getOrganizationContext().subscribe({
         next: (response) => {
           expect(response.orgId).toEqual(orgId);
           expect(
-            service['gigyaSDK']?.accounts.b2b.getOrganizationContext
+            service['gigyaSDK']?.accounts.b2b.getOrganizationContext,
           ).toHaveBeenCalledWith({ callback: jasmine.any(Function) });
         },
       });
@@ -1111,12 +1111,12 @@ describe('CdcJsService', () => {
     it('should open delegate admin login', (done) => {
       spyOn(
         service['gigyaSDK'].accounts.b2b,
-        'openDelegatedAdminLogin'
+        'openDelegatedAdminLogin',
       ).and.returnValue(of({}));
 
       service.openDelegatedAdminLogin(orgId);
       expect(
-        service['gigyaSDK'].accounts.b2b.openDelegatedAdminLogin
+        service['gigyaSDK'].accounts.b2b.openDelegatedAdminLogin,
       ).toHaveBeenCalledWith({
         orgId: orgId,
       });
@@ -1130,13 +1130,13 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
-        }
+        },
       );
       service['invokeAPI']('accounts.setAccountInfo', {}).subscribe(
         (response) => {
           expect(response).toEqual({ status: 'OK' });
           done();
-        }
+        },
       );
     });
 
@@ -1144,7 +1144,7 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'ERROR' });
-        }
+        },
       );
       service['invokeAPI']('accounts.setAccountInfo', {}).subscribe({
         error: (error) => {
@@ -1169,16 +1169,16 @@ describe('CdcJsService', () => {
       spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'ERROR' });
-        }
+        },
       );
       expect(
-        typeof service['getSdkFunctionFromName']('accounts.setAccountInfo')
+        typeof service['getSdkFunctionFromName']('accounts.setAccountInfo'),
       ).toEqual('function');
     });
 
     it('should not return a function type for a invalid input', () => {
       expect(
-        typeof service['getSdkFunctionFromName']('some.random.apiName')
+        typeof service['getSdkFunctionFromName']('some.random.apiName'),
       ).not.toEqual('function');
     });
   });
@@ -1212,7 +1212,7 @@ describe('CdcJsService', () => {
     });
     it('should throw error', (done) => {
       spyOn(service as any, 'invokeAPI').and.returnValue(
-        of({ status: 'ERROR' })
+        of({ status: 'ERROR' }),
       );
       service.setUserConsentPreferences(mockUser, lang, userPreference);
       expect(service['invokeAPI']).toHaveBeenCalled();
@@ -1225,7 +1225,7 @@ describe('CdcJsService', () => {
   describe('getSiteConsentDetails()', () => {
     it('fetch consents from the current site without persisting into Local Storage', () => {
       spyOn(baseSiteService, 'getActive').and.returnValue(
-        of('electronics-spa')
+        of('electronics-spa'),
       );
       spyOn(store, 'persistCdcConsentsToStorage').and.stub();
       spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
@@ -1237,7 +1237,7 @@ describe('CdcJsService', () => {
     });
     it('fetch consents from the current site, persisting into Local Storage', () => {
       spyOn(baseSiteService, 'getActive').and.returnValue(
-        of('electronics-spa')
+        of('electronics-spa'),
       );
       spyOn(store, 'persistCdcConsentsToStorage').and.stub();
       spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
@@ -1253,7 +1253,7 @@ describe('CdcJsService', () => {
     it('should not call accounts.b2b.registerOrganization', (done) => {
       spyOn(
         service['gigyaSDK'].accounts.b2b,
-        'registerOrganization'
+        'registerOrganization',
       ).and.callFake((options: { callback: Function }) => {
         options.callback({ status: 'OK' });
       });
@@ -1271,14 +1271,14 @@ describe('CdcJsService', () => {
         },
       });
       expect(
-        service['gigyaSDK'].accounts.b2b.registerOrganization
+        service['gigyaSDK'].accounts.b2b.registerOrganization,
       ).not.toHaveBeenCalled();
     });
 
     it('should call accounts.b2b.registerOrganization', (done) => {
       spyOn(
         service['gigyaSDK'].accounts.b2b,
-        'registerOrganization'
+        'registerOrganization',
       ).and.callFake((options: { callback: Function }) => {
         options.callback({ status: 'OK' });
       });
@@ -1303,7 +1303,7 @@ describe('CdcJsService', () => {
         .registerOrganisationWithoutScreenSet(correctOrgInfo)
         .subscribe(() => {
           expect(
-            service['gigyaSDK'].accounts.b2b.registerOrganization
+            service['gigyaSDK'].accounts.b2b.registerOrganization,
           ).toHaveBeenCalledWith({
             organization: {
               name: correctOrgInfo.companyName,
@@ -1332,7 +1332,7 @@ describe('CdcJsService', () => {
     it('should call accounts.b2b.registerOrganization and not pass phone number if empty', (done) => {
       spyOn(
         service['gigyaSDK'].accounts.b2b,
-        'registerOrganization'
+        'registerOrganization',
       ).and.callFake((options: { callback: Function }) => {
         options.callback({ status: 'OK' });
       });
@@ -1357,7 +1357,7 @@ describe('CdcJsService', () => {
         .registerOrganisationWithoutScreenSet(correctOrgInfo)
         .subscribe(() => {
           expect(
-            service['gigyaSDK'].accounts.b2b.registerOrganization
+            service['gigyaSDK'].accounts.b2b.registerOrganization,
           ).toHaveBeenCalledWith({
             organization: {
               name: correctOrgInfo.companyName,

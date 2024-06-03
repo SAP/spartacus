@@ -16,6 +16,6 @@ export abstract class MerchandisingStrategyAdapter {
    */
   abstract loadProductsForStrategy(
     strategyId: string,
-    strategyRequest?: StrategyRequest
+    strategyRequest?: StrategyRequest,
   ): Observable<StrategyProducts>;
 }

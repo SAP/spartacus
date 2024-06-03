@@ -49,15 +49,15 @@ export class CategoryPageMetaResolver
           ? this.productSearchService
               .getResults()
               .pipe(filter((result) => Boolean(result)))
-          : of(page)
-      )
+          : of(page),
+      ),
     );
 
   constructor(
     protected productSearchService: ProductSearchService,
     protected cms: CmsService,
     protected translation: TranslationService,
-    protected basePageMetaResolver: BasePageMetaResolver
+    protected basePageMetaResolver: BasePageMetaResolver,
   ) {
     super();
     this.pageType = PageType.CATEGORY_PAGE;
@@ -72,8 +72,8 @@ export class CategoryPageMetaResolver
           query: p.breadcrumbs?.length
             ? p.breadcrumbs[0].facetValueName
             : undefined,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -85,14 +85,14 @@ export class CategoryPageMetaResolver
       map(([page, label]: [ProductSearchPage, string]) =>
         page.breadcrumbs
           ? this.resolveBreadcrumbData(<ProductSearchPage>page, label)
-          : []
-      )
+          : [],
+      ),
     );
   }
 
   protected resolveBreadcrumbData(
     page: ProductSearchPage,
-    label: string
+    label: string,
   ): BreadcrumbMeta[] {
     const breadcrumbs: BreadcrumbMeta[] = [];
     breadcrumbs.push({ label: label, link: '/' });
@@ -122,8 +122,8 @@ export class CategoryPageMetaResolver
         !!page.slots?.[key].components?.find(
           (comp) =>
             comp.typeCode === 'CMSProductListComponent' ||
-            comp.typeCode === 'ProductGridComponent'
-        )
+            comp.typeCode === 'ProductGridComponent',
+        ),
     );
   }
 

@@ -30,7 +30,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
     protected rendererFactory: RendererFactory2,
     protected outletService: OutletService<ComponentFactory<any>>,
     protected componentFactoryResolver: ComponentFactoryResolver,
-    protected outletRendererService: OutletRendererService
+    protected outletRendererService: OutletRendererService,
   ) {
     super(document, rendererFactory);
   }
@@ -44,16 +44,16 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
    */
   render(
     config: LaunchOutletDialog,
-    caller: LAUNCH_CALLER | string
+    caller: LAUNCH_CALLER | string,
   ): Observable<ComponentRef<any> | undefined> | void {
     if (this.shouldRender(caller, config)) {
       const template = this.componentFactoryResolver.resolveComponentFactory(
-        config.component
+        config.component,
       );
       this.outletService.add(
         config.outlet,
         template,
-        config.position ? config.position : OutletPosition.BEFORE
+        config.position ? config.position : OutletPosition.BEFORE,
       );
       this.outletRendererService.render(config.outlet);
       this.renderedCallers.push({ caller });
@@ -61,20 +61,20 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
       return this.outletRendererService.getOutletRef(config.outlet).pipe(
         map((outletDirective) => {
           const components = outletDirective.renderedComponents.get(
-            config.position ? config.position : OutletPosition.BEFORE
+            config.position ? config.position : OutletPosition.BEFORE,
           ) as ComponentRef<any>[];
 
           return components
             .reverse()
             .find(
-              (component) => component.componentType === template.componentType
+              (component) => component.componentType === template.componentType,
             );
         }),
         tap((component) => {
           if (config?.dialogType && component) {
             this.applyClasses(component, config?.dialogType);
           }
-        })
+        }),
       );
     }
   }
@@ -85,13 +85,13 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
 
   remove(caller: LAUNCH_CALLER | string, config: LaunchOutletDialog): void {
     const template = this.componentFactoryResolver.resolveComponentFactory(
-      config.component
+      config.component,
     );
 
     this.outletService.remove(
       config.outlet,
       config.position ? config.position : OutletPosition.BEFORE,
-      template
+      template,
     );
 
     super.remove(caller, config);

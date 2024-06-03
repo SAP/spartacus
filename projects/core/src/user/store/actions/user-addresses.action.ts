@@ -71,7 +71,7 @@ export class AddUserAddressSuccess extends StateUtils.LoaderSuccessAction {
 export class UpdateUserAddress extends StateUtils.LoaderLoadAction {
   readonly type = UPDATE_USER_ADDRESS;
   constructor(
-    public payload: { userId: string; addressId: string; address: Address }
+    public payload: { userId: string; addressId: string; address: Address },
   ) {
     super(USER_ADDRESSES);
   }

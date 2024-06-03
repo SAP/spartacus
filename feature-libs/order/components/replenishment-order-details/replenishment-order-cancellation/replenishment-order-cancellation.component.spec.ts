@@ -25,7 +25,7 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 };
 
 const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
-  mockReplenishmentOrder
+  mockReplenishmentOrder,
 );
 
 class MockReplenishmentOrderHistoryFacade
@@ -48,7 +48,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -61,29 +61,27 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   let fixture: ComponentFixture<ReplenishmentOrderCancellationComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockReplenishmentOrderHistoryFacade,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: ReplenishmentOrderHistoryFacade,
+          useClass: MockReplenishmentOrderHistoryFacade,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderCancellationComponent);
     replenishmentOrderHistoryFacade = TestBed.inject(
-      ReplenishmentOrderHistoryFacade
+      ReplenishmentOrderHistoryFacade,
     );
     launchDialogService = TestBed.inject(LaunchDialogService);
 
@@ -115,7 +113,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.REPLENISHMENT_ORDER,
       component.element,
-      component['vcr']
+      component['vcr'],
     );
   });
 

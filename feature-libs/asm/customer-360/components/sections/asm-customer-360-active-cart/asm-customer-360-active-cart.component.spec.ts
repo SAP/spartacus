@@ -181,53 +181,53 @@ describe('AsmCustomer360ActiveCartComponent', () => {
 
   it('should render a header', () => {
     const productListing = el.query(
-      By.css('cx-asm-customer-360-product-listing')
+      By.css('cx-asm-customer-360-product-listing'),
     );
     const title = productListing.query(By.css('.title-link'));
     expect(title.nativeElement.textContent).toBe(
-      ' asmCustomer360.activeCart.header '
+      ' asmCustomer360.activeCart.header ',
     );
 
     const titleLink = productListing.query(By.css('.cx-overview-title-link'));
     expect(titleLink.nativeElement.textContent).toContain(
-      mockActiveCart.cart?.code
+      mockActiveCart.cart?.code,
     );
 
     const totalItems = productListing.query(By.css('.cart-total-no-items'));
     expect(totalItems.nativeElement.textContent).toContain(
-      mockActiveCart.cart?.totalItemCount
+      mockActiveCart.cart?.totalItemCount,
     );
 
     const totalPrice = productListing.query(By.css('.cart-total-price'));
     expect(totalPrice.nativeElement.textContent).toContain(
-      mockActiveCart.cart?.totalPrice
+      mockActiveCart.cart?.totalPrice,
     );
   });
   it('should render products', () => {
     breakpointSubject.next(BREAKPOINT.lg);
     fixture.detectChanges();
     expect(el.queryAll(By.css('cx-asm-customer-360-product-item')).length).toBe(
-      2
+      2,
     );
 
     breakpointSubject.next(BREAKPOINT.md);
 
     fixture.detectChanges();
     expect(el.queryAll(By.css('cx-asm-customer-360-product-item')).length).toBe(
-      1
+      1,
     );
 
     const productItem = el.queryAll(
-      By.css('cx-asm-customer-360-product-item')
+      By.css('cx-asm-customer-360-product-item'),
     )[0];
     expect(
       productItem.query(By.css('.cx-asm-customer-360-product-item-name'))
-        .nativeElement.textContent
+        .nativeElement.textContent,
     ).toContain(mockProduct1.name);
 
     expect(
       productItem.query(By.css('.cx-asm-customer-360-product-item-code'))
-        .nativeElement.textContent
+        .nativeElement.textContent,
     ).toContain(mockProduct1.code);
   });
 
@@ -235,8 +235,8 @@ describe('AsmCustomer360ActiveCartComponent', () => {
     spyOn(contextSource.navigate$, 'next').and.stub();
     const productName = el.queryAll(
       By.css(
-        'cx-asm-customer-360-product-item .cx-asm-customer-360-product-item-name'
-      )
+        'cx-asm-customer-360-product-item .cx-asm-customer-360-product-item-name',
+      ),
     )[0];
 
     productName.nativeElement.click();

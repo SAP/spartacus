@@ -25,7 +25,7 @@ export interface ProcessesLoaderAction extends Action {
 }
 
 export function processesIncrementMeta(
-  entityType: string
+  entityType: string,
 ): ProcessesLoaderMeta {
   return {
     entityType: entityType,
@@ -35,7 +35,7 @@ export function processesIncrementMeta(
 }
 
 export function processesDecrementMeta(
-  entityType: string
+  entityType: string,
 ): ProcessesLoaderMeta {
   return {
     entityType: entityType,
@@ -45,7 +45,7 @@ export function processesDecrementMeta(
 }
 
 export function processesLoaderResetMeta(
-  entityType: string
+  entityType: string,
 ): ProcessesLoaderMeta {
   // processes reset action is a reset action for loader reducer, but not the other way around
   return {

@@ -104,7 +104,7 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
       it('should allow to navigate with tab key', () => {
         subCategoryTabbingOrder(
           config.headerCategoryDigitalCameras,
-          'Digital Cameras'
+          'Digital Cameras',
         );
       });
     });
@@ -113,7 +113,7 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
       it('should allow to navigate with tab key', () => {
         subCategoryTabbingOrder(
           config.headerCategoryAccessories,
-          'Accessories'
+          'Accessories',
         );
       });
     });
@@ -131,7 +131,7 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
         subCategoryTabbingOrder(
           config.headerCategoryDigitalCameras,
           'Digital Cameras',
-          true
+          true,
         );
       });
     });
@@ -141,7 +141,7 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
         subCategoryTabbingOrder(
           config.headerCategoryAccessories,
           'Accessories',
-          true
+          true,
         );
       });
     });
@@ -325,7 +325,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
 
       it('should allow to navigate with tab key (choose existing)', () => {
         checkoutShippingAddressExistingTabbingOrder(
-          config.shippingAddressExisting
+          config.shippingAddressExisting,
         );
       });
     });
@@ -374,7 +374,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('My acoount V2 notification preference', () => {
     it('should allow to navigate with tab key', () => {
       myAccountV2notificationPreferenceTabbingOrder(
-        config.myAccountV2NotificationPreference
+        config.myAccountV2NotificationPreference,
       );
     });
   });
@@ -413,7 +413,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     it('should allow to navigate with tab key', () => {
       cy.requireLoggedIn();
       myAccountV2consentManagementTabbingOrder(
-        config.myAccountV2ConsentManagement
+        config.myAccountV2ConsentManagement,
       );
     });
   });
@@ -485,13 +485,13 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Stock Notification', () => {
     it('should allow to navigate with tab key (notification preference NOT allowed)', () => {
       stockNotificationTabbingOrderNotificationsNotAllowed(
-        config.stockNotificationPreferenceNotAllowed
+        config.stockNotificationPreferenceNotAllowed,
       );
     });
 
     it('should allow to navigate with tab key (notification preference allowed)', () => {
       stockNotificationTabbingOrderNotificationsAllowed(
-        config.stockNotificationPreferenceAllowed
+        config.stockNotificationPreferenceAllowed,
       );
     });
 
@@ -501,7 +501,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
 
     it.skip('should allow to navigate with tab key (product subscribed)', () => {
       stockNotificationTabbingOrderProductSubscribed(
-        config.stockNotificationSubscribed
+        config.stockNotificationSubscribed,
       );
     });
   });

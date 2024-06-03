@@ -55,21 +55,21 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
           userId: mockUserId,
           cartId: mockCartId,
           paymentTypeCode: 'test-type-code',
-        })
+        }),
       );
     });
 
     it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
-        CheckoutSupportedDeliveryModesQueryResetEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent,
       );
     });
 
     it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
   });
@@ -80,7 +80,7 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutPaymentTypesQueryReloadEvent
+        CheckoutPaymentTypesQueryReloadEvent,
       );
     });
 
@@ -89,7 +89,7 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutPaymentTypesQueryReloadEvent
+        CheckoutPaymentTypesQueryReloadEvent,
       );
     });
   });
@@ -100,7 +100,7 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutPaymentTypesQueryResetEvent
+        CheckoutPaymentTypesQueryResetEvent,
       );
     });
 
@@ -109,7 +109,7 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutPaymentTypesQueryResetEvent
+        CheckoutPaymentTypesQueryResetEvent,
       );
     });
   });

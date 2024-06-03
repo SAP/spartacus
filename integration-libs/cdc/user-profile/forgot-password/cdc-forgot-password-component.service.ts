@@ -28,13 +28,13 @@ export class CDCForgotPasswordComponentService
     protected routingService: RoutingService,
     protected authConfigService: AuthConfigService,
     protected globalMessage: GlobalMessageService,
-    protected cdcJsService: CdcJsService
+    protected cdcJsService: CdcJsService,
   ) {
     super(
       userPasswordService,
       routingService,
       authConfigService,
-      globalMessage
+      globalMessage,
     );
   }
 
@@ -71,10 +71,10 @@ export class CDCForgotPasswordComponentService
             {
               key: 'errorHandlers.scriptFailedToLoad',
             },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
         }
-      })
+      }),
     );
   }
 

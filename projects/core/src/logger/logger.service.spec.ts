@@ -27,7 +27,7 @@ describe('LoggerService', () => {
       it(`should ${method}`, () => {
         const methodSpy: jasmine.Spy<jasmine.Func> = spyOn(
           console,
-          method as keyof Console
+          method as keyof Console,
         );
         loggerService[method as keyof LoggerService](input);
         expect(methodSpy).toHaveBeenCalledWith(input);

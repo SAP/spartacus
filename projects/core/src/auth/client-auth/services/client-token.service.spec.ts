@@ -37,7 +37,7 @@ describe('ClientTokenService', () => {
 
   it('should expose clientToken', () => {
     store.dispatch(
-      new ClientAuthActions.LoadClientTokenSuccess(mockClientToken)
+      new ClientAuthActions.LoadClientTokenSuccess(mockClientToken),
     );
 
     let result: ClientToken;
@@ -58,13 +58,13 @@ describe('ClientTokenService', () => {
     subscription.unsubscribe();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new ClientAuthActions.LoadClientToken()
+      new ClientAuthActions.LoadClientToken(),
     );
   });
 
   it('should dispatch proper action for refresh the client token', () => {
     store.dispatch(
-      new ClientAuthActions.LoadClientTokenSuccess(mockClientToken)
+      new ClientAuthActions.LoadClientTokenSuccess(mockClientToken),
     );
 
     spyOn(store, 'dispatch').and.stub();
@@ -73,7 +73,7 @@ describe('ClientTokenService', () => {
     sub.unsubscribe();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new ClientAuthActions.LoadClientToken()
+      new ClientAuthActions.LoadClientToken(),
     );
   });
 });

@@ -40,7 +40,7 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
     protected savedCartDetailsService: SavedCartDetailsService,
     protected translation: TranslationService,
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {}
 
   getCartName(cartName: string): Observable<Card> {
@@ -49,7 +49,7 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
       map((textTitle) => ({
         title: textTitle,
         text: [cartName],
-      }))
+      })),
     );
   }
 
@@ -59,7 +59,7 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
       map((textTitle) => ({
         title: textTitle,
         text: [cartDescription],
-      }))
+      })),
     );
   }
 
@@ -69,7 +69,7 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
       map((textTitle) => ({
         title: textTitle,
         text: [cartId],
-      }))
+      })),
     );
   }
 
@@ -81,7 +81,7 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
           title: textTitle,
           text: [saveTime ?? ''],
         };
-      })
+      }),
     );
   }
 
@@ -91,7 +91,7 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
       map((textTitle) => ({
         title: textTitle,
         text: [totalItems.toString()],
-      }))
+      })),
     );
   }
 
@@ -101,7 +101,7 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
       map((textTitle) => ({
         title: textTitle,
         text: [totalUnitCount.toString()],
-      }))
+      })),
     );
   }
 
@@ -111,7 +111,7 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
       map((textTitle) => ({
         title: textTitle,
         text: [totalPriceWithTax],
-      }))
+      })),
     );
   }
 
@@ -120,7 +120,7 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
       LAUNCH_CALLER.SAVED_CART,
       this.element,
       this.vcr,
-      { cart, layoutOption: 'edit' }
+      { cart, layoutOption: 'edit' },
     );
 
     if (dialog) {

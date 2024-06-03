@@ -24,7 +24,7 @@ class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { budgetCode } }) =>
-      url === 'budget' ? url + budgetCode : url
+      url === 'budget' ? url + budgetCode : url,
   );
 }
 
@@ -62,7 +62,7 @@ describe('OccBudgetAdapter', () => {
     it('should load budget details for given budget code', () => {
       service.load(userId, budgetCode).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'budget' + budgetCode
+        (req) => req.method === 'GET' && req.url === 'budget' + budgetCode,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -75,13 +75,13 @@ describe('OccBudgetAdapter', () => {
     it('should load budget list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'budgets'
+        (req) => req.method === 'GET' && req.url === 'budgets',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([budget]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        BUDGETS_NORMALIZER
+        BUDGETS_NORMALIZER,
       );
     });
   });
@@ -93,7 +93,7 @@ describe('OccBudgetAdapter', () => {
         (req) =>
           req.method === 'POST' &&
           req.url === 'budgets' &&
-          req.body.code === budget.code
+          req.body.code === budget.code,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -109,7 +109,7 @@ describe('OccBudgetAdapter', () => {
         (req) =>
           req.method === 'PATCH' &&
           req.url === 'budget' + budgetCode &&
-          req.body.code === budget.code
+          req.body.code === budget.code,
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

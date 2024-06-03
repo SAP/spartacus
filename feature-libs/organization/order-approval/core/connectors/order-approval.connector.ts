@@ -25,7 +25,7 @@ export class OrderApprovalConnector {
 
   getList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<OrderApproval>> {
     return this.adapter.loadList(userId, params);
   }
@@ -33,12 +33,12 @@ export class OrderApprovalConnector {
   makeDecision(
     userId: string,
     orderApprovalCode: string,
-    orderApprovalDecision: OrderApprovalDecision
+    orderApprovalDecision: OrderApprovalDecision,
   ): Observable<OrderApprovalDecision> {
     return this.adapter.makeDecision(
       userId,
       orderApprovalCode,
-      orderApprovalDecision
+      orderApprovalDecision,
     );
   }
 }

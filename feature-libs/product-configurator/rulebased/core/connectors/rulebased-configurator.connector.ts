@@ -27,125 +27,125 @@ export class RulebasedConfiguratorConnector {
     @Inject(RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST)
     protected adapters: RulebasedConfiguratorAdapter[],
     protected configUtilsService: CommonConfiguratorUtilsService,
-    protected config: ConfiguratorCoreConfig
+    protected config: ConfiguratorCoreConfig,
   ) {}
 
   createConfiguration(
     owner: CommonConfigurator.Owner,
     configIdTemplate?: string,
-    forceReset: boolean = false
+    forceReset: boolean = false,
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(owner.configuratorType).createConfiguration(
       owner,
       configIdTemplate,
-      forceReset
+      forceReset,
     );
   }
 
   readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: CommonConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner,
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(
-      configurationOwner.configuratorType
+      configurationOwner.configuratorType,
     ).readConfiguration(configId, groupId, configurationOwner);
   }
 
   updateConfiguration(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(
-      configuration.owner.configuratorType
+      configuration.owner.configuratorType,
     ).updateConfiguration(configuration);
   }
 
   addToCart(
-    parameters: Configurator.AddToCartParameters
+    parameters: Configurator.AddToCartParameters,
   ): Observable<CartModification> {
     return this.getAdapter(parameters.owner.configuratorType).addToCart(
-      parameters
+      parameters,
     );
   }
 
   readConfigurationForCartEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters,
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(
-      parameters.owner.configuratorType
+      parameters.owner.configuratorType,
     ).readConfigurationForCartEntry(parameters);
   }
 
   updateConfigurationForCartEntry(
-    parameters: Configurator.UpdateConfigurationForCartEntryParameters
+    parameters: Configurator.UpdateConfigurationForCartEntryParameters,
   ): Observable<CartModification> {
     return this.getAdapter(
-      parameters.configuration.owner.configuratorType
+      parameters.configuration.owner.configuratorType,
     ).updateConfigurationForCartEntry(parameters);
   }
 
   readConfigurationForOrderEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters,
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(
-      parameters.owner.configuratorType
+      parameters.owner.configuratorType,
     ).readConfigurationForOrderEntry(parameters);
   }
 
   readPriceSummary(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(
-      configuration.owner.configuratorType
+      configuration.owner.configuratorType,
     ).readPriceSummary(configuration);
   }
 
   getConfigurationOverview(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Overview> {
     return this.getAdapter(
-      configuration.owner.configuratorType
+      configuration.owner.configuratorType,
     ).getConfigurationOverview(configuration.configId);
   }
 
   updateConfigurationOverview(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Overview> {
     const overview = configuration.overview;
 
     return overview
       ? this.getAdapter(
-          configuration.owner.configuratorType
+          configuration.owner.configuratorType,
         ).updateConfigurationOverview(overview)
       : this.getAdapter(
-          configuration.owner.configuratorType
+          configuration.owner.configuratorType,
         ).getConfigurationOverview(configuration.configId);
   }
 
   searchVariants(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Observable<Configurator.Variant[]> {
     return this.getAdapter(configuration.owner.configuratorType).searchVariants(
-      configuration.configId
+      configuration.configId,
     );
   }
 
   protected getAdapter(configuratorType: string): RulebasedConfiguratorAdapter {
     const adapterResult = this.adapters.find((adapter) =>
-      this.isAdapterMatching(adapter, configuratorType)
+      this.isAdapterMatching(adapter, configuratorType),
     );
     if (adapterResult) {
       return adapterResult;
     } else {
       throw new Error(
-        'No adapter found for configurator type: ' + configuratorType
+        'No adapter found for configurator type: ' + configuratorType,
       );
     }
   }
 
   protected isAdapterMatching(
     adapter: RulebasedConfiguratorAdapter,
-    configuratorType: string
+    configuratorType: string,
   ): boolean {
     let matching = adapter.getConfiguratorType() === configuratorType;
     if (matching && ConfiguratorType.CPQ === configuratorType) {

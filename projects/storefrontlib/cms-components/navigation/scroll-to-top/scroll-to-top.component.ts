@@ -53,7 +53,7 @@ export class ScrollToTopComponent implements OnInit {
   constructor(
     protected winRef: WindowRef,
     protected componentData: CmsComponentData<CmsScrollToTopComponent>,
-    protected selectFocusUtility: SelectFocusUtility
+    protected selectFocusUtility: SelectFocusUtility,
   ) {}
 
   ngOnInit(): void {

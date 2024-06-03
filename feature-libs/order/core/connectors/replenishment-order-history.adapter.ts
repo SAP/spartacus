@@ -20,7 +20,7 @@ export abstract class ReplenishmentOrderHistoryAdapter {
    */
   abstract load(
     userId: string,
-    replenishmentOrderCode: string
+    replenishmentOrderCode: string,
   ): Observable<ReplenishmentOrder>;
 
   /**
@@ -37,7 +37,7 @@ export abstract class ReplenishmentOrderHistoryAdapter {
     replenishmentOrderCode: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<OrderHistoryList>;
 
   /**
@@ -48,7 +48,7 @@ export abstract class ReplenishmentOrderHistoryAdapter {
    */
   abstract cancelReplenishmentOrder(
     userId: string,
-    replenishmentOrderCode: string
+    replenishmentOrderCode: string,
   ): Observable<ReplenishmentOrder>;
 
   /**
@@ -63,6 +63,6 @@ export abstract class ReplenishmentOrderHistoryAdapter {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<ReplenishmentOrderList>;
 }

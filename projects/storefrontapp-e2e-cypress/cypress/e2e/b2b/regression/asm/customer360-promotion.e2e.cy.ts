@@ -93,25 +93,25 @@ context('Assisted Service Module', () => {
         .click()
         .type(customer_coupon.name);
       cy.get(
-        '.cx-asm-customer-360-promotion-listing-search-icon-search'
+        '.cx-asm-customer-360-promotion-listing-search-icon-search',
       ).click();
       cy.wait('@searchCustomerCoupon')
         .its('response.statusCode')
         .should('eq', 200);
       cy.get('cx-asm-customer-360-customer-coupon').within(() => {
         cy.get('.cx-asm-customer-360-promotion-listing-row').contains(
-          customer_coupon.name
+          customer_coupon.name,
         );
         cy.get('.cx-asm-customer-360-promotion-listing-row').should(
           'have.length',
-          1
+          1,
         );
       });
     });
     it('should be able to sent customer coupon for customer coupon (CXSPA-3945)', () => {
       interceptPost(
         'claim_customer_coupon',
-        '/users/*/customercoupons/*/claim?*'
+        '/users/*/customercoupons/*/claim?*',
       );
       cy.get('.cx-asm-customer-360-promotion-listing-row')
         .contains(customer_coupon.name)
@@ -123,14 +123,14 @@ context('Assisted Service Module', () => {
         });
       cy.get('.cx-asm-customer-360-promotion-listing-row').should(
         'not.contain',
-        customer_coupon.name
+        customer_coupon.name,
       );
     });
     it('should be able to remove customer coupon for customer coupon (CXSPA-3945)', () => {
       cy.get('.cx-tab-header').contains('Sent').click();
       interceptDelete(
         'disclaim_customer_coupon',
-        '/users/*/customercoupons/*/claim?*'
+        '/users/*/customercoupons/*/claim?*',
       );
       cy.get('.cx-asm-customer-360-promotion-listing-row')
         .contains(customer_coupon.name)
@@ -142,11 +142,11 @@ context('Assisted Service Module', () => {
         });
       cy.get('.cx-asm-customer-360-promotion-listing-row').should(
         'not.contain',
-        customer_coupon.name
+        customer_coupon.name,
       );
       cy.get('.cx-tab-header').contains('Available').click();
       cy.get('.cx-asm-customer-360-promotion-listing-row').contains(
-        customer_coupon.name
+        customer_coupon.name,
       );
     });
   });

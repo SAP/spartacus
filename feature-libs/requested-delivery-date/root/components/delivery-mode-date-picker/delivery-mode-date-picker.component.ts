@@ -36,7 +36,7 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
     protected eventService: EventService,
     protected translation: TranslationService,
     protected globalMessageService: GlobalMessageService,
-    @Optional() protected deliveryOutlet?: OutletContextData
+    @Optional() protected deliveryOutlet?: OutletContextData,
   ) {}
 
   protected cartEntry: Cart = {};
@@ -55,7 +55,7 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
         this.deliveryOutlet.context$.subscribe((context) => {
           this.cartEntry = context?.item;
           this.isDatePickerReadOnly = context?.readonly || false;
-        })
+        }),
       );
     }
 
@@ -79,18 +79,18 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
 
   isEarliestRetrievalDatePresent(): boolean {
     return this.dateValidationService.isDateStringValid(
-      this.cartEntry?.earliestRetrievalAt
+      this.cartEntry?.earliestRetrievalAt,
     );
   }
 
   isRequestedDeliveryDatePresent(): boolean {
     return this.dateValidationService.isDateStringValid(
-      this.cartEntry?.requestedRetrievalAt
+      this.cartEntry?.requestedRetrievalAt,
     );
   }
 
   getRequestedDeliveryDateCardContent(
-    isoDate: string | null
+    isoDate: string | null,
   ): Observable<Card> {
     return this.translation
       .translate('requestedDeliveryDate.readOnlyTextLabel')
@@ -100,7 +100,7 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
           return {
             text: [textTitle, isoDate],
           } as Card;
-        })
+        }),
       );
   }
 
@@ -116,7 +116,7 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
       !this.dateValidationService.isDateStringValid(requestedDate) ||
       !this.dateValidationService.isDateGreaterOrEqual(
         requestedDate,
-        this.earliestRetrievalAt || ''
+        this.earliestRetrievalAt || '',
       )
     ) {
       return;
@@ -128,28 +128,28 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
           next: () => {
             this.eventService.dispatch(
               {},
-              CheckoutSupportedDeliveryModesQueryReloadEvent
+              CheckoutSupportedDeliveryModesQueryReloadEvent,
             );
             this.globalMessageService.add(
               { key: 'requestedDeliveryDate.successMessage' },
-              GlobalMessageType.MSG_TYPE_INFO
+              GlobalMessageType.MSG_TYPE_INFO,
             );
           },
           error: (error: HttpErrorResponse) => {
             if (error && this.getErrors(error)?.length) {
               this.globalMessageService.add(
                 { key: 'requestedDeliveryDate.errorMessage' },
-                GlobalMessageType.MSG_TYPE_ERROR
+                GlobalMessageType.MSG_TYPE_ERROR,
               );
             }
           },
-        })
+        }),
     );
   }
 
   getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors).filter(
-      (error: any) => error?.type === 'UnknownResourceError'
+      (error: any) => error?.type === 'UnknownResourceError',
     );
   }
 

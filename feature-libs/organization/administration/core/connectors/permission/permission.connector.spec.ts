@@ -18,16 +18,16 @@ const types: OrderApprovalPermissionType[] = [{ code: 'test', name: 'name' }];
 class MockPermissionAdapter implements PermissionAdapter {
   load = createSpy('PermissionAdapter.load').and.returnValue(of(permission));
   loadList = createSpy('PermissionAdapter.loadList').and.returnValue(
-    of([permission])
+    of([permission]),
   );
   create = createSpy('PermissionAdapter.create').and.returnValue(
-    of(permission)
+    of(permission),
   );
   update = createSpy('PermissionAdapter.update').and.returnValue(
-    of(permission)
+    of(permission),
   );
   loadTypes = createSpy('PermissionAdapter.loadTypes').and.returnValue(
-    of(types)
+    of(types),
   );
 }
 
@@ -72,7 +72,7 @@ describe('PermissionConnector', () => {
     expect(adapter.update).toHaveBeenCalledWith(
       userId,
       permissionCode,
-      permission
+      permission,
     );
   });
 

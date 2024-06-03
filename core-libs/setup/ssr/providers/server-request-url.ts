@@ -27,7 +27,7 @@ export function serverRequestUrlFactory(options?: ServerOptions): Function {
       if (options?.serverRequestOrigin) {
         return serverRequestUrl.replace(
           serverRequestOrigin,
-          options.serverRequestOrigin
+          options.serverRequestOrigin,
         );
       }
 

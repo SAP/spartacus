@@ -15,7 +15,7 @@ describe('ConfiguratorAttributeNotSupportedComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(
-      ConfiguratorAttributeNotSupportedComponent
+      ConfiguratorAttributeNotSupportedComponent,
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -31,7 +31,7 @@ describe('ConfiguratorAttributeNotSupportedComponent', () => {
       expect,
       htmlElem,
       'em',
-      'configurator.attribute.notSupported'
+      'configurator.attribute.notSupported',
     );
   });
 });

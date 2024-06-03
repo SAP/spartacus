@@ -46,7 +46,7 @@ export class BudgetFormComponent implements OnInit {
         if (units && units.length === 1) {
           this.form?.get('orgUnit.uid')?.setValue(units[0]?.id);
         }
-      })
+      }),
     );
 
   currencies$: Observable<Currency[]> = this.currencyService.getAll().pipe(
@@ -54,13 +54,13 @@ export class BudgetFormComponent implements OnInit {
       if (currency.length === 1) {
         this.form?.get('currency.isocode')?.setValue(currency[0]?.isocode);
       }
-    })
+    }),
   );
 
   constructor(
     protected itemService: ItemService<Budget>,
     protected unitService: OrgUnitService,
-    protected currencyService: CurrencyService
+    protected currencyService: CurrencyService,
   ) {}
 
   ngOnInit(): void {
@@ -69,7 +69,7 @@ export class BudgetFormComponent implements OnInit {
 
   createCodeWithName(
     name: AbstractControl | null,
-    code: AbstractControl | null
+    code: AbstractControl | null,
   ): void {
     createCodeForEntityName(name, code);
   }

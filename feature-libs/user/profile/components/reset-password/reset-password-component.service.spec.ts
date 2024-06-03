@@ -139,7 +139,7 @@ describe('ResetPasswordComponentService', () => {
         service.resetPassword(resetToken);
         expect(userPasswordService.reset).toHaveBeenCalledWith(
           resetToken,
-          'Qwe123!'
+          'Qwe123!',
         );
       });
 
@@ -147,7 +147,7 @@ describe('ResetPasswordComponentService', () => {
         service.resetPassword(resetToken);
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'forgottenPassword.passwordResetSuccess' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
       });
 
@@ -174,18 +174,18 @@ describe('ResetPasswordComponentService', () => {
           const error = new HttpErrorModel();
           error.details = [{ message: 'error message' }];
           spyOn(userPasswordService, 'reset').and.returnValue(
-            throwError(() => error)
+            throwError(() => error),
           );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).toHaveBeenCalledWith(
             { raw: 'error message' },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
         });
 
         it('should not show error message', () => {
           spyOn(userPasswordService, 'reset').and.returnValue(
-            throwError(() => null)
+            throwError(() => null),
           );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).not.toHaveBeenCalled();
@@ -193,7 +193,7 @@ describe('ResetPasswordComponentService', () => {
 
         it('should not show error message', () => {
           spyOn(userPasswordService, 'reset').and.returnValue(
-            throwError(() => ({}))
+            throwError(() => ({})),
           );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).not.toHaveBeenCalled();
@@ -203,7 +203,7 @@ describe('ResetPasswordComponentService', () => {
 
     it('should not reset invalid form', () => {
       spyOn(userPasswordService, 'reset').and.returnValue(
-        throwError(() => ({}))
+        throwError(() => ({})),
       );
       passwordConfirm.setValue('Diff123!');
       service.resetPassword(resetToken);

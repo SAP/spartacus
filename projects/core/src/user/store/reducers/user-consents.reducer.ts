@@ -11,7 +11,7 @@ export const initialState: ConsentTemplate[] = [];
 
 export function reducer(
   state = initialState,
-  action: UserActions.UserConsentsAction
+  action: UserActions.UserConsentsAction,
 ): ConsentTemplate[] {
   switch (action.type) {
     case UserActions.LOAD_USER_CONSENTS_SUCCESS: {
@@ -24,7 +24,7 @@ export function reducer(
       return state.map((consentTemplate) =>
         consentTemplate.id === updatedConsentTemplate.id
           ? updatedConsentTemplate
-          : consentTemplate
+          : consentTemplate,
       );
     }
   }

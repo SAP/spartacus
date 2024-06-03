@@ -47,28 +47,26 @@ describe('ProductIntroComponent in product', () => {
   let translationService: TranslationService;
   let eventService: EventService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ProductIntroComponent, MockStarRatingComponent],
-        providers: [
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-          {
-            provide: TranslationService,
-            useClass: MockTranslationService,
-          },
-          {
-            provide: EventService,
-            useClass: MockEventService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ProductIntroComponent, MockStarRatingComponent],
+      providers: [
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
+        {
+          provide: EventService,
+          useClass: MockEventService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     translationService = TestBed.inject(TranslationService);
@@ -135,7 +133,7 @@ describe('ProductIntroComponent in product', () => {
 
       const result = (productIntroComponent as any).getTabByLabel(
         'Tab 2',
-        tabsComponent
+        tabsComponent,
       );
 
       expect(result).toBe(tab2);
@@ -144,7 +142,7 @@ describe('ProductIntroComponent in product', () => {
 
   describe('Product rating', () => {
     const tabsComponent: HTMLElement = document.createElement(
-      'cx-tab-paragraph-container'
+      'cx-tab-paragraph-container',
     );
 
     beforeEach(() => {
@@ -155,7 +153,7 @@ describe('ProductIntroComponent in product', () => {
       productIntroComponent.product$ = of({ averageRating: 4.5 } as Product);
       fixture.detectChanges();
       expect(
-        fixture.debugElement.nativeElement.querySelector('cx-star-rating')
+        fixture.debugElement.nativeElement.querySelector('cx-star-rating'),
       ).not.toBeNull();
     });
 
@@ -165,7 +163,7 @@ describe('ProductIntroComponent in product', () => {
       } as Product);
       fixture.detectChanges();
       expect(
-        fixture.debugElement.nativeElement.querySelector('cx-star-rating')
+        fixture.debugElement.nativeElement.querySelector('cx-star-rating'),
       ).toBeNull();
     });
 
@@ -175,7 +173,7 @@ describe('ProductIntroComponent in product', () => {
       } as Product);
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'productDetails.noReviews'
+        'productDetails.noReviews',
       );
     });
 
@@ -185,7 +183,7 @@ describe('ProductIntroComponent in product', () => {
       } as Product);
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).not.toContain(
-        'productSummary.showReviews'
+        'productSummary.showReviews',
       );
     });
 
@@ -197,7 +195,7 @@ describe('ProductIntroComponent in product', () => {
 
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).not.toContain(
-        'productSummary.showReviews'
+        'productSummary.showReviews',
       );
     });
 
@@ -213,11 +211,11 @@ describe('ProductIntroComponent in product', () => {
       productIntroComponent.product$ = of({
         averageRating: 5,
       } as Product);
-      productIntroComponent['getReviewsComponent'] = () => ({} as HTMLElement);
+      productIntroComponent['getReviewsComponent'] = () => ({}) as HTMLElement;
 
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'productSummary.showReviews'
+        'productSummary.showReviews',
       );
     });
 
@@ -237,7 +235,7 @@ describe('ProductIntroComponent in product', () => {
 
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'productSummary.showReviews'
+        'productSummary.showReviews',
       );
     });
 
@@ -253,11 +251,11 @@ describe('ProductIntroComponent in product', () => {
       productIntroComponent.product$ = of({
         averageRating: 4,
       } as Product);
-      productIntroComponent['getReviewsComponent'] = () => ({} as HTMLElement);
+      productIntroComponent['getReviewsComponent'] = () => ({}) as HTMLElement;
 
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).not.toContain(
-        'productSummary.showReviews'
+        'productSummary.showReviews',
       );
     });
 

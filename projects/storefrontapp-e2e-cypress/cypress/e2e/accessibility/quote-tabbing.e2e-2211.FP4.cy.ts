@@ -36,14 +36,14 @@ describe('Tabbing order for Quote', () => {
       quote.prepareQuote(
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
-        true
+        true,
       );
     });
 
     it('should allow to navigate with tab key within the quote details page', () => {
       verifyTabbingOrder(
         containerSelectorQuoteDetails,
-        tabbingOrderConfig.quoteDetailsPage
+        tabbingOrderConfig.quoteDetailsPage,
       );
     });
   });

@@ -25,24 +25,24 @@ export class UserFormService extends FormService<B2BUser> {
     form.setControl('titleCode', new UntypedFormControl(''));
     form.setControl(
       'firstName',
-      new UntypedFormControl('', Validators.required)
+      new UntypedFormControl('', Validators.required),
     );
     form.setControl(
       'lastName',
-      new UntypedFormControl('', Validators.required)
+      new UntypedFormControl('', Validators.required),
     );
     form.setControl(
       'email',
       new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.emailValidator,
-      ])
+      ]),
     );
     form.setControl(
       'orgUnit',
       new UntypedFormGroup({
         uid: new UntypedFormControl(undefined, Validators.required),
-      })
+      }),
     );
     form.setControl('roles', new UntypedFormArray([]));
     form.setControl('isAssignedToApprovers', new UntypedFormControl(false));

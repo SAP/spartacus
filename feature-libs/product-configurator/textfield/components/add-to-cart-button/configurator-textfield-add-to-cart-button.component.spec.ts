@@ -24,7 +24,7 @@ const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
 const OWNER = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.PRODUCT,
-  PRODUCT_CODE
+  PRODUCT_CODE,
 );
 
 const configurationTextField: ConfiguratorTextfield.Configuration = {
@@ -71,7 +71,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   function checkButtonText(buttonText: string): void {
     fixture.detectChanges();
     const buttonElements = htmlElem.getElementsByClassName(
-      'cx-btn btn btn-block btn-primary cx-add-to-cart-btn'
+      'cx-btn btn btn-block btn-primary cx-add-to-cart-btn',
     );
     expect(buttonElements).toBeDefined();
     expect(buttonElements.length).toBe(1);
@@ -81,43 +81,41 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     expect(seenText).toBe(buttonText);
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [
-          ConfiguratorTextfieldAddToCartButtonComponent,
-          MockUrlPipe,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorTextfieldService,
-            useClass: MockConfiguratorTextfieldService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        ConfiguratorTextfieldAddToCartButtonComponent,
+        MockUrlPipe,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorTextfieldService,
+          useClass: MockConfiguratorTextfieldService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ConfiguratorTextfieldAddToCartButtonComponent
+      ConfiguratorTextfieldAddToCartButtonComponent,
     );
     classUnderTest = fixture.componentInstance;
     classUnderTest.configuration = configurationTextField;
     htmlElem = fixture.nativeElement;
     textfieldService = TestBed.inject(
-      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
+      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>,
     );
 
     OWNER.type = CommonConfigurator.OwnerType.PRODUCT;
@@ -147,7 +145,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
 
     expect(textfieldService.addToCart).toHaveBeenCalledWith(
       OWNER.id,
-      configurationTextField
+      configurationTextField,
     );
   });
 
@@ -159,7 +157,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     classUnderTest.onAddToCart();
     expect(textfieldService.updateCartEntry).toHaveBeenCalledWith(
       OWNER.id,
-      configurationTextField
+      configurationTextField,
     );
   });
 });

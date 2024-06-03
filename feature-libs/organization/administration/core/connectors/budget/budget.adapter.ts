@@ -21,7 +21,7 @@ export abstract class BudgetAdapter {
 
   abstract loadList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Budget>>;
 
   abstract create(userId: string, budget: Budget): Observable<Budget>;
@@ -29,6 +29,6 @@ export abstract class BudgetAdapter {
   abstract update(
     userId: string,
     budgetCode: string,
-    budget: Budget
+    budget: Budget,
   ): Observable<Budget>;
 }

@@ -24,7 +24,7 @@ export class AuthGuard {
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
     protected router: Router,
-    protected semanticPathService: SemanticPathService
+    protected semanticPathService: SemanticPathService,
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -33,11 +33,11 @@ export class AuthGuard {
         if (!isLoggedIn) {
           this.authRedirectService.saveCurrentNavigationUrl();
           return this.router.parseUrl(
-            this.semanticPathService.get('login') ?? ''
+            this.semanticPathService.get('login') ?? '',
           );
         }
         return isLoggedIn;
-      })
+      }),
     );
   }
 }

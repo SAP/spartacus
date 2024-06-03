@@ -106,11 +106,11 @@ export abstract class ListService<T, P = PaginationModel> {
       // we merge any configured pagination from the table structure
       switchMap((pagination) =>
         this.getStructure().pipe(
-          map((config) => ({ ...pagination, ...config.options?.pagination }))
-        )
+          map((config) => ({ ...pagination, ...config.options?.pagination })),
+        ),
       ),
       switchMap((pagination) => this.load(pagination, ...args)),
-      startWith(this.ghostData)
+      startWith(this.ghostData),
     );
   }
 
@@ -123,7 +123,7 @@ export abstract class ListService<T, P = PaginationModel> {
   getStructure(): Observable<TableStructure> {
     return this.tableService.buildStructure(
       this.viewType,
-      this.defaultTableStructure
+      this.defaultTableStructure,
     );
   }
 

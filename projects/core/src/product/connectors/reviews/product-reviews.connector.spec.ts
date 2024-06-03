@@ -6,7 +6,7 @@ import createSpy = jasmine.createSpy;
 
 class MockProductReviewsAdapter implements ProductReviewsAdapter {
   load = createSpy('ProductReviewsAdapter.loadList').and.callFake((code) =>
-    of('product' + code)
+    of('product' + code),
   );
   post = createSpy('ProductReviewsAdapter.post').and.returnValue(of(''));
 }

@@ -50,7 +50,7 @@ describe('SmartEditLauncherService', () => {
   describe('should get whether Spartacus is launched in SmartEdit', () => {
     it('launched in smartEdit when storefrontPreviewRoute matches, and there is cmsTicketId', () => {
       spyOn(location, 'path').and.returnValue(
-        '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
+        '/any/cx-preview?cmsTicketId=test-cms-ticket-id',
       );
       const launched = smartEditLauncherService.isLaunchedInSmartEdit();
       expect(launched).toBeTruthy();
@@ -58,7 +58,7 @@ describe('SmartEditLauncherService', () => {
 
     it('not launched in smartEdit when storefrontPreviewRoute does not matches', () => {
       spyOn(location, 'path').and.returnValue(
-        '/any/cx-something?cmsTicketId=test-cms-ticket-id'
+        '/any/cx-something?cmsTicketId=test-cms-ticket-id',
       );
       const launched = smartEditLauncherService.isLaunchedInSmartEdit();
       expect(launched).toBeFalsy();
@@ -74,7 +74,7 @@ describe('SmartEditLauncherService', () => {
   describe('should lazy load SmartEditModule', () => {
     it('lazy load SmartEditModule', () => {
       spyOn(location, 'path').and.returnValue(
-        '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
+        '/any/cx-preview?cmsTicketId=test-cms-ticket-id',
       );
       spyOn(featureModules, 'resolveFeature').and.callThrough();
 
@@ -85,7 +85,7 @@ describe('SmartEditLauncherService', () => {
 
   it('should be able to load webApplicationInjector.js', () => {
     spyOn(location, 'path').and.returnValue(
-      '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
+      '/any/cx-preview?cmsTicketId=test-cms-ticket-id',
     );
     spyOn(scriptLoader, 'embedScript').and.callThrough();
 

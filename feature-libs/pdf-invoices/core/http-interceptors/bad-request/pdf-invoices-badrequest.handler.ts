@@ -33,21 +33,21 @@ export class PDFInvoicesBadRequestHandler extends HttpErrorHandler {
 
   protected handleInvoicesListError(
     _request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ) {
     this.getErrors(response)
       .filter((e) => this.isInvoicesListNotFoundError(e))
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'pdfInvoices.invoicesLoadingError' },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
   }
 
   protected handlePDFDownloadError(
     _request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ) {
     this.getErrors(response)
       .filter((e) => this.isDownloadInvoiceError(e))
@@ -56,7 +56,7 @@ export class PDFInvoicesBadRequestHandler extends HttpErrorHandler {
           {
             key: 'pdfInvoices.downloadPDFError',
           },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
   }
@@ -81,7 +81,7 @@ export class PDFInvoicesBadRequestHandler extends HttpErrorHandler {
     return (response.error?.errors).filter(
       (error: any) =>
         this.isInvoicesListNotFoundError(error) ||
-        this.isDownloadInvoiceError(error)
+        this.isDownloadInvoiceError(error),
     );
   }
 

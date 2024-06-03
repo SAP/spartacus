@@ -22,7 +22,7 @@ import { SiteContext } from './site-context.interface';
 export class BaseSiteService implements SiteContext<BaseSite> {
   constructor(
     protected store: Store<StateWithSiteContext>,
-    protected config: SiteContextConfig
+    protected config: SiteContextConfig,
   ) {}
 
   /**
@@ -31,7 +31,7 @@ export class BaseSiteService implements SiteContext<BaseSite> {
   getActive(): Observable<string> {
     return this.store.pipe(
       select(SiteContextSelectors.getActiveBaseSite),
-      filter((active) => Boolean(active))
+      filter((active) => Boolean(active)),
     );
   }
 
@@ -46,7 +46,7 @@ export class BaseSiteService implements SiteContext<BaseSite> {
           this.store.dispatch(new SiteContextActions.LoadBaseSites());
         }
       }),
-      filter(isNotNullable)
+      filter(isNotNullable),
     );
   }
 
@@ -56,16 +56,16 @@ export class BaseSiteService implements SiteContext<BaseSite> {
   get(siteUid?: string): Observable<BaseSite | undefined> {
     if (siteUid) {
       return this.getAll().pipe(
-        map((sites) => sites.find((site) => site.uid === siteUid))
+        map((sites) => sites.find((site) => site.uid === siteUid)),
       );
     }
 
     return this.getActive().pipe(
       switchMap((activeSiteUid) =>
         this.getAll().pipe(
-          map((sites) => sites.find((site) => site.uid === activeSiteUid))
-        )
-      )
+          map((sites) => sites.find((site) => site.uid === activeSiteUid)),
+        ),
+      ),
     );
   }
 
@@ -75,7 +75,7 @@ export class BaseSiteService implements SiteContext<BaseSite> {
       .subscribe((activeBaseSite) => {
         if (baseSite && activeBaseSite !== baseSite) {
           this.store.dispatch(
-            new SiteContextActions.SetActiveBaseSite(baseSite)
+            new SiteContextActions.SetActiveBaseSite(baseSite),
           );
         }
       });
@@ -102,7 +102,7 @@ export class BaseSiteService implements SiteContext<BaseSite> {
     return (
       !!value &&
       getContextParameterValues(this.config, BASE_SITE_CONTEXT_ID).includes(
-        value
+        value,
       )
     );
   }

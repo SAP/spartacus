@@ -38,7 +38,7 @@ export function getReducers(): ActionReducerMap<AnonymousConsentsState, any> {
 export const reducerToken: InjectionToken<
   ActionReducerMap<AnonymousConsentsState>
 > = new InjectionToken<ActionReducerMap<AnonymousConsentsState>>(
-  'AnonymousConsentsReducers'
+  'AnonymousConsentsReducers',
 );
 
 export const reducerProvider: Provider = {
@@ -47,7 +47,7 @@ export const reducerProvider: Provider = {
 };
 
 export function clearAnonymousConsentTemplates(
-  reducer: ActionReducer<AnonymousConsentsState, Action>
+  reducer: ActionReducer<AnonymousConsentsState, Action>,
 ): ActionReducer<AnonymousConsentsState, Action> {
   return function (state, action) {
     if (

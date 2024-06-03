@@ -33,7 +33,7 @@ export class DefaultPointOfServiceEffect {
     private actions$: Actions,
     protected store: Store<StateWithPickupLocations>,
     protected userProfileService: UserProfileFacade,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {}
 
   loadDefaultPointOfService$ = createEffect(() =>
@@ -51,19 +51,19 @@ export class DefaultPointOfServiceEffect {
               }),
               (() => {
                 const PREFERRED_STORE = this.winRef.localStorage?.getItem(
-                  PREFERRED_STORE_LOCAL_STORAGE_KEY
+                  PREFERRED_STORE_LOCAL_STORAGE_KEY,
                 );
                 return of(
-                  PREFERRED_STORE ? JSON.parse(PREFERRED_STORE) : undefined
+                  PREFERRED_STORE ? JSON.parse(PREFERRED_STORE) : undefined,
                 );
-              })()
-            )
+              })(),
+            ),
           ),
           filter((defaultPointOfService) => defaultPointOfService),
           map((defaultPointOfService: PointOfServiceNames) =>
             DefaultPointOfServiceActions.LoadDefaultPointOfServiceSuccess({
               payload: defaultPointOfService,
-            })
+            }),
           ),
           catchError((_error) =>
             of(
@@ -72,12 +72,12 @@ export class DefaultPointOfServiceEffect {
                   name: '',
                   displayName: '',
                 },
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   setDefaultPointOfService$ = createEffect(() =>
@@ -87,8 +87,8 @@ export class DefaultPointOfServiceEffect {
       tap((preferredStore: PointOfServiceNames) =>
         this.winRef.localStorage?.setItem(
           PREFERRED_STORE_LOCAL_STORAGE_KEY,
-          JSON.stringify(preferredStore)
-        )
+          JSON.stringify(preferredStore),
+        ),
       ),
       switchMap((preferredStore: PointOfServiceNames) =>
         this.userProfileService
@@ -98,11 +98,11 @@ export class DefaultPointOfServiceEffect {
           .pipe(
             map(() => DefaultPointOfServiceActions.LoadDefaultPointOfService()),
             catchError((_error) =>
-              of(DefaultPointOfServiceActions.LoadDefaultPointOfService)
-            )
-          )
+              of(DefaultPointOfServiceActions.LoadDefaultPointOfService),
+            ),
+          ),
       ),
-      map(() => DefaultPointOfServiceActions.LoadDefaultPointOfService())
-    )
+      map(() => DefaultPointOfServiceActions.LoadDefaultPointOfService()),
+    ),
   );
 }

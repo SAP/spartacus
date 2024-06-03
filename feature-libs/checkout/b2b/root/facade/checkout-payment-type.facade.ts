@@ -44,7 +44,7 @@ export abstract class CheckoutPaymentTypeFacade {
    */
   abstract setPaymentType(
     paymentTypeCode: string,
-    purchaseOrderNumber?: string
+    purchaseOrderNumber?: string,
   ): Observable<unknown>;
 
   /**

@@ -34,7 +34,7 @@ export function navigateToOrganizationUserRegisterPage() {
 
 export function fillOrganizationUserRegistrationForm(
   { titleCode, firstName, lastName, email, address, phone }: SampleUser,
-  message?: string
+  message?: string,
 ) {
   const companyName = 'My Company Inc.';
   cy.get(form).should('be.visible');
@@ -71,7 +71,7 @@ export function fillOrganizationUserRegistrationForm(
  * specifies if cypress should wait till registration request be completed.
  */
 export function submitOrganizationUserRegistrationForm(
-  wiatForRequestCompletion: boolean = true
+  wiatForRequestCompletion: boolean = true,
 ) {
   interceptPost('registerOrganizationUser', '*/orgUsers*');
 
@@ -101,7 +101,7 @@ export function verifyRedirectionToLoginPage() {
 export function verifyTabbingOrder() {
   tabbingOrder(
     'cx-page-layout.AccountPageTemplate',
-    config.userRegistrationForm
+    config.userRegistrationForm,
   );
 }
 
@@ -111,16 +111,16 @@ export function verifyFormErrors() {
 
   cy.get(form).within(() => {
     cy.get('[formcontrolname="firstName"] + cx-form-errors').contains(
-      requiredFieldMessage
+      requiredFieldMessage,
     );
     cy.get('[formcontrolname="lastName"] + cx-form-errors').contains(
-      requiredFieldMessage
+      requiredFieldMessage,
     );
     cy.get('[formcontrolname="companyName"] + cx-form-errors').contains(
-      requiredFieldMessage
+      requiredFieldMessage,
     );
     cy.get('[formcontrolname="email"] + cx-form-errors').contains(
-      requiredFieldMessage
+      requiredFieldMessage,
     );
 
     cy.get('[formcontrolname="email"] + cx-form-errors').within(() => {

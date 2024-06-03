@@ -19,7 +19,7 @@ const addToCartButtonSelector =
  */
 export function goToConfigurationPage(
   shopName: string,
-  productId: string
+  productId: string,
 ): Chainable<Window> {
   const location = `/${shopName}/en/USD/configure/textfield/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
@@ -37,7 +37,7 @@ export function goToConfigurationPage(
  */
 export function goToProductDetailsPage(
   shopName: string,
-  productId: string
+  productId: string,
 ): Chainable<Window> {
   const location = `${shopName}/en/USD/product/${productId}/${productId}`;
   return cy.visit(location).then(() => {

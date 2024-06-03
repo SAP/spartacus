@@ -26,14 +26,14 @@ export class UnitUserListService extends SubListService<B2BUser> {
 
   constructor(
     protected tableService: TableService,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
   ) {
     super(tableService);
   }
 
   protected load(
     pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<B2BUser> | undefined> {
     return this.unitService.getUsers(code, B2BUserRole.CUSTOMER, pagination);
   }

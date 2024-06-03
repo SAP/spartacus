@@ -98,7 +98,7 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
     this.sub = this.control.valueChanges
       .pipe(startWith(this.control.value))
       .subscribe((value) =>
-        this.control.setValue(this.getValidCount(value), { emitEvent: false })
+        this.control.setValue(this.getValidCount(value), { emitEvent: false }),
       );
   }
 

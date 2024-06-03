@@ -42,7 +42,7 @@ context('Qualtrics integration', () => {
     // cleanup the dummy script
     cy.document().then((doc) => {
       const scriptNode = doc.querySelector(
-        `script[src="${DEFAULT_SCRIPT_LOCATION}"]`
+        `script[src="${DEFAULT_SCRIPT_LOCATION}"]`,
       );
       scriptNode.parentNode.removeChild(scriptNode);
     });

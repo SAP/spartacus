@@ -78,7 +78,7 @@ describe('AccountSummaryPageMetaResolver', () => {
   describe('resolveTitle', () => {
     it('should emit title of CMS content page ', async () => {
       expect(await firstValueFrom(service.resolveTitle())).toBe(
-        'testContentPageTitle'
+        'testContentPageTitle',
       );
     });
   });
@@ -87,7 +87,7 @@ describe('AccountSummaryPageMetaResolver', () => {
     describe('when on the Account Summary units list page', () => {
       beforeEach(() => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of({ state: { semanticRoute: 'orgAccountSummary' } } as any)
+          of({ state: { semanticRoute: 'orgAccountSummary' } } as any),
         );
       });
       it('should NOT return breadcrumb for the Account Summary page', async () => {
@@ -104,11 +104,11 @@ describe('AccountSummaryPageMetaResolver', () => {
 
       beforeEach(() => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of({ state: { semanticRoute: 'orgAccountSummaryDetails' } } as any)
+          of({ state: { semanticRoute: 'orgAccountSummaryDetails' } } as any),
         );
 
         spyOn(contentPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
-          of([testHomeBreadcrumb, accountSummaryDetailsBreadcrumb])
+          of([testHomeBreadcrumb, accountSummaryDetailsBreadcrumb]),
         );
       });
 

@@ -180,7 +180,7 @@ describe('NavigationComponentService', () => {
 
   it('should get main link for root entry based on CMS data', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(
-      of(navigationEntryItems)
+      of(navigationEntryItems),
     );
 
     let result: NavigationNode;
@@ -193,7 +193,7 @@ describe('NavigationComponentService', () => {
 
   it('should not get a URL when no link is provided in the CMS data', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(
-      of(navigationEntryItems)
+      of(navigationEntryItems),
     );
 
     let result: NavigationNode;
@@ -206,7 +206,7 @@ describe('NavigationComponentService', () => {
 
   it('should get a link to a category when categoryCode is provided', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(
-      of(navigationEntryItems)
+      of(navigationEntryItems),
     );
 
     let result: NavigationNode;
@@ -219,7 +219,7 @@ describe('NavigationComponentService', () => {
 
   it('should get a link to a content page when contentPageLabelOrId is provided', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(
-      of(navigationEntryItems)
+      of(navigationEntryItems),
     );
 
     let result: NavigationNode;
@@ -232,7 +232,7 @@ describe('NavigationComponentService', () => {
 
   it('should get a link to a product when productCode is provided', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(
-      of(navigationEntryItems)
+      of(navigationEntryItems),
     );
 
     let result: NavigationNode;
@@ -249,7 +249,7 @@ describe('NavigationComponentService', () => {
 
   it('should get navigation node based on CMS data', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(
-      of(navigationEntryItems)
+      of(navigationEntryItems),
     );
 
     let result: NavigationNode;
@@ -264,7 +264,7 @@ describe('NavigationComponentService', () => {
 
   it('should load the missing navigation nodes for the latest CMS data', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(
-      of(navigationEntryItems)
+      of(navigationEntryItems),
     );
 
     // add one more child
@@ -282,13 +282,13 @@ describe('NavigationComponentService', () => {
     navigationService.getNavigationNode(of(componentData)).subscribe();
     expect(mockCmsService.loadNavigationItems).toHaveBeenCalledWith(
       'MockNavigationNode001',
-      [{ superType: 'AbstractCMSComponent', id: 'MockLink007' }]
+      [{ superType: 'AbstractCMSComponent', id: 'MockLink007' }],
     );
   });
 
   it('should create a virtual navigation root', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(
-      of(navigationEntryItems)
+      of(navigationEntryItems),
     );
 
     let result: NavigationNode;
@@ -313,7 +313,7 @@ describe('NavigationComponentService', () => {
               uid: 'MockNavigationNode001',
               title: 'root node',
             },
-          } as NodeItem)
+          } as NodeItem),
         )
         .subscribe((node) => (result = node));
 
@@ -330,7 +330,7 @@ describe('NavigationComponentService', () => {
             navigationNode: {
               uid: 'MockNavigationNode001',
             },
-          } as NodeItem)
+          } as NodeItem),
         )
         .subscribe((node) => (result = node));
 
@@ -345,7 +345,7 @@ describe('NavigationComponentService', () => {
             url: '/main',
             target: false,
           },
-        } as NodeItem)
+        } as NodeItem),
       );
 
       let result: NavigationNode;
@@ -362,7 +362,7 @@ describe('NavigationComponentService', () => {
                 },
               ],
             },
-          })
+          }),
         )
         .subscribe((node) => (result = node));
 
@@ -386,7 +386,7 @@ describe('NavigationComponentService', () => {
                 },
               ],
             },
-          })
+          }),
         )
         .subscribe((node) => (result = node));
 
@@ -407,7 +407,7 @@ describe('NavigationComponentService', () => {
                   title: 'root node',
                   styleClasses: 'first-cls',
                 },
-              } as CmsNavigationComponent)
+              } as CmsNavigationComponent),
             )
             .subscribe((node) => (result = node));
           expect(result.styleClasses).toEqual('first-cls');
@@ -424,7 +424,7 @@ describe('NavigationComponentService', () => {
                   uid: 'MockNavigationNode001',
                   title: 'root node',
                 },
-              } as CmsNavigationComponent)
+              } as CmsNavigationComponent),
             )
             .subscribe((node) => (result = node));
           expect(result.styleClasses).toBeUndefined();
@@ -442,7 +442,7 @@ describe('NavigationComponentService', () => {
                   title: 'root node',
                   styleAttributes: 'color: red;',
                 },
-              } as CmsNavigationComponent)
+              } as CmsNavigationComponent),
             )
             .subscribe((node) => (result = node));
           expect(result.styleAttributes).toEqual('color: red;');
@@ -459,7 +459,7 @@ describe('NavigationComponentService', () => {
                   uid: 'MockNavigationNode001',
                   title: 'root node',
                 },
-              } as CmsNavigationComponent)
+              } as CmsNavigationComponent),
             )
             .subscribe((node) => (result = node));
           expect(result.styleAttributes).toBeUndefined();
@@ -486,7 +486,7 @@ describe('NavigationComponentService', () => {
               Id_Super: {
                 styleClasses: 'first second',
               },
-            } as NodeItem)
+            } as NodeItem),
           );
 
           let result: NavigationNode;
@@ -501,7 +501,7 @@ describe('NavigationComponentService', () => {
           mockCmsService.getNavigationEntryItems.and.returnValue(
             of({
               Id_Super: {},
-            } as NodeItem)
+            } as NodeItem),
           );
 
           let result: NavigationNode;
@@ -517,7 +517,7 @@ describe('NavigationComponentService', () => {
               Id_Super: {
                 styleAttributes: 'color: red;',
               },
-            } as NodeItem)
+            } as NodeItem),
           );
 
           let result: NavigationNode;
@@ -532,7 +532,7 @@ describe('NavigationComponentService', () => {
           mockCmsService.getNavigationEntryItems.and.returnValue(
             of({
               Id_Super: {},
-            } as NodeItem)
+            } as NodeItem),
           );
 
           let result: NavigationNode;
@@ -567,7 +567,7 @@ describe('NavigationComponentService', () => {
               url: '/main',
               target: true,
             },
-          })
+          }),
         );
 
         let result: NavigationNode;
@@ -586,7 +586,7 @@ describe('NavigationComponentService', () => {
               url: '/main',
               target: 'true',
             },
-          })
+          }),
         );
 
         let result: NavigationNode;
@@ -605,7 +605,7 @@ describe('NavigationComponentService', () => {
               url: '/main',
               target: false,
             },
-          })
+          }),
         );
 
         let result: NavigationNode;
@@ -624,7 +624,7 @@ describe('NavigationComponentService', () => {
               url: '/main',
               target: 'false',
             },
-          })
+          }),
         );
 
         let result: NavigationNode;
@@ -642,7 +642,7 @@ describe('NavigationComponentService', () => {
               linkName: 'entry linkName',
               target: true,
             },
-          })
+          }),
         );
 
         let result: NavigationNode;

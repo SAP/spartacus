@@ -24,7 +24,7 @@ import {
 export class UserNotificationPreferenceService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   /**
@@ -32,7 +32,7 @@ export class UserNotificationPreferenceService {
    */
   getPreferences(): Observable<NotificationPreference[]> {
     return (<Store<StateWithUser>>this.store).pipe(
-      select(UsersSelectors.getPreferences)
+      select(UsersSelectors.getPreferences),
     );
   }
 
@@ -41,7 +41,7 @@ export class UserNotificationPreferenceService {
    */
   getEnabledPreferences(): Observable<NotificationPreference[]> {
     return (<Store<StateWithUser>>this.store).pipe(
-      select(UsersSelectors.getEnabledPreferences)
+      select(UsersSelectors.getEnabledPreferences),
     );
   }
 
@@ -66,7 +66,7 @@ export class UserNotificationPreferenceService {
    */
   getPreferencesLoading(): Observable<boolean> {
     return (<Store<StateWithUser>>this.store).pipe(
-      select(UsersSelectors.getPreferencesLoading)
+      select(UsersSelectors.getPreferencesLoading),
     );
   }
 
@@ -80,7 +80,7 @@ export class UserNotificationPreferenceService {
         new UserActions.UpdateNotificationPreferences({
           userId,
           preferences: preferences,
-        })
+        }),
       );
     });
   }
@@ -90,7 +90,7 @@ export class UserNotificationPreferenceService {
    */
   getUpdatePreferencesResultLoading(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).select(
-      getProcessLoadingFactory(UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID)
+      getProcessLoadingFactory(UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID),
     );
   }
 

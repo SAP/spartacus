@@ -10,7 +10,7 @@ import { CheckoutScheduledReplenishmentEventListener } from './checkout-schedule
 @NgModule({})
 export class CheckoutScheduledReplenishmentEventModule {
   constructor(
-    _checkoutScheduledReplenishmentEventListener: CheckoutScheduledReplenishmentEventListener
+    _checkoutScheduledReplenishmentEventListener: CheckoutScheduledReplenishmentEventListener,
   ) {
     // Intentional empty constructor
   }

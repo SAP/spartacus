@@ -11,7 +11,7 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 const createTestValue = (
   price: number | undefined,
   total: number | undefined,
-  selected = true
+  selected = true,
 ): Configurator.Value => ({
   valueCode: 'a',
   selected,
@@ -34,12 +34,12 @@ class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAt
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
   ) {
     super(
       quantityService,
       attributeComponentContext,
-      configuratorCommonsService
+      configuratorCommonsService,
     );
   }
 }
@@ -51,24 +51,22 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionBaseComponent;
   let fixture: ComponentFixture<ExampleConfiguratorAttributeMultiSelectionComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ExampleConfiguratorAttributeMultiSelectionComponent],
-        providers: [
-          ConfiguratorAttributeQuantityService,
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ExampleConfiguratorAttributeMultiSelectionComponent],
+      providers: [
+        ConfiguratorAttributeQuantityService,
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
@@ -87,7 +85,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
     values = [value1, value2, value3];
 
     fixture = TestBed.createComponent(
-      ExampleConfiguratorAttributeMultiSelectionComponent
+      ExampleConfiguratorAttributeMultiSelectionComponent,
     );
 
     component = fixture.componentInstance;
@@ -161,7 +159,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
         component.extractQuantityParameters(1);
       expect(quantityOptions.allowZero).toBe(false);
       quantityOptions.disableQuantityActions$?.subscribe((disable) =>
-        expect(disable).toBe(false)
+        expect(disable).toBe(false),
       );
     });
   });
@@ -171,15 +169,15 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
       const quantity = 2;
       spyOn(
         component['configuratorCommonsService'],
-        'updateConfiguration'
+        'updateConfiguration',
       ).and.callThrough();
       component['onHandleAttributeQuantity'](quantity);
       expect(
-        component['configuratorCommonsService'].updateConfiguration
+        component['configuratorCommonsService'].updateConfiguration,
       ).toHaveBeenCalledWith(
         component.ownerKey,
         { ...component.attribute, quantity: 2 },
-        Configurator.UpdateType.ATTRIBUTE_QUANTITY
+        Configurator.UpdateType.ATTRIBUTE_QUANTITY,
       );
     });
   });
@@ -197,7 +195,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
       expect(priceFormulaParameters?.price?.value).toBe(0);
       expect(priceFormulaParameters?.price?.currencyIso).toBe('');
       expect(priceFormulaParameters?.priceTotal).toBe(
-        component.attribute.attributePriceTotal
+        component.attribute.attributePriceTotal,
       );
       expect(priceFormulaParameters?.isLightedUp).toBe(true);
     });
@@ -211,10 +209,10 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
         component.extractValuePriceFormulaParameters(value);
       expect(priceFormulaParameters?.quantity).toBe(value?.quantity);
       expect(priceFormulaParameters?.price?.value).toBe(
-        value?.valuePrice?.value
+        value?.valuePrice?.value,
       );
       expect(priceFormulaParameters?.priceTotal?.value).toBe(
-        value?.valuePriceTotal?.value
+        value?.valuePriceTotal?.value,
       );
       expect(priceFormulaParameters?.isLightedUp).toBe(value?.selected);
     });

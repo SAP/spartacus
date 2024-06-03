@@ -75,9 +75,9 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   ]).pipe(
     map(
       ([busy, userPaymentLoading, paymentMethodLoading]) =>
-        busy || userPaymentLoading || paymentMethodLoading
+        busy || userPaymentLoading || paymentMethodLoading,
     ),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   get backBtnText() {
@@ -92,7 +92,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     return this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
-      distinctUntilChanged((prev, curr) => prev?.id === curr?.id)
+      distinctUntilChanged((prev, curr) => prev?.id === curr?.id),
     );
   }
 
@@ -104,7 +104,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -119,7 +119,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       .pipe(
         filter((state) => !state.loading),
         take(1),
-        map((state) => state.data)
+        map((state) => state.data),
       )
       .subscribe((address) => {
         this.deliveryAddress = address;
@@ -142,11 +142,11 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
                     map(([payment, translation]) => ({
                       payment,
                       expiryTranslation: translation,
-                    }))
-                  )
-                )
+                    })),
+                  ),
+                ),
               );
-        })
+        }),
       ),
       this.selectedMethod$,
       this.translationService.translate('paymentForm.useThisPayment'),
@@ -154,7 +154,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       this.translationService.translate('paymentCard.selected'),
     ]).pipe(
       tap(([paymentMethods, selectedMethod]) =>
-        this.selectDefaultPaymentMethod(paymentMethods, selectedMethod)
+        this.selectDefaultPaymentMethod(paymentMethods, selectedMethod),
       ),
       map(
         ([
@@ -173,17 +173,17 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
                 textDefaultPaymentMethod,
                 textSelected,
               },
-              selectedMethod
+              selectedMethod,
             ),
             paymentMethod: payment.payment,
-          }))
-      )
+          })),
+      ),
     );
   }
 
   selectDefaultPaymentMethod(
     paymentMethods: { payment: PaymentDetails; expiryTranslation: string }[],
-    selectedMethod: PaymentDetails | undefined
+    selectedMethod: PaymentDetails | undefined,
   ) {
     if (
       !this.doneAutoSelect &&
@@ -191,7 +191,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       (!selectedMethod || Object.keys(selectedMethod).length === 0)
     ) {
       const defaultPaymentMethod = paymentMethods.find(
-        (paymentMethod) => paymentMethod.payment.defaultPayment
+        (paymentMethod) => paymentMethod.payment.defaultPayment,
       );
       if (defaultPaymentMethod) {
         selectedMethod = defaultPaymentMethod.payment;
@@ -210,7 +210,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       {
         key: 'paymentMethods.paymentMethodSelected',
       },
-      GlobalMessageType.MSG_TYPE_INFO
+      GlobalMessageType.MSG_TYPE_INFO,
     );
 
     this.savePaymentMethod(paymentDetails);
@@ -245,7 +245,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
         error: () => {
           this.onError();
         },
-      })
+      }),
     );
   }
 
@@ -263,7 +263,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       this.checkoutPaymentFacade.setPaymentDetails(paymentDetails).subscribe({
         complete: () => this.onSuccess(),
         error: () => this.onError(),
-      })
+      }),
     );
   }
 
@@ -292,11 +292,11 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       textUseThisPayment: string;
       textSelected: string;
     },
-    selected: PaymentDetails | undefined
+    selected: PaymentDetails | undefined,
   ): Card {
     // TODO: (CXSPA-6956) - Remove feature flag in next major release
     const hideSelectActionForSelected = this.featureConfigService?.isEnabled(
-      'a11yHideSelectBtnForSelectedAddrOrPayment'
+      'a11yHideSelectBtnForSelectedAddrOrPayment',
     );
     const isSelected = selected?.id === paymentDetails.id;
 

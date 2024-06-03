@@ -85,7 +85,7 @@ describe('Component Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(
-        effects.loadComponent$({ scheduler: getTestScheduler() })
+        effects.loadComponent$({ scheduler: getTestScheduler() }),
       ).toBeObservable(expected);
     });
     it('should return LoadComponentFail if component is missing in the response', () => {
@@ -107,7 +107,7 @@ describe('Component Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(
-        effects.loadComponent$({ scheduler: getTestScheduler() })
+        effects.loadComponent$({ scheduler: getTestScheduler() }),
       ).toBeObservable(expected);
     });
     describe('when the same page context is present in all the actions', () => {
@@ -136,7 +136,7 @@ describe('Component Effects', () => {
           pageContext,
         });
         spyOn(service, 'getList').and.returnValue(
-          cold('---c', { c: [component, component2] })
+          cold('---c', { c: [component, component2] }),
         );
 
         actions$ = hot('-ab', { a: action1, b: action2 });
@@ -149,11 +149,11 @@ describe('Component Effects', () => {
           effects.loadComponent$({
             scheduler: getTestScheduler(),
             debounce: 20,
-          })
+          }),
         ).toBeObservable(expected);
         expect(service.getList).toHaveBeenCalledWith(
           ['comp1', 'comp2'],
-          pageContext
+          pageContext,
         );
       });
     });
@@ -187,7 +187,7 @@ describe('Component Effects', () => {
           pageContext: pageContext2,
         });
         const getListSpy = spyOn(service, 'getList').and.callFake((ids) =>
-          cold('---a', { a: [{ ...component, uid: ids[0] }] })
+          cold('---a', { a: [{ ...component, uid: ids[0] }] }),
         );
 
         actions$ = hot('-ab', { a: action1, b: action2 });
@@ -200,7 +200,7 @@ describe('Component Effects', () => {
           effects.loadComponent$({
             scheduler: getTestScheduler(),
             debounce: 20,
-          })
+          }),
         ).toBeObservable(expected);
         expect(service.getList).toHaveBeenCalledTimes(2);
         // check all the arguments for which the method was called (reason: https://github.com/jasmine/jasmine/issues/228#issuecomment-270599719)

@@ -32,7 +32,7 @@ export class MerchandisingCarouselClickedEvent implements ProfileTagPushEvent {
     carouselEvent: CarouselEvent,
     slotId: string,
     sku: string,
-    imageUrl: string
+    imageUrl: string,
   ) {
     this.data = {
       ...carouselEvent,

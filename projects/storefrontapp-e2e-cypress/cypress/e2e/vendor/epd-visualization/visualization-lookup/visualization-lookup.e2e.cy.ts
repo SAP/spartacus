@@ -14,8 +14,8 @@ describe('in Spare Parts Tab', () => {
       cy.intercept(
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/cms/pages?pageType=ProductPage**`
+          'BASE_SITE',
+        )}/cms/pages?pageType=ProductPage**`,
       ).as('productPage');
     });
 
@@ -38,12 +38,12 @@ describe('in Spare Parts Tab', () => {
 
         cy.wait(`@lookupVisualization`);
         cy.get(
-          'cx-epd-visualization-visual-picking-tab .no-product-references'
+          'cx-epd-visualization-visual-picking-tab .no-product-references',
         ).should('be.hidden');
         cy.get('cx-epd-visualization-product-list').should('be.visible');
         cy.get('cx-epd-visualization-product-filter').should('be.visible');
         cy.get('cx-epd-visualization-viewer', { timeout: 30000 }).should(
-          'be.hidden'
+          'be.hidden',
         );
       });
     });
@@ -66,11 +66,11 @@ describe('in Spare Parts Tab', () => {
           .click();
         cy.wait(`@lookupVisualization`);
         cy.get(
-          'cx-epd-visualization-visual-picking-tab .no-product-references'
+          'cx-epd-visualization-visual-picking-tab .no-product-references',
         ).should('be.hidden');
         cy.get('cx-epd-visualization-product-filter').should('be.visible');
         cy.get('cx-epd-visualization-viewer', { timeout: 30000 }).should(
-          'be.hidden'
+          'be.hidden',
         );
       });
     });
@@ -85,7 +85,7 @@ describe('in Spare Parts Tab', () => {
             body: {
               references: [],
             },
-          }
+          },
         ).as('getProductReferences');
 
         cy.visit('/product/CX704/7%E2%80%9Dx12%E2%80%9D-mini-metal-lathe');
@@ -95,12 +95,12 @@ describe('in Spare Parts Tab', () => {
           .contains('Spare Parts')
           .click();
         cy.get(
-          'cx-epd-visualization-visual-picking-tab .no-product-references'
+          'cx-epd-visualization-visual-picking-tab .no-product-references',
         ).should('be.visible');
         cy.get('cx-epd-visualization-product-list').should('be.hidden');
         cy.get('cx-epd-visualization-product-filter').should('be.hidden');
         cy.get('cx-epd-visualization-viewer', { timeout: 30000 }).should(
-          'be.hidden'
+          'be.hidden',
         );
       });
     });

@@ -97,18 +97,18 @@ describe('VisualViewerAnimationSliderService', () => {
     });
 
     visualViewerAnimationSliderService = TestBed.inject(
-      VisualViewerAnimationSliderService
+      VisualViewerAnimationSliderService,
     );
 
     applyValue = (
       visualViewerAnimationSliderService['applyValue'] as (
-        value: number
+        value: number,
       ) => void
     ).bind(visualViewerAnimationSliderService);
 
     clampToRange = (
       visualViewerAnimationSliderService['clampToRange'] as (
-        value: number
+        value: number,
       ) => number
     ).bind(visualViewerAnimationSliderService);
   });
@@ -117,17 +117,17 @@ describe('VisualViewerAnimationSliderService', () => {
     it('should update event bindings, setup resize observer and set initialized property', () => {
       const updateEventBindingsSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'updateEventBindings'
+        'updateEventBindings',
       );
 
       const setupResizeObserverSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'setupResizeObserver'
+        'setupResizeObserver',
       );
 
       const setInitializedSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'setInitialized'
+        'setInitialized',
       );
 
       visualViewerAnimationSliderService.initialize();
@@ -162,7 +162,7 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const valueChangeEmitSpy = spyOn(
         visualViewerAnimationSliderService.valueChange,
-        'emit'
+        'emit',
       );
 
       visualViewerAnimationSliderService.value = 0;
@@ -178,7 +178,7 @@ describe('VisualViewerAnimationSliderService', () => {
       expect(visualViewerAnimationSliderService.value).toEqual(0);
       const valueChangeEmitSpy = spyOn(
         visualViewerAnimationSliderService.valueChange,
-        'emit'
+        'emit',
       );
 
       visualViewerAnimationSliderService.value = 0.5;
@@ -196,7 +196,7 @@ describe('VisualViewerAnimationSliderService', () => {
       expect(visualViewerAnimationSliderService.disabled).toEqual(false);
       const updateEventBindingsSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'updateEventBindings'
+        'updateEventBindings',
       );
       visualViewerAnimationSliderService.disabled = false;
       expect(visualViewerAnimationSliderService.disabled).toEqual(false);
@@ -208,7 +208,7 @@ describe('VisualViewerAnimationSliderService', () => {
       expect(visualViewerAnimationSliderService.disabled).toEqual(false);
       const updateEventBindingsSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'updateEventBindings'
+        'updateEventBindings',
       );
       visualViewerAnimationSliderService.disabled = true;
       expect(visualViewerAnimationSliderService.disabled).toEqual(true);
@@ -248,7 +248,7 @@ describe('VisualViewerAnimationSliderService', () => {
 
       spyOn<any>(
         visualViewerAnimationSliderService,
-        'resizeObserverSupported'
+        'resizeObserverSupported',
       ).and.returnValue(false);
 
       visualViewerAnimationSliderService['setupResizeObserver']();
@@ -265,16 +265,16 @@ describe('VisualViewerAnimationSliderService', () => {
       };
       spyOn<any>(
         visualViewerAnimationSliderService,
-        'resizeObserverSupported'
+        'resizeObserverSupported',
       ).and.returnValue(true);
 
       const resizeObserverConstructorSpy = spyOn<any>(
         window,
-        'ResizeObserver'
+        'ResizeObserver',
       ).and.returnValue(mockResizeObserver);
       const setResizeObserverPropertySpy = spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'resizeObserver'
+        'resizeObserver',
       ).and.callThrough();
 
       visualViewerAnimationSliderService['elementRef'] = mockElementRef2;
@@ -293,7 +293,7 @@ describe('VisualViewerAnimationSliderService', () => {
     it('should trigger change detection', () => {
       const detectChangesSpy = spyOn<any>(
         mockChangeDetectorRef,
-        'detectChanges'
+        'detectChanges',
       );
 
       visualViewerAnimationSliderService['onResize']();
@@ -314,7 +314,7 @@ describe('VisualViewerAnimationSliderService', () => {
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
         'barElement',
-        'get'
+        'get',
       ).and.returnValue(mockBarElementRef);
 
       const mockHandleElementRef = {
@@ -323,22 +323,22 @@ describe('VisualViewerAnimationSliderService', () => {
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
         'handleElement',
-        'get'
+        'get',
       ).and.returnValue(mockHandleElementRef);
 
       const detachAllEventListenersSpy = spyOn(
         eventListenerUtils,
-        'detachAllEventListeners'
+        'detachAllEventListeners',
       );
       visualViewerAnimationSliderService.disabled = true;
 
       expect(detachAllEventListenersSpy).toHaveBeenCalledTimes(3);
       expect(detachAllEventListenersSpy).toHaveBeenCalledWith(document);
       expect(detachAllEventListenersSpy).toHaveBeenCalledWith(
-        mockBarElementRef.nativeElement
+        mockBarElementRef.nativeElement,
       );
       expect(detachAllEventListenersSpy).toHaveBeenCalledWith(
-        mockHandleElementRef.nativeElement
+        mockHandleElementRef.nativeElement,
       );
     });
 
@@ -354,7 +354,7 @@ describe('VisualViewerAnimationSliderService', () => {
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
         'handleElement',
-        'get'
+        'get',
       ).and.returnValue(mockHandleElementRef);
 
       const mockBarElementRef = {
@@ -363,12 +363,12 @@ describe('VisualViewerAnimationSliderService', () => {
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
         'barElement',
-        'get'
+        'get',
       ).and.returnValue(mockBarElementRef);
 
       const attachEventListenerSpy = spyOn(
         eventListenerUtils,
-        'attachEventListener'
+        'attachEventListener',
       );
 
       visualViewerAnimationSliderService.disabled = false;
@@ -377,27 +377,27 @@ describe('VisualViewerAnimationSliderService', () => {
       expect(attachEventListenerSpy).toHaveBeenCalledWith(
         mockHandleElementRef.nativeElement,
         'mousedown',
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
       expect(attachEventListenerSpy).toHaveBeenCalledWith(
         mockBarElementRef.nativeElement,
         'mousedown',
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
       expect(attachEventListenerSpy).toHaveBeenCalledWith(
         mockHandleElementRef.nativeElement,
         'touchstart',
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
       expect(attachEventListenerSpy).toHaveBeenCalledWith(
         mockBarElementRef.nativeElement,
         'touchstart',
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
       expect(attachEventListenerSpy).toHaveBeenCalledWith(
         mockHandleElementRef.nativeElement,
         'focus',
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
     });
   });
@@ -411,11 +411,11 @@ describe('VisualViewerAnimationSliderService', () => {
       const handleMaxPosition = 50;
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'handleMaxPosition'
+        'handleMaxPosition',
       ).and.returnValue(handleMaxPosition);
       const rightToLeftSpy = spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'rightToLeft'
+        'rightToLeft',
       ).and.returnValue(false);
 
       expect(valueToPosition(0)).toEqual(0);
@@ -445,17 +445,17 @@ describe('VisualViewerAnimationSliderService', () => {
       const positionToValue = visualViewerAnimationSliderService[
         'positionToValue'
       ].bind(visualViewerAnimationSliderService) as (
-        position: number
+        position: number,
       ) => number;
 
       const handleMaxPosition = 50;
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'handleMaxPosition'
+        'handleMaxPosition',
       ).and.returnValue(handleMaxPosition);
       const rightToLeftSpy = spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'rightToLeft'
+        'rightToLeft',
       ).and.returnValue(false);
 
       expect(positionToValue(valueToPosition(0))).toEqual(0);
@@ -536,11 +536,11 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const detachEventListenersSpy = spyOn(
         eventListenerUtils,
-        'detachEventListeners'
+        'detachEventListeners',
       );
       const attachEventListenerSpy = spyOn(
         eventListenerUtils,
-        'attachEventListener'
+        'attachEventListener',
       );
       const touchEventWithChangedTouches = <TouchEvent>(<any>{
         stopPropagation: () => {},
@@ -554,11 +554,11 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const stopPropagationSpy = spyOn(
         touchEventWithChangedTouches,
-        'stopPropagation'
+        'stopPropagation',
       );
       const preventDefault = spyOn(
         touchEventWithChangedTouches,
-        'preventDefault'
+        'preventDefault',
       );
 
       onTouchStart(touchEventWithChangedTouches);
@@ -570,25 +570,25 @@ describe('VisualViewerAnimationSliderService', () => {
       expect(attachEventListenerSpy).toHaveBeenCalledTimes(2);
       expect(detachEventListenersSpy).toHaveBeenCalledWith(
         jasmine.any(Object),
-        'touchmove'
+        'touchmove',
       );
       expect(attachEventListenerSpy).toHaveBeenCalledWith(
         jasmine.any(Object),
         'touchmove',
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
       expect(detachEventListenersSpy).toHaveBeenCalledWith(
         jasmine.any(Object),
-        'touchend'
+        'touchend',
       );
       expect(attachEventListenerSpy).toHaveBeenCalledWith(
         jasmine.any(Object),
         'touchend',
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
 
       expect(visualViewerAnimationSliderService['touchIdentifier']).toBe(
-        touchEventWithChangedTouches.changedTouches[0].identifier
+        touchEventWithChangedTouches.changedTouches[0].identifier,
       );
     });
 
@@ -603,11 +603,11 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const detachEventListenersSpy = spyOn(
         eventListenerUtils,
-        'detachEventListeners'
+        'detachEventListeners',
       );
       const attachEventListenerSpy = spyOn(
         eventListenerUtils,
-        'attachEventListener'
+        'attachEventListener',
       );
 
       const oldTouch = <Touch>{
@@ -626,24 +626,24 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const stopPropagationSpy = spyOn(
         touchEventWithAdditionalTouch,
-        'stopPropagation'
+        'stopPropagation',
       );
       const preventDefault = spyOn(
         touchEventWithAdditionalTouch,
-        'preventDefault'
+        'preventDefault',
       );
 
       // When a previous touch on the bar or handle has been initiated, the touchIdentifier property will have been set.
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
         'touchIdentifier',
-        'get'
+        'get',
       ).and.returnValue(oldTouch.identifier);
 
       const setTouchIdentifierPropertySpy = spyOnProperty<any>(
         visualViewerAnimationSliderService,
         'touchIdentifier',
-        'set'
+        'set',
       );
 
       onTouchStart(touchEventWithAdditionalTouch);
@@ -666,7 +666,7 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const onTouchMoveSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'onTouchMove'
+        'onTouchMove',
       );
 
       const touchEventWithoutChangedTouches = <TouchEvent>(<any>{
@@ -676,19 +676,19 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const onTouchStartSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'onTouchStart'
+        'onTouchStart',
       );
 
       onTouchStartOnBar(touchEventWithoutChangedTouches);
 
       expect(onTouchStartSpy).toHaveBeenCalledTimes(1);
       expect(onTouchStartSpy).toHaveBeenCalledWith(
-        touchEventWithoutChangedTouches
+        touchEventWithoutChangedTouches,
       );
 
       expect(onTouchMoveSpy).toHaveBeenCalledTimes(1);
       expect(onTouchMoveSpy).toHaveBeenCalledWith(
-        touchEventWithoutChangedTouches
+        touchEventWithoutChangedTouches,
       );
     });
   });
@@ -705,15 +705,15 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const detachEventListenersSpy = spyOn(
         eventListenerUtils,
-        'detachEventListeners'
+        'detachEventListeners',
       );
       const attachEventListenerSpy = spyOn(
         eventListenerUtils,
-        'attachEventListener'
+        'attachEventListener',
       );
       const onTouchMoveSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'onMouseMove'
+        'onMouseMove',
       );
 
       const mouseEvent = <MouseEvent>(<any>{
@@ -733,21 +733,21 @@ describe('VisualViewerAnimationSliderService', () => {
       expect(attachEventListenerSpy).toHaveBeenCalledTimes(2);
       expect(detachEventListenersSpy).toHaveBeenCalledWith(
         jasmine.any(Object),
-        'mousemove'
+        'mousemove',
       );
       expect(attachEventListenerSpy).toHaveBeenCalledWith(
         jasmine.any(Object),
         'mousemove',
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
       expect(detachEventListenersSpy).toHaveBeenCalledWith(
         jasmine.any(Object),
-        'mouseup'
+        'mouseup',
       );
       expect(attachEventListenerSpy).toHaveBeenCalledWith(
         jasmine.any(Object),
         'mouseup',
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
 
       expect(onTouchMoveSpy).toHaveBeenCalledTimes(0);
@@ -762,11 +762,11 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const onMouseDownSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'onMouseDown'
+        'onMouseDown',
       );
       const onMouseMoveSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'onMouseMove'
+        'onMouseMove',
       );
 
       const mouseEvent = <MouseEvent>(<any>{
@@ -791,11 +791,11 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const detachEventListenersSpy = spyOn(
         eventListenerUtils,
-        'detachEventListeners'
+        'detachEventListeners',
       );
 
       const onMouseUp = visualViewerAnimationSliderService['onMouseUp'].bind(
-        visualViewerAnimationSliderService
+        visualViewerAnimationSliderService,
       ) as (event: MouseEvent) => void;
 
       const mouseEvent = <MouseEvent>{};
@@ -805,7 +805,7 @@ describe('VisualViewerAnimationSliderService', () => {
       expect(detachEventListenersSpy).toHaveBeenCalledTimes(2);
       expect(detachEventListenersSpy).toHaveBeenCalledWith(
         document,
-        'mousemove'
+        'mousemove',
       );
       expect(detachEventListenersSpy).toHaveBeenCalledWith(document, 'mouseup');
     });
@@ -826,12 +826,12 @@ describe('VisualViewerAnimationSliderService', () => {
 
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'sliderClientPosition'
+        'sliderClientPosition',
       ).and.returnValue(sliderClientPosition);
 
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'handleWidth'
+        'handleWidth',
       ).and.returnValue(handleWidth);
 
       const expectedPosition =
@@ -841,12 +841,12 @@ describe('VisualViewerAnimationSliderService', () => {
       const expectedValue = 0.25; // assume a handleMaxPosition of 100
       spyOn<any>(
         visualViewerAnimationSliderService,
-        'positionToValue'
+        'positionToValue',
       ).and.returnValue(expectedValue);
 
       const applyValueSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'applyValue'
+        'applyValue',
       );
 
       onMouseMove(mouseEvent);
@@ -861,7 +861,7 @@ describe('VisualViewerAnimationSliderService', () => {
       const touchIdentifier = undefined;
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'touchIdentifier'
+        'touchIdentifier',
       ).and.returnValue(touchIdentifier);
 
       const onTouchMove = visualViewerAnimationSliderService[
@@ -870,7 +870,7 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const applyValueSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'applyValue'
+        'applyValue',
       );
 
       const touch = <Touch>{
@@ -891,7 +891,7 @@ describe('VisualViewerAnimationSliderService', () => {
       const touchIdentifier = 888;
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'touchIdentifier'
+        'touchIdentifier',
       ).and.returnValue(touchIdentifier);
 
       const onTouchMove = visualViewerAnimationSliderService[
@@ -900,7 +900,7 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const applyValueSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'applyValue'
+        'applyValue',
       );
 
       const touch = <Touch>{
@@ -921,7 +921,7 @@ describe('VisualViewerAnimationSliderService', () => {
       const touchIdentifier = 222;
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'touchIdentifier'
+        'touchIdentifier',
       ).and.returnValue(touchIdentifier);
 
       const onTouchMove = visualViewerAnimationSliderService[
@@ -944,12 +944,12 @@ describe('VisualViewerAnimationSliderService', () => {
 
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'sliderClientPosition'
+        'sliderClientPosition',
       ).and.returnValue(sliderClientPosition);
 
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'handleWidth'
+        'handleWidth',
       ).and.returnValue(handleWidth);
 
       const expectedPosition =
@@ -959,12 +959,12 @@ describe('VisualViewerAnimationSliderService', () => {
       const expectedValue = 0.25; // assume a handleMaxPosition of 100
       spyOn<any>(
         visualViewerAnimationSliderService,
-        'positionToValue'
+        'positionToValue',
       ).and.returnValue(expectedValue);
 
       const applyValueSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'applyValue'
+        'applyValue',
       );
 
       onTouchMove(touchEvent);
@@ -979,7 +979,7 @@ describe('VisualViewerAnimationSliderService', () => {
       const touchIdentifier = 222;
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'touchIdentifier'
+        'touchIdentifier',
       ).and.returnValue(touchIdentifier);
 
       const eventListenerUtils: EventListenerUtils =
@@ -987,11 +987,11 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const detachEventListenersSpy = spyOn(
         eventListenerUtils,
-        'detachEventListeners'
+        'detachEventListeners',
       );
 
       const onTouchEnd = visualViewerAnimationSliderService['onTouchEnd'].bind(
-        visualViewerAnimationSliderService
+        visualViewerAnimationSliderService,
       ) as (event: TouchEvent) => void;
 
       const touch = <Touch>{
@@ -1012,7 +1012,7 @@ describe('VisualViewerAnimationSliderService', () => {
       const touchIdentifier = 222;
       spyOnProperty<any>(
         visualViewerAnimationSliderService,
-        'touchIdentifier'
+        'touchIdentifier',
       ).and.returnValue(touchIdentifier);
 
       const eventListenerUtils: EventListenerUtils =
@@ -1020,11 +1020,11 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const detachEventListenersSpy = spyOn(
         eventListenerUtils,
-        'detachEventListeners'
+        'detachEventListeners',
       );
 
       const onTouchEnd = visualViewerAnimationSliderService['onTouchEnd'].bind(
-        visualViewerAnimationSliderService
+        visualViewerAnimationSliderService,
       ) as (event: TouchEvent) => void;
 
       const touch = <Touch>{
@@ -1041,11 +1041,11 @@ describe('VisualViewerAnimationSliderService', () => {
       expect(detachEventListenersSpy).toHaveBeenCalledTimes(2);
       expect(detachEventListenersSpy).toHaveBeenCalledWith(
         document,
-        'touchmove'
+        'touchmove',
       );
       expect(detachEventListenersSpy).toHaveBeenCalledWith(
         document,
-        'touchend'
+        'touchend',
       );
     });
   });
@@ -1057,14 +1057,14 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const attachEventListenersSpy = spyOn(
         eventListenerUtils,
-        'attachEventListener'
+        'attachEventListener',
       );
 
       const mockNativeElement = {};
       spyOnProperty(
         visualViewerAnimationSliderService,
         'handleElement',
-        'get'
+        'get',
       ).and.returnValue({ nativeElement: mockNativeElement });
 
       const onHandleFocus = visualViewerAnimationSliderService[
@@ -1077,12 +1077,12 @@ describe('VisualViewerAnimationSliderService', () => {
       expect(attachEventListenersSpy).toHaveBeenCalledWith(
         mockNativeElement,
         'blur',
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
       expect(attachEventListenersSpy).toHaveBeenCalledWith(
         mockNativeElement,
         'keydown',
-        jasmine.any(Function)
+        jasmine.any(Function),
       );
     });
   });
@@ -1094,14 +1094,14 @@ describe('VisualViewerAnimationSliderService', () => {
 
       const detachEventListenersSpy = spyOn(
         eventListenerUtils,
-        'detachEventListeners'
+        'detachEventListeners',
       );
 
       const mockNativeElement = {};
       spyOnProperty(
         visualViewerAnimationSliderService,
         'handleElement',
-        'get'
+        'get',
       ).and.returnValue({ nativeElement: mockNativeElement });
 
       const onHandleBlur = visualViewerAnimationSliderService[
@@ -1113,15 +1113,15 @@ describe('VisualViewerAnimationSliderService', () => {
       expect(detachEventListenersSpy).toHaveBeenCalledTimes(3);
       expect(detachEventListenersSpy).toHaveBeenCalledWith(
         mockNativeElement,
-        'blur'
+        'blur',
       );
       expect(detachEventListenersSpy).toHaveBeenCalledWith(
         mockNativeElement,
-        'keydown'
+        'keydown',
       );
       expect(detachEventListenersSpy).toHaveBeenCalledWith(
         mockNativeElement,
-        'keyup'
+        'keyup',
       );
     });
   });
@@ -1130,18 +1130,18 @@ describe('VisualViewerAnimationSliderService', () => {
     it('should not do anything if unhandled key pressed', () => {
       const applyValueSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'applyValue'
+        'applyValue',
       );
 
       spyOn<any>(
         visualViewerAnimationSliderService,
-        'getKeyHandler'
+        'getKeyHandler',
       ).and.returnValue(undefined);
 
       const onKeyboardEvent = visualViewerAnimationSliderService[
         'onKeyboardEvent'
       ].bind(visualViewerAnimationSliderService) as (
-        event: KeyboardEvent
+        event: KeyboardEvent,
       ) => void;
 
       const event = <KeyboardEvent>{
@@ -1156,18 +1156,18 @@ describe('VisualViewerAnimationSliderService', () => {
     it('should prevent default action and apply modified value if handled key pressed', () => {
       const applyValueSpy = spyOn<any>(
         visualViewerAnimationSliderService,
-        'applyValue'
+        'applyValue',
       );
       const keyHandler = (value: number) => value + 0.02;
       spyOn<any>(
         visualViewerAnimationSliderService,
-        'getKeyHandler'
+        'getKeyHandler',
       ).and.returnValue(keyHandler);
 
       const onKeyboardEvent = visualViewerAnimationSliderService[
         'onKeyboardEvent'
       ].bind(visualViewerAnimationSliderService) as (
-        event: KeyboardEvent
+        event: KeyboardEvent,
       ) => void;
 
       const event = <KeyboardEvent>{
@@ -1197,14 +1197,14 @@ describe('VisualViewerAnimationSliderService', () => {
         const stepDelta = visualViewerAnimationSliderService['stepDelta'];
 
         const arrowUpHandlerLtr = getKeyHandler('ArrowUp', false) as (
-          value: number
+          value: number,
         ) => number;
         expect(clampToRange(arrowUpHandlerLtr(0))).toEqual(stepDelta);
         expect(clampToRange(arrowUpHandlerLtr(0.5))).toEqual(0.5 + stepDelta);
         expect(clampToRange(arrowUpHandlerLtr(1))).toEqual(1);
 
         const arrowUpHandlerRtl = getKeyHandler('ArrowUp', true) as (
-          value: number
+          value: number,
         ) => number;
         expect(clampToRange(arrowUpHandlerRtl(0))).toEqual(stepDelta);
         expect(clampToRange(arrowUpHandlerRtl(0.5))).toEqual(0.5 + stepDelta);
@@ -1224,14 +1224,14 @@ describe('VisualViewerAnimationSliderService', () => {
         const stepDelta = visualViewerAnimationSliderService['stepDelta'];
 
         const arrowDownHandlerLtr = getKeyHandler('ArrowDown', false) as (
-          value: number
+          value: number,
         ) => number;
         expect(clampToRange(arrowDownHandlerLtr(0))).toEqual(0);
         expect(clampToRange(arrowDownHandlerLtr(0.5))).toEqual(0.5 - stepDelta);
         expect(clampToRange(arrowDownHandlerLtr(1))).toEqual(1 - stepDelta);
 
         const arrowDownHandlerRtl = getKeyHandler('ArrowDown', true) as (
-          value: number
+          value: number,
         ) => number;
         expect(clampToRange(arrowDownHandlerRtl(0))).toEqual(0);
         expect(clampToRange(arrowDownHandlerRtl(0.5))).toEqual(0.5 - stepDelta);
@@ -1251,7 +1251,7 @@ describe('VisualViewerAnimationSliderService', () => {
         const stepDelta = visualViewerAnimationSliderService['stepDelta'];
 
         const arrowLeftHandlerLtr = getKeyHandler('ArrowLeft', false) as (
-          value: number
+          value: number,
         ) => number;
 
         expect(clampToRange(arrowLeftHandlerLtr(0))).toEqual(0);
@@ -1259,7 +1259,7 @@ describe('VisualViewerAnimationSliderService', () => {
         expect(clampToRange(arrowLeftHandlerLtr(1))).toEqual(1 - stepDelta);
 
         const arrowLeftHandlerRtl = getKeyHandler('ArrowLeft', true) as (
-          value: number
+          value: number,
         ) => number;
 
         expect(clampToRange(arrowLeftHandlerRtl(0))).toEqual(stepDelta);
@@ -1280,22 +1280,22 @@ describe('VisualViewerAnimationSliderService', () => {
         const stepDelta = visualViewerAnimationSliderService['stepDelta'];
 
         const arrowRightHandlerLtr = getKeyHandler('ArrowRight', false) as (
-          value: number
+          value: number,
         ) => number;
 
         expect(clampToRange(arrowRightHandlerLtr(0))).toEqual(stepDelta);
         expect(clampToRange(arrowRightHandlerLtr(0.5))).toEqual(
-          0.5 + stepDelta
+          0.5 + stepDelta,
         );
         expect(clampToRange(arrowRightHandlerLtr(1))).toEqual(1);
 
         const arrowRightHandlerRtl = getKeyHandler('ArrowRight', true) as (
-          value: number
+          value: number,
         ) => number;
 
         expect(clampToRange(arrowRightHandlerRtl(0))).toEqual(0);
         expect(clampToRange(arrowRightHandlerRtl(0.5))).toEqual(
-          0.5 - stepDelta
+          0.5 - stepDelta,
         );
         expect(clampToRange(arrowRightHandlerRtl(1))).toEqual(1 - stepDelta);
       });
@@ -1313,14 +1313,14 @@ describe('VisualViewerAnimationSliderService', () => {
         const pageDelta = visualViewerAnimationSliderService['pageDelta'];
 
         const pageUpHandlerLtr = getKeyHandler('PageUp', false) as (
-          value: number
+          value: number,
         ) => number;
         expect(clampToRange(pageUpHandlerLtr(0))).toEqual(pageDelta);
         expect(clampToRange(pageUpHandlerLtr(0.5))).toEqual(0.5 + pageDelta);
         expect(clampToRange(pageUpHandlerLtr(1))).toEqual(1);
 
         const pageUpHandlerRtl = getKeyHandler('PageUp', true) as (
-          value: number
+          value: number,
         ) => number;
         expect(clampToRange(pageUpHandlerRtl(0))).toEqual(pageDelta);
         expect(clampToRange(pageUpHandlerRtl(0.5))).toEqual(0.5 + pageDelta);
@@ -1340,14 +1340,14 @@ describe('VisualViewerAnimationSliderService', () => {
         const pageDelta = visualViewerAnimationSliderService['pageDelta'];
 
         const pageDownHandlerLtr = getKeyHandler('PageDown', false) as (
-          value: number
+          value: number,
         ) => number;
         expect(clampToRange(pageDownHandlerLtr(0))).toEqual(0);
         expect(clampToRange(pageDownHandlerLtr(0.5))).toEqual(0.5 - pageDelta);
         expect(clampToRange(pageDownHandlerLtr(1))).toEqual(1 - pageDelta);
 
         const pageDownHandlerRtl = getKeyHandler('PageDown', true) as (
-          value: number
+          value: number,
         ) => number;
         expect(clampToRange(pageDownHandlerRtl(0))).toEqual(0);
         expect(clampToRange(pageDownHandlerRtl(0.5))).toEqual(0.5 - pageDelta);
@@ -1362,14 +1362,14 @@ describe('VisualViewerAnimationSliderService', () => {
         ].bind(visualViewerAnimationSliderService);
 
         const homeHandlerLtr = getKeyHandler('Home', false) as (
-          value: number
+          value: number,
         ) => number;
         expect(homeHandlerLtr(0)).toEqual(0);
         expect(homeHandlerLtr(0.5)).toEqual(0);
         expect(homeHandlerLtr(1)).toEqual(0);
 
         const homeHandlerRtl = getKeyHandler('Home', true) as (
-          value: number
+          value: number,
         ) => number;
         expect(homeHandlerRtl(0)).toEqual(0);
         expect(homeHandlerRtl(0.5)).toEqual(0);
@@ -1384,14 +1384,14 @@ describe('VisualViewerAnimationSliderService', () => {
         ].bind(visualViewerAnimationSliderService);
 
         const endHandlerLtr = getKeyHandler('End', false) as (
-          value: number
+          value: number,
         ) => number;
         expect(endHandlerLtr(0)).toEqual(1);
         expect(endHandlerLtr(0.5)).toEqual(1);
         expect(endHandlerLtr(1)).toEqual(1);
 
         const endHandlerRtl = getKeyHandler('End', true) as (
-          value: number
+          value: number,
         ) => number;
         expect(endHandlerRtl(0)).toEqual(1);
         expect(endHandlerRtl(0.5)).toEqual(1);
@@ -1417,7 +1417,7 @@ describe('VisualViewerAnimationSliderService', () => {
 
       spyOnProperty(
         visualViewerAnimationSliderService,
-        'handleMaxPosition'
+        'handleMaxPosition',
       ).and.returnValue(45);
 
       visualViewerAnimationSliderService.valueChange
@@ -1436,7 +1436,7 @@ describe('VisualViewerAnimationSliderService', () => {
       const setValuePropertySpy = spyOnProperty(
         visualViewerAnimationSliderService,
         'value',
-        'set'
+        'set',
       );
 
       applyValue(-1); // 0 after clamping

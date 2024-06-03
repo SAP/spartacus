@@ -31,7 +31,7 @@ describe('Order Return Request Reducer', () => {
 
       const { initialState } = fromOrderReturnRequestReducer;
       const action = new OrderActions.LoadOrderReturnRequestListSuccess(
-        mockUserOrders
+        mockUserOrders,
       );
       const state = fromOrderReturnRequestReducer.reducer(initialState, action);
 

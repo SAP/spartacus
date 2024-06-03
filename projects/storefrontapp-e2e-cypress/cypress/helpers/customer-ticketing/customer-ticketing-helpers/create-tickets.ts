@@ -25,17 +25,17 @@ export function fillTicketDetails(ticketDetails: TestTicketDetails) {
   cy.get('cx-customer-ticketing-create-dialog').within(() => {
     cy.get('.cx-customer-ticket-form-container').should(
       'contain',
-      'Add New Request'
+      'Add New Request',
     );
     cy.get(`textarea[formcontrolname="${SUBJECT_CONTROL}"]`).type(
-      ticketDetails.subject
+      ticketDetails.subject,
     );
     cy.contains('.cx-customer-ticket-label', 'Category')
       .get('select')
       .eq(CATEGORY_SELECT)
       .select(ticketDetails.ticketCategory.name);
     cy.get(`textarea[formcontrolname="${MESSAGE_CONTROL}"]`).type(
-      ticketDetails.message
+      ticketDetails.message,
     );
     cy.get('cx-form-errors').should('not.be.visible');
   });
@@ -64,7 +64,7 @@ export function addFileSelect(filename: string) {
   cy.get('input[type=file]').selectFile(
     '../storefrontapp-e2e-cypress/cypress/helpers/customer-ticketing/files-to-upload/' +
       filename,
-    { force: true }
+    { force: true },
   );
   cy.get('p').contains(filename);
 }
@@ -72,7 +72,7 @@ export function addFileSelect(filename: string) {
 export function addFile(filename: string) {
   cy.get('cx-file-upload input[type="file"]').attachFile(
     { filePath: '../helpers/customer-ticketing/files-to-upload/' + filename },
-    { allowEmpty: true }
+    { allowEmpty: true },
   );
   cy.get('p').contains(filename);
 }
@@ -89,7 +89,7 @@ export function clickClose() {
   cy.get('cx-customer-ticketing-create-dialog').within(() => {
     cy.get('.cx-customer-ticket-form-container').should(
       'contain',
-      'Add New Request'
+      'Add New Request',
     );
     cy.get('button[aria-label="Close"]').click();
   });
@@ -115,7 +115,7 @@ export function createTicket(ticketDetails: TestTicketDetails) {
 
 export function createMultipleTickets(
   numberOfTicket: number,
-  ticketDetails: TestTicketDetails
+  ticketDetails: TestTicketDetails,
 ) {
   for (let i = 0; i < numberOfTicket; i++) {
     createTicket(ticketDetails);

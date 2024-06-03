@@ -45,7 +45,7 @@ describe('UserListNormalizer', () => {
     [OccUserListNormalizer],
     (userListNormalizer: OccUserListNormalizer) => {
       expect(userListNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert user list', () => {

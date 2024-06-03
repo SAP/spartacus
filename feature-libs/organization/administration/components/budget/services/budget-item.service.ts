@@ -24,7 +24,7 @@ export class BudgetItemService extends ItemService<Budget> {
     protected currentItemService: CurrentBudgetService,
     protected routingService: RoutingService,
     protected formService: BudgetFormService,
-    protected budgetService: BudgetService
+    protected budgetService: BudgetService,
   ) {
     super(currentItemService, routingService, formService);
   }
@@ -42,7 +42,7 @@ export class BudgetItemService extends ItemService<Budget> {
 
   update(
     code: string,
-    value: Budget
+    value: Budget,
   ): Observable<OrganizationItemStatus<Budget>> {
     this.budgetService.update(code, value);
     return this.budgetService.getLoadingStatus(value.code ?? '');

@@ -20,12 +20,12 @@ describe('View All Stores Reducer', () => {
 
       const loadingState = fromReducers.viewAllStoresReducer(
         initialState,
-        loadAction
+        loadAction,
       );
       const resultAction = new StoreFinderActions.ViewAllStoresSuccess(results);
       const state = fromReducers.viewAllStoresReducer(
         loadingState,
-        resultAction
+        resultAction,
       );
 
       expect(state.viewAllStoresEntities).toEqual(results);

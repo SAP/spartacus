@@ -43,15 +43,15 @@ describe('ThemeService', () => {
   it('should set theme to component', () => {
     service.init(componentRef);
     expect(
-      componentRef.location.nativeElement.classList.contains('test-theme')
+      componentRef.location.nativeElement.classList.contains('test-theme'),
     ).toBeTruthy();
 
     service.setTheme('new-theme');
     expect(
-      componentRef.location.nativeElement.classList.contains('new-theme')
+      componentRef.location.nativeElement.classList.contains('new-theme'),
     ).toBeTruthy();
     expect(
-      componentRef.location.nativeElement.classList.contains('test-theme')
+      componentRef.location.nativeElement.classList.contains('test-theme'),
     ).toBeFalsy();
   });
 });

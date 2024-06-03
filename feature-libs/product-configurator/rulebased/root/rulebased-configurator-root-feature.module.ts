@@ -49,7 +49,7 @@ export function defaultProductConfiguratorRulebasedComponentsConfig(): CmsConfig
   imports: [],
   providers: [
     provideDefaultConfigFactory(
-      defaultProductConfiguratorRulebasedComponentsConfig
+      defaultProductConfiguratorRulebasedComponentsConfig,
     ),
   ],
 })

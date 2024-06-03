@@ -22,7 +22,7 @@ export class UserAccountConnector {
   }
 
   createVerificationToken(
-    verificationTokenCreation: VerificationTokenCreation
+    verificationTokenCreation: VerificationTokenCreation,
   ): Observable<VerificationToken> {
     return this.adapter.createVerificationToken(verificationTokenCreation);
   }

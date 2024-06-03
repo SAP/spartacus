@@ -55,7 +55,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected config: Config,
     protected eventService: EventService,
-    protected productSearchConnector: ProductSearchConnector
+    protected productSearchConnector: ProductSearchConnector,
   ) {}
 
   ngOnDestroy(): void {
@@ -83,7 +83,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       return this.productSearchConnector
         .search(query, searchConfig)
         .pipe(
-          map((searchPage: ProductSearchPage) => searchPage.products || [])
+          map((searchPage: ProductSearchPage) => searchPage.products || []),
         );
     } else {
       return of([]);
@@ -104,7 +104,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     if (code && productData) {
       return of(
         this.isProductOnTheList(code) ||
-          !this.isLimitExceeded(code, productData)
+          !this.isLimitExceeded(code, productData),
       );
     } else if (code) {
       return of(this.isProductOnTheList(code) || !this.isLimitExceeded());
@@ -194,7 +194,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
         .get(CartAddEntryFailEvent)
         .subscribe((cartEvent: CartAddEntryFailEvent) => {
           events.push(this.createQuickOrderResultEvent(cartEvent));
-        })
+        }),
     );
 
     return this.getEntries().pipe(
@@ -208,7 +208,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       }),
       filter((isStable) => isStable),
       map(() => [entries, events] as [OrderEntry[], QuickOrderAddEntryEvent[]]),
-      tap(() => subscription.unsubscribe())
+      tap(() => subscription.unsubscribe()),
     );
   }
 
@@ -249,7 +249,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   clearDeletedEntries(): void {
     Object.values(this.clearDeleteTimeouts).forEach(
-      (subscription: Subscription) => subscription.unsubscribe()
+      (subscription: Subscription) => subscription.unsubscribe(),
     );
 
     this.softDeletedEntries$.next({});
@@ -282,7 +282,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   protected addSoftEntryDeletion(
     entry: OrderEntry,
-    clearTimeout: boolean = true
+    clearTimeout: boolean = true,
   ): void {
     const deletedEntries = this.softDeletedEntries$.getValue();
     const productCode = entry?.product?.code;
@@ -294,7 +294,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
 
       if (clearTimeout) {
         const subscription: Subscription = timer(
-          this.hardDeleteTimeout
+          this.hardDeleteTimeout,
         ).subscribe(() => {
           this.hardDeleteEntry(productCode);
         });
@@ -318,7 +318,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   protected generateOrderEntry(
     product: Product,
-    quantity?: number
+    quantity?: number,
   ): OrderEntry {
     return {
       basePrice: product.price,
@@ -349,7 +349,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
 
     if (entry.product?.code && this.isProductOnTheList(entry.product.code)) {
       const entryIndex = entries.findIndex(
-        (item: OrderEntry) => item.product?.code === entry.product?.code
+        (item: OrderEntry) => item.product?.code === entry.product?.code,
       );
       const quantity = entries[entryIndex].quantity;
 
@@ -377,13 +377,13 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     const entries = this.entries$.getValue() || [];
 
     return !!entries.find(
-      (item: OrderEntry) => item.product?.code === productCode
+      (item: OrderEntry) => item.product?.code === productCode,
     );
   }
 
   protected isLimitExceeded(
     code?: string,
-    productsData?: ProductData[]
+    productsData?: ProductData[],
   ): boolean {
     const entries = this.entries$.getValue() || [];
 
@@ -409,20 +409,20 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected getMissingProductIndex(
     entries: OrderEntry[],
     code: string,
-    productsData: ProductData[]
+    productsData: ProductData[],
   ) {
     const missingProducts =
       productsData?.filter(
         (product) =>
           !entries
             .map((entry) => entry.product?.code)
-            .includes(product.productCode)
+            .includes(product.productCode),
       ) || [];
     return missingProducts.findIndex((product) => product.productCode === code);
   }
 
   private createQuickOrderResultEvent(
-    cartEvent: CartAddEntrySuccessEvent | CartAddEntryFailEvent
+    cartEvent: CartAddEntrySuccessEvent | CartAddEntryFailEvent,
   ): QuickOrderAddEntryEvent {
     const evt: QuickOrderAddEntryEvent = {
       productCode: cartEvent.productCode,
@@ -441,7 +441,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
 
     if (evt.error?.details?.length) {
       const isOutOfStock = evt.error?.details.some(
-        (e) => e.type === 'InsufficientStockError'
+        (e) => e.type === 'InsufficientStockError',
       );
       evt.quantityAdded = isOutOfStock ? 0 : evt.quantity;
     }

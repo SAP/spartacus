@@ -30,7 +30,7 @@ export namespace EntityScopedLoaderActions {
   export function entityScopedLoadMeta(
     entityType: string,
     id: string | string[],
-    scope?: string
+    scope?: string,
   ): EntityScopedLoaderMeta {
     return {
       ...entityLoadMeta(entityType, id),
@@ -42,7 +42,7 @@ export namespace EntityScopedLoaderActions {
     entityType: string,
     id: string | string[],
     scope?: string,
-    error?: any
+    error?: any,
   ): EntityScopedLoaderMeta {
     return {
       ...entityFailMeta(entityType, id, error),
@@ -53,7 +53,7 @@ export namespace EntityScopedLoaderActions {
   export function entityScopedSuccessMeta(
     entityType: string,
     id: string | string[],
-    scope?: string
+    scope?: string,
   ): EntityScopedLoaderMeta {
     return {
       ...entitySuccessMeta(entityType, id),
@@ -64,7 +64,7 @@ export namespace EntityScopedLoaderActions {
   export function entityScopedResetMeta(
     entityType: string,
     id?: string | string[],
-    scope?: string
+    scope?: string,
   ): EntityScopedLoaderMeta {
     return {
       ...entityResetMeta(entityType, id),
@@ -87,7 +87,7 @@ export namespace EntityScopedLoaderActions {
       entityType: string,
       id: string | string[],
       scope?: string,
-      error?: any
+      error?: any,
     ) {
       this.meta = entityScopedFailMeta(entityType, id, scope, error);
     }
@@ -100,7 +100,7 @@ export namespace EntityScopedLoaderActions {
       entityType: string,
       id: string | string[],
       scope?: string,
-      public payload?: any
+      public payload?: any,
     ) {
       this.meta = entityScopedSuccessMeta(entityType, id, scope);
     }

@@ -17,7 +17,7 @@ export class OccConfiguratorVariantOverviewSerializer
 
   convert(
     source: Configurator.Overview,
-    target?: OccConfigurator.Overview
+    target?: OccConfigurator.Overview,
   ): OccConfigurator.Overview {
     return {
       ...target,
@@ -29,7 +29,7 @@ export class OccConfiguratorVariantOverviewSerializer
   }
 
   protected convertAttributeFilters(
-    attributeFilters?: Configurator.OverviewFilter[]
+    attributeFilters?: Configurator.OverviewFilter[],
   ): OccConfigurator.OverviewFilter[] {
     const result: OccConfigurator.OverviewFilter[] = [];
     attributeFilters?.forEach((filter) => {
@@ -39,7 +39,7 @@ export class OccConfiguratorVariantOverviewSerializer
   }
 
   protected convertGroupFilters(
-    groupFilters?: string[]
+    groupFilters?: string[],
   ): OccConfigurator.OverviewFilter[] {
     const result: OccConfigurator.OverviewFilter[] = [];
     groupFilters?.forEach((filter) => {

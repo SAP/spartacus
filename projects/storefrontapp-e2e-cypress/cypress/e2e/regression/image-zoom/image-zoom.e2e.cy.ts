@@ -23,8 +23,8 @@ describe('Image zoom', { testIsolation: false }, () => {
       cy.intercept(
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/products/${productId}?fields=*stock(DEFAULT)*&lang=en&curr=USD`
+          'BASE_SITE',
+        )}/products/${productId}?fields=*stock(DEFAULT)*&lang=en&curr=USD`,
       ).as('getProductDetails');
 
       cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);

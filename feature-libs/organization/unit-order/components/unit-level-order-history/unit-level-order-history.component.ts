@@ -31,7 +31,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
   constructor(
     protected routing: RoutingService,
     protected unitOrdersFacade: UnitOrderFacade,
-    protected translation: TranslationService
+    protected translation: TranslationService,
   ) {}
 
   orders$: Observable<OrderHistoryList | undefined> = this.unitOrdersFacade
@@ -42,7 +42,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
           this.sortType = orders.pagination.sort;
           this.queryParams.sortCode = this.sortType;
         }
-      })
+      }),
     );
 
   isLoaded$: Observable<boolean> =
@@ -63,7 +63,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
   private updateQueryParams(partialParams: OrderHistoryQueryParams) {
     // Overwrite each value present in partialParams to _queryParams
     Object.entries(partialParams).forEach(
-      (param) => ((this.queryParams as any)[param[0]] = param[1])
+      (param) => ((this.queryParams as any)[param[0]] = param[1]),
     );
   }
 
@@ -116,8 +116,8 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
             byOrgUnitDesc: textByOrgUnitDesc,
             byBuyerDesc: textByBuyerDesc,
           };
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -126,7 +126,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
       this.PAGE_SIZE,
       queryParam.currentPage,
       queryParam.filters,
-      queryParam.sortCode
+      queryParam.sortCode,
     );
   }
 }

@@ -29,7 +29,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
   constructor(
     protected store: Store<StateWithOrder>,
     protected processStateStore: Store<StateWithProcess<void>>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   /**
@@ -38,14 +38,14 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    * @param returnRequestInput order return request entry input
    */
   createOrderReturnRequest(
-    returnRequestInput: ReturnRequestEntryInputList
+    returnRequestInput: ReturnRequestEntryInputList,
   ): void {
     this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new OrderActions.CreateOrderReturnRequest({
           userId,
           returnRequestInput,
-        })
+        }),
       );
     });
   }
@@ -61,7 +61,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    * Gets order return request list
    */
   getOrderReturnRequestList(
-    pageSize?: number
+    pageSize?: number,
   ): Observable<ReturnRequestList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getOrderReturnRequestListState),
@@ -74,7 +74,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
           this.loadOrderReturnRequestList(pageSize);
         }
       }),
-      map((returnListState) => returnListState.value)
+      map((returnListState) => returnListState.value),
     );
   }
 
@@ -88,7 +88,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
         new OrderActions.LoadOrderReturnRequest({
           userId,
           returnRequestCode,
-        })
+        }),
       );
     });
   }
@@ -102,7 +102,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
   loadOrderReturnRequestList(
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): void {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) => {
@@ -112,7 +112,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
             pageSize,
             currentPage,
             sort,
-          })
+          }),
         );
       },
       error: () => {
@@ -154,7 +154,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    */
   cancelOrderReturnRequest(
     returnRequestCode: string,
-    returnRequestModification: ReturnRequestModification
+    returnRequestModification: ReturnRequestModification,
   ): void {
     this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
@@ -162,7 +162,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
           userId,
           returnRequestCode,
           returnRequestModification,
-        })
+        }),
       );
     });
   }
@@ -173,8 +173,8 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
   getCancelReturnRequestLoading(): Observable<boolean> {
     return this.processStateStore.pipe(
       select(
-        ProcessSelectors.getProcessLoadingFactory(CANCEL_RETURN_PROCESS_ID)
-      )
+        ProcessSelectors.getProcessLoadingFactory(CANCEL_RETURN_PROCESS_ID),
+      ),
     );
   }
 
@@ -184,8 +184,8 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
   getCancelReturnRequestSuccess(): Observable<boolean> {
     return this.processStateStore.pipe(
       select(
-        ProcessSelectors.getProcessSuccessFactory(CANCEL_RETURN_PROCESS_ID)
-      )
+        ProcessSelectors.getProcessSuccessFactory(CANCEL_RETURN_PROCESS_ID),
+      ),
     );
   }
 

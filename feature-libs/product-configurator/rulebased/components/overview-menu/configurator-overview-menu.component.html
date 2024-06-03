@@ -5,7 +5,7 @@
       context: {
         overviewGroups: config.overview.groups,
         level: 1,
-        idPrefix: ''
+        idPrefix: '',
       }
     "
   ></ng-container>
@@ -39,7 +39,7 @@
               context: {
                 overviewGroups: group.subGroups,
                 level: level + 1,
-                idPrefix: getPrefixId(idPrefix, group.id)
+                idPrefix: getPrefixId(idPrefix, group.id),
               }
             "
           ></ng-container>

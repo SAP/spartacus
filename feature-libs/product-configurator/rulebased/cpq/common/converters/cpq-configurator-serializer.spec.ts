@@ -144,7 +144,7 @@ const groups: Configurator.Group[] = [
 const configuration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     configId,
-    ConfiguratorModelUtils.createInitialOwner()
+    ConfiguratorModelUtils.createInitialOwner(),
   ),
   groups: groups,
 };
@@ -158,41 +158,41 @@ describe('CpqConfiguratorSerializer', () => {
     });
 
     cpqConfiguratorSerializer = TestBed.inject(
-      CpqConfiguratorSerializer as Type<CpqConfiguratorSerializer>
+      CpqConfiguratorSerializer as Type<CpqConfiguratorSerializer>,
     );
 
     configuration.updateType = Configurator.UpdateType.ATTRIBUTE;
   });
 
   function verifyUpdateAttributeSingleValue(
-    updateAttribute: Cpq.UpdateAttribute
+    updateAttribute: Cpq.UpdateAttribute,
   ) {
     expect(updateAttribute.configurationId).toBe(configId);
     expect(updateAttribute.standardAttributeCode).toBe(attrCode.toString());
     expect(updateAttribute.changeAttributeValue.attributeValueIds).toBe(
-      selectedSingleValue
+      selectedSingleValue,
     );
     expect(updateAttribute.changeAttributeValue.userInput).toBeUndefined();
   }
 
   function verifyUpdateAttributeMultiValue(
-    updateAttribute: Cpq.UpdateAttribute
+    updateAttribute: Cpq.UpdateAttribute,
   ) {
     expect(updateAttribute.configurationId).toBe(configId);
     expect(updateAttribute.standardAttributeCode).toBe(attrCode.toString());
     expect(updateAttribute.changeAttributeValue.attributeValueIds).toBe(
-      expectedValueIdsMulti
+      expectedValueIdsMulti,
     );
     expect(updateAttribute.changeAttributeValue.userInput).toBeUndefined();
   }
 
   function verifyUpdateAttributeUserInput(
-    updateAttribute: Cpq.UpdateAttribute
+    updateAttribute: Cpq.UpdateAttribute,
   ) {
     expect(updateAttribute.configurationId).toBe(configId);
     expect(updateAttribute.standardAttributeCode).toBe(attrCode.toString());
     expect(
-      updateAttribute.changeAttributeValue.attributeValueIds
+      updateAttribute.changeAttributeValue.attributeValueIds,
     ).toBeUndefined();
     expect(updateAttribute.changeAttributeValue.userInput).toBe(userInput);
   }
@@ -204,7 +204,7 @@ describe('CpqConfiguratorSerializer', () => {
   describe('single selection types', () => {
     it('should convert radio button', () => {
       verifyUpdateAttributeSingleValue(
-        cpqConfiguratorSerializer['convertAttribute'](attributeRB, configId)
+        cpqConfiguratorSerializer['convertAttribute'](attributeRB, configId),
       );
     });
 
@@ -212,14 +212,14 @@ describe('CpqConfiguratorSerializer', () => {
       verifyUpdateAttributeSingleValue(
         cpqConfiguratorSerializer['convertAttribute'](
           attributeRB_PRODUCT,
-          configId
-        )
+          configId,
+        ),
       );
     });
 
     it('should convert dropdown', () => {
       verifyUpdateAttributeSingleValue(
-        cpqConfiguratorSerializer['convertAttribute'](attributeDDLB, configId)
+        cpqConfiguratorSerializer['convertAttribute'](attributeDDLB, configId),
       );
     });
 
@@ -227,14 +227,14 @@ describe('CpqConfiguratorSerializer', () => {
       verifyUpdateAttributeSingleValue(
         cpqConfiguratorSerializer['convertAttribute'](
           attributeDDLB_PRODUCT,
-          configId
-        )
+          configId,
+        ),
       );
     });
 
     it('should convert single-selection-image', () => {
       verifyUpdateAttributeSingleValue(
-        cpqConfiguratorSerializer['convertAttribute'](attributeSSI, configId)
+        cpqConfiguratorSerializer['convertAttribute'](attributeSSI, configId),
       );
     });
   });
@@ -247,15 +247,15 @@ describe('CpqConfiguratorSerializer', () => {
     it('should return `0` in case valueCode is `###RETRACT_VALUE_CODE###`', () => {
       expect(
         cpqConfiguratorSerializer['processValueCode'](
-          Configurator.RetractValueCode
-        )
+          Configurator.RetractValueCode,
+        ),
       ).toEqual(expectedProcessedSingleValueRetractValue);
     });
 
     it('should return valueCode', () => {
       const valueCode = '8624';
       expect(cpqConfiguratorSerializer['processValueCode'](valueCode)).toEqual(
-        valueCode
+        valueCode,
       );
     });
   });
@@ -263,13 +263,16 @@ describe('CpqConfiguratorSerializer', () => {
   describe('multi selection types', () => {
     it('should convert checkbox', () => {
       verifyUpdateAttributeMultiValue(
-        cpqConfiguratorSerializer['convertAttribute'](attributeCB, configId)
+        cpqConfiguratorSerializer['convertAttribute'](attributeCB, configId),
       );
     });
 
     it('should convert checkboxlist', () => {
       verifyUpdateAttributeMultiValue(
-        cpqConfiguratorSerializer['convertAttribute'](attributeCBList, configId)
+        cpqConfiguratorSerializer['convertAttribute'](
+          attributeCBList,
+          configId,
+        ),
       );
     });
 
@@ -277,14 +280,14 @@ describe('CpqConfiguratorSerializer', () => {
       verifyUpdateAttributeMultiValue(
         cpqConfiguratorSerializer['convertAttribute'](
           attributeCBList_PRODUCT,
-          configId
-        )
+          configId,
+        ),
       );
     });
 
     it('should convert multi-selection-image', () => {
       verifyUpdateAttributeMultiValue(
-        cpqConfiguratorSerializer['convertAttribute'](attributeMSI, configId)
+        cpqConfiguratorSerializer['convertAttribute'](attributeMSI, configId),
       );
     });
   });
@@ -307,17 +310,17 @@ describe('CpqConfiguratorSerializer', () => {
     const updateAttributeWithEmptyUserInput: Cpq.UpdateAttribute =
       cpqConfiguratorSerializer['convertAttribute'](
         attributeWithEmptyUserInput,
-        configId
+        configId,
       );
     expect(
-      updateAttributeWithEmptyUserInput.changeAttributeValue.userInput
+      updateAttributeWithEmptyUserInput.changeAttributeValue.userInput,
     ).toBe(' ');
   });
 
   it('should process single selected value correctly', () => {
     const processedValue: string =
       cpqConfiguratorSerializer['processSelectedSingleValue'](
-        selectedSingleValue
+        selectedSingleValue,
       );
     expect(processedValue).toBe(selectedSingleValue);
   });
@@ -344,7 +347,7 @@ describe('CpqConfiguratorSerializer', () => {
 
   it('should prepare value ids correctly when nothing is selected', () => {
     const valueIds: string = cpqConfiguratorSerializer['prepareValueIds'](
-      attributeCBListNoSelection
+      attributeCBListNoSelection,
     );
     expect(valueIds).toBe(expectedValueIdsMultiNoSelection);
   });
@@ -354,10 +357,10 @@ describe('CpqConfiguratorSerializer', () => {
       cpqConfiguratorSerializer.convert(configuration);
     expect(updateAttribute.configurationId).toBe(configId);
     expect(updateAttribute.standardAttributeCode).toBe(
-      attrCodeFirst.toString()
+      attrCodeFirst.toString(),
     );
     expect(updateAttribute.changeAttributeValue.attributeValueIds).toBe(
-      selectedSingleValue
+      selectedSingleValue,
     );
     expect(updateAttribute.changeAttributeValue.userInput).toBeUndefined();
     expect(updateAttribute.tabId).toBe(firstGroupId);

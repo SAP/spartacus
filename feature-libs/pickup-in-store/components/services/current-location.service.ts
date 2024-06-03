@@ -28,12 +28,12 @@ export class CurrentLocationService {
   getCurrentLocation(
     successCallback: PositionCallback,
     errorCallback?: PositionErrorCallback | null,
-    options?: PositionOptions
+    options?: PositionOptions,
   ): void {
     this.windowRef.nativeWindow?.navigator?.geolocation?.getCurrentPosition(
       successCallback,
       errorCallback,
-      options
+      options,
     );
   }
 }

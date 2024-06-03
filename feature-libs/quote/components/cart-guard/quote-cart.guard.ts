@@ -41,18 +41,18 @@ export class QuoteCartGuard implements CanActivate {
       map(([isQuoteCartActive, quoteId, isCheckoutAllowed, routerState]) => {
         const isAllowedCheckoutNavigation = this.checkAllowedCheckoutNavigation(
           routerState,
-          isCheckoutAllowed
+          isCheckoutAllowed,
         );
         if (isQuoteCartActive && !isAllowedCheckoutNavigation) {
           return this.router.createUrlTree(
             this.semanticPathService.transform({
               cxRoute: 'quoteDetails',
               params: { quoteId },
-            })
+            }),
           );
         }
         return true;
-      })
+      }),
     );
   }
 
@@ -66,7 +66,7 @@ export class QuoteCartGuard implements CanActivate {
    */
   protected checkAllowedCheckoutNavigation(
     routerState: RouterState,
-    isCheckoutAllowed: boolean
+    isCheckoutAllowed: boolean,
   ) {
     const nextStateIsCheckout =
       routerState.nextState?.semanticRoute?.startsWith('checkout');

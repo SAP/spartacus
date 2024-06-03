@@ -55,7 +55,7 @@ describe('ContentPageMetaResolver', () => {
     let result: string | undefined;
 
     spyOn(basePageMetaResolver, 'resolveTitle').and.returnValue(
-      of('Page title')
+      of('Page title'),
     );
 
     service
@@ -72,7 +72,7 @@ describe('ContentPageMetaResolver', () => {
     let result: string | undefined;
 
     spyOn(basePageMetaResolver, 'resolveDescription').and.returnValue(
-      of('Page description')
+      of('Page description'),
     );
 
     service
@@ -89,7 +89,7 @@ describe('ContentPageMetaResolver', () => {
     let result: BreadcrumbMeta[] | undefined;
 
     spyOn(basePageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
-      of([{ label: 'common.home', link: '/' } as BreadcrumbMeta])
+      of([{ label: 'common.home', link: '/' } as BreadcrumbMeta]),
     );
 
     service
@@ -110,7 +110,7 @@ describe('ContentPageMetaResolver', () => {
       of([
         { label: 'common.home', link: '/' },
         { label: 'child route breadcrumb', link: '/child' },
-      ] as BreadcrumbMeta[])
+      ] as BreadcrumbMeta[]),
     );
 
     service
@@ -131,7 +131,7 @@ describe('ContentPageMetaResolver', () => {
     let result: PageRobotsMeta[] | undefined;
 
     spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
-      of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX] as PageRobotsMeta[])
+      of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX] as PageRobotsMeta[]),
     );
 
     service
@@ -149,7 +149,7 @@ describe('ContentPageMetaResolver', () => {
     let result: string | undefined;
 
     spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.returnValue(
-      of('https://www.myshop.com/')
+      of('https://www.myshop.com/'),
     );
 
     service

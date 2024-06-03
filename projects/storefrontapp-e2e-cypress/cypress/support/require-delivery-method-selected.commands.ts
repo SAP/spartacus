@@ -22,7 +22,7 @@ declare global {
        */
       requireDeliveryMethodSelected: (
         auth: {},
-        cartId?: string
+        cartId?: string,
       ) => Cypress.Chainable<{}>;
     }
   }
@@ -35,7 +35,7 @@ Cypress.Commands.add('requireDeliveryMethodSelected', (token, cartId) => {
     return cy.request({
       method: 'PUT',
       url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/carts/${cartCode}/deliverymode?deliveryModeId=${deliveryMode}`,
       form: false,
       headers: {
@@ -45,6 +45,6 @@ Cypress.Commands.add('requireDeliveryMethodSelected', (token, cartId) => {
   }
 
   getDefaultDeliveryModeCode(token.access_token, cartId).then((code) =>
-    setDeliveryMethod(code).then((resp) => cy.wrap(resp))
+    setDeliveryMethod(code).then((resp) => cy.wrap(resp)),
   );
 });

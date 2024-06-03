@@ -19,15 +19,15 @@ import { NavigationService } from '../navigation/navigation.service';
 })
 export class FooterNavigationComponent {
   node$: Observable<NavigationNode> = this.service.getNavigationNode(
-    this.componentData.data$
+    this.componentData.data$,
   );
 
   styleClass$: Observable<string | undefined> = this.componentData.data$.pipe(
-    map((d) => d?.styleClass)
+    map((d) => d?.styleClass),
   );
 
   constructor(
     protected componentData: CmsComponentData<CmsNavigationComponent>,
-    protected service: NavigationService
+    protected service: NavigationService,
   ) {}
 }

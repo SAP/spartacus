@@ -31,7 +31,7 @@ export class UpdatePasswordComponentService {
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected authRedirectService?: AuthRedirectService,
-    protected authService?: AuthService
+    protected authService?: AuthService,
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
@@ -39,7 +39,7 @@ export class UpdatePasswordComponentService {
   private usingV2 = inject(USE_MY_ACCOUNT_V2_PASSWORD);
 
   isUpdating$ = this.busy$.pipe(
-    tap((state) => (state === true ? this.form.disable() : this.form.enable()))
+    tap((state) => (state === true ? this.form.disable() : this.form.enable())),
   );
 
   form: UntypedFormGroup = new UntypedFormGroup(
@@ -51,9 +51,9 @@ export class UpdatePasswordComponentService {
     {
       validators: CustomFormValidators.passwordsMustMatch(
         'newPassword',
-        'newPasswordConfirm'
+        'newPasswordConfirm',
       ),
-    }
+    },
   );
 
   /**
@@ -83,14 +83,14 @@ export class UpdatePasswordComponentService {
           ? 'myAccountV2PasswordForm.passwordUpdateSuccess'
           : 'updatePasswordForm.passwordUpdateSuccess',
       },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
     this.busy$.next(false);
     this.form.reset();
 
     // sets the redirect url after login
     this.authRedirectService?.setRedirectUrl(
-      this.routingService.getUrl({ cxRoute: 'home' })
+      this.routingService.getUrl({ cxRoute: 'home' }),
     );
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService?.coreLogout().then(() => {
@@ -109,7 +109,7 @@ export class UpdatePasswordComponentService {
             ? 'myAccountV2PasswordForm.accessDeniedError'
             : 'updatePasswordForm.accessDeniedError',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
     this.busy$.next(false);

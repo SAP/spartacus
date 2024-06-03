@@ -70,7 +70,7 @@ describe('ConfiguratorBadRequestHandler', () => {
 
   it('should register 400 responseStatus', () => {
     expect(classUnderTest.responseStatus).toEqual(
-      HttpResponseStatus.BAD_REQUEST
+      HttpResponseStatus.BAD_REQUEST,
     );
   });
 
@@ -85,13 +85,13 @@ describe('ConfiguratorBadRequestHandler', () => {
 
     it('should not detect another issue', () => {
       expect(
-        classUnderTest.hasMatch(mockAnotherIllegalStateErrorResponse)
+        classUnderTest.hasMatch(mockAnotherIllegalStateErrorResponse),
       ).toBe(false);
     });
 
     it('should detect make-to-stock issue', () => {
       expect(
-        classUnderTest.hasMatch(mockMakeToStockIllegalStateErrorResponse)
+        classUnderTest.hasMatch(mockMakeToStockIllegalStateErrorResponse),
       ).toBe(true);
     });
   });
@@ -109,7 +109,7 @@ describe('ConfiguratorBadRequestHandler', () => {
 
       classUnderTest.handleError(
         mockRequest,
-        mockAnotherIllegalStateErrorResponse
+        mockAnotherIllegalStateErrorResponse,
       );
 
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
@@ -120,12 +120,12 @@ describe('ConfiguratorBadRequestHandler', () => {
 
       classUnderTest.handleError(
         mockRequest,
-        mockMakeToStockIllegalStateErrorResponse
+        mockMakeToStockIllegalStateErrorResponse,
       );
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'configurator.httpHandlers.makeToStockBaseProductIssue' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
   });
@@ -154,29 +154,29 @@ describe('ConfiguratorBadRequestHandler', () => {
   describe('isRelatedToProductConfigurator', () => {
     it('should return false in case response is null', () => {
       expect(
-        classUnderTest['isRelatedToProductConfigurator'](mockEmptyResponse)
+        classUnderTest['isRelatedToProductConfigurator'](mockEmptyResponse),
       ).toBe(false);
     });
 
     it('should return false in case response is undefined', () => {
       expect(classUnderTest['isRelatedToProductConfigurator'](undefined)).toBe(
-        false
+        false,
       );
     });
 
     it('should return false in case response is not related to make-to-stock issue', () => {
       expect(
         classUnderTest['isRelatedToProductConfigurator'](
-          mockAnotherIllegalStateErrorResponse
-        )
+          mockAnotherIllegalStateErrorResponse,
+        ),
       ).toBe(false);
     });
 
     it('should return false in case response is related to make-to-stock issue', () => {
       expect(
         classUnderTest['isRelatedToProductConfigurator'](
-          mockMakeToStockIllegalStateErrorResponse
-        )
+          mockMakeToStockIllegalStateErrorResponse,
+        ),
       ).toBe(true);
     });
   });

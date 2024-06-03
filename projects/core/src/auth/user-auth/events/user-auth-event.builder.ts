@@ -21,7 +21,7 @@ export class UserAuthEventBuilder {
   constructor(
     protected stateEventService: StateEventService,
     protected eventService: EventService,
-    protected authService: AuthService
+    protected authService: AuthService,
   ) {
     this.register();
   }
@@ -58,7 +58,7 @@ export class UserAuthEventBuilder {
     return this.authService.isUserLoggedIn().pipe(
       pairwise(),
       filter(([prev, curr]) => prev && !curr),
-      map(() => createFrom(LogoutEvent, {}))
+      map(() => createFrom(LogoutEvent, {})),
     );
   }
 }

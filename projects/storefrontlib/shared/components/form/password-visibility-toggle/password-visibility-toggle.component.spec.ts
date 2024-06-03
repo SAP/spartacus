@@ -23,27 +23,25 @@ describe('PasswordVisibilityToggleComponent', () => {
   let fixture: ComponentFixture<PasswordVisibilityToggleComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          IconTestingModule,
-          FormsModule,
-          ReactiveFormsModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [PasswordVisibilityToggleComponent],
-        providers: [
-          {
-            provide: FormConfig,
-            useValue: mockFormConfig,
-          },
-          { provide: WindowRef, useClass: MockWinRef },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [PasswordVisibilityToggleComponent],
+      providers: [
+        {
+          provide: FormConfig,
+          useValue: mockFormConfig,
+        },
+        { provide: WindowRef, useClass: MockWinRef },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PasswordVisibilityToggleComponent);
@@ -64,7 +62,7 @@ describe('PasswordVisibilityToggleComponent', () => {
     const icon: HTMLElement = el.nativeElement.querySelector('button cx-icon');
 
     expect(button.getAttribute('aria-label')).toEqual(
-      'passwordVisibility.showPassword'
+      'passwordVisibility.showPassword',
     );
     expect(icon.getAttribute('ng-reflect-type')).toEqual('EYE');
     expect(input.getAttribute('type')).toEqual('password');
@@ -80,7 +78,7 @@ describe('PasswordVisibilityToggleComponent', () => {
 
     expect(component.toggle).toHaveBeenCalledWith();
     expect(button.getAttribute('aria-label')).toEqual(
-      'passwordVisibility.hidePassword'
+      'passwordVisibility.hidePassword',
     );
     expect(icon.getAttribute('ng-reflect-type')).toEqual('EYE_SLASH');
     expect(input.getAttribute('type')).toEqual('text');

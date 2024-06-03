@@ -24,7 +24,7 @@ import {
         [ORGANIZATION_ADMINISTRATION_FEATURE]: {
           module: () =>
             import('./administration-wrapper.module').then(
-              (m) => m.AdministrationWrapperModule
+              (m) => m.AdministrationWrapperModule,
             ),
         },
       },

@@ -10,7 +10,7 @@ export class DynamicTemplate {
       const placeholder = new RegExp('\\${' + variableLabel + '}', 'g');
       templateString = templateString.replace(
         placeholder,
-        templateVariables[variableLabel]
+        templateVariables[variableLabel],
       );
     }
     return templateString;

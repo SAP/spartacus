@@ -21,6 +21,6 @@ import { AsmCustomer360Response, AsmCustomer360TabComponent } from '../model';
 })
 export abstract class AsmCustomer360Facade {
   abstract get360Data(
-    components: Array<AsmCustomer360TabComponent>
+    components: Array<AsmCustomer360TabComponent>,
   ): Observable<AsmCustomer360Response | undefined>;
 }

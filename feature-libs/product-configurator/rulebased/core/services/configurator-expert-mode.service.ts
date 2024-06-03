@@ -17,7 +17,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 })
 export class ConfiguratorExpertModeService {
   private _expModeRequested: Observable<boolean> = new ReplaySubject<boolean>(
-    1
+    1,
   );
   private _expModeActive: Observable<boolean> = new ReplaySubject<boolean>(1);
 

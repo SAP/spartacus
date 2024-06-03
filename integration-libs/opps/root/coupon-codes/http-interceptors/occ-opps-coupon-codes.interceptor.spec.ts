@@ -68,7 +68,7 @@ describe('OccCouponCodesInterceptor', () => {
       expect(perHeader).toBeTruthy();
       expect(perHeader).toEqual('pink,blue');
       mockReq.flush('someData');
-    }
+    },
   ));
   it('should not add request header if coupon codes doesnot exist', inject(
     [HttpClient],
@@ -84,6 +84,6 @@ describe('OccCouponCodesInterceptor', () => {
       expect(perHeader).toBeFalsy();
       expect(perHeader).toEqual(null);
       mockReq.flush('someData');
-    }
+    },
   ));
 });

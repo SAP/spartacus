@@ -10,7 +10,10 @@ import * as path from 'path';
 import { FileSystemHost, ts } from 'ts-morph';
 
 export class TreeFileSystem implements FileSystemHost {
-  constructor(private readonly tree: Tree, private readonly rootDir: string) {}
+  constructor(
+    private readonly tree: Tree,
+    private readonly rootDir: string,
+  ) {}
 
   private resolvePath(filePath: string) {
     return normalize(resolve(normalize(this.rootDir), normalize(filePath)));
@@ -33,7 +36,7 @@ export class TreeFileSystem implements FileSystemHost {
     this.tree
       .getDir(dirPath)
       .subfiles.forEach((file) =>
-        paths.push(path.join(dirPath, file.toString()))
+        paths.push(path.join(dirPath, file.toString())),
       );
     this.tree
       .getDir(dirPath)
@@ -43,14 +46,14 @@ export class TreeFileSystem implements FileSystemHost {
 
   async readFile(
     filePath: string,
-    encoding?: BufferEncoding | undefined
+    encoding?: BufferEncoding | undefined,
   ): Promise<string> {
     return this.readFileSync(filePath, encoding);
   }
 
   readFileSync(
     filePath: string,
-    encoding?: BufferEncoding | undefined
+    encoding?: BufferEncoding | undefined,
   ): string {
     const result = this.tree
       .get(this.resolvePath(filePath))
@@ -122,7 +125,7 @@ export class TreeFileSystem implements FileSystemHost {
 
   realpathSync(filePath: string): string {
     const result = normalize(
-      resolve(normalize(this.rootDir), normalize(filePath))
+      resolve(normalize(this.rootDir), normalize(filePath)),
     );
     return result;
   }

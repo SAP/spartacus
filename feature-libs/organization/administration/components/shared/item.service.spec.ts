@@ -131,7 +131,7 @@ describe('ItemService', () => {
         const form = new UntypedFormGroup({});
         form.addControl(
           undefined,
-          new UntypedFormControl(undefined, Validators.required)
+          new UntypedFormControl(undefined, Validators.required),
         );
         service.save(form);
         expect(service.create).not.toHaveBeenCalled();
@@ -144,7 +144,7 @@ describe('ItemService', () => {
         const form = new UntypedFormGroup({});
         form.addControl(
           'name',
-          new UntypedFormControl(undefined, Validators.required)
+          new UntypedFormControl(undefined, Validators.required),
         );
         service.save(form, 'existingCode');
         expect(service.update).not.toHaveBeenCalled();

@@ -132,12 +132,12 @@ export function verifyTabElement(tabElement: TabElement) {
 
 export function verifyTabbingOrder(
   containerSelector: string,
-  elements: TabElement[]
+  elements: TabElement[],
 ) {
   cy.get(containerSelector)
     .find(focusableSelectors.join(','))
     .then((focusableElements) =>
-      focusableElements.filter((_, element) => element.offsetParent != null)
+      focusableElements.filter((_, element) => element.offsetParent != null),
     )
     .as('children')
     .should('have.length', elements.length);

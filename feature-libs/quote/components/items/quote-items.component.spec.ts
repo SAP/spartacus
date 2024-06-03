@@ -29,29 +29,27 @@ describe('QuoteItemsComponent', () => {
   let eventService: EventService;
   let quoteItemsComponentService: QuoteItemsComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      initMocks();
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          IconTestingModule,
-          AbstractOrderContextModule,
-        ],
-        declarations: [QuoteItemsComponent, MockOutletDirective],
-        providers: [
-          {
-            provide: EventService,
-            useValue: eventService,
-          },
-          {
-            provide: QuoteItemsComponentService,
-            useValue: quoteItemsComponentService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initMocks();
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        AbstractOrderContextModule,
+      ],
+      declarations: [QuoteItemsComponent, MockOutletDirective],
+      providers: [
+        {
+          provide: EventService,
+          useValue: eventService,
+        },
+        {
+          provide: QuoteItemsComponentService,
+          useValue: quoteItemsComponentService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteItemsComponent);
@@ -69,11 +67,11 @@ describe('QuoteItemsComponent', () => {
         'setQuoteEntriesExpanded',
         'getQuoteEntriesExpanded',
         'retrieveQuoteEntries',
-      ]
+      ],
     );
     asSpy(eventService.get).and.returnValue(EMPTY);
     asSpy(quoteItemsComponentService.getQuoteEntriesExpanded).and.returnValue(
-      true
+      true,
     );
     asSpy(quoteItemsComponentService.retrieveQuoteEntries).and.returnValue(
       of({
@@ -81,7 +79,7 @@ describe('QuoteItemsComponent', () => {
         readOnly: true,
         abstractOrderType: AbstractOrderType.QUOTE,
         abstractOrderId: quote.code,
-      })
+      }),
     );
   }
 
@@ -100,7 +98,7 @@ describe('QuoteItemsComponent', () => {
       CommonQuoteTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-ghost-table-header'
+        '.cx-ghost-table-header',
       );
     });
 
@@ -110,82 +108,82 @@ describe('QuoteItemsComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-table-header'
+        '.cx-ghost-table-header',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-title'
+        '.cx-ghost-title',
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-ghost-table'
+        '.cx-ghost-table',
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-row',
-        5
+        5,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-image-container',
-        5
+        5,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-image',
-        5
+        5,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-container',
-        5
+        5,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-info-container',
-        5
+        5,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-info',
-        20
+        20,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-qty',
-        5
+        5,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-total',
-        5
+        5,
       );
 
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-action',
-        5
+        5,
       );
     });
   });
@@ -194,14 +192,14 @@ describe('QuoteItemsComponent', () => {
     it('should call quoteItemsComponentService correctly if argument is true', () => {
       component.onToggleShowOrHideCart(true);
       expect(
-        quoteItemsComponentService.setQuoteEntriesExpanded
+        quoteItemsComponentService.setQuoteEntriesExpanded,
       ).toHaveBeenCalledWith(false);
     });
 
     it('should call quoteItemsComponentService correctly if argument is false', () => {
       component.onToggleShowOrHideCart(false);
       expect(
-        quoteItemsComponentService.setQuoteEntriesExpanded
+        quoteItemsComponentService.setQuoteEntriesExpanded,
       ).toHaveBeenCalledWith(true);
     });
   });
@@ -211,7 +209,7 @@ describe('QuoteItemsComponent', () => {
       expect,
       htmlElem,
       'cx-icon',
-      'CARET_UP'
+      'CARET_UP',
     );
   });
 
@@ -222,7 +220,7 @@ describe('QuoteItemsComponent', () => {
       expect,
       htmlElem,
       'cx-icon',
-      'CARET_DOWN'
+      'CARET_DOWN',
     );
   });
 
@@ -230,7 +228,7 @@ describe('QuoteItemsComponent', () => {
     CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
     fixture.detectChanges();
     expect(
-      quoteItemsComponentService.setQuoteEntriesExpanded
+      quoteItemsComponentService.setQuoteEntriesExpanded,
     ).toHaveBeenCalledWith(false);
   });
 
@@ -240,7 +238,7 @@ describe('QuoteItemsComponent', () => {
     CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
     fixture.detectChanges();
     expect(
-      quoteItemsComponentService.setQuoteEntriesExpanded
+      quoteItemsComponentService.setQuoteEntriesExpanded,
     ).toHaveBeenCalledWith(true);
   });
 
@@ -251,14 +249,14 @@ describe('QuoteItemsComponent', () => {
           htmlElem,
           'div',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'role',
-        'region'
+        'region',
       );
     });
 
@@ -268,14 +266,14 @@ describe('QuoteItemsComponent', () => {
           htmlElem,
           'div',
           '',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'aria-label',
-        'quote.items.regionTitle'
+        'quote.items.regionTitle',
       );
     });
   });

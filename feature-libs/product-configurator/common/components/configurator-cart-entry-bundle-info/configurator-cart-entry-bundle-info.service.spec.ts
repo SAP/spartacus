@@ -183,7 +183,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
     });
 
     configuratorCartEntryBundleInfoService = TestBed.inject(
-      ConfiguratorCartEntryBundleInfoService as Type<ConfiguratorCartEntryBundleInfoService>
+      ConfiguratorCartEntryBundleInfoService as Type<ConfiguratorCartEntryBundleInfoService>,
     );
   });
 
@@ -193,37 +193,37 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
 
   it('should remove delimiter', () => {
     expect(
-      configuratorCartEntryBundleInfoService['removeDelimiter']('xxx:')
+      configuratorCartEntryBundleInfoService['removeDelimiter']('xxx:'),
     ).toBe('xxx');
   });
 
   it('should retrive unchanged string if there is no delimiter', () => {
     expect(
-      configuratorCartEntryBundleInfoService['removeDelimiter']('xxx')
+      configuratorCartEntryBundleInfoService['removeDelimiter']('xxx'),
     ).toBe('xxx');
   });
 
   it('should prepare line item', () => {
     expect(
-      configuratorCartEntryBundleInfoService['prepareLineItem'](confInfo1)
+      configuratorCartEntryBundleInfoService['prepareLineItem'](confInfo1),
     ).toEqual(expectedLineItem1);
   });
 
   it('should prepare line item when there is no label/name', () => {
     expect(
-      configuratorCartEntryBundleInfoService['prepareLineItem'](confInfo2)
+      configuratorCartEntryBundleInfoService['prepareLineItem'](confInfo2),
     ).toEqual(expectedLineItem2);
   });
 
   it('should prepare line item when there is no price', () => {
     expect(
-      configuratorCartEntryBundleInfoService['prepareLineItem'](confInfo3)
+      configuratorCartEntryBundleInfoService['prepareLineItem'](confInfo3),
     ).toEqual(expectedLineItem3);
   });
 
   it('should prepare line item when there is neither quantity nor price', () => {
     expect(
-      configuratorCartEntryBundleInfoService['prepareLineItem'](confInfo4)
+      configuratorCartEntryBundleInfoService['prepareLineItem'](confInfo4),
     ).toEqual(expectedLineItem4);
   });
 
@@ -288,28 +288,28 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
         configurationInfosSplitName,
-        configurationInfoValueName
+        configurationInfoValueName,
       );
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
         configurationInfosSplitQty,
-        configurationInfoValueQty
+        configurationInfoValueQty,
       );
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
         configurationInfosSplitFormattedPrice,
-        configurationInfoValueFormattedPrice
+        configurationInfoValueFormattedPrice,
       );
 
       expect(lineItemMap.size).toBe(1);
       expect(lineItemMap.get(lineItemNumber)?.name).toBe(
-        configurationInfoValueName
+        configurationInfoValueName,
       );
       expect(lineItemMap.get(lineItemNumber)?.formattedQuantity).toBe(
-        configurationInfoValueQty
+        configurationInfoValueQty,
       );
       expect(lineItemMap.get(lineItemNumber)?.formattedPrice).toBe(
-        configurationInfoValueFormattedPrice
+        configurationInfoValueFormattedPrice,
       );
     });
 
@@ -338,19 +338,19 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
         configurationInfosSplitUnexpectedFieldName,
-        configurationInfoValueUnexpectedField
+        configurationInfoValueUnexpectedField,
       );
 
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
         configurationInfosSplitKey,
-        configurationInfoValueUnexpectedField
+        configurationInfoValueUnexpectedField,
       );
 
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
         configurationInfosSplitPriceValue,
-        configurationInfoValueUnexpectedField
+        configurationInfoValueUnexpectedField,
       );
 
       expect(lineItemMap.size).toBe(0);
@@ -368,7 +368,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       configuratorCartEntryBundleInfoService['addLineItemData'](
         lineItemMap,
         configurationInfosSplitUnexpectedFormat,
-        configurationInfoValue
+        configurationInfoValue,
       );
       expect(lineItemMap.size).toBe(0);
     });
@@ -377,7 +377,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
       configuratorCartEntryBundleInfoService['processConfigurationInfoEntry'](
         lineItemMap,
-        v2_confInfo0_name
+        v2_confInfo0_name,
       );
       expect(lineItemMap.size).toBe(1);
       expect(lineItemMap.get(0)?.name).toBe(productName0);
@@ -387,7 +387,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
       configuratorCartEntryBundleInfoService['processConfigurationInfoEntry'](
         lineItemMap,
-        v2_confInfo0_unexpected
+        v2_confInfo0_unexpected,
       );
       expect(lineItemMap.size).toBe(0);
     });
@@ -399,14 +399,14 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
         {
           configurationLabel: '',
           configurationValue: 'VALUE',
-        }
+        },
       );
       configuratorCartEntryBundleInfoService['processConfigurationInfoEntry'](
         lineItemMap,
         {
           configurationLabel: undefined,
           configurationValue: 'VALUE',
-        }
+        },
       );
       expect(lineItemMap.size).toBe(0);
     });
@@ -415,7 +415,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       const lineItemMap: Map<number, LineItem> = new Map();
       configuratorCartEntryBundleInfoService['processConfigurationInfoEntry'](
         lineItemMap,
-        v2_confInfo0_name_novalue
+        v2_confInfo0_name_novalue,
       );
       expect(lineItemMap.get(0)?.name).toEqual('');
     });

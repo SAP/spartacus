@@ -22,7 +22,7 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
 
   constructor(
     protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService
+    protected occEndpointsService: OccEndpointsService,
   ) {
     // Intentional empty constructor
   }
@@ -33,12 +33,12 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
         this.occEndpointsService.buildUrl('storeDetails', {
           urlParams: { storeName },
           queryParams: { fields: 'FULL' },
-        })
+        }),
       )
       .pipe(
         catchError((error: any) => {
           throw normalizeHttpError(error, this.logger);
-        })
+        }),
       );
   }
 }

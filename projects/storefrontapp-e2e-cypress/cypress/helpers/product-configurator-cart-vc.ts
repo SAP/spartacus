@@ -18,7 +18,7 @@ import { SampleUser } from '../sample-data/checkout-flow';
 export function checkNotificationBanner(
   element,
   cartItemIndex: number,
-  numberOfIssues?: number
+  numberOfIssues?: number,
 ): void {
   const resolveIssuesText = 'must be resolved before checkout.  Resolve Issues';
   element
@@ -43,7 +43,7 @@ export function checkNotificationBanner(
  */
 export function verifyNotificationBannerInCart(
   cartItemIndex: number,
-  numberOfIssues?: number
+  numberOfIssues?: number,
 ): void {
   cy.log('cartItemIndex: ' + cartItemIndex);
   cy.log('numberOfIssues: ' + numberOfIssues);
@@ -78,7 +78,7 @@ export function placeOrder(): void {
   cy.log('Place order');
   const orderConfirmationPage = checkout.waitForPage(
     '/order-confirmation',
-    'getOrderConfirmationPage'
+    'getOrderConfirmationPage',
   );
   cy.get('cx-place-order button.btn-primary').should('be.enabled').click();
   cy.wait(`@${orderConfirmationPage}`);

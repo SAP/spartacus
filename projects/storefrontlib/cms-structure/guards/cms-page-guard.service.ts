@@ -43,7 +43,7 @@ export class CmsPageGuardService {
     protected cmsI18n: CmsI18nService,
     protected cmsGuards: CmsGuardsService,
     protected cmsComponentsService: CmsComponentsService,
-    protected routing: RoutingService
+    protected routing: RoutingService,
   ) {}
 
   /**
@@ -66,17 +66,17 @@ export class CmsPageGuardService {
     pageContext: PageContext,
     pageData: Page,
     route: CmsActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     return this.cmsService.getPageComponentTypes(pageContext).pipe(
       take(1),
       switchMap((componentTypes) =>
-        this.cmsComponentsService.determineMappings(componentTypes)
+        this.cmsComponentsService.determineMappings(componentTypes),
       ),
       switchMap((componentTypes) =>
         this.cmsGuards
           .cmsPageCanActivate(componentTypes, route, state)
-          .pipe(withLatestFrom(of(componentTypes)))
+          .pipe(withLatestFrom(of(componentTypes))),
       ),
       tap(([canActivate, componentTypes]) => {
         if (canActivate === true) {
@@ -90,11 +90,11 @@ export class CmsPageGuardService {
             pageContext,
             componentTypes,
             state.url,
-            pageLabel
+            pageLabel,
           );
         }
         return canActivate;
-      })
+      }),
     );
   }
 
@@ -107,7 +107,7 @@ export class CmsPageGuardService {
   canActivateNotFoundPage(
     pageContext: PageContext,
     route: CmsActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     const notFoundLabel = this.semanticPathService.get('notFound');
     if (!notFoundLabel) {
@@ -129,16 +129,16 @@ export class CmsPageGuardService {
             switchMap((notFoundIndex) =>
               this.cmsService.getPageIndex(pageContext).pipe(
                 // we have to wait for page index update
-                filter((index) => index === notFoundIndex)
-              )
+                filter((index) => index === notFoundIndex),
+              ),
             ),
             switchMap(() =>
-              this.canActivatePage(pageContext, notFoundPage, route, state)
-            )
+              this.canActivatePage(pageContext, notFoundPage, route, state),
+            ),
           );
         }
         return of(false);
-      })
+      }),
     );
   }
 }

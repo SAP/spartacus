@@ -46,8 +46,8 @@ export class CDCRegisterComponentService extends RegisterComponentService {
       ({ user }) =>
         // Registering user through CDC Gigya SDK
         this.cdcJSService.registerUserWithoutScreenSet(
-          user
-        ) as unknown as Observable<User>
+          user,
+        ) as unknown as Observable<User>,
     );
 
   protected loadUserTokenFailed$: Observable<boolean> = this.eventService
@@ -58,7 +58,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
         if (failed) {
           throw new Error(`User token failed to load.`);
         }
-      })
+      }),
     );
 
   protected isLoggedIn$: Observable<boolean> = this.authService
@@ -77,7 +77,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     protected cdcConsentManagementService: CdcConsentManagementComponentService,
     protected converter: ConverterService,
     protected fb: UntypedFormBuilder,
-    protected anonymousConsentsService: AnonymousConsentsService
+    protected anonymousConsentsService: AnonymousConsentsService,
   ) {
     super(userRegisterFacade, globalMessageService, fb);
   }
@@ -100,28 +100,28 @@ export class CDCRegisterComponentService extends RegisterComponentService {
             {
               key: 'errorHandlers.scriptFailedToLoad',
             },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
           throw new Error(`CDC script didn't load.`);
         }
       }),
       switchMap(() =>
         // Logging in using CDC Gigya SDK, update the registerCommand
-        this.registerCommand.execute({ user })
+        this.registerCommand.execute({ user }),
       ),
       switchMap(() =>
         merge(this.loadUserTokenFailed$, this.isLoggedIn$).pipe(
           map(() => {
             //update user title code
             this.userProfileFacade.update(user);
-          })
-        )
+          }),
+        ),
       ),
       switchMap(() => {
         return this.userProfileFacade
           .get()
           .pipe(filter((userObj): userObj is User => Boolean(userObj)));
-      })
+      }),
     );
   }
 
@@ -139,7 +139,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
       consent.currentConsent.consentGivenDate = new Date();
       const serializedPreference: any = this.converter.convert(
         consent,
-        CDC_USER_PREFERENCE_SERIALIZER
+        CDC_USER_PREFERENCE_SERIALIZER,
       );
       preferences = Object.assign(preferences ?? {}, serializedPreference);
     }

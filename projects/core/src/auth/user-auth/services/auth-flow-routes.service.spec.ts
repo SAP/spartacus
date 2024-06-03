@@ -49,7 +49,7 @@ describe('AuthFlowRoutesService', () => {
       it('should return false', () => {
         const testUrl = 'not/auth/flow';
         spyOn(urlParsingService, 'matchPath').and.callFake(
-          (_: string, path: string) => path === testUrl
+          (_: string, path: string) => path === testUrl,
         );
         expect(service.isAuthFlow(testUrl)).toBe(false);
       });
@@ -59,7 +59,7 @@ describe('AuthFlowRoutesService', () => {
       it('should return true for path without aliases', () => {
         const testUrl = 'login';
         spyOn(urlParsingService, 'matchPath').and.callFake(
-          (_: string, path: string) => path === testUrl
+          (_: string, path: string) => path === testUrl,
         );
         expect(service.isAuthFlow(testUrl)).toBe(true);
       });
@@ -67,7 +67,7 @@ describe('AuthFlowRoutesService', () => {
       it('should return true for its one path alias', () => {
         const testUrl = 'register/alias/one';
         spyOn(urlParsingService, 'matchPath').and.callFake(
-          (_: string, path: string) => path === testUrl
+          (_: string, path: string) => path === testUrl,
         );
         expect(service.isAuthFlow(testUrl)).toBe(true);
       });
@@ -75,7 +75,7 @@ describe('AuthFlowRoutesService', () => {
       it('should return true for its other path alias', () => {
         const testUrl = 'register/alias/two';
         spyOn(urlParsingService, 'matchPath').and.callFake(
-          (_: string, path: string) => path === testUrl
+          (_: string, path: string) => path === testUrl,
         );
         expect(service.isAuthFlow(testUrl)).toBe(true);
       });

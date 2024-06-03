@@ -18,7 +18,7 @@ export const getConsignmentTrackingState: MemoizedSelector<
   ConsignmentTrackingState
 > = createSelector(
   getOrderState,
-  (state: OrderState) => state.consignmentTracking
+  (state: OrderState) => state.consignmentTracking,
 );
 
 export const getConsignmentTracking: MemoizedSelector<
@@ -26,5 +26,5 @@ export const getConsignmentTracking: MemoizedSelector<
   ConsignmentTracking
 > = createSelector(
   getConsignmentTrackingState,
-  (state: ConsignmentTrackingState) => state.tracking
+  (state: ConsignmentTrackingState) => state.tracking,
 );

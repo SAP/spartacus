@@ -12,7 +12,7 @@ export const initialState: EntityState<Page> = { entities: {} };
 
 export function reducer(
   state = initialState,
-  action: CmsActions.LoadCmsPageDataSuccess
+  action: CmsActions.LoadCmsPageDataSuccess,
 ): EntityState<Page> {
   switch (action.type) {
     case CmsActions.LOAD_CMS_PAGE_DATA_SUCCESS: {

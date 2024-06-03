@@ -23,7 +23,7 @@ declare global {
       requireSavedCart: (
         auth: {},
         productData?: {},
-        savedCartForm?: {}
+        savedCartForm?: {},
       ) => Cypress.Chainable<any>;
     }
   }
@@ -36,9 +36,9 @@ Cypress.Commands.add(
       return cy.request({
         method: 'PATCH',
         url: `${Cypress.env('API_URL')}/${Cypress.env(
-          'OCC_PREFIX'
+          'OCC_PREFIX',
         )}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/current/carts/${cartCode}/save?saveCartName=${
           savedCartForm.name
         }&saveCartDescription=${savedCartForm.description}`,
@@ -64,5 +64,5 @@ Cypress.Commands.add(
         cy.wrap(response.body.savedCartData);
       });
     });
-  }
+  },
 );

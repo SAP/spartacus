@@ -40,7 +40,7 @@ export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
     this.getIllegalStateErrorsRelatedToProductConfigurator(response).forEach(
       ({ message }: ErrorModel) => {
         this.handleIllegalArgumentIssues(message as string);
-      }
+      },
     );
   }
 
@@ -50,7 +50,7 @@ export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
         {
           key: 'configurator.httpHandlers.makeToStockBaseProductIssue',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }
@@ -69,20 +69,20 @@ export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
   }
 
   protected getIllegalStateErrorsRelatedToProductConfigurator(
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): ErrorModel[] {
     return (response?.error?.errors ?? [])
       .filter((error: ErrorModel) => error.type === 'IllegalStateError')
       .filter((error: ErrorModel) =>
-        this.isIllegalStateErrorRelatedToProductConfigurator(error.message)
+        this.isIllegalStateErrorRelatedToProductConfigurator(error.message),
       );
   }
 
   protected isRelatedToProductConfigurator(
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): boolean {
     return this.isNotEmpty(
-      this.getIllegalStateErrorsRelatedToProductConfigurator(response)
+      this.getIllegalStateErrorsRelatedToProductConfigurator(response),
     );
   }
 }

@@ -31,17 +31,17 @@ export class UserChangePasswordFormService extends FormService<any> {
       new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.passwordValidator,
-      ])
+      ]),
     );
     form.setControl(
       'confirmPassword',
       new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.passwordValidator,
-      ])
+      ]),
     );
     form.setValidators(
-      CustomFormValidators.passwordsMustMatch('password', 'confirmPassword')
+      CustomFormValidators.passwordsMustMatch('password', 'confirmPassword'),
     );
     this.form = form;
   }

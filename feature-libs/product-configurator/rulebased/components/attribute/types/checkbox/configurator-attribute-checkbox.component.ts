@@ -31,7 +31,7 @@ export class ConfiguratorAttributeCheckBoxComponent
 
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -57,7 +57,7 @@ export class ConfiguratorAttributeCheckBoxComponent
         ...this.attribute,
         values: selectedValues,
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   }
 
@@ -91,7 +91,7 @@ export class ConfiguratorAttributeCheckBoxComponent
    * @return {ConfiguratorPriceComponentOptions} - New price formula
    */
   extractValuePriceFormulaParameters(
-    value: Configurator.Value
+    value: Configurator.Value,
   ): ConfiguratorPriceComponentOptions {
     return {
       quantity: value.quantity,

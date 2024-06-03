@@ -21,7 +21,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -92,7 +92,7 @@ describe('CustomerTicketingCloseComponent', () => {
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.CUSTOMER_TICKETING_CLOSE,
       component.element,
-      component['vcr']
+      component['vcr'],
     );
   });
 });

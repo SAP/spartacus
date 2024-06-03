@@ -25,7 +25,7 @@ import { SiteContext } from './site-context.interface';
 export class LanguageService implements SiteContext<Language> {
   constructor(
     protected store: Store<StateWithSiteContext>,
-    protected config: SiteContextConfig
+    protected config: SiteContextConfig,
   ) {}
 
   /**
@@ -39,7 +39,7 @@ export class LanguageService implements SiteContext<Language> {
           this.store.dispatch(new SiteContextActions.LoadLanguages());
         }
       }),
-      filter(isNotNullable)
+      filter(isNotNullable),
     );
   }
 
@@ -49,7 +49,7 @@ export class LanguageService implements SiteContext<Language> {
   getActive(): Observable<string> {
     return this.store.pipe(
       select(SiteContextSelectors.getActiveLanguage),
-      filter(isNotNullable)
+      filter(isNotNullable),
     );
   }
 
@@ -62,7 +62,7 @@ export class LanguageService implements SiteContext<Language> {
       .subscribe((activeLanguage) => {
         if (activeLanguage !== isocode && this.isValid(isocode)) {
           this.store.dispatch(
-            new SiteContextActions.SetActiveLanguage(isocode)
+            new SiteContextActions.SetActiveLanguage(isocode),
           );
         }
       });
@@ -89,7 +89,7 @@ export class LanguageService implements SiteContext<Language> {
     return (
       !!value &&
       getContextParameterValues(this.config, LANGUAGE_CONTEXT_ID).includes(
-        value
+        value,
       )
     );
   }

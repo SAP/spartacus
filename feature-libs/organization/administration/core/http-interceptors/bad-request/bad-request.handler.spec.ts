@@ -95,7 +95,7 @@ describe('OrganizationBadRequestHandler', () => {
         key: 'organization.httpHandlers.conflict.unit',
         params: { code: 'TU' },
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -108,7 +108,7 @@ describe('OrganizationBadRequestHandler', () => {
         key: 'organization.httpHandlers.conflict.costCenter',
         params: { code: 'NorthAmericaBurritos' },
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -121,7 +121,7 @@ describe('OrganizationBadRequestHandler', () => {
         key: 'organization.httpHandlers.conflict.permission',
         params: { code: 'test2' },
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -134,7 +134,7 @@ describe('OrganizationBadRequestHandler', () => {
         key: 'organization.httpHandlers.conflict.unknown',
         params: { code: undefined },
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 

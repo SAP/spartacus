@@ -36,7 +36,7 @@ export class OrderConfirmationThankYouMessageComponent
   constructor(
     protected orderFacade: OrderFacade,
     protected globalMessageService: GlobalMessageService,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class OrderConfirmationThankYouMessageComponent
             ? order.guestCustomer ?? false
             : false;
         this.orderGuid = order?.guid;
-      })
+      }),
     );
   }
 
@@ -75,9 +75,9 @@ export class OrderConfirmationThankYouMessageComponent
           const message = `${confirmationOfOrderMessage} ${code}. ${thankYouMessage} ${invoiceHasBeenSentByEmailMessage}`;
           this.globalMessageService.add(
             message,
-            GlobalMessageType.MSG_TYPE_ASSISTIVE
+            GlobalMessageType.MSG_TYPE_ASSISTIVE,
           );
-        }
+        },
       );
   }
 
@@ -85,13 +85,13 @@ export class OrderConfirmationThankYouMessageComponent
     [Order | undefined, string, string, string]
   > {
     const confirmationOfOrderMessage$ = this.translationService.translate(
-      'checkoutOrderConfirmation.confirmationOfOrder'
+      'checkoutOrderConfirmation.confirmationOfOrder',
     );
     const thankYouMessage$ = this.translationService.translate(
-      'checkoutOrderConfirmation.thankYou'
+      'checkoutOrderConfirmation.thankYou',
     );
     const invoiceHasBeenSentByEmailMessage$ = this.translationService.translate(
-      'checkoutOrderConfirmation.invoiceHasBeenSentByEmail'
+      'checkoutOrderConfirmation.invoiceHasBeenSentByEmail',
     );
 
     return this.order$.pipe(
@@ -99,8 +99,8 @@ export class OrderConfirmationThankYouMessageComponent
       withLatestFrom(
         confirmationOfOrderMessage$,
         thankYouMessage$,
-        invoiceHasBeenSentByEmailMessage$
-      )
+        invoiceHasBeenSentByEmailMessage$,
+      ),
     );
   }
 }

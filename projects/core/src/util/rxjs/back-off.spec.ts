@@ -115,8 +115,8 @@ describe(`backOff`, () => {
             const recovery$ = new BehaviorSubject<boolean>(false);
             const source$ = recovery$.pipe(
               switchMap((recovered) =>
-                recovered ? of(recoveredValue) : error$
-              )
+                recovered ? of(recoveredValue) : error$,
+              ),
             );
 
             let errorResult: string | undefined;
@@ -154,7 +154,7 @@ describe(`backOff`, () => {
 
           const error$ = new BehaviorSubject<HttpErrorModel>(initialError);
           const source$ = error$.pipe(
-            switchMap((error) => throwError(() => error))
+            switchMap((error) => throwError(() => error)),
           );
 
           let errorResult: HttpErrorModel | undefined;
@@ -164,7 +164,7 @@ describe(`backOff`, () => {
               backOff({
                 // we want to handle only the jalo error
                 shouldRetry: isJaloError,
-              })
+              }),
             )
             .subscribe({
               next: (value) => (result = value),
@@ -191,7 +191,7 @@ describe(`backOff`, () => {
 
         const source$ = throwError(() => initialError);
         const test$ = source$.pipe(
-          backOff({ shouldRetry: doBackOff, maxTries: 2 })
+          backOff({ shouldRetry: doBackOff, maxTries: 2 }),
         );
 
         let result: string | undefined;
@@ -211,7 +211,7 @@ describe(`backOff`, () => {
 
         const source$ = throwError(() => initialError);
         const test$ = source$.pipe(
-          backOff({ shouldRetry: doBackOff, delay: 100 })
+          backOff({ shouldRetry: doBackOff, delay: 100 }),
         );
 
         let result: string | undefined;
@@ -231,7 +231,7 @@ describe(`backOff`, () => {
 
         const source$ = throwError(() => initialError);
         const test$ = source$.pipe(
-          backOff({ shouldRetry: doBackOff, maxTries: 2, delay: 100 })
+          backOff({ shouldRetry: doBackOff, maxTries: 2, delay: 100 }),
         );
 
         let result: string | undefined;

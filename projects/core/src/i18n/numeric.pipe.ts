@@ -46,7 +46,7 @@ export class CxNumericPipe extends DecimalPipe implements PipeTransform {
   protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
       this.logger.warn(
-        `cxNumeric pipe: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
+        `cxNumeric pipe: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`,
       );
     }
   }

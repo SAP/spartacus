@@ -22,7 +22,7 @@ export class CustomerTicketingConnector {
 
   public getTicket(
     customerId: string,
-    ticketId: string
+    ticketId: string,
   ): Observable<TicketDetails> {
     return this.adapter.getTicket(customerId, ticketId);
   }
@@ -31,7 +31,7 @@ export class CustomerTicketingConnector {
     customerId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<TicketList> {
     return this.adapter.getTickets(customerId, pageSize, currentPage, sort);
   }
@@ -41,14 +41,14 @@ export class CustomerTicketingConnector {
   }
 
   public getTicketAssociatedObjects(
-    customerId: string
+    customerId: string,
   ): Observable<AssociatedObject[]> {
     return this.adapter.getTicketAssociatedObjects(customerId);
   }
 
   public createTicket(
     customerId: string,
-    ticket: TicketStarter
+    ticket: TicketStarter,
   ): Observable<TicketStarter> {
     return this.adapter.createTicket(customerId, ticket);
   }
@@ -56,7 +56,7 @@ export class CustomerTicketingConnector {
   public createTicketEvent(
     customerId: string,
     ticketId: string,
-    ticketEvent: TicketEvent
+    ticketEvent: TicketEvent,
   ): Observable<TicketEvent> {
     return this.adapter.createTicketEvent(customerId, ticketId, ticketEvent);
   }
@@ -65,7 +65,7 @@ export class CustomerTicketingConnector {
     customerId: string,
     ticketId: string,
     eventCode: string,
-    file: File
+    file: File,
   ): Observable<unknown> {
     return this.adapter.uploadAttachment(customerId, ticketId, eventCode, file);
   }
@@ -74,13 +74,13 @@ export class CustomerTicketingConnector {
     customerId: string,
     ticketId: string,
     eventCode: string,
-    attachmentId: string
+    attachmentId: string,
   ): Observable<unknown> {
     return this.adapter.downloadAttachment(
       customerId,
       ticketId,
       eventCode,
-      attachmentId
+      attachmentId,
     );
   }
 }

@@ -79,7 +79,7 @@ class MockCheckoutDeliveryAddressService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
   getDeliveryAddressState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: mockAddress })
+    of({ loading: false, error: false, data: mockAddress }),
   );
 }
 
@@ -87,20 +87,20 @@ class MockCheckoutDeliveryModesService
   implements Partial<CheckoutDeliveryModesFacade>
 {
   getSupportedDeliveryModesState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: [] })
+    of({ loading: false, error: false, data: [] }),
   );
   getSelectedDeliveryModeState = createSpy().and.returnValue(
     of({
       loading: false,
       error: false,
       data: mockDeliveryMode,
-    })
+    }),
   );
 }
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   getPaymentDetailsState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: mockPaymentDetails })
+    of({ loading: false, error: false, data: mockPaymentDetails }),
   );
 }
 
@@ -145,43 +145,41 @@ describe('CheckoutReviewSubmitComponent', () => {
   let component: CheckoutReviewSubmitComponent;
   let fixture: ComponentFixture<CheckoutReviewSubmitComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          PromotionsModule,
-          RouterTestingModule,
-          IconTestingModule,
-          OutletModule,
-        ],
-        declarations: [
-          CheckoutReviewSubmitComponent,
-          MockCardComponent,
-          MockUrlPipe,
-        ],
-        providers: [
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryAddressService,
-          },
-          {
-            provide: CheckoutDeliveryModesFacade,
-            useClass: MockCheckoutDeliveryModesService,
-          },
-          {
-            provide: CheckoutPaymentFacade,
-            useClass: MockCheckoutPaymentService,
-          },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: CheckoutStepService,
-            useClass: MockCheckoutStepService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        RouterTestingModule,
+        IconTestingModule,
+        OutletModule,
+      ],
+      declarations: [
+        CheckoutReviewSubmitComponent,
+        MockCardComponent,
+        MockUrlPipe,
+      ],
+      providers: [
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressService,
+        },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesService,
+        },
+        {
+          provide: CheckoutPaymentFacade,
+          useClass: MockCheckoutPaymentService,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutReviewSubmitComponent);
@@ -300,7 +298,7 @@ describe('CheckoutReviewSubmitComponent', () => {
 
   it('should get checkout step url', () => {
     expect(
-      component.getCheckoutStepUrl(CheckoutStepType.DELIVERY_ADDRESS)
+      component.getCheckoutStepUrl(CheckoutStepType.DELIVERY_ADDRESS),
     ).toEqual(mockCheckoutStep.routeName);
   });
 

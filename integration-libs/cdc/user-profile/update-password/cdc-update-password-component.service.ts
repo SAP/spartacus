@@ -24,14 +24,14 @@ export class CDCUpdatePasswordComponentService extends UpdatePasswordComponentSe
     protected globalMessageService: GlobalMessageService,
     protected authRedirectService: AuthRedirectService,
     protected authService: AuthService,
-    protected cdcJsService: CdcJsService
+    protected cdcJsService: CdcJsService,
   ) {
     super(
       userPasswordService,
       routingService,
       globalMessageService,
       authRedirectService,
-      authService
+      authService,
     );
   }
 
@@ -61,7 +61,7 @@ export class CDCUpdatePasswordComponentService extends UpdatePasswordComponentSe
     const errorMessage = _error?.errorDetails || ' ';
     this.globalMessageService.add(
       errorMessage,
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
     this.busy$.next(false);
   }

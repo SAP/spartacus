@@ -28,7 +28,7 @@ export class VisualPickingTabComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.visualPickingTabService.initialize(
       this.visualViewerService,
-      this.visualPickingProductListService
+      this.visualPickingProductListService,
     );
   }
 

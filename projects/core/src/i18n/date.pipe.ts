@@ -49,7 +49,7 @@ export class CxDatePipe extends DatePipe implements PipeTransform {
   private reportMissingLocaleData(lang: string) {
     if (isDevMode()) {
       this.logger.warn(
-        `cxDate pipe: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
+        `cxDate pipe: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`,
       );
     }
   }

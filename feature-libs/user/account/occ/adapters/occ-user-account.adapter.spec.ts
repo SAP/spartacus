@@ -38,7 +38,7 @@ export class MockOccEndpointsService {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ) {
     return this.getEndpoint(endpoint);
   }
@@ -147,7 +147,7 @@ describe('OccUserAccountAdapter', () => {
       });
 
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-        'createVerificationToken'
+        'createVerificationToken',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -164,7 +164,7 @@ describe('OccUserAccountAdapter', () => {
         })
         .flush(verificationToken);
       expect(converter.pipeable).toHaveBeenCalledWith(
-        VERIFICATION_TOKEN_NORMALIZER
+        VERIFICATION_TOKEN_NORMALIZER,
       );
     });
   });

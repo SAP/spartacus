@@ -29,7 +29,7 @@ export class OrderHistoryComponent implements OnDestroy {
     protected routing: RoutingService,
     protected orderHistoryFacade: OrderHistoryFacade,
     protected translation: TranslationService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
   ) {}
 
   private PAGE_SIZE = 5;
@@ -41,7 +41,7 @@ export class OrderHistoryComponent implements OnDestroy {
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
         this.setOrderHistoryParams(orders);
-      })
+      }),
     );
 
   setOrderHistoryParams(orders: OrderHistoryList | undefined) {
@@ -66,7 +66,7 @@ export class OrderHistoryComponent implements OnDestroy {
   tabTitleParam$: Observable<number> = this.orders$.pipe(
     map((order) => order?.pagination?.totalResults),
     filter(isNotUndefined),
-    take(1)
+    take(1),
   );
 
   ngOnDestroy(): void {
@@ -107,7 +107,7 @@ export class OrderHistoryComponent implements OnDestroy {
           byDate: textByDate,
           byOrderNumber: textByOrderNumber,
         };
-      })
+      }),
     );
   }
 
@@ -115,7 +115,7 @@ export class OrderHistoryComponent implements OnDestroy {
     this.orderHistoryFacade.loadOrderList(
       this.PAGE_SIZE,
       event.currentPage,
-      event.sortCode
+      event.sortCode,
     );
   }
 }

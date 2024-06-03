@@ -179,57 +179,55 @@ describe('CheckoutPaymentMethodComponent', () => {
   let globalMessageService: GlobalMessageService;
   let featureConfig: FeatureConfigService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          CheckoutPaymentMethodComponent,
-          MockPaymentFormComponent,
-          CardComponent,
-          MockSpinnerComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          { provide: UserPaymentService, useClass: MockUserPaymentService },
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryFacade,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CheckoutPaymentMethodComponent,
+        MockPaymentFormComponent,
+        CardComponent,
+        MockSpinnerComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        { provide: UserPaymentService, useClass: MockUserPaymentService },
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryFacade,
+        },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+        {
+          provide: CheckoutPaymentFacade,
+          useClass: MockCheckoutPaymentService,
+        },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '6.3' },
           },
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
-          },
-          {
-            provide: CheckoutPaymentFacade,
-            useClass: MockCheckoutPaymentService,
-          },
-          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '6.3' },
-            },
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
-        ],
-      }).compileComponents();
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
+    }).compileComponents();
 
-      mockUserPaymentService = TestBed.inject(UserPaymentService);
-      mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
-      mockActiveCartService = TestBed.inject(ActiveCartFacade);
-      checkoutStepService = TestBed.inject(
-        CheckoutStepService as Type<CheckoutStepService>
-      );
-      globalMessageService = TestBed.inject(GlobalMessageService);
-      featureConfig = TestBed.inject(FeatureConfigService);
-    })
-  );
+    mockUserPaymentService = TestBed.inject(UserPaymentService);
+    mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
+    mockActiveCartService = TestBed.inject(ActiveCartFacade);
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>,
+    );
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    featureConfig = TestBed.inject(FeatureConfigService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPaymentMethodComponent);
@@ -247,18 +245,18 @@ describe('CheckoutPaymentMethodComponent', () => {
     it('should show loader during existing payment methods loading', () => {
       component.isUpdating$ = of(true);
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of([])
+        of([]),
       );
       spyOn(
         mockCheckoutPaymentService,
-        'getPaymentDetailsState'
+        'getPaymentDetailsState',
       ).and.returnValue(of({ loading: false, error: false, data: undefined }));
 
       component.ngOnInit();
       fixture.detectChanges();
 
       expect(fixture.debugElement.queryAll(By.css('cx-card')).length).toEqual(
-        0
+        0,
       );
       expect(fixture.debugElement.query(By.css('cx-spinner'))).toBeTruthy();
       expect(fixture.debugElement.query(By.css('cx-payment-form'))).toBeFalsy();
@@ -266,40 +264,40 @@ describe('CheckoutPaymentMethodComponent', () => {
 
     it('should select default payment method when nothing is selected', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of(mockPayments)
+        of(mockPayments),
       );
       spyOn(
         mockCheckoutPaymentService,
-        'getPaymentDetailsState'
+        'getPaymentDetailsState',
       ).and.returnValue(of({ loading: false, error: false, data: undefined }));
 
       component.ngOnInit();
       fixture.detectChanges();
 
       expect(mockCheckoutPaymentService.setPaymentDetails).toHaveBeenCalledWith(
-        mockPayments[1]
+        mockPayments[1],
       );
     });
 
     it('should show form to add new payment method, when there are no existing methods', () => {
       component.isUpdating$ = of(false);
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of([])
+        of([]),
       );
       spyOn(
         mockCheckoutPaymentService,
-        'getPaymentDetailsState'
+        'getPaymentDetailsState',
       ).and.returnValue(of({ loading: false, error: false, data: undefined }));
 
       component.ngOnInit();
       fixture.detectChanges();
 
       expect(fixture.debugElement.queryAll(By.css('cx-card')).length).toEqual(
-        0
+        0,
       );
       expect(fixture.debugElement.query(By.css('cx-spinner'))).toBeFalsy();
       expect(
-        fixture.debugElement.query(By.css('cx-payment-form'))
+        fixture.debugElement.query(By.css('cx-payment-form')),
       ).toBeTruthy();
     });
 
@@ -308,18 +306,18 @@ describe('CheckoutPaymentMethodComponent', () => {
         QueryState<PaymentDetails | undefined>
       >();
       spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
+        of(false),
       );
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of([])
+        of([]),
       );
       spyOn(
         mockCheckoutPaymentService,
-        'getPaymentDetailsState'
+        'getPaymentDetailsState',
       ).and.returnValue(selectedPaymentMethod$);
       spyOn(
         mockCheckoutPaymentService,
-        'createPaymentDetails'
+        'createPaymentDetails',
       ).and.callThrough();
 
       component.ngOnInit();
@@ -331,7 +329,7 @@ describe('CheckoutPaymentMethodComponent', () => {
       });
 
       expect(
-        mockCheckoutPaymentService.createPaymentDetails
+        mockCheckoutPaymentService.createPaymentDetails,
       ).toHaveBeenCalledWith({
         ...mockPaymentDetails,
         billingAddress: mockAddress,
@@ -342,18 +340,18 @@ describe('CheckoutPaymentMethodComponent', () => {
         data: mockPaymentDetails,
       });
       expect(checkoutStepService.next).toHaveBeenCalledWith(
-        <any>mockActivatedRoute
+        <any>mockActivatedRoute,
       );
     });
 
     it('should show form for creating new method after clicking new payment method button', () => {
       component.isUpdating$ = of(false);
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of([mockPaymentDetails])
+        of([mockPaymentDetails]),
       );
       spyOn(
         mockCheckoutPaymentService,
-        'getPaymentDetailsState'
+        'getPaymentDetailsState',
       ).and.returnValue(of({ loading: false, error: false, data: undefined }));
 
       component.ngOnInit();
@@ -361,17 +359,17 @@ describe('CheckoutPaymentMethodComponent', () => {
       fixture.debugElement
         .queryAll(By.css('button'))
         .filter(
-          (btn) => btn.nativeElement.innerText === 'paymentForm.addNewPayment'
+          (btn) => btn.nativeElement.innerText === 'paymentForm.addNewPayment',
         )[0]
         .nativeElement.click();
       fixture.detectChanges();
 
       expect(fixture.debugElement.queryAll(By.css('cx-card')).length).toEqual(
-        0
+        0,
       );
       expect(fixture.debugElement.query(By.css('cx-spinner'))).toBeFalsy();
       expect(
-        fixture.debugElement.query(By.css('cx-payment-form'))
+        fixture.debugElement.query(By.css('cx-payment-form')),
       ).toBeTruthy();
     });
 
@@ -380,7 +378,7 @@ describe('CheckoutPaymentMethodComponent', () => {
         return fixture.debugElement
           .queryAll(By.css('button'))
           .filter(
-            (btn) => btn.nativeElement.innerText === 'common.continue'
+            (btn) => btn.nativeElement.innerText === 'common.continue',
           )[0];
       };
       const selectedPaymentMethod$ = new BehaviorSubject<
@@ -393,11 +391,11 @@ describe('CheckoutPaymentMethodComponent', () => {
 
       component.isUpdating$ = of(false);
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of([mockPaymentDetails])
+        of([mockPaymentDetails]),
       );
       spyOn(
         mockCheckoutPaymentService,
-        'getPaymentDetailsState'
+        'getPaymentDetailsState',
       ).and.returnValue(selectedPaymentMethod$);
 
       component.ngOnInit();
@@ -438,8 +436,8 @@ describe('CheckoutPaymentMethodComponent', () => {
             textUseThisPayment: 'Use this payment',
             textSelected: 'Selected',
           },
-          selectedPaymentMethod
-        )
+          selectedPaymentMethod,
+        ),
       ).toEqual({
         role: 'region',
         title: '✓ DEFAULT',
@@ -475,7 +473,7 @@ describe('CheckoutPaymentMethodComponent', () => {
           textUseThisPayment: 'Use this payment',
           textSelected: 'Selected',
         },
-        selectedPaymentMethod
+        selectedPaymentMethod,
       );
       expect(card.actions?.length).toBe(0);
     });
@@ -498,13 +496,13 @@ describe('CheckoutPaymentMethodComponent', () => {
         },
       ];
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of(mockPayments)
+        of(mockPayments),
       );
       spyOn(
         mockCheckoutPaymentService,
-        'getPaymentDetailsState'
+        'getPaymentDetailsState',
       ).and.returnValue(
-        of({ loading: false, error: false, data: mockPaymentDetails })
+        of({ loading: false, error: false, data: mockPaymentDetails }),
       );
 
       component.ngOnInit();
@@ -515,14 +513,14 @@ describe('CheckoutPaymentMethodComponent', () => {
         .nativeElement.click();
 
       expect(mockCheckoutPaymentService.setPaymentDetails).toHaveBeenCalledWith(
-        mockPayments[1]
+        mockPayments[1],
       );
     });
 
     it('should not try to load methods for guest checkout', () => {
       spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of([])
+        of([]),
       );
       spyOn(mockActiveCartService, 'isGuestCart').and.returnValue(of(true));
 
@@ -549,31 +547,31 @@ describe('CheckoutPaymentMethodComponent', () => {
         },
       ];
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of(mockPayments)
+        of(mockPayments),
       );
       spyOn(
         mockCheckoutPaymentService,
-        'getPaymentDetailsState'
+        'getPaymentDetailsState',
       ).and.returnValue(
-        of({ loading: false, error: false, data: mockPaymentDetails })
+        of({ loading: false, error: false, data: mockPaymentDetails }),
       );
 
       component.ngOnInit();
       fixture.detectChanges();
 
       expect(
-        mockCheckoutPaymentService.setPaymentDetails
+        mockCheckoutPaymentService.setPaymentDetails,
       ).not.toHaveBeenCalled();
     });
 
     it('should go to previous step after clicking back', () => {
       component.isUpdating$ = of(false);
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of([mockPaymentDetails])
+        of([mockPaymentDetails]),
       );
       spyOn(
         mockCheckoutPaymentService,
-        'getPaymentDetailsState'
+        'getPaymentDetailsState',
       ).and.returnValue(of({ loading: false, error: false, data: undefined }));
 
       component.ngOnInit();
@@ -585,7 +583,7 @@ describe('CheckoutPaymentMethodComponent', () => {
       fixture.detectChanges();
 
       expect(checkoutStepService.back).toHaveBeenCalledWith(
-        <any>mockActivatedRoute
+        <any>mockActivatedRoute,
       );
     });
 
@@ -593,10 +591,10 @@ describe('CheckoutPaymentMethodComponent', () => {
       component.selectPaymentMethod(mockPaymentDetails);
 
       expect(mockCheckoutPaymentService.setPaymentDetails).toHaveBeenCalledWith(
-        mockPaymentDetails
+        mockPaymentDetails,
       );
       expect(component['savePaymentMethod']).toHaveBeenCalledWith(
-        mockPaymentDetails
+        mockPaymentDetails,
       );
       expect(globalMessageService.add).toHaveBeenCalled();
     });
@@ -604,16 +602,16 @@ describe('CheckoutPaymentMethodComponent', () => {
     it('should NOT be able to select payment method if the selection is the same as the currently set payment details', () => {
       mockCheckoutPaymentService.getPaymentDetailsState =
         createSpy().and.returnValue(
-          of({ loading: false, error: false, data: mockPayments[0] })
+          of({ loading: false, error: false, data: mockPayments[0] }),
         );
 
       component.selectPaymentMethod(mockPayments[0]);
 
       expect(
-        mockCheckoutPaymentService.setPaymentDetails
+        mockCheckoutPaymentService.setPaymentDetails,
       ).not.toHaveBeenCalledWith(mockPayments[0]);
       expect(component['savePaymentMethod']).not.toHaveBeenCalledWith(
-        mockPayments[0]
+        mockPayments[0],
       );
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });

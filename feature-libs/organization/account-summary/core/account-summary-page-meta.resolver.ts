@@ -33,7 +33,7 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
     protected contentPageMetaResolver: ContentPageMetaResolver,
     protected translation: TranslationService,
     protected semanticPath: SemanticPathService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
   ) {
     super(contentPageMetaResolver, translation, semanticPath, routingService);
   }
@@ -47,7 +47,7 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
    * Breadcrumbs of the Account Summary page.
    */
   protected orgAccountSummaryBreadcrumb$: Observable<BreadcrumbMeta[]> = defer(
-    () => this.routingService.getRouterState()
+    () => this.routingService.getRouterState(),
   ).pipe(
     map((routerState) => routerState?.state?.semanticRoute),
     distinctUntilChanged(),
@@ -59,7 +59,7 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
                 label,
                 link: this.semanticPath.get(this.ORGANIZATION_SEMANTIC_ROUTE),
               },
-            ])
+            ]),
           )
         : combineLatest([
             this.translation.translate(this.ORGANIZATION_TRANSLATION_KEY),
@@ -73,12 +73,12 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
               {
                 label: this.ACCOUNT_SUMMARY_LIST_LABEL,
                 link: this.semanticPath.get(
-                  this.ACCOUNT_SUMMARY_SEMANTIC_ROUTE
+                  this.ACCOUNT_SUMMARY_SEMANTIC_ROUTE,
                 ),
               },
-            ])
+            ]),
           );
-    })
+    }),
   );
 
   /**
@@ -92,7 +92,7 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
       const [home, ...restBreadcrumbs] = breadcrumbs;
       return [home, ...orgAccountSummaryBreadcrumb, ...restBreadcrumbs];
     }),
-    shareReplay({ bufferSize: 1, refCount: true })
+    shareReplay({ bufferSize: 1, refCount: true }),
   );
 
   getScore(page: Page): number {

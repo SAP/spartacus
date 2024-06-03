@@ -69,8 +69,8 @@ describe('CmsRoutesImplService', () => {
           mockPageContext,
           [],
           '/testRoute',
-          '/testRoute'
-        )
+          '/testRoute',
+        ),
       ).toBeTruthy();
     });
 
@@ -80,8 +80,8 @@ describe('CmsRoutesImplService', () => {
           mockPageContext,
           [],
           '/testRoute2',
-          '/testRoute2'
-        )
+          '/testRoute2',
+        ),
       ).toEqual(false);
     });
 
@@ -90,7 +90,7 @@ describe('CmsRoutesImplService', () => {
         mockPageContext,
         [],
         '/testRoute2',
-        '/testRoute2'
+        '/testRoute2',
       );
 
       const expectedConfig = [
@@ -119,7 +119,7 @@ describe('CmsRoutesImplService', () => {
         mockPageContext,
         [],
         '/testRoute2',
-        '/testRoute2'
+        '/testRoute2',
       );
 
       const expectedConfig = [
@@ -145,7 +145,7 @@ describe('CmsRoutesImplService', () => {
         mockPageContext,
         [],
         '/testRoute2/sub-route',
-        '/testRoute2'
+        '/testRoute2',
       );
 
       const expectedConfig = [
@@ -170,7 +170,7 @@ describe('CmsRoutesImplService', () => {
         mockPageContext,
         [],
         '/testRoute2',
-        '/testRoute2'
+        '/testRoute2',
       );
       expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/testRoute2');
     });
@@ -183,8 +183,8 @@ describe('CmsRoutesImplService', () => {
           mockPageContext,
           [],
           '/testRoute2',
-          '/testRoute2'
-        )
+          '/testRoute2',
+        ),
       ).toEqual(true);
     });
 
@@ -194,8 +194,8 @@ describe('CmsRoutesImplService', () => {
           { ...mockPageContext, type: PageType.PRODUCT_PAGE },
           [],
           '/testRoute2',
-          '/testRoute2'
-        )
+          '/testRoute2',
+        ),
       ).toEqual(true);
     });
 
@@ -205,8 +205,8 @@ describe('CmsRoutesImplService', () => {
           mockPageContext,
           [],
           '/testRoute2',
-          'testRoute2'
-        )
+          'testRoute2',
+        ),
       ).toEqual(true);
     });
 
@@ -216,8 +216,8 @@ describe('CmsRoutesImplService', () => {
           { type: PageType.CONTENT_PAGE, id: 'testHomepage' },
           [],
           '/',
-          '/'
-        )
+          '/',
+        ),
       ).toEqual(true);
     });
 
@@ -226,7 +226,7 @@ describe('CmsRoutesImplService', () => {
 
       const cmsGuardsService = TestBed.inject(CmsGuardsService);
       spyOn(cmsGuardsService, 'canActivateGuard').and.returnValue(
-        of(mockUrlTree)
+        of(mockUrlTree),
       );
 
       class TestGuard {}
@@ -238,7 +238,7 @@ describe('CmsRoutesImplService', () => {
         mockPageContext,
         [],
         '/testRoute2',
-        '/testRoute2'
+        '/testRoute2',
       );
 
       const newRouterConfig = (
@@ -256,14 +256,14 @@ describe('CmsRoutesImplService', () => {
       let guardResult;
       testGuardFn(
         mockActivatedRouteSnapshot,
-        mockRouterStateSnapshot
+        mockRouterStateSnapshot,
       ).subscribe((result: any) => (guardResult = result));
       expect(guardResult).toBe(mockUrlTree);
 
       expect(cmsGuardsService.canActivateGuard).toHaveBeenCalledWith(
         TestGuard,
         mockActivatedRouteSnapshot,
-        mockRouterStateSnapshot
+        mockRouterStateSnapshot,
       );
     });
 
@@ -300,7 +300,7 @@ describe('CmsRoutesImplService', () => {
         mockPageContext,
         [],
         '/testRoute2',
-        '/testRoute2'
+        '/testRoute2',
       );
 
       const newRouterConfig = (

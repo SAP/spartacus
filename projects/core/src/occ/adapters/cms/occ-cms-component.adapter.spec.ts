@@ -106,7 +106,7 @@ describe('OccCmsComponentAdapter', () => {
 
         const testRequest = mockHttpRequest(
           'GET',
-          spyOnLoadEndpoint(userEndpoint)
+          spyOnLoadEndpoint(userEndpoint),
         );
 
         expect(endpointsService.buildUrl).toHaveBeenCalledWith('component', {
@@ -127,7 +127,7 @@ describe('OccCmsComponentAdapter', () => {
         assertNormalizer(spyOnLoadEndpoint(userEndpoint));
 
         expect(converter.pipeable).toHaveBeenCalledWith(
-          CMS_COMPONENT_NORMALIZER
+          CMS_COMPONENT_NORMALIZER,
         );
         done();
       });
@@ -141,7 +141,7 @@ describe('OccCmsComponentAdapter', () => {
         assertGetSubscription(service).subscribe();
         const testRequest = mockHttpRequest(
           'GET',
-          spyOnGetEndpoint(userEndpoint)
+          spyOnGetEndpoint(userEndpoint),
         );
 
         assertGetRequestGetUrl('DEFAULT', '2', true);
@@ -157,7 +157,7 @@ describe('OccCmsComponentAdapter', () => {
         assertGetSubscription(service, 'FULL', 0, 5).subscribe();
         const testRequest = mockHttpRequest(
           'GET',
-          spyOnGetEndpoint(userEndpoint)
+          spyOnGetEndpoint(userEndpoint),
         );
 
         assertGetRequestGetUrl('FULL', '5', true);
@@ -210,7 +210,7 @@ describe('OccCmsComponentAdapter', () => {
         assertNormalizer(spyOnLoadEndpoint());
 
         expect(converter.pipeable).toHaveBeenCalledWith(
-          CMS_COMPONENT_NORMALIZER
+          CMS_COMPONENT_NORMALIZER,
         );
         done();
       });
@@ -261,7 +261,7 @@ describe('OccCmsComponentAdapter', () => {
 
   function mockHttpRequest(
     requestMethod: string,
-    requestUrl: string
+    requestUrl: string,
   ): TestRequest {
     return httpMock.expectOne((req) => {
       return req.method === requestMethod && req.url === requestUrl;
@@ -270,7 +270,7 @@ describe('OccCmsComponentAdapter', () => {
 
   function assertTestRequest(
     testRequest: TestRequest,
-    componentObj: CmsComponent | Occ.ComponentList
+    componentObj: CmsComponent | Occ.ComponentList,
   ) {
     expect(testRequest.cancelled).toBeFalsy();
     expect(testRequest.request.responseType).toEqual('json');
@@ -280,7 +280,7 @@ describe('OccCmsComponentAdapter', () => {
   function assertGetRequestGetUrl(
     fields: string,
     pageSize: string,
-    isUserId = false
+    isUserId = false,
   ) {
     const queryParams = {
       fields,
@@ -299,13 +299,13 @@ describe('OccCmsComponentAdapter', () => {
           }
         : {
             queryParams,
-          }
+          },
     );
   }
 
   function assertConverterPipeableMany() {
     expect(converter.pipeableMany).toHaveBeenCalledWith(
-      CMS_COMPONENT_NORMALIZER
+      CMS_COMPONENT_NORMALIZER,
     );
   }
 
@@ -317,14 +317,14 @@ describe('OccCmsComponentAdapter', () => {
     adapter: OccCmsComponentAdapter,
     fields?: string,
     currentPage?: number,
-    pageSize?: number
+    pageSize?: number,
   ): Observable<CmsComponent[]> {
     return adapter
       .findComponentsByIds(ids, context, fields, currentPage, pageSize)
       .pipe(
         tap((result) => {
           expect(result).toEqual(componentList.component);
-        })
+        }),
       );
   }
 });

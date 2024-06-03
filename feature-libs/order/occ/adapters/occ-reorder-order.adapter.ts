@@ -25,7 +25,7 @@ export class OccReorderOrderAdapter implements ReorderOrderAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   reorder(orderId: string, userId: string): Observable<CartModificationList> {
@@ -37,7 +37,7 @@ export class OccReorderOrderAdapter implements ReorderOrderAdapter {
         catchError((error) => {
           throw normalizeHttpError(error, this.logger);
         }),
-        this.converter.pipeable(REORDER_ORDER_NORMALIZER)
+        this.converter.pipeable(REORDER_ORDER_NORMALIZER),
       );
   }
 

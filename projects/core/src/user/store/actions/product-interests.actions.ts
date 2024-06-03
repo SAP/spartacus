@@ -56,7 +56,7 @@ export class LoadProductInterests extends LoaderLoadAction {
       sort?: string;
       productCode?: string;
       notificationType?: NotificationType;
-    }
+    },
   ) {
     super(PRODUCT_INTERESTS);
   }
@@ -83,7 +83,7 @@ export class RemoveProductInterest extends EntityLoadAction {
       userId: string;
       item: ProductInterestEntryRelation;
       singleDelete?: boolean;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID);
   }
@@ -110,7 +110,7 @@ export class AddProductInterest extends EntityLoadAction {
       userId: string;
       productCode: string;
       notificationType: NotificationType;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID);
   }

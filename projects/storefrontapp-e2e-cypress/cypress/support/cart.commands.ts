@@ -29,7 +29,7 @@ declare namespace Cypress {
     addProductToB2BCart: (
       itemId: string,
       quantity: string,
-      accessToken: string
+      accessToken: string,
     ) => void;
   }
 }
@@ -56,7 +56,7 @@ Cypress.Commands.add(
         cy.wrap(cartId);
       });
     });
-  }
+  },
 );
 
 Cypress.Commands.add(
@@ -80,8 +80,8 @@ Cypress.Commands.add(
           });
 
           cy.wrap(cartId);
-        }
+        },
       );
     });
-  }
+  },
 );

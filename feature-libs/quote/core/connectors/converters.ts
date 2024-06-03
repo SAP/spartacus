@@ -18,7 +18,7 @@ import {
 } from '@spartacus/quote/root';
 
 export const QUOTE_NORMALIZER = new InjectionToken<Converter<OccQuote, Quote>>(
-  'QuoteNormalizer'
+  'QuoteNormalizer',
 );
 
 export const QUOTE_LIST_NORMALIZER = new InjectionToken<

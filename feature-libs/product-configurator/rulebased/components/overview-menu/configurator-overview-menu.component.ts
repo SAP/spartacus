@@ -54,7 +54,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   ];
 
   constructor(
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
   ) {}
 
   ngAfterViewInit(): void {
@@ -97,7 +97,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
 
   protected getAmountOfGroups(
     amount: number,
-    groups: Configurator.GroupOverview[]
+    groups: Configurator.GroupOverview[],
   ): number {
     if (groups) {
       amount = amount + groups.length;
@@ -166,7 +166,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
       this.configuratorStorefrontUtilsService.changeStyling(
         this.VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT,
         style[0],
-        style[1]
+        style[1],
       );
     });
   }
@@ -180,7 +180,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     this.styles.forEach((style) => {
       this.configuratorStorefrontUtilsService.removeStyling(
         this.VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT,
-        style[0]
+        style[0],
       );
     });
   }
@@ -188,7 +188,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   protected getMenuItemToHighlight(): HTMLElement | undefined {
     let menuItem: HTMLElement | undefined;
     const groups = this.configuratorStorefrontUtilsService.getElements(
-      this.CX_GROUPS
+      this.CX_GROUPS,
     );
     const verticallyScrolledPixels =
       this.configuratorStorefrontUtilsService.getVerticallyScrolledPixels();
@@ -212,7 +212,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   protected highlight(elementToHighlight: HTMLElement | undefined): void {
     if (elementToHighlight) {
       const menuItems = this.configuratorStorefrontUtilsService.getElements(
-        this.CX_MENU_ITEM_BUTTONS
+        this.CX_MENU_ITEM_BUTTONS,
       );
       menuItems?.forEach((menuItem) => {
         menuItem.classList.remove(this.ACTIVE_CLASS);
@@ -227,12 +227,12 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     if (
       element &&
       this.configuratorStorefrontUtilsService.hasScrollbar(
-        this.CX_CONFIGURATOR_OVERVIEW_MENU
+        this.CX_CONFIGURATOR_OVERVIEW_MENU,
       )
     ) {
       this.configuratorStorefrontUtilsService.ensureElementVisible(
         this.CX_CONFIGURATOR_OVERVIEW_MENU,
-        element
+        element,
       );
     }
   }
@@ -256,11 +256,11 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   navigateToGroup(prefix: string, id: string): void {
     const ovGroupId = this.configuratorStorefrontUtilsService.createOvGroupId(
       prefix,
-      id
+      id,
     );
 
     this.configuratorStorefrontUtilsService.scrollToConfigurationElement(
-      '#' + ovGroupId + ' h2'
+      '#' + ovGroupId + ' h2',
     );
   }
 
@@ -274,7 +274,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   getPrefixId(idPrefix: string | undefined, groupId: string): string {
     return this.configuratorStorefrontUtilsService.getPrefixId(
       idPrefix,
-      groupId
+      groupId,
     );
   }
 
@@ -288,7 +288,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   getGroupId(idPrefix: string, groupId: string): string {
     return this.configuratorStorefrontUtilsService.createOvGroupId(
       idPrefix,
-      groupId
+      groupId,
     );
   }
 
@@ -302,7 +302,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   getMenuItemId(idPrefix: string, groupId: string): string {
     return this.configuratorStorefrontUtilsService.createOvMenuItemId(
       idPrefix,
-      groupId
+      groupId,
     );
   }
 }

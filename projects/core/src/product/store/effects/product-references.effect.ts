@@ -36,17 +36,17 @@ export class ProductReferencesEffects {
             catchError((error) =>
               of(
                 new ProductActions.LoadProductReferencesFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
     private actions$: Actions,
-    private productReferencesConnector: ProductReferencesConnector
+    private productReferencesConnector: ProductReferencesConnector,
   ) {}
 }

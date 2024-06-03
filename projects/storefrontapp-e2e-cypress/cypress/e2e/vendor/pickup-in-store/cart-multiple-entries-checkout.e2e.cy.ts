@@ -73,13 +73,13 @@ describe('A user who has a cart with multiple entries checkout with BOPIS are ru
       cy.wait('@apiAddToCart').then((interception) => {
         expect(interception.response.statusCode).to.equal(200);
         expect(interception.request.body).to.have.property(
-          'deliveryPointOfService'
+          'deliveryPointOfService',
         );
         cy.get(L.PICKUP_STORE_LOCATION)
           .invoke('text')
           .should(
             'be.equal',
-            interception.request.body.deliveryPointOfService.name
+            interception.request.body.deliveryPointOfService.name,
           );
       });
 
@@ -97,7 +97,7 @@ describe('A user who has a cart with multiple entries checkout with BOPIS are ru
       cy.wait('@getStores').then((interception) => {
         cy.get('@firstStoreName').then((firstStoreName) => {
           cy.get(
-            L.PICKUP_STORE_LOCATION_WITH_VALUE(interception.response.body.name)
+            L.PICKUP_STORE_LOCATION_WITH_VALUE(interception.response.body.name),
           )
             .invoke('text')
             .should('not.equal', firstStoreName);
@@ -132,14 +132,14 @@ describe('A user who has a cart with multiple entries checkout with BOPIS are ru
       fillPaymentForm(defaultPaymentDetails);
       cy.get(L.CHECKOUT_PAYMENT_FORM_CONTINUE_BUTTON).click();
       cy.log(
-        'During the order review, the user cannot change the pickup location.'
+        'During the order review, the user cannot change the pickup location.',
       );
       cy.get(
-        `cx-pickup-in-store-details-review ${L.PICKUP_OPTIONS_RADIO_DELIVERY}`
+        `cx-pickup-in-store-details-review ${L.PICKUP_OPTIONS_RADIO_DELIVERY}`,
       ).should('not.exist');
 
       cy.log(
-        '  - The user completes checkout and sees the order details. On here they can see their pickup location.'
+        '  - The user completes checkout and sees the order details. On here they can see their pickup location.',
       );
       cy.get(L.REVIEW_ORDER_TERM_CONDITION).click();
       cy.get(L.REVIEW_ORDER_SUBMIT).click();

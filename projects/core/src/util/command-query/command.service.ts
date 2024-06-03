@@ -49,7 +49,7 @@ export class CommandService implements OnDestroy {
 
   create<PARAMS = undefined, RESULT = unknown>(
     commandFactory: (command: PARAMS) => Observable<RESULT>,
-    options?: { strategy?: CommandStrategy }
+    options?: { strategy?: CommandStrategy },
   ): Command<PARAMS, RESULT> {
     const commands$ = new Subject<PARAMS>();
     const results$ = new Subject<ReplaySubject<RESULT>>();
@@ -60,7 +60,7 @@ export class CommandService implements OnDestroy {
     // But we don't want to forward `unsubscribe`, in particular.
     // To see more details, please check: https://github.com/ReactiveX/rxjs/pull/6527
     const notify = (
-      notifier$: ReplaySubject<RESULT>
+      notifier$: ReplaySubject<RESULT>,
     ): Partial<TapObserver<RESULT>> => ({
       next: (x) => notifier$.next(x),
       error: (e) => notifier$.error(e),
@@ -87,9 +87,9 @@ export class CommandService implements OnDestroy {
                     notifier$.complete();
                   }
                 }
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
         break;
 
@@ -98,9 +98,9 @@ export class CommandService implements OnDestroy {
           mergeMap(([cmd, notifier$]) =>
             defer(() => commandFactory(cmd)).pipe(
               tap(notify(notifier$)),
-              catchError(() => EMPTY)
-            )
-          )
+              catchError(() => EMPTY),
+            ),
+          ),
         );
         break;
 
@@ -110,9 +110,9 @@ export class CommandService implements OnDestroy {
           concatMap(([cmd, notifier$]) =>
             defer(() => commandFactory(cmd)).pipe(
               tap(notify(notifier$)),
-              catchError(() => EMPTY)
-            )
-          )
+              catchError(() => EMPTY),
+            ),
+          ),
         );
         break;
     }

@@ -24,7 +24,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
 
   constructor(
     protected translationService: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -34,7 +34,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
 
   protected getCurrentValueName(
     attribute: Configurator.Attribute,
-    value?: Configurator.Value
+    value?: Configurator.Value,
   ): string {
     let name = '';
     if (attribute.selectedSingleValue && !value) {
@@ -49,7 +49,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
 
   getAriaLabel(
     attribute: Configurator.Attribute,
-    value?: Configurator.Value | undefined
+    value?: Configurator.Value | undefined,
   ): string {
     let ariaLabel = '';
     if (value) {
@@ -60,21 +60,21 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
             'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
             valueName,
             attribute,
-            value.valuePriceTotal?.formattedValue
+            value.valuePriceTotal?.formattedValue,
           );
         } else {
           ariaLabel = this.translate(
             'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
             valueName,
             attribute,
-            value.valuePrice?.formattedValue
+            value.valuePrice?.formattedValue,
           );
         }
       } else {
         ariaLabel = this.translate(
           'configurator.a11y.readOnlyValueOfAttributeFull',
           valueName,
-          attribute
+          attribute,
         );
       }
     } else {
@@ -82,7 +82,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
       ariaLabel = this.translate(
         'configurator.a11y.readOnlyValueOfAttributeFull',
         valueName,
-        attribute
+        attribute,
       );
     }
     return ariaLabel;
@@ -92,7 +92,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     resourceKey: string,
     valueName: string,
     attribute: Configurator.Attribute,
-    formattedPrice?: string
+    formattedPrice?: string,
   ): string {
     let ariaLabel: string = '';
 
@@ -123,7 +123,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
    * @return {ConfiguratorPriceComponentOptions} - New price formula
    */
   extractValuePriceFormulaParameters(
-    value: Configurator.Value
+    value: Configurator.Value,
   ): ConfiguratorPriceComponentOptions {
     return {
       quantity: value.quantity,

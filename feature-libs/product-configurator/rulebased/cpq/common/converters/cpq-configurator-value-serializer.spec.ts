@@ -46,7 +46,7 @@ describe('CpqConfiguratorValueSerializer', () => {
     });
 
     cpqConfiguratorSerializer = TestBed.inject(
-      CpqConfiguratorValueSerializer as Type<CpqConfiguratorValueSerializer>
+      CpqConfiguratorValueSerializer as Type<CpqConfiguratorValueSerializer>,
     );
   });
 
@@ -69,13 +69,15 @@ describe('CpqConfiguratorValueSerializer', () => {
 
     it('should throw error if no value was found', () => {
       expect(() =>
-        cpqConfiguratorSerializer['findFirstChangedValue'](attributeValuesEmpty)
+        cpqConfiguratorSerializer['findFirstChangedValue'](
+          attributeValuesEmpty,
+        ),
       ).toThrowError();
     });
 
     it('should throw error if values are not defined', () => {
       expect(() =>
-        cpqConfiguratorSerializer['findFirstChangedValue'](attributeWoValues)
+        cpqConfiguratorSerializer['findFirstChangedValue'](attributeWoValues),
       ).toThrowError();
     });
   });

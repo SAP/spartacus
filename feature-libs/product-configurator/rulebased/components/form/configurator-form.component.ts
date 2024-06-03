@@ -45,20 +45,20 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
     this.routerData$.pipe(
       filter(
         (routerData) =>
-          routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
+          routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION,
       ),
       switchMap((routerData) => {
         return this.configuratorCommonsService.getOrCreateConfiguration(
           routerData.owner,
-          routerData.configIdTemplate
+          routerData.configIdTemplate,
         );
-      })
+      }),
     );
 
   currentGroup$: Observable<Configurator.Group> = this.routerData$.pipe(
     switchMap((routerData) =>
-      this.configuratorGroupsService.getCurrentGroup(routerData.owner)
-    )
+      this.configuratorGroupsService.getCurrentGroup(routerData.owner),
+    ),
   );
 
   constructor(
@@ -67,7 +67,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configExpertModeService: ConfiguratorExpertModeService,
     protected launchDialogService: LaunchDialogService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   ngOnDestroy(): void {
@@ -79,20 +79,20 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       this.routerData$
         .pipe(
           switchMap((routerData) =>
-            this.configuratorCommonsService.hasConflicts(routerData.owner)
+            this.configuratorCommonsService.hasConflicts(routerData.owner),
           ),
           distinctUntilChanged(), // we are interested only in status changes
           skip(1), // we skip the very first emission to avoid the change fron undefined -> no conflicts
-          filter((hasConflicts) => !hasConflicts)
+          filter((hasConflicts) => !hasConflicts),
         )
-        .subscribe(() => this.displayConflictResolvedMessage())
+        .subscribe(() => this.displayConflictResolvedMessage()),
     );
   }
 
   protected displayConflictResolvedMessage(): void {
     this.globalMessageService.add(
       { key: 'configurator.header.conflictsResolved' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
   }
 
@@ -103,14 +103,14 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((routerData) => {
           return this.configuratorCommonsService.getConfiguration(
-            routerData.owner
+            routerData.owner,
           );
         }),
-        take(1)
+        take(1),
       )
       .subscribe((configuration) => {
         this.configuratorCommonsService.checkConflictSolverDialog(
-          configuration.owner
+          configuration.owner,
         );
       });
 
@@ -119,21 +119,21 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
         filter((routingData) => routingData.displayRestartDialog === true),
         switchMap((routerData) => {
           return this.configuratorCommonsService.getConfiguration(
-            routerData.owner
+            routerData.owner,
           );
         }),
         take(1),
         filter(
           (configuration) =>
-            configuration.interactionState.newConfiguration === false
+            configuration.interactionState.newConfiguration === false,
         ),
-        delay(0) // Delay because we first want the form to react on data changes
+        delay(0), // Delay because we first want the form to react on data changes
       )
       .subscribe((configuration) => {
         this.launchDialogService.openDialogAndSubscribe(
           LAUNCH_CALLER.CONFIGURATOR_RESTART_DIALOG,
           undefined,
-          { owner: configuration.owner }
+          { owner: configuration.owner },
         );
       });
 
@@ -147,13 +147,13 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
           .subscribe((hasConflicts) => {
             if (hasConflicts && !routingData.skipConflicts) {
               this.configuratorGroupsService.navigateToConflictSolver(
-                routingData.owner
+                routingData.owner,
               );
 
               //Only check for Incomplete group when there are no conflicts or conflicts should be skipped
             } else {
               this.configuratorGroupsService.navigateToFirstIncompleteGroup(
-                routingData.owner
+                routingData.owner,
               );
             }
           });
@@ -171,7 +171,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
    * @returns {boolean} Returns 'true' if the navigation to a conflict group is enabled, otherwise 'false'.
    */
   isNavigationToGroupEnabled(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): boolean {
     return !configuration.immediateConflictResolution;
   }

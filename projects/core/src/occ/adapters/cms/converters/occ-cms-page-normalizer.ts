@@ -25,7 +25,7 @@ export class OccCmsPageNormalizer
 {
   convert(
     source: Occ.CMSPage,
-    target: CmsStructureModel = {}
+    target: CmsStructureModel = {},
   ): CmsStructureModel {
     this.normalizePageData(source, target);
     this.normalizePageSlotData(source, target);
@@ -39,7 +39,7 @@ export class OccCmsPageNormalizer
    */
   protected normalizePageData(
     source: Occ.CMSPage,
-    target: CmsStructureModel
+    target: CmsStructureModel,
   ): void {
     if (!source) {
       return;
@@ -81,7 +81,7 @@ export class OccCmsPageNormalizer
    */
   protected normalizePageSlotData(
     source: Occ.CMSPage,
-    target: CmsStructureModel
+    target: CmsStructureModel,
   ): void {
     if (!source?.contentSlots) {
       return;
@@ -109,7 +109,7 @@ export class OccCmsPageNormalizer
    */
   protected normalizePageComponentData(
     source: Occ.CMSPage,
-    target: CmsStructureModel
+    target: CmsStructureModel,
   ): void {
     if (!source?.contentSlots?.contentSlot) {
       return;
@@ -165,7 +165,7 @@ export class OccCmsPageNormalizer
    */
   protected normalizeComponentData(
     source: Occ.CMSPage,
-    target: CmsStructureModel
+    target: CmsStructureModel,
   ): void {
     if (!source?.contentSlots?.contentSlot) {
       return;

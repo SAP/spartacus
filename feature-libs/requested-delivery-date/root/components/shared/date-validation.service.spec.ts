@@ -44,19 +44,19 @@ describe('DateValidationService', () => {
 
     it('should return false when source date is less than target', () => {
       expect(
-        service.isDateGreaterOrEqual(mockValidLesserDate, mockValidDate)
+        service.isDateGreaterOrEqual(mockValidLesserDate, mockValidDate),
       ).toBeFalsy();
     });
 
     it('should return true for equal dates', () => {
       expect(
-        service.isDateGreaterOrEqual(mockValidDate, mockValidDate)
+        service.isDateGreaterOrEqual(mockValidDate, mockValidDate),
       ).toBeTruthy();
     });
 
     it('should return true when source date is greater than target', () => {
       expect(
-        service.isDateGreaterOrEqual(mockValidGreaterDate, mockValidDate)
+        service.isDateGreaterOrEqual(mockValidGreaterDate, mockValidDate),
       ).toBeTruthy();
     });
   });

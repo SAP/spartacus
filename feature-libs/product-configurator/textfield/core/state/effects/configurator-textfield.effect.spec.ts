@@ -91,7 +91,7 @@ describe('ConfiguratorTextfieldEffect', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           CONFIGURATION_TEXTFIELD_FEATURE,
-          reducers.getConfiguratorTextfieldReducers()
+          reducers.getConfiguratorTextfieldReducers(),
         ),
       ],
 
@@ -107,7 +107,7 @@ describe('ConfiguratorTextfieldEffect', () => {
     });
 
     configEffects = TestBed.inject(
-      fromEffects.ConfiguratorTextfieldEffects as Type<fromEffects.ConfiguratorTextfieldEffects>
+      fromEffects.ConfiguratorTextfieldEffects as Type<fromEffects.ConfiguratorTextfieldEffects>,
     );
   });
 
@@ -121,12 +121,12 @@ describe('ConfiguratorTextfieldEffect', () => {
       owner: ConfiguratorModelUtils.createInitialOwner(),
     };
     const action = new ConfiguratorTextfieldActions.CreateConfiguration(
-      payloadInput
+      payloadInput,
     );
 
     const completion =
       new ConfiguratorTextfieldActions.CreateConfigurationSuccess(
-        productConfiguration
+        productConfiguration,
       );
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -141,12 +141,12 @@ describe('ConfiguratorTextfieldEffect', () => {
       owner: ConfiguratorModelUtils.createInitialOwner(),
     };
     const action = new ConfiguratorTextfieldActions.CreateConfiguration(
-      payloadInput
+      payloadInput,
     );
 
     const completionFailure =
       new ConfiguratorTextfieldActions.CreateConfigurationFail(
-        normalizeHttpError(errorResponse, new MockLoggerService())
+        normalizeHttpError(errorResponse, new MockLoggerService()),
       );
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });
@@ -160,18 +160,18 @@ describe('ConfiguratorTextfieldEffect', () => {
         owner: ConfiguratorModelUtils.createInitialOwner(),
       };
     const action = new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
-      payloadInput
+      payloadInput,
     );
 
     const completion =
       new ConfiguratorTextfieldActions.ReadCartEntryConfigurationSuccess(
-        productConfiguration
+        productConfiguration,
       );
     actions$ = hot('-a', { a: action });
     const expectedObs = cold('-b', { b: completion });
 
     expect(configEffects.readConfigurationForCartEntry$).toBeObservable(
-      expectedObs
+      expectedObs,
     );
   });
 
@@ -182,18 +182,18 @@ describe('ConfiguratorTextfieldEffect', () => {
         owner: ConfiguratorModelUtils.createInitialOwner(),
       };
     const action = new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
-      payloadInput
+      payloadInput,
     );
 
     const completionFailure =
       new ConfiguratorTextfieldActions.ReadCartEntryConfigurationFail(
-        normalizeHttpError(errorResponse, new MockLoggerService())
+        normalizeHttpError(errorResponse, new MockLoggerService()),
       );
     actions$ = hot('-a', { a: action });
     const expectedObs = cold('-b', { b: completionFailure });
 
     expect(configEffects.readConfigurationForCartEntry$).toBeObservable(
-      expectedObs
+      expectedObs,
     );
   });
 
@@ -203,18 +203,18 @@ describe('ConfiguratorTextfieldEffect', () => {
         owner: ConfiguratorModelUtils.createInitialOwner(),
       };
     const action = new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
-      payloadInput
+      payloadInput,
     );
 
     const completion =
       new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationSuccess(
-        productConfiguration
+        productConfiguration,
       );
     actions$ = cold('-a', { a: action });
     const expectedObs = cold('-b', { b: completion });
 
     expect(configEffects.readConfigurationForOrderEntry$).toBeObservable(
-      expectedObs
+      expectedObs,
     );
   });
 
@@ -225,18 +225,18 @@ describe('ConfiguratorTextfieldEffect', () => {
         owner: ConfiguratorModelUtils.createInitialOwner(),
       };
     const action = new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
-      payloadInput
+      payloadInput,
     );
 
     const completionFailure =
       new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationFail(
-        normalizeHttpError(errorResponse, new MockLoggerService())
+        normalizeHttpError(errorResponse, new MockLoggerService()),
       );
     actions$ = cold('-a', { a: action });
     const expectedObs = cold('-b', { b: completionFailure });
 
     expect(configEffects.readConfigurationForOrderEntry$).toBeObservable(
-      expectedObs
+      expectedObs,
     );
   });
 
@@ -288,7 +288,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       };
       const action = new ConfiguratorTextfieldActions.AddToCart(payloadInput);
       const cartAddEntryFail = new ConfiguratorTextfieldActions.AddToCartFail(
-        normalizeHttpError(errorResponse, new MockLoggerService())
+        normalizeHttpError(errorResponse, new MockLoggerService()),
       );
 
       actions$ = hot('-a', { a: action });
@@ -310,7 +310,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       };
       const action =
         new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
-          payloadInput
+          payloadInput,
         );
       const loadCart = new CartActions.LoadCart({
         userId: userId,
@@ -338,11 +338,11 @@ describe('ConfiguratorTextfieldEffect', () => {
       };
       const action =
         new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
-          payloadInput
+          payloadInput,
         );
       const cartUpdateFail =
         new ConfiguratorTextfieldActions.UpdateCartEntryConfigurationFail(
-          normalizeHttpError(errorResponse, new MockLoggerService())
+          normalizeHttpError(errorResponse, new MockLoggerService()),
         );
 
       actions$ = hot('-a', { a: action });

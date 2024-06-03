@@ -74,7 +74,7 @@ export class PersistFocusDirective
 
   constructor(
     protected elementRef: ElementRef,
-    protected service: PersistFocusService
+    protected service: PersistFocusService,
   ) {
     super(elementRef, service);
   }
@@ -118,7 +118,7 @@ export class PersistFocusDirective
   protected get group(): string | null | undefined {
     return this.service.getPersistenceGroup(
       this.host,
-      this.config as PersistFocusConfig
+      this.config as PersistFocusConfig,
     );
   }
 }

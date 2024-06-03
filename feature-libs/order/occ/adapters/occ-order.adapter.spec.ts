@@ -63,7 +63,7 @@ class MockLoggerService {
 
 const mockNormalizedJaloError = normalizeHttpError(
   mockJaloError,
-  new MockLoggerService()
+  new MockLoggerService(),
 );
 
 describe('OccOrderAdapter', () => {
@@ -128,7 +128,7 @@ describe('OccOrderAdapter', () => {
           (req) =>
             req.method === 'POST' &&
             req.url ===
-              `users/${userId}/orders?fields=FULL&cartId=${cartId}&termsChecked=${termsChecked}`
+              `users/${userId}/orders?fields=FULL&cartId=${cartId}&termsChecked=${termsChecked}`,
         )
         .flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
@@ -137,7 +137,7 @@ describe('OccOrderAdapter', () => {
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'post').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -163,7 +163,7 @@ describe('OccOrderAdapter', () => {
               return of({});
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: Order | undefined;

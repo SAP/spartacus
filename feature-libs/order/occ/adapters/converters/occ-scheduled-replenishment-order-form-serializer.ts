@@ -17,7 +17,7 @@ export class OccScheduledReplenishmentOrderFormSerializer
 {
   convert(
     source: Occ.ScheduleReplenishmentForm,
-    target?: ScheduleReplenishmentForm
+    target?: ScheduleReplenishmentForm,
   ): ScheduleReplenishmentForm {
     if (target === undefined) {
       target = { ...(source as any) } as ScheduleReplenishmentForm;
@@ -25,7 +25,7 @@ export class OccScheduledReplenishmentOrderFormSerializer
 
     if (source.replenishmentStartDate) {
       target.replenishmentStartDate = this.convertDate(
-        source.replenishmentStartDate
+        source.replenishmentStartDate,
       );
     }
 

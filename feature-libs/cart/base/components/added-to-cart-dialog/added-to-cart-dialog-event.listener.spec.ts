@@ -33,7 +33,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -117,7 +117,7 @@ describe('AddedToCartDialogEventListener', () => {
       mockEventSuccessStream$.next(mockSuccessEvent);
       const addingEntryResult$ = listener['createCompletionObservable']();
       expect(addingEntryResult$).toBeObservable(
-        cold('s', { s: mockSuccessEvent })
+        cold('s', { s: mockSuccessEvent }),
       );
     });
     it('should create observable that emits failEvent once that is fired while success did not fire', () => {
@@ -126,7 +126,7 @@ describe('AddedToCartDialogEventListener', () => {
       mockEventStream$.next(mockFailEvent);
       const addingEntryResult$ = listener['createCompletionObservable']();
       expect(addingEntryResult$).toBeObservable(
-        cold('s', { s: mockFailEvent })
+        cold('s', { s: mockFailEvent }),
       );
     });
   });

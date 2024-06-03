@@ -45,7 +45,7 @@ export class OccEndpointsService {
 
   constructor(
     private config: OccConfig,
-    @Optional() private baseSiteService: BaseSiteService
+    @Optional() private baseSiteService: BaseSiteService,
   ) {
     if (this.baseSiteService) {
       this.baseSiteService
@@ -88,7 +88,7 @@ export class OccEndpointsService {
       baseUrl: true,
       prefix: true,
       baseSite: true,
-    }
+    },
   ): string {
     const baseUrl =
       baseUrlProperties.baseUrl === false
@@ -111,7 +111,7 @@ export class OccEndpointsService {
   buildUrl(
     endpoint: string,
     attributes?: DynamicAttributes,
-    propertiesToOmit?: BaseOccUrlProperties
+    propertiesToOmit?: BaseOccUrlProperties,
   ): string {
     let url = this.getEndpointForScope(endpoint, attributes?.scope);
 
@@ -136,7 +136,7 @@ export class OccEndpointsService {
 
         const httpParams = this.getHttpParamsFromQueryParams(
           queryParams,
-          httpParamsOptions
+          httpParamsOptions,
         );
 
         const params = httpParams.toString();
@@ -151,7 +151,7 @@ export class OccEndpointsService {
 
   protected getHttpParamsFromQueryParams(
     queryParams: any,
-    options: HttpParamsOptions
+    options: HttpParamsOptions,
   ) {
     let httpParams = new HttpParams(options);
     Object.keys(queryParams).forEach((key) => {
@@ -169,7 +169,7 @@ export class OccEndpointsService {
 
   private getEndpointFromConfig(
     endpoint: string,
-    scope?: string
+    scope?: string,
   ): string | undefined {
     const endpointsConfig = this.config.backend?.occ?.endpoints;
 
@@ -212,7 +212,7 @@ export class OccEndpointsService {
       }
       if (isDevMode()) {
         this.logger.warn(
-          `${endpoint} endpoint configuration missing for scope "${scope}"`
+          `${endpoint} endpoint configuration missing for scope "${scope}"`,
         );
       }
     }
@@ -232,7 +232,7 @@ export class OccEndpointsService {
    */
   private buildUrlFromEndpointString(
     endpointString: string,
-    propertiesToOmit?: BaseOccUrlProperties
+    propertiesToOmit?: BaseOccUrlProperties,
   ): string {
     return urlPathJoin(this.getBaseUrl(propertiesToOmit), endpointString);
   }

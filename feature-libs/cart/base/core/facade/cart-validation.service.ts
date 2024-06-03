@@ -35,12 +35,12 @@ export class CartValidationService implements CartValidationFacade {
           filter(([_, __, loaded]) => loaded),
           take(1),
           switchMap(([cartId, userId]) =>
-            this.cartValidationConnector.validate(cartId, userId)
-          )
+            this.cartValidationConnector.validate(cartId, userId),
+          ),
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
-      }
+      },
     );
 
   constructor(
@@ -48,7 +48,7 @@ export class CartValidationService implements CartValidationFacade {
     protected command: CommandService,
     protected userIdService: UserIdService,
     protected activeCartFacade: ActiveCartFacade,
-    protected cartValidationStateService: CartValidationStateService
+    protected cartValidationStateService: CartValidationStateService,
   ) {}
 
   /**

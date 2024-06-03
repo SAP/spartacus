@@ -79,7 +79,7 @@ function createStylesConfig(options: SpartacusOptions): Rule {
     }`;
     if (tree.exists(styleConfigFilePath)) {
       context.logger.warn(
-        `Skipping styles config file creation. File ${styleConfigFilePath} already exists.`
+        `Skipping styles config file creation. File ${styleConfigFilePath} already exists.`,
       );
     } else {
       tree.create(styleConfigFilePath, styleConfigContent);
@@ -96,7 +96,7 @@ export function getMainStyleFilePath(project: WorkspaceProject): string {
       : rootStyles;
   if (!styleFilePath) {
     throw new Error(
-      `Could not find main styling file from the project's angular configuration.`
+      `Could not find main styling file from the project's angular configuration.`,
     );
   }
   return styleFilePath;
@@ -112,20 +112,20 @@ function installStyles(options: SpartacusOptions): Rule {
 
     if (!styleFilePath) {
       context.logger.warn(
-        `Could not find the default style file for this project.`
+        `Could not find the default style file for this project.`,
       );
       context.logger.warn(
-        `Please consider manually setting up spartacus styles`
+        `Please consider manually setting up spartacus styles`,
       );
       return;
     }
 
     if (styleFilePath.split('.').pop() !== 'scss') {
       context.logger.warn(
-        `Could not find the default SCSS style file for this project. `
+        `Could not find the default SCSS style file for this project. `,
       );
       context.logger.warn(
-        `Please make sure your project is configured with SCSS and consider manually setting up spartacus styles.`
+        `Please make sure your project is configured with SCSS and consider manually setting up spartacus styles.`,
       );
       return;
     }
@@ -134,10 +134,10 @@ function installStyles(options: SpartacusOptions): Rule {
 
     if (!buffer) {
       context.logger.warn(
-        `Could not read the default style file within the project ${styleFilePath}`
+        `Could not read the default style file within the project ${styleFilePath}`,
       );
       context.logger.warn(
-        `Please consider manually importing spartacus styles.`
+        `Please consider manually importing spartacus styles.`,
       );
       return;
     }
@@ -145,7 +145,7 @@ function installStyles(options: SpartacusOptions): Rule {
     const htmlContent = buffer.toString();
     const relativeStyleConfigImportPath = getRelativeStyleConfigImportPath(
       project,
-      styleFilePath
+      styleFilePath,
     );
     let insertion =
       `\n@import '${relativeStyleConfigImportPath}';\n` +
@@ -172,7 +172,7 @@ function installStyles(options: SpartacusOptions): Rule {
 
 function updateMainComponent(
   project: WorkspaceProject,
-  options: SpartacusOptions
+  options: SpartacusOptions,
 ): Rule {
   return (host: Tree, context: SchematicContext): Tree | void => {
     if (options.debug) {
@@ -319,7 +319,7 @@ function verifyAppModuleExists(options: SpartacusOptions): Rule {
 
     // check if app module exists
     const appModule = appSourceFiles.find((sourceFile) =>
-      sourceFile.getFilePath().includes(`app.module.ts`)
+      sourceFile.getFilePath().includes(`app.module.ts`),
     );
 
     if (!appModule) {
@@ -330,7 +330,7 @@ function verifyAppModuleExists(options: SpartacusOptions): Rule {
 3. try again installing Spartacus with a command "ng add @spartacus/schematics" ...
         
 Note: Since version 17, Angular's command "ng new" by default creates an app without a file "app.module.ts" (in a so-called "standalone" mode). But Spartacus installer requires this file to be present.
-`
+`,
       );
     }
     if (options.debug) {
@@ -341,7 +341,7 @@ Note: Since version 17, Angular's command "ng new" by default creates an app wit
 }
 
 export function createStylePreprocessorOptions(
-  options?: SpartacusOptions
+  options?: SpartacusOptions,
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options?.debug) {
@@ -356,7 +356,7 @@ export function createStylePreprocessorOptions(
     // `build` architect section
     const architectBuild = architect?.build;
     const buildStylePreprocessorOptions = createStylePreprocessorOptionsArray(
-      (architectBuild?.options as any)?.stylePreprocessorOptions
+      (architectBuild?.options as any)?.stylePreprocessorOptions,
     );
     const buildOptions = {
       ...architectBuild?.options,
@@ -366,7 +366,7 @@ export function createStylePreprocessorOptions(
     // `test` architect section
     const architectTest = architect?.test;
     const testStylePreprocessorOptions = createStylePreprocessorOptionsArray(
-      (architectBuild?.options as any)?.stylePreprocessorOptions
+      (architectBuild?.options as any)?.stylePreprocessorOptions,
     );
     const testOptions = {
       ...architectTest?.options,
@@ -416,11 +416,11 @@ function createStylePreprocessorOptionsArray(angularJsonStylePreprocessorOptions
     } else {
       if (
         !angularJsonStylePreprocessorOptions.includePaths.includes(
-          NODE_MODULES_PATH
+          NODE_MODULES_PATH,
         )
       ) {
         angularJsonStylePreprocessorOptions.includePaths.push(
-          NODE_MODULES_PATH
+          NODE_MODULES_PATH,
         );
       }
     }
@@ -435,7 +435,7 @@ function prepareDependencies(features: string[]): NodeDependency[] {
   const libraries = analyzeCrossLibraryDependenciesByFeatures(features);
   const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
   const spartacusLibraryDependencies = libraries.map((library) =>
-    mapPackageToNodeDependencies(library, spartacusVersion)
+    mapPackageToNodeDependencies(library, spartacusVersion),
   );
 
   const dependencies: NodeDependency[] = spartacusDependencies
@@ -455,7 +455,7 @@ function updateAppModule(options: SpartacusOptions): Rule {
 
     if (!buildPaths.length) {
       throw new SchematicsException(
-        'Could not find any tsconfig file. Cannot configure AppModule.'
+        'Could not find any tsconfig file. Cannot configure AppModule.',
       );
     }
 
@@ -506,10 +506,10 @@ function updateAppModule(options: SpartacusOptions): Rule {
 function addAppRoutingModuleImport(
   tree: Tree,
   context: SchematicContext,
-  sourceFile: SourceFile
+  sourceFile: SourceFile,
 ) {
   context.logger.info(
-    `⌛️ Removing from AppModule's imports array a local AppRoutingModule, if exists`
+    `⌛️ Removing from AppModule's imports array a local AppRoutingModule, if exists`,
   );
   // remove import of AppRoutingModule (NgModule import and module path import), if exists
   const removedImport = removeModuleImport(sourceFile, {
@@ -519,11 +519,11 @@ function addAppRoutingModuleImport(
   context.logger.info(
     removedImport
       ? `✅ Removed from AppModule's imports array a local AppRoutingModule`
-      : `✅ No local AppRoutingModule found im AppModule's imports array`
+      : `✅ No local AppRoutingModule found im AppModule's imports array`,
   );
 
   context.logger.info(
-    `⌛️ Deleting a local file "${APP_ROUTING_MODULE_LOCAL_FILENAME}", if exists`
+    `⌛️ Deleting a local file "${APP_ROUTING_MODULE_LOCAL_FILENAME}", if exists`,
   );
   // delete local file of AppRoutingModule, if exists
   let deletedFile: Path | undefined;
@@ -536,12 +536,12 @@ function addAppRoutingModuleImport(
   });
   if (!deletedFile) {
     context.logger.info(
-      `✅ No local file found with the path "${APP_ROUTING_MODULE_LOCAL_FILENAME}"`
+      `✅ No local file found with the path "${APP_ROUTING_MODULE_LOCAL_FILENAME}"`,
     );
   }
 
   context.logger.info(
-    `⌛️ Importing AppRoutingModule of Spartacus in AppModule`
+    `⌛️ Importing AppRoutingModule of Spartacus in AppModule`,
   );
   // add import of AppRoutingModule from Spartacus
   addModuleImport(sourceFile, {
@@ -594,7 +594,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       chain([
         addPackageJsonDependencies(
           prepareDependencies(features),
-          packageJsonFile
+          packageJsonFile,
         ),
         /**
          * Force installing versions of dependencies used by Spartacus.

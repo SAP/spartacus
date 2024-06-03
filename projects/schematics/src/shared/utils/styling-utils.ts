@@ -14,16 +14,16 @@ export function getStylesConfigFilePath(sourceRoot: string): string {
 
 export function getRelativeStyleConfigImportPath(
   project: WorkspaceProject,
-  destFilePath: string
+  destFilePath: string,
 ) {
   const styleConfigFilePath = getStylesConfigFilePath(project.sourceRoot);
   const styleConfigFileRelativePath = path.relative(
     path.parse(destFilePath).dir,
-    styleConfigFilePath
+    styleConfigFilePath,
   );
   const styleConfigRelativeImportPath = path.join(
     path.parse(styleConfigFileRelativePath).dir,
-    path.parse(styleConfigFileRelativePath).name
+    path.parse(styleConfigFileRelativePath).name,
   );
   return styleConfigRelativeImportPath;
 }

@@ -14,7 +14,7 @@
       formControlName="titleCode"
       id="title-select"
       [cxNgSelectA11y]="{
-        ariaLabel: 'updateProfileForm.title' | cxTranslate
+        ariaLabel: 'updateProfileForm.title' | cxTranslate,
       }"
     >
       <ng-option *ngFor="let title of titles$ | async" [value]="title.code">{{

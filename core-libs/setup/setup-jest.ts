@@ -15,5 +15,5 @@ import {
 getTestBed().initTestEnvironment(
   ServerTestingModule,
   platformServerTesting(),
-  {}
+  {},
 );

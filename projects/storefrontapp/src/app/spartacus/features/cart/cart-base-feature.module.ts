@@ -25,7 +25,7 @@ import { provideConfig } from '@spartacus/core';
         [CART_BASE_FEATURE]: {
           module: () =>
             import('./cart-base-wrapper.module').then(
-              (m) => m.CartBaseWrapperModule
+              (m) => m.CartBaseWrapperModule,
             ),
         },
       },
@@ -35,7 +35,7 @@ import { provideConfig } from '@spartacus/core';
         [MINI_CART_FEATURE]: {
           module: () =>
             import('@spartacus/cart/base/components/mini-cart').then(
-              (m) => m.MiniCartModule
+              (m) => m.MiniCartModule,
             ),
         },
       },
@@ -45,7 +45,7 @@ import { provideConfig } from '@spartacus/core';
         [ADD_TO_CART_FEATURE]: {
           module: () =>
             import('@spartacus/cart/base/components/add-to-cart').then(
-              (m) => m.AddToCartModule
+              (m) => m.AddToCartModule,
             ),
         },
       },

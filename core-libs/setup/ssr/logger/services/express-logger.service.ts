@@ -57,7 +57,7 @@ export class ExpressLoggerService implements LoggerService {
       // Otherwise, multi-line logs would be treated on the server as separate log
       { breakLength: Infinity },
       message,
-      ...optionalParams
+      ...optionalParams,
     );
   }
 }

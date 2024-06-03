@@ -36,26 +36,24 @@ describe('ForgotPasswordComponentService', () => {
   let routingService: RoutingService;
   let userPasswordFacade: UserPasswordFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [],
-        providers: [
-          ForgotPasswordComponentService,
-          { provide: UserPasswordFacade, useClass: MockUserPasswordService },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: AuthConfigService, useClass: MockAuthConfigService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [],
+      providers: [
+        ForgotPasswordComponentService,
+        { provide: UserPasswordFacade, useClass: MockUserPasswordService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: AuthConfigService, useClass: MockAuthConfigService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     service = TestBed.inject(ForgotPasswordComponentService);
@@ -97,7 +95,7 @@ describe('ForgotPasswordComponentService', () => {
       it('should request email', () => {
         service.requestEmail();
         expect(
-          userPasswordFacade.requestForgotPasswordEmail
+          userPasswordFacade.requestForgotPasswordEmail,
         ).toHaveBeenCalledWith('test@test.com');
       });
 
@@ -114,7 +112,7 @@ describe('ForgotPasswordComponentService', () => {
 
       it('should not redirect when flow different than ResourceOwnerPasswordFlow is used', () => {
         spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
-          OAuthFlow.ImplicitFlow
+          OAuthFlow.ImplicitFlow,
         );
         service.requestEmail();
         expect(routingService.go).not.toHaveBeenCalled();
@@ -131,7 +129,7 @@ describe('ForgotPasswordComponentService', () => {
       it('should not request email', () => {
         service.requestEmail();
         expect(
-          userPasswordFacade.requestForgotPasswordEmail
+          userPasswordFacade.requestForgotPasswordEmail,
         ).not.toHaveBeenCalled();
       });
 

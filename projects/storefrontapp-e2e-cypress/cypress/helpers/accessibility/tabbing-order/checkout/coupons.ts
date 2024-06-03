@@ -15,7 +15,7 @@ export function checkoutCouponsTabbingOrder(config: TabElement[]) {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/current/carts*`,
   }).as('getCarts');
   addProduct(cartCoupon.productCode1);
@@ -27,7 +27,7 @@ export function checkoutAppliedCouponsTabbingOrder(config: TabElement[]) {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/current/carts*`,
   }).as('getCarts');
   addProduct(cartCoupon.productCode1);

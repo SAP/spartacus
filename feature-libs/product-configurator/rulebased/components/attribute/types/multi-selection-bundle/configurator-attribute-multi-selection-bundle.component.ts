@@ -46,7 +46,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
           quantity,
           selected,
           valueCode,
-        })
+        }),
       );
     }
 
@@ -68,10 +68,10 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
    */
   protected updateMultipleSelectionValues(
     valueCode: any,
-    state: any
+    state: any,
   ): ConfigFormUpdateEvent {
     const index = this.multipleSelectionValues.findIndex(
-      (value) => value.valueCode === valueCode
+      (value) => value.valueCode === valueCode,
     );
 
     this.multipleSelectionValues[index] = {
@@ -104,7 +104,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   }): ConfigFormUpdateEvent | undefined {
     const value: Configurator.Value | undefined =
       this.multipleSelectionValues.find(
-        (selectionValue) => selectionValue.valueCode === eventValue.valueCode
+        (selectionValue) => selectionValue.valueCode === eventValue.valueCode,
       );
 
     if (!value) {
@@ -132,7 +132,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     this.configuratorCommonsService.updateConfiguration(
       changes.ownerKey,
       changes.changedAttribute,
-      changes.updateType
+      changes.updateType,
     );
   }
 
@@ -142,7 +142,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     this.configuratorCommonsService.updateConfiguration(
       changes.ownerKey,
       changes.changedAttribute,
-      changes.updateType
+      changes.updateType,
     );
   }
 
@@ -154,7 +154,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
         ...this.attribute,
         values: [],
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   }
 
@@ -166,7 +166,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       this.configuratorCommonsService.updateConfiguration(
         changes.ownerKey,
         changes.changedAttribute,
-        changes.updateType
+        changes.updateType,
       );
     }
   }
@@ -210,7 +210,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     disableAllButtons: boolean | null,
     hideRemoveButton: boolean | null,
     value: Configurator.Value,
-    index: number
+    index: number,
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
       disableAllButtons: disableAllButtons ?? false,

@@ -73,7 +73,7 @@ describe('Order Details Actions', () => {
         payload: payload,
         meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
-          CANCEL_ORDER_PROCESS_ID
+          CANCEL_ORDER_PROCESS_ID,
         ),
       });
     });
@@ -90,7 +90,7 @@ describe('Order Details Actions', () => {
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           CANCEL_ORDER_PROCESS_ID,
-          error
+          error,
         ),
       });
     });
@@ -104,7 +104,7 @@ describe('Order Details Actions', () => {
         type: OrderActions.CANCEL_ORDER_SUCCESS,
         meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
-          CANCEL_ORDER_PROCESS_ID
+          CANCEL_ORDER_PROCESS_ID,
         ),
         payload: undefined,
       });
@@ -119,7 +119,7 @@ describe('Order Details Actions', () => {
         type: OrderActions.RESET_CANCEL_ORDER_PROCESS,
         meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
-          CANCEL_ORDER_PROCESS_ID
+          CANCEL_ORDER_PROCESS_ID,
         ),
       });
     });

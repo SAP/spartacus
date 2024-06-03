@@ -21,13 +21,13 @@ export class CheckoutPaymentTypeConnector {
     userId: string,
     cartId: string,
     typeCode: string,
-    purchaseOrderNumber?: string
+    purchaseOrderNumber?: string,
   ): Observable<unknown> {
     return this.adapter.setPaymentType(
       userId,
       cartId,
       typeCode,
-      purchaseOrderNumber
+      purchaseOrderNumber,
     );
   }
 }

@@ -142,7 +142,7 @@ describe('ProductImageZoomViewComponent', () => {
   describe('with multiple pictures', () => {
     beforeEach(() => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockDataWithMultiplePictures)
+        of(mockDataWithMultiplePictures),
       );
       fixture = TestBed.createComponent(ProductImageZoomViewComponent);
       productImageZoomViewComponent = fixture.componentInstance;
@@ -157,31 +157,23 @@ describe('ProductImageZoomViewComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it(
-      'should have 2 thumbnails',
-      waitForAsync(() => {
-        let items: Observable<ThumbnailsGroup>[];
-        productImageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
-        expect(items.length).toBe(2);
-      })
-    );
+    it('should have 2 thumbnails', waitForAsync(() => {
+      let items: Observable<ThumbnailsGroup>[];
+      productImageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
+      expect(items.length).toBe(2);
+    }));
 
-    it(
-      'should have thumb with url in first product',
-      waitForAsync(() => {
-        let thumbs: Observable<ThumbnailsGroup>[];
-        productImageZoomViewComponent.thumbnails$.subscribe(
-          (i) => (thumbs = i)
-        );
-        let thumb: any;
-        thumbs[0].subscribe((p) => (thumb = p));
-        expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
-      })
-    );
+    it('should have thumb with url in first product', waitForAsync(() => {
+      let thumbs: Observable<ThumbnailsGroup>[];
+      productImageZoomViewComponent.thumbnails$.subscribe((i) => (thumbs = i));
+      let thumb: any;
+      thumbs[0].subscribe((p) => (thumb = p));
+      expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
+    }));
 
     it('should zoom on click', () => {
       const defaultImageElement = fixture.debugElement.query(
-        By.css('.cx-default-image-zoom')
+        By.css('.cx-default-image-zoom'),
       ).nativeElement as HTMLElement;
 
       defaultImageElement.dispatchEvent(new MouseEvent('click'));
@@ -191,7 +183,7 @@ describe('ProductImageZoomViewComponent', () => {
 
     it('should zoom on doubleclick', () => {
       const defaultImageElement = fixture.debugElement.query(
-        By.css('.cx-default-image-zoom')
+        By.css('.cx-default-image-zoom'),
       ).nativeElement as HTMLElement;
 
       defaultImageElement.dispatchEvent(new MouseEvent('dblclick'));
@@ -203,7 +195,7 @@ describe('ProductImageZoomViewComponent', () => {
   describe('with one pictures', () => {
     beforeEach(() => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockDataWithOnePicture)
+        of(mockDataWithOnePicture),
       );
       fixture = TestBed.createComponent(ProductImageZoomViewComponent);
       productImageZoomViewComponent = fixture.componentInstance;
@@ -222,20 +214,17 @@ describe('ProductImageZoomViewComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it(
-      'should not have thumbnails in case there is only one GALLERY image',
-      waitForAsync(() => {
-        let items: Observable<ThumbnailsGroup>[];
-        productImageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
-        expect(items.length).toBe(0);
-      })
-    );
+    it('should not have thumbnails in case there is only one GALLERY image', waitForAsync(() => {
+      let items: Observable<ThumbnailsGroup>[];
+      productImageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
+      expect(items.length).toBe(0);
+    }));
   });
 
   describe('without pictures', () => {
     beforeEach(() => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockDataWithoutPrimaryPictures)
+        of(mockDataWithoutPrimaryPictures),
       );
 
       fixture = TestBed.createComponent(ProductImageZoomViewComponent);
@@ -309,8 +298,8 @@ describe('ProductImageZoomViewComponent', () => {
         productImageZoomViewComponent.calculatePointerMovePosition(
           mockElem,
           10,
-          10
-        )
+          10,
+        ),
       ).toEqual({
         positionX: 390,
         positionY: 290,
@@ -358,8 +347,8 @@ describe('ProductImageZoomViewComponent', () => {
           10,
           -200,
           mockImageElement,
-          mockBoundingRect1
-        )
+          mockBoundingRect1,
+        ),
       ).toEqual({
         x: 10,
         y: -140,
@@ -370,8 +359,8 @@ describe('ProductImageZoomViewComponent', () => {
           10,
           200,
           mockImageElement,
-          mockBoundingRect2
-        )
+          mockBoundingRect2,
+        ),
       ).toEqual({
         x: 10,
         y: 10,
@@ -382,8 +371,8 @@ describe('ProductImageZoomViewComponent', () => {
           -400,
           10,
           mockImageElement,
-          mockBoundingRect1
-        )
+          mockBoundingRect1,
+        ),
       ).toEqual({
         x: -390,
         y: 10,
@@ -394,8 +383,8 @@ describe('ProductImageZoomViewComponent', () => {
           400,
           10,
           mockImageElement,
-          mockBoundingRect2
-        )
+          mockBoundingRect2,
+        ),
       ).toEqual({
         x: 275,
         y: 10,

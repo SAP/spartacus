@@ -50,13 +50,13 @@ describe('AsmService', () => {
     const searchOptions: CustomerSearchOptions = { query: 'search term' };
     service.customerSearch(searchOptions);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AsmActions.CustomerSearch(searchOptions)
+      new AsmActions.CustomerSearch(searchOptions),
     );
   });
 
   it('should return search result', () => {
     store.dispatch(
-      new AsmActions.CustomerSearchSuccess(mockCustomerSearchPage)
+      new AsmActions.CustomerSearchSuccess(mockCustomerSearchPage),
     );
 
     let result: CustomerSearchPage;
@@ -80,7 +80,7 @@ describe('AsmService', () => {
     spyOn(store, 'dispatch').and.stub();
     service.customerSearchReset();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AsmActions.CustomerSearchReset()
+      new AsmActions.CustomerSearchReset(),
     );
   });
 
@@ -89,7 +89,7 @@ describe('AsmService', () => {
     const asmUi: AsmUi = {};
     service.updateAsmUiState(asmUi);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AsmActions.AsmUiUpdate(asmUi)
+      new AsmActions.AsmUiUpdate(asmUi),
     );
   });
 

@@ -37,7 +37,7 @@ export class CustomerTicketingDetailsComponent implements OnDestroy {
     protected translation: TranslationService,
     protected customerTicketingFacade: CustomerTicketingFacade,
     protected routingService: RoutingService,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {
     this.reloadOnRedirection();
   }
@@ -45,7 +45,7 @@ export class CustomerTicketingDetailsComponent implements OnDestroy {
   prepareCardContent(
     entity: string | undefined,
     titleTranslation: string,
-    id?: string | undefined
+    id?: string | undefined,
   ): Observable<Card> {
     return this.translation.translate(titleTranslation).pipe(
       filter(() => Boolean(entity)),
@@ -53,7 +53,7 @@ export class CustomerTicketingDetailsComponent implements OnDestroy {
         title: textTitle,
         text: [entity || ''],
         customClass: this.getStatusClass(id?.toUpperCase()),
-      }))
+      })),
     );
   }
 
@@ -77,7 +77,7 @@ export class CustomerTicketingDetailsComponent implements OnDestroy {
           if (ticket && ticketCode !== ticket?.id) {
             this.eventService.dispatch({}, GetTicketQueryReloadEvent);
           }
-        })
+        }),
       )
       .subscribe();
   }

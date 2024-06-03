@@ -69,7 +69,7 @@ const moduleComponents = [
       },
     }),
     provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
+      inject(USE_MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {},
     ),
   ],
 })

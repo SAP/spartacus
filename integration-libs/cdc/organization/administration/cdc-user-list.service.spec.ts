@@ -75,7 +75,7 @@ describe('CdcUserListService', () => {
   describe('onCreateButtonClick()', () => {
     it('should open delegate admin login successfully', () => {
       cdcJsService.getOrganizationContext = createSpy().and.returnValue(
-        of({ orgId: orgId })
+        of({ orgId: orgId }),
       );
       cdcJsService.openDelegatedAdminLogin = createSpy();
 
@@ -86,7 +86,7 @@ describe('CdcUserListService', () => {
     });
     it('should handle when empty incorrect organization id is passed', () => {
       cdcJsService.getOrganizationContext = createSpy().and.returnValue(
-        of({ orgId: '' })
+        of({ orgId: '' }),
       );
       cdcJsService.openDelegatedAdminLogin = createSpy();
 
@@ -98,7 +98,7 @@ describe('CdcUserListService', () => {
         {
           key: 'generalErrors.pageFailure',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
   });

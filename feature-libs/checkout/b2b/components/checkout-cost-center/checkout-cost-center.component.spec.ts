@@ -27,7 +27,7 @@ class MockCheckoutCostCenterService
   implements Partial<CheckoutCostCenterFacade>
 {
   getCostCenterState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: mockCostCenters[0] })
+    of({ loading: false, error: false, data: mockCostCenters[0] }),
   );
 
   setCostCenter = createSpy().and.returnValue(of({}));
@@ -132,7 +132,7 @@ describe('CheckoutCostCenterComponent', () => {
 
   it('should set default if the cart does NOT contain a cost center', () => {
     checkoutCostCenterService.getCostCenterState = createSpy().and.returnValue(
-      of({ loading: false, error: false, data: undefined })
+      of({ loading: false, error: false, data: undefined }),
     );
 
     component.ngOnInit();
@@ -148,7 +148,7 @@ describe('CheckoutCostCenterComponent', () => {
     expect(costCenter).toEqual(mockCostCenters);
     expect(component['costCenterId']).toEqual(mockCostCenters[0].code);
     expect(checkoutCostCenterService.setCostCenter).toHaveBeenCalledWith(
-      mockCostCenters[0].code
+      mockCostCenters[0].code,
     );
   });
 
@@ -157,7 +157,7 @@ describe('CheckoutCostCenterComponent', () => {
 
     expect(component['costCenterId']).toEqual(mockCostCenters[1].code);
     expect(checkoutCostCenterService.setCostCenter).toHaveBeenCalledWith(
-      mockCostCenters[1].code
+      mockCostCenters[1].code,
     );
   });
 });

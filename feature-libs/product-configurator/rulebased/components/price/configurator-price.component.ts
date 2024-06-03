@@ -42,7 +42,7 @@ export class ConfiguratorPriceComponent {
   protected addSign(
     value: string | undefined,
     sign: string,
-    before: boolean
+    before: boolean,
   ): string {
     if (value) {
       return before ? sign + value : value + sign;
@@ -53,7 +53,7 @@ export class ConfiguratorPriceComponent {
   protected compileFormattedValue(
     priceValue: number,
     formattedValue: string | undefined,
-    isRTL: boolean
+    isRTL: boolean,
   ): string {
     if (priceValue > 0) {
       return this.addSign(formattedValue, '+', !isRTL);
@@ -78,7 +78,7 @@ export class ConfiguratorPriceComponent {
       return this.compileFormattedValue(
         this.formula.price?.value ?? 0,
         this.formula.price?.formattedValue,
-        this.isRTLDirection()
+        this.isRTLDirection(),
       );
     }
   }
@@ -92,7 +92,7 @@ export class ConfiguratorPriceComponent {
     return this.compileFormattedValue(
       this.formula.priceTotal?.value ?? 0,
       this.formula.priceTotal?.formattedValue,
-      this.isRTLDirection()
+      this.isRTLDirection(),
     );
   }
 

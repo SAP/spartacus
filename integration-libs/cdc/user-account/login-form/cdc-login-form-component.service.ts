@@ -24,7 +24,7 @@ export class CdcLoginFormComponentService
     protected auth: AuthService,
     protected globalMessageService: GlobalMessageService,
     protected winRef: WindowRef,
-    protected cdcJsService: CdcJsService
+    protected cdcJsService: CdcJsService,
   ) {
     super(auth, globalMessageService, winRef);
   }
@@ -45,7 +45,7 @@ export class CdcLoginFormComponentService
           this.cdcJsService
             .loginUserWithoutScreenSet(
               this.form.value.userId.toLowerCase(),
-              this.form.value.password
+              this.form.value.password,
             )
             .subscribe({
               next: () => this.busy$.next(false),
@@ -57,11 +57,11 @@ export class CdcLoginFormComponentService
             {
               key: 'errorHandlers.scriptFailedToLoad',
             },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
           this.busy$.next(false);
         }
-      })
+      }),
     );
   }
 

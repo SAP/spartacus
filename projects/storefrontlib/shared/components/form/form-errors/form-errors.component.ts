@@ -36,7 +36,7 @@ import { map, startWith } from 'rxjs/operators';
 export class FormErrorsComponent implements DoCheck {
   constructor(
     protected ChangeDetectionRef: ChangeDetectorRef,
-    protected keyValueDiffers: KeyValueDiffers
+    protected keyValueDiffers: KeyValueDiffers,
   ) {}
 
   _control: UntypedFormControl | AbstractControl;
@@ -74,8 +74,8 @@ export class FormErrorsComponent implements DoCheck {
       startWith({}),
       map(() => control.errors || {}),
       map((errors) =>
-        Object.entries(errors).filter(([_key, details]) => details)
-      )
+        Object.entries(errors).filter(([_key, details]) => details),
+      ),
     );
   }
 

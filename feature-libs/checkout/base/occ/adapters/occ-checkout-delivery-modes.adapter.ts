@@ -32,13 +32,13 @@ export class OccCheckoutDeliveryModesAdapter
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   public setMode(
     userId: string,
     cartId: string,
-    deliveryModeId: string
+    deliveryModeId: string,
   ): Observable<unknown> {
     return this.http
       .put(this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId), {})
@@ -48,14 +48,14 @@ export class OccCheckoutDeliveryModesAdapter
         }),
         backOff({
           shouldRetry: isJaloError,
-        })
+        }),
       );
   }
 
   protected getSetDeliveryModeEndpoint(
     userId: string,
     cartId: string,
-    deliveryModeId?: string
+    deliveryModeId?: string,
   ): string {
     return this.occEndpoints.buildUrl('setDeliveryMode', {
       urlParams: {
@@ -68,7 +68,7 @@ export class OccCheckoutDeliveryModesAdapter
 
   public getSupportedModes(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<DeliveryMode[]> {
     return this.http
       .get<Occ.DeliveryModeList>(this.getDeliveryModesEndpoint(userId, cartId))
@@ -80,7 +80,7 @@ export class OccCheckoutDeliveryModesAdapter
           shouldRetry: isJaloError,
         }),
         map((listResponse) => listResponse.deliveryModes ?? []),
-        this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER)
+        this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER),
       );
   }
 
@@ -92,7 +92,7 @@ export class OccCheckoutDeliveryModesAdapter
 
   clearCheckoutDeliveryMode(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<unknown> {
     return this.http
       .delete<unknown>(this.getClearDeliveryModeEndpoint(userId, cartId))
@@ -102,13 +102,13 @@ export class OccCheckoutDeliveryModesAdapter
         }),
         backOff({
           shouldRetry: isJaloError,
-        })
+        }),
       );
   }
 
   protected getClearDeliveryModeEndpoint(
     userId: string,
-    cartId: string
+    cartId: string,
   ): string {
     return this.occEndpoints.buildUrl('clearDeliveryMode', {
       urlParams: { userId, cartId },

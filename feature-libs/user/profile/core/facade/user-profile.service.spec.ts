@@ -18,7 +18,7 @@ class MockUserProfileConnector implements Partial<UserProfileConnector> {
     of([
       { code: 't1', name: 't1' },
       { code: 't2', name: 't2' },
-    ])
+    ]),
   );
 }
 
@@ -64,7 +64,7 @@ describe('UserProfileService', () => {
     [UserProfileService],
     (userProfileService: UserProfileService) => {
       expect(userProfileService).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to get user data', (done) => {
@@ -81,7 +81,7 @@ describe('UserProfileService', () => {
     service.update(userDetails);
     expect(connector.update).toHaveBeenCalledWith(
       OCC_USER_ID_CURRENT,
-      userDetails
+      userDetails,
     );
   });
 

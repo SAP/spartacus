@@ -32,7 +32,7 @@ export class GtmCollectorService implements TmsCollector {
         d: Document,
         s: string,
         l: string,
-        i: string
+        i: string,
       ) {
         w[l] = w[l] || [];
         w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
@@ -47,7 +47,7 @@ export class GtmCollectorService implements TmsCollector {
         this.winRef.document,
         'script',
         dataLayerProperty,
-        config.gtmId
+        config.gtmId,
       );
     }
   }
@@ -55,7 +55,7 @@ export class GtmCollectorService implements TmsCollector {
   pushEvent<T extends CxEvent>(
     config: TmsCollectorConfig,
     windowObject: WindowObject,
-    event: T | any
+    event: T | any,
   ): void {
     const dataLayerProperty = config.dataLayerProperty ?? 'dataLayer';
     windowObject[dataLayerProperty].push(event);

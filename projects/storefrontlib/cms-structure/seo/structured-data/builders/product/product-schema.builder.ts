@@ -25,7 +25,7 @@ export class ProductSchemaBuilder implements SchemaBuilder {
     private currentProduct: CurrentProductService,
     @Optional()
     @Inject(JSONLD_PRODUCT_BUILDER)
-    protected builders: JsonLdBuilder<Product>[]
+    protected builders: JsonLdBuilder<Product>[],
   ) {}
 
   build(): Observable<any> {
@@ -33,11 +33,11 @@ export class ProductSchemaBuilder implements SchemaBuilder {
       switchMap((product: Product | null) => {
         if (product) {
           return combineLatest(this.collect(product)).pipe(
-            map((res: {}[]) => Object.assign({}, ...res))
+            map((res: {}[]) => Object.assign({}, ...res)),
           );
         }
         return of({});
-      })
+      }),
     );
   }
 

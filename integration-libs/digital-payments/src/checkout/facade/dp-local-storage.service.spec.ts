@@ -14,7 +14,7 @@ const mockDpPaymentRequest: DpPaymentRequest = {
 class MockStatePersistenceService implements Partial<StatePersistenceService> {
   syncWithStorage = createSpy('syncWithStorage');
   readStateFromStorage = createSpy('readStateFromStorage').and.returnValue(
-    mockDpPaymentRequest
+    mockDpPaymentRequest,
   );
 }
 describe('DpLocalStorageService', () => {
@@ -45,7 +45,7 @@ describe('DpLocalStorageService', () => {
         jasmine.objectContaining({
           key: 'digital-payment.checkout.request',
           state$: jasmine.objectContaining(initialState),
-        })
+        }),
       );
     });
   });

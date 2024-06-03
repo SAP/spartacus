@@ -46,7 +46,7 @@ export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
 export function goToConfigurationPage(
   shopName: string,
   productId: string,
-  isPricingEnabled?: boolean
+  isPricingEnabled?: boolean,
 ) {
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
@@ -65,7 +65,7 @@ export function navigateToOverviewPage() {
       .then(() => {
         cy.location('pathname').should(
           'contain',
-          '/en/USD/configure-overview/vc/product/entityKey/'
+          '/en/USD/configure-overview/vc/product/entityKey/',
         );
       });
   });
@@ -78,7 +78,7 @@ export function registerConfigurationRoute() {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/ccpconfigurator/*`,
   }).as(GET_CONFIG_ALIAS.substring(1)); // strip the '@'
 }
@@ -90,7 +90,7 @@ export function registerCreateConfigurationRoute() {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/products/*/configurators/ccpconfigurator*`,
   }).as(CREATE_CONFIG_ALIAS.substring(1)); // strip the '@'
 }
@@ -187,7 +187,7 @@ export function checkConfigPageDisplayed(): void {
 export function checkProductTitleDisplayed(): void {
   configuration.checkUpdatingMessageNotDisplayed();
   cy.get('cx-configurator-product-title', { timeout: 10000 }).should(
-    'be.visible'
+    'be.visible',
   );
 }
 
@@ -199,12 +199,12 @@ export function checkProductTitleDisplayed(): void {
 export function checkStatusIconNotDisplayed(groupName: string): void {
   cy.get('button:contains(' + `${groupName}` + ')').should(
     'not.have.class',
-    'ERROR'
+    'ERROR',
   );
 
   cy.get('button:contains(' + `${groupName}` + ')').should(
     'not.have.class',
-    'COMPLETE'
+    'COMPLETE',
   );
 }
 
@@ -216,11 +216,11 @@ export function checkStatusIconNotDisplayed(groupName: string): void {
  */
 export function checkStatusIconDisplayed(
   groupName: string,
-  status: string
+  status: string,
 ): void {
   cy.get('button:contains(' + `${groupName}` + ')').should(
     'have.class',
-    `${status}`
+    `${status}`,
   );
 }
 
@@ -234,7 +234,7 @@ export function checkStatusIconDisplayed(
 export function checkImageSelected(
   uiType: configuration.uiType,
   attributeName: string,
-  valueName: string
+  valueName: string,
 ): void {
   const attributeId = configuration.getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}-input`;
@@ -259,7 +259,7 @@ export function checkConflictDetectedMsgDisplayed(attributeName: string): void {
  * @param {string} attributeName - Attribute name
  */
 export function checkConflictDetectedMsgNotDisplayed(
-  attributeName: string
+  attributeName: string,
 ): void {
   const attributeId = configuration.getAttributeLabelId(attributeName);
   cy.get(`#${attributeId}`)
@@ -358,7 +358,7 @@ export function checkConflictDetectedLinkDisplayed(attribute: string): void {
   this.checkConflictLink(
     attribute,
     'Conflict Detected - View Details Link',
-    true
+    true,
   );
 }
 
@@ -366,7 +366,7 @@ export function checkConflictDetectedLinkDisplayed(attribute: string): void {
  * Verifies whether the view in configuration link is NOT displayed.
  */
 export function checkViewInConfigurationLinkNotDisplayed(
-  attribute: string
+  attribute: string,
 ): void {
   cy.log('Verify whether View in Configuration Link is NOT displayed');
   this.checkConflictLink(attribute, 'View in Configuration Link', false);
@@ -377,12 +377,12 @@ export function checkViewInConfigurationLinkNotDisplayed(
  */
 export function checkConflictDetectedLinkNotDisplayed(attribute: string): void {
   cy.log(
-    'Verify whether Conflict Detected - View Details Link is NOT displayed'
+    'Verify whether Conflict Detected - View Details Link is NOT displayed',
   );
   this.checkConflictLink(
     attribute,
     'Conflict Detected - View Details Link',
-    false
+    false,
   );
 }
 
@@ -392,10 +392,10 @@ export function checkConflictDetectedLinkNotDisplayed(attribute: string): void {
 export function checkConflictLink(
   attribute: string,
   linkName: string,
-  isLinkDisplayed: boolean
+  isLinkDisplayed: boolean,
 ): void {
   cy.get(
-    `cx-configurator-attribute-header #cx-configurator--attribute-msg--${attribute}`
+    `cx-configurator-attribute-header #cx-configurator--attribute-msg--${attribute}`,
   ).within(() => {
     if (isLinkDisplayed) {
       cy.get('a.cx-action-link').should('be.visible');
@@ -450,7 +450,7 @@ function checkConflictHeaderGroupNotDisplayed(): void {
  */
 function verifyNumberOfConflicts(numberOfConflicts: number): void {
   cy.get('cx-configurator-group-menu .conflictNumberIndicator').contains(
-    '(' + numberOfConflicts.toString() + ')'
+    '(' + numberOfConflicts.toString() + ')',
   );
 }
 
@@ -469,7 +469,7 @@ export function selectConflictingValue(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  numberOfConflicts: number
+  numberOfConflicts: number,
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName);
   this.checkConflictDetectedMsgDisplayed(attributeName);
@@ -494,7 +494,7 @@ export function selectConflictingValueAndWait(
   uiType: configuration.uiType,
   valueName: string,
   numberOfConflicts: number,
-  isPricingEnabled?: boolean
+  isPricingEnabled?: boolean,
 ): void {
   selectAttributeAndWait(attributeName, uiType, valueName, isPricingEnabled);
   this.checkConflictDetectedMsgDisplayed(attributeName);
@@ -516,13 +516,13 @@ export function deselectConflictingValue(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  isPricingEnabled?: boolean
+  isPricingEnabled?: boolean,
 ): void {
   configuration.selectAttribute(
     attributeName,
     uiType,
     valueName,
-    isPricingEnabled
+    isPricingEnabled,
   );
   this.checkConflictDetectedMsgNotDisplayed(attributeName);
   checkConflictHeaderGroupNotDisplayed();
@@ -542,7 +542,7 @@ export function deselectConflictingValueAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  isPricingEnabled?: boolean
+  isPricingEnabled?: boolean,
 ): void {
   selectAttributeAndWait(attributeName, uiType, valueName, isPricingEnabled);
   this.checkConflictDetectedMsgNotDisplayed(attributeName);
@@ -609,7 +609,7 @@ export function registerConfigurationUpdateRoute() {
   cy.intercept({
     method: 'PATCH',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/ccpconfigurator/*`,
   }).as(UPDATE_CONFIG_ALIAS.substring(1)); // strip the '@'
   registerConfigurationPricingRoute(); // implicitly register config pricing route
@@ -622,7 +622,7 @@ export function registerConfigurationPricingRoute() {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/ccpconfigurator/*/pricing*`,
   }).as(CONFIG_PRICING_ALIAS.substring(1)); // strip the '@'
 }
@@ -640,7 +640,7 @@ export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  isPricingEnabled?: boolean
+  isPricingEnabled?: boolean,
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName, false);
   waitForRequest(UPDATE_CONFIG_ALIAS, isPricingEnabled);
@@ -653,7 +653,7 @@ export function selectAttributeAndWait(
  */
 export function waitForRequest(
   requestAlias: string,
-  isPricingEnabled?: boolean
+  isPricingEnabled?: boolean,
 ) {
   if (requestAlias) {
     cy.wait(requestAlias);
@@ -675,7 +675,7 @@ export function waitForRequest(
  */
 export function clickOnNextBtnAndWait(
   nextGroup?: string,
-  isPricingEnabled?: boolean
+  isPricingEnabled?: boolean,
 ): void {
   configuration.clickOnNextBtn(nextGroup);
   waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
@@ -689,7 +689,7 @@ export function clickOnNextBtnAndWait(
  */
 export function clickOnPreviousBtnAndWait(
   previousGroup?: string,
-  isPricingEnabled?: boolean
+  isPricingEnabled?: boolean,
 ): void {
   configuration.clickOnPreviousBtn(previousGroup);
   waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
@@ -704,7 +704,7 @@ export class CommerceRelease {
 export function checkCommerceRelease(
   shop: string,
   product: string,
-  commerceRelease
+  commerceRelease,
 ) {
   cy.request(
     'GET',
@@ -714,7 +714,7 @@ export function checkCommerceRelease(
       shop +
       '/products/' +
       product +
-      '/configurators/ccpconfigurator'
+      '/configurators/ccpconfigurator',
   ).then(({ body }) => {
     cy.wrap(body).as('responseBodyVersionCheck');
   });
@@ -722,14 +722,14 @@ export function checkCommerceRelease(
     const responseAsString = JSON.stringify(responseBody);
     commerceRelease.isAtLeast2205 = responseAsString.includes('retractBlocked');
     commerceRelease.isAtLeast2211 = responseAsString.includes(
-      'immediateConflictResolution'
+      'immediateConflictResolution',
     );
     commerceRelease.isPricingEnabled = responseBody.pricingEnabled ?? true;
     cy.log(
-      'Is at least 22.05 commerce release: ' + commerceRelease.isAtLeast2205
+      'Is at least 22.05 commerce release: ' + commerceRelease.isAtLeast2205,
     );
     cy.log(
-      'Is at least 22.11 commerce release: ' + commerceRelease.isAtLeast2211
+      'Is at least 22.11 commerce release: ' + commerceRelease.isAtLeast2211,
     );
     cy.log('Is pricing enabled: ' + commerceRelease.isPricingEnabled);
   });

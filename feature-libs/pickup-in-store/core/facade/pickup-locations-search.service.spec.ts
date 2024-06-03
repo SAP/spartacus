@@ -24,7 +24,7 @@ export class MockPickupLocationsSearchService
 
   getStockLevelAtStore(
     _productCode: string,
-    _storeName: string
+    _storeName: string,
   ): Observable<Stock | undefined> {
     return of(undefined);
   }
@@ -100,14 +100,14 @@ describe('PickupLocationsSearchService', () => {
       new StockLevelActions.StockLevel({
         productCode: 'P0001',
         location: '',
-      })
+      }),
     );
   });
 
   it('clearStockData', () => {
     service.clearSearchResults();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new StockLevelActions.ClearStockData()
+      new StockLevelActions.ClearStockData(),
     );
   });
 
@@ -126,7 +126,7 @@ describe('PickupLocationsSearchService', () => {
   it('toggleHideOutOfStock', () => {
     service.toggleHideOutOfStock();
     expect(store.dispatch).toHaveBeenCalledWith(
-      ToggleHideOutOfStockOptionsAction()
+      ToggleHideOutOfStockOptionsAction(),
     );
   });
 
@@ -150,7 +150,7 @@ describe('PickupLocationsSearchService', () => {
           latitude: 1,
           longitude: 1,
         },
-      })
+      }),
     );
   });
 
@@ -165,7 +165,7 @@ describe('PickupLocationsSearchService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       PickupLocationActions.GetStoreDetailsById({
         payload: 'name',
-      })
+      }),
     );
   });
 
@@ -174,7 +174,7 @@ describe('PickupLocationsSearchService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       StockLevelActions.StockLevelAtStore({
         payload: { productCode: 'productCode', storeName: 'name' },
-      })
+      }),
     );
   });
 

@@ -12,7 +12,7 @@ const containerSelector = 'cx-navigation-ui.accNavComponent';
 
 export function myAccountTabbingOrder(
   config: TabElement[],
-  mobile: boolean = false
+  mobile: boolean = false,
 ) {
   cy.visit('/');
 

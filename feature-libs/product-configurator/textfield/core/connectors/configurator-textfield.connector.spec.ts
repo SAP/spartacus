@@ -29,14 +29,14 @@ class MockConfiguratorTextfieldAdapter implements ConfiguratorTextfieldAdapter {
   addToCart = createSpy().and.callFake(() => of(cartModification));
 
   updateConfigurationForCartEntry = createSpy().and.callFake(() =>
-    of(cartModification)
+    of(cartModification),
   );
 
   readConfigurationForCartEntry = createSpy().and.callFake(() =>
-    of(configuration)
+    of(configuration),
   );
   readConfigurationForOrderEntry = createSpy().and.callFake(() =>
-    of(configuration)
+    of(configuration),
   );
 }
 
@@ -59,7 +59,7 @@ describe('ConfiguratorTextfieldConnector', () => {
     });
 
     service = TestBed.inject(
-      ConfiguratorTextfieldConnector as Type<ConfiguratorTextfieldConnector>
+      ConfiguratorTextfieldConnector as Type<ConfiguratorTextfieldConnector>,
     );
   });
 
@@ -69,7 +69,7 @@ describe('ConfiguratorTextfieldConnector', () => {
 
   it('should call adapter on createConfiguration', () => {
     const adapter = TestBed.inject(
-      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
+      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>,
     );
 
     const owner = ConfiguratorModelUtils.createInitialOwner();
@@ -79,13 +79,13 @@ describe('ConfiguratorTextfieldConnector', () => {
 
     expect(adapter.createConfiguration).toHaveBeenCalledWith(
       PRODUCT_CODE,
-      owner
+      owner,
     );
   });
 
   it('should call adapter on readConfigurationForCartEntry', () => {
     const adapter = TestBed.inject(
-      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
+      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>,
     );
 
     const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
@@ -102,7 +102,7 @@ describe('ConfiguratorTextfieldConnector', () => {
 
   it('should call adapter on readConfigurationForOrderEntry', () => {
     const adapter = TestBed.inject(
-      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
+      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>,
     );
 
     const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
@@ -119,7 +119,7 @@ describe('ConfiguratorTextfieldConnector', () => {
 
   it('should call adapter on addToCart', () => {
     const adapter = TestBed.inject(
-      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
+      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>,
     );
 
     const parameters: ConfiguratorTextfield.AddToCartParameters = {
@@ -137,7 +137,7 @@ describe('ConfiguratorTextfieldConnector', () => {
 
   it('should call adapter on updateCartEntry', () => {
     const adapter = TestBed.inject(
-      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
+      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>,
     );
 
     const parameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
@@ -150,7 +150,7 @@ describe('ConfiguratorTextfieldConnector', () => {
       .updateConfigurationForCartEntry(parameters)
       .subscribe((res) => expect(res).toBe(cartModification));
     expect(adapter.updateConfigurationForCartEntry).toHaveBeenCalledWith(
-      parameters
+      parameters,
     );
   });
 });

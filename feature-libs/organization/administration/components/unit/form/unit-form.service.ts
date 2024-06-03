@@ -30,7 +30,7 @@ export class UnitFormService extends FormService<B2BUnit> {
       new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.noSpecialCharacters,
-      ])
+      ]),
     );
     form.setControl('name', new UntypedFormControl('', Validators.required));
 
@@ -38,7 +38,7 @@ export class UnitFormService extends FormService<B2BUnit> {
       'approvalProcess',
       new UntypedFormGroup({
         code: new UntypedFormControl(null),
-      })
+      }),
     );
 
     this.form = form;
@@ -53,7 +53,7 @@ export class UnitFormService extends FormService<B2BUnit> {
         'parentOrgUnit',
         new UntypedFormGroup({
           uid: new UntypedFormControl(null, Validators.required),
-        })
+        }),
       );
     }
   }
@@ -65,7 +65,7 @@ export class UnitFormService extends FormService<B2BUnit> {
     return Boolean(
       item?.uid &&
         item?.name &&
-        (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
+        (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit),
     );
   }
 }

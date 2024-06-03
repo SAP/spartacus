@@ -107,7 +107,7 @@ describe('WishListService', () => {
       };
       service.createWishList(payload.userId, payload.name, payload.description);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new WishListActions.CreateWishList(payload)
+        new WishListActions.CreateWishList(payload),
       );
     });
   });
@@ -134,14 +134,14 @@ describe('WishListService', () => {
       service.getWishList().subscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new WishListActions.LoadWishList(payload)
+        new WishListActions.LoadWishList(payload),
       );
     });
 
     it('should not load wishlist for anonymous user', () => {
       spyOn(service, 'loadWishList');
       spyOn(userIdService, 'getUserId').and.returnValue(
-        of(OCC_USER_ID_ANONYMOUS)
+        of(OCC_USER_ID_ANONYMOUS),
       );
       service.getWishList().subscribe();
 
@@ -164,7 +164,7 @@ describe('WishListService', () => {
         new WishListActions.LoadWishListSuccess({
           cart: testCart,
           cartId: getCartIdByUserId(testCart, userId),
-        })
+        }),
       );
       service.getWishList().subscribe((cart) => (result = cart));
 
@@ -184,7 +184,7 @@ describe('WishListService', () => {
 
       service.loadWishList(userId, customerId);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new WishListActions.LoadWishList(payload)
+        new WishListActions.LoadWishList(payload),
       );
     });
   });
@@ -195,7 +195,7 @@ describe('WishListService', () => {
         new WishListActions.LoadWishListSuccess({
           cart: testCart,
           cartId: getCartIdByUserId(testCart, userId),
-        })
+        }),
       );
       service.addEntry(productCode);
 
@@ -203,7 +203,7 @@ describe('WishListService', () => {
         userId,
         cartCode,
         productCode,
-        1
+        1,
       );
     });
 
@@ -216,7 +216,7 @@ describe('WishListService', () => {
       service.addEntry(productCode);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new WishListActions.LoadWishList(payload)
+        new WishListActions.LoadWishList(payload),
       );
     });
   });
@@ -227,13 +227,13 @@ describe('WishListService', () => {
         new WishListActions.LoadWishListSuccess({
           cart: testCart,
           cartId: getCartIdByUserId(testCart, userId),
-        })
+        }),
       );
       service.removeEntry(mockCartEntry);
       expect(multiCartFacade.removeEntry).toHaveBeenCalledWith(
         userId,
         cartCode,
-        mockCartEntry.entryNumber
+        mockCartEntry.entryNumber,
       );
     });
 
@@ -246,7 +246,7 @@ describe('WishListService', () => {
       service.removeEntry(mockCartEntry);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new WishListActions.LoadWishList(payload)
+        new WishListActions.LoadWishList(payload),
       );
     });
   });

@@ -24,7 +24,7 @@ export class CreateWishList implements Action {
       userId: string;
       name?: string;
       description?: string;
-    }
+    },
   ) {}
 }
 

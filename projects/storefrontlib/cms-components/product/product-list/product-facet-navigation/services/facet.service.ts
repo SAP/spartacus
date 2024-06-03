@@ -44,7 +44,7 @@ export class FacetService {
   facetList$: Observable<FacetList> = this.productFacetService.facetList$.pipe(
     tap((facetList) => {
       facetList.facets?.forEach((facet) => this.initialize(facet));
-    })
+    }),
   );
 
   /**
@@ -121,7 +121,7 @@ export class FacetService {
         new BehaviorSubject({
           topVisible: topFacets,
           maxVisible: topFacets,
-        } as FacetCollapseState)
+        } as FacetCollapseState),
       );
     }
   }

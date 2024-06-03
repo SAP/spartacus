@@ -32,7 +32,7 @@ class MockMultiCartService implements Partial<MultiCartFacade> {
     _userId: string,
     _cartId: string,
     _entryNumber: number,
-    _quantity: number
+    _quantity: number,
   ): void {}
 
   removeEntry(_userId: string, _cartId: string, _entryNumber: number): void {}
@@ -115,7 +115,7 @@ describe('CartItemListComponent', () => {
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
-    ['removeEntry', 'updateEntry']
+    ['removeEntry', 'updateEntry'],
   );
 
   function configureTestingModule(): TestBed {
@@ -227,7 +227,7 @@ describe('CartItemListComponent', () => {
           control.get('quantity').setValue(2);
           expect(activeCartService.updateEntry).toHaveBeenCalledWith(
             item.entryNumber as any,
-            2
+            2,
           );
         })
         .unsubscribe();
@@ -241,7 +241,7 @@ describe('CartItemListComponent', () => {
           control.get('quantity').setValue(0);
           expect(activeCartService.updateEntry).toHaveBeenCalledWith(
             item.entryNumber as any,
-            0
+            0,
           );
         })
         .unsubscribe();
@@ -270,10 +270,10 @@ describe('CartItemListComponent', () => {
       component.items = multipleMockItems;
       fixture.detectChanges();
       expect(
-        component.form.controls[multipleMockItems[0].entryNumber]
+        component.form.controls[multipleMockItems[0].entryNumber],
       ).toBeDefined();
       expect(
-        component.form.controls[multipleMockItems[1].entryNumber]
+        component.form.controls[multipleMockItems[1].entryNumber],
       ).toBeDefined();
     });
 
@@ -283,7 +283,7 @@ describe('CartItemListComponent', () => {
       mockItem0.quantity = 20;
       component.items = [mockItem0, mockItem1];
       expect(
-        component.form.controls[mockItem0.entryNumber].get('quantity')?.value
+        component.form.controls[mockItem0.entryNumber].get('quantity')?.value,
       ).toEqual(20);
       mockItem0.quantity = mockItem0Qty;
     });
@@ -341,7 +341,7 @@ describe('CartItemListComponent', () => {
         expect(multiCartService.removeEntry).toHaveBeenCalledWith(
           mockUserId,
           mockCartId,
-          mockItems[0].entryNumber
+          mockItems[0].entryNumber,
         );
       });
       it('should update entry of multiCartService when cart input exist', () => {
@@ -353,7 +353,7 @@ describe('CartItemListComponent', () => {
               mockUserId,
               mockCartId,
               mockItems[0].entryNumber,
-              8
+              8,
             );
           })
           .unsubscribe();
@@ -388,7 +388,7 @@ describe('CartItemListComponent', () => {
           control.get('quantity').setValue(2);
           expect(mockSelectiveCartService.updateEntry).toHaveBeenCalledWith(
             item.entryNumber as any,
-            2
+            2,
           );
         })
         .unsubscribe();
@@ -414,7 +414,7 @@ describe('CartItemListComponent', () => {
       });
       expect(component.options).toEqual(mockContext.options);
       expect(component.promotionLocation).toEqual(
-        mockContext.promotionLocation
+        mockContext.promotionLocation,
       );
       expect(component.readonly).toEqual(mockContext.readonly);
       expect(setLoading).toHaveBeenCalledWith(mockContext.cartIsLoading);
@@ -437,10 +437,10 @@ describe('CartItemListComponent', () => {
 
       expect(component['cd'].markForCheck).toHaveBeenCalled();
       expect(control0).not.toBe(
-        component.form.get(mockItem0.entryNumber.toString())
+        component.form.get(mockItem0.entryNumber.toString()),
       );
       expect(control1).not.toBe(
-        component.form.get(mockItem1.entryNumber.toString())
+        component.form.get(mockItem1.entryNumber.toString()),
       );
     });
   });

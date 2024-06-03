@@ -10,7 +10,7 @@ import { defaultDirectionConfig } from './config/default-direction.config';
 import { DirectionService } from './direction.service';
 
 export function initHtmlDirAttribute(
-  directionService: DirectionService
+  directionService: DirectionService,
 ): () => void {
   const result = () => {
     return directionService.initialize();

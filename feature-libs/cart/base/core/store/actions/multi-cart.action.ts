@@ -62,7 +62,7 @@ export class ClearCartState extends StateUtils.EntityRemoveAllAction {
 export class SetCartTypeIndex implements Action {
   readonly type = SET_CART_TYPE_INDEX;
   constructor(
-    public payload: { cartType: CartType; cartId: string | undefined }
+    public payload: { cartType: CartType; cartId: string | undefined },
   ) {}
 }
 

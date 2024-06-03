@@ -75,7 +75,7 @@ export function migrate(): Rule {
 async function isStorefinderPresent(
   tree: Tree,
   packageJson: any,
-  appModulePath: string
+  appModulePath: string,
 ): Promise<boolean> {
   validateSpartacusInstallation(packageJson);
   const appModuleSource = getTsSourceFile(tree, appModulePath);
@@ -102,11 +102,11 @@ function removeOldSetup(appModulePath: string): Rule {
       const node = getDecoratorMetadata(
         appModuleSource,
         'NgModule',
-        ANGULAR_CORE
+        ANGULAR_CORE,
       )[0];
       const assignment = getMetadataField(
         node as ts.ObjectLiteralExpression,
-        'imports'
+        'imports',
       )[0] as ts.PropertyAssignment;
       const arrLiteral = assignment.initializer as ts.ArrayLiteralExpression;
       if (arrLiteral.elements.length !== 0) {
@@ -115,7 +115,7 @@ function removeOldSetup(appModulePath: string): Rule {
             const removeFromModulesArrayChange = new RemoveChange(
               appModulePath,
               el.getStart(),
-              `${STOREFINDER_MODULE},`
+              `${STOREFINDER_MODULE},`,
             );
             changes.push(removeFromModulesArrayChange);
             return false;

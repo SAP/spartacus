@@ -79,36 +79,36 @@ describe('scaffold app structure', () => {
   beforeEach(async () => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../test/migrations-test.json')
+      require.resolve('../../test/migrations-test.json'),
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
   });
 
   describe('When the new app structure does NOT exist', () => {
     it('should create it', async () => {
       const resultTree = await firstValueFrom(
-        schematicRunner.callRule(scaffoldAppStructure(), appTree)
+        schematicRunner.callRule(scaffoldAppStructure(), appTree),
       );
       expect(
-        resultTree.read(spartacusFeaturesModulePath)?.toString()
+        resultTree.read(spartacusFeaturesModulePath)?.toString(),
       ).toMatchSnapshot();
       expect(
-        resultTree.read(configurationModulePath)?.toString()
+        resultTree.read(configurationModulePath)?.toString(),
       ).toMatchSnapshot();
       expect(
-        resultTree.read(spartacusModulePath)?.toString()
+        resultTree.read(spartacusModulePath)?.toString(),
       ).toMatchSnapshot();
     });
   });
@@ -122,17 +122,17 @@ describe('scaffold app structure', () => {
 
     it('should not touch it', async () => {
       const resultTree = await firstValueFrom(
-        schematicRunner.callRule(scaffoldAppStructure(), appTree)
+        schematicRunner.callRule(scaffoldAppStructure(), appTree),
       );
 
       expect(
-        resultTree.read(spartacusFeaturesModulePath)?.toString()
+        resultTree.read(spartacusFeaturesModulePath)?.toString(),
       ).toMatchSnapshot();
       expect(
-        resultTree.read(configurationModulePath)?.toString()
+        resultTree.read(configurationModulePath)?.toString(),
       ).toMatchSnapshot();
       expect(
-        resultTree.read(spartacusModulePath)?.toString()
+        resultTree.read(spartacusModulePath)?.toString(),
       ).toMatchSnapshot();
     });
   });

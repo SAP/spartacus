@@ -41,7 +41,7 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
     protected router: Router,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
   ) {
     super(
       checkoutStepService,
@@ -50,7 +50,7 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
       checkoutPaymentFacade,
       checkoutDeliveryModesFacade,
       router,
-      activeCartFacade
+      activeCartFacade,
     );
   }
 
@@ -66,7 +66,7 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
       tap(([, isAccount]) => {
         this.checkoutStepService.disableEnableStep(
           CheckoutStepType.PAYMENT_DETAILS,
-          isAccount
+          isAccount,
         );
       }),
       take(1),
@@ -87,18 +87,18 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
         } else {
           if (isDevMode()) {
             this.logger.warn(
-              `Missing step with route '${currentRouteUrl}' in checkout configuration or this step is disabled.`
+              `Missing step with route '${currentRouteUrl}' in checkout configuration or this step is disabled.`,
             );
           }
           return of(this.getUrl('checkout'));
         }
-      })
+      }),
     );
   }
 
   protected isB2BStepSet(
     step: CheckoutStep,
-    isAccountPayment: boolean
+    isAccountPayment: boolean,
   ): Observable<boolean | UrlTree> {
     if (step && !step.disabled) {
       switch (step.type[0]) {
@@ -123,7 +123,7 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
   }
 
   protected isPaymentTypeSet(
-    step: CheckoutStep
+    step: CheckoutStep,
   ): Observable<boolean | UrlTree> {
     return this.checkoutPaymentTypeFacade.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading),
@@ -134,22 +134,22 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
         } else {
           return this.getUrl(step.routeName);
         }
-      })
+      }),
     );
   }
 
   protected isDeliveryAddressAndCostCenterSet(
     step: CheckoutStep,
-    isAccountPayment: boolean
+    isAccountPayment: boolean,
   ): Observable<boolean | UrlTree> {
     return combineLatest([
       this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
         filter((state) => !state.loading),
-        map((state) => state.data)
+        map((state) => state.data),
       ),
       this.checkoutCostCenterFacade.getCostCenterState().pipe(
         filter((state) => !state.loading),
-        map((state) => state.data)
+        map((state) => state.data),
       ),
     ]).pipe(
       map(([deliveryAddress, costCenter]) => {
@@ -174,7 +174,7 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
             return this.getUrl(step.routeName);
           }
         }
-      })
+      }),
     );
   }
 }

@@ -27,12 +27,12 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   createPaymentRequest(
     userId: string,
-    cartId = CURRENT_CART
+    cartId = CURRENT_CART,
   ): Observable<DpPaymentRequest> {
     const url = this.occEndpoints.buildUrl('paymentRequest', {
       urlParams: { userId, cartId },
@@ -46,7 +46,7 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     sessionId: string,
     signature: string,
     userId: string,
-    cartId = CURRENT_CART
+    cartId = CURRENT_CART,
   ): Observable<PaymentDetails> {
     let params = new HttpParams({ encoder: this.paramEncoder });
     params = params.append('sid', sessionId);

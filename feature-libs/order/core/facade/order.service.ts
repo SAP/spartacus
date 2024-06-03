@@ -42,15 +42,15 @@ export class OrderService implements OrderFacade {
                     cartCode: cartId,
                     order,
                   },
-                  OrderPlacedEvent
+                  OrderPlacedEvent,
                 );
-              })
-            )
-          )
+              }),
+            ),
+          ),
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
-      }
+      },
     );
 
   constructor(
@@ -58,7 +58,7 @@ export class OrderService implements OrderFacade {
     protected userIdService: UserIdService,
     protected commandService: CommandService,
     protected orderConnector: OrderConnector,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   /**
@@ -80,7 +80,7 @@ export class OrderService implements OrderFacade {
           throw new Error('Checkout conditions not met');
         }
         return [userId, cartId];
-      })
+      }),
     );
   }
 
@@ -105,9 +105,9 @@ export class OrderService implements OrderFacade {
       map(
         (order) =>
           order?.entries?.filter(
-            (entry) => entry.deliveryPointOfService !== undefined
-          ) || []
-      )
+            (entry) => entry.deliveryPointOfService !== undefined,
+          ) || [],
+      ),
     );
   }
 
@@ -116,9 +116,9 @@ export class OrderService implements OrderFacade {
       map(
         (order) =>
           order?.entries?.filter(
-            (entry) => entry.deliveryPointOfService === undefined
-          ) || []
-      )
+            (entry) => entry.deliveryPointOfService === undefined,
+          ) || [],
+      ),
     );
   }
 }

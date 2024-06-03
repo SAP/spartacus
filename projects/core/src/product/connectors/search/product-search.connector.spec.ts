@@ -6,11 +6,11 @@ import createSpy = jasmine.createSpy;
 
 class MockProductSearchAdapter implements ProductSearchAdapter {
   search = createSpy('ProductSearchAdapter.loadSearch').and.callFake((query) =>
-    of('search:' + query)
+    of('search:' + query),
   );
 
   loadSuggestions = createSpy(
-    'ProductSearchAdapter.loadSuggestions'
+    'ProductSearchAdapter.loadSuggestions',
   ).and.callFake((term) => of('term:' + term));
 }
 
@@ -45,7 +45,7 @@ describe('ProductSearchConnector', () => {
     expect(result).toBe('term:test term');
     expect(adapter.loadSuggestions).toHaveBeenCalledWith(
       'test term',
-      undefined
+      undefined,
     );
   });
 });

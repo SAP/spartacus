@@ -52,7 +52,7 @@ export const SMARTEDIT_SCHEMATICS_CONFIG: SchematicConfig = {
 };
 
 function buildSmartEditConfig(
-  options: SpartacusSmartEditOptions
+  options: SpartacusSmartEditOptions,
 ): AdditionalFeatureConfiguration {
   return {
     providers: {

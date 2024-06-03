@@ -18,15 +18,15 @@ import { MultiCartStatePersistenceService } from './services/multi-cart-state-pe
 
 export function cartStatePersistenceFactory(
   cartStatePersistenceService: MultiCartStatePersistenceService,
-  configInit: ConfigInitializerService
+  configInit: ConfigInitializerService,
 ): () => Promise<Config> {
   return () =>
     lastValueFrom(
       configInit.getStable('context').pipe(
         tap(() => {
           cartStatePersistenceService.initSync();
-        })
-      )
+        }),
+      ),
     );
 }
 

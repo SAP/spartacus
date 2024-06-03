@@ -15,11 +15,11 @@ import {
 export abstract class ProductSearchAdapter {
   abstract search(
     query: string,
-    searchConfig?: SearchConfig
+    searchConfig?: SearchConfig,
   ): Observable<ProductSearchPage>;
 
   abstract loadSuggestions(
     term: string,
-    pageSize?: number
+    pageSize?: number,
   ): Observable<Suggestion[]>;
 }

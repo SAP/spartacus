@@ -27,7 +27,7 @@ describe('ProductReferenceService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           PRODUCT_FEATURE,
-          fromStoreReducers.getReducers()
+          fromStoreReducers.getReducers(),
         ),
       ],
       providers: [ProductReferenceService],
@@ -42,13 +42,13 @@ describe('ProductReferenceService', () => {
     [ProductReferenceService],
     (productReferenceService: ProductReferenceService) => {
       expect(productReferenceService).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to load product references', () => {
     service.loadProductReferences(
       mockProduct.code,
-      mockProductReferences[0].referenceType
+      mockProductReferences[0].referenceType,
     );
 
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -56,20 +56,20 @@ describe('ProductReferenceService', () => {
         productCode: mockProduct.code,
         referenceType: mockProductReferences[0].referenceType,
         pageSize: undefined,
-      })
+      }),
     );
   });
 
   it('should be able to get product references', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValue(
-      () => () => of(mockProductReferences)
+      () => () => of(mockProductReferences),
     );
 
     let result: ProductReference[];
     service
       .getProductReferences(
         mockProduct.code,
-        mockProductReferences[0].referenceType
+        mockProductReferences[0].referenceType,
       )
       .subscribe((data) => (result = data))
       .unsubscribe();
@@ -81,7 +81,7 @@ describe('ProductReferenceService', () => {
     it('should clean references', () => {
       service.cleanReferences();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ProductActions.CleanProductReferences()
+        new ProductActions.CleanProductReferences(),
       );
     });
   });

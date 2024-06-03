@@ -71,42 +71,40 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxListComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeCheckBoxListComponent,
-          MockFocusDirective,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-          MockConfiguratorShowMoreComponent,
-        ],
-        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-        providers: [
-          ConfiguratorStorefrontUtilsService,
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockGroupService,
-          },
-          ConfiguratorAttributeQuantityService,
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeCheckBoxListComponent,
+        MockFocusDirective,
+        MockConfiguratorAttributeQuantityComponent,
+        MockConfiguratorPriceComponent,
+        MockConfiguratorShowMoreComponent,
+      ],
+      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+      providers: [
+        ConfiguratorStorefrontUtilsService,
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+        ConfiguratorAttributeQuantityService,
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
@@ -125,7 +123,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     values = [value1, value2, value3];
 
     fixture = TestBed.createComponent(
-      ConfiguratorAttributeCheckBoxListComponent
+      ConfiguratorAttributeCheckBoxListComponent,
     );
 
     htmlElem = fixture.nativeElement;
@@ -169,7 +167,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       '--' +
       values[1].valueCode;
     const valueToSelect = fixture.debugElement.query(
-      By.css(checkboxId)
+      By.css(checkboxId),
     ).nativeElement;
     expect(valueToSelect.checked).toBeFalsy();
     // select value
@@ -185,13 +183,13 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   it('should deselect values onChangeValueQuantity if quantity is set to zero', () => {
     spyOn(
       component['configuratorCommonsService'],
-      'updateConfiguration'
+      'updateConfiguration',
     ).and.callThrough();
 
     component.onChangeValueQuantity(0, '1', 0);
 
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledWith(
       component.ownerKey,
       {
@@ -217,20 +215,20 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
           },
         ],
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   });
 
   it('should call emit of selectionChange onChangeValueQuantity if quantity is set to 1', () => {
     spyOn(
       component['configuratorCommonsService'],
-      'updateConfiguration'
+      'updateConfiguration',
     ).and.callThrough();
 
     component.onChangeValueQuantity(1, '1', 0);
 
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledWith(
       component.ownerKey,
       {
@@ -244,31 +242,31 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
           },
         ],
       },
-      Configurator.UpdateType.VALUE_QUANTITY
+      Configurator.UpdateType.VALUE_QUANTITY,
     );
   });
 
   it('should not call facade update onChangeValueQuantity if value does not exist', () => {
     spyOn(
       component['configuratorCommonsService'],
-      'updateConfiguration'
+      'updateConfiguration',
     ).and.callThrough();
 
     component.onChangeValueQuantity(1, 'NOT_EXISTING', 0);
 
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledTimes(0);
   });
 
   it('should call facade update onChangeQuantity', () => {
     spyOn(
       component['configuratorCommonsService'],
-      'updateConfiguration'
+      'updateConfiguration',
     ).and.callThrough();
     component.onChangeQuantity(2);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalled();
   });
 
@@ -287,7 +285,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'cx-configurator-attribute-quantity'
+      'cx-configurator-attribute-quantity',
     );
   });
 
@@ -299,7 +297,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'cx-configurator-attribute-quantity'
+      'cx-configurator-attribute-quantity',
     );
   });
 
@@ -317,7 +315,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
     });
 
@@ -335,7 +333,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
   });
@@ -350,7 +348,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
     });
 
@@ -387,7 +385,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
 
@@ -395,7 +393,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-show-more'
+        'cx-configurator-show-more',
       );
     });
 
@@ -406,7 +404,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-show-more'
+        'cx-configurator-show-more',
       );
     });
   });
@@ -423,7 +421,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         'configurator.a11y.valueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          VALUE_2
+          VALUE_2,
       );
     });
 
@@ -455,7 +453,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
           ' price:' +
           formattedValue +
           ' value:' +
-          VALUE_1
+          VALUE_1,
       );
     });
 
@@ -467,7 +465,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         'form-check-input',
         0,
         'aria-describedby',
-        'cx-configurator--label--attributeName'
+        'cx-configurator--label--attributeName',
       );
     });
 
@@ -480,7 +478,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         1,
         'aria-hidden',
         'true',
-        VALUE_2
+        VALUE_2,
       );
     });
   });

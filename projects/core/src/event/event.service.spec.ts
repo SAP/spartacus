@@ -112,7 +112,7 @@ describe('EventService', () => {
   it('should allow for manual unregistering', () => {
     const unregister = service.register(
       EventA,
-      of(new EventA(1), new EventA(2))
+      of(new EventA(1), new EventA(2)),
     );
     service.register(EventA, of(new EventA(3), new EventA(4)));
     unregister();

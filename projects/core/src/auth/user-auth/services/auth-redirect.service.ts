@@ -37,7 +37,7 @@ export class AuthRedirectService implements OnDestroy {
     protected routing: RoutingService,
     protected router: Router,
     protected authRedirectStorageService: AuthRedirectStorageService,
-    protected authFlowRoutesService: AuthFlowRoutesService
+    protected authFlowRoutesService: AuthFlowRoutesService,
   ) {
     this.init();
   }

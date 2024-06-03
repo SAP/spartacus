@@ -23,18 +23,18 @@ const mockInvoiceQueryParams: InvoiceQueryParams = {
 
 class MockPDFInvoicesAdapter implements Partial<PDFInvoicesAdapter> {
   getInvoicesForOrder = createSpy(
-    'PDFInvoicesAdapter.getInvoicesForOrder'
+    'PDFInvoicesAdapter.getInvoicesForOrder',
   ).and.callFake(
     (_userId: string, _orderId: string, _queryParams: InvoiceQueryParams) =>
-      of({})
+      of({}),
   );
   getInvoicePDF = createSpy('PDFInvoicesAdapter.getInvoicePDF').and.callFake(
     (
       _userId: string,
       _orderId: string,
       _invoiceId: string,
-      _externalSystemId?: string
-    ) => of({})
+      _externalSystemId?: string,
+    ) => of({}),
   );
 }
 
@@ -74,7 +74,7 @@ describe('PDFInvoicesConnector', () => {
     expect(adapter.getInvoicesForOrder).toHaveBeenCalledWith(
       mockUserId,
       mockOrderId,
-      mockInvoiceQueryParams
+      mockInvoiceQueryParams,
     );
   });
 
@@ -85,7 +85,7 @@ describe('PDFInvoicesConnector', () => {
         mockUserId,
         mockOrderId,
         mockInvoiceId,
-        mockExternalSystemId
+        mockExternalSystemId,
       )
       .pipe(take(1))
       .subscribe((res: any) => {
@@ -97,7 +97,7 @@ describe('PDFInvoicesConnector', () => {
       mockUserId,
       mockOrderId,
       mockInvoiceId,
-      mockExternalSystemId
+      mockExternalSystemId,
     );
   });
 
@@ -115,7 +115,7 @@ describe('PDFInvoicesConnector', () => {
       mockUserId,
       mockOrderId,
       mockInvoiceId,
-      undefined
+      undefined,
     );
   });
 });

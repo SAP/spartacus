@@ -93,7 +93,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
-    'PRODUCT_CODE'
+    'PRODUCT_CODE',
   );
 
   const image = {
@@ -125,53 +125,51 @@ describe('ConfigAttributeHeaderComponent', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule],
-        declarations: [
-          ConfiguratorAttributeHeaderComponent,
-          MockConfiguratorShowMoreComponent,
-        ],
-        providers: [
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-          {
-            provide: ConfiguratorUISettingsConfig,
-            useValue: TestConfiguratorUISettings,
-          },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, IconModule],
+      declarations: [
+        ConfiguratorAttributeHeaderComponent,
+        MockConfiguratorShowMoreComponent,
+      ],
+      providers: [
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: TestConfiguratorUISettings,
+        },
 
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '*' },
           },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '*' },
-            },
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeHeaderComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     config = configWithoutConflicts;
@@ -193,16 +191,16 @@ describe('ConfigAttributeHeaderComponent', () => {
     fixture.detectChanges();
 
     configurationGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>,
     );
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>,
     );
     configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>,
     );
     configuratorUISettingsConfig = TestBed.inject(
-      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
+      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>,
     );
   });
 
@@ -275,7 +273,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'div.cx-hidden-msg'
+        'div.cx-hidden-msg',
       );
     });
 
@@ -285,14 +283,14 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'div.cx-hidden-msg'
+        'div.cx-hidden-msg',
       );
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         'div.cx-hidden-msg',
-        'configurator.attribute.notVisibleAttributeMsg'
+        'configurator.attribute.notVisibleAttributeMsg',
       );
     });
 
@@ -300,25 +298,25 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'label'
+        'label',
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         'span',
-        'label of attribute'
+        'label of attribute',
       );
       const id = htmlElem.querySelector('label')?.getAttribute('id');
       expect((id ? id : '').indexOf('123')).toBeGreaterThan(0);
       expect(
-        htmlElem.querySelector('label')?.getAttribute('aria-label')
+        htmlElem.querySelector('label')?.getAttribute('aria-label'),
       ).toEqual(
-        'configurator.a11y.attribute attribute:' + component.attribute.label
+        'configurator.a11y.attribute attribute:' + component.attribute.label,
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-required-icon'
+        '.cx-required-icon',
       );
     });
 
@@ -328,7 +326,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-required-icon'
+        '.cx-required-icon',
       );
     });
 
@@ -336,7 +334,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-attribute-img'
+        '.cx-attribute-img',
       );
     });
 
@@ -346,7 +344,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-show-more'
+        'cx-configurator-show-more',
       );
     });
 
@@ -357,7 +355,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-show-more'
+        'cx-configurator-show-more',
       );
     });
   });
@@ -365,70 +363,70 @@ describe('ConfigAttributeHeaderComponent', () => {
   describe('getRequiredMessageKey', () => {
     it('should return a single-select message key for radio button attribute type', () => {
       expect(component.getRequiredMessageKey()).toContain(
-        'singleSelectRequiredMessage'
+        'singleSelectRequiredMessage',
       );
     });
 
     it('should return a single-select message key for simple radio buttons attribute type', () => {
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       expect(component.getRequiredMessageKey()).toContain(
-        'singleSelectRequiredMessage'
+        'singleSelectRequiredMessage',
       );
     });
 
     it('should return a single-select message key for simple radio buttons - product attribute type', () => {
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON_PRODUCT;
       expect(component.getRequiredMessageKey()).toContain(
-        'singleSelectRequiredMessage'
+        'singleSelectRequiredMessage',
       );
     });
 
     it('should return a single-select message key for simple checkbox attribute type', () => {
       component.attribute.uiType = Configurator.UiType.CHECKBOX;
       expect(component.getRequiredMessageKey()).toContain(
-        'singleSelectRequiredMessage'
+        'singleSelectRequiredMessage',
       );
     });
 
     it('should return a single-select message key for single-selection-image attribute type', () => {
       component.attribute.uiType = Configurator.UiType.SINGLE_SELECTION_IMAGE;
       expect(component.getRequiredMessageKey()).toContain(
-        'singleSelectRequiredMessage'
+        'singleSelectRequiredMessage',
       );
     });
 
     it('should return a multi-select message key for checkbox list attribute type', () => {
       component.attribute.uiType = Configurator.UiType.CHECKBOXLIST;
       expect(component.getRequiredMessageKey()).toContain(
-        'multiSelectRequiredMessage'
+        'multiSelectRequiredMessage',
       );
     });
 
     it('should return a multi-select message key for checkbox-product list attribute type', () => {
       component.attribute.uiType = Configurator.UiType.CHECKBOXLIST_PRODUCT;
       expect(component.getRequiredMessageKey()).toContain(
-        'multiSelectRequiredMessage'
+        'multiSelectRequiredMessage',
       );
     });
 
     it('should return a multi-select message key for multi-selection-image list attribute type', () => {
       component.attribute.uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
       expect(component.getRequiredMessageKey()).toContain(
-        'multiSelectRequiredMessage'
+        'multiSelectRequiredMessage',
       );
     });
 
     it('should return no key for not implemented attribute type', () => {
       component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
       expect(component.getRequiredMessageKey()).toContain(
-        'singleSelectRequiredMessage'
+        'singleSelectRequiredMessage',
       );
     });
 
     it('should return no key for read only attribute type', () => {
       component.attribute.uiType = Configurator.UiType.READ_ONLY;
       expect(component.getRequiredMessageKey()).toContain(
-        'singleSelectRequiredMessage'
+        'singleSelectRequiredMessage',
       );
     });
 
@@ -436,7 +434,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType =
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
       expect(component.getRequiredMessageKey()).toContain(
-        'singleSelectAdditionalRequiredMessage'
+        'singleSelectAdditionalRequiredMessage',
       );
     });
   });
@@ -450,7 +448,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-required-error-msg'
+        '.cx-required-error-msg',
       );
     });
 
@@ -461,7 +459,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-required-error-msg'
+        '.cx-required-error-msg',
       );
     });
 
@@ -471,7 +469,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-required-error-msg'
+        '.cx-required-error-msg',
       );
     });
 
@@ -481,7 +479,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-required-error-msg'
+        '.cx-required-error-msg',
       );
     });
 
@@ -491,7 +489,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-required-error-msg'
+        '.cx-required-error-msg',
       );
     });
 
@@ -501,7 +499,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-required-error-msg'
+        '.cx-required-error-msg',
       );
     });
   });
@@ -515,7 +513,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'div.cx-conflict-msg a.link.cx-action-link'
+        'div.cx-conflict-msg a.link.cx-action-link',
       );
     });
 
@@ -528,7 +526,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'div.cx-conflict-msg a.link.cx-action-link'
+        'div.cx-conflict-msg a.link.cx-action-link',
       );
     });
 
@@ -540,7 +538,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'div.cx-conflict-msg'
+        'div.cx-conflict-msg',
       );
     });
   });
@@ -554,13 +552,13 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'div.cx-conflict-msg'
+        'div.cx-conflict-msg',
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-icon'
+        'cx-icon',
       );
 
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -570,7 +568,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         'cx-conflict-msg',
         0,
         'aria-live',
-        'assertive'
+        'assertive',
       );
 
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -580,7 +578,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         'cx-conflict-msg',
         0,
         'aria-atomic',
-        'true'
+        'true',
       );
 
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -590,7 +588,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         'cx-conflict-msg',
         0,
         'aria-label',
-        'configurator.a11y.conflictDetected'
+        'configurator.a11y.conflictDetected',
       );
     });
 
@@ -602,13 +600,13 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-conflict-msg'
+        '.cx-conflict-msg',
       );
 
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-icon'
+        'cx-icon',
       );
 
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -618,7 +616,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         'cx-conflict-msg',
         0,
         'aria-live',
-        'off'
+        'off',
       );
 
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -628,7 +626,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         'cx-conflict-msg',
         0,
         'aria-atomic',
-        'false'
+        'false',
       );
 
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -638,7 +636,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         'cx-conflict-msg',
         0,
         'aria-label',
-        ''
+        '',
       );
     });
 
@@ -649,7 +647,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-conflict-container'
+        '.cx-conflict-container',
       );
     });
   });
@@ -698,7 +696,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         {}).enableNavigationToConflict = false;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
-        'configurator.conflict.conflictDetected'
+        'configurator.conflict.conflictDetected',
       );
     });
 
@@ -708,7 +706,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         {}).enableNavigationToConflict = true;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
-        'configurator.conflict.viewConflictDetails'
+        'configurator.conflict.viewConflictDetails',
       );
     });
 
@@ -716,7 +714,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
-        'configurator.conflict.viewConfigurationDetails'
+        'configurator.conflict.viewConfigurationDetails',
       );
     });
   });
@@ -730,7 +728,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         undefined,
         0,
         'aria-label',
-        'configurator.a11y.attribute attribute:label of attribute'
+        'configurator.a11y.attribute attribute:label of attribute',
       );
     });
 
@@ -744,7 +742,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         undefined,
         0,
         'aria-label',
-        'configurator.a11y.requiredAttribute param:label of attribute'
+        'configurator.a11y.requiredAttribute param:label of attribute',
       );
     });
 
@@ -759,7 +757,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         0,
         'aria-describedby',
         'cx-configurator--label--123',
-        'label of attribute'
+        'label of attribute',
       );
     });
 
@@ -777,7 +775,7 @@ describe('ConfigAttributeHeaderComponent', () => {
           undefined,
           0,
           'aria-label',
-          'configurator.a11y.attribute attribute:' + component.attribute.label
+          'configurator.a11y.attribute attribute:' + component.attribute.label,
         );
       });
 
@@ -792,7 +790,7 @@ describe('ConfigAttributeHeaderComponent', () => {
           0,
           'aria-label',
           'configurator.a11y.requiredAttribute param:' +
-            component.attribute.label
+            component.attribute.label,
         );
       });
 
@@ -807,7 +805,7 @@ describe('ConfigAttributeHeaderComponent', () => {
           0,
           'aria-describedby',
           'cx-configurator--label--123',
-          component.attribute.label
+          component.attribute.label,
         );
       });
 
@@ -827,7 +825,7 @@ describe('ConfigAttributeHeaderComponent', () => {
               'cx-conflict-msg',
               0,
               'role',
-              'alert'
+              'alert',
             );
           });
 
@@ -839,7 +837,7 @@ describe('ConfigAttributeHeaderComponent', () => {
               'cx-conflict-msg',
               0,
               'aria-live',
-              'assertive'
+              'assertive',
             );
           });
 
@@ -851,7 +849,7 @@ describe('ConfigAttributeHeaderComponent', () => {
               'cx-conflict-msg',
               0,
               'aria-atomic',
-              'true'
+              'true',
             );
           });
 
@@ -863,7 +861,7 @@ describe('ConfigAttributeHeaderComponent', () => {
               'cx-conflict-msg',
               0,
               'aria-label',
-              'configurator.a11y.conflictDetected'
+              'configurator.a11y.conflictDetected',
             );
           });
         });
@@ -883,7 +881,7 @@ describe('ConfigAttributeHeaderComponent', () => {
               'cx-conflict-msg',
               0,
               'aria-live',
-              'off'
+              'off',
             );
           });
 
@@ -895,7 +893,7 @@ describe('ConfigAttributeHeaderComponent', () => {
               'cx-conflict-msg',
               0,
               'aria-atomic',
-              'false'
+              'false',
             );
           });
 
@@ -906,7 +904,7 @@ describe('ConfigAttributeHeaderComponent', () => {
               'div',
               'cx-conflict-msg',
               0,
-              'aria-label'
+              'aria-label',
             );
           });
         });
@@ -920,7 +918,7 @@ describe('ConfigAttributeHeaderComponent', () => {
           undefined,
           0,
           'aria-hidden',
-          'true'
+          'true',
         );
       });
     });
@@ -935,7 +933,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         'cx-required-error-msg',
         undefined,
         'aria-label',
-        'configurator.attribute.singleSelectRequiredMessage'
+        'configurator.attribute.singleSelectRequiredMessage',
       );
     });
   });
@@ -951,7 +949,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
       component.navigateToGroup();
       expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
-        0
+        0,
       );
     });
 
@@ -965,7 +963,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
       component.navigateToGroup();
       expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
-        1
+        1,
       );
     });
 
@@ -978,7 +976,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
       component.navigateToGroup();
       expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
-        1
+        1,
       );
     });
 
@@ -992,7 +990,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
       component.navigateToGroup();
       expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
-        0
+        0,
       );
       expect(component['logError']).toHaveBeenCalled();
     });
@@ -1011,7 +1009,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         });
         spyOn(
           configuratorCommonsService,
-          'isConfigurationLoading'
+          'isConfigurationLoading',
         ).and.returnValue(configurationLoading);
 
         spyOn(configuratorStorefrontUtilsService, 'focusValue');
@@ -1022,7 +1020,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         flush();
 
         expect(
-          configuratorStorefrontUtilsService.focusValue
+          configuratorStorefrontUtilsService.focusValue,
         ).toHaveBeenCalledTimes(1);
       });
     });
@@ -1042,12 +1040,12 @@ describe('ConfigAttributeHeaderComponent', () => {
         });
         spyOn(
           configuratorCommonsService,
-          'isConfigurationLoading'
+          'isConfigurationLoading',
         ).and.returnValue(configurationLoading);
 
         spyOn(
           configuratorStorefrontUtilsService,
-          'scrollToConfigurationElement'
+          'scrollToConfigurationElement',
         );
 
         fixture.detectChanges();
@@ -1057,7 +1055,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         flush();
 
         expect(
-          configuratorStorefrontUtilsService.scrollToConfigurationElement
+          configuratorStorefrontUtilsService.scrollToConfigurationElement,
         ).toHaveBeenCalledTimes(1);
       });
     });
@@ -1066,13 +1064,13 @@ describe('ConfigAttributeHeaderComponent', () => {
   describe('Find conflict group ID', () => {
     it('should not find the conflicting group key when there is no conflict', () => {
       expect(
-        component.findConflictGroupId(configWithoutConflicts, currentAttribute)
+        component.findConflictGroupId(configWithoutConflicts, currentAttribute),
       ).toBe(undefined);
     });
 
     it('should find the conflicting group key', () => {
       expect(
-        component.findConflictGroupId(configConflict, currentAttribute)
+        component.findConflictGroupId(configConflict, currentAttribute),
       ).toBe(ConfigurationTestData.GROUP_ID_CONFLICT_1);
     });
   });
@@ -1140,7 +1138,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType),
       ).toBe(false);
     });
 
@@ -1148,7 +1146,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.STRING;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType),
       ).toBe(false);
     });
 
@@ -1156,7 +1154,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.NUMERIC;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType),
       ).toBe(false);
     });
 
@@ -1164,7 +1162,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.DROPDOWN;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType),
       ).toBe(false);
     });
 
@@ -1172,13 +1170,13 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType),
       ).toBe(false);
     });
 
     it('should return `true` because attribute UI type is `RADIOBUTTON`', () => {
       expect(
-        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType),
       ).toBe(true);
     });
   });

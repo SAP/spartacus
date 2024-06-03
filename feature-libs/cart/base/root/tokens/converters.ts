@@ -15,7 +15,7 @@ import {
 } from '../models/cart.model';
 
 export const CART_NORMALIZER = new InjectionToken<Converter<any, Cart>>(
-  'CartNormalizer'
+  'CartNormalizer',
 );
 
 export const ORDER_ENTRY_PROMOTIONS_NORMALIZER = new InjectionToken<

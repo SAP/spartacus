@@ -19,7 +19,7 @@ const OWNER: CommonConfigurator.Owner = {
 
 const CONFIGURATION = ConfiguratorTestUtils.createConfiguration(
   CONFIG_ID,
-  OWNER
+  OWNER,
 );
 
 const VARIANTS: Configurator.Variant[] = [{ productCode: 'CONF_LAPTOP_A' }];
@@ -36,7 +36,7 @@ describe('ConfiguratorVariantActions', () => {
       variants: VARIANTS,
     });
     expect(action.type).toBe(
-      ConfiguratorVariantActions.SEARCH_VARIANTS_SUCCESS
+      ConfiguratorVariantActions.SEARCH_VARIANTS_SUCCESS,
     );
   });
 

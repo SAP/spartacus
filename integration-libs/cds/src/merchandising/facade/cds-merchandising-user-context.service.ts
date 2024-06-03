@@ -34,7 +34,7 @@ export class CdsMerchandisingUserContextService {
     private productSearchService: ProductSearchService,
     private profileTagEventService: ProfileTagEventService,
     private profileTagLifecycleService: ProfileTagLifecycleService,
-    private facetService: FacetService
+    private facetService: FacetService,
   ) {}
 
   getUserContext(): Observable<MerchandisingUserContext> {
@@ -62,8 +62,8 @@ export class CdsMerchandisingUserContextService {
           prev.searchPhrase === curr.searchPhrase &&
           prev.consentReference === curr.consentReference &&
           prev.category === curr.category &&
-          prev.products === curr.products
-      )
+          prev.products === curr.products,
+      ),
     );
   }
 
@@ -78,7 +78,7 @@ export class CdsMerchandisingUserContextService {
           this.profileTagEventService.handleConsentWithdrawn();
           return of({ consentReference: '' });
         }
-      })
+      }),
     );
   }
 
@@ -93,7 +93,7 @@ export class CdsMerchandisingUserContextService {
           result.category = pageContext.id;
         }
         return result;
-      })
+      }),
     );
   }
 
@@ -116,8 +116,9 @@ export class CdsMerchandisingUserContextService {
       }),
       distinctUntilChanged(
         (prev, curr) =>
-          prev.facets === curr.facets && prev.searchPhrase === curr.searchPhrase
-      )
+          prev.facets === curr.facets &&
+          prev.searchPhrase === curr.searchPhrase,
+      ),
     );
   }
 }

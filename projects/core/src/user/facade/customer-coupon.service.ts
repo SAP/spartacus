@@ -33,7 +33,7 @@ import {
 export class CustomerCouponService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   /**
@@ -45,7 +45,7 @@ export class CustomerCouponService {
   loadCustomerCoupons(
     pageSize: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): void {
     this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
@@ -54,7 +54,7 @@ export class CustomerCouponService {
           pageSize: pageSize,
           currentPage: currentPage,
           sort: sort,
-        })
+        }),
       );
     });
   }
@@ -66,7 +66,7 @@ export class CustomerCouponService {
   getCustomerCoupons(pageSize: number): Observable<CustomerCouponSearchResult> {
     return combineLatest([
       (<Store<StateWithUser>>this.store).pipe(
-        select(UsersSelectors.getCustomerCouponsState)
+        select(UsersSelectors.getCustomerCouponsState),
       ),
       this.getClaimCustomerCouponResultLoading(),
     ]).pipe(
@@ -81,7 +81,7 @@ export class CustomerCouponService {
         }
       }),
       map(([customerCouponsState]) => customerCouponsState.value),
-      filter(isNotUndefined)
+      filter(isNotUndefined),
     );
   }
 
@@ -90,7 +90,7 @@ export class CustomerCouponService {
    */
   getCustomerCouponsLoaded(): Observable<boolean> {
     return (<Store<StateWithUser>>this.store).pipe(
-      select(UsersSelectors.getCustomerCouponsLoaded)
+      select(UsersSelectors.getCustomerCouponsLoaded),
     );
   }
 
@@ -99,7 +99,7 @@ export class CustomerCouponService {
    */
   getCustomerCouponsLoading(): Observable<boolean> {
     return (<Store<StateWithUser>>this.store).pipe(
-      select(UsersSelectors.getCustomerCouponsLoading)
+      select(UsersSelectors.getCustomerCouponsLoading),
     );
   }
 
@@ -113,7 +113,7 @@ export class CustomerCouponService {
         new UserActions.SubscribeCustomerCoupon({
           userId,
           couponCode: couponCode,
-        })
+        }),
       );
     });
   }
@@ -123,7 +123,7 @@ export class CustomerCouponService {
    */
   getSubscribeCustomerCouponResultLoading(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessLoadingFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessLoadingFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID)),
     );
   }
 
@@ -132,7 +132,7 @@ export class CustomerCouponService {
    */
   getSubscribeCustomerCouponResultSuccess(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessSuccessFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessSuccessFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID)),
     );
   }
 
@@ -141,7 +141,7 @@ export class CustomerCouponService {
    */
   getSubscribeCustomerCouponResultError(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessErrorFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessErrorFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID)),
     );
   }
 
@@ -155,7 +155,7 @@ export class CustomerCouponService {
         new UserActions.UnsubscribeCustomerCoupon({
           userId,
           couponCode: couponCode,
-        })
+        }),
       );
     });
   }
@@ -165,7 +165,7 @@ export class CustomerCouponService {
    */
   getUnsubscribeCustomerCouponResultLoading(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessLoadingFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessLoadingFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID)),
     );
   }
 
@@ -174,7 +174,7 @@ export class CustomerCouponService {
    */
   getUnsubscribeCustomerCouponResultSuccess(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessSuccessFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessSuccessFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID)),
     );
   }
 
@@ -183,7 +183,7 @@ export class CustomerCouponService {
    */
   getUnsubscribeCustomerCouponResultError(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessErrorFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessErrorFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID)),
     );
   }
 
@@ -197,7 +197,7 @@ export class CustomerCouponService {
         new UserActions.ClaimCustomerCoupon({
           userId,
           couponCode,
-        })
+        }),
       );
     });
   }
@@ -212,7 +212,7 @@ export class CustomerCouponService {
         new UserActions.DisclaimCustomerCoupon({
           userId,
           couponCode,
-        })
+        }),
       );
     });
   }
@@ -229,7 +229,7 @@ export class CustomerCouponService {
    */
   getClaimCustomerCouponResultSuccess(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessSuccessFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessSuccessFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID)),
     );
   }
 
@@ -238,7 +238,7 @@ export class CustomerCouponService {
    */
   getClaimCustomerCouponResultLoading(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessLoadingFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessLoadingFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID)),
     );
   }
 
@@ -247,7 +247,7 @@ export class CustomerCouponService {
    */
   getDisclaimCustomerCouponResultSuccess(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessSuccessFactory(DISCLAIM_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessSuccessFactory(DISCLAIM_CUSTOMER_COUPON_PROCESS_ID)),
     );
   }
 
@@ -256,7 +256,7 @@ export class CustomerCouponService {
    */
   getClaimCustomerCouponResultError(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessErrorFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessErrorFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID)),
     );
   }
 
@@ -265,7 +265,7 @@ export class CustomerCouponService {
    */
   getDisclaimCustomerCouponResultError(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessErrorFactory(DISCLAIM_CUSTOMER_COUPON_PROCESS_ID))
+      select(getProcessErrorFactory(DISCLAIM_CUSTOMER_COUPON_PROCESS_ID)),
     );
   }
 }

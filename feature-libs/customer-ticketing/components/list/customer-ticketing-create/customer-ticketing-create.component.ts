@@ -26,14 +26,14 @@ export class CustomerTicketingCreateComponent implements OnDestroy {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
   ) {}
 
   openCreateNewTicketDialog() {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CUSTOMER_TICKETING_CREATE,
       this.element,
-      this.vcr
+      this.vcr,
     );
     if (dialog) {
       this.subscription.add(dialog.pipe(take(1)).subscribe());

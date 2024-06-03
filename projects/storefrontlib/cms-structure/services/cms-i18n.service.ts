@@ -15,7 +15,7 @@ export class CmsI18nService {
   constructor(
     protected cmsComponentsService: CmsComponentsService,
     protected translation: TranslationService,
-    protected translationChunk: TranslationChunkService
+    protected translationChunk: TranslationChunkService,
   ) {}
 
   loadForComponents(componentTypes: string[]) {

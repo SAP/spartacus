@@ -27,7 +27,7 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
   constructor(
     @Inject(DOCUMENT) protected document: any,
     protected rendererFactory: RendererFactory2,
-    protected componentFactoryResolver: ComponentFactoryResolver
+    protected componentFactoryResolver: ComponentFactoryResolver,
   ) {
     super(document, rendererFactory);
   }
@@ -42,12 +42,12 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
   render(
     config: LaunchInlineDialog,
     caller: LAUNCH_CALLER | string,
-    vcr: ViewContainerRef
+    vcr: ViewContainerRef,
   ): Observable<ComponentRef<any>> | void {
     // Only render if a ViewContainerRef is provided
     if (vcr && this.shouldRender(caller, config)) {
       const template = this.componentFactoryResolver.resolveComponentFactory(
-        config.component
+        config.component,
       );
 
       const component = vcr.createComponent(template);
@@ -64,7 +64,7 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
         this.logger.warn(`No view container ref provided for ${caller}`);
       } else {
         this.logger.warn(
-          `Element for ${caller} already rendered. To allow multi rendering add property multi: true.`
+          `Element for ${caller} already rendered. To allow multi rendering add property multi: true.`,
         );
       }
     }

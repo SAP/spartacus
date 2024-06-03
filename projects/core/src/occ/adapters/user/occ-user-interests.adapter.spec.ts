@@ -79,14 +79,14 @@ describe('OccUserInterestsAdapter', () => {
         'getProductInterests',
         {
           urlParams: { userId: userId },
-        }
+        },
       );
 
       expect(mockReq.request.params.get('pageSize')).toEqual(
-        pageSize.toString()
+        pageSize.toString(),
       );
       expect(mockReq.request.params.get('currentPage')).toEqual(
-        page.toString()
+        page.toString(),
       );
       expect(mockReq.request.params.get('sort')).toEqual(sort);
     });
@@ -101,7 +101,7 @@ describe('OccUserInterestsAdapter', () => {
         })
         .flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(
-        PRODUCT_INTERESTS_NORMALIZER
+        PRODUCT_INTERESTS_NORMALIZER,
       );
     });
   });

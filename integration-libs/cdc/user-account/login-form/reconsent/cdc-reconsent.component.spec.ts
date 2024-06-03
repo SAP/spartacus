@@ -64,16 +64,16 @@ describe('CdcReconsentComponent', () => {
       component.ngOnInit();
       expect(component.reconsentEvent.user).toEqual(reconsentEvent.user);
       expect(component.reconsentEvent.password).toEqual(
-        reconsentEvent.password
+        reconsentEvent.password,
       );
       expect(component.reconsentEvent.regToken).toEqual(
-        reconsentEvent.regToken
+        reconsentEvent.regToken,
       );
       expect(component.reconsentEvent.errorMessage).toEqual(
-        reconsentEvent.errorMessage
+        reconsentEvent.errorMessage,
       );
       expect(component.loadConsents).toHaveBeenCalledWith(
-        reconsentEvent.consentIds
+        reconsentEvent.consentIds,
       );
     });
   });
@@ -114,7 +114,7 @@ describe('CdcReconsentComponent', () => {
     const expectedOutput = [{ id: 'consent.survey' }, { id: 'privacy.use' }];
     it('should load all anonymous consents', () => {
       anonymousConsentsService.getTemplates = createSpy().and.returnValue(
-        of(anonymousConsents)
+        of(anonymousConsents),
       );
       component.loadConsents(reconsentIds);
       component.templateList$.pipe(take(1)).subscribe((value) => {
@@ -133,7 +133,7 @@ describe('CdcReconsentComponent', () => {
       cdcReconsentService.handleReconsentUpdateError = createSpy().and.stub();
       component.dismissDialog('Error Reason', 'Error message during login');
       expect(
-        cdcReconsentService.handleReconsentUpdateError
+        cdcReconsentService.handleReconsentUpdateError,
       ).toHaveBeenCalledWith('Error Reason', 'Error message during login');
     });
   });

@@ -135,7 +135,7 @@ describe('OAuthLibWrapperService', () => {
       expect(oAuthService.configure).toHaveBeenCalledWith(
         jasmine.objectContaining({
           redirectUri: 'redUri',
-        })
+        }),
       );
     });
 
@@ -149,7 +149,7 @@ describe('OAuthLibWrapperService', () => {
         jasmine.objectContaining({
           redirectUri: winRef.nativeWindow?.location.origin,
           issuer: 'base',
-        })
+        }),
       );
     });
 
@@ -163,7 +163,7 @@ describe('OAuthLibWrapperService', () => {
       expect(oAuthService.configure).toHaveBeenCalledWith(
         jasmine.objectContaining({
           redirectUri: '',
-        })
+        }),
       );
     });
   });
@@ -174,13 +174,13 @@ describe('OAuthLibWrapperService', () => {
 
       const result = await service.authorizeWithPasswordFlow(
         'username',
-        'pass'
+        'pass',
       );
 
       expect(result).toEqual({ state: 'done' } as TokenResponse);
       expect(oAuthService.fetchTokenUsingPasswordFlow).toHaveBeenCalledWith(
         'username',
-        'pass'
+        'pass',
       );
     });
   });
@@ -209,7 +209,7 @@ describe('OAuthLibWrapperService', () => {
     it('should call logOut method from the lib when the revoke fails', async () => {
       spyOn(oAuthService, 'logOut').and.callThrough();
       spyOn(oAuthService, 'revokeTokenAndLogout').and.returnValue(
-        Promise.reject()
+        Promise.reject(),
       );
 
       await service.revokeAndLogout();
@@ -251,7 +251,7 @@ describe('OAuthLibWrapperService', () => {
       service.initLoginFlow();
 
       const storedOauthFlowKey = winRef.localStorage?.getItem(
-        'oAuthRedirectCodeFlow'
+        'oAuthRedirectCodeFlow',
       );
 
       expect(storedOauthFlowKey).toBeTruthy();

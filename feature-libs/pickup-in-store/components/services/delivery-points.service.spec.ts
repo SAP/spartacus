@@ -32,7 +32,7 @@ class MockActiveCartFacade {
     _entryNumber: number,
     _quantity: number,
     _pickupInStore: string,
-    _pickupLocation?: boolean
+    _pickupLocation?: boolean,
   ): void {}
 }
 class MockPickupLocationsSearchFacade {
@@ -109,23 +109,23 @@ describe('DeliveryPointsService', () => {
     expect(activeCartFacade.getPickupEntries).toHaveBeenCalled();
 
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(
-      2
+      2,
     );
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledWith(
-      'A Store'
+      'A Store',
     );
 
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledWith(
-      'B Store'
+      'B Store',
     );
     expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledTimes(
-      2
+      2,
     );
     expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledWith(
-      'A Store'
+      'A Store',
     );
     expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledWith(
-      'B Store'
+      'B Store',
     );
   });
 
@@ -135,23 +135,23 @@ describe('DeliveryPointsService', () => {
     expect(orderFacade.getPickupEntries).toHaveBeenCalled();
 
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(
-      2
+      2,
     );
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledWith(
-      'A Store'
+      'A Store',
     );
 
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledWith(
-      'B Store'
+      'B Store',
     );
     expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledTimes(
-      2
+      2,
     );
     expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledWith(
-      'A Store'
+      'A Store',
     );
     expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledWith(
-      'B Store'
+      'B Store',
     );
   });
 });

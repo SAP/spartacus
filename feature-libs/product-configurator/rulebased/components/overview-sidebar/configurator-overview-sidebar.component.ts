@@ -23,17 +23,17 @@ export class ConfiguratorOverviewSidebarComponent {
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
   ) {}
 
   configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner)
+        this.configuratorCommonsService.getConfiguration(routerData.owner),
       ),
       // filter 'strict null check safe'
       filter(
-        (configuration) => configuration.overview != null
+        (configuration) => configuration.overview != null,
       ) as OperatorFunction<
         Configurator.Configuration,
         Configurator.ConfigurationWithOverview
@@ -42,7 +42,7 @@ export class ConfiguratorOverviewSidebarComponent {
         if (data) {
           this.ghostStyle = false;
         }
-      })
+      }),
     );
 
   /**

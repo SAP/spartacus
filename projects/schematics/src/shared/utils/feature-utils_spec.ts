@@ -36,7 +36,7 @@ import {
 describe('Feature utils', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
-    path.join(__dirname, '../../collection.json')
+    path.join(__dirname, '../../collection.json'),
   );
 
   let appTree: Tree;
@@ -72,20 +72,20 @@ describe('Feature utils', () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runSchematic(
       'add-spartacus',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
 
     buildPath = getProjectTsConfigPaths(appTree, BASE_OPTIONS.project)
@@ -97,12 +97,12 @@ describe('Feature utils', () => {
       appTree = await firstValueFrom(
         schematicRunner.callRule(
           addFeatures(BASE_OPTIONS, [USER_ACCOUNT_FEATURE_NAME]),
-          appTree
-        )
+          appTree,
+        ),
       );
 
       expect(
-        appTree.read(userFeatureModulePath)?.toString(UTF_8)
+        appTree.read(userFeatureModulePath)?.toString(UTF_8),
       ).toMatchSnapshot();
     });
   });
@@ -116,12 +116,12 @@ describe('Feature utils', () => {
           name: 'schematics-test',
           features: [USER_ACCOUNT_FEATURE_NAME],
         },
-        appTree
+        appTree,
       );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
       const userFeatureModule = program.getSourceFileOrThrow(
-        userFeatureModulePath
+        userFeatureModulePath,
       );
       const dynamicImport = collectDynamicImports(userFeatureModule)[0];
 
@@ -137,7 +137,7 @@ describe('Feature utils', () => {
           name: 'schematics-test',
           features: [CHECKOUT_BASE_FEATURE_NAME],
         },
-        appTree
+        appTree,
       );
 
       appTree = await schematicRunner.runSchematic(
@@ -147,12 +147,12 @@ describe('Feature utils', () => {
           name: 'schematics-test',
           features: [CHECKOUT_B2B_FEATURE_NAME],
         },
-        appTree
+        appTree,
       );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
       const checkoutFeatureModule = program.getSourceFileOrThrow(
-        checkoutFeatureModulePath
+        checkoutFeatureModulePath,
       );
       const dynamicImport = collectDynamicImports(checkoutFeatureModule)[0];
 
@@ -171,7 +171,7 @@ describe('Feature utils', () => {
             name: 'schematics-test',
             features: [CHECKOUT_BASE_FEATURE_NAME],
           },
-          appTree
+          appTree,
         );
 
         try {
@@ -182,7 +182,7 @@ describe('Feature utils', () => {
               name: 'schematics-test',
               features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
             },
-            appTree
+            appTree,
           );
         } catch (e) {
           expect(e).toBeTruthy();
@@ -197,11 +197,11 @@ describe('Feature utils', () => {
             name: 'schematics-test',
             features: [ORDER_FEATURE_NAME],
           },
-          appTree
+          appTree,
         );
 
         const packageJson = JSON.parse(
-          appTree.read('package.json')?.toString(UTF_8) ?? ''
+          appTree.read('package.json')?.toString(UTF_8) ?? '',
         );
         packageJson.dependencies[SPARTACUS_CHECKOUT] = '9.9.9';
         appTree.overwrite('package.json', JSON.stringify(packageJson, null, 2));
@@ -214,7 +214,7 @@ describe('Feature utils', () => {
               name: 'schematics-test',
               features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
             },
-            appTree
+            appTree,
           );
         } catch (e) {
           expect(e).toBeTruthy();
@@ -231,7 +231,7 @@ describe('Feature utils', () => {
               features: [CHECKOUT_BASE_FEATURE_NAME],
               lazy: false,
             },
-            appTree
+            appTree,
           );
 
           appTree = await schematicRunner.runSchematic(
@@ -241,16 +241,16 @@ describe('Feature utils', () => {
               name: 'schematics-test',
               features: [DIGITAL_PAYMENTS_FEATURE_NAME],
             },
-            appTree
+            appTree,
           );
 
           const { program } = createProgram(
             appTree,
             appTree.root.path,
-            buildPath
+            buildPath,
           );
           const checkoutFeatureModule = program.getSourceFileOrThrow(
-            checkoutFeatureModulePath
+            checkoutFeatureModulePath,
           );
           expect(checkoutFeatureModule.print()).toMatchSnapshot();
         });
@@ -264,7 +264,7 @@ describe('Feature utils', () => {
               name: 'schematics-test',
               features: [CHECKOUT_BASE_FEATURE_NAME],
             },
-            appTree
+            appTree,
           );
 
           appTree = await schematicRunner.runSchematic(
@@ -274,19 +274,19 @@ describe('Feature utils', () => {
               name: 'schematics-test',
               features: [DIGITAL_PAYMENTS_FEATURE_NAME],
             },
-            appTree
+            appTree,
           );
 
           const { program } = createProgram(
             appTree,
             appTree.root.path,
-            buildPath
+            buildPath,
           );
           const checkoutWrapperModule = program.getSourceFileOrThrow(
-            checkoutWrapperModulePath
+            checkoutWrapperModulePath,
           );
           const checkoutFeatureModule = program.getSourceFileOrThrow(
-            checkoutFeatureModulePath
+            checkoutFeatureModulePath,
           );
           expect(checkoutWrapperModule.print()).toMatchSnapshot();
           expect(checkoutFeatureModule.print()).toMatchSnapshot();

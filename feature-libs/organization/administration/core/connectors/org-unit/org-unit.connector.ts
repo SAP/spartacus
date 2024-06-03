@@ -34,7 +34,7 @@ export class OrgUnitConnector {
   update(
     userId: string,
     orgUnitId: string,
-    orgUnit: B2BUnit
+    orgUnit: B2BUnit,
   ): Observable<B2BUnit> {
     return this.adapter.update(userId, orgUnitId, orgUnit);
   }
@@ -55,7 +55,7 @@ export class OrgUnitConnector {
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<B2BUser>> {
     return this.adapter.loadUsers(userId, orgUnitId, roleId, params);
   }
@@ -63,7 +63,7 @@ export class OrgUnitConnector {
   assignRole(
     userId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): Observable<any> {
     return this.adapter.assignRole(userId, orgCustomerId, roleId);
   }
@@ -71,7 +71,7 @@ export class OrgUnitConnector {
   unassignRole(
     userId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): Observable<any> {
     return this.adapter.unassignRole(userId, orgCustomerId, roleId);
   }
@@ -80,13 +80,13 @@ export class OrgUnitConnector {
     userId: string,
     orgUnitId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): Observable<any> {
     return this.adapter.assignApprover(
       userId,
       orgUnitId,
       orgCustomerId,
-      roleId
+      roleId,
     );
   }
 
@@ -94,19 +94,19 @@ export class OrgUnitConnector {
     userId: string,
     orgUnitId: string,
     orgCustomerId: string,
-    roleId: string
+    roleId: string,
   ): Observable<any> {
     return this.adapter.unassignApprover(
       userId,
       orgUnitId,
       orgCustomerId,
-      roleId
+      roleId,
     );
   }
 
   getAddresses(
     userId: string,
-    orgUnitId: string
+    orgUnitId: string,
   ): Observable<EntitiesModel<Address>> {
     return this.adapter.loadAddresses(userId, orgUnitId);
   }
@@ -114,7 +114,7 @@ export class OrgUnitConnector {
   createAddress(
     userId: string,
     orgUnitId: string,
-    address: Address
+    address: Address,
   ): Observable<Address> {
     return this.adapter.createAddress(userId, orgUnitId, address);
   }
@@ -123,7 +123,7 @@ export class OrgUnitConnector {
     userId: string,
     orgUnitId: string,
     addressId: string,
-    address: Address
+    address: Address,
   ): Observable<Address> {
     return this.adapter.updateAddress(userId, orgUnitId, addressId, address);
   }
@@ -131,7 +131,7 @@ export class OrgUnitConnector {
   deleteAddress(
     userId: string,
     orgUnitId: string,
-    addressId: string
+    addressId: string,
   ): Observable<any> {
     return this.adapter.deleteAddress(userId, orgUnitId, addressId);
   }

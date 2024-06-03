@@ -30,14 +30,14 @@ export class ConfiguratorAttributeRadioButtonComponent
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
   ) {
     super(
       quantityService,
       translation,
       attributeComponentContext,
       configuratorCommonsService,
-      configuratorStorefrontUtilsService
+      configuratorStorefrontUtilsService,
     );
   }
 

@@ -30,7 +30,7 @@ export class CdcUserListService extends UserListService implements OnDestroy {
     protected userService: B2BUserService,
     protected globalMessageService: GlobalMessageService,
     protected winRef: WindowRef,
-    protected cdcJsService: CdcJsService
+    protected cdcJsService: CdcJsService,
   ) {
     super(tableService, userService);
   }
@@ -51,7 +51,7 @@ export class CdcUserListService extends UserListService implements OnDestroy {
                 {
                   key: 'generalErrors.pageFailure',
                 },
-                GlobalMessageType.MSG_TYPE_ERROR
+                GlobalMessageType.MSG_TYPE_ERROR,
               );
             }
           },
@@ -60,9 +60,9 @@ export class CdcUserListService extends UserListService implements OnDestroy {
               {
                 key: 'generalErrors.pageFailure',
               },
-              GlobalMessageType.MSG_TYPE_ERROR
+              GlobalMessageType.MSG_TYPE_ERROR,
             ),
-        })
+        }),
       )
       .subscribe();
     this.subscription.add(sub);

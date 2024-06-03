@@ -35,7 +35,7 @@ export class TrapFocusService extends TabFocusService {
     host: HTMLElement,
     config: TrapFocusConfig,
     increment: MOVE_FOCUS,
-    event: UIEvent
+    event: UIEvent,
   ): void {
     const focusable: HTMLElement[] = this.findFocusable(host);
 

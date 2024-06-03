@@ -131,8 +131,8 @@ describe('QuoteSummarySellerEditComponentService', () => {
           'en',
           new Intl.NumberFormat('en', {
             style: 'percent',
-          })
-        )
+          }),
+        ),
       ).toThrowError();
     });
   });
@@ -140,7 +140,7 @@ describe('QuoteSummarySellerEditComponentService', () => {
   describe('addTimeToDate', () => {
     it('should add the local time to a given date', () => {
       const dateWithTime = classUnderTest.addTimeToDate(
-        EXPIRATION_DATE_AS_STRING
+        EXPIRATION_DATE_AS_STRING,
       );
       expect(dateWithTime).toContain(EXPIRATION_DATE_AS_STRING);
       expect(dateWithTime).toContain('T');
@@ -151,7 +151,7 @@ describe('QuoteSummarySellerEditComponentService', () => {
   describe('removeTimeFromDate', () => {
     it('should remove the time part from a time stamp', () => {
       expect(classUnderTest.removeTimeFromDate(EXPIRATION_TIME_AS_STRING)).toBe(
-        EXPIRATION_DATE_AS_STRING
+        EXPIRATION_DATE_AS_STRING,
       );
     });
 
@@ -166,8 +166,8 @@ describe('QuoteSummarySellerEditComponentService', () => {
         classUnderTest['performValidationForPercentageValue'](
           '33,76%',
           '.',
-          ','
-        )
+          ',',
+        ),
       ).toBe(false);
     });
     it('should accept input even if a grouping separator is present somewhere', () => {
@@ -175,8 +175,8 @@ describe('QuoteSummarySellerEditComponentService', () => {
         classUnderTest['performValidationForPercentageValue'](
           '3.3,7.6%',
           '.',
-          ','
-        )
+          ',',
+        ),
       ).toBe(false);
     });
     it('should not accept input with 2 decimal separators', () => {
@@ -184,8 +184,8 @@ describe('QuoteSummarySellerEditComponentService', () => {
         classUnderTest['performValidationForPercentageValue'](
           '1,000,76',
           '.',
-          ','
-        )
+          ',',
+        ),
       ).toBe(true);
     });
   });
@@ -200,7 +200,7 @@ describe('QuoteSummarySellerEditComponentService', () => {
       expect(
         classUnderTest
           .getNumberFormatValidator('en', '$')
-          .apply({}, [form.controls.discount])
+          .apply({}, [form.controls.discount]),
       ).toBeFalsy();
     });
 
@@ -209,7 +209,7 @@ describe('QuoteSummarySellerEditComponentService', () => {
       expect(
         classUnderTest
           .getNumberFormatValidator('en', '%')
-          .apply({}, [form.controls.discount])
+          .apply({}, [form.controls.discount]),
       ).toBeTruthy();
     });
 
@@ -218,7 +218,7 @@ describe('QuoteSummarySellerEditComponentService', () => {
       expect(
         classUnderTest
           .getNumberFormatValidator('en', '%')
-          .apply({}, [form.controls.discount])
+          .apply({}, [form.controls.discount]),
       ).toBeFalsy();
     });
   });
@@ -226,14 +226,14 @@ describe('QuoteSummarySellerEditComponentService', () => {
   describe('retrieveMaxNumberOfDecimalPlaces', () => {
     it('should return the number of decimal places from configuration', () => {
       expect(classUnderTest['retrieveMaxNumberOfDecimalPlaces']()).toBe(
-        maximumDecimalsForPercentageDiscount
+        maximumDecimalsForPercentageDiscount,
       );
     });
 
     it('should return the number of decimal places as component default if configuration is not present', () => {
       quoteUIConfig.quote = undefined;
       expect(classUnderTest['retrieveMaxNumberOfDecimalPlaces']()).toBe(
-        classUnderTest['maximumDecimalsForPercentageDiscountDefault']
+        classUnderTest['maximumDecimalsForPercentageDiscountDefault'],
       );
     });
   });

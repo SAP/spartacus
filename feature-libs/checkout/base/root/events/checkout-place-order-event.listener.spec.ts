@@ -47,21 +47,21 @@ describe(`CheckoutPlaceOrderEventListener`, () => {
           cartId: mockCartId,
           cartCode: mockCartId,
           order: mockOrder,
-        })
+        }),
       );
     });
 
     it(`OrderPlacedEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
 
     it(`OrderPlacedEvent should dispatch RemoveCartEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        RemoveCartEvent
+        RemoveCartEvent,
       );
     });
   });

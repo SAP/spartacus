@@ -29,7 +29,7 @@ export interface EntityProcessesLoaderAction extends Action {
 
 export function entityProcessesLoaderResetMeta(
   entityType: string,
-  id: string | string[]
+  id: string | string[],
 ): EntityProcessesLoaderMeta {
   return {
     ...processesLoaderResetMeta(entityType),
@@ -39,7 +39,7 @@ export function entityProcessesLoaderResetMeta(
 
 export function entityProcessesIncrementMeta(
   entityType: string,
-  id: string | string[]
+  id: string | string[],
 ): EntityProcessesLoaderMeta {
   return {
     ...processesIncrementMeta(entityType),
@@ -49,7 +49,7 @@ export function entityProcessesIncrementMeta(
 
 export function entityProcessesDecrementMeta(
   entityType: string,
-  id: string | string[]
+  id: string | string[],
 ): EntityProcessesLoaderMeta {
   return {
     ...processesDecrementMeta(entityType),

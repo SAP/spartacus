@@ -108,7 +108,7 @@ describe('FormComponent', () => {
   describe('when loading of the created item has failed', () => {
     beforeEach(() => {
       spyOn(organizationItemService, 'save').and.returnValue(
-        of({ status: LoadStatus.ERROR, item: mockItem })
+        of({ status: LoadStatus.ERROR, item: mockItem }),
       );
       spyOn(messageService, 'add').and.callThrough();
       spyOn(organizationItemService, 'launchDetails').and.callThrough();
@@ -121,7 +121,7 @@ describe('FormComponent', () => {
 
       expect(organizationItemService.save).toHaveBeenCalledWith(
         form,
-        undefined
+        undefined,
       );
       expect(organizationItemService.launchDetails).not.toHaveBeenCalled();
     });
@@ -134,7 +134,7 @@ describe('FormComponent', () => {
   describe('when loading of the updated item has failed', () => {
     beforeEach(() => {
       spyOn(organizationItemService, 'save').and.returnValue(
-        of({ status: LoadStatus.ERROR, item: mockItem })
+        of({ status: LoadStatus.ERROR, item: mockItem }),
       );
       spyOn(messageService, 'add').and.callThrough();
       spyOn(organizationItemService, 'launchDetails').and.callThrough();

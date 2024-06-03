@@ -66,7 +66,7 @@ describe('ticket details', () => {
         customerTicketing.extractTicketDetailsFromFirstRowInTicketListingPage();
       customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
       customerTicketing.verifyTicketDetailsAreDisplayedInTicketHeader(
-        ticketDetails
+        ticketDetails,
       );
     });
 
@@ -111,7 +111,7 @@ describe('ticket details', () => {
       customerTicketing.verifyStatusOfTicketInDetailsPage(TestStatus.closed);
       customerTicketing.reopenTicketRequest('Reopening ticket');
       customerTicketing.verifyStatusOfTicketInDetailsPage(
-        TestStatus.in_process
+        TestStatus.in_process,
       );
       customerTicketing.verifyMessageBoxIsEnabled();
     });

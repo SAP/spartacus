@@ -37,7 +37,7 @@ describe('getLoggableSsrOptimizationOptions', () => {
       getLoggableSsrOptimizationOptions({
         ...ssrOptions,
         logger: new MockLogger(),
-      })
+      }),
     ).toMatchInlineSnapshot(`
       {
         "concurrency": 10,
@@ -56,7 +56,7 @@ describe('getLoggableSsrOptimizationOptions', () => {
       getLoggableSsrOptimizationOptions({
         ...ssrOptions,
         somePlainObject: { config: 'value' },
-      } as SsrOptimizationOptions)
+      } as SsrOptimizationOptions),
     ).toMatchInlineSnapshot(`
       {
         "concurrency": 10,
@@ -77,7 +77,7 @@ describe('getLoggableSsrOptimizationOptions', () => {
       getLoggableSsrOptimizationOptions({
         ...ssrOptions,
         renderKeyResolver: (req: any) => req.url,
-      })
+      }),
     ).toMatchInlineSnapshot(`
       {
         "concurrency": 10,

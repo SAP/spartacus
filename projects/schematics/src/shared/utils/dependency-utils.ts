@@ -27,7 +27,7 @@ import { getConfiguredDependencies } from './schematics-config-utils';
  * Returns the ordered list, according to the graph.
  */
 export function analyzeCrossFeatureDependencies(
-  startingFeatures: string[]
+  startingFeatures: string[],
 ): string[] {
   const result: string[] = [];
 
@@ -36,7 +36,7 @@ export function analyzeCrossFeatureDependencies(
   }
 
   return result.sort((feature1, feature2) =>
-    calculateCrossFeatureSort(feature1, feature2)
+    calculateCrossFeatureSort(feature1, feature2),
   );
 }
 
@@ -68,7 +68,7 @@ function collectCrossFeatureDeps(feature: string, result: string[]): void {
  * Returns the ordered list, according to the features graph.
  */
 export function analyzeCrossLibraryDependenciesByFeatures(
-  startingFeatures: string[]
+  startingFeatures: string[],
 ): string[] {
   const startingLibraries: string[] = [];
   for (const feature of startingFeatures) {
@@ -88,7 +88,7 @@ export function analyzeCrossLibraryDependenciesByFeatures(
  * Returns the ordered list, according to the features graph.
  */
 export function analyzeCrossLibraryDependenciesByLibraries(
-  startingLibraries: string[]
+  startingLibraries: string[],
 ): string[] {
   let spartacusPeerDeps = [...startingLibraries];
   for (const spartacusLib of startingLibraries) {
@@ -99,7 +99,7 @@ export function analyzeCrossLibraryDependenciesByLibraries(
   spartacusPeerDeps = Array.from(new Set<string>(spartacusPeerDeps));
   // order the libraries
   spartacusPeerDeps = spartacusPeerDeps.sort((libraryA, libraryB) =>
-    calculateCrossLibrarySort(libraryA, libraryB)
+    calculateCrossLibrarySort(libraryA, libraryB),
   );
 
   return spartacusPeerDeps;
@@ -111,7 +111,7 @@ export function analyzeCrossLibraryDependenciesByLibraries(
 export function collectCrossSpartacusPeerDeps(
   libraryName: string,
   collectedDeps: string[],
-  processed: string[] = []
+  processed: string[] = [],
 ): void {
   if (processed.includes(libraryName)) {
     return;

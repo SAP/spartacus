@@ -23,7 +23,7 @@ export class CouponClaimComponent implements OnInit, OnDestroy {
   constructor(
     protected couponService: CustomerCouponService,
     protected routingService: RoutingService,
-    protected messageService: GlobalMessageService
+    protected messageService: GlobalMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class CouponClaimComponent implements OnInit, OnDestroy {
               if (success) {
                 this.messageService.add(
                   { key: 'myCoupons.claimCustomerCoupon' },
-                  GlobalMessageType.MSG_TYPE_CONFIRMATION
+                  GlobalMessageType.MSG_TYPE_CONFIRMATION,
                 );
               }
               this.routingService.go({ cxRoute: 'coupons' });

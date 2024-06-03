@@ -41,38 +41,38 @@ function setVariables() {
   eventServiceEvents = new Map();
   eventServiceEvents.set(
     CategoryPageResultsEvent,
-    new ReplaySubject<CategoryPageResultsEvent>()
+    new ReplaySubject<CategoryPageResultsEvent>(),
   );
   eventServiceEvents.set(
     SearchPageResultsEvent,
-    new ReplaySubject<SearchPageResultsEvent>()
+    new ReplaySubject<SearchPageResultsEvent>(),
   );
   eventServiceEvents.set(
     ProductDetailsPageEvent,
-    new ReplaySubject<ProductDetailsPageEvent>()
+    new ReplaySubject<ProductDetailsPageEvent>(),
   );
   eventServiceEvents.set(PageEvent, new ReplaySubject<PageEvent>());
   eventServiceEvents.set(CartPageEvent, new ReplaySubject<CartPageEvent>());
   eventServiceEvents.set(HomePageEvent, new ReplaySubject<HomePageEvent>());
   eventServiceEvents.set(
     OrderPlacedEvent,
-    new ReplaySubject<OrderPlacedEvent>()
+    new ReplaySubject<OrderPlacedEvent>(),
   );
   eventServiceEvents.set(
     CartAddEntrySuccessEvent,
-    new ReplaySubject<CartAddEntrySuccessEvent>()
+    new ReplaySubject<CartAddEntrySuccessEvent>(),
   );
   eventServiceEvents.set(
     CartRemoveEntrySuccessEvent,
-    new ReplaySubject<CartRemoveEntrySuccessEvent>()
+    new ReplaySubject<CartRemoveEntrySuccessEvent>(),
   );
   eventServiceEvents.set(
     CartUpdateEntrySuccessEvent,
-    new ReplaySubject<CartUpdateEntrySuccessEvent>()
+    new ReplaySubject<CartUpdateEntrySuccessEvent>(),
   );
   eventServiceEvents.set(
     MergeCartSuccessEvent,
-    new ReplaySubject<MergeCartSuccessEvent>()
+    new ReplaySubject<MergeCartSuccessEvent>(),
   );
 
   getPersonalizationContext = new ReplaySubject<PersonalizationContext>();
@@ -126,7 +126,7 @@ describe('profileTagPushEventsService', () => {
           tap((item) => {
             timesCalled++;
             calledWith = item;
-          })
+          }),
         )
         .subscribe();
       eventServiceEvents
@@ -146,7 +146,7 @@ describe('profileTagPushEventsService', () => {
           tap((item) => {
             timesCalled++;
             calledWith = item;
-          })
+          }),
         )
         .subscribe();
       eventServiceEvents
@@ -166,7 +166,7 @@ describe('profileTagPushEventsService', () => {
           tap((item) => {
             timesCalled++;
             calledWith = item;
-          })
+          }),
         )
         .subscribe();
       eventServiceEvents
@@ -186,7 +186,7 @@ describe('profileTagPushEventsService', () => {
           tap((item) => {
             timesCalled++;
             calledWith.push(item);
-          })
+          }),
         )
         .subscribe();
       eventServiceEvents
@@ -212,7 +212,7 @@ describe('profileTagPushEventsService', () => {
           tap((item) => {
             timesCalled++;
             calledWith.push(item);
-          })
+          }),
         )
         .subscribe();
       eventServiceEvents
@@ -282,7 +282,7 @@ describe('profileTagPushEventsService', () => {
         .getPushEvents()
         .pipe(
           filter((event) => event.name === 'CategoryPageViewed'),
-          tap(() => timesCalled++)
+          tap(() => timesCalled++),
         )
         .subscribe();
       eventServiceEvents.get(PageEvent).next(pageEventHome);
@@ -307,7 +307,7 @@ describe('profileTagPushEventsService', () => {
         .getPushEvents()
         .pipe(
           filter((event) => event.name === 'CategoryPageViewed'),
-          tap(() => timesCalled++)
+          tap(() => timesCalled++),
         )
         .subscribe();
       eventServiceEvents.get(PageEvent).next(pageEventHome);
@@ -344,7 +344,7 @@ describe('profileTagPushEventsService', () => {
         .getPushEvents()
         .pipe(
           filter((event) => event.name === 'CategoryPageViewed'),
-          tap(() => timesCalled++)
+          tap(() => timesCalled++),
         )
         .subscribe();
       eventServiceEvents.get(PageEvent).next(pageEventHome);

@@ -14,7 +14,7 @@ import { SsrOptimizationOptions } from './ssr-optimization-options';
  * @returns options containing only primitive values that are easier to read by developers and monitoring tools
  */
 export const getLoggableSsrOptimizationOptions = (
-  value: SsrOptimizationOptions
+  value: SsrOptimizationOptions,
 ) => {
   const newValue: Record<string, any> = { ...value };
   Object.keys(value).forEach((key) => {

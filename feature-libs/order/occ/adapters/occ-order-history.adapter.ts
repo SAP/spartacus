@@ -46,7 +46,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   public load(userId: string, orderCode: string): Observable<Order> {
@@ -68,7 +68,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<OrderHistoryList> {
     const params: { [key: string]: string } = {};
     if (pageSize) {
@@ -94,7 +94,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
   public getConsignmentTracking(
     orderCode: string,
     consignmentCode: string,
-    userId: string = OCC_USER_ID_CURRENT
+    userId: string = OCC_USER_ID_CURRENT,
   ): Observable<ConsignmentTracking> {
     const url = this.occEndpoints.buildUrl('consignmentTracking', {
       urlParams: { userId, orderCode, consignmentCode },
@@ -107,7 +107,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
   public cancel(
     userId: string,
     orderCode: string,
-    cancelRequestInput: CancellationRequestEntryInputList
+    cancelRequestInput: CancellationRequestEntryInputList,
   ): Observable<{}> {
     const url = this.occEndpoints.buildUrl('cancelOrder', {
       urlParams: { userId, orderId: orderCode },
@@ -119,13 +119,13 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
     return this.http.post(url, cancelRequestInput, { headers }).pipe(
       catchError((error: any) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 
   public createReturnRequest(
     userId: string,
-    returnRequestInput: ReturnRequestEntryInputList
+    returnRequestInput: ReturnRequestEntryInputList,
   ): Observable<ReturnRequest> {
     const url = this.occEndpoints.buildUrl('returnOrder', {
       urlParams: { userId },
@@ -136,14 +136,14 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
 
     returnRequestInput = this.converter.convert(
       returnRequestInput,
-      ORDER_RETURN_REQUEST_INPUT_SERIALIZER
+      ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
     );
 
     return this.http.post(url, returnRequestInput, { headers }).pipe(
       catchError((error: any) => {
         throw normalizeHttpError(error, this.logger);
       }),
-      this.converter.pipeable(ORDER_RETURN_REQUEST_NORMALIZER)
+      this.converter.pipeable(ORDER_RETURN_REQUEST_NORMALIZER),
     );
   }
 
@@ -151,7 +151,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<ReturnRequestList> {
     const params: { [key: string]: string } = {};
     if (pageSize) {
@@ -176,7 +176,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
 
   public loadReturnRequestDetail(
     userId: string,
-    returnRequestCode: string
+    returnRequestCode: string,
   ): Observable<ReturnRequest> {
     const url = this.occEndpoints.buildUrl('orderReturnDetail', {
       urlParams: { userId, returnRequestCode },
@@ -190,7 +190,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
   public cancelReturnRequest(
     userId: string,
     returnRequestCode: string,
-    returnRequestModification: ReturnRequestModification
+    returnRequestModification: ReturnRequestModification,
   ): Observable<{}> {
     const url = this.occEndpoints.buildUrl('cancelReturn', {
       urlParams: { userId, returnRequestCode },
@@ -202,7 +202,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
     return this.http.patch(url, returnRequestModification, { headers }).pipe(
       catchError((error: any) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 }

@@ -85,24 +85,22 @@ describe('WishListItemComponent', () => {
   let el: DebugElement;
   let componentInjector: Injector;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [
-          WishListItemComponent,
-          MockPictureComponent,
-          MockAddToCartComponent,
-          MockUrlPipe,
-          MockAtMessageDirective,
-        ],
-      })
-        .overrideComponent(WishListItemComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        WishListItemComponent,
+        MockPictureComponent,
+        MockAddToCartComponent,
+        MockUrlPipe,
+        MockAtMessageDirective,
+      ],
     })
-  );
+      .overrideComponent(WishListItemComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WishListItemComponent);
@@ -120,25 +118,25 @@ describe('WishListItemComponent', () => {
 
   it('should display product name', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-name').textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-name').textContent,
     ).toContain(component.cartEntry.product.name);
   });
 
   it('should display product code', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-code').textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-code').textContent,
     ).toContain(component.cartEntry.product.code);
   });
 
   it('should display product formatted price', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-price').textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-price').textContent,
     ).toContain(component.cartEntry.basePrice.formattedValue);
   });
 
   it('should display product image', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('cx-media')
+      fixture.debugElement.nativeElement.querySelector('cx-media'),
     ).not.toBeNull();
   });
 
@@ -161,7 +159,7 @@ describe('WishListItemComponent', () => {
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('button.cx-remove-btn')).nativeElement.disabled
+      el.query(By.css('button.cx-remove-btn')).nativeElement.disabled,
     ).toBeTruthy();
   });
 
@@ -169,9 +167,9 @@ describe('WishListItemComponent', () => {
     it('should display variants', () => {
       el.queryAll(By.css('.cx-property')).forEach((element, index) => {
         expect(
-          element.query(By.css('.cx-label')).nativeElement.innerText
+          element.query(By.css('.cx-label')).nativeElement.innerText,
         ).toEqual(
-          `${mockCartEntry.product.baseOptions[0].selected.variantOptionQualifiers[index].name}: ${mockCartEntry.product.baseOptions[0].selected.variantOptionQualifiers[index].value}`
+          `${mockCartEntry.product.baseOptions[0].selected.variantOptionQualifiers[index].name}: ${mockCartEntry.product.baseOptions[0].selected.variantOptionQualifiers[index].value}`,
         );
       });
     });
@@ -194,13 +192,13 @@ describe('WishListItemComponent', () => {
 
     it('should provide ProductListItemContext', () => {
       expect(componentInjector.get(ProductListItemContext)).toBe(
-        componentInjector.get(ProductListItemContextSource)
+        componentInjector.get(ProductListItemContextSource),
       );
     });
 
     it('should push changes of input"product" to context', () => {
       const contextSource: ProductListItemContextSource = componentInjector.get(
-        ProductListItemContextSource
+        ProductListItemContextSource,
       );
       spyOn(contextSource.product$, 'next');
       component.cartEntry = { product: { code: 'testProduct' } };

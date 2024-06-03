@@ -41,7 +41,7 @@ class MockAuthService implements Partial<AuthService> {
   async checkOAuthParamsInUrl(): Promise<void> {}
   async loginWithCredentials(
     _userId: string,
-    _password: string
+    _password: string,
   ): Promise<void> {}
 }
 class MockRouter implements Partial<Router> {

@@ -93,7 +93,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
 
   constructor(
     protected windowRef: WindowRef,
-    protected filesFormValidators: FilesFormValidators
+    protected filesFormValidators: FilesFormValidators,
   ) {}
 
   ngOnInit(): void {
@@ -135,7 +135,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   triggerDownload(
     messageCode: string | undefined,
     attachmentId: string | undefined,
-    fileName: string | undefined
+    fileName: string | undefined,
   ): void {
     this.downloadAttachment.emit({
       messageCode: messageCode,
@@ -151,9 +151,9 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
       new UntypedFormControl('', [
         Validators.required,
         Validators.maxLength(
-          this.messagingConfigs?.charactersLimit || this.MAX_INPUT_CHARACTERS
+          this.messagingConfigs?.charactersLimit || this.MAX_INPUT_CHARACTERS,
         ),
-      ])
+      ]),
     );
     form.setControl(
       'file',
@@ -161,11 +161,11 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
         this.filesFormValidators.maxSize(this.maxSize),
         this.filesFormValidators.maxEntries(this.maxEntries),
         this.filesFormValidators.allowedTypes(this.allowedTypes),
-      ])
+      ]),
     );
     form.setControl(
       'item',
-      new UntypedFormControl(this.messagingConfigs?.defaultItemId)
+      new UntypedFormControl(this.messagingConfigs?.defaultItemId),
     );
     this.form = form;
   }
@@ -263,7 +263,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
 
   private getResultElements(): HTMLElement[] {
     return Array.from(
-      this.windowRef.document.querySelectorAll('[role="listitem"]')
+      this.windowRef.document.querySelectorAll('[role="listitem"]'),
     );
   }
 

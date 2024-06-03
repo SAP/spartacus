@@ -25,7 +25,7 @@ export class ConfiguratorGroupsService {
     protected store: Store<StateWithConfigurator>,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorUtilsService: ConfiguratorUtilsService,
-    protected configuratorGroupStatusService: ConfiguratorGroupStatusService
+    protected configuratorGroupStatusService: ConfiguratorGroupStatusService,
   ) {}
 
   /**
@@ -44,7 +44,7 @@ export class ConfiguratorGroupsService {
         } else {
           return configuration.groups[0]?.id;
         }
-      })
+      }),
     );
   }
 
@@ -56,10 +56,10 @@ export class ConfiguratorGroupsService {
    * @returns {Configurator.Group} Conflict group
    */
   getFirstConflictGroup(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
   ): Configurator.Group | undefined {
     return configuration.flatGroups.find(
-      (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
+      (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP,
     );
   }
 
@@ -78,7 +78,7 @@ export class ConfiguratorGroupsService {
       .subscribe((configuration) => {
         const groupId =
           this.configuratorGroupStatusService.getFirstIncompleteGroup(
-            configuration
+            configuration,
           )?.id;
         if (groupId) {
           this.navigateToGroup(configuration, groupId, true);
@@ -113,7 +113,7 @@ export class ConfiguratorGroupsService {
    * @returns {Observable<Configurator.Group>} Group
    */
   getMenuParentGroup(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<Configurator.Group | undefined> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       map((configuration) => {
@@ -121,10 +121,10 @@ export class ConfiguratorGroupsService {
         return menuParentGroup
           ? this.configuratorUtilsService.getOptionalGroupById(
               configuration.groups,
-              menuParentGroup
+              menuParentGroup,
             )
           : undefined;
-      })
+      }),
     );
   }
 
@@ -139,7 +139,7 @@ export class ConfiguratorGroupsService {
       new ConfiguratorActions.SetMenuParentGroup({
         entityKey: owner.key,
         menuParentGroup: groupId,
-      })
+      }),
     );
   }
 
@@ -150,7 +150,7 @@ export class ConfiguratorGroupsService {
    * @return {Observable<Configurator.Group>} Current group
    */
   getCurrentGroup(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<Configurator.Group> {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
@@ -160,11 +160,11 @@ export class ConfiguratorGroupsService {
             map((configuration) =>
               this.configuratorUtilsService.getGroupById(
                 configuration.groups,
-                currentGroupId
-              )
-            )
+                currentGroupId,
+              ),
+            ),
           );
-      })
+      }),
     );
   }
 
@@ -175,7 +175,7 @@ export class ConfiguratorGroupsService {
    * @return {Observable<Configurator.Group | undefined} - Conflict group
    */
   getConflictGroupForImmediateConflictResolution(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<Configurator.Group | undefined> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       //needed because we need have the form to react first on showConflictSolverDialog
@@ -183,11 +183,12 @@ export class ConfiguratorGroupsService {
       map((configuration) => {
         if (configuration.interactionState.showConflictSolverDialog) {
           return configuration.flatGroups.find(
-            (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
+            (group) =>
+              group.groupType === Configurator.GroupType.CONFLICT_GROUP,
           );
         }
         return undefined;
-      })
+      }),
     );
   }
 
@@ -199,7 +200,7 @@ export class ConfiguratorGroupsService {
    */
   setGroupStatusVisited(
     owner: CommonConfigurator.Owner,
-    groupId: string
+    groupId: string,
   ): void {
     this.configuratorCommonsService
       .getConfiguration(owner)
@@ -207,10 +208,10 @@ export class ConfiguratorGroupsService {
         map((configuration) =>
           this.configuratorGroupStatusService.setGroupStatusVisited(
             configuration,
-            groupId
-          )
+            groupId,
+          ),
         ),
-        take(1)
+        take(1),
       )
       .subscribe();
   }
@@ -228,7 +229,7 @@ export class ConfiguratorGroupsService {
     configuration: Configurator.Configuration,
     groupId: string,
     setStatus = true,
-    conflictResolutionMode = false
+    conflictResolutionMode = false,
   ): void {
     if (setStatus) {
       //Set Group status for current group
@@ -237,14 +238,14 @@ export class ConfiguratorGroupsService {
         .subscribe((currentGroup) => {
           this.configuratorGroupStatusService.setGroupStatusVisited(
             configuration,
-            currentGroup.id
+            currentGroup.id,
           );
         });
     }
 
     const parentGroup = this.configuratorUtilsService.getParentGroup(
       configuration.groups,
-      this.configuratorUtilsService.getGroupById(configuration.groups, groupId)
+      this.configuratorUtilsService.getGroupById(configuration.groups, groupId),
     );
 
     this.store.dispatch(
@@ -253,7 +254,7 @@ export class ConfiguratorGroupsService {
         groupId: groupId,
         parentGroupId: parentGroup ? parentGroup.id : undefined,
         conflictResolutionMode: conflictResolutionMode,
-      })
+      }),
     );
   }
 
@@ -264,7 +265,7 @@ export class ConfiguratorGroupsService {
    * @return {Observable<string> | undefined} ID of next group
    */
   getNextGroupId(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<string | undefined> {
     return this.getNeighboringGroupId(owner, 1);
   }
@@ -276,7 +277,7 @@ export class ConfiguratorGroupsService {
    * @return {Observable<string | undefined >} ID of previous group
    */
   getPreviousGroupId(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<string | undefined> {
     return this.getNeighboringGroupId(owner, -1);
   }
@@ -290,7 +291,7 @@ export class ConfiguratorGroupsService {
    */
   isGroupVisited(
     owner: CommonConfigurator.Owner,
-    groupId: string
+    groupId: string,
   ): Observable<boolean> {
     return this.configuratorGroupStatusService.isGroupVisited(owner, groupId);
   }
@@ -304,7 +305,7 @@ export class ConfiguratorGroupsService {
    */
   getParentGroup(
     groups: Configurator.Group[],
-    group: Configurator.Group
+    group: Configurator.Group,
   ): Configurator.Group | undefined {
     return this.configuratorUtilsService.getParentGroup(groups, group);
   }
@@ -321,7 +322,7 @@ export class ConfiguratorGroupsService {
 
   protected isConflictGroupInImmediateConflictResolutionMode(
     groupType: Configurator.GroupType | undefined,
-    immediateConflictResolution = false
+    immediateConflictResolution = false,
   ): boolean {
     if (groupType) {
       return (
@@ -341,7 +342,7 @@ export class ConfiguratorGroupsService {
    */
   protected getNeighboringGroupId(
     owner: CommonConfigurator.Owner,
-    neighboringIndex: number
+    neighboringIndex: number,
   ): Observable<string | undefined> {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
@@ -355,7 +356,7 @@ export class ConfiguratorGroupsService {
                 configuration.flatGroups[index + neighboringIndex] && //Check if neighboring group exists
                 !this.isConflictGroupInImmediateConflictResolutionMode(
                   configuration.flatGroups[index + neighboringIndex]?.groupType,
-                  configuration.immediateConflictResolution
+                  configuration.immediateConflictResolution,
                 )
               ) {
                 nextGroup =
@@ -364,9 +365,9 @@ export class ConfiguratorGroupsService {
             });
             return nextGroup;
           }),
-          take(1)
+          take(1),
         );
-      })
+      }),
     );
   }
 

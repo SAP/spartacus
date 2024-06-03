@@ -57,7 +57,7 @@ describe('ComponentDataProvider', () => {
 
   it('should return component data', () => {
     spyOn(cmsService, 'getComponentData').and.returnValue(
-      of({ foo: 'bar' } as any)
+      of({ foo: 'bar' } as any),
     );
     let result;
     service
@@ -71,7 +71,7 @@ describe('ComponentDataProvider', () => {
     spyOn(cmsComponentsService, 'getStaticData');
     service.get('123', 'BannerComponent').subscribe().unsubscribe();
     expect(cmsComponentsService.getStaticData).toHaveBeenCalledWith(
-      'BannerComponent'
+      'BannerComponent',
     );
   });
 
@@ -79,7 +79,7 @@ describe('ComponentDataProvider', () => {
     spyOn(cmsComponentsService, 'getStaticData');
     service.get('', 'BannerComponent').subscribe().unsubscribe();
     expect(cmsComponentsService.getStaticData).toHaveBeenCalledWith(
-      'BannerComponent'
+      'BannerComponent',
     );
   });
 
@@ -121,7 +121,7 @@ describe('ComponentDataProvider', () => {
       foo: 'bar',
     } as any);
     spyOn(cmsService, 'getComponentData').and.returnValue(
-      of({ bar: 'foo' } as any)
+      of({ bar: 'foo' } as any),
     );
     let result;
     service
@@ -134,7 +134,7 @@ describe('ComponentDataProvider', () => {
 
   it('should override static data with component data', () => {
     spyOn(cmsService, 'getComponentData').and.returnValue(
-      of({ foo: 'not-bar' } as any)
+      of({ foo: 'not-bar' } as any),
     );
     spyOn(cmsComponentsService, 'getStaticData').and.returnValue({
       foo: 'bar',
@@ -150,7 +150,7 @@ describe('ComponentDataProvider', () => {
   it('should start with static data', () => {
     const data$: BehaviorSubject<CmsComponent> = new BehaviorSubject(null);
     spyOn(cmsService, 'getComponentData').and.returnValues(
-      data$.asObservable()
+      data$.asObservable(),
     );
     spyOn(cmsComponentsService, 'getStaticData').and.returnValue({
       foo: 'bar',

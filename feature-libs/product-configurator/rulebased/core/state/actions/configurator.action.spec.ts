@@ -93,7 +93,7 @@ describe('ConfiguratorActions', () => {
           meta: StateUtils.entityFailMeta(
             CONFIGURATOR_DATA,
             PRODUCT_CODE,
-            error
+            error,
           ),
         });
       });
@@ -102,7 +102,7 @@ describe('ConfiguratorActions', () => {
     describe('ReadConfigurationSuccess', () => {
       it('Should create the action', () => {
         const action = new ConfiguratorActions.ReadConfigurationSuccess(
-          CONFIGURATION
+          CONFIGURATION,
         );
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION_SUCCESS,
@@ -117,7 +117,7 @@ describe('ConfiguratorActions', () => {
     describe('UpdateConfiguration', () => {
       it('Should create the action', () => {
         const action = new ConfiguratorActions.UpdateConfiguration(
-          CONFIGURATION
+          CONFIGURATION,
         );
 
         expect({ ...action }).toEqual({
@@ -160,14 +160,14 @@ describe('ConfiguratorActions', () => {
     describe('UpdateConfigurationSuccess', () => {
       it('Should create the action', () => {
         const action = new ConfiguratorActions.UpdateConfigurationSuccess(
-          CONFIGURATION
+          CONFIGURATION,
         );
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS,
           payload: CONFIGURATION,
           meta: StateUtils.entityProcessesDecrementMeta(
             CONFIGURATOR_DATA,
-            OWNER_KEY
+            OWNER_KEY,
           ),
         });
       });
@@ -186,7 +186,7 @@ describe('ConfiguratorActions', () => {
   describe('UpdateConfigurationOverview actions', () => {
     it('should allow to create the main action with matching meta data', () => {
       const action = new ConfiguratorActions.UpdateConfigurationOverview(
-        CONFIGURATION
+        CONFIGURATION,
       );
 
       expect({ ...action }).toEqual({
@@ -223,7 +223,7 @@ describe('ConfiguratorActions', () => {
 
     it('should allow to create the success action', () => {
       const action = new ConfiguratorActions.UpdateConfigurationOverviewSuccess(
-        { ownerKey: CONFIGURATION.owner.key, overview: OVERVIEW }
+        { ownerKey: CONFIGURATION.owner.key, overview: OVERVIEW },
       );
       expect({ ...action }).toEqual({
         type: ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW_SUCCESS,

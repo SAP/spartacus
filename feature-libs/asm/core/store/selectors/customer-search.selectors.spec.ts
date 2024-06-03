@@ -44,7 +44,7 @@ describe('Customer Search Results Selectors', () => {
     expect(result).toEqual(undefined);
 
     store.dispatch(
-      new AsmActions.CustomerSearchSuccess(mockCustomerSearchPage)
+      new AsmActions.CustomerSearchSuccess(mockCustomerSearchPage),
     );
 
     expect(result).toEqual(mockCustomerSearchPage);
@@ -65,7 +65,7 @@ describe('Customer Search Results Selectors', () => {
 
   it('should return Customer Search results loader state', () => {
     store.dispatch(
-      new AsmActions.CustomerSearchSuccess(mockCustomerSearchPage)
+      new AsmActions.CustomerSearchSuccess(mockCustomerSearchPage),
     );
 
     let result: StateUtils.LoaderState<CustomerSearchPage>;
@@ -91,7 +91,7 @@ describe('Customer Search Results Selectors', () => {
     expect(result).toEqual(undefined);
 
     store.dispatch(
-      new AsmActions.CustomerListCustomersSearchSuccess(mockCustomerSearchPage)
+      new AsmActions.CustomerListCustomersSearchSuccess(mockCustomerSearchPage),
     );
 
     expect(result).toEqual(mockCustomerSearchPage);
@@ -106,7 +106,7 @@ describe('Customer Search Results Selectors', () => {
     expect(result).toEqual(false);
 
     store.dispatch(
-      new AsmActions.CustomerListCustomersSearch({ query: 'abc' })
+      new AsmActions.CustomerListCustomersSearch({ query: 'abc' }),
     );
 
     expect(result).toEqual(true);
@@ -114,13 +114,13 @@ describe('Customer Search Results Selectors', () => {
 
   it('should return Customer List Customers Search results loader state', () => {
     store.dispatch(
-      new AsmActions.CustomerListCustomersSearchSuccess(mockCustomerSearchPage)
+      new AsmActions.CustomerListCustomersSearchSuccess(mockCustomerSearchPage),
     );
 
     let result: StateUtils.LoaderState<CustomerSearchPage>;
     store
       .pipe(
-        select(AsmSelectors.getCustomerListCustomersSearchResultsLoaderState)
+        select(AsmSelectors.getCustomerListCustomersSearchResultsLoaderState),
       )
       .subscribe((value) => (result = value))
       .unsubscribe();

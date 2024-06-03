@@ -79,7 +79,7 @@ function updateModule(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const rawComponentModule = buildDeclaringCmsModule(options);
     const componentModule = `${strings.dasherize(
-      rawComponentModule
+      rawComponentModule,
     )}.module.ts`;
     const modulePath = getPathResultsForFile(tree, componentModule, '/src')[0];
     if (!modulePath) {
@@ -96,7 +96,7 @@ function updateModule(options: CxCmsComponentSchema): Rule {
         modulePath,
         `${CONFIG_MODULE_CLASS}`,
         SPARTACUS_CORE,
-        false
+        false,
       );
       changes.push(insertImportChange);
     }
@@ -107,13 +107,13 @@ function updateModule(options: CxCmsComponentSchema): Rule {
         modulePath,
         `${CMS_CONFIG}`,
         SPARTACUS_CORE,
-        false
+        false,
       );
       changes.push(insertImportChange);
     }
 
     const componentName = `${strings.classify(options.name)}${strings.classify(
-      options.type
+      options.type,
     )}`;
 
     /*** updating the module's metadata start ***/
@@ -127,7 +127,7 @@ function updateModule(options: CxCmsComponentSchema): Rule {
         },
       },
     })`,
-      moduleTs
+      moduleTs,
     );
     changes.push(...addToModuleImportsChanges);
 
@@ -135,7 +135,7 @@ function updateModule(options: CxCmsComponentSchema): Rule {
       tree,
       modulePath,
       componentName,
-      moduleTs
+      moduleTs,
     );
     changes.push(...addToModuleDeclarationsChanges);
 
@@ -143,7 +143,7 @@ function updateModule(options: CxCmsComponentSchema): Rule {
       tree,
       modulePath,
       componentName,
-      moduleTs
+      moduleTs,
     );
     changes.push(...addToModuleExportsChanges);
     /*** updating the module's metadata end ***/
@@ -151,24 +151,24 @@ function updateModule(options: CxCmsComponentSchema): Rule {
     const componentImportSkipped = !Boolean(options.declareCmsModule);
     if (componentImportSkipped) {
       const componentFileName = `${strings.dasherize(
-        options.name
+        options.name,
       )}.${strings.dasherize(options.type)}.ts`;
       const componentPath = getPathResultsForFile(
         tree,
         componentFileName,
-        '/src'
+        '/src',
       )[0];
 
       const componentRelativeImportPath = buildRelativePath(
         modulePath,
-        componentPath
+        componentPath,
       );
       const componentImport = insertImport(
         moduleTs,
         modulePath,
         componentName,
         stripTsFromImport(componentRelativeImportPath),
-        false
+        false,
       );
       changes.push(componentImport);
     }
@@ -188,18 +188,18 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
     }
 
     const cmsComponentData = `${CMS_COMPONENT_DATA_CLASS}<${strings.classify(
-      options.cmsComponentDataModel
+      options.cmsComponentDataModel,
     )}>`;
 
     const componentFileName = `${strings.dasherize(
-      options.name
+      options.name,
     )}.${strings.dasherize(options.type)}.ts`;
 
     const project = getProjectFromWorkspace(tree, options);
     const componentPath = getPathResultsForFile(
       tree,
       componentFileName,
-      project.sourceRoot
+      project.sourceRoot,
     )[0];
 
     const changes: Change[] = [];
@@ -217,12 +217,12 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
     changes.push(injectionChange);
 
     const componentDataProperty = `  ${CMS_COMPONENT_DATA_PROPERTY_NAME}$: Observable<${strings.classify(
-      options.cmsComponentDataModel
+      options.cmsComponentDataModel,
     )}> = this.${CMS_COMPONENT_DATA_PROPERTY_NAME}.data$;`;
     const componentDataPropertyChange = defineProperty(
       nodes,
       componentPath,
-      componentDataProperty
+      componentDataProperty,
     );
     changes.push(componentDataPropertyChange);
 
@@ -231,7 +231,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       componentPath,
       strings.classify(options.cmsComponentDataModel),
       stripTsFromImport(options.cmsComponentDataModelPath),
-      false
+      false,
     );
     changes.push(cmsComponentImport);
 
@@ -240,7 +240,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       componentPath,
       CMS_COMPONENT_DATA_CLASS,
       SPARTACUS_STOREFRONTLIB,
-      false
+      false,
     );
     changes.push(cmsComponentDataImport);
 
@@ -249,7 +249,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       componentPath,
       OBSERVABLE_CLASS,
       RXJS,
-      false
+      false,
     );
     changes.push(observableImport);
 
@@ -260,14 +260,14 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
 function updateTemplate(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const componentFileName = `${strings.dasherize(
-      options.name
+      options.name,
     )}.${strings.dasherize(options.type)}.ts`;
 
     const project = getProjectFromWorkspace(tree, options);
     const componentPath = getPathResultsForFile(
       tree,
       componentFileName,
-      project.sourceRoot
+      project.sourceRoot,
     )[0];
     const componentTs = getTsSourceFile(tree, componentPath);
 
@@ -279,7 +279,7 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
       const decorator = getDecoratorMetadata(
         componentTs,
         'Component',
-        ANGULAR_CORE
+        ANGULAR_CORE,
       )[0];
 
       const inlineTemplate = getMetadataProperty(decorator, 'template');
@@ -287,12 +287,12 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
       startIndex = inlineTemplate.name.parent.end - 1;
     } else {
       const componentTemplateFileName = `${strings.dasherize(
-        options.name
+        options.name,
       )}.${strings.dasherize(options.type)}.html`;
       templatePath = getPathResultsForFile(
         tree,
         componentTemplateFileName,
-        project.sourceRoot
+        project.sourceRoot,
       )[0];
       const buffer = tree.read(templatePath);
       templateContent = buffer ? buffer.toString(UTF_8) : '';
@@ -303,7 +303,7 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
       const insertion = new InsertChange(
         templatePath,
         startIndex,
-        `<ng-container *ngIf="${CMS_COMPONENT_DATA_PROPERTY_NAME}$ | async as data">{{data | json}}</ng-container>`
+        `<ng-container *ngIf="${CMS_COMPONENT_DATA_PROPERTY_NAME}$ | async as data">{{data | json}}</ng-container>`,
       );
 
       commitChanges(tree, templatePath, [insertion], InsertDirection.RIGHT);
@@ -319,12 +319,12 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
 
     const sourceCmsModule = basename(options.declareCmsModule as any);
     const sourceCmsModuleFileName = `${strings.dasherize(
-      sourceCmsModule
+      sourceCmsModule,
     )}.module.ts`;
     const sourceCmsModulePath = getPathResultsForFile(
       tree,
       sourceCmsModuleFileName,
-      '/src'
+      '/src',
     )[0];
     if (!sourceCmsModulePath) {
       context.logger.error(`Could not find the ${sourceCmsModulePath}`);
@@ -333,12 +333,12 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
 
     const destinationModuleName = basename(options.module as any);
     const destinationFileName = `${strings.dasherize(
-      destinationModuleName
+      destinationModuleName,
     )}.module.ts`;
     const destinationModulePath = getPathResultsForFile(
       tree,
       destinationFileName,
-      '/src'
+      '/src',
     )[0];
     if (!destinationModulePath) {
       context.logger.error(`Could not find the ${destinationModulePath}`);
@@ -347,7 +347,7 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
 
     const sourceCmsModuleRelativeImportPath = buildRelativePath(
       destinationModulePath,
-      sourceCmsModulePath
+      sourceCmsModulePath,
     );
     const destinationModuleTs = getTsSourceFile(tree, destinationModulePath);
     const sourceCmsModuleClassified = strings.classify(sourceCmsModule);
@@ -356,13 +356,13 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
       destinationModulePath,
       sourceCmsModuleClassified,
       stripTsFromImport(sourceCmsModuleRelativeImportPath),
-      false
+      false,
     );
     const moduleImport = addToModuleImports(
       tree,
       destinationModulePath,
       sourceCmsModuleClassified,
-      destinationModuleTs
+      destinationModuleTs,
     );
     const changes: Change[] = [moduleFileImport, ...moduleImport];
     commitChanges(tree, destinationModulePath, changes, InsertDirection.LEFT);
@@ -372,7 +372,7 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
 function validateArguments(options: CxCmsComponentSchema): void {
   if (options.cmsComponentData && !Boolean(options.cmsComponentDataModel)) {
     throw new SchematicsException(
-      'You have to specify the "cmsComponentDataModel" option.'
+      'You have to specify the "cmsComponentDataModel" option.',
     );
   }
 }

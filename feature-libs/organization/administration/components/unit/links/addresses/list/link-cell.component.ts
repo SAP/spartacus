@@ -37,7 +37,7 @@ export class LinkCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
-    protected itemService: ItemService<B2BUnit>
+    protected itemService: ItemService<B2BUnit>,
   ) {
     super(outlet);
   }

@@ -68,7 +68,7 @@ describe('OccUserConsentAdapter', () => {
         'consentTemplates',
         {
           urlParams: { userId },
-        }
+        },
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -84,7 +84,7 @@ describe('OccUserConsentAdapter', () => {
         })
         .flush([]);
       expect(converter.pipeableMany).toHaveBeenCalledWith(
-        CONSENT_TEMPLATE_NORMALIZER
+        CONSENT_TEMPLATE_NORMALIZER,
       );
     });
   });
@@ -110,7 +110,7 @@ describe('OccUserConsentAdapter', () => {
         (req) =>
           req.method === 'POST' &&
           req.serializeBody() ===
-            `consentTemplateId=${consentTemplateId}&consentTemplateVersion=${consentTemplateVersion}`
+            `consentTemplateId=${consentTemplateId}&consentTemplateVersion=${consentTemplateVersion}`,
       );
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('consents', {
         urlParams: { userId },
@@ -118,7 +118,7 @@ describe('OccUserConsentAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
-        'application/x-www-form-urlencoded'
+        'application/x-www-form-urlencoded',
       );
       mockReq.flush(expectedConsentTemplate);
     });
@@ -129,7 +129,7 @@ describe('OccUserConsentAdapter', () => {
       occUserConsentAdapter.giveConsent(userId, 'xxx', 1).subscribe();
       httpMock.expectOne((req) => req.method === 'POST').flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(
-        CONSENT_TEMPLATE_NORMALIZER
+        CONSENT_TEMPLATE_NORMALIZER,
       );
     });
   });
@@ -148,7 +148,7 @@ describe('OccUserConsentAdapter', () => {
         'consentDetail',
         {
           urlParams: { userId: 'xxx@xxx.xxx', consentId: 'xxx' },
-        }
+        },
       );
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');

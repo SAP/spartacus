@@ -33,7 +33,7 @@ describe('My Account Version-2 Landing Page', { testIsolation: false }, () => {
       cy.get('cx-my-account-v2-navigation').contains('Account Information');
       cy.get('cx-my-account-v2-orders').contains('Orders And Returns');
       cy.get('cx-my-account-v2-customer-ticketing').contains(
-        'Customer Service'
+        'Customer Service',
       );
     });
 

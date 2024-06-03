@@ -53,15 +53,15 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
           ? new Date(b.saveTime).getTime()
           : new Date().getTime();
         return date2 - date1;
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
     protected routing: RoutingService,
     protected savedCartService: SavedCartFacade,
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {
     useFeatureStyles('a11ySavedCartsZoom');
   }
@@ -85,7 +85,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.SAVED_CART,
       this.restoreButton,
       this.vcr,
-      { cart, layoutOption: SavedCartFormType.RESTORE }
+      { cart, layoutOption: SavedCartFormType.RESTORE },
     );
 
     if (dialog) {
@@ -108,11 +108,11 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
           .pipe(
             mergeMap((context: SiteContextType) => {
               return siteContextService.getActiveItem(context).pipe(skip(1));
-            })
+            }),
           )
           .subscribe(() => {
             this.savedCartService.loadSavedCarts();
-          })
+          }),
       );
     }
   }

@@ -48,7 +48,7 @@ export class CheckoutScheduleReplenishmentOrderComponent
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
 
   constructor(
-    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService
+    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
   ) {
     useFeatureStyles('a11yReplenishmentOrderFieldset');
     useFeatureStyles('a11yScheduleReplenishment');
@@ -60,7 +60,7 @@ export class CheckoutScheduleReplenishmentOrderComponent
         .getScheduleReplenishmentFormData()
         .subscribe((data) => {
           this.scheduleReplenishmentFormData = data;
-        })
+        }),
     );
 
     this.initConfig();

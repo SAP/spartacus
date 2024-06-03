@@ -89,7 +89,7 @@ describe('QuoteListComponentService', () => {
   beforeEach(() => {
     translateSpy = spyOn(
       MockTranslationService.prototype,
-      'translate'
+      'translate',
     ).and.callThrough();
 
     classUnderTest = TestBed.inject(QuoteListComponentService);

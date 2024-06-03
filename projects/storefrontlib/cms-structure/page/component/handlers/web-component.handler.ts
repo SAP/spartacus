@@ -29,7 +29,7 @@ import { CmsComponentData } from '../../model';
 export class WebComponentHandler implements ComponentHandler {
   constructor(
     @Inject(DOCUMENT) protected document: any,
-    @Inject(PLATFORM_ID) protected platform: any
+    @Inject(PLATFORM_ID) protected platform: any,
   ) {}
 
   private loadedWebComponents: { [path: string]: any } = {};
@@ -48,7 +48,7 @@ export class WebComponentHandler implements ComponentHandler {
   launcher(
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
-    elementInjector?: Injector
+    elementInjector?: Injector,
   ): Observable<{ elementRef: ElementRef }> {
     return new Observable<{ elementRef: ElementRef }>((subscriber) => {
       let webElement;
@@ -78,7 +78,7 @@ export class WebComponentHandler implements ComponentHandler {
 
             renderer.appendChild(
               viewContainerRef.element.nativeElement.parentElement,
-              webElement
+              webElement,
             );
 
             subscriber.next({ elementRef: new ElementRef(webElement) });
@@ -87,7 +87,7 @@ export class WebComponentHandler implements ComponentHandler {
               disposeFunc();
             }
           }
-        }
+        },
       );
 
       return disposeFunc;
@@ -96,7 +96,7 @@ export class WebComponentHandler implements ComponentHandler {
 
   private initWebComponent(
     component: string,
-    renderer: Renderer2
+    renderer: Renderer2,
   ): Promise<string> {
     return new Promise((resolve) => {
       const [path, selector] = component.split('#');

@@ -27,12 +27,12 @@ export class AsmCustomer360SavedCartComponent {
 
   constructor(
     protected sectionContext: AsmCustomer360SectionContext<AsmCustomer360SavedCart>,
-    protected productService: ProductService
+    protected productService: ProductService,
   ) {
     this.savedCart$ = this.sectionContext.data$.pipe(
       map((cart) => {
         return cart.savedCart;
-      })
+      }),
     );
     this.productItems$ = this.savedCart$.pipe(
       concatMap((cart) => {
@@ -53,12 +53,12 @@ export class AsmCustomer360SavedCartComponent {
                       totalPrice: entry.totalPrice,
                     } as ProductItem;
                   }),
-                  take(1)
+                  take(1),
                 );
-            })
+            }),
           );
         }
-      })
+      }),
     );
   }
 }

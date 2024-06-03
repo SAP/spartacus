@@ -49,7 +49,7 @@ viewportContext(['mobile', 'desktop'], () => {
         after(() => {
           login.signOutUser();
         });
-      }
+      },
     );
   });
 });

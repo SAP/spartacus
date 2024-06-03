@@ -74,7 +74,7 @@ export class ConfiguratorAttributeProductCardComponent
   constructor(
     protected productService: ProductService,
     protected keyBoardFocus: KeyboardFocusService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
   ) {
     super();
   }
@@ -88,17 +88,17 @@ export class ConfiguratorAttributeProductCardComponent
     this.product$ = this.productService
       .get(
         productSystemId ? productSystemId : '',
-        ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
+        ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD,
       )
       .pipe(
         map((respProduct) => {
           return respProduct
             ? respProduct
             : this.transformToProductType(
-                this.productCardOptions.productBoundValue
+                this.productCardOptions.productBoundValue,
               );
         }),
-        tap(() => this.loading$.next(false))
+        tap(() => this.loading$.next(false)),
       );
   }
 
@@ -115,7 +115,7 @@ export class ConfiguratorAttributeProductCardComponent
     const focusConfig = {
       key: this.createFocusId(
         this.productCardOptions.attributeId.toString(),
-        this.productCardOptions.productBoundValue.valueCode
+        this.productCardOptions.productBoundValue.valueCode,
       ),
     };
     return focusConfig;
@@ -143,7 +143,7 @@ export class ConfiguratorAttributeProductCardComponent
       }
       this.loading$.next(true);
       this.handleDeselect.emit(
-        this.productCardOptions.productBoundValue.valueCode
+        this.productCardOptions.productBoundValue.valueCode,
       );
     }
   }
@@ -217,7 +217,7 @@ export class ConfiguratorAttributeProductCardComponent
       ? combineLatest([this.loading$, this.productCardOptions.loading$]).pipe(
           map((values) => {
             return values[0] || values[1];
-          })
+          }),
         )
       : this.loading$;
 
@@ -241,7 +241,7 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   protected transformToProductType(
-    value: Configurator.Value | undefined
+    value: Configurator.Value | undefined,
   ): Product {
     return {
       code: value?.productSystemId,
@@ -269,7 +269,7 @@ export class ConfiguratorAttributeProductCardComponent
     const index = this.productCardOptions.itemIndex + 1;
     if (
       this.isValueCodeDefined(
-        this.productCardOptions?.productBoundValue?.valueCode
+        this.productCardOptions?.productBoundValue?.valueCode,
       )
     ) {
       if (
@@ -330,7 +330,7 @@ export class ConfiguratorAttributeProductCardComponent
             price:
               this.productCardOptions.productBoundValue.valuePriceTotal
                 ?.formattedValue,
-          }
+          },
         )
         .pipe(take(1))
         .subscribe((text) => (translatedText = text));
@@ -401,7 +401,7 @@ export class ConfiguratorAttributeProductCardComponent
             price:
               this.productCardOptions.productBoundValue.valuePriceTotal
                 ?.formattedValue,
-          }
+          },
         )
         .pipe(take(1))
         .subscribe((text) => (translatedText = text));

@@ -54,7 +54,7 @@ describe('CurrencyInitializer', () => {
     });
 
     currencyStatePersistenceService = TestBed.inject(
-      CurrencyStatePersistenceService
+      CurrencyStatePersistenceService,
     );
     currencyService = TestBed.inject(CurrencyService);
     initializer = TestBed.inject(CurrencyInitializer);

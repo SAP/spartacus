@@ -32,9 +32,9 @@ export class ConfiguratorProductTitleComponent {
     this.routerData$.pipe(
       switchMap((routerData) => {
         return this.configuratorCommonsService.getConfiguration(
-          routerData.owner
+          routerData.owner,
         );
-      })
+      }),
     );
 
   product$: Observable<Product | undefined> = this.routerData$.pipe(
@@ -48,15 +48,15 @@ export class ConfiguratorProductTitleComponent {
           switchMap((productCode) =>
             productCode
               ? this.productService.get(productCode, ProductScope.LIST)
-              : EMPTY
-          )
+              : EMPTY,
+          ),
         )
         .pipe(
           tap(() => {
             this.ghostStyle = false;
-          })
-        )
-    )
+          }),
+        ),
+    ),
   );
 
   protected getProductCode(container: {
@@ -78,7 +78,7 @@ export class ConfiguratorProductTitleComponent {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected productService: ProductService,
-    protected configExpertModeService: ConfiguratorExpertModeService
+    protected configExpertModeService: ConfiguratorExpertModeService,
   ) {}
 
   triggerDetails(): void {

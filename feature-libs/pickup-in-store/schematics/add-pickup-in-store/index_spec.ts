@@ -30,7 +30,7 @@ const scssFilePath = 'src/styles/spartacus/pickup-in-store.scss';
 describe('Spartacus Pickup in Store schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_PICKUP_IN_STORE,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -70,27 +70,27 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -99,7 +99,7 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         { ...libraryNoFeaturesOptions, features: [] },
-        appTree
+        appTree,
       );
     });
 
@@ -139,7 +139,7 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           pickupInStoreFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -150,13 +150,13 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
 
       it('should NOT install the required feature dependencies', async () => {
         const baseCartFeatureModule = appTree.readContent(
-          cartBaseFeatureModulePath
+          cartBaseFeatureModulePath,
         );
         expect(baseCartFeatureModule).toBeFalsy();
         const orderFeatureModule = appTree.readContent(orderFeatureModulePath);
         expect(orderFeatureModule).toBeFalsy();
         const storeFinderFeatureModule = appTree.readContent(
-          storeFinderFeatureModulePath
+          storeFinderFeatureModulePath,
         );
         expect(storeFinderFeatureModule).toBeFalsy();
         const userFeatureModule = appTree.readContent(userFeatureModulePath);
@@ -181,7 +181,7 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...pickupInStoreFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 

@@ -48,7 +48,7 @@ export type SetPickupOptionProps = {
  */
 export const AddLocation = createAction(
   ADD_LOCATION,
-  props<AddLocationProps>()
+  props<AddLocationProps>(),
 );
 
 /**
@@ -56,7 +56,7 @@ export const AddLocation = createAction(
  */
 export const RemoveLocation = createAction(
   REMOVE_LOCATION,
-  props<{ payload: string }>()
+  props<{ payload: string }>(),
 );
 
 /**
@@ -65,7 +65,7 @@ export const RemoveLocation = createAction(
 
 export const SetPickupOption = createAction(
   SET_PICKUP_OPTION,
-  props<{ payload: SetPickupOptionProps }>()
+  props<{ payload: SetPickupOptionProps }>(),
 );
 
 /**
@@ -73,15 +73,15 @@ export const SetPickupOption = createAction(
  */
 export const GetStoreDetailsById = createAction(
   GET_STORE_DETAILS,
-  props<{ payload: string }>()
+  props<{ payload: string }>(),
 );
 
 export const SetStoreDetailsSuccess = createAction(
   STORE_DETAILS_SUCCESS,
-  props<{ payload: PointOfService }>()
+  props<{ payload: PointOfService }>(),
 );
 
 export const SetStoreDetailsFailure = createAction(
   STORE_DETAILS_FAIL,
-  props<{ payload: any }>()
+  props<{ payload: any }>(),
 );

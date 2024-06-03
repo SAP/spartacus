@@ -60,7 +60,7 @@ export class AsmCustomer360SupportTicketsComponent implements OnInit {
   supportTicketsEntries$: Observable<Array<SupportTicketEntry>>;
 
   constructor(
-    protected context: AsmCustomer360SectionContext<AsmCustomer360SupportTicketList>
+    protected context: AsmCustomer360SectionContext<AsmCustomer360SupportTicketList>,
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +75,7 @@ export class AsmCustomer360SupportTicketsComponent implements OnInit {
             };
           }) ?? []
         );
-      })
+      }),
     );
   }
   navigateTo(entry: SupportTicketEntry): void {

@@ -22,7 +22,7 @@ export class StructuredDataFactory implements OnDestroy {
     private scriptBuilder: JsonLdScriptFactory,
     @Optional()
     @Inject(SCHEMA_BUILDER)
-    private builders: SchemaBuilder[]
+    private builders: SchemaBuilder[],
   ) {}
 
   protected subscription: Subscription = new Subscription();
@@ -36,7 +36,7 @@ export class StructuredDataFactory implements OnDestroy {
       this.subscription.add(
         this.collectSchemas().subscribe((schema: {}[]) => {
           this.scriptBuilder.build(schema);
-        })
+        }),
       );
     }
   }

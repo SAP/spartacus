@@ -50,7 +50,7 @@ describe('B2B - Order Approval', () => {
       assertApprovalListRowData(4, sampleData.statusPendingApproval);
       assertApprovalListRowData(
         5,
-        orderApprovalRow.order.totalPrice.formattedValue
+        orderApprovalRow.order.totalPrice.formattedValue,
       );
 
       // test the sort dropdown
@@ -66,7 +66,7 @@ describe('B2B - Order Approval', () => {
       // Accessibility
       verifyTabbingOrder(
         'cx-page-layout.AccountPageTemplate',
-        config.orderApprovalList
+        config.orderApprovalList,
       );
     });
 
@@ -81,7 +81,7 @@ describe('B2B - Order Approval', () => {
       // Accessibility
       verifyTabbingOrder(
         'cx-page-layout.AccountPageTemplate',
-        config.orderApprovalDetail
+        config.orderApprovalDetail,
       );
     });
 
@@ -96,7 +96,7 @@ describe('B2B - Order Approval', () => {
       // Accessibility
       verifyTabbingOrder(
         'cx-page-layout.AccountPageTemplate',
-        config.orderApprovalForm
+        config.orderApprovalForm,
       );
       cy.get('cx-order-approval-detail-form textarea').type('test approval');
       // Submit the form
@@ -120,7 +120,7 @@ describe('B2B - Order Approval', () => {
       // Accessibility
       verifyTabbingOrder(
         'cx-page-layout.AccountPageTemplate',
-        config.orderRejectionForm
+        config.orderRejectionForm,
       );
       cy.get('cx-order-approval-detail-form textarea').type('test rejection');
       // Submit the form
@@ -180,7 +180,7 @@ describe('B2B - Order Approval', () => {
 function assertButtons() {
   cy.get('cx-order-approval-detail-form a.btn').should(
     'contain',
-    'Back To List'
+    'Back To List',
   );
   cy.get('cx-order-approval-detail-form .btn-primary')
     .eq(0)
@@ -201,7 +201,7 @@ function assertPermissionResults(order) {
       .within(() => {
         cy.get('.cx-approval-approverName').should(
           'contain',
-          permission.approverName
+          permission.approverName,
         );
       });
   });
@@ -213,7 +213,7 @@ function assertOrderDetails() {
   // assert order status
   cy.get('cx-order-details-items .cx-list-status').should(
     'contain',
-    sampleData.statusPendingApproval
+    sampleData.statusPendingApproval,
   );
 
   // assert products
@@ -221,11 +221,11 @@ function assertOrderDetails() {
   cy.get('.cx-item-list-row .cx-code').should('contain', entry.product.code);
   cy.get('.cx-item-list-row .cx-price').should(
     'contain',
-    entry.basePrice.formattedValue
+    entry.basePrice.formattedValue,
   );
   cy.get('.cx-item-list-row .cx-total').should(
     'contain',
-    entry.totalPrice.formattedValue
+    entry.totalPrice.formattedValue,
   );
 
   // asserts order details
@@ -234,7 +234,7 @@ function assertOrderDetails() {
   assertOrderDetailsCard(2, sampleData.statusPendingApproval);
   assertOrderDetailsCard(
     3,
-    `${order.deliveryAddress.firstName} ${order.deliveryAddress.lastName}`
+    `${order.deliveryAddress.firstName} ${order.deliveryAddress.lastName}`,
   );
   assertOrderDetailsCard(3, order.deliveryAddress.formattedAddress);
   assertOrderDetailsCard(3, order.deliveryAddress.country.name);

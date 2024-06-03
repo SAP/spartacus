@@ -109,7 +109,7 @@ describe('ProductListComponentService', () => {
 
     let activatedRouteState: ActivatedRouterStateSnapshot;
     const subscription: Subscription = service['searchByRouting$'].subscribe(
-      (res) => (activatedRouteState = res)
+      (res) => (activatedRouteState = res),
     );
 
     tick();
@@ -127,7 +127,7 @@ describe('ProductListComponentService', () => {
     it('should return search results', fakeAsync(() => {
       let result: ProductSearchPage;
       const subscription: Subscription = service.model$.subscribe(
-        (res) => (result = res)
+        (res) => (result = res),
       );
 
       tick();
@@ -163,7 +163,7 @@ describe('ProductListComponentService', () => {
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           ':relevance:allCategories:testCategory',
-          jasmine.any(Object)
+          jasmine.any(Object),
         );
       }));
 
@@ -180,7 +180,7 @@ describe('ProductListComponentService', () => {
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           ':relevance:allCategories:testBrand',
-          jasmine.any(Object)
+          jasmine.any(Object),
         );
       }));
 
@@ -197,7 +197,7 @@ describe('ProductListComponentService', () => {
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
-          jasmine.any(Object)
+          jasmine.any(Object),
         );
       }));
 
@@ -214,7 +214,7 @@ describe('ProductListComponentService', () => {
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
-          jasmine.any(Object)
+          jasmine.any(Object),
         );
       }));
 
@@ -232,7 +232,7 @@ describe('ProductListComponentService', () => {
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery2',
-          jasmine.any(Object)
+          jasmine.any(Object),
         );
       }));
 
@@ -250,7 +250,7 @@ describe('ProductListComponentService', () => {
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
-          jasmine.objectContaining({ currentPage: 123 })
+          jasmine.objectContaining({ currentPage: 123 }),
         );
       }));
 
@@ -268,7 +268,7 @@ describe('ProductListComponentService', () => {
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
-          jasmine.objectContaining({ pageSize: 20 })
+          jasmine.objectContaining({ pageSize: 20 }),
         );
       }));
 
@@ -286,7 +286,7 @@ describe('ProductListComponentService', () => {
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
-          jasmine.objectContaining({ sort: 'name-asc' })
+          jasmine.objectContaining({ sort: 'name-asc' }),
         );
       }));
     });

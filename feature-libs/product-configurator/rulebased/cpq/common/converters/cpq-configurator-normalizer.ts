@@ -18,12 +18,12 @@ export class CpqConfiguratorNormalizer
 {
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
   ) {}
 
   convert(
     source: Cpq.Configuration,
-    target?: Configurator.Configuration
+    target?: Configurator.Configuration,
   ): Configurator.Configuration {
     const resultTarget: Configurator.Configuration = {
       ...target,
@@ -52,8 +52,8 @@ export class CpqConfiguratorNormalizer
         source.attributes ?? [],
         source.currencyISOCode,
         resultTarget.groups,
-        resultTarget.flatGroups
-      )
+        resultTarget.flatGroups,
+      ),
     );
 
     if (!resultTarget.groups || resultTarget.groups.length === 0) {
@@ -62,7 +62,7 @@ export class CpqConfiguratorNormalizer
         source.incompleteAttributes ?? [],
         source.currencyISOCode,
         resultTarget.groups,
-        resultTarget.flatGroups
+        resultTarget.flatGroups,
       );
     }
 
@@ -98,12 +98,12 @@ export class CpqConfiguratorNormalizer
     sourceAttributes: Cpq.Attribute[],
     currency: string,
     groupList: Configurator.Group[],
-    flatGroupList: Configurator.Group[]
+    flatGroupList: Configurator.Group[],
   ) {
     const attributes: Configurator.Attribute[] = [];
     if (source.isSelected) {
       sourceAttributes.forEach((sourceAttribute) =>
-        this.convertAttribute(sourceAttribute, source.id, currency, attributes)
+        this.convertAttribute(sourceAttribute, source.id, currency, attributes),
       );
     }
 
@@ -128,11 +128,11 @@ export class CpqConfiguratorNormalizer
     incompleteAttributes: string[],
     currency: string,
     groupList: Configurator.Group[],
-    flatGroupList: Configurator.Group[]
+    flatGroupList: Configurator.Group[],
   ) {
     const attributes: Configurator.Attribute[] = [];
     sourceAttributes.forEach((sourceAttribute) =>
-      this.convertAttribute(sourceAttribute, 1, currency, attributes)
+      this.convertAttribute(sourceAttribute, 1, currency, attributes),
     );
     const group: Configurator.Group = {
       id: '1',
@@ -158,7 +158,7 @@ export class CpqConfiguratorNormalizer
     sourceAttribute: Cpq.Attribute,
     groupId: number,
     currency: string,
-    attributeList: Configurator.Attribute[]
+    attributeList: Configurator.Attribute[],
   ): void {
     const attribute: Configurator.Attribute = {
       attrCode: sourceAttribute.stdAttrCode,
@@ -166,14 +166,14 @@ export class CpqConfiguratorNormalizer
       description: sourceAttribute.description,
       label:
         this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
-          sourceAttribute
+          sourceAttribute,
         ),
       required: sourceAttribute.required,
       isLineItem: sourceAttribute.isLineItem,
       uiType: this.convertAttributeType(sourceAttribute),
       dataType:
         this.cpqConfiguratorNormalizerUtilsService.convertDataType(
-          sourceAttribute
+          sourceAttribute,
         ),
       quantity: Number(sourceAttribute.quantity),
       groupId: groupId.toString(),
@@ -190,7 +190,7 @@ export class CpqConfiguratorNormalizer
     ) {
       const values: Configurator.Value[] = [];
       sourceAttribute.values.forEach((value) =>
-        this.convertValue(value, sourceAttribute, currency, values)
+        this.convertValue(value, sourceAttribute, currency, values),
       );
       attribute.values = values;
       this.setSelectedSingleValue(attribute);
@@ -198,7 +198,7 @@ export class CpqConfiguratorNormalizer
     attribute.attributePriceTotal =
       this.cpqConfiguratorNormalizerUtilsService.calculateAttributePriceTotal(
         attribute,
-        currency
+        currency,
       );
     this.compileAttributeIncomplete(attribute);
     attributeList.push(attribute);
@@ -232,7 +232,7 @@ export class CpqConfiguratorNormalizer
   protected convertValueDisplay(
     sourceValue: Cpq.Value,
     sourceAttribute: Cpq.Attribute,
-    value: Configurator.Value
+    value: Configurator.Value,
   ): void {
     if (
       sourceAttribute.displayAs === Cpq.DisplayAs.DROPDOWN &&
@@ -258,7 +258,7 @@ export class CpqConfiguratorNormalizer
     sourceValue: Cpq.Value,
     sourceAttribute: Cpq.Attribute,
     currency: string,
-    values: Configurator.Value[]
+    values: Configurator.Value[],
   ): void {
     if (this.hasValueToBeIgnored(sourceAttribute, sourceValue)) {
       return;
@@ -271,11 +271,11 @@ export class CpqConfiguratorNormalizer
       selected: sourceValue.selected,
       quantity: this.cpqConfiguratorNormalizerUtilsService.convertQuantity(
         sourceValue,
-        sourceAttribute
+        sourceAttribute,
       ),
       valuePrice: this.cpqConfiguratorNormalizerUtilsService.convertValuePrice(
         sourceValue,
-        currency
+        currency,
       ),
       images: [],
     };
@@ -284,21 +284,21 @@ export class CpqConfiguratorNormalizer
     value.valuePriceTotal =
       this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
         value.quantity ?? 1,
-        value.valuePrice
+        value.valuePrice,
       );
 
     values.push(value);
   }
 
   protected convertAttributeType(
-    sourceAttribute: Cpq.Attribute
+    sourceAttribute: Cpq.Attribute,
   ): Configurator.UiType {
     const displayAs = sourceAttribute.displayAs;
 
     const displayAsProduct: boolean =
       sourceAttribute.values &&
       this.cpqConfiguratorNormalizerUtilsService.hasAnyProducts(
-        sourceAttribute.values
+        sourceAttribute.values,
       )
         ? true
         : false;
@@ -317,14 +317,14 @@ export class CpqConfiguratorNormalizer
     return this.findUiTypeFromDisplayType(
       displayAs,
       displayAsProduct,
-      sourceAttribute
+      sourceAttribute,
     );
   }
 
   protected findUiTypeFromDisplayType(
     displayAs: number | undefined,
     displayAsProduct: boolean,
-    sourceAttribute: Cpq.Attribute
+    sourceAttribute: Cpq.Attribute,
   ): Configurator.UiType {
     let uiType: Configurator.UiType;
     switch (displayAs) {
@@ -409,7 +409,7 @@ export class CpqConfiguratorNormalizer
 
   protected hasValueToBeIgnored(
     attribute: Cpq.Attribute,
-    value: Cpq.Value
+    value: Cpq.Value,
   ): boolean {
     const selectedValues = attribute.values
       ?.map((entry) => entry)

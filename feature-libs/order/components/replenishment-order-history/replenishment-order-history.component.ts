@@ -43,7 +43,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
           if (replenishmentOrders?.pagination?.sort) {
             this.sortType = replenishmentOrders.pagination.sort;
           }
-        })
+        }),
       );
 
   isLoaded$: Observable<boolean> =
@@ -54,7 +54,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
     protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
     protected translation: TranslationService,
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {}
 
   changeSortCode(sortCode: string): void {
@@ -97,7 +97,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
           byReplenishmentNumber: textByOrderNumber,
           byNextOrderDate: textbyNextOrderDate,
         };
-      })
+      }),
     );
   }
 
@@ -106,7 +106,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
       LAUNCH_CALLER.REPLENISHMENT_ORDER,
       this.element,
       this.vcr,
-      replenishmentOrderCode
+      replenishmentOrderCode,
     );
 
     if (dialog) {
@@ -122,7 +122,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
     this.replenishmentOrderHistoryFacade.loadReplenishmentOrderList(
       this.PAGE_SIZE,
       event.currentPage,
-      event.sortCode
+      event.sortCode,
     );
   }
 

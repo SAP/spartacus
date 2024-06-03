@@ -47,7 +47,7 @@ const epdVisualizationConfig: EpdVisualizationConfig = {
         [EPD_VISUALIZATION_FEATURE]: {
           module: () =>
             import('@spartacus/epd-visualization').then(
-              (m) => m.EpdVisualizationModule
+              (m) => m.EpdVisualizationModule,
             ),
         },
       },

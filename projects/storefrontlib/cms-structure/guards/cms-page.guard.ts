@@ -32,7 +32,7 @@ export class CmsPageGuard {
     /** since 2211.24 not used anymore, but called indirectly via {@link BeforeCmsPageGuardService} */
     protected protectedRoutesGuard: ProtectedRoutesGuard,
     protected service: CmsPageGuardService,
-    protected routingConfig: RoutingConfigService
+    protected routingConfig: RoutingConfigService,
   ) {}
 
   protected beforeCmsPageGuardService = inject(BeforeCmsPageGuardService);
@@ -50,7 +50,7 @@ export class CmsPageGuard {
    */
   canActivate(
     route: CmsActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     return this.beforeCmsPageGuardService.canActivate(route, state).pipe(
       switchMap((canActivate) =>
@@ -67,19 +67,19 @@ export class CmsPageGuard {
                           pageContext,
                           pageData,
                           route,
-                          state
+                          state,
                         )
                       : this.service.canActivateNotFoundPage(
                           pageContext,
                           route,
-                          state
-                        )
-                  )
-                )
-              )
+                          state,
+                        ),
+                  ),
+                ),
+              ),
             )
-          : of(canActivate)
-      )
+          : of(canActivate),
+      ),
     );
   }
 

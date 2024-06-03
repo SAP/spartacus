@@ -133,7 +133,7 @@ describe('ProductImageNormalizer', () => {
     [ProductImageNormalizer],
     (productImageConverterService: ProductImageNormalizer) => {
       expect(productImageConverterService).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert product image', () => {

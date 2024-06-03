@@ -22,7 +22,7 @@ export class OccReplenishmentOrderNormalizer
 
   convert(
     source: Occ.ReplenishmentOrder,
-    target?: ReplenishmentOrder
+    target?: ReplenishmentOrder,
   ): ReplenishmentOrder {
     if (target === undefined) {
       target = { ...(source as any) } as ReplenishmentOrder;
@@ -34,7 +34,7 @@ export class OccReplenishmentOrderNormalizer
         product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
         promotions: this.converter.convert(
           { item: entry, promotions: source.appliedProductPromotions },
-          ORDER_ENTRY_PROMOTIONS_NORMALIZER
+          ORDER_ENTRY_PROMOTIONS_NORMALIZER,
         ),
       }));
     }

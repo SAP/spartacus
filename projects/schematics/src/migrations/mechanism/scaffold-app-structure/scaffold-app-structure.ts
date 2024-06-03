@@ -19,7 +19,7 @@ export function scaffoldAppStructure(): Rule {
     if (!spartacusFeatureModuleExists) {
       context.logger.info('Scaffolding the new app structure...');
       context.logger.warn(
-        'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
+        'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/',
       );
     }
 

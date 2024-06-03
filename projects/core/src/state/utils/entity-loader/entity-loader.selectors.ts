@@ -16,14 +16,14 @@ import { EntityLoaderState } from './entity-loader-state';
 
 export function entityLoaderStateSelector<T>(
   state: EntityLoaderState<T>,
-  id: string
+  id: string,
 ): LoaderState<T> {
   return state.entities[id] || initialLoaderState;
 }
 
 export function entityValueSelector<T>(
   state: EntityLoaderState<T>,
-  id: string
+  id: string,
 ): T {
   const entityState = entityLoaderStateSelector(state, id);
   return loaderValueSelector(entityState);
@@ -31,7 +31,7 @@ export function entityValueSelector<T>(
 
 export function entityLoadingSelector<T>(
   state: EntityLoaderState<T>,
-  id: string
+  id: string,
 ): boolean {
   const entityState = entityLoaderStateSelector(state, id);
   return loaderLoadingSelector(entityState);
@@ -39,7 +39,7 @@ export function entityLoadingSelector<T>(
 
 export function entityErrorSelector<T>(
   state: EntityLoaderState<T>,
-  id: string
+  id: string,
 ): boolean {
   const entityState = entityLoaderStateSelector(state, id);
   return loaderErrorSelector(entityState);
@@ -47,7 +47,7 @@ export function entityErrorSelector<T>(
 
 export function entitySuccessSelector<T>(
   state: EntityLoaderState<T>,
-  id: string
+  id: string,
 ): boolean {
   const entityState = entityLoaderStateSelector(state, id);
   return loaderSuccessSelector(entityState);

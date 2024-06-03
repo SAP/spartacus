@@ -117,7 +117,7 @@ describe('SiteContextParamsService', () => {
 
     it('should emit active values for single service', () => {
       mockLanguageService.getActive = createSpy().and.returnValue(
-        of('en', 'de', 'en')
+        of('en', 'de', 'en'),
       );
       service
         .getValues([LANGUAGE_CONTEXT_ID])
@@ -130,7 +130,7 @@ describe('SiteContextParamsService', () => {
     it('should emit active values for multiple services', () => {
       mockLanguageService.getActive = createSpy().and.returnValue(of('ja'));
       mockCurrencyService.getActive = createSpy().and.returnValue(
-        of('', 'USD', 'JPY', 'USD')
+        of('', 'USD', 'JPY', 'USD'),
       );
       service
         .getValues([LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID])

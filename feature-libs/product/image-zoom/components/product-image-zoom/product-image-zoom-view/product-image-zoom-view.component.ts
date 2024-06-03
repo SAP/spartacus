@@ -71,9 +71,9 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     filter(Boolean),
     switchMap((_) =>
       merge(...this.clickOrDoubleClick(this.defaultImage)).pipe(
-        tap(() => this.zoom())
-      )
-    )
+        tap(() => this.zoom()),
+      ),
+    ),
   );
 
   get defaultImage(): ElementRef {
@@ -81,7 +81,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   }
 
   @ViewChild('defaultImage', { read: ElementRef }) set defaultImage(
-    el: ElementRef
+    el: ElementRef,
   ) {
     if (el) {
       this._defaultImage = el;
@@ -93,9 +93,9 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     filter(Boolean),
     switchMap((_) =>
       merge(...this.clickOrDoubleClick(this.zoomImage)).pipe(
-        tap(() => this.zoom())
-      )
-    )
+        tap(() => this.zoom()),
+      ),
+    ),
   );
 
   get zoomImage(): ElementRef {
@@ -103,7 +103,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   }
 
   @ViewChild('zoomContainer', { read: ElementRef }) set zoomImage(
-    el: ElementRef
+    el: ElementRef,
   ) {
     if (el) {
       this._zoomImage = el;
@@ -127,22 +127,22 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
         if (this.galleryIndex) {
           const image = Array.isArray(p.images?.GALLERY)
             ? p.images?.GALLERY.find(
-                (img) => img.zoom?.galleryIndex === this.galleryIndex
+                (img) => img.zoom?.galleryIndex === this.galleryIndex,
               )
             : p.images?.GALLERY;
           this.mainMediaContainer.next(image || null);
         } else {
           this.mainMediaContainer.next(
-            p.images?.PRIMARY ? (p.images.PRIMARY as ImageGroup) : {}
+            p.images?.PRIMARY ? (p.images.PRIMARY as ImageGroup) : {},
           );
         }
       }),
-      shareReplay(1)
+      shareReplay(1),
     );
 
   thumbnails$: Observable<Observable<ThumbnailsGroup>[]> = this.product$.pipe(
     map((p: Product) => this.createThumbs(p)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   mainImage$: Observable<ImageGroup | null> = combineLatest([
@@ -154,7 +154,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     protected currentProductService: CurrentProductService,
     protected renderer: Renderer2,
     protected cdRef: ChangeDetectorRef,
-    protected breakpointService: BreakpointService
+    protected breakpointService: BreakpointService,
   ) {}
 
   ngOnInit() {
@@ -244,7 +244,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     const { positionX, positionY } = this.calculatePointerMovePosition(
       this.zoomedImage,
       event.clientX,
-      event.clientY
+      event.clientY,
     );
 
     this.moveImage(positionX, positionY, boundingRect, imageElement);
@@ -266,13 +266,13 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     positionX: number,
     positionY: number,
     boundingRect: any,
-    imageElement: DOMRect
+    imageElement: DOMRect,
   ): void {
     const { x, y } = this.handleOutOfBounds(
       positionX,
       positionY,
       imageElement,
-      boundingRect
+      boundingRect,
     );
 
     if (imageElement) {
@@ -294,11 +294,11 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     return [
       fromEvent(element.nativeElement, 'click').pipe(
         switchMap(() => this.breakpointService.isUp(BREAKPOINT.md)),
-        filter(Boolean)
+        filter(Boolean),
       ),
       fromEvent(element.nativeElement, 'dblclick').pipe(
         switchMap(() => this.breakpointService.isDown(BREAKPOINT.lg)),
-        filter(Boolean)
+        filter(Boolean),
       ),
     ];
   }
@@ -334,7 +334,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     positionX: number,
     positionY: number,
     imageElement: any,
-    boundingRect: DOMRect
+    boundingRect: DOMRect,
   ): { x: number; y: number } {
     const paddingX = 60;
     const paddingY = 60;
@@ -368,7 +368,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   calculatePointerMovePosition(
     element: ElementRef,
     clientX: number,
-    clientY: number
+    clientY: number,
   ): { positionX: number; positionY: number } {
     const boundingRect =
       element.nativeElement.getBoundingClientRect() as DOMRect;

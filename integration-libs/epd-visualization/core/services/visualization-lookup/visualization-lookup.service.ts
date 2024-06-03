@@ -24,7 +24,7 @@ import { VisualizationConnector } from '../../connectors/visualization/visualiza
 export class VisualizationLookupService {
   constructor(
     protected epdVisualizationConfig: EpdVisualizationConfig,
-    protected visualizationConnector: VisualizationConnector
+    protected visualizationConnector: VisualizationConnector,
   ) {}
 
   /**
@@ -34,7 +34,7 @@ export class VisualizationLookupService {
    * @returns An Observable producing an VisualizationInfo array containing the set of matching visualizations.
    */
   public findMatchingVisualizations(
-    productCode: String
+    productCode: String,
   ): Observable<VisualizationInfo[]> {
     const epdVisualization = this.epdVisualizationConfig
       .epdVisualization as EpdVisualizationInnerConfig;
@@ -59,9 +59,9 @@ export class VisualizationLookupService {
           (data.visualizations as VisualizationInfo[]).filter(
             (item: any) =>
               item.contentType === ContentType.Model3D ||
-              item.contentType === ContentType.Drawing2D
-          )
-        )
+              item.contentType === ContentType.Drawing2D,
+          ),
+        ),
       );
   }
 }

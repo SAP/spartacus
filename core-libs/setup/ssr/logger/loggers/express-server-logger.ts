@@ -44,5 +44,5 @@ export interface ExpressServerLogger {
  *
  */
 export const EXPRESS_SERVER_LOGGER = new InjectionToken<ExpressServerLogger>(
-  'EXPRESS_SERVER_LOGGER'
+  'EXPRESS_SERVER_LOGGER',
 );

@@ -48,7 +48,7 @@ describe('QueryService', () => {
         {
           reloadOn: [ReloadEvent],
           resetOn: [resetTrigger$.asObservable()],
-        }
+        },
       );
       loadingStream$ = new Subject<string>();
     });

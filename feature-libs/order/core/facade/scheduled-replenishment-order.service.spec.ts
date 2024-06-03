@@ -45,7 +45,7 @@ class MockScheduledReplenishmentOrderConnector
   implements Partial<ScheduledReplenishmentOrderConnector>
 {
   scheduleReplenishmentOrder = createSpy().and.returnValue(
-    of(mockReplenishmentOrder)
+    of(mockReplenishmentOrder),
   );
 }
 
@@ -86,35 +86,35 @@ describe(`ScheduledReplenishmentOrderService`, () => {
   it(`should inject ScheduledReplenishmentOrderService`, inject(
     [ScheduledReplenishmentOrderService],
     (
-      scheduledReplenishmentOrderService: ScheduledReplenishmentOrderService
+      scheduledReplenishmentOrderService: ScheduledReplenishmentOrderService,
     ) => {
       expect(scheduledReplenishmentOrderService).toBeTruthy();
-    }
+    },
   ));
 
   describe(`scheduleReplenishmentOrder`, () => {
     it(`should call checkoutDeliveryConnector.createAddress`, () => {
       service.scheduleReplenishmentOrder(
         mockScheduleReplenishmentForm,
-        termsChecked
+        termsChecked,
       );
 
       expect(connector.scheduleReplenishmentOrder).toHaveBeenCalledWith(
         mockCartId,
         mockScheduleReplenishmentForm,
         termsChecked,
-        mockUserId
+        mockUserId,
       );
     });
 
     it(`should call orderFacade`, () => {
       service.scheduleReplenishmentOrder(
         mockScheduleReplenishmentForm,
-        termsChecked
+        termsChecked,
       );
 
       expect(orderFacade.setPlacedOrder).toHaveBeenCalledWith(
-        mockReplenishmentOrder
+        mockReplenishmentOrder,
       );
     });
 
@@ -122,7 +122,7 @@ describe(`ScheduledReplenishmentOrderService`, () => {
     it(`should dispatch ReplenishmentOrderScheduledEvent`, () => {
       service.scheduleReplenishmentOrder(
         mockScheduleReplenishmentForm,
-        termsChecked
+        termsChecked,
       );
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -132,7 +132,7 @@ describe(`ScheduledReplenishmentOrderService`, () => {
           cartCode: mockCartId,
           replenishmentOrder: mockReplenishmentOrder,
         },
-        ReplenishmentOrderScheduledEvent
+        ReplenishmentOrderScheduledEvent,
       );
     });
   });

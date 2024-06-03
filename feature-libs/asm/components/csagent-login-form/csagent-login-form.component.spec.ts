@@ -20,19 +20,17 @@ describe('CSAgentLoginFormComponent', () => {
   const validUserId = 'asagent';
   const validPassword = 'testPass123!';
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [CSAgentLoginFormComponent, DotSpinnerComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [CSAgentLoginFormComponent, DotSpinnerComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CSAgentLoginFormComponent);
@@ -53,7 +51,7 @@ describe('CSAgentLoginFormComponent', () => {
       spyOn(component, 'onSubmit').and.stub();
 
       const submitBtn = fixture.debugElement.query(
-        By.css('button[type="submit"]')
+        By.css('button[type="submit"]'),
       );
       submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
 

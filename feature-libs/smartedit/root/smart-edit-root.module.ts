@@ -11,7 +11,7 @@ import { interceptors } from './http-interceptors/index';
 import { SmartEditLauncherService } from './services/smart-edit-launcher.service';
 
 export function smartEditFactory(
-  smartEditLauncherService: SmartEditLauncherService
+  smartEditLauncherService: SmartEditLauncherService,
 ): () => void {
   const isReady = () => {
     smartEditLauncherService.load();

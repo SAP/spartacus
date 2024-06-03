@@ -146,7 +146,7 @@ describe('BadRequestHandler', () => {
     spyOn(service, 'getErrorTranslationKey').and.callThrough();
     service.handleError(MockBadPasswordRequest, MockBadPasswordResponse);
     expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
-      MockBadPasswordResponse.error.error_description
+      MockBadPasswordResponse.error.error_description,
     );
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(globalMessageService.remove).toHaveBeenCalled();
@@ -156,7 +156,7 @@ describe('BadRequestHandler', () => {
     spyOn(service, 'getErrorTranslationKey').and.callThrough();
     service.handleError(MockBadPasswordRequest, MockDisabledUserResponse);
     expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
-      MockDisabledUserResponse.error.error_description
+      MockDisabledUserResponse.error.error_description,
     );
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(globalMessageService.remove).toHaveBeenCalled();
@@ -166,7 +166,7 @@ describe('BadRequestHandler', () => {
     service.handleError(MockRequest, MockBadLoginResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.badRequestOldPasswordIncorrect' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -174,7 +174,7 @@ describe('BadRequestHandler', () => {
     service.handleError(MockRequestEmailChange, MockBadLoginResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.validationErrors.invalid.password' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -184,7 +184,7 @@ describe('BadRequestHandler', () => {
       {
         key: `httpHandlers.validationErrors.the_reason.the_subject`,
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -198,7 +198,7 @@ describe('BadRequestHandler', () => {
             MockBadGuestDuplicateEmailResponse.error.errors[0].message,
         },
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
@@ -206,14 +206,14 @@ describe('BadRequestHandler', () => {
     service.handleError(MockRequest, MockUnknownIdentifierErrorResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       'item not found',
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 
   it('should convert error description to translation key', () => {
     const error_description = 'This is test error';
     expect(service.getErrorTranslationKey(error_description)).toBe(
-      'httpHandlers.badRequest.this_is_test_error'
+      'httpHandlers.badRequest.this_is_test_error',
     );
   });
 });

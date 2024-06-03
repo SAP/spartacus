@@ -17,7 +17,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -63,7 +63,7 @@ describe('MyAccountV2DownloadInvoicesEventListener', () => {
         LAUNCH_CALLER.DOWNLOAD_ORDER_INVOICES,
         undefined,
         undefined,
-        mockEvent.order
+        mockEvent.order,
       );
     });
   });

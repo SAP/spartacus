@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    (url) => url
+    (url) => url,
   );
 }
 
@@ -78,7 +78,7 @@ describe('OccProductSearchAdapter', () => {
       });
 
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'productSearch'
+        (req) => req.method === 'GET' && req.url === 'productSearch',
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -100,7 +100,7 @@ describe('OccProductSearchAdapter', () => {
       httpMock.expectOne('productSearch').flush(searchResults);
 
       expect(converter.pipeable).toHaveBeenCalledWith(
-        PRODUCT_SEARCH_PAGE_NORMALIZER
+        PRODUCT_SEARCH_PAGE_NORMALIZER,
       );
     });
 
@@ -126,7 +126,7 @@ describe('OccProductSearchAdapter', () => {
         });
 
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'productSuggestions'
+        (req) => req.method === 'GET' && req.url === 'productSuggestions',
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -145,7 +145,7 @@ describe('OccProductSearchAdapter', () => {
       httpMock.expectOne('productSuggestions').flush(suggestionList);
 
       expect(converter.pipeableMany).toHaveBeenCalledWith(
-        PRODUCT_SUGGESTION_NORMALIZER
+        PRODUCT_SUGGESTION_NORMALIZER,
       );
     });
   });

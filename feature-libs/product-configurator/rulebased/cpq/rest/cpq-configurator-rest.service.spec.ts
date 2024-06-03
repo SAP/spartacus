@@ -95,7 +95,7 @@ const attrValueId = 'abc';
 const configuration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     configId,
-    ConfiguratorModelUtils.createInitialOwner()
+    ConfiguratorModelUtils.createInitialOwner(),
   ),
   productCode: productCode,
 };
@@ -151,7 +151,7 @@ describe('CpqConfiguratorRestService', () => {
     serviceUnderTest.createConfiguration(productCode).subscribe((config) => {
       expect(config.configId).toEqual(configId);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        CPQ_CONFIGURATOR_NORMALIZER
+        CPQ_CONFIGURATOR_NORMALIZER,
       );
     });
 
@@ -171,7 +171,7 @@ describe('CpqConfiguratorRestService', () => {
     serviceUnderTest.readConfiguration(configId).subscribe((config) => {
       expect(config.configId).toEqual(configId);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        CPQ_CONFIGURATOR_NORMALIZER
+        CPQ_CONFIGURATOR_NORMALIZER,
       );
     });
 
@@ -180,7 +180,7 @@ describe('CpqConfiguratorRestService', () => {
 
   it('should read all tabs individually for OV and merge results', () => {
     serviceUnderTest['getConfigurationWithAllTabsAndAttributes'](
-      configId
+      configId,
     ).subscribe((mergedConfig) => {
       const expectedInput: Cpq.Configuration = {
         ...configResponseTab1,
@@ -210,7 +210,7 @@ describe('CpqConfiguratorRestService', () => {
 
   it('should read all tabs individually for OV and merge results for only one group', () => {
     serviceUnderTest['getConfigurationWithAllTabsAndAttributes'](
-      configId
+      configId,
     ).subscribe((mergedConfig) => {
       const expectedInput: Cpq.Configuration = {
         ...configResponseOnlyOneTab,
@@ -233,7 +233,7 @@ describe('CpqConfiguratorRestService', () => {
     configResponseTab2.errorMessages = ['error'];
     configResponseTab3.errorMessages = ['error'];
     serviceUnderTest['getConfigurationWithAllTabsAndAttributes'](
-      configId
+      configId,
     ).subscribe((mergedConfig) => {
       expect(mergedConfig.errorMessages?.length).toEqual(1);
     });
@@ -245,7 +245,7 @@ describe('CpqConfiguratorRestService', () => {
 
   it('should merge results for configuration without group', () => {
     serviceUnderTest['getConfigurationWithAllTabsAndAttributes'](
-      configId
+      configId,
     ).subscribe((mergedConfig) => {
       const expectedInput: Cpq.Configuration = {
         ...configResponseNoTab,
@@ -268,7 +268,7 @@ describe('CpqConfiguratorRestService', () => {
     serviceUnderTest.readConfigurationOverview(configId).subscribe((config) => {
       expect(config.configId).toEqual(configId);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER
+        CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
       );
     });
     mockDisplayConfig(configResponseOnlyOneTab);
@@ -279,7 +279,7 @@ describe('CpqConfiguratorRestService', () => {
     serviceUnderTest.readConfiguration(configId, tabId).subscribe((config) => {
       expect(config.configId).toEqual(configId);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        CPQ_CONFIGURATOR_NORMALIZER
+        CPQ_CONFIGURATOR_NORMALIZER,
       );
     });
 
@@ -293,10 +293,10 @@ describe('CpqConfiguratorRestService', () => {
       expect(config.configId).toEqual(configId);
       expect(converterService.convert).toHaveBeenCalledWith(
         configuration,
-        CPQ_CONFIGURATOR_SERIALIZER
+        CPQ_CONFIGURATOR_SERIALIZER,
       );
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        CPQ_CONFIGURATOR_NORMALIZER
+        CPQ_CONFIGURATOR_NORMALIZER,
       );
     });
 
@@ -319,10 +319,10 @@ describe('CpqConfiguratorRestService', () => {
       expect(config.configId).toEqual(configId);
       expect(converterService.convert).toHaveBeenCalledWith(
         configuration,
-        CPQ_CONFIGURATOR_QUANTITY_SERIALIZER
+        CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
       );
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        CPQ_CONFIGURATOR_NORMALIZER
+        CPQ_CONFIGURATOR_NORMALIZER,
       );
     });
 

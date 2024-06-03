@@ -19,7 +19,7 @@ describe('ReviewService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           PRODUCT_FEATURE,
-          fromStoreReducers.getReducers()
+          fromStoreReducers.getReducers(),
         ),
       ],
       providers: [ProductReviewService],
@@ -34,13 +34,13 @@ describe('ReviewService', () => {
     [ProductReviewService],
     (reviewService: ProductReviewService) => {
       expect(reviewService).toBeTruthy();
-    }
+    },
   ));
 
   describe('getByProductCode(productCode)', () => {
     it('should be able to get product reviews if reviews exist', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of([mockReview])
+        () => () => of([mockReview]),
       );
       let result: Review[];
       service.getByProductCode('testId').subscribe((reviews) => {
@@ -51,12 +51,12 @@ describe('ReviewService', () => {
 
     it('should be able to load product reviews if reviews not exist', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(undefined)
+        () => () => of(undefined),
       );
       service.getByProductCode('testId').subscribe().unsubscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ProductActions.LoadProductReviews('testId')
+        new ProductActions.LoadProductReviews('testId'),
       );
     });
   });
@@ -67,7 +67,7 @@ describe('ReviewService', () => {
       const review: Review = { id: '123', comment: 'test review' };
       service.add(productCode, review);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ProductActions.PostProductReview({ productCode, review })
+        new ProductActions.PostProductReview({ productCode, review }),
       );
     });
   });

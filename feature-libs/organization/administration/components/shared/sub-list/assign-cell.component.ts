@@ -36,7 +36,7 @@ export class AssignCellComponent<T extends BaseItem> extends CellComponent {
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected organizationItemService: ItemService<T>,
     protected messageService: MessageService,
-    protected organizationSubListService: ListService<T>
+    protected organizationSubListService: ListService<T>,
   ) {
     super(outlet);
   }
@@ -53,39 +53,39 @@ export class AssignCellComponent<T extends BaseItem> extends CellComponent {
         switchMap((key) =>
           isAssigned
             ? this.unassign?.(key, this.link)
-            : this.assign(key, this.link)
+            : this.assign(key, this.link),
         ),
         take(1),
         filter(
           (data: OrganizationItemStatus<T>) =>
-            data.status === LoadStatus.SUCCESS
-        )
+            data.status === LoadStatus.SUCCESS,
+        ),
       )
       .subscribe((data) =>
-        this.notify(data.item, isAssigned ? 'unassigned' : 'assigned')
+        this.notify(data.item, isAssigned ? 'unassigned' : 'assigned'),
       );
   }
 
   protected assign(
     key: string,
-    linkKey: string
+    linkKey: string,
   ): Observable<OrganizationItemStatus<T>> {
     return (
       (this.organizationSubListService as SubListService<T>).assign?.(
         key,
-        linkKey
+        linkKey,
       ) ?? EMPTY
     );
   }
 
   protected unassign(
     key: string,
-    linkKey: string
+    linkKey: string,
   ): Observable<OrganizationItemStatus<T>> {
     return (
       (this.organizationSubListService as SubListService<T>).unassign?.(
         key,
-        linkKey
+        linkKey,
       ) ?? EMPTY
     );
   }

@@ -68,20 +68,20 @@ describe('AuthInterceptor', () => {
 
   it('should not add header when the request should does not need it', (done) => {
     spyOn(authHeaderService, 'shouldAddAuthorizationHeader').and.returnValue(
-      false
+      false,
     );
     spyOn(authHeaderService, 'alterRequest').and.returnValue(
-      new HttpRequest('GET', '/test')
+      new HttpRequest('GET', '/test'),
     );
     spyOn(authHeaderService, 'getStableToken').and.returnValue(
-      of({ access_token: 'test' } as AuthToken)
+      of({ access_token: 'test' } as AuthToken),
     );
 
     const sub: Subscription = http.get('/xxx').subscribe((result) => {
       expect(result).toBeTruthy();
       expect(authHeaderService.alterRequest).toHaveBeenCalledWith(
         jasmine.anything(),
-        undefined
+        undefined,
       );
       done();
     });
@@ -96,7 +96,7 @@ describe('AuthInterceptor', () => {
 
   it(`Should operate on request returned from AuthHeaderService alterRequest method`, (done) => {
     spyOn(authHeaderService, 'alterRequest').and.returnValue(
-      new HttpRequest('GET', '/test')
+      new HttpRequest('GET', '/test'),
     );
     const token = { access_token: 'test' } as AuthToken;
     spyOn(authHeaderService, 'getStableToken').and.returnValue(of(token));
@@ -105,7 +105,7 @@ describe('AuthInterceptor', () => {
       expect(result).toBeTruthy();
       expect(authHeaderService.alterRequest).toHaveBeenCalledWith(
         jasmine.anything(),
-        token
+        token,
       );
       done();
     });
@@ -120,7 +120,7 @@ describe('AuthInterceptor', () => {
 
   it(`Should handle 401 error for expired token occ calls`, (done) => {
     spyOn(authHeaderService, 'handleExpiredAccessToken').and.callFake(
-      (_, next) => next.handle(new HttpRequest('GET', '/test'))
+      (_, next) => next.handle(new HttpRequest('GET', '/test')),
     );
     const sub: Subscription = http.get('/occ').subscribe((result) => {
       expect(result).toEqual('someText');
@@ -133,7 +133,7 @@ describe('AuthInterceptor', () => {
 
     mockReq.flush(
       { errors: [{ type: 'InvalidTokenError' }] },
-      { status: 401, statusText: 'Unauthorized' }
+      { status: 401, statusText: 'Unauthorized' },
     );
 
     const mockReq2: TestRequest = httpMock.expectOne((req) => {
@@ -160,7 +160,7 @@ describe('AuthInterceptor', () => {
 
     mockReq.flush(
       { errors: [{ type: 'InvalidTokenError' }] },
-      { status: 401, statusText: 'Unauthorized' }
+      { status: 401, statusText: 'Unauthorized' },
     );
 
     sub.unsubscribe();
@@ -181,7 +181,7 @@ describe('AuthInterceptor', () => {
 
     mockReq.flush(
       { errors: [{ type: 'Different error' }] },
-      { status: 401, statusText: 'Unauthorized' }
+      { status: 401, statusText: 'Unauthorized' },
     );
 
     sub.unsubscribe();
@@ -202,7 +202,7 @@ describe('AuthInterceptor', () => {
 
     mockReq.flush(
       { error: 'invalid_token' },
-      { status: 401, statusText: 'Unauthorized' }
+      { status: 401, statusText: 'Unauthorized' },
     );
     sub.unsubscribe();
   });
@@ -223,7 +223,7 @@ describe('AuthInterceptor', () => {
 
     mockReq.flush(
       { error: 'invalid_token' },
-      { status: 401, statusText: 'Unauthorized' }
+      { status: 401, statusText: 'Unauthorized' },
     );
     sub.unsubscribe();
   });
@@ -238,7 +238,7 @@ describe('AuthInterceptor', () => {
           expect(err.status).toEqual(400);
           expect(err.error.error).toEqual('invalid_grant');
           expect(
-            authHeaderService.handleExpiredRefreshToken
+            authHeaderService.handleExpiredRefreshToken,
           ).toHaveBeenCalled();
           done();
         },
@@ -250,7 +250,7 @@ describe('AuthInterceptor', () => {
 
     mockReq.flush(
       { error: 'invalid_grant' },
-      { status: 400, statusText: 'Bad request' }
+      { status: 400, statusText: 'Bad request' },
     );
     sub.unsubscribe();
   });
@@ -263,7 +263,7 @@ describe('AuthInterceptor', () => {
         expect(err.status).toEqual(400);
         expect(err.error.error).toEqual('invalid_grant');
         expect(
-          authHeaderService.handleExpiredRefreshToken
+          authHeaderService.handleExpiredRefreshToken,
         ).not.toHaveBeenCalled();
         done();
       },
@@ -275,7 +275,7 @@ describe('AuthInterceptor', () => {
 
     mockReq.flush(
       { error: 'invalid_grant' },
-      { status: 400, statusText: 'Bad request' }
+      { status: 400, statusText: 'Bad request' },
     );
     sub.unsubscribe();
   });
@@ -290,7 +290,7 @@ describe('AuthInterceptor', () => {
           expect(err.status).toEqual(400);
           expect(err.error.error).toEqual('invalid_grant');
           expect(
-            authHeaderService.handleExpiredRefreshToken
+            authHeaderService.handleExpiredRefreshToken,
           ).not.toHaveBeenCalled();
           done();
         },
@@ -302,7 +302,7 @@ describe('AuthInterceptor', () => {
 
     mockReq.flush(
       { error: 'invalid_grant' },
-      { status: 400, statusText: 'Bad request' }
+      { status: 400, statusText: 'Bad request' },
     );
     sub.unsubscribe();
   });

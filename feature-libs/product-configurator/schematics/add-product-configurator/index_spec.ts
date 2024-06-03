@@ -31,7 +31,7 @@ const scssFilePath = 'src/styles/spartacus/product-configurator.scss';
 describe('Spartacus product configurator schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_PRODUCT_CONFIGURATOR,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -75,27 +75,27 @@ describe('Spartacus product configurator schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...libraryNoFeaturesOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -104,7 +104,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -141,18 +141,18 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             libraryOptionsOnlyVC,
-            appTree
+            appTree,
           );
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
           const module = appTree.readContent(
-            productConfiguratorFeatureModulePath
+            productConfiguratorFeatureModulePath,
           );
           expect(module).toMatchSnapshot();
 
           expect(
-            appTree.readContent(productConfiguratorRulebasedWrapperModulePath)
+            appTree.readContent(productConfiguratorRulebasedWrapperModulePath),
           ).toBeFalsy();
         });
 
@@ -161,17 +161,17 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(userFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
-            orderFeatureModulePath
+            orderFeatureModulePath,
           );
           expect(orderFeatureModule).toBeFalsy();
 
           const cartBaseFeatureModule = appTree.readContent(
-            cartBaseFeatureModulePath
+            cartBaseFeatureModulePath,
           );
           expect(cartBaseFeatureModule).toBeFalsy();
 
           const checkoutFeatureModule = appTree.readContent(
-            checkoutFeatureModulePath
+            checkoutFeatureModulePath,
           );
           expect(checkoutFeatureModule).toBeFalsy();
         });
@@ -194,18 +194,18 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...libraryOptionsOnlyVC, lazy: false },
-            appTree
+            appTree,
           );
         });
 
         it('should import appropriate modules', async () => {
           const module = appTree.readContent(
-            productConfiguratorFeatureModulePath
+            productConfiguratorFeatureModulePath,
           );
           expect(module).toMatchSnapshot();
 
           expect(
-            appTree.readContent(productConfiguratorRulebasedWrapperModulePath)
+            appTree.readContent(productConfiguratorRulebasedWrapperModulePath),
           ).toBeFalsy();
         });
       });
@@ -217,24 +217,24 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             libraryOptionsOnlyVC,
-            appTree
+            appTree,
           );
 
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             libraryOptionsOnlyCPQ,
-            appTree
+            appTree,
           );
         });
 
         it('should add the feature using the lazy loading syntax, and include VC as well', async () => {
           const module = appTree.readContent(
-            productConfiguratorFeatureModulePath
+            productConfiguratorFeatureModulePath,
           );
           expect(module).toMatchSnapshot();
 
           const wrapperModule = appTree.readContent(
-            productConfiguratorRulebasedWrapperModulePath
+            productConfiguratorRulebasedWrapperModulePath,
           );
           expect(wrapperModule).toMatchSnapshot();
         });
@@ -244,17 +244,17 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(userFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
-            orderFeatureModulePath
+            orderFeatureModulePath,
           );
           expect(orderFeatureModule).toBeFalsy();
 
           const cartBaseFeatureModule = appTree.readContent(
-            cartBaseFeatureModulePath
+            cartBaseFeatureModulePath,
           );
           expect(cartBaseFeatureModule).toBeFalsy();
 
           const checkoutFeatureModule = appTree.readContent(
-            checkoutFeatureModulePath
+            checkoutFeatureModulePath,
           );
           expect(checkoutFeatureModule).toBeFalsy();
         });
@@ -274,7 +274,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         describe('b2b features', () => {
           it('configuration should be added', () => {
             const configurationModule = appTree.readContent(
-              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
             );
             expect(configurationModule).toMatchSnapshot();
           });
@@ -286,24 +286,24 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...libraryOptionsOnlyVC, lazy: false },
-            appTree
+            appTree,
           );
 
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...libraryOptionsOnlyCPQ, lazy: false },
-            appTree
+            appTree,
           );
         });
 
         it('should import appropriate modules', async () => {
           const module = appTree.readContent(
-            productConfiguratorFeatureModulePath
+            productConfiguratorFeatureModulePath,
           );
           expect(module).toMatchSnapshot();
 
           expect(
-            appTree.readContent(productConfiguratorRulebasedWrapperModulePath)
+            appTree.readContent(productConfiguratorRulebasedWrapperModulePath),
           ).toBeFalsy();
         });
       });
@@ -315,18 +315,18 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             libraryOptionsOnlyTextfield,
-            appTree
+            appTree,
           );
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
           const module = appTree.readContent(
-            productConfiguratorFeatureModulePath
+            productConfiguratorFeatureModulePath,
           );
           expect(module).toMatchSnapshot();
 
           expect(
-            appTree.readContent(productConfiguratorRulebasedWrapperModulePath)
+            appTree.readContent(productConfiguratorRulebasedWrapperModulePath),
           ).toBeFalsy();
         });
 
@@ -335,17 +335,17 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(userFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
-            orderFeatureModulePath
+            orderFeatureModulePath,
           );
           expect(orderFeatureModule).toBeFalsy();
 
           const cartBaseFeatureModule = appTree.readContent(
-            cartBaseFeatureModulePath
+            cartBaseFeatureModulePath,
           );
           expect(cartBaseFeatureModule).toBeFalsy();
 
           const checkoutFeatureModule = appTree.readContent(
-            checkoutFeatureModulePath
+            checkoutFeatureModulePath,
           );
           expect(checkoutFeatureModule).toBeFalsy();
         });
@@ -365,7 +365,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         describe('b2b features', () => {
           it('configuration should not be added', () => {
             const configurationModule = appTree.readContent(
-              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
             );
             expect(configurationModule).toMatchSnapshot();
           });
@@ -377,18 +377,18 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...libraryOptionsOnlyTextfield, lazy: false },
-            appTree
+            appTree,
           );
         });
 
         it('should import appropriate modules', async () => {
           const module = appTree.readContent(
-            productConfiguratorFeatureModulePath
+            productConfiguratorFeatureModulePath,
           );
           expect(module).toMatchSnapshot();
 
           expect(
-            appTree.readContent(productConfiguratorRulebasedWrapperModulePath)
+            appTree.readContent(productConfiguratorRulebasedWrapperModulePath),
           ).toBeFalsy();
         });
       });
@@ -400,7 +400,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             libraryOptionsOnlyVC,
-            appTree
+            appTree,
           );
 
           appTree = await schematicRunner.runSchematic(
@@ -412,18 +412,18 @@ describe('Spartacus product configurator schematics: ng-add', () => {
                 PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
               ],
             },
-            appTree
+            appTree,
           );
         });
 
         it('should add the feature using the lazy loading syntax, including VC as well', async () => {
           const module = appTree.readContent(
-            productConfiguratorFeatureModulePath
+            productConfiguratorFeatureModulePath,
           );
           expect(module).toMatchSnapshot();
 
           const wrapperModule = appTree.readContent(
-            productConfiguratorRulebasedWrapperModulePath
+            productConfiguratorRulebasedWrapperModulePath,
           );
           expect(wrapperModule).toMatchSnapshot();
         });
@@ -433,17 +433,17 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(userFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
-            orderFeatureModulePath
+            orderFeatureModulePath,
           );
           expect(orderFeatureModule).toBeFalsy();
 
           const cartBaseFeatureModule = appTree.readContent(
-            cartBaseFeatureModulePath
+            cartBaseFeatureModulePath,
           );
           expect(cartBaseFeatureModule).toBeFalsy();
 
           const checkoutFeatureModule = appTree.readContent(
-            checkoutFeatureModulePath
+            checkoutFeatureModulePath,
           );
           expect(checkoutFeatureModule).toBeFalsy();
         });
@@ -463,7 +463,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         describe('b2b features', () => {
           it('configuration should be added', () => {
             const configurationModule = appTree.readContent(
-              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
             );
             expect(configurationModule).toMatchSnapshot();
           });
@@ -475,7 +475,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...libraryOptionsOnlyVC, lazy: false },
-            appTree
+            appTree,
           );
 
           appTree = await schematicRunner.runSchematic(
@@ -488,18 +488,18 @@ describe('Spartacus product configurator schematics: ng-add', () => {
               ],
               lazy: false,
             },
-            appTree
+            appTree,
           );
         });
 
         it('should import appropriate modules', async () => {
           const module = appTree.readContent(
-            productConfiguratorFeatureModulePath
+            productConfiguratorFeatureModulePath,
           );
           expect(module).toMatchSnapshot();
 
           expect(
-            appTree.readContent(productConfiguratorRulebasedWrapperModulePath)
+            appTree.readContent(productConfiguratorRulebasedWrapperModulePath),
           ).toBeFalsy();
         });
       });

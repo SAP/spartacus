@@ -32,7 +32,7 @@ export abstract class BaseMessageComponent implements OnInit {
 
   constructor(
     protected messageData: MessageData,
-    @Inject(PLATFORM_ID) protected platformId: any
+    @Inject(PLATFORM_ID) protected platformId: any,
   ) {}
 
   ngOnInit() {

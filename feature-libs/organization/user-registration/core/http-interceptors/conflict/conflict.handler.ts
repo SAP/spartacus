@@ -24,14 +24,14 @@ export class OrganizationUserRegistrationConflictHandler extends HttpErrorHandle
     if (request && this.getErrors(response)?.length) {
       this.globalMessageService.add(
         { key: 'userRegistrationForm.httpHandlers.conflict' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors).filter(
-      (error: any) => error?.type === 'AlreadyExistsError'
+      (error: any) => error?.type === 'AlreadyExistsError',
     );
   }
 

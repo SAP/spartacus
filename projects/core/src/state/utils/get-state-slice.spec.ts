@@ -111,7 +111,7 @@ describe('state slice functions', () => {
         const result = createShellObject(
           'auth.userToken.token',
           ['auth.userToken.token.refresh_token'],
-          value
+          value,
         );
         expect(result).toEqual({
           auth: {
@@ -294,7 +294,7 @@ describe('state slice functions', () => {
         const result = handleExclusions(
           'auth.userToken.token',
           ['cart.token'],
-          value
+          value,
         );
         expect(result).toEqual(value);
       });
@@ -304,7 +304,7 @@ describe('state slice functions', () => {
         const result = handleExclusions(
           'auth.userToken.token',
           ['auth.userToken.token.refresh_token'],
-          value
+          value,
         );
         expect(result).toEqual({
           auth: {
@@ -336,7 +336,7 @@ describe('state slice functions', () => {
         const result = handleExclusions(
           'user',
           ['user.account.details.currency.name'],
-          userValue
+          userValue,
         );
         expect(result).toEqual({
           user: {

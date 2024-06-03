@@ -53,7 +53,7 @@ class MockConfiguratorPriceComponent {
 
 function getSelected(
   component: ConfiguratorAttributeMultiSelectionBundleComponent,
-  index: number
+  index: number,
 ): boolean | undefined {
   const values = component.attribute.values;
   return values ? values[index].selected : false;
@@ -83,7 +83,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     quantity: number,
     selected: boolean,
     valueCode: string,
-    valueDisplay: string
+    valueDisplay: string,
   ): Configurator.Value => {
     const value: Configurator.Value = {
       description,
@@ -97,49 +97,47 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     return value;
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          ReactiveFormsModule,
-          MediaModule,
-        ],
-        declarations: [
-          ConfiguratorAttributeMultiSelectionBundleComponent,
-          ConfiguratorShowMoreComponent,
-          ItemCounterComponent,
-          MockProductCardComponent,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-            providers: [
-              {
-                provide: ConfiguratorAttributeProductCardComponent,
-                useClass: MockProductCardComponent,
-              },
-            ],
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        ReactiveFormsModule,
+        MediaModule,
+      ],
+      declarations: [
+        ConfiguratorAttributeMultiSelectionBundleComponent,
+        ConfiguratorShowMoreComponent,
+        ItemCounterComponent,
+        MockProductCardComponent,
+        MockConfiguratorAttributeQuantityComponent,
+        MockConfiguratorPriceComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          providers: [
+            {
+              provide: ConfiguratorAttributeProductCardComponent,
+              useClass: MockProductCardComponent,
+            },
+          ],
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     const values: Configurator.Value[] = [
@@ -150,7 +148,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         1,
         true,
         '1111',
-        '1111Display'
+        '1111Display',
       ),
       createValue(
         '2222 Description',
@@ -159,7 +157,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         1,
         true,
         '2222',
-        '2222Display'
+        '2222Display',
       ),
       createValue(
         '3333 Description',
@@ -168,7 +166,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         1,
         false,
         '3333',
-        '3333Display'
+        '3333Display',
       ),
       createValue(
         '4444 Description',
@@ -177,12 +175,12 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         1,
         false,
         '4444',
-        '4444Display'
+        '4444Display',
       ),
     ];
 
     fixture = TestBed.createComponent(
-      ConfiguratorAttributeMultiSelectionBundleComponent
+      ConfiguratorAttributeMultiSelectionBundleComponent,
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -209,7 +207,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     fixture.detectChanges();
 
     const cardList = htmlElem.querySelectorAll(
-      'cx-configurator-attribute-product-card'
+      'cx-configurator-attribute-product-card',
     );
 
     expect(cardList.length).toBe(4);
@@ -227,7 +225,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   it('should call facade update onChangeValueQuantity', () => {
     spyOn(
       component['configuratorCommonsService'],
-      'updateConfiguration'
+      'updateConfiguration',
     ).and.callThrough();
 
     component.ngOnInit();
@@ -238,7 +236,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     });
 
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledWith(
       component.ownerKey,
       {
@@ -252,14 +250,14 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           },
         ],
       },
-      Configurator.UpdateType.VALUE_QUANTITY
+      Configurator.UpdateType.VALUE_QUANTITY,
     );
   });
 
   it('should call facade update on event onDeselect', () => {
     spyOn(
       component['configuratorCommonsService'],
-      'updateConfiguration'
+      'updateConfiguration',
     ).and.callThrough();
 
     component.ngOnInit();
@@ -267,7 +265,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     component.onDeselect('1111');
 
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledWith(
       component.ownerKey,
       {
@@ -299,14 +297,14 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           },
         ],
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   });
 
   it('should call selectionChange on event onSelect', () => {
     spyOn(
       component['configuratorCommonsService'],
-      'updateConfiguration'
+      'updateConfiguration',
     ).and.callThrough();
 
     component.ngOnInit();
@@ -314,7 +312,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     component.onSelect('3333');
 
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledWith(
       component.ownerKey,
       {
@@ -346,19 +344,19 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           },
         ],
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   });
 
   it('should call facade update onDeselectAll', () => {
     spyOn(
       component['configuratorCommonsService'],
-      'updateConfiguration'
+      'updateConfiguration',
     ).and.callThrough();
     component.ngOnInit();
     component.onDeselectAll();
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalled();
   });
 
@@ -383,7 +381,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
     });
 
@@ -400,7 +398,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
     });
   });
@@ -415,7 +413,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
 
@@ -432,7 +430,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
   });
@@ -444,7 +442,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         false,
         true,
         { valueCode: 'A' },
-        1
+        1,
       );
       expect(options.itemCount).toBe(0);
       expect(options.disableAllButtons).toBe(false);
@@ -456,7 +454,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         null,
         null,
         { valueCode: 'A' },
-        1
+        1,
       );
       expect(options.disableAllButtons).toBe(false);
       expect(options.hideRemoveButton).toBe(false);
@@ -470,7 +468,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       component.multipleSelectionValues = [];
       component['initialize']();
       component.preventAction$.subscribe((prevent) =>
-        expect(prevent).toBe(true)
+        expect(prevent).toBe(true),
       );
     });
   });
@@ -481,7 +479,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         component['updateMultipleSelectionValuesQuantity']({
           valueCode: 'Not known',
           quantity: 1,
-        })
+        }),
       ).toBeUndefined();
     });
   });

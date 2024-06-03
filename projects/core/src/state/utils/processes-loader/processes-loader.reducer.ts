@@ -19,17 +19,17 @@ export const initialProcessesState: ProcessesLoaderState<any> = {
  */
 export function processesLoaderReducer<T>(
   entityType: string,
-  reducer?: (state: T | undefined, action: Action) => T
+  reducer?: (state: T | undefined, action: Action) => T,
 ): (
   state: ProcessesLoaderState<T>,
-  action: ProcessesLoaderAction
+  action: ProcessesLoaderAction,
 ) => ProcessesLoaderState<T> {
   return (
     state: ProcessesLoaderState<T> = {
       ...initialProcessesState,
       ...initialLoaderState,
     },
-    action: ProcessesLoaderAction
+    action: ProcessesLoaderAction,
   ): ProcessesLoaderState<T> => {
     const loaderState = loaderReducer(entityType, reducer)(state, action);
     if (action.meta && action.meta.entityType === entityType) {
@@ -47,7 +47,7 @@ export function processesLoaderReducer<T>(
             'Make sure to keep processesCount in sync.\n' +
             'There should always be only one decrement action for each increment action.\n' +
             "Make sure that you don't reset state in between those actions.\n",
-          action
+          action,
         );
       }
       if (processesCountDiff) {

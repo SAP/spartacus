@@ -108,7 +108,7 @@ describe('PreferredStoreService', () => {
       it('should dispatch action to set default point of service', () => {
         preferredStoreFacade.setPreferredStore(preferredStore);
         expect(store.dispatch).toHaveBeenCalledWith(
-          SetDefaultPointOfService({ payload: preferredStore })
+          SetDefaultPointOfService({ payload: preferredStore }),
         );
       });
     });
@@ -129,25 +129,25 @@ describe('PreferredStoreService', () => {
       const productCode = 'P001';
 
       spyOn(preferredStoreFacade, 'getPreferredStore$').and.returnValue(
-        of(preferredStore)
+        of(preferredStore),
       );
       spyOn(pickupLocationSearchService, 'stockLevelAtStore').and.callThrough();
       spyOn(
         pickupLocationSearchService,
-        'getStockLevelAtStore'
+        'getStockLevelAtStore',
       ).and.returnValue(of({ stockLevelStatus: 'inStock' }));
 
       const preferredStoreWithStock =
         preferredStoreFacade.getPreferredStoreWithProductInStock(productCode);
 
       preferredStoreWithStock.subscribe((value) =>
-        expect(value).toEqual(preferredStore)
+        expect(value).toEqual(preferredStore),
       );
       expect(
-        pickupLocationSearchService.stockLevelAtStore
+        pickupLocationSearchService.stockLevelAtStore,
       ).toHaveBeenCalledWith(productCode, preferredStore.name);
       expect(
-        pickupLocationSearchService.getStockLevelAtStore
+        pickupLocationSearchService.getStockLevelAtStore,
       ).toHaveBeenCalledWith(productCode, preferredStore.name);
     });
   });

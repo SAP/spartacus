@@ -20,7 +20,7 @@ export class FocusDirective extends LockFocusDirective {
   constructor(
     protected elementRef: ElementRef,
     protected service: KeyboardFocusService,
-    protected renderer: Renderer2
+    protected renderer: Renderer2,
   ) {
     super(elementRef, service, renderer);
   }

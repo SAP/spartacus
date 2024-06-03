@@ -18,7 +18,7 @@ export class ReplenishmentOrderHistoryConnector {
 
   public load(
     userId: string,
-    replenishmentOrderCode: string
+    replenishmentOrderCode: string,
   ): Observable<ReplenishmentOrder> {
     return this.adapter.load(userId, replenishmentOrderCode);
   }
@@ -28,24 +28,24 @@ export class ReplenishmentOrderHistoryConnector {
     replenishmentOrderCode: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<OrderHistoryList> {
     return this.adapter.loadReplenishmentDetailsHistory(
       userId,
       replenishmentOrderCode,
       pageSize,
       currentPage,
-      sort
+      sort,
     );
   }
 
   public cancelReplenishmentOrder(
     userId: string,
-    replenishmentOrderCode: string
+    replenishmentOrderCode: string,
   ): Observable<ReplenishmentOrder> {
     return this.adapter.cancelReplenishmentOrder(
       userId,
-      replenishmentOrderCode
+      replenishmentOrderCode,
     );
   }
 
@@ -53,7 +53,7 @@ export class ReplenishmentOrderHistoryConnector {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<ReplenishmentOrderList> {
     return this.adapter.loadHistory(userId, pageSize, currentPage, sort);
   }

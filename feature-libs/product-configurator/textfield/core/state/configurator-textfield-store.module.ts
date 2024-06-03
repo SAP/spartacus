@@ -23,7 +23,7 @@ import {
     StateModule,
     StoreModule.forFeature(
       CONFIGURATION_TEXTFIELD_FEATURE,
-      configuratorTextfieldReducerToken
+      configuratorTextfieldReducerToken,
     ),
     EffectsModule.forFeature(configuratorTextfieldEffects),
   ],

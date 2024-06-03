@@ -27,12 +27,12 @@ export class ProtectedRoutesService {
 
   constructor(
     protected config: RoutingConfig,
-    protected urlParsingService: UrlParsingService
+    protected urlParsingService: UrlParsingService,
   ) {
     if (this.shouldProtect) {
       // pre-process config for performance:
       this.nonProtectedPaths = this.getNonProtectedPaths().map((path) =>
-        this.getSegments(path)
+        this.getSegments(path),
       );
     }
   }
@@ -52,10 +52,10 @@ export class ProtectedRoutesService {
    */
   protected matchAnyPath(
     urlSegments: string[],
-    pathsSegments: string[][]
+    pathsSegments: string[][],
   ): boolean {
     return pathsSegments.some((pathSegments) =>
-      this.matchPath(urlSegments, pathSegments)
+      this.matchPath(urlSegments, pathSegments),
     );
   }
 
@@ -77,7 +77,7 @@ export class ProtectedRoutesService {
         routeConfig.paths.length
           ? acc.concat(routeConfig?.paths ?? [])
           : acc,
-      []
+      [],
     );
   }
 

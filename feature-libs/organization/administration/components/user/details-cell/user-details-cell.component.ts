@@ -30,7 +30,7 @@ export class UserDetailsCellComponent extends CellComponent {
 
   constructor(
     protected b2bUserService: B2BUserService,
-    protected outlet: OutletContextData<TableDataOutletContext>
+    protected outlet: OutletContextData<TableDataOutletContext>,
   ) {
     super(outlet);
     this.b2bUserModel = super.model as B2BUser;
@@ -38,7 +38,7 @@ export class UserDetailsCellComponent extends CellComponent {
 
   hasRight(model: B2BUser): boolean {
     return (model.roles ?? []).some((role: string) =>
-      this.availableRights.includes(role)
+      this.availableRights.includes(role),
     );
   }
 }

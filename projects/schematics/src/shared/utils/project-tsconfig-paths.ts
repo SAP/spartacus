@@ -16,7 +16,7 @@ import { getWorkspace } from './workspace-utils';
  */
 export function getProjectTsConfigPaths(
   tree: Tree,
-  project?: string
+  project?: string,
 ): { buildPaths: string[]; testPaths: string[] } {
   const buildPaths = new Set<string>([]);
   const testPaths = new Set<string>([]);
@@ -29,11 +29,11 @@ export function getProjectTsConfigPaths(
       if (workspace.projects[project]) {
         const buildPath = getTargetTsconfigPath(
           workspace.projects[project],
-          'build'
+          'build',
         );
         const testPath = getTargetTsconfigPath(
           workspace.projects[project],
-          'test'
+          'test',
         );
 
         addBuildPath(buildPath);
@@ -41,7 +41,7 @@ export function getProjectTsConfigPaths(
       }
     } else {
       const projects = Object.keys(workspace.projects).map(
-        (name) => workspace.projects[name]
+        (name) => workspace.projects[name],
       );
       for (const workspaceProject of projects) {
         const buildPath = getTargetTsconfigPath(workspaceProject, 'build');
@@ -75,7 +75,7 @@ export function getProjectTsConfigPaths(
 /** Gets the tsconfig path from the given target within the specified project. */
 function getTargetTsconfigPath(
   project: WorkspaceProject,
-  targetName: string
+  targetName: string,
 ): string | null {
   if (
     project.targets &&

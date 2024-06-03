@@ -32,8 +32,8 @@ describe('BudgetRoutePageMetaResolver', () => {
         resolver.resolveBreadcrumbs({
           url: 'testPath',
           pageMetaConfig: { breadcrumb: { i18n: 'testTranslation' } },
-        })
-      )
+        }),
+      ),
     ).toEqual([{ label: 'testTranslation code:testCode', link: 'testPath' }]);
   });
 });

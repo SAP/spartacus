@@ -34,7 +34,7 @@ export class StoreFinderListComponent {
 
   constructor(
     private storeFinderService: StoreFinderService,
-    @Inject(DOCUMENT) private document: any
+    @Inject(DOCUMENT) private document: any,
   ) {
     this.isDetailsModeVisible = false;
   }
@@ -45,7 +45,7 @@ export class StoreFinderListComponent {
     this.selectedStore = location;
     this.storeMap.centerMap(
       this.storeFinderService.getStoreLatitude(this.locations.stores[index]),
-      this.storeFinderService.getStoreLongitude(this.locations.stores[index])
+      this.storeFinderService.getStoreLongitude(this.locations.stores[index]),
     );
   }
 

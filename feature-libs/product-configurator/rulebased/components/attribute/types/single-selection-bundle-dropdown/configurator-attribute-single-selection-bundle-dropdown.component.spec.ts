@@ -96,7 +96,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     quantity: number,
     selected: boolean,
     valueCode: string,
-    valueDisplay: string
+    valueDisplay: string,
   ): Configurator.Value => {
     const value: Configurator.Value = {
       description,
@@ -111,12 +111,12 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   };
 
   function createComponentWithData(
-    isCartEntryOrGroupVisited: boolean = true
+    isCartEntryOrGroupVisited: boolean = true,
   ): ConfiguratorAttributeSingleSelectionBundleDropdownComponent {
     showRequiredErrorMessage = isCartEntryOrGroupVisited;
 
     fixture = TestBed.createComponent(
-      ConfiguratorAttributeSingleSelectionBundleDropdownComponent
+      ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
     );
 
     values = [
@@ -127,7 +127,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         1,
         true,
         Configurator.RetractValueCode,
-        'No Selected'
+        'No Selected',
       ),
       createValue(
         'Hih',
@@ -136,7 +136,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         1,
         true,
         '1111',
-        VALUE_DISPLAY_NAME
+        VALUE_DISPLAY_NAME,
       ),
       createValue(
         'Huh',
@@ -145,7 +145,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         1,
         false,
         '2222',
-        VALUE_DISPLAY_NAME
+        VALUE_DISPLAY_NAME,
       ),
       createValue(
         'Hah',
@@ -154,7 +154,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         1,
         false,
         '3333',
-        VALUE_DISPLAY_NAME
+        VALUE_DISPLAY_NAME,
       ),
       createValue(
         'Heh',
@@ -163,7 +163,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         1,
         false,
         '4444',
-        VALUE_DISPLAY_NAME
+        VALUE_DISPLAY_NAME,
       ),
     ];
 
@@ -188,60 +188,58 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     return component;
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-          ConfiguratorShowMoreComponent,
-          MockProductCardComponent,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-          MockFocusDirective,
-          MockFeatureLevelDirective,
-        ],
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+        ConfiguratorShowMoreComponent,
+        MockProductCardComponent,
+        MockConfiguratorAttributeQuantityComponent,
+        MockConfiguratorPriceComponent,
+        MockFocusDirective,
+        MockFeatureLevelDirective,
+      ],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
 
-        providers: [
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-        ],
-      })
-        .overrideComponent(
-          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-          {
-            set: {
-              changeDetection: ChangeDetectionStrategy.Default,
-              providers: [
-                {
-                  provide: ConfiguratorAttributeProductCardComponent,
-                  useClass: MockProductCardComponent,
-                },
-                {
-                  provide: ConfiguratorAttributeQuantityService,
-                  useClass: ConfiguratorAttributeQuantityService,
-                },
-              ],
-            },
-          }
-        )
-        .compileComponents();
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(
+        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+        {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+            providers: [
+              {
+                provide: ConfiguratorAttributeProductCardComponent,
+                useClass: MockProductCardComponent,
+              },
+              {
+                provide: ConfiguratorAttributeQuantityService,
+                useClass: ConfiguratorAttributeQuantityService,
+              },
+            ],
+          },
+        },
+      )
+      .compileComponents();
+  }));
 
   afterEach(() => {
     document.body.removeChild(htmlElem);
@@ -253,7 +251,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'select.cx-required-error-msg'
+      'select.cx-required-error-msg',
     );
   });
 
@@ -262,7 +260,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'select.cx-required-error-msg'
+      'select.cx-required-error-msg',
     );
   });
 
@@ -277,7 +275,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     fixture.detectChanges();
 
     const card = htmlElem.querySelector(
-      'cx-configurator-attribute-product-card'
+      'cx-configurator-attribute-product-card',
     );
 
     expect(card).toBeTruthy();
@@ -295,7 +293,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
     });
 
@@ -322,7 +320,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlEl,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
     }
 
@@ -337,7 +335,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           undefined,
           undefined,
           'configurator.a11y.listbox count:' +
-            component.attribute.values?.length
+            component.attribute.values?.length,
         );
       });
 
@@ -349,7 +347,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           'form-control',
           0,
           'aria-describedby',
-          'cx-configurator--label--nameAttribute'
+          'cx-configurator--label--nameAttribute',
         );
       });
 
@@ -365,7 +363,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
             component.attribute.label +
             ' value:' +
             VALUE_DISPLAY_NAME,
-          VALUE_DISPLAY_NAME
+          VALUE_DISPLAY_NAME,
         );
       });
     });
@@ -400,7 +398,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
     it('should return `true` in case valueCode is `###RETRACT_VALUE_CODE###`', () => {
       expect(component.isRetractValue(Configurator.RetractValueCode)).toBe(
-        true
+        true,
       );
     });
 

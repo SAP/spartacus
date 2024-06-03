@@ -16,19 +16,17 @@ describe('ProfileTagComponent', () => {
   let component: ProfileTagComponent;
   let fixture: ComponentFixture<ProfileTagComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProfileTagComponent],
-        providers: [
-          {
-            provide: ProfileTagInjectorService,
-            useClass: MockProfileTagInjector,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProfileTagComponent],
+      providers: [
+        {
+          provide: ProfileTagInjectorService,
+          useClass: MockProfileTagInjector,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfileTagComponent);
@@ -43,7 +41,7 @@ describe('ProfileTagComponent', () => {
   it('should be loaded', () => {
     let result: boolean;
     const subscription = component.profileTagEnabled$.subscribe(
-      (data) => (result = data)
+      (data) => (result = data),
     );
     expect(result).toBe(true);
     subscription.unsubscribe();

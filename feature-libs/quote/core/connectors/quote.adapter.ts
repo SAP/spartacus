@@ -26,7 +26,7 @@ export abstract class QuoteAdapter {
    */
   abstract getQuotes(
     userId: string,
-    pagination: PaginationModel
+    pagination: PaginationModel,
   ): Observable<QuoteList>;
 
   /**
@@ -38,7 +38,7 @@ export abstract class QuoteAdapter {
    */
   abstract createQuote(
     userId: string,
-    quoteStarter: QuoteStarter
+    quoteStarter: QuoteStarter,
   ): Observable<Quote>;
 
   /**
@@ -61,7 +61,7 @@ export abstract class QuoteAdapter {
   abstract editQuote(
     userId: string,
     quoteCode: string,
-    quoteMetadata: QuoteMetadata
+    quoteMetadata: QuoteMetadata,
   ): Observable<unknown>;
 
   /**
@@ -75,7 +75,7 @@ export abstract class QuoteAdapter {
   abstract performQuoteAction(
     userId: string,
     quoteCode: string,
-    quoteAction: QuoteActionType
+    quoteAction: QuoteActionType,
   ): Observable<unknown>;
 
   /**
@@ -89,7 +89,7 @@ export abstract class QuoteAdapter {
   abstract addComment(
     userId: string,
     quoteCode: string,
-    quoteComment: QuoteComment
+    quoteComment: QuoteComment,
   ): Observable<unknown>;
 
   /**
@@ -103,7 +103,7 @@ export abstract class QuoteAdapter {
   abstract addDiscount(
     userId: string,
     quoteCode: string,
-    discount: QuoteDiscount
+    discount: QuoteDiscount,
   ): Observable<unknown>;
 
   /**
@@ -119,7 +119,7 @@ export abstract class QuoteAdapter {
     userId: string,
     quoteCode: string,
     entryNumber: string,
-    comment: QuoteComment
+    comment: QuoteComment,
   ): Observable<unknown>;
 
   /**
@@ -133,6 +133,6 @@ export abstract class QuoteAdapter {
   abstract downloadAttachment(
     userId: string,
     quoteCode: string,
-    attachmentId: string
+    attachmentId: string,
   ): Observable<Blob>;
 }

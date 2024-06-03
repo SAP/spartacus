@@ -18,7 +18,7 @@ const mockInjector = {
   get: createSpy('get').and.callFake((providerToken: string) =>
     providerToken === providerToken1
       ? of(contextInstance1)
-      : of(contextInstance2)
+      : of(contextInstance2),
   ),
 };
 

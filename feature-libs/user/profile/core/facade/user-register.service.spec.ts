@@ -51,7 +51,7 @@ describe('UserRegisterService', () => {
     [UserRegisterService],
     (userRegisterService: UserRegisterService) => {
       expect(userRegisterService).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to register user', () => {

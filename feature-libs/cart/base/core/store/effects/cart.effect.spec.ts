@@ -82,11 +82,11 @@ describe('Cart effect', () => {
         StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
         StoreModule.forFeature(
           CLIENT_AUTH_FEATURE,
-          fromClientAuthReducers.getReducers()
+          fromClientAuthReducers.getReducers(),
         ),
         StoreModule.forFeature(
           MULTI_CART_FEATURE,
-          fromCartReducers.getMultiCartReducers()
+          fromCartReducers.getMultiCartReducers(),
         ),
       ],
 
@@ -181,7 +181,7 @@ describe('Cart effect', () => {
               { reason: 'notFound', subjectType: 'cart', subject: '123456' },
             ],
           },
-        }))
+        })),
       );
       const removeCartCompletion = new CartActions.RemoveCart({ cartId });
       actions$ = hot('-a', { a: action });
@@ -331,7 +331,7 @@ describe('Cart effect', () => {
           cartId: cartId,
         });
         const decrementCompletion = new CartActions.CartProcessesDecrement(
-          cartId
+          cartId,
         );
 
         actions$ = hot('-a', { a: action });
@@ -388,7 +388,7 @@ describe('Cart effect', () => {
         });
 
         expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
-          expected
+          expected,
         );
       });
     });

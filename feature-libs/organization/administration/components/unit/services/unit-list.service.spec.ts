@@ -287,7 +287,7 @@ const mockedTreeAfterConvert = {
 };
 
 const treeToggle$ = new BehaviorSubject(
-  new Map().set(mockedTree.id, TREE_TOGGLE.EXPANDED)
+  new Map().set(mockedTree.id, TREE_TOGGLE.EXPANDED),
 );
 
 const mockTree$ = new BehaviorSubject(mockedTree);

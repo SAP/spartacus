@@ -40,7 +40,7 @@ describe('CdsEndpointsService', () => {
   describe('getUrl', () => {
     it('should prepend a known endpoint with the base url, but not replace palceholders when none are provided', () => {
       expect(cdsEndpointsService.getUrl(STRATEGY_PRODUCTS_ENDPOINT_KEY)).toBe(
-        `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/\${strategyId}/products`
+        `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/\${strategyId}/products`,
       );
     });
 
@@ -48,7 +48,7 @@ describe('CdsEndpointsService', () => {
       expect(
         cdsEndpointsService.getUrl(STRATEGY_PRODUCTS_ENDPOINT_KEY, {
           strategyId: STRATEGY_ID,
-        })
+        }),
       ).toBe(FULLY_CALCULATED_URL);
     });
 
@@ -58,9 +58,9 @@ describe('CdsEndpointsService', () => {
         cdsEndpointsService.getUrl(STRATEGY_PRODUCTS_ENDPOINT_KEY, {
           strategyId: STRATEGY_ID,
           tenant: ALTERNATIVE_TENANT,
-        })
+        }),
       ).toBe(
-        `${mockCdsConfig.cds.baseUrl}/strategy/${ALTERNATIVE_TENANT}/strategies/${STRATEGY_ID}/products`
+        `${mockCdsConfig.cds.baseUrl}/strategy/${ALTERNATIVE_TENANT}/strategies/${STRATEGY_ID}/products`,
       );
     });
 
@@ -69,7 +69,7 @@ describe('CdsEndpointsService', () => {
         cdsEndpointsService.getUrl(STRATEGY_PRODUCTS_ENDPOINT_KEY, {
           strategyId: STRATEGY_ID,
           someOtherField: 'someOtherField',
-        })
+        }),
       ).toBe(FULLY_CALCULATED_URL);
     });
 
@@ -80,15 +80,15 @@ describe('CdsEndpointsService', () => {
         cdsEndpointsService.getUrl(UNKNOWN_ENDPOINT_KEY, {
           placeHolder1: 'value1',
           placeHolder2: 'value2',
-        })
+        }),
       ).toBe(
-        `${mockCdsConfig.cds.baseUrl}/some-other-url-with-placeholders/value1/value2`
+        `${mockCdsConfig.cds.baseUrl}/some-other-url-with-placeholders/value1/value2`,
       );
     });
 
     it('should not prepend an endpoint that already has the configured base url with the configured base url', () => {
       expect(cdsEndpointsService.getUrl(FULLY_CALCULATED_URL)).toBe(
-        FULLY_CALCULATED_URL
+        FULLY_CALCULATED_URL,
       );
     });
 
@@ -96,8 +96,8 @@ describe('CdsEndpointsService', () => {
       expect(
         cdsEndpointsService.getUrl(
           `${mockCdsConfig.cds.baseUrl}${mockCdsConfig.cds.endpoints.strategyProducts}`,
-          { strategyId: STRATEGY_ID }
-        )
+          { strategyId: STRATEGY_ID },
+        ),
       ).toBe(FULLY_CALCULATED_URL);
     });
 
@@ -105,9 +105,9 @@ describe('CdsEndpointsService', () => {
       expect(
         cdsEndpointsService.getUrl(STRATEGY_PRODUCTS_ENDPOINT_KEY, {
           strategyId: 'ąćę$%',
-        })
+        }),
       ).toBe(
-        `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/%C4%85%C4%87%C4%99%24%25/products`
+        `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/%C4%85%C4%87%C4%99%24%25/products`,
       );
     });
 
@@ -127,8 +127,8 @@ describe('CdsEndpointsService', () => {
           {
             strategyId: STRATEGY_ID,
           },
-          strategyRequest.queryParams
-        )
+          strategyRequest.queryParams,
+        ),
       ).toBe(FULLY_CALCULATED_URL_WITH_QUERY_PARAMS);
     });
 
@@ -148,8 +148,8 @@ describe('CdsEndpointsService', () => {
           {
             strategyId: STRATEGY_ID,
           },
-          strategyRequestNoPageSize.queryParams
-        )
+          strategyRequestNoPageSize.queryParams,
+        ),
       ).toBe(FULLY_CALCULATED_URL_WITH_QUERY_PARAMS);
     });
 
@@ -170,8 +170,8 @@ describe('CdsEndpointsService', () => {
           {
             strategyId: STRATEGY_ID,
           },
-          strategyRequest.queryParams
-        )
+          strategyRequest.queryParams,
+        ),
       ).toBe(FULLY_CALCULATED_URL_WITH_QUERY_PARAMS);
     });
 
@@ -182,9 +182,9 @@ describe('CdsEndpointsService', () => {
         cdsEndpointsService.getUrl(UNKNOWN_ENDPOINT_KEY, {
           placeHolder1: 'value1',
           placeHolder2: 'value2',
-        })
+        }),
       ).toBe(
-        `${mockCdsConfig.cds.baseUrl}/some-other-url-with-placeholders/value1/value2`
+        `${mockCdsConfig.cds.baseUrl}/some-other-url-with-placeholders/value1/value2`,
       );
     });
   });

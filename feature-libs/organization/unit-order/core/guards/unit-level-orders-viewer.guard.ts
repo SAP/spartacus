@@ -24,7 +24,7 @@ export class UnitLevelOrdersViewerGuard {
   constructor(
     protected userAccountFacade: UserAccountFacade,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   canActivate(): Observable<boolean> {
@@ -44,12 +44,12 @@ export class UnitLevelOrdersViewerGuard {
             {
               key: 'organization.notification.noSufficientPermissions',
             },
-            GlobalMessageType.MSG_TYPE_WARNING
+            GlobalMessageType.MSG_TYPE_WARNING,
           );
         }
 
         return hasRole;
-      })
+      }),
     );
   }
 }

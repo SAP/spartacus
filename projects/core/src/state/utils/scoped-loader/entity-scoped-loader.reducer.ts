@@ -19,13 +19,13 @@ import {
  */
 export function entityScopedLoaderReducer<T>(
   entityType: string,
-  reducer?: (state: T | undefined, action: LoaderAction) => T
+  reducer?: (state: T | undefined, action: LoaderAction) => T,
 ): (
   state: EntityScopedLoaderState<T> | undefined,
-  action: EntityScopedLoaderActions.EntityScopedLoaderAction
+  action: EntityScopedLoaderActions.EntityScopedLoaderAction,
 ) => EntityScopedLoaderState<T> {
   return entityReducer<ScopedLoaderState<T>>(
     entityType,
-    scopedLoaderReducer<T>(entityType, reducer)
+    scopedLoaderReducer<T>(entityType, reducer),
   );
 }

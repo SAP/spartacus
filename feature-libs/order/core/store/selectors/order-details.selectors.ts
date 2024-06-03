@@ -17,10 +17,10 @@ export const getOrderDetailState: MemoizedSelector<
 
 export const getOrderDetails: MemoizedSelector<StateWithOrder, Order> =
   createSelector(getOrderDetailState, (state: StateUtils.LoaderState<Order>) =>
-    StateUtils.loaderValueSelector(state)
+    StateUtils.loaderValueSelector(state),
   );
 
 export const getOrderDetailsLoading: MemoizedSelector<StateWithOrder, boolean> =
   createSelector(getOrderDetailState, (state: StateUtils.LoaderState<Order>) =>
-    StateUtils.loaderLoadingSelector(state)
+    StateUtils.loaderLoadingSelector(state),
   );

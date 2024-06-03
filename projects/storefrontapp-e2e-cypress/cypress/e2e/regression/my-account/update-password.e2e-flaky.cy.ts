@@ -18,7 +18,7 @@ describe('My Account - Update Password', () => {
     before(() =>
       cy.window().then((win) => {
         win.sessionStorage.clear();
-      })
+      }),
     );
     // Core e2e test. Repeat in mobile viewport.
     updatePassword.testUpdatePasswordLoggedInUser();
@@ -28,7 +28,7 @@ describe('My Account - Update Password', () => {
     before(() =>
       cy.window().then((win) => {
         win.sessionStorage.clear();
-      })
+      }),
     );
 
     describe('update password by agent', { testIsolation: false }, () => {
@@ -36,7 +36,7 @@ describe('My Account - Update Password', () => {
       before(() => {
         standardUser.registrationData.email = generateMail(
           randomString(),
-          true
+          true,
         );
         cy.requireLoggedIn(standardUser);
         cy.visit('/');
@@ -64,13 +64,13 @@ describe('My Account - Update Password', () => {
 
         alerts.getErrorAlert().should('not.exist');
         cy.get('[formcontrolname="oldPassword"]').type(
-          standardUser.registrationData.password
+          standardUser.registrationData.password,
         );
         cy.get('[formcontrolname="newPassword"]').type(
-          updatePassword.newPassword
+          updatePassword.newPassword,
         );
         cy.get('[formcontrolname="newPasswordConfirm"]').type(
-          updatePassword.newPassword
+          updatePassword.newPassword,
         );
         cy.get('cx-update-password button.btn-primary').click();
         cy.url().should('contain', updatePassword.PAGE_URL_UPDATE_PASSWORD);

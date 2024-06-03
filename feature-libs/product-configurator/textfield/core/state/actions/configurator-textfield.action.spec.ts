@@ -10,7 +10,7 @@ describe('ConfiguratorTextfieldActions', () => {
         owner: ConfiguratorModelUtils.createInitialOwner(),
       });
     expect(createAction.type).toBe(
-      ConfiguratorTextfieldActions.CREATE_CONFIGURATION
+      ConfiguratorTextfieldActions.CREATE_CONFIGURATION,
     );
   });
 
@@ -21,7 +21,7 @@ describe('ConfiguratorTextfieldActions', () => {
         owner: ConfiguratorModelUtils.createInitialOwner(),
       });
     expect(createAction.type).toBe(
-      ConfiguratorTextfieldActions.CREATE_CONFIGURATION_SUCCESS
+      ConfiguratorTextfieldActions.CREATE_CONFIGURATION_SUCCESS,
     );
   });
 
@@ -29,7 +29,7 @@ describe('ConfiguratorTextfieldActions', () => {
     const createAction: ConfiguratorTextfieldActions.ConfiguratorActions =
       new ConfiguratorTextfieldActions.CreateConfigurationFail({});
     expect(createAction.type).toBe(
-      ConfiguratorTextfieldActions.CREATE_CONFIGURATION_FAIL
+      ConfiguratorTextfieldActions.CREATE_CONFIGURATION_FAIL,
     );
   });
 
@@ -40,7 +40,7 @@ describe('ConfiguratorTextfieldActions', () => {
         owner: ConfiguratorModelUtils.createInitialOwner(),
       });
     expect(updateAction.type).toBe(
-      ConfiguratorTextfieldActions.UPDATE_CONFIGURATION
+      ConfiguratorTextfieldActions.UPDATE_CONFIGURATION,
     );
   });
 

@@ -30,10 +30,10 @@ describe('CheckoutCostCenterConnector', () => {
     });
 
     service = TestBed.inject(
-      CheckoutCostCenterConnector as Type<CheckoutCostCenterConnector>
+      CheckoutCostCenterConnector as Type<CheckoutCostCenterConnector>,
     );
     adapter = TestBed.inject(
-      CheckoutCostCenterAdapter as Type<CheckoutCostCenterAdapter>
+      CheckoutCostCenterAdapter as Type<CheckoutCostCenterAdapter>,
     );
   });
 
@@ -49,7 +49,7 @@ describe('CheckoutCostCenterConnector', () => {
     expect(adapter.setCostCenter).toHaveBeenCalledWith(
       'userId',
       'cartId',
-      'testCostCenter'
+      'testCostCenter',
     );
   });
 });

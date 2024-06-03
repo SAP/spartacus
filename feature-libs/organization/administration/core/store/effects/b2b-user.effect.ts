@@ -69,12 +69,12 @@ export class B2BUserEffects {
               new B2BUserActions.LoadB2BUserFail({
                 orgCustomerId,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   createB2BUser$: Observable<
@@ -100,13 +100,13 @@ export class B2BUserEffects {
                   new B2BUserActions.CreateB2BUserSuccess(
                     // TODO (CXSPA-5630): Remove feature flag in next major.
                     this.featureConfigService?.isEnabled(
-                      'fixMyCompanyUnitUserCreation'
+                      'fixMyCompanyUnitUserCreation',
                     )
                       ? {
                           customerId: orgCustomer.customerId,
                           orgUnit: orgCustomer.orgUnit,
                         }
-                      : { customerId: undefined }
+                      : { customerId: undefined },
                   ),
                   new OrganizationActions.OrganizationClearData(),
                 ] as any[];
@@ -119,11 +119,11 @@ export class B2BUserEffects {
                       orgUnitId: orgCustomer.orgUnit?.uid ?? '',
                       orgCustomerId: data.customerId ?? '',
                       roleId: B2BUserRole.APPROVER,
-                    })
+                    }),
                   );
                 }
                 return successActions;
-              })
+              }),
             );
           }),
           catchError((error: HttpErrorResponse) =>
@@ -133,11 +133,11 @@ export class B2BUserEffects {
                 error: normalizeHttpError(error, this.logger),
               }),
               new OrganizationActions.OrganizationClearData(),
-            ])
-          )
-        )
-      )
-    )
+            ]),
+          ),
+        ),
+      ),
+    ),
   );
 
   updateB2BUser$: Observable<
@@ -166,7 +166,7 @@ export class B2BUserEffects {
                     orgUnitId: orgCustomer.orgUnit?.uid ?? '',
                     orgCustomerId,
                     roleId: B2BUserRole.APPROVER,
-                  })
+                  }),
                 );
               }
               return successActions;
@@ -178,11 +178,11 @@ export class B2BUserEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
+              ]),
+            ),
           );
-      })
-    )
+      }),
+    ),
   );
 
   checkSelfEmailUpdate$: Observable<
@@ -195,7 +195,7 @@ export class B2BUserEffects {
       map((action: B2BUserActions.UpdateB2BUserSuccess) => action.payload),
       withLatestFrom(
         this.userAccountFacade.get(),
-        this.userIdService.getUserId()
+        this.userIdService.getUserId(),
       ),
       switchMap(
         ([payload, currentUser]: [B2BUser, User | undefined, string]) => {
@@ -209,9 +209,9 @@ export class B2BUserEffects {
           return currentUserEmailMatch
             ? [new AuthActions.Logout()]
             : [new OrganizationActions.OrganizationClearData()];
-        }
-      )
-    )
+        },
+      ),
+    ),
   );
 
   loadB2BUsers$: Observable<
@@ -227,7 +227,7 @@ export class B2BUserEffects {
           switchMap((b2bUsers: EntitiesModel<B2BUser>) => {
             const { values, page } = StateUtils.normalizeListPage(
               b2bUsers,
-              'customerId'
+              'customerId',
             );
             return [
               new B2BUserActions.LoadB2BUserSuccess(values),
@@ -242,12 +242,12 @@ export class B2BUserEffects {
               new B2BUserActions.LoadB2BUsersFail({
                 params: payload.params,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   loadB2BUserApprovers$: Observable<
@@ -259,7 +259,7 @@ export class B2BUserEffects {
       ofType(B2BUserActions.LOAD_B2B_USER_APPROVERS),
       map((action: B2BUserActions.LoadB2BUserApprovers) => action.payload),
       groupBy(({ orgCustomerId, params }) =>
-        StateUtils.serializeParams(orgCustomerId, params)
+        StateUtils.serializeParams(orgCustomerId, params),
       ),
       mergeMap((group) =>
         group.pipe(
@@ -268,13 +268,13 @@ export class B2BUserEffects {
               .getApprovers(
                 payload.userId,
                 payload.orgCustomerId,
-                payload.params
+                payload.params,
               )
               .pipe(
                 switchMap((approvers: EntitiesModel<B2BUser>) => {
                   const { values, page } = StateUtils.normalizeListPage(
                     approvers,
-                    'customerId'
+                    'customerId',
                   );
                   return [
                     new B2BUserActions.LoadB2BUserSuccess(values),
@@ -291,14 +291,14 @@ export class B2BUserEffects {
                       orgCustomerId: payload.orgCustomerId,
                       params: payload.params,
                       error: normalizeHttpError(error, this.logger),
-                    })
-                  )
-                )
-              )
-          )
-        )
-      )
-    )
+                    }),
+                  ),
+                ),
+              ),
+          ),
+        ),
+      ),
+    ),
   );
 
   loadB2BUserPermissions$: Observable<
@@ -310,7 +310,7 @@ export class B2BUserEffects {
       ofType(B2BUserActions.LOAD_B2B_USER_PERMISSIONS),
       map((action: B2BUserActions.LoadB2BUserPermissions) => action.payload),
       groupBy(({ orgCustomerId, params }) =>
-        StateUtils.serializeParams(orgCustomerId, params)
+        StateUtils.serializeParams(orgCustomerId, params),
       ),
       mergeMap((group) =>
         group.pipe(
@@ -319,13 +319,13 @@ export class B2BUserEffects {
               .getPermissions(
                 payload.userId,
                 payload.orgCustomerId,
-                payload.params
+                payload.params,
               )
               .pipe(
                 switchMap((permissions: EntitiesModel<Permission>) => {
                   const { values, page } = StateUtils.normalizeListPage(
                     permissions,
-                    'code'
+                    'code',
                   );
                   return [
                     new PermissionActions.LoadPermissionSuccess(values),
@@ -342,14 +342,14 @@ export class B2BUserEffects {
                       orgCustomerId: payload.orgCustomerId,
                       params: payload.params,
                       error: normalizeHttpError(error, this.logger),
-                    })
-                  )
-                )
-              )
-          )
-        )
-      )
-    )
+                    }),
+                  ),
+                ),
+              ),
+          ),
+        ),
+      ),
+    ),
   );
 
   loadB2BUserUserGroups$: Observable<
@@ -361,7 +361,7 @@ export class B2BUserEffects {
       ofType(B2BUserActions.LOAD_B2B_USER_USER_GROUPS),
       map((action: B2BUserActions.LoadB2BUserUserGroups) => action.payload),
       groupBy(({ orgCustomerId, params }) =>
-        StateUtils.serializeParams(orgCustomerId, params)
+        StateUtils.serializeParams(orgCustomerId, params),
       ),
       mergeMap((group) =>
         group.pipe(
@@ -370,13 +370,13 @@ export class B2BUserEffects {
               .getUserGroups(
                 payload.userId,
                 payload.orgCustomerId,
-                payload.params
+                payload.params,
               )
               .pipe(
                 switchMap((userGroups: EntitiesModel<UserGroup>) => {
                   const { values, page } = StateUtils.normalizeListPage(
                     userGroups,
-                    'uid'
+                    'uid',
                   );
                   return [
                     new UserGroupActions.LoadUserGroupSuccess(values),
@@ -393,14 +393,14 @@ export class B2BUserEffects {
                       orgCustomerId: payload.orgCustomerId,
                       params: payload.params,
                       error: normalizeHttpError(error, this.logger),
-                    })
-                  )
-                )
-              )
-          )
-        )
-      )
-    )
+                    }),
+                  ),
+                ),
+              ),
+          ),
+        ),
+      ),
+    ),
   );
 
   assignApproverToB2BUser$: Observable<
@@ -416,7 +416,7 @@ export class B2BUserEffects {
           .assignApprover(
             payload.userId,
             payload.orgCustomerId,
-            payload.approverId
+            payload.approverId,
           )
           .pipe(
             switchMap((data) => [
@@ -436,11 +436,11 @@ export class B2BUserEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   unassignApproverFromB2BUser$: Observable<
@@ -456,7 +456,7 @@ export class B2BUserEffects {
           .unassignApprover(
             payload.userId,
             payload.orgCustomerId,
-            payload.approverId
+            payload.approverId,
           )
           .pipe(
             switchMap((data) => [
@@ -476,11 +476,11 @@ export class B2BUserEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   assignPermissionToB2BUser$: Observable<
@@ -496,7 +496,7 @@ export class B2BUserEffects {
           .assignPermission(
             payload.userId,
             payload.orgCustomerId,
-            payload.permissionId
+            payload.permissionId,
           )
           .pipe(
             switchMap((data) => [
@@ -514,11 +514,11 @@ export class B2BUserEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   unassignPermissionFromB2BUser$: Observable<
@@ -534,7 +534,7 @@ export class B2BUserEffects {
           .unassignPermission(
             payload.userId,
             payload.orgCustomerId,
-            payload.permissionId
+            payload.permissionId,
           )
           .pipe(
             switchMap((data) => [
@@ -552,11 +552,11 @@ export class B2BUserEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   assignUserGroupToB2BUser$: Observable<
@@ -572,7 +572,7 @@ export class B2BUserEffects {
           .assignUserGroup(
             payload.userId,
             payload.orgCustomerId,
-            payload.userGroupId
+            payload.userGroupId,
           )
           .pipe(
             switchMap((data) => [
@@ -590,11 +590,11 @@ export class B2BUserEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   unassignUserGroupFromB2BUser$: Observable<
@@ -610,7 +610,7 @@ export class B2BUserEffects {
           .unassignUserGroup(
             payload.userId,
             payload.orgCustomerId,
-            payload.userGroupId
+            payload.userGroupId,
           )
           .pipe(
             switchMap(
@@ -626,7 +626,7 @@ export class B2BUserEffects {
                   selected: false,
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ]
+              ],
             ),
             catchError((error: HttpErrorResponse) =>
               from([
@@ -636,11 +636,11 @@ export class B2BUserEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   constructor(
@@ -648,7 +648,7 @@ export class B2BUserEffects {
     private b2bUserConnector: B2BUserConnector,
     private routingService: RoutingService,
     private userAccountFacade: UserAccountFacade,
-    private userIdService: UserIdService
+    private userIdService: UserIdService,
   ) {}
 
   protected redirectToDetails(route: RouterState, data: B2BUser) {

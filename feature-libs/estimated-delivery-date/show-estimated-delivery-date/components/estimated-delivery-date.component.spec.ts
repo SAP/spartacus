@@ -53,26 +53,24 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
   let mockCartItemContext: MockCartItemContext;
   let mockOrderHistoryFacade: MockOrderHistoryFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-        declarations: [
-          EstimatedDeliveryDateComponent,
-          MockConfigureEstimatedDeliveryDateComponent,
-        ],
-        providers: [
-          { provide: CartItemContext, useClass: MockCartItemContext },
-          { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
-          {
-            provide: TranslationService,
-            useClass: MockTranslationService,
-          },
-          { provide: LanguageService, useClass: MockLanguageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      declarations: [
+        EstimatedDeliveryDateComponent,
+        MockConfigureEstimatedDeliveryDateComponent,
+      ],
+      providers: [
+        { provide: CartItemContext, useClass: MockCartItemContext },
+        { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
+        { provide: LanguageService, useClass: MockLanguageService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EstimatedDeliveryDateComponent);
@@ -124,7 +122,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
 
       const htmlElem = fixture.nativeElement;
       expect(
-        htmlElem.querySelectorAll('.cx-estimated-delivery-date-info').length
+        htmlElem.querySelectorAll('.cx-estimated-delivery-date-info').length,
       ).toBe(0);
     });
 
@@ -142,7 +140,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
         arrivalSlot: undefined,
       };
       const result = component.hasConsignmentEntryArrivalSlot(
-        consignmentWithoutSlot
+        consignmentWithoutSlot,
       );
       expect(result).toBeFalsy();
     });
@@ -164,7 +162,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       expect(
-        htmlElem.querySelectorAll('.cx-estimated-delivery-date-info').length
+        htmlElem.querySelectorAll('.cx-estimated-delivery-date-info').length,
       ).toBe(2);
     });
 
@@ -184,11 +182,11 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
 
       it("should contain div element with class name 'cx-visually-hidden' that contains a hidden estimated delivery date info", function () {
         const divElementWithVisuallyHiddenClass = htmlElem.querySelector(
-          '.cx-visually-hidden'
+          '.cx-visually-hidden',
         );
 
         expect(divElementWithVisuallyHiddenClass?.innerHTML).toContain(
-          'estimatedDeliveryDate.estimatedDeliveryDateEntryInfo'
+          'estimatedDeliveryDate.estimatedDeliveryDateEntryInfo',
         );
       });
 
@@ -198,13 +196,13 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
 
         expect(
           divElementWithEstimatedDeliveryDateInfoClass?.attributes?.hasOwnProperty(
-            'aria-describedby'
-          )
+            'aria-describedby',
+          ),
         );
         expect(
           divElementWithEstimatedDeliveryDateInfoClass?.getAttribute(
-            'aria-describedby'
-          )
+            'aria-describedby',
+          ),
         ).toEqual('cx-estimated-delivery-date-info-0');
       });
 
@@ -212,7 +210,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
         const divElementWithCxLabelClass = htmlElem.querySelector('.cx-value');
 
         expect(
-          divElementWithCxLabelClass?.attributes?.hasOwnProperty('aria-hidden')
+          divElementWithCxLabelClass?.attributes?.hasOwnProperty('aria-hidden'),
         );
         expect(divElementWithCxLabelClass?.ariaHidden).toEqual('true');
 
@@ -221,14 +219,14 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
 
         expect(
           divElementWithCxValueClasses[0]?.attributes?.hasOwnProperty(
-            'aria-hidden'
-          )
+            'aria-hidden',
+          ),
         );
 
         expect(
           divElementWithCxValueClasses[1]?.attributes?.hasOwnProperty(
-            'aria-hidden'
-          )
+            'aria-hidden',
+          ),
         );
       });
     });

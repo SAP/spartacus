@@ -53,7 +53,7 @@ describe(`CheckoutQueryEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryReloadEvent
+        CheckoutQueryReloadEvent,
       );
     });
 
@@ -62,7 +62,7 @@ describe(`CheckoutQueryEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryReloadEvent
+        CheckoutQueryReloadEvent,
       );
     });
   });
@@ -73,7 +73,7 @@ describe(`CheckoutQueryEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
 
@@ -82,7 +82,7 @@ describe(`CheckoutQueryEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
 
@@ -91,7 +91,7 @@ describe(`CheckoutQueryEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
 
@@ -100,7 +100,7 @@ describe(`CheckoutQueryEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
 
@@ -109,7 +109,7 @@ describe(`CheckoutQueryEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
 
@@ -118,7 +118,7 @@ describe(`CheckoutQueryEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
   });

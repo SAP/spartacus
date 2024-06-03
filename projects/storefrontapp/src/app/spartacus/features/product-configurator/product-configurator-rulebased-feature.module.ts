@@ -28,7 +28,7 @@ if (environment.cpq) {
         [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
           module: () =>
             import('./rulebased-configurator-wrapper.module').then(
-              (m) => m.RulebasedConfiguratorWrapperModule
+              (m) => m.RulebasedConfiguratorWrapperModule,
             ),
         },
       },

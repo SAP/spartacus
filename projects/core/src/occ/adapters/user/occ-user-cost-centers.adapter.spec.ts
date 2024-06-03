@@ -25,7 +25,7 @@ class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { costCenterCode }) =>
-      url === 'costCenter' ? url + costCenterCode : url
+      url === 'costCenter' ? url + costCenterCode : url,
   );
 }
 
@@ -63,7 +63,7 @@ describe('OccUserCostCenterAdapter', () => {
     it('should load active costCenter list', () => {
       service.loadActiveList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'getActiveCostCenters'
+        (req) => req.method === 'GET' && req.url === 'getActiveCostCenters',
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
@@ -72,7 +72,7 @@ describe('OccUserCostCenterAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([costCenter]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        COST_CENTERS_NORMALIZER
+        COST_CENTERS_NORMALIZER,
       );
     });
   });

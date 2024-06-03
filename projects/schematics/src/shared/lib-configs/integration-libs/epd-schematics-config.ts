@@ -62,7 +62,7 @@ export const EPD_SCHEMATICS_CONFIG: SchematicConfig = {
 };
 
 function buildCdsConfig(
-  options: SpartacusEpdVisualizationOptions
+  options: SpartacusEpdVisualizationOptions,
 ): AdditionalFeatureConfiguration<SpartacusEpdVisualizationOptions> {
   return {
     providers: {

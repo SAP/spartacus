@@ -100,7 +100,7 @@ describe('ConfiguratorVariantEffect', () => {
     });
 
     configEffects = TestBed.inject(
-      fromEffects.ConfiguratorVariantEffects as Type<fromEffects.ConfiguratorVariantEffects>
+      fromEffects.ConfiguratorVariantEffects as Type<fromEffects.ConfiguratorVariantEffects>,
     );
   });
 
@@ -156,7 +156,7 @@ describe('ConfiguratorVariantEffect', () => {
 
   it('should not emit anything in case source action is not covered', () => {
     const actionNotCovered = new ConfiguratorActions.CreateConfigurationSuccess(
-      productConfiguration
+      productConfiguration,
     );
     actions$ = hot('-a', { a: actionNotCovered });
     const expected = cold('-');
@@ -182,7 +182,7 @@ describe('ConfiguratorVariantEffect', () => {
   describe('searchVariantsInCaseNotActive', () => {
     it('should emit success in case it is called with the variant feature not enabled (in order to reset loading status)', () => {
       const action = new ConfiguratorActions.SearchVariants(
-        productConfiguration
+        productConfiguration,
       );
       if (configuratorCoreConfig.productConfigurator) {
         configuratorCoreConfig.productConfigurator.enableVariantSearch = false;
@@ -195,13 +195,13 @@ describe('ConfiguratorVariantEffect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(configEffects.searchVariantsInCaseNotActive$).toBeObservable(
-        expected
+        expected,
       );
     });
 
     it('should emit success in case it is called with the variant feature enabled but for wrong configurator type (in order to reset loading status)', () => {
       const action = new ConfiguratorActions.SearchVariants(
-        productConfiguration
+        productConfiguration,
       );
       action.payload.owner.configuratorType = ConfiguratorType.CPQ;
       if (configuratorCoreConfig.productConfigurator) {
@@ -215,7 +215,7 @@ describe('ConfiguratorVariantEffect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(configEffects.searchVariantsInCaseNotActive$).toBeObservable(
-        expected
+        expected,
       );
     });
   });

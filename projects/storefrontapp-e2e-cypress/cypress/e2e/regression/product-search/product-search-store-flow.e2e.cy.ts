@@ -36,13 +36,13 @@ context('Product search store flow', () => {
         createProductQuery(
           QUERY_ALIAS.CANON,
           category,
-          PRODUCT_LISTING.PRODUCTS_PER_PAGE
+          PRODUCT_LISTING.PRODUCTS_PER_PAGE,
         );
         createProductQuery(
           QUERY_ALIAS.FIRST_PAGE,
           category,
           PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-          `1`
+          `1`,
         );
         createProductSortQuery('name-desc', QUERY_ALIAS.NAME_DSC_FILTER);
 
@@ -57,10 +57,10 @@ context('Product search store flow', () => {
         verifyProductSearch(
           QUERY_ALIAS.FIRST_PAGE,
           QUERY_ALIAS.NAME_DSC_FILTER,
-          PRODUCT_LISTING.SORTING_TYPES.BY_NAME_DESC
+          PRODUCT_LISTING.SORTING_TYPES.BY_NAME_DESC,
         );
         cy.intercept({ method: 'GET', path: `${searchUrlPrefix}?fields=*` }).as(
-          'facets'
+          'facets',
         );
 
         clickFacet('Stores');
@@ -79,7 +79,7 @@ context('Product search store flow', () => {
         cy.get('cx-add-to-cart:first button').click({ force: true });
         cy.get('cx-added-to-cart-dialog .cx-dialog-title').should(
           'contain',
-          'Item(s) added to your cart'
+          'Item(s) added to your cart',
         );
         cy.get('.cx-dialog-header .close').click();
         cy.get('cx-mini-cart .count').should('contain', '1');

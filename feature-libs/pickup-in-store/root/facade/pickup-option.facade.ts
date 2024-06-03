@@ -30,9 +30,9 @@ export abstract class PickupOptionFacade {
   abstract getPageContext(): Observable<string>;
   abstract setPickupOption(
     entryNumber: number,
-    pickupOption: PickupOption
+    pickupOption: PickupOption,
   ): void;
   abstract getPickupOption(
-    entryNumber: number
+    entryNumber: number,
   ): Observable<PickupOption | undefined>;
 }

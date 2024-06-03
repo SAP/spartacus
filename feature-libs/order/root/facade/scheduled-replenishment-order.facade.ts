@@ -26,6 +26,6 @@ export abstract class ScheduledReplenishmentOrderFacade {
    */
   abstract scheduleReplenishmentOrder(
     scheduleReplenishmentForm: ScheduleReplenishmentForm,
-    termsChecked: boolean
+    termsChecked: boolean,
   ): Observable<ReplenishmentOrder>;
 }

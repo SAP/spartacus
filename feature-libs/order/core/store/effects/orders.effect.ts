@@ -27,7 +27,7 @@ export class OrdersEffect {
   constructor(
     private actions$: Actions,
     private orderConnector: OrderHistoryConnector,
-    private replenishmentOrderConnector: ReplenishmentOrderHistoryConnector
+    private replenishmentOrderConnector: ReplenishmentOrderHistoryConnector,
   ) {}
 
   loadUserOrders$: Observable<OrderActions.UserOrdersAction> = createEffect(
@@ -43,13 +43,13 @@ export class OrdersEffect {
                   payload.replenishmentOrderCode ?? '',
                   payload.pageSize,
                   payload.currentPage,
-                  payload.sort
+                  payload.sort,
                 )
               : this.orderConnector.getHistory(
                   payload.userId,
                   payload.pageSize,
                   payload.currentPage,
-                  payload.sort
+                  payload.sort,
                 )
           ).pipe(
             map((orders: OrderHistoryList) => {
@@ -58,13 +58,13 @@ export class OrdersEffect {
             catchError((error) =>
               of(
                 new OrderActions.LoadUserOrdersFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
-        })
-      )
+        }),
+      ),
   );
 
   resetUserOrders$: Observable<OrderActions.ClearUserOrders> = createEffect(
@@ -73,7 +73,7 @@ export class OrdersEffect {
         ofType(SiteContextActions.LANGUAGE_CHANGE),
         map(() => {
           return new OrderActions.ClearUserOrders();
-        })
-      )
+        }),
+      ),
   );
 }

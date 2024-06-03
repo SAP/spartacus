@@ -47,7 +47,7 @@ export class MediaService {
     mediaContainer?: MediaContainer | Image,
     format?: string,
     alt?: string,
-    role?: string
+    role?: string,
   ): Media | undefined {
     if (!mediaContainer) {
       return;
@@ -91,7 +91,7 @@ export class MediaService {
           size: mediaFormats[key],
         }))
         .sort((a, b) =>
-          a.size.width && b.size.width && a.size.width > b.size.width ? 1 : -1
+          a.size.width && b.size.width && a.size.width > b.size.width ? 1 : -1,
         );
     }
     return this._sortedFormats ?? [];
@@ -121,7 +121,7 @@ export class MediaService {
    */
   protected resolveFormat(
     mediaContainer: MediaContainer,
-    format?: string
+    format?: string,
   ): string {
     if (format && mediaContainer[format]) {
       return format;
@@ -135,10 +135,10 @@ export class MediaService {
    * Returns the media format code with the best size.
    */
   protected resolveBestFormat(
-    media: MediaContainer | Image
+    media: MediaContainer | Image,
   ): string | undefined {
     return this.reversedFormats.find((format) =>
-      media.hasOwnProperty(format.code)
+      media.hasOwnProperty(format.code),
     )?.code;
   }
 
@@ -151,7 +151,7 @@ export class MediaService {
    */
   protected resolveSrcSet(
     media: MediaContainer | Image,
-    maxFormat?: string
+    maxFormat?: string,
   ): string | undefined {
     if (!media) {
       return undefined;

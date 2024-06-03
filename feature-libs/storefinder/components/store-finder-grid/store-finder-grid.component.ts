@@ -24,7 +24,7 @@ export class StoreFinderGridComponent implements OnInit {
 
   constructor(
     private storeFinderService: StoreFinderService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {

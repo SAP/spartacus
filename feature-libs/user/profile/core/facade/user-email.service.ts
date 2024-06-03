@@ -21,7 +21,7 @@ export class UserEmailService implements UserEmailFacade {
   constructor(
     protected userIdService: UserIdService,
     protected userProfileConnector: UserProfileConnector,
-    protected command: CommandService
+    protected command: CommandService,
   ) {}
 
   protected updateCommand: Command<{
@@ -36,13 +36,13 @@ export class UserEmailService implements UserEmailFacade {
             this.userProfileConnector.updateEmail(
               uid,
               payload.password,
-              payload.newUid
-            )
-          )
+              payload.newUid,
+            ),
+          ),
         ),
     {
       strategy: CommandStrategy.Queue,
-    }
+    },
   );
 
   /**

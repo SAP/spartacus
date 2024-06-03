@@ -25,7 +25,7 @@ describe('TransferStateReducer', () => {
               keys: {},
             },
           },
-        } as StateConfig
+        } as StateConfig,
       );
 
       expect(reducer).toEqual(jasmine.any(Function));
@@ -92,7 +92,7 @@ describe('TransferStateReducer', () => {
         {
           test: StateTransferType.TRANSFER_STATE,
         },
-        false
+        false,
       );
       reducer = metaReducer(subReducer);
     });

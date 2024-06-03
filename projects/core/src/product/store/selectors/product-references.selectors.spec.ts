@@ -28,7 +28,7 @@ describe('Product References selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           PRODUCT_FEATURE,
-          fromProductReducers.getReducers()
+          fromProductReducers.getReducers(),
         ),
       ],
     });
@@ -46,9 +46,9 @@ describe('Product References selectors', () => {
         select(
           ProductSelectors.getSelectedProductReferencesFactory(
             productCode,
-            referenceType
-          )
-        )
+            referenceType,
+          ),
+        ),
       )
       .subscribe((data) => (result = data))
       .unsubscribe();
@@ -61,7 +61,7 @@ describe('Product References selectors', () => {
       new ProductActions.LoadProductReferencesSuccess({
         productCode: productCode,
         list: list,
-      })
+      }),
     );
 
     let result: ProductReference[];
@@ -71,9 +71,9 @@ describe('Product References selectors', () => {
         select(
           ProductSelectors.getSelectedProductReferencesFactory(
             productCode,
-            referenceType
-          )
-        )
+            referenceType,
+          ),
+        ),
       )
       .subscribe((data) => (result = data))
       .unsubscribe();
@@ -86,7 +86,7 @@ describe('Product References selectors', () => {
       new ProductActions.LoadProductReferencesSuccess({
         productCode: productCode,
         list: [],
-      })
+      }),
     );
 
     let result: ProductReference[];
@@ -96,9 +96,9 @@ describe('Product References selectors', () => {
         select(
           ProductSelectors.getSelectedProductReferencesFactory(
             productCode,
-            referenceType
-          )
-        )
+            referenceType,
+          ),
+        ),
       )
       .subscribe((data) => (result = data))
       .unsubscribe();

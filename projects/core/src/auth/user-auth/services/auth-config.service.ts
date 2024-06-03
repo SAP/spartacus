@@ -20,7 +20,7 @@ import { OAuthFlow } from '../models/oauth-flow';
 export class AuthConfigService {
   constructor(
     protected authConfig: AuthConfig,
-    protected occConfig: OccConfig
+    protected occConfig: OccConfig,
   ) {}
 
   /**

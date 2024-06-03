@@ -32,7 +32,7 @@ export class VisibleFocusDirective extends BaseFocusDirective {
   // TODO: (CXSPA-5912) Remove usless constructor next major release
   constructor(
     protected elementRef: ElementRef<HTMLElement>,
-    protected service: BaseFocusService
+    protected service: BaseFocusService,
   ) {
     super(elementRef, service);
     useFeatureStyles('a11yMobileVisibleFocus');

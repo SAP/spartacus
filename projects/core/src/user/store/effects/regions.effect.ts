@@ -33,18 +33,18 @@ export class RegionsEffects {
               new UserActions.LoadRegionsSuccess({
                 entities: regions,
                 country: countryCode,
-              })
+              }),
           ),
           catchError((error) =>
             of(
               new UserActions.LoadRegionsFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   resetRegions$: Observable<Action> = createEffect(() =>
@@ -52,12 +52,12 @@ export class RegionsEffects {
       ofType(UserActions.CLEAR_USER_MISCS_DATA, UserActions.CLEAR_REGIONS),
       map(() => {
         return new StateUtils.LoaderResetAction(REGIONS);
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
     private actions$: Actions,
-    private siteConnector: SiteConnector
+    private siteConnector: SiteConnector,
   ) {}
 }

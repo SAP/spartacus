@@ -40,14 +40,14 @@ export class ConfiguratorAttributeDropDownComponent
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
   ) {
     super(
       quantityService,
       translation,
       attributeComponentContext,
       configuratorCommonsService,
-      configuratorStorefrontUtilsService
+      configuratorStorefrontUtilsService,
     );
 
     this.group = attributeComponentContext.group.id;

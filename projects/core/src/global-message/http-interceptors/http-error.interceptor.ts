@@ -29,7 +29,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       tap({
@@ -38,13 +38,13 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             this.handleErrorResponse(request, response);
           }
         },
-      })
+      }),
     );
   }
 
   protected handleErrorResponse(
     request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): void {
     const handler = this.getResponseHandler(response);
     if (handler) {
@@ -57,7 +57,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
    * If no handler is available, the UNKNOWN handler is returned.
    */
   protected getResponseHandler(
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): HttpErrorHandler | undefined {
     return resolveApplicable(getLastValueSync(this.handlers$) ?? [], [
       response,

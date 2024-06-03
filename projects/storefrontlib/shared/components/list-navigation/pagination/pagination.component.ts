@@ -56,7 +56,7 @@ export class PaginationComponent {
 
   constructor(
     private paginationBuilder: PaginationBuilder,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {}
 
   protected render(pagination: PaginationModel): void {
@@ -65,7 +65,7 @@ export class PaginationComponent {
     }
     this.pages = this.paginationBuilder.paginate(
       pagination.totalPages ?? 0,
-      pagination.currentPage ?? 0
+      pagination.currentPage ?? 0,
     );
   }
 
@@ -117,7 +117,7 @@ export class PaginationComponent {
   getQueryParams(item: PaginationItem): Params {
     const queryParams = Object.assign(
       {},
-      this.activatedRoute.snapshot.queryParams
+      this.activatedRoute.snapshot.queryParams,
     );
     if (
       this.queryParam &&

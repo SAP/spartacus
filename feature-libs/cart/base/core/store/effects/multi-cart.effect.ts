@@ -24,8 +24,10 @@ export class MultiCartEffects {
       this.actions$.pipe(
         ofType(CartActions.CART_ADD_VOUCHER),
         map((action: CartActions.CartAddVoucher) => action.payload),
-        map((payload) => new CartActions.CartProcessesIncrement(payload.cartId))
-      )
+        map(
+          (payload) => new CartActions.CartProcessesIncrement(payload.cartId),
+        ),
+      ),
     );
 
   setSelectiveId$: Observable<CartActions.SetCartTypeIndex> = createEffect(() =>
@@ -45,8 +47,8 @@ export class MultiCartEffects {
           }
         }
       }),
-      filter(isNotUndefined)
-    )
+      filter(isNotUndefined),
+    ),
   );
 
   setActiveCartId$: Observable<CartActions.SetCartTypeIndex> = createEffect(
@@ -57,7 +59,7 @@ export class MultiCartEffects {
           CartActions.LOAD_CART,
           CartActions.CREATE_CART_SUCCESS,
           CartActions.CREATE_CART,
-          CartActions.SET_ACTIVE_CART_ID
+          CartActions.SET_ACTIVE_CART_ID,
         ),
         map((action: CartActions.CartAction | CartActions.SetActiveCartId) => {
           switch (action.type) {
@@ -86,8 +88,8 @@ export class MultiCartEffects {
           }
           return undefined;
         }),
-        filter(isNotUndefined)
-      )
+        filter(isNotUndefined),
+      ),
   );
 
   /**
@@ -96,7 +98,7 @@ export class MultiCartEffects {
    * @returns cart type needed on load
    */
   private getActiveCartTypeOnLoad(
-    action: CartActions.LoadCart
+    action: CartActions.LoadCart,
   ): CartActions.SetCartTypeIndex | undefined {
     if (action?.payload?.cartId === OCC_CART_ID_CURRENT) {
       return new CartActions.SetCartTypeIndex({
@@ -113,7 +115,7 @@ export class MultiCartEffects {
    * @returns cart type
    */
   private getActiveCartTypeOnLoadSuccess(
-    action: CartActions.LoadCartSuccess
+    action: CartActions.LoadCartSuccess,
   ): CartActions.SetCartTypeIndex | undefined {
     // Extracted small portion of private effect's logic to a public service
     // to allow FSA for customizing it (for more, see CXSPA-3551)
@@ -126,7 +128,7 @@ export class MultiCartEffects {
    * @returns cart type needed on creation
    */
   private getActiveCartTypeOnCreate(
-    action: CartActions.CreateCart
+    action: CartActions.CreateCart,
   ): CartActions.SetCartTypeIndex | undefined {
     if (action?.payload?.extraData?.active) {
       return new CartActions.SetCartTypeIndex({
@@ -139,6 +141,6 @@ export class MultiCartEffects {
 
   constructor(
     private actions$: Actions,
-    private multiCartEffectsService: MultiCartEffectsService
+    private multiCartEffectsService: MultiCartEffectsService,
   ) {}
 }

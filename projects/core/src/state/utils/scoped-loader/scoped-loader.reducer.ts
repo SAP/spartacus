@@ -19,23 +19,23 @@ export const initialScopedLoaderState: ScopedLoaderState<any> = {};
  */
 export function scopedLoaderReducer<T>(
   entityType: string,
-  reducer?: (state: T | undefined, action: Action) => T
+  reducer?: (state: T | undefined, action: Action) => T,
 ): (
   state: ScopedLoaderState<T>,
-  action: EntityScopedLoaderAction
+  action: EntityScopedLoaderAction,
 ) => ScopedLoaderState<T> {
   const loader = loaderReducer<T>(entityType, reducer);
 
   return (
     state: ScopedLoaderState<T> = initialScopedLoaderState,
-    action: EntityScopedLoaderAction
+    action: EntityScopedLoaderAction,
   ): ScopedLoaderState<T> => {
     if (action && action.meta && action.meta.entityType === entityType) {
       return {
         ...state,
         [action.meta.scope ?? '']: loader(
           state[action.meta.scope ?? ''],
-          action
+          action,
         ),
       };
     }

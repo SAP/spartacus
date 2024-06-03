@@ -22,7 +22,7 @@ export class FeatureModulesService {
 
   constructor(
     protected cmsConfig: CmsConfig,
-    protected lazyModules: LazyModulesService
+    protected lazyModules: LazyModulesService,
   ) {}
 
   /**
@@ -47,7 +47,7 @@ export class FeatureModulesService {
         if (!this.isConfigured(featureName)) {
           return throwError(
             () =>
-              new Error('No module defined for Feature Module ' + featureName)
+              new Error('No module defined for Feature Module ' + featureName),
           );
         }
 
@@ -60,11 +60,11 @@ export class FeatureModulesService {
               this.lazyModules.resolveModuleInstance(
                 featureConfig?.module as () => Promise<any>,
                 featureName,
-                deps
-              )
+                deps,
+              ),
             ),
-            shareReplay()
-          )
+            shareReplay(),
+          ),
         );
       }
 
@@ -78,7 +78,7 @@ export class FeatureModulesService {
    * @protected
    */
   protected getFeatureConfig(
-    featureName: string
+    featureName: string,
   ): FeatureModuleConfig | undefined {
     return this.cmsConfig.featureModules?.[
       this.resolveFeatureAlias(featureName)
@@ -106,7 +106,7 @@ export class FeatureModulesService {
    * @protected
    */
   protected resolveDependencies(
-    dependencies: any[] = []
+    dependencies: any[] = [],
   ): Observable<NgModuleRef<any>[] | undefined> {
     return dependencies?.length
       ? forkJoin(
@@ -117,7 +117,7 @@ export class FeatureModulesService {
             }
             // resolve dependency from a module function
             return this.lazyModules.resolveDependencyModuleInstance(dependency);
-          })
+          }),
         )
       : of(undefined);
   }

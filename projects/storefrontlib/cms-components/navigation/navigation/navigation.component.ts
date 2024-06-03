@@ -19,19 +19,19 @@ import { NavigationService } from './navigation.service';
 })
 export class NavigationComponent {
   node$: Observable<NavigationNode> = this.service.createNavigation(
-    this.componentData.data$
+    this.componentData.data$,
   );
 
   name$: Observable<string | undefined> = this.componentData.data$.pipe(
-    map((d) => d?.navigationNode?.title)
+    map((d) => d?.navigationNode?.title),
   );
 
   styleClass$: Observable<string | undefined> = this.componentData.data$.pipe(
-    map((d) => d?.styleClass)
+    map((d) => d?.styleClass),
   );
 
   constructor(
     protected componentData: CmsComponentData<CmsNavigationComponent>,
-    protected service: NavigationService
+    protected service: NavigationService,
   ) {}
 }

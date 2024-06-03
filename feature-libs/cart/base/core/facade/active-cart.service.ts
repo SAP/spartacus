@@ -57,12 +57,12 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     // We also wait until we initialize cart from localStorage
     filter((cartId) => cartId !== undefined),
     // fallback to current when we don't have particular cart id
-    map((cartId) => (cartId === '' ? OCC_CART_ID_CURRENT : cartId))
+    map((cartId) => (cartId === '' ? OCC_CART_ID_CURRENT : cartId)),
   );
 
   // Stream with active cart entity
   protected cartEntity$ = this.activeCartId$.pipe(
-    switchMap((cartId) => this.multiCartFacade.getCartEntity(cartId))
+    switchMap((cartId) => this.multiCartFacade.getCartEntity(cartId)),
   );
 
   // Flag to prevent cart loading when logged in with code flow
@@ -72,7 +72,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   constructor(
     protected multiCartFacade: MultiCartFacade,
     protected userIdService: UserIdService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {
     this.initActiveCart();
     this.detectUserChange();
@@ -86,14 +86,14 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           cart: cartEntity.value,
           isStable: !cartEntity.loading && cartEntity.processesCount === 0,
           loaded: Boolean(
-            (cartEntity.error || cartEntity.success) && !cartEntity.loading
+            (cartEntity.error || cartEntity.success) && !cartEntity.loading,
           ),
         };
       }),
       // we want to emit empty carts even if those are not stable
       // on merge cart action we want to switch to empty cart so no one would use old cartId which can be already obsolete
       // so on merge action the resulting stream looks like this: old_cart -> {} -> new_cart
-      filter(({ isStable, cart }) => isStable || isEmpty(cart))
+      filter(({ isStable, cart }) => isStable || isEmpty(cart)),
     );
 
     // Responsible for loading cart when it does not exist (eg. app initialization when we have only cartId)
@@ -109,17 +109,17 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         ) {
           this.load(cartId, userId);
         }
-      })
+      }),
     );
 
     this.activeCart$ = using(
       () => loading.subscribe(),
-      () => cartValue$
+      () => cartValue$,
     ).pipe(
       // Normalization for empty cart value returned as empty object.
       map(({ cart }) => (cart ? cart : {})),
       distinctUntilChanged(),
-      shareReplay({ bufferSize: 1, refCount: true })
+      shareReplay({ bufferSize: 1, refCount: true }),
     );
   }
 
@@ -132,14 +132,14 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           // We never trigger cart merge/load on app initialization here and that's why we wait with pairwise for a change of userId.
           pairwise(),
           // We need cartId once we have the previous and current userId. We don't want to subscribe to cartId stream before.
-          withLatestFrom(this.activeCartId$)
+          withLatestFrom(this.activeCartId$),
         )
         .subscribe(([[previousUserId, userId], cartId]) => {
           // Only change of user and not logout (current userId !== anonymous) should trigger loading mechanism
           if (isJustLoggedIn(userId, previousUserId)) {
             this.loadOrMerge(cartId, userId, previousUserId);
           }
-        })
+        }),
     );
 
     // Detect user logged in with code flow.
@@ -154,7 +154,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           .subscribe(([userId, cartId]) => {
             this.loadOrMerge(cartId, userId, OCC_USER_ID_ANONYMOUS);
             this.winRef?.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
-          })
+          }),
       );
     }
   }
@@ -174,7 +174,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       filter((isStable) => isStable),
       switchMap(() => this.getActive()),
       filter((cart) => !!cart),
-      take(1)
+      take(1),
     );
   }
 
@@ -185,7 +185,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return this.activeCart$.pipe(
       withLatestFrom(this.userIdService.getUserId()),
       map(([cart, userId]) => getCartIdByUserId(cart, userId)),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -197,7 +197,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       filter((isStable) => isStable),
       switchMap(() => this.getActiveCartId()),
       filter((cartId) => !!cartId),
-      take(1)
+      take(1),
     );
   }
 
@@ -207,7 +207,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartId$.pipe(
       switchMap((cartId) => this.multiCartFacade.getEntries(cartId)),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -221,9 +221,9 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   getLastEntry(productCode: string): Observable<OrderEntry | undefined> {
     return this.activeCartId$.pipe(
       switchMap((cartId) =>
-        this.multiCartFacade.getLastEntry(cartId, productCode)
+        this.multiCartFacade.getLastEntry(cartId, productCode),
       ),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -233,7 +233,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   getLoading(): Observable<boolean> {
     return this.cartEntity$.pipe(
       map((cartEntity) => Boolean(cartEntity.loading)),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -242,7 +242,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    */
   isStable(): Observable<boolean> {
     return this.activeCartId$.pipe(
-      switchMap((cartId) => this.multiCartFacade.isStable(cartId))
+      switchMap((cartId) => this.multiCartFacade.isStable(cartId)),
     );
   }
 
@@ -268,7 +268,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   protected loadOrMerge(
     cartId: string,
     userId: string,
-    previousUserId: string
+    previousUserId: string,
   ): void {
     if (
       cartId === OCC_CART_ID_CURRENT ||
@@ -325,14 +325,14 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         this.multiCartFacade.addEntries(
           userId,
           getCartIdByUserId(cart, userId),
-          entriesToAdd
+          entriesToAdd,
         );
       });
   }
 
   protected isCartCreating(
     cartState: StateUtils.ProcessesLoaderState<Cart | undefined>,
-    cartId: string
+    cartId: string,
   ) {
     // cart creating is always represented with loading flags
     // when all loading flags are false it means that we restored wrong cart id
@@ -361,7 +361,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     const cartSelector$ = (
       forGuestMerge
         ? this.cartEntity$.pipe(
-            filter(() => !Boolean(getLastValueSync(this.isGuestCart())))
+            filter(() => !Boolean(getLastValueSync(this.isGuestCart()))),
           )
         : this.cartEntity$
     ).pipe(filter((cartState) => !cartState.loading || !!this.checkInitLoad));
@@ -371,10 +371,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         // Avoid load/create call when there are new cart creating at the moment
         withLatestFrom(cartSelector$),
         filter(
-          ([cartId, cartState]) => !this.isCartCreating(cartState, cartId)
+          ([cartId, cartState]) => !this.isCartCreating(cartState, cartId),
         ),
         map(([, cartState]) => cartState),
-        take(1)
+        take(1),
       )
       .pipe(
         withLatestFrom(this.userIdService.getUserId()),
@@ -396,10 +396,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           Boolean(
             userId === OCC_USER_ID_ANONYMOUS ||
               cartState.success ||
-              cartState.error
-          )
+              cartState.error,
+          ),
         ),
-        take(1)
+        take(1),
       )
       .pipe(
         tap(([cartState, userId]) => {
@@ -417,11 +417,11 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         // wait for active cart id to point to code/guid to avoid some work on temp cart entity
         withLatestFrom(this.activeCartId$),
         filter(
-          ([cartState, cartId]) => !this.isCartCreating(cartState, cartId)
+          ([cartState, cartId]) => !this.isCartCreating(cartState, cartId),
         ),
         map(([cartState]) => cartState.value),
         filter((cart): cart is Cart => !isEmpty(cart)),
-        take(1)
+        take(1),
       );
   }
 
@@ -441,7 +441,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           getCartIdByUserId(cart, userId),
           productCode,
           quantity,
-          pickupStore
+          pickupStore,
         );
       });
   }
@@ -458,7 +458,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         this.multiCartFacade.removeEntry(
           userId,
           cartId,
-          entry.entryNumber as number
+          entry.entryNumber as number,
         );
       });
   }
@@ -475,7 +475,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     entryNumber: number,
     quantity?: number,
     pickupStore?: string,
-    pickupToDelivery: boolean = false
+    pickupToDelivery: boolean = false,
   ): void {
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
@@ -486,7 +486,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           entryNumber,
           quantity,
           pickupStore,
-          pickupToDelivery
+          pickupToDelivery,
         );
       });
   }
@@ -499,7 +499,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   getEntry(productCode: string): Observable<OrderEntry | undefined> {
     return this.activeCartId$.pipe(
       switchMap((cartId) => this.multiCartFacade.getEntry(cartId, productCode)),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -532,7 +532,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       ? of(this.isCartUserGuest(cart))
       : this.activeCart$.pipe(
           map((activeCart) => this.isCartUserGuest(activeCart)),
-          distinctUntilChanged()
+          distinctUntilChanged(),
         );
   }
 
@@ -541,7 +541,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return Boolean(
       cartUser &&
         (cartUser.name === OCC_USER_ID_GUEST ||
-          isEmail(cartUser.uid?.split('|').slice(1).join('|')))
+          isEmail(cartUser.uid?.split('|').slice(1).join('|'))),
     );
   }
 
@@ -562,7 +562,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           this.multiCartFacade.addEntries(
             userId,
             getCartIdByUserId(cart, userId),
-            entriesToAdd
+            entriesToAdd,
           );
         }
       });
@@ -581,7 +581,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
             userId,
             extraData: { active: true },
           });
-        })
+        }),
       )
       .subscribe();
   }
@@ -589,32 +589,32 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   hasPickupItems(): Observable<boolean> {
     return this.getActive().pipe(
       map((cart) =>
-        cart.pickupItemsQuantity ? cart.pickupItemsQuantity > 0 : false
-      )
+        cart.pickupItemsQuantity ? cart.pickupItemsQuantity > 0 : false,
+      ),
     );
   }
 
   hasDeliveryItems(): Observable<boolean> {
     return this.getActive().pipe(
       map((cart) =>
-        cart.deliveryItemsQuantity ? cart.deliveryItemsQuantity > 0 : false
-      )
+        cart.deliveryItemsQuantity ? cart.deliveryItemsQuantity > 0 : false,
+      ),
     );
   }
 
   getPickupEntries(): Observable<OrderEntry[]> {
     return this.getEntries().pipe(
       map((entries) =>
-        entries.filter((entry) => entry.deliveryPointOfService !== undefined)
-      )
+        entries.filter((entry) => entry.deliveryPointOfService !== undefined),
+      ),
     );
   }
 
   getDeliveryEntries(): Observable<OrderEntry[]> {
     return this.getEntries().pipe(
       map((entries) =>
-        entries.filter((entry) => entry.deliveryPointOfService === undefined)
-      )
+        entries.filter((entry) => entry.deliveryPointOfService === undefined),
+      ),
     );
   }
 

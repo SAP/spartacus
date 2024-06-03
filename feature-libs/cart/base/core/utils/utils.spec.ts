@@ -51,7 +51,7 @@ describe('Cart utils', () => {
   describe('isSelectiveCart', () => {
     it('should return true for cartId starting with "selectivecart"', () => {
       expect(isSelectiveCart('selectivecart-electronicsspa-5435435')).toEqual(
-        true
+        true,
       );
     });
 
@@ -67,7 +67,7 @@ describe('Cart utils', () => {
           reason: 'notFound',
           subject: '123456',
           subjectType: 'cart',
-        })
+        }),
       ).toEqual(true);
     });
 
@@ -77,7 +77,7 @@ describe('Cart utils', () => {
           reason: 'notFound',
           subject: '123456',
           subjectType: 'product',
-        })
+        }),
       ).toEqual(false);
     });
 
@@ -87,7 +87,7 @@ describe('Cart utils', () => {
           reason: 'incorrectValue',
           subject: '123456',
           subjectType: 'cart',
-        })
+        }),
       ).toEqual(false);
     });
 
@@ -97,7 +97,7 @@ describe('Cart utils', () => {
           reason: 'notFound',
           subject: 'selectivecart-electronicsspa-123456',
           subjectType: 'cart',
-        })
+        }),
       ).toEqual(false);
     });
   });
@@ -107,7 +107,7 @@ describe('Cart utils', () => {
       expect(
         isVoucherError({
           type: 'VoucherOperationError',
-        })
+        }),
       ).toEqual(true);
     });
 
@@ -115,7 +115,7 @@ describe('Cart utils', () => {
       expect(
         isVoucherError({
           type: 'CartError',
-        })
+        }),
       ).toEqual(false);
     });
   });
@@ -125,7 +125,7 @@ describe('Cart utils', () => {
       expect(
         voucherExceededError({
           message: 'coupon.already.redeemed',
-        })
+        }),
       ).toEqual(true);
     });
 
@@ -133,7 +133,7 @@ describe('Cart utils', () => {
       expect(
         voucherExceededError({
           message: 'coupon.invalid.code.provided',
-        })
+        }),
       ).toEqual(false);
     });
   });
@@ -143,7 +143,7 @@ describe('Cart utils', () => {
       expect(
         voucherInvalidError({
           message: 'coupon.invalid.code.provided',
-        })
+        }),
       ).toEqual(true);
     });
 
@@ -151,7 +151,7 @@ describe('Cart utils', () => {
       expect(
         voucherInvalidError({
           message: 'coupon.expired',
-        })
+        }),
       ).toEqual(false);
     });
   });

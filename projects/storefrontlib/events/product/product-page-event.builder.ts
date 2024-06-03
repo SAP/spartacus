@@ -27,7 +27,7 @@ export class ProductPageEventBuilder {
   constructor(
     protected eventService: EventService,
     protected productService: ProductService,
-    protected productSearchService: ProductSearchService
+    protected productSearchService: ProductSearchService,
   ) {
     this.register();
   }
@@ -35,15 +35,15 @@ export class ProductPageEventBuilder {
   protected register(): void {
     this.eventService.register(
       SearchPageResultsEvent,
-      this.buildSearchPageResultsEvent()
+      this.buildSearchPageResultsEvent(),
     );
     this.eventService.register(
       ProductDetailsPageEvent,
-      this.buildProductDetailsPageEvent()
+      this.buildProductDetailsPageEvent(),
     );
     this.eventService.register(
       CategoryPageResultsEvent,
-      this.buildCategoryResultsPageEvent()
+      this.buildCategoryResultsPageEvent(),
     );
   }
 
@@ -61,17 +61,17 @@ export class ProductPageEventBuilder {
               code: product?.code,
               name: product?.name,
               price: product?.price,
-            })
-          )
-        )
-      )
+            }),
+          ),
+        ),
+      ),
     );
   }
 
   protected buildCategoryResultsPageEvent(): Observable<CategoryPageResultsEvent> {
     const searchResults$ = this.productSearchService.getResults().pipe(
       // skipping the initial value, and preventing emission of the previous search state
-      skip(1)
+      skip(1),
     );
 
     return this.eventService.get(NavigationEvent).pipe(
@@ -89,17 +89,17 @@ export class ProductPageEventBuilder {
                 numberOfResults: searchResults?.pagination?.totalResults ?? 0,
                 categoryName: searchResults.breadcrumbs?.[0].facetValueName,
               },
-            })
-          )
+            }),
+          ),
         );
-      })
+      }),
     );
   }
 
   protected buildSearchPageResultsEvent(): Observable<SearchPageResultsEvent> {
     const searchResults$ = this.productSearchService.getResults().pipe(
       // skipping the initial value, and preventing emission of the previous search state
-      skip(1)
+      skip(1),
     );
 
     return this.eventService.get(NavigationEvent).pipe(
@@ -116,10 +116,10 @@ export class ProductPageEventBuilder {
                 searchTerm: searchResults?.freeTextSearch ?? '',
                 numberOfResults: searchResults?.pagination?.totalResults ?? 0,
               },
-            })
-          )
+            }),
+          ),
         );
-      })
+      }),
     );
   }
 }

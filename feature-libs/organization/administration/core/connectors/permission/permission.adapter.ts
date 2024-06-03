@@ -25,18 +25,18 @@ export abstract class PermissionAdapter {
 
   abstract loadList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Permission>>;
 
   abstract create(
     userId: string,
-    permission: Permission
+    permission: Permission,
   ): Observable<Permission>;
 
   abstract update(
     userId: string,
     permissionCode: string,
-    permission: Permission
+    permission: Permission,
   ): Observable<Permission>;
 
   abstract loadTypes(): Observable<OrderApprovalPermissionType[]>;

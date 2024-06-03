@@ -35,7 +35,7 @@ export class CartDetailsComponent implements OnInit {
     protected selectiveCartService: SelectiveCartFacade,
     protected authService: AuthService,
     protected routingService: RoutingService,
-    protected cartConfig: CartConfigService
+    protected cartConfig: CartConfigService,
   ) {}
 
   ngOnInit() {
@@ -58,8 +58,8 @@ export class CartDetailsComponent implements OnInit {
       map(([cartLoaded, sflLoaded, loggedIn]) =>
         loggedIn && this.selectiveCartEnabled
           ? cartLoaded && sflLoaded
-          : cartLoaded
-      )
+          : cartLoaded,
+      ),
     );
   }
 
@@ -68,7 +68,7 @@ export class CartDetailsComponent implements OnInit {
       this.activeCartService.removeEntry(item);
       this.selectiveCartService.addEntry(
         item.product?.code ?? '',
-        item.quantity ?? 0
+        item.quantity ?? 0,
       );
     } else {
       this.routingService.go({ cxRoute: 'login' });

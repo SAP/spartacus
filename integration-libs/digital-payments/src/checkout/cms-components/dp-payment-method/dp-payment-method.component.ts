@@ -33,7 +33,7 @@ export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
 
   isDpCallback(): boolean {
     const queryParams = this.activatedRoute.snapshot.queryParamMap.get(
-      DP_CARD_REGISTRATION_STATUS
+      DP_CARD_REGISTRATION_STATUS,
     );
 
     return !!queryParams;
@@ -57,7 +57,7 @@ export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {
     super(
       userPaymentService,
@@ -67,7 +67,7 @@ export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
       translationService,
       activeCartFacade,
       checkoutStepService,
-      globalMessageService
+      globalMessageService,
     );
 
     this.showCallbackScreen = this.isDpCallback();

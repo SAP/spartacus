@@ -35,7 +35,7 @@ export class AuthStatePersistenceService implements OnDestroy {
     protected statePersistenceService: StatePersistenceService,
     protected userIdService: UserIdService,
     protected authStorageService: AuthStorageService,
-    protected authRedirectStorageService: AuthRedirectStorageService
+    protected authRedirectStorageService: AuthRedirectStorageService,
   ) {}
 
   /**
@@ -52,7 +52,7 @@ export class AuthStatePersistenceService implements OnDestroy {
         key: this.key,
         state$: this.getAuthState(),
         onRead: (state) => this.onRead(state),
-      })
+      }),
     );
   }
 
@@ -68,7 +68,7 @@ export class AuthStatePersistenceService implements OnDestroy {
           return {
             ...state,
           };
-        })
+        }),
       ),
       this.userIdService.getUserId(),
       this.authRedirectStorageService.getRedirectUrl(),
@@ -81,7 +81,7 @@ export class AuthStatePersistenceService implements OnDestroy {
           delete token.refresh_token;
         }
         return { token, userId, redirectUrl };
-      })
+      }),
     );
   }
 

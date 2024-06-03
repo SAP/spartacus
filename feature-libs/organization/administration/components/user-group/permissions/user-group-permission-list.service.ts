@@ -28,7 +28,7 @@ export class UserGroupPermissionListService extends SubListService<Permission> {
   constructor(
     protected tableService: TableService,
     protected userGroupService: UserGroupService,
-    protected permissionService: PermissionService
+    protected permissionService: PermissionService,
   ) {
     super(tableService);
   }
@@ -42,11 +42,11 @@ export class UserGroupPermissionListService extends SubListService<Permission> {
    */
   protected load(
     pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<Permission> | undefined> {
     return this.userGroupService.getAvailableOrderApprovalPermissions(
       code,
-      pagination
+      pagination,
     );
   }
 
@@ -56,7 +56,7 @@ export class UserGroupPermissionListService extends SubListService<Permission> {
    */
   assign(
     userGroupCode: string,
-    permissionCode: string
+    permissionCode: string,
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.assignPermission(userGroupCode, permissionCode);
     return this.permissionService.getLoadingStatus(permissionCode);
@@ -68,7 +68,7 @@ export class UserGroupPermissionListService extends SubListService<Permission> {
    */
   unassign(
     userGroupCode: string,
-    permissionCode: string
+    permissionCode: string,
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.unassignPermission(userGroupCode, permissionCode);
     return this.permissionService.getLoadingStatus(permissionCode);

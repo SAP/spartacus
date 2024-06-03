@@ -25,7 +25,7 @@ import { filter, take } from 'rxjs/operators';
 export class ProductVariantSizeSelectorComponent {
   constructor(
     private productService: ProductService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
   ) {}
 
   @Input()
@@ -42,7 +42,7 @@ export class ProductVariantSizeSelectorComponent {
           // below call might looks redundant but in fact this data is going to be loaded anyways
           // we're just calling it earlier and storing
           filter(isNotUndefined),
-          take(1)
+          take(1),
         )
         .subscribe((product: Product) => {
           this.routingService.go({

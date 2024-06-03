@@ -55,7 +55,7 @@ export function defaultOrganizationAdministrationComponentsConfig(): CmsConfig {
     provideDefaultConfig(defaultUserGroupRoutingConfig),
 
     provideDefaultConfigFactory(
-      defaultOrganizationAdministrationComponentsConfig
+      defaultOrganizationAdministrationComponentsConfig,
     ),
   ],
 })

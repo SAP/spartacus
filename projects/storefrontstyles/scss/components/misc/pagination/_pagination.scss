@@ -20,7 +20,9 @@
     align-items: center;
     justify-content: center;
 
-    transition: background-color 0.3s, color 0.3s;
+    transition:
+      background-color 0.3s,
+      color 0.3s;
 
     &:first-child {
       border-top-left-radius: 0.25rem;

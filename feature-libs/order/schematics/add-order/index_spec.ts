@@ -28,7 +28,7 @@ const scssFilePath = 'src/styles/spartacus/order.scss';
 describe('Spartacus Order schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_ORDER,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -68,27 +68,27 @@ describe('Spartacus Order schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -97,7 +97,7 @@ describe('Spartacus Order schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         { ...libraryNoFeaturesOptions, features: [] },
-        appTree
+        appTree,
       );
     });
 
@@ -137,7 +137,7 @@ describe('Spartacus Order schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           orderFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -148,7 +148,7 @@ describe('Spartacus Order schematics: ng-add', () => {
 
       it('should NOT install the required feature dependencies', async () => {
         const baseCartFeatureModule = appTree.readContent(
-          cartBaseFeatureModulePath
+          cartBaseFeatureModulePath,
         );
         expect(baseCartFeatureModule).toBeFalsy();
 
@@ -174,7 +174,7 @@ describe('Spartacus Order schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...orderFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 

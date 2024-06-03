@@ -59,17 +59,21 @@ function emitPairScrollEvent(
   position: [number, number] | null,
   currentRoute: string = '/test2',
   previousRoute: string = '/test1',
-  anchor: string = ''
+  anchor: string = '',
 ) {
   mockEvents$.next(
-    new Scroll(new NavigationEnd(1, previousRoute, previousRoute), null, anchor)
+    new Scroll(
+      new NavigationEnd(1, previousRoute, previousRoute),
+      null,
+      anchor,
+    ),
   );
   mockEvents$.next(
     new Scroll(
       new NavigationEnd(2, currentRoute, currentRoute),
       position,
-      anchor
-    )
+      anchor,
+    ),
   );
 }
 

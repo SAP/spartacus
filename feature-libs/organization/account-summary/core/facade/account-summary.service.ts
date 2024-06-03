@@ -27,15 +27,17 @@ export class AccountSummaryService implements AccountSummaryFacade, OnDestroy {
   constructor(
     private routingService: RoutingService,
     private userIdService: UserIdService,
-    private accountSummaryConnector: AccountSummaryConnector
+    private accountSummaryConnector: AccountSummaryConnector,
   ) {
     this.subscriptions.add(
       this.userIdService
         .takeUserId()
-        .subscribe((userId) => (this.userId = userId))
+        .subscribe((userId) => (this.userId = userId)),
     );
     this.subscriptions.add(
-      this.getOrgUnitId().subscribe((orgUnitId) => (this.orgUnitId = orgUnitId))
+      this.getOrgUnitId().subscribe(
+        (orgUnitId) => (this.orgUnitId = orgUnitId),
+      ),
     );
   }
 
@@ -51,7 +53,7 @@ export class AccountSummaryService implements AccountSummaryFacade, OnDestroy {
 
   getDocumentList(
     params: DocumentQueryParams,
-    orgUnitId?: string
+    orgUnitId?: string,
   ): Observable<AccountSummaryList> {
     return this.accountSummaryConnector
       .getDocumentList(this.userId, orgUnitId || this.orgUnitId, params)
@@ -61,14 +63,14 @@ export class AccountSummaryService implements AccountSummaryFacade, OnDestroy {
   getDocumentAttachment(
     orgDocumentId: string,
     orgDocumentAttachmentId: string,
-    orgUnitId?: string
+    orgUnitId?: string,
   ): Observable<Blob> {
     return this.accountSummaryConnector
       .getDocumentAttachment(
         this.userId,
         orgUnitId || this.orgUnitId,
         orgDocumentId,
-        orgDocumentAttachmentId
+        orgDocumentAttachmentId,
       )
       .pipe(shareReplay(1));
   }
@@ -77,7 +79,7 @@ export class AccountSummaryService implements AccountSummaryFacade, OnDestroy {
     return this.routingService.getRouterState().pipe(
       map((routingData) => routingData.state.params),
       distinctUntilChanged(),
-      map((params) => params.orgUnit)
+      map((params) => params.orgUnit),
     );
   }
 }

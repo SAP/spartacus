@@ -20,18 +20,18 @@ export class CdsMerchandisingStrategyAdapter
 {
   constructor(
     private cdsEndpointsService: CdsEndpointsService,
-    protected http: HttpClient
+    protected http: HttpClient,
   ) {}
 
   loadProductsForStrategy(
     strategyId: string,
-    strategyRequest: StrategyRequest = {}
+    strategyRequest: StrategyRequest = {},
   ): Observable<StrategyProducts> {
     let headers: HttpHeaders = new HttpHeaders();
     if (strategyRequest.headers && strategyRequest.headers.consentReference) {
       headers = headers.set(
         'consent-reference',
-        strategyRequest.headers.consentReference
+        strategyRequest.headers.consentReference,
       );
     }
     return this.http.get(
@@ -40,9 +40,9 @@ export class CdsMerchandisingStrategyAdapter
         {
           strategyId,
         },
-        strategyRequest.queryParams
+        strategyRequest.queryParams,
       ),
-      { headers }
+      { headers },
     );
   }
 }

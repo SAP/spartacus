@@ -44,7 +44,7 @@ const mockFilledDialogData: SavedCartFormDialogOptions = {
 };
 
 const mockDialogData$ = new BehaviorSubject<SavedCartFormDialogOptions>(
-  mockFilledDialogData
+  mockFilledDialogData,
 );
 const mockDeleteSavedCartEvent = {
   userId: mockUserId,
@@ -108,7 +108,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(
     _text: string | Translatable,
     _type: GlobalMessageType,
-    _timeout?: number
+    _timeout?: number,
   ): void {}
 }
 
@@ -170,7 +170,7 @@ describe('SavedCartFormDialogComponent', () => {
 
       expect(component.form?.get('name')?.value).toEqual(mockCart.name);
       expect(component.form?.get('description')?.value).toEqual(
-        mockCart.description
+        mockCart.description,
       );
     });
 
@@ -238,7 +238,7 @@ describe('SavedCartFormDialogComponent', () => {
     component.restoreSavedCart(mockCartId);
     expect(savedCartService.cloneSavedCart).toHaveBeenCalledWith(
       mockCartId,
-      mockCart.name
+      mockCart.name,
     );
     expect(savedCartService.restoreSavedCart).not.toHaveBeenCalled();
   });
@@ -248,7 +248,7 @@ describe('SavedCartFormDialogComponent', () => {
     component.close(mockSuccessDeleteCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      mockSuccessDeleteCloseReason
+      mockSuccessDeleteCloseReason,
     );
   });
 
@@ -300,7 +300,7 @@ describe('SavedCartFormDialogComponent', () => {
       component?.form?.get('description')?.setValue('test');
 
       expect(component.descriptionsCharacterLeft).toEqual(
-        mockDescriptionMaxLength - 4
+        mockDescriptionMaxLength - 4,
       );
     });
 
@@ -308,7 +308,7 @@ describe('SavedCartFormDialogComponent', () => {
       component?.form?.get('description')?.setValue(null);
 
       expect(component.descriptionsCharacterLeft).toEqual(
-        mockDescriptionMaxLength
+        mockDescriptionMaxLength,
       );
     });
 
@@ -316,14 +316,14 @@ describe('SavedCartFormDialogComponent', () => {
       component?.form?.get('description')?.setValue(undefined);
 
       expect(component.descriptionsCharacterLeft).toEqual(
-        mockDescriptionMaxLength
+        mockDescriptionMaxLength,
       );
     });
     it('when form control has empty value', () => {
       component?.form?.get('description')?.setValue('');
 
       expect(component.descriptionsCharacterLeft).toEqual(
-        mockDescriptionMaxLength
+        mockDescriptionMaxLength,
       );
     });
   });
@@ -335,7 +335,7 @@ describe('SavedCartFormDialogComponent', () => {
 
     it('should trigger onComplete when there was a successful saved cart', () => {
       spyOn(savedCartService, 'getSaveCartProcessSuccess').and.returnValue(
-        of(true)
+        of(true),
       );
 
       component.ngOnInit();
@@ -351,7 +351,7 @@ describe('SavedCartFormDialogComponent', () => {
     it('should trigger onComplete when there was a successful restore cart', () => {
       spyOn(
         savedCartService,
-        'getRestoreSavedCartProcessSuccess'
+        'getRestoreSavedCartProcessSuccess',
       ).and.returnValue(of(true));
 
       component.ngOnInit();
@@ -381,7 +381,7 @@ describe('SavedCartFormDialogComponent', () => {
             cartName: mockCart.name,
           },
         },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
 
@@ -393,14 +393,14 @@ describe('SavedCartFormDialogComponent', () => {
       component.onComplete(true);
 
       expect(component.close).toHaveBeenCalledWith(
-        'Successfully deleted a saved cart'
+        'Successfully deleted a saved cart',
       );
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'savedCarts',
       });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'savedCartDialog.deleteCartSuccess' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
 
@@ -412,7 +412,7 @@ describe('SavedCartFormDialogComponent', () => {
       component.onComplete(true);
 
       expect(component.close).toHaveBeenCalledWith(
-        'Successfully edited saved cart'
+        'Successfully edited saved cart',
       );
       expect(savedCartService.clearSaveCart).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -422,7 +422,7 @@ describe('SavedCartFormDialogComponent', () => {
             cartName: mockCart.name,
           },
         },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
 
@@ -440,7 +440,7 @@ describe('SavedCartFormDialogComponent', () => {
       component.onComplete(true);
 
       expect(component.close).toHaveBeenCalledWith(
-        'Successfully restored saved cart'
+        'Successfully restored saved cart',
       );
       expect(savedCartService.clearSaveCart).toHaveBeenCalled();
       expect(savedCartService.clearCloneSavedCart).toHaveBeenCalled();

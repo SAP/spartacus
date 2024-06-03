@@ -48,18 +48,18 @@ export class NavigationEntryItemEffects {
                       new CmsActions.LoadCmsNavigationItemsSuccess({
                         nodeId: data.nodeId,
                         components: components,
-                      })
+                      }),
                   ),
                   catchError((error) =>
                     of(
                       new CmsActions.LoadCmsNavigationItemsFail(
                         data.nodeId,
-                        normalizeHttpError(error, this.logger)
-                      )
-                    )
-                  )
-                )
-            )
+                        normalizeHttpError(error, this.logger),
+                      ),
+                    ),
+                  ),
+                ),
+            ),
           );
           //} else if (data.ids.pageIds.length > 0) {
           // TODO: future work
@@ -71,12 +71,12 @@ export class NavigationEntryItemEffects {
           return of(
             new CmsActions.LoadCmsNavigationItemsFail(
               data.nodeId,
-              'navigation nodes are empty'
-            )
+              'navigation nodes are empty',
+            ),
           );
         }
-      })
-    )
+      }),
+    ),
   );
 
   // We only consider 3 item types: cms page, cms component, and media.
@@ -104,6 +104,6 @@ export class NavigationEntryItemEffects {
   constructor(
     private actions$: Actions,
     private cmsComponentConnector: CmsComponentConnector,
-    private routingService: RoutingService
+    private routingService: RoutingService,
   ) {}
 }

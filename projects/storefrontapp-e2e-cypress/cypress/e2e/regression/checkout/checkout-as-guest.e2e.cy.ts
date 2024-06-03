@@ -39,7 +39,7 @@ context('Checkout as guest', { testIsolation: false }, () => {
 
       const deliveryAddressPage = waitForPage(
         '/checkout/delivery-address',
-        'getDeliveryPage'
+        'getDeliveryPage',
       );
 
       checkout.clickHamburger();

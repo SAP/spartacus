@@ -22,7 +22,7 @@ export abstract class B2BUserAdapter {
 
   abstract loadList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<B2BUser>>;
 
   abstract create(userId: string, orgCustomer: B2BUser): Observable<B2BUser>;
@@ -30,60 +30,60 @@ export abstract class B2BUserAdapter {
   abstract update(
     userId: string,
     orgCustomerId: string,
-    orgCustomer: B2BUser
+    orgCustomer: B2BUser,
   ): Observable<B2BUser>;
 
   abstract loadApprovers(
     userId: string,
     orgCustomerId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<B2BUser>>;
 
   abstract assignApprover(
     userId: string,
     orgCustomerId: string,
-    approverId: string
+    approverId: string,
   ): Observable<any>;
 
   abstract unassignApprover(
     userId: string,
     orgCustomerId: string,
-    approverId: string
+    approverId: string,
   ): Observable<any>;
 
   abstract loadPermissions(
     userId: string,
     orgCustomerId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Permission>>;
 
   abstract assignPermission(
     userId: string,
     orgCustomerId: string,
-    permissionId: string
+    permissionId: string,
   ): Observable<any>;
 
   abstract unassignPermission(
     userId: string,
     orgCustomerId: string,
-    permissionId: string
+    permissionId: string,
   ): Observable<any>;
 
   abstract loadUserGroups(
     userId: string,
     orgCustomerId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<UserGroup>>;
 
   abstract assignUserGroup(
     userId: string,
     orgCustomerId: string,
-    userGroupId: string
+    userGroupId: string,
   ): Observable<any>;
 
   abstract unassignUserGroup(
     userId: string,
     orgCustomerId: string,
-    userGroupId: string
+    userGroupId: string,
   ): Observable<any>;
 }

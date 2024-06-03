@@ -49,7 +49,7 @@ export abstract class OrderReturnRequestFacade {
    * @param returnRequestInput order return request entry input
    */
   abstract createOrderReturnRequest(
-    returnRequestInput: ReturnRequestEntryInputList
+    returnRequestInput: ReturnRequestEntryInputList,
   ): void;
 
   /**
@@ -61,7 +61,7 @@ export abstract class OrderReturnRequestFacade {
    * Gets order return request list
    */
   abstract getOrderReturnRequestList(
-    pageSize: number
+    pageSize: number,
   ): Observable<ReturnRequestList | undefined>;
 
   /**
@@ -79,7 +79,7 @@ export abstract class OrderReturnRequestFacade {
   abstract loadOrderReturnRequestList(
     pageSize: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): void;
 
   /**
@@ -107,7 +107,7 @@ export abstract class OrderReturnRequestFacade {
    */
   abstract cancelOrderReturnRequest(
     returnRequestCode: string,
-    returnRequestModification: ReturnRequestModification
+    returnRequestModification: ReturnRequestModification,
   ): void;
 
   /**

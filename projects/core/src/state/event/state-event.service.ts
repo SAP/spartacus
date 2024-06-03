@@ -22,7 +22,7 @@ import { ActionToEventMapping } from './action-to-event-mapping';
 export class StateEventService {
   constructor(
     protected actionsSubject: ActionsSubject,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   /**
@@ -36,7 +36,7 @@ export class StateEventService {
   register<T>(mapping: ActionToEventMapping<T>): () => void {
     return this.eventService.register(
       mapping.event as Type<T>,
-      this.getFromAction(mapping)
+      this.getFromAction(mapping),
     );
   }
 
@@ -49,8 +49,8 @@ export class StateEventService {
       .pipe(ofType(...([] as string[]).concat(mapping.action)))
       .pipe(
         map((action: { type: string; payload?: T }) =>
-          this.createEvent(action, mapping.event as Type<T>, mapping.factory)
-        )
+          this.createEvent(action, mapping.event as Type<T>, mapping.factory),
+        ),
       );
   }
 
@@ -68,7 +68,7 @@ export class StateEventService {
   protected createEvent<T>(
     action: { type: string; payload?: any },
     eventType: Type<T>,
-    factory?: (action: any) => T
+    factory?: (action: any) => T,
   ): T {
     return factory
       ? factory(action)

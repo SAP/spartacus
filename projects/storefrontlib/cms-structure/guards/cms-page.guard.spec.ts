@@ -86,7 +86,7 @@ describe('CmsPageGuard', () => {
       const urlTree = new UrlTree();
       beforeEach(() => {
         spyOn(beforeCmsPageGuardService, 'canActivate').and.returnValue(
-          of(urlTree)
+          of(urlTree),
         );
       });
 
@@ -104,14 +104,14 @@ describe('CmsPageGuard', () => {
     describe('when BeforeCmsPageGuardService.canActivate emits true,', () => {
       beforeEach(() => {
         spyOn(beforeCmsPageGuardService, 'canActivate').and.returnValue(
-          of(true)
+          of(true),
         );
       });
 
       it('should force loading of CMS page for the anticipated page context', () => {
         const pageContext = {} as PageContext;
         spyOn(routingService, 'getNextPageContext').and.returnValue(
-          of(pageContext)
+          of(pageContext),
         );
         spyOn(cmsService, 'getPage').and.returnValue(NEVER);
         guard
@@ -126,14 +126,14 @@ describe('CmsPageGuard', () => {
         beforeEach(() => {
           const routingConfig = TestBed.inject(RoutingConfigService);
           spyOn(routingConfig, 'getLoadStrategy').and.returnValue(
-            RouteLoadStrategy.ONCE
+            RouteLoadStrategy.ONCE,
           );
         });
 
         it('should get (but not force reload) CMS page for the anticipated page context', () => {
           const pageContext = {} as PageContext;
           spyOn(routingService, 'getNextPageContext').and.returnValue(
-            of(pageContext)
+            of(pageContext),
           );
           spyOn(cmsService, 'getPage').and.returnValue(NEVER);
 
@@ -153,7 +153,7 @@ describe('CmsPageGuard', () => {
           const pageData = {} as Page;
           const urlTree = {} as UrlTree;
           spyOn(routingService, 'getNextPageContext').and.returnValue(
-            of(pageContext)
+            of(pageContext),
           );
           spyOn(cmsService, 'getPage').and.returnValue(of(pageData));
           spyOn(service, 'canActivatePage').and.returnValue(of(urlTree));
@@ -167,7 +167,7 @@ describe('CmsPageGuard', () => {
             pageContext,
             pageData,
             mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
+            mockRouterStateSnapshot,
           );
           expect(result).toBe(urlTree);
         });
@@ -178,11 +178,11 @@ describe('CmsPageGuard', () => {
           const pageContext = {} as PageContext;
           const urlTree = {} as UrlTree;
           spyOn(routingService, 'getNextPageContext').and.returnValue(
-            of(pageContext)
+            of(pageContext),
           );
           spyOn(cmsService, 'getPage').and.returnValue(of(null));
           spyOn(service, 'canActivateNotFoundPage').and.returnValue(
-            of(urlTree)
+            of(urlTree),
           );
 
           let result;
@@ -193,7 +193,7 @@ describe('CmsPageGuard', () => {
           expect(service.canActivateNotFoundPage).toHaveBeenCalledWith(
             pageContext,
             mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
+            mockRouterStateSnapshot,
           );
           expect(result).toBe(urlTree);
         });

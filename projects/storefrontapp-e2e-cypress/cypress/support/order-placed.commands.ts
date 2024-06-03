@@ -22,7 +22,7 @@ declare global {
       waitForOrderToBePlacedRequest: (
         contentCatalog?: string,
         currency?: string,
-        orderNumber?: string
+        orderNumber?: string,
       ) => void;
     }
   }
@@ -37,5 +37,5 @@ Cypress.Commands.add(
       message: [`💰 Waiting for placed order ${orderNumber}`],
     });
     waitForOrderToBePlacedRequest(orderNumber, contentCatalog, currency);
-  }
+  },
 );

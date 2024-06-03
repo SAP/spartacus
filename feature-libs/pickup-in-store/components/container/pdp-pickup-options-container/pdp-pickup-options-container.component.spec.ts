@@ -39,7 +39,7 @@ class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
           stockLevel: 12,
         },
       },
-    ])
+    ]),
   );
   clearSearchResults = createSpy();
   getHideOutOfStock = createSpy();
@@ -47,7 +47,7 @@ class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
   toggleHideOutOfStock = createSpy();
   stockLevelAtStore = createSpy();
   getStockLevelAtStore = createSpy().and.returnValue(
-    of({ stockLevel: { displayName: 'London School' } })
+    of({ stockLevel: { displayName: 'London School' } }),
   );
   getStoreDetails = createSpy();
   loadStoreDetails = createSpy();
@@ -63,7 +63,7 @@ class MockCurrentLocationService {
   getCurrentLocation(
     successCallback: PositionCallback,
     _errorCallback?: PositionErrorCallback | null,
-    _options?: PositionOptions
+    _options?: PositionOptions,
   ): void {
     successCallback({
       coords: {
@@ -126,7 +126,7 @@ describe('PdpPickupOptionsComponent', () => {
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     intendedPickupLocationService = TestBed.inject(
-      IntendedPickupLocationFacade
+      IntendedPickupLocationFacade,
     );
     preferredStoreFacade = TestBed.inject(PreferredStoreFacade);
 
@@ -136,11 +136,11 @@ describe('PdpPickupOptionsComponent', () => {
     spyOn(launchDialogService, 'openDialog').and.callThrough();
     spyOn(
       intendedPickupLocationService,
-      'removeIntendedLocation'
+      'removeIntendedLocation',
     ).and.callThrough();
     spyOn(
       intendedPickupLocationService,
-      'setIntendedLocation'
+      'setIntendedLocation',
     ).and.callThrough();
 
     fixture.detectChanges();
@@ -162,7 +162,7 @@ describe('PdpPickupOptionsComponent', () => {
         LAUNCH_CALLER.PICKUP_IN_STORE,
         component.element,
         component['vcr'],
-        { productCode: 'productCode' }
+        { productCode: 'productCode' },
       );
     });
 
@@ -176,13 +176,13 @@ describe('PdpPickupOptionsComponent', () => {
     it('should get the intended pickup location for the product on init', () => {
       spyOn(
         intendedPickupLocationService,
-        'getIntendedLocation'
+        'getIntendedLocation',
       ).and.callThrough();
 
       component.ngOnInit();
 
       expect(
-        intendedPickupLocationService.getIntendedLocation
+        intendedPickupLocationService.getIntendedLocation,
       ).toHaveBeenCalledWith('productCode');
       expect(component.availableForPickup).toBe(true);
     });
@@ -193,7 +193,7 @@ describe('PdpPickupOptionsComponent', () => {
       const productCode = 'productCode';
       component.onPickupOptionChange(option);
       expect(
-        intendedPickupLocationService.setPickupOption
+        intendedPickupLocationService.setPickupOption,
       ).toHaveBeenCalledWith(productCode, option);
     });
 
@@ -225,14 +225,14 @@ describe('PdpPickupOptionsComponent', () => {
     it('should make no calls', () => {
       spyOn(
         intendedPickupLocationService,
-        'getIntendedLocation'
+        'getIntendedLocation',
       ).and.callThrough();
 
       component.ngOnInit();
 
       expect(currentProductService.getProduct).toHaveBeenCalled();
       expect(
-        intendedPickupLocationService.getIntendedLocation
+        intendedPickupLocationService.getIntendedLocation,
       ).not.toHaveBeenCalled();
       expect(component.availableForPickup).toBe(false);
     });
@@ -250,18 +250,18 @@ describe('PdpPickupOptionsComponent', () => {
           useValue: {
             setIntendedLocation: (
               _productCode: string,
-              _location: AugmentedPointOfService
+              _location: AugmentedPointOfService,
             ) => {},
             removeIntendedLocation: (_productCode: string) => {},
 
             getPickupOption: (
-              _productCode: string
+              _productCode: string,
             ): Observable<PickupOption> => {
               return of('delivery');
             },
             setPickupOption: (
               _productCode: string,
-              _pickupOption: PickupOption
+              _pickupOption: PickupOption,
             ): void => {},
 
             getIntendedLocation: () =>

@@ -45,13 +45,13 @@ class MockCheckoutDeliveryAddressConnector
   createAddress = createSpy().and.returnValue(of(mockAddress));
   setAddress = createSpy().and.returnValue(of('setAddress'));
   clearCheckoutDeliveryAddress = createSpy().and.returnValue(
-    of('clearCheckoutDeliveryAddress')
+    of('clearCheckoutDeliveryAddress'),
   );
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
   getCheckoutDetailsState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: undefined })
+    of({ loading: false, error: false, data: undefined }),
   );
 }
 
@@ -102,7 +102,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
     [CheckoutDeliveryAddressService],
     (checkoutDeliveryAddressService: CheckoutDeliveryAddressService) => {
       expect(checkoutDeliveryAddressService).toBeTruthy();
-    }
+    },
   ));
 
   describe(`getDeliveryAddress`, () => {
@@ -114,7 +114,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
           data: {
             deliveryAddress: mockAddress,
           },
-        })
+        }),
       );
 
       service
@@ -138,7 +138,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
       expect(connector.createAddress).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
-        mockAddress
+        mockAddress,
       );
     });
 
@@ -151,7 +151,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
           cartId: mockCartId,
           address: mockAddress,
         },
-        CheckoutDeliveryAddressCreatedEvent
+        CheckoutDeliveryAddressCreatedEvent,
       );
     });
   });
@@ -175,7 +175,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
       expect(connector.setAddress).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
-        mockAddress.id
+        mockAddress.id,
       );
     });
 
@@ -184,7 +184,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, address: mockAddress },
-        CheckoutDeliveryAddressSetEvent
+        CheckoutDeliveryAddressSetEvent,
       );
     });
   });
@@ -195,7 +195,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
 
       expect(connector.clearCheckoutDeliveryAddress).toHaveBeenCalledWith(
         mockUserId,
-        mockCartId
+        mockCartId,
       );
     });
 
@@ -204,7 +204,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
-        CheckoutDeliveryAddressClearedEvent
+        CheckoutDeliveryAddressClearedEvent,
       );
     });
   });

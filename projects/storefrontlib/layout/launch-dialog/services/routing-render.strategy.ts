@@ -15,7 +15,7 @@ export class RoutingRenderStrategy extends LaunchRenderStrategy {
   constructor(
     @Inject(DOCUMENT) protected document: any,
     protected rendererFactory: RendererFactory2,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
   ) {
     super(document, rendererFactory);
   }

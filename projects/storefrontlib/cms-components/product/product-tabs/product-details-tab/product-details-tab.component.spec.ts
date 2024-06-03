@@ -44,7 +44,7 @@ class MockCurrentProductService {
 }
 
 const data$: BehaviorSubject<CmsComponentWithChildren> = new BehaviorSubject(
-  mockCmsComponentWithChildren
+  mockCmsComponentWithChildren,
 );
 
 class MockCmsComponentData {
@@ -66,27 +66,25 @@ describe('ProductDetailsTabComponent', () => {
   let productDetailsTabComponent: ProductDetailsTabComponent;
   let fixture: ComponentFixture<ProductDetailsTabComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProductDetailsTabComponent],
-        providers: [
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-          {
-            provide: CmsComponentData,
-            useClass: MockCmsComponentData,
-          },
-          {
-            provide: CmsService,
-            useClass: MockCmsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProductDetailsTabComponent],
+      providers: [
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+        {
+          provide: CmsComponentData,
+          useClass: MockCmsComponentData,
+        },
+        {
+          provide: CmsService,
+          useClass: MockCmsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductDetailsTabComponent);
@@ -101,7 +99,7 @@ describe('ProductDetailsTabComponent', () => {
     productDetailsTabComponent.ngOnInit();
     let result: Product | null | undefined;
     productDetailsTabComponent.product$.subscribe(
-      (product) => (result = product)
+      (product) => (result = product),
     );
     expect(result).toEqual(mockProduct);
   });

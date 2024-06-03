@@ -45,17 +45,17 @@ export class PermissionListService extends ListService<PermissionModel> {
 
   constructor(
     protected tableService: TableService,
-    protected permissionsService: PermissionService
+    protected permissionsService: PermissionService,
   ) {
     super(tableService);
   }
 
   protected load(
-    pagination: PaginationModel
+    pagination: PaginationModel,
   ): Observable<EntitiesModel<PermissionModel>> {
     return this.permissionsService.getList(pagination).pipe(
       filter(isNotUndefined),
-      map((raw) => this.convertPermissions(raw))
+      map((raw) => this.convertPermissions(raw)),
     );
   }
 

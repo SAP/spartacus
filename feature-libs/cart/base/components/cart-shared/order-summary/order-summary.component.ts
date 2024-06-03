@@ -24,7 +24,7 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.outlet?.context$) {
       this.subscription.add(
-        this.outlet.context$.subscribe((context) => (this.cart = context))
+        this.outlet.context$.subscribe((context) => (this.cart = context)),
       );
     }
   }

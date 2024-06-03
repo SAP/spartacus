@@ -9,7 +9,7 @@ import { LoggerService } from '../../logger';
 import { Config } from '../config-tokens';
 
 export const ConfigValidatorToken = new InjectionToken(
-  'ConfigurationValidator'
+  'ConfigurationValidator',
 );
 
 /**
@@ -25,7 +25,7 @@ export type ConfigValidator = (config: Config) => string | void;
  * @param configValidator
  */
 export function provideConfigValidator(
-  configValidator: ConfigValidator
+  configValidator: ConfigValidator,
 ): Provider {
   return {
     provide: ConfigValidatorToken,
@@ -37,7 +37,7 @@ export function provideConfigValidator(
 export function validateConfig(
   config: Config,
   configValidators: ConfigValidator[],
-  logger: LoggerService
+  logger: LoggerService,
 ) {
   for (const validate of configValidators) {
     const warning = validate(config);

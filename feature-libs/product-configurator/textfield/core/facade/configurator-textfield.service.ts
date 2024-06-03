@@ -28,11 +28,11 @@ export class ConfiguratorTextfieldService {
     protected store: Store<StateWithConfigurationTextfield>,
     protected activeCartService: ActiveCartFacade,
     protected configuratorUtils: CommonConfiguratorUtilsService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   protected ensureConfigurationDefined: (
-    value?: ConfiguratorTextfield.Configuration
+    value?: ConfiguratorTextfield.Configuration,
   ) => ConfiguratorTextfield.Configuration = (configuration) =>
     configuration ?? {
       configurationInfos: [],
@@ -47,7 +47,7 @@ export class ConfiguratorTextfieldService {
    * @returns {Observable<ConfiguratorTextfield.Configuration>}
    */
   createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.store.pipe(
       select(ConfiguratorTextFieldSelectors.getConfigurationsState),
@@ -62,14 +62,14 @@ export class ConfiguratorTextfieldService {
             new ConfiguratorTextfieldActions.CreateConfiguration({
               productCode: owner.id, //owner Id is the product code in this case
               owner: owner,
-            })
+            }),
           );
         }
       }),
       map((configurationState) => configurationState.loaderState.value),
       filter((configuration) => !this.isConfigurationInitial(configuration)),
       //save to assume configuration is defined, see previous filter
-      map(this.ensureConfigurationDefined)
+      map(this.ensureConfigurationDefined),
     );
   }
 
@@ -79,12 +79,12 @@ export class ConfiguratorTextfieldService {
    * @param changedAttribute - Changed attribute
    */
   updateConfiguration(
-    changedAttribute: ConfiguratorTextfield.ConfigurationInfo
+    changedAttribute: ConfiguratorTextfield.ConfigurationInfo,
   ): void {
     this.store
       .pipe(
         select(ConfiguratorTextFieldSelectors.getConfigurationContent),
-        take(1)
+        take(1),
       )
       .subscribe((oldConfiguration) => {
         if (oldConfiguration) {
@@ -92,9 +92,9 @@ export class ConfiguratorTextfieldService {
             new ConfiguratorTextfieldActions.UpdateConfiguration(
               this.createNewConfigurationWithChange(
                 changedAttribute,
-                oldConfiguration
-              )
-            )
+                oldConfiguration,
+              ),
+            ),
           );
         }
       });
@@ -108,7 +108,7 @@ export class ConfiguratorTextfieldService {
    */
   addToCart(
     productCode: string,
-    configuration: ConfiguratorTextfield.Configuration
+    configuration: ConfiguratorTextfield.Configuration,
   ): void {
     this.activeCartService
       .requireLoadedCart()
@@ -127,7 +127,7 @@ export class ConfiguratorTextfieldService {
                 quantity: 1,
               };
             this.store.dispatch(
-              new ConfiguratorTextfieldActions.AddToCart(addToCartParameters)
+              new ConfiguratorTextfieldActions.AddToCart(addToCartParameters),
             );
           });
       });
@@ -141,7 +141,7 @@ export class ConfiguratorTextfieldService {
    */
   updateCartEntry(
     cartEntryNumber: string,
-    configuration: ConfiguratorTextfield.Configuration
+    configuration: ConfiguratorTextfield.Configuration,
   ): void {
     this.activeCartService
       .requireLoadedCart()
@@ -160,8 +160,8 @@ export class ConfiguratorTextfieldService {
               };
             this.store.dispatch(
               new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
-                updateCartParameters
-              )
+                updateCartParameters,
+              ),
             );
           });
       });
@@ -175,7 +175,7 @@ export class ConfiguratorTextfieldService {
    * @returns {Observable<ConfiguratorTextfield.Configuration>}
    */
   readConfigurationForCartEntry(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.activeCartService.requireLoadedCart().pipe(
       switchMap((cart) =>
@@ -183,7 +183,7 @@ export class ConfiguratorTextfieldService {
           .getUserId()
           .pipe(
             take(1),
-            map((userId) => ({ cart, userId: userId }))
+            map((userId) => ({ cart, userId: userId })),
           )
           .pipe(
             map((cont) => ({
@@ -195,22 +195,22 @@ export class ConfiguratorTextfieldService {
             tap((readFromCartEntryParameters) =>
               this.store.dispatch(
                 new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
-                  readFromCartEntryParameters
-                )
-              )
+                  readFromCartEntryParameters,
+                ),
+              ),
             ),
             switchMap(() =>
               this.store.pipe(
-                select(ConfiguratorTextFieldSelectors.getConfigurationContent)
-              )
+                select(ConfiguratorTextFieldSelectors.getConfigurationContent),
+              ),
             ),
             filter(
-              (configuration) => !this.isConfigurationInitial(configuration)
+              (configuration) => !this.isConfigurationInitial(configuration),
             ),
             //save to assume that the configuration exists, see previous filter
-            map(this.ensureConfigurationDefined)
-          )
-      )
+            map(this.ensureConfigurationDefined),
+          ),
+      ),
     );
   }
 
@@ -222,7 +222,7 @@ export class ConfiguratorTextfieldService {
    * @returns {Observable<ConfiguratorTextfield.Configuration>}
    */
   readConfigurationForOrderEntry(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<ConfiguratorTextfield.Configuration> {
     const ownerIdParts = this.configuratorUtils.decomposeOwnerId(owner.id);
     const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
@@ -234,13 +234,13 @@ export class ConfiguratorTextfieldService {
       };
     this.store.dispatch(
       new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
-        readFromOrderEntryParameters
-      )
+        readFromOrderEntryParameters,
+      ),
     );
     return this.store.pipe(
       select(ConfiguratorTextFieldSelectors.getConfigurationContent),
       filter((configuration) => !this.isConfigurationInitial(configuration)),
-      map(this.ensureConfigurationDefined)
+      map(this.ensureConfigurationDefined),
     );
   }
   /**
@@ -252,7 +252,7 @@ export class ConfiguratorTextfieldService {
    */
   createNewConfigurationWithChange(
     changedAttribute: ConfiguratorTextfield.ConfigurationInfo,
-    oldConfiguration: ConfiguratorTextfield.Configuration
+    oldConfiguration: ConfiguratorTextfield.Configuration,
   ): ConfiguratorTextfield.Configuration {
     const newConfiguration: ConfiguratorTextfield.Configuration = {
       configurationInfos: [],
@@ -271,7 +271,7 @@ export class ConfiguratorTextfieldService {
   }
 
   protected isConfigurationInitial(
-    configuration?: ConfiguratorTextfield.Configuration
+    configuration?: ConfiguratorTextfield.Configuration,
   ): boolean {
     return (
       configuration === undefined ||

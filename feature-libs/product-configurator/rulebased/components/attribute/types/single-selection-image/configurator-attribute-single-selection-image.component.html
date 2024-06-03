@@ -38,7 +38,7 @@
                 : {
                     value: value.valueDisplay,
                     attribute: attribute.label,
-                    price: value.valuePrice.formattedValue
+                    price: value.valuePrice.formattedValue,
                   })
             : ('configurator.a11y.valueOfAttributeFull'
               | cxTranslate
@@ -114,7 +114,7 @@
                   : {
                       value: value.valueDisplay,
                       attribute: attribute.label,
-                      price: value.valuePrice.formattedValue
+                      price: value.valuePrice.formattedValue,
                     })
               : (getAriaLabelForValue(isReadOnly(attribute))
                 | cxTranslate

@@ -143,7 +143,7 @@ describe('SearchBoxComponentService', () => {
   it('should return 2 products', () => {
     let result: SearchResults;
     spyOn(searchBoxService, 'getResults').and.returnValue(
-      of(mockSearchResults)
+      of(mockSearchResults),
     );
     spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
     service
@@ -154,7 +154,7 @@ describe('SearchBoxComponentService', () => {
 
   it('should not return products when config.displayProducts = false', () => {
     spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
-      of([{ value: 'sug1' }, { value: 'sug2' }] as any)
+      of([{ value: 'sug1' }, { value: 'sug2' }] as any),
     );
 
     let result: SearchResults;
@@ -168,13 +168,13 @@ describe('SearchBoxComponentService', () => {
     let result: SearchResults;
     beforeEach(() => {
       spyOn(searchBoxService, 'getResults').and.returnValue(
-        of(mockSearchResults)
+        of(mockSearchResults),
       );
     });
 
     it('should return 2 suggestions', () => {
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
-        of([{ value: 'sug1' }, { value: 'sug2' }] as any)
+        of([{ value: 'sug1' }, { value: 'sug2' }] as any),
       );
 
       service
@@ -185,7 +185,7 @@ describe('SearchBoxComponentService', () => {
 
     it('should not return suggestions when config.displaySuggestions = false', () => {
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
-        of([{ value: 'sug1' }, { value: 'sug2' }] as any)
+        of([{ value: 'sug1' }, { value: 'sug2' }] as any),
       );
 
       service
@@ -207,14 +207,14 @@ describe('SearchBoxComponentService', () => {
 
     it('should not get an exact match suggestion when there are suggestions returned', () => {
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
-        of([{ value: 'sug1' }] as any)
+        of([{ value: 'sug1' }] as any),
       );
 
       service
         .getResults(searchBoxConfig)
         .subscribe((results) => (result = results));
       expect(result.suggestions).not.toContain(
-        'searchBox.help.exactMatch{"term":"query"}'
+        'searchBox.help.exactMatch{"term":"query"}',
       );
     });
   });
@@ -232,7 +232,7 @@ describe('SearchBoxComponentService', () => {
 
     it('should get a not found message when there are no products and suggestions ', () => {
       spyOn(searchBoxService, 'getResults').and.returnValue(
-        of({ products: [] })
+        of({ products: [] }),
       );
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
 
@@ -244,7 +244,7 @@ describe('SearchBoxComponentService', () => {
 
     it('should not get a message when there are products ', () => {
       spyOn(searchBoxService, 'getResults').and.returnValue(
-        of(mockSearchResults)
+        of(mockSearchResults),
       );
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
 
@@ -255,7 +255,7 @@ describe('SearchBoxComponentService', () => {
     it('should not get a message when there are suggestions ', () => {
       spyOn(searchBoxService, 'getResults').and.returnValue(EMPTY);
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
-        of([{ value: 'sug1' }] as any)
+        of([{ value: 'sug1' }] as any),
       );
 
       service.getResults(searchBoxConfig).subscribe((r) => (result = r));
@@ -280,13 +280,13 @@ describe('SearchBoxComponentService', () => {
 
         const searchBoxSuggestionSelectedEvent = createFrom(
           SearchBoxSuggestionSelectedEvent,
-          mockEventData
+          mockEventData,
         );
 
         service.dispatchSuggestionSelectedEvent(mockEventData);
 
         expect(result).toEqual(
-          jasmine.objectContaining(searchBoxSuggestionSelectedEvent)
+          jasmine.objectContaining(searchBoxSuggestionSelectedEvent),
         );
       });
 
@@ -340,13 +340,13 @@ describe('SearchBoxComponentService', () => {
           {
             freeText: 'camera',
             productCode: mockProduct.code,
-          }
+          },
         );
 
         service.dispatchProductSelectedEvent(mockEventData);
 
         expect(result).toEqual(
-          jasmine.objectContaining(searchBoxProductSelectedEvent)
+          jasmine.objectContaining(searchBoxProductSelectedEvent),
         );
       });
     });

@@ -47,13 +47,13 @@ export class OrderDetailsEffect {
               catchError((error) =>
                 of(
                   new OrderActions.LoadOrderDetailsFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
   );
 
   cancelOrder$: Observable<OrderActions.OrderDetailsAction> = createEffect(() =>
@@ -69,19 +69,19 @@ export class OrderDetailsEffect {
               error.error?.errors.forEach((err: any) =>
                 this.globalMessageService.add(
                   err.message,
-                  GlobalMessageType.MSG_TYPE_ERROR
-                )
+                  GlobalMessageType.MSG_TYPE_ERROR,
+                ),
               );
 
               return of(
                 new OrderActions.CancelOrderFail(
-                  normalizeHttpError(error, this.logger)
-                )
+                  normalizeHttpError(error, this.logger),
+                ),
               );
-            })
+            }),
           );
-      })
-    )
+      }),
+    ),
   );
 
   resetOrderDetails$: Observable<
@@ -90,14 +90,14 @@ export class OrderDetailsEffect {
     this.actions$.pipe(
       ofType(
         SiteContextActions.LANGUAGE_CHANGE,
-        SiteContextActions.CURRENCY_CHANGE
+        SiteContextActions.CURRENCY_CHANGE,
       ),
       withLatestFrom(
         this.userIdService.getUserId(),
         this.store.pipe(
           filter((store) => !!store.order?.orderDetail),
-          map((state) => state.order.orderDetail.value?.code)
-        )
+          map((state) => state.order.orderDetail.value?.code),
+        ),
       ),
       switchMap(([, userId, orderCode]) => {
         if (orderCode) {
@@ -108,15 +108,15 @@ export class OrderDetailsEffect {
             catchError((error) =>
               of(
                 new OrderActions.LoadOrderDetailsFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
           );
         }
         return EMPTY;
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
@@ -124,6 +124,6 @@ export class OrderDetailsEffect {
     private orderConnector: OrderHistoryConnector,
     private globalMessageService: GlobalMessageService,
     private userIdService: UserIdService,
-    private store: Store<StateWithOrder>
+    private store: Store<StateWithOrder>,
   ) {}
 }

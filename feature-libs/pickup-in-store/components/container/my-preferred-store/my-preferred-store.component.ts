@@ -45,7 +45,7 @@ export class MyPreferredStoreComponent implements OnInit {
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected routingService: RoutingService,
     protected storeFinderService: StoreFinderFacade,
-    protected cmsService: CmsService
+    protected cmsService: CmsService,
   ) {
     this.preferredStore$ = this.preferredStoreFacade.getPreferredStore$().pipe(
       filter((preferredStore) => preferredStore !== null),
@@ -54,17 +54,17 @@ export class MyPreferredStoreComponent implements OnInit {
       map((preferredStore) => preferredStore.name),
       tap((preferredStoreName) =>
         this.pickupLocationsSearchService.loadStoreDetails(
-          preferredStoreName as string
-        )
+          preferredStoreName as string,
+        ),
       ),
       switchMap((preferredStoreName) =>
         this.pickupLocationsSearchService.getStoreDetails(
-          preferredStoreName as string
-        )
+          preferredStoreName as string,
+        ),
       ),
       tap((store: PointOfService) => {
         this.pointOfService = store;
-      })
+      }),
     );
   }
 
@@ -76,7 +76,7 @@ export class MyPreferredStoreComponent implements OnInit {
         take(1),
         tap(
           (cmsPage) =>
-            (this.isStoreFinder = cmsPage.pageId === 'storefinderPage')
+            (this.isStoreFinder = cmsPage.pageId === 'storefinderPage'),
         ),
         filter(() => this.isStoreFinder),
         tap(() => {
@@ -84,7 +84,7 @@ export class MyPreferredStoreComponent implements OnInit {
             header: '',
             actions: [{ event: 'send', name: 'Get Directions' }],
           };
-        })
+        }),
       )
       .subscribe();
   }
@@ -103,7 +103,7 @@ export class MyPreferredStoreComponent implements OnInit {
 
   getDirectionsToStore(): void {
     const linkToDirections: string = this.storeFinderService.getDirections(
-      this.pointOfService
+      this.pointOfService,
     );
     window.open(linkToDirections, '_blank', 'noopener,noreferrer');
   }

@@ -29,7 +29,7 @@ describe('Order Cancellations and Returns', () => {
       // Accessibility
       verifyTabbingOrder(
         'cx-order-details-actions',
-        config.orderDetailsCancelAction
+        config.orderDetailsCancelAction,
       );
     });
 
@@ -42,7 +42,7 @@ describe('Order Cancellations and Returns', () => {
       // Accessibility
       verifyTabbingOrder(
         'cx-order-details-actions',
-        config.orderDetailsReturnAction
+        config.orderDetailsReturnAction,
       );
     });
   });
@@ -66,11 +66,11 @@ describe('Order Cancellations and Returns', () => {
         .should('contain', returnRequest.order.code);
       cy.get('cx-order-return-request-list .cx-order-history-placed').should(
         'contain',
-        sampleData.REQUEST_CREATE_TIME
+        sampleData.REQUEST_CREATE_TIME,
       );
       cy.get('cx-order-return-request-list .cx-order-history-status').should(
         'contain',
-        sampleData.REQUEST_STATUS_PENDING
+        sampleData.REQUEST_STATUS_PENDING,
       );
 
       // test the sort dropdown
@@ -85,7 +85,7 @@ describe('Order Cancellations and Returns', () => {
       // accessibility
       verifyTabbingOrder(
         'cx-order-return-request-list',
-        config.returnRequestList
+        config.returnRequestList,
       );
     });
 
@@ -96,11 +96,11 @@ describe('Order Cancellations and Returns', () => {
       // assert buttons
       cy.get('cx-return-request-overview .btn-secondary').should(
         'contain',
-        'Back'
+        'Back',
       );
       cy.get('cx-return-request-overview .btn-primary').should(
         'contain',
-        'Cancel Return Request'
+        'Cancel Return Request',
       );
 
       // assert return request overview
@@ -109,7 +109,7 @@ describe('Order Cancellations and Returns', () => {
       assertReturnRequestOverview(
         2,
         'Return status',
-        sampleData.REQUEST_STATUS_PENDING
+        sampleData.REQUEST_STATUS_PENDING,
       );
 
       // assert returned items
@@ -121,7 +121,7 @@ describe('Order Cancellations and Returns', () => {
       // accessibility
       verifyTabbingOrder(
         'cx-page-layout.AccountPageTemplate',
-        config.returnRequestDetails
+        config.returnRequestDetails,
       );
     });
 
@@ -134,7 +134,7 @@ describe('Order Cancellations and Returns', () => {
 
       cy.get('cx-global-message').should(
         'contain',
-        `Your return request (${sampleData.RMA}) was cancelled`
+        `Your return request (${sampleData.RMA}) was cancelled`,
       );
       cy.get('cx-breadcrumb').should('contain', 'Order History');
 
@@ -147,7 +147,7 @@ describe('Order Cancellations and Returns', () => {
       cy.get('cx-tab-paragraph-container button').eq(1).click();
       cy.get('cx-order-return-request-list .cx-order-history-status').should(
         'contain',
-        sampleData.REQUEST_STATUS_CANCELLING
+        sampleData.REQUEST_STATUS_CANCELLING,
       );
 
       // go to detail page to check the status and button
@@ -158,7 +158,7 @@ describe('Order Cancellations and Returns', () => {
       assertReturnRequestOverview(
         2,
         'Return status',
-        sampleData.REQUEST_STATUS_CANCELLING
+        sampleData.REQUEST_STATUS_CANCELLING,
       );
       cy.get('cx-return-request-overview .btn-primary').should('not.exist');
     });
@@ -171,7 +171,7 @@ describe('Order Cancellations and Returns', () => {
   function assertReturnRequestOverview(
     index: number,
     label: string,
-    value: string
+    value: string,
   ) {
     cy.get('cx-return-request-overview .cx-detail')
       .eq(index)
@@ -187,7 +187,7 @@ describe('Order Cancellations and Returns', () => {
     cy.get('cx-return-request-items').within(() => {
       cy.get('.cx-item-list-row').should(
         'have.length',
-        returnRequestDetails.returnEntries.length
+        returnRequestDetails.returnEntries.length,
       );
     });
 
@@ -197,20 +197,20 @@ describe('Order Cancellations and Returns', () => {
         .within(() => {
           cy.get('.cx-info .cx-name').should(
             'contain',
-            entry.orderEntry.product.name
+            entry.orderEntry.product.name,
           );
           cy.get('.cx-info .cx-code').should(
             'contain',
-            entry.orderEntry.product.code
+            entry.orderEntry.product.code,
           );
           cy.get('.cx-price').should(
             'contain',
-            entry.orderEntry.basePrice.formattedValue
+            entry.orderEntry.basePrice.formattedValue,
           );
           cy.get('.cx-quantity').should('contain', entry.expectedQuantity);
           cy.get('.cx-total').should(
             'contain',
-            entry.refundAmount.formattedValue
+            entry.refundAmount.formattedValue,
           );
         });
     });

@@ -20,7 +20,7 @@ export class CheckoutEventModule {
     _checkoutDeliveryModeEventListener: CheckoutDeliveryModeEventListener,
     _checkoutPaymentEventListener: CheckoutPaymentEventListener,
     _checkoutPlaceOrderEventListener: CheckoutPlaceOrderEventListener,
-    _checkoutLegacyStoreEventListener: CheckoutLegacyStoreEventListener
+    _checkoutLegacyStoreEventListener: CheckoutLegacyStoreEventListener,
   ) {
     // Intentional empty constructor
   }

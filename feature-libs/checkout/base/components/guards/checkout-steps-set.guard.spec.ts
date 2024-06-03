@@ -68,7 +68,7 @@ const testStep: CheckoutStep = {
 };
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
-    mockCheckoutSteps
+    mockCheckoutSteps,
   );
   disableEnableStep = createSpy();
   getCheckoutStep = createSpy().and.returnValue(testStep);
@@ -78,7 +78,7 @@ class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
   getDeliveryAddressState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: undefined })
+    of({ loading: false, error: false, data: undefined }),
   );
 }
 
@@ -86,14 +86,14 @@ class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
   getSelectedDeliveryModeState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: undefined })
+    of({ loading: false, error: false, data: undefined }),
   );
   setDeliveryMode = createSpy();
 }
 
 class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
   getPaymentDetailsState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: undefined })
+    of({ loading: false, error: false, data: undefined }),
   );
 }
 
@@ -134,7 +134,7 @@ describe(`CheckoutStepsSetGuard`, () => {
 
     guard = TestBed.inject(CheckoutStepsSetGuard);
     checkoutDeliveryAddressFacade = TestBed.inject(
-      CheckoutDeliveryAddressFacade
+      CheckoutDeliveryAddressFacade,
     );
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
@@ -145,11 +145,11 @@ describe(`CheckoutStepsSetGuard`, () => {
     it('should disable delivery address step', () => {
       expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
         CheckoutStepType.DELIVERY_ADDRESS,
-        true
+        true,
       );
       expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
         CheckoutStepType.DELIVERY_MODE,
-        true
+        true,
       );
       expect(testStep.nameMultiLine).toBeFalsy();
     });
@@ -158,11 +158,11 @@ describe(`CheckoutStepsSetGuard`, () => {
       hasDeliveryItems$.next(true);
       expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
         CheckoutStepType.DELIVERY_ADDRESS,
-        false
+        false,
       );
       expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
         CheckoutStepType.DELIVERY_MODE,
-        false
+        false,
       );
       expect(testStep.nameMultiLine).toBeTruthy();
     });
@@ -210,7 +210,7 @@ describe(`CheckoutStepsSetGuard`, () => {
     beforeEach(() => {
       checkoutDeliveryAddressFacade.getDeliveryAddressState =
         createSpy().and.returnValue(
-          of({ loading: false, error: false, data: { id: 'test-address' } })
+          of({ loading: false, error: false, data: { id: 'test-address' } }),
         );
     });
 
@@ -250,7 +250,7 @@ describe(`CheckoutStepsSetGuard`, () => {
             loading: false,
             error: false,
             data: { code: 'test-delivery-mode' },
-          })
+          }),
         );
     });
 
@@ -277,7 +277,7 @@ describe(`CheckoutStepsSetGuard`, () => {
     beforeEach(() => {
       checkoutPaymentFacade.getPaymentDetailsState =
         createSpy().and.returnValue(
-          of({ loading: false, error: false, data: { id: 'test-details' } })
+          of({ loading: false, error: false, data: { id: 'test-details' } }),
         );
     });
 
@@ -294,7 +294,7 @@ describe(`CheckoutStepsSetGuard`, () => {
       testStep.disabled = true;
       guard.canActivate(<any>{ url: ['checkout', 'route4'] }).subscribe((_) => {
         expect(
-          checkoutDeliveryModesFacade.setDeliveryMode
+          checkoutDeliveryModesFacade.setDeliveryMode,
         ).toHaveBeenCalledWith('pickup');
         done();
       });

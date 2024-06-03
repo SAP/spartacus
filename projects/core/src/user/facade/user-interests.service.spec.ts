@@ -37,7 +37,7 @@ describe('UserInterestsService', () => {
         StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
+          fromProcessReducers.getReducers(),
         ),
       ],
       providers: [
@@ -55,7 +55,7 @@ describe('UserInterestsService', () => {
     [UserInterestsService],
     (userInterestsService: UserInterestsService) => {
       expect(userInterestsService).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to load product interests', () => {
@@ -68,13 +68,13 @@ describe('UserInterestsService', () => {
         sort: 'name:asc',
         productCode: undefined,
         notificationType: undefined,
-      })
+      }),
     );
   });
 
   it('should be able to get product interests', () => {
     store.dispatch(
-      new UserActions.LoadProductInterestsSuccess(emptyInterestList)
+      new UserActions.LoadProductInterestsSuccess(emptyInterestList),
     );
 
     service
@@ -103,7 +103,7 @@ describe('UserInterestsService', () => {
         userId: 'current',
         item: {},
         singleDelete: undefined,
-      })
+      }),
     );
 
     service.removeProdutInterest({}, true);
@@ -112,13 +112,13 @@ describe('UserInterestsService', () => {
         userId: 'current',
         item: {},
         singleDelete: true,
-      })
+      }),
     );
   });
 
   it('should be able to get removeProdutInterestLoading flag', () => {
     store.dispatch(
-      new UserActions.RemoveProductInterest({ userId: 'current', item: {} })
+      new UserActions.RemoveProductInterest({ userId: 'current', item: {} }),
     );
     service
       .getRemoveProdutInterestLoading()
@@ -141,7 +141,7 @@ describe('UserInterestsService', () => {
         userId: 'current',
         productCode: '5514465',
         notificationType: NotificationType.BACK_IN_STOCK,
-      })
+      }),
     );
   });
 
@@ -164,21 +164,21 @@ describe('UserInterestsService', () => {
   it('should be able to reset interest removing state', () => {
     service.resetRemoveInterestState();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ResetRemoveInterestState()
+      new UserActions.ResetRemoveInterestState(),
     );
   });
 
   it('should be able to reset interest adding state', () => {
     service.resetAddInterestState();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ResetAddInterestState()
+      new UserActions.ResetAddInterestState(),
     );
   });
 
   it('should be able to clear product interests', () => {
     service.clearProductInterests();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.ClearProductInterests()
+      new UserActions.ClearProductInterests(),
     );
   });
 });

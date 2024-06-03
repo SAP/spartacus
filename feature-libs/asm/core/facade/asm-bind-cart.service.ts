@@ -17,7 +17,7 @@ export class AsmBindCartService implements AsmBindCartFacade {
   constructor(
     protected commandService: CommandService,
     protected asmConnector: AsmConnector,
-    protected userAccountFacade: UserAccountFacade
+    protected userAccountFacade: UserAccountFacade,
   ) {}
 
   protected bindCartCommand$: Command<string, unknown> =
@@ -35,9 +35,9 @@ export class AsmBindCartService implements AsmBindCartFacade {
           this.asmConnector.bindCart({
             cartId,
             customerId,
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
 
   bindCart(cartId: string): Observable<unknown> {

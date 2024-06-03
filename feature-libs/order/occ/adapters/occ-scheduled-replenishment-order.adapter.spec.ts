@@ -73,7 +73,7 @@ class MockLoggerService {
 
 const mockNormalizedJaloError = normalizeHttpError(
   mockJaloError,
-  new MockLoggerService()
+  new MockLoggerService(),
 );
 
 describe(`OccScheduledReplenishmentOrderAdapter`, () => {
@@ -82,18 +82,16 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        providers: [
-          OccScheduledReplenishmentOrderAdapter,
-          { provide: OccConfig, useValue: MockOccModuleConfig },
-          { provide: LoggerService, useClass: MockLoggerService },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        OccScheduledReplenishmentOrderAdapter,
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     occAdapter = TestBed.inject(OccScheduledReplenishmentOrderAdapter);
@@ -115,7 +113,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
           cartId,
           mockReplenishmentOrderFormData,
           termsChecked,
-          userId
+          userId,
         )
         .subscribe((data) => {
           expect(data).toEqual(mockReplenishmentOrder);
@@ -133,7 +131,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(converter.pipeable).toHaveBeenCalledWith(
-        REPLENISHMENT_ORDER_NORMALIZER
+        REPLENISHMENT_ORDER_NORMALIZER,
       );
       mockReq.flush(mockReplenishmentOrder);
     });
@@ -142,7 +140,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
   describe(`back-off`, () => {
     it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'post').and.returnValue(
-        throwError(() => mockJaloError)
+        throwError(() => mockJaloError),
       );
 
       let result: HttpErrorModel | undefined;
@@ -151,7 +149,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
           cartId,
           mockReplenishmentOrderFormData,
           termsChecked,
-          userId
+          userId,
         )
         .pipe(take(1))
         .subscribe({ error: (err) => (result = err) });
@@ -173,7 +171,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
             return of(mockReplenishmentOrder);
           }
           return throwError(() => mockJaloError);
-        })
+        }),
       );
 
       let result: ReplenishmentOrder | undefined;
@@ -182,7 +180,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
           cartId,
           mockReplenishmentOrderFormData,
           termsChecked,
-          userId
+          userId,
         )
         .pipe(take(1))
         .subscribe((res) => {

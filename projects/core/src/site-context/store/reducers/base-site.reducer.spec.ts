@@ -30,11 +30,11 @@ describe('BaseSite Reducer', () => {
 
       const state1 = fromBaseSite.reducer(
         initialState,
-        new SiteContextActions.LoadBaseSitesSuccess(baseSites)
+        new SiteContextActions.LoadBaseSitesSuccess(baseSites),
       );
       const state2 = fromBaseSite.reducer(
         state1,
-        new SiteContextActions.SetActiveBaseSite('test')
+        new SiteContextActions.SetActiveBaseSite('test'),
       );
 
       expect(state2.activeSite).toEqual('test');
@@ -57,11 +57,11 @@ describe('BaseSite Reducer', () => {
       const { initialState } = fromBaseSite;
       const state1 = fromBaseSite.reducer(
         initialState,
-        new SiteContextActions.SetActiveBaseSite('test')
+        new SiteContextActions.SetActiveBaseSite('test'),
       );
       const state2 = fromBaseSite.reducer(
         state1,
-        new SiteContextActions.LoadBaseSitesSuccess(baseSites)
+        new SiteContextActions.LoadBaseSitesSuccess(baseSites),
       );
 
       expect(state2.entities).toEqual(entities);

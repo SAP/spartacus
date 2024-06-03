@@ -96,7 +96,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
         alerts
           .getSuccessAlert()
           .contains(
-            `Address ${newAddress.address.line1} was successfully set as default`
+            `Address ${newAddress.address.line1} was successfully set as default`,
           );
         const firstCard = cy.get('cx-address-book cx-card').first();
         firstCard.should('contain', '✓ DEFAULT');
@@ -112,7 +112,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
 
         cy.get('.cx-card-delete-msg').should(
           'contain',
-          'Are you sure you want to delete this address?'
+          'Are you sure you want to delete this address?',
         );
 
         // click cancel
@@ -125,7 +125,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
         cy.intercept({
           method: 'DELETE',
           pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
+            'BASE_SITE',
           )}/users/*/addresses/*`,
           query: {
             lang: 'en',
@@ -163,7 +163,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
     cy.intercept({
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/*/addresses`,
       query: {
         lang: 'en',

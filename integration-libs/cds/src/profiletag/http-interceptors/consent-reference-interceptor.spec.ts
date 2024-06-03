@@ -57,12 +57,12 @@ describe('consent reference interceptor', () => {
           (req) =>
             req.headers.has('testHeader') &&
             req.headers.has('X-Consent-Reference') &&
-            req.headers.get('X-Consent-Reference') === 'test-123-abc-!@#'
+            req.headers.get('X-Consent-Reference') === 'test-123-abc-!@#',
         )
         .flush('201 created');
       mock.verify();
       expect(response).toBeTruthy();
-    }
+    },
   ));
 
   it('Should not modify the headers if there is not a consent-reference', inject(
@@ -80,12 +80,12 @@ describe('consent reference interceptor', () => {
         .expectOne(
           (req) =>
             req.headers.has('testHeader') &&
-            !req.headers.has('X-Consent-Reference')
+            !req.headers.has('X-Consent-Reference'),
         )
         .flush('201 created');
       mock.verify();
       expect(response).toBeTruthy();
-    }
+    },
   ));
 
   it('Should not add the x-consent-reference header if url is not occ', inject(
@@ -105,12 +105,12 @@ describe('consent reference interceptor', () => {
         .expectOne(
           (req) =>
             req.headers.has('testHeader') &&
-            !req.headers.has('X-Consent-Reference')
+            !req.headers.has('X-Consent-Reference'),
         )
         .flush('201 created');
       mock.verify();
       expect(response).toBeTruthy();
-    }
+    },
   ));
 
   afterEach(inject([HttpTestingController], (mock: HttpTestingController) => {

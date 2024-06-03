@@ -20,7 +20,7 @@ export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
   constructor(
     protected dateValidationService: DateValidationService,
     protected translation: TranslationService,
-    @Optional() protected orderOutlet?: OutletContextData
+    @Optional() protected orderOutlet?: OutletContextData,
   ) {}
 
   protected subscription = new Subscription();
@@ -30,20 +30,20 @@ export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
     if (this.orderOutlet?.context$) {
       this.subscription.add(
         this.orderOutlet.context$.subscribe(
-          (context) => (this.order = context?.item)
-        )
+          (context) => (this.order = context?.item),
+        ),
       );
     }
   }
 
   isRequestedDeliveryDatePresent(): boolean {
     return this.dateValidationService.isDateStringValid(
-      this.order?.requestedRetrievalAt
+      this.order?.requestedRetrievalAt,
     );
   }
 
   getRequestedDeliveryDateCardContent(
-    isoDate: string | null
+    isoDate: string | null,
   ): Observable<Card> {
     return this.translation
       .translate('requestedDeliveryDate.readOnlyTextLabel')
@@ -54,7 +54,7 @@ export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
             title: textTitle,
             text: [isoDate],
           } as Card;
-        })
+        }),
       );
   }
 

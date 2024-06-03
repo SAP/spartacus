@@ -84,7 +84,7 @@ export class MergingSubject<T> {
    */
   private bindAllSourcesToConsumer(consumer: Subscriber<T>) {
     this.sources.forEach((source) =>
-      this.bindSourceToConsumer(source, consumer)
+      this.bindSourceToConsumer(source, consumer),
     );
   }
 

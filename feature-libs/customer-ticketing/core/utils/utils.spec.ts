@@ -7,7 +7,7 @@ describe('Ticket utils', () => {
         isNotFoundError({
           type: 'NotFoundError',
           reason: 'notFound',
-        })
+        }),
       ).toEqual(true);
     });
   });

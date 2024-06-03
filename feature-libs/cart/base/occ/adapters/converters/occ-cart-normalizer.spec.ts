@@ -50,7 +50,7 @@ describe('OccCartNormalizer', () => {
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
     expect(converter.convert).toHaveBeenCalledWith(
       { item: cart.entries[0], promotions: mockPromotions },
-      ORDER_ENTRY_PROMOTIONS_NORMALIZER
+      ORDER_ENTRY_PROMOTIONS_NORMALIZER,
     );
   });
 
@@ -103,7 +103,7 @@ describe('OccCartNormalizer', () => {
       const target: Cart = {};
       occCartNormalizer['handleQuoteCode'](
         { ...source, sapQuote: undefined },
-        target
+        target,
       );
       expect(target.quoteCode).toBe(undefined);
     });

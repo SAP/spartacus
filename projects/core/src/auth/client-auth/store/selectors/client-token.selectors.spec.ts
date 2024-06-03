@@ -29,7 +29,7 @@ describe('ClientToken Selectors', () => {
   describe('getClientTokenState', () => {
     it('should return the client token state', () => {
       store.dispatch(
-        new ClientAuthActions.LoadClientTokenSuccess(mockClientToken)
+        new ClientAuthActions.LoadClientTokenSuccess(mockClientToken),
       );
 
       let result: StateUtils.LoaderState<ClientToken>;

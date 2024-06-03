@@ -19,7 +19,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
   ) {}
 
   public add(
@@ -27,7 +27,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     cartId: string,
     productCode: string,
     quantity: number = 1,
-    pickupStore?: string
+    pickupStore?: string,
   ): Observable<CartModification> {
     const url = this.occEndpointsService.buildUrl('addEntries', {
       urlParams: { userId, cartId, quantity },
@@ -43,7 +43,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         .post<CartModification>(
           url,
           {},
-          { headers: httpHeaders, params: { code: productCode } }
+          { headers: httpHeaders, params: { code: productCode } },
         )
         .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
     }
@@ -69,7 +69,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     entryNumber: string,
     qty?: number,
     pickupStore?: string,
-    pickupToDelivery: boolean = false
+    pickupToDelivery: boolean = false,
   ): Observable<CartModification> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   public remove(
     userId: string,
     cartId: string,
-    entryNumber: string
+    entryNumber: string,
   ): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',

@@ -25,7 +25,7 @@ import { OrderDetailsService } from '../order-details.service';
 })
 export class OrderDetailItemsComponent {
   protected orderConsignmentsService = inject(
-    MyAccountV2OrderConsignmentsService
+    MyAccountV2OrderConsignmentsService,
   );
   readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
@@ -47,13 +47,13 @@ export class OrderDetailItemsComponent {
       this.pickupUnconsignedEntries = this.getUnconsignedEntries(order, true);
       this.deliveryUnConsignedEntries = this.getUnconsignedEntries(
         order,
-        false
+        false,
       );
-    })
+    }),
   );
 
   enableAddToCart$: Observable<boolean | undefined> = this.component.data$.pipe(
-    map((data) => data.enableAddToCart)
+    map((data) => data.enableAddToCart),
   );
 
   isOrderLoading$: Observable<boolean> =
@@ -62,24 +62,24 @@ export class OrderDetailItemsComponent {
       : of(false);
 
   groupCartItems$: Observable<boolean | undefined> = this.component.data$.pipe(
-    map((data) => data.groupCartItems)
+    map((data) => data.groupCartItems),
   );
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailItemsComponent>
+    protected component: CmsComponentData<CmsOrderDetailItemsComponent>,
   ) {}
 
   protected getGroupedConsignments(
     order: Order,
-    pickup: boolean
+    pickup: boolean,
   ): Consignment[] | undefined {
     return this.orderConsignmentsService.getGroupedConsignments(order, pickup);
   }
 
   protected getUnconsignedEntries(
     order: Order,
-    pickup: boolean
+    pickup: boolean,
   ): OrderEntry[] | undefined {
     return this.orderConsignmentsService.getUnconsignedEntries(order, pickup);
   }

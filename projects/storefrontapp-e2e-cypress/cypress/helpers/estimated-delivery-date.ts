@@ -21,7 +21,7 @@ export const my_user = {
 export function checkoutShippingAddress() {
   const deliveryModePage = waitForPage(
     '/checkout/delivery-mode',
-    'getDeliveryModePage'
+    'getDeliveryModePage',
   );
   cy.get('cx-delivery-address').within(() => {
     cy.findByText('Selected');
@@ -33,7 +33,7 @@ export function checkoutShippingAddress() {
 export function checkoutDeliveryMode() {
   const PaymentDetailsPage = waitForPage(
     '/checkout/payment-details',
-    'getPaymentDetailsPage'
+    'getPaymentDetailsPage',
   );
   cy.get('[formcontrolname="deliveryModeId"]').eq(0).click();
   cy.get('cx-delivery-mode').within(() => {
@@ -48,7 +48,7 @@ export function checkoutDeliveryMode() {
 export function checkoutPaymentDetails() {
   const ReviewOrderPage = waitForPage(
     '/checkout/review-order',
-    'getReviewOrderPage'
+    'getReviewOrderPage',
   );
   cy.get('cx-payment-method').within(() => {
     cy.get('cx-card')
@@ -65,7 +65,7 @@ export function checkoutPaymentDetails() {
 export function reviewAndPlaceOrder() {
   const ConfirmOrderPage = waitForPage(
     '/order-confirmation',
-    'getOrderConfirmationPage'
+    'getOrderConfirmationPage',
   );
   cy.contains('Estimated delivery date');
   cy.get('cx-place-order').within(() => {
@@ -88,7 +88,7 @@ export function addProductToCart(sampleProduct: SampleProduct = cheapProduct) {
 
   const deliveryAddressPage = waitForPage(
     '/checkout/delivery-address',
-    'getDeliveryAddressPage'
+    'getDeliveryAddressPage',
   );
   cy.contains('Estimated delivery date');
   cy.findByText(/proceed to checkout/i).click();

@@ -71,7 +71,7 @@ describe('ActiveCartOrderEntriesContext', () => {
       ]);
       expect(activeCartFacade.getActiveCartId).toHaveBeenCalledWith();
       expect(productImportInfoService.getResults).toHaveBeenCalledWith(
-        mockCartId
+        mockCartId,
       );
     });
   });

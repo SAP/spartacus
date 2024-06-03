@@ -173,32 +173,30 @@ describe('AsmMainUiComponent', () => {
   let asmEnablerService: AsmEnablerService;
   const testCustomerId: string = 'test.customer@hybris.com';
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          AsmMainUiComponent,
-          MockAsmToggleUiComponent,
-          MockCSAgentLoginFormComponent,
-          MockCustomerSelectionComponent,
-          MockAsmSessionTimerComponent,
-          MockCustomerEmulationComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
-          { provide: UserAccountFacade, useClass: MockUserAccountFacade },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: AsmComponentService, useClass: MockAsmComponentService },
-          { provide: AsmService, useClass: MockAsmService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        AsmMainUiComponent,
+        MockAsmToggleUiComponent,
+        MockCSAgentLoginFormComponent,
+        MockCustomerSelectionComponent,
+        MockAsmSessionTimerComponent,
+        MockCustomerEmulationComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
+        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: AsmComponentService, useClass: MockAsmComponentService },
+        { provide: AsmService, useClass: MockAsmService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmMainUiComponent);
@@ -228,20 +226,20 @@ describe('AsmMainUiComponent', () => {
     const password = 'password';
     component.loginCustomerSupportAgent({ userId, password });
     expect(
-      csAgentAuthService.authorizeCustomerSupportAgent
+      csAgentAuthService.authorizeCustomerSupportAgent,
     ).toHaveBeenCalledWith(userId, password);
   });
 
   it('should call logoutCustomerSupportAgentAndCustomer() on agent logout', () => {
     spyOn(
       asmComponentService,
-      'logoutCustomerSupportAgentAndCustomer'
+      'logoutCustomerSupportAgentAndCustomer',
     ).and.stub();
 
     component.logout();
 
     expect(
-      asmComponentService.logoutCustomerSupportAgentAndCustomer
+      asmComponentService.logoutCustomerSupportAgentAndCustomer,
     ).toHaveBeenCalled();
   });
 
@@ -252,7 +250,7 @@ describe('AsmMainUiComponent', () => {
     component.startCustomerEmulationSession({ customerId: testCustomerId });
 
     expect(
-      csAgentAuthService.startCustomerEmulationSession
+      csAgentAuthService.startCustomerEmulationSession,
     ).toHaveBeenCalledWith(testCustomerId);
   });
 
@@ -264,13 +262,13 @@ describe('AsmMainUiComponent', () => {
 
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(
-      csAgentAuthService.startCustomerEmulationSession
+      csAgentAuthService.startCustomerEmulationSession,
     ).not.toHaveBeenCalled();
   });
 
   it('should display the login form by default and when the collapse state is false', () => {
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(false)
+      of(false),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     component.ngOnInit();
@@ -284,7 +282,7 @@ describe('AsmMainUiComponent', () => {
   it('should not display the login form by default and when the collapse state is true', () => {
     spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(false)
+      of(false),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     component.ngOnInit();
@@ -297,7 +295,7 @@ describe('AsmMainUiComponent', () => {
 
   it('should display the customer selection state when an agent is signed in and when the collapse state is false', () => {
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
+      of(true),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(userAccountFacade, 'get').and.returnValue(of({}));
@@ -313,7 +311,7 @@ describe('AsmMainUiComponent', () => {
   it('should not display the customer selection state when an agent is signed in and when the collapse state is true', () => {
     spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
+      of(true),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(userAccountFacade, 'get').and.returnValue(of({}));
@@ -329,7 +327,7 @@ describe('AsmMainUiComponent', () => {
   it('should display customer emulation state when a customer is signed in and when the collapse state is false', () => {
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
+      of(true),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(userAccountFacade, 'get').and.returnValue(of(testUser));
@@ -347,7 +345,7 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
+      of(true),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(userAccountFacade, 'get').and.returnValue(of(testUser));
@@ -364,12 +362,12 @@ describe('AsmMainUiComponent', () => {
   it('should redirect to home when starting a customer emulation session.', () => {
     component['startingCustomerSession'] = true;
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
+      of(true),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(
       asmComponentService,
-      'isCustomerEmulationSessionInProgress'
+      'isCustomerEmulationSessionInProgress',
     ).and.returnValue(of(true));
 
     spyOn(routingService, 'go').and.stub();
@@ -384,12 +382,12 @@ describe('AsmMainUiComponent', () => {
   it('should not redirect to home when not starting a customer emulation session.', () => {
     component['startingCustomerSession'] = false;
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
+      of(true),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(
       asmComponentService,
-      'isCustomerEmulationSessionInProgress'
+      'isCustomerEmulationSessionInProgress',
     ).and.returnValue(of(true));
 
     spyOn(routingService, 'go').and.stub();
@@ -404,12 +402,12 @@ describe('AsmMainUiComponent', () => {
   it('should not redirect to home when not handling a customer emulation session token.', () => {
     component['startingCustomerSession'] = true;
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
+      of(true),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(
       asmComponentService,
-      'isCustomerEmulationSessionInProgress'
+      'isCustomerEmulationSessionInProgress',
     ).and.returnValue(of(false));
 
     spyOn(routingService, 'go').and.stub();
@@ -425,7 +423,7 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const submitBtn = fixture.debugElement.query(
-      By.css('button[title="asm.hideUi"]')
+      By.css('button[title="asm.hideUi"]'),
     );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(component.disabled).toEqual(true);
@@ -436,7 +434,7 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const submitBtn = fixture.debugElement.query(
-      By.css('button[title="asm.hideUi"]')
+      By.css('button[title="asm.hideUi"]'),
     );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmComponentService.unload).toHaveBeenCalled();
@@ -447,7 +445,7 @@ describe('AsmMainUiComponent', () => {
     component.showCustomList();
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.ASM_CUSTOMER_LIST,
-      component.element
+      component.element,
     );
   });
 
@@ -466,25 +464,25 @@ describe('AsmMainUiComponent', () => {
     component.createCustomer();
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      component.addNewCustomerLink
+      component.addNewCustomerLink,
     );
   });
 
   it('should not display confirm switch dialog customer when agent has logined and customerId in deeplink is same', () => {
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
+      of(true),
     );
 
     spyOn(userAccountFacade, 'get').and.returnValue(
-      of({ customerId: 'testuser' })
+      of({ customerId: 'testuser' }),
     );
     spyOn(userAccountFacade, 'getById').and.returnValue(
-      of({ customerId: 'testuser' })
+      of({ customerId: 'testuser' }),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(asmComponentService, 'setEmulatedByDeepLink').and.stub();
     spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
-      'testuser'
+      'testuser',
     );
     spyOn(asmComponentService, 'getDeepLinkUrlParams').and.returnValue({
       customerId: 'testuser',
@@ -494,17 +492,17 @@ describe('AsmMainUiComponent', () => {
 
     component.ngOnInit();
     expect(asmComponentService.setEmulatedByDeepLink).toHaveBeenCalledWith(
-      true
+      true,
     );
   });
 
   it('should display confirm switch dialog customer when agent has logined and user is login if customerId shows in URL', () => {
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
+      of(true),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(asmComponentService, 'isEmulatedByDeepLink').and.returnValue(
-      new BehaviorSubject(false)
+      new BehaviorSubject(false),
     );
     spyOn(asmComponentService, 'getDeepLinkUrlParams').and.returnValue({
       customerId: 'newuser',
@@ -529,7 +527,7 @@ describe('AsmMainUiComponent', () => {
   it('should call startCustomerEmulationSession when agent has logined and user is not login if customerId shows in URL', (done) => {
     spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
+      of(true),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
@@ -537,7 +535,7 @@ describe('AsmMainUiComponent', () => {
       customerId: testCustomerId,
     });
     spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
-      testCustomerId
+      testCustomerId,
     );
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
@@ -545,7 +543,7 @@ describe('AsmMainUiComponent', () => {
     expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
     setTimeout(() => {
       expect(
-        csAgentAuthService.startCustomerEmulationSession
+        csAgentAuthService.startCustomerEmulationSession,
       ).toHaveBeenCalledWith(testCustomerId);
       done();
     }, 200);
@@ -554,7 +552,7 @@ describe('AsmMainUiComponent', () => {
   it('should not call startCustomerEmulationSession when agent has logined and user is not login if no customerId shows in URL', (done) => {
     spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
+      of(true),
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
@@ -562,7 +560,7 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     setTimeout(() => {
       expect(
-        csAgentAuthService.startCustomerEmulationSession
+        csAgentAuthService.startCustomerEmulationSession,
       ).not.toHaveBeenCalled();
       done();
     }, 200);
@@ -601,7 +599,7 @@ describe('AsmMainUiComponent', () => {
 
     component.startCustomerEmulationSession(
       { customerId: '123' },
-      { orderId: '456' }
+      { orderId: '456' },
     );
 
     expect(routingService.go).toHaveBeenCalledWith({
@@ -615,7 +613,7 @@ describe('AsmMainUiComponent', () => {
 
     component.startCustomerEmulationSession(
       { customerId: '123' },
-      { orderId: '456', ticketId: '123' }
+      { orderId: '456', ticketId: '123' },
     );
 
     expect(routingService.go).toHaveBeenCalledWith({
@@ -629,7 +627,7 @@ describe('AsmMainUiComponent', () => {
 
     component.startCustomerEmulationSession(
       { customerId: '123' },
-      { ticketId: '456' }
+      { ticketId: '456' },
     );
 
     expect(routingService.go).toHaveBeenCalledWith({
@@ -643,7 +641,7 @@ describe('AsmMainUiComponent', () => {
 
     component.startCustomerEmulationSession(
       { customerId: '123' },
-      { cartId: '456', cartType: 'saved' }
+      { cartId: '456', cartType: 'saved' },
     );
 
     expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
@@ -654,7 +652,7 @@ describe('AsmMainUiComponent', () => {
 
     component.startCustomerEmulationSession(
       { customerId: '123' },
-      { cartId: '456', cartType: 'saved', ticketId: '123' }
+      { cartId: '456', cartType: 'saved', ticketId: '123' },
     );
 
     expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
@@ -666,7 +664,7 @@ describe('AsmMainUiComponent', () => {
 
     component.startCustomerEmulationSession(
       { customerId: '123' },
-      { cartId: '456', cartType: 'active', ticketId: '123' }
+      { cartId: '456', cartType: 'active', ticketId: '123' },
     );
 
     expect(routingService.go).not.toHaveBeenCalled();
@@ -679,7 +677,7 @@ describe('AsmMainUiComponent', () => {
 
     component.startCustomerEmulationSession(
       { customerId: '123' },
-      { cartId: '456', cartType: 'inactive', ticketId: '123' }
+      { cartId: '456', cartType: 'inactive', ticketId: '123' },
     );
     expect(routingService.go).not.toHaveBeenCalled();
     expect(asmComponentService.handleDeepLinkNavigation).toHaveBeenCalled();
@@ -689,7 +687,7 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmComponentService, 'setShowDeeplinkCartInfoAlert').and.stub();
     component.closeDeeplinkCartInfoAlert();
     expect(
-      asmComponentService.setShowDeeplinkCartInfoAlert
+      asmComponentService.setShowDeeplinkCartInfoAlert,
     ).toHaveBeenCalledWith(false);
   });
 
@@ -700,7 +698,7 @@ describe('AsmMainUiComponent', () => {
     const testCustomerId = 'customerid1234567890';
     component.startCustomerEmulationSession({ customerId: testCustomerId });
     expect(
-      csAgentAuthService.startCustomerEmulationSession
+      csAgentAuthService.startCustomerEmulationSession,
     ).toHaveBeenCalledWith(testCustomerId);
 
     expect(component.showCustomerEmulationInfoAlert).toBeTruthy;

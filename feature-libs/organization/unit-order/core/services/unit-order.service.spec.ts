@@ -40,11 +40,11 @@ describe('UnitOrderService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           UNIT_ORDER_FEATURE,
-          fromStoreReducers.getReducers()
+          fromStoreReducers.getReducers(),
         ),
         StoreModule.forFeature(
           PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
+          fromProcessReducers.getReducers(),
         ),
       ],
       providers: [
@@ -65,7 +65,7 @@ describe('UnitOrderService', () => {
     [UnitOrderService],
     (service: UnitOrderService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to get unit order history list', () => {
@@ -74,7 +74,7 @@ describe('UnitOrderService', () => {
         orders: [],
         pagination: {},
         sorts: [],
-      })
+      }),
     );
 
     let orderList: OrderHistoryList | undefined;
@@ -114,7 +114,7 @@ describe('UnitOrderService', () => {
         currentPage: 1,
         filters: '',
         sort: 'byDate',
-      })
+      }),
     );
   });
 
@@ -130,13 +130,13 @@ describe('UnitOrderService', () => {
   it('should be able to clear order list', () => {
     unitOrderService.clearOrderList();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UnitOrderActions.ClearUnitOrders()
+      new UnitOrderActions.ClearUnitOrders(),
     );
   });
 
   it('should be able to get order details', () => {
     store.dispatch(
-      new UnitOrderActions.LoadOrderDetailsSuccess({ code: 'testOrder' })
+      new UnitOrderActions.LoadOrderDetailsSuccess({ code: 'testOrder' }),
     );
 
     let order: Order | undefined;
@@ -155,14 +155,14 @@ describe('UnitOrderService', () => {
       new UnitOrderActions.LoadOrderDetails({
         userId: OCC_USER_ID_CURRENT,
         orderCode: 'orderCode',
-      })
+      }),
     );
   });
 
   it('should be able to clear order details', () => {
     unitOrderService.clearOrderDetails();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UnitOrderActions.ClearOrderDetails()
+      new UnitOrderActions.ClearOrderDetails(),
     );
   });
 });

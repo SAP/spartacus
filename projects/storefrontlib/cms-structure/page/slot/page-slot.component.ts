@@ -93,12 +93,12 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   protected slot$: Observable<ContentSlotData> = this.position$.pipe(
     filter(isNotUndefined),
     switchMap((position) => this.cmsService.getContentSlot(position)),
-    distinctUntilChanged(this.isDistinct)
+    distinctUntilChanged(this.isDistinct),
   );
 
   /** Observes the components for the given page slot. */
   components$: Observable<ContentSlotComponentData[]> = this.slot$.pipe(
-    map((slot) => slot?.components ?? [])
+    map((slot) => slot?.components ?? []),
   );
 
   protected subscription: Subscription = new Subscription();
@@ -114,7 +114,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected elementRef: ElementRef,
     protected cd: ChangeDetectorRef,
-    protected pageSlotService: PageSlotService
+    protected pageSlotService: PageSlotService,
   ) {}
 
   ngOnInit() {
@@ -122,7 +122,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
       this.slot$.pipe(tap((slot) => this.decorate(slot))).subscribe((value) => {
         this.components = value?.components || [];
         this.cd.markForCheck();
-      })
+      }),
     );
   }
 
@@ -150,7 +150,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
       this.dynamicAttributeService.addAttributesToSlot(
         this.elementRef.nativeElement,
         this.renderer,
-        slot
+        slot,
       );
     }
   }
@@ -186,21 +186,21 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   getComponentDeferOptions(componentType: string): IntersectionOptions {
     return this.pageSlotService.getComponentDeferOptions(
       this.position,
-      componentType
+      componentType,
     );
   }
 
   protected isDistinct(
     old: ContentSlotData,
-    current: ContentSlotData
+    current: ContentSlotData,
   ): boolean {
     return Boolean(
       current.components &&
         old.components &&
         old.components.length === current.components.length &&
         !old.components.find(
-          (el, index) => el.uid !== current.components?.[index].uid
-        )
+          (el, index) => el.uid !== current.components?.[index].uid,
+        ),
     );
   }
 

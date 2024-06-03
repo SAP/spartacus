@@ -17,7 +17,7 @@ import { Config, ConfigChunk, DefaultConfigChunk } from './config-tokens';
  */
 export function provideConfig(
   config: Config = {},
-  defaultConfig = false
+  defaultConfig = false,
 ): ValueProvider {
   return {
     provide: defaultConfig ? DefaultConfigChunk : ConfigChunk,
@@ -37,7 +37,7 @@ export function provideConfig(
 export function provideConfigFactory(
   configFactory: ConfigFactory,
   deps?: any[],
-  defaultConfig = false
+  defaultConfig = false,
 ): FactoryProvider {
   return {
     provide: defaultConfig ? DefaultConfigChunk : ConfigChunk,
@@ -68,7 +68,7 @@ export function provideDefaultConfig(config: Config = {}): ValueProvider {
  */
 export function provideDefaultConfigFactory(
   configFactory: ConfigFactory,
-  deps?: any[]
+  deps?: any[],
 ): FactoryProvider {
   return {
     provide: DefaultConfigChunk,

@@ -24,7 +24,7 @@ import {
         [PICKUP_IN_STORE_FEATURE]: {
           module: () =>
             import('@spartacus/pickup-in-store').then(
-              (m) => m.PickupInStoreModule
+              (m) => m.PickupInStoreModule,
             ),
         },
       },

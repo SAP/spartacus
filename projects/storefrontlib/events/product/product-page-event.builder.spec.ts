@@ -162,7 +162,7 @@ describe('ProductPageEventModule', () => {
         categoryCode: navigationEvent.context.id,
         categoryName: searchResults.breadcrumbs[0].facetValueName,
         numberOfResults: searchResults.pagination.totalResults,
-      })
+      }),
     );
   });
 
@@ -241,7 +241,7 @@ describe('ProductPageEventModule', () => {
           categories: product.categories,
           name: product.name,
           price: product.price,
-        } as ProductDetailsPageEvent)
+        } as ProductDetailsPageEvent),
       );
       sub.unsubscribe();
     });

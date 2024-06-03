@@ -37,7 +37,7 @@ describe('Cart-entry Actions', () => {
           payload: payload,
           meta: StateUtils.entityProcessesIncrementMeta(
             MULTI_CART_DATA,
-            cartId
+            cartId,
           ),
         });
       });
@@ -60,7 +60,7 @@ describe('Cart-entry Actions', () => {
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
-            cartId
+            cartId,
           ),
         });
       });
@@ -80,7 +80,7 @@ describe('Cart-entry Actions', () => {
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
-            'cartId'
+            'cartId',
           ),
         });
       });
@@ -97,7 +97,7 @@ describe('Cart-entry Actions', () => {
           payload: payload,
           meta: StateUtils.entityProcessesIncrementMeta(
             MULTI_CART_DATA,
-            cartId
+            cartId,
           ),
         });
       });
@@ -113,7 +113,7 @@ describe('Cart-entry Actions', () => {
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
-            cartId
+            cartId,
           ),
         });
       });
@@ -132,7 +132,7 @@ describe('Cart-entry Actions', () => {
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
-            'cartId'
+            'cartId',
           ),
         });
       });
@@ -156,7 +156,7 @@ describe('Cart-entry Actions', () => {
           payload: payload,
           meta: StateUtils.entityProcessesIncrementMeta(
             MULTI_CART_DATA,
-            cartId
+            cartId,
           ),
         });
       });
@@ -172,7 +172,7 @@ describe('Cart-entry Actions', () => {
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
-            cartId
+            cartId,
           ),
         });
       });
@@ -192,7 +192,7 @@ describe('Cart-entry Actions', () => {
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
-            'cartId'
+            'cartId',
           ),
         });
       });

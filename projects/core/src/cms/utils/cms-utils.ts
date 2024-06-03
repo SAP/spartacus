@@ -20,7 +20,7 @@ export const CURRENT_CONTEXT_KEY = 'current';
  */
 export function serializePageContext(
   pageContext: PageContext | undefined,
-  ignoreContentPageId?: boolean
+  ignoreContentPageId?: boolean,
 ): string {
   if (!pageContext) {
     return CURRENT_CONTEXT_KEY;

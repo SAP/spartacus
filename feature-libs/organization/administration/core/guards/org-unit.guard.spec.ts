@@ -71,7 +71,7 @@ describe('OrgUnitGuard', () => {
       expect(result.toString()).toBe('/organization');
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'organization.notification.notExist' },
-        GlobalMessageType.MSG_TYPE_WARNING
+        GlobalMessageType.MSG_TYPE_WARNING,
       );
     });
   });

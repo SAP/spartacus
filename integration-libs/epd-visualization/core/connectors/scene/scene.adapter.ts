@@ -22,6 +22,6 @@ export abstract class SceneAdapter {
     nodeIds?: string[],
     $expand?: string[],
     $filter?: string[],
-    contentType?: string
+    contentType?: string,
   ): Observable<NodesResponse>;
 }

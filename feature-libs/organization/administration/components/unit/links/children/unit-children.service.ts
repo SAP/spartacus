@@ -24,7 +24,7 @@ export class UnitChildrenService extends SubListService<B2BUnitNode> {
 
   constructor(
     protected tableService: TableService,
-    protected orgUnitService: OrgUnitService
+    protected orgUnitService: OrgUnitService,
   ) {
     super(tableService);
   }
@@ -32,7 +32,7 @@ export class UnitChildrenService extends SubListService<B2BUnitNode> {
   // method to be adjusted for proper children list when ready
   protected load(
     _pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<B2BUnitNode>> {
     return this.orgUnitService.getChildUnits(code);
   }

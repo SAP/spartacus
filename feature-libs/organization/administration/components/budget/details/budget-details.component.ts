@@ -30,7 +30,7 @@ export class BudgetDetailsComponent implements OnInit {
   ngOnInit() {
     this.model$ = this.itemService.key$.pipe(
       switchMap((code) => this.itemService.load(code)),
-      startWith({})
+      startWith({}),
     );
   }
 

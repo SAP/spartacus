@@ -19,13 +19,13 @@ export class ConfiguratorGroupMenuService {
    * @protected
    */
   protected getFocusedGroupIndex(
-    groups: QueryList<ElementRef<HTMLElement>>
+    groups: QueryList<ElementRef<HTMLElement>>,
   ): number | undefined {
     if (groups) {
       const group = groups.find(
         (groupHTMLEl) =>
           groupHTMLEl.nativeElement?.id ===
-          this.windowRef?.document?.activeElement?.id
+          this.windowRef?.document?.activeElement?.id,
       );
       if (group) {
         return groups.toArray().indexOf(group);
@@ -45,7 +45,7 @@ export class ConfiguratorGroupMenuService {
    */
   protected updateCurrentGroupIndex(
     currentGroupIndex: number,
-    focusedGroupIndex?: number
+    focusedGroupIndex?: number,
   ): number {
     if (focusedGroupIndex) {
       return focusedGroupIndex !== currentGroupIndex
@@ -64,12 +64,12 @@ export class ConfiguratorGroupMenuService {
    */
   protected focusNextGroup(
     currentGroupIndex: number,
-    groups: QueryList<ElementRef<HTMLElement>>
+    groups: QueryList<ElementRef<HTMLElement>>,
   ): void {
     const focusedGroupIndex = this.getFocusedGroupIndex(groups);
     currentGroupIndex = this.updateCurrentGroupIndex(
       currentGroupIndex,
-      focusedGroupIndex
+      focusedGroupIndex,
     );
 
     if (groups) {
@@ -90,12 +90,12 @@ export class ConfiguratorGroupMenuService {
    */
   protected focusPreviousGroup(
     currentGroupIndex: number,
-    groups: QueryList<ElementRef<HTMLElement>>
+    groups: QueryList<ElementRef<HTMLElement>>,
   ): void {
     const focusedGroupIndex = this.getFocusedGroupIndex(groups);
     currentGroupIndex = this.updateCurrentGroupIndex(
       currentGroupIndex,
-      focusedGroupIndex
+      focusedGroupIndex,
     );
 
     if (groups) {
@@ -117,7 +117,7 @@ export class ConfiguratorGroupMenuService {
   switchGroupOnArrowPress(
     event: KeyboardEvent,
     groupIndex: number,
-    groups: QueryList<ElementRef<HTMLElement>>
+    groups: QueryList<ElementRef<HTMLElement>>,
   ): void {
     event.preventDefault();
     if (event.code === 'ArrowUp') {
@@ -134,12 +134,12 @@ export class ConfiguratorGroupMenuService {
    * @returns {boolean} - returns `true` if the first group in the group list is `Back` button, otherwise `false`
    */
   isBackBtnFocused(
-    groups: QueryList<ElementRef<HTMLElement>>
+    groups: QueryList<ElementRef<HTMLElement>>,
   ): boolean | undefined {
     if (groups) {
       return (
         groups.first?.nativeElement?.classList?.value?.indexOf(
-          'cx-menu-back'
+          'cx-menu-back',
         ) !== -1 &&
         this.windowRef?.document?.activeElement === groups.first?.nativeElement
       );
@@ -154,13 +154,13 @@ export class ConfiguratorGroupMenuService {
    * @returns {boolean} - returns `true` if the active group is in the group list, otherwise `false`
    */
   isActiveGroupInGroupList(
-    groups: QueryList<ElementRef<HTMLElement>>
+    groups: QueryList<ElementRef<HTMLElement>>,
   ): boolean {
     let activeGroup;
     if (groups) {
       activeGroup = groups.find(
         (group) =>
-          group.nativeElement?.classList?.value?.indexOf('active') !== -1
+          group.nativeElement?.classList?.value?.indexOf('active') !== -1,
       );
     }
     return activeGroup !== undefined;

@@ -82,7 +82,7 @@ describe('Product Interests Actions', () => {
         payload: payload,
         meta: entityLoadMeta(
           PROCESS_FEATURE,
-          REMOVE_PRODUCT_INTERESTS_PROCESS_ID
+          REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
         ),
       });
     });
@@ -97,7 +97,7 @@ describe('Product Interests Actions', () => {
         payload: payload,
         meta: entitySuccessMeta(
           PROCESS_FEATURE,
-          REMOVE_PRODUCT_INTERESTS_PROCESS_ID
+          REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
         ),
       });
     });
@@ -113,7 +113,7 @@ describe('Product Interests Actions', () => {
         meta: entityFailMeta(
           PROCESS_FEATURE,
           REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
-          error
+          error,
         ),
       });
     });
@@ -144,7 +144,7 @@ describe('Product Interests Actions', () => {
         payload: payload,
         meta: entitySuccessMeta(
           PROCESS_FEATURE,
-          ADD_PRODUCT_INTEREST_PROCESS_ID
+          ADD_PRODUCT_INTEREST_PROCESS_ID,
         ),
       });
     });
@@ -160,7 +160,7 @@ describe('Product Interests Actions', () => {
         meta: entityFailMeta(
           PROCESS_FEATURE,
           ADD_PRODUCT_INTEREST_PROCESS_ID,
-          error
+          error,
         ),
       });
     });
@@ -173,7 +173,7 @@ describe('Product Interests Actions', () => {
         type: UserActions.REMOVE_PRODUCT_INTEREST_RESET,
         meta: entityResetMeta(
           PROCESS_FEATURE,
-          REMOVE_PRODUCT_INTERESTS_PROCESS_ID
+          REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
         ),
       });
     });

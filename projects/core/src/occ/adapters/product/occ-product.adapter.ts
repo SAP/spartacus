@@ -23,7 +23,7 @@ export class OccProductAdapter implements ProductAdapter {
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService,
-    protected requestsOptimizer: OccRequestsOptimizerService
+    protected requestsOptimizer: OccRequestsOptimizerService,
   ) {}
 
   load(productCode: string, scope?: string): Observable<Product> {
@@ -45,9 +45,9 @@ export class OccProductAdapter implements ProductAdapter {
           ({
             ...scopedProduct,
             data$: scopedProduct.data$?.pipe(
-              this.converter.pipeable(PRODUCT_NORMALIZER)
+              this.converter.pipeable(PRODUCT_NORMALIZER),
             ),
-          } as ScopedProductData)
+          }) as ScopedProductData,
       );
   }
 

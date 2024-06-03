@@ -30,7 +30,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     });
 
     cpqConfiguratorNormalizerUtilsService = TestBed.inject(
-      CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+      CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>,
     );
   });
 
@@ -42,7 +42,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     const valueSelected: Cpq.Value = { paV_ID: 1, price: '123.45' };
     const valuePrice = cpqConfiguratorNormalizerUtilsService.convertValuePrice(
       valueSelected,
-      CURRENCY
+      CURRENCY,
     );
     expect(valuePrice?.currencyIso).toBe(CURRENCY);
     expect(valuePrice?.value).toBe(123.45);
@@ -53,7 +53,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     const valueSelected: Cpq.Value = { paV_ID: 1 };
     const valuePrice = cpqConfiguratorNormalizerUtilsService.convertValuePrice(
       valueSelected,
-      CURRENCY
+      CURRENCY,
     );
     expect(valuePrice).toBeUndefined();
   });
@@ -67,7 +67,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     const valuePriceTotal =
       cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
         quantity,
-        valuePrice
+        valuePrice,
       );
     expect(valuePriceTotal?.currencyIso).toBe(CURRENCY);
     expect(valuePriceTotal?.value).toBe(370.35);
@@ -83,7 +83,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     const valuePriceTotal =
       cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
         quantity,
-        valuePrice
+        valuePrice,
       );
     expect(valuePriceTotal?.currencyIso).toBe(CURRENCY);
     expect(valuePriceTotal?.value).toBe(123.45);
@@ -101,7 +101,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     };
     const quantity = cpqConfiguratorNormalizerUtilsService.convertQuantity(
       cpqValue,
-      cpqAttr
+      cpqAttr,
     );
     expect(quantity).toBe(2);
   });
@@ -117,7 +117,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     };
     const quantity = cpqConfiguratorNormalizerUtilsService.convertQuantity(
       cpqValue,
-      cpqAttr
+      cpqAttr,
     );
     expect(quantity).toBe(3);
   });
@@ -135,7 +135,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     };
     const quantity = cpqConfiguratorNormalizerUtilsService.convertQuantity(
       cpqValue,
-      cpqAttr
+      cpqAttr,
     );
     expect(quantity).toBe(3);
   });
@@ -153,7 +153,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     };
     const quantity = cpqConfiguratorNormalizerUtilsService.convertQuantity(
       cpqValue,
-      cpqAttr
+      cpqAttr,
     );
     expect(quantity).toBeUndefined();
   });
@@ -170,7 +170,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     };
     const quantity = cpqConfiguratorNormalizerUtilsService.convertQuantity(
       cpqValue,
-      cpqAttr
+      cpqAttr,
     );
     expect(quantity).toBeUndefined();
   });
@@ -186,7 +186,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     };
     const quantity = cpqConfiguratorNormalizerUtilsService.convertQuantity(
       cpqValue,
-      cpqAttr
+      cpqAttr,
     );
     expect(quantity).toBeUndefined();
   });
@@ -199,7 +199,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     const locale = 'en-US';
     cpqConfiguratorNormalizerUtilsService['formatPriceForLocale'](
       price,
-      locale
+      locale,
     );
     expect(price.formattedValue).toBe('$1,123.45');
   });
@@ -212,7 +212,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     const locale = 'en-US';
     cpqConfiguratorNormalizerUtilsService['formatPriceForLocale'](
       price,
-      locale
+      locale,
     );
     expect(price.formattedValue).toBe('$123.00');
   });
@@ -225,7 +225,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     const locale = 'en-US';
     cpqConfiguratorNormalizerUtilsService['formatPriceForLocale'](
       price,
-      locale
+      locale,
     );
     expect(price.formattedValue).toBe('$123.46');
   });
@@ -238,7 +238,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     const locale = 'en-US';
     cpqConfiguratorNormalizerUtilsService['formatPriceForLocale'](
       price,
-      locale
+      locale,
     );
     expect(price.formattedValue).toBe('-$123.45');
   });
@@ -272,7 +272,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     const attributePriceTotal =
       cpqConfiguratorNormalizerUtilsService.calculateAttributePriceTotal(
         attribute,
-        CURRENCY
+        CURRENCY,
       );
     expect(attributePriceTotal.currencyIso).toBe(CURRENCY);
     expect(attributePriceTotal.value).toBe(100.01);
@@ -286,7 +286,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       dataType: Cpq.DataType.INPUT_STRING,
     };
     expect(
-      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute)
+      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute),
     ).toBe(Configurator.DataType.INPUT_STRING);
   });
 
@@ -297,7 +297,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       dataType: Cpq.DataType.INPUT_NUMBER,
     };
     expect(
-      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute)
+      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute),
     ).toBe(Configurator.DataType.INPUT_NUMBER);
   });
 
@@ -308,7 +308,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       dataType: Cpq.DataType.N_A,
     };
     expect(
-      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute)
+      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute),
     ).toBe(Configurator.DataType.USER_SELECTION_NO_QTY);
   });
 
@@ -319,7 +319,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
     };
     expect(
-      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute)
+      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute),
     ).toBe(Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL);
   });
 
@@ -332,7 +332,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       isLineItem: true,
     };
     expect(
-      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute)
+      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute),
     ).toBe(Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL);
   });
 
@@ -345,7 +345,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       isLineItem: false,
     };
     expect(
-      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute)
+      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute),
     ).toBe(Configurator.DataType.USER_SELECTION_NO_QTY);
   });
 
@@ -357,7 +357,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       displayAs: Cpq.DisplayAs.RADIO_BUTTON,
     };
     expect(
-      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute)
+      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute),
     ).toBe(Configurator.DataType.USER_SELECTION_NO_QTY);
   });
 
@@ -368,7 +368,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       dataType: undefined,
     };
     expect(
-      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute)
+      cpqConfiguratorNormalizerUtilsService.convertDataType(attribute),
     ).toBe(Configurator.DataType.NOT_IMPLEMENTED);
   });
 
@@ -398,8 +398,8 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     };
     expect(
       cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
-        cpqConfiguration
-      )
+        cpqConfiguration,
+      ),
     ).toEqual(expectedPriceSummary);
   });
 
@@ -419,8 +419,8 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     };
     expect(
       cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
-        cpqConfiguration
-      )
+        cpqConfiguration,
+      ),
     ).toEqual(expectedPriceSummary);
   });
 
@@ -450,8 +450,8 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     };
     expect(
       cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
-        cpqConfiguration
-      )
+        cpqConfiguration,
+      ),
     ).toEqual(expectedPriceSummary);
   });
 
@@ -471,8 +471,8 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     };
     expect(
       cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
-        cpqConfiguration
-      )
+        cpqConfiguration,
+      ),
     ).toEqual(expectedPriceSummary);
   });
 
@@ -484,7 +484,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       name: 'name',
     };
     expect(
-      cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(attribute)
+      cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(attribute),
     ).toBe('label');
   });
 
@@ -495,7 +495,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       name: 'name',
     };
     expect(
-      cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(attribute)
+      cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(attribute),
     ).toBe('name');
   });
 
@@ -505,7 +505,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       stdAttrCode: 2,
     };
     expect(
-      cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(attribute)
+      cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(attribute),
     ).toBe('');
   });
 });

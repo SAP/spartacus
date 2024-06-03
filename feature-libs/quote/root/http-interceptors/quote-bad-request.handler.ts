@@ -39,7 +39,7 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
     this.getIllegalArgumentErrorsRelatedToQuote(response).forEach(
       ({ message }: ErrorModel) => {
         this.handleIllegalArgumentIssues(message as string);
-      }
+      },
     );
 
     if (this.isNotEmpty(this.getCartValidationErrors(response))) {
@@ -61,16 +61,16 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
 
   protected isRelatedToQuotes(response: HttpErrorResponse): boolean {
     const isThresHoldError = this.isNotEmpty(
-      this.getQuoteThresholdErrors(response)
+      this.getQuoteThresholdErrors(response),
     );
     const isCartValidationError = this.isNotEmpty(
-      this.getCartValidationErrors(response)
+      this.getCartValidationErrors(response),
     );
     const isQuoteAccessError = this.isNotEmpty(
-      this.getCartQuoteAccessErrors(response)
+      this.getCartQuoteAccessErrors(response),
     );
     const isQuoteIllegalArgumentError = this.isNotEmpty(
-      this.getIllegalArgumentErrorsRelatedToQuote(response)
+      this.getIllegalArgumentErrorsRelatedToQuote(response),
     );
     return (
       isThresHoldError ||
@@ -82,31 +82,31 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
 
   protected getQuoteThresholdErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors ?? []).filter(
-      (error: ErrorModel) => error.type === 'QuoteUnderThresholdError'
+      (error: ErrorModel) => error.type === 'QuoteUnderThresholdError',
     );
   }
 
   protected getCartValidationErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors ?? []).filter(
-      (error: ErrorModel) => error.type === 'CartValidationError'
+      (error: ErrorModel) => error.type === 'CartValidationError',
     );
   }
 
   protected getCartQuoteAccessErrors(
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): ErrorModel[] {
     return (response.error?.errors ?? []).filter(
-      (error: ErrorModel) => error.type === 'CartQuoteAccessError'
+      (error: ErrorModel) => error.type === 'CartQuoteAccessError',
     );
   }
 
   protected getIllegalArgumentErrorsRelatedToQuote(
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): ErrorModel[] {
     return (response.error?.errors ?? [])
       .filter((error: ErrorModel) => error.type === 'IllegalArgumentError')
       .filter((error: ErrorModel) =>
-        this.isIllegalArgumentErrorRelatedToQuote(error.message)
+        this.isIllegalArgumentErrorRelatedToQuote(error.message),
       );
   }
 
@@ -119,14 +119,14 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
   }
 
   protected isIllegalArgumentErrorRelatedToQuoteDiscount(
-    message: string
+    message: string,
   ): boolean {
     const discountMask = /Discount type is absolute/;
     return message.match(discountMask) !== null;
   }
 
   protected isIllegalArgumentErrorRelatedToQuoteExpiration(
-    message: string
+    message: string,
   ): boolean {
     const expirationMask = /Invalid quote expiration time/;
     return message.match(expirationMask) !== null;
@@ -137,7 +137,7 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
       {
         key: 'quote.httpHandlers.threshold.underThresholdError',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   }
 
@@ -146,7 +146,7 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
       {
         key: 'quote.httpHandlers.cartValidationIssue',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   }
 
@@ -155,7 +155,7 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
       {
         key: 'quote.httpHandlers.quoteCartIssue',
       },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   }
 
@@ -165,7 +165,7 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
         {
           key: 'quote.httpHandlers.absoluteDiscountIssue',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
 
@@ -174,7 +174,7 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
         {
           key: 'quote.httpHandlers.expirationDateIssue',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     }
   }

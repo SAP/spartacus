@@ -51,7 +51,7 @@ export function globToRegex(glob: string, literalQuestionMark = false): string {
     } else {
       const processed = toEscape.reduce(
         (seg, escape) => seg?.replace(escape.replace, escape.with),
-        segment
+        segment,
       );
       regex += processed;
       if (segments.length > 0) {
@@ -88,7 +88,7 @@ export function getGlobMatcher(patterns: string[]): (url: string) => boolean {
  * Converts list of glob-like patterns into list of RegExps with information whether the glob pattern is positive or negative
  */
 export function processGlobPatterns(
-  urls: string[]
+  urls: string[],
 ): { positive: boolean; regex: string }[] {
   return urls.map((url) => {
     const positive = !url.startsWith('!');

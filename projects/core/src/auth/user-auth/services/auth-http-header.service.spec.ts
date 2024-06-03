@@ -22,7 +22,7 @@ const testToken: AuthToken = {
 const logoutInProgressSubject = new BehaviorSubject<boolean>(false);
 const refreshInProgressSubject = new BehaviorSubject<boolean>(false);
 const getTokenFromStorage = new BehaviorSubject<AuthToken | undefined>(
-  testToken
+  testToken,
 );
 
 class MockAuthService implements Partial<AuthService> {
@@ -119,16 +119,16 @@ describe('AuthHttpHeaderService', () => {
     it('should return true for occ urls', () => {
       expect(
         service.shouldAddAuthorizationHeader(
-          new HttpRequest('GET', 'some-server/occ/cart')
-        )
+          new HttpRequest('GET', 'some-server/occ/cart'),
+        ),
       ).toBeTrue();
     });
 
     it('should return false for non occ urls', () => {
       expect(
         service.shouldAddAuthorizationHeader(
-          new HttpRequest('GET', 'some-server/auth')
-        )
+          new HttpRequest('GET', 'some-server/auth'),
+        ),
       ).toBeFalse();
     });
 
@@ -137,8 +137,8 @@ describe('AuthHttpHeaderService', () => {
         service.shouldAddAuthorizationHeader(
           new HttpRequest('GET', 'some-server/auth', {
             headers: new HttpHeaders({ Authorization: 'Bearer acc_token' }),
-          })
-        )
+          }),
+        ),
       ).toBeFalse();
     });
   });
@@ -146,13 +146,15 @@ describe('AuthHttpHeaderService', () => {
   describe('shouldCatchError', () => {
     it('should return true for occ urls', () => {
       expect(
-        service.shouldCatchError(new HttpRequest('GET', 'some-server/occ/cart'))
+        service.shouldCatchError(
+          new HttpRequest('GET', 'some-server/occ/cart'),
+        ),
       ).toBeTrue();
     });
 
     it('should return false for non occ urls', () => {
       expect(
-        service.shouldCatchError(new HttpRequest('GET', 'some-server/auth'))
+        service.shouldCatchError(new HttpRequest('GET', 'some-server/auth')),
       ).toBeFalse();
     });
   });
@@ -160,7 +162,7 @@ describe('AuthHttpHeaderService', () => {
   describe('alterRequest', () => {
     it('should add Authorization header for occ calls that do not have this header', () => {
       const request = service.alterRequest(
-        new HttpRequest('GET', 'some-server/occ/cart')
+        new HttpRequest('GET', 'some-server/occ/cart'),
       );
       expect(request.headers.get('Authorization')).toEqual('Bearer acc_token');
     });
@@ -168,7 +170,7 @@ describe('AuthHttpHeaderService', () => {
     it('should use AuthToken that is passed to this method', () => {
       const request = service.alterRequest(
         new HttpRequest('GET', 'some-server/occ/cart'),
-        { access_token: 'new_token' } as AuthToken
+        { access_token: 'new_token' } as AuthToken,
       );
       expect(request.headers.get('Authorization')).toEqual('Bearer new_token');
     });
@@ -177,14 +179,14 @@ describe('AuthHttpHeaderService', () => {
       const request = service.alterRequest(
         new HttpRequest('GET', 'some-server/occ/cart', {
           headers: new HttpHeaders({ Authorization: 'Bearer diff_token' }),
-        })
+        }),
       );
       expect(request.headers.get('Authorization')).toEqual('Bearer diff_token');
     });
 
     it('should not add the header to not occ urls', () => {
       const request = service.alterRequest(
-        new HttpRequest('GET', 'some-server/non-occ/cart')
+        new HttpRequest('GET', 'some-server/non-occ/cart'),
       );
       expect(request.headers.has('Authorization')).toBe(false);
     });
@@ -193,8 +195,8 @@ describe('AuthHttpHeaderService', () => {
       const request = service.alterRequest(
         new HttpRequest(
           'GET',
-          'some-server/occ/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme,defaultPreviewCatalogId,defaultPreviewCategoryCode,defaultPreviewProductCode)'
-        )
+          'some-server/occ/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme,defaultPreviewCatalogId,defaultPreviewCategoryCode,defaultPreviewProductCode)',
+        ),
       );
       expect(request.headers.has('Authorization')).toBe(false);
     });
@@ -221,7 +223,7 @@ describe('AuthHttpHeaderService', () => {
         .handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/occ/cart'),
           { handle: handler } as HttpHandler,
-          initialToken
+          initialToken,
         )
         .pipe(take(1))
         .subscribe((res: any) => {
@@ -248,7 +250,7 @@ describe('AuthHttpHeaderService', () => {
         .handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/occ/cart'),
           { handle: handler } as HttpHandler,
-          initialToken
+          initialToken,
         )
         .subscribe({
           complete: () => {
@@ -282,18 +284,18 @@ describe('AuthHttpHeaderService', () => {
         service.handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/1/'),
           { handle: handler } as HttpHandler,
-          initialToken
+          initialToken,
         ),
         service.handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/2/'),
           { handle: handler } as HttpHandler,
-          initialToken
-        )
+          initialToken,
+        ),
       ).subscribe((res) => {
         results.push(res);
         if (results.length === 2) {
           results.forEach((r) =>
-            expect(r.headers.get('Authorization')).toEqual('Bearer new_token')
+            expect(r.headers.get('Authorization')).toEqual('Bearer new_token'),
           );
           const url1 = results.find((r) => r.url === 'some-server/1/');
           expect(url1).toBeTruthy();
@@ -320,7 +322,7 @@ describe('AuthHttpHeaderService', () => {
         .handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/occ/cart'),
           { handle: handler } as HttpHandler,
-          initialToken
+          initialToken,
         )
         .subscribe({
           complete: () => {
@@ -347,11 +349,11 @@ describe('AuthHttpHeaderService', () => {
         .handleExpiredAccessToken(
           new HttpRequest('GET', 'some-server/1/'),
           { handle: handler } as HttpHandler,
-          initialToken
+          initialToken,
         )
         .subscribe((res: any) => {
           expect(res.headers.get('Authorization')).toEqual(
-            `Bearer ${testToken.access_token}`
+            `Bearer ${testToken.access_token}`,
           );
           expect(res.url).toEqual('some-server/1/');
           expect(res.method).toEqual('GET');
@@ -380,14 +382,14 @@ describe('AuthHttpHeaderService', () => {
       await wait();
 
       expect(
-        authRedirectService.saveCurrentNavigationUrl
+        authRedirectService.saveCurrentNavigationUrl,
       ).toHaveBeenCalledBefore(routingService.go);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
           key: 'httpHandlers.sessionExpired',
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
   });

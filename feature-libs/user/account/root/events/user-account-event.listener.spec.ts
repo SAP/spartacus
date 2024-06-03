@@ -49,7 +49,7 @@ describe(`UserAccountEventListener`, () => {
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'authMessages.signedOutSuccessfully' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
   });

@@ -48,7 +48,7 @@ describe('AuthStatePersistenceService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           CLIENT_AUTH_FEATURE,
-          fromAuthReducers.getReducers()
+          fromAuthReducers.getReducers(),
         ),
       ],
       providers: [
@@ -103,7 +103,7 @@ describe('AuthStatePersistenceService', () => {
     });
     expect(userIdService.setUserId).toHaveBeenCalledWith('userId');
     expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
-      'some_url'
+      'some_url',
     );
   });
 
@@ -125,17 +125,20 @@ describe('AuthStatePersistenceService', () => {
       jasmine.objectContaining({
         key: 'auth',
         state$,
-      })
+      }),
     );
     expect(service['getAuthState']).toHaveBeenCalled();
   });
 
   it('should return state from auth state and userId service', (done) => {
     spyOn(authStorageService, 'getToken').and.returnValue(
-      of({ access_token: 'token', refresh_token: 'refresh_token' } as AuthToken)
+      of({
+        access_token: 'token',
+        refresh_token: 'refresh_token',
+      } as AuthToken),
     );
     spyOn(authRedirectStorageService, 'getRedirectUrl').and.returnValue(
-      of('redirect_url')
+      of('redirect_url'),
     );
 
     service['getAuthState']()
@@ -162,7 +165,7 @@ describe('AuthStatePersistenceService', () => {
     expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith(
       jasmine.objectContaining({
         key: 'auth',
-      })
+      }),
     );
   });
 });

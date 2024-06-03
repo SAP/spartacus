@@ -17,7 +17,7 @@ describe('OccReturnRequestNormalizer', () => {
         ({
           ...product,
           code: (product as Product).code + 'converted',
-        } as any)
+        }) as any,
     );
   });
 
@@ -42,7 +42,7 @@ describe('OccReturnRequestNormalizer', () => {
     };
     const result = normalizer.convert(returnRequest);
     expect(result.returnEntries[0].orderEntry.product.code).toBe(
-      'test1converted'
+      'test1converted',
     );
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
   });

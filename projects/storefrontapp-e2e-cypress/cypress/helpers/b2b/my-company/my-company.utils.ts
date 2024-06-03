@@ -15,7 +15,7 @@ import {
 
 export function testMyCompanyFeatureFromConfig(
   config: MyCompanyConfig,
-  core: boolean = false
+  core: boolean = false,
 ) {
   describe(
     `My Company - ${config.name}${config.nameSuffix || ''}`,
@@ -43,14 +43,14 @@ export function testMyCompanyFeatureFromConfig(
       } else {
         testFeaturesFromConfig(config);
       }
-    }
+    },
   );
 }
 
 export function waitForData(
   suffix: string,
   thenCommand: Function,
-  waitForCommand: Function = () => {}
+  waitForCommand: Function = () => {},
 ): void {
   waitForCommand();
   cy.wait(`@getData${suffix}`).then((xhr: any) => {

@@ -20,16 +20,16 @@ const budget = {
 class MockCostCenterAdapter implements CostCenterAdapter {
   load = createSpy('CostCenterAdapter.load').and.returnValue(of(costCenter));
   loadList = createSpy('CostCenterAdapter.loadList').and.returnValue(
-    of([costCenter])
+    of([costCenter]),
   );
   create = createSpy('CostCenterAdapter.create').and.returnValue(
-    of(costCenter)
+    of(costCenter),
   );
   update = createSpy('CostCenterAdapter.update').and.returnValue(
-    of(costCenter)
+    of(costCenter),
   );
   loadBudgets = createSpy('CostCenterAdapter.loadBudgets').and.returnValue(
-    of([budget])
+    of([budget]),
   );
   assignBudget = createSpy('CostCenterAdapter.assignBudget');
   unassignBudget = createSpy('CostCenterAdapter.unassignBudget');
@@ -76,7 +76,7 @@ describe('CostCenterConnector', () => {
     expect(adapter.update).toHaveBeenCalledWith(
       userId,
       costCenterCode,
-      costCenter
+      costCenter,
     );
   });
 
@@ -86,7 +86,7 @@ describe('CostCenterConnector', () => {
     expect(adapter.loadBudgets).toHaveBeenCalledWith(
       userId,
       costCenterCode,
-      params
+      params,
     );
   });
 
@@ -95,7 +95,7 @@ describe('CostCenterConnector', () => {
     expect(adapter.assignBudget).toHaveBeenCalledWith(
       userId,
       costCenterCode,
-      budgetCode
+      budgetCode,
     );
   });
 
@@ -104,7 +104,7 @@ describe('CostCenterConnector', () => {
     expect(adapter.unassignBudget).toHaveBeenCalledWith(
       userId,
       costCenterCode,
-      budgetCode
+      budgetCode,
     );
   });
 });

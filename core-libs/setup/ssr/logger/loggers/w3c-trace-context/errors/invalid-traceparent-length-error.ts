@@ -11,7 +11,7 @@
 export class InvalidTraceparentLengthError extends Error {
   constructor(traceparentLength: number) {
     super(
-      `Traceparent header has invalid length: ${traceparentLength}. Expected 55 characters.`
+      `Traceparent header has invalid length: ${traceparentLength}. Expected 55 characters.`,
     );
   }
 }

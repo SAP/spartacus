@@ -18,11 +18,11 @@ export class CommonQuoteTestUtilsService {
   static expectElementPresent(
     expect: any,
     element: Element,
-    querySelector: string
+    querySelector: string,
   ) {
     expect(element.querySelectorAll(querySelector).length).toBeGreaterThan(
       0,
-      `expected element identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${element.innerHTML}`
+      `expected element identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${element.innerHTML}`,
     );
   }
 
@@ -38,11 +38,11 @@ export class CommonQuoteTestUtilsService {
     expect: any,
     element: Element,
     querySelector: string,
-    numberOfElements: number
+    numberOfElements: number,
   ) {
     expect(element.querySelectorAll(querySelector).length).toBe(
       numberOfElements,
-      `expected elements identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${element.innerHTML}`
+      `expected elements identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${element.innerHTML}`,
     );
   }
 
@@ -60,7 +60,7 @@ export class CommonQuoteTestUtilsService {
     element: Element,
     querySelector: string,
     expectedText: string,
-    index?: number
+    index?: number,
   ) {
     let text;
     if (index) {
@@ -81,11 +81,11 @@ export class CommonQuoteTestUtilsService {
   static expectElementNotPresent(
     expect: any,
     element: Element,
-    querySelector: string
+    querySelector: string,
   ) {
     expect(element.querySelectorAll(querySelector).length).toBe(
       0,
-      `expected element identified by selector '${querySelector}' to be NOT present, but it is! innerHtml: ${element.innerHTML}`
+      `expected element identified by selector '${querySelector}' to be NOT present, but it is! innerHtml: ${element.innerHTML}`,
     );
   }
 
@@ -99,11 +99,11 @@ export class CommonQuoteTestUtilsService {
   static expectElementToContainAttribute(
     expect: any,
     htmlElement: HTMLElement,
-    attributeName: string
+    attributeName: string,
   ) {
     expect(htmlElement.getAttributeNames().indexOf(attributeName) >= 0).toBe(
       true,
-      `expected element should contain attribute name '${attributeName}', but it is NOT!`
+      `expected element should contain attribute name '${attributeName}', but it is NOT!`,
     );
   }
 
@@ -117,11 +117,11 @@ export class CommonQuoteTestUtilsService {
   static expectElementNotToContainAttribute(
     expect: any,
     htmlElement: HTMLElement,
-    attributeName: string
+    attributeName: string,
   ) {
     expect(htmlElement.getAttributeNames().indexOf(attributeName) <= -1).toBe(
       true,
-      `expected element should not contain attribute name '${attributeName}', but it is NOT!`
+      `expected element should not contain attribute name '${attributeName}', but it is NOT!`,
     );
   }
 
@@ -140,7 +140,7 @@ export class CommonQuoteTestUtilsService {
   static getHTMLElement(
     htmlElement: Element,
     querySelector: string,
-    index?: number
+    index?: number,
   ): HTMLElement {
     let element: Element | null;
     if (index) {
@@ -151,7 +151,7 @@ export class CommonQuoteTestUtilsService {
     if (!element) {
       const indexString = index ? 'with index=' + index : '';
       fail(
-        `expected element ${indexString} identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
+        `expected element ${indexString} identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`,
       );
     }
     return element as HTMLElement;
@@ -167,7 +167,7 @@ export class CommonQuoteTestUtilsService {
   static clickToggle(element: Element, useKeyboard: boolean) {
     const caret = CommonQuoteTestUtilsService.getHTMLElement(
       element,
-      '.cx-toggle'
+      '.cx-toggle',
     );
     if (useKeyboard) {
       caret.dispatchEvent(new KeyboardEvent('keydown', { key: 'enter' }));
@@ -179,7 +179,7 @@ export class CommonQuoteTestUtilsService {
   protected static collectElementsWithClassName(
     elements: Element[],
     tagClass: string,
-    foundElements: Element[]
+    foundElements: Element[],
   ) {
     elements.forEach((element) => {
       const classList = element.classList;
@@ -208,7 +208,7 @@ export class CommonQuoteTestUtilsService {
     htmlElements: HTMLElement,
     tagName: string,
     tagClass?: string,
-    tagIndex?: number
+    tagIndex?: number,
   ): Element | undefined {
     const foundElements: Element[] = [];
     const elements = Array.from(htmlElements.getElementsByTagName(tagName));
@@ -218,7 +218,7 @@ export class CommonQuoteTestUtilsService {
       CommonQuoteTestUtilsService.collectElementsWithClassName(
         elements,
         tagClass,
-        foundElements
+        foundElements,
       );
       return tagIndex ? foundElements[tagIndex] : foundElements[0];
     }
@@ -236,7 +236,7 @@ export class CommonQuoteTestUtilsService {
     expect: any,
     element?: Element,
     a11yAttr?: string,
-    a11yAttrContent?: string
+    a11yAttrContent?: string,
   ) {
     const attributes = element?.attributes;
 

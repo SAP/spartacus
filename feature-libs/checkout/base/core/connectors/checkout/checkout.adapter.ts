@@ -16,6 +16,6 @@ export abstract class CheckoutAdapter {
    */
   abstract getCheckoutDetails(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<CheckoutState>;
 }

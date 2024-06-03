@@ -25,7 +25,7 @@ describe('Currency switch - checkout page', () => {
 
   siteContextSelector.stub(
     siteContextSelector.CURRENCY_REQUEST,
-    siteContextSelector.CURRENCIES
+    siteContextSelector.CURRENCIES,
   );
 
   describe('checkout page steps', () => {
@@ -34,7 +34,7 @@ describe('Currency switch - checkout page', () => {
       cy.intercept({
         method: 'PUT',
         pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/current/carts/*/addresses/delivery`,
       }).as('setAddress');
       cy.visit(checkoutShippingPath);
@@ -44,35 +44,35 @@ describe('Currency switch - checkout page', () => {
         siteContextSelector.CURRENCIES,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL,
-        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutShippingPath
+        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutShippingPath,
       );
 
       siteContextSelector.addressBookNextStep();
 
       // CHECKOUT DELIVERY MODE STEP
       siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutDeliveryPath
+        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutDeliveryPath,
       );
       cy.get('cx-delivery-mode .cx-delivery-price:first').should(
         'contain',
-        '¥'
+        '¥',
       );
       siteContextSelector.deliveryModeNextStep();
 
       // CHECKOUT PAYMENT METHOD STEP
       siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutPaymentPath
+        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutPaymentPath,
       );
 
       siteContextSelector.paymentDetailsNextStep();
 
       // CHECKOUT REVIEW STEP
       siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutReviewPath
+        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutReviewPath,
       );
       cy.get('cx-checkout-review-shipping .cx-price .cx-value').should(
         'contain',
-        '¥'
+        '¥',
       );
     });
   });

@@ -83,7 +83,7 @@ export class IconComponent {
   constructor(
     protected iconLoader: IconLoaderService,
     protected elementRef: ElementRef<HTMLElement>,
-    protected renderer: Renderer2
+    protected renderer: Renderer2,
   ) {}
 
   protected setIcon(type: ICON_TYPE): void {
@@ -116,7 +116,7 @@ export class IconComponent {
     this.renderer.addClass(this.host, 'cx-icon');
 
     this.styleClasses?.forEach((cls) =>
-      this.renderer.removeClass(this.host, cls)
+      this.renderer.removeClass(this.host, cls),
     );
 
     this.styleClasses = this.iconLoader.getStyleClasses(type)?.split(' ');

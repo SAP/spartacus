@@ -37,7 +37,7 @@ export function checkDialog() {
  */
 export function checkTitleDisplayed() {
   cy.get(COMPONENT_SELECTOR).within(() =>
-    cy.get('.cx-dialog-title').should('be.visible')
+    cy.get('.cx-dialog-title').should('be.visible'),
   );
 }
 
@@ -46,7 +46,7 @@ export function checkTitleDisplayed() {
  */
 export function checkCloseButtonDisplayed() {
   cy.get(COMPONENT_SELECTOR).within(() =>
-    cy.get('button.close').should('be.visible')
+    cy.get('button.close').should('be.visible'),
   );
 }
 
@@ -62,7 +62,7 @@ export function checkDescriptionDisplayed() {
  */
 export function checkResumeButtonDisplayed() {
   cy.get(COMPONENT_SELECTOR).within(() =>
-    cy.get('button.btn-primary').should('be.visible')
+    cy.get('button.btn-primary').should('be.visible'),
   );
 }
 
@@ -71,7 +71,7 @@ export function checkResumeButtonDisplayed() {
  */
 export function checkRestartButtonDisplayed() {
   cy.get(COMPONENT_SELECTOR).within(() =>
-    cy.get('button.btn-secondary').should('be.visible')
+    cy.get('button.btn-secondary').should('be.visible'),
   );
 }
 
@@ -98,10 +98,10 @@ export function resume() {
  */
 export function restart(isPricingEnabled?: boolean) {
   cy.get(COMPONENT_SELECTOR).within(() =>
-    cy.get('button.btn-secondary').click()
+    cy.get('button.btn-secondary').click(),
   );
   configurationVc.waitForRequest(
     configurationVc.CREATE_CONFIG_ALIAS,
-    isPricingEnabled
+    isPricingEnabled,
   );
 }

@@ -30,17 +30,17 @@ export class QuoteCartEventListener implements OnDestroy {
     this.subscription.add(
       this.eventService.get(CartAddEntrySuccessEvent).subscribe(() => {
         this.triggerQuoteReload();
-      })
+      }),
     );
     this.subscription.add(
       this.eventService.get(CartUpdateEntrySuccessEvent).subscribe(() => {
         this.triggerQuoteReload();
-      })
+      }),
     );
     this.subscription.add(
       this.eventService.get(CartRemoveEntrySuccessEvent).subscribe(() => {
         this.triggerQuoteReload();
-      })
+      }),
     );
   }
 

@@ -27,7 +27,7 @@ import { CustomerTicketingMessagesComponentService } from './customer-ticketing-
 export class CustomerTicketingMessagesComponent implements OnDestroy {
   @ViewChild(MessagingComponent) messagingComponent: MessagingComponent;
   protected customerTicketingMessagesComponentService = inject(
-    CustomerTicketingMessagesComponentService
+    CustomerTicketingMessagesComponentService,
   );
 
   ticketDetails$: Observable<TicketDetails | undefined> =
@@ -36,7 +36,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
   constructor(
     protected customerTicketingConfig: CustomerTicketingConfig,
     protected customerTicketingFacade: CustomerTicketingFacade,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   subscription = new Subscription();
@@ -52,17 +52,17 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
       this.customerTicketingFacade
         .createTicketEvent(
           this.prepareTicketEvent(event.message),
-          mustWaitForAttachment
+          mustWaitForAttachment,
         )
         .subscribe((createdEvent: TicketEvent) => {
           if (event.files && event.files?.length && createdEvent.code) {
             this.customerTicketingFacade.uploadAttachment(
               event.files.item(0) as File,
-              createdEvent.code
+              createdEvent.code,
             );
           }
           this.messagingComponent?.resetForm();
-        })
+        }),
     );
   }
 
@@ -80,7 +80,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
           link.href = downloadURL;
           link.download = event.fileName ?? '';
           link.click();
-        })
+        }),
     );
   }
 
@@ -94,9 +94,9 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
               text: event.message ?? '',
               rightAlign: event.addedByAgent || false,
               attachments: event.ticketEventAttachments ?? [],
-            })
-          ) ?? []
-      )
+            }),
+          ) ?? [],
+      ),
     );
   }
 
@@ -110,9 +110,9 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
       displayAddMessageSection: this.ticketDetails$.pipe(
         map((ticket) =>
           this.customerTicketingMessagesComponentService.displayAddMessageSection(
-            ticket
-          )
-        )
+            ticket,
+          ),
+        ),
       ),
     };
   }

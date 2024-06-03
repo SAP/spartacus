@@ -32,39 +32,39 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   getAccountSummary(
     userId: string,
-    orgUnitId: string
+    orgUnitId: string,
   ): Observable<AccountSummaryDetails> {
     return this.http
       .get<AccountSummaryDetails>(
-        this.buildAccountSummaryUrl(userId, orgUnitId)
+        this.buildAccountSummaryUrl(userId, orgUnitId),
       )
       .pipe(
         catchError((error: HttpErrorResponse) => {
           throw normalizeHttpError(error, this.logger);
         }),
-        this.converter.pipeable(ACCOUNT_SUMMARY_NORMALIZER)
+        this.converter.pipeable(ACCOUNT_SUMMARY_NORMALIZER),
       );
   }
 
   getDocumentList(
     userId: string,
     orgUnitId: string,
-    params: DocumentQueryParams
+    params: DocumentQueryParams,
   ): Observable<AccountSummaryList> {
     return this.http
       .get<AccountSummaryList>(
-        this.buildDocumentListUrl(userId, orgUnitId, params)
+        this.buildDocumentListUrl(userId, orgUnitId, params),
       )
       .pipe(
         catchError((error: HttpErrorResponse) => {
           throw normalizeHttpError(error, this.logger);
         }),
-        this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER)
+        this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER),
       );
   }
 
@@ -72,7 +72,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
     userId: string,
     orgUnitId: string,
     orgDocumentId: string,
-    orgDocumentAttachmentId: string
+    orgDocumentAttachmentId: string,
   ): Observable<Blob> {
     const options = {
       responseType: 'blob' as 'json',
@@ -84,14 +84,14 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
           userId,
           orgUnitId,
           orgDocumentId,
-          orgDocumentAttachmentId
+          orgDocumentAttachmentId,
         ),
-        options
+        options,
       )
       .pipe(
         catchError((error: HttpErrorResponse) => {
           throw normalizeHttpError(error, this.logger);
-        })
+        }),
       );
   }
 
@@ -104,7 +104,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
   private buildDocumentListUrl(
     userId: string,
     orgUnitId: string,
-    queryParams: DocumentQueryParams
+    queryParams: DocumentQueryParams,
   ): string {
     return this.occEndpoints.buildUrl('accountSummaryDocument', {
       urlParams: { userId, orgUnitId },
@@ -116,7 +116,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
     userId: string,
     orgUnitId: string,
     orgDocumentId: string,
-    orgDocumentAttachmentId: string
+    orgDocumentAttachmentId: string,
   ): string {
     return this.occEndpoints.buildUrl('accountSummaryDocumentAttachment', {
       urlParams: { userId, orgUnitId, orgDocumentId, orgDocumentAttachmentId },

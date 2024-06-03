@@ -31,13 +31,13 @@ export class UserAccountService implements UserAccountFacade {
     {
       reloadOn: [UserAccountChangedEvent],
       resetOn: [LoginEvent, LogoutEvent],
-    }
+    },
   );
 
   constructor(
     protected userAccountConnector: UserAccountConnector,
     protected userIdService: UserIdService,
-    protected query: QueryService
+    protected query: QueryService,
   ) {}
 
   /**

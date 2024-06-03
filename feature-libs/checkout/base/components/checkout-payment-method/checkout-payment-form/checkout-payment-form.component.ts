@@ -119,7 +119,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected fb: UntypedFormBuilder,
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
   ) {}
 
   ngOnInit(): void {
@@ -134,7 +134,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
         if (Object.keys(countries).length === 0) {
           this.userPaymentService.loadBillingCountries();
         }
-      })
+      }),
     );
 
     this.cardTypes$ = this.checkoutPaymentFacade.getPaymentCardTypes();
@@ -143,7 +143,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
       .getDeliveryAddressState()
       .pipe(
         filter((state) => !state.loading),
-        map((state) => state.data)
+        map((state) => state.data),
       );
 
     this.showSameAsDeliveryAddressCheckbox$ = combineLatest([
@@ -155,28 +155,28 @@ export class CheckoutPaymentFormComponent implements OnInit {
           (address?.country &&
             !!countries.filter(
               (country: Country): boolean =>
-                country.isocode === address.country?.isocode
+                country.isocode === address.country?.isocode,
             ).length) ??
           false
         );
       }),
       tap((shouldShowCheckbox) => {
         this.sameAsDeliveryAddress = shouldShowCheckbox;
-      })
+      }),
     );
 
     this.regions$ = this.selectedCountry$.pipe(
       switchMap((country) => this.userAddressService.getRegions(country)),
       tap((regions) => {
         const regionControl = this.billingAddressForm.get(
-          'region.isocodeShort'
+          'region.isocodeShort',
         );
         if (regions.length > 0) {
           regionControl?.enable();
         } else {
           regionControl?.disable();
         }
-      })
+      }),
     );
   }
 
@@ -227,7 +227,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
                 numbers,
               ],
             } as Card;
-          })
+          }),
         )
       : EMPTY;
   }
@@ -240,7 +240,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
       {
         enteredAddress: this.billingAddressForm.value,
         suggestedAddresses: results.suggestedAddresses,
-      }
+      },
     );
     //TODO: Add logic that handle dialog's actions. Scope of CXSPA-1276
   }
@@ -275,7 +275,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     } else if (results.decision === 'REJECT') {
       this.globalMessageService.add(
         { key: 'addressForm.invalidAddress' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     } else if (results.decision === 'REVIEW') {
       this.openSuggestedAddress(results);

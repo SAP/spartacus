@@ -27,49 +27,49 @@ export const getConfigurationState: MemoizedSelector<
   StateUtils.EntityLoaderState<Configurator.Configuration>
 > = createSelector(
   getConfigurationsState,
-  (state: ConfiguratorState) => state.configurations
+  (state: ConfiguratorState) => state.configurations,
 );
 
 export const getConfigurationProcessLoaderStateFactory = (
-  code: string
+  code: string,
 ): MemoizedSelector<
   StateWithConfigurator,
   StateUtils.ProcessesLoaderState<Configurator.Configuration>
 > => {
   return createSelector(getConfigurationState, (details) =>
-    StateUtils.entityProcessesLoaderStateSelector(details, code)
+    StateUtils.entityProcessesLoaderStateSelector(details, code),
   );
 };
 
 export const hasPendingChanges = (
-  code: string
+  code: string,
 ): MemoizedSelector<StateWithConfigurator, boolean> => {
   return createSelector(getConfigurationState, (details) =>
-    StateUtils.entityHasPendingProcessesSelector(details, code)
+    StateUtils.entityHasPendingProcessesSelector(details, code),
   );
 };
 
 export const getConfigurationFactory = (
-  code: string
+  code: string,
 ): MemoizedSelector<StateWithConfigurator, Configurator.Configuration> => {
   return createSelector(
     getConfigurationProcessLoaderStateFactory(code),
-    (configurationState) => StateUtils.loaderValueSelector(configurationState)
+    (configurationState) => StateUtils.loaderValueSelector(configurationState),
   );
 };
 
 export const getCurrentGroup = (
-  ownerKey: string
+  ownerKey: string,
 ): MemoizedSelector<StateWithConfigurator, string | undefined> => {
   return createSelector(
     getConfigurationFactory(ownerKey),
-    (configuration) => configuration?.interactionState?.currentGroup
+    (configuration) => configuration?.interactionState?.currentGroup,
   );
 };
 
 export const isGroupVisited = (
   ownerKey: string,
-  groupId: string
+  groupId: string,
 ): MemoizedSelector<StateWithConfigurator, boolean> => {
   return createSelector(getConfigurationFactory(ownerKey), (configuration) => {
     const groupsVisited = configuration?.interactionState?.groupsVisited;
@@ -79,7 +79,7 @@ export const isGroupVisited = (
 
 export const areGroupsVisited = (
   ownerKey: string,
-  groupIds: string[]
+  groupIds: string[],
 ): MemoizedSelector<StateWithConfigurator, boolean> => {
   return createSelector(getConfigurationFactory(ownerKey), (configuration) => {
     return (

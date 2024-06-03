@@ -58,7 +58,7 @@ class MockService implements Partial<MyAccountV2OrderHistoryService> {
   loadOrderList(
     _pageSize: number,
     _currentPage?: number,
-    _sort?: string
+    _sort?: string,
   ): void {}
   clearOrderList() {}
 }
@@ -94,25 +94,23 @@ describe(' MyAccountV2OrdersComponent', () => {
   let fixture: ComponentFixture<MyAccountV2OrdersComponent>;
   let service: MyAccountV2OrderHistoryService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          MyAccountV2OrdersComponent,
-          MockUrlPipe,
-          MockMediaComponent,
-          MockSpinnerComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: MyAccountV2OrderHistoryService, useClass: MockService },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
-      service = TestBed.inject(MyAccountV2OrderHistoryService);
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        MyAccountV2OrdersComponent,
+        MockUrlPipe,
+        MockMediaComponent,
+        MockSpinnerComponent,
+      ],
+      providers: [
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: MyAccountV2OrderHistoryService, useClass: MockService },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
+    service = TestBed.inject(MyAccountV2OrderHistoryService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2OrdersComponent);
@@ -128,7 +126,7 @@ describe(' MyAccountV2OrdersComponent', () => {
     component.isLoaded$.next(true);
     fixture.detectChanges();
     const heading = fixture.debugElement.query(
-      By.css('.cx-my-account-view-heading')
+      By.css('.cx-my-account-view-heading'),
     );
     expect(heading).not.toBeNull();
     const link = fixture.debugElement.query(By.css('#show-more-orders'));
@@ -140,11 +138,11 @@ describe(' MyAccountV2OrdersComponent', () => {
     component.isLoaded$.next(true);
     fixture.detectChanges();
     const details = fixture.debugElement.query(
-      By.css('.cx-my-account-view-order')
+      By.css('.cx-my-account-view-order'),
     );
     expect(details).not.toBeNull();
     const noOrder = fixture.debugElement.query(
-      By.css('.cx-my-account-no-order')
+      By.css('.cx-my-account-no-order'),
     );
     expect(noOrder).toBeNull();
     const spinner = fixture.debugElement.query(By.css('.cx-spinner'));
@@ -156,11 +154,11 @@ describe(' MyAccountV2OrdersComponent', () => {
     component.isLoaded$.next(true);
     fixture.detectChanges();
     const details = fixture.debugElement.query(
-      By.css('.cx-my-account-view-order')
+      By.css('.cx-my-account-view-order'),
     );
     expect(details).toBeNull();
     const noOrder = fixture.debugElement.query(
-      By.css('.cx-my-account-no-order')
+      By.css('.cx-my-account-no-order'),
     );
     expect(noOrder).not.toBeNull();
     const spinner = fixture.debugElement.query(By.css('.cx-spinner'));
@@ -172,11 +170,11 @@ describe(' MyAccountV2OrdersComponent', () => {
     component.isLoaded$.next(false);
     fixture.detectChanges();
     const details = fixture.debugElement.query(
-      By.css('.cx-my-account-view-order')
+      By.css('.cx-my-account-view-order'),
     );
     expect(details).toBeNull();
     const noOrder = fixture.debugElement.query(
-      By.css('.cx-my-account-no-order')
+      By.css('.cx-my-account-no-order'),
     );
     expect(noOrder).toBeNull();
     const spinner = fixture.debugElement.query(By.css('.cx-spinner'));

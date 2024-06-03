@@ -190,7 +190,7 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.scrollEventUnlistener = this.renderer.listen(
       this.winRef.nativeWindow,
       'scroll',
-      () => this.positionPopover()
+      () => this.positionPopover(),
     );
   }
 
@@ -204,9 +204,9 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.popoverInstance.location.nativeElement,
       this.positioningService.getPositioningClass(
         this.position,
-        this.autoPositioning
+        this.autoPositioning,
       ),
-      this.appendToBody
+      this.appendToBody,
     );
 
     this.changeDetectionRef.markForCheck();
@@ -275,6 +275,6 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     protected winRef: WindowRef,
     protected changeDetectionRef: ChangeDetectorRef,
     protected renderer: Renderer2,
-    protected router: Router
+    protected router: Router,
   ) {}
 }

@@ -29,14 +29,14 @@ context('Product search pricing flow', () => {
           QUERY_ALIAS.FIRST_PAGE,
           `:relevance:allCategories:${categoryId}`,
           PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-          `1`
+          `1`,
         );
         createProductSortQuery('price-asc', QUERY_ALIAS.PRICE_ASC_FILTER);
 
         createProductQuery(
           QUERY_ALIAS.CATEGORY_PAGE,
           `:relevance:allCategories:${categoryId}`,
-          PRODUCT_LISTING.PRODUCTS_PER_PAGE
+          PRODUCT_LISTING.PRODUCTS_PER_PAGE,
         );
 
         // Click on a Category
@@ -56,7 +56,7 @@ context('Product search pricing flow', () => {
         verifyProductSearch(
           QUERY_ALIAS.FIRST_PAGE,
           QUERY_ALIAS.PRICE_ASC_FILTER,
-          PRODUCT_LISTING.SORTING_TYPES.BY_PRICE_ASC
+          PRODUCT_LISTING.SORTING_TYPES.BY_PRICE_ASC,
         );
       });
     });

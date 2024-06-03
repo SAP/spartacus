@@ -50,11 +50,9 @@ describe('LoginRegisterComponent', () => {
     fixture.detectChanges();
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(testBedDefaults).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(testBedDefaults).compileComponents();
+  }));
 
   beforeEach(() => {
     createComponent();

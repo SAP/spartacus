@@ -77,7 +77,7 @@ describe('FutureStockAccordionComponent', () => {
       component.futureStocks$ = of({});
       fixture.detectChanges();
       button = fixture.debugElement.query(
-        By.css('.cx-future-stock-accordion-header')
+        By.css('.cx-future-stock-accordion-header'),
       ).nativeElement;
     });
 
@@ -106,17 +106,17 @@ describe('FutureStockAccordionComponent', () => {
       fixture.detectChanges();
 
       let button = fixture.debugElement.query(
-        By.css('.cx-future-stock-accordion-header')
+        By.css('.cx-future-stock-accordion-header'),
       );
       button.triggerEventHandler('click');
       fixture.detectChanges();
 
       let stocks = fixture.debugElement.query(
-        By.css('.cx-future-stock-accordion-content')
+        By.css('.cx-future-stock-accordion-content'),
       );
 
       expect(stocks.nativeElement.innerText).toEqual(
-        'futureStockDropdown.noFutureStocks'
+        'futureStockDropdown.noFutureStocks',
       );
     });
 
@@ -125,23 +125,23 @@ describe('FutureStockAccordionComponent', () => {
       fixture.detectChanges();
 
       let button = fixture.debugElement.query(
-        By.css('.cx-future-stock-accordion-header')
+        By.css('.cx-future-stock-accordion-header'),
       );
       button.triggerEventHandler('click');
       fixture.detectChanges();
 
       let stocks = fixture.debugElement.queryAll(
-        By.css('.cx-future-stock-accordion-content')
+        By.css('.cx-future-stock-accordion-content'),
       );
 
       expect(stocks[0].nativeElement.innerText).toEqual(
-        '10/11/2020 - futureStockDropdown.quantity 15'
+        '10/11/2020 - futureStockDropdown.quantity 15',
       );
       expect(stocks[1].nativeElement.innerText).toEqual(
-        '11/11/2020 - futureStockDropdown.quantity 20'
+        '11/11/2020 - futureStockDropdown.quantity 20',
       );
       expect(stocks[2].nativeElement.innerText).toEqual(
-        '12/11/2020 - futureStockDropdown.quantity 25'
+        '12/11/2020 - futureStockDropdown.quantity 25',
       );
     });
   });

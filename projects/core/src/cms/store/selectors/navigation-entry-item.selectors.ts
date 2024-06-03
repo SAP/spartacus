@@ -16,18 +16,18 @@ export const getNavigationEntryItemState: MemoizedSelector<
 > = createSelector(getCmsState, (state: CmsState) => state.navigation);
 
 export const getSelectedNavigationEntryItemState = (
-  nodeId: string
+  nodeId: string,
 ): MemoizedSelector<StateWithCms, StateUtils.LoaderState<NodeItem>> => {
   return createSelector(getNavigationEntryItemState, (nodes) =>
-    StateUtils.entityLoaderStateSelector(nodes, nodeId)
+    StateUtils.entityLoaderStateSelector(nodes, nodeId),
   );
 };
 
 export const getNavigationEntryItems = (
-  nodeId: string
+  nodeId: string,
 ): MemoizedSelector<StateWithCms, NodeItem> => {
   return createSelector(
     getSelectedNavigationEntryItemState(nodeId),
-    (itemState) => StateUtils.loaderValueSelector(itemState)
+    (itemState) => StateUtils.loaderValueSelector(itemState),
   );
 };

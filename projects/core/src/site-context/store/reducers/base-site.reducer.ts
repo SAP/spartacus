@@ -16,7 +16,7 @@ export const initialState: BaseSiteState = {
 
 export function reducer(
   state = initialState,
-  action: SiteContextActions.BaseSiteAction
+  action: SiteContextActions.BaseSiteAction,
 ): BaseSiteState {
   switch (action.type) {
     case SiteContextActions.LOAD_BASE_SITE_SUCCESS: {
@@ -51,7 +51,7 @@ export function reducer(
         },
         {
           ...state.entities,
-        }
+        },
       );
       // after base sites entities are populated,
       // the active base site details data is also populated

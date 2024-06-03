@@ -43,7 +43,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     groupingSeparator: string,
     decimalSeparator: string,
     numberTotalPlaces: number,
-    numberDecimalPlaces: number
+    numberDecimalPlaces: number,
   ): boolean {
     const regexEscape = '\\';
     const search: RegExp = new RegExp(regexEscape + groupingSeparator, 'g');
@@ -66,7 +66,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
   formatIntervalValue(
     intervalValue: number,
     decimalPlaces: number | undefined,
-    locale: string
+    locale: string,
   ): string {
     if (decimalPlaces === undefined) {
       decimalPlaces = 0;
@@ -74,7 +74,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     const formatted = formatNumber(
       intervalValue,
       locale,
-      '1.' + decimalPlaces + '-' + decimalPlaces
+      '1.' + decimalPlaces + '-' + decimalPlaces,
     );
     return formatted;
   }
@@ -86,7 +86,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
    * @returns {ConfiguratorAttributeNumericInterval[]} parsed intervals
    */
   getIntervals(
-    values: Configurator.Value[] | undefined
+    values: Configurator.Value[] | undefined,
   ): ConfiguratorAttributeNumericInterval[] {
     const intervals: ConfiguratorAttributeNumericInterval[] = [];
     if (values && values.length > 0) {
@@ -122,7 +122,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
    * @returns {ConfiguratorAttributeNumericInterval} parsed interval
    */
   getInterval(
-    value: Configurator.Value
+    value: Configurator.Value,
   ): ConfiguratorAttributeNumericInterval | undefined {
     const interval: ConfiguratorAttributeNumericInterval = {
       minValue: undefined,
@@ -159,7 +159,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
 
   protected handleSingleOrInfinite(
     valueName: string,
-    interval: ConfiguratorAttributeNumericInterval
+    interval: ConfiguratorAttributeNumericInterval,
   ) {
     let minVal = '';
     let maxVal = '';
@@ -199,7 +199,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
 
   protected handleStandardInterval(
     valueName: string,
-    interval: ConfiguratorAttributeNumericInterval
+    interval: ConfiguratorAttributeNumericInterval,
   ) {
     const index = valueName.indexOf(' - ');
     let minVal = valueName.substring(0, index);
@@ -233,7 +233,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     decimalPlaces: number,
     totalLength: number,
     negativeAllowed: boolean,
-    locale: string
+    locale: string,
   ): string {
     let input: string = (10 ** totalLength - 1).toString();
     if (decimalPlaces > 0) {
@@ -246,7 +246,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     let formatted = formatNumber(
       inputAsNumber,
       locale,
-      '1.' + decimalPlaces + '-' + decimalPlaces
+      '1.' + decimalPlaces + '-' + decimalPlaces,
     ).replace(/9/g, '#');
     if (negativeAllowed) {
       formatted = '-' + formatted;
@@ -271,7 +271,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     locale: string,
     numberDecimalPlaces: number,
     numberTotalPlaces: number,
-    negativeAllowed: boolean
+    negativeAllowed: boolean,
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const input = control.value?.trim();
@@ -281,7 +281,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
           locale,
           numberDecimalPlaces,
           numberTotalPlaces,
-          negativeAllowed
+          negativeAllowed,
         );
       }
       return null;
@@ -293,14 +293,14 @@ export class ConfiguratorAttributeNumericInputFieldService {
     locale: string,
     numberDecimalPlaces: number,
     numberTotalPlaces: number,
-    negativeAllowed: boolean
+    negativeAllowed: boolean,
   ): { [key: string]: any } | null {
     //allowed: only numbers and separators
 
     const groupingSeparator = getLocaleNumberSymbol(locale, NumberSymbol.Group);
     const decimalSeparator = getLocaleNumberSymbol(
       locale,
-      NumberSymbol.Decimal
+      NumberSymbol.Decimal,
     );
     const expressionPrefix = negativeAllowed ? '^-?' : '^';
     const expressionOnlyNumericalInput: RegExp = new RegExp(
@@ -308,7 +308,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
         '[0123456789' +
         groupingSeparator +
         decimalSeparator +
-        ']*$'
+        ']*$',
     );
 
     if (!expressionOnlyNumericalInput.test(input)) {
@@ -320,8 +320,8 @@ export class ConfiguratorAttributeNumericInputFieldService {
         groupingSeparator,
         decimalSeparator,
         numberTotalPlaces + (input.includes('-') ? 1 : 0),
-        numberDecimalPlaces
-      )
+        numberDecimalPlaces,
+      ),
     );
   }
 
@@ -345,7 +345,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     numberTotalPlaces: number,
     negativeAllowed: boolean,
     intervals: ConfiguratorAttributeNumericInterval[],
-    currentValue?: string
+    currentValue?: string,
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const input = control.value?.trim();
@@ -359,11 +359,11 @@ export class ConfiguratorAttributeNumericInputFieldService {
           locale,
           numberDecimalPlaces,
           numberTotalPlaces,
-          negativeAllowed
+          negativeAllowed,
         ) == null
       ) {
         return this.createIntervalValidationError(
-          !this.checkIfPartOfIntervals(input, locale, intervals)
+          !this.checkIfPartOfIntervals(input, locale, intervals),
         );
       }
       return null;
@@ -373,11 +373,11 @@ export class ConfiguratorAttributeNumericInputFieldService {
   protected checkIfPartOfIntervals(
     input: string,
     locale: string,
-    intervals: ConfiguratorAttributeNumericInterval[]
+    intervals: ConfiguratorAttributeNumericInterval[],
   ): boolean {
     return (
       intervals.find((interval) =>
-        this.inputMatchesInterval(input, locale, interval)
+        this.inputMatchesInterval(input, locale, interval),
       ) !== undefined
     );
   }
@@ -385,7 +385,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
   protected inputMatchesInterval(
     input: string,
     locale: string,
-    interval: ConfiguratorAttributeNumericInterval
+    interval: ConfiguratorAttributeNumericInterval,
   ): boolean {
     const inputNum: number = this.parseInput(input, locale);
 
@@ -410,19 +410,19 @@ export class ConfiguratorAttributeNumericInputFieldService {
     const groupingSeparator = getLocaleNumberSymbol(locale, NumberSymbol.Group);
     const decimalSeparator = getLocaleNumberSymbol(
       locale,
-      NumberSymbol.Decimal
+      NumberSymbol.Decimal,
     );
     return this.parseInputForSeparators(
       input,
       groupingSeparator,
-      decimalSeparator
+      decimalSeparator,
     );
   }
 
   protected parseInputForSeparators(
     input: string,
     groupingSeparator: string,
-    decimalSeparator: string
+    decimalSeparator: string,
   ) {
     const escapeString = '\\';
     const search: RegExp = new RegExp(escapeString + groupingSeparator, 'g');
@@ -433,13 +433,13 @@ export class ConfiguratorAttributeNumericInputFieldService {
   }
 
   protected createValidationError(
-    isError: boolean
+    isError: boolean,
   ): { [key: string]: any } | null {
     return isError ? { wrongFormat: {} } : null;
   }
 
   protected createIntervalValidationError(
-    isError: boolean
+    isError: boolean,
   ): { [key: string]: any } | null {
     return isError ? { intervalNotMet: {} } : null;
   }

@@ -76,13 +76,13 @@ describe('Cart', () => {
         cart.addProductWhenLoggedIn(false);
         cy.window().then((window) => {
           const storage = JSON.parse(
-            window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+            window.localStorage.getItem('spartacus⚿electronics-spa⚿cart'),
           );
           const cartCode = storage.active;
           storage.active = 'incorrect-code';
           window.localStorage.setItem(
             'spartacus⚿electronics-spa⚿cart',
-            JSON.stringify(storage)
+            JSON.stringify(storage),
           );
 
           cy.wait(2000);
@@ -90,7 +90,7 @@ describe('Cart', () => {
           cy.visit('/cart');
           alerts.getErrorAlert().should('contain', 'Cart not found');
           cy.get('.cart-details-wrapper .cx-total').contains(
-            `Cart #${cartCode}`
+            `Cart #${cartCode}`,
           );
         });
       });
@@ -108,8 +108,8 @@ describe('Cart', () => {
         cy.clearLocalStorage();
         cy.intercept(
           `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/current/carts?fields*`
+            'BASE_SITE',
+          )}/users/current/carts?fields*`,
         ).as('carts');
         cart.loginCartUser();
         cy.wait('@carts');
@@ -128,14 +128,14 @@ describe('Cart', () => {
         login(
           cart.cartUser.registrationData.email,
           cart.cartUser.registrationData.password,
-          false
+          false,
         ).then((res) => {
           expect(res.status).to.eq(200);
           // remove cart
           cy.request({
             method: 'DELETE',
             url: `${Cypress.env('API_URL')}/${Cypress.env(
-              'OCC_PREFIX'
+              'OCC_PREFIX',
             )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
             headers: {
               Authorization: `bearer ${res.body.access_token}`,
@@ -149,13 +149,13 @@ describe('Cart', () => {
         login(
           cart.cartUser.registrationData.email,
           cart.cartUser.registrationData.password,
-          false
+          false,
         ).then((res) => {
           cy.request({
             // create cart
             method: 'POST',
             url: `${Cypress.env('API_URL')}/${Cypress.env(
-              'OCC_PREFIX'
+              'OCC_PREFIX',
             )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
             headers: {
               Authorization: `bearer ${res.body.access_token}`,
@@ -165,7 +165,7 @@ describe('Cart', () => {
             return cy.request({
               method: 'POST',
               url: `${Cypress.env('API_URL')}/${Cypress.env(
-                'OCC_PREFIX'
+                'OCC_PREFIX',
               )}/${Cypress.env('BASE_SITE')}/users/current/carts/${
                 response.body.code
               }/entries`,
@@ -200,14 +200,14 @@ describe('Cart', () => {
         login(
           cart.cartUser.registrationData.email,
           cart.cartUser.registrationData.password,
-          false
+          false,
         ).then((res) => {
           expect(res.status).to.eq(200);
           cy.log('Removing current Cart for the test case');
           cy.request({
             method: 'DELETE',
             url: `${Cypress.env('API_URL')}/${Cypress.env(
-              'OCC_PREFIX'
+              'OCC_PREFIX',
             )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
             headers: {
               Authorization: `bearer ${res.body.access_token}`,
@@ -221,7 +221,7 @@ describe('Cart', () => {
         cy.intercept({
           method: 'GET',
           pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
+            'BASE_SITE',
           )}/users/current/carts`,
         }).as('cart');
         cart.clickAddToCart();
@@ -233,7 +233,7 @@ describe('Cart', () => {
         cy.intercept({
           method: 'GET',
           pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
+            'BASE_SITE',
           )}/users/current/carts/*`,
           query: {
             lang: 'en',

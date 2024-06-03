@@ -28,11 +28,11 @@ export class CarouselService {
    */
   getItemsPerSlide(
     nativeElement: HTMLElement,
-    itemWidth: string
+    itemWidth: string,
   ): Observable<number> {
     return this.winRef.resize$.pipe(
       map(() => (nativeElement as HTMLElement).clientWidth),
-      map((totalWidth) => this.calculateItems(totalWidth, itemWidth))
+      map((totalWidth) => this.calculateItems(totalWidth, itemWidth)),
     );
   }
 

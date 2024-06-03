@@ -13,7 +13,7 @@ export function migrate(): Rule {
     return migrateConstructorDeprecation(
       tree,
       context,
-      GENERATED_CONSTRUCTOR_MIGRATIONS
+      GENERATED_CONSTRUCTOR_MIGRATIONS,
     );
   };
 }

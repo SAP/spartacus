@@ -33,7 +33,7 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected store: Store<StateWithAnonymousConsents>,
-    protected anonymousConsentsService: AnonymousConsentsService
+    protected anonymousConsentsService: AnonymousConsentsService,
   ) {}
 
   /**
@@ -50,7 +50,7 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
         key: this.key,
         state$: this.getAuthState(),
         onRead: (state) => this.onRead(state),
-      })
+      }),
     );
   }
 
@@ -74,7 +74,7 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
     // templates
     if (templates?.success) {
       this.store.dispatch(
-        new LoadAnonymousConsentTemplatesSuccess(templates.value ?? [])
+        new LoadAnonymousConsentTemplatesSuccess(templates.value ?? []),
       );
     }
 

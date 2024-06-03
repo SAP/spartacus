@@ -22,7 +22,7 @@ export class ConfiguratorTestUtils {
    * @param productConfiguration
    */
   static freezeProductConfiguration(
-    productConfiguration: Configurator.Configuration
+    productConfiguration: Configurator.Configuration,
   ) {
     Object.freeze(productConfiguration);
     Object.freeze(productConfiguration.interactionState);
@@ -62,7 +62,7 @@ export class ConfiguratorTestUtils {
 
   static createConfiguration(
     configId: string,
-    owner: CommonConfigurator.Owner = ConfiguratorModelUtils.createInitialOwner()
+    owner: CommonConfigurator.Owner = ConfiguratorModelUtils.createInitialOwner(),
   ): Configurator.Configuration {
     const configuration: Configurator.Configuration = {
       configId: configId,
@@ -90,7 +90,7 @@ export class ConfiguratorTestUtils {
 
   static createConfigurationWithVariants(
     configId: string,
-    owner: CommonConfigurator.Owner = ConfiguratorModelUtils.createInitialOwner()
+    owner: CommonConfigurator.Owner = ConfiguratorModelUtils.createInitialOwner(),
   ): Configurator.Configuration {
     const configuration: Configurator.Configuration = {
       configId: configId,
@@ -116,12 +116,12 @@ export class ConfiguratorTestUtils {
   protected static freezeOvGroup(overviewGroup: Configurator.GroupOverview) {
     Object.freeze(overviewGroup);
     overviewGroup.attributes?.forEach((ovAttribute) =>
-      Object.freeze(ovAttribute)
+      Object.freeze(ovAttribute),
     );
   }
 
   protected static freezePriceSummary(
-    priceSummary?: Configurator.PriceSummary
+    priceSummary?: Configurator.PriceSummary,
   ) {
     if (priceSummary) {
       Object.freeze(priceSummary);
@@ -135,7 +135,7 @@ export class ConfiguratorTestUtils {
   protected static createValueSupplement(
     valueKey: string,
     formattedValuePrice: string,
-    valuePrice: number
+    valuePrice: number,
   ): Configurator.ValueSupplement {
     return {
       attributeValueKey: valueKey,
@@ -154,7 +154,7 @@ export class ConfiguratorTestUtils {
 
   protected static createListOfValueSupplements(
     attributeNr: number,
-    amountOfValues: number
+    amountOfValues: number,
   ): Configurator.ValueSupplement[] {
     const valueSupplements: Configurator.ValueSupplement[] = [];
     for (let index = 0; index < amountOfValues; index++) {
@@ -166,7 +166,7 @@ export class ConfiguratorTestUtils {
       const valueSupplement = this.createValueSupplement(
         valueKey,
         formattedValuePrice,
-        valuePrice
+        valuePrice,
       );
       valueSupplements.push(valueSupplement);
     }
@@ -176,11 +176,11 @@ export class ConfiguratorTestUtils {
   protected static createAttributeSupplement(
     attributeNr: number,
     attributeUiKey: string,
-    amountOfValues: number
+    amountOfValues: number,
   ): Configurator.AttributeSupplement {
     const valueSupplements = this.createListOfValueSupplements(
       attributeNr,
-      amountOfValues
+      amountOfValues,
     );
     return {
       attributeUiKey: attributeUiKey,
@@ -193,7 +193,7 @@ export class ConfiguratorTestUtils {
     numberOfGroups: number,
     numberOfSubgroups: number,
     numberOfSupplements: number,
-    numberOfValues: number
+    numberOfValues: number,
   ): Configurator.AttributeSupplement[] {
     const attributeSupplements: Configurator.AttributeSupplement[] = [];
     for (let i = 0; i < numberOfGroups; i++) {
@@ -211,7 +211,7 @@ export class ConfiguratorTestUtils {
         const attributeSupplement = this.createAttributeSupplement(
           attributeNr,
           csticUiKey,
-          numberOfValues
+          numberOfValues,
         );
         attributeSupplements.push(attributeSupplement);
       }
@@ -222,7 +222,7 @@ export class ConfiguratorTestUtils {
 
   static createListOfValues(
     attributeNr: number,
-    amountOfValues: number
+    amountOfValues: number,
   ): Configurator.Value[] {
     const values: Configurator.Value[] = [];
     for (let index = 0; index < amountOfValues; index++) {
@@ -244,7 +244,7 @@ export class ConfiguratorTestUtils {
   static createListOfAttributes(
     groupNr: number,
     amountOfAttributes: number,
-    amountOfValues: number
+    amountOfValues: number,
   ): Configurator.Attribute[] {
     const attributes: Configurator.Attribute[] = [];
     for (let j = 0; j < amountOfAttributes; j++) {
@@ -266,7 +266,7 @@ export class ConfiguratorTestUtils {
     groupId: string,
     numberOfSubgroups: number,
     numberOfAttributes: number,
-    numberOfValues: number
+    numberOfValues: number,
   ): Configurator.Group {
     const groupType: Configurator.GroupType =
       numberOfSubgroups === 0
@@ -286,7 +286,7 @@ export class ConfiguratorTestUtils {
         subGroupId,
         numberOfSubgroups - 1,
         numberOfAttributes,
-        numberOfValues
+        numberOfValues,
       );
 
       group.subGroups.push(subGroup);
@@ -299,7 +299,7 @@ export class ConfiguratorTestUtils {
       group.attributes = this.createListOfAttributes(
         groupNr,
         numberOfAttributes,
-        numberOfValues
+        numberOfValues,
       );
     }
 
@@ -310,7 +310,7 @@ export class ConfiguratorTestUtils {
     numberOfGroups: number,
     numberOfSubgroups: number,
     numberOfAttributes: number,
-    numberOfValues: number
+    numberOfValues: number,
   ): Configurator.Group[] {
     const groups: Configurator.Group[] = [];
     for (let i = 0; i < numberOfGroups; i++) {
@@ -321,7 +321,7 @@ export class ConfiguratorTestUtils {
         groupId,
         numberOfSubgroups,
         numberOfAttributes,
-        numberOfValues
+        numberOfValues,
       );
       groups.push(group);
     }
@@ -340,7 +340,7 @@ export class ConfiguratorTestUtils {
   }
 
   static createPrice(
-    price: number | undefined
+    price: number | undefined,
   ): Configurator.PriceDetails | undefined {
     if (price !== undefined) {
       return {
@@ -355,7 +355,7 @@ export class ConfiguratorTestUtils {
   static createValue = (
     valueCode: string,
     price: number | undefined,
-    isSelected = false
+    isSelected = false,
   ): Configurator.Value => ({
     valueCode: valueCode,
     valuePrice: this.createPrice(price),

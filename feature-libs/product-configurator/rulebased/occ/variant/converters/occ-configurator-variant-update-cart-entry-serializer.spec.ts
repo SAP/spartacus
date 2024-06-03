@@ -27,7 +27,7 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
       configuration: {
         ...ConfiguratorTestUtils.createConfiguration(
           CONFIG_ID,
-          ConfiguratorModelUtils.createInitialOwner()
+          ConfiguratorModelUtils.createInitialOwner(),
         ),
         productCode: PRODUCT_CODE,
       },
@@ -51,7 +51,7 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
     });
 
     occConfiguratorVariantUpdateCartEntrySerializer = TestBed.inject(
-      OccConfiguratorVariantUpdateCartEntrySerializer as Type<OccConfiguratorVariantUpdateCartEntrySerializer>
+      OccConfiguratorVariantUpdateCartEntrySerializer as Type<OccConfiguratorVariantUpdateCartEntrySerializer>,
     );
   });
 
@@ -61,10 +61,10 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
     expect(convertedParameters.userId).toEqual(targetParameters.userId);
     expect(convertedParameters.configId).toEqual(targetParameters.configId);
     expect(convertedParameters.product?.code).toEqual(
-      targetParameters.product?.code
+      targetParameters.product?.code,
     );
     expect(convertedParameters.configurationInfos[0].configuratorType).toEqual(
-      CONFIGURATOR_TYPE
+      CONFIGURATOR_TYPE,
     );
   });
 });

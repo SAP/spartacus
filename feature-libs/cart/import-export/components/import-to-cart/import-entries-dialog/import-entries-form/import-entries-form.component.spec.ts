@@ -105,7 +105,7 @@ describe('ImportEntriesFormComponent', () => {
   it('should get the accept', () => {
     expect(component.allowedTypes).toEqual(
       defaultImportExportConfig.cartImportExport.import.fileValidity
-        .allowedTypes
+        .allowedTypes,
     );
   });
 
@@ -115,7 +115,7 @@ describe('ImportEntriesFormComponent', () => {
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      mockCloseReason
+      mockCloseReason,
     );
   });
 
@@ -136,7 +136,7 @@ describe('ImportEntriesFormComponent', () => {
     component.save();
 
     expect(importToCartService.csvDataToProduct).toHaveBeenCalledWith(
-      mockLoadFileData
+      mockLoadFileData,
     );
     expect(component.submitEvent.emit).toHaveBeenCalledWith(mockSubmitData);
   });

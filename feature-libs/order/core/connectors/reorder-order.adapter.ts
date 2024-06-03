@@ -16,6 +16,6 @@ export abstract class ReorderOrderAdapter {
    */
   abstract reorder(
     orderId: string,
-    userId: string
+    userId: string,
   ): Observable<CartModificationList>;
 }

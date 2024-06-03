@@ -24,7 +24,7 @@
             placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
             (change)="countrySelected($event)"
             [cxNgSelectA11y]="{
-              ariaLabel: 'addressForm.country' | cxTranslate
+              ariaLabel: 'addressForm.country' | cxTranslate,
             }"
           >
           </ng-select>
@@ -52,7 +52,7 @@
             bindValue="code"
             [placeholder]="'addressForm.title' | cxTranslate"
             [cxNgSelectA11y]="{
-              ariaLabel: 'addressForm.title' | cxTranslate
+              ariaLabel: 'addressForm.title' | cxTranslate,
             }"
           >
           </ng-select>
@@ -176,7 +176,7 @@
               placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
               id="region-select"
               [cxNgSelectA11y]="{
-                ariaLabel: 'addressForm.state' | cxTranslate
+                ariaLabel: 'addressForm.state' | cxTranslate,
               }"
             >
             </ng-select>

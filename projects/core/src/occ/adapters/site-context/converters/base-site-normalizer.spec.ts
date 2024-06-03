@@ -37,7 +37,7 @@ describe('BaseSiteNormalizer', () => {
     [BaseSiteNormalizer],
     (baseSiteNormalizer: BaseSiteNormalizer) => {
       expect(baseSiteNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert base site', () => {

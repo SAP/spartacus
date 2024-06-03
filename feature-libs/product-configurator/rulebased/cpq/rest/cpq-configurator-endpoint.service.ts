@@ -28,7 +28,7 @@ export class CpqConfiguratorEndpointService {
   buildUrl(
     endpointName: string,
     urlParams?: Object,
-    queryParams?: [{ name: string; value: string }]
+    queryParams?: [{ name: string; value: string }],
   ): string {
     const endpoints = this.config.backend?.cpq?.endpoints;
     let endpoint;
@@ -49,7 +49,7 @@ export class CpqConfiguratorEndpointService {
     if (!endpoint) {
       endpoint = 'configurations';
       this.logger.warn(
-        `${endpointName} endpoint configuration missing for cpq backend, please provide it via key: "backend.cpq.endpoints.${endpointName}"`
+        `${endpointName} endpoint configuration missing for cpq backend, please provide it via key: "backend.cpq.endpoints.${endpointName}"`,
       );
     }
     let url = this.config.backend?.cpq?.prefix + endpoint;
@@ -60,7 +60,7 @@ export class CpqConfiguratorEndpointService {
 
   protected appendQueryParameters(
     url: string,
-    parameters: [{ name: string; value: string }]
+    parameters: [{ name: string; value: string }],
   ): string {
     let urlWithParameters = url + '?';
     parameters.forEach((param, idx: number) => {

@@ -167,7 +167,7 @@ describe('ExportOrderEntriesComponent', () => {
     expect(
       fixture.debugElement
         .query(By.css('button.cx-export-btn'))
-        .nativeElement.innerText.trim()
+        .nativeElement.innerText.trim(),
     ).toEqual('exportEntries.exportProductToCsv');
   });
 });

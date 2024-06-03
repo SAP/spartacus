@@ -15,7 +15,7 @@ export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} .cx-product-name`;
 export const searchUrlPrefix = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-  'BASE_SITE'
+  'BASE_SITE',
 )}/products/search`;
 
 export const QUERY_ALIAS = {
@@ -66,7 +66,7 @@ export function validateFirstProduct(xhr: any) {
 export function verifyProductSearch(
   productAlias: string,
   sortingAlias: string,
-  sortBy: string
+  sortBy: string,
 ): void {
   assertFirstProduct();
 
@@ -105,11 +105,11 @@ export function searchResult() {
 
     cy.get(resultsTitleSelector).should(
       'contain',
-      `${cameraResults} results for "camera"`
+      `${cameraResults} results for "camera"`,
     );
     cy.get(productItemSelector).should(
       'have.length',
-      PRODUCT_LISTING.PRODUCTS_PER_PAGE
+      PRODUCT_LISTING.PRODUCTS_PER_PAGE,
     );
     cy.get(firstProductNameSelector).should('be.visible');
   });
@@ -146,7 +146,7 @@ export function viewMode() {
   cy.get('cx-product-view button:first').click({ force: true });
   cy.get('cx-product-list cx-product-grid-item').should(
     'have.length',
-    PRODUCT_LISTING.PRODUCTS_PER_PAGE
+    PRODUCT_LISTING.PRODUCTS_PER_PAGE,
   );
 }
 
@@ -166,7 +166,7 @@ export function filterUsingFacetFiltering() {
     const facetResults = xhr.response.body.pagination.totalResults;
     cy.get(resultsTitleSelector).should(
       'contain',
-      `${facetResults} results for "camera"`
+      `${facetResults} results for "camera"`,
     );
   });
 }
@@ -266,7 +266,7 @@ export function createProductQuery(
   alias: string,
   queryId: string,
   pageSize: number,
-  currentPage: string = ''
+  currentPage: string = '',
 ): void {
   cy.intercept({
     method: 'GET',
@@ -284,7 +284,7 @@ export function createProductQuery(
 export function createProductFacetQuery(
   param: string,
   search: string,
-  alias: string
+  alias: string,
 ): void {
   cy.intercept({
     method: 'GET',
@@ -304,7 +304,7 @@ export function assertNumberOfProducts(alias: string, category: string) {
 
     cy.get('cx-breadcrumb h1').should(
       'contain',
-      `${paginationTotalresults} results for ${category}`
+      `${paginationTotalresults} results for ${category}`,
     );
 
     cy.get(productItemSelector).should('have.length', productLengthInPage);

@@ -42,7 +42,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -87,10 +87,10 @@ describe('ConsignmentTrackingComponent', () => {
     fixture = TestBed.createComponent(ConsignmentTrackingComponent);
     launchDialogService = TestBed.inject(LaunchDialogService);
     userOrderService.getConsignmentTracking.and.returnValue(
-      of({ trackingID: '1234567890' })
+      of({ trackingID: '1234567890' }),
     );
     userOrderService.loadConsignmentTracking.and.callFake(
-      (_orderCode: string, _consignmentCode: string) => {}
+      (_orderCode: string, _consignmentCode: string) => {},
     );
     el = fixture.debugElement;
     component = fixture.componentInstance;
@@ -98,7 +98,7 @@ describe('ConsignmentTrackingComponent', () => {
     component.orderCode = 'test_order_id';
 
     userOrderService.getConsignmentTracking.and.returnValue(
-      of(mockConsignment)
+      of(mockConsignment),
     );
     userOrderService.clearConsignmentTracking.and.callFake(() => {});
   });
@@ -112,7 +112,7 @@ describe('ConsignmentTrackingComponent', () => {
     component.consignment = undefined;
     fixture.detectChanges();
     expect(
-      arrayEqyals(consignmentStatus, component.consignmentStatus)
+      arrayEqyals(consignmentStatus, component.consignmentStatus),
     ).toBeTruthy();
     expect(consignmentStatus.includes(status)).toBeFalsy();
     expect(el.query(By.css('.btn-track'))).toBeFalsy();
@@ -123,7 +123,7 @@ describe('ConsignmentTrackingComponent', () => {
     mockConsignment.status = status;
     fixture.detectChanges();
     expect(
-      arrayEqyals(consignmentStatus, component.consignmentStatus)
+      arrayEqyals(consignmentStatus, component.consignmentStatus),
     ).toBeTruthy();
     expect(consignmentStatus.includes(status)).toBeFalsy();
     expect(el.query(By.css('.btn-track'))).toBeFalsy();
@@ -133,7 +133,7 @@ describe('ConsignmentTrackingComponent', () => {
     mockConsignment.status = undefined;
     fixture.detectChanges();
     expect(
-      arrayEqyals(consignmentStatus, component.consignmentStatus)
+      arrayEqyals(consignmentStatus, component.consignmentStatus),
     ).toBeTruthy();
     expect(consignmentStatus.includes(status)).toBeFalsy();
     expect(el.query(By.css('.btn-track'))).toBeFalsy();
@@ -147,7 +147,7 @@ describe('ConsignmentTrackingComponent', () => {
     });
 
     expect(
-      arrayEqyals(consignmentStatus, component.consignmentStatus)
+      arrayEqyals(consignmentStatus, component.consignmentStatus),
     ).toBeTruthy();
   });
 
@@ -160,7 +160,7 @@ describe('ConsignmentTrackingComponent', () => {
 
     expect(userOrderService.loadConsignmentTracking).toHaveBeenCalledWith(
       component.orderCode,
-      mockConsignment.code
+      mockConsignment.code,
     );
     expect(launchDialogService.openDialog).toHaveBeenCalled();
   });

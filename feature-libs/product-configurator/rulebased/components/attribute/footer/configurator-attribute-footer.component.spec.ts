@@ -41,7 +41,7 @@ class MockConfigUtilsService {
 }
 
 function createComponentWithData(
-  isCartEntryOrGroupVisited: boolean = true
+  isCartEntryOrGroupVisited: boolean = true,
 ): ConfiguratorAttributeFooterComponent {
   showRequiredMessageForUserInput = isCartEntryOrGroupVisited;
 
@@ -75,46 +75,44 @@ const currentAttribute: Configurator.Attribute = {
 
 const owner = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.CART_ENTRY,
-  'PRODUCT_CODE'
+  'PRODUCT_CODE',
 );
 
 describe('ConfigAttributeFooterComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule],
-        declarations: [
-          ConfiguratorAttributeFooterComponent,
-          MockFeatureLevelDirective,
-        ],
-        providers: [
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, IconModule],
+      declarations: [
+        ConfiguratorAttributeFooterComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
 
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeFooterComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeFooterComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   it('should render an empty component because showRequiredMessageForUserInput$ is `false`', () => {
     createComponentWithData(false).ngOnInit();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-required-error-msg'
+      '.cx-required-error-msg',
     );
   });
 
@@ -124,7 +122,7 @@ describe('ConfigAttributeFooterComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-required-error-msg'
+      '.cx-required-error-msg',
     );
   });
 
@@ -133,7 +131,7 @@ describe('ConfigAttributeFooterComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-required-error-msg'
+      '.cx-required-error-msg',
     );
   });
 
@@ -144,7 +142,7 @@ describe('ConfigAttributeFooterComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-required-error-msg'
+      '.cx-required-error-msg',
     );
   });
 
@@ -156,7 +154,7 @@ describe('ConfigAttributeFooterComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-required-error-msg'
+      '.cx-required-error-msg',
     );
   });
 
@@ -168,7 +166,7 @@ describe('ConfigAttributeFooterComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'cx-required-error-msg'
+      'cx-required-error-msg',
     );
   });
 
@@ -180,7 +178,7 @@ describe('ConfigAttributeFooterComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'cx-required-error-msg'
+      'cx-required-error-msg',
     );
   });
 
@@ -192,7 +190,7 @@ describe('ConfigAttributeFooterComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'cx-required-error-msg'
+      'cx-required-error-msg',
     );
   });
 
@@ -204,7 +202,7 @@ describe('ConfigAttributeFooterComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      'cx-required-error-msg'
+      'cx-required-error-msg',
     );
   });
 
@@ -242,7 +240,7 @@ describe('ConfigAttributeFooterComponent', () => {
       component.attribute.values = [
         ConfiguratorTestUtils.createValue(
           Configurator.RetractValueCode,
-          undefined
+          undefined,
         ),
         ConfiguratorTestUtils.createValue('123', 10, true),
         ConfiguratorTestUtils.createValue('456', 15),
@@ -272,7 +270,7 @@ describe('ConfigAttributeFooterComponent', () => {
         ConfiguratorTestUtils.createValue(
           Configurator.RetractValueCode,
           undefined,
-          true
+          true,
         ),
         ConfiguratorTestUtils.createValue('123', 10),
         ConfiguratorTestUtils.createValue('456', 15),
@@ -293,28 +291,28 @@ describe('ConfigAttributeFooterComponent', () => {
     it('should return false because user input is undefined', () => {
       currentAttribute.userInput = undefined;
       expect(component.isUserInputEmpty(component.attribute.userInput)).toBe(
-        false
+        false,
       );
     });
 
     it('should return true because user input contains a number of whitespaces', () => {
       currentAttribute.userInput = '   ';
       expect(component.isUserInputEmpty(component.attribute.userInput)).toBe(
-        true
+        true,
       );
     });
 
     it('should return true because user input contains an empty string', () => {
       currentAttribute.userInput = '';
       expect(component.isUserInputEmpty(component.attribute.userInput)).toBe(
-        true
+        true,
       );
     });
 
     it('should return false because user input is defined and contains a string', () => {
       currentAttribute.userInput = 'user input string';
       expect(component.isUserInputEmpty(component.attribute.userInput)).toBe(
-        false
+        false,
       );
     });
   });
@@ -372,7 +370,7 @@ describe('ConfigAttributeFooterComponent', () => {
         'cx-required-error-msg',
         0,
         'aria-label',
-        'configurator.attribute.defaultRequiredMessage'
+        'configurator.attribute.defaultRequiredMessage',
       );
     });
 
@@ -384,7 +382,7 @@ describe('ConfigAttributeFooterComponent', () => {
         'cx-required-error-msg',
         0,
         'aria-live',
-        'assertive'
+        'assertive',
       );
     });
 
@@ -396,7 +394,7 @@ describe('ConfigAttributeFooterComponent', () => {
         'cx-required-error-msg',
         0,
         'aria-atomic',
-        'true'
+        'true',
       );
     });
   });

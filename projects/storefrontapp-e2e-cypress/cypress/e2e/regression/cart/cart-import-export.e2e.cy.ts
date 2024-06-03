@@ -234,7 +234,7 @@ context('Cart Import/Export', () => {
         importExport.attemptUpload(`../downloads/${CSV}`);
 
         cy.get('cx-import-entries-dialog cx-form-errors p').contains(
-          'File should not be empty'
+          'File should not be empty',
         );
       });
 
@@ -244,7 +244,7 @@ context('Cart Import/Export', () => {
         importExport.attemptUpload(`../downloads/${CSV}`);
 
         cy.get('cx-import-entries-dialog cx-form-errors p').contains(
-          'File is not parsable'
+          'File is not parsable',
         );
       });
 
@@ -254,13 +254,13 @@ context('Cart Import/Export', () => {
         cy.writeFile(`cypress/downloads/${CSV}`, toImport);
 
         cy.intercept('GET', /\.*\/users\/current\/carts\/(\d*)\?fields=.*/).as(
-          'import'
+          'import',
         );
         importExport.attemptUpload(`../downloads/${CSV}`);
         cy.wait('@import').its('response.statusCode').should('eq', 200);
 
         cy.get('.cx-import-entries-summary-warnings p').contains(
-          `1 product was not imported totally.`
+          `1 product was not imported totally.`,
         );
 
         cy.get('.cx-import-entries-summary-warnings p')
@@ -268,7 +268,7 @@ context('Cart Import/Export', () => {
           .click();
 
         cy.get('.cx-import-entries-summary-warnings li').contains(
-          ` has been reduced to `
+          ` has been reduced to `,
         );
       });
     });

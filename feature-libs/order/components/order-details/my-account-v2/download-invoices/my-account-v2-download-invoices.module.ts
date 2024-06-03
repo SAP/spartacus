@@ -38,6 +38,6 @@ import { MyAccountV2DownloadInvoicesComponent } from './my-account-v2-download-i
 })
 export class MyAccountV2DownloadInvoicesModule {
   protected downloadInvoicesDialogEventListener = inject(
-    MyAccountV2DownloadInvoicesEventListener
+    MyAccountV2DownloadInvoicesEventListener,
   );
 }

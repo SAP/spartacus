@@ -27,12 +27,12 @@ export const cancellationSelector = 'cx-replenishment-order-cancellation';
 export function createReplenishmentDetailsRequestRoute(
   requestMethod: string,
   replenishmentOrderCode: string,
-  alias: string
+  alias: string,
 ) {
   cy.intercept({
     method: requestMethod,
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/*/replenishmentOrders/${replenishmentOrderCode}*`,
   }).as(alias);
 
@@ -43,11 +43,11 @@ export function clickReplenishmentDetails(replenishmentOrderCode: string) {
   const replenishmentDetailsAlias = createReplenishmentDetailsRequestRoute(
     'GET',
     replenishmentOrderCode,
-    'replenishmentDetailsAlias'
+    'replenishmentDetailsAlias',
   );
 
   cy.get(
-    `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-code a`
+    `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-code a`,
   )
     .click()
     .should('have.attr', 'href')
@@ -65,20 +65,20 @@ export function cancelReplenishmentDetails() {
     cy.waitForOrderToBePlacedRequest(
       POWERTOOLS_BASESITE,
       undefined,
-      orderData.body.replenishmentOrderCode
+      orderData.body.replenishmentOrderCode,
     );
 
     visitReplenishmentHistory();
 
     const replenishmentDetailsAlias = clickReplenishmentDetails(
-      orderData.body.replenishmentOrderCode
+      orderData.body.replenishmentOrderCode,
     );
 
     cy.get(replenishmentDetailsAlias).then((xhr) => {
       const body = xhr.response.body;
 
       expect(body.replenishmentOrderCode).to.eq(
-        orderData.body.replenishmentOrderCode
+        orderData.body.replenishmentOrderCode,
       );
 
       expect(body.active).to.equal(true);
@@ -88,7 +88,7 @@ export function cancelReplenishmentDetails() {
 
     cy.get(`${cartListItemSelector} .cx-link`).should(
       'contain',
-      orderData.body.entries[0].product.name
+      orderData.body.entries[0].product.name,
     );
 
     cy.get(orderHistorySelector).should('exist');
@@ -132,7 +132,7 @@ export function verifyReplenishmentIsCancelled(replenishmentOrderCode: string) {
   const cancelReplenishmentAlias = createReplenishmentDetailsRequestRoute(
     'PATCH',
     replenishmentOrderCode,
-    'cancelReplenishmentAlias'
+    'cancelReplenishmentAlias',
   );
 
   cy.get(`${replenishmentCancelDialogSelector}`)
@@ -148,6 +148,6 @@ export function verifyReplenishmentIsCancelled(replenishmentOrderCode: string) {
   alerts
     .getSuccessAlert()
     .contains(
-      `Replenishment order #${replenishmentOrderCode} has been successfully cancelled`
+      `Replenishment order #${replenishmentOrderCode} has been successfully cancelled`,
     );
 }

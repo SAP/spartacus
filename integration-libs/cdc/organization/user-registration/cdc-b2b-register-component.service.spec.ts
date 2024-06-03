@@ -73,7 +73,7 @@ class MockEventService implements Partial<EventService> {
 class MockCDCJsService implements Partial<CdcJsService> {
   didLoad = createSpy().and.callFake(() => of(true));
   registerOrganisationWithoutScreenSet = createSpy().and.callFake(() =>
-    of({ status: 'OK' })
+    of({ status: 'OK' }),
   );
   onLoginEventHandler = createSpy();
 }
@@ -181,7 +181,7 @@ describe('CdcRegisterComponentService', () => {
         .subscribe(() => {
           expect(connector.registerUser).not.toHaveBeenCalled();
           expect(
-            cdcJsService.registerOrganisationWithoutScreenSet
+            cdcJsService.registerOrganisationWithoutScreenSet,
           ).toHaveBeenCalledWith({
             firstName: 'firstName',
             lastName: 'lastName',
@@ -208,17 +208,17 @@ describe('CdcRegisterComponentService', () => {
       cdcOrgRegisterService.registerUser(orgRegistrationFormData).subscribe({
         error: () => {
           expect(
-            cdcJsService.registerOrganisationWithoutScreenSet
+            cdcJsService.registerOrganisationWithoutScreenSet,
           ).not.toHaveBeenCalled();
           expect(connector.registerUser).not.toHaveBeenCalled();
           expect(globalMessageService.add).toHaveBeenCalledWith(
             {
               key: 'errorHandlers.scriptFailedToLoad',
             },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
           expect(
-            cdcJsService.registerOrganisationWithoutScreenSet
+            cdcJsService.registerOrganisationWithoutScreenSet,
           ).not.toHaveBeenCalled();
           done();
         },
@@ -233,7 +233,7 @@ describe('CdcRegisterComponentService', () => {
         error: () => {
           expect(connector.registerUser).not.toHaveBeenCalled();
           expect(
-            cdcJsService.registerOrganisationWithoutScreenSet
+            cdcJsService.registerOrganisationWithoutScreenSet,
           ).toHaveBeenCalledWith({
             firstName: 'firstName',
             lastName: 'lastName',
@@ -261,7 +261,7 @@ describe('CdcRegisterComponentService', () => {
         error: () => {
           expect(connector.registerUser).not.toHaveBeenCalled();
           expect(
-            cdcJsService.registerOrganisationWithoutScreenSet
+            cdcJsService.registerOrganisationWithoutScreenSet,
           ).toHaveBeenCalledWith({
             firstName: 'firstName',
             lastName: 'lastName',

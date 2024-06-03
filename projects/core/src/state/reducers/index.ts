@@ -21,7 +21,7 @@ export { getStateSlice } from '../utils/get-state-slice';
 export * from './transfer-state.reducer';
 
 export const TRANSFER_STATE_META_REDUCER = new InjectionToken(
-  'TransferStateMetaReducer'
+  'TransferStateMetaReducer',
 );
 
 export const stateMetaReducers: Provider[] = [

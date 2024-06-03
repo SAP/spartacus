@@ -35,7 +35,7 @@ export class SetActiveCurrency implements Action {
 export class CurrencyChange implements Action {
   readonly type = CURRENCY_CHANGE;
   constructor(
-    public payload: { previous: string | null; current: string | null }
+    public payload: { previous: string | null; current: string | null },
   ) {}
 }
 

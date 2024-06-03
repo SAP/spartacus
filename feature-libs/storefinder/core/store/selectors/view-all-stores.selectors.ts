@@ -18,19 +18,19 @@ export const getViewAllStoresState: MemoizedSelector<
   StateUtils.LoaderState<ViewAllStoresState>
 > = createSelector(
   getStoreFinderState,
-  (storesState: StoresState) => storesState.viewAllStores
+  (storesState: StoresState) => storesState.viewAllStores,
 );
 
 export const getViewAllStoresEntities: MemoizedSelector<
   StateWithStoreFinder,
   ViewAllStoresState
 > = createSelector(getViewAllStoresState, (state) =>
-  StateUtils.loaderValueSelector(state)
+  StateUtils.loaderValueSelector(state),
 );
 
 export const getViewAllStoresLoading: MemoizedSelector<
   StateWithStoreFinder,
   boolean
 > = createSelector(getViewAllStoresState, (state) =>
-  StateUtils.loaderLoadingSelector(state)
+  StateUtils.loaderLoadingSelector(state),
 );

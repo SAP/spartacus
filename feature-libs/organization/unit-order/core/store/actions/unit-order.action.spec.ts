@@ -84,7 +84,7 @@ describe('Order Details Actions', () => {
   describe('LoadOrderDetails Action', () => {
     it('should create the action', () => {
       const action = new UnitOrderActions.LoadOrderDetails(
-        mockOrderDetailsParams
+        mockOrderDetailsParams,
       );
 
       expect({ ...action }).toEqual({
@@ -111,7 +111,7 @@ describe('Order Details Actions', () => {
   describe('LoadOrderDetailsSuccess Action', () => {
     it('should create the action', () => {
       const action = new UnitOrderActions.LoadOrderDetailsSuccess(
-        mockOrderDetails
+        mockOrderDetails,
       );
 
       expect({ ...action }).toEqual({

@@ -21,7 +21,7 @@ export class ConfiguratorUpdateMessageComponent {
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>
-        this.configuratorCommonsService.hasPendingChanges(routerData.owner)
+        this.configuratorCommonsService.hasPendingChanges(routerData.owner),
       ),
       distinctUntilChanged(), // avoid subsequent emissions of the same value from the source observable
       switchMap(
@@ -30,16 +30,16 @@ export class ConfiguratorUpdateMessageComponent {
             ? of(isLoading).pipe(
                 delay(
                   this.config.productConfigurator?.updateConfigurationMessage
-                    ?.waitingTime || 1000
-                )
+                    ?.waitingTime || 1000,
+                ),
               ) // delay information if it is loading
-            : of(isLoading) // inform immediately if it's not loading anymore
-      )
+            : of(isLoading), // inform immediately if it's not loading anymore
+      ),
     );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected config: ConfiguratorMessageConfig
+    protected config: ConfiguratorMessageConfig,
   ) {}
 }

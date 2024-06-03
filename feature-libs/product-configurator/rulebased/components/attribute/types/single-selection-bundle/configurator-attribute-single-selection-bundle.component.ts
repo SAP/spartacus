@@ -25,7 +25,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
    */
   extractProductCardParameters(
     value: Configurator.Value,
-    index: number
+    index: number,
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
       hideRemoveButton: this.attribute.required,
@@ -47,7 +47,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       return 'n/a';
     }
     let prevIdx = this.attribute.values.findIndex(
-      (value) => value.valueCode === currentValue.valueCode
+      (value) => value.valueCode === currentValue.valueCode,
     );
     prevIdx--;
     if (prevIdx < 0) {
@@ -55,7 +55,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     }
     return this.createFocusId(
       this.getAttributeCode(this.attribute).toString(),
-      this.attribute.values[prevIdx].valueCode
+      this.attribute.values[prevIdx].valueCode,
     );
   }
 }

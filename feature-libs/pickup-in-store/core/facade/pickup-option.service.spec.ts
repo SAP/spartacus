@@ -45,7 +45,7 @@ describe('PickupOptionFacade', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       PickupOptionActions.SetPageContext({
         payload: { pageContext: 'CART' },
-      })
+      }),
     );
   });
 
@@ -59,7 +59,7 @@ describe('PickupOptionFacade', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       PickupOptionActions.SetPickupOption({
         payload: { entryNumber: 1, pickupOption: 'pickup' },
-      })
+      }),
     );
   });
 

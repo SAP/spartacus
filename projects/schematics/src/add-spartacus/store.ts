@@ -22,7 +22,7 @@ export function setupStoreModules(options: SpartacusOptions): Rule {
 
     if (!buildPaths.length) {
       throw new SchematicsException(
-        'Could not find any tsconfig file. Cannot set Store modules.'
+        'Could not find any tsconfig file. Cannot set Store modules.',
       );
     }
 
@@ -41,7 +41,7 @@ export function setupStoreModules(options: SpartacusOptions): Rule {
 function configureStoreModules(
   tree: Tree,
   tsconfigPath: string,
-  basePath: string
+  basePath: string,
 ): void {
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 

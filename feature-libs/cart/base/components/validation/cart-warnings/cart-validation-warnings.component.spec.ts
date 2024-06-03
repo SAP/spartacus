@@ -137,10 +137,10 @@ describe('CartValidationWarningsComponent', () => {
     fixture.detectChanges();
 
     expect(component.visibleWarnings[mockData[0].entry.product.code]).toEqual(
-      false
+      false,
     );
     expect(component.visibleWarnings[mockData[1].entry.product.code]).toEqual(
-      true
+      true,
     );
     expect(component.removeMessage).toHaveBeenCalledWith(mockData[0]);
   });

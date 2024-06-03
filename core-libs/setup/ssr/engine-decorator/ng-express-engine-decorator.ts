@@ -19,11 +19,11 @@ import { getServerRequestProviders } from '../providers/ssr-providers';
 export type NgExpressEngineInstance = (
   filePath: string,
   options: object,
-  callback: SsrCallbackFn
+  callback: SsrCallbackFn,
 ) => void;
 
 export type NgExpressEngine = (
-  setupOptions: Readonly<CommonEngineRenderOptions & CommonEngineOptions>
+  setupOptions: Readonly<CommonEngineRenderOptions & CommonEngineOptions>,
 ) => NgExpressEngineInstance;
 
 /**
@@ -38,7 +38,7 @@ export class NgExpressEngineDecorator {
    */
   static get(
     ngExpressEngine: NgExpressEngine,
-    optimizationOptions?: SsrOptimizationOptions | null
+    optimizationOptions?: SsrOptimizationOptions | null,
   ): NgExpressEngine {
     return decorateExpressEngine(ngExpressEngine, optimizationOptions);
   }
@@ -49,7 +49,7 @@ export function decorateExpressEngine(
   optimizationOptions:
     | SsrOptimizationOptions
     | null
-    | undefined = defaultSsrOptimizationOptions
+    | undefined = defaultSsrOptimizationOptions,
 ): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
     const engineInstance = ngExpressEngine({

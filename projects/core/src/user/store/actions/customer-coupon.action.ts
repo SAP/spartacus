@@ -72,7 +72,7 @@ export class LoadCustomerCoupons extends LoaderLoadAction {
       pageSize: number;
       currentPage?: number;
       sort?: string;
-    }
+    },
   ) {
     super(CUSTOMER_COUPONS);
   }
@@ -106,7 +106,7 @@ export class SubscribeCustomerCoupon extends EntityLoadAction {
     public payload: {
       userId: string;
       couponCode: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID);
   }
@@ -139,7 +139,7 @@ export class UnsubscribeCustomerCoupon extends EntityLoadAction {
     public payload: {
       userId: string;
       couponCode: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID);
   }
@@ -172,7 +172,7 @@ export class ClaimCustomerCoupon extends EntityLoadAction {
     public payload: {
       userId: string;
       couponCode: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID);
   }
@@ -184,7 +184,7 @@ export class DisclaimCustomerCoupon extends EntityLoadAction {
     public payload: {
       userId: string;
       couponCode: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, DISCLAIM_CUSTOMER_COUPON_PROCESS_ID);
   }

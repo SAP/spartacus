@@ -42,14 +42,14 @@ export class CheckoutPlaceOrderComponent implements OnDestroy {
     protected routingService: RoutingService,
     protected fb: UntypedFormBuilder,
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
   ) {}
 
   submitForm(): void {
     if (this.checkoutSubmitForm.valid) {
       this.placedOrder = this.launchDialogService.launch(
         LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-        this.vcr
+        this.vcr,
       );
       this.orderFacade.placeOrder(this.checkoutSubmitForm.valid).subscribe({
         error: () => {

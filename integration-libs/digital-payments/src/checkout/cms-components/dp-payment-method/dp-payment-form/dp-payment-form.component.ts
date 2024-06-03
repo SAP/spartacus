@@ -25,7 +25,7 @@ export class DpPaymentFormComponent implements OnInit {
     private dpPaymentService: DpCheckoutPaymentService,
     private dpStorageService: DpLocalStorageService,
     private globalMsgService: GlobalMessageService,
-    private winRef: WindowRef
+    private winRef: WindowRef,
   ) {}
 
   ngOnInit(): void {
@@ -36,7 +36,7 @@ export class DpPaymentFormComponent implements OnInit {
       } else if (request) {
         this.globalMsgService.add(
           { key: 'dpPaymentForm.error.redirect' },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
         this.closeForm.emit();
       }

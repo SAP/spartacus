@@ -121,7 +121,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   loadSupportedCardTypes = createSpy();
   getPaymentCardTypes = createSpy().and.returnValue(EMPTY);
   getSetPaymentDetailsResultProcess = createSpy().and.returnValue(
-    of({ loading: false })
+    of({ loading: false }),
   );
 }
 
@@ -129,7 +129,7 @@ class MockCheckoutDeliveryService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
   getDeliveryAddressState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: undefined })
+    of({ loading: false, error: false, data: undefined }),
   );
   getAddressVerificationResults = createSpy().and.returnValue(EMPTY);
   verifyAddress = createSpy();
@@ -139,7 +139,7 @@ class MockCheckoutDeliveryService
 class MockUserPaymentService implements Partial<UserPaymentService> {
   loadBillingCountries = createSpy();
   getAllBillingCountries = createSpy().and.returnValue(
-    of(mockBillingCountries)
+    of(mockBillingCountries),
   );
 }
 
@@ -171,49 +171,47 @@ describe('CheckoutPaymentFormComponent', () => {
     billingAddress: UntypedFormGroup['controls'];
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
-      mockCheckoutPaymentService = new MockCheckoutPaymentService();
-      mockUserPaymentService = new MockUserPaymentService();
-      mockGlobalMessageService = new MockGlobalMessageService();
+  beforeEach(waitForAsync(() => {
+    mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
+    mockCheckoutPaymentService = new MockCheckoutPaymentService();
+    mockUserPaymentService = new MockUserPaymentService();
+    mockGlobalMessageService = new MockGlobalMessageService();
 
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          NgSelectA11yModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [
-          CheckoutPaymentFormComponent,
-          MockCardComponent,
-          MockBillingAddressFormComponent,
-          MockCxIconComponent,
-          MockSpinnerComponent,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: CheckoutPaymentFacade,
-            useValue: mockCheckoutPaymentService,
-          },
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useValue: mockCheckoutDeliveryService,
-          },
-          { provide: UserPaymentService, useValue: mockUserPaymentService },
-          { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-          { provide: UserAddressService, useClass: MockUserAddressService },
-        ],
-      })
-        .overrideComponent(CheckoutPaymentFormComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        NgSelectA11yModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [
+        CheckoutPaymentFormComponent,
+        MockCardComponent,
+        MockBillingAddressFormComponent,
+        MockCxIconComponent,
+        MockSpinnerComponent,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: CheckoutPaymentFacade,
+          useValue: mockCheckoutPaymentService,
+        },
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useValue: mockCheckoutDeliveryService,
+        },
+        { provide: UserPaymentService, useValue: mockUserPaymentService },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+      ],
     })
-  );
+      .overrideComponent(CheckoutPaymentFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPaymentFormComponent);
@@ -241,7 +239,7 @@ describe('CheckoutPaymentFormComponent', () => {
     component.ngOnInit();
 
     expect(component.paymentForm.patchValue).toHaveBeenCalledWith(
-      mockPaymentDetails
+      mockPaymentDetails,
     );
   });
 
@@ -255,7 +253,7 @@ describe('CheckoutPaymentFormComponent', () => {
 
   it('should call ngOnInit to get billing countries', () => {
     mockUserPaymentService.getAllBillingCountries = createSpy().and.returnValue(
-      of(mockBillingCountries)
+      of(mockBillingCountries),
     );
 
     component.ngOnInit();
@@ -279,7 +277,7 @@ describe('CheckoutPaymentFormComponent', () => {
       createSpy().and.returnValue(of(mockCardTypes));
     mockCheckoutDeliveryService.getDeliveryAddressState =
       createSpy().and.returnValue(
-        of({ loading: false, error: false, data: mockAddress })
+        of({ loading: false, error: false, data: mockAddress }),
       );
 
     component.ngOnInit();
@@ -293,7 +291,7 @@ describe('CheckoutPaymentFormComponent', () => {
 
   it('should call ngOnInit to load billing countries', () => {
     mockUserPaymentService.getAllBillingCountries = createSpy().and.returnValue(
-      of(mockBillingCountriesEmpty)
+      of(mockBillingCountriesEmpty),
     );
 
     component.ngOnInit();
@@ -308,7 +306,7 @@ describe('CheckoutPaymentFormComponent', () => {
     component.ngOnInit();
     spyOn(component, 'next');
     component['handleAddressVerificationResults'](
-      mockAddressVerificationResult
+      mockAddressVerificationResult,
     );
     expect(component.next).toHaveBeenCalled();
   });
@@ -319,7 +317,7 @@ describe('CheckoutPaymentFormComponent', () => {
     };
     component.ngOnInit();
     component['handleAddressVerificationResults'](
-      mockAddressVerificationResult
+      mockAddressVerificationResult,
     );
     expect(mockGlobalMessageService.add).toHaveBeenCalled();
   });
@@ -331,7 +329,7 @@ describe('CheckoutPaymentFormComponent', () => {
     spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
     component['handleAddressVerificationResults'](
-      mockAddressVerificationResult
+      mockAddressVerificationResult,
     );
     expect(component.openSuggestedAddress).toHaveBeenCalled();
   });
@@ -391,7 +389,7 @@ describe('CheckoutPaymentFormComponent', () => {
     userAddressService.verifyAddress = createSpy().and.returnValue(
       of({
         decision: 'ACCEPT',
-      })
+      }),
     );
 
     component.sameAsDeliveryAddress = true;
@@ -414,7 +412,7 @@ describe('CheckoutPaymentFormComponent', () => {
         createSpy().and.returnValue(of(mockCardTypes));
       mockCheckoutDeliveryService.getDeliveryAddressState =
         createSpy().and.returnValue(
-          of({ loading: false, error: false, data: mockAddress })
+          of({ loading: false, error: false, data: mockAddress }),
         );
       mockUserPaymentService.getAllBillingCountries =
         createSpy().and.returnValue(of(mockBillingCountries));
@@ -431,7 +429,7 @@ describe('CheckoutPaymentFormComponent', () => {
       controls.payment['accountHolderName'].setValue('test accountHolderName');
       controls.payment['cardNumber'].setValue('test cardNumber');
       controls.payment.cardType['controls'].code.setValue(
-        'test card type code'
+        'test card type code',
       );
       controls.payment['expiryMonth'].setValue('test expiryMonth');
       controls.payment['expiryYear'].setValue('test expiryYear');
@@ -439,20 +437,20 @@ describe('CheckoutPaymentFormComponent', () => {
 
       // set values for billing address form
       controls.billingAddress['firstName'].setValue(
-        mockBillingAddress.firstName
+        mockBillingAddress.firstName,
       );
       controls.billingAddress['lastName'].setValue(mockBillingAddress.lastName);
       controls.billingAddress['line1'].setValue(mockBillingAddress.line1);
       controls.billingAddress['line2'].setValue(mockBillingAddress.line2);
       controls.billingAddress['town'].setValue(mockBillingAddress.town);
       controls.billingAddress.country['controls'].isocode.setValue(
-        mockBillingAddress.country
+        mockBillingAddress.country,
       );
       controls.billingAddress.region['controls'].isocodeShort.setValue(
-        mockBillingAddress.region
+        mockBillingAddress.region,
       );
       controls.billingAddress['postalCode'].setValue(
-        mockBillingAddress.postalCode
+        mockBillingAddress.postalCode,
       );
 
       fixture.detectChanges();
@@ -465,7 +463,7 @@ describe('CheckoutPaymentFormComponent', () => {
         createSpy().and.returnValue(of(mockCardTypes));
       mockCheckoutDeliveryService.getDeliveryAddressState =
         createSpy().and.returnValue(
-          of({ loading: false, error: false, data: mockAddress })
+          of({ loading: false, error: false, data: mockAddress }),
         );
       mockUserPaymentService.getAllBillingCountries =
         createSpy().and.returnValue(of(mockBillingCountries));
@@ -482,7 +480,7 @@ describe('CheckoutPaymentFormComponent', () => {
       controls.payment['accountHolderName'].setValue('test accountHolderName');
       controls.payment['cardNumber'].setValue('test cardNumber');
       controls.payment.cardType['controls'].code.setValue(
-        'test card type code'
+        'test card type code',
       );
       controls.payment['expiryMonth'].setValue('test expiryMonth');
       controls.payment['expiryYear'].setValue('test expiryYear');
@@ -497,13 +495,13 @@ describe('CheckoutPaymentFormComponent', () => {
       component.setAsDefaultField = false;
       fixture.detectChanges();
       expect(
-        fixture.debugElement.queryAll(By.css('.form-check-input')).length
+        fixture.debugElement.queryAll(By.css('.form-check-input')).length,
       ).toEqual(0);
 
       component.setAsDefaultField = true;
       fixture.detectChanges();
       expect(
-        fixture.debugElement.queryAll(By.css('.form-check-input')).length
+        fixture.debugElement.queryAll(By.css('.form-check-input')).length,
       ).toEqual(1);
     });
   });

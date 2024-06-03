@@ -37,7 +37,7 @@ const scssFilePath = 'src/styles/spartacus/organization.scss';
 describe('Spartacus Organization schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_ORGANIZATION,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -97,27 +97,27 @@ describe('Spartacus Organization schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -126,25 +126,25 @@ describe('Spartacus Organization schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
     it('should not install administration, order-approval, account-summary, user registration and unit order features', () => {
       expect(
-        appTree.exists(organizationAdministrationFeatureModulePath)
+        appTree.exists(organizationAdministrationFeatureModulePath),
       ).toBeFalsy();
       expect(
-        appTree.exists(organizationOrderApprovalFeatureModulePath)
+        appTree.exists(organizationOrderApprovalFeatureModulePath),
       ).toBeFalsy();
       expect(
-        appTree.exists(organizationAccountSummaryFeatureModulePath)
+        appTree.exists(organizationAccountSummaryFeatureModulePath),
       ).toBeFalsy();
       expect(
-        appTree.exists(organizationUserRegistrationFeatureModulePath)
+        appTree.exists(organizationUserRegistrationFeatureModulePath),
       ).toBeFalsy();
       expect(
-        appTree.exists(organizationUnitOrderFeatureModulePath)
+        appTree.exists(organizationUnitOrderFeatureModulePath),
       ).toBeFalsy();
     });
 
@@ -180,13 +180,13 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           administrationFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(
-          organizationAdministrationFeatureModulePath
+          organizationAdministrationFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
       });
@@ -211,7 +211,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       describe('b2b features', () => {
         it('configuration should be added', () => {
           const configurationModule = appTree.readContent(
-            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
           );
           expect(configurationModule).toMatchSnapshot();
         });
@@ -223,13 +223,13 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...administrationFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(
-          organizationAdministrationFeatureModulePath
+          organizationAdministrationFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
       });
@@ -242,13 +242,13 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           orderApprovalFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(
-          organizationOrderApprovalFeatureModulePath
+          organizationOrderApprovalFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
       });
@@ -276,7 +276,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       describe('b2b features', () => {
         it('configuration should be added', () => {
           const configurationModule = appTree.readContent(
-            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
           );
           expect(configurationModule).toMatchSnapshot();
         });
@@ -288,13 +288,13 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...orderApprovalFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(
-          organizationOrderApprovalFeatureModulePath
+          organizationOrderApprovalFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
       });
@@ -307,20 +307,20 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           accountSummaryFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(
-          organizationAccountSummaryFeatureModulePath
+          organizationAccountSummaryFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
       });
 
       it('should NOT install the required feature dependencies', async () => {
         const administrationFeatureModule = appTree.readContent(
-          organizationAdministrationFeatureModulePath
+          organizationAdministrationFeatureModulePath,
         );
         expect(administrationFeatureModule).toBeFalsy();
       });
@@ -340,7 +340,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       describe('b2b features', () => {
         it('configuration should be added', () => {
           const configurationModule = appTree.readContent(
-            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
           );
           expect(configurationModule).toMatchSnapshot();
         });
@@ -352,13 +352,13 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...accountSummaryFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(
-          organizationAccountSummaryFeatureModulePath
+          organizationAccountSummaryFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
       });
@@ -371,20 +371,20 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           userRegistrationFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(
-          organizationUserRegistrationFeatureModulePath
+          organizationUserRegistrationFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
       });
 
       it('should NOT install the required feature dependencies', async () => {
         const administrationFeatureModule = appTree.readContent(
-          organizationAdministrationFeatureModulePath
+          organizationAdministrationFeatureModulePath,
         );
         expect(administrationFeatureModule).toBeFalsy();
       });
@@ -404,7 +404,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       describe('b2b features', () => {
         it('configuration should be added', () => {
           const configurationModule = appTree.readContent(
-            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
           );
           expect(configurationModule).toMatchSnapshot();
         });
@@ -416,13 +416,13 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...userRegistrationFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(
-          organizationUserRegistrationFeatureModulePath
+          organizationUserRegistrationFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
       });
@@ -435,13 +435,13 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           unitOrderFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(
-          organizationUnitOrderFeatureModulePath
+          organizationUnitOrderFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
       });
@@ -469,7 +469,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       describe('b2b features', () => {
         it('configuration should be added', () => {
           const configurationModule = appTree.readContent(
-            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
           );
           expect(configurationModule).toMatchSnapshot();
         });
@@ -481,13 +481,13 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...unitOrderFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(
-          organizationUnitOrderFeatureModulePath
+          organizationUnitOrderFeatureModulePath,
         );
         expect(module).toMatchSnapshot();
       });

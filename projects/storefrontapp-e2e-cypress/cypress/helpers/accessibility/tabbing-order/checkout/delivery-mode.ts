@@ -13,7 +13,7 @@ const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
-    'getDeliveryPage'
+    'getDeliveryPage',
   );
 
   cy.visit('/checkout/delivery-mode');
@@ -30,7 +30,7 @@ export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
 export function checkoutDeliveryModeTabbingOrderAccount(config: TabElement[]) {
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
-    'getDeliveryPage'
+    'getDeliveryPage',
   );
 
   cy.visit('/checkout/delivery-mode');

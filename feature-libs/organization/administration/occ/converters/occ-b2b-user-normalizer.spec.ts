@@ -40,7 +40,7 @@ describe('B2BUserNormalizer', () => {
     [OccB2BUserNormalizer],
     (b2bUserNormalizer: OccB2BUserNormalizer) => {
       expect(b2bUserNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert B2B User', () => {

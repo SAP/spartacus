@@ -52,67 +52,67 @@ describe('QuoteHeaderBuyerEditComponent', () => {
     CommonQuoteTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-card'
+      '.cx-card',
     );
 
     CommonQuoteTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-card-edit'
+      '.cx-card-edit',
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-card-title',
-      'quote.header.overview.information'
+      'quote.header.overview.information',
     );
 
     CommonQuoteTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-card-container'
+      '.cx-card-container',
     );
 
     CommonQuoteTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-card-label-container'
+      '.cx-card-label-container',
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       '.cx-card-paragraph',
-      2
+      2,
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       '.cx-card-paragraph-title',
-      2
+      2,
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       '.form-group',
-      2
+      2,
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       'input',
-      1
+      1,
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       'textarea',
-      1
+      1,
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(
@@ -120,7 +120,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       htmlElem,
       '.cx-card-paragraph-title',
       'quote.header.overview.description',
-      1
+      1,
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(
@@ -128,7 +128,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       htmlElem,
       '.cx-info-text',
       'quote.header.overview.charactersLeft count:245',
-      0
+      0,
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(
@@ -136,27 +136,27 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       htmlElem,
       '.cx-info-text',
       'quote.header.overview.charactersLeft count:194',
-      1
+      1,
     );
 
     CommonQuoteTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-card-button-container'
+      '.cx-card-button-container',
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       'button.btn-tertiary',
-      'common.cancel'
+      'common.cancel',
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       'button.btn-secondary',
-      'common.save'
+      'common.save',
     );
   });
 
@@ -164,7 +164,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
     it('should emit cancel event', () => {
       const cancelButton = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
-        'button.btn-tertiary'
+        'button.btn-tertiary',
       );
       cancelButton.click();
       expect(component.cancelCard.emit).toHaveBeenCalled();
@@ -173,7 +173,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
     it('should emit edit event for disabling edit mode', () => {
       const saveButton = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
-        'button.btn-secondary'
+        'button.btn-secondary',
       );
       saveButton.click();
       expect(component.saveCard.emit).toHaveBeenCalled();
@@ -186,7 +186,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       fixture.detectChanges();
       const saveButton = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
-        'button.btn-secondary'
+        'button.btn-secondary',
       );
       saveButton.click();
       expect(component.saveCard.emit).toHaveBeenCalled();
@@ -205,7 +205,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       fixture.detectChanges();
       const saveButton = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
-        'button.btn-secondary'
+        'button.btn-secondary',
       );
       saveButton.click();
       expect(component.saveCard.emit).toHaveBeenCalled();
@@ -234,8 +234,8 @@ describe('QuoteHeaderBuyerEditComponent', () => {
         expect(
           component['getCharactersLeft'](
             formControlName,
-            component.content.charactersLimit
-          )
+            component.content.charactersLimit,
+          ),
         ).toBe(charactersLeft);
 
         charactersLeft =
@@ -244,8 +244,8 @@ describe('QuoteHeaderBuyerEditComponent', () => {
         expect(
           component['getCharactersLeft'](
             formControlName,
-            component.content.charactersLimit
-          )
+            component.content.charactersLimit,
+          ),
         ).toBe(charactersLeft);
 
         setValue(formControlName, '');
@@ -256,8 +256,8 @@ describe('QuoteHeaderBuyerEditComponent', () => {
         expect(
           component['getCharactersLeft'](
             formControlName,
-            component.content.charactersLimit
-          )
+            component.content.charactersLimit,
+          ),
         ).toBe(charactersLeft);
       }
     });

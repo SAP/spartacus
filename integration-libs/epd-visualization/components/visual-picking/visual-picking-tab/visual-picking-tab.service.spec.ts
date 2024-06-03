@@ -67,7 +67,7 @@ class MockCurrentProductService {
   currentProductObservable: Observable<Product | null>;
 
   getProduct(
-    scopes?: (ProductScope | string)[] | ProductScope | string
+    scopes?: (ProductScope | string)[] | ProductScope | string,
   ): Observable<Product | null> {
     expect(scopes).toBeUndefined();
     return this.currentProductObservable;
@@ -189,7 +189,7 @@ describe('VisualPickingTabService', () => {
     windowRef = TestBed.inject(WindowRef);
 
     visualPickingProductListService = TestBed.inject(
-      VisualPickingProductListService
+      VisualPickingProductListService,
     );
 
     visualPickingTabService = TestBed.inject(VisualPickingTabService);
@@ -204,11 +204,11 @@ describe('VisualPickingTabService', () => {
         spyOnProperty(
           mockVisualViewerService,
           'visualizationLoadInfoChange',
-          'get'
+          'get',
         ).and.returnValue(mockVisualizationLoadInfoChange);
       const mockVisualizationLoadInfoChangeSubscribeSpy = spyOn(
         mockVisualizationLoadInfoChange,
-        'subscribe'
+        'subscribe',
       );
 
       const visualPickingProductListServiceMock1 = {
@@ -226,34 +226,34 @@ describe('VisualPickingTabService', () => {
       const getVisualPickingProductListServicePropertySpy = spyOnProperty<any>(
         visualPickingTabService,
         'visualPickingProductListService',
-        'get'
+        'get',
       ).and.returnValue(visualPickingProductListServiceMock1);
 
       mockVisualViewerService.expectedIncludedProductCodes =
         filteredProductReferences.map(
-          (productReference) => productReference.target?.code as string
+          (productReference) => productReference.target?.code as string,
         );
 
       const loadVisualizationSpy = spyOn(
         visualViewerService,
-        'loadVisualization'
+        'loadVisualization',
       ).and.returnValue(
         of(<VisualizationLoadInfo>{
           lookupResult: VisualizationLookupResult.UniqueMatchFound,
           loadStatus: VisualizationLoadStatus.Loaded,
-        })
+        }),
       );
 
       visualPickingTabService.initialize(
         visualViewerService,
-        visualPickingProductListService
+        visualPickingProductListService,
       );
 
       expect(
-        getVisualViewerServiceVisualizationLoadInfoChangePropertySpy
+        getVisualViewerServiceVisualizationLoadInfoChangePropertySpy,
       ).toHaveBeenCalledTimes(1);
       expect(mockVisualizationLoadInfoChangeSubscribeSpy).toHaveBeenCalledTimes(
-        1
+        1,
       );
       expect(getVisualPickingProductListServicePropertySpy).toHaveBeenCalled();
 
@@ -268,11 +268,11 @@ describe('VisualPickingTabService', () => {
         spyOnProperty(
           mockVisualViewerService,
           'visualizationLoadInfoChange',
-          'get'
+          'get',
         ).and.returnValue(mockVisualizationLoadInfoChange);
       const mockVisualizationLoadInfoChangeSubscribeSpy = spyOn(
         mockVisualizationLoadInfoChange,
-        'subscribe'
+        'subscribe',
       );
 
       const visualPickingProductListServiceMock2 = {
@@ -290,29 +290,29 @@ describe('VisualPickingTabService', () => {
       const getVisualPickingProductListServicePropertySpy = spyOnProperty<any>(
         visualPickingTabService,
         'visualPickingProductListService',
-        'get'
+        'get',
       ).and.returnValue(visualPickingProductListServiceMock2);
 
       const loadVisualizationSpy = spyOn(
         visualViewerService,
-        'loadVisualization'
+        'loadVisualization',
       ).and.returnValue(
         of(<VisualizationLoadInfo>{
           lookupResult: VisualizationLookupResult.UniqueMatchFound,
           loadStatus: VisualizationLoadStatus.Loaded,
-        })
+        }),
       );
 
       visualPickingTabService.initialize(
         visualViewerService,
-        visualPickingProductListService
+        visualPickingProductListService,
       );
 
       expect(
-        getVisualViewerServiceVisualizationLoadInfoChangePropertySpy
+        getVisualViewerServiceVisualizationLoadInfoChangePropertySpy,
       ).toHaveBeenCalledTimes(1);
       expect(mockVisualizationLoadInfoChangeSubscribeSpy).toHaveBeenCalledTimes(
-        1
+        1,
       );
       expect(getVisualPickingProductListServicePropertySpy).toHaveBeenCalled();
 
@@ -324,7 +324,7 @@ describe('VisualPickingTabService', () => {
         spyOnProperty(
           mockVisualViewerService,
           'visualizationLoadInfoChange',
-          'get'
+          'get',
         );
 
       mockVisualPickingProductListService.getProductReferences = () => {
@@ -338,32 +338,32 @@ describe('VisualPickingTabService', () => {
       const getVisualPickingProductListServicePropertySpy = spyOnProperty<any>(
         visualPickingTabService,
         'visualPickingProductListService',
-        'get'
+        'get',
       );
 
       mockVisualViewerService.expectedIncludedProductCodes =
         filteredProductReferences.map(
-          (productReference) => productReference.target?.code as string
+          (productReference) => productReference.target?.code as string,
         );
 
       const loadVisualizationSpy = spyOn(
         visualViewerService,
-        'loadVisualization'
+        'loadVisualization',
       );
 
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
 
       visualPickingTabService.initialize(
         visualViewerService,
-        visualPickingProductListService
+        visualPickingProductListService,
       );
 
       expect(isBrowserSpy).toHaveBeenCalledTimes(1);
       expect(
-        getVisualViewerServiceVisualizationLoadInfoChangePropertySpy
+        getVisualViewerServiceVisualizationLoadInfoChangePropertySpy,
       ).toHaveBeenCalledTimes(0);
       expect(
-        getVisualPickingProductListServicePropertySpy
+        getVisualPickingProductListServicePropertySpy,
       ).toHaveBeenCalledTimes(0);
       expect(loadVisualizationSpy).toHaveBeenCalledTimes(0);
     });
@@ -381,20 +381,20 @@ describe('VisualPickingTabService', () => {
 
       visualPickingTabService.initialize(
         visualViewerService,
-        visualPickingProductListService
+        visualPickingProductListService,
       );
 
       const visualizationLoadInfoChangeSubscriptionUnsubscribeSpy = spyOn(
         visualPickingTabService['visualizationLoadInfoChangeSubscription'],
-        'unsubscribe'
+        'unsubscribe',
       );
       const getProductReferencesSubscriptionUnsubscribeSpy = spyOn(
         visualPickingTabService['getProductReferencesSubscription'],
-        'unsubscribe'
+        'unsubscribe',
       );
       const getFilteredProductReferencesSubscriptionUnsubscribeSpy = spyOn<any>(
         visualPickingTabService['getFilteredProductReferencesSubscription'],
-        'unsubscribe'
+        'unsubscribe',
       );
       const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
 
@@ -402,13 +402,13 @@ describe('VisualPickingTabService', () => {
 
       expect(isBrowserSpy).toHaveBeenCalledTimes(1);
       expect(
-        visualizationLoadInfoChangeSubscriptionUnsubscribeSpy
+        visualizationLoadInfoChangeSubscriptionUnsubscribeSpy,
       ).toHaveBeenCalledTimes(0);
       expect(
-        getProductReferencesSubscriptionUnsubscribeSpy
+        getProductReferencesSubscriptionUnsubscribeSpy,
       ).toHaveBeenCalledTimes(0);
       expect(
-        getFilteredProductReferencesSubscriptionUnsubscribeSpy
+        getFilteredProductReferencesSubscriptionUnsubscribeSpy,
       ).toHaveBeenCalledTimes(0);
     });
 
@@ -423,32 +423,32 @@ describe('VisualPickingTabService', () => {
 
       visualPickingTabService.initialize(
         visualViewerService,
-        visualPickingProductListService
+        visualPickingProductListService,
       );
 
       const visualizationLoadInfoChangeSubscriptionUnsubscribeSpy = spyOn(
         visualPickingTabService['visualizationLoadInfoChangeSubscription'],
-        'unsubscribe'
+        'unsubscribe',
       );
       const getProductReferencesSubscriptionUnsubscribeSpy = spyOn(
         visualPickingTabService['getProductReferencesSubscription'],
-        'unsubscribe'
+        'unsubscribe',
       );
       const getFilteredProductReferencesSubscriptionUnsubscribeSpy = spyOn<any>(
         visualPickingTabService['getFilteredProductReferencesSubscription'],
-        'unsubscribe'
+        'unsubscribe',
       );
 
       visualPickingTabService.ngOnDestroy();
 
       expect(
-        visualizationLoadInfoChangeSubscriptionUnsubscribeSpy
+        visualizationLoadInfoChangeSubscriptionUnsubscribeSpy,
       ).toHaveBeenCalledTimes(1);
       expect(
-        getProductReferencesSubscriptionUnsubscribeSpy
+        getProductReferencesSubscriptionUnsubscribeSpy,
       ).toHaveBeenCalledTimes(1);
       expect(
-        getFilteredProductReferencesSubscriptionUnsubscribeSpy
+        getFilteredProductReferencesSubscriptionUnsubscribeSpy,
       ).toHaveBeenCalledTimes(1);
     });
   });
@@ -457,7 +457,7 @@ describe('VisualPickingTabService', () => {
     it('should return the value that was set', () => {
       visualPickingTabService['setProductReferences'](productReferences);
       expect(visualPickingTabService['productReferences']).toBe(
-        productReferences
+        productReferences,
       );
     });
   });
@@ -471,7 +471,7 @@ describe('VisualPickingTabService', () => {
     it('should return false when no product references of required type exist for current product', () => {
       visualPickingTabService['setProductReferences']([]);
       expect(visualPickingTabService.hideNoProductReferencesText).toEqual(
-        false
+        false,
       );
     });
 
@@ -486,7 +486,7 @@ describe('VisualPickingTabService', () => {
       visualPickingTabService.visualViewerService = visualViewerService;
       expect(visualViewerService.visualizationLoadInfo).toBeUndefined();
       expect(visualPickingTabService['visualizationLoadStatus']).toEqual(
-        VisualizationLoadStatus.NotStarted
+        VisualizationLoadStatus.NotStarted,
       );
     });
 
@@ -497,7 +497,7 @@ describe('VisualPickingTabService', () => {
         loadStatus: VisualizationLoadStatus.Loaded,
       });
       expect(visualPickingTabService['visualizationLoadStatus']).toEqual(
-        VisualizationLoadStatus.Loaded
+        VisualizationLoadStatus.Loaded,
       );
     });
   });
@@ -511,7 +511,7 @@ describe('VisualPickingTabService', () => {
     it('should return false when no product references of required type exist for current product', () => {
       visualPickingTabService['setProductReferences']([]);
       expect(visualPickingTabService.hideNoProductReferencesText).toEqual(
-        false
+        false,
       );
     });
 
@@ -568,7 +568,7 @@ describe('VisualPickingTabService', () => {
       spyOnProperty<any>(
         visualPickingTabService,
         'visualizationLoadStatus',
-        'get'
+        'get',
       ).and.returnValue(VisualizationLoadStatus.NotStarted);
       expect(visualPickingTabService.hideViewport).toEqual(true);
     });
@@ -578,7 +578,7 @@ describe('VisualPickingTabService', () => {
       spyOnProperty<any>(
         visualPickingTabService,
         'visualizationLoadStatus',
-        'get'
+        'get',
       ).and.returnValue(VisualizationLoadStatus.Loading);
       expect(visualPickingTabService.hideViewport).toEqual(false);
     });
@@ -588,7 +588,7 @@ describe('VisualPickingTabService', () => {
       spyOnProperty<any>(
         visualPickingTabService,
         'visualizationLoadStatus',
-        'get'
+        'get',
       ).and.returnValue(VisualizationLoadStatus.Loading);
       expect(visualPickingTabService.hideViewport).toEqual(false);
     });
@@ -598,7 +598,7 @@ describe('VisualPickingTabService', () => {
       spyOnProperty<any>(
         visualPickingTabService,
         'visualizationLoadStatus',
-        'get'
+        'get',
       ).and.returnValue(VisualizationLoadStatus.UnexpectedError);
       expect(visualPickingTabService.hideViewport).toEqual(true);
     });
@@ -609,7 +609,7 @@ describe('VisualPickingTabService', () => {
       spyOnProperty<any>(
         visualPickingTabService,
         'visualizationLoadStatus',
-        'get'
+        'get',
       ).and.returnValue(VisualizationLoadStatus.Loading);
       expect(visualPickingTabService.hideViewport).toEqual(true);
       expect(isBrowserSpy).toHaveBeenCalledTimes(1);
@@ -622,7 +622,7 @@ describe('VisualPickingTabService', () => {
 
       const mockGlobalMessageServiceAddSpy = spyOn(
         mockGlobalMessageService,
-        'add'
+        'add',
       );
 
       visualPickingTabService['showErrorMessage']('some error message');
@@ -638,7 +638,7 @@ describe('VisualPickingTabService', () => {
 
       const mockGlobalMessageServiceAddSpy = spyOn(
         mockGlobalMessageService,
-        'add'
+        'add',
       );
 
       visualPickingTabService['showErrorMessage']('some error message');
@@ -654,7 +654,7 @@ describe('VisualPickingTabService', () => {
     it('should not produce an error when scene loading started', () => {
       const mockGlobalMessageServiceAddSpy = spyOn(
         mockGlobalMessageService,
-        'add'
+        'add',
       );
 
       visualPickingTabService['handleLoadVisualizationInfoChange']({
@@ -668,7 +668,7 @@ describe('VisualPickingTabService', () => {
     it('should not produce an error when when scene loaded successfully', () => {
       const mockGlobalMessageServiceAddSpy = spyOn(
         mockGlobalMessageService,
-        'add'
+        'add',
       );
 
       visualPickingTabService['handleLoadVisualizationInfoChange']({
@@ -694,7 +694,7 @@ describe('VisualPickingTabService', () => {
       // This is a common expected scenario that should not produce an error message.
       const mockGlobalMessageServiceAddSpy = spyOn(
         mockGlobalMessageService,
-        'add'
+        'add',
       );
 
       visualPickingTabService['handleLoadVisualizationInfoChange']({
@@ -732,7 +732,7 @@ describe('VisualPickingTabService', () => {
     it('should return value that was set', () => {
       visualPickingTabService.visualViewerService = visualViewerService;
       expect(visualPickingTabService.visualViewerService).toBe(
-        visualViewerService
+        visualViewerService,
       );
     });
   });
@@ -742,7 +742,7 @@ describe('VisualPickingTabService', () => {
       visualPickingTabService.visualPickingProductListService =
         visualPickingProductListService;
       expect(visualPickingTabService.visualPickingProductListService).toBe(
-        visualPickingProductListService
+        visualPickingProductListService,
       );
     });
   });

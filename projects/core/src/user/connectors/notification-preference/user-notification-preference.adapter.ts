@@ -23,6 +23,6 @@ export abstract class UserNotificationPreferenceAdapter {
    */
   abstract update(
     userId: string,
-    preferences: NotificationPreference[]
+    preferences: NotificationPreference[],
   ): Observable<{}>;
 }

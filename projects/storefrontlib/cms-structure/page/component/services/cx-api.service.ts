@@ -71,6 +71,6 @@ export class CxApiService {
     @Optional()
     public userInterestsService: UserInterestsService,
     // framework
-    public ngZone: NgZone
+    public ngZone: NgZone,
   ) {}
 }

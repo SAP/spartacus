@@ -23,7 +23,7 @@ export class AsmConnector {
   constructor(protected asmAdapter: AsmAdapter) {}
 
   customerSearch(
-    options: CustomerSearchOptions
+    options: CustomerSearchOptions,
   ): Observable<CustomerSearchPage> {
     return this.asmAdapter.customerSearch(options);
   }

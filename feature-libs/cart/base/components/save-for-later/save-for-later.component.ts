@@ -31,7 +31,7 @@ export class SaveForLaterComponent implements OnInit {
   constructor(
     protected cmsService: CmsService,
     protected cartService: ActiveCartFacade,
-    protected selectiveCartService: SelectiveCartFacade
+    protected selectiveCartService: SelectiveCartFacade,
   ) {}
 
   ngOnInit() {
@@ -47,7 +47,7 @@ export class SaveForLaterComponent implements OnInit {
       this.selectiveCartService.isStable(),
     ]).pipe(map(([cartLoaded, sflLoaded]) => cartLoaded && sflLoaded));
     this.data$ = this.cmsService.getComponentData(
-      'EmptyCartParagraphComponent'
+      'EmptyCartParagraphComponent',
     );
   }
 

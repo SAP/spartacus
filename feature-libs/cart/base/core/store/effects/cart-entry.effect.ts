@@ -23,8 +23,8 @@ export class CartEntryEffects {
   private contextChange$ = this.actions$.pipe(
     ofType(
       SiteContextActions.CURRENCY_CHANGE,
-      SiteContextActions.LANGUAGE_CHANGE
-    )
+      SiteContextActions.LANGUAGE_CHANGE,
+    ),
   );
 
   protected logger = inject(LoggerService);
@@ -44,7 +44,7 @@ export class CartEntryEffects {
             payload.cartId,
             payload.productCode,
             payload.quantity,
-            payload.pickupStore
+            payload.pickupStore,
           )
           .pipe(
             map(
@@ -52,7 +52,7 @@ export class CartEntryEffects {
                 new CartActions.CartAddEntrySuccess({
                   ...payload,
                   ...(cartModification as Required<CartModification>),
-                })
+                }),
             ),
             catchError((error) =>
               from([
@@ -64,12 +64,12 @@ export class CartEntryEffects {
                   cartId: payload.cartId,
                   userId: payload.userId,
                 }),
-              ])
-            )
+              ]),
+            ),
           );
       }),
-      withdrawOn(this.contextChange$)
-    )
+      withdrawOn(this.contextChange$),
+    ),
   );
 
   removeEntry$: Observable<
@@ -99,12 +99,12 @@ export class CartEntryEffects {
                   cartId: payload.cartId,
                   userId: payload.userId,
                 }),
-              ])
-            )
-          )
+              ]),
+            ),
+          ),
       ),
-      withdrawOn(this.contextChange$)
-    )
+      withdrawOn(this.contextChange$),
+    ),
   );
 
   updateEntry$: Observable<
@@ -123,7 +123,7 @@ export class CartEntryEffects {
             payload.entryNumber,
             payload.quantity,
             payload.pickupStore,
-            payload.pickupToDelivery
+            payload.pickupToDelivery,
           )
           .pipe(
             map(() => {
@@ -141,16 +141,16 @@ export class CartEntryEffects {
                   cartId: payload.cartId,
                   userId: payload.userId,
                 }),
-              ])
-            )
-          )
+              ]),
+            ),
+          ),
       ),
-      withdrawOn(this.contextChange$)
-    )
+      withdrawOn(this.contextChange$),
+    ),
   );
 
   constructor(
     private actions$: Actions,
-    private cartEntryConnector: CartEntryConnector
+    private cartEntryConnector: CartEntryConnector,
   ) {}
 }

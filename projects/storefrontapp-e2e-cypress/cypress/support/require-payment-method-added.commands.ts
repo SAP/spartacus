@@ -30,9 +30,9 @@ Cypress.Commands.add('requirePaymentMethodAdded', (cartId) => {
       .request({
         method: 'POST',
         url: `${Cypress.env('API_URL')}/${Cypress.env(
-          'OCC_PREFIX'
+          'OCC_PREFIX',
         )}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/current/carts/${cartCode}/paymentdetails`,
         headers: {
           Authorization: `bearer ${

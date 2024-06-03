@@ -45,7 +45,7 @@ const mockCheckoutStep: CheckoutStep = {
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   getPaymentDetailsState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: mockPaymentDetails })
+    of({ loading: false, error: false, data: mockPaymentDetails }),
   );
 }
 
@@ -59,7 +59,7 @@ class MockCheckoutStepService {
     },
   ]);
   getCheckoutStepRoute = createSpy().and.returnValue(
-    mockCheckoutStep.routeName
+    mockCheckoutStep.routeName,
   );
 }
 
@@ -154,7 +154,7 @@ describe('CheckoutReviewPaymentComponent', () => {
 
   it('should get checkout step route', () => {
     expect(component.paymentDetailsStepRoute).toEqual(
-      mockCheckoutStep.routeName
+      mockCheckoutStep.routeName,
     );
   });
 });

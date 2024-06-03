@@ -21,7 +21,7 @@ export class LoadConsignmentTracking implements Action {
       userId?: string;
       orderCode: string;
       consignmentCode: string;
-    }
+    },
   ) {}
 }
 

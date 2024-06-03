@@ -109,7 +109,7 @@ export class CardComponent implements OnInit {
   }
 
   isCardLinkAction(
-    action: CardAction | CardLinkAction
+    action: CardAction | CardLinkAction,
   ): action is CardLinkAction {
     return (action as CardLinkAction).link !== undefined;
   }

@@ -33,7 +33,7 @@ describe('PermissionFormService', () => {
     expect(form.get('code').value).toEqual('test');
     expect(form.get('orgUnit').get('uid').value).toEqual('123');
     expect(form.get('orderApprovalPermissionType').get('code').value).toEqual(
-      'abc'
+      'abc',
     );
   });
 
@@ -41,7 +41,7 @@ describe('PermissionFormService', () => {
     it('should have default type', () => {
       const form = service.getForm();
       expect(form.get('orderApprovalPermissionType').get('code').value).toEqual(
-        PermissionType.EXCEEDED
+        PermissionType.EXCEEDED,
       );
     });
     it('should not have default type', () => {
@@ -49,7 +49,7 @@ describe('PermissionFormService', () => {
         orderApprovalPermissionType: { code: PermissionType.TIME_SPAN },
       });
       expect(
-        form.get('orderApprovalPermissionType').get('code').value
+        form.get('orderApprovalPermissionType').get('code').value,
       ).not.toEqual('B2BBudgetExceededPermission');
     });
   });

@@ -47,7 +47,7 @@ describe('OppsCouponCodesService', () => {
       expect(service.getCouponCodes()).toEqual('black,pink');
       expect(winRef.localStorage?.setItem).toHaveBeenCalledWith(
         'test-key',
-        'black,pink'
+        'black,pink',
       );
       expect(winRef.localStorage?.getItem).toHaveBeenCalledWith('test-key');
     });

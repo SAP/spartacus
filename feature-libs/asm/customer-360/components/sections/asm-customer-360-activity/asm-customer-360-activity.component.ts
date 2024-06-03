@@ -64,7 +64,7 @@ export class AsmCustomer360ActivityComponent implements OnInit {
   ];
 
   constructor(
-    protected context: AsmCustomer360SectionContext<AsmCustomer360ActivityList>
+    protected context: AsmCustomer360SectionContext<AsmCustomer360ActivityList>,
   ) {}
 
   ngOnInit(): void {
@@ -81,7 +81,7 @@ export class AsmCustomer360ActivityComponent implements OnInit {
           });
         });
         return entries;
-      })
+      }),
     );
   }
 

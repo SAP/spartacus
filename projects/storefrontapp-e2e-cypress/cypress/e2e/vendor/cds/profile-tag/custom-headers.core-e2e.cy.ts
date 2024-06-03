@@ -32,7 +32,7 @@ describe('Custom header additions to occ calls', () => {
       profileTagHelper.waitForCMSComponents();
       productPage = checkoutFlow.waitForProductPage('280916', 'getProductPage');
       cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
-        'searchRequest'
+        'searchRequest',
       );
     });
 
@@ -51,7 +51,7 @@ describe('Custom header additions to occ calls', () => {
       cy.window().should((win) => {
         const consentAccepted = profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.CONSENT_CHANGED
+          profileTagHelper.EventNames.CONSENT_CHANGED,
         );
         expect(consentAccepted.length).to.equal(3);
         expect(consentAccepted[2].data.granted).to.eq(true);
@@ -83,7 +83,7 @@ describe('Custom header additions to occ calls', () => {
       cy.window().should((win) => {
         const consentAccepted = profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.CONSENT_CHANGED
+          profileTagHelper.EventNames.CONSENT_CHANGED,
         );
         expect(consentAccepted.length).to.equal(3);
         expect(consentAccepted[2].data.granted).to.eq(true);

@@ -25,7 +25,7 @@ export function addVariantOfSameProductToCart() {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/products/${products[1].code}/reviews`,
   }).as('getProductPageReviews');
   cy.get('.variant-selector ul.variant-list li:nth-child(2)').first().click();

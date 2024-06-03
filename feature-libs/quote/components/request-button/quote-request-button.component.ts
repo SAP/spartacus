@@ -48,9 +48,9 @@ export class QuoteRequestButtonComponent implements OnDestroy {
               cxRoute: 'quoteDetails',
               params: { quoteId: quote.code },
             });
-          })
+          }),
         )
-        .subscribe()
+        .subscribe(),
     );
   }
 

@@ -25,7 +25,7 @@ export class MyAccountV2DownloadInvoicesEventListener implements OnDestroy {
     this.subscription.add(
       this.eventService.get(DownloadOrderInvoicesEvent).subscribe((event) => {
         this.openDialog(event);
-      })
+      }),
     );
   }
   protected openDialog(event: DownloadOrderInvoicesEvent) {
@@ -33,7 +33,7 @@ export class MyAccountV2DownloadInvoicesEventListener implements OnDestroy {
       LAUNCH_CALLER.DOWNLOAD_ORDER_INVOICES,
       undefined,
       undefined,
-      event.order
+      event.order,
     );
     if (dialog) {
       dialog.pipe(take(1)).subscribe();

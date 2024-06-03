@@ -69,7 +69,7 @@ describe('Product Interests Selectors', () => {
       expect(result).toEqual(emptyInterestList);
 
       store.dispatch(
-        new UserActions.LoadProductInterestsSuccess(mockedInterestList)
+        new UserActions.LoadProductInterestsSuccess(mockedInterestList),
       );
       expect(result).toEqual(mockedInterestList);
     });
@@ -84,7 +84,7 @@ describe('Product Interests Selectors', () => {
       expect(result).toEqual(false);
 
       store.dispatch(
-        new UserActions.LoadProductInterests({ userId: 'userId' })
+        new UserActions.LoadProductInterests({ userId: 'userId' }),
       );
       expect(result).toEqual(true);
     });

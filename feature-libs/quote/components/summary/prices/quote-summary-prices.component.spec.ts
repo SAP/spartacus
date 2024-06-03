@@ -60,13 +60,13 @@ describe('QuoteSummaryPricesComponent', () => {
       expect,
       htmlElem,
       '.cx-price-row',
-      5
+      5,
     );
     TestUtil.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       '.cx-price-savings',
-      3
+      3,
     );
 
     TestUtil.expectElementToContainText(
@@ -74,35 +74,35 @@ describe('QuoteSummaryPricesComponent', () => {
       htmlElem,
       '.cx-price-row',
       '.subtotal  $1,000.00',
-      0
+      0,
     );
     TestUtil.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-price-row',
       '.productDiscount  $50.00',
-      1
+      1,
     );
     TestUtil.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-price-row',
       '.orderDiscount  $5.99',
-      2
+      2,
     );
     TestUtil.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-price-row',
       '.quoteDiscount  $100.00',
-      3
+      3,
     );
     TestUtil.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-price-row',
       '.total  $1,000.00',
-      4
+      4,
     );
   });
 
@@ -116,7 +116,7 @@ describe('QuoteSummaryPricesComponent', () => {
       expect,
       htmlElem,
       '.cx-price-row',
-      2
+      2,
     );
     TestUtil.expectElementNotPresent(expect, htmlElem, '.cx-price-savings');
 
@@ -125,7 +125,7 @@ describe('QuoteSummaryPricesComponent', () => {
       htmlElem,
       '.cx-price-row',
       '.subtotal  $1,000.00',
-      0
+      0,
     );
 
     TestUtil.expectElementToContainText(
@@ -133,7 +133,7 @@ describe('QuoteSummaryPricesComponent', () => {
       htmlElem,
       '.cx-price-row',
       '.total  $1,000.00',
-      1
+      1,
     );
   });
 

@@ -42,15 +42,15 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
                       userId,
                       code: payload,
                     },
-                    CheckoutCostCenterSetEvent
-                  )
-                )
-              )
-          )
+                    CheckoutCostCenterSetEvent,
+                  ),
+                ),
+              ),
+          ),
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
-      }
+      },
     );
 
   constructor(
@@ -59,7 +59,7 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
     protected commandService: CommandService,
     protected checkoutCostCenterConnector: CheckoutCostCenterConnector,
     protected checkoutQueryFacade: CheckoutQueryFacade,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   protected checkoutPreconditions(): Observable<[string, string]> {
@@ -78,7 +78,7 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
           throw new Error('Checkout conditions not met');
         }
         return [userId, cartId];
-      })
+      }),
     );
   }
 
@@ -87,7 +87,7 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
       map((state) => ({
         ...state,
         data: state.data?.costCenter,
-      }))
+      })),
     );
   }
 

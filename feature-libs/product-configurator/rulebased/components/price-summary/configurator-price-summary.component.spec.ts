@@ -34,7 +34,7 @@ let config: Configurator.Configuration;
 const defaultConfig: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     '1234-56-7890',
-    ConfiguratorModelUtils.createInitialOwner()
+    ConfiguratorModelUtils.createInitialOwner(),
   ),
   consistent: true,
   complete: true,
@@ -77,35 +77,33 @@ describe('ConfigPriceSummaryComponent', () => {
   let fixture: ComponentFixture<ConfiguratorPriceSummaryComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      routerStateObservable = of(mockRouterState);
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ConfiguratorPriceSummaryComponent,
-          MockFeatureLevelDirective,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
+  beforeEach(waitForAsync(() => {
+    routerStateObservable = of(mockRouterState);
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ConfiguratorPriceSummaryComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
 
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorPriceSummaryComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorPriceSummaryComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
   beforeEach(() => {
     config = { ...defaultConfig };
     fixture = TestBed.createComponent(ConfiguratorPriceSummaryComponent);
@@ -123,7 +121,7 @@ describe('ConfigPriceSummaryComponent', () => {
       .subscribe((data: Configurator.Configuration) => {
         expect(data.productCode).toEqual(PRODUCT_CODE);
         expect(data.priceSummary?.basePrice).toEqual(
-          config.priceSummary?.basePrice
+          config.priceSummary?.basePrice,
         );
       })
       .unsubscribe();
@@ -133,7 +131,7 @@ describe('ConfigPriceSummaryComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-price-summary-container'
+      '.cx-price-summary-container',
     );
   });
 
@@ -143,7 +141,7 @@ describe('ConfigPriceSummaryComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-price-summary-container'
+      '.cx-price-summary-container',
     );
   });
 
@@ -151,12 +149,12 @@ describe('ConfigPriceSummaryComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-selected-options'
+      '.cx-selected-options',
     );
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-base-price'
+      '.cx-base-price',
     );
   });
 
@@ -166,12 +164,12 @@ describe('ConfigPriceSummaryComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-selected-options'
+      '.cx-selected-options',
     );
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-base-price'
+      '.cx-base-price',
     );
   });
 
@@ -181,12 +179,12 @@ describe('ConfigPriceSummaryComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-selected-options'
+      '.cx-selected-options',
     );
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-base-price'
+      '.cx-base-price',
     );
   });
 });

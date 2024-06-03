@@ -39,7 +39,7 @@ import {
         [QUOTE_CART_GUARD_FEATURE]: {
           module: () =>
             import('@spartacus/quote/components/cart-guard').then(
-              (m) => m.QuoteCartGuardComponentModule
+              (m) => m.QuoteCartGuardComponentModule,
             ),
         },
       },
@@ -49,7 +49,7 @@ import {
         [QUOTE_REQUEST_FEATURE]: {
           module: () =>
             import('@spartacus/quote/components/request-button').then(
-              (m) => m.QuoteRequestButtonModule
+              (m) => m.QuoteRequestButtonModule,
             ),
         },
       },

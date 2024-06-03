@@ -3,7 +3,7 @@
     [formControl]="attributeInputForm"
     class="form-control"
     [ngClass]="{
-      'cx-required-error-msg ': (showRequiredErrorMessage$ | async)
+      'cx-required-error-msg ': (showRequiredErrorMessage$ | async),
     }"
     [class.ng-invalid]="isRequired && isUserInputEmpty"
     maxlength="{{ attribute.maxlength }}"
@@ -12,18 +12,18 @@
         ? ('configurator.a11y.valueOfAttributeBlank'
           | cxTranslate
             : {
-                attribute: attribute.label
+                attribute: attribute.label,
               })
         : ('configurator.a11y.valueOfAttributeFull'
           | cxTranslate
             : {
                 value: attribute.userInput,
-                attribute: attribute.label
+                attribute: attribute.label,
               })
     "
     [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
     [cxFocus]="{
-      key: createAttributeIdForConfigurator(attribute)
+      key: createAttributeIdForConfigurator(attribute),
     }"
   />
 </div>

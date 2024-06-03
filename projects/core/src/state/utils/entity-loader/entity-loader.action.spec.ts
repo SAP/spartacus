@@ -33,7 +33,7 @@ describe('EntityLoader Actions', () => {
         const action = new EntityFailAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
-          'error'
+          'error',
         );
         expect({ ...action }).toEqual({
           type: ENTITY_FAIL_ACTION,
@@ -48,7 +48,7 @@ describe('EntityLoader Actions', () => {
         const action = new EntitySuccessAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
-          payload
+          payload,
         );
         expect({ ...action }).toEqual({
           type: ENTITY_SUCCESS_ACTION,
@@ -62,7 +62,7 @@ describe('EntityLoader Actions', () => {
       it('should create an action', () => {
         const action = new EntityLoaderResetAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
         );
         expect({ ...action }).toEqual({
           type: ENTITY_RESET_ACTION,

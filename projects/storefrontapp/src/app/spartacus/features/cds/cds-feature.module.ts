@@ -71,7 +71,7 @@ const cdsConfig = (windowRef: WindowRef): CdsConfig => {
   }
   const cds = cdsConfigArray.find((cdsConfig: CdsConfig) => {
     return cdsConfig.cds?.baseSite?.find((baseSite) =>
-      windowRef.location.href?.includes(baseSite)
+      windowRef.location.href?.includes(baseSite),
     );
   });
   return cds ?? cds1;

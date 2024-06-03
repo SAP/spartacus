@@ -206,7 +206,7 @@ describe('PageSlotComponent', () => {
 
     it('should no longer have cx-pending when the components are loaded', () => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(
-        of({ components: [{}] } as ContentSlotData)
+        of({ components: [{}] } as ContentSlotData),
       );
       fixture.detectChanges();
       // simulate component load
@@ -345,7 +345,7 @@ describe('PageSlotComponent', () => {
       pageSlotComponent.getComponentDeferOptions('CMSTestComponent');
       expect(pageSlotService.getComponentDeferOptions).toHaveBeenCalledWith(
         undefined,
-        'CMSTestComponent'
+        'CMSTestComponent',
       );
     });
   });
@@ -366,7 +366,7 @@ describe('PageSlotComponent', () => {
               test: 'test',
             },
           },
-        }
+        },
       );
     });
   });

@@ -79,29 +79,27 @@ class MockLockFocusService {
 describe('LockFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: LockFocusService;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent, CustomFocusDirective],
-        providers: [
-          {
-            provide: LockFocusService,
-            useClass: MockLockFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent, CustomFocusDirective],
+      providers: [
+        {
+          provide: LockFocusService,
+          useClass: MockLockFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
-      service = TestBed.inject(LockFocusService);
-    })
-  );
+    fixture = TestBed.createComponent(MockComponent);
+    service = TestBed.inject(LockFocusService);
+  }));
 
   beforeEach(() => {
     const children = fixture.debugElement.queryAll(
-      By.css('#a1,#a2,#b1,#b2,#b3,#d1,#d2')
+      By.css('#a1,#a2,#b1,#b2,#b3,#d1,#d2'),
     );
     spyOn(service, 'findFocusable').and.returnValue(
-      children.map((c) => c.nativeElement)
+      children.map((c) => c.nativeElement),
     );
   });
 
@@ -114,7 +112,7 @@ describe('LockFocusDirective', () => {
   describe('make host focusable', () => {
     it('should add tabindex=0 to host element', () => {
       const host: HTMLElement = fixture.debugElement.query(
-        By.css('#a')
+        By.css('#a'),
       ).nativeElement;
       fixture.detectChanges();
       expect(host.getAttribute('tabindex')).toEqual('0');
@@ -122,7 +120,7 @@ describe('LockFocusDirective', () => {
 
     it('should replace tabindex -1 by 0 on host element', () => {
       const host: HTMLElement = fixture.debugElement.query(
-        By.css('#b')
+        By.css('#b'),
       ).nativeElement;
       fixture.detectChanges();
       expect(host.getAttribute('tabindex')).toEqual('0');
@@ -130,7 +128,7 @@ describe('LockFocusDirective', () => {
 
     it('should not replace tabindex 5 by 0 on host element', () => {
       const host: HTMLElement = fixture.debugElement.query(
-        By.css('#c')
+        By.css('#c'),
       ).nativeElement;
       fixture.detectChanges();
       expect(host.getAttribute('tabindex')).not.toEqual('0');
@@ -422,7 +420,7 @@ describe('LockFocusDirective', () => {
 
       expect(service.findFirstFocusable).toHaveBeenCalledWith(
         host.nativeElement,
-        hostConfig
+        hostConfig,
       );
       expect(service.findFirstFocusable).toHaveBeenCalledTimes(1);
     }));

@@ -11,7 +11,7 @@ import { TreeFileSystem } from './tree-file-system';
 export function createProgram(
   tree: Tree,
   basePath: string,
-  tsconfigPath: string
+  tsconfigPath: string,
 ): { program: Project; appSourceFiles: SourceFile[] } {
   const fs = new TreeFileSystem(tree, basePath);
   const program = new Project({

@@ -17,44 +17,44 @@ import { Observable } from 'rxjs';
 export abstract class CustomerTicketingAdapter {
   abstract getTicket(
     customerId: string,
-    ticketId: string
+    ticketId: string,
   ): Observable<TicketDetails>;
 
   abstract getTickets(
     customerId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<TicketList>;
 
   abstract getTicketCategories(): Observable<Category[]>;
 
   abstract getTicketAssociatedObjects(
-    customerId: string
+    customerId: string,
   ): Observable<AssociatedObject[]>;
 
   abstract createTicket(
     customerId: string,
-    ticket: TicketStarter
+    ticket: TicketStarter,
   ): Observable<TicketStarter>;
 
   abstract createTicketEvent(
     customerId: string,
     ticketId: string,
-    ticketEvent: TicketEvent
+    ticketEvent: TicketEvent,
   ): Observable<TicketEvent>;
 
   abstract uploadAttachment(
     customerId: string,
     ticketId: string,
     eventCode: string,
-    file: File
+    file: File,
   ): Observable<unknown>;
 
   abstract downloadAttachment(
     customerId: string,
     ticketId: string,
     eventCode: string,
-    attachmentId: string
+    attachmentId: string,
   ): Observable<unknown>;
 }

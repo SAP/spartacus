@@ -36,7 +36,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -61,7 +61,7 @@ describe('StockNotificationComponent', () => {
   ]);
   const notificationPrefService = jasmine.createSpyObj(
     'UserNotificationPreferenceService',
-    ['loadPreferences', 'getEnabledPreferences', 'clearPreferences']
+    ['loadPreferences', 'getEnabledPreferences', 'clearPreferences'],
   );
   const interestsService = jasmine.createSpyObj('interestsService', [
     'getAddProductInterestSuccess',
@@ -118,42 +118,40 @@ describe('StockNotificationComponent', () => {
 
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
-        declarations: [
-          StockNotificationComponent,
-          StockNotificationDialogComponent,
-          MockUrlPipe,
-          FocusDirective,
-        ],
-        providers: [
-          { provide: UserIdService, useValue: userIdService },
-          { provide: CurrentProductService, useValue: currentProductService },
-          { provide: GlobalMessageService, useValue: globalMessageService },
-          { provide: TranslationService, useValue: translationService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: UserNotificationPreferenceService,
-            useValue: notificationPrefService,
-          },
-          {
-            provide: StockNotificationDialogComponent,
-            useValue: dialogComponent,
-          },
-          { provide: UserInterestsService, useValue: interestsService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
+      declarations: [
+        StockNotificationComponent,
+        StockNotificationDialogComponent,
+        MockUrlPipe,
+        FocusDirective,
+      ],
+      providers: [
+        { provide: UserIdService, useValue: userIdService },
+        { provide: CurrentProductService, useValue: currentProductService },
+        { provide: GlobalMessageService, useValue: globalMessageService },
+        { provide: TranslationService, useValue: translationService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: UserNotificationPreferenceService,
+          useValue: notificationPrefService,
+        },
+        {
+          provide: StockNotificationDialogComponent,
+          useValue: dialogComponent,
+        },
+        { provide: UserInterestsService, useValue: interestsService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     userIdService.getUserId.and.returnValue(of(OCC_USER_ID_CURRENT));
     notificationPrefService.loadPreferences.and.stub();
     notificationPrefService.clearPreferences.and.stub();
     notificationPrefService.getEnabledPreferences.and.returnValue(
-      of(preferences)
+      of(preferences),
     );
     currentProductService.getProduct.and.returnValue(of(product));
     interestsService.getProductInterests.and.returnValue(of(interests));
@@ -161,7 +159,7 @@ describe('StockNotificationComponent', () => {
     interestsService.getAddProductInterestError.and.returnValue(addFail);
     interestsService.getRemoveProdutInterestLoading.and.returnValue(of(false));
     interestsService.getRemoveProdutInterestSuccess.and.returnValue(
-      removeSuccess
+      removeSuccess,
     );
     interestsService.addProductInterest.and.stub();
     interestsService.removeProdutInterest.and.stub();
@@ -189,7 +187,7 @@ describe('StockNotificationComponent', () => {
           stockLevelStatus: 'inStock',
           stockLevel: 10,
         },
-      })
+      }),
     );
     fixture.detectChanges();
     expect(el.query(By.css('button'))).toBeNull();
@@ -203,10 +201,10 @@ describe('StockNotificationComponent', () => {
 
     expect(el.query(By.css('a')).nativeElement).toBeTruthy();
     expect(
-      el.query(By.css('.stock-notification-notes')).nativeElement
+      el.query(By.css('.stock-notification-notes')).nativeElement,
     ).toBeTruthy();
     expect(el.query(By.css('.btn-notify')).nativeElement.disabled).toEqual(
-      true
+      true,
     );
   });
 
@@ -217,10 +215,10 @@ describe('StockNotificationComponent', () => {
 
     expect(el.query(By.css('a')).nativeElement).toBeTruthy();
     expect(
-      el.query(By.css('.stock-notification-notes')).nativeElement
+      el.query(By.css('.stock-notification-notes')).nativeElement,
     ).toBeTruthy();
     expect(el.query(By.css('.btn-notify')).nativeElement.disabled).toEqual(
-      false
+      false,
     );
   });
 
@@ -231,7 +229,7 @@ describe('StockNotificationComponent', () => {
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('.stock-notification-notes')).nativeElement
+      el.query(By.css('.stock-notification-notes')).nativeElement,
     ).toBeTruthy();
     const button = el.query(By.css('.btn-notify')).nativeElement;
     button.click();
@@ -239,14 +237,14 @@ describe('StockNotificationComponent', () => {
     expect(launchDialogService.openDialog).toHaveBeenCalled();
     expect(interestsService.addProductInterest).toHaveBeenCalledWith(
       product.code,
-      NotificationType.BACK_IN_STOCK
+      NotificationType.BACK_IN_STOCK,
     );
   });
 
   it('should show global message when delete stock notification success for login user with channel set', () => {
     fixture.detectChanges();
     expect(
-      el.query(By.css('.stock-notification-notes')).nativeElement
+      el.query(By.css('.stock-notification-notes')).nativeElement,
     ).toBeTruthy();
     const button = el.query(By.css('.btn-stop-notify')).nativeElement;
     button.click();
@@ -262,7 +260,7 @@ describe('StockNotificationComponent', () => {
     interestsService.getProductInterests.and.returnValue(of({}));
     fixture.detectChanges();
     expect(
-      el.query(By.css('.stock-notification-notes')).nativeElement
+      el.query(By.css('.stock-notification-notes')).nativeElement,
     ).toBeTruthy();
     const button = el.query(By.css('.btn-notify')).nativeElement;
     button.click();
@@ -271,7 +269,7 @@ describe('StockNotificationComponent', () => {
     expect(launchDialogService.openDialog).toHaveBeenCalled();
     expect(interestsService.addProductInterest).toHaveBeenCalledWith(
       product.code,
-      NotificationType.BACK_IN_STOCK
+      NotificationType.BACK_IN_STOCK,
     );
     expect(interestsService.resetAddInterestState).toHaveBeenCalled();
   });

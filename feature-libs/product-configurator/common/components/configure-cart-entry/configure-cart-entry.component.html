@@ -13,8 +13,8 @@
           params: {
             ownerType: retrieveOwnerTypeFromAbstractOrderType(abstractOrderKey),
             entityKey: retrieveEntityKey(abstractOrderKey),
-            displayOnly: getDisplayOnly()
-          }
+            displayOnly: getDisplayOnly(),
+          },
         } | cxUrl
       "
       [queryParams]="queryParams$ | async"

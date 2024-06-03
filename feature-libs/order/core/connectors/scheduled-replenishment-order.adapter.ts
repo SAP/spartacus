@@ -23,6 +23,6 @@ export abstract class ScheduledReplenishmentOrderAdapter {
     cartId: string,
     scheduleReplenishmentForm: ScheduleReplenishmentForm,
     termsChecked: boolean,
-    userId: string
+    userId: string,
   ): Observable<ReplenishmentOrder>;
 }

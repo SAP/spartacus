@@ -26,7 +26,7 @@ describe('Register', () => {
       register(user);
       registerHelpers.verifyGlobalMessageAfterRegistration();
       const termsLink = `/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/en/USD/terms-and-conditions`;
       cy.visit('/login/register');
       cy.findByText('Terms & Conditions')

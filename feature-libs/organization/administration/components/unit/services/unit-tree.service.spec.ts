@@ -70,7 +70,7 @@ describe('UnitTreeService', () => {
     expect(service.isExpanded(mockedTree.id, 0)).toEqual(true);
     expect(service.isExpanded(mockedTree.children[0].id, 1)).toEqual(false);
     expect(
-      service.isExpanded(mockedTree.children[0].children[0].id, 2)
+      service.isExpanded(mockedTree.children[0].children[0].id, 2),
     ).toEqual(false);
     expect(service.isExpanded(mockedTree.children[1].id, 1)).toEqual(false);
   });
@@ -79,7 +79,7 @@ describe('UnitTreeService', () => {
     service.toggle(mockedTree.children[0] as B2BUnitTreeNode);
     expect(service.isExpanded(mockedTree.children[0].id, 1)).toEqual(true);
     expect(
-      service.isExpanded(mockedTree.children[0].children[0].id, 2)
+      service.isExpanded(mockedTree.children[0].children[0].id, 2),
     ).toEqual(false);
     expect(service.isExpanded(mockedTree.children[1].id, 1)).toEqual(false);
   });
@@ -96,7 +96,7 @@ describe('UnitTreeService', () => {
     service.toggle(mockedTree.children[0] as B2BUnitTreeNode);
     expect(service.isExpanded(mockedTree.children[0].id, 1)).toEqual(false);
     expect(
-      service.isExpanded(mockedTree.children[0].children[0].id, 1)
+      service.isExpanded(mockedTree.children[0].children[0].id, 1),
     ).toEqual(true);
   });
 
@@ -110,7 +110,7 @@ describe('UnitTreeService', () => {
     it('should not expand the active unit on initialization', () => {
       service.initialize(mockedTree, mockedTree.children[0].children[0].id);
       expect(
-        service.isExpanded(mockedTree.children[0].children[0].id, 1)
+        service.isExpanded(mockedTree.children[0].children[0].id, 1),
       ).toEqual(false);
     });
 
@@ -129,7 +129,7 @@ describe('UnitTreeService', () => {
       expect(service.isExpanded(mockedTree.id, 0)).toEqual(true);
       expect(service.isExpanded(mockedTree.children[0].id, 1)).toEqual(true);
       expect(
-        service.isExpanded(mockedTree.children[0].children[0].id, 2)
+        service.isExpanded(mockedTree.children[0].children[0].id, 2),
       ).toEqual(true);
       expect(service.isExpanded(mockedTree.children[1].id, 1)).toEqual(true);
     });
@@ -148,11 +148,11 @@ describe('UnitTreeService', () => {
 
     it('should collapse grand child unit', () => {
       expect(
-        service.isExpanded(mockedTree.children[0].children[0].id, 0)
+        service.isExpanded(mockedTree.children[0].children[0].id, 0),
       ).toEqual(true);
       service.toggle(mockedTree.children[0].children[0] as B2BUnitTreeNode);
       expect(
-        service.isExpanded(mockedTree.children[0].children[0].id, 0)
+        service.isExpanded(mockedTree.children[0].children[0].id, 0),
       ).toEqual(false);
     });
   });
@@ -166,7 +166,7 @@ describe('UnitTreeService', () => {
       expect(service.isExpanded(mockedTree.id, 0)).toEqual(false);
       expect(service.isExpanded(mockedTree.children[0].id, 1)).toEqual(false);
       expect(
-        service.isExpanded(mockedTree.children[0].children[0].id, 2)
+        service.isExpanded(mockedTree.children[0].children[0].id, 2),
       ).toEqual(false);
       expect(service.isExpanded(mockedTree.children[1].id, 1)).toEqual(false);
     });
@@ -185,11 +185,11 @@ describe('UnitTreeService', () => {
 
     it('should collapse grand child unit', () => {
       expect(
-        service.isExpanded(mockedTree.children[0].children[0].id, 0)
+        service.isExpanded(mockedTree.children[0].children[0].id, 0),
       ).toEqual(false);
       service.toggle(mockedTree.children[0].children[0] as B2BUnitTreeNode);
       expect(
-        service.isExpanded(mockedTree.children[0].children[0].id, 0)
+        service.isExpanded(mockedTree.children[0].children[0].id, 0),
       ).toEqual(true);
     });
   });

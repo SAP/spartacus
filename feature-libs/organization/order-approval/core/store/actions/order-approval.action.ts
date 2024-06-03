@@ -61,7 +61,7 @@ export class LoadOrderApprovalSuccess extends StateUtils.EntitySuccessAction {
       ORDER_APPROVAL_ENTITIES,
       Array.isArray(payload)
         ? payload.map((orderApproval) => orderApproval.code ?? '')
-        : payload.code ?? ''
+        : payload.code ?? '',
     );
   }
 }
@@ -72,11 +72,11 @@ export class LoadOrderApprovals extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       ORDER_APPROVAL_LIST,
-      StateUtils.serializeSearchConfig(payload.params)
+      StateUtils.serializeSearchConfig(payload.params),
     );
   }
 }
@@ -87,7 +87,7 @@ export class LoadOrderApprovalsFail extends StateUtils.EntityFailAction {
     super(
       ORDER_APPROVAL_LIST,
       StateUtils.serializeSearchConfig(payload.params),
-      payload.error
+      payload.error,
     );
   }
 }
@@ -98,11 +98,11 @@ export class LoadOrderApprovalsSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       page: ListModel;
       params: SearchConfig;
-    }
+    },
   ) {
     super(
       ORDER_APPROVAL_LIST,
-      StateUtils.serializeSearchConfig(payload.params)
+      StateUtils.serializeSearchConfig(payload.params),
     );
   }
 }
@@ -114,7 +114,7 @@ export class MakeDecision extends StateUtils.EntityLoadAction {
       userId: string;
       orderApprovalCode: string;
       orderApprovalDecision: OrderApprovalDecision;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID);
   }
@@ -133,7 +133,7 @@ export class MakeDecisionSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       orderApprovalCode: string;
       orderApprovalDecision: OrderApprovalDecision;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID);
   }

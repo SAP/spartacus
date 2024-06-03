@@ -67,23 +67,23 @@ export function stubForCartsRefresh() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts/selectivecart*?fields=*&lang=en&curr=USD`
+      'BASE_SITE',
+    )}/users/*/carts/selectivecart*?fields=*&lang=en&curr=USD`,
   ).as('refresh_selectivecart');
 }
 export function stubForCartRefresh() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts/*?fields=*&lang=en&curr=USD`
+      'BASE_SITE',
+    )}/users/*/carts/*?fields=*&lang=en&curr=USD`,
   ).as('refresh_cart');
 }
 
 export function moveItem(
   product,
   targetPosition: ItemList,
-  isAnonymous: boolean = false
+  isAnonymous: boolean = false,
 ) {
   stubForCartsRefresh();
   const currentPosition =
@@ -119,7 +119,7 @@ export function validateProduct(product, qty = 1, position: ItemList) {
 
 export function validateCartPromotion(hasPromotion: boolean) {
   cy.get('.cx-promotions > :nth-child(1)').should(
-    hasPromotion ? 'exist' : 'not.exist'
+    hasPromotion ? 'exist' : 'not.exist',
   );
 }
 
@@ -129,17 +129,17 @@ export function validateCart(qtyInCart: Number, qtyInSavedCart: Number) {
   } else {
     cy.get('cx-cart-details cx-cart-item-list .cx-item-list-row').should(
       'have.length',
-      qtyInCart
+      qtyInCart,
     );
   }
   if (qtyInSavedCart === 0) {
     cy.get('cx-save-for-later cx-cart-item-list .cx-item-list-row').should(
-      'not.exist'
+      'not.exist',
     );
   } else {
     cy.get('cx-save-for-later cx-cart-item-list .cx-item-list-row').should(
       'have.length',
-      qtyInSavedCart
+      qtyInSavedCart,
     );
   }
 }

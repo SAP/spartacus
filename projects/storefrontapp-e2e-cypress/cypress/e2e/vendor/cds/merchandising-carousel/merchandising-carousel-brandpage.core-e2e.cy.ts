@@ -19,15 +19,15 @@ import { switchSiteContext } from '../../../../support/utils/switch-site-context
 
 function testBrandPage(
   language: string = merchandisingCarousel.DEFAULT_LANGUAGE,
-  currency: string = merchandisingCarousel.DEFAULT_CURRENCY
+  currency: string = merchandisingCarousel.DEFAULT_CURRENCY,
 ): void {
   const categoryPage = waitForCategoryPage(
     merchandisingCarousel.canonBrandCode,
-    'getCategory'
+    'getCategory',
   );
 
   cy.visit(
-    `/${language}/${currency}/${merchandisingCarousel.canonBrandPagePath}`
+    `/${language}/${currency}/${merchandisingCarousel.canonBrandPagePath}`,
   );
 
   cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
@@ -35,7 +35,7 @@ function testBrandPage(
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
     strategyRequestAlias,
     merchandisingCarousel.canonBrandCode,
-    language
+    language,
   );
 }
 
@@ -58,7 +58,7 @@ context('Merchandising Carousel - Brand page', () => {
     it("should update the products' language when the storefront language is changed on a brand page", () => {
       merchandisingCarousel.verifyFirstCarouselItemTextContent(
         merchandisingCarousel.englishFilmProductText,
-        merchandisingCarousel.japaneseFilmProductText
+        merchandisingCarousel.japaneseFilmProductText,
       );
 
       switchSiteContext(merchandisingCarousel.japaneseLanguage, LANGUAGE_LABEL);
@@ -66,38 +66,38 @@ context('Merchandising Carousel - Brand page', () => {
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
         strategyRequestAlias,
         merchandisingCarousel.canonBrandCode,
-        merchandisingCarousel.japaneseLanguage
+        merchandisingCarousel.japaneseLanguage,
       );
 
       merchandisingCarousel.verifyFirstCarouselItemTextContent(
         merchandisingCarousel.japaneseFilmProductText,
-        merchandisingCarousel.englishFilmProductText
+        merchandisingCarousel.englishFilmProductText,
       );
     });
 
     it("should update the products' currency when the storefront currency is changed on a brand page", () => {
       merchandisingCarousel.verifyFirstCarouselItemPrice(
-        merchandisingCarousel.dollarCurrencySymbol
+        merchandisingCarousel.dollarCurrencySymbol,
       );
 
       switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
 
       merchandisingCarousel.verifyFirstCarouselItemPrice(
-        merchandisingCarousel.yenCurrencySymbol
+        merchandisingCarousel.yenCurrencySymbol,
       );
     });
 
     it('should request products filtered by additional facets when facets on a brand page are changed', () => {
       merchandisingCarousel.applyFacet(
         'Stores',
-        merchandisingCarousel.chibaStoreName
+        merchandisingCarousel.chibaStoreName,
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
         strategyRequestAlias,
         merchandisingCarousel.canonBrandCode,
         merchandisingCarousel.DEFAULT_LANGUAGE,
-        [`availableInStores:${merchandisingCarousel.chibaStoreName}`]
+        [`availableInStores:${merchandisingCarousel.chibaStoreName}`],
       );
     });
 
@@ -106,18 +106,18 @@ context('Merchandising Carousel - Brand page', () => {
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
         strategyRequestAlias,
-        merchandisingCarousel.DEFAULT_LANGUAGE
+        merchandisingCarousel.DEFAULT_LANGUAGE,
       );
     });
 
     it('should render products on a PDP page when a carousel item on a brand page is clicked', () => {
       merchandisingCarousel.clickOnCarouselItem(
-        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
+        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id,
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
         strategyRequestAlias,
-        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
+        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id,
       );
     });
   });

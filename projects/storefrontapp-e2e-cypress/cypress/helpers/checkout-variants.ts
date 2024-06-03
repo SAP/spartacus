@@ -51,13 +51,13 @@ export function testCheckoutVariantAsGuest() {
     checkout.placeOrderWithCheapProduct(
       variantUser,
       cartWithTotalVariantProduct,
-      APPAREL_CURRENCY
+      APPAREL_CURRENCY,
     );
 
     checkout.verifyOrderConfirmationPageWithCheapProduct(
       variantUser,
       variantProduct,
-      true
+      true,
     );
     guestCheckout.createAccountFromGuest(variantUser.password);
 
@@ -76,7 +76,7 @@ export function testCheckoutVariantAsGuest() {
         phone: '',
         address: variantUser.address,
       },
-      'GB'
+      'GB',
     );
 
     cy.selectUserMenuOption({
@@ -94,7 +94,7 @@ export function testCheckoutVariantAsGuest() {
     validateUpdateProfileForm(
       'Mr.',
       variantUser.firstName,
-      variantUser.lastName
+      variantUser.lastName,
     );
     checkout.signOut();
   });
@@ -124,24 +124,24 @@ export function testCheckoutVariantAsGuestAndVerifyCart() {
     checkout.placeOrderWithCheapProduct(
       variantUser,
       cartWithTotalVariantProduct,
-      APPAREL_CURRENCY
+      APPAREL_CURRENCY,
     );
 
     checkout.verifyOrderConfirmationPageWithCheapProduct(
       variantUser,
       variantProduct,
-      true
+      true,
     );
     guestCheckout.createAccountFromGuest(variantUser.password);
 
     const deliveryAddressPage = checkout.waitForPage(
       '/checkout/delivery-address',
-      'getDeliveryAddressPage'
+      'getDeliveryAddressPage',
     );
 
     checkout.goToCheapProductDetailsPage(products[0]);
     checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
-      variantProduct
+      variantProduct,
     );
 
     cy.wait(`@${deliveryAddressPage}`)
@@ -197,12 +197,12 @@ export function testCheckoutRegisteredUser() {
     checkout.placeOrderWithCheapProduct(
       regVariantUser,
       cartWithTotalVariantProduct,
-      APPAREL_CURRENCY
+      APPAREL_CURRENCY,
     );
     checkout.verifyOrderConfirmationPageWithCheapProduct(
       regVariantUser,
       products[0],
-      true
+      true,
     );
   });
 }

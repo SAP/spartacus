@@ -27,7 +27,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     protected asmComponentService: AsmComponentService,
     protected routingService: RoutingService,
     protected changeDetectorRef: ChangeDetectorRef,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +52,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
         if (isNavigating) {
           this.resetTimer();
         }
-      })
+      }),
     );
   }
 
@@ -61,7 +61,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
       this.userIdService
         .getUserId()
         .pipe(distinctUntilChanged())
-        .subscribe(() => this.resetTimer())
+        .subscribe(() => this.resetTimer()),
     );
   }
 

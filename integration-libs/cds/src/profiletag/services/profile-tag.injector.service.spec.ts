@@ -59,7 +59,7 @@ describe('ProfileTagInjector', () => {
         .createSpy('addTracker')
         .and.callFake(() => addTrackerBehavior),
       notifyProfileTagOfEventOccurrence: jasmine.createSpy(
-        'notifyProfileTagOfEventOccurrence'
+        'notifyProfileTagOfEventOccurrence',
       ),
       getProfileTagEvents: jasmine
         .createSpy('getProfileTagEvents')

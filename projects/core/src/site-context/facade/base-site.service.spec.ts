@@ -16,10 +16,10 @@ import createSpy = jasmine.createSpy;
 
 const mockActiveBaseSiteUid = 'mock-active-base-site-uid';
 const mockActiveBaseSiteUidSelect = createSpy('select').and.returnValue(() =>
-  of(mockActiveBaseSiteUid)
+  of(mockActiveBaseSiteUid),
 );
 const mockBaseSitesSelect = createSpy('select').and.returnValue(() =>
-  of([{ uid: 'mock-active-base-site-uid' }, { uid: 'test-baseSite' }])
+  of([{ uid: 'mock-active-base-site-uid' }, { uid: 'test-baseSite' }]),
 );
 
 const mockSiteContextConfig: SiteContextConfig = {
@@ -59,7 +59,7 @@ describe('BaseSiteService', () => {
 
   it('getActive should return active baseSite uid', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(
-      mockActiveBaseSiteUidSelect
+      mockActiveBaseSiteUidSelect,
     );
 
     let result;
@@ -78,31 +78,31 @@ describe('BaseSiteService', () => {
 
   it('getAll should load all base sites data if they do not exist', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(
-      createSpy('select').and.returnValue(() => of(null))
+      createSpy('select').and.returnValue(() => of(null)),
     );
 
     service.getAll().subscribe();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new SiteContextActions.LoadBaseSites()
+      new SiteContextActions.LoadBaseSites(),
     );
   });
 
   describe('setActive', () => {
     it('should dispatch SetActiveBaseSite action', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(
-        mockActiveBaseSiteUidSelect
+        mockActiveBaseSiteUidSelect,
       );
       const connector = TestBed.inject(SiteConnector);
       spyOn(connector, 'getBaseSite').and.returnValue(of({}));
       service.setActive('my-base-site');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new SiteContextActions.SetActiveBaseSite('my-base-site')
+        new SiteContextActions.SetActiveBaseSite('my-base-site'),
       );
     });
 
     it('should not dispatch SetActiveBaseSite action if not changed', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(
-        mockActiveBaseSiteUidSelect
+        mockActiveBaseSiteUidSelect,
       );
       service.setActive(mockActiveBaseSiteUid);
       expect(store.dispatch).not.toHaveBeenCalled();
@@ -112,7 +112,7 @@ describe('BaseSiteService', () => {
   it('get should return active baseSite data if no siteUid given', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(
       mockActiveBaseSiteUidSelect,
-      mockBaseSitesSelect
+      mockBaseSitesSelect,
     );
 
     let result;

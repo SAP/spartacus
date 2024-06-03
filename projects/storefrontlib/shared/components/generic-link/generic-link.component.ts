@@ -30,7 +30,7 @@ interface RouteParts {
 export class GenericLinkComponent implements OnChanges {
   constructor(
     protected router: Router,
-    protected service: GenericLinkComponentService
+    protected service: GenericLinkComponentService,
   ) {}
 
   /**

@@ -95,7 +95,7 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
     protected asmCustomer360Facade: AsmCustomer360Facade,
     protected launchDialogService: LaunchDialogService,
     protected csAgentAuthService: CsAgentAuthService,
-    protected directionService: DirectionService
+    protected directionService: DirectionService,
   ) {
     this.customerOverview$ = this.asmCustomer360Facade
       .get360Data([
@@ -106,14 +106,14 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
       .pipe(
         map((response) => {
           const overviewItem = response?.value?.find(
-            (item) => item.type === AsmCustomer360Type.OVERVIEW
+            (item) => item.type === AsmCustomer360Type.OVERVIEW,
           ) as AsmCustomer360Overview | undefined;
           return overviewItem?.overview || undefined;
         }),
         catchError(() => {
           this.showErrorAlert$.next(true);
           return of(undefined);
-        })
+        }),
       );
 
     this.tabs = asmCustomer360Config?.asmCustomer360?.tabs ?? [];
@@ -129,13 +129,13 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
           if (!loggedIn) {
             this.launchDialogService.closeDialog('logout');
           }
-        })
+        }),
     );
 
     this.subscription.add(
       this.launchDialogService.data$.subscribe((data) => {
         this.customer = data.customer;
-      })
+      }),
     );
     this.setTabData();
   }
@@ -196,7 +196,7 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
     const event: AsmDialogActionEvent = getAsmDialogActionEvent(
       this.customer,
       AsmDialogActionType.NAVIGATE,
-      route
+      route,
     );
     this.closeModal(event);
   }
@@ -250,7 +250,7 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
           this.showErrorTab$.next(true);
           this.showErrorAlert$.next(true);
           return of(undefined);
-        })
+        }),
       );
 
     this.asmCustomer360Tabs$ = get360Data.pipe(
@@ -260,13 +260,13 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
           const requestData = component.requestData;
           if (requestData) {
             return response.value.find(
-              (data) => data.type === requestData.type
+              (data) => data.type === requestData.type,
             );
           } else {
             return undefined;
           }
         });
-      })
+      }),
     );
   }
   /**

@@ -56,7 +56,7 @@ context('Quote<->Configurator integration', () => {
       configuration.selectAttribute(
         CONF_BS_THROATWIDTH,
         radioGroup,
-        CONF_BS_LARGEWIDTH
+        CONF_BS_LARGEWIDTH,
       );
       configurationVc.clickAddToCartBtn();
       configurationOverview.clickContinueToCartBtnOnOPAndExpectQuote();

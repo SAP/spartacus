@@ -34,7 +34,7 @@ export function verifyProductDetails() {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/cms/components`,
   }).as('getComponents');
   cy.wait('@getComponents').its('response.statusCode').should('eq', 200);
@@ -42,7 +42,7 @@ export function verifyProductDetails() {
   cy.get(`${infoContainer} .code`).should('contain', 'ID 266685');
   cy.get(`${summaryContainer} .summary`).should(
     'contain',
-    '20-watt video light compatible with InfoLIYHIUM M-series batteries.'
+    '20-watt video light compatible with InfoLIYHIUM M-series batteries.',
   );
 }
 
@@ -67,11 +67,11 @@ export function verifyTextInTabs() {
   cy.get(activeTabContainer)
     .should(
       'contain',
-      '20-watt video light compatible with InfoLIYHIUM M-series batteries.'
+      '20-watt video light compatible with InfoLIYHIUM M-series batteries.',
     )
     .should(
       'contain',
-      'Can be switched to 10-watt or 20-watt settings (NP-FM50 batteries can only be used at 10-watt setting).'
+      'Can be switched to 10-watt or 20-watt settings (NP-FM50 batteries can only be used at 10-watt setting).',
     )
     .should('contain', 'Includes shoe adaptor for increased functionality.');
   cy.get(tabsHeaderList).eq(1).click();
@@ -95,7 +95,7 @@ export function verifyReviewForm() {
   cy.intercept({
     method: 'POST',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/products/*/reviews?lang=en&curr=USD`,
   }).as('submitReview');
 
@@ -104,7 +104,7 @@ export function verifyReviewForm() {
   cy.get(writeAReviewForm).findByText('Cancel').should('be.not.disabled');
   cy.get(`${writeAReviewForm} input`).eq(0).type('My review title');
   cy.get(`${writeAReviewForm} textarea`).type(
-    'My best comment I have ever posted'
+    'My best comment I have ever posted',
   );
   cy.get(`${writeAReviewForm} .star`).eq(2).click();
   cy.get(`${writeAReviewForm} input`).eq(2).type('Me');
@@ -199,7 +199,7 @@ export function configureDefaultProduct() {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/cms/pages?pageType=ProductPage**`,
   }).as('productPage');
 

@@ -75,7 +75,7 @@ describe('SmartEditService', () => {
         of({
           defaultPreviewProductCode: 'test product code',
           defaultPreviewCategoryCode: 'test category code',
-        })
+        }),
       );
       spyOn(cmsService, 'getCurrentPage').and.returnValues(
         of({
@@ -86,19 +86,19 @@ describe('SmartEditService', () => {
                 'smartedit-page-uid-testPageId smartedit-page-uuid-testPageUuid smartedit-catalog-version-uuid-testPageCatalogUuid',
             },
           },
-        } as any)
+        } as any),
       );
       service.processCmsPage();
       expect(
-        document.body.classList.contains('smartedit-page-uid-testPageId')
+        document.body.classList.contains('smartedit-page-uid-testPageId'),
       ).toBeTruthy();
       expect(
-        document.body.classList.contains('smartedit-page-uuid-testPageUuid')
+        document.body.classList.contains('smartedit-page-uuid-testPageUuid'),
       ).toBeTruthy();
       expect(
         document.body.classList.contains(
-          'smartedit-catalog-version-uuid-testPageCatalogUuid'
-        )
+          'smartedit-catalog-version-uuid-testPageCatalogUuid',
+        ),
       ).toBeTruthy();
     });
   });
@@ -162,7 +162,7 @@ describe('SmartEditService', () => {
       spyOn(cmsService, 'refreshComponent').and.stub();
       service['renderComponent']('test-component', 'banner', 'test-slot');
       expect(cmsService.refreshComponent).toHaveBeenCalledWith(
-        'test-component'
+        'test-component',
       );
     });
   });
@@ -184,17 +184,17 @@ describe('SmartEditService', () => {
 
         service.addSmartEditContract(element, renderer, properties);
         expect(element.getAttribute('data-smartedit-component-id')).toEqual(
-          'testId'
+          'testId',
         );
         expect(
-          element.getAttribute('data-smartedit-catalog-version-uuid')
+          element.getAttribute('data-smartedit-catalog-version-uuid'),
         ).toEqual('test uuid');
         expect(element.classList.contains('class1')).toBeTruthy();
         expect(element.classList.contains('class2')).toBeTruthy();
 
         expect(element.getAttribute('data-group-prop1')).toEqual('groupProp1');
         expect(element.getAttribute('data-group-prop2')).toEqual('groupProp2');
-      }
+      },
     ));
   });
 });

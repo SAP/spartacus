@@ -20,7 +20,7 @@ import { getSourceRoot } from '../../../shared/utils/workspace-utils';
 export function migrateMethodPropertiesDeprecation(
   tree: Tree,
   _context: SchematicContext,
-  methodProperties: MethodPropertyDeprecation[]
+  methodProperties: MethodPropertyDeprecation[],
 ): Tree {
   const project = getSourceRoot(tree, {});
   const sourceFiles = getAllTsSourceFiles(tree, project);
@@ -37,7 +37,7 @@ export function migrateMethodPropertiesDeprecation(
           data.deprecatedNode,
           data.comment
             ? `${data.comment}\n`
-            : `${buildMethodComment(data.deprecatedNode, data.newNode)}\n`
+            : `${buildMethodComment(data.deprecatedNode, data.newNode)}\n`,
         );
         commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
       }
@@ -49,7 +49,7 @@ export function migrateMethodPropertiesDeprecation(
 
 export function buildMethodComment(
   oldApiMethod: string,
-  newApiMethod?: string
+  newApiMethod?: string,
 ): string {
   const comment = `// ${TODO_SPARTACUS} '${oldApiMethod}' has been removed.`;
   return newApiMethod

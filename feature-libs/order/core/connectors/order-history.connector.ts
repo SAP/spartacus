@@ -30,7 +30,7 @@ export class OrderHistoryConnector {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<OrderHistoryList> {
     return this.adapter.loadHistory(userId, pageSize, currentPage, sort);
   }
@@ -38,33 +38,33 @@ export class OrderHistoryConnector {
   public getConsignmentTracking(
     orderCode: string,
     consignmentCode: string,
-    userId?: string
+    userId?: string,
   ): Observable<ConsignmentTracking> {
     return this.adapter.getConsignmentTracking(
       orderCode,
       consignmentCode,
-      userId
+      userId,
     );
   }
 
   public cancel(
     userId: string,
     orderCode: string,
-    cancelRequestInput: CancellationRequestEntryInputList
+    cancelRequestInput: CancellationRequestEntryInputList,
   ): Observable<{}> {
     return this.adapter.cancel(userId, orderCode, cancelRequestInput);
   }
 
   public return(
     userId: string,
-    returnRequestInput: ReturnRequestEntryInputList
+    returnRequestInput: ReturnRequestEntryInputList,
   ): Observable<ReturnRequest> {
     return this.adapter.createReturnRequest(userId, returnRequestInput);
   }
 
   public getReturnRequestDetail(
     userId: string,
-    returnRequestCode: string
+    returnRequestCode: string,
   ): Observable<ReturnRequest> {
     return this.adapter.loadReturnRequestDetail(userId, returnRequestCode);
   }
@@ -73,25 +73,25 @@ export class OrderHistoryConnector {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<ReturnRequestList> {
     return this.adapter.loadReturnRequestList(
       userId,
       pageSize,
       currentPage,
-      sort
+      sort,
     );
   }
 
   public cancelReturnRequest(
     userId: string,
     returnRequestCode: string,
-    returnRequestModification: ReturnRequestModification
+    returnRequestModification: ReturnRequestModification,
   ): Observable<{}> {
     return this.adapter.cancelReturnRequest(
       userId,
       returnRequestCode,
-      returnRequestModification
+      returnRequestModification,
     );
   }
 }

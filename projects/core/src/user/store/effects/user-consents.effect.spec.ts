@@ -20,7 +20,7 @@ class MockOccUserAdapter {
   giveConsent(
     _userId: string,
     _consentTemplateId: string,
-    _consentTemplateVersion: number
+    _consentTemplateVersion: number,
   ): Observable<ConsentTemplate> {
     return EMPTY;
   }
@@ -65,7 +65,7 @@ describe('User Consents effect', () => {
     ];
     it('should return LoadUserConsentsSuccess', () => {
       spyOn(userConsentAdapter, 'loadConsents').and.returnValue(
-        of(templateList)
+        of(templateList),
       );
 
       const action = new UserActions.LoadUserConsents(userId);
@@ -88,7 +88,7 @@ describe('User Consents effect', () => {
     };
     it('should return GiveUserConsentSuccess', () => {
       spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
-        of(consentTemplate)
+        of(consentTemplate),
       );
 
       const action = new UserActions.GiveUserConsent({
@@ -97,7 +97,7 @@ describe('User Consents effect', () => {
         consentTemplateVersion,
       });
       const completion = new UserActions.GiveUserConsentSuccess(
-        consentTemplate
+        consentTemplate,
       );
 
       actions$ = hot('-a', { a: action });
@@ -112,7 +112,7 @@ describe('User Consents effect', () => {
         msg: 'Mock error',
       };
       spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
-        throwError(() => mockError)
+        throwError(() => mockError),
       );
 
       const action = new UserActions.TransferAnonymousConsent({
@@ -121,10 +121,10 @@ describe('User Consents effect', () => {
         consentTemplateVersion,
       });
       const completion = new UserActions.GiveUserConsentFail(
-        normalizeHttpError(mockError, new MockLoggerService())
+        normalizeHttpError(mockError, new MockLoggerService()),
       );
       const closeMessage = new GlobalMessageActions.RemoveMessagesByType(
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
 
       actions$ = hot('-a', { a: action });
@@ -139,7 +139,7 @@ describe('User Consents effect', () => {
         msg: 'Mock error',
       };
       spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
-        throwError(() => mockError)
+        throwError(() => mockError),
       );
 
       const action = new UserActions.GiveUserConsent({
@@ -148,7 +148,7 @@ describe('User Consents effect', () => {
         consentTemplateVersion,
       });
       const completion = new UserActions.GiveUserConsentFail(
-        normalizeHttpError(mockError, new MockLoggerService())
+        normalizeHttpError(mockError, new MockLoggerService()),
       );
 
       actions$ = hot('-a', { a: action });

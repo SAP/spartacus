@@ -56,7 +56,7 @@ export class CheckoutPaymentTypeComponent {
       .pipe(map((state) => state.loading)),
   ]).pipe(
     map(([busy, loading]) => busy || loading),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   paymentTypes$: Observable<PaymentType[]> = this.checkoutPaymentTypeFacade
@@ -69,25 +69,25 @@ export class CheckoutPaymentTypeComponent {
         ) {
           this.globalMessageService.add(
             { key: 'httpHandlers.forbidden' },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
           this.paymentTypesError = true;
         }
         return of([]);
-      })
+      }),
     );
 
   typeSelected$: Observable<PaymentType> = combineLatest([
     this.checkoutPaymentTypeFacade.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading),
-      map((state) => state.data)
+      map((state) => state.data),
     ),
     this.paymentTypes$,
   ]).pipe(
     map(
       ([selectedPaymentType, availablePaymentTypes]: [
         PaymentType | undefined,
-        PaymentType[]
+        PaymentType[],
       ]) => {
         if (
           selectedPaymentType &&
@@ -102,7 +102,7 @@ export class CheckoutPaymentTypeComponent {
           this.checkoutPaymentTypeFacade
             .setPaymentType(
               availablePaymentTypes[0].code as string,
-              this.poNumberInputElement?.nativeElement?.value
+              this.poNumberInputElement?.nativeElement?.value,
             )
             .subscribe({
               complete: () => this.onSuccess(),
@@ -111,7 +111,7 @@ export class CheckoutPaymentTypeComponent {
           return availablePaymentTypes[0];
         }
         return undefined;
-      }
+      },
     ),
     filter(isNotUndefined),
     distinctUntilChanged(),
@@ -120,9 +120,9 @@ export class CheckoutPaymentTypeComponent {
       this.checkoutStepService.resetSteps();
       this.checkoutStepService.disableEnableStep(
         CheckoutStepType.PAYMENT_DETAILS,
-        selected?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
+        selected?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT,
       );
-    })
+    }),
   );
 
   cartPoNumber$: Observable<string> = this.checkoutPaymentTypeFacade
@@ -131,14 +131,14 @@ export class CheckoutPaymentTypeComponent {
       filter((state) => !state.loading),
       map((state) => state.data),
       filter(isNotUndefined),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
 
   constructor(
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
     protected activatedRoute: ActivatedRoute,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   changeType(code: string): void {

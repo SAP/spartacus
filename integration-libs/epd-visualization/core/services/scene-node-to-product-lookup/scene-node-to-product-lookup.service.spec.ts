@@ -19,7 +19,7 @@ class MockSceneAdapter extends SceneAdapter {
     _nodeIds?: string[],
     _expand?: string[],
     _filter?: string[],
-    _contentType?: string
+    _contentType?: string,
   ) => Observable<NodesResponse>;
 
   getNodes(
@@ -27,7 +27,7 @@ class MockSceneAdapter extends SceneAdapter {
     nodeIds?: string[],
     expand?: string[],
     filter?: string[],
-    contentType?: string
+    contentType?: string,
   ): Observable<NodesResponse> {
     return this.getNodesFunc(sceneId, nodeIds, expand, filter, contentType);
   }
@@ -120,7 +120,7 @@ const validateGetNodesParameters = (
   nodeIds?: string[],
   expand?: string[],
   filter?: string[],
-  contentType?: string
+  contentType?: string,
 ) => {
   expect(sceneId).toBe('some scene id');
   expect(nodeIds).toBeUndefined(), expect(expand).toBeTruthy();
@@ -142,7 +142,7 @@ const getNodesOneProductCodePerSceneNode = (
   nodeIds?: string[],
   expand?: string[],
   filter?: string[],
-  contentType?: string
+  contentType?: string,
 ): Observable<NodesResponse> => {
   validateGetNodesParameters(sceneId, nodeIds, expand, filter, contentType);
   return of(nodesResponseOneProductCodePerSceneNode);
@@ -153,7 +153,7 @@ const getNodesMultipleProductCodesPerSceneNode = (
   nodeIds?: string[],
   expand?: string[],
   filter?: string[],
-  contentType?: string
+  contentType?: string,
 ): Observable<NodesResponse> => {
   validateGetNodesParameters(sceneId, nodeIds, expand, filter, contentType);
   return of(nodesResponseMultipleProductCodesPerSceneNode);
@@ -177,7 +177,7 @@ describe('SceneNodeToProductLookupService', () => {
     });
 
     sceneNodeToProductLookupService = TestBed.inject(
-      SceneNodeToProductLookupService
+      SceneNodeToProductLookupService,
     );
   });
 

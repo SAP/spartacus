@@ -42,37 +42,37 @@ export function getReducers(): ActionReducerMap<UserState, any> {
   return {
     addresses: loaderReducer<Address[], any>(
       USER_ADDRESSES,
-      fromAddressesReducer.reducer
+      fromAddressesReducer.reducer,
     ),
     billingCountries: fromBillingCountriesReducer.reducer,
     consents: loaderReducer<ConsentTemplate[], any>(
       USER_CONSENTS,
-      fromUserConsentsReducer.reducer
+      fromUserConsentsReducer.reducer,
     ),
     payments: loaderReducer<PaymentDetails[], any>(
       USER_PAYMENT_METHODS,
-      fromPaymentReducer.reducer
+      fromPaymentReducer.reducer,
     ),
     countries: fromDeliveryCountries.reducer,
     regions: loaderReducer<RegionsState, any>(
       REGIONS,
-      fromRegionsReducer.reducer
+      fromRegionsReducer.reducer,
     ),
     customerCoupons: loaderReducer<CustomerCouponSearchResult, any>(
       CUSTOMER_COUPONS,
-      fromCustomerCouponReducer.reducer
+      fromCustomerCouponReducer.reducer,
     ),
     notificationPreferences: loaderReducer<NotificationPreference[], any>(
       NOTIFICATION_PREFERENCES,
-      fromNotificationPreferenceReducer.reducer
+      fromNotificationPreferenceReducer.reducer,
     ),
     productInterests: loaderReducer<ProductInterestSearchResult, any>(
       PRODUCT_INTERESTS,
-      fromInterestsReducer.reducer
+      fromInterestsReducer.reducer,
     ),
     costCenters: loaderReducer<CostCenter[], any>(
       USER_COST_CENTERS,
-      fromCostCenterReducer.reducer
+      fromCostCenterReducer.reducer,
     ),
   };
 }
@@ -86,7 +86,7 @@ export const reducerProvider: Provider = {
 };
 
 export function clearUserState(
-  reducer: ActionReducer<any>
+  reducer: ActionReducer<any>,
 ): ActionReducer<any> {
   return function (state, action) {
     if (action.type === AuthActions.LOGOUT) {

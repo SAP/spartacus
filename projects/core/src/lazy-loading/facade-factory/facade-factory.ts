@@ -18,7 +18,7 @@ import { FacadeDescriptor } from './facade-descriptor';
  * @param descriptor
  */
 export function facadeFactory<T extends object>(
-  descriptor: FacadeDescriptor<T>
+  descriptor: FacadeDescriptor<T>,
 ): T {
   return inject(FacadeFactoryService).create(descriptor);
 }

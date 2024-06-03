@@ -34,7 +34,7 @@ describe('AnonymousConsentNormalizer', () => {
   it('should copy return request properties if target is not provided', () => {
     const mockConsents: AnonymousConsent[] = [{ templateCode: 'test' }];
     spyOn(anonymousConsentsService, 'decodeAndDeserialize').and.returnValue(
-      mockConsents
+      mockConsents,
     );
     const result = normalizer.convert('xxx');
     expect(result).toEqual(mockConsents);

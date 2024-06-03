@@ -22,7 +22,7 @@ export abstract class CartEntryAdapter {
     cartId: string,
     productCode: string,
     quantity?: number,
-    pickupStore?: string
+    pickupStore?: string,
   ): Observable<CartModification>;
 
   /**
@@ -39,7 +39,7 @@ export abstract class CartEntryAdapter {
     entryNumber: string,
     qty?: number,
     pickupStore?: string,
-    pickupToDelivery?: boolean
+    pickupToDelivery?: boolean,
   ): Observable<CartModification>;
 
   /**
@@ -52,6 +52,6 @@ export abstract class CartEntryAdapter {
   abstract remove(
     userId: string,
     cartId: string,
-    entryNumber: string
+    entryNumber: string,
   ): Observable<any>;
 }

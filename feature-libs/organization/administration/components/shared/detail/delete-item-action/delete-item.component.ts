@@ -59,7 +59,7 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
 
   constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService<ConfirmationMessageData>
+    protected messageService: MessageService<ConfirmationMessageData>,
   ) {}
 
   delete(item: T) {
@@ -86,7 +86,7 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
             this.confirmDelete(item);
             this.confirmation = null;
           }
-        })
+        }),
       );
     }
   }
@@ -95,11 +95,11 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
     this.itemService
       .delete?.(
         item[this.key as keyof BaseItem] as string,
-        this.additionalParam
+        this.additionalParam,
       )
       .pipe(
         take(1),
-        filter((data) => data.status === LoadStatus.SUCCESS)
+        filter((data) => data.status === LoadStatus.SUCCESS),
       )
       .subscribe((data) => this.notify({ ...item, ...data.item }));
   }

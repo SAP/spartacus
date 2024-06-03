@@ -27,7 +27,7 @@ export class UserGroupUserListService extends SubListService<B2BUser> {
   constructor(
     protected tableService: TableService,
     protected userGroupService: UserGroupService,
-    protected userService: B2BUserService
+    protected userService: B2BUserService,
   ) {
     super(tableService);
   }
@@ -41,7 +41,7 @@ export class UserGroupUserListService extends SubListService<B2BUser> {
    */
   protected load(
     pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<B2BUser> | undefined> {
     return this.userGroupService.getAvailableOrgCustomers(code, pagination);
   }
@@ -52,7 +52,7 @@ export class UserGroupUserListService extends SubListService<B2BUser> {
    */
   assign(
     userGroupCode: string,
-    customerId: string
+    customerId: string,
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userGroupService.assignMember(userGroupCode, customerId);
     return this.userService.getLoadingStatus(customerId);
@@ -64,14 +64,14 @@ export class UserGroupUserListService extends SubListService<B2BUser> {
    */
   unassign(
     userGroupCode: string,
-    customerId: string
+    customerId: string,
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userGroupService.unassignMember(userGroupCode, customerId);
     return this.userService.getLoadingStatus(customerId);
   }
 
   unassignAllMembers(
-    userGroupCode: string
+    userGroupCode: string,
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.unassignAllMembers(userGroupCode);
     return this.userGroupService.getLoadingStatus(userGroupCode);

@@ -24,7 +24,7 @@ export class CheckoutProgressComponent {
   activeStepIndex: number;
   activeStepIndex$: Observable<number> =
     this.checkoutStepService.activeStepIndex$.pipe(
-      tap((index) => (this.activeStepIndex = index))
+      tap((index) => (this.activeStepIndex = index)),
     );
 
   get steps$(): Observable<CheckoutStep[]> {

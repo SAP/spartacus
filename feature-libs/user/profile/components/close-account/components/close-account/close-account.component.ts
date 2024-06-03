@@ -30,14 +30,14 @@ export class CloseAccountComponent {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
   ) {}
 
   openModal(): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CLOSE_ACCOUNT,
       this.element,
-      this.vcr
+      this.vcr,
     );
 
     dialog?.pipe(take(1)).subscribe();

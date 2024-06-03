@@ -28,7 +28,7 @@ const STRATEGY_PRODUCTS: StrategyProducts = {
 
 class MockStrategyAdapter implements MerchandisingStrategyAdapter {
   loadProductsForStrategy = createSpy(
-    'StrategyAdapter.loadProductsForStrategy'
+    'StrategyAdapter.loadProductsForStrategy',
   ).and.callFake(() => of(STRATEGY_PRODUCTS));
 }
 
@@ -66,7 +66,7 @@ describe('Strategy Connector', () => {
     expect(actualStrategyProducts).toEqual(STRATEGY_PRODUCTS);
     expect(strategyAdapter.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
-      STRATEGY_REQUEST
+      STRATEGY_REQUEST,
     );
   });
 });

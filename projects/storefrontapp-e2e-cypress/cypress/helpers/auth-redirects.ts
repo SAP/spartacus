@@ -30,7 +30,7 @@ export function createUser(): AccountData {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/cms/pages`,
     query: {
       pageLabelOrId: '/logout',
@@ -93,7 +93,7 @@ export function testRedirectBackfterLogin(kyma = false) {
       cy.location('pathname').should('contain', '/login');
       authForms.login(
         user.registrationData.email,
-        user.registrationData.password
+        user.registrationData.password,
       );
     } else {
       authForms.fillKymaLoginForm({
@@ -115,7 +115,7 @@ export function testRedirectAfterForcedLogin(kyma = false) {
       cy.location('pathname').should('contain', '/login');
       authForms.login(
         user.registrationData.email,
-        user.registrationData.password
+        user.registrationData.password,
       );
     } else {
       authForms.fillKymaLoginForm({
@@ -139,7 +139,7 @@ export function visitAndWaitForRedirections(path: string) {
   cy.location('pathname', { timeout: 30000 }).should(
     'contain',
     `/${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
-      'BASE_CURRENCY'
-    )}`
+      'BASE_CURRENCY',
+    )}`,
   );
 }

@@ -52,14 +52,14 @@ describe('sortArrayAlphabetically()', () => {
 
   it('should sort string value correctly', () => {
     const dataASC = mockData.sort(
-      itemsWith(property('valueString', byString(SortOrder.ASC)))
+      itemsWith(property('valueString', byString(SortOrder.ASC))),
     );
     const singleASC = dataASC.map((item) => item.valueString);
     const isEqualASC = arrayEquals(singleASC, ['a', 'b', 'c', 'd']);
     expect(isEqualASC).toBe(true);
 
     const dataDESC = mockData.sort(
-      itemsWith(property('valueString', byString(SortOrder.DESC)))
+      itemsWith(property('valueString', byString(SortOrder.DESC))),
     );
     const singleDESC = dataDESC.map((item) => item.valueString);
     const isEqualDESC = arrayEquals(singleDESC, ['d', 'c', 'b', 'a']);
@@ -68,14 +68,14 @@ describe('sortArrayAlphabetically()', () => {
 
   it('should sort number value correctly', () => {
     const dataASC = mockData.sort(
-      itemsWith(property('valueNumber', byNumber(SortOrder.ASC)))
+      itemsWith(property('valueNumber', byNumber(SortOrder.ASC))),
     );
     const singleASC = dataASC.map((item) => item.valueNumber);
     const isEqualASC = arrayEquals(singleASC, [1, 2, 3, 4]);
     expect(isEqualASC).toBe(true);
 
     const dataDESC = mockData.sort(
-      itemsWith(property('valueNumber', byNumber(SortOrder.DESC)))
+      itemsWith(property('valueNumber', byNumber(SortOrder.DESC))),
     );
     const singleDESC = dataDESC.map((item) => item.valueNumber);
     const isEqualDESC = arrayEquals(singleDESC, [4, 3, 2, 1]);
@@ -84,14 +84,14 @@ describe('sortArrayAlphabetically()', () => {
 
   it('should sort boolean value correctly', () => {
     const dataASC = mockData.sort(
-      itemsWith(property('valueBoolean', byBoolean(SortOrder.ASC)))
+      itemsWith(property('valueBoolean', byBoolean(SortOrder.ASC))),
     );
     const singleASC = dataASC.map((item) => item.valueBoolean);
     const isEqualASC = arrayEquals(singleASC, [true, true, false, false]);
     expect(isEqualASC).toBe(true);
 
     const dataDESC = mockData.sort(
-      itemsWith(property('valueBoolean', byBoolean(SortOrder.DESC)))
+      itemsWith(property('valueBoolean', byBoolean(SortOrder.DESC))),
     );
     const singleDESC = dataDESC.map((item) => item.valueBoolean);
     const isEqualDESC = arrayEquals(singleDESC, [false, false, true, true]);
@@ -105,10 +105,10 @@ describe('sortArrayAlphabetically()', () => {
           'valueNumber',
           itemsWith(
             whenType(isString, byString(SortOrder.ASC)),
-            whenType(isNumber, byComparison(SortOrder.ASC))
-          )
-        )
-      )
+            whenType(isNumber, byComparison(SortOrder.ASC)),
+          ),
+        ),
+      ),
     );
     const singleASC = data.map((item) => item.valueNumber);
     const isEqualASC = arrayEquals(singleASC, [1, 2, 3, 4]);
@@ -120,10 +120,10 @@ describe('sortArrayAlphabetically()', () => {
           'valueString',
           itemsWith(
             whenType(isString, byString(SortOrder.ASC)),
-            whenType(isNumber, byComparison(SortOrder.ASC))
-          )
-        )
-      )
+            whenType(isNumber, byComparison(SortOrder.ASC)),
+          ),
+        ),
+      ),
     );
     const singleASC2 = data2.map((item) => item.valueString);
     const isEqualASC2 = arrayEquals(singleASC2, ['a', 'b', 'c', 'd']);
@@ -137,10 +137,10 @@ describe('sortArrayAlphabetically()', () => {
           'valueString',
           itemsWith(
             byNullish(SortOrder.DESC),
-            whenType(isString, byString(SortOrder.ASC))
-          )
-        )
-      )
+            whenType(isString, byString(SortOrder.ASC)),
+          ),
+        ),
+      ),
     );
     const singleASC = data.map((item) => item.valueString);
     const isEqualASC = arrayEquals(singleASC, ['a', 'b', undefined, undefined]);

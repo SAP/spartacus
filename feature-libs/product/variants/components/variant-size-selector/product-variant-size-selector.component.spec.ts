@@ -37,7 +37,7 @@ class MockRoutingService {
   go(
     _commands: any[] | UrlCommands,
     _query?: object,
-    _extras?: NavigationExtras
+    _extras?: NavigationExtras,
   ): void {}
 }
 
@@ -51,22 +51,20 @@ describe('ProductVariantSizeSelectorComponent', () => {
   let fixture: ComponentFixture<ProductVariantSizeSelectorComponent>;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProductVariantSizeSelectorComponent],
-        imports: [RouterTestingModule, I18nTestingModule],
-        providers: [
-          { provide: RoutingService, useClass: MockRoutingService },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-        ],
-      }).compileComponents();
-      routingService = TestBed.inject(RoutingService);
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProductVariantSizeSelectorComponent],
+      imports: [RouterTestingModule, I18nTestingModule],
+      providers: [
+        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+      ],
+    }).compileComponents();
+    routingService = TestBed.inject(RoutingService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantSizeSelectorComponent);

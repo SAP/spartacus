@@ -50,7 +50,7 @@ describe('Product Reviews selectors', () => {
     let result: Review[];
     store
       .pipe(
-        select(ProductSelectors.getSelectedProductReviewsFactory(productCode))
+        select(ProductSelectors.getSelectedProductReviewsFactory(productCode)),
       )
       .subscribe((data) => (result = data))
       .unsubscribe();

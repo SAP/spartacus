@@ -45,7 +45,7 @@ describe('BudgetSerializer', () => {
     [OccBudgetSerializer],
     (budgetNormalizer: OccBudgetSerializer) => {
       expect(budgetNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert budget', () => {

@@ -59,12 +59,12 @@ const sorts = [{ selected: true, name: 'code' }];
 class MockCostCenterConnector implements Partial<CostCenterConnector> {
   get = createSpy().and.returnValue(of(costCenter));
   getList = createSpy().and.returnValue(
-    of({ values: [costCenter], pagination, sorts })
+    of({ values: [costCenter], pagination, sorts }),
   );
   create = createSpy().and.returnValue(of(costCenter));
   update = createSpy().and.returnValue(of(costCenter));
   getBudgets = createSpy().and.returnValue(
-    of({ values: [budget], pagination, sorts })
+    of({ values: [budget], pagination, sorts }),
   );
   assignBudget = createSpy().and.returnValue(of(null));
   unassignBudget = createSpy().and.returnValue(of(null));
@@ -139,13 +139,13 @@ describe('CostCenter Effects', () => {
       expect(effects.loadCostCenter$).toBeObservable(expected);
       expect(costCenterConnector.get).toHaveBeenCalledWith(
         userId,
-        costCenterCode
+        costCenterCode,
       );
     });
 
     it('should return LoadCostCenterFail action if costCenter not updated', () => {
       costCenterConnector.get = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new CostCenterActions.LoadCostCenter({
         userId,
@@ -161,7 +161,7 @@ describe('CostCenter Effects', () => {
       expect(effects.loadCostCenter$).toBeObservable(expected);
       expect(costCenterConnector.get).toHaveBeenCalledWith(
         userId,
-        costCenterCode
+        costCenterCode,
       );
     });
   });
@@ -187,7 +187,7 @@ describe('CostCenter Effects', () => {
 
     it('should return LoadCostCentersFail action if costCenters not loaded', () => {
       costCenterConnector.getList = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new CostCenterActions.LoadCostCenters({ userId, params });
       const completion = new CostCenterActions.LoadCostCentersFail({
@@ -209,7 +209,7 @@ describe('CostCenter Effects', () => {
         costCenter,
       });
       const completion1 = new CostCenterActions.CreateCostCenterSuccess(
-        costCenter
+        costCenter,
       );
       const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
@@ -218,13 +218,13 @@ describe('CostCenter Effects', () => {
       expect(effects.createCostCenter$).toBeObservable(expected);
       expect(costCenterConnector.create).toHaveBeenCalledWith(
         userId,
-        costCenter
+        costCenter,
       );
     });
 
     it('should return CreateCostCenterFail action if costCenter not created', () => {
       costCenterConnector.create = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new CostCenterActions.CreateCostCenter({
         userId,
@@ -241,7 +241,7 @@ describe('CostCenter Effects', () => {
       expect(effects.createCostCenter$).toBeObservable(expected);
       expect(costCenterConnector.create).toHaveBeenCalledWith(
         userId,
-        costCenter
+        costCenter,
       );
     });
   });
@@ -254,7 +254,7 @@ describe('CostCenter Effects', () => {
         costCenter,
       });
       const completion1 = new CostCenterActions.UpdateCostCenterSuccess(
-        costCenter
+        costCenter,
       );
       const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
@@ -264,13 +264,13 @@ describe('CostCenter Effects', () => {
       expect(costCenterConnector.update).toHaveBeenCalledWith(
         userId,
         costCenterCode,
-        costCenter
+        costCenter,
       );
     });
 
     it('should return UpdateCostCenterFail action if costCenter not created', () => {
       costCenterConnector.update = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new CostCenterActions.UpdateCostCenter({
         userId,
@@ -289,7 +289,7 @@ describe('CostCenter Effects', () => {
       expect(costCenterConnector.update).toHaveBeenCalledWith(
         userId,
         costCenterCode,
-        costCenter
+        costCenter,
       );
     });
   });
@@ -316,13 +316,13 @@ describe('CostCenter Effects', () => {
       expect(costCenterConnector.getBudgets).toHaveBeenCalledWith(
         userId,
         costCenterCode,
-        params
+        params,
       );
     });
 
     it('should return LoadAssignedBudgetsFail action if budgets not loaded', () => {
       costCenterConnector.getBudgets = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new CostCenterActions.LoadAssignedBudgets({
         userId,
@@ -341,7 +341,7 @@ describe('CostCenter Effects', () => {
       expect(costCenterConnector.getBudgets).toHaveBeenCalledWith(
         userId,
         costCenterCode,
-        params
+        params,
       );
     });
   });
@@ -365,13 +365,13 @@ describe('CostCenter Effects', () => {
       expect(costCenterConnector.assignBudget).toHaveBeenCalledWith(
         userId,
         costCenterCode,
-        budgetCode
+        budgetCode,
       );
     });
 
     it('should return UpdateCostCenterFail action if budget not assigned', () => {
       costCenterConnector.assignBudget = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new CostCenterActions.AssignBudget({
         userId,
@@ -390,7 +390,7 @@ describe('CostCenter Effects', () => {
       expect(costCenterConnector.assignBudget).toHaveBeenCalledWith(
         userId,
         costCenterCode,
-        budgetCode
+        budgetCode,
       );
     });
   });
@@ -413,13 +413,13 @@ describe('CostCenter Effects', () => {
       expect(costCenterConnector.unassignBudget).toHaveBeenCalledWith(
         userId,
         costCenterCode,
-        budgetCode
+        budgetCode,
       );
     });
 
     it('should return UnassignBudgetFail action if budget not unassigned', () => {
       costCenterConnector.unassignBudget = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new CostCenterActions.UnassignBudget({
         userId,
@@ -438,7 +438,7 @@ describe('CostCenter Effects', () => {
       expect(costCenterConnector.unassignBudget).toHaveBeenCalledWith(
         userId,
         costCenterCode,
-        budgetCode
+        budgetCode,
       );
     });
   });

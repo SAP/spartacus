@@ -79,7 +79,7 @@ const myAccountV2PasswordMapping: CmsConfig = {
       },
     }),
     provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_PASSWORD) ? myAccountV2PasswordMapping : {}
+      inject(USE_MY_ACCOUNT_V2_PASSWORD) ? myAccountV2PasswordMapping : {},
     ),
   ],
   declarations: [UpdatePasswordComponent, MyAccountV2PasswordComponent],

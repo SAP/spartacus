@@ -60,7 +60,7 @@ describe('StateEventService', () => {
         ]);
         expect(eventService.register).toHaveBeenCalledWith(
           TestEvent,
-          jasmine.any(Object)
+          jasmine.any(Object),
         );
       });
 
@@ -85,7 +85,7 @@ describe('StateEventService', () => {
         ]);
         expect(eventService.register).toHaveBeenCalledWith(
           TestEvent,
-          jasmine.any(Object)
+          jasmine.any(Object),
         );
       });
 
@@ -109,14 +109,14 @@ describe('StateEventService', () => {
         ]);
         expect(eventService.register).toHaveBeenCalledWith(
           TestEvent,
-          jasmine.any(Object)
+          jasmine.any(Object),
         );
       });
     });
 
     it('should return a teardown function to unregister the event source', () => {
       expect(service.register({ action: 'A', event: TestEvent })).toBe(
-        mockTearDown
+        mockTearDown,
       );
     });
   });

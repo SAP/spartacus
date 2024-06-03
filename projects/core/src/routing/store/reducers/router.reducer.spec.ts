@@ -374,7 +374,7 @@ describe('Router Reducer', () => {
 
     it('for sub route route with cxCmsRouteContext context', async () => {
       await zone.run(() =>
-        router.navigateByUrl('dynamically-created/sub-route')
+        router.navigateByUrl('dynamically-created/sub-route'),
       );
       expect(context).toEqual({ id: 'explicit', type: PageType.CONTENT_PAGE });
     });

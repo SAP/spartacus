@@ -15,7 +15,7 @@ export function orderDetailsTabbingOrder(config: TabElement[]) {
     cy.intercept({
       method: 'GET',
       pathname: `${Cypress.env(
-        'API_URL'
+        'API_URL',
       )}/rest/v2/electronics-spa/users/current/orders/*`,
     }).as('getOrders');
 

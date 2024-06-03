@@ -42,7 +42,7 @@ export class AsmCustomer360CustomerCouponComponent
   constructor(
     protected context: AsmCustomer360SectionContext<AsmCustomer360CustomerCouponList>,
     protected asmCustomer360Facade: AsmCustomer360Facade,
-    protected customerCouponService: CustomerCouponService
+    protected customerCouponService: CustomerCouponService,
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +54,7 @@ export class AsmCustomer360CustomerCouponComponent
             this.changeTab(true);
             this.showErrorAlertForApplyAction$.next(true);
           }
-        })
+        }),
     );
     this.subscription.add(
       this.customerCouponService
@@ -64,7 +64,7 @@ export class AsmCustomer360CustomerCouponComponent
             this.changeTab(false);
             this.showErrorAlertForApplyAction$.next(true);
           }
-        })
+        }),
     );
     this.fetchCustomerCoupons();
     this.currentTabIsAssignable = true;
@@ -88,7 +88,7 @@ export class AsmCustomer360CustomerCouponComponent
       catchError(() => {
         this.showErrorAlert$.next(true);
         return of([]);
-      })
+      }),
     );
   }
 
@@ -113,7 +113,7 @@ export class AsmCustomer360CustomerCouponComponent
         catchError(() => {
           this.showErrorAlert$.next(true);
           return of([]);
-        })
+        }),
       );
   }
 
@@ -138,7 +138,7 @@ export class AsmCustomer360CustomerCouponComponent
         catchError(() => {
           this.showErrorAlert$.next(true);
           return of([]);
-        })
+        }),
       );
   }
 
@@ -149,10 +149,10 @@ export class AsmCustomer360CustomerCouponComponent
 
   private mapParams(
     applied: boolean,
-    response: AsmCustomer360Response | undefined
+    response: AsmCustomer360Response | undefined,
   ): Array<CustomerCouponEntry> {
     const couponList = response?.value?.find(
-      (item) => item.type === AsmCustomer360Type.CUSTOMER_COUPON_LIST
+      (item) => item.type === AsmCustomer360Type.CUSTOMER_COUPON_LIST,
     ) as AsmCustomer360CustomerCouponList;
     const newEntries: Array<CustomerCouponEntry> = [];
     if (couponList.customerCoupons) {
@@ -192,7 +192,7 @@ export class AsmCustomer360CustomerCouponComponent
     this.entries$ = this.entries$.pipe(
       map((entries) => {
         return entries.filter((item) => item.codeForApplyAction !== couponCode);
-      })
+      }),
     );
   }
 

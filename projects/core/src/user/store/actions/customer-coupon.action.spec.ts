@@ -103,7 +103,7 @@ describe('Customer Coupon Actions', () => {
   describe('LoadCustomerCouponsSuccess Action', () => {
     it('should create the action', () => {
       const action = new UserActions.LoadCustomerCouponsSuccess(
-        customerSearcherResult
+        customerSearcherResult,
       );
 
       expect({ ...action }).toEqual({
@@ -137,7 +137,7 @@ describe('Customer Coupon Actions', () => {
         payload: { userId, couponCode },
         meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
-          SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+          SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
         ),
       });
     });
@@ -154,7 +154,7 @@ describe('Customer Coupon Actions', () => {
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
-          error
+          error,
         ),
       });
     });
@@ -163,7 +163,7 @@ describe('Customer Coupon Actions', () => {
   describe('SubscribeCustomerCouponSuccess Action', () => {
     it('should create the action', () => {
       const action = new UserActions.SubscribeCustomerCouponSuccess(
-        customerCouponNotification
+        customerCouponNotification,
       );
 
       expect({ ...action }).toEqual({
@@ -171,7 +171,7 @@ describe('Customer Coupon Actions', () => {
         payload: customerCouponNotification,
         meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
-          SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+          SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
         ),
       });
     });
@@ -185,7 +185,7 @@ describe('Customer Coupon Actions', () => {
         type: UserActions.RESET_SUBSCRIBE_CUSTOMER_COUPON_PROCESS,
         meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
-          SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+          SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
         ),
       });
     });
@@ -203,7 +203,7 @@ describe('Customer Coupon Actions', () => {
         payload: { userId, couponCode },
         meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
-          UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+          UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
         ),
       });
     });
@@ -220,7 +220,7 @@ describe('Customer Coupon Actions', () => {
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
-          error
+          error,
         ),
       });
     });
@@ -236,7 +236,7 @@ describe('Customer Coupon Actions', () => {
         payload: success,
         meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
-          UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+          UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
         ),
       });
     });
@@ -250,7 +250,7 @@ describe('Customer Coupon Actions', () => {
         type: UserActions.RESET_UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS,
         meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
-          UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
+          UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
         ),
       });
     });
@@ -268,7 +268,7 @@ describe('Customer Coupon Actions', () => {
         payload: { userId, couponCode },
         meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
-          CLAIM_CUSTOMER_COUPON_PROCESS_ID
+          CLAIM_CUSTOMER_COUPON_PROCESS_ID,
         ),
       });
     });
@@ -285,7 +285,7 @@ describe('Customer Coupon Actions', () => {
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           CLAIM_CUSTOMER_COUPON_PROCESS_ID,
-          error
+          error,
         ),
       });
     });
@@ -294,7 +294,7 @@ describe('Customer Coupon Actions', () => {
   describe('ClaimCustomerCouponSuccess Action', () => {
     it('should create the action', () => {
       const action = new UserActions.ClaimCustomerCouponSuccess(
-        customerCoupon2Customer
+        customerCoupon2Customer,
       );
 
       expect({ ...action }).toEqual({
@@ -302,7 +302,7 @@ describe('Customer Coupon Actions', () => {
         payload: customerCoupon2Customer,
         meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
-          CLAIM_CUSTOMER_COUPON_PROCESS_ID
+          CLAIM_CUSTOMER_COUPON_PROCESS_ID,
         ),
       });
     });
@@ -316,7 +316,7 @@ describe('Customer Coupon Actions', () => {
         type: UserActions.RESET_DISCLAIM_CUSTOMER_COUPON,
         meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
-          DISCLAIM_CUSTOMER_COUPON_PROCESS_ID
+          DISCLAIM_CUSTOMER_COUPON_PROCESS_ID,
         ),
       });
     });

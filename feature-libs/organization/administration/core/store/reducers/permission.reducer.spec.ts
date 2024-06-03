@@ -29,7 +29,7 @@ describe('Permissions Entities Reducer', () => {
   describe('LOAD_PERMISSION_SUCCESS action', () => {
     it('should return the payload', () => {
       const action = new PermissionActions.LoadPermissionSuccess(
-        payloadPermission
+        payloadPermission,
       );
       const result = permissionsEntitiesReducer(permissionInitialState, action);
 
@@ -40,7 +40,7 @@ describe('Permissions Entities Reducer', () => {
   describe('CREATE_PERMISSION_SUCCESS action', () => {
     it('should return the payload', () => {
       const action = new PermissionActions.CreatePermissionSuccess(
-        payloadPermission
+        payloadPermission,
       );
       const result = permissionsEntitiesReducer(permissionInitialState, action);
 
@@ -51,7 +51,7 @@ describe('Permissions Entities Reducer', () => {
   describe('UPDATE_PERMISSION_SUCCESS action', () => {
     it('should return the payload', () => {
       const action = new PermissionActions.UpdatePermissionSuccess(
-        payloadPermission
+        payloadPermission,
       );
       const result = permissionsEntitiesReducer(permissionInitialState, action);
 
@@ -70,7 +70,7 @@ describe('Permissions Entities Reducer', () => {
         const action = new UserGroupActions.AssignPermissionSuccess(payload);
         const result = permissionsEntitiesReducer(
           permissionInitialState,
-          action
+          action,
         );
 
         expect(result).toEqual(payload);
@@ -108,7 +108,7 @@ describe('Permissions Entities Reducer', () => {
         const action = new UserGroupActions.UnassignPermissionSuccess(payload);
         const result = permissionsEntitiesReducer(
           permissionInitialState,
-          action
+          action,
         );
 
         expect(result).toEqual(payload);
@@ -144,11 +144,11 @@ describe('Permissions Entities Reducer', () => {
         };
 
         const action = new B2BUserActions.AssignB2BUserPermissionSuccess(
-          payload
+          payload,
         );
         const result = permissionsEntitiesReducer(
           permissionInitialState,
-          action
+          action,
         );
 
         expect(result).toEqual(payload);
@@ -168,7 +168,7 @@ describe('Permissions Entities Reducer', () => {
         };
 
         const action = new B2BUserActions.AssignB2BUserPermissionSuccess(
-          payload
+          payload,
         );
         const result = permissionsEntitiesReducer(payloadPermission, action);
 
@@ -186,11 +186,11 @@ describe('Permissions Entities Reducer', () => {
         };
 
         const action = new B2BUserActions.UnassignB2BUserPermissionSuccess(
-          payload
+          payload,
         );
         const result = permissionsEntitiesReducer(
           permissionInitialState,
-          action
+          action,
         );
 
         expect(result).toEqual(payload);
@@ -210,7 +210,7 @@ describe('Permissions Entities Reducer', () => {
         };
 
         const action = new B2BUserActions.UnassignB2BUserPermissionSuccess(
-          payload
+          payload,
         );
         const result = permissionsEntitiesReducer(payloadPermission, action);
 

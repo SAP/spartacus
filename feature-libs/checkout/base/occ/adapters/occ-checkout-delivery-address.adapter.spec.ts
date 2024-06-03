@@ -75,7 +75,7 @@ class MockLoggerService {
 
 const mockNormalizedJaloError = normalizeHttpError(
   mockJaloError,
-  new MockLoggerService()
+  new MockLoggerService(),
 );
 
 describe(`OccCheckoutDeliveryAddressAdapter`, () => {
@@ -135,14 +135,14 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
       expect(converter.pipeable).toHaveBeenCalledWith(ADDRESS_NORMALIZER);
       expect(converter.convert).toHaveBeenCalledWith(
         mockAddress,
-        ADDRESS_SERIALIZER
+        ADDRESS_SERIALIZER,
       );
     });
 
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'post').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -168,7 +168,7 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
               return of(mockAddress);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: Address | undefined;
@@ -222,7 +222,7 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
         spyOn(httpClient, 'put').and.returnValue(
-          throwError(() => mockJaloError)
+          throwError(() => mockJaloError),
         );
 
         let result: HttpErrorModel | undefined;
@@ -248,7 +248,7 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
               return of(cartData);
             }
             return throwError(() => mockJaloError);
-          })
+          }),
         );
 
         let result: unknown;
@@ -302,7 +302,7 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
   describe(`back-off`, () => {
     it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'delete').and.returnValue(
-        throwError(() => mockJaloError)
+        throwError(() => mockJaloError),
       );
 
       let result: HttpErrorModel | undefined;
@@ -328,7 +328,7 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
             return of(checkoutData);
           }
           return throwError(() => mockJaloError);
-        })
+        }),
       );
 
       let result: unknown;

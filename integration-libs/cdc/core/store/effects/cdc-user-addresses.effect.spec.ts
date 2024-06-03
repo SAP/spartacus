@@ -90,7 +90,7 @@ describe('CDC User Addresses effect', () => {
     });
 
     cdcUserAddressesEffect = TestBed.inject(
-      fromUserAddressesEffect.CdcUserAddressesEffects
+      fromUserAddressesEffect.CdcUserAddressesEffects,
     );
     globalMessageService = TestBed.inject(GlobalMessageService);
     userAddressConnector = TestBed.inject(UserAddressConnector);
@@ -98,7 +98,7 @@ describe('CDC User Addresses effect', () => {
     cdcJSService = TestBed.inject(CdcJsService);
 
     spyOn(userAddressConnector, 'getAll').and.returnValue(
-      of(mockUserAddresses)
+      of(mockUserAddresses),
     );
     spyOn(userAddressConnector, 'add').and.returnValue(of({}));
 
@@ -106,12 +106,12 @@ describe('CDC User Addresses effect', () => {
     spyOn(userAddressConnector, 'delete').and.returnValue(of({}));
 
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
-      of(mockCountries)
+      of(mockCountries),
     );
     spyOn(userAddressService, 'loadDeliveryCountries').and.stub();
 
     spyOn(userAddressService, 'getAddresses').and.returnValue(
-      of(mockUserAddresses)
+      of(mockUserAddresses),
     );
     spyOn(globalMessageService, 'remove');
     spyOn(globalMessageService, 'add');
@@ -130,18 +130,18 @@ describe('CDC User Addresses effect', () => {
       };
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
-        throwError(() => error)
+        throwError(() => error),
       );
 
       const expected = cold('-#', null, error);
 
       expect(cdcUserAddressesEffect.cdcAddUserAddress$).toBeObservable(
-        expected
+        expected,
       );
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         error.errorMessage,
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
 
@@ -153,13 +153,13 @@ describe('CDC User Addresses effect', () => {
       const ok = { status: 'OK' };
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
-        of(ok)
+        of(ok),
       );
 
       const expected = cold('-b', { b: ok });
 
       expect(cdcUserAddressesEffect.cdcAddUserAddress$).toBeObservable(
-        expected
+        expected,
       );
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
@@ -178,16 +178,16 @@ describe('CDC User Addresses effect', () => {
       const expected = cold('-#', null, error);
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
-        throwError(() => error)
+        throwError(() => error),
       );
 
       expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
-        expected
+        expected,
       );
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         error.errorMessage,
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
 
@@ -203,11 +203,11 @@ describe('CDC User Addresses effect', () => {
       });
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
-        of(ok)
+        of(ok),
       );
 
       expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
-        expected
+        expected,
       );
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
@@ -224,16 +224,16 @@ describe('CDC User Addresses effect', () => {
       const expected = cold('-#', null, error);
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
-        throwError(() => error)
+        throwError(() => error),
       );
 
       expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
-        expected
+        expected,
       );
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         error.errorMessage,
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
 
@@ -251,11 +251,11 @@ describe('CDC User Addresses effect', () => {
       });
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
-        of(ok)
+        of(ok),
       );
 
       expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
-        expected
+        expected,
       );
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
@@ -274,16 +274,16 @@ describe('CDC User Addresses effect', () => {
       const expected = cold('-#', null, error);
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
-        throwError(() => error)
+        throwError(() => error),
       );
 
       expect(cdcUserAddressesEffect.cdcDeleteUserAddress$).toBeObservable(
-        expected
+        expected,
       );
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         error.errorMessage,
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
 
@@ -299,11 +299,11 @@ describe('CDC User Addresses effect', () => {
       });
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
-        of(ok)
+        of(ok),
       );
 
       expect(cdcUserAddressesEffect.cdcDeleteUserAddress$).toBeObservable(
-        expected
+        expected,
       );
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
@@ -323,10 +323,10 @@ describe('CDC User Addresses effect', () => {
   describe('getDefaultAddress', () => {
     it('should obtain the default address', () => {
       expect(
-        cdcUserAddressesEffect.getDefaultAddress(mockUserAddresses)
+        cdcUserAddressesEffect.getDefaultAddress(mockUserAddresses),
       ).toBeTruthy();
       expect(
-        cdcUserAddressesEffect.getDefaultAddress(mockUserAddresses)
+        cdcUserAddressesEffect.getDefaultAddress(mockUserAddresses),
       ).toEqual(mockUserAddress);
     });
   });
@@ -336,8 +336,8 @@ describe('CDC User Addresses effect', () => {
       expect(
         cdcUserAddressesEffect.getCountryName(
           mockCountries,
-          mockCountry?.isocode + ''
-        )
+          mockCountry?.isocode + '',
+        ),
       ).toEqual(mockCountry.name);
     });
   });
@@ -348,7 +348,7 @@ describe('CDC User Addresses effect', () => {
       cdcUserAddressesEffect.showErrorMessage({ errorMessage: message });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         message,
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
 
@@ -357,7 +357,7 @@ describe('CDC User Addresses effect', () => {
       cdcUserAddressesEffect.showErrorMessage({ errorMessage: message });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         message,
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
     });
   });
@@ -367,14 +367,14 @@ describe('CDC User Addresses effect', () => {
       cdcJSService.updateAddressWithoutScreenSet = createSpy().and.returnValue(
         of({
           status: 'OK',
-        })
+        }),
       );
       cdcUserAddressesEffect.updateDefaultAddressInCDC().subscribe(() => {
         expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(
           mockUserAddress.formattedAddress,
           mockUserAddress.postalCode,
           mockUserAddress.town,
-          mockCountry.name
+          mockCountry.name,
         );
         done();
       });
@@ -386,7 +386,7 @@ describe('CDC User Addresses effect', () => {
       cdcJSService.updateAddressWithoutScreenSet = createSpy().and.returnValue(
         of({
           status: 'OK',
-        })
+        }),
       );
       cdcUserAddressesEffect.sendAddressToCDC(mockUserAddress).subscribe(() => {
         expect(userAddressService.getDeliveryCountries).toHaveBeenCalled();
@@ -394,7 +394,7 @@ describe('CDC User Addresses effect', () => {
           mockUserAddress.formattedAddress,
           mockUserAddress.postalCode,
           mockUserAddress.town,
-          mockCountry.name
+          mockCountry.name,
         );
         done();
       });

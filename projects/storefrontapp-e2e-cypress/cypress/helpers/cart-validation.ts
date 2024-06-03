@@ -17,17 +17,17 @@ export function validateStock(mockResponse = {}, alias = 'validate') {
     {
       method: 'POST',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/carts/*/validate`,
     },
-    mockResponse
+    mockResponse,
   ).as(alias);
 }
 
 export function checkProductAvailabilityMessage() {
   cy.get('cx-global-message').should(
     'contain',
-    `During checkout we found problems with your entries. Please review your cart.`
+    `During checkout we found problems with your entries. Please review your cart.`,
   );
 }
 
@@ -50,13 +50,13 @@ export function addMultipleProductsToCart(products) {
 
 export function removeItemAndCheckCartEntriesNumber(
   product,
-  expectedCartLength
+  expectedCartLength,
 ) {
   removeCartItem(product);
   cy.wait('@refresh_cart');
   cy.get('cx-cart-item-list .cx-item-list-row').should(
     'have.length',
-    expectedCartLength
+    expectedCartLength,
   );
 }
 
@@ -73,7 +73,7 @@ export function testReducedProductStockValidation() {
 
     cy.get('cx-cart-item-list cx-cart-item-validation-warning div').should(
       'have.length',
-      2
+      2,
     );
 
     checkReducedQuantity(PRODUCT_1);

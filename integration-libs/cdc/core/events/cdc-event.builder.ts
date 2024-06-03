@@ -15,7 +15,7 @@ import { CdcAuthActions } from '../store/actions';
 export class CdcEventBuilder {
   constructor(
     protected stateEventService: StateEventService,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {
     this.register();
   }

@@ -98,7 +98,7 @@ describe('RecentSearchesComponent', () => {
     const chosenWord = 'selectedWord';
     component.updateChosenWord(chosenWord);
     expect(
-      searchBoxComponentServiceMock.changeSelectedWord
+      searchBoxComponentServiceMock.changeSelectedWord,
     ).toHaveBeenCalledWith(chosenWord);
   });
 

@@ -24,7 +24,7 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
   constructor(
     protected anonymousConsentsService: AnonymousConsentsService,
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {}
 
   viewDetails(): void {
@@ -32,7 +32,7 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.ANONYMOUS_CONSENT,
       undefined,
-      this.vcr
+      this.vcr,
     );
     if (dialog) {
       this.subscriptions.add(dialog.subscribe());
@@ -44,7 +44,7 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
       this.anonymousConsentsService
         .giveAllConsents()
         .pipe(tap(() => this.hideBanner()))
-        .subscribe()
+        .subscribe(),
     );
   }
 

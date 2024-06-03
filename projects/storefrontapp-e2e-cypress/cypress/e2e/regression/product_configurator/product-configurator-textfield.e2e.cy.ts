@@ -27,7 +27,7 @@ context('Textfield Configuration', () => {
     it('should be able to navigate from the product details page', () => {
       textfieldConfiguration.goToProductDetailsPage(
         electronicsShop,
-        testProduct
+        testProduct,
       );
       textfieldConfiguration.clickOnConfigureButton();
     });
@@ -35,7 +35,7 @@ context('Textfield Configuration', () => {
     it('should be able to navigate from the cart', () => {
       textfieldConfiguration.goToConfigurationPage(
         electronicsShop,
-        testProduct
+        testProduct,
       );
       textfieldConfiguration.checkConfigurationPageIsDisplayed();
       textfieldConfiguration.addToCartAndVerify(electronicsShop, testProduct);
@@ -45,7 +45,7 @@ context('Textfield Configuration', () => {
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
       textfieldConfiguration.goToProductDetailsPage(
         electronicsShop,
-        testProduct
+        testProduct,
       );
       common.clickOnAddToCartBtnOnPD();
       common.clickOnViewCartBtnOnPD();
@@ -57,7 +57,7 @@ context('Textfield Configuration', () => {
     it('should enter value and add textfield product to cart', () => {
       textfieldConfiguration.goToConfigurationPage(
         electronicsShop,
-        testProduct
+        testProduct,
       );
       textfieldConfiguration.checkConfigurationPageIsDisplayed();
       textfieldConfiguration.checkAttributeDisplayed(ENGRAVED_TEXT);
@@ -68,7 +68,7 @@ context('Textfield Configuration', () => {
     it('should be able to update a configured product from the cart', () => {
       textfieldConfiguration.goToConfigurationPage(
         electronicsShop,
-        testProduct
+        testProduct,
       );
       textfieldConfiguration.checkConfigurationPageIsDisplayed();
       textfieldConfiguration.addToCartAndVerify(electronicsShop, testProduct);

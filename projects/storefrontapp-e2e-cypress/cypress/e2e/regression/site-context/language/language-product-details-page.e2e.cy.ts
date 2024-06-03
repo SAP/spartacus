@@ -16,7 +16,7 @@ describe('Language switch - product-details page', () => {
 
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
-    siteContextSelector.LANGUAGES
+    siteContextSelector.LANGUAGES,
   );
 
   describe('product-details page', () => {
@@ -26,7 +26,7 @@ describe('Language switch - product-details page', () => {
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + productDetailsPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + productDetailsPath,
       );
     });
 
@@ -35,7 +35,7 @@ describe('Language switch - product-details page', () => {
         productDetailsPath,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
 
       cy.get('cx-product-summary .summary').should('have.text', deutschName);
@@ -46,7 +46,7 @@ describe('Language switch - product-details page', () => {
         productDetailsPath,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
 
       cy.get('cx-add-to-cart button.btn-primary').click();

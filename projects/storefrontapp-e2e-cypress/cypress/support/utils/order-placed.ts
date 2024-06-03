@@ -22,7 +22,7 @@ let startTime = 0;
 export function waitForOrderToBePlacedRequest(
   orderNumber?: string,
   contentCatalog: string = Cypress.env('BASE_SITE'),
-  currency: string = 'USD'
+  currency: string = 'USD',
 ) {
   const {
     userId,
@@ -31,16 +31,16 @@ export function waitForOrderToBePlacedRequest(
   cy.request({
     method: 'GET',
     url: `${Cypress.env('API_URL')}${Cypress.env(
-      'OCC_PREFIX'
+      'OCC_PREFIX',
     )}/${contentCatalog}/users/${userId}/${Cypress.env(
-      'OCC_PREFIX_ORDER_ENDPOINT'
+      'OCC_PREFIX_ORDER_ENDPOINT',
     )}?pageSize=5&lang=en&curr=${currency}`,
     headers: {
       Authorization: `bearer ${access_token}`,
     },
   })
     .then(
-      (res) => new Promise((resolve) => setTimeout(() => resolve(res), delay))
+      (res) => new Promise((resolve) => setTimeout(() => resolve(res), delay)),
     )
     .then((res: Cypress.Response) => {
       if (
@@ -56,7 +56,7 @@ export function waitForOrderToBePlacedRequest(
           res.body.replenishmentOrders.length &&
           (!orderNumber ||
             res.body.replenishmentOrders.filter(
-              (order) => order.replenishmentOrderCode === orderNumber
+              (order) => order.replenishmentOrderCode === orderNumber,
             ).length > 0))
       ) {
         startTime = 0;
@@ -71,7 +71,7 @@ export function waitForOrderToBePlacedRequest(
 export function waitForOrderWithConsignmentToBePlacedRequest(
   orderNumber?: string,
   contentCatalog: string = Cypress.env('BASE_SITE'),
-  elapsedTime = 0
+  elapsedTime = 0,
 ) {
   const {
     userId,
@@ -80,14 +80,14 @@ export function waitForOrderWithConsignmentToBePlacedRequest(
   cy.request({
     method: 'GET',
     url: `${Cypress.env('API_URL')}${Cypress.env(
-      'OCC_PREFIX'
+      'OCC_PREFIX',
     )}/${contentCatalog}/users/${userId}/orders/${orderNumber}?pageSize=5&lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${access_token}`,
     },
   })
     .then(
-      (res) => new Promise((resolve) => setTimeout(() => resolve(res), delay))
+      (res) => new Promise((resolve) => setTimeout(() => resolve(res), delay)),
     )
     .then((res: Cypress.Response) => {
       if (
@@ -103,7 +103,7 @@ export function waitForOrderWithConsignmentToBePlacedRequest(
         waitForOrderWithConsignmentToBePlacedRequest(
           orderNumber,
           contentCatalog,
-          elapsedTime
+          elapsedTime,
         );
       }
     });

@@ -7,7 +7,7 @@ import { defaultCheckoutConfig } from '../../root/config/default-checkout-config
 import { CheckoutConfigService } from './checkout-config.service';
 
 const mockCheckoutConfig: CheckoutConfig = JSON.parse(
-  JSON.stringify(defaultCheckoutConfig)
+  JSON.stringify(defaultCheckoutConfig),
 );
 
 const [FREE_CODE, STANDARD_CODE, PREMIUM_CODE] = [
@@ -44,8 +44,8 @@ describe('CheckoutConfigService', () => {
       expect(
         service['compareDeliveryCost'](
           { deliveryCost: { value: 4 } },
-          { deliveryCost: { value: 2 } }
-        )
+          { deliveryCost: { value: 2 } },
+        ),
       ).toBe(1);
     });
 
@@ -53,8 +53,8 @@ describe('CheckoutConfigService', () => {
       expect(
         service['compareDeliveryCost'](
           { deliveryCost: { value: 5 } },
-          { deliveryCost: { value: 7 } }
-        )
+          { deliveryCost: { value: 7 } },
+        ),
       ).toBe(-1);
     });
 
@@ -62,8 +62,8 @@ describe('CheckoutConfigService', () => {
       expect(
         service['compareDeliveryCost'](
           { deliveryCost: { value: 1 } },
-          { deliveryCost: { value: 1 } }
-        )
+          { deliveryCost: { value: 1 } },
+        ),
       ).toBe(0);
     });
   });
@@ -72,7 +72,7 @@ describe('CheckoutConfigService', () => {
     it('should call findMatchingDeliveryMode with ordered modes by price', () => {
       const findMatchingDeliveryMode = spyOn(
         service,
-        'findMatchingDeliveryMode' as any
+        'findMatchingDeliveryMode' as any,
       );
 
       service.getPreferredDeliveryMode([standardMode, freeMode, premiumMode]);
@@ -99,15 +99,15 @@ describe('CheckoutConfigService', () => {
           freeMode,
           standardMode,
           premiumMode,
-        ])
+        ]),
       ).toBe(FREE_CODE);
 
       expect(
-        service['findMatchingDeliveryMode']([standardMode, premiumMode])
+        service['findMatchingDeliveryMode']([standardMode, premiumMode]),
       ).toBe(STANDARD_CODE);
 
       expect(service['findMatchingDeliveryMode']([premiumMode])).toBe(
-        PREMIUM_CODE
+        PREMIUM_CODE,
       );
     });
 
@@ -121,15 +121,15 @@ describe('CheckoutConfigService', () => {
           freeMode,
           standardMode,
           premiumMode,
-        ])
+        ]),
       ).toBe(STANDARD_CODE);
 
       expect(
-        service['findMatchingDeliveryMode']([standardMode, premiumMode])
+        service['findMatchingDeliveryMode']([standardMode, premiumMode]),
       ).toBe(STANDARD_CODE);
 
       expect(service['findMatchingDeliveryMode']([freeMode, premiumMode])).toBe(
-        PREMIUM_CODE
+        PREMIUM_CODE,
       );
 
       service['defaultDeliveryMode'] = [
@@ -150,15 +150,15 @@ describe('CheckoutConfigService', () => {
           freeMode,
           standardMode,
           premiumMode,
-        ])
+        ]),
       ).toBe(FREE_CODE);
 
       expect(
-        service['findMatchingDeliveryMode']([standardMode, premiumMode])
+        service['findMatchingDeliveryMode']([standardMode, premiumMode]),
       ).toBe(PREMIUM_CODE);
 
       expect(service['findMatchingDeliveryMode']([standardMode])).toBe(
-        STANDARD_CODE
+        STANDARD_CODE,
       );
     });
 
@@ -170,7 +170,7 @@ describe('CheckoutConfigService', () => {
           freeMode,
           standardMode,
           premiumMode,
-        ])
+        ]),
       ).toBe(FREE_CODE);
 
       service['defaultDeliveryMode'] = [STANDARD_CODE];
@@ -179,7 +179,7 @@ describe('CheckoutConfigService', () => {
           freeMode,
           standardMode,
           premiumMode,
-        ])
+        ]),
       ).toBe(STANDARD_CODE);
 
       service['defaultDeliveryMode'] = [PREMIUM_CODE];
@@ -188,7 +188,7 @@ describe('CheckoutConfigService', () => {
           freeMode,
           standardMode,
           premiumMode,
-        ])
+        ]),
       ).toBe(PREMIUM_CODE);
 
       service['defaultDeliveryMode'] = [
@@ -200,7 +200,7 @@ describe('CheckoutConfigService', () => {
           freeMode,
           standardMode,
           premiumMode,
-        ])
+        ]),
       ).toBe(FREE_CODE);
 
       service['defaultDeliveryMode'] = [
@@ -214,7 +214,7 @@ describe('CheckoutConfigService', () => {
           freeMode,
           standardMode,
           premiumMode,
-        ])
+        ]),
       ).toBe(STANDARD_CODE);
       expect(
         service['findMatchingDeliveryMode']([
@@ -222,7 +222,7 @@ describe('CheckoutConfigService', () => {
           { deliveryCost: { value: 1 }, code: 'existing_code' },
           standardMode,
           premiumMode,
-        ])
+        ]),
       ).toBe('existing_code');
     });
 
@@ -233,7 +233,7 @@ describe('CheckoutConfigService', () => {
           freeMode,
           standardMode,
           premiumMode,
-        ])
+        ]),
       ).toBe(FREE_CODE);
     });
   });

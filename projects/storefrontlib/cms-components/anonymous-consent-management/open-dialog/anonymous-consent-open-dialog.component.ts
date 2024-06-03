@@ -23,14 +23,14 @@ export class AnonymousConsentOpenDialogComponent {
 
   constructor(
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
   ) {}
 
   openDialog(): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.ANONYMOUS_CONSENT,
       this.openElement,
-      this.vcr
+      this.vcr,
     );
     if (dialog) {
       dialog.pipe(take(1)).subscribe();

@@ -50,12 +50,12 @@ export class ConfiguratorConflictSolverDialogComponent
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected launchDialogService: LaunchDialogService,
-    protected focusService: KeyboardFocusService
+    protected focusService: KeyboardFocusService,
   ) {}
 
   init(
     conflictGroup: Observable<Configurator.Group>,
-    routerData: Observable<ConfiguratorRouter.Data>
+    routerData: Observable<ConfiguratorRouter.Data>,
   ): void {
     this.focusService.clear();
     this.conflictGroup$ = conflictGroup;
@@ -66,7 +66,7 @@ export class ConfiguratorConflictSolverDialogComponent
     this.subscription.add(
       this.launchDialogService.data$.subscribe((dialogData) => {
         this.init(dialogData.conflictGroup, dialogData.routerData);
-      })
+      }),
     );
   }
 
@@ -86,13 +86,13 @@ export class ConfiguratorConflictSolverDialogComponent
       .pipe(take(1))
       .subscribe((routerData) =>
         this.configuratorCommonsService.dismissConflictSolverDialog(
-          routerData.owner
-        )
+          routerData.owner,
+        ),
       );
     this.launchDialogService.closeDialog(reason);
 
     this.configuratorStorefrontUtilsService.scrollToConfigurationElement(
-      '.VariantConfigurationTemplate'
+      '.VariantConfigurationTemplate',
     );
     this.configuratorStorefrontUtilsService.focusFirstAttribute();
   }

@@ -44,7 +44,7 @@ export class ProductImageZoomThumbnailsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.activeThumb.subscribe((image) => {
         this.mainMediaContainer.next(image);
-      })
+      }),
     );
   }
 
@@ -62,7 +62,7 @@ export class ProductImageZoomThumbnailsComponent implements OnInit, OnDestroy {
         return (container.zoom?.url &&
           thumbnail.zoom?.url &&
           container.zoom.url === thumbnail.zoom.url) as boolean;
-      })
+      }),
     );
   }
 

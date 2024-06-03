@@ -20,6 +20,6 @@ export abstract class ProductReferencesAdapter {
   abstract load(
     productCode: string,
     referenceType?: string,
-    pageSize?: number
+    pageSize?: number,
   ): Observable<ProductReference[]>;
 }

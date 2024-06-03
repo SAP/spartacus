@@ -36,40 +36,40 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
 
     classUnderTest = TestBed.inject(
-      ConfiguratorAttributeBaseComponent as Type<ConfiguratorAttributeBaseComponent>
+      ConfiguratorAttributeBaseComponent as Type<ConfiguratorAttributeBaseComponent>,
     );
   });
 
   it('should generate value key', () => {
     expect(
-      classUnderTest.createValueUiKey('prefix', 'attributeId', 'valueId')
+      classUnderTest.createValueUiKey('prefix', 'attributeId', 'valueId'),
     ).toBe('cx-configurator--prefix--attributeId--valueId');
   });
 
   it('should generate attribute key', () => {
     expect(classUnderTest.createAttributeUiKey('prefix', 'attributeId')).toBe(
-      'cx-configurator--prefix--attributeId'
+      'cx-configurator--prefix--attributeId',
     );
   });
 
   describe('createAriaLabelledBy', () => {
     it('should return only attribute id for aria-labelledby', () => {
       expect(
-        classUnderTest.createAriaLabelledBy('prefix', 'attributeId')
+        classUnderTest.createAriaLabelledBy('prefix', 'attributeId'),
       ).toEqual('cx-configurator--label--attributeId');
     });
 
     it("should return only attribute id for aria-labelledby in case value id is 'undefined'", () => {
       expect(
-        classUnderTest.createAriaLabelledBy('prefix', 'attributeId', undefined)
+        classUnderTest.createAriaLabelledBy('prefix', 'attributeId', undefined),
       ).toEqual('cx-configurator--label--attributeId');
     });
 
     it('should return attribute id, value id  and without quantity for aria-labelledby', () => {
       expect(
-        classUnderTest.createAriaLabelledBy('prefix', 'attributeId', 'valueId')
+        classUnderTest.createAriaLabelledBy('prefix', 'attributeId', 'valueId'),
       ).toEqual(
-        'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId'
+        'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId',
       );
     });
 
@@ -79,10 +79,10 @@ describe('ConfiguratorAttributeBaseComponent', () => {
           'prefix',
           'attributeId',
           'valueId',
-          undefined
-        )
+          undefined,
+        ),
       ).toEqual(
-        'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId'
+        'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId',
       );
     });
 
@@ -92,10 +92,10 @@ describe('ConfiguratorAttributeBaseComponent', () => {
           'prefix',
           'attributeId',
           'valueId',
-          true
-        )
+          true,
+        ),
       ).toEqual(
-        'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId'
+        'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId',
       );
     });
 
@@ -105,10 +105,10 @@ describe('ConfiguratorAttributeBaseComponent', () => {
           'prefix',
           'attributeId',
           'valueId',
-          false
-        )
+          false,
+        ),
       ).toEqual(
-        'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--option--price--attributeId--valueId'
+        'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--option--price--attributeId--valueId',
       );
     });
   });
@@ -116,7 +116,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   describe('createAttributeIdForConfigurator', () => {
     it('should generate attribute id for configurator', () => {
       expect(
-        classUnderTest.createAttributeIdForConfigurator(currentAttribute)
+        classUnderTest.createAttributeIdForConfigurator(currentAttribute),
       ).toBe('cx-configurator--radioGroup--attributeId');
     });
 
@@ -124,8 +124,8 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       expect(
         classUnderTest.createAttributeValueIdForConfigurator(
           currentAttribute,
-          'valueId'
-        )
+          'valueId',
+        ),
       ).toBe('cx-configurator--radioGroup--attributeId--valueId');
     });
   });
@@ -152,13 +152,13 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   describe('getAriaLabelForValueWithPrice', () => {
     it('should return translation key for read-only', () => {
       expect(classUnderTest.getAriaLabelForValueWithPrice(true)).toEqual(
-        'configurator.a11y.readOnlyValueOfAttributeFullWithPrice'
+        'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
       );
     });
 
     it('should return translation key for another attribute types as read-only', () => {
       expect(classUnderTest.getAriaLabelForValueWithPrice(false)).toEqual(
-        'configurator.a11y.valueOfAttributeFullWithPrice'
+        'configurator.a11y.valueOfAttributeFullWithPrice',
       );
     });
   });
@@ -166,13 +166,13 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   describe('getAriaLabelForValue', () => {
     it('should return translation key for read-only', () => {
       expect(classUnderTest.getAriaLabelForValue(true)).toEqual(
-        'configurator.a11y.readOnlyValueOfAttributeFull'
+        'configurator.a11y.readOnlyValueOfAttributeFull',
       );
     });
 
     it('should return translation key for another attribute types as read-only', () => {
       expect(classUnderTest.getAriaLabelForValue(false)).toEqual(
-        'configurator.a11y.valueOfAttributeFull'
+        'configurator.a11y.valueOfAttributeFull',
       );
     });
   });
@@ -191,8 +191,8 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         classUnderTest.getImgStyleClasses(
           currentAttribute,
           value,
-          imgStyleClass
-        )
+          imgStyleClass,
+        ),
       ).toEqual(imgStyleClass);
     });
 
@@ -205,8 +205,8 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         classUnderTest.getImgStyleClasses(
           currentAttribute,
           value,
-          imgStyleClass
-        )
+          imgStyleClass,
+        ),
       ).toEqual(imgStyleClass);
     });
 
@@ -218,8 +218,8 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         classUnderTest.getImgStyleClasses(
           currentAttribute,
           value,
-          imgStyleClass
-        )
+          imgStyleClass,
+        ),
       ).toEqual(hoverClass);
     });
 
@@ -231,27 +231,27 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         classUnderTest.getImgStyleClasses(
           currentAttribute,
           value,
-          imgStyleClass
-        )
+          imgStyleClass,
+        ),
       ).toEqual(selectedClasses);
     });
   });
 
   it('should generate focus id for attribute value', () => {
     expect(classUnderTest.createFocusId('attrCode', 'valueCode')).toBe(
-      'attrCode--valueCode--focus'
+      'attrCode--valueCode--focus',
     );
   });
 
   describe('getUiType', () => {
     it('should return ui type from attribute if set on attribute level', () => {
       expect(classUnderTest['getUiType'](currentAttribute)).toBe(
-        Configurator.UiType.RADIOBUTTON
+        Configurator.UiType.RADIOBUTTON,
       );
     });
     it('should return ui type "not implemented" if not available on attribute', () => {
       expect(classUnderTest['getUiType'](attributeIncomplete)).toBe(
-        Configurator.UiType.NOT_IMPLEMENTED
+        Configurator.UiType.NOT_IMPLEMENTED,
       );
     });
   });
@@ -259,12 +259,12 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   describe('getAttributeCode', () => {
     it('should return code from attribute if available', () => {
       expect(classUnderTest['getAttributeCode'](currentAttribute)).toBe(
-        attributeCode
+        attributeCode,
       );
     });
     it('should throw exception if no code available', () => {
       expect(() =>
-        classUnderTest['getAttributeCode'](attributeIncomplete)
+        classUnderTest['getAttributeCode'](attributeIncomplete),
       ).toThrow();
     });
   });
@@ -273,14 +273,14 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     it('should know that DROPDOWN does not allow additional values', () => {
       currentAttribute.uiType = Configurator.UiType.DROPDOWN;
       expect(classUnderTest['isWithAdditionalValues'](currentAttribute)).toBe(
-        false
+        false,
       );
     });
 
     it('should know that DROPDOWN_ADDITIONAL_INPUT allows additional values', () => {
       currentAttribute.uiType = Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
       expect(classUnderTest['isWithAdditionalValues'](currentAttribute)).toBe(
-        true
+        true,
       );
     });
 
@@ -288,7 +288,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       currentAttribute.uiType =
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
       expect(classUnderTest['isWithAdditionalValues'](currentAttribute)).toBe(
-        true
+        true,
       );
     });
   });
@@ -322,7 +322,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       const techName = undefined;
       const value = ConfiguratorTestUtils.createValue('valueCode', 3.2);
       expect(classUnderTest.getLabel(false, label, techName, value)).toEqual(
-        label + ' [+' + value.valuePrice?.formattedValue + ']'
+        label + ' [+' + value.valuePrice?.formattedValue + ']',
       );
     });
 
@@ -331,7 +331,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       const techName = undefined;
       const value = ConfiguratorTestUtils.createValue('valueCode', 0);
       expect(classUnderTest.getLabel(false, label, techName, value)).toEqual(
-        label
+        label,
       );
     });
 
@@ -340,7 +340,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       const techName = undefined;
       const value = ConfiguratorTestUtils.createValue('valueCode', -3.2);
       expect(classUnderTest.getLabel(false, label, techName, value)).toEqual(
-        label + ' [' + value.valuePrice?.formattedValue + ']'
+        label + ' [' + value.valuePrice?.formattedValue + ']',
       );
     });
   });
@@ -351,7 +351,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       const techName = 'BLK';
       const techLabel = label + ' / [' + techName + ']';
       expect(classUnderTest.getImageLabel(true, label, techName)).toEqual(
-        techLabel
+        techLabel,
       );
     });
 
@@ -360,7 +360,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       const techName = 'techName';
       const techLabel = label.substring(0, 16).concat('...');
       expect(classUnderTest.getImageLabel(true, label, techName)).toEqual(
-        techLabel
+        techLabel,
       );
     });
   });
@@ -383,14 +383,14 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     it('should return title that contains negative price', () => {
       const value = ConfiguratorTestUtils.createValue('valueCode', -100);
       expect(classUnderTest['getValuePrice'](value)).toEqual(
-        ' [' + value.valuePrice?.formattedValue + ']'
+        ' [' + value.valuePrice?.formattedValue + ']',
       );
     });
 
     it('should return title that contains positive price', () => {
       const value = ConfiguratorTestUtils.createValue('valueCode', 10);
       expect(classUnderTest['getValuePrice'](value)).toEqual(
-        ' [+' + value.valuePrice?.formattedValue + ']'
+        ' [+' + value.valuePrice?.formattedValue + ']',
       );
     });
   });
@@ -398,7 +398,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   describe('isRequiredErrorMsg', () => {
     it('should return false in case both required and incomplete properties are undefined', () => {
       expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
-        false
+        false,
       );
     });
 
@@ -406,7 +406,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       currentAttribute.required = undefined;
       currentAttribute.incomplete = true;
       expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
-        false
+        false,
       );
     });
 
@@ -414,7 +414,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       currentAttribute.required = true;
       currentAttribute.incomplete = undefined;
       expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
-        false
+        false,
       );
     });
 
@@ -422,7 +422,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       currentAttribute.required = false;
       currentAttribute.incomplete = true;
       expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
-        false
+        false,
       );
     });
 
@@ -430,7 +430,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       currentAttribute.required = false;
       currentAttribute.incomplete = true;
       expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
-        false
+        false,
       );
     });
 
@@ -493,7 +493,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         ConfiguratorTestUtils.createValue(
           Configurator.RetractValueCode,
           undefined,
-          true
+          true,
         ),
         ConfiguratorTestUtils.createValue('456', 15),
         ConfiguratorTestUtils.createValue('789', 20),
@@ -506,7 +506,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         ConfiguratorTestUtils.createValue(
           Configurator.RetractValueCode,
           undefined,
-          true
+          true,
         ),
         ConfiguratorTestUtils.createValue('456', 15),
         ConfiguratorTestUtils.createValue('789', 20),
@@ -593,7 +593,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
           Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
         const value: Configurator.Value = { valueCode: 'val', selected: false };
         expect(
-          classUnderTest['isValueDisplayed'](currentAttribute, value)
+          classUnderTest['isValueDisplayed'](currentAttribute, value),
         ).toBe(false);
       });
 
@@ -602,7 +602,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
           Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
         const value: Configurator.Value = { valueCode: 'val', selected: true };
         expect(
-          classUnderTest['isValueDisplayed'](currentAttribute, value)
+          classUnderTest['isValueDisplayed'](currentAttribute, value),
         ).toBe(true);
       });
 
@@ -610,7 +610,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
         const value: Configurator.Value = { valueCode: 'val', selected: false };
         expect(
-          classUnderTest['isValueDisplayed'](currentAttribute, value)
+          classUnderTest['isValueDisplayed'](currentAttribute, value),
         ).toBe(true);
       });
 
@@ -618,7 +618,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
         const value: Configurator.Value = { valueCode: 'val', selected: true };
         expect(
-          classUnderTest['isValueDisplayed'](currentAttribute, value)
+          classUnderTest['isValueDisplayed'](currentAttribute, value),
         ).toBe(true);
       });
     });

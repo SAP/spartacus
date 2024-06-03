@@ -11,7 +11,7 @@ import { LayoutConfig } from '../config/layout-config';
 import { IntersectionOptions } from './intersection.model';
 
 export type IntersectingCondition = (
-  entry: IntersectionObserverEntry
+  entry: IntersectionObserverEntry,
 ) => boolean;
 
 /**
@@ -42,10 +42,10 @@ export class IntersectionService {
   isIntersected(
     element: HTMLElement,
     options?: IntersectionOptions,
-    intersectingCondition?: IntersectingCondition
+    intersectingCondition?: IntersectingCondition,
   ): Observable<boolean> {
     return this.intersects(element, options, intersectingCondition).pipe(
-      first((v) => v === true)
+      first((v) => v === true),
     );
   }
 
@@ -61,7 +61,7 @@ export class IntersectionService {
   isIntersecting(
     element: HTMLElement,
     options?: IntersectionOptions,
-    intersectingCondition?: IntersectingCondition
+    intersectingCondition?: IntersectingCondition,
   ): Observable<boolean> {
     return this.intersects(element, options, intersectingCondition);
   }
@@ -74,22 +74,22 @@ export class IntersectionService {
   private intersects(
     element: HTMLElement,
     options: IntersectionOptions = {},
-    intersectingCondition?: IntersectingCondition
+    intersectingCondition?: IntersectingCondition,
   ): Observable<boolean> {
     return this.createIntersectionObservable(element, options).pipe(
       mergeMap((entries: IntersectionObserverEntry[]) => entries),
       map((entry: IntersectionObserverEntry) =>
         intersectingCondition
           ? intersectingCondition(entry)
-          : entry.isIntersecting
+          : entry.isIntersecting,
       ),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
   private createIntersectionObservable(
     element: HTMLElement,
-    options: IntersectionOptions
+    options: IntersectionOptions,
   ): Observable<IntersectionObserverEntry[]> {
     return new Observable((observer: Observer<IntersectionObserverEntry[]>) => {
       const rootMargin = this.getRootMargin(options);

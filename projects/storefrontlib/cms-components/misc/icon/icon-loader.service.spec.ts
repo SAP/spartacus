@@ -80,7 +80,7 @@ describe('IconLoaderService', () => {
 
   it('should return rtl flip direction', () => {
     expect(service.getFlipDirection(ICON_TYPE.CARET_RIGHT)).toEqual(
-      DirectionMode.RTL
+      DirectionMode.RTL,
     );
   });
 
@@ -98,8 +98,8 @@ describe('IconLoaderService', () => {
       getElements('link[rel=stylesheet]')
         .filter((link) =>
           [FONT_AWESOME_RESOURCE, DIFFERENT_FONT_RESOURCE].includes(
-            link.getAttribute('href') ?? ''
-          )
+            link.getAttribute('href') ?? '',
+          ),
         )
         .forEach((link) => {
           link.remove();
@@ -110,7 +110,7 @@ describe('IconLoaderService', () => {
       service.addLinkResource(ICON_TYPE.VISA);
 
       const actual = getElements('link[rel=stylesheet]').find(
-        (link) => link.getAttribute('href') === FONT_AWESOME_RESOURCE
+        (link) => link.getAttribute('href') === FONT_AWESOME_RESOURCE,
       );
       expect(actual).toBeDefined();
     });
@@ -120,7 +120,7 @@ describe('IconLoaderService', () => {
       service.addLinkResource(ICON_TYPE.VISA);
 
       const actual = getElements('link[rel=stylesheet]').filter(
-        (link) => link.getAttribute('href') === FONT_AWESOME_RESOURCE
+        (link) => link.getAttribute('href') === FONT_AWESOME_RESOURCE,
       );
       expect(actual.length).toBe(1);
     });
@@ -130,7 +130,7 @@ describe('IconLoaderService', () => {
       service.addLinkResource('PAYPAL');
 
       const actual = getElements('link[rel=stylesheet]').filter(
-        (link) => link.getAttribute('href') === FONT_AWESOME_RESOURCE
+        (link) => link.getAttribute('href') === FONT_AWESOME_RESOURCE,
       );
       expect(actual.length).toBe(1);
     });
@@ -141,8 +141,8 @@ describe('IconLoaderService', () => {
 
       const actual = getElements('link[rel=stylesheet]').filter((link) =>
         [FONT_AWESOME_RESOURCE, DIFFERENT_FONT_RESOURCE].includes(
-          link.getAttribute('href') ?? ''
-        )
+          link.getAttribute('href') ?? '',
+        ),
       );
       expect(actual.length).toBe(2);
     });
@@ -172,7 +172,7 @@ describe('IconLoaderService', () => {
 
     it(`should have converted HTML tag into text for text icon`, () => {
       expect((service.getHtml('HTML_IMG') as any).toString()).toContain(
-        '&lt;img'
+        '&lt;img',
       );
     });
 
@@ -181,7 +181,7 @@ describe('IconLoaderService', () => {
       spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
       service.getHtml(ICON_TYPE.CART);
       expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
-        '<svg><use xlink:href="./assets/sprite.svg#cartSymbol"></use></svg>'
+        '<svg><use xlink:href="./assets/sprite.svg#cartSymbol"></use></svg>',
       );
     });
 
@@ -190,7 +190,7 @@ describe('IconLoaderService', () => {
       spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
       service.getHtml(ICON_TYPE.INFO);
       expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
-        '<svg><use xlink:href="#infoSymbol"></use></svg>'
+        '<svg><use xlink:href="#infoSymbol"></use></svg>',
       );
     });
   });

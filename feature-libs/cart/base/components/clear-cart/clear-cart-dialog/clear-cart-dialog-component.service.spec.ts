@@ -93,7 +93,7 @@ describe('ClearCartDialogComponentService', () => {
     service.deleteActiveCart();
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      'Close dialog after cart cleared'
+      'Close dialog after cart cleared',
     );
     expect(eventService.get).toHaveBeenCalled();
     expect(multiCartFacade.deleteCart).toHaveBeenCalled();
@@ -101,7 +101,7 @@ describe('ClearCartDialogComponentService', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'clearCart.cartClearedSuccessfully' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
   });
 
@@ -122,7 +122,7 @@ describe('ClearCartDialogComponentService', () => {
     service.closeDialog(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      mockCloseReason
+      mockCloseReason,
     );
   });
 });

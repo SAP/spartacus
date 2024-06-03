@@ -11,5 +11,5 @@ import { getAsmState } from './feature.selector';
 
 export const getAsmUi: MemoizedSelector<StateWithAsm, AsmUi> = createSelector(
   getAsmState,
-  (state: AsmState) => state.asmUi
+  (state: AsmState) => state.asmUi,
 );

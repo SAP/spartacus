@@ -30,7 +30,7 @@ export class BadRequestHandler extends HttpErrorHandler {
 
   protected handleBadPassword(
     request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): void {
     if (
       response.url?.includes(OAUTH_ENDPOINT) &&
@@ -45,7 +45,7 @@ export class BadRequestHandler extends HttpErrorHandler {
               response.error.error_description || response.message || '',
           },
         },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
       this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
     }
@@ -53,7 +53,7 @@ export class BadRequestHandler extends HttpErrorHandler {
 
   protected handleBadLoginResponse(
     _request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ) {
     this.getErrors(response)
       .filter((error) => error.type === 'PasswordMismatchError')
@@ -67,14 +67,14 @@ export class BadRequestHandler extends HttpErrorHandler {
 
         this.globalMessageService.add(
           { key },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
   }
 
   protected handleValidationError(
     _request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): void {
     this.getErrors(response)
       .filter((e) => e.type === 'ValidationError')
@@ -83,14 +83,14 @@ export class BadRequestHandler extends HttpErrorHandler {
           {
             key: `httpHandlers.validationErrors.${error.reason}.${error.subject}`,
           },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
   }
 
   protected handleGuestDuplicateEmail(
     _request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): void {
     this.getErrors(response)
       .filter((e) => e.type === 'DuplicateUidError')
@@ -102,14 +102,14 @@ export class BadRequestHandler extends HttpErrorHandler {
               errorMessage: error.message || '',
             },
           },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
   }
 
   protected handleUnknownIdentifierError(
     _request: HttpRequest<any>,
-    response: HttpErrorResponse
+    response: HttpErrorResponse,
   ): void {
     this.getErrors(response)
       .filter((e) => e.type === 'UnknownIdentifierError')
@@ -118,14 +118,14 @@ export class BadRequestHandler extends HttpErrorHandler {
           error.message
             ? error.message
             : { key: 'httpHandlers.unknownIdentifier' },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error: ErrorModel) => error.type !== 'JaloObjectNoLongerValidError'
+      (error: ErrorModel) => error.type !== 'JaloObjectNoLongerValidError',
     );
   }
 

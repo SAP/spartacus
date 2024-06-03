@@ -58,7 +58,7 @@ export class CreateOrderReturnRequest extends StateUtils.LoaderLoadAction {
     public payload: {
       userId: string;
       returnRequestInput: ReturnRequestEntryInputList;
-    }
+    },
   ) {
     super(RETURN_REQUEST_DETAILS);
   }
@@ -84,7 +84,7 @@ export class LoadOrderReturnRequest extends StateUtils.LoaderLoadAction {
     public payload: {
       userId: string;
       returnRequestCode: string;
-    }
+    },
   ) {
     super(RETURN_REQUEST_DETAILS);
   }
@@ -111,7 +111,7 @@ export class CancelOrderReturnRequest extends StateUtils.EntityLoadAction {
       userId: string;
       returnRequestCode: string;
       returnRequestModification: ReturnRequestModification;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID);
   }
@@ -139,7 +139,7 @@ export class LoadOrderReturnRequestList extends StateUtils.LoaderLoadAction {
       pageSize?: number;
       currentPage?: number;
       sort?: string;
-    }
+    },
   ) {
     super(RETURN_REQUESTS);
   }

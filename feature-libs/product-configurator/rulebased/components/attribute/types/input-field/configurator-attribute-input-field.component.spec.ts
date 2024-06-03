@@ -48,47 +48,45 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
   const groupId = 'theGroupId';
   const userInput = 'theUserInput';
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeInputFieldComponent,
-          MockFocusDirective,
-        ],
-        imports: [ReactiveFormsModule, I18nTestingModule],
-        providers: [
-          {
-            provide: ConfiguratorUISettingsConfig,
-            useValue: defaultConfiguratorUISettingsConfig,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeInputFieldComponent,
+        MockFocusDirective,
+      ],
+      imports: [ReactiveFormsModule, I18nTestingModule],
+      providers: [
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: defaultConfiguratorUISettingsConfig,
+        },
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '*' },
           },
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '*' },
-            },
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeInputFieldComponent);
@@ -111,7 +109,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
         ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
     spyOn(
       component['configuratorCommonsService'],
-      'updateConfiguration'
+      'updateConfiguration',
     ).and.callThrough();
   });
 
@@ -123,7 +121,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     component.attribute.required = false;
     fixture.detectChanges();
     const styleClasses = fixture.debugElement.query(
-      By.css('input.form-control')
+      By.css('input.form-control'),
     ).nativeElement.classList;
     expect(styleClasses).toContain('ng-touched');
     expect(styleClasses).not.toContain('ng-invalid');
@@ -131,7 +129,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
 
   it('should add classes ng-touch and ng-invalid to the input field.', () => {
     const styleClasses = fixture.debugElement.query(
-      By.css('input.form-control')
+      By.css('input.form-control'),
     ).nativeElement.classList;
     expect(styleClasses).toContain('ng-touched');
     expect(styleClasses).toContain('ng-invalid');
@@ -149,7 +147,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     component.attributeInputForm.setValue(userInput);
     component.onChange();
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledWith(
       ownerKey,
       {
@@ -157,7 +155,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
         userInput: userInput,
         selectedSingleValue: userInput,
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   });
 
@@ -172,11 +170,11 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalled();
   }));
 
@@ -188,11 +186,11 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     fixture.detectChanges();
     tick(DEBOUNCE_TIME / 2);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledWith(
       ownerKey,
       {
@@ -200,7 +198,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
         userInput: 'testValue123',
         selectedSingleValue: 'testValue123',
       },
-      Configurator.UpdateType.ATTRIBUTE
+      Configurator.UpdateType.ATTRIBUTE,
     );
   }));
 
@@ -212,7 +210,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     fixture.detectChanges();
     tick(DEBOUNCE_TIME);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).toHaveBeenCalledTimes(2);
   }));
 
@@ -222,7 +220,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     component.ngOnDestroy();
     tick(DEBOUNCE_TIME);
     expect(
-      component['configuratorCommonsService'].updateConfiguration
+      component['configuratorCommonsService'].updateConfiguration,
     ).not.toHaveBeenCalled();
   }));
 
@@ -236,7 +234,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
         0,
         'aria-label',
         'configurator.a11y.valueOfAttributeBlank attribute:' +
-          component.attribute.label
+          component.attribute.label,
       );
     });
 
@@ -255,7 +253,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
         'configurator.a11y.valueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          component.attribute.userInput
+          component.attribute.userInput,
       );
     }));
 
@@ -267,7 +265,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
         'form-control',
         0,
         'aria-describedby',
-        'cx-configurator--label--attributeName'
+        'cx-configurator--label--attributeName',
       );
     });
   });

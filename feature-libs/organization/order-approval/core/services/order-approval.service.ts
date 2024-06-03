@@ -31,7 +31,7 @@ import { OrderApprovalSelectors } from '../store/selectors';
 export class OrderApprovalService {
   constructor(
     protected store: Store<OrderApprovalState | StateWithProcess<void>>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   loadOrderApproval(orderApprovalCode: string): void {
@@ -40,8 +40,8 @@ export class OrderApprovalService {
         new OrderApprovalActions.LoadOrderApproval({
           userId,
           orderApprovalCode,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -50,24 +50,24 @@ export class OrderApprovalService {
       .takeUserId()
       .subscribe((userId) =>
         this.store.dispatch(
-          new OrderApprovalActions.LoadOrderApprovals({ userId, params })
-        )
+          new OrderApprovalActions.LoadOrderApprovals({ userId, params }),
+        ),
       );
   }
 
   private getOrderApproval(
-    orderApprovalCode: string
+    orderApprovalCode: string,
   ): Observable<StateUtils.LoaderState<OrderApproval>> {
     return (<Store<OrderApprovalState>>this.store).select(
-      OrderApprovalSelectors.getOrderApproval(orderApprovalCode)
+      OrderApprovalSelectors.getOrderApproval(orderApprovalCode),
     );
   }
 
   private getOrderApprovalList(
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<StateUtils.LoaderState<EntitiesModel<OrderApproval>>> {
     return (<Store<OrderApprovalState>>this.store).select(
-      OrderApprovalSelectors.getOrderApprovalList(params)
+      OrderApprovalSelectors.getOrderApprovalList(params),
     );
   }
 
@@ -80,7 +80,7 @@ export class OrderApprovalService {
         }
       }),
       filter((state) => Boolean(state.success || state.error)),
-      map((state) => state.value)
+      map((state) => state.value),
     );
   }
 
@@ -92,12 +92,12 @@ export class OrderApprovalService {
    */
   getOrderApprovalLoading(orderApprovalCode: string): Observable<boolean> {
     return this.getOrderApproval(orderApprovalCode).pipe(
-      map((orderApprovalState) => orderApprovalState.loading ?? false)
+      map((orderApprovalState) => orderApprovalState.loading ?? false),
     );
   }
 
   getList(
-    params: SearchConfig
+    params: SearchConfig,
   ): Observable<EntitiesModel<OrderApproval> | undefined> {
     return this.getOrderApprovalList(params).pipe(
       observeOn(queueScheduler),
@@ -107,15 +107,15 @@ export class OrderApprovalService {
         }
       }),
       filter((process: StateUtils.LoaderState<EntitiesModel<OrderApproval>>) =>
-        Boolean(process.success || process.error)
+        Boolean(process.success || process.error),
       ),
-      map((result) => result.value)
+      map((result) => result.value),
     );
   }
 
   makeDecision(
     orderApprovalCode: string,
-    orderApprovalDecision: OrderApprovalDecision
+    orderApprovalDecision: OrderApprovalDecision,
   ): void {
     this.userIdService.takeUserId().subscribe((userId) =>
       this.store.dispatch(
@@ -123,8 +123,8 @@ export class OrderApprovalService {
           userId,
           orderApprovalCode,
           orderApprovalDecision,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -136,9 +136,9 @@ export class OrderApprovalService {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessLoadingFactory(
-          ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
-        )
-      )
+          ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -150,9 +150,9 @@ export class OrderApprovalService {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessErrorFactory(
-          ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
-        )
-      )
+          ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -164,9 +164,9 @@ export class OrderApprovalService {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessSuccessFactory(
-          ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
-        )
-      )
+          ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
+        ),
+      ),
     );
   }
 

@@ -30,7 +30,7 @@ describe('User Consents Reducer', () => {
       };
 
       const action = new UserActions.GiveUserConsentSuccess(
-        consentGivenTemplate
+        consentGivenTemplate,
       );
       const result = fromReducer.reducer(consents, action);
 

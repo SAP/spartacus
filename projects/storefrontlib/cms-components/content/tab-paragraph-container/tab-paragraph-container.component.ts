@@ -39,7 +39,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -68,11 +68,11 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
                 ...tab,
                 title: `${data.uid}.tabs.${tab.uid}`,
               };
-            })
-          )
-        )
-      )
-    )
+            }),
+          ),
+        ),
+      ),
+    ),
   );
 
   select(tabNum: number, event?: MouseEvent): void {

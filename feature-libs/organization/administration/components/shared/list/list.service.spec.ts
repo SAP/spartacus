@@ -78,7 +78,7 @@ describe('ListService', () => {
     it('should use pageSize=3 from configurable structure', () => {
       let result: EntitiesModel<any>;
       spyOn(service, 'getStructure').and.returnValue(
-        of({ options: { pagination: { pageSize: 3 } } } as TableStructure)
+        of({ options: { pagination: { pageSize: 3 } } } as TableStructure),
       );
       service
         .getData()
@@ -91,7 +91,7 @@ describe('ListService', () => {
   describe('getStructure()', () => {
     it('should build structure with tableService', () => {
       spyOn(tableService, 'buildStructure').and.returnValue(
-        of({ options: { pagination: { pageSize: 3 } } } as TableStructure)
+        of({ options: { pagination: { pageSize: 3 } } } as TableStructure),
       );
       service.getStructure().subscribe().unsubscribe();
       expect(tableService.buildStructure).toHaveBeenCalled();

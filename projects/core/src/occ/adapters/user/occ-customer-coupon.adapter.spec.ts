@@ -91,7 +91,7 @@ describe('OccCustomerCouponAdapter', () => {
         })
         .flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(
-        CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER
+        CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER,
       );
     });
     it('should load customer search results for given user id', () => {
@@ -109,14 +109,14 @@ describe('OccCustomerCouponAdapter', () => {
         'customerCoupons',
         {
           urlParams: { userId: userId },
-        }
+        },
       );
 
       expect(mockReq.request.params.get('pageSize')).toEqual(
-        pageSize.toString()
+        pageSize.toString(),
       );
       expect(mockReq.request.params.get('currentPage')).toEqual(
-        currentPage.toString()
+        currentPage.toString(),
       );
       expect(mockReq.request.params.get('sort')).toEqual(sort);
     });
@@ -131,7 +131,7 @@ describe('OccCustomerCouponAdapter', () => {
       httpMock.expectNone(
         occEnpointsService.buildUrl('customerCoupons', {
           urlParams: { userId: OCC_USER_ID_ANONYMOUS },
-        })
+        }),
       );
     });
   });
@@ -167,7 +167,7 @@ describe('OccCustomerCouponAdapter', () => {
         'couponNotification',
         {
           urlParams: { userId: userId, couponCode: couponCode },
-        }
+        },
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -189,7 +189,7 @@ describe('OccCustomerCouponAdapter', () => {
         'couponNotification',
         {
           urlParams: { userId: userId, couponCode: couponCode },
-        }
+        },
       );
 
       expect(mockReq.cancelled).toBeFalsy();

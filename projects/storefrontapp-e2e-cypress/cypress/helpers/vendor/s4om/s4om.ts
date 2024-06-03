@@ -167,7 +167,7 @@ export function loginS4OMB2bUser() {
   cy.get(LOCATORS.ALLOW_COOKIES_BUTTON).click();
   login(
     s4omB2BUser.registrationData.email,
-    s4omB2BUser.registrationData.password
+    s4omB2BUser.registrationData.password,
   );
   cy.get('.cx-login-greet').should('contain', user.fullName);
 }
@@ -189,7 +189,7 @@ export function addB2bS4ProductToCart() {
 
   interceptGet(
     'cart_refresh',
-    '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*'
+    '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*',
   );
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
@@ -208,7 +208,7 @@ export function addB2bS4ProductToCart() {
       ) {
         window.sessionStorage.setItem(
           'TG11-scheduleLines',
-          JSON.stringify(xhr.response.body.entry.scheduleLines)
+          JSON.stringify(xhr.response.body.entry.scheduleLines),
         );
       }
     })
@@ -248,7 +248,7 @@ export function verifyScheduleLineInfo() {
     cy.get('[aria-describedby="cx-schedule-line-info-' + i + '"]').within(
       () => {
         const confirmedDate = new Date(
-          scheduleLines[i]['confirmedAt']
+          scheduleLines[i]['confirmedAt'],
         ).toLocaleDateString('en', {
           year: 'numeric',
           month: 'numeric',
@@ -258,7 +258,7 @@ export function verifyScheduleLineInfo() {
         cy.contains(confirmedDate);
         cy.contains('Qty');
         cy.contains(scheduleLines[i]['confirmedQuantity']);
-      }
+      },
     );
   }
 }
@@ -266,7 +266,7 @@ export function verifyScheduleLineInfo() {
 export function proceedtoCheckOutS4Product() {
   const paymentTypePage = waitForPage(
     '/checkout/payment-type',
-    'getPaymentType'
+    'getPaymentType',
   );
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${paymentTypePage}`).its('response.statusCode').should('eq', 200);
@@ -296,13 +296,13 @@ export function selectS4OMAccountShippingAddress() {
 
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
-    'getDeliveryPage'
+    'getDeliveryPage',
   );
 
   // Accessibility
   verifyTabbingOrder(
     'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-    tabbingOrderConfig.shippingAddressAccount
+    tabbingOrderConfig.shippingAddressAccount,
   );
 
   cy.get('button.btn-primary').should('be.enabled').click();
@@ -313,7 +313,7 @@ export function selectS4OMAccountShippingAddress() {
 export function selectAccountDeliveryMode() {
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
     b2bDeliveryModeStub,
-    b2bDeliveryAddress.id
+    b2bDeliveryAddress.id,
   );
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
@@ -330,12 +330,12 @@ export function selectAccountDeliveryMode() {
   cy.get('cx-delivery-mode input').first().should('not.be.checked');
 
   cy.get(
-    'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
+    'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)',
   ).then(() => {
     // Accessibility
     verifyTabbingOrder(
       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      s4omDeliveryModeTabbingConfig.deliveryMode
+      s4omDeliveryModeTabbingConfig.deliveryMode,
     );
   });
 
@@ -359,7 +359,7 @@ export function reviewB2bOrderDetail(
   poNum: string = s4omPONumber,
   costCtr: string = s4omCostCenter,
   b2bUnt: string = s4omB2BUnit,
-  isOrderConfirmation: boolean = true
+  isOrderConfirmation: boolean = true,
 ) {
   if (isOrderConfirmation) {
     cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
@@ -482,7 +482,7 @@ export function reviewB2bOrderDetail(
 
   cy.get('cx-order-summary .cx-summary-amount').should(
     'contain',
-    cartData.totalAndShipping
+    cartData.totalAndShipping,
   );
 }
 
@@ -506,7 +506,7 @@ export function findRowInOrderHistoryTable(
   orderAPIAlias: string,
   orderId: string,
   poNum: string,
-  costCenter?: string
+  costCenter?: string,
 ) {
   cy.get('cx-order-history h2').should('contain', 'Order history');
 

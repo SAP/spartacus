@@ -20,7 +20,7 @@ export class OccPermissionTypeNormalizer
 
   convert(
     source: Occ.OrderApprovalPermissionType,
-    target?: OrderApprovalPermissionType
+    target?: OrderApprovalPermissionType,
   ): OrderApprovalPermissionType {
     if (target === undefined) {
       target = { ...(source as any) } as OrderApprovalPermissionType;

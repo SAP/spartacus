@@ -37,7 +37,7 @@ describe('PermissionTypeNormalizer', () => {
     [OccPermissionTypeNormalizer],
     (permissionTypeNormalizer: OccPermissionTypeNormalizer) => {
       expect(permissionTypeNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert permission type', () => {

@@ -26,7 +26,7 @@ export const getCostCenterManagementState: MemoizedSelector<
   CostCenterManagement
 > = createSelector(
   getOrganizationState,
-  (state: OrganizationState) => state[COST_CENTER_FEATURE]
+  (state: OrganizationState) => state[COST_CENTER_FEATURE],
 );
 
 export const getCostCentersState: MemoizedSelector<
@@ -34,11 +34,11 @@ export const getCostCentersState: MemoizedSelector<
   StateUtils.EntityLoaderState<CostCenter>
 > = createSelector(
   getCostCenterManagementState,
-  (state: CostCenterManagement) => state && state.entities
+  (state: CostCenterManagement) => state && state.entities,
 );
 
 export const getCostCenter = (
-  costCenterCode: string
+  costCenterCode: string,
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<CostCenter>
@@ -46,30 +46,30 @@ export const getCostCenter = (
   createSelector(
     getCostCentersState,
     (state: StateUtils.EntityLoaderState<CostCenter>) =>
-      StateUtils.entityLoaderStateSelector(state, costCenterCode)
+      StateUtils.entityLoaderStateSelector(state, costCenterCode),
   );
 
 export const getCostCenterValue = (
-  costCenterCode: string
+  costCenterCode: string,
 ): MemoizedSelector<StateWithOrganization, Budget> => {
   return createSelector(getCostCenter(costCenterCode), (costCenterState) =>
-    StateUtils.loaderValueSelector(costCenterState)
+    StateUtils.loaderValueSelector(costCenterState),
   );
 };
 
 export const getCostCenterList = (
-  params: SearchConfig
+  params: SearchConfig,
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<CostCenter>>
 > =>
   createSelector(getCostCenterManagementState, (state: CostCenterManagement) =>
-    StateUtils.denormalizeSearch<CostCenter>(state, params)
+    StateUtils.denormalizeSearch<CostCenter>(state, params),
   );
 
 export const getAssignedBudgets = (
   code: string,
-  params: SearchConfig
+  params: SearchConfig,
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<Budget>>
@@ -79,18 +79,18 @@ export const getAssignedBudgets = (
     getBudgetsState,
     (
       state: CostCenterManagement,
-      budgets: StateUtils.EntityLoaderState<Budget>
+      budgets: StateUtils.EntityLoaderState<Budget>,
     ) =>
       StateUtils.denormalizeCustomB2BSearch(
         state.budgets,
         budgets,
         params,
-        code
-      )
+        code,
+      ),
   );
 
 export const getCostCenterState = (
-  code: string
+  code: string,
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<CostCenter>
@@ -98,5 +98,5 @@ export const getCostCenterState = (
   createSelector(
     getCostCentersState,
     (state: StateUtils.EntityLoaderState<CostCenter>) =>
-      StateUtils.entityLoaderStateSelector(state, code)
+      StateUtils.entityLoaderStateSelector(state, code),
   );

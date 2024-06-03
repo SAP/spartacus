@@ -25,7 +25,7 @@ export class ExportOrderEntriesComponent {
 
   constructor(
     protected exportEntriesService: ExportOrderEntriesToCsvService,
-    protected contextService: ContextService
+    protected contextService: ContextService,
   ) {}
 
   protected orderEntriesContext$: Observable<OrderEntriesContext | undefined> =
@@ -35,8 +35,8 @@ export class ExportOrderEntriesComponent {
     this.orderEntriesContext$.pipe(
       switchMap(
         (orderEntriesContext) =>
-          orderEntriesContext?.getEntries?.() ?? of(undefined)
-      )
+          orderEntriesContext?.getEntries?.() ?? of(undefined),
+      ),
     );
 
   exportCsv(entries: OrderEntry[]): void {

@@ -53,7 +53,7 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
   ],
   providers: [
     provideDefaultConfigFactory(
-      defaultOrganizationOrderApprovalComponentsConfig
+      defaultOrganizationOrderApprovalComponentsConfig,
     ),
     provideDefaultConfig(<RoutingConfig>{
       routing: {

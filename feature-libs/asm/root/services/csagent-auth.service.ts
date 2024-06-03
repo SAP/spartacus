@@ -35,7 +35,7 @@ export class CsAgentAuthService {
     protected userIdService: UserIdService,
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected store: Store,
-    protected userAccountFacade: UserAccountFacade
+    protected userAccountFacade: UserAccountFacade,
   ) {}
 
   /**
@@ -45,7 +45,7 @@ export class CsAgentAuthService {
    */
   async authorizeCustomerSupportAgent(
     userId: string,
-    password: string
+    password: string,
   ): Promise<void> {
     let userToken: AuthToken | undefined;
     // Start emulation for currently logged in user
@@ -64,7 +64,7 @@ export class CsAgentAuthService {
     try {
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
         userId,
-        password
+        password,
       );
       this.store.dispatch(new AuthActions.Logout());
 
@@ -108,8 +108,8 @@ export class CsAgentAuthService {
       this.authStorageService.getTokenTarget(),
     ]).pipe(
       map(([token, tokenTarget]) =>
-        Boolean(token?.access_token && tokenTarget === TokenTarget.CSAgent)
-      )
+        Boolean(token?.access_token && tokenTarget === TokenTarget.CSAgent),
+      ),
     );
   }
 

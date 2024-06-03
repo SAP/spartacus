@@ -64,6 +64,6 @@ describe('SSR - Product Listing Page', () => {
           }
         });
       }
-    }
+    },
   );
 });

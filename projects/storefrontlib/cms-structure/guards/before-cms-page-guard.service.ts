@@ -26,7 +26,7 @@ export class BeforeCmsPageGuardService {
    */
   canActivate(
     route: CmsActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     return this.guardsComposer.canActivate(this.guards, route, state);
   }

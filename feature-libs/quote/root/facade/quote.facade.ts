@@ -44,7 +44,7 @@ export abstract class QuoteFacade {
    * @returns Observable emitting a list of quote states
    */
   abstract getQuotesState(
-    params: QuotesStateParams
+    params: QuotesStateParams,
   ): Observable<QueryState<QuoteList | undefined>>;
 
   /**
@@ -75,7 +75,7 @@ export abstract class QuoteFacade {
   abstract addQuoteComment(
     quoteCode: string,
     quoteComment: QuoteComment,
-    entryNumber?: string
+    entryNumber?: string,
   ): Observable<unknown>;
 
   /**
@@ -87,7 +87,7 @@ export abstract class QuoteFacade {
    */
   abstract performQuoteAction(
     quote: Quote,
-    quoteAction: QuoteActionType
+    quoteAction: QuoteActionType,
   ): Observable<unknown>;
 
   /**
@@ -130,6 +130,6 @@ export abstract class QuoteFacade {
    */
   abstract downloadAttachment(
     quoteCode: string,
-    attachmentId: string
+    attachmentId: string,
   ): Observable<Blob>;
 }

@@ -17,7 +17,7 @@ export class RequestedDeliveryDateConnector {
   public setRequestedDeliveryDate(
     userId: string,
     cartId: string,
-    requestedDate: string
+    requestedDate: string,
   ): Observable<{}> {
     return this.adapter.setRequestedDeliveryDate(userId, cartId, requestedDate);
   }

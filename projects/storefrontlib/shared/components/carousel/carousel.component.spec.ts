@@ -12,7 +12,7 @@ import { MockFeatureDirective } from '../../test/mock-feature-directive';
 class MockCarouselService {
   getItemsPerSlide(
     _nativeElement: HTMLElement,
-    _itemWidth: number
+    _itemWidth: number,
   ): Observable<number> {
     return EMPTY;
   }
@@ -32,7 +32,7 @@ class MockCxIconComponent {
 class MockTemplateComponent {}
 
 function checkIndicatorAriaLabels(
-  fixture: ComponentFixture<CarouselComponent>
+  fixture: ComponentFixture<CarouselComponent>,
 ) {
   const els = fixture.debugElement.queryAll(By.css('div.indicators button'));
   let currentSlide = 1;
@@ -49,22 +49,18 @@ describe('Carousel Component', () => {
 
   let templateFixture: ComponentFixture<MockTemplateComponent>;
   let template;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          CarouselComponent,
-          MockCxIconComponent,
-          MockTemplateComponent,
-          MockFeatureDirective,
-        ],
-        providers: [
-          { provide: CarouselService, useClass: MockCarouselService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        CarouselComponent,
+        MockCxIconComponent,
+        MockTemplateComponent,
+        MockFeatureDirective,
+      ],
+      providers: [{ provide: CarouselService, useClass: MockCarouselService }],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CarouselComponent);
@@ -86,7 +82,7 @@ describe('Carousel Component', () => {
       spyOn(logger, 'error');
       component.ngOnInit();
       expect(logger.error).toHaveBeenCalledWith(
-        'No template reference provided to render the carousel items for the `cx-carousel`'
+        'No template reference provided to render the carousel items for the `cx-carousel`',
       );
     });
 
@@ -149,7 +145,7 @@ describe('Carousel Component', () => {
         expect(el.nativeElement).toBeTruthy();
 
         expect((<HTMLElement>el.nativeElement).innerText).toEqual(
-          'test carousel with title'
+          'test carousel with title',
         );
       });
 
@@ -182,7 +178,7 @@ describe('Carousel Component', () => {
 
       it('should have disabled previous button on slide 1', () => {
         const el = fixture.debugElement.query(
-          By.css('button.previous[disabled]')
+          By.css('button.previous[disabled]'),
         );
         expect(el.nativeElement).toBeTruthy();
       });
@@ -201,7 +197,7 @@ describe('Carousel Component', () => {
 
       it('should enabled previous button after clicking on next button', () => {
         const prevButton = fixture.debugElement.query(
-          By.css('button.previous')
+          By.css('button.previous'),
         );
         expect(prevButton.nativeElement.disabled).toBe(true);
 
@@ -214,7 +210,7 @@ describe('Carousel Component', () => {
 
       it('should toggle disabled state of previous/next buttons after navigating to next slide', () => {
         const prevButton = fixture.debugElement.query(
-          By.css('button.previous')
+          By.css('button.previous'),
         );
         const nextButton = fixture.debugElement.query(By.css('button.next'));
         (<HTMLElement>nextButton.nativeElement).click();
@@ -226,28 +222,28 @@ describe('Carousel Component', () => {
 
       it('should have 2 indicators', () => {
         const el = fixture.debugElement.queryAll(
-          By.css('div.indicators button')
+          By.css('div.indicators button'),
         );
         expect(el.length).toEqual(2);
       });
 
       it('should have disabled indicator', () => {
         const el = fixture.debugElement.queryAll(
-          By.css('div.indicators button')
+          By.css('div.indicators button'),
         );
         expect(el[0].nativeElement.disabled).toEqual(true);
       });
 
       it('should have enabled indicator', () => {
         const el = fixture.debugElement.queryAll(
-          By.css('div.indicators button')
+          By.css('div.indicators button'),
         );
         expect(el[1].nativeElement.disabled).toEqual(false);
       });
 
       it('should toggle disabled state after navigating with the indicators', () => {
         const indicators = fixture.debugElement.queryAll(
-          By.css('div.indicators button')
+          By.css('div.indicators button'),
         );
 
         expect(indicators[0].nativeElement.disabled).toBe(true);
@@ -281,14 +277,14 @@ describe('Carousel Component', () => {
 
       it('should have a size-4 class', () => {
         const el = fixture.debugElement.query(
-          By.css('div.carousel-panel.size-4')
+          By.css('div.carousel-panel.size-4'),
         );
         expect(el.nativeElement).toBeTruthy();
       });
 
       it('should have 2 indicators', () => {
         const el = fixture.debugElement.queryAll(
-          By.css('div.indicators button')
+          By.css('div.indicators button'),
         );
         expect(el.length).toEqual(2);
       });
@@ -328,14 +324,14 @@ describe('Carousel Component', () => {
 
       it('should have a size-3 class', () => {
         const el = fixture.debugElement.query(
-          By.css('div.carousel-panel.size-3')
+          By.css('div.carousel-panel.size-3'),
         );
         expect(el.nativeElement).toBeTruthy();
       });
 
       it('should have 3 indicators', () => {
         const el = fixture.debugElement.queryAll(
-          By.css('div.indicators button')
+          By.css('div.indicators button'),
         );
         expect(el.length).toEqual(3);
       });
@@ -366,14 +362,14 @@ describe('Carousel Component', () => {
 
       it('should have no indicators', () => {
         const el = fixture.debugElement.queryAll(
-          By.css('div.indicators button')
+          By.css('div.indicators button'),
         );
         expect(el.length).toEqual(0);
       });
 
       it('should have a size-3 class', () => {
         const el = fixture.debugElement.query(
-          By.css('div.carousel-panel.size-3')
+          By.css('div.carousel-panel.size-3'),
         );
         expect(el.nativeElement).toBeTruthy();
       });

@@ -29,7 +29,7 @@ export class LoadUnitOrders extends StateUtils.LoaderLoadAction {
       currentPage?: number;
       filters?: string;
       sort?: string;
-    }
+    },
   ) {
     super(UNIT_ORDERS);
   }
@@ -62,7 +62,7 @@ export class LoadOrderDetails extends StateUtils.LoaderLoadAction {
     public payload: {
       userId: string;
       orderCode: string;
-    }
+    },
   ) {
     super(UNIT_ORDER_DETAILS);
   }

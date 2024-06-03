@@ -50,8 +50,8 @@ let mockConfiguration: Configurator.Configuration = {
     CONFIG_ID,
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
-    )
+      PRODUCT_CODE,
+    ),
   ),
   productCode: PRODUCT_CODE,
   kbKey: {
@@ -201,8 +201,8 @@ function setDataForProductConfiguration() {
       CONFIG_ID,
       ConfiguratorModelUtils.createOwner(
         CommonConfigurator.OwnerType.PRODUCT,
-        PRODUCT_CODE
-      )
+        PRODUCT_CODE,
+      ),
     ),
     productCode: PRODUCT_CODE,
     kbKey: {
@@ -228,8 +228,8 @@ function setDataForOrderEntry() {
       CONFIG_ID,
       ConfiguratorModelUtils.createOwner(
         CommonConfigurator.OwnerType.ORDER_ENTRY,
-        PRODUCT_CODE
-      )
+        PRODUCT_CODE,
+      ),
     ),
     overview: {
       configId: CONFIG_ID,
@@ -253,8 +253,8 @@ function setDataForCartEntry() {
       CONFIG_ID,
       ConfiguratorModelUtils.createOwner(
         CommonConfigurator.OwnerType.CART_ENTRY,
-        '0'
-      )
+        '0',
+      ),
     ),
     productCode: PRODUCT_CODE,
   };
@@ -275,8 +275,8 @@ function setDataForSavedCartEntry() {
       CONFIG_ID,
       ConfiguratorModelUtils.createOwner(
         CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
-        PRODUCT_CODE
-      )
+        PRODUCT_CODE,
+      ),
     ),
     overview: {
       configId: CONFIG_ID,
@@ -300,8 +300,8 @@ function setDataForQuoteEntry() {
       CONFIG_ID,
       ConfiguratorModelUtils.createOwner(
         CommonConfigurator.OwnerType.QUOTE_ENTRY,
-        PRODUCT_CODE
-      )
+        PRODUCT_CODE,
+      ),
     ),
     overview: {
       configId: CONFIG_ID,
@@ -320,45 +320,43 @@ function setDataForQuoteEntry() {
 }
 
 describe('ConfigProductTitleComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorProductTitleComponent,
-          MockCxIconComponent,
-          MockMediaComponent,
-        ],
-        providers: [
-          {
-            provide: Router,
-            useClass: MockRouter,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          {
-            provide: ConfiguratorExpertModeService,
-            useClass: MockConfiguratorExpertModeService,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        ConfiguratorProductTitleComponent,
+        MockCxIconComponent,
+        MockMediaComponent,
+      ],
+      providers: [
+        {
+          provide: Router,
+          useClass: MockRouter,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: ConfiguratorExpertModeService,
+          useClass: MockConfiguratorExpertModeService,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     initialize();
@@ -384,7 +382,7 @@ describe('ConfigProductTitleComponent', () => {
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
-        ProductScope.LIST
+        ProductScope.LIST,
       );
     });
 
@@ -395,7 +393,7 @@ describe('ConfigProductTitleComponent', () => {
 
       expect(productService.get).toHaveBeenCalledWith(
         mockRouterData.productCode,
-        ProductScope.LIST
+        ProductScope.LIST,
       );
     });
 
@@ -407,7 +405,7 @@ describe('ConfigProductTitleComponent', () => {
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
-        ProductScope.LIST
+        ProductScope.LIST,
       );
     });
 
@@ -417,7 +415,7 @@ describe('ConfigProductTitleComponent', () => {
 
       expect(productService.get).toHaveBeenCalledWith(
         CART_ENTRY_SUFFIX + PRODUCT_CODE,
-        ProductScope.LIST
+        ProductScope.LIST,
       );
     });
 
@@ -429,7 +427,7 @@ describe('ConfigProductTitleComponent', () => {
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
-        ProductScope.LIST
+        ProductScope.LIST,
       );
     });
 
@@ -439,7 +437,7 @@ describe('ConfigProductTitleComponent', () => {
 
       expect(productService.get).toHaveBeenCalledWith(
         SAVED_CART_ENTRY_SUFFIX + PRODUCT_CODE,
-        ProductScope.LIST
+        ProductScope.LIST,
       );
     });
 
@@ -451,7 +449,7 @@ describe('ConfigProductTitleComponent', () => {
 
       expect(productService.get).toHaveBeenCalledWith(
         PRODUCT_CODE,
-        ProductScope.LIST
+        ProductScope.LIST,
       );
     });
 
@@ -461,7 +459,7 @@ describe('ConfigProductTitleComponent', () => {
 
       expect(productService.get).toHaveBeenCalledWith(
         QUOTE_ENTRY_SUFFIX + PRODUCT_CODE,
-        ProductScope.LIST
+        ProductScope.LIST,
       );
     });
 
@@ -471,7 +469,7 @@ describe('ConfigProductTitleComponent', () => {
 
       expect(productService.get).toHaveBeenCalledWith(
         ORDER_ENTRY_SUFFIX + PRODUCT_CODE,
-        ProductScope.LIST
+        ProductScope.LIST,
       );
     });
   });
@@ -482,25 +480,25 @@ describe('ConfigProductTitleComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-title'
+      '.cx-title',
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-title',
-      PRODUCT_NAME
+      PRODUCT_NAME,
     );
 
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-details.open'
+      '.cx-details.open',
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-toggle-details-link-text',
-      'configurator.header.showMore' //Check translation key, because translation module is not available
+      'configurator.header.showMore', //Check translation key, because translation module is not available
     );
   });
 
@@ -514,14 +512,14 @@ describe('ConfigProductTitleComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-details.open'
+      '.cx-details.open',
     );
 
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-toggle-details-link-text',
-      'configurator.header.showLess' //Check translation key, because translation module is not available
+      'configurator.header.showLess', //Check translation key, because translation module is not available
     );
   });
 
@@ -531,13 +529,13 @@ describe('ConfigProductTitleComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-title'
+      '.cx-title',
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-title',
-      PRODUCT_NAME
+      PRODUCT_NAME,
     );
   });
 
@@ -548,28 +546,28 @@ describe('ConfigProductTitleComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'div.cx-kb-key-details'
+      'div.cx-kb-key-details',
     );
 
     CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       'div.cx-kb-pair',
-      4
+      4,
     );
 
     CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       'span.cx-label',
-      4
+      4,
     );
 
     CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       'span.cx-value',
-      4
+      4,
     );
 
     CommonConfiguratorTestUtilsService.expectElementToContainText(
@@ -577,7 +575,7 @@ describe('ConfigProductTitleComponent', () => {
       htmlElem,
       'span.cx-value',
       mockConfiguration.kbKey?.kbName ?? '',
-      0
+      0,
     );
 
     CommonConfiguratorTestUtilsService.expectElementToContainText(
@@ -585,7 +583,7 @@ describe('ConfigProductTitleComponent', () => {
       htmlElem,
       'span.cx-value',
       mockConfiguration.kbKey?.kbLogsys ?? '',
-      1
+      1,
     );
 
     CommonConfiguratorTestUtilsService.expectElementToContainText(
@@ -593,7 +591,7 @@ describe('ConfigProductTitleComponent', () => {
       htmlElem,
       'span.cx-value',
       mockConfiguration.kbKey?.kbVersion ?? '',
-      2
+      2,
     );
 
     CommonConfiguratorTestUtilsService.expectElementToContainText(
@@ -601,7 +599,7 @@ describe('ConfigProductTitleComponent', () => {
       htmlElem,
       'span.cx-value',
       mockConfiguration.kbKey?.kbBuildNumber ?? '',
-      3
+      3,
     );
   });
 
@@ -619,7 +617,7 @@ describe('ConfigProductTitleComponent', () => {
         undefined,
         0,
         'aria-label',
-        'configurator.a11y.showMoreProductInfo product:productName'
+        'configurator.a11y.showMoreProductInfo product:productName',
       );
     });
 
@@ -632,7 +630,7 @@ describe('ConfigProductTitleComponent', () => {
         1,
         'aria-hidden',
         'true',
-        'configurator.header.showMore'
+        'configurator.header.showMore',
       );
     });
 
@@ -644,7 +642,7 @@ describe('ConfigProductTitleComponent', () => {
         undefined,
         undefined,
         'aria-expanded',
-        'false'
+        'false',
       );
     });
 
@@ -659,7 +657,7 @@ describe('ConfigProductTitleComponent', () => {
         undefined,
         0,
         'aria-label',
-        'configurator.a11y.showLessProductInfo product:' + mockProduct.name
+        'configurator.a11y.showLessProductInfo product:' + mockProduct.name,
       );
     });
 
@@ -673,7 +671,7 @@ describe('ConfigProductTitleComponent', () => {
         undefined,
         undefined,
         'aria-expanded',
-        'true'
+        'true',
       );
     });
 
@@ -685,7 +683,7 @@ describe('ConfigProductTitleComponent', () => {
         'cx-details-content',
         0,
         'aria-hidden',
-        'true'
+        'true',
       );
     });
 
@@ -700,7 +698,7 @@ describe('ConfigProductTitleComponent', () => {
         'cx-details-content',
         0,
         'aria-hidden',
-        'false'
+        'false',
       );
     });
 
@@ -713,7 +711,7 @@ describe('ConfigProductTitleComponent', () => {
         2,
         'aria-label',
         'configurator.a11y.productName',
-        mockProduct.name
+        mockProduct.name,
       );
     });
 
@@ -726,7 +724,7 @@ describe('ConfigProductTitleComponent', () => {
         3,
         'aria-label',
         'configurator.a11y.productCode',
-        mockProduct.code
+        mockProduct.code,
       );
     });
 
@@ -739,7 +737,7 @@ describe('ConfigProductTitleComponent', () => {
         4,
         'aria-label',
         'configurator.a11y.productDescription',
-        mockProduct.description
+        mockProduct.description,
       );
     });
 
@@ -752,7 +750,7 @@ describe('ConfigProductTitleComponent', () => {
         0,
         'aria-label',
         'configurator.a11y.kbKeyName name:' + mockConfiguration.kbKey?.kbName,
-        'configurator.header.kbKeyName'
+        'configurator.header.kbKeyName',
       );
     });
 
@@ -766,7 +764,7 @@ describe('ConfigProductTitleComponent', () => {
         'aria-label',
         'configurator.a11y.kbKeyLogsys logsys:' +
           mockConfiguration.kbKey?.kbLogsys,
-        'configurator.header.kbKeyLogsys'
+        'configurator.header.kbKeyLogsys',
       );
     });
 
@@ -780,7 +778,7 @@ describe('ConfigProductTitleComponent', () => {
         'aria-label',
         'configurator.a11y.kbKeyVersion version:' +
           mockConfiguration.kbKey?.kbVersion,
-        'configurator.header.kbKeyVersion'
+        'configurator.header.kbKeyVersion',
       );
     });
 
@@ -794,7 +792,7 @@ describe('ConfigProductTitleComponent', () => {
         'aria-label',
         'configurator.a11y.kbKeyBuildNr number:' +
           mockConfiguration.kbKey?.kbBuildNumber,
-        'configurator.header.kbKeyBuildNr'
+        'configurator.header.kbKeyBuildNr',
       );
     });
   });

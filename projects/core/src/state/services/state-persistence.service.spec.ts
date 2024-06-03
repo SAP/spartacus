@@ -66,13 +66,13 @@ describe('StatePersistenceService', () => {
       state.next(5);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'spartacus⚿⚿test',
-        '5'
+        '5',
       );
 
       state.next(4);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'spartacus⚿⚿test',
-        '4'
+        '4',
       );
     });
 
@@ -89,13 +89,13 @@ describe('StatePersistenceService', () => {
       expect(sessionStorageMock.setItem).not.toHaveBeenCalled();
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'spartacus⚿electronics-spa⚿USD⚿test',
-        '5'
+        '5',
       );
 
       state.next(4);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'spartacus⚿electronics-spa⚿USD⚿test',
-        '4'
+        '4',
       );
     });
 
@@ -112,13 +112,13 @@ describe('StatePersistenceService', () => {
       expect(localStorageMock.setItem).not.toHaveBeenCalled();
       expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
         'spartacus⚿⚿test',
-        '5'
+        '5',
       );
 
       state.next(4);
       expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
         'spartacus⚿⚿test',
-        '4'
+        '4',
       );
     });
 
@@ -154,12 +154,12 @@ describe('StatePersistenceService', () => {
 
       context.next('en');
       expect(localStorageMock.getItem).toHaveBeenCalledWith(
-        'spartacus⚿en⚿test'
+        'spartacus⚿en⚿test',
       );
 
       context.next('de');
       expect(localStorageMock.getItem).toHaveBeenCalledWith(
-        'spartacus⚿de⚿test'
+        'spartacus⚿de⚿test',
       );
 
       expect(localStorageMock.getItem).toHaveBeenCalledTimes(2);
@@ -177,7 +177,7 @@ describe('StatePersistenceService', () => {
       });
 
       expect(localStorageMock.getItem).toHaveBeenCalledWith(
-        'spartacus⚿ctx⚿test'
+        'spartacus⚿ctx⚿test',
       );
       expect(stateFromStorage).toEqual(5);
     });
@@ -186,13 +186,13 @@ describe('StatePersistenceService', () => {
   describe('generateKeyWithContext', () => {
     it('should work with context as an array', () => {
       expect(service['generateKeyWithContext'](['ala', 'ma'], 'kota')).toEqual(
-        'spartacus⚿ala⚿ma⚿kota'
+        'spartacus⚿ala⚿ma⚿kota',
       );
     });
 
     it('should work with context as a string', () => {
       expect(service['generateKeyWithContext']('ola-nie-ma', 'kotki')).toEqual(
-        'spartacus⚿ola-nie-ma⚿kotki'
+        'spartacus⚿ola-nie-ma⚿kotki',
       );
     });
   });

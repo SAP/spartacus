@@ -33,7 +33,7 @@ const scssFilePath = 'src/styles/spartacus/product.scss';
 describe('Spartacus Product schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_PRODUCT,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -88,27 +88,27 @@ describe('Spartacus Product schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -117,7 +117,7 @@ describe('Spartacus Product schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -160,7 +160,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           bulkPricingOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -184,7 +184,7 @@ describe('Spartacus Product schematics: ng-add', () => {
       describe('b2b features', () => {
         it('configuration should be added', () => {
           const configurationModule = appTree.readContent(
-            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
           );
           expect(configurationModule).toMatchSnapshot();
         });
@@ -196,7 +196,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...bulkPricingOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
@@ -213,7 +213,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           variantsOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -240,7 +240,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...variantsOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
@@ -257,7 +257,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           imageZoomOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -284,7 +284,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...imageZoomOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
@@ -301,7 +301,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           futureStockOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -325,7 +325,7 @@ describe('Spartacus Product schematics: ng-add', () => {
       describe('b2b features', () => {
         it('configuration should be added', () => {
           const configurationModule = appTree.readContent(
-            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`,
           );
           expect(configurationModule).toMatchSnapshot();
         });
@@ -337,7 +337,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...futureStockOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 

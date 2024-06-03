@@ -72,7 +72,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
 
     const testRequest = mockHttpRequest(
       'POST',
-      'userId/anonymous/cms/components?productCode=123'
+      'userId/anonymous/cms/components?productCode=123',
     );
 
     assertPostTestRequestBody(testRequest);
@@ -109,7 +109,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
     adapter: OccCmsComponentAdapter,
     fields?: string,
     currentPage?: number,
-    pageSize?: number
+    pageSize?: number,
   ) {
     adapter
       .findComponentsByIds(ids, pageContext, fields, currentPage, pageSize)
@@ -124,7 +124,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
 
   function mockHttpRequest(
     requestMethod: string,
-    requestUrl: string
+    requestUrl: string,
   ): TestRequest {
     return httpMock.expectOne((req) => {
       return req.method === requestMethod && req.url === requestUrl;
@@ -133,7 +133,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
 
   function assertTestRequest(
     testRequest: TestRequest,
-    componentObj: CmsComponent | Occ.ComponentList
+    componentObj: CmsComponent | Occ.ComponentList,
   ) {
     expect(testRequest.cancelled).toBeFalsy();
     expect(testRequest.request.responseType).toEqual('json');
@@ -142,7 +142,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
 
   function assertConverterPipeableMany() {
     expect(converter.pipeableMany).toHaveBeenCalledWith(
-      CMS_COMPONENT_NORMALIZER
+      CMS_COMPONENT_NORMALIZER,
     );
   }
 

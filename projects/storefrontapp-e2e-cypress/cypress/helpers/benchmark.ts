@@ -17,7 +17,7 @@ export function benchmark() {
     console.log(
       'Test "%s" has finished in %dms',
       attributes.title,
-      attributes.duration
+      attributes.duration,
     );
     console.table(commands);
     commands.length = 0;

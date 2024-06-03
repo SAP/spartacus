@@ -132,7 +132,7 @@ describe('AsmComponentService', () => {
 
     it('should return false when user token is not from an emulation session', () => {
       spyOn(csAgentAuthService, 'isCustomerEmulated').and.returnValue(
-        of(false)
+        of(false),
       );
       let result = false;
       asmComponentService
@@ -148,7 +148,7 @@ describe('AsmComponentService', () => {
       windowRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
       asmComponentService.unload();
       expect(
-        windowRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY)
+        windowRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY),
       ).toBeNull();
     });
   });
@@ -156,7 +156,7 @@ describe('AsmComponentService', () => {
   describe('getSearchParameter', () => {
     it('should get parameter from search result', () => {
       expect(asmComponentService.getSearchParameter('customerId')).toEqual(
-        'testId'
+        'testId',
       );
     });
   });

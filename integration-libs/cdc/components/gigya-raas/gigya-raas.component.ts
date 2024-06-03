@@ -38,7 +38,7 @@ export class GigyaRaasComponent implements OnInit {
     private cdcConfig: CdcConfig,
     private winRef: WindowRef,
     private cdcJSService: CdcJsService,
-    private zone: NgZone
+    private zone: NgZone,
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class GigyaRaasComponent implements OnInit {
     this.language$ = this.languageService.getActive().pipe(
       distinctUntilChanged(),
       // On language change we want to rerender CDC screen with proper translations
-      tap(() => (this.renderScreenSet = true))
+      tap(() => (this.renderScreenSet = true)),
     );
   }
 
@@ -85,7 +85,7 @@ export class GigyaRaasComponent implements OnInit {
         : {
             onAfterSubmit: (...params: any[]) => {
               this.zone.run(() =>
-                this.cdcJSService.onProfileUpdateEventHandler(...params)
+                this.cdcJSService.onProfileUpdateEventHandler(...params),
               );
             },
           }),
@@ -102,7 +102,7 @@ export class GigyaRaasComponent implements OnInit {
   protected getSessionExpirationValue(): number {
     if (this.cdcConfig?.cdc !== undefined) {
       const filteredConfigs: any = this.cdcConfig.cdc.filter(
-        (conf) => conf.baseSite === this.getCurrentBaseSite()
+        (conf) => conf.baseSite === this.getCurrentBaseSite(),
       );
       if (filteredConfigs && filteredConfigs.length > 0) {
         return filteredConfigs[0].sessionExpiration;

@@ -90,7 +90,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartFacade,
     protected cd: ChangeDetectorRef,
-    @Optional() protected outlet?: OutletContextData<ItemListContext>
+    @Optional() protected outlet?: OutletContextData<ItemListContext>,
   ) {}
 
   ngOnInit(): void {
@@ -99,13 +99,13 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userIdService
         ?.getUserId()
-        .subscribe((userId) => (this.userId = userId))
+        .subscribe((userId) => (this.userId = userId)),
     );
   }
 
   protected _setItems(
     items: OrderEntry[],
-    options?: { forceRerender?: boolean }
+    options?: { forceRerender?: boolean },
   ) {
     this.resolveItems(items, options);
     this.createForm();
@@ -147,7 +147,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
    */
   protected resolveItems(
     items: OrderEntry[],
-    options?: { forceRerender?: boolean }
+    options?: { forceRerender?: boolean },
   ): void {
     if (!items) {
       this._items = [];
@@ -167,7 +167,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     this._items = items.map((consignmentEntry) => {
       const entry = Object.assign(
         {},
-        (consignmentEntry as ConsignmentEntry).orderEntry
+        (consignmentEntry as ConsignmentEntry).orderEntry,
       );
       entry.quantity = consignmentEntry.quantity;
       return entry;
@@ -181,7 +181,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
    */
   protected rerenderChangedItems(
     items: OrderEntry[],
-    options?: { forceRerender?: boolean }
+    options?: { forceRerender?: boolean },
   ) {
     let offset = 0;
     for (
@@ -245,7 +245,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       this.multiCartService.removeEntry(
         this.userId,
         this.cartId,
-        item.entryNumber as number
+        item.entryNumber as number,
       );
     } else {
       this.activeCartService.removeEntry(item);
@@ -262,24 +262,24 @@ export class CartItemListComponent implements OnInit, OnDestroy {
           if (this.options.isSaveForLater) {
             this.selectiveCartService.updateEntry(
               value.entryNumber,
-              value.quantity
+              value.quantity,
             );
           } else if (this.cartId && this.userId) {
             this.multiCartService.updateEntry(
               this.userId,
               this.cartId,
               value.entryNumber,
-              value.quantity
+              value.quantity,
             );
           } else {
             this.activeCartService.updateEntry(
               value.entryNumber,
-              value.quantity
+              value.quantity,
             );
           }
         }
       }),
-      map(() => <UntypedFormGroup>this.form.get(this.getControlName(item)))
+      map(() => <UntypedFormGroup>this.form.get(this.getControlName(item))),
     );
   }
 

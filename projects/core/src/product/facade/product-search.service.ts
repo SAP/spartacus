@@ -25,7 +25,7 @@ export class ProductSearchService {
         new ProductActions.SearchProducts({
           queryText: query,
           searchConfig: searchConfig,
-        })
+        }),
       );
     }
   }
@@ -38,7 +38,7 @@ export class ProductSearchService {
     this.store.dispatch(
       new ProductActions.ClearProductSearchResult({
         clearPageResults: true,
-      })
+      }),
     );
   }
 }

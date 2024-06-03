@@ -13,18 +13,16 @@ describe('MyAccountV2ConsentManagementFormComponent', () => {
   let fixture: ComponentFixture<MyAccountV2ConsentManagementFormComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [MyAccountV2ConsentManagementFormComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [MyAccountV2ConsentManagementFormComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      MyAccountV2ConsentManagementFormComponent
+      MyAccountV2ConsentManagementFormComponent,
     );
     component = fixture.componentInstance;
     component.consentTemplate = {};

@@ -28,16 +28,16 @@ export class CheckoutLoginComponent implements OnDestroy {
     {
       validators: CustomFormValidators.emailsMustMatch(
         'email',
-        'emailConfirmation'
+        'emailConfirmation',
       ),
-    }
+    },
   );
   sub: Subscription;
 
   constructor(
     protected formBuilder: UntypedFormBuilder,
     protected authRedirectService: AuthRedirectService,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
   ) {}
 
   onSubmit() {

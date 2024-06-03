@@ -78,12 +78,12 @@ export class RoutingConfigService {
     this.routeNamesByPath = {};
 
     for (const [routeName, routeConfig] of Object.entries(
-      this.config?.routing?.routes ?? {}
+      this.config?.routing?.routes ?? {},
     )) {
       routeConfig?.paths?.forEach((path) => {
         if (isDevMode() && this.routeNamesByPath[path]) {
           this.logger.error(
-            `The same path '${path}' is configured for two different route names: '${this.routeNamesByPath[path]}' and '${routeName}`
+            `The same path '${path}' is configured for two different route names: '${this.routeNamesByPath[path]}' and '${routeName}`,
           );
         }
         this.routeNamesByPath[path] = routeName;

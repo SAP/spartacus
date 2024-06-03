@@ -15,7 +15,7 @@ export const getReplenishmentOrderState: MemoizedSelector<
   StateUtils.LoaderState<ReplenishmentOrder>
 > = createSelector(
   getOrderState,
-  (state: OrderState) => state.replenishmentOrder
+  (state: OrderState) => state.replenishmentOrder,
 );
 
 export const getReplenishmentOrderDetailsValue: MemoizedSelector<
@@ -24,7 +24,7 @@ export const getReplenishmentOrderDetailsValue: MemoizedSelector<
 > = createSelector(
   getReplenishmentOrderState,
   (state: StateUtils.LoaderState<ReplenishmentOrder>) =>
-    StateUtils.loaderValueSelector(state)
+    StateUtils.loaderValueSelector(state),
 );
 
 export const getReplenishmentOrderDetailsLoading: MemoizedSelector<
@@ -33,7 +33,7 @@ export const getReplenishmentOrderDetailsLoading: MemoizedSelector<
 > = createSelector(
   getReplenishmentOrderState,
   (state: StateUtils.LoaderState<ReplenishmentOrder>) =>
-    StateUtils.loaderLoadingSelector(state)
+    StateUtils.loaderLoadingSelector(state),
 );
 
 export const getReplenishmentOrderDetailsSuccess: MemoizedSelector<
@@ -42,7 +42,7 @@ export const getReplenishmentOrderDetailsSuccess: MemoizedSelector<
 > = createSelector(
   getReplenishmentOrderState,
   (state: StateUtils.LoaderState<ReplenishmentOrder>) =>
-    StateUtils.loaderSuccessSelector(state)
+    StateUtils.loaderSuccessSelector(state),
 );
 
 export const getReplenishmentOrderDetailsError: MemoizedSelector<
@@ -51,5 +51,5 @@ export const getReplenishmentOrderDetailsError: MemoizedSelector<
 > = createSelector(
   getReplenishmentOrderState,
   (state: StateUtils.LoaderState<ReplenishmentOrder>) =>
-    StateUtils.loaderErrorSelector(state)
+    StateUtils.loaderErrorSelector(state),
 );

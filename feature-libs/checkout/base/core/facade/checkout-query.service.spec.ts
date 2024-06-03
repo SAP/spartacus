@@ -58,7 +58,7 @@ describe(`CheckoutQueryService`, () => {
     [CheckoutQueryService],
     (checkoutQueryService: CheckoutQueryService) => {
       expect(checkoutQueryService).toBeTruthy();
-    }
+    },
   ));
 
   describe(`getCheckoutDetailsState`, () => {
@@ -69,7 +69,7 @@ describe(`CheckoutQueryService`, () => {
         .subscribe((result) => {
           expect(connector.getCheckoutDetails).toHaveBeenCalledWith(
             mockUserId,
-            mockCartId
+            mockCartId,
           );
           expect(result).toEqual(<QueryState<CheckoutState | undefined>>{
             loading: false,

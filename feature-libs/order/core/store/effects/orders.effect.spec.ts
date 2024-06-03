@@ -60,7 +60,7 @@ describe('Orders effect', () => {
     ordersEffect = TestBed.inject(fromOrdersEffect.OrdersEffect);
     orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
     replenishmentOrderHistoryConnector = TestBed.inject(
-      ReplenishmentOrderHistoryConnector
+      ReplenishmentOrderHistoryConnector,
     );
   });
 
@@ -68,7 +68,7 @@ describe('Orders effect', () => {
     describe('Order History', () => {
       it('should load user Orders', () => {
         spyOn(orderHistoryConnector, 'getHistory').and.returnValue(
-          of(mockUserOrders)
+          of(mockUserOrders),
         );
 
         const action = new OrderActions.LoadUserOrders({
@@ -77,7 +77,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new OrderActions.LoadUserOrdersSuccess(
-          mockUserOrders
+          mockUserOrders,
         );
         actions$ = hot('-a', { a: action });
 
@@ -88,7 +88,7 @@ describe('Orders effect', () => {
 
       it('should handle failures for load user Orders', () => {
         spyOn(orderHistoryConnector, 'getHistory').and.returnValue(
-          throwError(() => mockError)
+          throwError(() => mockError),
         );
 
         const action = new OrderActions.LoadUserOrders({
@@ -97,7 +97,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new OrderActions.LoadUserOrdersFail(
-          normalizeHttpError(mockError, new MockLoggerService())
+          normalizeHttpError(mockError, new MockLoggerService()),
         );
         actions$ = hot('-a', { a: action });
 
@@ -111,7 +111,7 @@ describe('Orders effect', () => {
       it('should load user Orders for replenishment order details', () => {
         spyOn(
           replenishmentOrderHistoryConnector,
-          'loadReplenishmentDetailsHistory'
+          'loadReplenishmentDetailsHistory',
         ).and.returnValue(of(mockUserOrders));
 
         const action = new OrderActions.LoadUserOrders({
@@ -121,7 +121,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new OrderActions.LoadUserOrdersSuccess(
-          mockUserOrders
+          mockUserOrders,
         );
         actions$ = hot('-a', { a: action });
 
@@ -133,7 +133,7 @@ describe('Orders effect', () => {
       it('should handle failures for load user Orders for replenishment order details', () => {
         spyOn(
           replenishmentOrderHistoryConnector,
-          'loadReplenishmentDetailsHistory'
+          'loadReplenishmentDetailsHistory',
         ).and.returnValue(throwError(() => mockError));
 
         const action = new OrderActions.LoadUserOrders({
@@ -143,7 +143,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new OrderActions.LoadUserOrdersFail(
-          normalizeHttpError(mockError, new MockLoggerService())
+          normalizeHttpError(mockError, new MockLoggerService()),
         );
         actions$ = hot('-a', { a: action });
 

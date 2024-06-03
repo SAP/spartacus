@@ -21,7 +21,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   load(userId: string, cartId: string): Observable<Cart> {
@@ -29,7 +29,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
       .get<Occ.Cart>(this.getSavedCartEndpoint(userId, cartId))
       .pipe(
         map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
-        this.converter.pipeable(CART_NORMALIZER)
+        this.converter.pipeable(CART_NORMALIZER),
       );
   }
 
@@ -38,7 +38,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
       .get<Occ.CartList>(this.getSavedCartListEndpoint(userId))
       .pipe(
         map((cartList) => cartList.carts ?? []),
-        this.converter.pipeableMany(CART_NORMALIZER)
+        this.converter.pipeableMany(CART_NORMALIZER),
       );
   }
 
@@ -47,23 +47,23 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
       .patch<Occ.Cart>(this.getRestoreSavedCartEndpoint(userId, cartId), cartId)
       .pipe(
         map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
-        this.converter.pipeable(CART_NORMALIZER)
+        this.converter.pipeable(CART_NORMALIZER),
       );
   }
 
   cloneSavedCart(
     userId: string,
     cartId: string,
-    saveCartName: string
+    saveCartName: string,
   ): Observable<Cart> {
     return this.http
       .post<Occ.Cart>(
         this.getCloneSavedCartEndpoint(userId, cartId, saveCartName),
-        cartId
+        cartId,
       )
       .pipe(
         map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
-        this.converter.pipeable(CART_NORMALIZER)
+        this.converter.pipeable(CART_NORMALIZER),
       );
   }
 
@@ -79,7 +79,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
 
   protected getRestoreSavedCartEndpoint(
     userId: string,
-    cartId: string
+    cartId: string,
   ): string {
     return this.occEndpoints.buildUrl('restoreSavedCart', {
       urlParams: { userId, cartId },
@@ -89,7 +89,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
   protected getCloneSavedCartEndpoint(
     userId: string,
     cartId: string,
-    saveCartName: string
+    saveCartName: string,
   ): string {
     return this.occEndpoints.buildUrl('cloneSavedCart', {
       urlParams: { userId, cartId, saveCartName },

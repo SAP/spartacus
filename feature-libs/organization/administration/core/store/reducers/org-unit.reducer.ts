@@ -13,7 +13,7 @@ export const orgUnitsInitialState: ListModel | undefined = undefined;
 
 export function orgUnitEntitiesReducer(
   state = orgUnitInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): B2BUnitNode | undefined {
   switch (action.type) {
     case OrgUnitActions.LOAD_ORG_UNIT_SUCCESS:
@@ -30,7 +30,7 @@ export function orgUnitEntitiesReducer(
 
 export function orgUnitListReducer(
   state = orgUnitsInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): any {
   switch (action.type) {
   }
@@ -39,7 +39,7 @@ export function orgUnitListReducer(
 
 export function orgUnitUserListReducer(
   state = orgUnitsInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): any {
   switch (action.type) {
     case OrgUnitActions.LOAD_ASSIGNED_USERS_SUCCESS:
@@ -50,7 +50,7 @@ export function orgUnitUserListReducer(
 
 export function orgUnitAddressListReducer(
   state = orgUnitsInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case OrgUnitActions.LOAD_ADDRESSES_SUCCESS:

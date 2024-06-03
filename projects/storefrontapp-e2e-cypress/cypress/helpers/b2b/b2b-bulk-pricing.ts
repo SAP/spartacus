@@ -17,8 +17,8 @@ export function visitProduct(productCode) {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/orgProducts/${productCode}*`
+      'BASE_SITE',
+    )}/orgProducts/${productCode}*`,
   ).as(bulkPricingAlias);
 
   cy.visit(page);
@@ -35,8 +35,8 @@ export function addAndverifyTotal(quantity) {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/orgUsers/*/carts/*/entries?*`
+      'BASE_SITE',
+    )}/orgUsers/*/carts/*/entries?*`,
   ).as('totalAlias');
 
   cy.get('cx-add-to-cart form div cx-item-counter input')
@@ -49,7 +49,7 @@ export function addAndverifyTotal(quantity) {
     totalPrice = xhr.response.body.entry.totalPrice.value;
     cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should(
       'contain',
-      totalPrice
+      totalPrice,
     );
   });
 }
@@ -58,8 +58,8 @@ export function updateAndverifyTotal(newQuantity) {
   cy.intercept(
     'PATCH',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts/*/entries/0?lang=en&curr=USD`
+      'BASE_SITE',
+    )}/users/*/carts/*/entries/0?lang=en&curr=USD`,
   ).as('newTotalAlias');
 
   cy.get('cx-added-to-cart-dialog cx-item-counter input')
@@ -72,7 +72,7 @@ export function updateAndverifyTotal(newQuantity) {
     newTotalPrice = xhr.response.body.entry.totalPrice.value;
     cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should(
       'contain',
-      newTotalPrice
+      newTotalPrice,
     );
   });
 }
@@ -83,7 +83,7 @@ export function loginB2bUser() {
 
 export function placeOrder() {
   cy.get(
-    'cx-added-to-cart-dialog .cx-dialog-buttons a.btn.btn-secondary'
+    'cx-added-to-cart-dialog .cx-dialog-buttons a.btn.btn-secondary',
   ).click();
 
   b2bCheckout.enterPONumber();

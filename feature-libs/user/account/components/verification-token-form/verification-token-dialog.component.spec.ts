@@ -56,7 +56,7 @@ describe('VerificationTokenDialogComponent', () => {
       .triggerEventHandler('click');
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      VERIFICATION_TOKEN_DIALOG_ACTION.OK
+      VERIFICATION_TOKEN_DIALOG_ACTION.OK,
     );
   });
 });

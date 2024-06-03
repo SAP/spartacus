@@ -51,7 +51,7 @@ const sorts = [{ selected: true, name: 'code' }];
 class MockPermissionConnector {
   get = createSpy().and.returnValue(of(permission));
   getList = createSpy().and.returnValue(
-    of({ values: [permission], pagination, sorts })
+    of({ values: [permission], pagination, sorts }),
   );
   create = createSpy().and.returnValue(of(permission));
   update = createSpy().and.returnValue(of(permission));
@@ -127,13 +127,13 @@ describe('Permission Effects', () => {
       expect(effects.loadPermission$).toBeObservable(expected);
       expect(permissionConnector.get).toHaveBeenCalledWith(
         userId,
-        permissionCode
+        permissionCode,
       );
     });
 
     it('should return LoadPermissionFail action if permission not updated', () => {
       permissionConnector.get = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new PermissionActions.LoadPermission({
         userId,
@@ -149,7 +149,7 @@ describe('Permission Effects', () => {
       expect(effects.loadPermission$).toBeObservable(expected);
       expect(permissionConnector.get).toHaveBeenCalledWith(
         userId,
-        permissionCode
+        permissionCode,
       );
     });
   });
@@ -175,7 +175,7 @@ describe('Permission Effects', () => {
 
     it('should return LoadPermissionsFail action if permissions not loaded', () => {
       permissionConnector.getList = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new PermissionActions.LoadPermissions({ userId, params });
       const completion = new PermissionActions.LoadPermissionsFail({
@@ -197,7 +197,7 @@ describe('Permission Effects', () => {
         permission,
       });
       const completion1 = new PermissionActions.CreatePermissionSuccess(
-        permission
+        permission,
       );
       const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
@@ -206,13 +206,13 @@ describe('Permission Effects', () => {
       expect(effects.createPermission$).toBeObservable(expected);
       expect(permissionConnector.create).toHaveBeenCalledWith(
         userId,
-        permission
+        permission,
       );
     });
 
     it('should return CreatePermissionFail action if permission not created', () => {
       permissionConnector.create = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new PermissionActions.CreatePermission({
         userId,
@@ -229,7 +229,7 @@ describe('Permission Effects', () => {
       expect(effects.createPermission$).toBeObservable(expected);
       expect(permissionConnector.create).toHaveBeenCalledWith(
         userId,
-        permission
+        permission,
       );
     });
   });
@@ -242,7 +242,7 @@ describe('Permission Effects', () => {
         permission,
       });
       const completion1 = new PermissionActions.UpdatePermissionSuccess(
-        permission
+        permission,
       );
       const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
@@ -252,13 +252,13 @@ describe('Permission Effects', () => {
       expect(permissionConnector.update).toHaveBeenCalledWith(
         userId,
         permissionCode,
-        permission
+        permission,
       );
     });
 
     it('should return UpdatePermissionFail action if permission not created', () => {
       permissionConnector.update = createSpy('update').and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new PermissionActions.UpdatePermission({
         userId,
@@ -277,7 +277,7 @@ describe('Permission Effects', () => {
       expect(permissionConnector.update).toHaveBeenCalledWith(
         userId,
         permissionCode,
-        permission
+        permission,
       );
     });
   });
@@ -286,7 +286,7 @@ describe('Permission Effects', () => {
     it('should return LoadPermissionTypesSuccess action', () => {
       const action = new PermissionActions.LoadPermissionTypes();
       const completion = new PermissionActions.LoadPermissionTypesSuccess(
-        permissionTypes
+        permissionTypes,
       );
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
@@ -297,7 +297,7 @@ describe('Permission Effects', () => {
 
     it('should return LoadPermissionTypesFail action if permission types are not updated', () => {
       permissionConnector.getTypes = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new PermissionActions.LoadPermissionTypes();
       const completion = new PermissionActions.LoadPermissionTypesFail({

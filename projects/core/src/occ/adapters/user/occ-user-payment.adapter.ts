@@ -26,7 +26,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   loadAll(userId: string): Observable<PaymentDetails[]> {
@@ -43,7 +43,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
         throw normalizeHttpError(error, this.logger);
       }),
       map((methodList) => methodList.payments ?? []),
-      this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
+      this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER),
     );
   }
 
@@ -58,7 +58,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
     return this.http.delete(url, { headers }).pipe(
       catchError((error: any) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 
@@ -76,12 +76,12 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
         url,
         // TODO: Remove billingAddress property
         { billingAddress: { titleCode: 'mr' }, defaultPayment: true },
-        { headers }
+        { headers },
       )
       .pipe(
         catchError((error: any) => {
           throw normalizeHttpError(error, this.logger);
-        })
+        }),
       );
   }
 }

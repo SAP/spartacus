@@ -24,7 +24,7 @@ export class CheckoutProgressMobileTopComponent {
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
   ) {
     useFeatureStyles('a11yTruncatedTextForResponsiveView');
   }
@@ -32,7 +32,7 @@ export class CheckoutProgressMobileTopComponent {
   activeStepIndex: number;
   activeStepIndex$: Observable<number> =
     this.checkoutStepService.activeStepIndex$.pipe(
-      tap((index) => (this.activeStepIndex = index))
+      tap((index) => (this.activeStepIndex = index)),
     );
 
   get steps$(): Observable<CheckoutStep[]> {

@@ -19,7 +19,7 @@ import { getSourceRoot } from '../../../shared/utils/workspace-utils';
 export function removedPublicApiDeprecation(
   tree: Tree,
   context: SchematicContext,
-  removedNodes: DeprecatedNode[]
+  removedNodes: DeprecatedNode[],
 ): Tree {
   context.logger.info('Checking removed public api...');
 
@@ -38,8 +38,8 @@ export function removedPublicApiDeprecation(
         removedNode.importPath,
         buildComment(
           removedNode.comment ??
-            `'${removedNode.node}' is no longer part of the public API. Please look into migration guide for more information`
-        )
+            `'${removedNode.node}' is no longer part of the public API. Please look into migration guide for more information`,
+        ),
       );
       commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
     }

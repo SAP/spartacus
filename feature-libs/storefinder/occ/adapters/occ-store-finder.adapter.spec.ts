@@ -42,7 +42,7 @@ class MockOccEndpointsService {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ) {
     return this.getEndpoint(endpoint);
   }
@@ -128,7 +128,7 @@ describe('OccStoreFinderAdapter', () => {
       occStoreFinderAdapter.search('', mockSearchConfig).subscribe();
       httpMock.expectOne({});
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        STORE_FINDER_SEARCH_PAGE_NORMALIZER
+        STORE_FINDER_SEARCH_PAGE_NORMALIZER,
       );
     });
   });
@@ -153,7 +153,7 @@ describe('OccStoreFinderAdapter', () => {
       occStoreFinderAdapter.loadCounts().subscribe();
       httpMock.expectOne({});
       expect(converterService.pipeableMany).toHaveBeenCalledWith(
-        STORE_COUNT_NORMALIZER
+        STORE_COUNT_NORMALIZER,
       );
     });
   });
@@ -180,7 +180,7 @@ describe('OccStoreFinderAdapter', () => {
       occStoreFinderAdapter.load(storeId).subscribe();
       httpMock.expectOne({});
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        POINT_OF_SERVICE_NORMALIZER
+        POINT_OF_SERVICE_NORMALIZER,
       );
     });
   });

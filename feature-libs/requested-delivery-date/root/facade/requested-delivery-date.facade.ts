@@ -28,6 +28,6 @@ export abstract class RequestedDeliveryDateFacade {
   abstract setRequestedDeliveryDate(
     userId: string,
     cartId: string,
-    requestedDate: string
+    requestedDate: string,
   ): Observable<{}>;
 }

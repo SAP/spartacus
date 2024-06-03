@@ -33,8 +33,8 @@ export class UserRegisterService implements UserRegisterFacade {
           // management work properly in transitional period (when we move logic
           // to separate libraries)
           this.store.dispatch(new UserActions.RegisterUserSuccess());
-        })
-      )
+        }),
+      ),
     );
 
   protected registerGuestCommand: Command<
@@ -48,8 +48,8 @@ export class UserRegisterService implements UserRegisterFacade {
       tap((user) => {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.authService.loginWithCredentials(user.uid!, payload.password);
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
@@ -57,7 +57,7 @@ export class UserRegisterService implements UserRegisterFacade {
     protected userConnector: UserProfileConnector,
     protected authService: AuthService,
     protected command: CommandService,
-    protected store: Store
+    protected store: Store,
   ) {}
 
   /**

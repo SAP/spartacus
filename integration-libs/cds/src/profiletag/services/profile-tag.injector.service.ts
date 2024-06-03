@@ -18,7 +18,7 @@ export class ProfileTagInjectorService {
   constructor(
     private profileTagEventTracker: ProfileTagEventService,
     private cdsBackendConnector: CdsBackendConnector,
-    private profileTagLifecycleService: ProfileTagLifecycleService
+    private profileTagLifecycleService: ProfileTagLifecycleService,
   ) {}
 
   track(): Observable<boolean> {
@@ -28,9 +28,9 @@ export class ProfileTagInjectorService {
         switchMap((_) =>
           merge(
             this.profileTagEventTracker.getProfileTagEvents(),
-            this.notifyEcOfLoginSuccessful()
-          ).pipe(map(() => true))
-        )
+            this.notifyEcOfLoginSuccessful(),
+          ).pipe(map(() => true)),
+        ),
       );
   }
 
@@ -40,7 +40,7 @@ export class ProfileTagInjectorService {
         return this.cdsBackendConnector
           .notifySuccessfulLogin()
           .pipe(map(() => true));
-      })
+      }),
     );
   }
 }

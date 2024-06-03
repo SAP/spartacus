@@ -35,23 +35,23 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
     {
       validators: CustomFormValidators.passwordsMustMatch(
         'password',
-        'passwordconf'
+        'passwordconf',
       ),
-    }
+    },
   );
 
   constructor(
     protected userRegisterFacade: UserRegisterFacade,
     protected routingService: RoutingService,
     protected authService: AuthService,
-    protected fb: UntypedFormBuilder
+    protected fb: UntypedFormBuilder,
   ) {}
 
   submit() {
     if (this.guestRegisterForm.valid) {
       this.userRegisterFacade.registerGuest(
         this.guid,
-        this.guestRegisterForm.value.password
+        this.guestRegisterForm.value.password,
       );
       if (!this.subscription) {
         this.subscription = this.authService

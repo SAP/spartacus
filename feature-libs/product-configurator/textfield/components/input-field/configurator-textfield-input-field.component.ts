@@ -67,7 +67,7 @@ export class ConfiguratorTextfieldInputFieldComponent implements OnInit {
   }
 
   protected getLabelForIdGeneration(
-    attribute: ConfiguratorTextfield.ConfigurationInfo
+    attribute: ConfiguratorTextfield.ConfigurationInfo,
   ): string {
     //replace white spaces with an empty string
     return attribute.configurationLabel.replace(/\s/g, '');

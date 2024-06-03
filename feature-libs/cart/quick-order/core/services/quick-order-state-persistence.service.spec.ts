@@ -93,7 +93,7 @@ describe('QuickOrderStatePersistenceService', () => {
   describe('getEntries()', () => {
     it('should return the full state', (done: DoneFn) => {
       spyOn(quickOrderService, 'getEntries').and.returnValue(
-        new BehaviorSubject<OrderEntry[]>([])
+        new BehaviorSubject<OrderEntry[]>([]),
       );
 
       quickOrderService['getEntries']().subscribe((state) => {

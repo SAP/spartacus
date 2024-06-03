@@ -84,12 +84,12 @@ describe('InlineRootRenderStrategy', () => {
       ] as LaunchInlineRootDialog;
       inlineRootRenderStrategy.render(
         config,
-        'TEST_INLINE_ROOT' as LAUNCH_CALLER
+        'TEST_INLINE_ROOT' as LAUNCH_CALLER,
       );
 
       expect(appRef.attachView).toHaveBeenCalledWith(hostView as any);
       expect(
-        fixture.componentRef.location.nativeElement.appendChild
+        fixture.componentRef.location.nativeElement.appendChild,
       ).toHaveBeenCalledWith(testComponentNativeNode);
     });
   });

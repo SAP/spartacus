@@ -49,10 +49,10 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
         return req.method === 'GET';
       });
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-        'anonymousConsentTemplates'
+        'anonymousConsentTemplates',
       );
       expect(converter.pipeableMany).toHaveBeenCalledWith(
-        CONSENT_TEMPLATE_NORMALIZER
+        CONSENT_TEMPLATE_NORMALIZER,
       );
     });
   });
@@ -62,10 +62,10 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
       adapter.loadAnonymousConsents().subscribe().unsubscribe();
       httpMock.expectOne((req) => req.method === 'HEAD');
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-        'anonymousConsentTemplates'
+        'anonymousConsentTemplates',
       );
       expect(converter.pipeable).toHaveBeenCalledWith(
-        ANONYMOUS_CONSENT_NORMALIZER
+        ANONYMOUS_CONSENT_NORMALIZER,
       );
     });
   });

@@ -25,17 +25,17 @@ export class OccReplenishmentOrderHistoryAdapter
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
   public load(
     userId: string,
-    replenishmentOrderCode: string
+    replenishmentOrderCode: string,
   ): Observable<ReplenishmentOrder> {
     return this.http
       .get<Occ.ReplenishmentOrder>(
         this.occEndpoints.buildUrl('replenishmentOrderDetails', {
           urlParams: { userId, replenishmentOrderCode },
-        })
+        }),
       )
       .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER));
   }
@@ -45,7 +45,7 @@ export class OccReplenishmentOrderHistoryAdapter
     replenishmentOrderCode: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<OrderHistoryList> {
     const params: { [key: string]: string } = {};
 
@@ -64,14 +64,14 @@ export class OccReplenishmentOrderHistoryAdapter
         this.occEndpoints.buildUrl('replenishmentOrderDetailsHistory', {
           urlParams: { userId, replenishmentOrderCode },
           queryParams: params,
-        })
+        }),
       )
       .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
   }
 
   public cancelReplenishmentOrder(
     userId: string,
-    replenishmentOrderCode: string
+    replenishmentOrderCode: string,
   ): Observable<ReplenishmentOrder> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -81,7 +81,7 @@ export class OccReplenishmentOrderHistoryAdapter
           urlParams: { userId, replenishmentOrderCode },
         }),
         {},
-        { headers }
+        { headers },
       )
       .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER));
   }
@@ -90,7 +90,7 @@ export class OccReplenishmentOrderHistoryAdapter
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<ReplenishmentOrderList> {
     const params: { [key: string]: string } = {};
     if (pageSize) {

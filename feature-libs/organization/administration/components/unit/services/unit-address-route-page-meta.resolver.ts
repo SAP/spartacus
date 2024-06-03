@@ -17,7 +17,7 @@ import { CurrentUnitAddressService } from '../links/addresses/services/current-u
 export class UnitAddressRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
   constructor(
     translation: TranslationService,
-    protected currentItemService: CurrentUnitAddressService
+    protected currentItemService: CurrentUnitAddressService,
   ) {
     super(translation);
   }

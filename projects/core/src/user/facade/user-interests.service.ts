@@ -35,7 +35,7 @@ import {
 export class UserInterestsService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   /**
@@ -49,7 +49,7 @@ export class UserInterestsService {
     currentPage?: number,
     sort?: string,
     productCode?: string,
-    notificationType?: NotificationType
+    notificationType?: NotificationType,
   ): void {
     this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
@@ -60,7 +60,7 @@ export class UserInterestsService {
           sort: sort,
           productCode: productCode,
           notificationType: notificationType,
-        })
+        }),
       );
     });
   }
@@ -70,7 +70,7 @@ export class UserInterestsService {
    */
   getProductInterests(): Observable<ProductInterestSearchResult> {
     return (<Store<StateWithUser>>this.store).pipe(
-      select(UsersSelectors.getInterests)
+      select(UsersSelectors.getInterests),
     );
   }
 
@@ -79,7 +79,7 @@ export class UserInterestsService {
    * @param pageSize the page size
    */
   getAndLoadProductInterests(
-    pageSize?: number
+    pageSize?: number,
   ): Observable<ProductInterestSearchResult> {
     return (<Store<StateWithUser>>this.store).pipe(
       select(UsersSelectors.getInterestsState),
@@ -93,7 +93,7 @@ export class UserInterestsService {
         }
       }),
       map((interestListState) => interestListState.value),
-      filter(isNotUndefined)
+      filter(isNotUndefined),
     );
   }
 
@@ -102,7 +102,7 @@ export class UserInterestsService {
    */
   getProdutInterestsLoading(): Observable<boolean> {
     return (<Store<StateWithUser>>this.store).pipe(
-      select(UsersSelectors.getInterestsLoading)
+      select(UsersSelectors.getInterestsLoading),
     );
   }
 
@@ -113,7 +113,7 @@ export class UserInterestsService {
    */
   removeProdutInterest(
     item: ProductInterestEntryRelation,
-    singleDelete?: boolean
+    singleDelete?: boolean,
   ): void {
     this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
@@ -121,7 +121,7 @@ export class UserInterestsService {
           userId,
           item: item,
           singleDelete: singleDelete,
-        })
+        }),
       );
     });
   }
@@ -131,7 +131,7 @@ export class UserInterestsService {
    */
   getRemoveProdutInterestLoading(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessLoadingFactory(REMOVE_PRODUCT_INTERESTS_PROCESS_ID))
+      select(getProcessLoadingFactory(REMOVE_PRODUCT_INTERESTS_PROCESS_ID)),
     );
   }
 
@@ -140,7 +140,7 @@ export class UserInterestsService {
    */
   getRemoveProdutInterestSuccess(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessSuccessFactory(REMOVE_PRODUCT_INTERESTS_PROCESS_ID))
+      select(getProcessSuccessFactory(REMOVE_PRODUCT_INTERESTS_PROCESS_ID)),
     );
   }
 
@@ -152,7 +152,7 @@ export class UserInterestsService {
    */
   addProductInterest(
     productCode: string,
-    notificationType: NotificationType
+    notificationType: NotificationType,
   ): void {
     this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
@@ -160,7 +160,7 @@ export class UserInterestsService {
           userId,
           productCode: productCode,
           notificationType: notificationType,
-        })
+        }),
       );
     });
   }
@@ -170,7 +170,7 @@ export class UserInterestsService {
    */
   getAddProductInterestSuccess(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessSuccessFactory(ADD_PRODUCT_INTEREST_PROCESS_ID))
+      select(getProcessSuccessFactory(ADD_PRODUCT_INTEREST_PROCESS_ID)),
     );
   }
 
@@ -179,7 +179,7 @@ export class UserInterestsService {
    */
   getAddProductInterestError(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessErrorFactory(ADD_PRODUCT_INTEREST_PROCESS_ID))
+      select(getProcessErrorFactory(ADD_PRODUCT_INTEREST_PROCESS_ID)),
     );
   }
 

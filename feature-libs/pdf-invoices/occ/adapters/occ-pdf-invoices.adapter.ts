@@ -30,23 +30,23 @@ export class OccPDFInvoicesAdapter implements PDFInvoicesAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   getInvoicesForOrder(
     userId: string,
     orderId: string,
-    queryParams: InvoiceQueryParams
+    queryParams: InvoiceQueryParams,
   ): Observable<OrderInvoiceList> {
     return this.http
       .get<OrderInvoiceList>(
-        this.buildInvoiceListUrl(userId, orderId, queryParams)
+        this.buildInvoiceListUrl(userId, orderId, queryParams),
       )
       .pipe(
         catchError((error: HttpErrorResponse) =>
-          throwError(normalizeHttpError(error, this.logger))
+          throwError(normalizeHttpError(error, this.logger)),
         ),
-        this.converter.pipeable(PDF_INVOICES_LIST_INVOICES_NORMALIZER)
+        this.converter.pipeable(PDF_INVOICES_LIST_INVOICES_NORMALIZER),
       );
   }
 
@@ -54,7 +54,7 @@ export class OccPDFInvoicesAdapter implements PDFInvoicesAdapter {
     userId: string,
     orderId: string,
     invoiceId: string,
-    externalSystemId?: string
+    externalSystemId?: string,
   ): Observable<Blob> {
     const options = {
       responseType: 'blob' as 'json',
@@ -63,19 +63,19 @@ export class OccPDFInvoicesAdapter implements PDFInvoicesAdapter {
     return this.http
       .get<Blob>(
         this.buildInvoicePDFUrl(userId, orderId, invoiceId, externalSystemId),
-        options
+        options,
       )
       .pipe(
         catchError((error: HttpErrorResponse) =>
-          throwError(normalizeHttpError(error, this.logger))
-        )
+          throwError(normalizeHttpError(error, this.logger)),
+        ),
       );
   }
 
   private buildInvoiceListUrl(
     userId: string,
     orderId: string,
-    queryParams: InvoiceQueryParams
+    queryParams: InvoiceQueryParams,
   ): string {
     return this.occEndpoints.buildUrl('pdfInvoicesListInvoices', {
       urlParams: { userId, orderId },
@@ -87,7 +87,7 @@ export class OccPDFInvoicesAdapter implements PDFInvoicesAdapter {
     userId: string,
     orderId: string,
     invoiceId: string,
-    externalSystemId?: string
+    externalSystemId?: string,
   ): string {
     return this.occEndpoints.buildUrl('pdfInvoicesDownloadInvoicePDF', {
       urlParams: { userId, orderId, invoiceId },

@@ -60,7 +60,7 @@ export class ReorderDialogComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected reorderOrderFacade: ReorderOrderFacade,
-    protected multiCartFacade: MultiCartFacade
+    protected multiCartFacade: MultiCartFacade,
   ) {}
 
   createCartFromOrder(orderCode: string): void {

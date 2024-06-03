@@ -26,24 +26,24 @@ const blob = new Blob();
 
 class MockPDFInvoicesConnector implements Partial<PDFInvoicesConnector> {
   getInvoicesForOrder = createSpy(
-    'PDFInvoicesConnector.getInvoicesForOrder'
+    'PDFInvoicesConnector.getInvoicesForOrder',
   ).and.callFake(
     (_userId: string, _orderId: string, _queryParams: InvoiceQueryParams) =>
-      of({})
+      of({}),
   );
   getInvoicePDF = createSpy('PDFInvoicesConnector.getInvoicePDF').and.callFake(
     (
       _userId: string,
       _orderId: string,
       _invoiceId: string,
-      _externalSystemId?: string
-    ) => of(blob)
+      _externalSystemId?: string,
+    ) => of(blob),
   );
 }
 
 class MockUserIdService implements Partial<UserIdService> {
   takeUserId = createSpy('UserIdService.takeUserId').and.returnValue(
-    of(mockUserId)
+    of(mockUserId),
   );
 }
 
@@ -54,7 +54,7 @@ class MockRoutingService implements Partial<RoutingService> {
         semanticRoute: 'orders',
         params: { orderCode: mockOrderId },
       },
-    })
+    }),
   );
 }
 
@@ -103,7 +103,7 @@ describe('PDFInvoicesService', () => {
       expect(connector.getInvoicesForOrder).toHaveBeenCalledWith(
         mockUserId,
         mockOrderId,
-        mockInvoiceQueryParams
+        mockInvoiceQueryParams,
       );
     });
 
@@ -120,7 +120,7 @@ describe('PDFInvoicesService', () => {
       expect(connector.getInvoicesForOrder).toHaveBeenCalledWith(
         mockUserId,
         mockOrderId,
-        mockInvoiceQueryParams
+        mockInvoiceQueryParams,
       );
     });
 
@@ -131,7 +131,7 @@ describe('PDFInvoicesService', () => {
           mockInvoiceId,
           mockExternalSystemId,
           mockUserId,
-          mockOrderId
+          mockOrderId,
         )
         .pipe(take(1))
         .subscribe((res: any) => {
@@ -143,7 +143,7 @@ describe('PDFInvoicesService', () => {
         mockUserId,
         mockOrderId,
         mockInvoiceId,
-        mockExternalSystemId
+        mockExternalSystemId,
       );
     });
 
@@ -161,7 +161,7 @@ describe('PDFInvoicesService', () => {
         mockUserId,
         mockOrderId,
         mockInvoiceId,
-        undefined
+        undefined,
       );
     });
 
@@ -179,7 +179,7 @@ describe('PDFInvoicesService', () => {
         mockUserId,
         mockOrderId,
         mockInvoiceId,
-        undefined
+        undefined,
       );
     });
   });

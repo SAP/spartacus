@@ -94,53 +94,51 @@ describe('ConfigAttributeRadioButtonComponent', () => {
 
   const values: Configurator.Value[] = [value1, value2, value3];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeRadioButtonComponent,
-          ConfiguratorAttributeInputFieldComponent,
-          ConfiguratorAttributeNumericInputFieldComponent,
-          ItemCounterComponent,
-          MockFocusDirective,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-          MockConfiguratorShowMoreComponent,
-        ],
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        providers: [
-          ConfiguratorStorefrontUtilsService,
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockGroupService,
-          },
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeRadioButtonComponent,
+        ConfiguratorAttributeInputFieldComponent,
+        ConfiguratorAttributeNumericInputFieldComponent,
+        ItemCounterComponent,
+        MockFocusDirective,
+        MockConfiguratorAttributeQuantityComponent,
+        MockConfiguratorPriceComponent,
+        MockConfiguratorShowMoreComponent,
+      ],
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        ConfiguratorStorefrontUtilsService,
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ConfiguratorAttributeRadioButtonComponent
+      ConfiguratorAttributeRadioButtonComponent,
     );
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
@@ -167,7 +165,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
 
   it('should set selectedSingleValue on init', () => {
     expect(component.attributeRadioButtonForm.value).toEqual(
-      initialSelectedValue
+      initialSelectedValue,
     );
   });
 
@@ -180,7 +178,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-attribute-level-quantity-price'
+        '.cx-attribute-level-quantity-price',
       );
     });
 
@@ -210,13 +208,13 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
   });
@@ -229,7 +227,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-quantity'
+        'cx-configurator-attribute-quantity',
       );
     });
 
@@ -252,7 +250,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
 
@@ -260,7 +258,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-show-more'
+        'cx-configurator-show-more',
       );
     });
 
@@ -271,7 +269,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-show-more'
+        'cx-configurator-show-more',
       );
     });
   });
@@ -288,7 +286,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         'configurator.a11y.selectedValueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          VALUE_NAME_2
+          VALUE_NAME_2,
       );
     });
 
@@ -300,7 +298,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         'form-check-input',
         1,
         'aria-describedby',
-        'cx-configurator--label--attributeName'
+        'cx-configurator--label--attributeName',
       );
     });
 
@@ -313,7 +311,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         1,
         'aria-hidden',
         'true',
-        VALUE_NAME_2
+        VALUE_NAME_2,
       );
     });
   });
@@ -328,7 +326,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-input-field'
+        'cx-configurator-attribute-input-field',
       );
     });
 
@@ -341,7 +339,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-attribute-numeric-input-field'
+        'cx-configurator-attribute-numeric-input-field',
       );
     });
   });

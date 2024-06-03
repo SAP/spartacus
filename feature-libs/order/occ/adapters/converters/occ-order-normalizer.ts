@@ -32,8 +32,8 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
         this.convertOrderEntry(
           entry,
           source.code,
-          source.appliedProductPromotions
-        )
+          source.appliedProductPromotions,
+        ),
       );
     }
 
@@ -45,7 +45,7 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
           orderEntry: this.convertOrderEntry(
             entry.orderEntry,
             source.code,
-            source.appliedProductPromotions
+            source.appliedProductPromotions,
           ),
         })),
       }));
@@ -56,8 +56,8 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
         this.convertOrderEntry(
           entry,
           source.code,
-          source.appliedProductPromotions
-        )
+          source.appliedProductPromotions,
+        ),
       );
     }
 
@@ -67,7 +67,7 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
   private convertOrderEntry(
     source?: Occ.OrderEntry,
     code?: string,
-    promotions?: PromotionResult[]
+    promotions?: PromotionResult[],
   ): OrderEntry {
     return {
       ...source,
@@ -75,7 +75,7 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
       orderCode: code,
       promotions: this.converter.convert(
         { item: source, promotions: promotions },
-        ORDER_ENTRY_PROMOTIONS_NORMALIZER
+        ORDER_ENTRY_PROMOTIONS_NORMALIZER,
       ),
     };
   }

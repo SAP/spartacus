@@ -13,7 +13,7 @@ import { Address } from '@spartacus/core';
 export function getAddressNumbers(
   address: Address,
   textPhone: string,
-  textMobile: string
+  textMobile: string,
 ): string | undefined {
   if (address.cellphone && address.phone) {
     if (address.cellphone === address.phone) {

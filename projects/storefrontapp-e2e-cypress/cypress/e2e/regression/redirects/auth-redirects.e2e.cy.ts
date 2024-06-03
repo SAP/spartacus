@@ -26,12 +26,12 @@ context('Redirect after auth', () => {
     cy.location('pathname').should('contain', `/login`);
     cy.get('cx-global-message div').should(
       'contain',
-      'Your session has expired. Please login again.'
+      'Your session has expired. Please login again.',
     );
 
     authForms.login(
       user.registrationData.email,
-      user.registrationData.password
+      user.registrationData.password,
     );
 
     cy.location('pathname').should('contain', '/my-account/update-profile');
@@ -49,12 +49,12 @@ context('Redirect after auth', () => {
     cy.location('pathname').should('contain', `/login`);
     cy.get('cx-global-message div').should(
       'contain',
-      'Your session has expired. Please login again.'
+      'Your session has expired. Please login again.',
     );
 
     authForms.login(
       user.registrationData.email,
-      user.registrationData.password
+      user.registrationData.password,
     );
 
     cy.location('pathname').should('contain', '/my-account/consents');
@@ -84,7 +84,7 @@ context('Redirect after auth', () => {
 
     authForms.login(
       user.registrationData.email,
-      user.registrationData.password
+      user.registrationData.password,
     );
 
     cy.location('pathname').should('contain', '/my-account/update-profile');

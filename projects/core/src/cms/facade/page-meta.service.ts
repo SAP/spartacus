@@ -27,7 +27,7 @@ export class PageMetaService {
     protected cms: CmsService,
     protected unifiedInjector: UnifiedInjector,
     protected pageMetaConfig: PageMetaConfig,
-    @Inject(PLATFORM_ID) protected platformId: string
+    @Inject(PLATFORM_ID) protected platformId: string,
   ) {}
 
   protected resolvers$: Observable<PageMetaResolver[]> = this.unifiedInjector
@@ -37,14 +37,14 @@ export class PageMetaService {
   >;
 
   protected meta$: Observable<PageMeta | null> = defer(() =>
-    this.cms.getCurrentPage()
+    this.cms.getCurrentPage(),
   ).pipe(
     filter((page) => Boolean(page)),
     switchMap((page: Page) => this.getMetaResolver(page)),
     switchMap((metaResolver: PageMetaResolver | undefined) =>
-      metaResolver ? this.resolve(metaResolver) : of(null)
+      metaResolver ? this.resolve(metaResolver) : of(null),
     ),
-    shareReplay({ bufferSize: 1, refCount: true })
+    shareReplay({ bufferSize: 1, refCount: true }),
   );
 
   /**
@@ -77,7 +77,7 @@ export class PageMetaService {
       return of({});
     } else {
       return uniteLatest(resolvedData).pipe(
-        map((data) => Object.assign({}, ...data))
+        map((data) => Object.assign({}, ...data)),
       );
     }
   }
@@ -110,7 +110,7 @@ export class PageMetaService {
         );
       })
       .forEach(
-        (resolver) => (resolverMethods[resolver.property] = resolver.method)
+        (resolver) => (resolverMethods[resolver.property] = resolver.method),
       );
     return resolverMethods;
   }
@@ -122,10 +122,10 @@ export class PageMetaService {
    * Resolvers match by default on `PageType` and `page.template`.
    */
   protected getMetaResolver(
-    page: Page
+    page: Page,
   ): Observable<PageMetaResolver | undefined> {
     return this.resolvers$.pipe(
-      map((resolvers) => resolveApplicable(resolvers, [page], [page]))
+      map((resolvers) => resolveApplicable(resolvers, [page], [page])),
     );
   }
 }

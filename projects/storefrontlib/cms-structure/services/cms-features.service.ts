@@ -48,7 +48,7 @@ export class CmsFeaturesService {
 
   constructor(
     protected configInitializer: ConfigInitializerService,
-    protected featureModules: FeatureModulesService
+    protected featureModules: FeatureModulesService,
   ) {
     this.initFeatureMap();
   }
@@ -60,7 +60,7 @@ export class CmsFeaturesService {
         this.featureModulesConfig = config.featureModules ?? {};
 
         for (const [featureName, featureConfig] of Object.entries(
-          this.featureModulesConfig
+          this.featureModulesConfig,
         )) {
           if (
             typeof featureConfig !== 'string' &&
@@ -87,7 +87,7 @@ export class CmsFeaturesService {
    * Return full CmsComponent mapping defined in feature module
    */
   getCmsMapping(
-    componentType: string
+    componentType: string,
   ): Observable<CmsComponentMapping | undefined> {
     const feature = this.componentFeatureMap.get(componentType);
 
@@ -97,8 +97,9 @@ export class CmsFeaturesService {
 
     return this.resolveFeatureInstance(feature).pipe(
       map(
-        (featureInstance) => featureInstance.componentsMappings?.[componentType]
-      )
+        (featureInstance) =>
+          featureInstance.componentsMappings?.[componentType],
+      ),
     );
   }
 
@@ -132,7 +133,7 @@ export class CmsFeaturesService {
    * It will first resolve all module dependencies if defined
    */
   private resolveFeatureInstance(
-    featureName: string
+    featureName: string,
   ): Observable<FeatureInstance> {
     return defer(() => {
       if (!this.featureInstances.has(featureName)) {
@@ -140,10 +141,10 @@ export class CmsFeaturesService {
           featureName,
           this.featureModules.resolveFeature(featureName).pipe(
             map((moduleRef) =>
-              this.createFeatureInstance(moduleRef, featureName)
+              this.createFeatureInstance(moduleRef, featureName),
             ),
-            shareReplay()
-          )
+            shareReplay(),
+          ),
         );
       }
 
@@ -156,7 +157,7 @@ export class CmsFeaturesService {
    */
   private createFeatureInstance(
     moduleRef: NgModuleRef<any>,
-    feature: string
+    feature: string,
   ): FeatureInstance {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const featureConfig = this.featureModulesConfig![
@@ -170,7 +171,7 @@ export class CmsFeaturesService {
 
     // resolve configuration for feature module
     const resolvedConfiguration = this.resolveFeatureConfiguration(
-      moduleRef.injector
+      moduleRef.injector,
     );
 
     // extract cms components configuration from feature config
@@ -194,13 +195,13 @@ export class CmsFeaturesService {
     const featureDefaultConfigChunks = featureInjector.get<any[]>(
       DefaultConfigChunk,
       [],
-      { self: true }
+      { self: true },
     );
 
     return deepMerge(
       {},
       ...(featureDefaultConfigChunks ?? []),
-      ...(featureConfigChunks ?? [])
+      ...(featureConfigChunks ?? []),
     ) as CmsConfig;
   }
 }

@@ -24,7 +24,7 @@ import { OccConfiguratorTextfieldAdapter } from './occ-configurator-textfield.ad
     CommonModule,
 
     ConfigModule.withConfigFactory(
-      defaultOccConfiguratorTextfieldConfigFactory
+      defaultOccConfiguratorTextfieldConfigFactory,
     ),
   ],
   providers: [

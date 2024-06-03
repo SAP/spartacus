@@ -27,21 +27,19 @@ describe('CheckoutLoginComponent', () => {
   let email: AbstractControl;
   let emailConfirmation: AbstractControl;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-        declarations: [CheckoutLoginComponent],
-        providers: [
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: AuthRedirectService,
-            useClass: MockRedirectAfterAuthService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+      declarations: [CheckoutLoginComponent],
+      providers: [
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: AuthRedirectService,
+          useClass: MockRedirectAfterAuthService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutLoginComponent);
@@ -68,7 +66,7 @@ describe('CheckoutLoginComponent', () => {
   describe('submitting form', () => {
     beforeEach(() => {
       activeCartFacade.getAssignedUser = createSpy().and.returnValue(
-        of({ name: 'guest', uid: 'john@acme.com' } as User)
+        of({ name: 'guest', uid: 'john@acme.com' } as User),
       );
       activeCartFacade.isGuestCart = createSpy().and.returnValue(of(true));
     });

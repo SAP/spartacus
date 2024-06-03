@@ -25,32 +25,32 @@ import {
 export class ReplenishmentOrderDetailsService {
   protected replenishmentOrderCode$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.params.replenishmentOrderCode),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   protected replenishmentOrderLoad$ = this.replenishmentOrderCode$.pipe(
     tap((replenishmentOrderCode: string) => {
       if (Boolean(replenishmentOrderCode)) {
         this.replenishmentOrderHistoryFacade.loadReplenishmentOrderDetails(
-          replenishmentOrderCode
+          replenishmentOrderCode,
         );
       } else {
         this.replenishmentOrderHistoryFacade.clearReplenishmentOrderDetails();
       }
     }),
-    shareReplay({ bufferSize: 1, refCount: true })
+    shareReplay({ bufferSize: 1, refCount: true }),
   );
 
   constructor(
     protected routingService: RoutingService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
   ) {}
 
   getOrderDetails(): Observable<ReplenishmentOrder> {
     return this.replenishmentOrderLoad$.pipe(
       switchMap((_) =>
-        this.replenishmentOrderHistoryFacade.getReplenishmentOrderDetails()
-      )
+        this.replenishmentOrderHistoryFacade.getReplenishmentOrderDetails(),
+      ),
     );
   }
 }

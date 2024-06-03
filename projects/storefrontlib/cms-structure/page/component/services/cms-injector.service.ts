@@ -21,13 +21,13 @@ import { ComponentDataProvider } from './component-data.provider';
 export class CmsInjectorService {
   constructor(
     protected cmsComponentsService: CmsComponentsService,
-    protected injector: Injector
+    protected injector: Injector,
   ) {}
 
   public getInjector(
     type: string,
     uid: string,
-    parentInjector?: Injector
+    parentInjector?: Injector,
   ): Injector {
     const configProviders =
       this.cmsComponentsService.getMapping(type)?.providers ?? [];

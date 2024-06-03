@@ -27,7 +27,7 @@ const traceparentPattern = new RegExp('^' + TRACEPARENT + '$');
  * @see https://www.w3.org/TR/trace-context/#traceparent-header-field-values
  */
 export function parseTraceparent(
-  traceparent: string | undefined | null
+  traceparent: string | undefined | null,
 ): W3cTraceContext | undefined {
   if (typeof traceparent !== 'string') {
     return undefined;

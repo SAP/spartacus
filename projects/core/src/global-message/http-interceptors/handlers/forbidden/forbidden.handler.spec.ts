@@ -78,7 +78,7 @@ describe('ForbiddenHandler', () => {
     service.handleError({ url: '' } as HttpRequest<any>);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.forbidden' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 });

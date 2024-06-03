@@ -57,7 +57,7 @@ export class PositioningService {
   }
 
   protected getAllStyles(
-    element: HTMLElement
+    element: HTMLElement,
   ): CSSStyleDeclaration | undefined {
     return this.window?.getComputedStyle(element);
   }
@@ -179,7 +179,7 @@ export class PositioningService {
     hostElement: HTMLElement,
     targetElement: HTMLElement,
     placement: string,
-    appendToBody?: boolean
+    appendToBody?: boolean,
   ): boolean {
     const [placementPrimary = 'top', placementSecondary = 'center'] =
       placement.split('-');
@@ -252,7 +252,7 @@ export class PositioningService {
       }
 
       targetElement.style.transform = `translate(${Math.round(
-        leftPosition
+        leftPosition,
       )}px, ${Math.round(topPosition)}px)`;
 
       // Check if the targetElement is inside the viewport
@@ -286,7 +286,7 @@ export class PositioningService {
     hostElement: HTMLElement,
     targetElement: HTMLElement,
     placement: string | PopoverPosition | PopoverPositionArray,
-    appendToBody?: boolean
+    appendToBody?: boolean,
   ): PopoverPosition {
     const placementVals: Array<PopoverPosition> = Array.isArray(placement)
       ? placement
@@ -314,7 +314,7 @@ export class PositioningService {
           hostElement,
           targetElement,
           testPlacement,
-          appendToBody
+          appendToBody,
         )
       ) {
         isInViewport = true;
@@ -327,7 +327,7 @@ export class PositioningService {
         hostElement,
         targetElement,
         testPlacement,
-        appendToBody
+        appendToBody,
       );
     }
 
@@ -336,7 +336,7 @@ export class PositioningService {
 
   getPositioningClass(
     position?: PopoverPosition,
-    autoPositioning?: boolean
+    autoPositioning?: boolean,
   ): string {
     let positionClass = `${position || 'top'}`;
     if (autoPositioning && positionClass !== 'auto') {

@@ -39,12 +39,12 @@ export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
     protected importInfoService: ProductImportInfoService,
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartFacade,
-    protected savedCartService: SavedCartFacade
+    protected savedCartService: SavedCartFacade,
   ) {}
 
   addEntries(
     products: ProductData[],
-    savedCartInfo?: { name: string; description: string }
+    savedCartInfo?: { name: string; description: string },
   ): Observable<ProductImportInfo> {
     return this.add(products, savedCartInfo).pipe(
       tap((cartId: string) => {
@@ -56,8 +56,8 @@ export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
               (productInfo: ProductImportInfo) =>
                 productInfo.statusCode ===
                   ProductImportStatus.UNKNOWN_IDENTIFIER ||
-                productInfo.statusCode === ProductImportStatus.UNKNOWN_ERROR
-            )
+                productInfo.statusCode === ProductImportStatus.UNKNOWN_ERROR,
+            ),
           )
           .subscribe((isInvalid: boolean) => {
             if (isInvalid) {
@@ -66,13 +66,13 @@ export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
           });
       }),
       switchMap((cartId: string) => this.importInfoService.getResults(cartId)),
-      take(products.length)
+      take(products.length),
     );
   }
 
   protected add(
     products: ProductData[],
-    savedCartInfo?: { name: string; description: string }
+    savedCartInfo?: { name: string; description: string },
   ): Observable<string> {
     return this.userIdService.takeUserId().pipe(
       switchMap((userId: string) =>
@@ -95,13 +95,13 @@ export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
             debounce(() =>
               this.savedCartService
                 .getSaveCartProcessLoading()
-                .pipe(filter((loading) => !loading))
+                .pipe(filter((loading) => !loading)),
             ),
             tap((cartId: string) =>
-              this.multiCartService.addEntries(userId, cartId, products)
-            )
-          )
-      )
+              this.multiCartService.addEntries(userId, cartId, products),
+            ),
+          ),
+      ),
     );
   }
 }

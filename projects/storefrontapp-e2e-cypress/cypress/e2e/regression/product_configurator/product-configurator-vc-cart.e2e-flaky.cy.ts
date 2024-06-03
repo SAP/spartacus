@@ -63,7 +63,7 @@ context('Product Configuration', () => {
     configurationVc.checkCommerceRelease(
       electronicsShop,
       testProduct,
-      commerceRelease
+      commerceRelease,
     );
   });
 
@@ -89,7 +89,7 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
       );
       configurationVc.clickAddToCartBtn();
       configurationVc.goToCart(electronicsShop);
@@ -110,7 +110,7 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
       );
       configuration.checkQuantityStepper(1);
       configuration.increaseQuantity();
@@ -137,14 +137,14 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
       );
       configurationVc.clickOnNextBtnAndWait(PROJECTOR);
       configurationVc.selectAttributeAndWait(
         PROJECTOR_TYPE,
         radioGroup,
         PROJECTOR_LCD,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configurationVc.clickOnPreviousBtnAndWait(GENERAL);
       configurationVc.clickOnGroupAndWait(3);
@@ -154,7 +154,7 @@ context('Product Configuration', () => {
         radioGroup,
         GAMING_CONSOLE_YES,
         1,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
 
       cy.log('Conflict has been triggered');
@@ -164,7 +164,7 @@ context('Product Configuration', () => {
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
 
       cy.log('Conflicting value has been de-selected');
@@ -175,7 +175,7 @@ context('Product Configuration', () => {
         radioGroup,
         GAMING_CONSOLE_YES,
         1,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
 
       cy.log('Conflicting value again has been selected');
@@ -189,7 +189,7 @@ context('Product Configuration', () => {
       configurationVc.clickOnPreviousBtnAndWait(GENERAL);
       configurationVc.clickOnPreviousBtnAndWait(CONFLICT_FOR_GAMING_CONSOLE);
       configurationVc.checkConflictDescriptionDisplayed(
-        Conflict_msg_gaming_console
+        Conflict_msg_gaming_console,
       );
       configurationVc.clickOnNextBtnAndWait(GENERAL);
       configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
@@ -218,7 +218,7 @@ context('Product Configuration', () => {
         configurationOverviewVc.clickOnResolveIssuesLinkOnOP(); // pre 2205
       }
       configurationVc.checkConflictDescriptionDisplayed(
-        Conflict_msg_gaming_console
+        Conflict_msg_gaming_console,
       );
       // Navigate back to the configuration page via clicking on 'View in Configuration' link and deselect conflicting value
       configurationVc.clickOnViewInConfigurationAndWait(GAMING_CONSOLE);
@@ -228,7 +228,7 @@ context('Product Configuration', () => {
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
 
       cy.log('Conflicting value again has been de-selected');
@@ -248,7 +248,7 @@ context('Product Configuration', () => {
         CAMERA_MODE,
         radioGroup,
         'S',
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
 
       configurationVc.navigateToOverviewPage();
@@ -259,7 +259,7 @@ context('Product Configuration', () => {
         CAMERA_FORMAT_PICTURES,
         radioGroup,
         'JPEG',
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configurationVc.navigateToOverviewPage();
       configurationOverviewVc.verifyNotificationBannerOnOP(1, 0);
@@ -269,7 +269,7 @@ context('Product Configuration', () => {
         CAMERA_DISPLAY,
         radioGroup,
         'P5',
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configurationVc.navigateToOverviewPage();
       configurationOverviewVc.verifyNotificationBannerOnOP(0, 0);

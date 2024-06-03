@@ -15,7 +15,7 @@ describe('ReplenishmentOrderDetailsReducer', () => {
       const { initialState } = fromReducer;
 
       const action = new OrderActions.LoadReplenishmentOrderDetailsSuccess(
-        mockReplenishmentOrder
+        mockReplenishmentOrder,
       );
       const state = fromReducer.reducer(initialState, action);
       expect(state).toEqual(mockReplenishmentOrder);
@@ -27,7 +27,7 @@ describe('ReplenishmentOrderDetailsReducer', () => {
       const { initialState } = fromReducer;
 
       const action = new OrderActions.CancelReplenishmentOrderSuccess(
-        mockReplenishmentOrder
+        mockReplenishmentOrder,
       );
       const state = fromReducer.reducer(initialState, action);
       expect(state).toEqual(mockReplenishmentOrder);

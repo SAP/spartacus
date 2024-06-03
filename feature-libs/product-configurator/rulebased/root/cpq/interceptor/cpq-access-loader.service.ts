@@ -16,7 +16,7 @@ export class CpqAccessLoaderService {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   getCpqAccessData(): Observable<CpqAccessData> {
@@ -25,9 +25,9 @@ export class CpqAccessLoaderService {
         this.http.get<CpqAccessData>(
           this.occEndpointsService.buildUrl('getCpqAccessData', {
             urlParams: { userId: userId },
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
   }
 }

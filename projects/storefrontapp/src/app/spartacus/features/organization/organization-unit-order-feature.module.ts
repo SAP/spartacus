@@ -23,7 +23,7 @@ import {
         [ORGANIZATION_UNIT_ORDER_FEATURE]: {
           module: () =>
             import('@spartacus/organization/unit-order').then(
-              (m) => m.UnitOrderModule
+              (m) => m.UnitOrderModule,
             ),
         },
       },

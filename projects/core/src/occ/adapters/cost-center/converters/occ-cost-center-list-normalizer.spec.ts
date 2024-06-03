@@ -47,7 +47,7 @@ describe('CostCenterListNormalizer', () => {
     [OccCostCenterListNormalizer],
     (costCenterListNormalizer: OccCostCenterListNormalizer) => {
       expect(costCenterListNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert cost center list', () => {

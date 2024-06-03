@@ -34,8 +34,8 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
     it('should return the replenishment order state', () => {
       store.dispatch(
         new OrderActions.LoadReplenishmentOrderDetailsSuccess(
-          mockReplenishmentOrder
-        )
+          mockReplenishmentOrder,
+        ),
       );
 
       let result: StateUtils.LoaderState<ReplenishmentOrder>;
@@ -58,8 +58,8 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
     it('should return the order details from the loader state value', () => {
       store.dispatch(
         new OrderActions.LoadReplenishmentOrderDetailsSuccess(
-          mockReplenishmentOrder
-        )
+          mockReplenishmentOrder,
+        ),
       );
 
       let result: ReplenishmentOrder;
@@ -79,7 +79,7 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
         new OrderActions.LoadReplenishmentOrderDetails({
           userId: 'test-user-id',
           replenishmentOrderCode: 'test-repl-code',
-        })
+        }),
       );
 
       let result: boolean;
@@ -97,8 +97,8 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
     it('should return the boolean value from the loader state success', () => {
       store.dispatch(
         new OrderActions.LoadReplenishmentOrderDetailsSuccess(
-          mockReplenishmentOrder
-        )
+          mockReplenishmentOrder,
+        ),
       );
 
       let result: boolean;
@@ -117,7 +117,7 @@ describe('ReplenishmentOrderDetailsSelectors', () => {
       const mockError = 'test-error';
 
       store.dispatch(
-        new OrderActions.LoadReplenishmentOrderDetailsFail(mockError)
+        new OrderActions.LoadReplenishmentOrderDetailsFail(mockError),
       );
 
       let result: boolean;

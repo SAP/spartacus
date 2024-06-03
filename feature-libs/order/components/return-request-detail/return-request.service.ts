@@ -21,7 +21,7 @@ export class ReturnRequestService {
   constructor(
     protected routingService: RoutingService,
     protected returnRequestService: OrderReturnRequestFacade,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   get isCancelling$(): Observable<boolean> {
@@ -54,7 +54,7 @@ export class ReturnRequestService {
       }),
       map(([_, returnRequest]) => returnRequest),
       filter((returnRequest) => Boolean(returnRequest)),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -75,7 +75,7 @@ export class ReturnRequestService {
         key: 'returnRequest.cancelSuccess',
         params: { rma },
       },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
     this.routingService.go({
       cxRoute: 'orders',
@@ -89,7 +89,7 @@ export class ReturnRequestService {
         state: {
           activeTab: 1,
         },
-      }
+      },
     );
   }
 }

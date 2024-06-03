@@ -42,7 +42,7 @@ describe('OccEndpointsService', () => {
   it('should return raw endpoint value', () => {
     const occ = mockOccConfig.backend.occ;
     expect(service.getRawEndpointValue('regions')).toEqual(
-      occ.endpoints['regions'].toString()
+      occ.endpoints['regions'].toString(),
     );
   });
 
@@ -52,7 +52,7 @@ describe('OccEndpointsService', () => {
     // we are modifying config as it can happen before app initialization in config initializer
     config.context.baseSite = ['/final-baseSite'];
     expect(service.getBaseUrl()).toEqual(
-      'test-baseUrl/test-occPrefix/final-baseSite'
+      'test-baseUrl/test-occPrefix/final-baseSite',
     );
   });
 
@@ -89,19 +89,19 @@ describe('OccEndpointsService', () => {
       // we are modifying config as it can happen before app initialization in config initializer
       config.context.baseSite = ['/final-baseSite'];
       expect(service.getBaseUrl()).toEqual(
-        'test-baseUrl/test-occPrefix/final-baseSite'
+        'test-baseUrl/test-occPrefix/final-baseSite',
       );
     });
 
     it('should return the base url based on the provided parameters', () => {
       expect(service.getBaseUrl({ prefix: false })).toEqual(
-        'test-baseUrl/test-baseSite'
+        'test-baseUrl/test-baseSite',
       );
       expect(service.getBaseUrl({ prefix: false, baseSite: true })).toEqual(
-        'test-baseUrl/test-baseSite'
+        'test-baseUrl/test-baseSite',
       );
       expect(service.getBaseUrl({ baseSite: false })).toEqual(
-        'test-baseUrl/test-occPrefix'
+        'test-baseUrl/test-occPrefix',
       );
     });
   });
@@ -111,7 +111,7 @@ describe('OccEndpointsService', () => {
       const url = service.buildUrl('product');
 
       expect(url).toEqual(
-        baseEndpoint + '/configured-endpoint1/${test}?fields=abc'
+        baseEndpoint + '/configured-endpoint1/${test}?fields=abc',
       );
     });
 
@@ -122,7 +122,7 @@ describe('OccEndpointsService', () => {
         });
 
         expect(url).toEqual(
-          baseEndpoint + '/configured-endpoint1/${test}?fields=test'
+          baseEndpoint + '/configured-endpoint1/${test}?fields=test',
         );
       });
 
@@ -132,7 +132,7 @@ describe('OccEndpointsService', () => {
         });
 
         expect(url).toEqual(
-          baseEndpoint + '/configured-endpoint1/${test}?fields=abc'
+          baseEndpoint + '/configured-endpoint1/${test}?fields=abc',
         );
       });
 
@@ -157,7 +157,7 @@ describe('OccEndpointsService', () => {
         });
 
         expect(url).toBe(
-          'test-baseUrl/test-occPrefix/test-baseSite/configured-endpoint1/${test}?fields=fallback'
+          'test-baseUrl/test-occPrefix/test-baseSite/configured-endpoint1/${test}?fields=fallback',
         );
       });
     });
@@ -167,7 +167,7 @@ describe('OccEndpointsService', () => {
         urlParams: { test: 'test-value' },
       });
       expect(url).toEqual(
-        baseEndpoint + '/configured-endpoint1/test-value?fields=abc'
+        baseEndpoint + '/configured-endpoint1/test-value?fields=abc',
       );
     });
 
@@ -179,7 +179,7 @@ describe('OccEndpointsService', () => {
 
       expect(url).toEqual(
         baseEndpoint +
-          '/configured-endpoint1/test-value?fields=abc&param=test-param'
+          '/configured-endpoint1/test-value?fields=abc&param=test-param',
       );
     });
 
@@ -190,7 +190,7 @@ describe('OccEndpointsService', () => {
       });
 
       expect(url).toEqual(
-        baseEndpoint + '/configured-endpoint1/test-value?fields=xyz'
+        baseEndpoint + '/configured-endpoint1/test-value?fields=xyz',
       );
     });
 
@@ -210,7 +210,7 @@ describe('OccEndpointsService', () => {
       });
 
       expect(url).toEqual(
-        baseEndpoint + '/configured-endpoint1/%C4%85%C4%87%C4%99%24%25'
+        baseEndpoint + '/configured-endpoint1/%C4%85%C4%87%C4%99%24%25',
       );
     });
 
@@ -222,7 +222,7 @@ describe('OccEndpointsService', () => {
 
       expect(url).toEqual(
         baseEndpoint +
-          '/configured-endpoint1/test-value?fields=%2B.%2F.%5C.%2C.%3F'
+          '/configured-endpoint1/test-value?fields=%2B.%2F.%5C.%2C.%3F',
       );
     });
   });

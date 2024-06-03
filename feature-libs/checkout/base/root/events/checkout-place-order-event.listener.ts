@@ -32,11 +32,11 @@ export class CheckoutPlaceOrderEventListener implements OnDestroy {
               cartId,
               cartCode,
             },
-            RemoveCartEvent
+            RemoveCartEvent,
           );
 
           this.eventService.dispatch({}, CheckoutQueryResetEvent);
-        })
+        }),
     );
   }
 

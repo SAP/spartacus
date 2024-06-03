@@ -12,7 +12,7 @@ import { UrlMatcherFactory } from './url-matcher-factory';
 
 export function getDefaultUrlMatcherFactory(
   routingConfigService: RoutingConfigService,
-  urlMatcherService: UrlMatcherService
+  urlMatcherService: UrlMatcherService,
 ): UrlMatcherFactory {
   const factory = (route: Route) => {
     const routeName = route.data && route.data['cxRoute'];
@@ -39,7 +39,7 @@ export const DEFAULT_URL_MATCHER = new InjectionToken<UrlMatcherFactory>(
     factory: () =>
       getDefaultUrlMatcherFactory(
         inject(RoutingConfigService),
-        inject(UrlMatcherService)
+        inject(UrlMatcherService),
       ),
-  }
+  },
 );

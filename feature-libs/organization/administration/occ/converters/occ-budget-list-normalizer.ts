@@ -26,7 +26,7 @@ export class OccBudgetListNormalizer
 
   convert(
     source: Occ.BudgetsList,
-    target?: EntitiesModel<Budget>
+    target?: EntitiesModel<Budget>,
   ): EntitiesModel<Budget> {
     if (target === undefined) {
       target = { ...(source as any) } as EntitiesModel<Budget>;

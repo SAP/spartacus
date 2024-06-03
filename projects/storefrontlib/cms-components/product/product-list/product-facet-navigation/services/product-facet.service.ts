@@ -27,7 +27,7 @@ import { FacetList } from '../facet.model';
 export class ProductFacetService {
   constructor(
     protected routing: RoutingService,
-    protected productListComponentService: ProductListComponentService
+    protected productListComponentService: ProductListComponentService,
   ) {}
 
   protected readonly routeState$ = this.routing
@@ -46,11 +46,11 @@ export class ProductFacetService {
             ...page,
             breadcrumbs: this.filterBreadcrumbs(
               page?.breadcrumbs ?? [],
-              state.params
+              state.params,
             ),
-          }))
-        )
-      )
+          })),
+        ),
+      ),
     );
 
   /**
@@ -63,8 +63,8 @@ export class ProductFacetService {
         ({
           facets: result.facets,
           activeFacets: result.breadcrumbs,
-        } as FacetList)
-    )
+        }) as FacetList,
+    ),
   );
 
   /**
@@ -73,7 +73,7 @@ export class ProductFacetService {
    */
   protected filterForPage(
     state: ActivatedRouterStateSnapshot,
-    page: ProductSearchPage
+    page: ProductSearchPage,
   ): boolean {
     if (!page.currentQuery?.query?.value) {
       return false;
@@ -81,7 +81,7 @@ export class ProductFacetService {
     if (state.context.type === PageType.CATEGORY_PAGE) {
       return (
         page.currentQuery.query.value.indexOf(
-          `allCategories:${state.context.id}`
+          `allCategories:${state.context.id}`,
         ) > -1
       );
     }
@@ -104,7 +104,7 @@ export class ProductFacetService {
    */
   protected filterBreadcrumbs(
     breadcrumbs: Breadcrumb[],
-    params: Params
+    params: Params,
   ): Breadcrumb[] {
     return breadcrumbs
       ? breadcrumbs.filter(
@@ -113,7 +113,7 @@ export class ProductFacetService {
               breadcrumb.facetCode === 'allCategories' &&
               (breadcrumb.facetValueCode === params.categoryCode ||
                 breadcrumb.facetValueCode === params.brandCode)
-            )
+            ),
         )
       : [];
   }

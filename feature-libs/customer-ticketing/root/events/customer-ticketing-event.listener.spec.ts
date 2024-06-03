@@ -62,14 +62,14 @@ describe('CustomerTicketingEventListener', () => {
     it('LanguageSetEvent should dispatch GetTicketQueryReloadEvent', () => {
       assertServiceDispatchForEvent(
         new LanguageSetEvent(),
-        GetTicketQueryReloadEvent
+        GetTicketQueryReloadEvent,
       );
     });
 
     it('CurrencySetEvent should dispatch GetTicketQueryReloadEvent', () => {
       assertServiceDispatchForEvent(
         new CurrencySetEvent(),
-        GetTicketQueryReloadEvent
+        GetTicketQueryReloadEvent,
       );
     });
   });
@@ -78,7 +78,7 @@ describe('CustomerTicketingEventListener', () => {
     it('LogoutEvent should dispatch GetTicketQueryResetEvent', () => {
       assertServiceDispatchForEvent(
         new LogoutEvent(),
-        GetTicketQueryResetEvent
+        GetTicketQueryResetEvent,
       );
     });
 
@@ -88,25 +88,25 @@ describe('CustomerTicketingEventListener', () => {
     it('LogoutEvent should dispatch GetTicketCategoryQueryReloadEvent', () => {
       assertServiceDispatchForEvent(
         new LogoutEvent(),
-        GetTicketCategoryQueryResetEvent
+        GetTicketCategoryQueryResetEvent,
       );
     });
     it('LoginEvent should dispatch GetTicketCategoryQueryResetEvent', () => {
       assertServiceDispatchForEvent(
         new LoginEvent(),
-        GetTicketCategoryQueryResetEvent
+        GetTicketCategoryQueryResetEvent,
       );
     });
     it('LogogoutEvent should dispatch GetTicketAssociatedObjectsQueryResetEvent', () => {
       assertServiceDispatchForEvent(
         new LogoutEvent(),
-        GetTicketAssociatedObjectsQueryResetEvent
+        GetTicketAssociatedObjectsQueryResetEvent,
       );
     });
     it('LoginEvent should dispatch GetTicketAssociatedObjectsQueryResetEvent', () => {
       assertServiceDispatchForEvent(
         new LoginEvent(),
-        GetTicketAssociatedObjectsQueryResetEvent
+        GetTicketAssociatedObjectsQueryResetEvent,
       );
     });
   });
@@ -117,12 +117,12 @@ describe('CustomerTicketingEventListener', () => {
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'customerTicketingDetails.requestClosed' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
 
       assertServiceDispatchForEvent(
         new TicketClosedEvent(),
-        GetTicketQueryResetEvent
+        GetTicketQueryResetEvent,
       );
     });
 
@@ -131,19 +131,19 @@ describe('CustomerTicketingEventListener', () => {
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'customerTicketingDetails.requestReopened' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
 
       assertServiceDispatchForEvent(
         new TicketReopenedEvent(),
-        GetTicketQueryReloadEvent
+        GetTicketQueryReloadEvent,
       );
     });
 
     it('NewMessageEvent should dispatch GetTicketQueryReloadEvent', () => {
       assertServiceDispatchForEvent(
         new NewMessageEvent(),
-        GetTicketQueryReloadEvent
+        GetTicketQueryReloadEvent,
       );
     });
   });
@@ -151,7 +151,7 @@ describe('CustomerTicketingEventListener', () => {
   it('should dipatch GetTicketQueryReloadEvent when UploadAttachmentSuccessEvent is triggered', () => {
     assertServiceDispatchForEvent(
       new UploadAttachmentSuccessEvent(),
-      GetTicketQueryReloadEvent
+      GetTicketQueryReloadEvent,
     );
   });
 });

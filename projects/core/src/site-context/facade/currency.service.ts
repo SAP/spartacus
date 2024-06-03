@@ -25,7 +25,7 @@ import { SiteContext } from './site-context.interface';
 export class CurrencyService implements SiteContext<Currency> {
   constructor(
     protected store: Store<StateWithSiteContext>,
-    protected config: SiteContextConfig
+    protected config: SiteContextConfig,
   ) {}
 
   /**
@@ -39,7 +39,7 @@ export class CurrencyService implements SiteContext<Currency> {
           this.store.dispatch(new SiteContextActions.LoadCurrencies());
         }
       }),
-      filter(isNotNullable)
+      filter(isNotNullable),
     );
   }
 
@@ -49,7 +49,7 @@ export class CurrencyService implements SiteContext<Currency> {
   getActive(): Observable<string> {
     return this.store.pipe(
       select(SiteContextSelectors.getActiveCurrency),
-      filter(isNotNullable)
+      filter(isNotNullable),
     );
   }
 
@@ -62,7 +62,7 @@ export class CurrencyService implements SiteContext<Currency> {
       .subscribe((activeCurrency) => {
         if (activeCurrency !== isocode && this.isValid(isocode)) {
           this.store.dispatch(
-            new SiteContextActions.SetActiveCurrency(isocode)
+            new SiteContextActions.SetActiveCurrency(isocode),
           );
         }
       });
@@ -89,7 +89,7 @@ export class CurrencyService implements SiteContext<Currency> {
     return (
       !!value &&
       getContextParameterValues(this.config, CURRENCY_CONTEXT_ID).includes(
-        value
+        value,
       )
     );
   }

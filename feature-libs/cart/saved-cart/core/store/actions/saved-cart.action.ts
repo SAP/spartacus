@@ -48,7 +48,7 @@ export class LoadSavedCart extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       cartId: string;
-    }
+    },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -60,7 +60,7 @@ export class LoadSavedCartSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       userId: string;
       cartId: string;
-    }
+    },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -78,7 +78,7 @@ export class LoadSavedCarts extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_LIST_PROCESS_ID);
   }
@@ -89,7 +89,7 @@ export class LoadSavedCartsSuccess extends StateUtils.EntitySuccessAction {
   constructor(
     public payload: {
       userId: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_LIST_PROCESS_ID);
   }
@@ -101,7 +101,7 @@ export class LoadSavedCartsFail extends StateUtils.EntityFailAction {
     public payload: {
       userId: string;
       error: any;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_LIST_PROCESS_ID, payload.error);
   }
@@ -120,7 +120,7 @@ export class RestoreSavedCart extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       cartId: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID);
   }
@@ -132,7 +132,7 @@ export class RestoreSavedCartSuccess extends StateUtils.EntitySuccessAction {
     public payload: {
       userId: string;
       cartId: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID);
   }
@@ -145,7 +145,7 @@ export class RestoreSavedCartFail extends StateUtils.EntityFailAction {
       userId: string;
       cartId: string;
       error: any;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID, payload.error);
   }
@@ -166,7 +166,7 @@ export class SaveCart extends StateUtils.EntityLoadAction {
       cartId: string;
       saveCartName?: string;
       saveCartDescription?: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
   }
@@ -180,7 +180,7 @@ export class SaveCartSuccess extends StateUtils.EntitySuccessAction {
       cartId: string;
       saveCartName?: string;
       saveCartDescription?: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
   }
@@ -195,7 +195,7 @@ export class SaveCartFail extends StateUtils.EntityFailAction {
       saveCartName?: string;
       saveCartDescription?: string;
       error: any;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload.error);
   }
@@ -216,7 +216,7 @@ export class EditSavedCart extends StateUtils.EntityLoadAction {
       cartId: string;
       saveCartName?: string;
       saveCartDescription?: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
   }
@@ -230,7 +230,7 @@ export class EditSavedCartSuccess extends StateUtils.EntitySuccessAction {
       cartId: string;
       saveCartName?: string;
       saveCartDescription?: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
   }
@@ -245,7 +245,7 @@ export class EditSavedCartFail extends StateUtils.EntityFailAction {
       saveCartName?: string;
       saveCartDescription?: string;
       error: any;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload.error);
   }
@@ -258,7 +258,7 @@ export class CloneSavedCart extends StateUtils.EntityLoadAction {
       userId: string;
       cartId: string;
       saveCartName?: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID);
   }
@@ -271,7 +271,7 @@ export class CloneSavedCartSuccess extends StateUtils.EntitySuccessAction {
       userId: string;
       cartId: string;
       saveCartName?: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID);
   }
@@ -285,7 +285,7 @@ export class CloneSavedCartFail extends StateUtils.EntityFailAction {
       cartId: string;
       saveCartName?: string;
       error: any;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID, payload.error);
   }

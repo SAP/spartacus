@@ -23,12 +23,12 @@ import { AuthStorageService } from '../services/auth-storage.service';
 export class TokenRevocationInterceptor implements HttpInterceptor {
   constructor(
     protected authStorageService: AuthStorageService,
-    protected authConfigService: AuthConfigService
+    protected authConfigService: AuthConfigService,
   ) {}
 
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     const isTokenRevocationRequest = this.isTokenRevocationRequest(request);
     return this.authStorageService.getToken().pipe(
@@ -44,7 +44,7 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
           });
         }
         return next.handle(request);
-      })
+      }),
     );
   }
 

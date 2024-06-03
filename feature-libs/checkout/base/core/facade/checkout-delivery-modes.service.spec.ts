@@ -50,17 +50,17 @@ class MockCheckoutDeliveryModesConnector
   implements Partial<CheckoutDeliveryModesConnector>
 {
   getSupportedModes = createSpy().and.returnValue(
-    of(mockSupportedDeliveryModes)
+    of(mockSupportedDeliveryModes),
   );
   setMode = createSpy().and.returnValue(of('setMode'));
   clearCheckoutDeliveryMode = createSpy().and.returnValue(
-    of('clearCheckoutDeliveryMode')
+    of('clearCheckoutDeliveryMode'),
   );
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
   getCheckoutDetailsState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: undefined })
+    of({ loading: false, error: false, data: undefined }),
   );
 }
 
@@ -95,7 +95,7 @@ describe(`CheckoutDeliveryModesService`, () => {
     [CheckoutDeliveryModesService],
     (checkoutDeliveryModesService: CheckoutDeliveryModesService) => {
       expect(checkoutDeliveryModesService).toBeTruthy();
-    }
+    },
   ));
 
   describe(`getSupportedDeliveryModesState`, () => {
@@ -111,7 +111,7 @@ describe(`CheckoutDeliveryModesService`, () => {
           });
           expect(connector.getSupportedModes).toHaveBeenCalledWith(
             mockUserId,
-            mockCartId
+            mockCartId,
           );
           done();
         });
@@ -125,7 +125,7 @@ describe(`CheckoutDeliveryModesService`, () => {
           loading: false,
           error: false,
           data: mockSupportedDeliveryModes,
-        })
+        }),
       );
 
       service
@@ -144,7 +144,7 @@ describe(`CheckoutDeliveryModesService`, () => {
           loading: false,
           error: false,
           data: undefined,
-        })
+        }),
       );
 
       service
@@ -166,7 +166,7 @@ describe(`CheckoutDeliveryModesService`, () => {
           data: {
             deliveryMode: mockDeliveryMode,
           },
-        })
+        }),
       );
 
       service
@@ -190,7 +190,7 @@ describe(`CheckoutDeliveryModesService`, () => {
       expect(connector.setMode).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
-        mockDeliveryModeCode
+        mockDeliveryModeCode,
       );
     });
 
@@ -204,7 +204,7 @@ describe(`CheckoutDeliveryModesService`, () => {
           cartCode: mockCartId,
           deliveryModeCode: mockDeliveryModeCode,
         },
-        CheckoutDeliveryModeSetEvent
+        CheckoutDeliveryModeSetEvent,
       );
     });
   });
@@ -215,7 +215,7 @@ describe(`CheckoutDeliveryModesService`, () => {
 
       expect(connector.clearCheckoutDeliveryMode).toHaveBeenCalledWith(
         mockUserId,
-        mockCartId
+        mockCartId,
       );
     });
 
@@ -228,20 +228,20 @@ describe(`CheckoutDeliveryModesService`, () => {
           cartId: mockCartId,
           cartCode: mockCartId,
         },
-        CheckoutDeliveryModeClearedEvent
+        CheckoutDeliveryModeClearedEvent,
       );
     });
 
     it(`should dispatch CheckoutDeliveryModeClearedErrorEvent event on error`, () => {
       connector.clearCheckoutDeliveryMode = createSpy().and.returnValue(
-        throwError(() => 'err')
+        throwError(() => 'err'),
       );
 
       service.clearCheckoutDeliveryMode();
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        CheckoutDeliveryModeClearedErrorEvent
+        CheckoutDeliveryModeClearedErrorEvent,
       );
     });
   });

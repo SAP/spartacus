@@ -48,17 +48,17 @@ export class ConfiguratorConflictSolverDialogLauncherService
             map((conflictGroup) => ({
               conflictGroup: conflictGroup,
               routerData: routerData,
-            }))
-          )
+            })),
+          ),
       ),
       //Delay because we first want the form to react on data changes
-      delay(0)
+      delay(0),
     );
 
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorGroupsService: ConfiguratorGroupsService
+    protected configuratorGroupsService: ConfiguratorGroupsService,
   ) {
     this.controlDialog();
   }
@@ -73,13 +73,13 @@ export class ConfiguratorConflictSolverDialogLauncherService
           distinctUntilChanged(
             (prev, cur) =>
               prev.conflictGroup === cur.conflictGroup &&
-              prev.routerData.navigationId === cur.routerData.navigationId
-          )
+              prev.routerData.navigationId === cur.routerData.navigationId,
+          ),
         )
         .subscribe(() => {
           this.openModal();
           this.subscribeToCloseDialog();
-        })
+        }),
     );
   }
 
@@ -87,7 +87,7 @@ export class ConfiguratorConflictSolverDialogLauncherService
     this.subscription.add(
       this.conflictGroupAndRouterData$
         .pipe(first((data) => !data.conflictGroup)) // stop listening, after we closed once
-        .subscribe(() => this.closeModal('CLOSE_NO_CONFLICTS_EXIST'))
+        .subscribe(() => this.closeModal('CLOSE_NO_CONFLICTS_EXIST')),
     );
   }
 
@@ -97,10 +97,10 @@ export class ConfiguratorConflictSolverDialogLauncherService
       undefined,
       {
         conflictGroup: this.conflictGroupAndRouterData$.pipe(
-          map((data) => data.conflictGroup)
+          map((data) => data.conflictGroup),
         ),
         routerData: this.routerData$,
-      }
+      },
     );
   }
 

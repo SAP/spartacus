@@ -67,7 +67,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
     private productInterestService: UserInterestsService,
     private translationService: TranslationService,
     private productService: ProductService,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
   ) {
     useFeatureStyles('a11yCartItemsLinksStyles');
   }
@@ -84,7 +84,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
               totalPages: interests.pagination?.totalPages,
               totalResults: interests.pagination?.totalCount,
               sort: 'byNameAsc',
-            })
+            }),
         ),
         tap(() => {
           if (this.sortChanged) {
@@ -92,7 +92,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
             this.globalMessageService?.add(
               { key: 'sorting.pageViewUpdated' },
               GlobalMessageType.MSG_TYPE_ASSISTIVE,
-              500
+              500,
             );
           }
         }),
@@ -104,7 +104,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
                 product$: this.getProduct(result),
               }))
             : interest.results,
-        }))
+        })),
       );
 
     this.getInterestsloading$ =
@@ -130,23 +130,23 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
           byNameAsc: asc,
           byNameDesc: desc,
         };
-      })
+      }),
     );
   }
 
   private getProduct(
-    interest: ProductInterestEntryRelation
+    interest: ProductInterestEntryRelation,
   ): Observable<Product | undefined> {
     return this.productService.get(
       interest.product?.code ?? '',
-      ProductScope.DETAILS
+      ProductScope.DETAILS,
     );
   }
 
   removeInterest(
     relation: ProductInterestEntryRelation & {
       product$?: Observable<Product | undefined>;
-    }
+    },
   ): void {
     this.productInterestService.removeProdutInterest({
       product: relation.product,
@@ -160,7 +160,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
     this.productInterestService.loadProductInterests(
       this.DEFAULT_PAGE_SIZE,
       0,
-      this.sortMapping[sort]
+      this.sortMapping[sort],
     );
   }
 
@@ -168,7 +168,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
     this.productInterestService.loadProductInterests(
       this.DEFAULT_PAGE_SIZE,
       page,
-      this.sortMapping[this.sort]
+      this.sortMapping[this.sort],
     );
   }
 

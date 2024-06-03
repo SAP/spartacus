@@ -35,7 +35,7 @@ export function clickTicketInRow(rowNumber = FIRST_ROW_TICKET_LIST) {
 
 export function verifyCreatedTicketDetails(
   ticketDetails: TestTicketDetails,
-  rowNumber = FIRST_ROW_TICKET_LIST
+  rowNumber = FIRST_ROW_TICKET_LIST,
 ) {
   const row = cy
     .get('cx-customer-ticketing-list')
@@ -100,7 +100,7 @@ export function getNumberOfTickets(): number {
 }
 
 export function shouldHaveNumberOfTicketsListed(
-  expectedNumberOfTickets: number
+  expectedNumberOfTickets: number,
 ) {
   cy.get('cx-customer-ticketing-list')
     .get('tbody')
@@ -118,7 +118,7 @@ export function openTicketOnSepcifiedRowNumber(rowNumber: number) {
 
 export function verifyStatusOfTicketInList(
   rowNumber = FIRST_ROW_TICKET_LIST,
-  status = TestStatus.closed
+  status = TestStatus.closed,
 ) {
   const row = cy
     .get('cx-customer-ticketing-list')
@@ -137,7 +137,7 @@ export function verifyPaginationExist() {
 }
 
 export function verifyPaginationExistBasedOnTheNumberOfTicketsCreated(
-  numberOfTicketCreated: number
+  numberOfTicketCreated: number,
 ) {
   if (numberOfTicketCreated > MAX_TICKETS_PER_PAGE) {
     verifyPaginationExist();
@@ -147,7 +147,7 @@ export function verifyPaginationExistBasedOnTheNumberOfTicketsCreated(
 }
 
 export function verifyNumberOfPagesBasedOnTotalNumberOfTickets(
-  totalNumberOfTicketsCreated: number
+  totalNumberOfTicketsCreated: number,
 ) {
   const LEFT_RIGHT_ARROWS = 2;
   const FIRST_PAGE = 1;
@@ -156,7 +156,7 @@ export function verifyNumberOfPagesBasedOnTotalNumberOfTickets(
     FIRST_PAGE +
     LEFT_RIGHT_ARROWS;
   verifyPaginationExistBasedOnTheNumberOfTicketsCreated(
-    totalNumberOfTicketsCreated
+    totalNumberOfTicketsCreated,
   );
   cy.get('cx-pagination')
     .find('a')
@@ -168,7 +168,7 @@ export function selectSortBy(sort: TestSortingTypes) {
 }
 
 export function verifyCertainNumberOfTicketsSortedById(
-  numberOfTicketsToVerify: number
+  numberOfTicketsToVerify: number,
 ) {
   for (let row = 1; row < numberOfTicketsToVerify; row++) {
     getIdInRow(row).then((id) => {
@@ -290,7 +290,7 @@ export function visitTicketDetailsOfFirstTicketByItsIdThroughURL() {
         .invoke('text')
         .then((id) => {
           visitTicketDetailsForExistingTicket(
-            id.substring(ID_DELIMITER).trim()
+            id.substring(ID_DELIMITER).trim(),
           );
         });
     });
@@ -298,7 +298,7 @@ export function visitTicketDetailsOfFirstTicketByItsIdThroughURL() {
 
 export function waitForTicketListData(
   numberOfTicketsToRequest: number,
-  ticketDetails: TestTicketDetails
+  ticketDetails: TestTicketDetails,
 ) {
   cy.window()
     .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))

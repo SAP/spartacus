@@ -44,7 +44,7 @@ describe('OrderApproval Actions', () => {
           payload: { userId, orderApprovalCode },
           meta: StateUtils.entityLoadMeta(
             ORDER_APPROVAL_ENTITIES,
-            orderApprovalCode
+            orderApprovalCode,
           ),
         });
       });
@@ -66,7 +66,7 @@ describe('OrderApproval Actions', () => {
           meta: StateUtils.entityFailMeta(
             ORDER_APPROVAL_ENTITIES,
             orderApprovalCode,
-            error
+            error,
           ),
         });
       });
@@ -152,7 +152,7 @@ describe('OrderApproval Actions', () => {
           payload: { userId, orderApprovalCode, orderApprovalDecision },
           meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
-            ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
+            ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
           ),
         });
       });
@@ -177,7 +177,7 @@ describe('OrderApproval Actions', () => {
             {
               orderApprovalCode,
               error,
-            }
+            },
           ),
         });
       });
@@ -198,7 +198,7 @@ describe('OrderApproval Actions', () => {
           },
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
-            ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
+            ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
           ),
         });
       });
@@ -212,7 +212,7 @@ describe('OrderApproval Actions', () => {
           type: OrderApprovalActions.MAKE_DECISION_RESET,
           meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
-            ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
+            ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
           ),
         });
       });

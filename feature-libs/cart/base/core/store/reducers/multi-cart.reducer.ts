@@ -13,7 +13,7 @@ export function cartTypeIndexReducer(
   state: {
     [cartType: string]: string;
   } = cartTypeIndexInitialState,
-  action: CartActions.MultiCartActions | CartActions.CartAction
+  action: CartActions.MultiCartActions | CartActions.CartAction,
 ): {
   [cartType: string]: string;
 } {
@@ -42,7 +42,7 @@ export function cartTypeIndexReducer(
 export const cartEntitiesInitialState = undefined;
 export function cartEntitiesReducer(
   state: Cart | undefined = cartEntitiesInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): Cart | undefined {
   switch (action.type) {
     case CartActions.LOAD_CARTS_SUCCESS:

@@ -42,9 +42,9 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
         this.configuratorGroupsService.getCurrentGroup(routerData.owner).pipe(
           tap(() => {
             this.ghostStyle = false;
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
   iconTypes = ICON_TYPE;
 
@@ -55,7 +55,7 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
     protected configExpertModeService: ConfiguratorExpertModeService,
     protected breakpointService: BreakpointService,
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
-    protected hamburgerMenuService: HamburgerMenuService
+    protected hamburgerMenuService: HamburgerMenuService,
   ) {}
 
   ngOnInit(): void {
@@ -65,22 +65,22 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
           this.configuratorStorefrontUtilsService.changeStyling(
             this.PRE_HEADER,
             'display',
-            'none'
+            'none',
           );
           this.configuratorStorefrontUtilsService.focusFirstActiveElement(
-            '.cx-group-title'
+            '.cx-group-title',
           );
         } else {
           this.configuratorStorefrontUtilsService.changeStyling(
             this.PRE_HEADER,
             'display',
-            'block'
+            'block',
           );
           this.configuratorStorefrontUtilsService.focusFirstActiveElement(
-            'cx-hamburger-menu'
+            'cx-hamburger-menu',
           );
         }
-      })
+      }),
     );
   }
 
@@ -88,7 +88,7 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
     this.configuratorStorefrontUtilsService.removeStyling(
       this.PRE_HEADER,
-      'display'
+      'display',
     );
   }
 

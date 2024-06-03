@@ -160,7 +160,7 @@ describe('OccFutureStockAdapter', () => {
 
       mockReq.flush(futureStockListMock);
       expect(converter.pipeable).toHaveBeenCalledWith(
-        FUTURE_STOCK_LIST_NORMALIZER
+        FUTURE_STOCK_LIST_NORMALIZER,
       );
     });
 

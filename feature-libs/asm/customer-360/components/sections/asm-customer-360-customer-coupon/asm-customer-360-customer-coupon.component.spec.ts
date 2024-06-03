@@ -222,7 +222,7 @@ describe('AsmCustomer360CouponComponent', () => {
   it('should reload customer coupon list when searching customer coupon ', () => {
     spyOn(component, 'searchCustomerCoupon').and.callThrough();
     el.query(
-      By.css('.cx-asm-customer-360-promotion-listing-search-icon-search')
+      By.css('.cx-asm-customer-360-promotion-listing-search-icon-search'),
     ).nativeElement.click();
     expect(component.searchCustomerCoupon).toHaveBeenCalled();
   });
@@ -252,7 +252,7 @@ describe('AsmCustomer360CouponComponent', () => {
     mockCustomerCouponEntryList[0].applied = true;
     component.disclaimCouponToCustomer(mockCustomerCouponEntryList[0]);
     expect(
-      customerCouponService.resetDisclaimCustomerCoupon
+      customerCouponService.resetDisclaimCustomerCoupon,
     ).toHaveBeenCalled();
     expect(customerCouponService.disclaimCustomerCoupon).toHaveBeenCalled();
     component.entries$.subscribe((entries) => {
@@ -263,7 +263,7 @@ describe('AsmCustomer360CouponComponent', () => {
   it('should reload customer coupon list when applying customer coupon failed', () => {
     spyOn(
       customerCouponService,
-      'getClaimCustomerCouponResultError'
+      'getClaimCustomerCouponResultError',
     ).and.returnValue(of(true));
     spyOn(component, 'changeTab').and.callThrough();
     component.ngOnInit();
@@ -274,7 +274,7 @@ describe('AsmCustomer360CouponComponent', () => {
   it('should reload customer coupon list when removing customer coupon failed', () => {
     spyOn(
       customerCouponService,
-      'getDisclaimCustomerCouponResultError'
+      'getDisclaimCustomerCouponResultError',
     ).and.returnValue(of(true));
     spyOn(component, 'changeTab').and.callThrough();
     component.ngOnInit();

@@ -56,46 +56,44 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   const attributeName = 'attributeName';
   let config: Config;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeSingleSelectionImageComponent,
-          MockFocusDirective,
-          MockConfiguratorPriceComponent,
-        ],
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          IconTestingModule,
-          PopoverModule,
-        ],
-        providers: [
-          ConfiguratorStorefrontUtilsService,
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockGroupService,
-          },
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          { provide: Config, useClass: MockConfig },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeSingleSelectionImageComponent,
+        MockFocusDirective,
+        MockConfiguratorPriceComponent,
+      ],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        IconTestingModule,
+        PopoverModule,
+      ],
+      providers: [
+        ConfiguratorStorefrontUtilsService,
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        { provide: Config, useClass: MockConfig },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   function createImage(url: string, altText: string): Configurator.Image {
     const configImage: Configurator.Image = {
@@ -110,7 +108,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     name: string,
     isSelected: boolean,
     configImages: Configurator.Image[],
-    description?: string
+    description?: string,
   ): Configurator.Value {
     const value: Configurator.Value = {
       valueCode: code,
@@ -130,14 +128,14 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     VALUE_DISPLAY_NAME,
     false,
     images,
-    'Here is a long description at value level'
+    'Here is a long description at value level',
   );
   const value3 = createValue('3', 'val3', false, images);
   const values: Configurator.Value[] = [value1, value2, value3];
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ConfiguratorAttributeSingleSelectionImageComponent
+      ConfiguratorAttributeSingleSelectionImageComponent,
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -175,7 +173,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      "cx-icon[ng-reflect-type='INFO']"
+      "cx-icon[ng-reflect-type='INFO']",
     );
   });
 
@@ -183,15 +181,15 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
     fixture.detectChanges();
     const infoButton = fixture.debugElement.query(
-      By.css('button[ng-reflect-cx-popover]')
+      By.css('button[ng-reflect-cx-popover]'),
     ).nativeElement;
     infoButton.click();
     const description = fixture.debugElement.query(
-      By.css('cx-popover > .popover-body > span')
+      By.css('cx-popover > .popover-body > span'),
     );
     expect(description).toBeTruthy();
     expect(description.nativeElement.innerText).toBe(
-      (component.attribute.values ?? [{}])[1].description
+      (component.attribute.values ?? [{}])[1].description,
     );
   });
 
@@ -219,15 +217,15 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     it('should call service for update when productConfiguratorAttributeTypesV2 feature flag is disabled', () => {
       spyOn(
         component['configuratorCommonsService'],
-        'updateConfiguration'
+        'updateConfiguration',
       ).and.callThrough();
       component.onClick(value2.valueCode);
       expect(
-        component['configuratorCommonsService'].updateConfiguration
+        component['configuratorCommonsService'].updateConfiguration,
       ).toHaveBeenCalledWith(
         ownerKey,
         { ...component.attribute, selectedSingleValue: value2.valueCode },
-        Configurator.UpdateType.ATTRIBUTE
+        Configurator.UpdateType.ATTRIBUTE,
       );
     });
 
@@ -235,7 +233,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
       (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
       spyOn(
         component['configuratorCommonsService'],
-        'updateConfiguration'
+        'updateConfiguration',
       ).and.callThrough();
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
@@ -250,11 +248,11 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         value2.valueCode +
         '-input';
       const valueToSelect = fixture.debugElement.query(
-        By.css(singleSelectionImageId)
+        By.css(singleSelectionImageId),
       ).nativeElement;
       valueToSelect.click();
       expect(
-        component['configuratorCommonsService'].updateConfiguration
+        component['configuratorCommonsService'].updateConfiguration,
       ).not.toHaveBeenCalled();
     });
   });
@@ -287,7 +285,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         'configurator.a11y.valueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          VALUE_DISPLAY_NAME
+          VALUE_DISPLAY_NAME,
       );
     });
 
@@ -299,7 +297,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         'form-input',
         1,
         'aria-describedby',
-        'cx-configurator--label--attributeName'
+        'cx-configurator--label--attributeName',
       );
     });
 
@@ -311,7 +309,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         'form-input',
         2,
         'checked',
-        'checked'
+        'checked',
       );
     });
 
@@ -323,7 +321,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         'form-check-label',
         1,
         'aria-hidden',
-        'true'
+        'true',
       );
     });
 
@@ -337,7 +335,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         '',
         0,
         'aria-label',
-        'configurator.a11y.description'
+        'configurator.a11y.description',
       );
     });
   });

@@ -17,7 +17,7 @@ describe('anonymous consent ui selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ANONYMOUS_CONSENTS_STORE_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });
@@ -31,14 +31,14 @@ describe('anonymous consent ui selectors', () => {
       const updated = true;
       store.dispatch(
         new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
-          updated
-        )
+          updated,
+        ),
       );
 
       let result = false;
       store
         .pipe(
-          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
+          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -51,14 +51,16 @@ describe('anonymous consent ui selectors', () => {
       const dismissed = false;
       store.dispatch(
         new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
-          dismissed
-        )
+          dismissed,
+        ),
       );
 
       let result = true;
       store
         .pipe(
-          select(AnonymousConsentsSelectors.getAnonymousConsentsBannerDismissed)
+          select(
+            AnonymousConsentsSelectors.getAnonymousConsentsBannerDismissed,
+          ),
         )
         .subscribe((value) => (result = value))
         .unsubscribe();

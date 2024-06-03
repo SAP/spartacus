@@ -37,29 +37,29 @@ export function getReducers(): ActionReducerMap<CmsState, any> {
       index: combineReducers({
         content: entityLoaderReducer<string, any>(
           PageType.CONTENT_PAGE,
-          fromPageIndexReducer.reducer(PageType.CONTENT_PAGE)
+          fromPageIndexReducer.reducer(PageType.CONTENT_PAGE),
         ),
         product: entityLoaderReducer<string, any>(
           PageType.PRODUCT_PAGE,
-          fromPageIndexReducer.reducer(PageType.PRODUCT_PAGE)
+          fromPageIndexReducer.reducer(PageType.PRODUCT_PAGE),
         ),
         category: entityLoaderReducer<string, any>(
           PageType.CATEGORY_PAGE,
-          fromPageIndexReducer.reducer(PageType.CATEGORY_PAGE)
+          fromPageIndexReducer.reducer(PageType.CATEGORY_PAGE),
         ),
         catalog: entityLoaderReducer<string, any>(
           PageType.CATALOG_PAGE,
-          fromPageIndexReducer.reducer(PageType.CATALOG_PAGE)
+          fromPageIndexReducer.reducer(PageType.CATALOG_PAGE),
         ),
       }),
     }),
     components: entityReducer<ComponentsContext, any>(
       COMPONENT_ENTITY,
-      fromComponentsReducer.reducer
+      fromComponentsReducer.reducer,
     ),
     navigation: entityLoaderReducer<NodeItem, any>(
       NAVIGATION_DETAIL_ENTITY,
-      fromNavigation.reducer
+      fromNavigation.reducer,
     ),
   };
 }
@@ -73,7 +73,7 @@ export const reducerProvider: Provider = {
 };
 
 export function clearCmsState(
-  reducer: ActionReducer<StateWithCms, Action>
+  reducer: ActionReducer<StateWithCms, Action>,
 ): ActionReducer<StateWithCms, Action> {
   return function (state, action) {
     if (

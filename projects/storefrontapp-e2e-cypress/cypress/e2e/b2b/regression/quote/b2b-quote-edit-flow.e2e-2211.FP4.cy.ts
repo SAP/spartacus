@@ -52,7 +52,7 @@ context('Quote', () => {
       quote.prepareQuote(
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
-        true
+        true,
       );
     });
 
@@ -90,13 +90,13 @@ context('Quote', () => {
       quote.prepareQuote(
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
-        true
+        true,
       );
       quote.prepareSellerQuote(
         SALESREP_EMAIL,
         SALESREP_PASSWORD,
         BUYER_USER,
-        BUYER_EMAIL
+        BUYER_EMAIL,
       );
       quote.enableEditQuoteMode();
       quote.setExpiryDate();

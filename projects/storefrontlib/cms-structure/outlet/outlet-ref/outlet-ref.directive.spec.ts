@@ -55,22 +55,20 @@ function refreshOutlet(fixture: ComponentFixture<TestContainerComponent>) {
 describe('OutletRefDirective', () => {
   let service: OutletService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [],
-        declarations: [
-          TestContainerComponent,
-          OutletDirective,
-          OutletRefDirective,
-        ],
-        providers: [
-          OutletService,
-          { provide: DeferLoaderService, useClass: MockDeferLoaderService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [],
+      declarations: [
+        TestContainerComponent,
+        OutletDirective,
+        OutletRefDirective,
+      ],
+      providers: [
+        OutletService,
+        { provide: DeferLoaderService, useClass: MockDeferLoaderService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     service = TestBed.inject(OutletService);

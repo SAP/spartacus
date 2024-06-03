@@ -34,7 +34,7 @@ describe('anonymous consent actions', () => {
       it('should create the action', () => {
         const action =
           new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-            mockConsentTemplates
+            mockConsentTemplates,
           );
         expect({ ...action }).toEqual({
           payload: mockConsentTemplates,
@@ -48,7 +48,7 @@ describe('anonymous consent actions', () => {
         const mockError = 'anError';
         const action =
           new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-            mockError
+            mockError,
           );
         expect({ ...action }).toEqual({
           type: AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES_FAIL,
@@ -71,7 +71,7 @@ describe('anonymous consent actions', () => {
         const dismissed = true;
         const action =
           new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
-            dismissed
+            dismissed,
           );
         expect({ ...action }).toEqual({
           type: AnonymousConsentsActions.TOGGLE_ANONYMOUS_CONSENTS_BANNER_DISMISSED,
@@ -84,7 +84,7 @@ describe('anonymous consent actions', () => {
         const updated = true;
         const action =
           new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
-            updated
+            updated,
           );
         expect({ ...action }).toEqual({
           type: AnonymousConsentsActions.TOGGLE_ANONYMOUS_CONSENT_TEMPLATES_UPDATED,
@@ -122,7 +122,7 @@ describe('anonymous consent actions', () => {
           },
         ];
         const action = new AnonymousConsentsActions.SetAnonymousConsents(
-          mockAnonymousConsents
+          mockAnonymousConsents,
         );
         expect({ ...action }).toEqual({
           type: AnonymousConsentsActions.SET_ANONYMOUS_CONSENTS,
@@ -133,7 +133,7 @@ describe('anonymous consent actions', () => {
     describe('GetAnonymousConsent', () => {
       it('should create the action', () => {
         const action = new AnonymousConsentsActions.GetAnonymousConsent(
-          mockTemplateId
+          mockTemplateId,
         );
         expect({ ...action }).toEqual({
           templateCode: mockTemplateId,
@@ -144,7 +144,7 @@ describe('anonymous consent actions', () => {
     describe('GiveAnonymousConsent', () => {
       it('should create the action', () => {
         const action = new AnonymousConsentsActions.GiveAnonymousConsent(
-          mockTemplateId
+          mockTemplateId,
         );
         expect({ ...action }).toEqual({
           templateCode: mockTemplateId,
@@ -155,7 +155,7 @@ describe('anonymous consent actions', () => {
     describe('WithdrawAnonymousConsent', () => {
       it('should create the action', () => {
         const action = new AnonymousConsentsActions.WithdrawAnonymousConsent(
-          mockTemplateId
+          mockTemplateId,
         );
         expect({ ...action }).toEqual({
           templateCode: mockTemplateId,

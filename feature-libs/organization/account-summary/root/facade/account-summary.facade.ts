@@ -33,7 +33,7 @@ export abstract class AccountSummaryFacade {
    * @param orgUnitId If provided, it will be used, otherwise it will use orgUnitId from router state.
    */
   abstract getAccountSummary(
-    orgUnitId?: string
+    orgUnitId?: string,
   ): Observable<AccountSummaryDetails>;
 
   /**
@@ -43,7 +43,7 @@ export abstract class AccountSummaryFacade {
    */
   abstract getDocumentList(
     params: DocumentQueryParams,
-    orgUnitId?: string
+    orgUnitId?: string,
   ): Observable<AccountSummaryList>;
 
   /**
@@ -55,6 +55,6 @@ export abstract class AccountSummaryFacade {
   abstract getDocumentAttachment(
     orgDocumentId?: string,
     orgDocumentAttachmentId?: string,
-    orgUnitId?: string
+    orgUnitId?: string,
   ): Observable<Blob>;
 }

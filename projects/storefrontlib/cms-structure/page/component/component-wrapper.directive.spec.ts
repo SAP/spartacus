@@ -44,7 +44,7 @@ const testText = 'test text';
 class TestComponent {
   constructor(
     public cmsData: CmsComponentData<CmsComponent>,
-    @Inject('testService') public testService
+    @Inject('testService') public testService,
   ) {}
 }
 
@@ -143,20 +143,18 @@ describe('ComponentWrapperDirective', () => {
   describe('in SSR', () => {
     let cmsConfig: CmsConfig;
 
-    beforeEach(
-      waitForAsync(() => {
-        testBedConfig.providers.push({
-          provide: PLATFORM_ID,
-          useValue: 'server',
-        });
-        TestBed.configureTestingModule(testBedConfig).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      testBedConfig.providers.push({
+        provide: PLATFORM_ID,
+        useValue: 'server',
+      });
+      TestBed.configureTestingModule(testBedConfig).compileComponents();
+    }));
 
     describe('with angular component', () => {
       beforeEach(() => {
         fixture = TestBed.createComponent(
-          TestWrapperComponent as Type<TestWrapperComponent>
+          TestWrapperComponent as Type<TestWrapperComponent>,
         );
         cmsConfig = TestBed.inject(CmsConfig);
       });
@@ -166,7 +164,7 @@ describe('ComponentWrapperDirective', () => {
         fixture.detectChanges();
         const compiled = fixture.debugElement.nativeElement;
         expect(compiled.querySelector('#debugEl1').textContent).toContain(
-          testText
+          testText,
         );
       });
 
@@ -180,11 +178,9 @@ describe('ComponentWrapperDirective', () => {
   });
 
   describe('in non-SSR', () => {
-    beforeEach(
-      waitForAsync(() => {
-        TestBed.configureTestingModule(testBedConfig).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule(testBedConfig).compileComponents();
+    }));
 
     describe('with angular component', () => {
       beforeEach(() => {
@@ -192,7 +188,7 @@ describe('ComponentWrapperDirective', () => {
         dynamicAttributeService = TestBed.inject(DynamicAttributeService);
         eventService = TestBed.inject(EventService);
         renderer = fixture.componentRef.injector.get<Renderer2>(
-          Renderer2 as any
+          Renderer2 as any,
         );
         component = fixture.componentInstance;
       });
@@ -201,7 +197,7 @@ describe('ComponentWrapperDirective', () => {
         fixture.detectChanges();
         const compiled = fixture.debugElement.nativeElement;
         expect(compiled.querySelector('#debugEl1').textContent).toContain(
-          testText
+          testText,
         );
       });
 
@@ -219,7 +215,7 @@ describe('ComponentWrapperDirective', () => {
               id: 'test_uid',
               host: compEl,
             } as ComponentEvent,
-            ComponentCreateEvent
+            ComponentCreateEvent,
           );
         });
 
@@ -232,7 +228,7 @@ describe('ComponentWrapperDirective', () => {
               typeCode: 'cms_typeCode',
               id: 'test_uid',
             } as ComponentEvent,
-            ComponentDestroyEvent
+            ComponentDestroyEvent,
           );
         });
       });
@@ -240,14 +236,14 @@ describe('ComponentWrapperDirective', () => {
       it('should add SmartEdit contract if app launch in SmartEdit', () => {
         spyOn(
           dynamicAttributeService,
-          'addAttributesToComponent'
+          'addAttributesToComponent',
         ).and.callThrough();
 
         fixture.detectChanges();
         const el = fixture.debugElement;
         const compEl = el.query(By.css('cx-test')).nativeElement;
         expect(
-          dynamicAttributeService.addAttributesToComponent
+          dynamicAttributeService.addAttributesToComponent,
         ).toHaveBeenCalledWith(compEl, renderer, {
           typeCode: 'cms_typeCode',
           flexType: 'CMSTestComponent',
@@ -267,7 +263,7 @@ describe('ComponentWrapperDirective', () => {
         );
         expect(testComponentInstance.cmsData.uid).toContain('test_uid');
         expect((testComponentInstance as any).testKey).not.toContain(
-          'testValue'
+          'testValue',
         );
       });
 
@@ -278,7 +274,7 @@ describe('ComponentWrapperDirective', () => {
         );
         expect(testComponentInstance.testService).toEqual('testValue');
         expect((testComponentInstance as any).testKey).not.toContain(
-          'testValue'
+          'testValue',
         );
       });
 

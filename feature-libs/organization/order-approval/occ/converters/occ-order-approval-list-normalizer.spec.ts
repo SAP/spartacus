@@ -46,7 +46,7 @@ describe('OrderApprovalsListNormalizer', () => {
     [OccOrderApprovalListNormalizer],
     (orderApprovalsListNormalizer: OccOrderApprovalListNormalizer) => {
       expect(orderApprovalsListNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert Order Approval list', () => {
@@ -57,7 +57,7 @@ describe('OrderApprovalsListNormalizer', () => {
   it('should convert Order Approval list with applied target', () => {
     const result = service.convert(
       orderApprovalsList,
-      targetOrderApprovalsList
+      targetOrderApprovalsList,
     );
     expect(result).toEqual(targetOrderApprovalsList);
   });

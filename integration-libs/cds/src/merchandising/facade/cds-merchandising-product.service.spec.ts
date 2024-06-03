@@ -33,7 +33,7 @@ const siteContext: MerchandisingSiteContext = {
 
 class MockStrategyConnector {
   loadProductsForStrategy = createSpy(
-    'StrategyAdapter.loadProductsForStrategy'
+    'StrategyAdapter.loadProductsForStrategy',
   ).and.callFake(() => of(strategyProducts));
 }
 
@@ -72,7 +72,7 @@ describe('CdsMerchandisingProductService', () => {
       ],
     });
     cdsMerchandisingPrductService = TestBed.inject(
-      CdsMerchandisingProductService
+      CdsMerchandisingProductService,
     );
     strategyConnector = TestBed.inject(MerchandisingStrategyConnector);
     siteContextService = TestBed.inject(CdsMerchandisingSiteContextService);
@@ -102,10 +102,10 @@ describe('CdsMerchandisingProductService', () => {
       category: '574',
     };
     spyOn(siteContextService, 'getSiteContext').and.returnValue(
-      of(siteContext)
+      of(siteContext),
     );
     spyOn(userContextService, 'getUserContext').and.returnValue(
-      of(userContext)
+      of(userContext),
     );
 
     let actualStrategyProducts: StrategyResponse;
@@ -119,7 +119,7 @@ describe('CdsMerchandisingProductService', () => {
     expect(actualStrategyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
-      strategyRequest
+      strategyRequest,
     );
   });
 
@@ -143,10 +143,10 @@ describe('CdsMerchandisingProductService', () => {
       consentReference: `${CONSENT_REFERENCE}`,
     };
     spyOn(siteContextService, 'getSiteContext').and.returnValue(
-      of(siteContext)
+      of(siteContext),
     );
     spyOn(userContextService, 'getUserContext').and.returnValue(
-      of(userContext)
+      of(userContext),
     );
 
     let actualStrategyProducts: StrategyResponse;
@@ -160,7 +160,7 @@ describe('CdsMerchandisingProductService', () => {
     expect(actualStrategyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
-      strategyRequest
+      strategyRequest,
     );
   });
 
@@ -185,10 +185,10 @@ describe('CdsMerchandisingProductService', () => {
       searchPhrase: searchPhrase,
     };
     spyOn(siteContextService, 'getSiteContext').and.returnValue(
-      of(siteContext)
+      of(siteContext),
     );
     spyOn(userContextService, 'getUserContext').and.returnValue(
-      of(userContext)
+      of(userContext),
     );
 
     let actualStartegyProducts: StrategyResponse;
@@ -202,7 +202,7 @@ describe('CdsMerchandisingProductService', () => {
     expect(actualStartegyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
-      strategyRequest
+      strategyRequest,
     );
   });
 
@@ -223,10 +223,10 @@ describe('CdsMerchandisingProductService', () => {
     };
 
     spyOn(siteContextService, 'getSiteContext').and.returnValue(
-      of(siteContext)
+      of(siteContext),
     );
     spyOn(userContextService, 'getUserContext').and.returnValue(
-      of({ products: ['123456'] })
+      of({ products: ['123456'] }),
     );
 
     let actualStrategyProducts: StrategyResponse;
@@ -240,7 +240,7 @@ describe('CdsMerchandisingProductService', () => {
     expect(actualStrategyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
-      strategyRequest
+      strategyRequest,
     );
   });
 });

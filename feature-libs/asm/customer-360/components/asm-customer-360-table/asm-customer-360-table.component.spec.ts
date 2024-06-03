@@ -264,7 +264,7 @@ describe('AsmCustomer360TableComponent', () => {
     fixture = TestBed.createComponent(TestHostComponent);
     testHost = fixture.componentInstance;
     component = fixture.debugElement.query(
-      By.directive(AsmCustomer360TableComponent)
+      By.directive(AsmCustomer360TableComponent),
     ).componentInstance;
     el = fixture.debugElement;
   });
@@ -317,11 +317,11 @@ describe('AsmCustomer360TableComponent', () => {
 
     const formatedDate = datePipe.transform(
       mockEntries[0].created,
-      mockAsmConfig.asmCustomer360?.dateTimeFormat
+      mockAsmConfig.asmCustomer360?.dateTimeFormat,
     );
 
     expect(tableRows[0].childNodes[4].nativeNode.textContent).toContain(
-      formatedDate
+      formatedDate,
     );
   });
 
@@ -340,23 +340,23 @@ describe('AsmCustomer360TableComponent', () => {
     const tableRows = tableBody.queryAll(By.css('tr'));
 
     expect(
-      tableHeaders[0].nativeElement.classList.contains('text-start')
+      tableHeaders[0].nativeElement.classList.contains('text-start'),
     ).toBeTruthy();
     expect(
-      tableHeaders[1].nativeElement.classList.contains('text-center')
+      tableHeaders[1].nativeElement.classList.contains('text-center'),
     ).toBeTruthy();
     expect(
-      tableHeaders[2].nativeElement.classList.contains('text-end')
+      tableHeaders[2].nativeElement.classList.contains('text-end'),
     ).toBeTruthy();
 
     expect(
-      tableRows[1].childNodes[0].nativeNode.classList.contains('text-start')
+      tableRows[1].childNodes[0].nativeNode.classList.contains('text-start'),
     ).toBeTruthy();
     expect(
-      tableRows[1].childNodes[1].nativeNode.classList.contains('text-center')
+      tableRows[1].childNodes[1].nativeNode.classList.contains('text-center'),
     ).toBeTruthy();
     expect(
-      tableRows[1].childNodes[2].nativeNode.classList.contains('text-end')
+      tableRows[1].childNodes[2].nativeNode.classList.contains('text-end'),
     ).toBeTruthy();
   });
 
@@ -378,8 +378,8 @@ describe('AsmCustomer360TableComponent', () => {
     it('should display the list of pages', () => {
       const pages = el.queryAll(
         By.css(
-          '.cx-asm-customer-360-table-heading-pages .cx-asm-customer-360-table-heading-page'
-        )
+          '.cx-asm-customer-360-table-heading-pages .cx-asm-customer-360-table-heading-page',
+        ),
       );
       expect(pages.length).toBe(component.entryPages.length);
     });
@@ -387,8 +387,8 @@ describe('AsmCustomer360TableComponent', () => {
     it('should change the table to the selected page', () => {
       const pages = el.queryAll(
         By.css(
-          '.cx-asm-customer-360-table-heading-pages .cx-asm-customer-360-table-heading-page'
-        )
+          '.cx-asm-customer-360-table-heading-pages .cx-asm-customer-360-table-heading-page',
+        ),
       );
 
       pages[1].nativeElement.click();

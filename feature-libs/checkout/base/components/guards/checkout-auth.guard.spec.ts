@@ -126,7 +126,7 @@ describe('CheckoutAuthGuard', () => {
     describe('and cart has a user, ', () => {
       beforeEach(() => {
         activeCartService.getAssignedUser = createSpy().and.returnValue(
-          of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User))
+          of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)),
         );
       });
 
@@ -149,7 +149,7 @@ describe('CheckoutAuthGuard', () => {
 
       checkoutGuard.canActivate().subscribe().unsubscribe();
       expect(
-        authRedirectService.saveCurrentNavigationUrl
+        authRedirectService.saveCurrentNavigationUrl,
       ).not.toHaveBeenCalled();
     });
   });
@@ -177,7 +177,7 @@ describe('CheckoutAuthGuard', () => {
     describe('and cart has a user, ', () => {
       beforeEach(() => {
         activeCartService.getAssignedUser = createSpy().and.returnValue(
-          of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User))
+          of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)),
         );
       });
 

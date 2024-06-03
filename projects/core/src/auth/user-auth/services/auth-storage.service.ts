@@ -33,7 +33,7 @@ export class AuthStorageService extends OAuthStorage {
   ];
 
   protected _token$: Observable<AuthToken> = new BehaviorSubject<AuthToken>(
-    {} as AuthToken
+    {} as AuthToken,
   );
 
   protected decode(key: string, value: any) {

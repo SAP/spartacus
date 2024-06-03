@@ -18,7 +18,7 @@ export function getConfiguratorReducers(): ActionReducerMap<ConfiguratorState> {
       StateUtils.entityProcessesLoaderReducer<Configurator.Configuration>(
         CONFIGURATOR_DATA,
         // @ts-ignore TODO (#12620)
-        configuratorReducer
+        configuratorReducer,
       ),
   };
 }
@@ -26,7 +26,7 @@ export function getConfiguratorReducers(): ActionReducerMap<ConfiguratorState> {
 export const configuratorReducerToken: InjectionToken<
   ActionReducerMap<ConfiguratorState>
 > = new InjectionToken<ActionReducerMap<ConfiguratorState>>(
-  'ConfiguratorReducers'
+  'ConfiguratorReducers',
 );
 
 export const configuratorReducerProvider: Provider = {

@@ -9,7 +9,7 @@ describe('Entity reducer', () => {
   const testSubReducer = jasmine
     .createSpy()
     .and.callFake((state = 'test', action) =>
-      action.payload ? action.payload : state
+      action.payload ? action.payload : state,
     );
 
   describe('undefined action', () => {
@@ -17,7 +17,7 @@ describe('Entity reducer', () => {
       const action = {} as any;
       const state = entityReducer('testType', testSubReducer)(
         undefined,
-        action
+        action,
       );
 
       expect(state).toEqual(initialEntityState);
@@ -31,7 +31,7 @@ describe('Entity reducer', () => {
       } as EntityAction;
       const state = entityReducer('testType', testSubReducer)(
         undefined,
-        action
+        action,
       );
       const expectedState = {
         entities: {
@@ -50,7 +50,7 @@ describe('Entity reducer', () => {
       } as EntityAction;
       const state = entityReducer('testType', testSubReducer)(
         undefined,
-        action
+        action,
       );
       const expectedState = {
         entities: {
@@ -70,7 +70,7 @@ describe('Entity reducer', () => {
       } as EntityAction;
       const state = entityReducer('testType', testSubReducer)(
         undefined,
-        action
+        action,
       );
       const expectedState = {
         entities: {
@@ -102,7 +102,7 @@ describe('Entity reducer', () => {
       };
       const state = entityReducer('testType', testSubReducer)(
         initialState,
-        action
+        action,
       );
 
       const expectedState = {
@@ -124,7 +124,7 @@ describe('Entity reducer', () => {
       };
       const state = entityReducer('testType', testSubReducer)(
         initialState,
-        action
+        action,
       );
 
       const expectedState = {
@@ -144,7 +144,7 @@ describe('Entity reducer', () => {
       };
       const state = entityReducer('testType', testSubReducer)(
         initialState,
-        action
+        action,
       );
 
       expect(state).toBe(initialState);
@@ -163,7 +163,7 @@ describe('Entity reducer', () => {
       };
       const state = entityReducer('testType', testSubReducer)(
         initialState,
-        action
+        action,
       );
 
       expect(state).toEqual(initialEntityState);

@@ -22,7 +22,7 @@ export function updateProfile(user?: SampleUser) {
   if (user) {
     cy.get('[formcontrolname="firstName"]').should(
       'have.value',
-      user.firstName
+      user.firstName,
     );
     cy.get('[formcontrolname="lastName"]').should('have.value', user.lastName);
   }
@@ -42,19 +42,19 @@ export function updateProfile(user?: SampleUser) {
   // check is the new name displayed in the upper right corner
   cy.get('.cx-login-greet').should(
     'contain',
-    `Hi, ${newFirstName} ${newLastName}`
+    `Hi, ${newFirstName} ${newLastName}`,
   );
 }
 
 export function validateUpdateProfileForm(
   title: string,
   firstName: string,
-  lastName: string
+  lastName: string,
 ) {
   cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
     cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
       'have.text',
-      title
+      title,
     );
     cy.get('[formcontrolname="firstName"]').should('have.value', firstName);
     cy.get('[formcontrolname="lastName"]').should('have.value', lastName);
@@ -69,7 +69,7 @@ export function verifyUpdatedProfile() {
   cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
     cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
       'have.text',
-      newTitle
+      newTitle,
     );
     cy.get('[formcontrolname="firstName"]').should('have.value', newFirstName);
     cy.get('[formcontrolname="lastName"]').should('have.value', newLastName);
@@ -97,7 +97,7 @@ export function testUpdateProfileDetails() {
     // check is the new name displayed in the upper right corner
     cy.get('.cx-login-greet').should(
       'contain',
-      `Hi, ${newFirstName} ${newLastName}`
+      `Hi, ${newFirstName} ${newLastName}`,
     );
   });
 }
@@ -111,11 +111,11 @@ export function testSeeNewProfileInfo() {
     cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
       cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
         'have.text',
-        newTitle
+        newTitle,
       );
       cy.get('[formcontrolname="firstName"]').should(
         'have.value',
-        newFirstName
+        newFirstName,
       );
       cy.get('[formcontrolname="lastName"]').should('have.value', newLastName);
     });
@@ -150,6 +150,6 @@ export function testUpdateProfileLoggedInUser() {
       after(() => {
         login.signOutUser();
       });
-    }
+    },
   );
 }

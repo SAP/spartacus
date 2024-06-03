@@ -16,7 +16,7 @@ describe('Language switch - product-search page', () => {
 
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
-    siteContextSelector.LANGUAGES
+    siteContextSelector.LANGUAGES,
   );
 
   describe('product-search page', () => {
@@ -26,7 +26,7 @@ describe('Language switch - product-search page', () => {
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + productSearchPath
+        siteContextSelector.FULL_BASE_URL_DE_USD + productSearchPath,
       );
     });
 
@@ -35,12 +35,12 @@ describe('Language switch - product-search page', () => {
         productSearchPath,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
 
       cy.get('cx-product-list-item .cx-product-name').should(
         'contain',
-        deutschName
+        deutschName,
       );
     });
 
@@ -49,7 +49,7 @@ describe('Language switch - product-search page', () => {
         productSearchPath,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
+        siteContextSelector.LANGUAGE_LABEL,
       );
 
       cy.get('cx-searchbox input').type('fun');

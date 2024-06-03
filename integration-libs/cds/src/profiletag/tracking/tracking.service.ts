@@ -17,7 +17,7 @@ export class TrackingService {
   constructor(
     protected profileTagLifecycleService: ProfileTagLifecycleService,
     protected profileTagPushEventsService: ProfileTagPushEventsService,
-    private profileTagEventTracker: ProfileTagEventService
+    private profileTagEventTracker: ProfileTagEventService,
   ) {}
   static factory(trackingService: TrackingService): () => void {
     const factoryFunction = () => {
@@ -34,15 +34,15 @@ export class TrackingService {
             tap((event) => {
               // always notify of consent changes
               this.profileTagEventTracker.notifyProfileTagOfEventOccurrence(
-                event
+                event,
               );
-            })
-          )
+            }),
+          ),
         ),
         filter(([_event, consentChanged]) => consentChanged.data.granted), //don't notify other events until consent is granted
         tap(([event]) => {
           this.profileTagEventTracker.notifyProfileTagOfEventOccurrence(event);
-        })
+        }),
       )
       .subscribe();
   }

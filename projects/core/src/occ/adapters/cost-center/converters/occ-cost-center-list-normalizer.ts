@@ -24,7 +24,7 @@ export class OccCostCenterListNormalizer
 
   convert(
     source: Occ.CostCentersList,
-    target?: EntitiesModel<CostCenter>
+    target?: EntitiesModel<CostCenter>,
   ): EntitiesModel<CostCenter> {
     if (target === undefined) {
       target = { ...(source as any) } as EntitiesModel<CostCenter>;

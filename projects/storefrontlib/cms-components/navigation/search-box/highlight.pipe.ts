@@ -19,13 +19,13 @@ export class HighlightPipe implements PipeTransform {
         text.substring(textStartIndex, textStartIndex + matchLength),
         `<span class="highlight">${text.substring(
           textStartIndex,
-          textStartIndex + matchLength
-        )}</span>`
+          textStartIndex + matchLength,
+        )}</span>`,
       );
     }
     return text.replace(
       match.trim(),
-      `<span class="highlight">${match.trim()}</span>`
+      `<span class="highlight">${match.trim()}</span>`,
     );
   }
 }

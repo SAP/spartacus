@@ -13,21 +13,21 @@ export class InterceptorUtil {
   static createHeader<T>(
     headerName: string,
     interceptorParam: T,
-    headers?: HttpHeaders
+    headers?: HttpHeaders,
   ): HttpHeaders {
     if (headers) {
       return headers.append(headerName, JSON.stringify(interceptorParam));
     }
     headers = new HttpHeaders().set(
       headerName,
-      JSON.stringify(interceptorParam)
+      JSON.stringify(interceptorParam),
     );
     return headers;
   }
 
   static removeHeader(
     headerName: string,
-    request: HttpRequest<any>
+    request: HttpRequest<any>,
   ): HttpRequest<any> {
     const updatedHeaders = request.headers.delete(headerName);
     return request.clone({ headers: updatedHeaders });
@@ -35,7 +35,7 @@ export class InterceptorUtil {
 
   static getInterceptorParam<T>(
     headerName: string,
-    headers: HttpHeaders
+    headers: HttpHeaders,
   ): T | undefined {
     const rawValue = headers.get(headerName);
     if (rawValue) {

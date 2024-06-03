@@ -38,26 +38,24 @@ describe('LoginFormComponent', () => {
   let el: DebugElement;
   let service: LoginFormComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          SpinnerModule,
-        ],
-        declarations: [LoginFormComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: LoginFormComponentService,
-            useClass: MockLoginFormComponentService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        SpinnerModule,
+      ],
+      declarations: [LoginFormComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: LoginFormComponentService,
+          useClass: MockLoginFormComponentService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);
@@ -76,7 +74,7 @@ describe('LoginFormComponent', () => {
       component.form.disable();
       fixture.detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
-        By.css('button')
+        By.css('button'),
       ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });

@@ -46,7 +46,7 @@ export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitCompon
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected userCostCenterService: UserCostCenterService
+    protected userCostCenterService: UserCostCenterService,
   ) {
     super(
       checkoutDeliveryAddressFacade,
@@ -54,21 +54,21 @@ export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitCompon
       activeCartFacade,
       translationService,
       checkoutStepService,
-      checkoutDeliveryModesFacade
+      checkoutDeliveryModesFacade,
     );
   }
 
   get poNumber$(): Observable<string | undefined> {
     return this.checkoutPaymentTypeFacade.getPurchaseOrderNumberState().pipe(
       filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
+      map((state) => state.data),
     );
   }
 
   get paymentType$(): Observable<PaymentType | undefined> {
     return this.checkoutPaymentTypeFacade.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
+      map((state) => state.data),
     );
   }
 
@@ -79,7 +79,7 @@ export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitCompon
   get costCenter$(): Observable<CostCenter | undefined> {
     return this.checkoutCostCenterFacade.getCostCenterState().pipe(
       filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
+      map((state) => state.data),
     );
   }
 
@@ -101,7 +101,7 @@ export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitCompon
           textBold: costCenter?.name,
           text: ['(' + costCenter?.unit?.name + ')'],
         };
-      })
+      }),
     );
   }
 
@@ -115,7 +115,7 @@ export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitCompon
           title: textTitle,
           textBold: poNumber ? poNumber : noneTextTitle,
         };
-      })
+      }),
     );
   }
 
@@ -123,7 +123,7 @@ export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitCompon
     return combineLatest([
       this.translationService.translate('checkoutB2B.progress.methodOfPayment'),
       this.translationService.translate(
-        'paymentTypes.paymentType_' + paymentType.code
+        'paymentTypes.paymentType_' + paymentType.code,
       ),
     ]).pipe(
       map(([textTitle, paymentTypeTranslation]) => {
@@ -131,7 +131,7 @@ export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitCompon
           title: textTitle,
           textBold: paymentTypeTranslation,
         };
-      })
+      }),
     );
   }
 }

@@ -46,7 +46,7 @@ describe('OccConfiguratorVariantPriceSummaryNormalizer', () => {
     });
 
     occConfiguratorVariantPriceSummaryNormalizer = TestBed.inject(
-      OccConfiguratorVariantPriceSummaryNormalizer as Type<OccConfiguratorVariantPriceSummaryNormalizer>
+      OccConfiguratorVariantPriceSummaryNormalizer as Type<OccConfiguratorVariantPriceSummaryNormalizer>,
     );
   });
 

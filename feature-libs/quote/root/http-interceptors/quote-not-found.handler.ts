@@ -51,7 +51,7 @@ export class QuoteNotFoundHandler extends HttpErrorHandler {
   protected getQuoteNotFoundErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors ?? []).filter(
       (error: ErrorModel) =>
-        error.type === 'NotFoundError' && error.message === 'Quote not found'
+        error.type === 'NotFoundError' && error.message === 'Quote not found',
     );
   }
 

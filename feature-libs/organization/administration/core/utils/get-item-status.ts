@@ -13,7 +13,7 @@ import {
 } from '../model/organization-item-status';
 
 export function getItemStatus<T>(
-  itemState: Observable<StateUtils.LoaderState<T>>
+  itemState: Observable<StateUtils.LoaderState<T>>,
 ): Observable<OrganizationItemStatus<T>> {
   return itemState.pipe(
     observeOn(queueScheduler),
@@ -23,9 +23,9 @@ export function getItemStatus<T>(
       status: currentState.success
         ? LoadStatus.SUCCESS
         : currentState.error
-        ? LoadStatus.ERROR
-        : null,
+          ? LoadStatus.ERROR
+          : null,
       item: currentState.value,
-    }))
+    })),
   );
 }

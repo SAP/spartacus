@@ -115,33 +115,31 @@ describe('UserRegistrationFormComponent', () => {
 
   let userRegistrationFormService: UserRegistrationFormService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          RouterTestingModule,
-        ],
-        declarations: [
-          UserRegistrationFormComponent,
-          MockUrlPipe,
-          NgSelectA11yDirective,
-          SpinnerComponent,
-        ],
-        providers: [
-          {
-            provide: UserRegistrationFormService,
-            useClass: MockUserRegistrationFormService,
-          },
-        ],
-      });
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+      ],
+      declarations: [
+        UserRegistrationFormComponent,
+        MockUrlPipe,
+        NgSelectA11yDirective,
+        SpinnerComponent,
+      ],
+      providers: [
+        {
+          provide: UserRegistrationFormService,
+          useClass: MockUserRegistrationFormService,
+        },
+      ],
+    });
 
-      userRegistrationFormService = TestBed.inject(UserRegistrationFormService);
-    })
-  );
+    userRegistrationFormService = TestBed.inject(UserRegistrationFormService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserRegistrationFormComponent);
@@ -182,7 +180,7 @@ describe('UserRegistrationFormComponent', () => {
     expect(form).not.toBeNull();
     expect(submit).not.toBeNull();
     controls.map((control) =>
-      expect(el.query(By.css(`[formcontrolname=${control}]`))).not.toBeNull()
+      expect(el.query(By.css(`[formcontrolname=${control}]`))).not.toBeNull(),
     );
   });
 
@@ -199,7 +197,7 @@ describe('UserRegistrationFormComponent', () => {
     const spinner = fixture.debugElement.query(By.css('cx-spinner'));
     expect(spinner).toBeNull();
     expect(userRegistrationFormService.registerUser).toHaveBeenCalledWith(
-      component.registerForm
+      component.registerForm,
     );
   });
 

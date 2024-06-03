@@ -36,15 +36,15 @@ export class UserProfileService implements UserProfileFacade {
             tap(() => {
               this.eventService.dispatch(
                 { user: payload.details },
-                UserAccountChangedEvent
+                UserAccountChangedEvent,
               );
-            })
-          )
-        )
+            }),
+          ),
+        ),
       ),
     {
       strategy: CommandStrategy.Queue,
-    }
+    },
   );
 
   protected closeCommand: Command = this.command.create(() =>
@@ -54,16 +54,16 @@ export class UserProfileService implements UserProfileFacade {
         switchMap((uid) =>
           this.userProfileConnector
             .remove(uid)
-            .pipe(tap(() => this.authService.logout()))
-        )
-      )
+            .pipe(tap(() => this.authService.logout())),
+        ),
+      ),
   );
 
   protected titleQuery: Query<Title[]> = this.query.create(
     () => this.userProfileConnector.getTitles(),
     {
       reloadOn: [LanguageSetEvent],
-    }
+    },
   );
 
   constructor(
@@ -73,7 +73,7 @@ export class UserProfileService implements UserProfileFacade {
     protected eventService: EventService,
     protected userIdService: UserIdService,
     protected query: QueryService,
-    protected command: CommandService
+    protected command: CommandService,
   ) {}
 
   get(): Observable<User | undefined> {

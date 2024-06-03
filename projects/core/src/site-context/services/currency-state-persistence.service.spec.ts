@@ -63,7 +63,7 @@ describe('CurrencyStatePersistenceService', () => {
         jasmine.objectContaining({
           key: CURRENCY_CONTEXT_ID,
           state$,
-        })
+        }),
       );
       expect(currencyService.getActive).toHaveBeenCalled();
     });

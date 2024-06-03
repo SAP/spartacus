@@ -23,7 +23,7 @@ export class CostCenterItemService extends ItemService<CostCenter> {
     protected currentItemService: CurrentCostCenterService,
     protected routingService: RoutingService,
     protected formService: CostCenterFormService,
-    protected costCenterService: CostCenterService
+    protected costCenterService: CostCenterService,
   ) {
     super(currentItemService, routingService, formService);
   }
@@ -35,14 +35,14 @@ export class CostCenterItemService extends ItemService<CostCenter> {
 
   update(
     code: string,
-    value: CostCenter
+    value: CostCenter,
   ): Observable<OrganizationItemStatus<CostCenter>> {
     this.costCenterService.update(code, value);
     return this.costCenterService.getLoadingStatus(value.code ?? '');
   }
 
   protected create(
-    value: CostCenter
+    value: CostCenter,
   ): Observable<OrganizationItemStatus<CostCenter>> {
     this.costCenterService.create(value);
     return this.costCenterService.getLoadingStatus(value.code ?? '');

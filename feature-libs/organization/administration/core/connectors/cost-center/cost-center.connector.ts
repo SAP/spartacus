@@ -22,7 +22,7 @@ export class CostCenterConnector {
 
   getList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<CostCenter>> {
     return this.adapter.loadList(userId, params);
   }
@@ -34,7 +34,7 @@ export class CostCenterConnector {
   update(
     userId: string,
     costCenterCode: string,
-    costCenter: CostCenter
+    costCenter: CostCenter,
   ): Observable<CostCenter> {
     return this.adapter.update(userId, costCenterCode, costCenter);
   }
@@ -42,7 +42,7 @@ export class CostCenterConnector {
   getBudgets(
     userId: string,
     costCenterCode: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Budget>> {
     return this.adapter.loadBudgets(userId, costCenterCode, params);
   }
@@ -50,7 +50,7 @@ export class CostCenterConnector {
   assignBudget(
     userId: string,
     costCenterCode: string,
-    budgetCode: string
+    budgetCode: string,
   ): Observable<any> {
     return this.adapter.assignBudget(userId, costCenterCode, budgetCode);
   }
@@ -58,7 +58,7 @@ export class CostCenterConnector {
   unassignBudget(
     userId: string,
     costCenterCode: string,
-    budgetCode: string
+    budgetCode: string,
   ): Observable<any> {
     return this.adapter.unassignBudget(userId, costCenterCode, budgetCode);
   }

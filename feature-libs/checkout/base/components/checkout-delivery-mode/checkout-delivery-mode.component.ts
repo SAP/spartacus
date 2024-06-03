@@ -59,7 +59,7 @@ export class CheckoutDeliveryModeComponent {
     .pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
-      map((deliveryMode) => deliveryMode?.code)
+      map((deliveryMode) => deliveryMode?.code),
     );
 
   supportedDeliveryModes$ = this.checkoutDeliveryModesFacade
@@ -81,8 +81,8 @@ export class CheckoutDeliveryModeComponent {
         }
       }),
       map(([deliveryModes]) =>
-        deliveryModes.filter((mode) => mode.code !== 'pickup')
-      )
+        deliveryModes.filter((mode) => mode.code !== 'pickup'),
+      ),
     );
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
@@ -98,7 +98,7 @@ export class CheckoutDeliveryModeComponent {
       .pipe(map((state) => state.loading)),
   ]).pipe(
     map(([busy, loading]) => busy || loading),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   get deliveryModeInvalid(): boolean {
@@ -111,7 +111,7 @@ export class CheckoutDeliveryModeComponent {
     protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
   ) {}
 
   changeMode(code: string | undefined, event?: Event): void {
@@ -156,7 +156,7 @@ export class CheckoutDeliveryModeComponent {
   protected onError(): void {
     this.globalMessageService?.add(
       { key: 'setDeliveryMode.unknownError' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
 
     this.isSetDeliveryModeHttpErrorSub.next(true);
@@ -170,7 +170,7 @@ export class CheckoutDeliveryModeComponent {
     this.isUpdating$
       .pipe(
         filter((isUpdating) => !isUpdating),
-        take(1)
+        take(1),
       )
       .subscribe(() => {
         setTimeout(() => {

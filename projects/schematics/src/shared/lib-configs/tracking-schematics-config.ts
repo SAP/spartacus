@@ -75,7 +75,7 @@ export const TRACKING_GTM_SCHEMATICS_CONFIG: SchematicConfig = {
   dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
 };
 function buildGtmConfig(
-  options: LibraryOptions
+  options: LibraryOptions,
 ): AdditionalFeatureConfiguration {
   return {
     providers: {
@@ -126,7 +126,7 @@ export const TRACKING_AEP_SCHEMATICS_CONFIG: SchematicConfig = {
 };
 
 function buildAepConfig(
-  options: LibraryOptions
+  options: LibraryOptions,
 ): AdditionalFeatureConfiguration {
   return {
     providers: {

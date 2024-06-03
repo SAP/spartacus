@@ -54,7 +54,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected eventService: EventService,
     protected formBuilder: UntypedFormBuilder,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -105,8 +105,8 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
         ?.valueChanges.subscribe((value) =>
           this.quickOrderForm
             .get('quantity')
-            ?.setValue(this.getValidCount(value), { emitEvent: false })
-        )
+            ?.setValue(this.getValidCount(value), { emitEvent: false }),
+        ),
     );
   }
 
@@ -142,10 +142,10 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
                 quantity: data.quantityAdded,
               },
             },
-            messageType
+            messageType,
           );
           this.resetForm();
-        })
+        }),
     );
   }
 
@@ -169,9 +169,9 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
             {
               key: 'quickOrderCartForm.noResults',
             },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
-        })
+        }),
     );
   }
 

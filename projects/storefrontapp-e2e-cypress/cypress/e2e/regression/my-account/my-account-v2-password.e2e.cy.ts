@@ -18,7 +18,7 @@ describe('My Account V2 - Update Password (CXSPA-4455)', () => {
     before(() =>
       cy.window().then((win) => {
         win.sessionStorage.clear();
-      })
+      }),
     );
     // Core e2e test. Repeat in mobile viewport.
     updatePassword.testUpdatePasswordLoggedInUser(true);
@@ -28,7 +28,7 @@ describe('My Account V2 - Update Password (CXSPA-4455)', () => {
     before(() =>
       cy.window().then((win) => {
         win.sessionStorage.clear();
-      })
+      }),
     );
 
     describe('update password test for anonymous user (CXSPA-4455)', () => {
@@ -46,7 +46,7 @@ describe('My Account V2 - Update Password (CXSPA-4455)', () => {
         before(() => {
           standardUser.registrationData.email = generateMail(
             randomString(),
-            true
+            true,
           );
           cy.requireLoggedIn(standardUser);
           cy.visit('/');
@@ -62,19 +62,19 @@ describe('My Account V2 - Update Password (CXSPA-4455)', () => {
         it('should be able to cancel the input in password columns', () => {
           cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
           cy.get('[formcontrolname="newPassword"]').type(
-            updatePassword.newPassword
+            updatePassword.newPassword,
           );
           cy.get('[formcontrolname="newPasswordConfirm"]').type(
-            updatePassword.newPassword
+            updatePassword.newPassword,
           );
           cy.get(
-            'cx-my-account-v2-password button.myaccount-password-button-cancel'
+            'cx-my-account-v2-password button.myaccount-password-button-cancel',
           ).click();
           cy.get('[formcontrolname="oldPassword"]').should('have.value', '');
           cy.get('[formcontrolname="newPassword"]').should('have.value', '');
           cy.get('[formcontrolname="newPasswordConfirm"]').should(
             'have.value',
-            ''
+            '',
           );
         });
 
@@ -82,10 +82,10 @@ describe('My Account V2 - Update Password (CXSPA-4455)', () => {
           alerts.getErrorAlert().should('not.exist');
           cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
           cy.get('[formcontrolname="newPassword"]').type(
-            updatePassword.newPassword
+            updatePassword.newPassword,
           );
           cy.get('[formcontrolname="newPasswordConfirm"]').type(
-            updatePassword.newPassword
+            updatePassword.newPassword,
           );
           cy.get('cx-my-account-v2-password button.btn-primary').click();
           cy.url().should('contain', updatePassword.PAGE_URL_UPDATE_PASSWORD);
@@ -99,7 +99,7 @@ describe('My Account V2 - Update Password (CXSPA-4455)', () => {
         after(() => {
           signOutUser();
         });
-      }
+      },
     );
   });
 });

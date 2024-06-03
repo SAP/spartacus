@@ -44,12 +44,12 @@ export class OrderApprovalEffects {
               new OrderApprovalActions.LoadOrderApprovalFail({
                 orderApprovalCode,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   loadOrderApprovals$: Observable<
@@ -66,7 +66,7 @@ export class OrderApprovalEffects {
           switchMap((orderApprovals: EntitiesModel<OrderApproval>) => {
             const { values, page } = StateUtils.normalizeListPage(
               orderApprovals,
-              'code'
+              'code',
             );
             return [
               new OrderApprovalActions.LoadOrderApprovalSuccess(values),
@@ -81,12 +81,12 @@ export class OrderApprovalEffects {
               new OrderApprovalActions.LoadOrderApprovalsFail({
                 params: params,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   makeDecision$: Observable<
@@ -117,16 +117,16 @@ export class OrderApprovalEffects {
                 new OrderApprovalActions.MakeDecisionFail({
                   orderApprovalCode: orderApprovalCode,
                   error: normalizeHttpError(error, this.logger),
-                })
-              )
-            )
-          )
-      )
-    )
+                }),
+              ),
+            ),
+          ),
+      ),
+    ),
   );
 
   constructor(
     private actions$: Actions,
-    private orderApprovalConnector: OrderApprovalConnector
+    private orderApprovalConnector: OrderApprovalConnector,
   ) {}
 }

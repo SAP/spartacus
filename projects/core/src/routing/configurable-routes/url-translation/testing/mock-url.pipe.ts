@@ -14,7 +14,7 @@ import {
 import { UrlCommand, UrlCommands } from '../url-command';
 
 export const URL_TESTING_ALLOWLISTED_PARAMS = new InjectionToken<string[]>(
-  'Array of params keys that will be rendered by the mock cxUrl pipe'
+  'Array of params keys that will be rendered by the mock cxUrl pipe',
 );
 
 /**
@@ -44,7 +44,7 @@ export class MockUrlPipe implements PipeTransform {
   constructor(
     @Inject(URL_TESTING_ALLOWLISTED_PARAMS)
     @Optional()
-    private readonly allowlistedParams
+    private readonly allowlistedParams,
   ) {}
   transform(commands: UrlCommands) {
     if (!Array.isArray(commands)) {

@@ -24,7 +24,7 @@ export class CdcUserConsentService {
     protected userProfileFacade: UserProfileFacade,
     protected cdcJsService: CdcJsService,
     protected converter: ConverterService,
-    protected cdcConsentsStorage: CdcConsentsLocalStorageService
+    protected cdcConsentsStorage: CdcConsentsLocalStorageService,
   ) {}
 
   /**
@@ -39,7 +39,7 @@ export class CdcUserConsentService {
     isConsentGranted: boolean,
     consentCodes: string[],
     user?: string,
-    regToken?: string
+    regToken?: string,
   ): Observable<{ errorCode: number; errorMessage: string }> {
     let consent: ConsentTemplate;
     let serializedPreference: any = {};
@@ -54,7 +54,7 @@ export class CdcUserConsentService {
       }
       const preference: any = this.converter.convert(
         consent,
-        CDC_USER_PREFERENCE_SERIALIZER
+        CDC_USER_PREFERENCE_SERIALIZER,
       );
       serializedPreference = Object.assign(serializedPreference, preference);
     }
@@ -72,14 +72,14 @@ export class CdcUserConsentService {
         userId,
         currentLanguage,
         serializedPreference,
-        regToken
+        regToken,
       )
       .pipe(
         tap({
           error: (error) => {
             throwError(error);
           },
-        })
+        }),
       );
   }
 

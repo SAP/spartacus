@@ -59,7 +59,7 @@ export class LoadNotificationPreferencesSuccess extends StateUtils.LoaderSuccess
 export class UpdateNotificationPreferences extends EntityLoadAction {
   readonly type = UPDATE_NOTIFICATION_PREFERENCES;
   constructor(
-    public payload: { userId: string; preferences: NotificationPreference[] }
+    public payload: { userId: string; preferences: NotificationPreference[] },
   ) {
     super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID);
   }

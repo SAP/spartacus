@@ -40,7 +40,7 @@ describe('DateRangeCellComponent', () => {
 
   it('should render date', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('span.text')
+      By.css('span.text'),
     ).nativeNode;
     expect(el.innerText).toEqual('Jul 15, 2020 - Jul 15, 2020');
   });

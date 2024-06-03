@@ -43,21 +43,21 @@ describe(`CheckoutCostCenterEventListener`, () => {
           userId: mockUserId,
           cartId: mockCartId,
           code: 'test-cost-center',
-        })
+        }),
       );
     });
 
     it(`CheckoutCostCenterSetEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
-        CheckoutSupportedDeliveryModesQueryResetEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent,
       );
     });
 
     it(`CheckoutCostCenterSetEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutQueryResetEvent
+        CheckoutQueryResetEvent,
       );
     });
   });

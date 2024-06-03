@@ -52,7 +52,7 @@ class MockGlobalMessageService {
   add(
     _text: string | Translatable,
     _type: GlobalMessageType,
-    _timeout?: number
+    _timeout?: number,
   ): void {}
 }
 
@@ -72,34 +72,32 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   let fixture: ComponentFixture<ReplenishmentOrderCancellationDialogComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, KeyboardFocusTestingModule],
-        declarations: [
-          ReplenishmentOrderCancellationDialogComponent,
-          MockCxIconComponent,
-          MockFeatureLevelDirective,
-        ],
-        providers: [
-          {
-            provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockReplenishmentOrderHistoryFacade,
-          },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, KeyboardFocusTestingModule],
+      declarations: [
+        ReplenishmentOrderCancellationDialogComponent,
+        MockCxIconComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        {
+          provide: ReplenishmentOrderHistoryFacade,
+          useClass: MockReplenishmentOrderHistoryFacade,
+        },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ReplenishmentOrderCancellationDialogComponent
+      ReplenishmentOrderCancellationDialogComponent,
     );
     el = fixture.debugElement;
     replenishmentOrderHistoryFacade = TestBed.inject(
-      ReplenishmentOrderHistoryFacade
+      ReplenishmentOrderHistoryFacade,
     );
     globalMessageService = TestBed.inject(GlobalMessageService);
     launchDialogService = TestBed.inject(LaunchDialogService);
@@ -126,11 +124,11 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   it('should redirect to same page and add global message on successful cancellation ', () => {
     spyOn(
       replenishmentOrderHistoryFacade,
-      'cancelReplenishmentOrder'
+      'cancelReplenishmentOrder',
     ).and.stub();
     spyOn(
       replenishmentOrderHistoryFacade,
-      'clearCancelReplenishmentOrderProcessState'
+      'clearCancelReplenishmentOrderProcessState',
     ).and.stub();
     spyOn(globalMessageService, 'add').and.stub();
     spyOn(launchDialogService, 'closeDialog').and.stub();
@@ -144,15 +142,15 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
           replenishmentOrderCode: mockReplenishmentOrder.replenishmentOrderCode,
         },
       },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      'Successffully cancelled replenishment'
+      'Successffully cancelled replenishment',
     );
 
     expect(
-      replenishmentOrderHistoryFacade.clearCancelReplenishmentOrderProcessState
+      replenishmentOrderHistoryFacade.clearCancelReplenishmentOrderProcessState,
     ).toHaveBeenCalled();
   });
 
@@ -164,20 +162,20 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      mockCloseReason
+      mockCloseReason,
     );
   });
 
   it('should be able to call the cancel replenishment', () => {
     spyOn(
       replenishmentOrderHistoryFacade,
-      'cancelReplenishmentOrder'
+      'cancelReplenishmentOrder',
     ).and.stub();
 
     component.cancelReplenishment();
 
     expect(
-      replenishmentOrderHistoryFacade.cancelReplenishmentOrder
+      replenishmentOrderHistoryFacade.cancelReplenishmentOrder,
     ).toHaveBeenCalledWith(mockReplenishmentOrder.replenishmentOrderCode);
   });
 

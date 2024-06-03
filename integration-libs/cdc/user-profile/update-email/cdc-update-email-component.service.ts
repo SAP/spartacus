@@ -24,14 +24,14 @@ export class CDCUpdateEmailComponentService extends UpdateEmailComponentService 
     protected globalMessageService: GlobalMessageService,
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
-    protected cdcJsService: CdcJsService
+    protected cdcJsService: CdcJsService,
   ) {
     super(
       userEmail,
       routingService,
       globalMessageService,
       authService,
-      authRedirectService
+      authRedirectService,
     );
   }
 
@@ -58,7 +58,7 @@ export class CDCUpdateEmailComponentService extends UpdateEmailComponentService 
     this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
     this.globalMessageService.add(
       { key: 'httpHandlers.validationErrors.invalid.password' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
     this.busy$.next(false);
   }

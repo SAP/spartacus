@@ -18,14 +18,14 @@ import {
 export class MyAccountV2OrderConsignmentsService {
   getGroupedConsignments(
     order: Order,
-    pickup: boolean
+    pickup: boolean,
   ): Consignment[] | undefined {
     const consignments = pickup
       ? order.consignments?.filter(
-          (consignment) => consignment.deliveryPointOfService !== undefined
+          (consignment) => consignment.deliveryPointOfService !== undefined,
         )
       : order.consignments?.filter(
-          (consignment) => consignment.deliveryPointOfService === undefined
+          (consignment) => consignment.deliveryPointOfService === undefined,
         );
 
     return this.groupConsignments(consignments);
@@ -33,29 +33,32 @@ export class MyAccountV2OrderConsignmentsService {
 
   getUnconsignedEntries(
     order: Order,
-    pickup: boolean
+    pickup: boolean,
   ): OrderEntry[] | undefined {
     if ((order as ReplenishmentOrder).replenishmentOrderCode) {
       return [];
     }
     return pickup
       ? order.unconsignedEntries?.filter(
-          (entry) => entry.deliveryPointOfService !== undefined
+          (entry) => entry.deliveryPointOfService !== undefined,
         )
       : order.unconsignedEntries?.filter(
-          (entry) => entry.deliveryPointOfService === undefined
+          (entry) => entry.deliveryPointOfService === undefined,
         );
   }
 
   protected groupConsignments(
-    consignments: Consignment[] | undefined
+    consignments: Consignment[] | undefined,
   ): Consignment[] | undefined {
-    const grouped = consignments?.reduce((result, current) => {
-      const key = this.getStatusGroupKey(current.status || '');
-      result[key] = result[key] || [];
-      result[key].push(current);
-      return result;
-    }, {} as { [key: string]: Consignment[] });
+    const grouped = consignments?.reduce(
+      (result, current) => {
+        const key = this.getStatusGroupKey(current.status || '');
+        result[key] = result[key] || [];
+        result[key].push(current);
+        return result;
+      },
+      {} as { [key: string]: Consignment[] },
+    );
 
     return grouped
       ? [...(grouped[1] || []), ...(grouped[0] || []), ...(grouped[-1] || [])]

@@ -27,14 +27,14 @@ export class UserPermissionListService extends SubListService<Permission> {
   constructor(
     protected tableService: TableService,
     protected userService: B2BUserService,
-    protected permissionService: PermissionService
+    protected permissionService: PermissionService,
   ) {
     super(tableService);
   }
 
   protected load(
     pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<B2BUser> | undefined> {
     return this.userService.getPermissions(code, pagination);
   }
@@ -45,7 +45,7 @@ export class UserPermissionListService extends SubListService<Permission> {
    */
   assign(
     userCode: string,
-    code: string
+    code: string,
   ): Observable<OrganizationItemStatus<Permission>> {
     this.userService.assignPermission(userCode, code);
     return this.permissionService.getLoadingStatus(code);
@@ -57,7 +57,7 @@ export class UserPermissionListService extends SubListService<Permission> {
    */
   unassign(
     userCode: string,
-    code: string
+    code: string,
   ): Observable<OrganizationItemStatus<Permission>> {
     this.userService.unassignPermission(userCode, code);
     return this.permissionService.getLoadingStatus(code);

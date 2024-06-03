@@ -16,25 +16,23 @@ describe('EscapeFocusService', () => {
   let focusUtility: SelectFocusUtility;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent],
-        providers: [
-          EscapeFocusService,
-          {
-            provide: SelectFocusUtility,
-            useClass: MockSelectFocusUtility,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent],
+      providers: [
+        EscapeFocusService,
+        {
+          provide: SelectFocusUtility,
+          useClass: MockSelectFocusUtility,
+        },
+      ],
+    }).compileComponents();
 
-      service = TestBed.inject(EscapeFocusService);
-      focusUtility = TestBed.inject(SelectFocusUtility);
+    service = TestBed.inject(EscapeFocusService);
+    focusUtility = TestBed.inject(SelectFocusUtility);
 
-      fixture = TestBed.createComponent(MockComponent);
-    })
-  );
+    fixture = TestBed.createComponent(MockComponent);
+  }));
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
@@ -101,7 +99,7 @@ describe('EscapeFocusService', () => {
           service.handleEscape(
             el,
             { focusOnEscape: true },
-            ev as KeyboardEvent
+            ev as KeyboardEvent,
           );
           expect(el.focus).not.toHaveBeenCalled();
         });
@@ -110,7 +108,7 @@ describe('EscapeFocusService', () => {
           service.handleEscape(
             el,
             { focusOnEscape: true, focusOnDoubleEscape: true },
-            ev as KeyboardEvent
+            ev as KeyboardEvent,
           );
           expect(focusUtility.findFirstFocusable).toHaveBeenCalled();
         });
@@ -119,7 +117,7 @@ describe('EscapeFocusService', () => {
           service.handleEscape(
             el,
             { focusOnEscape: true, focusOnDoubleEscape: false },
-            ev as KeyboardEvent
+            ev as KeyboardEvent,
           );
           expect(focusUtility.findFirstFocusable).not.toHaveBeenCalled();
         });

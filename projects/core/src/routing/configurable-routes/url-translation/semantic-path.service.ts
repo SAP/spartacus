@@ -17,7 +17,7 @@ export class SemanticPathService {
 
   constructor(
     protected routingConfigService: RoutingConfigService,
-    protected urlParser: UrlParsingService
+    protected urlParser: UrlParsingService,
   ) {}
 
   /**
@@ -76,7 +76,7 @@ export class SemanticPathService {
   }
 
   private generateUrlPart(
-    command: UrlCommandRoute
+    command: UrlCommandRoute,
   ): (string | undefined)[] | null {
     this.standarizeRouteCommand(command);
 
@@ -85,7 +85,7 @@ export class SemanticPathService {
     }
 
     const routeConfig = this.routingConfigService.getRouteConfig(
-      command.cxRoute
+      command.cxRoute,
     );
 
     // if no route translation was configured, return null:
@@ -104,7 +104,7 @@ export class SemanticPathService {
     const result = this.provideParamsValues(
       path,
       command.params,
-      routeConfig.paramsMapping
+      routeConfig.paramsMapping,
     );
 
     return result;
@@ -117,14 +117,14 @@ export class SemanticPathService {
   private provideParamsValues(
     path: string,
     params?: object,
-    paramsMapping?: ParamsMapping
+    paramsMapping?: ParamsMapping,
   ): (string | undefined)[] {
     return this.urlParser.getPrimarySegments(path).map((segment) => {
       if (isParam(segment)) {
         const paramName = getParamName(segment);
         const mappedParamName = this.getMappedParamName(
           paramName,
-          paramsMapping
+          paramsMapping,
         );
         return params?.[mappedParamName as keyof object];
       }
@@ -134,17 +134,17 @@ export class SemanticPathService {
 
   private findPathWithFillableParams(
     routeConfig: RouteConfig,
-    params?: object
+    params?: object,
   ): string | null {
     const foundPath = routeConfig.paths?.find((path) =>
       this.getParams(path).every((paramName) => {
         const mappedParamName = this.getMappedParamName(
           paramName,
-          routeConfig.paramsMapping
+          routeConfig.paramsMapping,
         );
 
         return params?.[mappedParamName as keyof object] !== undefined;
-      })
+      }),
     );
 
     if (foundPath === undefined || foundPath === null) {
@@ -162,7 +162,7 @@ export class SemanticPathService {
 
   private getMappedParamName(
     paramName: string,
-    paramsMapping?: object
+    paramsMapping?: object,
   ): string {
     if (paramsMapping) {
       return paramsMapping[paramName as keyof object] || paramName;

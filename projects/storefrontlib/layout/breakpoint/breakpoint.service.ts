@@ -40,14 +40,14 @@ export class BreakpointService {
   breakpoint$: Observable<BREAKPOINT> = isPlatformBrowser(this.platform)
     ? this.winRef.resize$.pipe(
         map((event) => this.getBreakpoint((<Window>event.target).innerWidth)),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
     : of(this.fallbackBreakpoint);
 
   constructor(
     protected winRef: WindowRef,
     protected layoutConfig: LayoutConfig,
-    @Inject(PLATFORM_ID) protected platform: any
+    @Inject(PLATFORM_ID) protected platform: any,
   ) {}
 
   /**
@@ -73,7 +73,7 @@ export class BreakpointService {
       // if there's no direct max value or explicit max value
       // we must derive the max value from the previous min
       this.getMinSize(
-        this.breakpoints?.[this.breakpoints.indexOf(breakpoint) + 1]
+        this.breakpoints?.[this.breakpoints.indexOf(breakpoint) + 1],
       )
     );
   }
@@ -90,8 +90,8 @@ export class BreakpointService {
       map((br) =>
         this.breakpoints
           .slice(0, this.breakpoints.indexOf(breakpoint) + 1)
-          .includes(br)
-      )
+          .includes(br),
+      ),
     );
   }
 
@@ -107,8 +107,8 @@ export class BreakpointService {
       map((br) =>
         this.breakpoints
           .slice(this.breakpoints.indexOf(breakpoint))
-          .includes(br)
-      )
+          .includes(br),
+      ),
     );
   }
 
@@ -139,12 +139,12 @@ export class BreakpointService {
       const nextMinSize = this.getMinSize(next);
       const maxNext = Math.max(
         nextMinSize ? nextMinSize + 1 : 0,
-        this.getMaxSize(next) || 0
+        this.getMaxSize(next) || 0,
       );
       const preMinSize = this.getMinSize(prev);
       const maxPrev = Math.max(
         preMinSize ? preMinSize + 1 : 0,
-        this.getMaxSize(prev) || 0
+        this.getMaxSize(prev) || 0,
       );
       return maxNext < maxPrev ? -1 : 0;
     };

@@ -42,7 +42,7 @@ export class ProductLoadingService {
     protected loadingScopes: LoadingScopesService,
     protected actions$: Actions,
     @Inject(PLATFORM_ID) protected platformId: any,
-    protected eventService: EventService
+    protected eventService: EventService,
   ) {}
 
   get(productCode: string, scopes: string[]): Observable<Product> {
@@ -61,21 +61,21 @@ export class ProductLoadingService {
       if (!this.products[productCode][scope]) {
         this.products[productCode][scope] = this.getProductForScope(
           productCode,
-          scope
+          scope,
         );
       }
     }
 
     if (scopes.length > 1) {
       this.products[productCode][this.getScopesIndex(scopes)] = uniteLatest(
-        scopes.map((scope) => this.products[productCode][scope])
+        scopes.map((scope) => this.products[productCode][scope]),
       ).pipe(
         map((productParts) =>
           productParts.every(Boolean)
             ? deepMerge({}, ...productParts)
-            : undefined
+            : undefined,
         ),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       );
     }
   }
@@ -92,48 +92,48 @@ export class ProductLoadingService {
    */
   protected getProductForScope(
     productCode: string,
-    scope: string
+    scope: string,
   ): Observable<Product> {
     const shouldLoad$ = this.store.pipe(
       select(
-        ProductSelectors.getSelectedProductStateFactory(productCode, scope)
+        ProductSelectors.getSelectedProductStateFactory(productCode, scope),
       ),
       map(
         (productState) =>
-          !productState.loading && !productState.success && !productState.error
+          !productState.loading && !productState.success && !productState.error,
       ),
       distinctUntilChanged(),
-      filter((x) => x)
+      filter((x) => x),
     );
 
     const isLoading$ = this.store.pipe(
       select(
-        ProductSelectors.getSelectedProductLoadingFactory(productCode, scope)
-      )
+        ProductSelectors.getSelectedProductLoadingFactory(productCode, scope),
+      ),
     );
 
     const productLoadLogic$ = merge(
       shouldLoad$,
-      ...this.getProductReloadTriggers(productCode, scope)
+      ...this.getProductReloadTriggers(productCode, scope),
     ).pipe(
       debounceTime(0),
       withLatestFrom(isLoading$),
       tap(([, isLoading]) => {
         if (!isLoading) {
           this.store.dispatch(
-            new ProductActions.LoadProduct(productCode, scope)
+            new ProductActions.LoadProduct(productCode, scope),
           );
         }
-      })
+      }),
     );
 
     const productData$ = this.store.pipe(
-      select(ProductSelectors.getSelectedProductFactory(productCode, scope))
+      select(ProductSelectors.getSelectedProductFactory(productCode, scope)),
     );
 
     return using(
       () => productLoadLogic$.subscribe(),
-      () => productData$
+      () => productData$,
     ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
   }
 
@@ -145,7 +145,7 @@ export class ProductLoadingService {
    */
   protected getProductReloadTriggers(
     productCode: string,
-    scope: string
+    scope: string,
   ): Observable<unknown>[] {
     const triggers: Observable<unknown>[] = [];
 
@@ -156,24 +156,24 @@ export class ProductLoadingService {
       const loadFinish$ = this.actions$.pipe(
         ofType(
           ProductActions.LOAD_PRODUCT_SUCCESS,
-          ProductActions.LOAD_PRODUCT_FAIL
+          ProductActions.LOAD_PRODUCT_FAIL,
         ),
         filter(
           (
             action:
               | ProductActions.LoadProductSuccess
-              | ProductActions.LoadProductFail
+              | ProductActions.LoadProductFail,
           ) =>
-            action.meta.entityId === productCode && action.meta.scope === scope
-        )
+            action.meta.entityId === productCode && action.meta.scope === scope,
+        ),
       );
 
       const loadStart$ = this.actions$.pipe(
         ofType(ProductActions.LOAD_PRODUCT),
         filter(
           (action: ProductActions.LoadProduct) =>
-            action.payload === productCode && action.meta.scope === scope
-        )
+            action.payload === productCode && action.meta.scope === scope,
+        ),
       );
 
       triggers.push(this.getMaxAgeTrigger(loadStart$, loadFinish$, maxAge));
@@ -200,7 +200,7 @@ export class ProductLoadingService {
     loadStart$: Observable<ProductActions.ProductAction>,
     loadFinish$: Observable<ProductActions.ProductAction>,
     maxAge: number,
-    scheduler?: SchedulerLike
+    scheduler?: SchedulerLike,
   ): Observable<boolean> {
     let timestamp = 0;
 
@@ -214,7 +214,7 @@ export class ProductLoadingService {
       const timestampRefresh$ = timestamp$.pipe(
         delay(maxAge, scheduler),
         map(() => true),
-        withdrawOn(loadStart$)
+        withdrawOn(loadStart$),
       );
 
       if (age > maxAge) {
@@ -228,7 +228,7 @@ export class ProductLoadingService {
         // we should emit first value when age will expire
         return merge(
           of(true).pipe(delay(maxAge - age, scheduler)),
-          timestampRefresh$
+          timestampRefresh$,
         );
       }
     });

@@ -48,25 +48,23 @@ describe('StoreFinderSearchComponent', () => {
 
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-        declarations: [
-          StoreFinderSearchComponent,
-          MockUrlPipe,
-          MockCxIconComponent,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useValue: { go: jasmine.createSpy() },
-          },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      declarations: [
+        StoreFinderSearchComponent,
+        MockUrlPipe,
+        MockCxIconComponent,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useValue: { go: jasmine.createSpy() },
+        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchComponent);
@@ -85,7 +83,7 @@ describe('StoreFinderSearchComponent', () => {
     component.findStores(component.searchBox.value);
     expect(routingService.go).toHaveBeenCalledWith(
       ['store-finder/find'],
-      query
+      query,
     );
   });
 
@@ -94,7 +92,7 @@ describe('StoreFinderSearchComponent', () => {
     component.onKey(keyEvent);
     expect(routingService.go).toHaveBeenCalledWith(
       ['store-finder/find'],
-      query
+      query,
     );
   });
 

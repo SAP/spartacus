@@ -140,7 +140,7 @@ describe('DpPaymentMethodComponent', () => {
     spyOn(component, 'next').and.callThrough();
     component.paymentDetailsAdded(mockPaymentDetails);
     expect(component['savePaymentMethod']).toHaveBeenCalledWith(
-      mockPaymentDetails
+      mockPaymentDetails,
     );
     expect(component.next).toHaveBeenCalled();
   });

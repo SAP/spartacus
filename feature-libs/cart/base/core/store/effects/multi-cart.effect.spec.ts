@@ -27,7 +27,7 @@ const testCart: Cart = {
 
 class MockMultiCartEffectsService implements Partial<MultiCartEffectsService> {
   getActiveCartTypeOnLoadSuccess(
-    _action: CartActions.LoadCartSuccess
+    _action: CartActions.LoadCartSuccess,
   ): CartActions.SetCartTypeIndex | undefined {
     return undefined;
   }
@@ -43,7 +43,7 @@ describe('Multi Cart effect', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           MULTI_CART_FEATURE,
-          fromCartReducers.getMultiCartReducers()
+          fromCartReducers.getMultiCartReducers(),
         ),
       ],
 
@@ -137,7 +137,7 @@ describe('Multi Cart effect', () => {
       const multiCartEffectsService = TestBed.inject(MultiCartEffectsService);
       spyOn(
         multiCartEffectsService,
-        'getActiveCartTypeOnLoadSuccess'
+        'getActiveCartTypeOnLoadSuccess',
       ).and.returnValue(setActiveCartIdAction);
 
       actions$ = hot('-a', { a: action });
@@ -145,7 +145,7 @@ describe('Multi Cart effect', () => {
 
       expect(cartEffects.setActiveCartId$).toBeObservable(expected);
       expect(
-        multiCartEffectsService.getActiveCartTypeOnLoadSuccess
+        multiCartEffectsService.getActiveCartTypeOnLoadSuccess,
       ).toHaveBeenCalledWith(action);
     });
 
@@ -164,7 +164,7 @@ describe('Multi Cart effect', () => {
       const multiCartEffectsService = TestBed.inject(MultiCartEffectsService);
       spyOn(
         multiCartEffectsService,
-        'getActiveCartTypeOnLoadSuccess'
+        'getActiveCartTypeOnLoadSuccess',
       ).and.returnValue(setActiveCartIdAction);
 
       actions$ = hot('-a', { a: action });
@@ -172,7 +172,7 @@ describe('Multi Cart effect', () => {
 
       expect(cartEffects.setActiveCartId$).toBeObservable(expected);
       expect(
-        multiCartEffectsService.getActiveCartTypeOnLoadSuccess
+        multiCartEffectsService.getActiveCartTypeOnLoadSuccess,
       ).toHaveBeenCalledWith(action);
     });
 

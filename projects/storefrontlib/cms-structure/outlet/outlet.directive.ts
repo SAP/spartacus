@@ -71,7 +71,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
     private templateRef: TemplateRef<any>,
     private outletService: OutletService,
     private deferLoaderService: DeferLoaderService,
-    private outletRendererService: OutletRendererService
+    private outletRendererService: OutletRendererService,
   ) {}
 
   /**
@@ -113,7 +113,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
         .subscribe(() => {
           this.build();
           this.loaded.emit(true);
-        })
+        }),
     );
   }
 
@@ -162,7 +162,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
    */
   private create(
     tmplOrFactory: any,
-    position: OutletPosition
+    position: OutletPosition,
   ): ComponentRef<any> | EmbeddedViewRef<any> | undefined {
     this.renderedTemplate.push(tmplOrFactory);
 
@@ -170,7 +170,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
       const component = this.vcr.createComponent(
         tmplOrFactory,
         undefined,
-        this.getComponentInjector(position)
+        this.getComponentInjector(position),
       );
       this.cxComponentRefChange.emit(component);
       return component;
@@ -179,7 +179,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
         <TemplateRef<any>>tmplOrFactory,
         {
           $implicit: this.cxOutletContext,
-        }
+        },
       );
 
       // we do not know if content is created dynamically or not

@@ -19,7 +19,7 @@ class CustomFocusDirective extends VisibleFocusDirective {
 
   constructor(
     protected elementRef: ElementRef<HTMLElement>,
-    protected service: BaseFocusService
+    protected service: BaseFocusService,
   ) {
     super(elementRef, service);
   }
@@ -33,7 +33,7 @@ class CustomFakeFocusDirective extends VisibleFocusDirective {
 
   constructor(
     protected elementRef: ElementRef<HTMLElement>,
-    protected service: BaseFocusService
+    protected service: BaseFocusService,
   ) {
     super(elementRef, service);
   }
@@ -90,24 +90,22 @@ const MockTabKeyEvent = {
 
 describe('VisibleFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          MockComponent,
-          CustomFocusDirective,
-          CustomFakeFocusDirective,
-        ],
-        providers: [
-          {
-            provide: BaseFocusService,
-            useClass: MockVisibleFocusService,
-          },
-        ],
-      }).compileComponents();
-      fixture = TestBed.createComponent(MockComponent);
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        MockComponent,
+        CustomFocusDirective,
+        CustomFakeFocusDirective,
+      ],
+      providers: [
+        {
+          provide: BaseFocusService,
+          useClass: MockVisibleFocusService,
+        },
+      ],
+    }).compileComponents();
+    fixture = TestBed.createComponent(MockComponent);
+  }));
 
   beforeEach(() => {
     fixture.detectChanges();
@@ -122,7 +120,7 @@ describe('VisibleFocusDirective', () => {
 
     it('should not have "mouse-focus" class on the host by default', () => {
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
     });
 
@@ -130,7 +128,7 @@ describe('VisibleFocusDirective', () => {
       host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
     });
 
@@ -138,12 +136,12 @@ describe('VisibleFocusDirective', () => {
       host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
       host.triggerEventHandler('keydown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
     });
 
@@ -151,12 +149,12 @@ describe('VisibleFocusDirective', () => {
       host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
       host.triggerEventHandler('keydown', MockOskeyEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
     });
 
@@ -164,12 +162,12 @@ describe('VisibleFocusDirective', () => {
       host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
       host.triggerEventHandler('keydown', MockFillFormEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
     });
 
@@ -177,12 +175,12 @@ describe('VisibleFocusDirective', () => {
       host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
       host.triggerEventHandler('keydown', MockTabKeyEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
     });
 
@@ -190,12 +188,12 @@ describe('VisibleFocusDirective', () => {
       host.triggerEventHandler('keydown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
       host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
     });
   });
@@ -211,7 +209,7 @@ describe('VisibleFocusDirective', () => {
       host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
     });
   });
@@ -222,7 +220,7 @@ describe('VisibleFocusDirective', () => {
       host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
-        'mouse-focus'
+        'mouse-focus',
       );
     });
   });

@@ -71,7 +71,7 @@ describe('OccUserPaymentAdapter', () => {
         'paymentDetailsAll',
         {
           urlParams: { userId: username },
-        }
+        },
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -86,7 +86,7 @@ describe('OccUserPaymentAdapter', () => {
         })
         .flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(
-        PAYMENT_DETAILS_NORMALIZER
+        PAYMENT_DETAILS_NORMALIZER,
       );
     });
   });
@@ -112,7 +112,7 @@ describe('OccUserPaymentAdapter', () => {
         'paymentDetail',
         {
           urlParams: { userId: username, paymentDetailId: mockPayment.id },
-        }
+        },
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -138,7 +138,7 @@ describe('OccUserPaymentAdapter', () => {
         'paymentDetail',
         {
           urlParams: { userId: username, paymentDetailId: mockPayment.id },
-        }
+        },
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

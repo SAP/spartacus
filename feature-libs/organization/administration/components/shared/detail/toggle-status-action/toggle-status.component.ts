@@ -61,7 +61,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   constructor(
     protected itemService: ItemService<T>,
     protected messageService: MessageService<ConfirmationMessageData>,
-    protected disableInfoService: DisableInfoService<T>
+    protected disableInfoService: DisableInfoService<T>,
   ) {}
 
   toggle(item: T) {
@@ -95,7 +95,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
               this.update(item);
               this.confirmation = null;
             }
-          })
+          }),
         );
       }
     }
@@ -116,11 +116,11 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
     this.itemService
       .update(
         item[this.key as keyof BaseItem] as string,
-        this.getPatchedItem(item)
+        this.getPatchedItem(item),
       )
       .pipe(
         take(1),
-        filter((data) => data.status === LoadStatus.SUCCESS)
+        filter((data) => data.status === LoadStatus.SUCCESS),
       )
       .subscribe((data) => this.notify({ ...item, ...data.item }));
   }

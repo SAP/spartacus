@@ -103,27 +103,25 @@ describe('ProductImagesComponent', () => {
   let fixture: ComponentFixture<ProductImageZoomProductImagesComponent>;
   let currentProductService: CurrentProductService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ProductImageZoomProductImagesComponent,
-          MockMediaComponent,
-          MockCarouselComponent,
-          MockProductImageZoomTriggerComponent,
-        ],
-        providers: [
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ProductImageZoomProductImagesComponent,
+        MockMediaComponent,
+        MockCarouselComponent,
+        MockProductImageZoomTriggerComponent,
+      ],
+      providers: [
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+      ],
+    }).compileComponents();
 
-      currentProductService = TestBed.inject(CurrentProductService);
-    })
-  );
+    currentProductService = TestBed.inject(CurrentProductService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
@@ -134,7 +132,7 @@ describe('ProductImagesComponent', () => {
   describe('with multiple pictures', () => {
     beforeEach(() => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockDataWithMultiplePictures)
+        of(mockDataWithMultiplePictures),
       );
 
       fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
@@ -152,25 +150,19 @@ describe('ProductImagesComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it(
-      'should have 2 thumbnails',
-      waitForAsync(() => {
-        let items: Observable<Product>[];
-        component.thumbs$.subscribe((i) => (items = i));
-        expect(items.length).toBe(2);
-      })
-    );
+    it('should have 2 thumbnails', waitForAsync(() => {
+      let items: Observable<Product>[];
+      component.thumbs$.subscribe((i) => (items = i));
+      expect(items.length).toBe(2);
+    }));
 
-    it(
-      'should have thumb with url in first product',
-      waitForAsync(() => {
-        let thumbs: Observable<Product>[];
-        component.thumbs$.subscribe((i) => (thumbs = i));
-        let thumb: any;
-        thumbs[0].subscribe((p) => (thumb = p));
-        expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
-      })
-    );
+    it('should have thumb with url in first product', waitForAsync(() => {
+      let thumbs: Observable<Product>[];
+      component.thumbs$.subscribe((i) => (thumbs = i));
+      let thumb: any;
+      thumbs[0].subscribe((p) => (thumb = p));
+      expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
+    }));
 
     describe('UI test', () => {
       it('should have cx-carousel element', () => {
@@ -178,22 +170,19 @@ describe('ProductImagesComponent', () => {
         expect(carousel).toBeTruthy();
       });
 
-      it(
-        'should have 2 rendered templates',
-        waitForAsync(() => {
-          const el = fixture.debugElement.queryAll(
-            By.css('cx-carousel cx-media')
-          );
-          expect(el.length).toEqual(2);
-        })
-      );
+      it('should have 2 rendered templates', waitForAsync(() => {
+        const el = fixture.debugElement.queryAll(
+          By.css('cx-carousel cx-media'),
+        );
+        expect(el.length).toEqual(2);
+      }));
     });
   });
 
   describe('with one pictures', () => {
     beforeEach(() => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockDataWithOnePicture)
+        of(mockDataWithOnePicture),
       );
 
       fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
@@ -211,14 +200,11 @@ describe('ProductImagesComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it(
-      'should not have thumbnails in case there is only one GALLERY image',
-      waitForAsync(() => {
-        let items: Observable<Product>[];
-        component.thumbs$.subscribe((i) => (items = i));
-        expect(items.length).toBe(0);
-      })
-    );
+    it('should not have thumbnails in case there is only one GALLERY image', waitForAsync(() => {
+      let items: Observable<Product>[];
+      component.thumbs$.subscribe((i) => (items = i));
+      expect(items.length).toBe(0);
+    }));
 
     describe('(UI test)', () => {
       it('should not render cx-carousel for one GALLERY image', () => {
@@ -234,7 +220,7 @@ describe('ProductImagesComponent', () => {
   describe('without pictures', () => {
     beforeEach(() => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockDataWitoutPrimaryPictures)
+        of(mockDataWitoutPrimaryPictures),
       );
 
       fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);

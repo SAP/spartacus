@@ -38,7 +38,7 @@ describe('TrackingService', () => {
     });
     profileTagEventTrackerMock = <ProfileTagEventService>(<unknown>{
       notifyProfileTagOfEventOccurrence: jasmine.createSpy(
-        'notifyProfileTagOfEventOccurrence'
+        'notifyProfileTagOfEventOccurrence',
       ),
     });
   }
@@ -73,14 +73,14 @@ describe('TrackingService', () => {
     consentBehavior.next(new ConsentChangedPushEvent(true));
     consentBehavior.next(new ConsentChangedPushEvent(false));
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence,
     ).toHaveBeenCalledTimes(2);
 
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence,
     ).toHaveBeenCalledWith(new ConsentChangedPushEvent(true));
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence,
     ).toHaveBeenCalledWith(new ConsentChangedPushEvent(false));
   });
 
@@ -90,10 +90,10 @@ describe('TrackingService', () => {
     const testEvent = new HomePageViewPushEvent();
     pushEvents.next(testEvent);
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence,
     ).toHaveBeenCalled();
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence,
     ).toHaveBeenCalledWith(testEvent);
   });
 
@@ -102,10 +102,10 @@ describe('TrackingService', () => {
     consentBehavior.next(new ConsentChangedPushEvent(true));
     pushEvents.next(new NavigatedPushEvent('test'));
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence,
     ).toHaveBeenCalled();
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence,
     ).toHaveBeenCalledWith(new NavigatedPushEvent('test'));
   });
 });

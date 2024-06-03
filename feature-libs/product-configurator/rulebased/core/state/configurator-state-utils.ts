@@ -9,20 +9,20 @@ import { Configurator } from '../model/configurator.model';
 export class ConfiguratorStateUtils {
   static mergeGroupsWithSupplements(
     groups: Configurator.Group[],
-    attributeSupplements: Configurator.AttributeSupplement[]
+    attributeSupplements: Configurator.AttributeSupplement[],
   ): Configurator.Group[] {
     const mergedGroups: Configurator.Group[] = [];
     groups.forEach((group) =>
       mergedGroups.push(
-        this.mergeGroupWithSupplements(group, attributeSupplements)
-      )
+        this.mergeGroupWithSupplements(group, attributeSupplements),
+      ),
     );
     return mergedGroups;
   }
 
   protected static mergeGroupWithSupplements(
     group: Configurator.Group,
-    attributeSupplements: Configurator.AttributeSupplement[]
+    attributeSupplements: Configurator.AttributeSupplement[],
   ): Configurator.Group {
     if (this.isTargetGroup(group, attributeSupplements)) {
       return this.mergeTargetGroupWithSupplements(group, attributeSupplements);
@@ -31,7 +31,7 @@ export class ConfiguratorStateUtils {
         ...group,
         subGroups: this.mergeGroupsWithSupplements(
           group.subGroups,
-          attributeSupplements
+          attributeSupplements,
         ),
       };
     }
@@ -39,13 +39,13 @@ export class ConfiguratorStateUtils {
 
   protected static mergeTargetGroupWithSupplements(
     group: Configurator.Group,
-    attributeSupplements: Configurator.AttributeSupplement[]
+    attributeSupplements: Configurator.AttributeSupplement[],
   ): Configurator.Group {
     let mergedAttributes = group.attributes;
 
     attributeSupplements.forEach((attributeSupplement) => {
       const attributeName = ConfiguratorStateUtils.getAttributeName(
-        attributeSupplement.attributeUiKey
+        attributeSupplement.attributeUiKey,
       );
       mergedAttributes = this.updateArrayElement(
         mergedAttributes,
@@ -55,10 +55,10 @@ export class ConfiguratorStateUtils {
             ...attribute,
             values: this.mergeValuesWithSupplement(
               attribute.values,
-              attributeSupplement
+              attributeSupplement,
             ),
           };
-        }
+        },
       );
     });
 
@@ -70,7 +70,7 @@ export class ConfiguratorStateUtils {
 
   protected static mergeValuesWithSupplement(
     attributeValues: Configurator.Value[] | undefined,
-    attributeSupplement: Configurator.AttributeSupplement
+    attributeSupplement: Configurator.AttributeSupplement,
   ): Configurator.Value[] | undefined {
     let mergedValues = attributeValues;
 
@@ -83,7 +83,7 @@ export class ConfiguratorStateUtils {
             ...value,
             valuePrice: valueSupplement.priceValue,
           };
-        }
+        },
       );
     });
 
@@ -92,16 +92,16 @@ export class ConfiguratorStateUtils {
 
   protected static isTargetGroup(
     group: Configurator.Group,
-    attributeSupplements: Configurator.AttributeSupplement[]
+    attributeSupplements: Configurator.AttributeSupplement[],
   ): boolean {
     const firstSupplement = attributeSupplements[0];
     if (firstSupplement) {
       const attributeName = ConfiguratorStateUtils.getAttributeName(
-        firstSupplement.attributeUiKey
+        firstSupplement.attributeUiKey,
       );
       const attributeUiKey = ConfiguratorStateUtils.getKey(
         firstSupplement.attributeUiKey,
-        attributeName
+        attributeName,
       );
       return group.id.indexOf(attributeUiKey) >= 0;
     } else {
@@ -120,7 +120,7 @@ export class ConfiguratorStateUtils {
   protected static updateArrayElement<T>(
     array: T[] | undefined,
     predicate: (value: T, index: number, obj: T[]) => unknown,
-    projection: (value: T, index: number) => T
+    projection: (value: T, index: number) => T,
   ): T[] | undefined {
     if (array) {
       const index = array.findIndex(predicate);

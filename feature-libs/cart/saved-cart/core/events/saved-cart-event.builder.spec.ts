@@ -101,7 +101,7 @@ describe('SavedCartEventBuilder', () => {
     describe('SaveCartSuccessEvent', () => {
       it('should emit the event when the action is fired', () => {
         spyOn(multiCartService, 'getCart').and.returnValue(
-          of(mockSavedCartData)
+          of(mockSavedCartData),
         );
 
         const payload = {
@@ -167,7 +167,7 @@ describe('SavedCartEventBuilder', () => {
     describe('RestoreSavedCartEvent', () => {
       it('should emit the event when the action is fired', () => {
         spyOn(multiCartService, 'getCart').and.returnValue(
-          of(mockSavedCartData)
+          of(mockSavedCartData),
         );
 
         const payload = {
@@ -226,7 +226,7 @@ describe('SavedCartEventBuilder', () => {
     describe('RestoreSavedCartFailEvent', () => {
       it('should emit the event when the action is fired', () => {
         spyOn(multiCartService, 'getCart').and.returnValue(
-          of(mockSavedCartData)
+          of(mockSavedCartData),
         );
 
         const payload = {
@@ -292,7 +292,7 @@ describe('SavedCartEventBuilder', () => {
     describe('EditSavedCartSuccessEvent', () => {
       it('should emit the event when the action is fired', () => {
         spyOn(multiCartService, 'getCart').and.returnValue(
-          of(mockSavedCartData)
+          of(mockSavedCartData),
         );
 
         const payload = {
@@ -358,7 +358,7 @@ describe('SavedCartEventBuilder', () => {
     describe('CloneSavedCartEvent', () => {
       it('should emit the event when the action is fired', () => {
         spyOn(multiCartService, 'getCart').and.returnValue(
-          of(mockSavedCartData)
+          of(mockSavedCartData),
         );
 
         const payload = {
@@ -417,7 +417,7 @@ describe('SavedCartEventBuilder', () => {
     describe('CloneSavedCartFailEvent', () => {
       it('should emit the event when the action is fired', () => {
         spyOn(multiCartService, 'getCart').and.returnValue(
-          of(mockSavedCartData)
+          of(mockSavedCartData),
         );
 
         const payload = {

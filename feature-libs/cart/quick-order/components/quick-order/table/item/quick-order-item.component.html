@@ -3,7 +3,7 @@
     <a
       [ngClass]="{
         disabled: loading,
-        'img-missing': !entry?.product?.images?.PRIMARY
+        'img-missing': !entry?.product?.images?.PRIMARY,
       }"
       [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
       tabindex="-1"

@@ -15,7 +15,7 @@ describe('mockTranslate', () => {
 
   it('should return key and options sorted by name', () => {
     expect(mockTranslate('testKey', { c: 3, a: 1, b: 2 })).toBe(
-      'testKey a:1 b:2 c:3'
+      'testKey a:1 b:2 c:3',
     );
   });
 });

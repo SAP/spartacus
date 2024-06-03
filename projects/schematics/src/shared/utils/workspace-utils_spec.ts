@@ -32,7 +32,7 @@ import {
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner(
   SPARTACUS_SCHEMATICS,
-  collectionPath
+  collectionPath,
 );
 
 describe('Workspace utils', () => {
@@ -60,20 +60,20 @@ describe('Workspace utils', () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runSchematic(
       'add-spartacus',
       defaultOptions,
-      appTree
+      appTree,
     );
   });
 
@@ -99,7 +99,7 @@ describe('Workspace utils', () => {
 
     it('should throw an error if Angular not found', async () => {
       expect(() => getAngularJsonFile(appTree, [])).toThrowError(
-        new SchematicsException(`Could not find Angular`)
+        new SchematicsException(`Could not find Angular`),
       );
     });
 
@@ -109,7 +109,7 @@ describe('Workspace utils', () => {
           ...appTree,
           read: (_path) => null,
           exists: (_path) => true,
-        } as Tree)
+        } as Tree),
       ).toThrowError(new SchematicsException(`Could not find (/angular.json)`));
     });
   });
@@ -118,7 +118,7 @@ describe('Workspace utils', () => {
     it('should return workspace project object', async () => {
       const workspaceProjectObject = getProjectFromWorkspace(
         appTree,
-        defaultOptions
+        defaultOptions,
       );
       expect(workspaceProjectObject.projectType).toEqual('application');
       expect(workspaceProjectObject.sourceRoot).toEqual('src');
@@ -126,7 +126,7 @@ describe('Workspace utils', () => {
 
     it('should throw an error if project is not passed', async () => {
       expect(() =>
-        getProjectFromWorkspace(appTree as Tree, {} as SpartacusOptions)
+        getProjectFromWorkspace(appTree as Tree, {} as SpartacusOptions),
       ).toThrowError(new SchematicsException('Option "project" is required.'));
     });
 
@@ -134,9 +134,9 @@ describe('Workspace utils', () => {
       expect(() =>
         getProjectFromWorkspace(appTree, {
           project: 'projectKey',
-        } as SpartacusOptions)
+        } as SpartacusOptions),
       ).toThrowError(
-        new SchematicsException(`Project is not defined in this workspace.`)
+        new SchematicsException(`Project is not defined in this workspace.`),
       );
     });
   });
@@ -151,7 +151,7 @@ describe('Workspace utils', () => {
   describe('getProjectTargets', () => {
     it('should return project targets', () => {
       const projectTargets = getProjectTargets(
-        getProjectFromWorkspace(appTree, defaultOptions)
+        getProjectFromWorkspace(appTree, defaultOptions),
       );
       expect(projectTargets).toMatchSnapshot();
     });
@@ -163,7 +163,7 @@ describe('Workspace utils', () => {
           root: 'root',
           prefix: 'prefix',
           sourceRoot: '',
-        })
+        }),
       ).toThrowError(new Error('Project target not found.'));
     });
   });
@@ -235,12 +235,12 @@ describe('Workspace utils', () => {
       expect(
         isWorkspaceProject({
           projectType: ProjectType.Application,
-        })
+        }),
       ).toEqual(true);
       expect(
         isWorkspaceProject({
           projectType: ProjectType.Library,
-        })
+        }),
       ).toEqual(true);
     });
 
@@ -248,7 +248,7 @@ describe('Workspace utils', () => {
       expect(
         isWorkspaceProject({
           otherProperty: 'otherProperty',
-        })
+        }),
       ).toEqual(false);
       expect(isWorkspaceProject(null)).toEqual(false);
     });
@@ -257,12 +257,12 @@ describe('Workspace utils', () => {
   describe('validateSpartacusInstallation', () => {
     it('should throw an error if key is missing', () => {
       expect(() =>
-        validateSpartacusInstallation({ dependencies: {} })
+        validateSpartacusInstallation({ dependencies: {} }),
       ).toThrowError(
         new SchematicsException(
           `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
-    To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
-        )
+    To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`,
+        ),
       );
     });
 
@@ -270,7 +270,7 @@ describe('Workspace utils', () => {
       expect(() =>
         validateSpartacusInstallation({
           dependencies: { [SPARTACUS_CORE]: '/..' },
-        })
+        }),
       ).not.toThrowError();
     });
   });

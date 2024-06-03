@@ -44,7 +44,7 @@ describe('DEFAULT_URL_MATCHER', () => {
     const route = { data: { cxRoute: 'testPage' } };
     const urlMatcher = factory(route);
     expect(routingConfigService.getRouteConfig).toHaveBeenCalledWith(
-      'testPage'
+      'testPage',
     );
     expect(urlMatcherService.getFromPaths).toHaveBeenCalledWith(['test-path']);
     expect(urlMatcher).toBe(fromPathsUrlMatcher);

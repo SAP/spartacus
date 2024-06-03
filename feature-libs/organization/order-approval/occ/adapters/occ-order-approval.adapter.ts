@@ -30,24 +30,24 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   load(userId: string, orderApprovalCode: string): Observable<OrderApproval> {
     return this.http
       .get<Occ.OrderApproval>(
-        this.getOrderApprovalEndpoint(userId, orderApprovalCode)
+        this.getOrderApprovalEndpoint(userId, orderApprovalCode),
       )
       .pipe(this.converter.pipeable(ORDER_APPROVAL_NORMALIZER));
   }
 
   loadList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<OrderApproval>> {
     return this.http
       .get<Occ.OrderApprovalsList>(
-        this.getOrderApprovalsEndpoint(userId, params)
+        this.getOrderApprovalsEndpoint(userId, params),
       )
       .pipe(this.converter.pipeable(ORDER_APPROVALS_NORMALIZER));
   }
@@ -55,19 +55,19 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
   makeDecision(
     userId: string,
     orderApprovalCode: string,
-    orderApprovalDecision: OrderApprovalDecision
+    orderApprovalDecision: OrderApprovalDecision,
   ): Observable<OrderApprovalDecision> {
     return this.http
       .post<Occ.OrderApproval>(
         this.getOrderApprovalDecisionEndpoint(userId, orderApprovalCode),
-        orderApprovalDecision
+        orderApprovalDecision,
       )
       .pipe(this.converter.pipeable(ORDER_APPROVAL_DECISION_NORMALIZER));
   }
 
   protected getOrderApprovalEndpoint(
     userId: string,
-    orderApprovalCode: string
+    orderApprovalCode: string,
   ): string {
     return this.occEndpoints.buildUrl('orderApproval', {
       urlParams: {
@@ -79,7 +79,7 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
 
   protected getOrderApprovalsEndpoint(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): string {
     return this.occEndpoints.buildUrl('orderApprovals', {
       urlParams: { userId },
@@ -89,7 +89,7 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
 
   protected getOrderApprovalDecisionEndpoint(
     userId: string,
-    orderApprovalCode: string
+    orderApprovalCode: string,
   ): string {
     return this.occEndpoints.buildUrl('orderApprovalDecision', {
       urlParams: {

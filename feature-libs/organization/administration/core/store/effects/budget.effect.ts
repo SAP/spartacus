@@ -39,12 +39,12 @@ export class BudgetEffects {
               new BudgetActions.LoadBudgetFail({
                 budgetCode,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   loadBudgets$: Observable<
@@ -60,7 +60,7 @@ export class BudgetEffects {
           switchMap((budgets: EntitiesModel<Budget>) => {
             const { values, page } = StateUtils.normalizeListPage(
               budgets,
-              'code'
+              'code',
             );
             return [
               new BudgetActions.LoadBudgetSuccess(values),
@@ -75,12 +75,12 @@ export class BudgetEffects {
               new BudgetActions.LoadBudgetsFail({
                 params: payload.params,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   createBudget$: Observable<
@@ -104,11 +104,11 @@ export class BudgetEffects {
                 error: normalizeHttpError(error, this.logger),
               }),
               new OrganizationActions.OrganizationClearData(),
-            ])
-          )
-        )
-      )
-    )
+            ]),
+          ),
+        ),
+      ),
+    ),
   );
 
   updateBudget$: Observable<
@@ -134,15 +134,15 @@ export class BudgetEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   constructor(
     private actions$: Actions,
-    private budgetConnector: BudgetConnector
+    private budgetConnector: BudgetConnector,
   ) {}
 }

@@ -12,7 +12,7 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 export class MockFeatureDirective {
   constructor(
     protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
+    protected viewContainer: ViewContainerRef,
   ) {}
 
   @Input() set cxFeature(_feature: string) {

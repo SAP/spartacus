@@ -27,27 +27,27 @@ export class ConsignmentTrackingEffects {
             .getConsignmentTracking(
               payload.orderCode,
               payload.consignmentCode,
-              payload.userId
+              payload.userId,
             )
             .pipe(
               map(
                 (tracking: ConsignmentTracking) =>
-                  new OrderActions.LoadConsignmentTrackingSuccess(tracking)
+                  new OrderActions.LoadConsignmentTrackingSuccess(tracking),
               ),
               catchError((error) =>
                 of(
                   new OrderActions.LoadConsignmentTrackingFail(
-                    normalizeHttpError(error, this.logger)
-                  )
-                )
-              )
+                    normalizeHttpError(error, this.logger),
+                  ),
+                ),
+              ),
             );
-        })
-      )
+        }),
+      ),
     );
 
   constructor(
     private actions$: Actions,
-    private orderConnector: OrderHistoryConnector
+    private orderConnector: OrderHistoryConnector,
   ) {}
 }

@@ -55,7 +55,7 @@ describe('OrderApprovalService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORDER_APPROVAL_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
         ProcessModule.forRoot(),
       ],
@@ -75,7 +75,7 @@ describe('OrderApprovalService', () => {
     [OrderApprovalService],
     (orderApprovalService: OrderApprovalService) => {
       expect(orderApprovalService).toBeTruthy();
-    }
+    },
   ));
 
   describe('get orderApproval', () => {
@@ -94,7 +94,7 @@ describe('OrderApprovalService', () => {
         new OrderApprovalActions.LoadOrderApproval({
           userId,
           orderApprovalCode,
-        })
+        }),
       );
     });
 
@@ -103,7 +103,7 @@ describe('OrderApprovalService', () => {
         new OrderApprovalActions.LoadOrderApprovalSuccess([
           orderApproval,
           orderApproval2,
-        ])
+        ]),
       );
       let orderApprovalDetails: OrderApproval;
       service
@@ -119,7 +119,7 @@ describe('OrderApprovalService', () => {
         new OrderApprovalActions.LoadOrderApproval({
           userId,
           orderApprovalCode,
-        })
+        }),
       );
     });
   });
@@ -138,7 +138,7 @@ describe('OrderApprovalService', () => {
         new OrderApprovalActions.LoadOrderApproval({
           userId,
           orderApprovalCode,
-        })
+        }),
       );
 
       service
@@ -165,7 +165,7 @@ describe('OrderApprovalService', () => {
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(orderApprovals).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrderApprovalActions.LoadOrderApprovals({ userId, params })
+        new OrderApprovalActions.LoadOrderApprovals({ userId, params }),
       );
     });
 
@@ -174,7 +174,7 @@ describe('OrderApprovalService', () => {
         new OrderApprovalActions.LoadOrderApprovalSuccess([
           orderApproval,
           orderApproval2,
-        ])
+        ]),
       );
       store.dispatch(
         new OrderApprovalActions.LoadOrderApprovalsSuccess({
@@ -184,7 +184,7 @@ describe('OrderApprovalService', () => {
             pagination,
             sorts,
           },
-        })
+        }),
       );
       let orderApprovals: EntitiesModel<OrderApproval>;
       service
@@ -197,7 +197,7 @@ describe('OrderApprovalService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(orderApprovals).toEqual(orderApprovalList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new OrderApprovalActions.LoadOrderApprovals({ userId, params })
+        new OrderApprovalActions.LoadOrderApprovals({ userId, params }),
       );
     });
   });
@@ -212,7 +212,7 @@ describe('OrderApprovalService', () => {
           userId,
           orderApprovalCode,
           orderApprovalDecision,
-        })
+        }),
       );
     });
 
@@ -222,7 +222,7 @@ describe('OrderApprovalService', () => {
           userId,
           orderApprovalCode,
           orderApprovalDecision,
-        })
+        }),
       );
 
       let result = false;
@@ -239,7 +239,7 @@ describe('OrderApprovalService', () => {
         new OrderApprovalActions.MakeDecisionFail({
           orderApprovalCode,
           error: 'error',
-        })
+        }),
       );
 
       let result = false;
@@ -256,7 +256,7 @@ describe('OrderApprovalService', () => {
         new OrderApprovalActions.MakeDecisionSuccess({
           orderApprovalCode,
           orderApprovalDecision,
-        })
+        }),
       );
 
       let result = false;
@@ -271,7 +271,7 @@ describe('OrderApprovalService', () => {
     it('should resetMakeDecisionProcessState() dispatch an MakeDecisionReset action', () => {
       service.resetMakeDecisionProcessState();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrderApprovalActions.MakeDecisionReset()
+        new OrderApprovalActions.MakeDecisionReset(),
       );
     });
   });

@@ -13,7 +13,7 @@ import { CdsBackendNotificationAdapter } from '../adapters/cds-backend-notificat
 })
 export class CdsBackendConnector {
   constructor(
-    private cdsBackendNotificationAdapter: CdsBackendNotificationAdapter
+    private cdsBackendNotificationAdapter: CdsBackendNotificationAdapter,
   ) {}
   notifySuccessfulLogin(): Observable<void> {
     return this.cdsBackendNotificationAdapter.notifySuccessfulLogin();

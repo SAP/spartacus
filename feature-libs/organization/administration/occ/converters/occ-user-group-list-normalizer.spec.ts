@@ -46,7 +46,7 @@ describe('UserGroupListNormalizer', () => {
     [OccUserGroupListNormalizer],
     (userGroupListNormalizer: OccUserGroupListNormalizer) => {
       expect(userGroupListNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert user group list', () => {

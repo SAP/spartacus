@@ -48,7 +48,7 @@ export class ToggleLinkCellComponent extends CellComponent {
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
-    protected unitTreeService: UnitTreeService
+    protected unitTreeService: UnitTreeService,
   ) {
     super(outlet);
     useFeatureStyles('a11yUnitsListKeyboardControls');
@@ -107,12 +107,12 @@ export class ToggleLinkCellComponent extends CellComponent {
     }
     const tableElement = this.elementRef?.nativeElement.closest('table');
     const siblingElements = tableElement.querySelectorAll(
-      `cx-org-toggle-link-cell a`
+      `cx-org-toggle-link-cell a`,
     );
     const currentSelectedIndex = Array.from(siblingElements).findIndex(
       (element) => {
         return element === event.target;
-      }
+      },
     );
 
     switch (event.key) {
@@ -151,7 +151,7 @@ export class ToggleLinkCellComponent extends CellComponent {
   onArrowDown(
     event: KeyboardEvent,
     currentSelectedIndex: number,
-    siblingElements: HTMLElement[]
+    siblingElements: HTMLElement[],
   ): void {
     event.preventDefault();
     siblingElements[currentSelectedIndex + 1]?.focus();
@@ -160,7 +160,7 @@ export class ToggleLinkCellComponent extends CellComponent {
   onArrowUp(
     event: KeyboardEvent,
     currentSelectedIndex: number,
-    siblingElements: HTMLElement[]
+    siblingElements: HTMLElement[],
   ): void {
     event.preventDefault();
     siblingElements[currentSelectedIndex + -1]?.focus();

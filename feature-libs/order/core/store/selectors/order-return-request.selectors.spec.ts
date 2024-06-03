@@ -96,8 +96,8 @@ describe('Order Return Request Selectors', () => {
 
       store.dispatch(
         new OrderActions.LoadOrderReturnRequestListSuccess(
-          mockReturnRequestList
-        )
+          mockReturnRequestList,
+        ),
       );
       expect(result).toEqual(mockReturnRequestList);
     });

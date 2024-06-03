@@ -18,7 +18,7 @@ export const focusableSelectors = [
 
 export function getNextFocusableElement(
   elements: HTMLElement[],
-  activeElementIndex: number
+  activeElementIndex: number,
 ): HTMLElement {
   return activeElementIndex + 1 <= elements.length
     ? elements[activeElementIndex + 1]
@@ -27,7 +27,7 @@ export function getNextFocusableElement(
 
 export function getPreviousFocusableElement(
   elements: HTMLElement[],
-  activeElementIndex: number
+  activeElementIndex: number,
 ): HTMLElement {
   return activeElementIndex - 1 >= 0
     ? elements[activeElementIndex - 1]

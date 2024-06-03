@@ -39,7 +39,7 @@ export class ConfirmationMessageComponent
   constructor(
     protected data: MessageData<ConfirmationMessageData>,
     @Inject(PLATFORM_ID) protected platformId: any,
-    protected messageService: MessageService
+    protected messageService: MessageService,
   ) {
     super(data, platformId);
   }

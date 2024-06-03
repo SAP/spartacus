@@ -13,7 +13,7 @@ const containerSelector = 'header';
 export function headerTabbingOrder(
   config: TabElement[],
   mobile: boolean = false,
-  loggedIn: boolean = false
+  loggedIn: boolean = false,
 ) {
   cy.visit('/');
 
@@ -42,7 +42,7 @@ export function headerTabbingOrder(
 export function subCategoryTabbingOrder(
   config: TabElement[],
   subCategoryName: string,
-  mobile: boolean = false
+  mobile: boolean = false,
 ) {
   cy.visit('/');
 

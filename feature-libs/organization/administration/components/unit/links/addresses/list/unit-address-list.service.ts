@@ -21,14 +21,14 @@ export class UnitAddressListService extends SubListService<Address> {
 
   constructor(
     protected tableService: TableService,
-    protected orgUnitService: OrgUnitService
+    protected orgUnitService: OrgUnitService,
   ) {
     super(tableService);
   }
 
   protected load(
     _pagination: PaginationModel,
-    code: string
+    code: string,
   ): Observable<EntitiesModel<Address> | undefined> {
     return this.orgUnitService.getAddresses(code);
   }

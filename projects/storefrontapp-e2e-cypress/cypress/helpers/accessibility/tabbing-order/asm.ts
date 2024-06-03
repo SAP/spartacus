@@ -54,7 +54,7 @@ export function asmTabbingOrderWithSelectedUser(config: TabElement[]) {
 
 export function asmTabbingOrderWithCustomerList(
   config: TabElement[],
-  agent: string
+  agent: string,
 ) {
   cy.visit('/?asm=true');
   asm.agentLogin(agent, 'pw4all');
@@ -86,7 +86,7 @@ export function asmTabbingOrderWithCreateCustomerForm(config: TabElement[]) {
 }
 
 export function asmTabbingOrderWithSaveInactiveCartDialog(
-  config: TabElement[]
+  config: TabElement[],
 ) {
   const customer = asm.emulateCustomerPrepare('asagent', 'pw4all');
 
@@ -96,16 +96,16 @@ export function asmTabbingOrderWithSaveInactiveCartDialog(
         customer.email,
         customer.password,
         '1934793',
-        '2'
+        '2',
       )
       .then((inactiveCartId) => {
         cy.visit(
-          `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+          `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`,
         );
         cy.get('.cx-asm-assignCart').should('exist');
         cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
         cy.get(
-          'cx-customer-emulation input[formcontrolname="cartNumber"]'
+          'cx-customer-emulation input[formcontrolname="cartNumber"]',
         ).should('have.value', inactiveCartId);
         cy.get('cx-asm-main-ui cx-message').should('exist');
         cy.log('--> Click save button the dialog shold display');
@@ -124,13 +124,13 @@ export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
 }
 
 export function asmTabbingOrderForCustomer360CustomerCouponList(
-  config: TabElement[]
+  config: TabElement[],
 ) {
   lanuchPromotiontab();
   cy.get('cx-asm-customer-360-customer-coupon').within(() => {
     verifyTabbingOrderWithElementsLengthGte(
       containerSelectorForCustomer360CouponList,
-      config
+      config,
     );
   });
 }
@@ -154,12 +154,12 @@ function lanuchPromotiontab() {
 
 export function verifyTabbingOrderWithElementsLengthGte(
   containerSelector: string,
-  elements: TabElement[]
+  elements: TabElement[],
 ) {
   cy.get(containerSelector)
     .find(focusableSelectors.join(','))
     .then((focusableElements) =>
-      focusableElements.filter((_, element) => element.offsetParent != null)
+      focusableElements.filter((_, element) => element.offsetParent != null),
     )
     .as('children')
     .should('have.length.of.at.least', elements.length);

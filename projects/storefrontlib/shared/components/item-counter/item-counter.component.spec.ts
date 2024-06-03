@@ -18,14 +18,12 @@ describe('ItemCounterComponent', () => {
   let component: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-        declarations: [ItemCounterComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      declarations: [ItemCounterComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ItemCounterComponent);
@@ -44,51 +42,42 @@ describe('ItemCounterComponent', () => {
 
   it('should update the input value when the control value is changed', () => {
     const input: HTMLInputElement = fixture.debugElement.query(
-      By.css('input')
+      By.css('input'),
     ).nativeElement;
     component.control.setValue(5);
     fixture.detectChanges();
     expect(input.value).toEqual('5');
   });
 
-  it(
-    'should update the form control when the input is changed',
-    waitForAsync(() => {
-      const input: HTMLInputElement = fixture.debugElement.query(
-        By.css('input')
-      ).nativeElement;
+  it('should update the form control when the input is changed', waitForAsync(() => {
+    const input: HTMLInputElement = fixture.debugElement.query(
+      By.css('input'),
+    ).nativeElement;
 
-      input.focus();
-      input.value = '10';
-      input.dispatchEvent(new Event('input'));
-      fixture.detectChanges();
+    input.focus();
+    input.value = '10';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
 
-      expect(component.control.value).toEqual(10);
-    })
-  );
+    expect(component.control.value).toEqual(10);
+  }));
 
   describe('readonly', () => {
-    it(
-      'should add readonly class',
-      waitForAsync(() => {
-        component.readonly = true;
-        fixture.detectChanges();
-        expect(
-          (<HTMLElement>fixture.debugElement.nativeElement).classList
-        ).toContain('readonly');
-      })
-    );
+    it('should add readonly class', waitForAsync(() => {
+      component.readonly = true;
+      fixture.detectChanges();
+      expect(
+        (<HTMLElement>fixture.debugElement.nativeElement).classList,
+      ).toContain('readonly');
+    }));
 
-    it(
-      'should not add readonly class',
-      waitForAsync(() => {
-        component.readonly = false;
-        fixture.detectChanges();
-        expect(
-          (<HTMLElement>fixture.debugElement.nativeElement).classList
-        ).not.toContain('readonly');
-      })
-    );
+    it('should not add readonly class', waitForAsync(() => {
+      component.readonly = false;
+      fixture.detectChanges();
+      expect(
+        (<HTMLElement>fixture.debugElement.nativeElement).classList,
+      ).not.toContain('readonly');
+    }));
   });
 
   describe('validate value', () => {
@@ -108,21 +97,18 @@ describe('ItemCounterComponent', () => {
       expect(component.control.value).toEqual(3);
     });
 
-    it(
-      'should avoid invalid characters in the input to silently fail',
-      waitForAsync(() => {
-        component.min = 5;
-        const input: HTMLInputElement = fixture.debugElement.query(
-          By.css('input')
-        ).nativeElement;
+    it('should avoid invalid characters in the input to silently fail', waitForAsync(() => {
+      component.min = 5;
+      const input: HTMLInputElement = fixture.debugElement.query(
+        By.css('input'),
+      ).nativeElement;
 
-        input.value = 'abc';
-        input.dispatchEvent(new Event('input'));
-        fixture.detectChanges();
+      input.value = 'abc';
+      input.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
 
-        expect(input.value).toEqual('5');
-      })
-    );
+      expect(input.value).toEqual('5');
+    }));
 
     it('should ignore 0 value in case `allowZero` is set to true', () => {
       component.allowZero = true;
@@ -144,7 +130,7 @@ describe('ItemCounterComponent', () => {
   describe('increment()', () => {
     it('should increase form control value when plus button is used', () => {
       const button: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('button')
+        By.css('button'),
       );
       button[1].nativeElement.click();
       fixture.detectChanges();
@@ -154,7 +140,7 @@ describe('ItemCounterComponent', () => {
     it('should mark the control "dirty" when the value increases', () => {
       expect(component.control.dirty).toBe(false);
       const button: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('button')
+        By.css('button'),
       );
       button[1].nativeElement.click();
       fixture.detectChanges();
@@ -166,7 +152,7 @@ describe('ItemCounterComponent', () => {
       component.max = 10;
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('button')
+        By.css('button'),
       );
       expect((<HTMLButtonElement>button[1].nativeElement).disabled).toBeFalsy();
     });
@@ -176,10 +162,10 @@ describe('ItemCounterComponent', () => {
       component.max = 5;
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('button')
+        By.css('button'),
       );
       expect(
-        (<HTMLButtonElement>button[1].nativeElement).disabled
+        (<HTMLButtonElement>button[1].nativeElement).disabled,
       ).toBeTruthy();
     });
   });
@@ -189,7 +175,7 @@ describe('ItemCounterComponent', () => {
       component.control.setValue(5);
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('button')
+        By.css('button'),
       );
       button[0].nativeElement.click();
       fixture.detectChanges();
@@ -201,7 +187,7 @@ describe('ItemCounterComponent', () => {
       component.control.setValue(5);
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('button')
+        By.css('button'),
       );
       button[0].nativeElement.click();
       fixture.detectChanges();
@@ -213,7 +199,7 @@ describe('ItemCounterComponent', () => {
       component.min = 3;
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('button')
+        By.css('button'),
       );
       expect((<HTMLButtonElement>button[0].nativeElement).disabled).toBeFalsy();
     });
@@ -223,10 +209,10 @@ describe('ItemCounterComponent', () => {
       component.min = 5;
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('button')
+        By.css('button'),
       );
       expect(
-        (<HTMLButtonElement>button[0].nativeElement).disabled
+        (<HTMLButtonElement>button[0].nativeElement).disabled,
       ).toBeTruthy();
     });
   });
@@ -234,7 +220,7 @@ describe('ItemCounterComponent', () => {
   describe('a11y', () => {
     it('should update value on enter', () => {
       const input: HTMLInputElement = fixture.debugElement.query(
-        By.css('input')
+        By.css('input'),
       ).nativeElement;
       input.focus();
       input.value = '10';

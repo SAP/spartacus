@@ -20,10 +20,10 @@ class MockCartAdapter implements CartAdapter {
   load = createSpy().and.callFake((user, cart) => of('load' + user + cart));
   loadAll = createSpy().and.callFake((user) => of('loadAll' + user));
   addEmail = createSpy().and.callFake((userId, cartId, email) =>
-    of('addEmail' + userId + cartId + email)
+    of('addEmail' + userId + cartId + email),
   );
   delete = createSpy().and.callFake((userId: string, cartId: string) =>
-    of('delete' + userId + cartId)
+    of('delete' + userId + cartId),
   );
   save = createSpy().and.returnValue(of(mockSavedCart));
 }
@@ -81,7 +81,7 @@ describe('CartConnector', () => {
     expect(adapter.addEmail).toHaveBeenCalledWith(
       'userId',
       'cartId',
-      'test@test.com'
+      'test@test.com',
     );
   });
 
@@ -102,7 +102,7 @@ describe('CartConnector', () => {
       mockUserId,
       mockCartId,
       mockCartName,
-      mockCartDescription
+      mockCartDescription,
     );
   });
 });

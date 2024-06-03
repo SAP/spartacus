@@ -23,7 +23,7 @@ import {
         [ORGANIZATION_ORDER_APPROVAL_FEATURE]: {
           module: () =>
             import('@spartacus/organization/order-approval').then(
-              (m) => m.OrderApprovalModule
+              (m) => m.OrderApprovalModule,
             ),
         },
       },

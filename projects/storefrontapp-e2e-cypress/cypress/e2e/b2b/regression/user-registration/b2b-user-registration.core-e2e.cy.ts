@@ -36,7 +36,7 @@ context('B2B - User Registration', { testIsolation: false }, () => {
       it('should fill registration form and register user (CXSPA-215)', () => {
         fillOrganizationUserRegistrationForm(
           getSampleUser(),
-          'Please register my account'
+          'Please register my account',
         );
       });
 

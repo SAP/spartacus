@@ -48,9 +48,9 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
     .pipe(
       tap((order) => {
         this.entries = order?.entries?.filter(
-          (entry) => !entry.deliveryPointOfService
+          (entry) => !entry.deliveryPointOfService,
         );
-      })
+      }),
     );
 
   protected subscription = new Subscription();
@@ -63,7 +63,7 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
     protected outlet?: OutletContextData<{
       showItemList?: boolean;
       order?: any;
-    }>
+    }>,
   ) {}
 
   ngOnInit(): void {
@@ -76,13 +76,13 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
           this.order$ = of(context.order);
         }
         this.cd.markForCheck();
-      })
+      }),
     );
   }
 
   getDeliveryAddressCard(
     deliveryAddress: Address,
-    countryName?: string
+    countryName?: string,
   ): Observable<Card> {
     return combineLatest([
       this.translationService.translate('addressCard.shipTo'),
@@ -95,9 +95,9 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
           textPhone,
           textMobile,
           deliveryAddress,
-          countryName
-        )
-      )
+          countryName,
+        ),
+      ),
     );
   }
 

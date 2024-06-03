@@ -128,7 +128,7 @@ export class TableComponent<T> {
       this.type,
       this.options,
       this.i18nRoot,
-      field
+      field,
     );
   }
 
@@ -148,7 +148,7 @@ export class TableComponent<T> {
       this.options,
       this.i18nRoot,
       field,
-      data
+      data,
     );
   }
 

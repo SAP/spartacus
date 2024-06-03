@@ -41,7 +41,7 @@ export class UserGroupListService extends ListService<UserGroupModel> {
 
   constructor(
     protected tableService: TableService,
-    protected userGroupService: UserGroupService
+    protected userGroupService: UserGroupService,
   ) {
     super(tableService);
   }
@@ -51,11 +51,11 @@ export class UserGroupListService extends ListService<UserGroupModel> {
   }
 
   protected load(
-    pagination: PaginationModel
+    pagination: PaginationModel,
   ): Observable<EntitiesModel<UserGroupModel>> {
     return this.userGroupService.getList(pagination).pipe(
       filter(isNotUndefined),
-      map((raw) => this.convertUserGroups(raw))
+      map((raw) => this.convertUserGroups(raw)),
     );
   }
 

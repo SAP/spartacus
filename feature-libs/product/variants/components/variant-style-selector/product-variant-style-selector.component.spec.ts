@@ -89,25 +89,23 @@ describe('ProductVariantStyleSelectorComponent', () => {
   let fixture: ComponentFixture<ProductVariantStyleSelectorComponent>;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProductVariantStyleSelectorComponent, MockUrlPipe],
-        imports: [RouterTestingModule, I18nTestingModule],
-        providers: [
-          {
-            provide: OccConfig,
-            useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProductVariantStyleSelectorComponent, MockUrlPipe],
+      imports: [RouterTestingModule, I18nTestingModule],
+      providers: [
+        {
+          provide: OccConfig,
+          useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
+    }).compileComponents();
+  }));
 
   describe('Empty config scenario', () => {
     beforeEach(() => {
@@ -123,10 +121,10 @@ describe('ProductVariantStyleSelectorComponent', () => {
 
     it('should get variant url for thumbnail type of qualifier and add undefined at the beggining because of missing config', () => {
       const thumbnailUrl = component.getVariantThumbnailUrl(
-        component.variants.selected.variantOptionQualifiers
+        component.variants.selected.variantOptionQualifiers,
       );
       expect(thumbnailUrl).toEqual(
-        `undefined${mockVariant.selected.variantOptionQualifiers[0].image.url}`
+        `undefined${mockVariant.selected.variantOptionQualifiers[0].image.url}`,
       );
     });
   });
@@ -146,11 +144,11 @@ describe('ProductVariantStyleSelectorComponent', () => {
 
     it('should get variant url for thumbnail type of qualifier', () => {
       const thumbnailUrl = component.getVariantThumbnailUrl(
-        component.variants.selected.variantOptionQualifiers
+        component.variants.selected.variantOptionQualifiers,
       );
       expect(thumbnailUrl).toEqual(
         mockOccBackendUrl +
-          mockVariant.selected.variantOptionQualifiers[0].image.url
+          mockVariant.selected.variantOptionQualifiers[0].image.url,
       );
     });
 
@@ -159,7 +157,7 @@ describe('ProductVariantStyleSelectorComponent', () => {
       fixture.detectChanges();
 
       const thumbnailUrl = component.getVariantThumbnailUrl(
-        component.variants.selected.variantOptionQualifiers
+        component.variants.selected.variantOptionQualifiers,
       );
       expect(thumbnailUrl).toEqual('');
     });

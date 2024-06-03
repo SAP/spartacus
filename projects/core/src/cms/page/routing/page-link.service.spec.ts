@@ -41,33 +41,33 @@ describe('PageLinkService', () => {
   describe('canonical Url', () => {
     it(`should build canonical URL for window location`, () => {
       expect(service.getCanonicalUrl()).toEqual(
-        'https://www.storefront.com/search/'
+        'https://www.storefront.com/search/',
       );
     });
 
     it(`should build canonical URL for custom URL`, () => {
       expect(service.getCanonicalUrl({}, 'http://test.com/xyz')).toEqual(
-        'https://www.test.com/xyz/'
+        'https://www.test.com/xyz/',
       );
     });
 
     describe('forceWww', () => {
       it(`should add https`, () => {
         expect(
-          service.getCanonicalUrl({ forceHttps: true }, 'http://test.com/xyz')
+          service.getCanonicalUrl({ forceHttps: true }, 'http://test.com/xyz'),
         ).toEqual('https://www.test.com/xyz/');
       });
 
       it(`should not add https`, () => {
         expect(
-          service.getCanonicalUrl({ forceHttps: false }, 'http://test.com/xyz')
+          service.getCanonicalUrl({ forceHttps: false }, 'http://test.com/xyz'),
         ).toEqual('http://www.test.com/xyz/');
       });
 
       it(`should not replace www. in redirects`, () => {
         const canonical = service.getCanonicalUrl(
           { forceHttps: true, removeQueryParams: false, forceWww: false },
-          'http://test.com/xyz?redirect=http://redirect.com'
+          'http://test.com/xyz?redirect=http://redirect.com',
         );
         expect(canonical).toContain('https://test.com');
         expect(canonical).toContain('http://redirect.com');
@@ -77,20 +77,20 @@ describe('PageLinkService', () => {
     describe('forceWww', () => {
       it(`should add www. subdomain`, () => {
         expect(
-          service.getCanonicalUrl({ forceWww: true }, 'http://test.com/xyz')
+          service.getCanonicalUrl({ forceWww: true }, 'http://test.com/xyz'),
         ).toContain('www.');
       });
 
       it(`should not add www. subdomain`, () => {
         expect(
-          service.getCanonicalUrl({ forceWww: false }, 'http://test.com/xyz')
+          service.getCanonicalUrl({ forceWww: false }, 'http://test.com/xyz'),
         ).not.toContain('www.');
       });
 
       it(`should not add www. subdomain to redirects`, () => {
         const canonical = service.getCanonicalUrl(
           { forceWww: true, removeQueryParams: false, forceHttps: false },
-          'http://test.com/xyz?redirect=http://redirect.com'
+          'http://test.com/xyz?redirect=http://redirect.com',
         );
         expect(canonical).toContain('http://www.test.com');
         expect(canonical).toContain('http://redirect.com');
@@ -103,7 +103,7 @@ describe('PageLinkService', () => {
           {
             forceTrailingSlash: true,
           },
-          'https://www.storefront.com?foo=bar'
+          'https://www.storefront.com?foo=bar',
         );
         expect(canonical).toEqual('https://www.storefront.com/');
       });
@@ -114,7 +114,7 @@ describe('PageLinkService', () => {
             forceTrailingSlash: true,
             removeQueryParams: false,
           },
-          'https://www.storefront.com?foo=bar'
+          'https://www.storefront.com?foo=bar',
         );
         expect(canonical).toEqual('https://www.storefront.com?foo=bar');
       });
@@ -125,7 +125,7 @@ describe('PageLinkService', () => {
             forceTrailingSlash: true,
             removeQueryParams: false,
           },
-          'https://www.storefront.com?'
+          'https://www.storefront.com?',
         );
         expect(canonical).toEqual('https://www.storefront.com?');
       });
@@ -136,7 +136,7 @@ describe('PageLinkService', () => {
             forceTrailingSlash: true,
             removeQueryParams: true,
           },
-          'https://www.storefront.com?foo=bar'
+          'https://www.storefront.com?foo=bar',
         );
         expect(canonical).toEqual('https://www.storefront.com/');
       });
@@ -146,7 +146,7 @@ describe('PageLinkService', () => {
           {
             forceTrailingSlash: true,
           },
-          'https://www.storefront.com/page'
+          'https://www.storefront.com/page',
         );
         expect(canonical).toEqual('https://www.storefront.com/page/');
       });
@@ -156,7 +156,7 @@ describe('PageLinkService', () => {
           {
             forceTrailingSlash: false,
           },
-          'https://www.storefront.com'
+          'https://www.storefront.com',
         );
         expect(canonical).toEqual('https://www.storefront.com');
       });
@@ -164,7 +164,7 @@ describe('PageLinkService', () => {
       it(`should add trailing slash to redirects`, () => {
         const canonical = service.getCanonicalUrl(
           { forceWww: true, removeQueryParams: false, forceHttps: false },
-          'http://test.com/xyz?redirect=http://redirect.com'
+          'http://test.com/xyz?redirect=http://redirect.com',
         );
         expect(canonical).toContain('http://redirect.com');
         expect(canonical).not.toContain('http://redirect.com/');
@@ -175,7 +175,7 @@ describe('PageLinkService', () => {
       it(`should remove parameters`, () => {
         const canonical = service.getCanonicalUrl(
           { removeQueryParams: true, forceTrailingSlash: false },
-          'https://www.test.com/search?query=foo&pageSize=10&page=1'
+          'https://www.test.com/search?query=foo&pageSize=10&page=1',
         );
         expect(canonical).toEqual('https://www.test.com/search');
       });
@@ -183,20 +183,20 @@ describe('PageLinkService', () => {
       it(`should not remove parameters`, () => {
         const canonical = service.getCanonicalUrl(
           { removeQueryParams: false },
-          'https://www.test.com/search?query=foo&pageSize=10&page=1'
+          'https://www.test.com/search?query=foo&pageSize=10&page=1',
         );
         expect(canonical).toEqual(
-          'https://www.test.com/search?query=foo&pageSize=10&page=1'
+          'https://www.test.com/search?query=foo&pageSize=10&page=1',
         );
       });
 
       it(`should remove specific parameters`, () => {
         const canonical = service.getCanonicalUrl(
           { removeQueryParams: ['pageSize'] },
-          'https://www.test.com/search?query=foo&pageSize=10&page=1'
+          'https://www.test.com/search?query=foo&pageSize=10&page=1',
         );
         expect(canonical).toEqual(
-          'https://www.test.com/search?query=foo&page=1'
+          'https://www.test.com/search?query=foo&page=1',
         );
       });
     });

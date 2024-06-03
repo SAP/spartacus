@@ -19,7 +19,7 @@ export class ConfiguratorLogoutEventListener implements OnDestroy {
   constructor(
     protected eventService: EventService,
     protected configExpertModeService: ConfiguratorExpertModeService,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
   ) {
     this.onLogout();
   }
@@ -30,7 +30,7 @@ export class ConfiguratorLogoutEventListener implements OnDestroy {
         this.configExpertModeService.setExpModeActive(false);
         this.configExpertModeService.setExpModeRequested(false);
         this.configuratorCommonsService.removeProductBoundConfigurations();
-      })
+      }),
     );
   }
 

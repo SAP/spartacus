@@ -9,8 +9,8 @@ describe('ConfiguratorStateUtils', () => {
     it('should return attribute name', () => {
       expect(
         ConfiguratorStateUtils['getAttributeName'](
-          SUB_GROUP_ID + '@attributeId'
-        )
+          SUB_GROUP_ID + '@attributeId',
+        ),
       ).toEqual('attributeId');
     });
   });
@@ -20,8 +20,8 @@ describe('ConfiguratorStateUtils', () => {
       expect(
         ConfiguratorStateUtils['getKey'](
           'groupId@subGroupId@attributeId',
-          'attributeId'
-        )
+          'attributeId',
+        ),
       ).toEqual('groupId@subGroupId');
     });
   });
@@ -42,8 +42,8 @@ describe('ConfiguratorStateUtils', () => {
       expect(
         ConfiguratorStateUtils['isTargetGroup'](
           groupMatchingSupplement,
-          attributeSupplements
-        )
+          attributeSupplements,
+        ),
       ).toBe(true);
     });
 
@@ -51,14 +51,14 @@ describe('ConfiguratorStateUtils', () => {
       expect(
         ConfiguratorStateUtils['isTargetGroup'](
           groupNotMatchingSupplement,
-          attributeSupplements
-        )
+          attributeSupplements,
+        ),
       ).toBe(false);
     });
 
     it('should throw an error if supplements array is empty', () => {
       expect(() =>
-        ConfiguratorStateUtils['isTargetGroup'](groupNotMatchingSupplement, [])
+        ConfiguratorStateUtils['isTargetGroup'](groupNotMatchingSupplement, []),
       ).toThrowError();
     });
   });
@@ -91,7 +91,7 @@ describe('ConfiguratorStateUtils', () => {
           return {
             ...value,
           };
-        }
+        },
       );
       if (mergedValues) {
         expect(mergedValues[0]).toBe(values[0]);
@@ -113,7 +113,7 @@ describe('ConfiguratorStateUtils', () => {
           return {
             ...value,
           };
-        }
+        },
       );
       expect(mergedValues).not.toBe(values);
     });
@@ -126,7 +126,7 @@ describe('ConfiguratorStateUtils', () => {
           return {
             ...value,
           };
-        }
+        },
       );
       expect(mergedValues).toBe(values);
     });
@@ -137,7 +137,7 @@ describe('ConfiguratorStateUtils', () => {
         (value) => value === 'NOT EXISTING',
         (value) => {
           return value;
-        }
+        },
       );
       expect(mergedValues).toBeUndefined();
     });
@@ -149,7 +149,7 @@ describe('ConfiguratorStateUtils', () => {
       const attributeSupplements: Configurator.AttributeSupplement[] = [];
       ConfiguratorStateUtils.mergeGroupsWithSupplements(
         groups,
-        attributeSupplements
+        attributeSupplements,
       );
       expect(groups.length).toBe(0);
     });
@@ -161,8 +161,8 @@ describe('ConfiguratorStateUtils', () => {
       expect(() =>
         ConfiguratorStateUtils.mergeGroupsWithSupplements(
           groups,
-          attributeSupplements
-        )
+          attributeSupplements,
+        ),
       ).toThrowError();
     });
 
@@ -175,11 +175,11 @@ describe('ConfiguratorStateUtils', () => {
           1,
           0,
           1,
-          3
+          3,
         );
       const mergedGroups = ConfiguratorStateUtils.mergeGroupsWithSupplements(
         groups,
-        attributeSupplements
+        attributeSupplements,
       );
 
       expect(mergedGroups.length).toBe(1);
@@ -200,22 +200,22 @@ describe('ConfiguratorStateUtils', () => {
       expect(values?.length).toBe(3);
 
       expect(values[0].valueCode).toEqual(
-        valueSupplements[0].attributeValueKey
+        valueSupplements[0].attributeValueKey,
       );
       expect(values[0].valuePrice?.formattedValue).toEqual(
-        valueSupplements[0].priceValue.formattedValue
+        valueSupplements[0].priceValue.formattedValue,
       );
       expect(values[1].valueCode).toEqual(
-        valueSupplements[1].attributeValueKey
+        valueSupplements[1].attributeValueKey,
       );
       expect(values[1].valuePrice?.formattedValue).toEqual(
-        valueSupplements[1].priceValue.formattedValue
+        valueSupplements[1].priceValue.formattedValue,
       );
       expect(values[2].valueCode).toEqual(
-        valueSupplements[2].attributeValueKey
+        valueSupplements[2].attributeValueKey,
       );
       expect(values[2].valuePrice?.formattedValue).toEqual(
-        valueSupplements[2].priceValue.formattedValue
+        valueSupplements[2].priceValue.formattedValue,
       );
     });
 
@@ -228,11 +228,11 @@ describe('ConfiguratorStateUtils', () => {
           1,
           3,
           1,
-          3
+          3,
         );
       const mergedGroups = ConfiguratorStateUtils.mergeGroupsWithSupplements(
         groups,
-        attributeSupplements
+        attributeSupplements,
       );
 
       expect(mergedGroups.length).toBe(3);
@@ -241,17 +241,17 @@ describe('ConfiguratorStateUtils', () => {
       expect(mergedGroups[0].subGroups[0].subGroups.length).toBe(1);
       expect(mergedGroups[0].subGroups[0].attributes?.length).toBe(0);
       expect(mergedGroups[0].subGroups[0].subGroups[0].subGroups.length).toBe(
-        1
+        1,
       );
       expect(mergedGroups[0].subGroups[0].subGroups[0].attributes?.length).toBe(
-        0
+        0,
       );
       expect(
-        mergedGroups[0].subGroups[0].subGroups[0].subGroups[0].subGroups.length
+        mergedGroups[0].subGroups[0].subGroups[0].subGroups[0].subGroups.length,
       ).toBe(0);
       expect(
         mergedGroups[0].subGroups[0].subGroups[0].subGroups[0].attributes
-          ?.length
+          ?.length,
       ).toBe(3);
 
       const deepSubgroup =
@@ -268,19 +268,19 @@ describe('ConfiguratorStateUtils', () => {
       const valueSupplements = attributeSupplements[0].valueSupplements;
 
       expect(values[0].valuePrice?.formattedValue).toEqual(
-        valueSupplements[0].priceValue.formattedValue
+        valueSupplements[0].priceValue.formattedValue,
       );
       expect(values[1].valueCode).toEqual(
-        valueSupplements[1].attributeValueKey
+        valueSupplements[1].attributeValueKey,
       );
       expect(values[1].valuePrice?.formattedValue).toEqual(
-        valueSupplements[1].priceValue.formattedValue
+        valueSupplements[1].priceValue.formattedValue,
       );
       expect(values[2].valueCode).toEqual(
-        valueSupplements[2].attributeValueKey
+        valueSupplements[2].attributeValueKey,
       );
       expect(values[2].valuePrice?.formattedValue).toEqual(
-        valueSupplements[2].priceValue.formattedValue
+        valueSupplements[2].priceValue.formattedValue,
       );
     });
   });

@@ -50,7 +50,7 @@ export class OrgUnitEffects {
           switchMap((orgUnit: B2BUnit) => {
             const { values, page } = StateUtils.normalizeListPage(
               { values: orgUnit.addresses ?? [] },
-              'id'
+              'id',
             );
             return [
               new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]),
@@ -63,12 +63,12 @@ export class OrgUnitEffects {
               new OrgUnitActions.LoadOrgUnitFail({
                 orgUnitId,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   loadAvailableOrgUnits$: Observable<
@@ -81,18 +81,18 @@ export class OrgUnitEffects {
         this.orgUnitConnector.getList(payload.userId).pipe(
           map(
             (orgUnitsList: B2BUnitNode[]) =>
-              new OrgUnitActions.LoadOrgUnitNodesSuccess(orgUnitsList)
+              new OrgUnitActions.LoadOrgUnitNodesSuccess(orgUnitsList),
           ),
           catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.LoadOrgUnitNodesFail({
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   createUnit$: Observable<
@@ -116,11 +116,11 @@ export class OrgUnitEffects {
                 error: normalizeHttpError(error, this.logger),
               }),
               new OrganizationActions.OrganizationClearData(),
-            ])
-          )
-        )
-      )
-    )
+            ]),
+          ),
+        ),
+      ),
+    ),
   );
 
   updateUnit$: Observable<
@@ -147,11 +147,11 @@ export class OrgUnitEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   loadTree$: Observable<
@@ -164,18 +164,18 @@ export class OrgUnitEffects {
         return this.orgUnitConnector.getTree(userId).pipe(
           map(
             (orgUnit: B2BUnitNode) =>
-              new OrgUnitActions.LoadTreeSuccess(orgUnit)
+              new OrgUnitActions.LoadTreeSuccess(orgUnit),
           ),
           catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.LoadTreeFail({
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   loadApprovalProcesses$: Observable<
@@ -189,18 +189,20 @@ export class OrgUnitEffects {
         return this.orgUnitConnector.getApprovalProcesses(userId).pipe(
           map(
             (approvalProcesses: B2BApprovalProcess[]) =>
-              new OrgUnitActions.LoadApprovalProcessesSuccess(approvalProcesses)
+              new OrgUnitActions.LoadApprovalProcessesSuccess(
+                approvalProcesses,
+              ),
           ),
           catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.LoadApprovalProcessesFail({
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   loadUsers$: Observable<
@@ -212,7 +214,7 @@ export class OrgUnitEffects {
       ofType(OrgUnitActions.LOAD_ASSIGNED_USERS),
       map((action: OrgUnitActions.LoadAssignedUsers) => action.payload),
       groupBy(({ orgUnitId, roleId, params }) =>
-        StateUtils.serializeParams([orgUnitId, roleId], params)
+        StateUtils.serializeParams([orgUnitId, roleId], params),
       ),
       mergeMap((group) =>
         group.pipe(
@@ -223,7 +225,7 @@ export class OrgUnitEffects {
                 switchMap((users: EntitiesModel<B2BUser>) => {
                   const { values, page } = StateUtils.normalizeListPage(
                     users,
-                    'customerId'
+                    'customerId',
                   );
                   return [
                     new B2BUserActions.LoadB2BUserSuccess(values),
@@ -242,14 +244,14 @@ export class OrgUnitEffects {
                       roleId,
                       params,
                       error: normalizeHttpError(error, this.logger),
-                    })
-                  )
-                )
+                    }),
+                  ),
+                ),
               );
-          })
-        )
-      )
-    )
+          }),
+        ),
+      ),
+    ),
   );
 
   assignRoleToUser: Observable<
@@ -266,19 +268,19 @@ export class OrgUnitEffects {
                 uid: orgCustomerId,
                 roleId,
                 selected: true,
-              })
+              }),
           ),
           catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.AssignRoleFail({
                 orgCustomerId,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   unassignRoleToUser$: Observable<
@@ -295,19 +297,19 @@ export class OrgUnitEffects {
                 uid: orgCustomerId,
                 roleId,
                 selected: false,
-              })
+              }),
           ),
           catchError((error: HttpErrorResponse) =>
             of(
               new OrgUnitActions.UnassignRoleFail({
                 orgCustomerId,
                 error: normalizeHttpError(error, this.logger),
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   assignApprover: Observable<
@@ -337,11 +339,11 @@ export class OrgUnitEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   unassignApprover: Observable<
@@ -371,11 +373,11 @@ export class OrgUnitEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   createAddress$: Observable<
@@ -395,10 +397,10 @@ export class OrgUnitEffects {
               new OrgUnitActions.CreateAddressSuccess(
                 // TODO (CXSPA-5630): Remove feature flag in next major.
                 this.featureConfigService?.isEnabled(
-                  'fixMyCompanyUnitAddressCreation'
+                  'fixMyCompanyUnitAddressCreation',
                 )
                   ? { id: payload.address.id }
-                  : { id: undefined }
+                  : { id: undefined },
               ),
               new OrganizationActions.OrganizationClearData(),
             ]),
@@ -409,11 +411,11 @@ export class OrgUnitEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   updateAddress$: Observable<
@@ -441,11 +443,11 @@ export class OrgUnitEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   deleteAddress$: Observable<
@@ -473,15 +475,15 @@ export class OrgUnitEffects {
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
-      )
-    )
+              ]),
+            ),
+          ),
+      ),
+    ),
   );
 
   constructor(
     private actions$: Actions,
-    private orgUnitConnector: OrgUnitConnector
+    private orgUnitConnector: OrgUnitConnector,
   ) {}
 }

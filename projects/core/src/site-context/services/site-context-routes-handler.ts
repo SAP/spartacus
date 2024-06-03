@@ -26,7 +26,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
   constructor(
     private siteContextParams: SiteContextParamsService,
     private serializer: SiteContextUrlSerializer,
-    private injector: Injector
+    private injector: Injector,
   ) {}
 
   private subscription = new Subscription();
@@ -81,7 +81,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
               this.location.replaceState(serialized);
             }
             this.contextValues[param] = value;
-          })
+          }),
         );
       }
     });
@@ -100,15 +100,15 @@ export class SiteContextRoutesHandler implements OnDestroy {
               event instanceof NavigationStart ||
               event instanceof NavigationEnd ||
               event instanceof NavigationError ||
-              event instanceof NavigationCancel
-          )
+              event instanceof NavigationCancel,
+          ),
         )
         .subscribe((event) => {
           this.isNavigating = event instanceof NavigationStart;
           if (this.isNavigating) {
             this.setContextParamsFromRoute((event as NavigationStart).url);
           }
-        })
+        }),
     );
   }
 
@@ -120,7 +120,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
   private setContextParamsFromRoute(url: string) {
     const { params } = this.serializer.urlExtractContextParameters(url);
     Object.keys(params).forEach((param) =>
-      this.siteContextParams.setValue(param, params[param])
+      this.siteContextParams.setValue(param, params[param]),
     );
   }
 

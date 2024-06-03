@@ -15,6 +15,6 @@ export const defaultPointOfServiceReducer = createReducer(
   defaultPointOfServiceInitialState as PickupLocationsState['defaultPointOfService'],
   on(
     DefaultPointOfServiceActions.LoadDefaultPointOfServiceSuccess,
-    (_state, { payload }) => payload
-  )
+    (_state, { payload }) => payload,
+  ),
 );

@@ -48,7 +48,7 @@ describe('IntendedPickupLocationService', () => {
             pickupOption: 'delivery',
           },
         },
-      })
+      }),
     );
   });
 
@@ -57,7 +57,7 @@ describe('IntendedPickupLocationService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       PickupLocationActions.RemoveLocation({
         payload: 'P0001',
-      })
+      }),
     );
   });
 
@@ -79,7 +79,7 @@ export class MockIntendedPickupLocationService
   implements IntendedPickupLocationFacade
 {
   getIntendedLocation(
-    _productCode: string
+    _productCode: string,
   ): Observable<AugmentedPointOfService | undefined> {
     const result: AugmentedPointOfService = {
       pickupOption: 'pickup',
@@ -89,7 +89,7 @@ export class MockIntendedPickupLocationService
   }
   setIntendedLocation(
     _productCode: string,
-    _location: AugmentedPointOfService
+    _location: AugmentedPointOfService,
   ): void {}
   removeIntendedLocation(_productCode: string): void {}
 

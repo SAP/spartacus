@@ -111,7 +111,7 @@ describe('SiteContextInterceptor', () => {
       expect(mockReq.request.params.get('curr')).toEqual(null);
 
       mockReq.flush('somedata');
-    }
+    },
   ));
 
   it('should add parameters: lang and curr to a request', inject(
@@ -130,6 +130,6 @@ describe('SiteContextInterceptor', () => {
       expect(mockReq.request.params.get('curr')).toEqual(currencyJpy);
 
       mockReq.flush('somedata');
-    }
+    },
   ));
 });

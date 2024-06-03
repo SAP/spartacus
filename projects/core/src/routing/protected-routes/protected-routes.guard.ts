@@ -14,7 +14,7 @@ import { ProtectedRoutesService } from './protected-routes.service';
 export class ProtectedRoutesGuard {
   constructor(
     protected service: ProtectedRoutesService,
-    protected authGuard: AuthGuard
+    protected authGuard: AuthGuard,
   ) {}
 
   /**

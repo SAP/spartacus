@@ -40,7 +40,7 @@ export class AsmSwitchCustomerDialogComponent implements OnInit {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected asmComponentService: AsmComponentService
+    protected asmComponentService: AsmComponentService,
   ) {}
 
   ngOnInit(): void {

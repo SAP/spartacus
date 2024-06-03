@@ -41,7 +41,7 @@ describe('UserPasswordService', () => {
     [UserPasswordService],
     (userPasswordService: UserPasswordService) => {
       expect(userPasswordService).toBeTruthy();
-    }
+    },
   ));
 
   describe('update()', () => {
@@ -53,7 +53,7 @@ describe('UserPasswordService', () => {
       expect(connector.updatePassword).toHaveBeenCalledWith(
         OCC_USER_ID_CURRENT,
         oldPassword,
-        newPassword
+        newPassword,
       );
     });
   });
@@ -63,7 +63,7 @@ describe('UserPasswordService', () => {
       service.reset('test token', 'test password');
       expect(connector.resetPassword).toHaveBeenCalledWith(
         'test token',
-        'test password'
+        'test password',
       );
     });
   });
@@ -72,7 +72,7 @@ describe('UserPasswordService', () => {
     it('should be able to request a forgot password email', () => {
       service.requestForgotPasswordEmail('test@test.com');
       expect(connector.requestForgotPasswordEmail).toHaveBeenCalledWith(
-        'test@test.com'
+        'test@test.com',
       );
     });
   });

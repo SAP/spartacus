@@ -38,7 +38,7 @@ const personalizationContext = {
 };
 
 const personalizationContextBase64 = btoa(
-  JSON.stringify(personalizationContext)
+  JSON.stringify(personalizationContext),
 );
 
 const mockContentPage: Page = {
@@ -109,7 +109,7 @@ describe('PersonalizationContextService', () => {
         slots: {
           PlaceholderContentSlot: {},
         },
-      })
+      }),
     );
     let result: PersonalizationContext;
     service

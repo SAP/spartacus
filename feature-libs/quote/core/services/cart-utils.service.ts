@@ -28,8 +28,8 @@ export class CartUtilsService {
           oldCartId: undefined,
           toMergeCartGuid: undefined,
           extraData: { active: true },
-        })
-      )
+        }),
+      ),
     );
   }
 

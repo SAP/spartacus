@@ -46,13 +46,13 @@ class MockConfiguratorAttributeQuantityComponent {
 
 function getSelected(
   component: ConfiguratorAttributeSingleSelectionBundleComponent,
-  index: number
+  index: number,
 ): boolean | undefined {
   const values = component.attribute?.values;
   return values ? values[index].selected : false;
 }
 function getFirstValue(
-  component: ConfiguratorAttributeSingleSelectionBundleComponent
+  component: ConfiguratorAttributeSingleSelectionBundleComponent,
 ): Configurator.Value {
   const values = component.attribute?.values;
   return values ? values[0] : { valueCode: 'a' };
@@ -79,7 +79,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     quantity: number,
     selected: boolean,
     valueCode: string,
-    valueDisplay: string
+    valueDisplay: string,
   ): Configurator.Value => {
     const value: Configurator.Value = {
       description,
@@ -93,48 +93,43 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     return value;
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          RouterTestingModule,
-          ReactiveFormsModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        declarations: [
-          ConfiguratorAttributeSingleSelectionBundleComponent,
-          ConfiguratorShowMoreComponent,
-          ItemCounterComponent,
-          MockProductCardComponent,
-          MockConfiguratorPriceComponent,
-          MockConfiguratorAttributeQuantityComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-        ],
-      })
-        .overrideComponent(
-          ConfiguratorAttributeSingleSelectionBundleComponent,
-          {
-            set: {
-              changeDetection: ChangeDetectionStrategy.Default,
-              providers: [
-                {
-                  provide: ConfiguratorAttributeProductCardComponent,
-                  useClass: MockProductCardComponent,
-                },
-              ],
-            },
-          }
-        )
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        RouterTestingModule,
+        ReactiveFormsModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      declarations: [
+        ConfiguratorAttributeSingleSelectionBundleComponent,
+        ConfiguratorShowMoreComponent,
+        ItemCounterComponent,
+        MockProductCardComponent,
+        MockConfiguratorPriceComponent,
+        MockConfiguratorAttributeQuantityComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeSingleSelectionBundleComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          providers: [
+            {
+              provide: ConfiguratorAttributeProductCardComponent,
+              useClass: MockProductCardComponent,
+            },
+          ],
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     values = [
@@ -145,7 +140,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         1,
         true,
         '1111',
-        'Lorem Ipsum Dolor'
+        'Lorem Ipsum Dolor',
       ),
       createValue(
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -154,7 +149,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         1,
         false,
         '2222',
-        'Lorem Ipsum Dolor'
+        'Lorem Ipsum Dolor',
       ),
       createValue(
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -163,7 +158,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         1,
         false,
         '3333',
-        'Lorem Ipsum Dolor'
+        'Lorem Ipsum Dolor',
       ),
       createValue(
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -172,12 +167,12 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         1,
         false,
         '4444',
-        'Lorem Ipsum Dolor'
+        'Lorem Ipsum Dolor',
       ),
     ];
 
     fixture = TestBed.createComponent(
-      ConfiguratorAttributeSingleSelectionBundleComponent
+      ConfiguratorAttributeSingleSelectionBundleComponent,
     );
 
     component = fixture.componentInstance;
@@ -205,7 +200,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     fixture.detectChanges();
 
     const cardList = htmlElem.querySelectorAll(
-      'cx-configurator-attribute-product-card'
+      'cx-configurator-attribute-product-card',
     );
 
     expect(cardList.length).toBe(4);
@@ -230,7 +225,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
 
@@ -258,7 +253,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        'cx-configurator-price',
       );
     });
   });
@@ -272,19 +267,19 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
 
     it('should find second value when first is provided', () => {
       expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
-        '1111--2222--focus'
+        '1111--2222--focus',
       );
     });
 
     it('should find first value when second is provided', () => {
       expect(component['getFocusIdOfNearestValue'](values[1])).toBe(
-        '1111--1111--focus'
+        '1111--1111--focus',
       );
     });
     it('should find first value when there is only one value', () => {
       component.attribute.values = [values[0]];
       expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
-        '1111--1111--focus'
+        '1111--1111--focus',
       );
     });
   });
@@ -294,7 +289,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       component.attribute.values = undefined;
       const options = component.extractProductCardParameters(
         { valueCode: 'A' },
-        1
+        1,
       );
       expect(options.itemCount).toBe(0);
     });

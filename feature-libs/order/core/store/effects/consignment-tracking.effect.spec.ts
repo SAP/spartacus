@@ -62,14 +62,14 @@ describe('Consignment Tracking effect', () => {
   describe('loadConsignmentTracking$', () => {
     it('should load consignment tracking', () => {
       spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
-        of(mockTracking)
+        of(mockTracking),
       );
       const action = new OrderActions.LoadConsignmentTracking(
-        mockTrackingParams
+        mockTrackingParams,
       );
 
       const completion = new OrderActions.LoadConsignmentTrackingSuccess(
-        mockTracking
+        mockTracking,
       );
 
       actions$ = hot('-a', { a: action });
@@ -80,15 +80,15 @@ describe('Consignment Tracking effect', () => {
 
     it('should handle failures for load consignment tracking', () => {
       spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
-        throwError(() => 'Error')
+        throwError(() => 'Error'),
       );
 
       const action = new OrderActions.LoadConsignmentTracking(
-        mockTrackingParams
+        mockTrackingParams,
       );
 
       const completion = new OrderActions.LoadConsignmentTrackingFail(
-        undefined
+        undefined,
       );
 
       actions$ = hot('-a', { a: action });

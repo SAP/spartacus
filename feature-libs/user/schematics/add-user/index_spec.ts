@@ -27,7 +27,7 @@ const scssFilePath = 'src/styles/spartacus/user.scss';
 describe('Spartacus User schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_USER,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -72,27 +72,27 @@ describe('Spartacus User schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -101,7 +101,7 @@ describe('Spartacus User schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -141,7 +141,7 @@ describe('Spartacus User schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           accountFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -168,7 +168,7 @@ describe('Spartacus User schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...accountFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
@@ -185,7 +185,7 @@ describe('Spartacus User schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           profileFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -217,7 +217,7 @@ describe('Spartacus User schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...profileFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 

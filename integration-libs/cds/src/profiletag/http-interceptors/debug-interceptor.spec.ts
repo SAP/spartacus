@@ -53,12 +53,12 @@ describe('Debug interceptor', () => {
           (req) =>
             req.headers.has('testHeader') &&
             req.headers.has('X-Profile-Tag-Debug') &&
-            req.headers.get('X-Profile-Tag-Debug') === 'false'
+            req.headers.get('X-Profile-Tag-Debug') === 'false',
         )
         .flush('201 created');
       mock.verify();
       expect(response).toBeTruthy();
-    }
+    },
   ));
 
   it('Should modify the x-profile-tag-debug header if the value is true', inject(
@@ -79,12 +79,12 @@ describe('Debug interceptor', () => {
           (req) =>
             req.headers.has('testHeader') &&
             req.headers.has('X-Profile-Tag-Debug') &&
-            req.headers.get('X-Profile-Tag-Debug') === 'true'
+            req.headers.get('X-Profile-Tag-Debug') === 'true',
         )
         .flush('201 created');
       mock.verify();
       expect(response).toBeTruthy();
-    }
+    },
   ));
 
   it('Should not add the x-profile-tag-debug header if url is not occ', inject(
@@ -104,12 +104,12 @@ describe('Debug interceptor', () => {
         .expectOne(
           (req) =>
             req.headers.has('testHeader') &&
-            !req.headers.has('X-Profile-Tag-Debug')
+            !req.headers.has('X-Profile-Tag-Debug'),
         )
         .flush('201 created');
       mock.verify();
       expect(response).toBeTruthy();
-    }
+    },
   ));
 
   afterEach(inject([HttpTestingController], (mock: HttpTestingController) => {

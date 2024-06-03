@@ -33,7 +33,7 @@ export const BACK_TO_TOP_BUTTON = `.cx-scroll-to-top-btn`;
 export function visitPowerSupplyListingPage() {
   const categoryPage = waitForCategoryPage(
     powerSuppliesCategoryCode,
-    'getCategory'
+    'getCategory',
   );
   cy.visit(testUrl);
   cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
@@ -42,7 +42,7 @@ export function visitPowerSupplyListingPage() {
 export function verifyInfiniteScrollConfigSetProperly(
   isActive: boolean,
   hasProductLimit: number,
-  isShowMoreButton: boolean
+  isShowMoreButton: boolean,
 ) {
   cy.getCookie('cxConfigE2E')
     .should('exist')
@@ -61,7 +61,7 @@ export function verifyInfiniteScrollConfigSetProperly(
 export function configScroll(
   active: boolean,
   productLimit: number,
-  showMoreButton: boolean
+  showMoreButton: boolean,
 ) {
   cy.cxConfig({
     view: {
@@ -77,7 +77,7 @@ export function configScroll(
 export function assertDefaultNumberOfProducts(view) {
   cy.get(`cx-product-${view}-item`).should(
     'have.length',
-    defaultNumberOfProducts
+    defaultNumberOfProducts,
   );
 }
 
@@ -108,7 +108,7 @@ export function backtoTopIsNotVisible() {
 export function scrollToFooter(
   totalResults: number,
   isShowMoreButton?: boolean,
-  productLimit?: number
+  productLimit?: number,
 ) {
   if (productLimit) {
     defaultProductLimit = productLimit;
@@ -151,7 +151,7 @@ export function scrollToFooter(
 
 export function verifySortingResetsList() {
   cy.get('cx-sorting .ng-select:first').ngSelect(
-    PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
+    PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED,
   );
 
   cy.wait('@sortQuery').then(() => {
@@ -181,18 +181,18 @@ export function acceptPrivaryTerm() {
   cy.get('.anonymous-consent-banner .btn-primary', { timeout: 10000 }).then(
     () => {
       cy.get('.anonymous-consent-banner .btn-primary').click();
-    }
+    },
   );
 }
 
 export function addToCartFromList(numberOfItems) {
   for (let i = 1; i <= numberOfItems; i++) {
     cy.get(
-      `:nth-child(${i}) > :nth-child(1) > .col-md-8 > .row > .col-md-5 > cx-add-to-cart > .ng-untouched > .btn`
+      `:nth-child(${i}) > :nth-child(1) > .col-md-8 > .row > .col-md-5 > cx-add-to-cart > .ng-untouched > .btn`,
     ).click({ force: true });
     cy.get('cx-added-to-cart-dialog .cx-dialog-title').should(
       'contain',
-      'Item(s) added to your cart'
+      'Item(s) added to your cart',
     );
     cy.get('.cx-dialog-header .close').click();
   }

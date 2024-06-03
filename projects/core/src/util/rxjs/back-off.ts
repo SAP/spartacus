@@ -57,6 +57,6 @@ export function backOff<T>(options?: BackOffOptions): OperatorFunction<T, T> {
           // back-off
           return timer(exponent * delay);
         },
-      })
+      }),
     );
 }

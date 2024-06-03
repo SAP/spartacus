@@ -28,7 +28,7 @@ export class AsmCustomer360Service implements AsmCustomer360Facade {
   constructor(
     protected commandService: CommandService,
     protected asmCustomer360Connector: AsmCustomer360Connector,
-    protected userAccountFacade: UserAccountFacade
+    protected userAccountFacade: UserAccountFacade,
   ) {
     this.asmCustomer360Command$ = this.commandService.create(
       (tabComponents) => {
@@ -42,7 +42,7 @@ export class AsmCustomer360Service implements AsmCustomer360Facade {
                 }
                 return requests;
               },
-              []
+              [],
             );
 
             if (queries.length > 0) {
@@ -53,21 +53,21 @@ export class AsmCustomer360Service implements AsmCustomer360Facade {
                 },
               };
               return this.asmCustomer360Connector.getAsmCustomer360Data(
-                request
+                request,
               );
             } else {
               return of({
                 value: [],
               });
             }
-          })
+          }),
         );
-      }
+      },
     );
   }
 
   get360Data(
-    components: Array<AsmCustomer360TabComponent>
+    components: Array<AsmCustomer360TabComponent>,
   ): Observable<AsmCustomer360Response | undefined> {
     return this.asmCustomer360Command$.execute(components);
   }

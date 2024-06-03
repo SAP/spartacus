@@ -111,7 +111,7 @@ describe('JsonLdProductOfferBuilder', () => {
 
   it('should not add page meta title if there is no title', () => {
     spyOn(pageMetaService, 'getMeta').and.returnValue(
-      of(pageMetaHomeWithoutTitle)
+      of(pageMetaHomeWithoutTitle),
     );
     service
       .build()
@@ -123,7 +123,7 @@ describe('JsonLdProductOfferBuilder', () => {
 
   it('should not create schema if there are no breadcrumbs', () => {
     spyOn(pageMetaService, 'getMeta').and.returnValue(
-      of(pageMetaWithoutBreadcrumb)
+      of(pageMetaWithoutBreadcrumb),
     );
     let schema: string;
     service

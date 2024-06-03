@@ -38,7 +38,7 @@ export class ExpressCheckoutService {
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutConfigService: CheckoutConfigService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
   ) {
     this.setDeliveryAddress();
     this.setDeliveryMode();
@@ -66,17 +66,17 @@ export class ExpressCheckoutService {
             .setDeliveryAddress(defaultAddress)
             .pipe(
               switchMap(() =>
-                this.checkoutDeliveryAddressFacade.getDeliveryAddressState()
+                this.checkoutDeliveryAddressFacade.getDeliveryAddressState(),
               ),
               filter((state) => !state.error && !state.loading),
               map((state) => state.data),
               map((data) => !!(data && Object.keys(data).length)),
-              catchError(() => of(false))
+              catchError(() => of(false)),
             );
         }
         return of(false);
       }),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -94,7 +94,7 @@ export class ExpressCheckoutService {
           filter(
             ([supportedDeliveryModesStateObject]) =>
               !supportedDeliveryModesStateObject.loading &&
-              !!supportedDeliveryModesStateObject.data?.length
+              !!supportedDeliveryModesStateObject.data?.length,
           ),
           switchMap(([deliveryModesState]) => {
             if (!deliveryModesState.data) {
@@ -102,7 +102,7 @@ export class ExpressCheckoutService {
             }
             const preferredDeliveryMode =
               this.checkoutConfigService.getPreferredDeliveryMode(
-                deliveryModesState.data
+                deliveryModesState.data,
               );
             return of([preferredDeliveryMode]).pipe(
               switchMap(([deliveryMode]) => {
@@ -113,19 +113,19 @@ export class ExpressCheckoutService {
                   .setDeliveryMode(deliveryMode)
                   .pipe(
                     switchMap(() =>
-                      this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState()
+                      this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState(),
                     ),
                     filter((state) => !state.error && !state.loading),
                     map((state) => state.data),
                     map((data) => !!(data && Object.keys(data).length)),
-                    catchError(() => of(false))
+                    catchError(() => of(false)),
                   );
-              })
+              }),
             );
-          })
+          }),
         );
       }),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -156,21 +156,21 @@ export class ExpressCheckoutService {
           .setPaymentDetails(defaultPayment)
           .pipe(
             switchMap(() =>
-              this.checkoutPaymentFacade.getPaymentDetailsState()
+              this.checkoutPaymentFacade.getPaymentDetailsState(),
             ),
             filter((state) => !state.error && !state.loading),
             map((state) => state.data),
             map((data) => !!(data && Object.keys(data).length)),
-            catchError(() => of(false))
+            catchError(() => of(false)),
           );
       }),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
   public trySetDefaultCheckoutDetails(): Observable<boolean> {
     return this.paymentMethodSet$.pipe(
-      map((paymentMethodSet) => !!paymentMethodSet)
+      map((paymentMethodSet) => !!paymentMethodSet),
     );
   }
 }

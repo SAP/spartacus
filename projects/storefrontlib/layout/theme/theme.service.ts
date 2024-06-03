@@ -20,7 +20,7 @@ export class ThemeService {
 
   constructor(
     protected config: SiteContextConfig,
-    protected rendererFactory: RendererFactory2
+    protected rendererFactory: RendererFactory2,
   ) {}
 
   /**

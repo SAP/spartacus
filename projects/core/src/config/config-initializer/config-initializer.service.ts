@@ -29,11 +29,11 @@ export class ConfigInitializerService {
     @Optional()
     @Inject(CONFIG_INITIALIZER_FORROOT_GUARD)
     protected initializerGuard: any,
-    @Inject(RootConfig) protected rootConfig: Config
+    @Inject(RootConfig) protected rootConfig: Config,
   ) {}
 
   protected ongoingScopes$ = new BehaviorSubject<string[] | undefined>(
-    undefined
+    undefined,
   );
 
   /**
@@ -62,10 +62,10 @@ export class ConfigInitializerService {
     return this.ongoingScopes$.pipe(
       filter(
         (ongoingScopes) =>
-          !!ongoingScopes && this.areReady(scopes, ongoingScopes)
+          !!ongoingScopes && this.areReady(scopes, ongoingScopes),
       ),
       take(1),
-      map(() => this.config)
+      map(() => this.config),
     );
   }
 
@@ -147,7 +147,7 @@ export class ConfigInitializerService {
 
       if (isDevMode() && !this.areReady(initializer.scopes, ongoingScopes)) {
         this.logger.warn(
-          'More than one CONFIG_INITIALIZER is initializing the same config scope.'
+          'More than one CONFIG_INITIALIZER is initializing the same config scope.',
         );
       }
 
@@ -159,12 +159,12 @@ export class ConfigInitializerService {
           // contribute configuration to rootConfig
           deepMerge(
             this.rootConfig as Record<string, unknown>,
-            initializerConfig
+            initializerConfig,
           );
           // contribute configuration to global config
           deepMerge(this.config as Record<string, unknown>, initializerConfig);
           this.finishScopes(initializer.scopes);
-        })()
+        })(),
       );
     }
     this.ongoingScopes$.next(ongoingScopes);

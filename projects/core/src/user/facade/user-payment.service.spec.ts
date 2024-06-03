@@ -30,7 +30,7 @@ describe('UserPaymentService', () => {
         StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
+          fromProcessReducers.getReducers(),
         ),
       ],
       providers: [
@@ -48,13 +48,13 @@ describe('UserPaymentService', () => {
     [UserPaymentService],
     (userPaymentService: UserPaymentService) => {
       expect(userPaymentService).toBeTruthy();
-    }
+    },
   ));
 
   it('should be able to load user payment methods', () => {
     service.loadPaymentMethods();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserPaymentMethods(OCC_USER_ID_CURRENT)
+      new UserActions.LoadUserPaymentMethods(OCC_USER_ID_CURRENT),
     );
   });
 
@@ -63,7 +63,7 @@ describe('UserPaymentService', () => {
       payments: [{ id: 'method1' }, { id: 'method2' }],
     };
     store.dispatch(
-      new UserActions.LoadUserPaymentMethodsSuccess(paymentsList.payments)
+      new UserActions.LoadUserPaymentMethodsSuccess(paymentsList.payments),
     );
 
     let paymentMethods: PaymentDetails[];
@@ -108,7 +108,7 @@ describe('UserPaymentService', () => {
       new UserActions.SetDefaultUserPaymentMethod({
         userId: OCC_USER_ID_CURRENT,
         paymentMethodId: 'paymentMethodId',
-      })
+      }),
     );
   });
 
@@ -118,7 +118,7 @@ describe('UserPaymentService', () => {
       new UserActions.DeleteUserPaymentMethod({
         userId: OCC_USER_ID_CURRENT,
         paymentMethodId: 'paymentMethodId',
-      })
+      }),
     );
   });
 
@@ -137,7 +137,7 @@ describe('UserPaymentService', () => {
   it('should load billing countries', () => {
     service.loadBillingCountries();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadBillingCountries()
+      new UserActions.LoadBillingCountries(),
     );
   });
 });

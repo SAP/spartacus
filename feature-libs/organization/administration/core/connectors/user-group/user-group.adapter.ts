@@ -22,19 +22,19 @@ export abstract class UserGroupAdapter {
 
   abstract loadList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<UserGroup>>;
 
   abstract loadAvailableOrderApprovalPermissions(
     userId: string,
     userGroupId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Permission>>;
 
   abstract loadAvailableOrgCustomers(
     userId: string,
     userGroupId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<B2BUser>>;
 
   abstract create(userId: string, userGroup: UserGroup): Observable<UserGroup>;
@@ -42,7 +42,7 @@ export abstract class UserGroupAdapter {
   abstract update(
     userId: string,
     userGroupId: string,
-    userGroup: UserGroup
+    userGroup: UserGroup,
   ): Observable<UserGroup>;
 
   abstract delete(userId: string, userGroupId: string): Observable<UserGroup>;
@@ -50,29 +50,29 @@ export abstract class UserGroupAdapter {
   abstract assignMember(
     userId: string,
     userGroupId: string,
-    orgCustomerId: string
+    orgCustomerId: string,
   ): Observable<any>;
 
   abstract assignOrderApprovalPermission(
     userId: string,
     userGroupId: string,
-    orderApprovalPermissionCode: string
+    orderApprovalPermissionCode: string,
   ): Observable<any>;
 
   abstract unassignMember(
     userId: string,
     userGroupId: string,
-    orgCustomerId: string
+    orgCustomerId: string,
   ): Observable<any>;
 
   abstract unassignAllMembers(
     userId: string,
-    userGroupId: string
+    userGroupId: string,
   ): Observable<any>;
 
   abstract unassignOrderApprovalPermission(
     userId: string,
     userGroupId: string,
-    orderApprovalPermissionCode: string
+    orderApprovalPermissionCode: string,
   ): Observable<any>;
 }

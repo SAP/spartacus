@@ -42,7 +42,7 @@ export class ClientTokenService {
           return false;
         }
       }),
-      map((state: LoaderState<ClientToken>) => state.value)
+      map((state: LoaderState<ClientToken>) => state.value),
     );
   }
 
@@ -56,10 +56,10 @@ export class ClientTokenService {
     return this.store.pipe(
       select(ClientAuthSelectors.getClientTokenState),
       filter((state: LoaderState<ClientToken>) =>
-        this.isClientTokenLoaded(state)
+        this.isClientTokenLoaded(state),
       ),
       map((state: LoaderState<ClientToken>) => state.value),
-      filter(isNotUndefined)
+      filter(isNotUndefined),
     );
   }
 

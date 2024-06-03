@@ -45,13 +45,13 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     protected cartVoucherService: CartVoucherFacade,
     protected formBuilder: UntypedFormBuilder,
     protected customerCouponService: CustomerCouponService,
-    protected activeCartService: ActiveCartFacade
+    protected activeCartService: ActiveCartFacade,
   ) {}
 
   ngOnInit() {
     if (this.customerCouponService) {
       this.customerCouponService.loadCustomerCoupons(
-        this.MAX_CUSTOMER_COUPON_PAGE
+        this.MAX_CUSTOMER_COUPON_PAGE,
       );
     }
 
@@ -59,23 +59,23 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       this.activeCartService.getActive(),
       this.activeCartService.getActiveCartId(),
       this.customerCouponService.getCustomerCoupons(
-        this.MAX_CUSTOMER_COUPON_PAGE
+        this.MAX_CUSTOMER_COUPON_PAGE,
       ),
     ]).pipe(
       tap(
         ([cart, activeCardId, customerCoupons]: [
           Cart,
           string,
-          CustomerCouponSearchResult
+          CustomerCouponSearchResult,
         ]) => {
           this.cartId = activeCardId;
           this.getApplicableCustomerCoupons(
             cart,
-            customerCoupons.coupons ?? []
+            customerCoupons.coupons ?? [],
           );
-        }
+        },
       ),
-      map(([cart]: [Cart, string, CustomerCouponSearchResult]) => cart)
+      map(([cart]: [Cart, string, CustomerCouponSearchResult]) => cart),
     );
 
     this.cartIsLoading$ = this.activeCartService
@@ -94,21 +94,21 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         .getAddVoucherResultSuccess()
         .subscribe((success) => {
           this.onSuccess(success);
-        })
+        }),
     );
 
     // TODO(#7241): Replace process subscriptions with event listeners and drop process for ADD_VOUCHER
     this.subscription.add(
       this.cartVoucherService.getAddVoucherResultError().subscribe((error) => {
         this.onError(error);
-      })
+      }),
     );
   }
 
   protected onError(error: boolean) {
     if (error) {
       this.customerCouponService.loadCustomerCoupons(
-        this.MAX_CUSTOMER_COUPON_PAGE
+        this.MAX_CUSTOMER_COUPON_PAGE,
       );
       this.cartVoucherService.resetAddVoucherProcessingState();
     }
@@ -123,13 +123,13 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   protected getApplicableCustomerCoupons(
     cart: Cart,
-    coupons: CustomerCoupon[]
+    coupons: CustomerCoupon[],
   ): void {
     this.applicableCoupons = coupons || [];
     if (cart.appliedVouchers) {
       cart.appliedVouchers.forEach((appliedVoucher) => {
         this.applicableCoupons = this.applicableCoupons.filter(
-          (coupon) => coupon.couponId !== appliedVoucher.code
+          (coupon) => coupon.couponId !== appliedVoucher.code,
         );
       });
     }
@@ -139,7 +139,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     if (this.couponForm.valid) {
       this.cartVoucherService.addVoucher(
         this.couponForm.value.couponCode,
-        this.cartId
+        this.cartId,
       );
     } else {
       this.couponForm.markAllAsTouched();

@@ -120,7 +120,7 @@ describe('CustomerTicketingReopenDialogComponent', () => {
 
         expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
           mockEvent,
-          mustWaitForAttachment
+          mustWaitForAttachment,
         );
       });
 

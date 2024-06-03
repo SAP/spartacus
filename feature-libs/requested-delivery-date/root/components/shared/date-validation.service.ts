@@ -21,7 +21,7 @@ export class DateValidationService {
       value !== undefined &&
       value.length > 0 &&
       !isNaN(
-        this.getDateFromDateString(value).getDate() //convert 'dd-mm-yyyy' into 'mm/dd/yyyy'
+        this.getDateFromDateString(value).getDate(), //convert 'dd-mm-yyyy' into 'mm/dd/yyyy'
       )
     );
   }

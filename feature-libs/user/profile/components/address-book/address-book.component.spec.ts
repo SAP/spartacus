@@ -96,26 +96,24 @@ describe('AddressBookComponent', () => {
   let el: DebugElement;
   let addressBookComponentService: AddressBookComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          SpinnerModule,
-          I18nTestingModule,
-          CardModule,
-          RouterTestingModule,
-        ],
-        providers: [
-          {
-            provide: AddressBookComponentService,
-            useClass: MockComponentService,
-          },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        ],
-        declarations: [AddressBookComponent, MockAddressFormComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        SpinnerModule,
+        I18nTestingModule,
+        CardModule,
+        RouterTestingModule,
+      ],
+      providers: [
+        {
+          provide: AddressBookComponentService,
+          useClass: MockComponentService,
+        },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
+      declarations: [AddressBookComponent, MockAddressFormComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressBookComponent);
@@ -202,7 +200,7 @@ describe('AddressBookComponent', () => {
         mockAddress.line2 &&
         mockAddress.town &&
         mockAddress.country?.isocode &&
-        mockAddress.postalCode
+        mockAddress.postalCode,
     );
   });
 
@@ -211,7 +209,7 @@ describe('AddressBookComponent', () => {
     fixture.detectChanges();
     const element = el.query(By.css('.card-header'));
     expect(element.nativeElement.textContent).toContain(
-      ' ✓ addressCard.default '
+      ' ✓ addressCard.default ',
     );
   });
 
@@ -243,7 +241,7 @@ describe('AddressBookComponent', () => {
     it('should set Address as default', () => {
       component.setAddressAsDefault(mockAddress);
       expect(
-        addressBookComponentService.setAddressAsDefault
+        addressBookComponentService.setAddressAsDefault,
       ).toHaveBeenCalledWith(mockAddress.id);
     });
   });
@@ -252,7 +250,7 @@ describe('AddressBookComponent', () => {
     it('should set delete user Address', () => {
       component.deleteAddress('1');
       expect(
-        addressBookComponentService.deleteUserAddress
+        addressBookComponentService.deleteUserAddress,
       ).toHaveBeenCalledWith('1');
     });
   });
@@ -264,7 +262,7 @@ describe('AddressBookComponent', () => {
       fixture.detectChanges();
 
       expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
-        'addressBook.addNewDeliveryAddress'
+        'addressBook.addNewDeliveryAddress',
       );
     });
     it('should set correct header for edit address', () => {
@@ -272,7 +270,7 @@ describe('AddressBookComponent', () => {
       fixture.detectChanges();
 
       expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
-        'addressBook.editDeliveryAddress'
+        'addressBook.editDeliveryAddress',
       );
     });
   });

@@ -22,7 +22,7 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
     });
 
     classUnderTest = TestBed.inject(
-      OccConfiguratorVariantPriceNormalizer as Type<OccConfiguratorVariantPriceNormalizer>
+      OccConfiguratorVariantPriceNormalizer as Type<OccConfiguratorVariantPriceNormalizer>,
     );
   });
 
@@ -35,21 +35,21 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
       const source = OccConfiguratorTestUtils.createValueSupplements(
         'value_01',
         '100.00 €',
-        100
+        100,
       );
       const result: Configurator.ValueSupplement[] = [];
       classUnderTest.convertValueSupplement(source, result);
       expect(result?.length).toBe(1);
       expect(result[0].attributeValueKey).toEqual(source.attributeValueKey);
       expect(result[0].priceValue.formattedValue).toEqual(
-        source.priceValue.formattedValue
+        source.priceValue.formattedValue,
       );
       expect(result[0].priceValue.value).toEqual(source.priceValue.value);
       expect(result[0].obsoletePriceValue.formattedValue).toEqual(
-        source.obsoletePriceValue.formattedValue
+        source.obsoletePriceValue.formattedValue,
       );
       expect(result[0].obsoletePriceValue.value).toEqual(
-        source.obsoletePriceValue.value
+        source.obsoletePriceValue.value,
       );
     });
   });
@@ -63,16 +63,16 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
       expect(result?.length).toBe(1);
       expect(result[0].attributeUiKey).toEqual(source.csticUiKey);
       expect(result[0].valueSupplements.length).toEqual(
-        source.priceSupplements.length
+        source.priceSupplements.length,
       );
       expect(result[0].valueSupplements[1].attributeValueKey).toEqual(
-        source.priceSupplements[1].attributeValueKey
+        source.priceSupplements[1].attributeValueKey,
       );
       expect(result[0].valueSupplements[1].priceValue.formattedValue).toEqual(
-        source.priceSupplements[1].priceValue.formattedValue
+        source.priceSupplements[1].priceValue.formattedValue,
       );
       expect(result[0].valueSupplements[1].priceValue.value).toEqual(
-        source.priceSupplements[1].priceValue.value
+        source.priceSupplements[1].priceValue.value,
       );
     });
   });

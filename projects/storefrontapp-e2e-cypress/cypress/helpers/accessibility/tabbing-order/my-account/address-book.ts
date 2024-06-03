@@ -103,7 +103,7 @@ function getAddressRequest(auth, address, verify: boolean) {
   return cy.request({
     method: 'POST',
     url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/users/current/addresses${
       verify ? '/verification' : ''
     }?lang=en&curr=USD`,
@@ -119,7 +119,7 @@ function selectCountryCanada() {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/countries/CA/regions`,
   }).as('regions');
 

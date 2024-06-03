@@ -58,7 +58,7 @@ describe('cxAttributes directive', () => {
 
     fixture.detectChanges();
     expect(divWithDirective.attributes).toEqual(
-      jasmine.objectContaining(expectedAttributes)
+      jasmine.objectContaining(expectedAttributes),
     );
   });
 
@@ -74,7 +74,7 @@ describe('cxAttributes directive', () => {
 
     fixture.detectChanges();
     expect(divWithDirective.attributes).toEqual(
-      jasmine.objectContaining(expectedAttributes)
+      jasmine.objectContaining(expectedAttributes),
     );
   });
 
@@ -94,7 +94,7 @@ describe('cxAttributes directive', () => {
 
     fixture.detectChanges();
     expect(divWithDirective.attributes).toEqual(
-      jasmine.objectContaining(expectedAttributes)
+      jasmine.objectContaining(expectedAttributes),
     );
   });
 });

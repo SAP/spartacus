@@ -19,7 +19,7 @@ export class InternalServerErrorHandler extends HttpErrorHandler {
   handleError() {
     this.globalMessageService.add(
       { key: 'httpHandlers.internalServerError' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   }
 

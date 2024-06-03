@@ -34,7 +34,7 @@ export class FindStores extends StateUtils.LoaderLoadAction {
       useMyLocation?: boolean;
       countryIsoCode?: string;
       radius?: number;
-    }
+    },
   ) {
     super(STORE_FINDER_DATA);
   }

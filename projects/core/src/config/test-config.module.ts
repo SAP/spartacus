@@ -17,7 +17,7 @@ import { provideConfigFactory } from './config-providers';
 import { getCookie } from './utils/get-cookie';
 
 export const TEST_CONFIG_COOKIE_NAME = new InjectionToken<string>(
-  'TEST_CONFIG_COOKIE_NAME'
+  'TEST_CONFIG_COOKIE_NAME',
 );
 
 /**
@@ -69,7 +69,7 @@ export class TestConfigModule {
    * CAUTION: DON'T USE IT IN PRODUCTION! IT HASN'T BEEN REVIEWED FOR SECURITY ISSUES.
    */
   static forRoot(
-    options: TestConfigModuleOptions
+    options: TestConfigModuleOptions,
   ): ModuleWithProviders<TestConfigModule> {
     return {
       ngModule: TestConfigModule,
@@ -81,7 +81,7 @@ export class TestConfigModule {
 
         // eslint-disable-next-line @nx/workspace/use-provide-default-feature-toggles-factory -- deliberately providing high priority FeatureToggles
         provideFeatureTogglesFactory(
-          () => (inject(TEST_CONFIG) ?? {}).features
+          () => (inject(TEST_CONFIG) ?? {}).features,
         ),
         // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory -- deliberately providing a high priority FeatureConfig
         provideConfigFactory(() => inject(TEST_CONFIG)),

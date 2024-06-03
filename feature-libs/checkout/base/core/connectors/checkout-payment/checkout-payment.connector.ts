@@ -16,7 +16,7 @@ export class CheckoutPaymentConnector {
   public createPaymentDetails(
     userId: string,
     cartId: string,
-    paymentDetails: PaymentDetails
+    paymentDetails: PaymentDetails,
   ): Observable<PaymentDetails> {
     return this.adapter.createPaymentDetails(userId, cartId, paymentDetails);
   }
@@ -24,7 +24,7 @@ export class CheckoutPaymentConnector {
   public setPaymentDetails(
     userId: string,
     cartId: string,
-    paymentDetailsId: string
+    paymentDetailsId: string,
   ): Observable<unknown> {
     return this.adapter.setPaymentDetails(userId, cartId, paymentDetailsId);
   }

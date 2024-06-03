@@ -46,7 +46,7 @@ describe('Global Messages selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           GLOBAL_MESSAGE_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });
@@ -81,7 +81,7 @@ describe('Global Messages selectors', () => {
       expect(result).toEqual({});
 
       store.dispatch(
-        new GlobalMessageActions.AddMessage(testMessageConfirmation)
+        new GlobalMessageActions.AddMessage(testMessageConfirmation),
       );
 
       expect(result).toEqual({
@@ -98,9 +98,9 @@ describe('Global Messages selectors', () => {
         .pipe(
           select(
             GlobalMessageSelectors.getGlobalMessageEntitiesByType(
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            )
-          )
+              GlobalMessageType.MSG_TYPE_CONFIRMATION,
+            ),
+          ),
         )
         .subscribe((value) => {
           result = value;
@@ -111,11 +111,11 @@ describe('Global Messages selectors', () => {
       store.dispatch(new GlobalMessageActions.AddMessage(testMessageWarning));
       expect(result).toEqual(undefined);
       store.dispatch(
-        new GlobalMessageActions.AddMessage(testMessageConfirmation)
+        new GlobalMessageActions.AddMessage(testMessageConfirmation),
       );
       expect(result).toEqual([{ raw: 'testConf' }]);
       store.dispatch(
-        new GlobalMessageActions.AddMessage(testMessageConfirmation2)
+        new GlobalMessageActions.AddMessage(testMessageConfirmation2),
       );
       expect(result).toEqual([{ raw: 'testConf' }, { raw: 'testConf2' }]);
     });
@@ -129,9 +129,9 @@ describe('Global Messages selectors', () => {
         .pipe(
           select(
             GlobalMessageSelectors.getGlobalMessageCountByType(
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            )
-          )
+              GlobalMessageType.MSG_TYPE_CONFIRMATION,
+            ),
+          ),
         )
         .subscribe((value) => {
           result = value;
@@ -142,11 +142,11 @@ describe('Global Messages selectors', () => {
       store.dispatch(new GlobalMessageActions.AddMessage(testMessageWarning));
       expect(result).toBe(undefined);
       store.dispatch(
-        new GlobalMessageActions.AddMessage(testMessageConfirmation)
+        new GlobalMessageActions.AddMessage(testMessageConfirmation),
       );
       expect(result).toBe(1);
       store.dispatch(
-        new GlobalMessageActions.AddMessage(testMessageConfirmation2)
+        new GlobalMessageActions.AddMessage(testMessageConfirmation2),
       );
       expect(result).toBe(2);
     });

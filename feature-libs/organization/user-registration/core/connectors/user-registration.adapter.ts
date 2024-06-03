@@ -13,6 +13,6 @@ export abstract class UserRegistrationAdapter {
    * Abstract method used to register B2B user
    */
   abstract registerUser(
-    userData: OrganizationUserRegistration
+    userData: OrganizationUserRegistration,
   ): Observable<OrganizationUserRegistration>;
 }

@@ -36,26 +36,24 @@ describe('ResetPasswordComponent', () => {
   let el: DebugElement;
   let service: ResetPasswordComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          SpinnerModule,
-        ],
-        declarations: [ResetPasswordComponent],
-        providers: [
-          {
-            provide: ResetPasswordComponentService,
-            useClass: MockResetPasswordService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        SpinnerModule,
+      ],
+      declarations: [ResetPasswordComponent],
+      providers: [
+        {
+          provide: ResetPasswordComponentService,
+          useClass: MockResetPasswordService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordComponent);
@@ -76,7 +74,7 @@ describe('ResetPasswordComponent', () => {
       component.form.disable();
       fixture.detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
-        By.css('button')
+        By.css('button'),
       ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });

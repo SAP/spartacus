@@ -59,7 +59,7 @@ describe('GtmCollectorService', () => {
       service.init(config, windowObject);
 
       expect(winRef.document.getElementsByTagName).toHaveBeenCalledWith(
-        'script'
+        'script',
       );
       expect(winRef.document.createElement).toHaveBeenCalledWith('script');
     });

@@ -17,7 +17,7 @@ export function deliveryAddressCard(
   textPhone: string,
   textMobile: string,
   deliveryAddress: Address,
-  countryName?: string
+  countryName?: string,
 ): Card {
   if (!countryName) {
     countryName = deliveryAddress?.country?.name as string;
@@ -60,7 +60,7 @@ export function deliveryAddressCard(
  */
 export function deliveryModeCard(
   textTitle: string,
-  deliveryMode: DeliveryMode
+  deliveryMode: DeliveryMode,
 ): Card {
   return {
     title: textTitle,
@@ -80,7 +80,7 @@ export function deliveryModeCard(
 export function paymentMethodCard(
   textTitle: string,
   textExpires: string,
-  paymentDetails: PaymentDetails
+  paymentDetails: PaymentDetails,
 ): Card {
   return {
     title: textTitle,
@@ -99,7 +99,7 @@ export function paymentMethodCard(
 export function billingAddressCard(
   textTitle: string,
   textBillTo: string,
-  paymentDetails: PaymentDetails
+  paymentDetails: PaymentDetails,
 ): Card {
   const region = paymentDetails.billingAddress?.region?.isocode
     ? paymentDetails.billingAddress?.region?.isocode + ', '

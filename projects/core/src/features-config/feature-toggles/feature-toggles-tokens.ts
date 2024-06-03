@@ -18,7 +18,7 @@ import { FeatureTogglesInterface } from './config/feature-toggles';
     Object.assign(
       {},
       inject(DefaultFeatureToggles),
-      inject(RootFeatureToggles)
+      inject(RootFeatureToggles),
     ),
 })
 export abstract class FeatureToggles {}
@@ -34,9 +34,9 @@ export const DefaultFeatureToggles = new InjectionToken<FeatureToggles>(
     factory: () =>
       Object.assign(
         {},
-        ...(inject(DefaultFeatureTogglesChunk, { optional: true }) ?? [])
+        ...(inject(DefaultFeatureTogglesChunk, { optional: true }) ?? []),
       ),
-  }
+  },
 );
 
 /**
@@ -49,9 +49,9 @@ export const RootFeatureToggles = new InjectionToken<FeatureToggles>(
     factory: () =>
       Object.assign(
         {},
-        ...(inject(FeatureTogglesChunk, { optional: true }) ?? [])
+        ...(inject(FeatureTogglesChunk, { optional: true }) ?? []),
       ),
-  }
+  },
 );
 
 /**
@@ -60,7 +60,7 @@ export const RootFeatureToggles = new InjectionToken<FeatureToggles>(
  */
 export const FeatureTogglesChunk = new InjectionToken<FeatureToggles[]>(
   'FeatureTogglesChunk',
-  { providedIn: 'root', factory: () => [] }
+  { providedIn: 'root', factory: () => [] },
 );
 
 /**
@@ -71,5 +71,5 @@ export const FeatureTogglesChunk = new InjectionToken<FeatureToggles[]>(
  */
 export const DefaultFeatureTogglesChunk = new InjectionToken<FeatureToggles[]>(
   'DefaultFeatureTogglesChunk',
-  { providedIn: 'root', factory: () => [] }
+  { providedIn: 'root', factory: () => [] },
 );

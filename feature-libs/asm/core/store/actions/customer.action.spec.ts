@@ -44,7 +44,7 @@ describe('Customer Actions', () => {
 
     it('should create the CustomerSearchSuccess action', () => {
       const action = new AsmActions.CustomerSearchSuccess(
-        mockCustomerSearchPage
+        mockCustomerSearchPage,
       );
 
       expect({ ...action }).toEqual({
@@ -88,7 +88,7 @@ describe('Customer Actions', () => {
 
     it('should create the CustomerListCustomersSearchSuccess action', () => {
       const action = new AsmActions.CustomerListCustomersSearchSuccess(
-        mockCustomerSearchPage
+        mockCustomerSearchPage,
       );
 
       expect({ ...action }).toEqual({

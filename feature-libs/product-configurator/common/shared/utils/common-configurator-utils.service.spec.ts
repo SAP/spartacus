@@ -47,7 +47,7 @@ class MockCartItemContext implements Partial<CartItemContext> {
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
-    PromotionLocation.ActiveCart
+    PromotionLocation.ActiveCart,
   );
 }
 
@@ -76,22 +76,20 @@ describe('CommonConfiguratorUtilsService', () => {
   let classUnderTest: CommonConfiguratorUtilsService;
   let mockCartItemContext: CartItemContextSource;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: UserIdService,
-            useClass: MockUserIdService,
-          },
-          { provide: CartItemContext, useClass: MockCartItemContext },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
+        },
+        { provide: CartItemContext, useClass: MockCartItemContext },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     classUnderTest = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>,
     );
     owner = ConfiguratorModelUtils.createInitialOwner();
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
@@ -116,19 +114,19 @@ describe('CommonConfiguratorUtilsService', () => {
     classUnderTest.setOwnerKey(owner);
     expect(owner.key.includes(owner.id)).toBe(true);
     expect(owner.key.includes(CommonConfigurator.OwnerType.CART_ENTRY)).toBe(
-      true
+      true,
     );
   });
 
   it('should compose an owner ID from 2 attributes', () => {
     expect(classUnderTest.getComposedOwnerId(documentId, entryNumber)).toBe(
-      documentId + '+' + entryNumber
+      documentId + '+' + entryNumber,
     );
   });
 
   it('should decompose an owner ID properly', () => {
     const decompose = classUnderTest.decomposeOwnerId(
-      classUnderTest.getComposedOwnerId(documentId, entryNumber)
+      classUnderTest.getComposedOwnerId(documentId, entryNumber),
     );
     expect(decompose.documentId).toBe(documentId);
     expect(decompose.entryNumber).toBe('' + entryNumber);
@@ -211,25 +209,25 @@ describe('CommonConfiguratorUtilsService', () => {
   describe('isAttributeBasedConfigurator', () => {
     it('should return false, because the configurator type is undefined', () => {
       expect(classUnderTest.isAttributeBasedConfigurator(undefined)).toBe(
-        false
+        false,
       );
     });
 
     it('should return false, because the configurator type is not an attribute based one', () => {
       expect(
-        classUnderTest.isAttributeBasedConfigurator('ANYCONFIGURATOR')
+        classUnderTest.isAttributeBasedConfigurator('ANYCONFIGURATOR'),
       ).toBe(false);
     });
 
     it('should return true for the variant configurator type', () => {
       expect(
-        classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.VARIANT)
+        classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.VARIANT),
       ).toBe(true);
     });
 
     it('should return true for the textfield configurator type', () => {
       expect(
-        classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.TEXTFIELD)
+        classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.TEXTFIELD),
       ).toBe(true);
     });
   });
@@ -241,13 +239,13 @@ describe('CommonConfiguratorUtilsService', () => {
 
     it('should return false, because the configurator type is not an attribute based one', () => {
       expect(classUnderTest.isBundleBasedConfigurator('ANYCONFIGURATOR')).toBe(
-        false
+        false,
       );
     });
 
     it('should return true for the CPQ configurator type', () => {
       expect(
-        classUnderTest.isBundleBasedConfigurator(ConfiguratorType.CPQ)
+        classUnderTest.isBundleBasedConfigurator(ConfiguratorType.CPQ),
       ).toBe(true);
     });
   });
@@ -287,8 +285,8 @@ describe('CommonConfiguratorUtilsService', () => {
           layoutConfig,
           templateName,
           sectionName,
-          BREAKPOINT.lg
-        )
+          BREAKPOINT.lg,
+        ),
       ).toBe(slotsLargeResolution);
     });
 
@@ -298,8 +296,8 @@ describe('CommonConfiguratorUtilsService', () => {
           {},
           templateName,
           sectionName,
-          BREAKPOINT.lg
-        )
+          BREAKPOINT.lg,
+        ),
       ).toEqual([]);
     });
 
@@ -309,8 +307,8 @@ describe('CommonConfiguratorUtilsService', () => {
           layoutConfig,
           'UnknownTemplate',
           sectionName,
-          BREAKPOINT.lg
-        )
+          BREAKPOINT.lg,
+        ),
       ).toThrowError();
 
       expect(() =>
@@ -318,8 +316,8 @@ describe('CommonConfiguratorUtilsService', () => {
           layoutConfig,
           templateName,
           'UnknownSection',
-          BREAKPOINT.lg
-        )
+          BREAKPOINT.lg,
+        ),
       ).toThrowError();
 
       expect(() =>
@@ -327,8 +325,8 @@ describe('CommonConfiguratorUtilsService', () => {
           layoutConfig,
           templateName,
           sectionName,
-          BREAKPOINT.sm
-        )
+          BREAKPOINT.sm,
+        ),
       ).toThrowError();
     });
   });

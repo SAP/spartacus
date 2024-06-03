@@ -25,7 +25,7 @@ export abstract class ItemService<T> {
   constructor(
     protected currentItemService: CurrentItemService<T>,
     protected routingService: RoutingService,
-    protected formService: FormService<T>
+    protected formService: FormService<T>,
   ) {}
 
   key$ = this.currentItemService.key$;
@@ -41,12 +41,12 @@ export abstract class ItemService<T> {
   unit$: Observable<string> = this.currentItemService.b2bUnit$;
 
   error$: Observable<boolean> = this.key$.pipe(
-    switchMap((key) => this.currentItemService.getError(key))
+    switchMap((key) => this.currentItemService.getError(key)),
   );
 
   save(
     form: UntypedFormGroup,
-    key?: string
+    key?: string,
   ): Observable<OrganizationItemStatus<T>> {
     if (form.invalid) {
       form.markAllAsTouched();
@@ -69,7 +69,7 @@ export abstract class ItemService<T> {
    */
   delete?(
     key: string,
-    additionalParam?: string
+    additionalParam?: string,
   ): Observable<OrganizationItemStatus<T>>;
   /**
    * Loads an item.

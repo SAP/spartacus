@@ -196,7 +196,7 @@ describe('ngExpressEngine', () => {
         }
         expect(html).toContain('some template');
         done();
-      }
+      },
     );
   });
 
@@ -210,7 +210,7 @@ describe('ngExpressEngine', () => {
       },
       (_err, _html) => {
         expect(_err).toBeTruthy();
-      }
+      },
     );
   });
 
@@ -230,7 +230,7 @@ describe('ngExpressEngine', () => {
         }
         expect(html).toContain('url:http://localhost:4200');
         done();
-      }
+      },
     );
   });
 
@@ -253,7 +253,7 @@ describe('ngExpressEngine', () => {
         }
         expect(html).toContain(`statusCode:${someStatusCode}`);
         done();
-      }
+      },
     );
   });
 
@@ -277,7 +277,7 @@ describe('ngExpressEngine', () => {
         }
         expect(html).toContain(someValue.message);
         done();
-      }
+      },
     );
   });
 });

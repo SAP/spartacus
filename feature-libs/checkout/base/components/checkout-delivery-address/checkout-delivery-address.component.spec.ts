@@ -37,7 +37,7 @@ class MockCheckoutDeliveryAddressFacade
   createAndSetAddress = createSpy().and.returnValue(of({}));
   setDeliveryAddress = createSpy().and.returnValue(EMPTY);
   getDeliveryAddressState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: undefined })
+    of({ loading: false, error: false, data: undefined }),
   );
 }
 
@@ -139,60 +139,58 @@ describe('CheckoutDeliveryAddressComponent', () => {
   let globalMessageService: GlobalMessageService;
   let featureConfig: FeatureConfigService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          CheckoutDeliveryAddressComponent,
-          MockAddressFormComponent,
-          MockCardComponent,
-          MockSpinnerComponent,
-        ],
-        providers: [
-          { provide: UserAddressService, useClass: MockUserAddressService },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryAddressFacade,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CheckoutDeliveryAddressComponent,
+        MockAddressFormComponent,
+        MockCardComponent,
+        MockSpinnerComponent,
+      ],
+      providers: [
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressFacade,
+        },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesFacade,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '6.3' },
           },
-          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: CheckoutDeliveryModesFacade,
-            useClass: MockCheckoutDeliveryModesFacade,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '6.3' },
-            },
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
-        ],
-      })
-        .overrideComponent(CheckoutDeliveryAddressComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
-
-      checkoutDeliveryAddressFacade = TestBed.inject(
-        CheckoutDeliveryAddressFacade
-      );
-      activeCartFacade = TestBed.inject(ActiveCartFacade);
-      checkoutStepService = TestBed.inject(
-        CheckoutStepService as Type<CheckoutStepService>
-      );
-      userAddressService = TestBed.inject(UserAddressService);
-      checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
-      globalMessageService = TestBed.inject(GlobalMessageService);
-      featureConfig = TestBed.inject(FeatureConfigService);
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
     })
-  );
+      .overrideComponent(CheckoutDeliveryAddressComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+
+    checkoutDeliveryAddressFacade = TestBed.inject(
+      CheckoutDeliveryAddressFacade,
+    );
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>,
+    );
+    userAddressService = TestBed.inject(UserAddressService);
+    checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    featureConfig = TestBed.inject(FeatureConfigService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutDeliveryAddressComponent);
@@ -222,7 +220,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
     it('should not invoke addAddress when address is undefined/ not modified.', () => {
       component.addAddress(undefined);
       expect(
-        checkoutDeliveryAddressFacade.createAndSetAddress
+        checkoutDeliveryAddressFacade.createAndSetAddress,
       ).not.toHaveBeenCalled();
     });
   });
@@ -244,14 +242,14 @@ describe('CheckoutDeliveryAddressComponent', () => {
   it('should be able to go to next step', () => {
     component.next();
     expect(checkoutStepService.next).toHaveBeenCalledWith(
-      <any>mockActivatedRoute
+      <any>mockActivatedRoute,
     );
   });
 
   it('should be able to go to previous step', () => {
     component.back();
     expect(checkoutStepService.back).toHaveBeenCalledWith(
-      <any>mockActivatedRoute
+      <any>mockActivatedRoute,
     );
   });
 
@@ -259,7 +257,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
     component.selectAddress(mockAddress1);
 
     expect(
-      checkoutDeliveryAddressFacade.setDeliveryAddress
+      checkoutDeliveryAddressFacade.setDeliveryAddress,
     ).toHaveBeenCalledWith(mockAddress1);
     expect(component['setAddress']).toHaveBeenCalledWith(mockAddress1);
     expect(globalMessageService.add).toHaveBeenCalled();
@@ -268,13 +266,13 @@ describe('CheckoutDeliveryAddressComponent', () => {
   it('should NOT be able to select address if the selection is the same as the currently set delivery address', () => {
     checkoutDeliveryAddressFacade.getDeliveryAddressState =
       createSpy().and.returnValue(
-        of({ loading: false, error: false, data: mockAddress2 })
+        of({ loading: false, error: false, data: mockAddress2 }),
       );
 
     component.selectAddress(mockAddress2);
 
     expect(
-      checkoutDeliveryAddressFacade.setDeliveryAddress
+      checkoutDeliveryAddressFacade.setDeliveryAddress,
     ).not.toHaveBeenCalledWith(mockAddress2);
     expect(component['setAddress']).not.toHaveBeenCalledWith(mockAddress2);
     expect(globalMessageService.add).not.toHaveBeenCalled();
@@ -284,10 +282,10 @@ describe('CheckoutDeliveryAddressComponent', () => {
     component.addAddress({});
     expect(component.doneAutoSelect).toBeTruthy();
     expect(
-      checkoutDeliveryAddressFacade.createAndSetAddress
+      checkoutDeliveryAddressFacade.createAndSetAddress,
     ).toHaveBeenCalledWith({});
     expect(
-      checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
+      checkoutDeliveryModesFacade.clearCheckoutDeliveryMode,
     ).toHaveBeenCalled();
   });
 
@@ -306,7 +304,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
         'shipTo',
         'selected',
         'P',
-        'M'
+        'M',
       );
       expect(card.title).toEqual('');
       expect(card.textBold).toEqual('John Doe');
@@ -328,7 +326,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
         'shipTo',
         'selected',
         'P',
-        'M'
+        'M',
       );
       expect(featureConfig.isEnabled).toHaveBeenCalled();
       expect(card.actions?.length).toBe(0);
@@ -343,7 +341,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
         'shipTo',
         'selected',
         'P',
-        'M'
+        'M',
       );
       expect(card.actions?.length).toBe(1);
     });
@@ -361,7 +359,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
     it('should be enabled when address is selected', () => {
       checkoutDeliveryAddressFacade.getDeliveryAddressState =
         createSpy().and.returnValue(
-          of({ loading: false, error: false, data: mockAddress1 })
+          of({ loading: false, error: false, data: mockAddress1 }),
         );
 
       fixture.detectChanges();
@@ -371,7 +369,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
     it('should call "next" function after being clicked', () => {
       checkoutDeliveryAddressFacade.getDeliveryAddressState =
         createSpy().and.returnValue(
-          of({ loading: false, error: false, data: mockAddress1 })
+          of({ loading: false, error: false, data: mockAddress1 }),
         );
       spyOn(component, 'next');
 
@@ -422,17 +420,18 @@ describe('CheckoutDeliveryAddressComponent', () => {
       fixture.debugElement
         .queryAll(By.css('.btn-secondary'))
         .find(
-          (el) => el.nativeElement.innerText === 'checkoutAddress.addNewAddress'
+          (el) =>
+            el.nativeElement.innerText === 'checkoutAddress.addNewAddress',
         );
     const getNewAddressForm = () =>
       fixture.debugElement.query(By.css('cx-address-form'));
 
     it('should render only after user clicks "add new address" button if there are some existing addresses', () => {
       userAddressService.getAddressesLoading = createSpy().and.returnValue(
-        of(false)
+        of(false),
       );
       userAddressService.getAddresses = createSpy().and.returnValue(
-        of(mockAddresses)
+        of(mockAddresses),
       );
 
       fixture.detectChanges();
@@ -445,7 +444,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
     it('should render on init if there are no existing addresses', () => {
       userAddressService.getAddressesLoading = createSpy().and.returnValue(
-        of(false)
+        of(false),
       );
       userAddressService.getAddresses = createSpy().and.returnValue(of([]));
 
@@ -455,10 +454,10 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
     it('should not render on init if there are some existing addresses', () => {
       userAddressService.getAddressesLoading = createSpy().and.returnValue(
-        of(false)
+        of(false),
       );
       userAddressService.getAddresses = createSpy().and.returnValue(
-        of(mockAddresses)
+        of(mockAddresses),
       );
 
       fixture.detectChanges();
@@ -470,7 +469,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
       userAddressService.getAddresses = createSpy().and.returnValue(of([]));
       checkoutDeliveryAddressFacade.getDeliveryAddressState =
         createSpy().and.returnValue(
-          of({ loading: true, error: false, data: undefined })
+          of({ loading: true, error: false, data: undefined }),
         );
 
       fixture.detectChanges();
@@ -492,10 +491,10 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
     it('should NOT render when existing addresses are NOT loading', () => {
       userAddressService.getAddressesLoading = createSpy().and.returnValue(
-        of(false)
+        of(false),
       );
       userAddressService.getAddresses = createSpy().and.returnValue(
-        of(mockAddresses)
+        of(mockAddresses),
       );
 
       fixture.detectChanges();

@@ -60,7 +60,7 @@ context(
         b2bAccountShipToUser,
         cartWithB2bProductAndPremiumShipping,
         true,
-        order_type.SCHEDULE_REPLENISHMENT
+        order_type.SCHEDULE_REPLENISHMENT,
       );
 
       b2bCheckout.completeReplenishmentForm(recurrencePeriod.DAILY);
@@ -74,8 +74,8 @@ context(
         b2bProduct,
         cartWithB2bProductAndPremiumShipping,
         true,
-        recurrencePeriod.DAILY
+        recurrencePeriod.DAILY,
       );
     });
-  }
+  },
 );

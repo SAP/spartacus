@@ -44,7 +44,7 @@ export class MyAccountV2OrderHistoryService {
     this.orderHistoryService.clearOrderList();
   }
   getOrderDetailsWithTracking(
-    orderCode: string
+    orderCode: string,
   ): Observable<OrderView | undefined> {
     return this.getOrderDetailsV2(orderCode).pipe(
       switchMap((order: Order | undefined) => {
@@ -57,19 +57,19 @@ export class MyAccountV2OrderHistoryService {
             if (consignment.code && consignment.trackingID) {
               return this.getConsignmentTracking(
                 order?.code ?? '',
-                consignment.code
+                consignment.code,
               ).pipe(
                 map((trackingInfo: ConsignmentTracking) => {
                   consignmentView.consignmentTracking = trackingInfo;
                   orderView.consignments?.push(consignmentView);
                   return orderView;
-                })
+                }),
               );
             } else {
               orderView.consignments?.push(consignmentView);
               return of(orderView);
             }
-          }
+          },
         );
         if (requests === undefined || requests.length < 1) {
           return of(orderView);
@@ -81,15 +81,15 @@ export class MyAccountV2OrderHistoryService {
             } else {
               return of(order);
             }
-          })
+          }),
         );
         //<-----------------
-      })
+      }),
     );
   }
 
   getOrderHistoryListWithDetails(
-    pageSize: number
+    pageSize: number,
   ): Observable<OrderHistoryListView | undefined> {
     const orderListView: OrderHistoryListView = {};
     return this.orderHistoryService.getOrderHistoryList(pageSize).pipe(
@@ -112,9 +112,9 @@ export class MyAccountV2OrderHistoryService {
                 /** filling extra fields <--- */
                 orderListView.orders?.push(orderView);
                 return orderListView;
-              })
+              }),
             );
-          }
+          },
         );
         if (requests.length === 0) {
           // in case of no order
@@ -128,12 +128,12 @@ export class MyAccountV2OrderHistoryService {
         } else {
           return {};
         }
-      })
+      }),
     );
   }
 
   getOrderHistoryList(
-    pageSize: number
+    pageSize: number,
   ): Observable<OrderHistoryListView | undefined> {
     const orderHistoryListRequest =
       this.getOrderHistoryListWithDetails(pageSize);
@@ -147,8 +147,8 @@ export class MyAccountV2OrderHistoryService {
         (
           responses: [
             OrderHistoryListView | undefined,
-            ReturnRequestList | undefined
-          ]
+            ReturnRequestList | undefined,
+          ],
         ) => {
           const returnRequests = responses?.[1]?.returnRequests;
           const orderHistory = responses?.[0];
@@ -158,7 +158,7 @@ export class MyAccountV2OrderHistoryService {
             }
             return orderHistory.orders.map((order) => {
               const returnItems = returnRequests?.filter(
-                (returnItem) => returnItem.order?.code === order.code
+                (returnItem) => returnItem.order?.code === order.code,
               );
               if (returnItems) {
                 order.returnRequests = returnItems;
@@ -168,8 +168,8 @@ export class MyAccountV2OrderHistoryService {
           } else {
             return of(orderHistory);
           }
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -178,7 +178,7 @@ export class MyAccountV2OrderHistoryService {
   }
 
   protected getOrderDetailsState(
-    code: string
+    code: string,
   ): Observable<StateUtils.LoaderState<Order>> {
     return this.store.select(getOrderByIdEntity(code));
   }
@@ -190,7 +190,7 @@ export class MyAccountV2OrderHistoryService {
           new OrderActions.LoadOrderById({
             userId,
             code,
-          })
+          }),
         ),
     });
   }
@@ -206,11 +206,11 @@ export class MyAccountV2OrderHistoryService {
         if (!(state.loading || state.success || state.error)) {
           this.loadOrderDetails(code);
         }
-      })
+      }),
     );
     return using(
       () => loading$.subscribe(),
-      () => this.getOrderDetailsValue(code)
+      () => this.getOrderDetailsValue(code),
     );
   }
 
@@ -222,19 +222,19 @@ export class MyAccountV2OrderHistoryService {
         if (!(state.loading || state.success || state.error)) {
           this.loadOrderDetails(code);
         }
-      })
+      }),
     );
     return loading$.pipe(
       filter((state) => (state.success || state.error) ?? false),
       map((state) => {
         return state.value;
-      })
+      }),
     );
   }
 
   protected getConsignmentTrackingValue(
     orderCode: string,
-    consignmentCode: string
+    consignmentCode: string,
   ): Observable<ConsignmentTracking> {
     return this.store
       .select(getConsignmentTrackingById(orderCode, consignmentCode))
@@ -243,16 +243,16 @@ export class MyAccountV2OrderHistoryService {
 
   protected getConsignmentTrackingState(
     orderCode: string,
-    consignmentCode: string
+    consignmentCode: string,
   ): Observable<StateUtils.LoaderState<ConsignmentTracking>> {
     return this.store.select(
-      getConsignmentTrackingByIdEntity(orderCode, consignmentCode)
+      getConsignmentTrackingByIdEntity(orderCode, consignmentCode),
     );
   }
 
   protected loadConsignmentTracking(
     orderCode: string,
-    consignmentCode: string
+    consignmentCode: string,
   ) {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
@@ -261,30 +261,30 @@ export class MyAccountV2OrderHistoryService {
             orderCode,
             consignmentCode,
             userId,
-          })
+          }),
         ),
     });
   }
 
   getConsignmentTracking(
     orderCode: string,
-    consignmentCode: string
+    consignmentCode: string,
   ): Observable<ConsignmentTracking> {
     const loading$ = this.getConsignmentTrackingState(
       orderCode,
-      consignmentCode
+      consignmentCode,
     ).pipe(
       auditTime(0),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.loadConsignmentTracking(orderCode, consignmentCode);
         }
-      })
+      }),
     );
 
     return using(
       () => loading$.subscribe(),
-      () => this.getConsignmentTrackingValue(orderCode, consignmentCode)
+      () => this.getConsignmentTrackingValue(orderCode, consignmentCode),
     );
   }
 }

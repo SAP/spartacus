@@ -77,26 +77,24 @@ describe('QuoteConfirmDialogComponent', () => {
     data$ = dialogDataSender;
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          QuoteConfirmDialogComponent,
-          MockKeyboardFocusDirective,
-          MockCxIconComponent,
-        ],
-        providers: [
-          CxDatePipe,
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-          { provide: LanguageService, useClass: MockLanguageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        QuoteConfirmDialogComponent,
+        MockKeyboardFocusDirective,
+        MockCxIconComponent,
+      ],
+      providers: [
+        CxDatePipe,
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+        { provide: LanguageService, useClass: MockLanguageService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     dialogDataSender = new BehaviorSubject({
@@ -119,7 +117,7 @@ describe('QuoteConfirmDialogComponent', () => {
   it('should close the dialog on yes', () => {
     const primaryButton = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
-      'button.btn-primary'
+      'button.btn-primary',
     );
     primaryButton.click();
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith('yes');
@@ -128,7 +126,7 @@ describe('QuoteConfirmDialogComponent', () => {
   it('should close the dialog on no', () => {
     const secondaryButton = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
-      'button.btn-secondary'
+      'button.btn-secondary',
     );
     secondaryButton.click();
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith('no');
@@ -139,7 +137,7 @@ describe('QuoteConfirmDialogComponent', () => {
       expect,
       htmlElem,
       '.cx-dialog-title',
-      confirmationContext.title + ' code:' + QUOTE_CODE
+      confirmationContext.title + ' code:' + QUOTE_CODE,
     );
   });
 
@@ -148,7 +146,7 @@ describe('QuoteConfirmDialogComponent', () => {
       expect,
       htmlElem,
       '.cx-name .cx-content',
-      quote.name
+      quote.name,
     );
   });
 
@@ -157,7 +155,7 @@ describe('QuoteConfirmDialogComponent', () => {
       expect,
       htmlElem,
       '.cx-description .cx-content',
-      quote.description
+      quote.description,
     );
   });
 
@@ -166,14 +164,14 @@ describe('QuoteConfirmDialogComponent', () => {
       expect,
       htmlElem,
       '.cx-notes-container p',
-      3
+      3,
     );
   });
 
   it('should navigate back on escape', () => {
     const modal = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
-      '.cx-modal-container'
+      '.cx-modal-container',
     );
     modal.dispatchEvent(new Event('esc'));
     expect(launchDialogService.closeDialog).toHaveBeenCalled();
@@ -209,7 +207,7 @@ describe('QuoteConfirmDialogComponent', () => {
       context.quote.expirationTime = null;
 
       expect(component.getA11yModalText(context)).toEqual(
-        confirmationContext.confirmNote
+        confirmationContext.confirmNote,
       );
     });
 
@@ -227,7 +225,7 @@ describe('QuoteConfirmDialogComponent', () => {
       const context = structuredClone(confirmationContext);
       context.warningNote = null;
       const expirationTime = cxDatePipe.transform(
-        confirmationContext.quote.expirationTime
+        confirmationContext.quote.expirationTime,
       );
       const a11yModalText =
         confirmationContext.validity +
@@ -240,7 +238,7 @@ describe('QuoteConfirmDialogComponent', () => {
     it('should return a complete a11y relevant information', () => {
       const context = structuredClone(confirmationContext);
       const expirationTime = cxDatePipe.transform(
-        confirmationContext.quote.expirationTime
+        confirmationContext.quote.expirationTime,
       );
       const a11yModalText =
         confirmationContext.warningNote +
@@ -259,14 +257,14 @@ describe('QuoteConfirmDialogComponent', () => {
           htmlElem,
           'button',
           'close',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'aria-label',
-        'confirmActionDialog.buyer_offer.edit.a11y.close'
+        'confirmActionDialog.buyer_offer.edit.a11y.close',
       );
     });
 
@@ -276,14 +274,14 @@ describe('QuoteConfirmDialogComponent', () => {
           htmlElem,
           'div',
           'cx-visually-hidden',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'aria-live',
-        'polite'
+        'polite',
       );
     });
 
@@ -293,14 +291,14 @@ describe('QuoteConfirmDialogComponent', () => {
           htmlElem,
           'div',
           'cx-visually-hidden',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'role',
-        'alert'
+        'alert',
       );
     });
 
@@ -310,20 +308,20 @@ describe('QuoteConfirmDialogComponent', () => {
           htmlElem,
           'div',
           'cx-visually-hidden',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'aria-atomic',
-        'true'
+        'true',
       );
     });
 
     it('should contain a explanatory text that is seen only for a screen reader and explains that the conflicts must be resolved to continue', () => {
       const expirationTime = cxDatePipe.transform(
-        confirmationContext.quote.expirationTime
+        confirmationContext.quote.expirationTime,
       );
       const a11yModalText =
         confirmationContext.warningNote +
@@ -335,7 +333,7 @@ describe('QuoteConfirmDialogComponent', () => {
         expect,
         htmlElem,
         'div.cx-visually-hidden',
-        a11yModalText
+        a11yModalText,
       );
     });
 
@@ -345,21 +343,21 @@ describe('QuoteConfirmDialogComponent', () => {
           htmlElem,
           'div',
           'cx-modal-container',
-          0
+          0,
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'role',
-        'dialog'
+        'dialog',
       );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         element,
         'aria-modal',
-        'true'
+        'true',
       );
     });
   });

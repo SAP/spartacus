@@ -23,7 +23,7 @@ import {
         [PRODUCT_BULK_PRICING_FEATURE]: {
           module: () =>
             import('@spartacus/product/bulk-pricing').then(
-              (m) => m.BulkPricingModule
+              (m) => m.BulkPricingModule,
             ),
         },
       },

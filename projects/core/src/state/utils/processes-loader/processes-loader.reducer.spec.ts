@@ -29,7 +29,7 @@ describe('Processes loader reducer', () => {
       const action = {} as Action;
       const state = processesLoaderReducer(TEST_ENTITY_TYPE, subReducer)(
         undefined,
-        action
+        action,
       );
       expect(state).toEqual({
         ...initialProcessesState,
@@ -64,7 +64,7 @@ describe('Processes loader reducer', () => {
       };
       const state = processesLoaderReducer(TEST_ENTITY_TYPE)(
         previousState,
-        action
+        action,
       );
       const expectedState = {
         loading: true,
@@ -89,7 +89,7 @@ describe('Processes loader reducer', () => {
       };
       const state = processesLoaderReducer(TEST_ENTITY_TYPE)(
         initialState,
-        action
+        action,
       );
       const expectedState = {
         loading: false,
@@ -112,7 +112,7 @@ describe('Processes loader reducer', () => {
       };
       const state = processesLoaderReducer(TEST_ENTITY_TYPE)(
         previousState,
-        action
+        action,
       );
       const expectedState = {
         loading: true,
@@ -138,7 +138,7 @@ describe('Processes loader reducer', () => {
 
       const state = processesLoaderReducer(TEST_ENTITY_TYPE)(
         initialState,
-        action
+        action,
       );
       expect(state).toEqual({
         ...initialProcessesState,
@@ -159,7 +159,7 @@ describe('Processes loader reducer', () => {
 
       const state = processesLoaderReducer(TEST_ENTITY_TYPE, subReducer)(
         initialState,
-        action
+        action,
       );
 
       expect(state).toEqual({
@@ -183,7 +183,7 @@ describe('Processes loader reducer', () => {
 
       const state = processesLoaderReducer(TEST_ENTITY_TYPE)(
         initialState,
-        action
+        action,
       );
       const expectedState = {
         loading: true,
@@ -212,7 +212,7 @@ describe('Processes loader reducer', () => {
 
       const state = processesLoaderReducer(TEST_ENTITY_TYPE)(
         initialState,
-        action
+        action,
       );
       const expectedState = {
         loading: false,

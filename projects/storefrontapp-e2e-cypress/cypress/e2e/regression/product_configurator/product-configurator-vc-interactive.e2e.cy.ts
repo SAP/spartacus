@@ -80,7 +80,7 @@ context('Product Configuration', () => {
     configurationVc.checkCommerceRelease(
       electronicsShop,
       testProduct,
-      commerceRelease
+      commerceRelease,
     );
   });
 
@@ -124,7 +124,7 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       configurationOverviewVc.goToConfigOverviewPage(
         electronicsShop,
-        testProduct
+        testProduct,
       );
       configurationOverviewVc.navigateToConfigurationPage();
       configurationVc.checkConfigPageDisplayed();
@@ -136,30 +136,30 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
       );
       configuration.checkAttributeDisplayed(ROOM_SIZE, radioGroup);
       configurationVc.selectAttributeAndWait(
         COLOUR_HT,
         single_selection_image,
         WHITE,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configurationVc.checkImageSelected(
         single_selection_image,
         COLOUR_HT,
-        WHITE
+        WHITE,
       );
       configurationVc.selectAttributeAndWait(
         COLOUR_HT,
         single_selection_image,
         TITAN,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configurationVc.checkImageSelected(
         single_selection_image,
         COLOUR_HT,
-        TITAN
+        TITAN,
       );
     });
 
@@ -172,7 +172,7 @@ context('Product Configuration', () => {
         CAMERA_SD_CARD,
         checkBoxList,
         SDHC,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configurationVc.clickOnPreviousBtnAndWait(BASICS);
       configurationVc.clickOnNextBtnAndWait(SPECIFICATION);
@@ -215,7 +215,7 @@ context('Product Configuration', () => {
         CAMERA_DISPLAY,
         radioGroup,
         P5,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configurationVc.clickOnPreviousBtnAndWait(SPECIFICATION);
       configurationVc.checkStatusIconDisplayed(BASICS, ERROR);
@@ -230,7 +230,7 @@ context('Product Configuration', () => {
         CAMERA_FORMAT_PICTURES,
         radioGroup,
         JPEG,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configurationVc.checkStatusIconDisplayed(BASICS, ERROR);
       configurationVc.checkStatusIconDisplayed(SPECIFICATION, COMPLETE);
@@ -243,7 +243,7 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
       );
       configuration.checkGroupMenuDisplayed();
 
@@ -343,7 +343,7 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
       );
       configurationVc.clickOnNextBtnAndWait(PROJECTOR);
       configurationVc.clickOnNextBtnAndWait(FLAT_PANEL);
@@ -354,7 +354,7 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
       );
       configurationVc.clickOnGroupAndWait(2);
       configuration.checkAttributeDisplayed(SPEAKER_TYPE_FRONT, radioGroup);
@@ -387,7 +387,7 @@ context('Product Configuration', () => {
       configuration.checkAttrValueDisplayed(
         CAMERA_MODE,
         radioGroup,
-        '###RETRACT_VALUE_CODE###'
+        '###RETRACT_VALUE_CODE###',
       );
       configuration.checkAttrValueDisplayed(CAMERA_MODE, radioGroup, 'P');
       configuration.checkAttrValueDisplayed(CAMERA_MODE, radioGroup, 'S');
@@ -395,7 +395,7 @@ context('Product Configuration', () => {
       configuration.checkValueSelected(
         radioGroup,
         CAMERA_MODE,
-        '###RETRACT_VALUE_CODE###'
+        '###RETRACT_VALUE_CODE###',
       );
     });
 
@@ -405,7 +405,7 @@ context('Product Configuration', () => {
         CAMERA_MODE,
         radioGroup,
         'S',
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'S');
 
@@ -413,7 +413,7 @@ context('Product Configuration', () => {
         CAMERA_MODE,
         radioGroup,
         'P',
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'P');
 
@@ -422,12 +422,12 @@ context('Product Configuration', () => {
         CAMERA_MODE,
         radioGroup,
         '###RETRACT_VALUE_CODE###',
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configuration.checkValueSelected(
         radioGroup,
         CAMERA_MODE,
-        '###RETRACT_VALUE_CODE###'
+        '###RETRACT_VALUE_CODE###',
       );
     });
   });
@@ -451,7 +451,7 @@ context('Product Configuration', () => {
     it('should support the conflict solving process', () => {
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
       );
       configurationVc.registerConfigurationUpdateRoute();
       configurationVc.clickOnNextBtnAndWait(PROJECTOR);
@@ -459,7 +459,7 @@ context('Product Configuration', () => {
         PROJECTOR_TYPE,
         radioGroup,
         PROJECTOR_LCD,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configurationVc.clickOnPreviousBtnAndWait(GENERAL);
       configurationVc.clickOnGroupAndWait(3);
@@ -469,7 +469,7 @@ context('Product Configuration', () => {
         radioGroup,
         GAMING_CONSOLE_YES,
         1,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
 
       configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
@@ -478,7 +478,7 @@ context('Product Configuration', () => {
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
 
       configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
@@ -488,7 +488,7 @@ context('Product Configuration', () => {
         radioGroup,
         GAMING_CONSOLE_YES,
         1,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
 
       // Navigate to a conflict group via clicking on 'Conflict Detected' link
@@ -499,7 +499,7 @@ context('Product Configuration', () => {
         configurationVc.clickOnConflictDetectedAndWait(GAMING_CONSOLE);
         configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
         configurationVc.checkConflictDescriptionDisplayed(
-          Conflict_msg_gaming_console
+          Conflict_msg_gaming_console,
         );
 
         // Navigate to a group that contains an attribute which is involved in a conflict via clicking on 'View in Configuration' link
@@ -514,14 +514,14 @@ context('Product Configuration', () => {
         configurationOverviewVc.clickOnResolveConflictsLinkOnOP();
         configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
         configurationVc.checkConflictDescriptionDisplayed(
-          Conflict_msg_gaming_console
+          Conflict_msg_gaming_console,
         );
       }
     });
     it('should display a success message on conflict resolution (CXSPA-2374)', () => {
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
       );
       configurationVc.registerConfigurationUpdateRoute();
       configurationVc.clickOnNextBtnAndWait(PROJECTOR);
@@ -529,7 +529,7 @@ context('Product Configuration', () => {
         PROJECTOR_TYPE,
         radioGroup,
         PROJECTOR_LCD,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configurationVc.clickOnPreviousBtnAndWait(GENERAL);
       configurationVc.clickOnGroupAndWait(3);
@@ -539,17 +539,17 @@ context('Product Configuration', () => {
         radioGroup,
         GAMING_CONSOLE_YES,
         1,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configurationVc.checkGlobalMessageNotDisplayed();
       configurationVc.deselectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO,
-        commerceRelease.isPricingEnabled
+        commerceRelease.isPricingEnabled,
       );
       configurationVc.checkGlobalMessageContains(
-        `Conflicts have been resolved`
+        `Conflicts have been resolved`,
       );
     });
   });

@@ -24,7 +24,7 @@ describe('EntityProcessesLoader Actions', () => {
       it('should create an action', () => {
         const action = new EntityProcessesIncrementAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
         );
         expect({ ...action }).toEqual({
           type: ENTITY_PROCESSES_INCREMENT_ACTION,
@@ -37,7 +37,7 @@ describe('EntityProcessesLoader Actions', () => {
       it('should create an action', () => {
         const action = new EntityProcessesDecrementAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
         );
         expect({ ...action }).toEqual({
           type: ENTITY_PROCESSES_DECREMENT_ACTION,
@@ -50,13 +50,13 @@ describe('EntityProcessesLoader Actions', () => {
       it('should create an action', () => {
         const action = new EntityProcessesLoaderResetAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
         );
         expect({ ...action }).toEqual({
           type: ENTITY_PROCESSES_LOADER_RESET_ACTION,
           meta: entityProcessesLoaderResetMeta(
             TEST_ENTITY_TYPE,
-            TEST_ENTITY_ID
+            TEST_ENTITY_ID,
           ),
         });
       });
@@ -68,7 +68,7 @@ describe('EntityProcessesLoader Actions', () => {
       it('should create a meta', () => {
         const meta = entityProcessesIncrementMeta(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
         );
         expect(meta).toEqual({
           ...processesIncrementMeta(TEST_ENTITY_TYPE),
@@ -81,7 +81,7 @@ describe('EntityProcessesLoader Actions', () => {
       it('should create a meta', () => {
         const meta = entityProcessesDecrementMeta(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
         );
         expect(meta).toEqual({
           ...processesDecrementMeta(TEST_ENTITY_TYPE),
@@ -94,7 +94,7 @@ describe('EntityProcessesLoader Actions', () => {
       it('should create a meta', () => {
         const meta = entityProcessesLoaderResetMeta(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
         );
         expect(meta).toEqual({
           ...processesLoaderResetMeta(TEST_ENTITY_TYPE),

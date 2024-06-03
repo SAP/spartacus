@@ -21,7 +21,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _data?: any
+    _data?: any,
   ) {
     lastDialogData = _data;
   }
@@ -140,7 +140,7 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
       groupSubject.next(group);
       tick(0);
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledTimes(
-        1
+        1,
       );
     }));
 
@@ -152,7 +152,7 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
       tick(0);
       expect(launchDialogService.closeDialog).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-        'CLOSE_NO_CONFLICTS_EXIST'
+        'CLOSE_NO_CONFLICTS_EXIST',
       );
     }));
 

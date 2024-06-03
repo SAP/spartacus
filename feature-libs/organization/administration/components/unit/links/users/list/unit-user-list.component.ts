@@ -36,6 +36,6 @@ export class UnitUserListComponent {
 
   constructor(
     protected currentUnitService: CurrentUnitService,
-    protected b2bUserService: B2BUserService
+    protected b2bUserService: B2BUserService,
   ) {}
 }

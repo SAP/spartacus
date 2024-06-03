@@ -66,14 +66,14 @@ export function selectOrderByOrderNumberAlias(shopName: string): void {
         cy.waitForOrderToBePlacedRequest(
           shopName,
           'USD',
-          orderNumber.toString()
+          orderNumber.toString(),
         );
 
         searchForOrder(orderNumber.toString());
         cy.get('@isFound').then((isOFound) => {
           found = isOFound ? ' ' : ' not ';
           cy.log(
-            "Order with number '" + orderNumber + "' is" + found + 'found'
+            "Order with number '" + orderNumber + "' is" + found + 'found',
           );
           if (!isFound) {
             // To refresh the order history content, navigate to the home page and back to the order history
@@ -87,7 +87,7 @@ export function selectOrderByOrderNumberAlias(shopName: string): void {
       cy.get(
         'cx-order-history a.cx-order-history-value:contains(' +
           `${orderNumber}` +
-          ')'
+          ')',
       )
         .click()
         .then(() => {
@@ -346,7 +346,7 @@ function findBundleItem(cartItemIndex: number): Chainable<JQuery<HTMLElement>> {
 export function checkBundleItemName(
   cartItemIndex: number,
   bundleItemIndex: number,
-  name: string
+  name: string,
 ) {
   findBundleItem(cartItemIndex).within(() => {
     cy.get('.cx-item-info')
@@ -367,7 +367,7 @@ export function checkBundleItemName(
 export function checkBundleItemPrice(
   cartItemIndex: number,
   bundleItemIndex: number,
-  price: string
+  price: string,
 ) {
   findBundleItem(cartItemIndex).within(() => {
     if (price) {
@@ -390,7 +390,7 @@ export function checkBundleItemPrice(
 export function checkBundleItemQuantity(
   cartItemIndex: number,
   bundleInfoIndex: number,
-  quantity: string
+  quantity: string,
 ) {
   findBundleItem(cartItemIndex).within(() => {
     if (quantity) {
@@ -429,7 +429,7 @@ function toggleBundleItems(linkName: string) {
  */
 export function checkAmountOfBundleItems(
   cartItemIndex: number,
-  itemsAmount: number
+  itemsAmount: number,
 ) {
   findBundleItem(cartItemIndex).within(() => {
     cy.get('.cx-number-items').should('contain', itemsAmount);

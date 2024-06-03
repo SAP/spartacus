@@ -33,13 +33,13 @@ export class ConfigureProductComponent {
   product$: Observable<Product> = (this.productListItemContext
     ? this.productListItemContext.product$
     : this.currentProductService
-    ? this.currentProductService.getProduct(
-        ConfiguratorProductScope.CONFIGURATOR
-      )
-    : of(null)
+      ? this.currentProductService.getProduct(
+          ConfiguratorProductScope.CONFIGURATOR,
+        )
+      : of(null)
   ).pipe(
     //needed because also currentProductService might return null
-    map((product) => (product ? product : this.nonConfigurable))
+    map((product) => (product ? product : this.nonConfigurable)),
   );
 
   ownerTypeProduct: CommonConfigurator.OwnerType =
@@ -96,11 +96,11 @@ export class ConfigureProductComponent {
       {
         queryParams: {
           displayRestartDialog: this.isDisplayRestartDialog(
-            product.configuratorType
+            product.configuratorType,
           ),
           productCode: product.code,
         },
-      }
+      },
     );
   }
 
@@ -112,6 +112,6 @@ export class ConfigureProductComponent {
 
   constructor(
     @Optional() protected productListItemContext: ProductListItemContext, // when on PLP
-    @Optional() protected currentProductService: CurrentProductService // when on PDP
+    @Optional() protected currentProductService: CurrentProductService, // when on PDP
   ) {}
 }

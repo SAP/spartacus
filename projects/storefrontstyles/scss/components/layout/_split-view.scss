@@ -54,8 +54,9 @@
 
     flex: 1 0
       calc(
-        (100% / min(var(--cx-active-view), var(--cx-max-views))) -
-          var(--cx-split-gutter)
+        (100% / min(var(--cx-active-view), var(--cx-max-views))) - var(
+            --cx-split-gutter
+          )
       );
 
     margin-inline-end: var(--cx-split-gutter);

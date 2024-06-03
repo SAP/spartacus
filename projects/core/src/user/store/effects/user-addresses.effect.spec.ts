@@ -54,13 +54,13 @@ describe('User Addresses effect', () => {
     });
 
     userAddressesEffect = TestBed.inject(
-      fromUserAddressesEffect.UserAddressesEffects
+      fromUserAddressesEffect.UserAddressesEffects,
     );
     userAddressConnector = TestBed.inject(UserAddressConnector);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
     spyOn(userAddressConnector, 'getAll').and.returnValue(
-      of(mockUserAddresses)
+      of(mockUserAddresses),
     );
     spyOn(userAddressConnector, 'add').and.returnValue(of({}));
 
@@ -74,7 +74,7 @@ describe('User Addresses effect', () => {
     it('should load user addresses', () => {
       const action = new UserActions.LoadUserAddresses('address123');
       const completion = new UserActions.LoadUserAddressesSuccess(
-        mockUserAddresses
+        mockUserAddresses,
       );
 
       actions$ = hot('-a', { a: action });
@@ -131,7 +131,7 @@ describe('User Addresses effect', () => {
       expect(userAddressesEffect.updateUserAddress$).toBeObservable(expected);
       expect(globalMessageService.add).not.toHaveBeenCalledWith(
         { key: 'addressForm.userAddressUpdateSuccess' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
     });
   });

@@ -19,7 +19,7 @@ export class ConflictHandler extends HttpErrorHandler {
   handleError() {
     this.globalMessageService.add(
       { key: 'httpHandlers.conflict' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   }
 

@@ -19,7 +19,7 @@ declare global {
        */
       requireCostCenterAddressSelected: (
         auth: {},
-        cartId?: string
+        cartId?: string,
       ) => Cypress.Chainable<{}>;
     }
   }
@@ -32,7 +32,7 @@ Cypress.Commands.add('requireCostCenterAddressSelected', (auth, cartId) => {
     return cy.request({
       method: 'GET',
       url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/costcenters`,
       form: false,
       headers: {
@@ -45,7 +45,7 @@ Cypress.Commands.add('requireCostCenterAddressSelected', (auth, cartId) => {
     return cy.request({
       method: 'PUT',
       url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/users/current/carts/${cartCode}/costcenter?costCenterId=${costCenterCode}`,
       form: false,
       headers: {
@@ -58,7 +58,7 @@ Cypress.Commands.add('requireCostCenterAddressSelected', (auth, cartId) => {
     return cy.request({
       method: 'PUT',
       url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/orgUsers/current/carts/${cartCode}/addresses/delivery?addressId=${addressId}`,
       form: false,
       headers: {

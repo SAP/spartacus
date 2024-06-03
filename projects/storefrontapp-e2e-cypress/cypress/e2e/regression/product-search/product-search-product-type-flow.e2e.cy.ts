@@ -30,30 +30,30 @@ context('Product search product type flow', () => {
         createProductQuery(
           QUERY_ALIAS.SONY,
           category,
-          PRODUCT_LISTING.PRODUCTS_PER_PAGE
+          PRODUCT_LISTING.PRODUCTS_PER_PAGE,
         );
         createProductFacetQuery('brand', category, QUERY_ALIAS.BRAND_PAGE);
         createProductQuery(
           QUERY_ALIAS.SONY_CLEAR_FACET,
           `${category}:relevance`,
-          PRODUCT_LISTING.PRODUCTS_PER_PAGE
+          PRODUCT_LISTING.PRODUCTS_PER_PAGE,
         );
         createProductFacetQuery(
           'price',
           category,
-          QUERY_ALIAS.PRICE_DSC_FILTER
+          QUERY_ALIAS.PRICE_DSC_FILTER,
         );
         createProductFacetQuery(
           'category',
           category,
-          QUERY_ALIAS.CATEGORY_FILTER
+          QUERY_ALIAS.CATEGORY_FILTER,
         );
         createProductFacetQuery('Colour', category, QUERY_ALIAS.COLOR_FILTER);
 
         clickSearchIcon();
 
         cy.get(
-          'cx-searchbox input[aria-label="Enter product name or SKU"]'
+          'cx-searchbox input[aria-label="Enter product name or SKU"]',
         ).type(`${category}{enter}`);
 
         cy.wait(`@${QUERY_ALIAS.SONY}`)
@@ -88,7 +88,7 @@ context('Product search product type flow', () => {
 
         assertNumberOfProducts(
           `@${QUERY_ALIAS.PRICE_DSC_FILTER}`,
-          `"${category}"`
+          `"${category}"`,
         );
 
         clearSelectedFacet();
@@ -99,7 +99,7 @@ context('Product search product type flow', () => {
 
         assertNumberOfProducts(
           `@${QUERY_ALIAS.SONY_CLEAR_FACET}`,
-          `"${category}"`
+          `"${category}"`,
         );
 
         // Filter by category
@@ -111,7 +111,7 @@ context('Product search product type flow', () => {
 
         assertNumberOfProducts(
           `@${QUERY_ALIAS.CATEGORY_FILTER}`,
-          `"${category}"`
+          `"${category}"`,
         );
 
         clearSelectedFacet();
@@ -122,7 +122,7 @@ context('Product search product type flow', () => {
 
         assertNumberOfProducts(
           `@${QUERY_ALIAS.SONY_CLEAR_FACET}`,
-          `"${category}"`
+          `"${category}"`,
         );
 
         clickFacet('Color');
@@ -141,7 +141,7 @@ context('Product search product type flow', () => {
 
         assertNumberOfProducts(
           `@${QUERY_ALIAS.SONY_CLEAR_FACET}`,
-          `"${category}"`
+          `"${category}"`,
         );
       });
     });

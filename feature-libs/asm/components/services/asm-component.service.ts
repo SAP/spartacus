@@ -35,7 +35,7 @@ export class AsmComponentService {
     protected csAgentAuthService: CsAgentAuthService,
     protected winRef: WindowRef,
     protected asmEnablerService?: AsmEnablerService,
-    protected asmDeepLinkService?: AsmDeepLinkService
+    protected asmDeepLinkService?: AsmDeepLinkService,
   ) {}
 
   /**

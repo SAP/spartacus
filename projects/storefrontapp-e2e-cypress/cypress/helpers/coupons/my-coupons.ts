@@ -21,7 +21,7 @@ export const PageSize = 10;
 export const NumberInPage2 = 1;
 
 export const pageUrl = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-  'BASE_SITE'
+  'BASE_SITE',
 )}`;
 
 export function verifyPagingAndSorting() {
@@ -33,22 +33,22 @@ export function verifyPagingAndSorting() {
     'cx-my-coupons .cx-coupon-card:first .cx-coupon-card-id';
   cy.get(firstCouponCodeSelector).should(
     'contain',
-    firstCouponStartDateAscending
+    firstCouponStartDateAscending,
   );
   cy.get('.top cx-sorting .ng-select').ngSelect('Start Date (descending)');
   cy.get(firstCouponCodeSelector).should(
     'contain',
-    firstCouponStartDateDescending
+    firstCouponStartDateDescending,
   );
   cy.get('.top cx-sorting .ng-select').ngSelect('End Date (ascending)');
   cy.get(firstCouponCodeSelector).should(
     'contain',
-    firstCouponEndDateAscending
+    firstCouponEndDateAscending,
   );
   cy.get('.top cx-sorting .ng-select').ngSelect('End Date (descending)');
   cy.get(firstCouponCodeSelector).should(
     'contain',
-    firstCouponEndDateDescending
+    firstCouponEndDateDescending,
   );
   cy.get('.cx-coupon-card').should('have.length', PageSize);
   cy.get('cx-pagination:last a').should('have.length', 4);
@@ -97,7 +97,7 @@ export function verifyMyCoupons() {
 export function claimCoupon(couponCode: string) {
   const claimCouponPage = waitForPage(
     claimCouponUrl + couponCode,
-    'getClaimedCouponPage'
+    'getClaimedCouponPage',
   );
 
   const claimCoupon = waitForClaimCoupon(couponCode);
@@ -123,7 +123,7 @@ export function createStandardUser() {
 export function verifyCouponsClaiming() {
   cy.get('cx-my-coupons .cx-section-msg').should(
     'contain',
-    'You have no coupons available'
+    'You have no coupons available',
   );
   claimCoupon(CouponWithOpenCatalog);
   cy.location('pathname').should('contain', myCouponsUrl);

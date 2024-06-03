@@ -18,7 +18,7 @@ export class CartNotEmptyGuard {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,
-    protected router: Router
+    protected router: Router,
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -26,11 +26,11 @@ export class CartNotEmptyGuard {
       map((cart) => {
         if (this.isEmpty(cart)) {
           return this.router.parseUrl(
-            this.semanticPathService.get('home') ?? ''
+            this.semanticPathService.get('home') ?? '',
           );
         }
         return true;
-      })
+      }),
     );
   }
 

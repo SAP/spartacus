@@ -86,46 +86,44 @@ describe('ConfigurationGroupTitleComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let hamburgerMenuService: HamburgerMenuService;
 
-  beforeEach(
-    waitForAsync(() => {
-      routerStateObservable = of(ConfigurationTestData.mockRouterState);
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorGroupTitleComponent,
-          MockHamburgerMenuComponent,
-        ],
-        providers: [
-          HamburgerMenuService,
-          {
-            provide: Router,
-            useClass: MockRouter,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
+  beforeEach(waitForAsync(() => {
+    routerStateObservable = of(ConfigurationTestData.mockRouterState);
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        ConfiguratorGroupTitleComponent,
+        MockHamburgerMenuComponent,
+      ],
+      providers: [
+        HamburgerMenuService,
+        {
+          provide: Router,
+          useClass: MockRouter,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
 
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupService,
-          },
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupService,
+        },
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
     component = fixture.componentInstance;
@@ -135,34 +133,34 @@ describe('ConfigurationGroupTitleComponent', () => {
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
 
     configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>,
     );
     configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
 
     configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>,
     );
 
     breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
+      BreakpointService as Type<BreakpointService>,
     );
 
     spyOn(breakpointService, 'isUp').and.returnValue(of(false));
 
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>,
     );
 
     spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
     spyOn(configuratorStorefrontUtilsService, 'removeStyling');
     spyOn(
       configuratorStorefrontUtilsService,
-      'focusFirstActiveElement'
+      'focusFirstActiveElement',
     ).and.stub();
 
     hamburgerMenuService = TestBed.inject(
-      HamburgerMenuService as Type<HamburgerMenuService>
+      HamburgerMenuService as Type<HamburgerMenuService>,
     );
     spyOn(hamburgerMenuService, 'toggle').and.callThrough();
   });
@@ -174,10 +172,10 @@ describe('ConfigurationGroupTitleComponent', () => {
     expect(component).toBeDefined();
     expect(configuratorStorefrontUtilsService.changeStyling).toHaveBeenCalled();
     expect(
-      configuratorStorefrontUtilsService.changeStyling
+      configuratorStorefrontUtilsService.changeStyling,
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'block');
     expect(
-      configuratorStorefrontUtilsService.focusFirstActiveElement
+      configuratorStorefrontUtilsService.focusFirstActiveElement,
     ).toHaveBeenCalledWith('cx-hamburger-menu');
   });
 
@@ -188,14 +186,14 @@ describe('ConfigurationGroupTitleComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'cx-hamburger-menu'
+      'cx-hamburger-menu',
     );
     expect(configuratorStorefrontUtilsService.changeStyling).toHaveBeenCalled();
     expect(
-      configuratorStorefrontUtilsService.changeStyling
+      configuratorStorefrontUtilsService.changeStyling,
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'none');
     expect(
-      configuratorStorefrontUtilsService.focusFirstActiveElement
+      configuratorStorefrontUtilsService.focusFirstActiveElement,
     ).toHaveBeenCalledWith('.cx-group-title');
   });
 
@@ -208,16 +206,16 @@ describe('ConfigurationGroupTitleComponent', () => {
   describe('getGroupTitle', () => {
     it('should return group title', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(false)
+        of(false),
       );
       expect(component.getGroupTitle(config.groups[0])).toEqual(
-        config.groups[0].description
+        config.groups[0].description,
       );
     });
 
     it('should return group title for expert mode', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
+        of(true),
       );
       const groupMenuTitle =
         config.groups[0].description + ' / [' + config.groups[0].name + ']';
@@ -228,11 +226,11 @@ describe('ConfigurationGroupTitleComponent', () => {
       const configForExpMode =
         ConfigurationTestData.productConfigurationWithConflicts;
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
+        of(true),
       );
       fixture.detectChanges();
       expect(
-        component.getGroupTitle(configForExpMode.groups[0].subGroups[0])
+        component.getGroupTitle(configForExpMode.groups[0].subGroups[0]),
       ).toEqual(configForExpMode.groups[0].subGroups[0].description);
     });
   });
@@ -248,7 +246,7 @@ describe('ConfigurationGroupTitleComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-hamburger-menu'
+        'cx-hamburger-menu',
       );
     });
 
@@ -262,7 +260,7 @@ describe('ConfigurationGroupTitleComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-hamburger-menu'
+        'cx-hamburger-menu',
       );
     });
   });
@@ -273,7 +271,7 @@ describe('ConfigurationGroupTitleComponent', () => {
       component.ngOnDestroy();
       expect(spyUnsubscribe).toHaveBeenCalled();
       expect(
-        configuratorStorefrontUtilsService.removeStyling
+        configuratorStorefrontUtilsService.removeStyling,
       ).toHaveBeenCalledWith(component['PRE_HEADER'], 'display');
     });
   });

@@ -22,7 +22,7 @@ describe('Consignment Tracking Reducer', () => {
 
       const { initialState } = fromTrackingReducer;
       const action = new OrderActions.LoadConsignmentTrackingSuccess(
-        mockTracking
+        mockTracking,
       );
       const state = fromTrackingReducer.reducer(initialState, action);
 

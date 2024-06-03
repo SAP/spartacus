@@ -96,7 +96,7 @@ describe('CustomerTicketingConnentor', () => {
 
     expect(adapter.createTicket).toHaveBeenCalledWith(
       'current',
-      mockTicketStarter
+      mockTicketStarter,
     );
   });
 
@@ -110,7 +110,7 @@ describe('CustomerTicketingConnentor', () => {
     expect(adapter.createTicketEvent).toHaveBeenCalledWith(
       'current',
       '1',
-      mockTicketEvent
+      mockTicketEvent,
     );
   });
 
@@ -125,7 +125,7 @@ describe('CustomerTicketingConnentor', () => {
       'current',
       '1',
       'mockEventCode',
-      '' as unknown as File
+      '' as unknown as File,
     );
   });
 
@@ -140,7 +140,7 @@ describe('CustomerTicketingConnentor', () => {
       'current',
       '1',
       'mockEventCode',
-      'mockId'
+      'mockId',
     );
   });
 });

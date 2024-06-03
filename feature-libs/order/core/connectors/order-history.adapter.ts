@@ -37,7 +37,7 @@ export abstract class OrderHistoryAdapter {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<OrderHistoryList>;
 
   /**
@@ -49,7 +49,7 @@ export abstract class OrderHistoryAdapter {
   abstract getConsignmentTracking(
     orderCode: string,
     consignmentCode: string,
-    userId?: string
+    userId?: string,
   ): Observable<ConsignmentTracking>;
 
   /**
@@ -59,7 +59,7 @@ export abstract class OrderHistoryAdapter {
    */
   abstract createReturnRequest(
     userId: string,
-    returnRequestInput: ReturnRequestEntryInputList
+    returnRequestInput: ReturnRequestEntryInputList,
   ): Observable<ReturnRequest>;
 
   /**
@@ -69,7 +69,7 @@ export abstract class OrderHistoryAdapter {
    */
   abstract loadReturnRequestDetail(
     userId: string,
-    returnRequestCode: string
+    returnRequestCode: string,
   ): Observable<ReturnRequest>;
 
   /**
@@ -83,7 +83,7 @@ export abstract class OrderHistoryAdapter {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<ReturnRequestList>;
 
   /**
@@ -95,7 +95,7 @@ export abstract class OrderHistoryAdapter {
   abstract cancel(
     userId: string,
     orderCode: string,
-    cancelRequestInput: CancellationRequestEntryInputList
+    cancelRequestInput: CancellationRequestEntryInputList,
   ): Observable<{}>;
 
   /**
@@ -107,6 +107,6 @@ export abstract class OrderHistoryAdapter {
   abstract cancelReturnRequest(
     userId: string,
     returnRequestCode: string,
-    returnRequestModification: ReturnRequestModification
+    returnRequestModification: ReturnRequestModification,
   ): Observable<{}>;
 }

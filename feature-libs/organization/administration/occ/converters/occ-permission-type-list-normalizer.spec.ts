@@ -45,7 +45,7 @@ describe('PermissionTypeListNormalizer', () => {
     [OccPermissionTypeListNormalizer],
     (permissionsListNormalizer: OccPermissionTypeListNormalizer) => {
       expect(permissionsListNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert permission type list', () => {
@@ -56,7 +56,7 @@ describe('PermissionTypeListNormalizer', () => {
   it('should convert permission type list with applied target', () => {
     const result = service.convert(
       permissionTypeList,
-      targetPermissionTypeList
+      targetPermissionTypeList,
     );
     expect(result).toEqual(targetPermissionTypeList);
   });

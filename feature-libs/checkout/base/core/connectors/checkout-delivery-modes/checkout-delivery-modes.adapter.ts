@@ -18,7 +18,7 @@ export abstract class CheckoutDeliveryModesAdapter {
   abstract setMode(
     userId: string,
     cartId: string,
-    deliveryModeId: string
+    deliveryModeId: string,
   ): Observable<unknown>;
 
   /**
@@ -29,7 +29,7 @@ export abstract class CheckoutDeliveryModesAdapter {
    */
   abstract getSupportedModes(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<DeliveryMode[]>;
 
   /**
@@ -40,6 +40,6 @@ export abstract class CheckoutDeliveryModesAdapter {
    */
   abstract clearCheckoutDeliveryMode(
     userId: string,
-    cartId: string
+    cartId: string,
   ): Observable<unknown>;
 }

@@ -18,6 +18,6 @@ export abstract class CheckoutCostCenterAdapter {
   abstract setCostCenter(
     userId: string,
     cartId: string,
-    costCenterId: string
+    costCenterId: string,
   ): Observable<Cart>;
 }

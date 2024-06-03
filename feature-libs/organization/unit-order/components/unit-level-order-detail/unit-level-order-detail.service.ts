@@ -26,11 +26,11 @@ export class UnitLevelOrderDetailService {
 
   constructor(
     private unitOrderFacade: UnitOrderFacade,
-    private routingService: RoutingService
+    private routingService: RoutingService,
   ) {
     this.orderCode$ = this.routingService.getRouterState().pipe(
       map((routingData) => routingData.state.params.orderCode),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
 
     this.orderLoad$ = this.orderCode$.pipe(
@@ -41,13 +41,13 @@ export class UnitLevelOrderDetailService {
           this.unitOrderFacade.clearOrderDetails();
         }
       }),
-      shareReplay({ bufferSize: 1, refCount: true })
+      shareReplay({ bufferSize: 1, refCount: true }),
     );
   }
 
   getOrderDetails(): Observable<Order> {
     return this.orderLoad$.pipe(
-      switchMap(() => this.unitOrderFacade.getOrderDetails())
+      switchMap(() => this.unitOrderFacade.getOrderDetails()),
     );
   }
 }

@@ -17,7 +17,7 @@ export const initialState: CustomerCouponSearchResult = {
 };
 export function reducer(
   state = initialState,
-  action: fromActions.CustomerCouponAction
+  action: fromActions.CustomerCouponAction,
 ): CustomerCouponSearchResult {
   switch (action.type) {
     case fromActions.LOAD_CUSTOMER_COUPONS_SUCCESS: {
@@ -27,13 +27,13 @@ export function reducer(
     case fromActions.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {
       const updatedCustomerCoupon = action.payload.coupon;
       const customerCoupons = new Array<CustomerCoupon>(
-        state.coupons?.length ?? 0
+        state.coupons?.length ?? 0,
       );
       state.coupons?.forEach((customerCoupon: CustomerCoupon, index) =>
         updatedCustomerCoupon &&
         customerCoupon.couponId === updatedCustomerCoupon.couponId
           ? (customerCoupons[index] = updatedCustomerCoupon)
-          : (customerCoupons[index] = customerCoupon)
+          : (customerCoupons[index] = customerCoupon),
       );
       return { ...state, coupons: customerCoupons };
     }
@@ -41,7 +41,7 @@ export function reducer(
     case fromActions.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {
       const updatedCouponCode = action.payload;
       const customerCoupons = new Array<CustomerCoupon>(
-        state.coupons?.length ?? 0
+        state.coupons?.length ?? 0,
       );
       state.coupons?.forEach((customerCoupon: CustomerCoupon, index) =>
         customerCoupon.couponId === updatedCouponCode
@@ -49,7 +49,7 @@ export function reducer(
               ...customerCoupon,
               notificationOn: false,
             })
-          : (customerCoupons[index] = customerCoupon)
+          : (customerCoupons[index] = customerCoupon),
       );
       return { ...state, coupons: customerCoupons };
     }

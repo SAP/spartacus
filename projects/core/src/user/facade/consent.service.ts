@@ -18,7 +18,7 @@ import { UserConsentService } from './user-consent.service';
 export class ConsentService {
   constructor(
     protected anonymousConsentsService: AnonymousConsentsService,
-    protected userConsentService: UserConsentService
+    protected userConsentService: UserConsentService,
   ) {}
 
   /**
@@ -26,11 +26,11 @@ export class ConsentService {
    * @param templateCode for which to return either anonymous or registered consent.
    */
   getConsent(
-    templateCode: string
+    templateCode: string,
   ): Observable<AnonymousConsent | Consent | undefined> {
     return merge(
       this.userConsentService.getConsent(templateCode),
-      this.anonymousConsentsService.getConsent(templateCode)
+      this.anonymousConsentsService.getConsent(templateCode),
     );
   }
 
@@ -51,7 +51,7 @@ export class ConsentService {
           ? this.anonymousConsentsService.isConsentGiven(consent)
           : this.userConsentService.isConsentGiven(consent);
       }),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -72,7 +72,7 @@ export class ConsentService {
           ? this.anonymousConsentsService.isConsentWithdrawn(consent)
           : this.userConsentService.isConsentWithdrawn(consent);
       }),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -104,7 +104,7 @@ export class ConsentService {
    * Returns `true` if the provided consent is of type `AnonymousConsent`. Otherwise, `false` is returned.
    */
   isAnonymousConsentType(
-    consent: AnonymousConsent | Consent
+    consent: AnonymousConsent | Consent,
   ): consent is AnonymousConsent {
     if (!consent) {
       return false;

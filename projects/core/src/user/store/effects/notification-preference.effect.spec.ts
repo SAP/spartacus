@@ -35,47 +35,47 @@ describe('Notification Preference Effect', () => {
     });
 
     notificationPreferenceEffects = TestBed.inject(
-      fromEffect.NotificationPreferenceEffects
+      fromEffect.NotificationPreferenceEffects,
     );
     userNotificationPreferenceConnector = TestBed.inject(
-      UserNotificationPreferenceConnector
+      UserNotificationPreferenceConnector,
     );
   });
 
   describe('LoadNotificationPreference$', () => {
     it('should return LoadNotificationPreferencesSuccess action', () => {
       spyOn(userNotificationPreferenceConnector, 'loadAll').and.returnValue(
-        of(mockNotificationPreference)
+        of(mockNotificationPreference),
       );
 
       const action = new UserActions.LoadNotificationPreferences(userId);
       const completion = new UserActions.LoadNotificationPreferencesSuccess(
-        mockNotificationPreference
+        mockNotificationPreference,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(notificationPreferenceEffects.loadPreferences$).toBeObservable(
-        expected
+        expected,
       );
     });
 
     it('should return LoadNotificationPreferencesFail action', () => {
       spyOn(userNotificationPreferenceConnector, 'loadAll').and.returnValue(
-        throwError(() => error)
+        throwError(() => error),
       );
 
       const action = new UserActions.LoadNotificationPreferences(userId);
       const completion = new UserActions.LoadNotificationPreferencesFail(
-        undefined
+        undefined,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(notificationPreferenceEffects.loadPreferences$).toBeObservable(
-        expected
+        expected,
       );
     });
   });
@@ -83,7 +83,7 @@ describe('Notification Preference Effect', () => {
   describe('updateNotificationPreferences$', () => {
     it('should return NotificationPreferencesSuccess action', () => {
       spyOn(userNotificationPreferenceConnector, 'update').and.returnValue(
-        of(mockNotificationPreference)
+        of(mockNotificationPreference),
       );
 
       const action = new UserActions.UpdateNotificationPreferences({
@@ -91,20 +91,20 @@ describe('Notification Preference Effect', () => {
         preferences: mockNotificationPreference,
       });
       const completion = new UserActions.UpdateNotificationPreferencesSuccess(
-        mockNotificationPreference
+        mockNotificationPreference,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(notificationPreferenceEffects.updatePreferences$).toBeObservable(
-        expected
+        expected,
       );
     });
 
     it('should return NotificationPreferencesFail action', () => {
       spyOn(userNotificationPreferenceConnector, 'update').and.returnValue(
-        throwError(() => error)
+        throwError(() => error),
       );
 
       const action = new UserActions.UpdateNotificationPreferences({
@@ -112,14 +112,14 @@ describe('Notification Preference Effect', () => {
         preferences: mockNotificationPreference,
       });
       const completion = new UserActions.UpdateNotificationPreferencesFail(
-        undefined
+        undefined,
       );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(notificationPreferenceEffects.updatePreferences$).toBeObservable(
-        expected
+        expected,
       );
     });
   });

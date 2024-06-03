@@ -64,32 +64,30 @@ describe('FacetListComponent', () => {
   let service: FacetService;
   let renderer: Renderer2;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [
-          FacetListComponent,
-          MockIconComponent,
-          MockFacetComponent,
-          MockKeyboadFocusDirective,
-        ],
-        providers: [
-          { provide: FacetService, useClass: MockFacetService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        FacetListComponent,
+        MockIconComponent,
+        MockFacetComponent,
+        MockKeyboadFocusDirective,
+      ],
+      providers: [
+        { provide: FacetService, useClass: MockFacetService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
           },
-        ],
-      })
-        .overrideComponent(FacetListComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+        },
+      ],
     })
-  );
+      .overrideComponent(FacetListComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetListComponent);
@@ -127,7 +125,7 @@ describe('FacetListComponent', () => {
 
       expect(renderer.addClass).toHaveBeenCalledWith(
         jasmine.any(HTMLElement),
-        'modal-open'
+        'modal-open',
       );
     });
 
@@ -138,7 +136,7 @@ describe('FacetListComponent', () => {
 
       expect(renderer.removeClass).toHaveBeenCalledWith(
         jasmine.any(HTMLElement),
-        'modal-open'
+        'modal-open',
       );
     });
   });
@@ -170,7 +168,7 @@ describe('FacetListComponent', () => {
       spyOn(service, 'getState').and.returnValue(
         of({
           toggled: FacetGroupCollapsedState.COLLAPSED,
-        } as FacetCollapseState)
+        } as FacetCollapseState),
       );
     });
 
@@ -212,7 +210,7 @@ describe('FacetListComponent', () => {
       spyOn(service, 'getState').and.returnValue(
         of({
           toggled: FacetGroupCollapsedState.EXPANDED,
-        } as FacetCollapseState)
+        } as FacetCollapseState),
       );
     });
 

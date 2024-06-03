@@ -107,7 +107,7 @@ describe('QuoteStorefrontUtilsService', () => {
       });
 
       spyOn(list, 'getBoundingClientRect').and.returnValue(
-        new DOMRect(100, 100, 250, 500)
+        new DOMRect(100, 100, 250, 500),
       );
     });
 
@@ -165,7 +165,7 @@ describe('QuoteStorefrontUtilsService', () => {
       list.style.border = 'thick double #32a1ce;';
 
       spyOn(list, 'getBoundingClientRect').and.returnValue(
-        new DOMRect(100, 100, 250, 500)
+        new DOMRect(100, 100, 250, 500),
       );
     });
 
@@ -189,19 +189,19 @@ describe('QuoteStorefrontUtilsService', () => {
   describe('getDomRectValue', () => {
     it('should return undefined if no element is found by a selector query', () => {
       expect(
-        classUnderTest['getDomRectValue']('unknown-query', 'bottom')
+        classUnderTest['getDomRectValue']('unknown-query', 'bottom'),
       ).toBeUndefined();
     });
 
     it('should return undefined if element does not contain a searched property', () => {
       expect(
-        classUnderTest['getDomRectValue']('cx-quote-list', 'property')
+        classUnderTest['getDomRectValue']('cx-quote-list', 'property'),
       ).toBeUndefined();
     });
 
     it('should return property value', () => {
       expect(
-        classUnderTest['getDomRectValue']('cx-quote-list', 'top')
+        classUnderTest['getDomRectValue']('cx-quote-list', 'top'),
       ).toBeDefined();
     });
   });

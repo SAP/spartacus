@@ -19,7 +19,7 @@ export class OccOrgUnitApprovalProcessNormalizer
 
   convert(
     source: Occ.B2BApprovalProcessList,
-    target?: B2BApprovalProcess[]
+    target?: B2BApprovalProcess[],
   ): B2BApprovalProcess[] {
     if (target === undefined) {
       target = [...(source.approvalProcesses as any)];

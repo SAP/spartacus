@@ -32,7 +32,7 @@ export class CartValidationGuard {
     protected globalMessageService: GlobalMessageService,
     protected activeCartService: ActiveCartFacade,
     protected cartValidationStateService: CartValidationStateService,
-    protected cartConfigService: CartConfigService
+    protected cartConfigService: CartConfigService,
   ) {}
 
   protected GLOBAL_MESSAGE_TIMEOUT = 10000;
@@ -44,7 +44,7 @@ export class CartValidationGuard {
           withLatestFrom(this.activeCartService.getEntries()),
           map(([cartModificationList, cartEntries]) => {
             this.cartValidationStateService.updateValidationResultAndRoutingId(
-              cartModificationList.cartModifications ?? []
+              cartModificationList.cartModifications ?? [],
             );
 
             if (
@@ -75,16 +75,16 @@ export class CartValidationGuard {
               this.globalMessageService.add(
                 validationResultMessage,
                 GlobalMessageType.MSG_TYPE_ERROR,
-                this.GLOBAL_MESSAGE_TIMEOUT
+                this.GLOBAL_MESSAGE_TIMEOUT,
               );
               this.activeCartService.reloadActiveCart();
               return this.router.parseUrl(
-                this.semanticPathService.get('cart') ?? ''
+                this.semanticPathService.get('cart') ?? '',
               );
             }
 
             return true;
-          })
+          }),
         );
   }
 }

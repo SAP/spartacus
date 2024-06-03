@@ -68,7 +68,7 @@ function modifyServerImports(): Rule {
       updateContent = updateContent.replace(OLD_ZONE_IMPORT, NEW_ZONE_IMPORT);
       updateContent = updateContent.replace(
         NGUNIVERSAL_IMPORT,
-        SSR_SETUP_IMPORT
+        SSR_SETUP_IMPORT,
       );
       tree.overwrite(SERVER_FILENAME, updateContent);
     }
@@ -116,7 +116,7 @@ function updateTokenImportPaths(): Rule {
             filePath,
             fileContent,
             ts.ScriptTarget.Latest,
-            true
+            true,
           );
           const importPaths = getExpressImportPaths(source);
 
@@ -124,7 +124,7 @@ function updateTokenImportPaths(): Rule {
             const importPathsRegex = new RegExp(importPaths.join('|'), 'g');
             const updatedFileContent = fileContent.replace(
               importPathsRegex,
-              SSR_SETUP_IMPORT
+              SSR_SETUP_IMPORT,
             );
 
             tree.overwrite(filePath, updatedFileContent);

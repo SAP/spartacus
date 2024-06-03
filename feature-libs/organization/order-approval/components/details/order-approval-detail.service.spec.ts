@@ -83,7 +83,7 @@ describe('OrderApprovalDetailService', () => {
       .unsubscribe();
     expect(approvalCodeReturned).toBeTruthy();
     expect(approvalCodeReturned).toEqual(
-      mockRouterState.state.params.approvalCode
+      mockRouterState.state.params.approvalCode,
     );
   });
 });

@@ -34,7 +34,7 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
         product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
         promotions: this.converter.convert(
           { item: entry, promotions: target?.appliedProductPromotions },
-          ORDER_ENTRY_PROMOTIONS_NORMALIZER
+          ORDER_ENTRY_PROMOTIONS_NORMALIZER,
         ),
       }));
     }
@@ -54,25 +54,25 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
   private removeDuplicatePromotions(source: any, target: Cart): void {
     if (source && source.potentialOrderPromotions) {
       target.potentialOrderPromotions = this.removeDuplicateItems(
-        source.potentialOrderPromotions
+        source.potentialOrderPromotions,
       );
     }
 
     if (source && source.potentialProductPromotions) {
       target.potentialProductPromotions = this.removeDuplicateItems(
-        source.potentialProductPromotions
+        source.potentialProductPromotions,
       );
     }
 
     if (source && source.appliedOrderPromotions) {
       target.appliedOrderPromotions = this.removeDuplicateItems(
-        source.appliedOrderPromotions
+        source.appliedOrderPromotions,
       );
     }
 
     if (source && source.appliedProductPromotions) {
       target.appliedProductPromotions = this.removeDuplicateItems(
-        source.appliedProductPromotions
+        source.appliedProductPromotions,
       );
     }
   }

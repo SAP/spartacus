@@ -29,7 +29,7 @@ export abstract class CurrentItemService<T> {
    */
   readonly key$: Observable<string> = this.routingService.getParams().pipe(
     map((params) => params[this.getParamKey()]),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   /**
@@ -38,7 +38,7 @@ export abstract class CurrentItemService<T> {
    * The active item is loaded by the active `key$`.
    */
   readonly item$: Observable<T | undefined> = this.key$.pipe(
-    switchMap((code: string) => (code ? this.getItem(code) : of(undefined)))
+    switchMap((code: string) => (code ? this.getItem(code) : of(undefined))),
   );
 
   /**
@@ -46,7 +46,7 @@ export abstract class CurrentItemService<T> {
    */
   readonly b2bUnit$: Observable<string> = this.routingService.getParams().pipe(
     map((params) => params[ROUTE_PARAMS.unitCode]),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   /**

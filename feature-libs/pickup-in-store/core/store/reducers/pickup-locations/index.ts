@@ -23,7 +23,7 @@ export function getReducers(): ActionReducerMap<PickupLocationsState> {
 export const pickupLocationsReducersToken: InjectionToken<
   ActionReducerMap<PickupLocationsState>
 > = new InjectionToken<ActionReducerMap<PickupLocationsState>>(
-  'PickupLocationsReducers'
+  'PickupLocationsReducers',
 );
 
 export const pickupLocationsReducersProvider: Provider = {

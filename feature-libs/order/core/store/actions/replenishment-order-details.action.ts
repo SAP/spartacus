@@ -34,7 +34,7 @@ export class LoadReplenishmentOrderDetails extends StateUtils.LoaderLoadAction {
     public payload: {
       userId: string;
       replenishmentOrderCode: string;
-    }
+    },
   ) {
     super(REPLENISHMENT_ORDER_DETAILS);
   }
@@ -67,7 +67,7 @@ export class CancelReplenishmentOrder extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       replenishmentOrderCode: string;
-    }
+    },
   ) {
     super(PROCESS_FEATURE, CANCEL_REPLENISHMENT_ORDER_PROCESS_ID);
   }

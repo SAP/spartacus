@@ -139,22 +139,22 @@ describe('AsmCustomer360PromotionComponent', () => {
     component.refreshPromotions();
     component.entries$.subscribe((entries) => {
       expect(entries[0].name).toEqual(
-        mockReloadedPromotionList.promotions[0].message
+        mockReloadedPromotionList.promotions[0].message,
       );
       expect(entries[1].name).toEqual(
-        mockReloadedPromotionList.promotions[1].message
+        mockReloadedPromotionList.promotions[1].message,
       );
       expect(entries[2].name).toEqual(
-        mockReloadedPromotionList.promotions[2].message
+        mockReloadedPromotionList.promotions[2].message,
       );
       expect(entries[0].code).toEqual(
-        mockReloadedPromotionList.promotions[0].name
+        mockReloadedPromotionList.promotions[0].name,
       );
       expect(entries[1].code).toEqual(
-        mockReloadedPromotionList.promotions[1].name
+        mockReloadedPromotionList.promotions[1].name,
       );
       expect(entries[2].code).toEqual(
-        mockReloadedPromotionList.promotions[2].name
+        mockReloadedPromotionList.promotions[2].name,
       );
     });
   });

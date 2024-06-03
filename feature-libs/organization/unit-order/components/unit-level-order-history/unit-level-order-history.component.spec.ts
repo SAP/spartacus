@@ -121,7 +121,7 @@ class MockUnitLevelOrdersFacade implements UnitOrderFacade {
     _pageSize: number,
     _currentPage?: number,
     _filters?: string,
-    _sort?: string
+    _sort?: string,
   ): void {}
 
   clearOrderList() {}
@@ -205,7 +205,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
-      By.css('.cx-unit-level-order-history-table tbody tr')
+      By.css('.cx-unit-level-order-history-table tbody tr'),
     );
     rows[0].triggerEventHandler('click', null);
 
@@ -226,7 +226,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
       5,
       0,
       '',
-      'byOrderNumber'
+      'byOrderNumber',
     );
   });
 
@@ -240,7 +240,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
       5,
       1,
       '',
-      'byDate'
+      'byDate',
     );
   });
 
@@ -248,7 +248,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
     fixture.detectChanges();
 
     const elements = fixture.debugElement.queryAll(
-      By.css('.cx-unit-level-order-history-pagination')
+      By.css('.cx-unit-level-order-history-pagination'),
     );
     expect(elements.length).toEqual(2);
     expect(component.sortType).toEqual('byDate');
@@ -274,7 +274,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
     let orders: OrderHistoryList | undefined;
 
     mockUnitLevelOrdersFacade.mockOrderHistoryListSubject.next(
-      mockEmptyOrderList
+      mockEmptyOrderList,
     );
 
     component.orders$
@@ -284,7 +284,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
       .unsubscribe();
 
     const elements = fixture.debugElement.queryAll(
-      By.css('.cx-unit-order-history-pagination')
+      By.css('.cx-unit-order-history-pagination'),
     );
 
     expect(elements.length).toEqual(0);
@@ -305,14 +305,14 @@ describe('UnitLevelOrderHistoryComponent', () => {
 
   it('should display no orders found page if no orders are found', () => {
     mockUnitLevelOrdersFacade.mockOrderHistoryListSubject.next(
-      mockEmptyOrderList
+      mockEmptyOrderList,
     );
     fixture.detectChanges();
 
     expect(
       fixture.debugElement.query(
-        By.css('.cx-unit-level-order-history-no-order')
-      )
+        By.css('.cx-unit-level-order-history-no-order'),
+      ),
     ).not.toBeNull();
   });
 
@@ -330,7 +330,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
       5,
       0,
       '::user:mark:unit:custom',
-      'byDate'
+      'byDate',
     );
   });
 });

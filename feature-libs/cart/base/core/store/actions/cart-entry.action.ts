@@ -28,7 +28,7 @@ export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
       productCode: string;
       quantity: number;
       pickupStore?: string;
-    }
+    },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -48,7 +48,7 @@ export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementActi
       quantityAdded?: number;
       statusCode?: string;
       statusMessage?: string;
-    }
+    },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -64,7 +64,7 @@ export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction 
       productCode: string;
       quantity: number;
       pickupStore?: string;
-    }
+    },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -73,7 +73,7 @@ export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction 
 export class CartRemoveEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_REMOVE_ENTRY;
   constructor(
-    public payload: { cartId: string; userId: string; entryNumber: string }
+    public payload: { cartId: string; userId: string; entryNumber: string },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -82,7 +82,7 @@ export class CartRemoveEntry extends StateUtils.EntityProcessesIncrementAction {
 export class CartRemoveEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
   constructor(
-    public payload: { userId: string; cartId: string; entryNumber: string }
+    public payload: { userId: string; cartId: string; entryNumber: string },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -96,7 +96,7 @@ export class CartRemoveEntryFail extends StateUtils.EntityProcessesDecrementActi
       cartId: string;
       userId: string;
       entryNumber: string;
-    }
+    },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -112,7 +112,7 @@ export class CartUpdateEntry extends StateUtils.EntityProcessesIncrementAction {
       quantity?: number;
       pickupStore?: string;
       pickupToDelivery?: boolean;
-    }
+    },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -128,7 +128,7 @@ export class CartUpdateEntrySuccess extends StateUtils.EntityProcessesDecrementA
       quantity?: number;
       pickupStore?: string;
       pickupToDelivery?: boolean;
-    }
+    },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -145,7 +145,7 @@ export class CartUpdateEntryFail extends StateUtils.EntityProcessesDecrementActi
       quantity?: number;
       pickupStore?: string;
       pickupToDelivery?: boolean;
-    }
+    },
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }

@@ -152,7 +152,7 @@ describe('GigyaRaasComponent', () => {
           profileEdit: '',
           embed: 'true',
         },
-        defaultLang
+        defaultLang,
       );
       expect(window.gigya.accounts.showScreenSet).toHaveBeenCalledWith({
         screenSet: 'screenSet',
@@ -170,7 +170,7 @@ describe('GigyaRaasComponent', () => {
           profileEdit: 'true',
           embed: 'true',
         },
-        defaultLang
+        defaultLang,
       );
       expect(window.gigya.accounts.showScreenSet).toHaveBeenCalledWith({
         screenSet: 'screenSet',
@@ -190,7 +190,7 @@ describe('GigyaRaasComponent', () => {
           embed: 'false',
           profileEdit: '',
         },
-        defaultLang
+        defaultLang,
       );
       expect(window.gigya.accounts.showScreenSet).toHaveBeenCalledWith({
         screenSet: 'screenSet',
@@ -208,7 +208,7 @@ describe('GigyaRaasComponent', () => {
           embed: 'false',
           profileEdit: 'true',
         },
-        defaultLang
+        defaultLang,
       );
       expect(window.gigya.accounts.showScreenSet).toHaveBeenCalledWith({
         screenSet: 'screenSet',

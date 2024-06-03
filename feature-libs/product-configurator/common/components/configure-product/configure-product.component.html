@@ -20,15 +20,15 @@
             cxRoute: 'configure' + product.configuratorType,
             params: {
               ownerType: ownerTypeProduct,
-              entityKey: product.code
-            }
+              entityKey: product.code,
+            },
           } | cxUrl
         "
         [queryParams]="{
           displayRestartDialog: isDisplayRestartDialog(
             product.configuratorType
           ),
-          productCode: product.code
+          productCode: product.code,
         }"
         class="btn btn-primary btn-block"
         cxAutoFocus

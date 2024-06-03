@@ -36,14 +36,14 @@ export class AsmCustomer360ProfileComponent implements OnInit {
 
   constructor(
     public sectionContext: AsmCustomer360SectionContext<AsmCustomer360CustomerProfile>,
-    protected translation: TranslationService
+    protected translation: TranslationService,
   ) {}
 
   ngOnInit(): void {
     this.customerProfileData$ = this.sectionContext.data$.pipe(
       map((data) => {
         return data?.profile;
-      })
+      }),
     );
   }
   getCardContent({
@@ -71,7 +71,7 @@ export class AsmCustomer360ProfileComponent implements OnInit {
             : 'paymentCard.additionalPaymentLabel',
         };
         return card;
-      })
+      }),
     );
   }
 

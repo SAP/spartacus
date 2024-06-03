@@ -27,15 +27,15 @@ export class ConfiguratorPreviousNextButtonsComponent {
       .extractRouterData()
       .pipe(
         switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
-        )
+          this.configuratorCommonsService.getConfiguration(routerData.owner),
+        ),
       );
 
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configUtils: ConfiguratorStorefrontUtilsService
+    protected configUtils: ConfiguratorStorefrontUtilsService,
   ) {}
 
   onPrevious(configuration: Configurator.Configuration): void {
@@ -46,14 +46,14 @@ export class ConfiguratorPreviousNextButtonsComponent {
         if (groupId) {
           this.configuratorGroupsService.navigateToGroup(
             configuration,
-            groupId
+            groupId,
           );
           this.focusFirstAttribute();
         }
       });
 
     this.configUtils.scrollToConfigurationElement(
-      '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
+      '.VariantConfigurationTemplate, .CpqConfigurationTemplate',
     );
   }
 
@@ -65,14 +65,14 @@ export class ConfiguratorPreviousNextButtonsComponent {
         if (groupId) {
           this.configuratorGroupsService.navigateToGroup(
             configuration,
-            groupId
+            groupId,
           );
           this.focusFirstAttribute();
         }
       });
 
     this.configUtils.scrollToConfigurationElement(
-      '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
+      '.VariantConfigurationTemplate, .CpqConfigurationTemplate',
     );
   }
 
@@ -104,11 +104,11 @@ export class ConfiguratorPreviousNextButtonsComponent {
                   .pipe(
                     filter((isLoading) => !isLoading),
                     take(1),
-                    delay(0) //we need to consider the re-rendering of the page
-                  )
-              )
-            )
-        )
+                    delay(0), //we need to consider the re-rendering of the page
+                  ),
+              ),
+            ),
+        ),
       )
       .subscribe(() => this.configUtils.focusFirstAttribute());
   }

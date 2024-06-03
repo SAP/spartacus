@@ -46,7 +46,7 @@ export class ProductListComponentService {
     protected currencyService: CurrencyService,
     protected languageService: LanguageService,
     protected router: Router,
-    protected config: ViewConfig
+    protected config: ViewConfig,
   ) {}
 
   /**
@@ -73,7 +73,7 @@ export class ProductListComponentService {
           // router emits new value also when the anticipated `nextState` changes
           // but we want to perform search only when current url changes
           return x.state.url === y.state.url;
-        })
+        }),
       ),
       ...this.siteContext,
     ]).pipe(
@@ -82,11 +82,11 @@ export class ProductListComponentService {
       tap((state: ActivatedRouterStateSnapshot) => {
         const criteria = this.getCriteriaFromRoute(
           state.params,
-          state.queryParams
+          state.queryParams,
         );
 
         this.searchIfCriteriaHasChanged(criteria);
-      })
+      }),
     );
 
   /**
@@ -117,7 +117,7 @@ export class ProductListComponentService {
         function checkQueriesDiffer(): boolean {
           const previousQuery = sanitizeQuery(
             previous.query,
-            previous.sortCode
+            previous.sortCode,
           );
           const currentQuery = sanitizeQuery(criteria.query, criteria.sortCode);
           return previousQuery !== currentQuery;
@@ -125,7 +125,7 @@ export class ProductListComponentService {
           // Remove sortCode portion from queries.
           function sanitizeQuery(
             query?: string,
-            sortCode?: string
+            sortCode?: string,
           ): string | undefined {
             const DEFAULT_SORT_CODE = 'relevance';
 
@@ -179,7 +179,7 @@ export class ProductListComponentService {
    */
   readonly model$: Observable<ProductSearchPage> = using(
     () => this.searchByRouting$.subscribe(),
-    () => this.searchResults$
+    () => this.searchResults$,
   ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
   /**
@@ -190,7 +190,7 @@ export class ProductListComponentService {
    */
   protected getCriteriaFromRoute(
     routeParams: ProductListRouteParams,
-    queryParams: SearchCriteria
+    queryParams: SearchCriteria,
   ): SearchCriteria {
     return {
       query: queryParams.query || this.getQueryFromRouteParams(routeParams),
@@ -239,8 +239,8 @@ export class ProductListComponentService {
         {},
         currentPage && { currentPage },
         pageSize && { pageSize },
-        sort && { sort }
-      )
+        sort && { sort },
+      ),
     );
   }
 
@@ -253,7 +253,7 @@ export class ProductListComponentService {
       .subscribe((route) => {
         const routeCriteria = this.getCriteriaFromRoute(
           route.state.params,
-          route.state.queryParams
+          route.state.queryParams,
         );
         const criteria = {
           ...routeCriteria,

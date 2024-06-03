@@ -23,7 +23,7 @@ export class NotCheckoutAuthGuard {
     protected authService: AuthService,
     protected activeCartFacade: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,
-    protected router: Router
+    protected router: Router,
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -31,15 +31,15 @@ export class NotCheckoutAuthGuard {
       map((isLoggedIn) => {
         if (isLoggedIn) {
           return this.router.parseUrl(
-            this.semanticPathService.get('home') ?? ''
+            this.semanticPathService.get('home') ?? '',
           );
         } else if (!!getLastValueSync(this.activeCartFacade.isGuestCart())) {
           return this.router.parseUrl(
-            this.semanticPathService.get('cart') ?? ''
+            this.semanticPathService.get('cart') ?? '',
           );
         }
         return !isLoggedIn;
-      })
+      }),
     );
   }
 }

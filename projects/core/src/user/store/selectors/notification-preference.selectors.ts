@@ -19,7 +19,7 @@ export const getPreferencesLoaderState: MemoizedSelector<
   LoaderState<NotificationPreference[]>
 > = createSelector(
   getUserState,
-  (state: UserState) => state.notificationPreferences
+  (state: UserState) => state.notificationPreferences,
 );
 
 export const getPreferences: MemoizedSelector<
@@ -27,7 +27,7 @@ export const getPreferences: MemoizedSelector<
   NotificationPreference[]
 > = createSelector(
   getPreferencesLoaderState,
-  (state: LoaderState<NotificationPreference[]>) => loaderValueSelector(state)
+  (state: LoaderState<NotificationPreference[]>) => loaderValueSelector(state),
 );
 
 export const getEnabledPreferences: MemoizedSelector<
@@ -36,12 +36,12 @@ export const getEnabledPreferences: MemoizedSelector<
 > = createSelector(
   getPreferencesLoaderState,
   (state: LoaderState<NotificationPreference[]>) =>
-    loaderValueSelector(state).filter((p) => p.enabled)
+    loaderValueSelector(state).filter((p) => p.enabled),
 );
 
 export const getPreferencesLoading: MemoizedSelector<StateWithUser, boolean> =
   createSelector(
     getPreferencesLoaderState,
     (state: LoaderState<NotificationPreference[]>) =>
-      loaderLoadingSelector(state)
+      loaderLoadingSelector(state),
   );

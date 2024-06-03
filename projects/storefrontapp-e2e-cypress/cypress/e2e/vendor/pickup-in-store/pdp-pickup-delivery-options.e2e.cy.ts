@@ -21,19 +21,19 @@ describe('Pickup delivery options', () => {
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should(
         'have.attr',
         'aria-checked',
-        'true'
+        'true',
       );
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should(
         'have.attr',
         'aria-checked',
-        'false'
+        'false',
       );
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).click();
       cy.get(L.DIALOG_CLOSE).click();
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should(
         'have.attr',
         'aria-checked',
-        'true'
+        'true',
       );
     });
 
@@ -58,7 +58,7 @@ describe('Pickup delivery options', () => {
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should(
         'have.attr',
         'aria-checked',
-        'true'
+        'true',
       );
       cy.wait(1000); // allow time for event handlers to be attached
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).click();

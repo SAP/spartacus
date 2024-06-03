@@ -52,15 +52,15 @@ export class CheckoutDeliveryAddressService
                 tap((address) =>
                   this.eventService.dispatch(
                     { userId, cartId, address },
-                    CheckoutDeliveryAddressCreatedEvent
-                  )
-                )
+                    CheckoutDeliveryAddressCreatedEvent,
+                  ),
+                ),
               );
-          })
+          }),
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
-      }
+      },
     );
 
   protected setDeliveryAddressCommand: Command<Address, unknown> =
@@ -82,15 +82,15 @@ export class CheckoutDeliveryAddressService
                       cartId,
                       address,
                     },
-                    CheckoutDeliveryAddressSetEvent
+                    CheckoutDeliveryAddressSetEvent,
                   );
-                })
+                }),
               );
-          })
+          }),
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
-      }
+      },
     );
 
   protected clearDeliveryAddressCommand: Command<void, unknown> =
@@ -107,15 +107,15 @@ export class CheckoutDeliveryAddressService
                       userId,
                       cartId,
                     },
-                    CheckoutDeliveryAddressClearedEvent
+                    CheckoutDeliveryAddressClearedEvent,
                   );
-                })
-              )
-          )
+                }),
+              ),
+          ),
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
-      }
+      },
     );
 
   constructor(
@@ -124,7 +124,7 @@ export class CheckoutDeliveryAddressService
     protected eventService: EventService,
     protected commandService: CommandService,
     protected checkoutDeliveryAddressConnector: CheckoutDeliveryAddressConnector,
-    protected checkoutQueryFacade: CheckoutQueryFacade
+    protected checkoutQueryFacade: CheckoutQueryFacade,
   ) {}
 
   /**
@@ -146,7 +146,7 @@ export class CheckoutDeliveryAddressService
           throw new Error('Checkout conditions not met');
         }
         return [userId, cartId];
-      })
+      }),
     );
   }
 
@@ -155,7 +155,7 @@ export class CheckoutDeliveryAddressService
       map((state) => ({
         ...state,
         data: state.data?.deliveryAddress,
-      }))
+      })),
     );
   }
 

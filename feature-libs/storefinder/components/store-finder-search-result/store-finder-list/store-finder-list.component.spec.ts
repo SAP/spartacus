@@ -24,7 +24,7 @@ const displayModes = LocationDisplayMode;
 
 class StoreFinderServiceMock implements Partial<StoreFinderService> {
   getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
-    EMPTY
+    EMPTY,
   );
   getStoresLoading = createSpy('getStoresLoading');
   callFindStoresAction = createSpy('callFindStoresAction');
@@ -49,27 +49,25 @@ describe('StoreFinderDisplayListComponent', () => {
   let storeFinderService: StoreFinderService;
   let googleMapRendererService: GoogleMapRendererService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          HttpClientTestingModule,
-          SpinnerModule,
-          I18nTestingModule,
-        ],
-        schemas: [NO_ERRORS_SCHEMA],
-        declarations: [StoreFinderListComponent, StoreFinderMapComponent],
-        providers: [
-          {
-            provide: GoogleMapRendererService,
-            useClass: GoogleMapRendererServiceMock,
-          },
-          { provide: StoreFinderService, useClass: StoreFinderServiceMock },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        SpinnerModule,
+        I18nTestingModule,
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [StoreFinderListComponent, StoreFinderMapComponent],
+      providers: [
+        {
+          provide: GoogleMapRendererService,
+          useClass: GoogleMapRendererServiceMock,
+        },
+        { provide: StoreFinderService, useClass: StoreFinderServiceMock },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
@@ -92,7 +90,7 @@ describe('StoreFinderDisplayListComponent', () => {
     component.locations = locations;
     fixture.detectChanges();
     storeMapComponent = fixture.debugElement.query(
-      By.css('cx-store-finder-map')
+      By.css('cx-store-finder-map'),
     ).componentInstance;
     spyOn(storeMapComponent, 'centerMap').and.callThrough();
 

@@ -30,20 +30,20 @@ describe('CpqConfiguratorEndpointService', () => {
   it('should return CPQ Marker header attribute', () => {
     expect(
       classUnderTest.CPQ_MARKER_HEADER.headers.has(
-        MARKER_HEADER_CPQ_CONFIGURATOR
-      )
+        MARKER_HEADER_CPQ_CONFIGURATOR,
+      ),
     ).toBe(true);
   });
 
   it('should build configurations init url', () => {
     expect(classUnderTest.buildUrl('configurationInit')).toBe(
-      '/api/configuration/v1/configurations'
+      '/api/configuration/v1/configurations',
     );
   });
 
   it('should build configurations display url', () => {
     expect(
-      classUnderTest.buildUrl('configurationDisplay', { configId: CONFIG_ID })
+      classUnderTest.buildUrl('configurationDisplay', { configId: CONFIG_ID }),
     ).toBe(`/api/configuration/v1/configurations/${CONFIG_ID}/display`);
   });
 
@@ -51,9 +51,9 @@ describe('CpqConfiguratorEndpointService', () => {
     expect(
       classUnderTest.buildUrl('configurationDisplay', { configId: CONFIG_ID }, [
         { name: 'tabId', value: TAB_ID },
-      ])
+      ]),
     ).toBe(
-      `/api/configuration/v1/configurations/${CONFIG_ID}/display?tabId=${TAB_ID}`
+      `/api/configuration/v1/configurations/${CONFIG_ID}/display?tabId=${TAB_ID}`,
     );
   });
 
@@ -62,9 +62,9 @@ describe('CpqConfiguratorEndpointService', () => {
       classUnderTest.buildUrl('attributeUpdate', {
         configId: CONFIG_ID,
         attributeCode: ATTR_ID,
-      })
+      }),
     ).toBe(
-      `/api/configuration/v1/configurations/${CONFIG_ID}/attributes/${ATTR_ID}`
+      `/api/configuration/v1/configurations/${CONFIG_ID}/attributes/${ATTR_ID}`,
     );
   });
 
@@ -74,9 +74,9 @@ describe('CpqConfiguratorEndpointService', () => {
         configId: CONFIG_ID,
         attributeCode: ATTR_ID,
         valueCode: VALUE_ID,
-      })
+      }),
     ).toBe(
-      `/api/configuration/v1/configurations/${CONFIG_ID}/attributes/${ATTR_ID}/attributeValues/${VALUE_ID}`
+      `/api/configuration/v1/configurations/${CONFIG_ID}/attributes/${ATTR_ID}/attributeValues/${VALUE_ID}`,
     );
   });
 });

@@ -30,22 +30,20 @@ class MockRoutingService {
 describe('ConfigRouterExtractorService', () => {
   let serviceUnderTest: ConfiguratorRouterExtractorService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(
-      ConfiguratorRouterExtractorService as Type<ConfiguratorRouterExtractorService>
+      ConfiguratorRouterExtractorService as Type<ConfiguratorRouterExtractorService>,
     );
 
     mockRouterState = {
@@ -72,7 +70,7 @@ describe('ConfigRouterExtractorService', () => {
         expect(owner.id).toBe(PRODUCT_CODE);
         expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
         expect(owner.key.includes(CommonConfigurator.OwnerType.PRODUCT)).toBe(
-          true
+          true,
         );
       });
     });
@@ -88,7 +86,7 @@ describe('ConfigRouterExtractorService', () => {
         expect(owner.id).toBe(PRODUCT_CODE);
         expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
         expect(owner.key.includes(CommonConfigurator.OwnerType.PRODUCT)).toBe(
-          true
+          true,
         );
       });
     });
@@ -104,7 +102,7 @@ describe('ConfigRouterExtractorService', () => {
         expect(owner.id).toBe(CART_ENTRY_NUMBER);
         expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
         expect(
-          owner.key.includes(CommonConfigurator.OwnerType.CART_ENTRY)
+          owner.key.includes(CommonConfigurator.OwnerType.CART_ENTRY),
         ).toBe(true);
       });
     });
@@ -116,7 +114,7 @@ describe('ConfigRouterExtractorService', () => {
         expect(routerData.owner.configuratorType).toBe(CONFIGURATOR_TYPE);
         expect(routerData.isOwnerCartEntry).toBe(false);
         expect(routerData.pageType).toBe(
-          ConfiguratorRouter.PageType.CONFIGURATION
+          ConfiguratorRouter.PageType.CONFIGURATION,
         );
       });
     });
@@ -134,7 +132,7 @@ describe('ConfigRouterExtractorService', () => {
           expect(routerData.owner.configuratorType).toBe(CONFIGURATOR_TYPE);
           expect(routerData.isOwnerCartEntry).toBe(true);
           expect(routerData.pageType).toBe(
-            ConfiguratorRouter.PageType.OVERVIEW
+            ConfiguratorRouter.PageType.OVERVIEW,
           );
           expect(routerData.forceReload).toBe(false);
         })
@@ -378,15 +376,15 @@ describe('ConfigRouterExtractorService', () => {
   describe('getConfiguratorTypeFromSemanticRoute', () => {
     it('should throw error if semantic route is empty', () => {
       expect(() =>
-        serviceUnderTest['getConfiguratorTypeFromSemanticRoute']('')
+        serviceUnderTest['getConfiguratorTypeFromSemanticRoute'](''),
       ).toThrowError();
     });
 
     it('should throw error if semantic route is not configuration neither OV page', () => {
       expect(() =>
         serviceUnderTest['getConfiguratorTypeFromSemanticRoute'](
-          'isNoKnownRoute'
-        )
+          'isNoKnownRoute',
+        ),
       ).toThrowError();
     });
   });

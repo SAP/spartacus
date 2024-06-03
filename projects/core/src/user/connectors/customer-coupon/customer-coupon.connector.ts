@@ -23,14 +23,14 @@ export class CustomerCouponConnector {
     userId: string,
     pageSize: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): Observable<CustomerCouponSearchResult> {
     return this.adapter.getCustomerCoupons(userId, pageSize, currentPage, sort);
   }
 
   turnOnNotification(
     userId: string,
-    couponCode: string
+    couponCode: string,
   ): Observable<CustomerCouponNotification> {
     return this.adapter.turnOnNotification(userId, couponCode);
   }
@@ -41,14 +41,14 @@ export class CustomerCouponConnector {
 
   claimCustomerCoupon(
     userId: string,
-    couponCode: string
+    couponCode: string,
   ): Observable<CustomerCoupon2Customer> {
     return this.adapter.claimCustomerCoupon(userId, couponCode);
   }
 
   disclaimCustomerCoupon(
     userId: string,
-    couponCode: string
+    couponCode: string,
   ): Observable<CustomerCoupon2Customer> {
     return this.adapter.disclaimCustomerCoupon(userId, couponCode);
   }

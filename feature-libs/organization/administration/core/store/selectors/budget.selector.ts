@@ -20,7 +20,7 @@ export const getBudgetManagementState: MemoizedSelector<
   BudgetManagement
 > = createSelector(
   getOrganizationState,
-  (state: OrganizationState) => state[BUDGET_FEATURE]
+  (state: OrganizationState) => state[BUDGET_FEATURE],
 );
 
 export const getBudgetsState: MemoizedSelector<
@@ -28,32 +28,32 @@ export const getBudgetsState: MemoizedSelector<
   StateUtils.EntityLoaderState<Budget>
 > = createSelector(
   getBudgetManagementState,
-  (state: BudgetManagement) => state && state.entities
+  (state: BudgetManagement) => state && state.entities,
 );
 
 export const getBudget = (
-  budgetCode: string
+  budgetCode: string,
 ): MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<Budget>> =>
   createSelector(
     getBudgetsState,
     (state: StateUtils.EntityLoaderState<Budget>) =>
-      StateUtils.entityLoaderStateSelector(state, budgetCode)
+      StateUtils.entityLoaderStateSelector(state, budgetCode),
   );
 
 export const getBudgetValue = (
-  budgetCode: string
+  budgetCode: string,
 ): MemoizedSelector<StateWithOrganization, Budget> => {
   return createSelector(getBudget(budgetCode), (budgetState) =>
-    StateUtils.loaderValueSelector(budgetState)
+    StateUtils.loaderValueSelector(budgetState),
   );
 };
 
 export const getBudgetList = (
-  params: SearchConfig
+  params: SearchConfig,
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<Budget>>
 > =>
   createSelector(getBudgetManagementState, (state: BudgetManagement) =>
-    StateUtils.denormalizeSearch<Budget>(state, params)
+    StateUtils.denormalizeSearch<Budget>(state, params),
   );

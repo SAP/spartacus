@@ -17,7 +17,7 @@ export class CartVoucherConnector {
   public add(
     userId: string,
     cartId: string,
-    voucherId: string
+    voucherId: string,
   ): Observable<{}> {
     return this.adapter.add(userId, cartId, voucherId);
   }
@@ -25,7 +25,7 @@ export class CartVoucherConnector {
   public remove(
     userId: string,
     cartId: string,
-    voucherId: string
+    voucherId: string,
   ): Observable<{}> {
     return this.adapter.remove(userId, cartId, voucherId);
   }

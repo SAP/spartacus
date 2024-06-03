@@ -28,7 +28,7 @@ export class SearchProducts implements Action {
   readonly type = SEARCH_PRODUCTS;
   constructor(
     public payload: { queryText: string; searchConfig?: SearchConfig },
-    public auxiliary?: boolean
+    public auxiliary?: boolean,
   ) {}
 }
 
@@ -36,13 +36,16 @@ export class SearchProductsFail implements Action {
   readonly type = SEARCH_PRODUCTS_FAIL;
   constructor(
     public payload: ErrorModel | undefined,
-    public auxiliary?: boolean
+    public auxiliary?: boolean,
   ) {}
 }
 
 export class SearchProductsSuccess implements Action {
   readonly type = SEARCH_PRODUCTS_SUCCESS;
-  constructor(public payload: ProductSearchPage, public auxiliary?: boolean) {}
+  constructor(
+    public payload: ProductSearchPage,
+    public auxiliary?: boolean,
+  ) {}
 }
 
 export class GetProductSuggestions implements Action {
@@ -66,7 +69,7 @@ export class ClearProductSearchResult implements Action {
     public payload: ClearSearch = {
       clearPageResults: false,
       clearSearchboxResults: false,
-    }
+    },
   ) {}
 }
 

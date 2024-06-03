@@ -32,7 +32,7 @@ import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-m
 export function checkOAuthParamsInUrl(
   authService: AuthService,
   configInit: ConfigInitializerService,
-  platformId: Object
+  platformId: Object,
 ): () => Promise<void> {
   return () =>
     isPlatformBrowser(platformId)
@@ -40,15 +40,15 @@ export function checkOAuthParamsInUrl(
           configInit.getStable().pipe(
             switchMap(() =>
               // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
-              authService.checkOAuthParamsInUrl()
-            )
-          )
+              authService.checkOAuthParamsInUrl(),
+            ),
+          ),
         )
       : Promise.resolve(); // Do nothing in SSR
 }
 
 export function authStatePersistenceFactory(
-  authStatePersistenceService: AuthStatePersistenceService
+  authStatePersistenceService: AuthStatePersistenceService,
 ) {
   const result = () => authStatePersistenceService.initSync();
   return result;

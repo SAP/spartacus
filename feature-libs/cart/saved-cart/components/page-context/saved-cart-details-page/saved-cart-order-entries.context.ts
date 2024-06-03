@@ -40,25 +40,25 @@ export class SavedCartOrderEntriesContext
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartFacade,
     protected savedCartService: SavedCartFacade,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
   ) {}
 
   protected savedCartId$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.params.savedCartId),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   addEntries(products: ProductData[]): Observable<ProductImportInfo> {
     return this.add(products).pipe(
       switchMap((cartId: string) => this.importInfoService.getResults(cartId)),
-      take(products.length)
+      take(products.length),
     );
   }
 
   getEntries(): Observable<OrderEntry[]> {
     return this.savedCartId$.pipe(
       switchMap((cartId) => this.savedCartService.get(cartId)),
-      map((cart: Cart | undefined) => cart?.entries ?? ([] as OrderEntry[]))
+      map((cart: Cart | undefined) => cart?.entries ?? ([] as OrderEntry[])),
     );
   }
 
@@ -68,9 +68,9 @@ export class SavedCartOrderEntriesContext
       this.savedCartId$,
     ]).pipe(
       tap(([userId, cartId]) =>
-        this.multiCartService.addEntries(userId, cartId, products)
+        this.multiCartService.addEntries(userId, cartId, products),
       ),
-      map(([_userId, cartId]) => cartId)
+      map(([_userId, cartId]) => cartId),
     );
   }
 }

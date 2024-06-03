@@ -23,7 +23,7 @@ import {
         [CART_IMPORT_EXPORT_FEATURE]: {
           module: () =>
             import('@spartacus/cart/import-export').then(
-              (m) => m.ImportExportModule
+              (m) => m.ImportExportModule,
             ),
         },
       },

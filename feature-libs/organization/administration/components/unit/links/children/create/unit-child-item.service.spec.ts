@@ -70,7 +70,7 @@ describe('UnitChildItemService', () => {
       'parentOrgUnit',
       new UntypedFormGroup({
         uid: new UntypedFormControl('child-unit-uid'),
-      })
+      }),
     );
     form.get('parentOrgUnit').disable();
 

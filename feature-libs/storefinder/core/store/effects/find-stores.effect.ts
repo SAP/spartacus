@@ -18,7 +18,7 @@ export class FindStoresEffect {
 
   constructor(
     private actions$: Actions,
-    private storeFinderConnector: StoreFinderConnector
+    private storeFinderConnector: StoreFinderConnector,
   ) {}
 
   findStores$: Observable<
@@ -33,17 +33,17 @@ export class FindStoresEffect {
             payload.queryText,
             payload.searchConfig,
             payload.longitudeLatitude,
-            payload.radius
+            payload.radius,
           )
           .pipe(
             map((data) => {
               if (payload.countryIsoCode) {
                 data.stores = data.stores.filter(
                   (store) =>
-                    store.address.country.isocode === payload.countryIsoCode
+                    store.address.country.isocode === payload.countryIsoCode,
                 );
                 data.stores.sort((a, b) =>
-                  a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+                  a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
                 );
               }
 
@@ -52,13 +52,13 @@ export class FindStoresEffect {
             catchError((error) =>
               of(
                 new StoreFinderActions.FindStoresFail(
-                  normalizeHttpError(error, this.logger)
-                )
-              )
-            )
-          )
-      )
-    )
+                  normalizeHttpError(error, this.logger),
+                ),
+              ),
+            ),
+          ),
+      ),
+    ),
   );
 
   findStoreById$: Observable<
@@ -74,12 +74,12 @@ export class FindStoresEffect {
           catchError((error) =>
             of(
               new StoreFinderActions.FindStoreByIdFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
-          )
-        )
-      )
-    )
+                normalizeHttpError(error, this.logger),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }

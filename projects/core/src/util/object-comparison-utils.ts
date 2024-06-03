@@ -60,7 +60,7 @@ export class ObjectComparisonUtils {
       if (
         !this.deepEqualObjects(
           objA[key as keyof Object],
-          objB[key as keyof Object]
+          objB[key as keyof Object],
         )
       ) {
         return false;

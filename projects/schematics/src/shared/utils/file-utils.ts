@@ -126,7 +126,7 @@ export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
     path,
     content,
     ts.ScriptTarget.Latest,
-    true
+    true,
   );
 
   return source;
@@ -134,7 +134,7 @@ export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
 
 export function getAllTsSourceFiles(
   tree: Tree,
-  basePath: string
+  basePath: string,
 ): ts.SourceFile[] {
   const results: string[] = [];
   tree.getDir(basePath).visit((filePath) => {
@@ -162,7 +162,7 @@ export function getIndexHtmlPath(tree: Tree): string {
 export function getPathResultsForFile(
   tree: Tree,
   file: string,
-  directory?: string
+  directory?: string,
 ): string[] {
   const results: string[] = [];
   const dir = directory || '/';
@@ -179,7 +179,7 @@ export function getPathResultsForFile(
 export function getHtmlFiles(
   tree: Tree,
   fileName = '.html',
-  directory?: string
+  directory?: string,
 ): string[] {
   return getPathResultsForFile(tree, fileName || '.html', directory);
 }
@@ -187,7 +187,7 @@ export function getHtmlFiles(
 export function insertComponentSelectorComment(
   content: string,
   componentSelector: string,
-  componentProperty: ComponentProperty
+  componentProperty: ComponentProperty,
 ): string | undefined {
   const selector = buildSelector(componentSelector);
   const comment = buildHtmlComment(componentProperty.comment);
@@ -210,7 +210,7 @@ export function insertComponentSelectorComment(
 function getTextPosition(
   content: string,
   text: string,
-  startingPosition = 0
+  startingPosition = 0,
 ): number | undefined {
   const index = content.indexOf(text, startingPosition);
   return index !== -1 ? index : undefined;
@@ -225,7 +225,7 @@ function visitHtmlNodesRecursively(
   nodes: Node[],
   propertyName: string,
   resultingElements: Node[] = [],
-  parentElement?: Element
+  parentElement?: Element,
 ): void {
   const { Attribute, Element } = angularCompiler;
   nodes.forEach((node) => {
@@ -243,14 +243,14 @@ function visitHtmlNodesRecursively(
         node.attrs,
         propertyName,
         resultingElements,
-        node
+        node,
       );
       visitHtmlNodesRecursively(
         angularCompiler,
         node.children,
         propertyName,
         resultingElements,
-        node
+        node,
       );
     }
   });
@@ -259,7 +259,7 @@ function visitHtmlNodesRecursively(
 export function insertHtmlComment(
   content: string,
   componentProperty: ComponentProperty,
-  angularCompiler: typeof import('@angular/compiler')
+  angularCompiler: typeof import('@angular/compiler'),
 ): string | undefined {
   const { HtmlParser } = angularCompiler;
   const comment = buildHtmlComment(componentProperty.comment);
@@ -270,7 +270,7 @@ export function insertHtmlComment(
     angularCompiler,
     result.rootNodes,
     componentProperty.name,
-    resultingElements
+    resultingElements,
   );
 
   resultingElements
@@ -292,7 +292,7 @@ export function commitChanges(
   host: Tree,
   path: string,
   changes: Change[] | null,
-  insertDirection: InsertDirection = InsertDirection.RIGHT
+  insertDirection: InsertDirection = InsertDirection.RIGHT,
 ): void {
   if (!changes || changes.length === 0) {
     return;
@@ -337,7 +337,7 @@ export function findConstructor(nodes: ts.Node[]): ts.Node | undefined {
 export function defineProperty(
   nodes: ts.Node[],
   path: string,
-  toAdd: string
+  toAdd: string,
 ): InsertChange {
   const constructorNode = findConstructor(nodes);
 
@@ -367,7 +367,7 @@ export function defineProperty(
  */
 export function isCandidateForConstructorDeprecation(
   source: ts.SourceFile,
-  constructorDeprecation: ConstructorDeprecation
+  constructorDeprecation: ConstructorDeprecation,
 ): boolean {
   const nodes = getSourceNodes(source);
 
@@ -379,7 +379,7 @@ export function isCandidateForConstructorDeprecation(
     !isImported(
       source,
       constructorDeprecation.class,
-      constructorDeprecation.importPath
+      constructorDeprecation.importPath,
     )
   ) {
     return false;
@@ -397,7 +397,7 @@ export function isCandidateForConstructorDeprecation(
   if (
     !checkConstructorParameters(
       constructorNode,
-      constructorDeprecation.deprecatedParams
+      constructorDeprecation.deprecatedParams,
     )
   ) {
     return false;
@@ -412,22 +412,22 @@ export function isCandidateForConstructorDeprecation(
 
 export function isInheriting(
   nodes: ts.Node[],
-  inheritedClass: string
+  inheritedClass: string,
 ): boolean {
   const heritageClauseNodes = nodes.filter(
-    (node) => node.kind === ts.SyntaxKind.HeritageClause
+    (node) => node.kind === ts.SyntaxKind.HeritageClause,
   );
   const heritageNodes = findMultiLevelNodesByTextAndKind(
     heritageClauseNodes,
     inheritedClass,
-    ts.SyntaxKind.Identifier
+    ts.SyntaxKind.Identifier,
   );
   return heritageNodes.length !== 0;
 }
 
 function checkImports(
   source: ts.SourceFile,
-  parameterClassTypes: ClassType[]
+  parameterClassTypes: ClassType[],
 ): boolean {
   for (const classImport of parameterClassTypes) {
     if (
@@ -442,11 +442,11 @@ function checkImports(
 
 function checkConstructorParameters(
   constructorNode: ts.Node,
-  parameterClassTypes: ClassType[]
+  parameterClassTypes: ClassType[],
 ): boolean {
   const constructorParameters = findNodes(
     constructorNode,
-    ts.SyntaxKind.Parameter
+    ts.SyntaxKind.Parameter,
   );
 
   const foundClassTypes: ClassType[] = [];
@@ -454,7 +454,7 @@ function checkConstructorParameters(
     for (const constructorParameter of constructorParameters) {
       const constructorParameterType = findNodes(
         constructorParameter,
-        ts.SyntaxKind.Identifier
+        ts.SyntaxKind.Identifier,
       ).filter((node) => node.getText() === parameterClassType.className);
 
       if (constructorParameterType.length !== 0) {
@@ -477,17 +477,17 @@ function checkConstructorParameters(
 
 function isInjected(
   constructorNode: ts.Node,
-  parameterClassType: ClassType
+  parameterClassType: ClassType,
 ): boolean {
   const constructorParameters = findNodes(
     constructorNode,
-    ts.SyntaxKind.Parameter
+    ts.SyntaxKind.Parameter,
   );
 
   for (const constructorParameter of constructorParameters) {
     const constructorParameterType = findNodes(
       constructorParameter,
-      ts.SyntaxKind.Identifier
+      ts.SyntaxKind.Identifier,
     ).filter((node) => node.getText() === parameterClassType.className);
 
     if (constructorParameterType.length > 0) {
@@ -500,12 +500,12 @@ function isInjected(
 
 function checkSuper(
   constructorNode: ts.Node,
-  parameterClassTypes: ClassType[]
+  parameterClassTypes: ClassType[],
 ): boolean {
   const constructorBlock = findNodes(constructorNode, ts.SyntaxKind.Block)[0];
   const callExpressions = findNodes(
     constructorBlock,
-    ts.SyntaxKind.CallExpression
+    ts.SyntaxKind.CallExpression,
   );
   if (callExpressions.length === 0) {
     return false;
@@ -514,7 +514,7 @@ function checkSuper(
   const firstCallExpression = callExpressions[0];
   const superKeyword = findNodes(
     firstCallExpression,
-    ts.SyntaxKind.SuperKeyword
+    ts.SyntaxKind.SuperKeyword,
   );
   if (superKeyword && superKeyword.length === 0) {
     return false;
@@ -532,7 +532,7 @@ export function addConstructorParam(
   source: ts.SourceFile,
   sourcePath: string,
   constructorNode: ts.Node | undefined,
-  paramToAdd: ClassType
+  paramToAdd: ClassType,
 ): Change[] {
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${sourcePath}.`);
@@ -548,7 +548,7 @@ export function addConstructorParam(
         propertyType: paramToAdd.literalInference,
         injectionToken: paramToAdd.injectionToken?.token,
         isArray: paramToAdd.injectionToken?.isArray,
-      })
+      }),
     );
   }
 
@@ -561,14 +561,14 @@ export function addConstructorParam(
         source,
         sourcePath,
         paramToAdd.className,
-        paramToAdd.importPath
-      )
+        paramToAdd.importPath,
+      ),
     );
   }
   if (paramToAdd.injectionToken?.token) {
     if (!isImported(source, INJECT_DECORATOR, ANGULAR_CORE)) {
       changes.push(
-        insertImport(source, sourcePath, INJECT_DECORATOR, ANGULAR_CORE)
+        insertImport(source, sourcePath, INJECT_DECORATOR, ANGULAR_CORE),
       );
     }
 
@@ -583,7 +583,7 @@ export function addConstructorParam(
       !isImported(
         source,
         paramToAdd.injectionToken.token,
-        paramToAdd.injectionToken.importPath
+        paramToAdd.injectionToken.importPath,
       )
     ) {
       changes.push(
@@ -591,8 +591,8 @@ export function addConstructorParam(
           source,
           sourcePath,
           paramToAdd.injectionToken.token,
-          paramToAdd.injectionToken.importPath
-        )
+          paramToAdd.injectionToken.importPath,
+        ),
       );
     }
   }
@@ -602,8 +602,8 @@ export function addConstructorParam(
     updateConstructorSuperNode(
       sourcePath,
       constructorNode,
-      paramName || paramToAdd.className
-    )
+      paramName || paramToAdd.className,
+    ),
   );
 
   return changes;
@@ -613,7 +613,7 @@ export function removeConstructorParam(
   source: ts.SourceFile,
   sourcePath: string,
   constructorNode: ts.Node | undefined,
-  paramToRemove: ClassType
+  paramToRemove: ClassType,
 ): Change[] {
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${sourcePath}.`);
@@ -626,18 +626,18 @@ export function removeConstructorParam(
     const injectImportRemovalChange = removeInjectImports(
       source,
       constructorNode,
-      paramToRemove
+      paramToRemove,
     );
     const constructorParamRemovalChanges = removeConstructorParamInternal(
       sourcePath,
       constructorNode,
-      paramToRemove
+      paramToRemove,
     );
 
     changes.push(
       importRemovalChange,
       ...constructorParamRemovalChanges,
-      ...injectImportRemovalChange
+      ...injectImportRemovalChange,
     );
   }
   const paramName = getParamName(source, constructorNode, paramToRemove);
@@ -648,7 +648,7 @@ export function removeConstructorParam(
   const superRemoval = removeParamFromSuper(
     sourcePath,
     constructorNode,
-    paramName
+    paramName,
   );
   changes.push(...superRemoval);
 
@@ -657,11 +657,11 @@ export function removeConstructorParam(
 
 export function shouldRemoveDecorator(
   constructorNode: ts.Node,
-  decoratorIdentifier: string
+  decoratorIdentifier: string,
 ): boolean {
   const decoratorParameters = findNodes(
     constructorNode,
-    ts.SyntaxKind.Decorator
+    ts.SyntaxKind.Decorator,
   ).filter((x) => x.getText().includes(decoratorIdentifier));
 
   // if there are 0, or exactly 1 usage of the `decoratorIdentifier` in the whole class, we can safely remove it.
@@ -671,16 +671,16 @@ export function shouldRemoveDecorator(
 function getParamName(
   source: ts.SourceFile,
   constructorNode: ts.Node,
-  classType: ClassType
+  classType: ClassType,
 ): string | undefined {
   const nodes = getSourceNodes(source);
 
   const constructorParameters = findNodes(
     constructorNode,
-    ts.SyntaxKind.Parameter
+    ts.SyntaxKind.Parameter,
   );
   const classDeclarationNode = nodes.find(
-    (node) => node.kind === ts.SyntaxKind.ClassDeclaration
+    (node) => node.kind === ts.SyntaxKind.ClassDeclaration,
   );
   if (!classDeclarationNode) {
     return undefined;
@@ -713,7 +713,7 @@ function getClassName(constructorParameter: ts.Node): string | undefined {
 
 function shouldRemoveImportAndParam(
   source: ts.SourceFile,
-  importToRemove: ClassType
+  importToRemove: ClassType,
 ): boolean {
   const nodes = getSourceNodes(source);
   const constructorNode = findConstructor(nodes);
@@ -722,7 +722,7 @@ function shouldRemoveImportAndParam(
   }
 
   const classDeclarationNode = nodes.find(
-    (node) => node.kind === ts.SyntaxKind.ClassDeclaration
+    (node) => node.kind === ts.SyntaxKind.ClassDeclaration,
   );
   if (!classDeclarationNode) {
     return true;
@@ -738,7 +738,7 @@ function shouldRemoveImportAndParam(
 
       const paramUsages = findNodes(
         classDeclarationNode,
-        ts.SyntaxKind.Identifier
+        ts.SyntaxKind.Identifier,
       ).filter((node) => node.getText() === paramName);
       // if there are more than two usages (injection and passing to super), then the param is used elsewhere in the class
       if (paramUsages.length > 2) {
@@ -755,7 +755,7 @@ function shouldRemoveImportAndParam(
 export function removeInjectImports(
   source: ts.SourceFile,
   constructorNode: ts.Node,
-  paramToRemove: ClassType
+  paramToRemove: ClassType,
 ): Change[] {
   if (!paramToRemove.injectionToken) {
     return [new NoopChange()];
@@ -768,7 +768,7 @@ export function removeInjectImports(
       removeImport(source, {
         className: INJECT_DECORATOR,
         importPath: ANGULAR_CORE,
-      })
+      }),
     );
   }
 
@@ -785,7 +785,7 @@ export function removeInjectImports(
       removeImport(source, {
         className: paramToRemove.injectionToken.token,
         importPath: paramToRemove.injectionToken.importPath,
-      })
+      }),
     );
   }
 
@@ -794,11 +794,11 @@ export function removeInjectImports(
 
 export function removeImport(
   source: ts.SourceFile,
-  importToRemove: ClassType
+  importToRemove: ClassType,
 ): Change {
   const importDeclarationNode = getImportDeclarationNode(
     source,
-    importToRemove
+    importToRemove,
   );
   if (!importDeclarationNode) {
     return new NoopChange();
@@ -808,7 +808,7 @@ export function removeImport(
   let toRemove = importToRemove.className;
   const importSpecifierNodes = findNodes(
     importDeclarationNode,
-    ts.SyntaxKind.ImportSpecifier
+    ts.SyntaxKind.ImportSpecifier,
   );
   if (importSpecifierNodes.length === 1) {
     // delete the whole import line
@@ -821,7 +821,7 @@ export function removeImport(
         const importNode = findNode(
           node,
           ts.SyntaxKind.Identifier,
-          importToRemove.className
+          importToRemove.className,
         );
         return {
           importNode,
@@ -846,7 +846,7 @@ export function removeImport(
 
 function getImportDeclarationNode(
   source: ts.SourceFile,
-  importToCheck: ClassType
+  importToCheck: ClassType,
 ): ts.Node | undefined {
   if (!importToCheck.importPath) {
     return undefined;
@@ -855,7 +855,7 @@ function getImportDeclarationNode(
   // collect al the import declarations
   const importDeclarationNodes = getImportDeclarations(
     source,
-    importToCheck.importPath
+    importToCheck.importPath,
   );
 
   if (importDeclarationNodes.length === 0) {
@@ -867,10 +867,10 @@ function getImportDeclarationNode(
   for (const currentImportDeclaration of importDeclarationNodes) {
     const importIdentifiers = findNodes(
       currentImportDeclaration,
-      ts.SyntaxKind.Identifier
+      ts.SyntaxKind.Identifier,
     );
     const found = importIdentifiers.find(
-      (node) => node.getText() === importToCheck.className
+      (node) => node.getText() === importToCheck.className,
     );
     if (found) {
       importDeclarationNode = currentImportDeclaration;
@@ -891,7 +891,7 @@ function getConstructorParameterList(constructorNode: ts.Node): ts.Node[] {
 function removeConstructorParamInternal(
   sourcePath: string,
   constructorNode: ts.Node,
-  importToRemove: ClassType
+  importToRemove: ClassType,
 ): Change[] {
   const constructorParameters = getConstructorParameterList(constructorNode);
 
@@ -915,8 +915,8 @@ function removeConstructorParamInternal(
         new RemoveChange(
           sourcePath,
           constructorParameter.getStart(),
-          constructorParameter.getText()
-        )
+          constructorParameter.getText(),
+        ),
       );
       return changes;
     }
@@ -927,12 +927,12 @@ function removeConstructorParamInternal(
 function removeParamFromSuper(
   sourcePath: string,
   constructorNode: ts.Node,
-  paramName: string
+  paramName: string,
 ): Change[] {
   const constructorBlock = findNodes(constructorNode, ts.SyntaxKind.Block)[0];
   const callExpressions = findNodes(
     constructorBlock,
-    ts.SyntaxKind.CallExpression
+    ts.SyntaxKind.CallExpression,
   );
   if (callExpressions.length === 0) {
     throw new SchematicsException('No super() call found.');
@@ -970,7 +970,7 @@ function removeParamFromSuper(
 function updateConstructorSuperNode(
   sourcePath: string,
   constructorNode: ts.Node,
-  propertyName: string
+  propertyName: string,
 ): InsertChange {
   const callBlock = findNodes(constructorNode, ts.SyntaxKind.Block);
   propertyName = strings.camelize(propertyName);
@@ -985,7 +985,7 @@ function updateConstructorSuperNode(
   const firstCallExpression = callExpression[0];
   const superKeyword = findNodes(
     firstCallExpression,
-    ts.SyntaxKind.SuperKeyword
+    ts.SyntaxKind.SuperKeyword,
   );
 
   if (superKeyword && superKeyword.length === 0) {
@@ -1009,14 +1009,14 @@ function updateConstructorSuperNode(
 }
 
 export function injectService(
-  config: InjectServiceConfiguration
+  config: InjectServiceConfiguration,
 ): InsertChange {
   if (!config.constructorNode) {
     throw new SchematicsException(`No constructor found in ${config.path}.`);
   }
 
   const constructorParameters = getConstructorParameterList(
-    config.constructorNode
+    config.constructorNode,
   );
 
   let toInsert = '';
@@ -1057,7 +1057,7 @@ export function insertCommentAboveConfigProperty(
   sourcePath: string,
   source: ts.SourceFile,
   identifierName: string,
-  comment: string
+  comment: string,
 ): Change[] {
   const identifierNodes = new Set<ts.Node>();
   getSourceNodes(source)
@@ -1065,7 +1065,7 @@ export function insertCommentAboveConfigProperty(
     .forEach((objectLiteralNode) =>
       findNodes(objectLiteralNode, ts.SyntaxKind.Identifier)
         .filter((node) => node.getText() === identifierName)
-        .forEach((idNode) => identifierNodes.add(idNode))
+        .forEach((idNode) => identifierNodes.add(idNode)),
     );
 
   const changes: Change[] = [];
@@ -1074,9 +1074,9 @@ export function insertCommentAboveConfigProperty(
       new InsertChange(
         sourcePath,
         getLineStartFromTSFile(source, n.getStart()),
-        `${comment}`
-      )
-    )
+        `${comment}`,
+      ),
+    ),
   );
   return changes;
 }
@@ -1086,7 +1086,7 @@ export function insertCommentAboveIdentifier(
   source: ts.SourceFile,
   identifierName: string,
   comment: string,
-  identifierType = ts.SyntaxKind.Identifier
+  identifierType = ts.SyntaxKind.Identifier,
 ): Change[] {
   const changes: InsertChange[] = [];
 
@@ -1096,7 +1096,7 @@ export function insertCommentAboveIdentifier(
     }
 
     const identifierNodes = findNodes(node, identifierType).filter(
-      (identifierNode) => identifierNode.getText() === identifierName
+      (identifierNode) => identifierNode.getText() === identifierName,
     );
 
     identifierNodes.forEach((n) =>
@@ -1104,9 +1104,9 @@ export function insertCommentAboveIdentifier(
         new InsertChange(
           sourcePath,
           getLineStartFromTSFile(source, n.getStart()),
-          `${comment}`
-        )
-      )
+          `${comment}`,
+        ),
+      ),
     );
   });
 
@@ -1115,20 +1115,20 @@ export function insertCommentAboveIdentifier(
 
 function getImportDeclarations(
   source: ts.SourceFile,
-  importPath: string
+  importPath: string,
 ): ts.ImportDeclaration[] {
   const imports = getSourceNodes(source).filter(
-    (node) => node.kind === ts.SyntaxKind.ImportDeclaration
+    (node) => node.kind === ts.SyntaxKind.ImportDeclaration,
   );
   return imports.filter((imp) =>
     ((imp as ts.ImportDeclaration).moduleSpecifier as ts.StringLiteral)
       .getText()
-      .includes(importPath)
+      .includes(importPath),
   ) as ts.ImportDeclaration[];
 }
 
 function filterNamespacedImports(
-  imports: ts.ImportDeclaration[]
+  imports: ts.ImportDeclaration[],
 ): ts.ImportDeclaration[] {
   return imports
     .filter((imp) => (imp.importClause?.namedBindings as any)?.name)
@@ -1136,7 +1136,7 @@ function filterNamespacedImports(
 }
 
 function filterNamedImports(
-  imports: ts.ImportDeclaration[]
+  imports: ts.ImportDeclaration[],
 ): ts.ImportDeclaration[] {
   return imports
     .filter((imp) => (imp.importClause?.namedBindings as any)?.elements)
@@ -1148,7 +1148,7 @@ export function insertCommentAboveImportIdentifier(
   source: ts.SourceFile,
   identifierName: string,
   importPath: string,
-  comment: string
+  comment: string,
 ): Change[] {
   const imports = getImportDeclarations(source, importPath);
   const namedImports = filterNamedImports(imports);
@@ -1159,17 +1159,17 @@ export function insertCommentAboveImportIdentifier(
     .filter(Boolean);
   const namedImportsWithIdentifierName = namedImports.filter((imp) =>
     findNodes(imp, ts.SyntaxKind.ImportSpecifier).find(
-      (node) => (node as any).name.escapedText === identifierName
-    )
+      (node) => (node as any).name.escapedText === identifierName,
+    ),
   );
 
   const propertyAccessExpressions = getSourceNodes(source).filter(
-    (node) => node.kind === ts.SyntaxKind.PropertyAccessExpression
+    (node) => node.kind === ts.SyntaxKind.PropertyAccessExpression,
   );
 
   const accessPropertiesToIdentifierName = propertyAccessExpressions
     .filter((member) =>
-      namespacedIdentifiers.includes((member as any)?.expression?.escapedText)
+      namespacedIdentifiers.includes((member as any)?.expression?.escapedText),
     )
     .filter((member) => identifierName === (member as any)?.name?.escapedText)
     .filter(Boolean);
@@ -1181,9 +1181,9 @@ export function insertCommentAboveImportIdentifier(
       new InsertChange(
         sourcePath,
         getLineStartFromTSFile(source, n.getStart()),
-        comment
-      )
-    )
+        comment,
+      ),
+    ),
   );
 
   accessPropertiesToIdentifierName.forEach((n) =>
@@ -1191,9 +1191,9 @@ export function insertCommentAboveImportIdentifier(
       new InsertChange(
         sourcePath,
         getLineStartFromTSFile(source, n.getStart()),
-        comment
-      )
-    )
+        comment,
+      ),
+    ),
   );
 
   return changes;
@@ -1203,16 +1203,16 @@ export function renameIdentifierNode(
   sourcePath: string,
   source: ts.SourceFile,
   oldName: string,
-  newName: string
+  newName: string,
 ): ReplaceChange[] {
   const identifierNodes = findLevel1NodesInSourceByTextAndKind(
     source,
     oldName,
-    ts.SyntaxKind.Identifier
+    ts.SyntaxKind.Identifier,
   );
   const changes: ReplaceChange[] = [];
   identifierNodes.forEach((n) =>
-    changes.push(new ReplaceChange(sourcePath, n.getStart(), oldName, newName))
+    changes.push(new ReplaceChange(sourcePath, n.getStart(), oldName, newName)),
   );
   return changes;
 }
@@ -1220,7 +1220,7 @@ export function renameIdentifierNode(
 function findLevel1NodesInSourceByTextAndKind(
   source: ts.SourceFile,
   text: string,
-  syntaxKind: ts.SyntaxKind
+  syntaxKind: ts.SyntaxKind,
 ): ts.Node[] {
   const nodes = getSourceNodes(source);
   return findLevel1NodesByTextAndKind(nodes, text, syntaxKind);
@@ -1229,7 +1229,7 @@ function findLevel1NodesInSourceByTextAndKind(
 function findLevel1NodesByTextAndKind(
   nodes: ts.Node[],
   text: string,
-  syntaxKind: ts.SyntaxKind
+  syntaxKind: ts.SyntaxKind,
 ): ts.Node[] {
   return nodes
     .filter((n) => n.kind === syntaxKind)
@@ -1239,12 +1239,12 @@ function findLevel1NodesByTextAndKind(
 export function findMultiLevelNodesByTextAndKind(
   nodes: ts.Node[],
   text: string,
-  syntaxKind: ts.SyntaxKind
+  syntaxKind: ts.SyntaxKind,
 ): ts.Node[] {
   const result: ts.Node[] = [];
   for (const node of nodes) {
     result.push(
-      ...findNodes(node, syntaxKind).filter((n) => n.getText() === text)
+      ...findNodes(node, syntaxKind).filter((n) => n.getText() === text),
     );
   }
   return result;
@@ -1252,7 +1252,7 @@ export function findMultiLevelNodesByTextAndKind(
 
 function getLineStartFromTSFile(
   source: ts.SourceFile,
-  position: number
+  position: number,
 ): number {
   const lac = source.getLineAndCharacterOfPosition(position);
   return source.getPositionOfLineAndCharacter(lac.line, 0);
@@ -1261,7 +1261,7 @@ function getLineStartFromTSFile(
 // as this is copied from https://github.com/angular/angular-cli/blob/master/packages/schematics/angular/app-shell/index.ts#L211, no need to test Angular's code
 export function getMetadataProperty(
   metadata: ts.Node,
-  propertyName: string
+  propertyName: string,
 ): ts.PropertyAssignment {
   const properties = (metadata as ts.ObjectLiteralExpression).properties;
   const property = properties.filter((prop) => {
@@ -1286,7 +1286,7 @@ export function getLineFromTSFile(
   host: Tree,
   path: string,
   position: number,
-  linesToRemove = 1
+  linesToRemove = 1,
 ): [number, number] {
   const tsFile = getTsSourceFile(host, path);
 
@@ -1294,7 +1294,7 @@ export function getLineFromTSFile(
   const lineStart = tsFile.getPositionOfLineAndCharacter(lac.line, 0);
   const nextLineStart = tsFile.getPositionOfLineAndCharacter(
     lac.line + linesToRemove,
-    0
+    0,
   );
 
   return [lineStart, nextLineStart - lineStart];

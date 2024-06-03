@@ -18,53 +18,53 @@ export const getProductState: MemoizedSelector<
 
 export const getSelectedProductStateFactory = (
   code: string,
-  scope = ''
+  scope = '',
 ): MemoizedSelector<StateWithProduct, StateUtils.LoaderState<Product>> => {
   return createSelector(
     getProductState,
     (details) =>
       (StateUtils.entityLoaderStateSelector(details, code) as any)[scope] ||
-      StateUtils.initialLoaderState
+      StateUtils.initialLoaderState,
   );
 };
 
 export const getSelectedProductFactory = (
   code: string,
-  scope = ''
+  scope = '',
 ): MemoizedSelector<StateWithProduct, Product> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
-    (productState) => StateUtils.loaderValueSelector(productState)
+    (productState) => StateUtils.loaderValueSelector(productState),
   );
 };
 
 export const getSelectedProductLoadingFactory = (
   code: string,
-  scope = ''
+  scope = '',
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
-    (productState) => StateUtils.loaderLoadingSelector(productState)
+    (productState) => StateUtils.loaderLoadingSelector(productState),
   );
 };
 
 export const getSelectedProductSuccessFactory = (
   code: string,
-  scope = ''
+  scope = '',
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
-    (productState) => StateUtils.loaderSuccessSelector(productState)
+    (productState) => StateUtils.loaderSuccessSelector(productState),
   );
 };
 
 export const getSelectedProductErrorFactory = (
   code: string,
-  scope = ''
+  scope = '',
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
-    (productState) => StateUtils.loaderErrorSelector(productState)
+    (productState) => StateUtils.loaderErrorSelector(productState),
   );
 };
 

@@ -29,7 +29,7 @@ context('Currency change', () => {
         siteContextSelector.CURRENCIES,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL,
-        siteContextSelector.FULL_BASE_URL_EN_JPY + productPath
+        siteContextSelector.FULL_BASE_URL_EN_JPY + productPath,
       );
     });
 
@@ -38,7 +38,7 @@ context('Currency change', () => {
         productPath,
         siteContextSelector.CURRENCIES,
         siteContextSelector.CURRENCY_JPY,
-        siteContextSelector.CURRENCY_LABEL
+        siteContextSelector.CURRENCY_LABEL,
       );
 
       cy.get('.price').should('contain', '¥690');

@@ -21,12 +21,12 @@ export class OccConfiguratorVariantOverviewNormalizer
 {
   constructor(
     protected translation: TranslationService,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
   ) {}
 
   convert(
     source: OccConfigurator.Overview,
-    target?: Configurator.Overview
+    target?: Configurator.Overview,
   ): Configurator.Overview {
     const prices: OccConfigurator.Prices = {
       priceSummary: source.pricing,
@@ -38,7 +38,7 @@ export class OccConfiguratorVariantOverviewNormalizer
       groups: source.groups?.flatMap((group) => this.convertGroup(group)),
       priceSummary: this.converterService.convert(
         prices,
-        VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER
+        VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER,
       ),
       productCode: source.productCode,
     };
@@ -47,7 +47,7 @@ export class OccConfiguratorVariantOverviewNormalizer
   }
 
   convertGroup(
-    source: OccConfigurator.GroupOverview
+    source: OccConfigurator.GroupOverview,
   ): Configurator.GroupOverview[] {
     const result: Configurator.GroupOverview[] = [];
     const characteristicValues:
@@ -76,8 +76,8 @@ export class OccConfiguratorVariantOverviewNormalizer
       const resultSubGroups: Configurator.GroupOverview[] = [];
       subGroups.forEach((subGroup) =>
         this.convertGroup(subGroup).forEach((groupArray) =>
-          resultSubGroups.push(groupArray)
-        )
+          resultSubGroups.push(groupArray),
+        ),
       );
       group.subGroups = resultSubGroups;
     }
@@ -97,7 +97,7 @@ export class OccConfiguratorVariantOverviewNormalizer
 
   protected setIssueCounters(
     target: Configurator.Overview,
-    source: OccConfigurator.Overview
+    source: OccConfigurator.Overview,
   ) {
     target.totalNumberOfIssues = source.totalNumberOfIssues;
     target.numberOfConflicts = source.numberOfConflicts;

@@ -50,7 +50,7 @@ describe('Cart reducer', () => {
       const state = fromGlobalMessage.reducer(initialState, action);
 
       expect(state.entities[GlobalMessageType.MSG_TYPE_CONFIRMATION]).toEqual(
-        []
+        [],
       );
     });
   });
@@ -68,18 +68,18 @@ describe('Cart reducer', () => {
       };
 
       const action = new GlobalMessageActions.RemoveMessagesByType(
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
+        GlobalMessageType.MSG_TYPE_CONFIRMATION,
       );
 
       const state = fromGlobalMessage.reducer(initialState, action);
 
       expect(state.entities[GlobalMessageType.MSG_TYPE_CONFIRMATION]).toEqual(
-        []
+        [],
       );
 
       // does not modify other fields
       expect(state.entities[GlobalMessageType.MSG_TYPE_ERROR]).toEqual(
-        initialState.entities[GlobalMessageType.MSG_TYPE_ERROR]
+        initialState.entities[GlobalMessageType.MSG_TYPE_ERROR],
       );
     });
   });

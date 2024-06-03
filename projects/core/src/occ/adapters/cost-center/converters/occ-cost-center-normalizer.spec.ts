@@ -43,7 +43,7 @@ describe('CostCenterNormalizer', () => {
     [OccCostCenterNormalizer],
     (costCenterNormalizer: OccCostCenterNormalizer) => {
       expect(costCenterNormalizer).toBeTruthy();
-    }
+    },
   ));
 
   it('should convert costCenter', () => {

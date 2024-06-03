@@ -24,7 +24,7 @@ export class CmsTicketInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     const cmsTicketId = this.service.cmsTicketId;
     if (!cmsTicketId) {
@@ -47,7 +47,7 @@ export class CmsTicketInterceptor implements HttpInterceptor {
   protected setRequestForProductListPage(
     request: HttpRequest<any>,
     next: HttpHandler,
-    cmsTicketId: string
+    cmsTicketId: string,
   ) {
     return this.routingService.getPageContext().pipe(
       take(1),
@@ -64,10 +64,10 @@ export class CmsTicketInterceptor implements HttpInterceptor {
                 setParams: {
                   cmsTicketId,
                 },
-              }
+              },
         );
         return next.handle(request);
-      })
+      }),
     );
   }
 }

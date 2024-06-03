@@ -49,7 +49,7 @@ export function serverRequestOriginFactory(options?: ServerOptions): Function {
         }),
       ],
     })
-    export class AppServerModule {}`
+    export class AppServerModule {}`,
     );
   };
 }

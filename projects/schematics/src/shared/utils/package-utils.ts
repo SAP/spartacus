@@ -42,7 +42,7 @@ const DEV_DEPENDENCIES_KEYWORDS = [
 ];
 
 export function createSpartacusDependencies(
-  dependencyObject: Record<string, string>
+  dependencyObject: Record<string, string>,
 ): NodeDependency[] {
   const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
   return createDependencies(dependencyObject, {
@@ -69,7 +69,7 @@ export function createDependencies(
     overwrite?: boolean;
   } = {
     skipScopes: FEATURES_LIBS_SKIP_SCOPES,
-  }
+  },
 ): NodeDependency[] {
   const dependencies: NodeDependency[] = [];
   for (const dependencyName in dependencyObject) {
@@ -86,15 +86,15 @@ export function createDependencies(
       !options.onlyIncludeScopes ||
       // if defined, check if the current dependency is in the given array
       options.onlyIncludeScopes.some((scope) =>
-        dependencyName.startsWith(scope)
+        dependencyName.startsWith(scope),
       )
     ) {
       dependencies.push(
         mapPackageToNodeDependencies(
           dependencyName,
           options.version ?? dependencyObject[dependencyName],
-          options.overwrite
-        )
+          options.overwrite,
+        ),
       );
     }
   }
@@ -105,10 +105,10 @@ export function createDependencies(
 export function mapPackageToNodeDependencies(
   packageName: string,
   pkgVersion: string,
-  overwrite = false
+  overwrite = false,
 ): NodeDependency {
   const type = DEV_DEPENDENCIES_KEYWORDS.some((keyword) =>
-    packageName.includes(keyword)
+    packageName.includes(keyword),
   )
     ? NodeDependencyType.Dev
     : NodeDependencyType.Default;
@@ -220,7 +220,7 @@ export function prepare3rdPartyDependencies(): NodeDependency[] {
 
 export function updatePackageJsonDependencies(
   dependencies: NodeDependency[],
-  packageJson: any
+  packageJson: any,
 ): Rule {
   return (tree: Tree, context: SchematicContext): Rule => {
     const dependenciesToAdd: NodeDependency[] = [];
@@ -228,7 +228,7 @@ export function updatePackageJsonDependencies(
     for (const dependency of dependencies) {
       const currentVersion = getCurrentDependencyVersion(
         dependency,
-        packageJson
+        packageJson,
       );
       if (!currentVersion) {
         dependenciesToAdd.push(dependency);
@@ -240,7 +240,7 @@ export function updatePackageJsonDependencies(
       }
 
       const versionToUpdate = semver.parse(
-        cleanSemverVersion(dependency.version)
+        cleanSemverVersion(dependency.version),
       );
       if (!versionToUpdate || semver.eq(versionToUpdate, currentVersion)) {
         continue;
@@ -251,7 +251,7 @@ export function updatePackageJsonDependencies(
         ? 'Upgrading'
         : 'Downgrading';
       context.logger.info(
-        `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
+        `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`,
       );
     }
 
@@ -261,7 +261,7 @@ export function updatePackageJsonDependencies(
 
 function getCurrentDependencyVersion(
   dependency: NodeDependency,
-  packageJson: any
+  packageJson: any,
 ): semver.SemVer | null {
   if (!dependencyExists(dependency, packageJson)) {
     return null;

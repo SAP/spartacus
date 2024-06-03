@@ -45,7 +45,7 @@ describe('B2BUser Selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });
@@ -62,7 +62,7 @@ describe('B2BUser Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new B2BUserActions.LoadB2BUserSuccess([orgCustomer, orgCustomer2])
+        new B2BUserActions.LoadB2BUserSuccess([orgCustomer, orgCustomer2]),
       );
       expect(result).toEqual({
         entities: { entities },
@@ -82,7 +82,7 @@ describe('B2BUser Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new B2BUserActions.LoadB2BUserSuccess([orgCustomer, orgCustomer2])
+        new B2BUserActions.LoadB2BUserSuccess([orgCustomer, orgCustomer2]),
       );
       expect(result).toEqual({ entities });
     });
@@ -96,7 +96,7 @@ describe('B2BUser Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new B2BUserActions.LoadB2BUserSuccess([orgCustomer, orgCustomer2])
+        new B2BUserActions.LoadB2BUserSuccess([orgCustomer, orgCustomer2]),
       );
       expect(result).toEqual(entities.orgCustomerId);
     });
@@ -110,7 +110,7 @@ describe('B2BUser Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new B2BUserActions.LoadB2BUserSuccess([orgCustomer, orgCustomer2])
+        new B2BUserActions.LoadB2BUserSuccess([orgCustomer, orgCustomer2]),
       );
       expect(result).toEqual({ entities });
     });

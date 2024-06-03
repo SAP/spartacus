@@ -77,7 +77,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
   valid$ = this.cartId.statusChanges.pipe(
     map((status) => status === 'VALID'),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   activeCartId = '';
@@ -100,7 +100,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected savedCartFacade: SavedCartFacade,
     protected asmComponentService?: AsmComponentService,
-    protected routing?: RoutingService
+    protected routing?: RoutingService,
   ) {}
 
   ngOnInit(): void {
@@ -110,7 +110,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
       this.activeCartFacade.getActiveCartId().subscribe((response) => {
         this.activeCartId = response ?? '';
         this.cartId.setValue(this.deepLinkCartId || this.activeCartId);
-      })
+      }),
     );
   }
 
@@ -137,29 +137,29 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
         concatMap(() =>
           this.activeCartFacade.getActive().pipe(
             map((cart) => cart.deliveryItemsQuantity ?? 0),
-            take(1)
-          )
+            take(1),
+          ),
         ),
         concatMap((cartItemCount) =>
           iif(
             () => Boolean(this.activeCartId && cartItemCount),
             this.openDialog(this.activeCartId, anonymousCartId as string),
-            this.simpleBindCart(anonymousCartId as string)
-          )
+            this.simpleBindCart(anonymousCartId as string),
+          ),
         ),
-        finalize(() => this.loading$.next(false))
+        finalize(() => this.loading$.next(false)),
       )
       .subscribe({
         next: () => {
           this.globalMessageService.add(
             { key: 'asm.bindCart.success' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
+            GlobalMessageType.MSG_TYPE_CONFIRMATION,
           );
         },
         error: (error: HttpErrorModel) => {
           this.globalMessageService.add(
             error.details?.[0].message ?? '',
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
         },
       });
@@ -182,7 +182,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
         filter((state) => state.loading === false && state.success === true),
         take(1),
         map((state) => state.value as Cart),
-        filter((cart) => !!cart)
+        filter((cart) => !!cart),
       )
       .subscribe((cart) => {
         this.openASMSaveCartDialog(cart);
@@ -212,7 +212,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
    */
   protected simpleBindCart(anonymousCartId: string): Observable<unknown> {
     return defer(() => this.asmBindCartFacade.bindCart(anonymousCartId)).pipe(
-      tap(() => this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT))
+      tap(() => this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT)),
     );
   }
 
@@ -223,11 +223,11 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     return defer(() => {
       this.launchDialogService.openDialogAndSubscribe(
         LAUNCH_CALLER.ASM_BIND_CART,
-        this.bindToCartElemRef
+        this.bindToCartElemRef,
       );
       return this.launchDialogService.dialogClose.pipe(
         filter((result) => Boolean(result)),
-        take(1)
+        take(1),
       ) as Observable<BIND_CART_DIALOG_ACTION>;
     }).pipe(
       filter((dialogResult) => Boolean(dialogResult)),
@@ -235,16 +235,16 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
         return this.selectBindAction(
           activeCartId,
           anonymousCartId,
-          dialogResult
+          dialogResult,
         );
-      })
+      }),
     );
   }
 
   protected selectBindAction(
     activeCartId: string,
     anonymousCartId: string,
-    action: BIND_CART_DIALOG_ACTION
+    action: BIND_CART_DIALOG_ACTION,
   ): Observable<unknown> {
     switch (action) {
       case BIND_CART_DIALOG_ACTION.REPLACE:
@@ -258,7 +258,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
   protected replaceCart(
     previousActiveCartId: string,
-    anonymousCartId: string
+    anonymousCartId: string,
   ): Observable<unknown> {
     return this.simpleBindCart(anonymousCartId).pipe(
       tap(() => {
@@ -268,7 +268,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
           // TODO(#12660): Remove default value once backend is updated
           saveCartDescription: '-',
         });
-      })
+      }),
     );
   }
 
@@ -280,8 +280,8 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
           filter(
             (emulated) =>
               emulated &&
-              !!this.asmComponentService?.getSearchParameter('cartId')
-          )
+              !!this.asmComponentService?.getSearchParameter('cartId'),
+          ),
         )
         .subscribe(() => {
           const cartType =
@@ -290,13 +290,13 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
             this.displayBindCartBtn$.next(false);
             this.displaySaveCartBtn$.next(cartType === 'inactive');
             this.deepLinkCartId = this.asmComponentService?.getSearchParameter(
-              'cartId'
+              'cartId',
             ) as string;
             this.cartId.setValue(this.deepLinkCartId);
             this.asmComponentService?.setShowDeeplinkCartInfoAlert(true);
             this.asmComponentService?.handleDeepLinkNavigation();
           }
-        })
+        }),
     );
   }
 
@@ -304,7 +304,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_SAVE_CART,
       this.saveInactiveCartElemRef,
-      inactiveCart
+      inactiveCart,
     );
   }
 
@@ -313,7 +313,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
       .pipe(
         filter((result) => result === SAVE_CART_DIALOG_ACTION.SAVE),
         take(1),
-        tap(() => this.loading$.next(true))
+        tap(() => this.loading$.next(true)),
       )
       .subscribe();
 
@@ -322,7 +322,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
       .pipe(
         filter((success) => success),
         take(1),
-        tap(() => this.loading$.next(false))
+        tap(() => this.loading$.next(false)),
       )
       .subscribe(() => {
         this.goToSavedCartDetails(this.deepLinkCartId);
@@ -334,7 +334,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
       .pipe(
         filter((error) => error),
         take(1),
-        tap(() => this.loading$.next(false))
+        tap(() => this.loading$.next(false)),
       )
       .subscribe();
   }

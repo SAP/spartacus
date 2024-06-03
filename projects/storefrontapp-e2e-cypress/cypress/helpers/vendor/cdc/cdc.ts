@@ -62,7 +62,7 @@ export function interceptGetB2BUser() {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
+      'BASE_SITE',
     )}/${Cypress.env('OCC_PREFIX_USER_ENDPOINT')}/current?*`,
   }).as('currentB2BUser');
 
@@ -101,10 +101,10 @@ export function fillAndSubmitRegistrationForm(cdcUser) {
     cy.get('[placeholder="Password *"]').type(cdcUser.password);
     cy.get('[placeholder="Confirm password *"]').type(cdcUser.password);
     cy.get(
-      '[data-gigya-name="preferences.terms.test.terms.of.use.isConsentGranted"]'
+      '[data-gigya-name="preferences.terms.test.terms.of.use.isConsentGranted"]',
     ).check();
     cy.get(
-      '[data-gigya-name="preferences.consent.survey.isConsentGranted"]'
+      '[data-gigya-name="preferences.consent.survey.isConsentGranted"]',
     ).check();
     cy.get('[class="gigya-input-submit"]').click();
   });
@@ -125,7 +125,7 @@ export function fillAndSubmitNativeRegistrationForm(cdcUser) {
     cy.get('[placeholder="Password *"]').type(cdcUser.password);
     cy.get('[placeholder="Confirm password *"]').type(cdcUser.password);
     cy.get(
-      '[data-gigya-name="preferences.terms.test.terms.of.use.isConsentGranted"]'
+      '[data-gigya-name="preferences.terms.test.terms.of.use.isConsentGranted"]',
     ).check();
     cy.get('[class="gigya-input-submit"]').click();
   });
@@ -166,7 +166,7 @@ export function verifyLoginOrRegistrationSuccess(fullName: string) {
 export function verifyOrgRegistrationRequestReceived() {
   cy.get('[id="gigya-org-register-success-screen"]').should(
     'contain',
-    "We have received your request to register as a Customer. You'll receive an email once your request is approved."
+    "We have received your request to register as a Customer. You'll receive an email once your request is approved.",
   );
 }
 
@@ -182,7 +182,7 @@ export function interceptCDCSDKMethod(methodName: string) {
 
 export function verifyCDCReqAddressPayload(
   cdcInterceptName: string,
-  address: any
+  address: any,
 ) {
   cy.wait(`@${cdcInterceptName}`)
     .then((xhr) => {
@@ -230,7 +230,7 @@ export function updateUserProfile(lastName: string = updatedName) {
 
 export function updateUserProfilePassword(
   oldPass: string,
-  newPass: string = updatedPassword
+  newPass: string = updatedPassword,
 ) {
   cy.get('[id="gigya-profile-form"]').within(() => {
     cy.get('[data-switch-screen="gigya-change-password-screen"]')
@@ -259,7 +259,7 @@ export function updateUserProfileEmail(email: string = updatedEmail) {
 }
 
 export function updateUserProfileWithoutScreenset(
-  lastName: string = updatedName
+  lastName: string = updatedName,
 ) {
   let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
   cy.get('cx-update-profile form').within(() => {
@@ -277,7 +277,7 @@ export function updateUserProfileWithoutScreenset(
 export function verifyProfileUpdateSuccess(cdcUser) {
   cy.get('[class="cx-login-greet"]').should(
     'contain',
-    cdcUser.firstName + updatedName
+    cdcUser.firstName + updatedName,
   );
 }
 
@@ -289,7 +289,7 @@ export function restoreUserLastName(cdcUser) {
 export function updateEmailWithoutScreenset(
   email: string = updatedEmail,
   password: string = b2bUser.password,
-  isErrorTestCase: boolean = false
+  isErrorTestCase: boolean = false,
 ) {
   const cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
 
@@ -320,7 +320,7 @@ export function verifyUpdateEmailError() {
 export function verifyUpdateEmailSuccess(
   email: string,
   password: string,
-  fullName: string
+  fullName: string,
 ) {
   //Login user
   cy.visit('/login');
@@ -338,7 +338,7 @@ export function restoreUserEmail(cdcUser) {
 export function updatePasswordWithoutScreenset(
   oldPass: string = b2bUser.password,
   newPass: string = updatedPassword,
-  isErrorTestCase: boolean = false
+  isErrorTestCase: boolean = false,
 ) {
   const cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
   cy.get('cx-update-password form').within(() => {
@@ -368,7 +368,7 @@ export function verifyUpdatePasswordError() {
 export function verifyUpdatePasswordSuccess(
   email: string,
   password: string,
-  fullName: string
+  fullName: string,
 ) {
   cy.visit('/login');
   loginWithoutScreenSet(email, password);
@@ -468,7 +468,7 @@ export function verifyForgotPasswordError() {
   //verify error message is shown.
   cy.get('[role="alert"]').should(
     'contain',
-    'There is no user with that username or email'
+    'There is no user with that username or email',
   );
   //check for no route change
   cy.location().should((location) => {
@@ -479,7 +479,7 @@ export function verifyForgotPasswordError() {
 export function verifyForgotPasswordSuccess() {
   cy.get('.gigya-message').should(
     'contain',
-    'An email regarding your password change has been sent to your email address.'
+    'An email regarding your password change has been sent to your email address.',
   );
   //check for no route change
   cy.location().should((location) => {
@@ -502,7 +502,7 @@ export function verifyForgotPasswordWithoutScreensetSuccess() {
   const alert = alerts.getSuccessAlert();
   alert.should(
     'contain',
-    'An email has been sent to you with information on how to reset your password.'
+    'An email has been sent to you with information on how to reset your password.',
   );
   //check for no route change
   cy.location().should((location) => {

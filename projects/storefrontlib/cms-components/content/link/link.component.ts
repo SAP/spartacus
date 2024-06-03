@@ -33,7 +33,7 @@ export class LinkComponent implements OnDestroy, OnInit {
     this.subscriptions.add(
       this.data$.subscribe((data) => {
         this.styleClasses = data?.styleClasses;
-      })
+      }),
     );
   }
 

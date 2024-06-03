@@ -25,11 +25,11 @@ export class ProductReviewService {
       tap((reviews) => {
         if (reviews === undefined && productCode !== undefined) {
           this.store.dispatch(
-            new ProductActions.LoadProductReviews(productCode)
+            new ProductActions.LoadProductReviews(productCode),
           );
         }
       }),
-      map((reviews) => reviews ?? [])
+      map((reviews) => reviews ?? []),
     );
   }
 
@@ -38,7 +38,7 @@ export class ProductReviewService {
       new ProductActions.PostProductReview({
         productCode: productCode,
         review,
-      })
+      }),
     );
   }
 }

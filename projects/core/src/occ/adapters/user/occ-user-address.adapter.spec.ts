@@ -74,7 +74,7 @@ describe('OccUserAddressAdapter', () => {
         'addressVerification',
         {
           urlParams: { userId: username },
-        }
+        },
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -94,7 +94,7 @@ describe('OccUserAddressAdapter', () => {
         'addressVerification',
         {
           urlParams: { userId: 'anonymous' },
-        }
+        },
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -111,10 +111,10 @@ describe('OccUserAddressAdapter', () => {
 
       expect(converter.convert).toHaveBeenCalledWith(
         address,
-        ADDRESS_SERIALIZER
+        ADDRESS_SERIALIZER,
       );
       expect(converter.pipeable).toHaveBeenCalledWith(
-        ADDRESS_VALIDATION_NORMALIZER
+        ADDRESS_VALIDATION_NORMALIZER,
       );
     });
   });

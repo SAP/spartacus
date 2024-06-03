@@ -38,7 +38,7 @@ export interface PaymentDetails {
 
 export function fillShippingAddress(
   shippingAddress: Partial<AddressData>,
-  submitForm: boolean = true
+  submitForm: boolean = true,
 ) {
   cy.wait(3000);
   cy.get('button.btn-primary').should('be.visible');
@@ -116,7 +116,7 @@ export function fillBillingAddress(billingAddress: AddressData) {
       .type(billingAddress.address.city);
     if (billingAddress.address.state) {
       cy.get('[formcontrolname="isocodeShort"]').ngSelect(
-        billingAddress.address.state
+        billingAddress.address.state,
       );
     }
     cy.get('[formcontrolname="postalCode"]')
@@ -128,7 +128,7 @@ export function fillBillingAddress(billingAddress: AddressData) {
 export function fillPaymentDetails(
   paymentDetails: DeepPartial<PaymentDetails>,
   billingAddress?: AddressData,
-  submitForm: boolean = true
+  submitForm: boolean = true,
 ) {
   cy.get('cx-payment-form').within(() => {
     if (paymentDetails) {

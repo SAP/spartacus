@@ -88,7 +88,7 @@ describe('MyAccountV2OrderHistoryService', () => {
         StoreModule.forFeature(ORDER_FEATURE, fromStoreReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
+          fromProcessReducers.getReducers(),
         ),
       ],
       providers: [
@@ -115,7 +115,7 @@ describe('MyAccountV2OrderHistoryService', () => {
     [MyAccountV2OrderHistoryService],
     (service: MyAccountV2OrderHistoryService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
   it('should clear order history list', () => {
     historyService.clearOrderList = createSpy().and.stub();
@@ -137,7 +137,7 @@ describe('MyAccountV2OrderHistoryService', () => {
               orderCode,
               consignmentCode,
               userId: OCC_USER_ID_CURRENT,
-            })
+            }),
           );
         });
 
@@ -148,7 +148,7 @@ describe('MyAccountV2OrderHistoryService', () => {
           orderCode,
           consignmentCode,
           userId: OCC_USER_ID_CURRENT,
-        })
+        }),
       );
       sub.unsubscribe();
     }));
@@ -160,7 +160,7 @@ describe('MyAccountV2OrderHistoryService', () => {
           orderCode,
           consignmentCode,
           consignmentTracking: tracking1,
-        })
+        }),
       );
       service
         .getConsignmentTracking(orderCode, consignmentCode)
@@ -174,7 +174,7 @@ describe('MyAccountV2OrderHistoryService', () => {
           orderCode,
           consignmentCode,
           userId: OCC_USER_ID_CURRENT,
-        })
+        }),
       );
     });
   });
@@ -191,7 +191,7 @@ describe('MyAccountV2OrderHistoryService', () => {
             new OrderActions.LoadOrderById({
               userId: OCC_USER_ID_CURRENT,
               code: orderCode,
-            })
+            }),
           );
         });
 
@@ -201,7 +201,7 @@ describe('MyAccountV2OrderHistoryService', () => {
         new OrderActions.LoadOrderById({
           code: orderCode,
           userId: OCC_USER_ID_CURRENT,
-        })
+        }),
       );
       sub.unsubscribe();
     }));
@@ -220,7 +220,7 @@ describe('MyAccountV2OrderHistoryService', () => {
         new OrderActions.LoadOrderById({
           code: orderCode,
           userId: OCC_USER_ID_CURRENT,
-        })
+        }),
       );
     });
   });
@@ -236,7 +236,7 @@ describe('MyAccountV2OrderHistoryService', () => {
             new OrderActions.LoadOrderById({
               userId: OCC_USER_ID_CURRENT,
               code: orderCode,
-            })
+            }),
           );
         });
 
@@ -246,7 +246,7 @@ describe('MyAccountV2OrderHistoryService', () => {
         new OrderActions.LoadOrderById({
           code: orderCode,
           userId: OCC_USER_ID_CURRENT,
-        })
+        }),
       );
       sub.unsubscribe();
     }));
@@ -265,7 +265,7 @@ describe('MyAccountV2OrderHistoryService', () => {
         new OrderActions.LoadOrderById({
           code: orderCode,
           userId: OCC_USER_ID_CURRENT,
-        })
+        }),
       );
     });
     it('should return `undefined` in case of error when loading order', () => {
@@ -274,7 +274,7 @@ describe('MyAccountV2OrderHistoryService', () => {
         new OrderActions.LoadOrderByIdFail({
           code: 'orderX',
           error: 'Product not found',
-        })
+        }),
       );
       service
         .getOrderDetailsV2('orderX')
@@ -306,7 +306,7 @@ describe('MyAccountV2OrderHistoryService', () => {
         expect(service.getOrderDetailsV2).toHaveBeenCalledWith(orderCode);
         expect(service.getConsignmentTracking).toHaveBeenCalledWith(
           orderCode,
-          consignmentCode
+          consignmentCode,
         );
       });
     });
@@ -331,7 +331,7 @@ describe('MyAccountV2OrderHistoryService', () => {
   describe('getOrderHistoryListWithDetails', () => {
     it('should return order details with extra details', () => {
       historyService.getOrderHistoryList = createSpy().and.returnValue(
-        of(list)
+        of(list),
       );
       spyOn(service, 'getOrderDetailsWithTracking')
         .withArgs(orderCode2)
@@ -390,7 +390,7 @@ describe('MyAccountV2OrderHistoryService', () => {
         sorts: [],
       };
       returnService.getOrderReturnRequestList = createSpy().and.returnValue(
-        of(returnList)
+        of(returnList),
       );
       spyOn(service, 'getOrderHistoryListWithDetails').and.returnValue(
         of({
@@ -410,7 +410,7 @@ describe('MyAccountV2OrderHistoryService', () => {
           ],
           pagination: {},
           sorts: [],
-        })
+        }),
       );
       service
         .getOrderHistoryList(2)

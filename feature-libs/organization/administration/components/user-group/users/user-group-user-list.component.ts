@@ -30,7 +30,7 @@ import { UserGroupUserListService } from './user-group-user-list.service';
 export class UserGroupUserListComponent {
   constructor(
     protected currentUserGroupService: CurrentUserGroupService,
-    protected userGroupUserListService: UserGroupUserListService
+    protected userGroupUserListService: UserGroupUserListService,
   ) {}
 
   @ViewChild('subList')
@@ -43,9 +43,9 @@ export class UserGroupUserListComponent {
         switchMap((key) =>
           this.userGroupUserListService.unassignAllMembers(key).pipe(
             take(1),
-            filter((data) => data.status === LoadStatus.SUCCESS)
-          )
-        )
+            filter((data) => data.status === LoadStatus.SUCCESS),
+          ),
+        ),
       )
       .subscribe((data) => {
         this.notify(data.item);

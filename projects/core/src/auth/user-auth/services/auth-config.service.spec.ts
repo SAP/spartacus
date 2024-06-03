@@ -96,7 +96,7 @@ describe('AuthConfigService', () => {
     it('should return token endpoint with occ baseUrl, when auth baseUrl is not provided', () => {
       authConfig.authentication.baseUrl = undefined;
       expect(service.getTokenEndpoint()).toEqual(
-        'occBaseUrl/authorizationserver/token'
+        'occBaseUrl/authorizationserver/token',
       );
     });
 
@@ -114,7 +114,7 @@ describe('AuthConfigService', () => {
     it('should return login url with occ baseUrl, when auth baseUrl is not provided', () => {
       authConfig.authentication.baseUrl = undefined;
       expect(service.getLoginUrl()).toEqual(
-        'occBaseUrl/authorizationserver/login'
+        'occBaseUrl/authorizationserver/login',
       );
     });
 
@@ -132,7 +132,7 @@ describe('AuthConfigService', () => {
     it('should return revoke endpoint with occ baseUrl, when auth baseUrl is not provided', () => {
       authConfig.authentication.baseUrl = undefined;
       expect(service.getRevokeEndpoint()).toEqual(
-        'occBaseUrl/authorizationserver/revoke'
+        'occBaseUrl/authorizationserver/revoke',
       );
     });
 
@@ -150,7 +150,7 @@ describe('AuthConfigService', () => {
     it('should return logout url with occ baseUrl, when auth baseUrl is not provided', () => {
       authConfig.authentication.baseUrl = undefined;
       expect(service.getLogoutUrl()).toEqual(
-        'occBaseUrl/authorizationserver/logout'
+        'occBaseUrl/authorizationserver/logout',
       );
     });
 
@@ -168,7 +168,7 @@ describe('AuthConfigService', () => {
     it('should return userinfo endpoint with occ baseUrl, when auth baseUrl is not provided', () => {
       authConfig.authentication.baseUrl = undefined;
       expect(service.getUserinfoEndpoint()).toEqual(
-        'occBaseUrl/authorizationserver/userinfo'
+        'occBaseUrl/authorizationserver/userinfo',
       );
     });
 

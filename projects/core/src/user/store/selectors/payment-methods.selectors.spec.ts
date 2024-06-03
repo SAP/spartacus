@@ -55,8 +55,8 @@ describe('User Payment Methods Selectors', () => {
 
       store.dispatch(
         new UserActions.LoadUserPaymentMethodsSuccess(
-          mockUserPaymentMethods.payments
-        )
+          mockUserPaymentMethods.payments,
+        ),
       );
 
       expect(result).toEqual(mockUserPaymentMethods.payments);

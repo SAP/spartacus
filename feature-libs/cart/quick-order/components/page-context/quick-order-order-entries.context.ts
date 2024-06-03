@@ -39,7 +39,7 @@ export class QuickOrderOrderEntriesContext
 
   constructor(
     protected quickOrderService: QuickOrderFacade,
-    protected productConnector: ProductConnector
+    protected productConnector: ProductConnector,
   ) {}
 
   getEntries(): Observable<OrderEntry[]> {
@@ -59,15 +59,15 @@ export class QuickOrderOrderEntriesContext
                   tap((product) => {
                     this.quickOrderService.addProduct(
                       product,
-                      productData.quantity
+                      productData.quantity,
                     );
                   }),
                   map((product) => this.handleResults(product, productData)),
                   catchError((response: HttpErrorResponse) => {
                     return of(
-                      this.handleErrors(response, productData.productCode)
+                      this.handleErrors(response, productData.productCode),
                     );
-                  })
+                  }),
                 );
               } else {
                 return of({
@@ -75,15 +75,15 @@ export class QuickOrderOrderEntriesContext
                   statusCode: ProductImportStatus.LIMIT_EXCEEDED,
                 });
               }
-            })
-          )
-      )
+            }),
+          ),
+      ),
     ).pipe(mergeAll(), take(productsData.length));
   }
 
   protected handleResults(
     product: Product,
-    productData: ProductData
+    productData: ProductData,
   ): ProductImportInfo {
     if (
       product.stock?.stockLevel &&
@@ -112,7 +112,7 @@ export class QuickOrderOrderEntriesContext
 
   protected handleErrors(
     response: HttpErrorResponse,
-    productCode: string
+    productCode: string,
   ): ProductImportInfo {
     if (response?.error?.errors[0].type === 'UnknownIdentifierError') {
       return {
@@ -123,7 +123,7 @@ export class QuickOrderOrderEntriesContext
       if (isDevMode()) {
         this.logger.warn(
           'Unrecognized cart add entry action type while mapping messages',
-          response
+          response,
         );
       }
       return {

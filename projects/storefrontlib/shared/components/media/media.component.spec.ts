@@ -66,7 +66,7 @@ const mockMissingImageContainer = undefined;
 
 function configureTestingModule(
   mockMediaService: MockMediaService,
-  isLegacy: boolean = true
+  isLegacy: boolean = true,
 ): void {
   TestBed.configureTestingModule({
     declarations: [MediaComponent, MockMediaSourcesPipe],
@@ -115,7 +115,7 @@ describe('MediaComponent', () => {
     expect(
       (<HTMLImageElement>(
         fixture.debugElement.query(By.css('img')).nativeElement
-      )).src
+      )).src,
     ).toContain(mediaUrl);
   });
 
@@ -136,7 +136,7 @@ describe('MediaComponent', () => {
     const { service } = createComponent();
 
     spyOnProperty(service, 'loadingStrategy').and.returnValue(
-      ImageLoadingStrategy.LAZY
+      ImageLoadingStrategy.LAZY,
     );
     const lazyFixture = TestBed.createComponent(MediaComponent);
     const lazyComponent = lazyFixture.componentInstance;
@@ -154,7 +154,7 @@ describe('MediaComponent', () => {
     const { fixture } = createComponent();
 
     expect(
-      (<HTMLImageElement>fixture.debugElement.nativeElement).classList
+      (<HTMLImageElement>fixture.debugElement.nativeElement).classList,
     ).toContain('is-loading');
   });
 
@@ -168,10 +168,10 @@ describe('MediaComponent', () => {
     fixture.detectChanges();
 
     expect(
-      (<HTMLImageElement>fixture.debugElement.nativeElement).classList
+      (<HTMLImageElement>fixture.debugElement.nativeElement).classList,
     ).not.toContain('is-loading');
     expect(
-      (<HTMLImageElement>fixture.debugElement.nativeElement).classList
+      (<HTMLImageElement>fixture.debugElement.nativeElement).classList,
     ).toContain('is-initialized');
   });
 
@@ -191,7 +191,7 @@ describe('MediaComponent', () => {
     fixture.detectChanges();
 
     expect(
-      (<HTMLImageElement>fixture.debugElement.nativeElement).classList
+      (<HTMLImageElement>fixture.debugElement.nativeElement).classList,
     ).toContain('is-missing');
   });
 

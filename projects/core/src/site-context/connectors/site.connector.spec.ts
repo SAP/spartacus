@@ -12,27 +12,27 @@ const mockBaseSites = [{ uid: 'test-uid' }];
 
 class MockSiteAdapter implements SiteAdapter {
   loadCurrencies = createSpy('SiteAdapter.loadCurrencies').and.callFake(() =>
-    of(mockCurrencies)
+    of(mockCurrencies),
   );
 
   loadLanguages = createSpy('SiteAdapter.loadLanguages').and.callFake(() =>
-    of(mockLanguages)
+    of(mockLanguages),
   );
 
   loadCountries = createSpy('SiteAdapter.loadCountries').and.returnValue(
-    of([])
+    of([]),
   );
 
   loadRegions = createSpy('SiteAdapter.loadRegions').and.callFake(
-    (countryCode) => of(`loadRegions-${countryCode}`)
+    (countryCode) => of(`loadRegions-${countryCode}`),
   );
 
   loadBaseSite = createSpy('SiteAdapter.loadBaseSite').and.callFake(() =>
-    of(mockBaseSite)
+    of(mockBaseSite),
   );
 
   loadBaseSites = createSpy('SiteAdapter.loadBaseSites').and.callFake(() =>
-    of(mockBaseSites)
+    of(mockBaseSites),
   );
 }
 

@@ -114,7 +114,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
    */
   protected urlTreeIncludeContextParameters(
     urlTree: UrlTreeWithSiteContext,
-    params: SiteContextUrlParams
+    params: SiteContextUrlParams,
   ): void {
     urlTree.siteContext = params;
   }
@@ -135,7 +135,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
    * of the UrlTree: `siteContext`.
    */
   urlTreeExtractContextParameters(
-    urlTree: UrlTreeWithSiteContext
+    urlTree: UrlTreeWithSiteContext,
   ): SiteContextUrlParams {
     return urlTree.siteContext ? urlTree.siteContext : {};
   }
@@ -145,7 +145,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
    */
   protected urlIncludeContextParameters(
     url: string,
-    params: SiteContextUrlParams
+    params: SiteContextUrlParams,
   ): string {
     const contextRoutePart = this.urlEncodingParameters
       .map((param) => {

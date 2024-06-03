@@ -35,7 +35,7 @@ export class PreferredStoreService implements PreferredStoreFacade {
     protected config: PickupInStoreConfig,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected winRef: WindowRef,
-    protected store: Store<StateWithPickupLocations>
+    protected store: Store<StateWithPickupLocations>,
   ) {
     this.store.dispatch(LoadDefaultPointOfService());
   }
@@ -46,7 +46,7 @@ export class PreferredStoreService implements PreferredStoreFacade {
    */
   getPreferredStore$(): Observable<PointOfServiceNames | null> {
     return this.store.pipe(
-      select(DefaultPointOfServiceSelectors.getPreferredStore)
+      select(DefaultPointOfServiceSelectors.getPreferredStore),
     );
   }
 
@@ -71,14 +71,14 @@ export class PreferredStoreService implements PreferredStoreFacade {
    * @param productCode The product code to check the stock level of
    */
   getPreferredStoreWithProductInStock(
-    productCode: string
+    productCode: string,
   ): Observable<PointOfServiceNames> {
     return this.getPreferredStore$().pipe(
       filter((store): store is PointOfServiceNames => !!store),
       tap((preferredStore) => {
         this.pickupLocationsSearchService.stockLevelAtStore(
           productCode,
-          preferredStore.name
+          preferredStore.name,
         );
       }),
       switchMap((store) =>
@@ -90,9 +90,9 @@ export class PreferredStoreService implements PreferredStoreFacade {
             tap((preferredStore) => ({
               name: preferredStore.name,
               displayName: preferredStore.name,
-            }))
-          )
-      )
+            })),
+          ),
+      ),
     );
   }
 }

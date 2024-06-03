@@ -25,7 +25,7 @@ export class DeferLoaderService {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     protected config: LayoutConfig,
-    protected intersectionService: IntersectionService
+    protected intersectionService: IntersectionService,
   ) {
     this.globalLoadStrategy =
       config.deferredLoading?.strategy ?? DeferLoadingStrategy.INSTANT;
@@ -43,7 +43,7 @@ export class DeferLoaderService {
    */
   load(
     element: HTMLElement,
-    options?: IntersectionOptions
+    options?: IntersectionOptions,
   ): Observable<boolean> {
     if (this.shouldLoadInstantly((options || {}).deferLoading)) {
       return of(true);
@@ -53,7 +53,7 @@ export class DeferLoaderService {
   }
 
   private shouldLoadInstantly(
-    elementLoadingStrategy: DeferLoadingStrategy | undefined
+    elementLoadingStrategy: DeferLoadingStrategy | undefined,
   ): boolean {
     return (
       isPlatformServer(this.platformId) ||

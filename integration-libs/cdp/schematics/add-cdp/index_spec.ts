@@ -27,7 +27,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('Spartacus CDP schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CDP,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -69,28 +69,28 @@ describe('Spartacus CDP schematics: ng-add', () => {
       SPARTACUS_SCHEMATICS,
       path.join(
         __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
+        '../../../../projects/schematics/src/collection.json',
+      ),
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -99,7 +99,7 @@ describe('Spartacus CDP schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
-        appTree
+        appTree,
       );
     });
 
@@ -117,12 +117,12 @@ describe('Spartacus CDP schematics: ng-add', () => {
             ...cdpFeatureOptions,
             features: [CUSTOMER_TICKETING_FEATURE_NAME],
           },
-          appTree
+          appTree,
         );
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           cdpFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -154,7 +154,7 @@ describe('Spartacus CDP schematics: ng-add', () => {
       });
       it('should install the appropriate dependencies', async () => {
         const customerTicketingWrapperModule = appTree.readContent(
-          customerTicketingWrapperModulePath
+          customerTicketingWrapperModulePath,
         );
         expect(customerTicketingWrapperModule).toMatchSnapshot();
       });
@@ -168,12 +168,12 @@ describe('Spartacus CDP schematics: ng-add', () => {
             ...cdpFeatureOptions,
             features: [CUSTOMER_TICKETING_FEATURE_NAME],
           },
-          appTree
+          appTree,
         );
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...cdpFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
@@ -181,7 +181,7 @@ describe('Spartacus CDP schematics: ng-add', () => {
         const module = appTree.readContent(cdpFeatureModulePath);
         expect(module).toMatchSnapshot();
         expect(
-          appTree.readContent(customerTicketingFeatureModulePath)
+          appTree.readContent(customerTicketingFeatureModulePath),
         ).toBeTruthy();
       });
     });

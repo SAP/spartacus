@@ -12,7 +12,7 @@ import { CheckoutPaymentTypeEventListener } from './checkout-payment-type-event.
 export class CheckoutB2BEventModule {
   constructor(
     _checkoutCostCenterEventListener: CheckoutCostCenterEventListener,
-    _checkoutPaymentTypeEventListener: CheckoutPaymentTypeEventListener
+    _checkoutPaymentTypeEventListener: CheckoutPaymentTypeEventListener,
   ) {
     // Intentional empty constructor
   }

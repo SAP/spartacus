@@ -114,7 +114,7 @@ export class MediaComponent implements OnChanges {
       this.container instanceof Array ? this.container[0] : this.container,
       this.format,
       this.alt,
-      this.role
+      this.role,
     );
     if (!this.media?.src) {
       this.handleMissing();

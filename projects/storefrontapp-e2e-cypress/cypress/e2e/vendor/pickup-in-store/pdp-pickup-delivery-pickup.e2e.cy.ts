@@ -61,13 +61,13 @@ describe('E2E Test: Changing a product from pickup to delivery and delivery to p
       cy.wait('@apiAddToCart').then((interception) => {
         expect(interception.response.statusCode).to.equal(200);
         expect(interception.request.body).to.have.property(
-          'deliveryPointOfService'
+          'deliveryPointOfService',
         );
         cy.get(L.PICKUP_STORE_LOCATION)
           .invoke('text')
           .should(
             'be.equal',
-            interception.request.body.deliveryPointOfService.name
+            interception.request.body.deliveryPointOfService.name,
           );
       });
 
@@ -85,7 +85,7 @@ describe('E2E Test: Changing a product from pickup to delivery and delivery to p
       cy.wait('@getStores').then((interception) => {
         cy.get('@firstStoreName').then((firstStoreName) => {
           cy.get(
-            L.PICKUP_STORE_LOCATION_WITH_VALUE(interception.response.body.name)
+            L.PICKUP_STORE_LOCATION_WITH_VALUE(interception.response.body.name),
           )
             .invoke('text')
             .should('not.equal', firstStoreName);

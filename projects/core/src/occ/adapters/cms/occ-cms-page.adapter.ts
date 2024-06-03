@@ -40,7 +40,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   /**
@@ -64,7 +64,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
 
           return this.http.get(endpoint, { headers: this.headers });
         }),
-        this.converter.pipeable(CMS_PAGE_NORMALIZER)
+        this.converter.pipeable(CMS_PAGE_NORMALIZER),
       );
     }
     const endpoint = !pageContext.type

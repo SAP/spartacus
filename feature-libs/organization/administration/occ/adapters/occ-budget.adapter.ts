@@ -27,7 +27,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   load(userId: string, budgetCode: string): Observable<Budget> {
@@ -38,7 +38,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
 
   loadList(
     userId: string,
-    params?: SearchConfig
+    params?: SearchConfig,
   ): Observable<EntitiesModel<Budget>> {
     return this.http
       .get<Occ.BudgetsList>(this.getBudgetsEndpoint(userId, params))
@@ -48,7 +48,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
   create(userId: string, budget: Budget): Observable<Budget> {
     const convertedBudget: Occ.Budget = this.converter.convert(
       budget,
-      BUDGET_SERIALIZER
+      BUDGET_SERIALIZER,
     );
     return this.http
       .post<Occ.Budget>(this.getBudgetsEndpoint(userId), convertedBudget)
@@ -58,16 +58,16 @@ export class OccBudgetAdapter implements BudgetAdapter {
   update(
     userId: string,
     budgetCode: string,
-    budget: Budget
+    budget: Budget,
   ): Observable<Budget> {
     const convertedBudget: Occ.Budget = this.converter.convert(
       budget,
-      BUDGET_SERIALIZER
+      BUDGET_SERIALIZER,
     );
     return this.http
       .patch<Occ.Budget>(
         this.getBudgetEndpoint(userId, budgetCode),
-        convertedBudget
+        convertedBudget,
       )
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }

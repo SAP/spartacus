@@ -23,7 +23,7 @@ export class ConfiguratorTextfieldConnector {
    */
   createConfiguration(
     productCode: string,
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.adapter.createConfiguration(productCode, owner);
   }
@@ -33,7 +33,7 @@ export class ConfiguratorTextfieldConnector {
    * @returns Observable of product configurations
    */
   readConfigurationForCartEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters,
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.adapter.readConfigurationForCartEntry(parameters);
   }
@@ -43,7 +43,7 @@ export class ConfiguratorTextfieldConnector {
    * @returns {Observable<ConfiguratorTextfield.Configuration>} Observable of product configurations
    */
   readConfigurationForOrderEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters,
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.adapter.readConfigurationForOrderEntry(parameters);
   }
@@ -54,7 +54,7 @@ export class ConfiguratorTextfieldConnector {
    * @returns Observable of cart modifications
    */
   updateConfigurationForCartEntry(
-    parameters: ConfiguratorTextfield.UpdateCartEntryParameters
+    parameters: ConfiguratorTextfield.UpdateCartEntryParameters,
   ): Observable<CartModification> {
     return this.adapter.updateConfigurationForCartEntry(parameters);
   }
@@ -65,7 +65,7 @@ export class ConfiguratorTextfieldConnector {
    * @returns Observable of cart modifications
    */
   addToCart(
-    parameters: ConfiguratorTextfield.AddToCartParameters
+    parameters: ConfiguratorTextfield.AddToCartParameters,
   ): Observable<CartModification> {
     return this.adapter.addToCart(parameters);
   }

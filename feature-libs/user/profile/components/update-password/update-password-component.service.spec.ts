@@ -123,7 +123,7 @@ describe('UpdatePasswordComponentService', () => {
         service.updatePassword();
         expect(userPasswordFacade.update).toHaveBeenCalledWith(
           'Old123!',
-          'New123!'
+          'New123!',
         );
       });
 
@@ -133,7 +133,7 @@ describe('UpdatePasswordComponentService', () => {
           {
             key: 'updatePasswordForm.passwordUpdateSuccess',
           },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
+          GlobalMessageType.MSG_TYPE_CONFIRMATION,
         );
       });
 
@@ -160,7 +160,7 @@ describe('UpdatePasswordComponentService', () => {
         service.updatePassword();
 
         expect(authRedirectService.setRedirectUrl).toHaveBeenCalledWith(
-          routingService.getUrl({ cxRoute: 'home' })
+          routingService.getUrl({ cxRoute: 'home' }),
         );
       });
     });

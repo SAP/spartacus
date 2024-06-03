@@ -22,7 +22,7 @@ export class ProductDetailsTabComponent implements OnInit {
   constructor(
     protected currentProductService: CurrentProductService,
     protected componentData: CmsComponentData<CmsComponentWithChildren>,
-    protected cmsService: CmsService
+    protected cmsService: CmsService,
   ) {}
   children$: Observable<any[]> = this.componentData.data$.pipe(
     switchMap((data) =>
@@ -42,11 +42,11 @@ export class ProductDetailsTabComponent implements OnInit {
               }
 
               return child;
-            })
-          )
-        )
-      )
-    )
+            }),
+          ),
+        ),
+      ),
+    ),
   );
 
   ngOnInit() {

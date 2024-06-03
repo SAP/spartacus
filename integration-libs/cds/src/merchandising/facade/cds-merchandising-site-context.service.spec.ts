@@ -34,7 +34,7 @@ describe('CdsMerchandisingSiteContextService', () => {
       ],
     });
     cdsMerchandisingSiteContextService = TestBed.inject(
-      CdsMerchandisingSiteContextService
+      CdsMerchandisingSiteContextService,
     );
     baseSiteService = TestBed.inject(BaseSiteService);
     languageService = TestBed.inject(LanguageService);

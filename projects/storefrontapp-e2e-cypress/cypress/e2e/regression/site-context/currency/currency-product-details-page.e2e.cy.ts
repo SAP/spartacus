@@ -16,7 +16,7 @@ describe('Currency switch - product-details page', () => {
 
   siteContextSelector.stub(
     siteContextSelector.CURRENCY_REQUEST,
-    siteContextSelector.CURRENCIES
+    siteContextSelector.CURRENCIES,
   );
 
   describe('product-details page', () => {
@@ -26,7 +26,7 @@ describe('Currency switch - product-details page', () => {
         siteContextSelector.CURRENCIES,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL,
-        siteContextSelector.FULL_BASE_URL_EN_JPY + productDetailsPath
+        siteContextSelector.FULL_BASE_URL_EN_JPY + productDetailsPath,
       );
     });
 
@@ -35,7 +35,7 @@ describe('Currency switch - product-details page', () => {
         productDetailsPath,
         siteContextSelector.CURRENCIES,
         siteContextSelector.CURRENCY_JPY,
-        siteContextSelector.CURRENCY_LABEL
+        siteContextSelector.CURRENCY_LABEL,
       );
 
       cy.get('cx-product-summary .price').should('have.text', jpCurrency);
@@ -46,13 +46,13 @@ describe('Currency switch - product-details page', () => {
         productDetailsPath,
         siteContextSelector.CURRENCIES,
         siteContextSelector.CURRENCY_JPY,
-        siteContextSelector.CURRENCY_LABEL
+        siteContextSelector.CURRENCY_LABEL,
       );
 
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .cx-price .cx-value').should(
         'have.text',
-        jpCurrency
+        jpCurrency,
       );
     });
   });

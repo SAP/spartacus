@@ -86,10 +86,10 @@ describe('CmsService', () => {
           };
 
           spyOn(routingService, 'getPageContext').and.returnValue(
-            of(currentPageContext)
+            of(currentPageContext),
           );
           spyOn(routingService, 'getNextPageContext').and.returnValue(
-            of(nextPageContext)
+            of(nextPageContext),
           );
 
           const mockLoaderState: StateUtils.LoaderState<boolean> = {
@@ -98,7 +98,7 @@ describe('CmsService', () => {
             error: false,
           };
           const mockSelect = createSpy('select').and.returnValue(() =>
-            of(mockLoaderState)
+            of(mockLoaderState),
           );
           spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
@@ -109,10 +109,10 @@ describe('CmsService', () => {
             new CmsActions.LoadCmsComponent({
               uid,
               pageContext: currentPageContext,
-            })
+            }),
           );
           expect(routingService.getPageContext).toHaveBeenCalled();
-        }
+        },
       ));
     });
     describe('when pageContext is provided', () => {
@@ -133,10 +133,10 @@ describe('CmsService', () => {
           };
 
           spyOn(routingService, 'getPageContext').and.returnValue(
-            of(currentPageContext)
+            of(currentPageContext),
           );
           spyOn(routingService, 'getNextPageContext').and.returnValue(
-            of(nextPageContext)
+            of(nextPageContext),
           );
 
           const mockLoaderState: StateUtils.LoaderState<boolean> = {
@@ -145,7 +145,7 @@ describe('CmsService', () => {
             error: false,
           };
           const mockSelect = createSpy('select').and.returnValue(() =>
-            of(mockLoaderState)
+            of(mockLoaderState),
           );
           spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
@@ -160,10 +160,10 @@ describe('CmsService', () => {
             new CmsActions.LoadCmsComponent({
               uid,
               pageContext: specifiedPageContext,
-            })
+            }),
           );
           expect(routingService.getPageContext).not.toHaveBeenCalled();
-        }
+        },
       ));
     });
   });
@@ -172,10 +172,10 @@ describe('CmsService', () => {
     [CmsService],
     (service: CmsService) => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(mockContentSlot)
+        () => () => of(mockContentSlot),
       );
       spyOn(routingService, 'getPageContext').and.returnValue(
-        of({ id: 'test' })
+        of({ id: 'test' }),
       );
 
       let contentSlotReturned: ContentSlotData;
@@ -187,7 +187,7 @@ describe('CmsService', () => {
         .unsubscribe();
 
       expect(contentSlotReturned).toBe(mockContentSlot);
-    }
+    },
   ));
 
   it('getNavigationEntryItems should be able to get navigation entry items by navigationNodeUid', inject(
@@ -200,7 +200,7 @@ describe('CmsService', () => {
         },
       };
       const mockSelect = createSpy('select').and.returnValue(() =>
-        of(mockNodeItem)
+        of(mockNodeItem),
       );
       spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
@@ -211,7 +211,7 @@ describe('CmsService', () => {
         .unsubscribe();
 
       expect(result).toEqual(mockNodeItem);
-    }
+    },
   ));
 
   it('loadNavigationItems should be able to dispatch load navigation items action', inject(
@@ -222,20 +222,20 @@ describe('CmsService', () => {
         new CmsActions.LoadCmsNavigationItems({
           nodeId: 'rootId',
           items: [],
-        })
+        }),
       );
-    }
+    },
   ));
 
   it('getCurrentPage should expose the current page', inject(
     [CmsService],
     (service: CmsService) => {
       spyOn(routingService, 'getPageContext').and.returnValue(
-        of(testPageContext)
+        of(testPageContext),
       );
 
       store.dispatch(
-        new CmsActions.LoadCmsPageDataSuccess(testPageContext, page)
+        new CmsActions.LoadCmsPageDataSuccess(testPageContext, page),
       );
 
       let result: Page;
@@ -247,21 +247,21 @@ describe('CmsService', () => {
         .unsubscribe();
 
       expect(result).toEqual(page);
-    }
+    },
   ));
 
   it('should be able to refresh the latest cms page', inject(
     [CmsService],
     (service: CmsService) => {
       spyOn(routingService, 'getPageContext').and.returnValue(
-        of(testPageContext)
+        of(testPageContext),
       );
 
       service.refreshLatestPage();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CmsActions.LoadCmsPageData(testPageContext)
+        new CmsActions.LoadCmsPageData(testPageContext),
       );
-    }
+    },
   ));
 
   it('should be able to refresh cms page by id', inject(
@@ -269,9 +269,9 @@ describe('CmsService', () => {
     (service: CmsService) => {
       service.refreshPageById('testPageId');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CmsActions.LoadCmsPageData({ id: 'testPageId' })
+        new CmsActions.LoadCmsPageData({ id: 'testPageId' }),
       );
-    }
+    },
   ));
 
   describe('refreshComponent', () => {
@@ -283,9 +283,9 @@ describe('CmsService', () => {
           new CmsActions.LoadCmsComponent({
             uid: 'test_uid',
             pageContext: undefined,
-          })
+          }),
         );
-      }
+      },
     ));
     it('should be able to refresh the cms component by uid and provided pageContext', inject(
       [CmsService],
@@ -296,9 +296,9 @@ describe('CmsService', () => {
         };
         service.refreshComponent('test_uid', pageContext);
         expect(store.dispatch).toHaveBeenCalledWith(
-          new CmsActions.LoadCmsComponent({ uid: 'test_uid', pageContext })
+          new CmsActions.LoadCmsComponent({ uid: 'test_uid', pageContext }),
         );
-      }
+      },
     ));
   });
 
@@ -311,13 +311,13 @@ describe('CmsService', () => {
         slots: {},
       };
       store.dispatch(
-        new CmsActions.LoadCmsPageDataSuccess(pageContext, pageData)
+        new CmsActions.LoadCmsPageDataSuccess(pageContext, pageData),
       );
 
       let result;
       service.getPageState(pageContext).subscribe((res) => (result = res));
       expect(result).toEqual(pageData);
-    }
+    },
   ));
 
   it('getPageComponentTypes should return correct components', inject(
@@ -336,7 +336,7 @@ describe('CmsService', () => {
         },
       };
       store.dispatch(
-        new CmsActions.LoadCmsPageDataSuccess(pageContext, pageData)
+        new CmsActions.LoadCmsPageDataSuccess(pageContext, pageData),
       );
 
       let result: string[];
@@ -344,7 +344,7 @@ describe('CmsService', () => {
         .getPageComponentTypes(pageContext)
         .subscribe((res) => (result = res));
       expect(result).toEqual(['test1', 'test2', 'test3']);
-    }
+    },
   ));
 
   describe('hasPage', () => {
@@ -353,16 +353,16 @@ describe('CmsService', () => {
       (service: CmsService) => {
         const mockedEntity: StateUtils.LoaderState<string> = {};
         const mockSelect = createSpy('select').and.returnValue(() =>
-          of(mockedEntity)
+          of(mockedEntity),
         );
         spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
         service.hasPage(testPageContext).subscribe().unsubscribe();
 
         expect(store.dispatch).toHaveBeenCalledWith(
-          new CmsActions.LoadCmsPageData(testPageContext)
+          new CmsActions.LoadCmsPageData(testPageContext),
         );
-      }
+      },
     ));
 
     it('should NOT dispatch a load action if the load was attempted', inject(
@@ -370,16 +370,16 @@ describe('CmsService', () => {
       (service: CmsService) => {
         const mockedEntity: StateUtils.LoaderState<string> = { success: true };
         const mockSelect = createSpy('select').and.returnValue(() =>
-          of(mockedEntity)
+          of(mockedEntity),
         );
         spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
         service.hasPage(testPageContext).subscribe().unsubscribe();
 
         expect(store.dispatch).not.toHaveBeenCalledWith(
-          new CmsActions.LoadCmsPageData(testPageContext)
+          new CmsActions.LoadCmsPageData(testPageContext),
         );
-      }
+      },
     ));
 
     describe('forceReload', () => {
@@ -388,16 +388,16 @@ describe('CmsService', () => {
         (service: CmsService) => {
           const mockedEntity: StateUtils.LoaderState<string> = {};
           const mockSelect = createSpy('select').and.returnValue(() =>
-            of(mockedEntity)
+            of(mockedEntity),
           );
           spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
           service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
-            new CmsActions.LoadCmsPageData(testPageContext)
+            new CmsActions.LoadCmsPageData(testPageContext),
           );
-        }
+        },
       ));
 
       it('should dispatch a load action with if the load was attempted', inject(
@@ -407,16 +407,16 @@ describe('CmsService', () => {
             success: true,
           };
           const mockSelect = createSpy('select').and.returnValue(() =>
-            of(mockedEntity)
+            of(mockedEntity),
           );
           spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
           service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
-            new CmsActions.LoadCmsPageData(testPageContext)
+            new CmsActions.LoadCmsPageData(testPageContext),
           );
-        }
+        },
       ));
     });
 
@@ -428,7 +428,7 @@ describe('CmsService', () => {
           value: '',
         };
         const mockSelect = createSpy('select').and.returnValue(() =>
-          of(mockedEntity)
+          of(mockedEntity),
         );
         spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
@@ -439,7 +439,7 @@ describe('CmsService', () => {
           .unsubscribe();
 
         expect(result).toEqual(true);
-      }
+      },
     ));
 
     it('should return false if the there was an error', inject(
@@ -451,7 +451,7 @@ describe('CmsService', () => {
           value: undefined,
         };
         const mockSelect = createSpy('select').and.returnValue(() =>
-          of(mockedEntity)
+          of(mockedEntity),
         );
         spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
@@ -462,7 +462,7 @@ describe('CmsService', () => {
           .unsubscribe();
 
         expect(result).toEqual(false);
-      }
+      },
     ));
   });
 
@@ -484,14 +484,14 @@ describe('CmsService', () => {
       (service: CmsService) => {
         spyOn(service, 'hasPage').and.returnValue(of(true));
         spyOn(service, 'getPageState').and.returnValue(
-          of({ pageId: 'testId' } as any)
+          of({ pageId: 'testId' } as any),
         );
 
         let result;
         service.getPage(pageContext, true).subscribe((res) => (result = res));
         expect(service.getPageState).toHaveBeenCalledWith(pageContext);
         expect(result).toEqual({ pageId: 'testId' });
-      }
+      },
     ));
 
     it('should emit null when page does not exist', inject(
@@ -504,7 +504,7 @@ describe('CmsService', () => {
         service.getPage(pageContext, true).subscribe((res) => (result = res));
         expect(service.getPageState).not.toHaveBeenCalled();
         expect(result).toEqual(null);
-      }
+      },
     ));
   });
 
@@ -517,13 +517,13 @@ describe('CmsService', () => {
         slots: {},
       };
       store.dispatch(
-        new CmsActions.LoadCmsPageDataSuccess(pageContext, pageData)
+        new CmsActions.LoadCmsPageDataSuccess(pageContext, pageData),
       );
 
       let result;
       service.getPageIndex(pageContext).subscribe((res) => (result = res));
       expect(result).toEqual('testUid');
-    }
+    },
   ));
 
   it('setPageFailIndex should dispatch proper action', inject(
@@ -532,8 +532,8 @@ describe('CmsService', () => {
       const pageContext = { id: '/test', type: PageType.CONTENT_PAGE };
       service.setPageFailIndex(pageContext, 'test_uid');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CmsActions.CmsSetPageFailIndex(pageContext, 'test_uid')
+        new CmsActions.CmsSetPageFailIndex(pageContext, 'test_uid'),
       );
-    }
+    },
   ));
 });

@@ -48,7 +48,7 @@ export abstract class DefaultRoutePageMetaResolver
     }
 
     return this.translateBreadcrumbLabel(breadcrumbConfig).pipe(
-      map((label) => [{ label, link: url }])
+      map((label) => [{ label, link: url }]),
     );
   }
 
@@ -56,7 +56,7 @@ export abstract class DefaultRoutePageMetaResolver
    * Translates the configured breadcrumb label
    */
   protected translateBreadcrumbLabel(
-    breadcrumbConfig: string | RouteBreadcrumbConfig
+    breadcrumbConfig: string | RouteBreadcrumbConfig,
   ): Observable<string> {
     const i18nKey =
       typeof breadcrumbConfig === 'string'
@@ -65,8 +65,8 @@ export abstract class DefaultRoutePageMetaResolver
 
     return this.getParams().pipe(
       switchMap((params) =>
-        this.translation.translate(i18nKey ?? '', params ?? {})
-      )
+        this.translation.translate(i18nKey ?? '', params ?? {}),
+      ),
     );
   }
 

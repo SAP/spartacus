@@ -97,7 +97,7 @@ export class QuoteService implements QuoteFacade {
       ]).pipe(
         take(1),
         switchMap(([userId, cartId]) =>
-          zip(of(userId), this.quoteConnector.createQuote(userId, { cartId }))
+          zip(of(userId), this.quoteConnector.createQuote(userId, { cartId })),
         ),
         concatMap(([userId, quote]) =>
           zip(
@@ -105,12 +105,12 @@ export class QuoteService implements QuoteFacade {
               this.quoteConnector.editQuote(
                 userId,
                 quote.code,
-                payload.quoteMetadata
+                payload.quoteMetadata,
               ),
             ]),
             of(userId),
-            of(quote)
-          )
+            of(quote),
+          ),
         ),
         tap(([_, userId, quote]) => {
           this.multiCartFacade.loadCart({
@@ -124,11 +124,11 @@ export class QuoteService implements QuoteFacade {
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         }),
         tap(() => this.setFocusForCreateOrEditAction(QuoteActionType.CREATE)),
-        map(([_, _userId, quote]) => quote)
+        map(([_, _userId, quote]) => quote),
       ),
     {
       strategy: CommandStrategy.CancelPrevious,
-    }
+    },
   );
 
   protected editQuoteCommand: Command<{
@@ -146,16 +146,16 @@ export class QuoteService implements QuoteFacade {
           this.quoteConnector.editQuote(
             userId,
             payload.quoteCode,
-            payload.quoteMetadata
-          )
+            payload.quoteMetadata,
+          ),
         ),
         tap(() => {
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
-        })
+        }),
       ),
     {
       strategy: CommandStrategy.CancelPrevious,
-    }
+    },
   );
 
   protected addQuoteCommentCommand: Command<{
@@ -176,20 +176,20 @@ export class QuoteService implements QuoteFacade {
               userId,
               payload.quoteCode,
               payload.entryNumber,
-              payload.quoteComment
+              payload.quoteComment,
             );
           } else {
             return this.quoteConnector.addComment(
               userId,
               payload.quoteCode,
-              payload.quoteComment
+              payload.quoteComment,
             );
           }
-        })
+        }),
       ),
     {
       strategy: CommandStrategy.CancelPrevious,
-    }
+    },
   );
 
   protected addDiscountCommand: Command<{
@@ -206,7 +206,7 @@ export class QuoteService implements QuoteFacade {
           return this.quoteConnector.addDiscount(
             userId,
             payload.quoteCode,
-            payload.quoteDiscount
+            payload.quoteDiscount,
           );
         }),
         tap(() => {
@@ -215,11 +215,11 @@ export class QuoteService implements QuoteFacade {
         catchError((error) => {
           this.triggerReloadAndCompleteAction();
           return this.handleError(error);
-        })
+        }),
       ),
     {
       strategy: CommandStrategy.CancelPrevious,
-    }
+    },
   );
 
   protected performQuoteActionCommand: Command<{
@@ -238,10 +238,10 @@ export class QuoteService implements QuoteFacade {
             this.quoteConnector.performQuoteAction(
               userId,
               payload.quote.code,
-              payload.quoteAction
+              payload.quoteAction,
             ),
-            of(userId)
-          )
+            of(userId),
+          ),
         ),
         tap(([_result, userId]) => {
           if (
@@ -249,7 +249,7 @@ export class QuoteService implements QuoteFacade {
             payload.quoteAction === QuoteActionType.CANCEL
           ) {
             this.cartUtilsService.handleCartAndGoToQuoteList(
-              payload.quote.isEditable
+              payload.quote.isEditable,
             );
             this.isActionPerforming$.next(false);
           }
@@ -271,14 +271,14 @@ export class QuoteService implements QuoteFacade {
                 .getQuote(userId, payload.quote.code)
                 .pipe(
                   filter((quote) => quote.cartId !== undefined),
-                  take(1)
+                  take(1),
                 )
                 .subscribe((quote) => {
                   this.loadQuoteCartAndProceed(
                     userId,
                     quote.cartId as string,
                     quote.code,
-                    payload.quoteAction
+                    payload.quoteAction,
                   );
                 });
             } else {
@@ -286,7 +286,7 @@ export class QuoteService implements QuoteFacade {
                 userId,
                 cartId,
                 payload.quote.code,
-                payload.quoteAction
+                payload.quoteAction,
               );
             }
           } else {
@@ -297,19 +297,19 @@ export class QuoteService implements QuoteFacade {
         catchError((error) => {
           this.triggerReloadAndCompleteAction();
           return this.handleError(error);
-        })
+        }),
       );
     },
     {
       strategy: CommandStrategy.CancelPrevious,
-    }
+    },
   );
 
   protected handleError(error: HttpErrorModel): Observable<unknown> {
     if (error.details?.[0]?.type === 'CommerceQuoteExpirationTimeError') {
       this.globalMessageService.add(
         { key: 'quote.httpHandlers.expired' },
-        GlobalMessageType.MSG_TYPE_ERROR
+        GlobalMessageType.MSG_TYPE_ERROR,
       );
       return EMPTY;
     }
@@ -327,7 +327,7 @@ export class QuoteService implements QuoteFacade {
     userId: string,
     cartId: string,
     quoteId: string,
-    actionType: QuoteActionType
+    actionType: QuoteActionType,
   ) {
     this.multiCartFacade.loadCart({
       userId: userId,
@@ -340,7 +340,7 @@ export class QuoteService implements QuoteFacade {
       .getActive()
       .pipe(
         filter((cart) => cart.code === cartId),
-        take(1)
+        take(1),
       )
       .subscribe(() => {
         this.triggerReloadAndCompleteAction();
@@ -375,16 +375,16 @@ export class QuoteService implements QuoteFacade {
                   userId,
                   quote.cartId as string,
                   quote.code,
-                  QuoteActionType.REQUOTE
+                  QuoteActionType.REQUOTE,
                 );
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
       },
       {
         strategy: CommandStrategy.CancelPrevious,
-      }
+      },
     );
 
   protected quoteDetailsState$: Query<Quote, unknown[]> =
@@ -404,22 +404,22 @@ export class QuoteService implements QuoteFacade {
               //In addition we check is the user is logged in as otherwise we would get (failing) calls after logout
               filter(
                 ([routerState, isLoggedIn]) =>
-                  routerState.nextState === undefined && isLoggedIn
+                  routerState.nextState === undefined && isLoggedIn,
               ),
               withLatestFrom(this.userIdService.takeUserId()),
               switchMap(([[routerState, _isLoggedIn], userId]) => {
                 return this.quoteConnector.getQuote(
                   userId,
-                  routerState.state.params.quoteId
+                  routerState.state.params.quoteId,
                 );
-              })
-            )
-          )
+              }),
+            ),
+          ),
         ),
 
       {
         reloadOn: [QuoteDetailsReloadQueryEvent, LoginEvent],
-      }
+      },
     );
 
   protected getQuotesStateQuery = ({
@@ -441,14 +441,14 @@ export class QuoteService implements QuoteFacade {
           }),
           tap(() => {
             this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
-          })
+          }),
         ),
       {
         reloadOn: [
           uniteLatest([currentPage$, sort$]), // combine all streams that should trigger a reload to decrease initial http calls
         ],
         resetOn: [LoginEvent],
-      }
+      },
     );
 
   protected setFocusForCreateOrEditAction(action: QuoteActionType) {
@@ -483,7 +483,7 @@ export class QuoteService implements QuoteFacade {
                 code: activeCart.code,
               },
             },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
+            GlobalMessageType.MSG_TYPE_CONFIRMATION,
           );
         }
       });
@@ -509,7 +509,7 @@ export class QuoteService implements QuoteFacade {
   addQuoteComment(
     quoteCode: string,
     quoteComment: QuoteComment,
-    entryNumber?: string
+    entryNumber?: string,
   ): Observable<unknown> {
     return this.addQuoteCommentCommand.execute({
       quoteCode,
@@ -520,7 +520,7 @@ export class QuoteService implements QuoteFacade {
 
   performQuoteAction(
     quote: Quote,
-    quoteAction: QuoteActionType
+    quoteAction: QuoteActionType,
   ): Observable<unknown> {
     return this.performQuoteActionCommand.execute({ quote, quoteAction });
   }
@@ -530,7 +530,7 @@ export class QuoteService implements QuoteFacade {
   }
 
   getQuotesState(
-    params: QuotesStateParams
+    params: QuotesStateParams,
   ): Observable<QueryState<QuoteList | undefined>> {
     return this.getQuotesStateQuery(params).getState();
   }
@@ -543,7 +543,7 @@ export class QuoteService implements QuoteFacade {
       map(([isLoading, state]) => ({
         ...state,
         loading: state.loading || isLoading,
-      }))
+      })),
     );
   }
 
@@ -552,22 +552,22 @@ export class QuoteService implements QuoteFacade {
       filter((state) => !state.loading),
       filter((state) => state.data !== undefined),
       map((state) => state.data),
-      map((quote) => quote as Quote)
+      map((quote) => quote as Quote),
     );
   }
 
   downloadAttachment(
     quoteCode: string,
-    attachmentId: string
+    attachmentId: string,
   ): Observable<Blob> {
     return this.userIdService.takeUserId().pipe(
       mergeMap((userId) => {
         return this.quoteConnector.downloadAttachment(
           userId,
           quoteCode,
-          attachmentId
+          attachmentId,
         );
-      })
+      }),
     );
   }
 }

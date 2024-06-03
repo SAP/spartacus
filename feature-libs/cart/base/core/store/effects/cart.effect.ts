@@ -38,8 +38,8 @@ export class CartEffects {
   private contextChange$ = this.actions$.pipe(
     ofType(
       SiteContextActions.CURRENCY_CHANGE,
-      SiteContextActions.LANGUAGE_CHANGE
-    )
+      SiteContextActions.LANGUAGE_CHANGE,
+    ),
   );
 
   protected logger = inject(LoggerService);
@@ -61,10 +61,10 @@ export class CartEffects {
               withLatestFrom(
                 this.store.pipe(
                   select(
-                    getCartHasPendingProcessesSelectorFactory(payload.cartId)
-                  )
-                )
-              )
+                    getCartHasPendingProcessesSelectorFactory(payload.cartId),
+                  ),
+                ),
+              ),
             );
           }),
           filter(([_, hasPendingProcesses]) => !hasPendingProcesses),
@@ -79,7 +79,7 @@ export class CartEffects {
                       ...payload,
                       cart,
                       cartId: getCartIdByUserId(cart, payload.userId),
-                    })
+                    }),
                   );
 
                   if (payload.cartId === OCC_CART_ID_CURRENT) {
@@ -88,7 +88,7 @@ export class CartEffects {
                     actions.push(
                       new CartActions.RemoveCart({
                         cartId: OCC_CART_ID_CURRENT,
-                      })
+                      }),
                     );
                   }
                 } else {
@@ -101,19 +101,19 @@ export class CartEffects {
                 }
                 return actions;
               }),
-              catchError((error) => this.handleLoadCartError(payload, error))
+              catchError((error) => this.handleLoadCartError(payload, error)),
             );
-          })
-        )
+          }),
+        ),
       ),
-      withdrawOn(this.contextChange$)
-    )
+      withdrawOn(this.contextChange$),
+    ),
   );
 
   protected handleLoadCartError(payload: any, error: any) {
     if (error?.error?.errors) {
       const couponExpiredErrors = error.error.errors.filter(
-        (err: any) => err.reason === 'invalid'
+        (err: any) => err.reason === 'invalid',
       );
       if (couponExpiredErrors.length > 0) {
         // Reload in case of expired coupon.
@@ -122,7 +122,7 @@ export class CartEffects {
 
       const cartNotFoundErrors = error.error.errors.filter(
         (err: any) =>
-          isCartNotFoundError(err) || err.reason === 'UnknownResourceError'
+          isCartNotFoundError(err) || err.reason === 'UnknownResourceError',
       );
       if (cartNotFoundErrors.length > 0) {
         // Remove cart as it doesn't exist on backend (selective cart always exists).
@@ -133,7 +133,7 @@ export class CartEffects {
       new CartActions.LoadCartFail({
         ...payload,
         error: normalizeHttpError(error, this.logger),
-      })
+      }),
     );
   }
 
@@ -160,7 +160,7 @@ export class CartEffects {
                     tempCartId: payload.tempCartId,
                     cartId: getCartIdByUserId(cart, payload.userId),
                     oldCartId: payload.oldCartId,
-                  })
+                  }),
                 );
               }
               return [
@@ -178,13 +178,13 @@ export class CartEffects {
                 new CartActions.CreateCartFail({
                   ...payload,
                   error: normalizeHttpError(error, this.logger),
-                })
-              )
-            )
+                }),
+              ),
+            ),
           );
       }),
-      withdrawOn(this.contextChange$)
-    )
+      withdrawOn(this.contextChange$),
+    ),
   );
 
   mergeCart$: Observable<CartActions.CreateCart> = createEffect(() =>
@@ -206,11 +206,11 @@ export class CartEffects {
                 });
               }
             }),
-            filter(isNotUndefined)
+            filter(isNotUndefined),
           );
       }),
-      withdrawOn(this.contextChange$)
-    )
+      withdrawOn(this.contextChange$),
+    ),
   );
 
   // TODO(#7241): Remove when AddVoucherSuccess actions will extend processes actions
@@ -227,9 +227,9 @@ export class CartEffects {
             userId: payload.userId,
             cartId: payload.cartId,
           }),
-        ])
-      )
-    )
+        ]),
+      ),
+    ),
   );
 
   // TODO: Switch to automatic cart reload on processes count reaching 0 for cart entity
@@ -240,7 +240,7 @@ export class CartEffects {
           CartActions.CART_ADD_ENTRY_SUCCESS,
           CartActions.CART_REMOVE_ENTRY_SUCCESS,
           CartActions.CART_UPDATE_ENTRY_SUCCESS,
-          CartActions.CART_REMOVE_VOUCHER_SUCCESS
+          CartActions.CART_REMOVE_VOUCHER_SUCCESS,
         ),
         map(
           (
@@ -248,17 +248,17 @@ export class CartEffects {
               | CartActions.CartAddEntrySuccess
               | CartActions.CartUpdateEntrySuccess
               | CartActions.CartRemoveEntrySuccess
-              | CartActions.CartRemoveVoucherSuccess
-          ) => action.payload
+              | CartActions.CartRemoveVoucherSuccess,
+          ) => action.payload,
         ),
         map(
           (payload) =>
             new CartActions.LoadCart({
               userId: payload.userId,
               cartId: payload.cartId,
-            })
-        )
-      )
+            }),
+        ),
+      ),
   );
 
   resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> =
@@ -266,12 +266,12 @@ export class CartEffects {
       this.actions$.pipe(
         ofType(
           SiteContextActions.LANGUAGE_CHANGE,
-          SiteContextActions.CURRENCY_CHANGE
+          SiteContextActions.CURRENCY_CHANGE,
         ),
         mergeMap(() => {
           return [new CartActions.ResetCartDetails()];
-        })
-      )
+        }),
+      ),
     );
 
   addEmail$: Observable<
@@ -307,12 +307,12 @@ export class CartEffects {
                   userId: payload.userId,
                   cartId: payload.cartId,
                 }),
-              ])
-            )
-          )
+              ]),
+            ),
+          ),
       ),
-      withdrawOn(this.contextChange$)
-    )
+      withdrawOn(this.contextChange$),
+    ),
   );
 
   deleteCart$: Observable<
@@ -339,16 +339,16 @@ export class CartEffects {
               new CartActions.LoadCart({
                 ...payload,
               }),
-            ])
-          )
-        )
-      )
-    )
+            ]),
+          ),
+        ),
+      ),
+    ),
   );
 
   constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
-    private store: Store<StateWithMultiCart>
+    private store: Store<StateWithMultiCart>,
   ) {}
 }

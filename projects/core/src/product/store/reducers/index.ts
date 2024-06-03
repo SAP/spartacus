@@ -32,7 +32,7 @@ export const reducerProvider: Provider = {
 };
 
 export function clearProductsState(
-  reducer: ActionReducer<any>
+  reducer: ActionReducer<any>,
 ): ActionReducer<any> {
   return function (state, action) {
     if (

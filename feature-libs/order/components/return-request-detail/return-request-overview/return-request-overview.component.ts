@@ -38,7 +38,7 @@ export class ReturnRequestOverviewComponent implements OnInit, OnDestroy {
         if (success) {
           this.returnRequestService.cancelSuccess(this.rma);
         }
-      }
+      },
     );
   }
 

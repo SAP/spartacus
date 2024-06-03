@@ -126,7 +126,7 @@ describe('FormValidationService', () => {
       it(`should allow password ${validPassword}`, () => {
         form.get('password').setValue(validPassword);
         expect(
-          CustomFormValidators.passwordValidator(form.get('password'))
+          CustomFormValidators.passwordValidator(form.get('password')),
         ).toBeNull();
       });
     });
@@ -135,7 +135,7 @@ describe('FormValidationService', () => {
       it(`should reject password '${invalidPassword}'`, function () {
         form.get('password').setValue(invalidPassword);
         expect(
-          CustomFormValidators.passwordValidator(form.get('password'))
+          CustomFormValidators.passwordValidator(form.get('password')),
         ).toEqual(passwordError);
       });
     });
@@ -149,7 +149,7 @@ describe('FormValidationService', () => {
       CustomFormValidators.emailsMustMatch('email', 'emailconf')(form);
 
       expect(form.get('emailconf').hasError(emailsMustMatchErrorName)).toEqual(
-        false
+        false,
       );
     });
 
@@ -160,7 +160,7 @@ describe('FormValidationService', () => {
       CustomFormValidators.emailsMustMatch('email', 'emailconf')(form);
 
       expect(form.get('emailconf').hasError(emailsMustMatchErrorName)).toEqual(
-        true
+        true,
       );
     });
   });
@@ -173,7 +173,7 @@ describe('FormValidationService', () => {
       CustomFormValidators.passwordsMustMatch('password', 'passwordconf')(form);
 
       expect(
-        form.get('passwordconf').hasError(passwordsMustMatchErrorName)
+        form.get('passwordconf').hasError(passwordsMustMatchErrorName),
       ).toEqual(false);
     });
 
@@ -184,7 +184,7 @@ describe('FormValidationService', () => {
       CustomFormValidators.passwordsMustMatch('password', 'passwordconf')(form);
 
       expect(
-        form.get('passwordconf').hasError(passwordsMustMatchErrorName)
+        form.get('passwordconf').hasError(passwordsMustMatchErrorName),
       ).toEqual(true);
     });
   });
@@ -198,7 +198,7 @@ describe('FormValidationService', () => {
         form.get('rating').setValue(value);
 
         expect(
-          CustomFormValidators.starRatingEmpty(form.get('rating'))
+          CustomFormValidators.starRatingEmpty(form.get('rating')),
         ).toEqual(starRatingEmpty);
       });
     });
@@ -208,7 +208,7 @@ describe('FormValidationService', () => {
         form.get('rating').setValue(value);
 
         expect(
-          CustomFormValidators.starRatingEmpty(form.get('rating'))
+          CustomFormValidators.starRatingEmpty(form.get('rating')),
         ).toBeNull();
       });
     });
@@ -256,7 +256,7 @@ describe('FormValidationService', () => {
         form.get('budget').setValue(value);
 
         expect(CustomFormValidators.mustBePositive(form.get('budget'))).toEqual(
-          budgetNegative
+          budgetNegative,
         );
       });
     });
@@ -266,7 +266,7 @@ describe('FormValidationService', () => {
         form.get('budget').setValue(value);
 
         expect(
-          CustomFormValidators.mustBePositive(form.get('budget'))
+          CustomFormValidators.mustBePositive(form.get('budget')),
         ).toBeNull();
       });
     });
@@ -277,7 +277,7 @@ describe('FormValidationService', () => {
       const field = form.get('code');
       field.setValue('test/code');
       expect(CustomFormValidators.noSpecialCharacters(field)).toEqual(
-        specialCharacters
+        specialCharacters,
       );
     });
 
@@ -293,7 +293,7 @@ describe('FormValidationService', () => {
       const field = form.get('code');
       field.setValue('test code');
       const validateFn = CustomFormValidators.patternValidation((value) =>
-        /\//.test(value)
+        /\//.test(value),
       );
       expect(validateFn(field)).toEqual(patternError);
     });
@@ -302,7 +302,7 @@ describe('FormValidationService', () => {
       const field = form.get('code');
       field.setValue('test/code');
       const validateFn = CustomFormValidators.patternValidation((value) =>
-        /\//.test(value)
+        /\//.test(value),
       );
       expect(validateFn(field)).toBeNull();
     });
@@ -315,7 +315,7 @@ describe('FormValidationService', () => {
       const validateFn = CustomFormValidators.dateRange(
         'startDate',
         'endDate',
-        (date) => new Date(date)
+        (date) => new Date(date),
       );
       validateFn(form);
       expect(form.get('startDate').errors).toBeNull();
@@ -327,7 +327,7 @@ describe('FormValidationService', () => {
       const validateFn = CustomFormValidators.dateRange(
         'startDate',
         'endDate',
-        (date) => new Date(date)
+        (date) => new Date(date),
       );
       validateFn(form);
       expect(form.get('startDate').hasError('max')).toBeTrue();

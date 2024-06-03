@@ -36,11 +36,11 @@ class MockGlobalMessageService {
 class MockCDCJsService implements Partial<CdcJsService> {
   didLoad = createSpy().and.returnValue(of(false));
   registerUserWithoutScreenSet = createSpy().and.callFake(() =>
-    of({ status: 'OK' })
+    of({ status: 'OK' }),
   );
   onLoginEventHandler = createSpy();
   resetPasswordWithoutScreenSet = createSpy().and.callFake(() =>
-    of({ status: 'OK' })
+    of({ status: 'OK' }),
   );
 }
 
@@ -51,27 +51,25 @@ describe('CDCForgotPasswordComponentService', () => {
   let cdcJsService: CdcJsService;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [],
-        providers: [
-          CDCForgotPasswordComponentService,
-          { provide: UserPasswordFacade, useClass: MockUserPasswordService },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: CdcJsService, useClass: MockCDCJsService },
-          { provide: AuthConfigService, useClass: MockAuthConfigService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [],
+      providers: [
+        CDCForgotPasswordComponentService,
+        { provide: UserPasswordFacade, useClass: MockUserPasswordService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: CdcJsService, useClass: MockCDCJsService },
+        { provide: AuthConfigService, useClass: MockAuthConfigService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     service = TestBed.inject(CDCForgotPasswordComponentService);
@@ -100,7 +98,7 @@ describe('CDCForgotPasswordComponentService', () => {
         service.requestEmail();
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
         expect(cdcJsService.resetPasswordWithoutScreenSet).toHaveBeenCalledWith(
-          'test@test.com'
+          'test@test.com',
         );
         expect(service['busy$'].value).toBe(false);
       });
@@ -110,7 +108,7 @@ describe('CDCForgotPasswordComponentService', () => {
         (
           cdcJsService.resetPasswordWithoutScreenSet as jasmine.Spy
         ).and.returnValue(
-          throwError(() => 'test error: such email does not exist!')
+          throwError(() => 'test error: such email does not exist!'),
         );
         service.requestEmail();
         expect(routingService.go).not.toHaveBeenCalled();
@@ -122,13 +120,13 @@ describe('CDCForgotPasswordComponentService', () => {
         service.requestEmail();
         expect(routingService.go).not.toHaveBeenCalled();
         expect(
-          cdcJsService.resetPasswordWithoutScreenSet
+          cdcJsService.resetPasswordWithoutScreenSet,
         ).not.toHaveBeenCalled();
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
             key: 'errorHandlers.scriptFailedToLoad',
           },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
         expect(service['busy$'].value).toBe(false);
       });
@@ -141,7 +139,7 @@ describe('CDCForgotPasswordComponentService', () => {
 
       it('should not redirect when flow different than ResourceOwnerPasswordFlow is used', () => {
         spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
-          OAuthFlow.ImplicitFlow
+          OAuthFlow.ImplicitFlow,
         );
         service.requestEmail();
         expect(routingService.go).not.toHaveBeenCalled();
@@ -158,7 +156,7 @@ describe('CDCForgotPasswordComponentService', () => {
       it('should not request email', () => {
         service.requestEmail();
         expect(
-          cdcJsService.resetPasswordWithoutScreenSet
+          cdcJsService.resetPasswordWithoutScreenSet,
         ).not.toHaveBeenCalled();
         expect(service['busy$'].value).toBe(false);
       });

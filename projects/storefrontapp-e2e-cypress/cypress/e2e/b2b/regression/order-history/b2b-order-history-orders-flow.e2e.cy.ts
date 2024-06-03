@@ -70,7 +70,7 @@ describe('Order History with orders', { testIsolation: false }, () => {
       b2bAccountShipToUser,
       cartWithB2bProductAndPremiumShipping,
       true,
-      order_type.PLACE_ORDER
+      order_type.PLACE_ORDER,
     );
 
     b2bCheckout.placeOrder('/order-confirmation');
@@ -80,7 +80,7 @@ describe('Order History with orders', { testIsolation: false }, () => {
     b2bCheckout.reviewB2bOrderConfirmation(
       b2bAccountShipToUser,
       b2bProduct,
-      cartWithB2bProductAndPremiumShipping
+      cartWithB2bProductAndPremiumShipping,
     );
   });
 
@@ -132,9 +132,9 @@ describe('Order History with orders', { testIsolation: false }, () => {
         (totalOrderHistoryListItems: any) => {
           cy.get('cx-cart-item-list .cx-item-list-row').should(
             'have.length',
-            totalOrderHistoryListItems
+            totalOrderHistoryListItems,
           );
-        }
+        },
       );
 
       // Go through each <li> and compare product & quantity

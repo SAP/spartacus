@@ -41,12 +41,12 @@ describe('Profile-tag events', () => {
         expect(
           profileTagHelper.eventCount(
             win,
-            profileTagHelper.EventNames.ADDED_TO_CART
-          )
+            profileTagHelper.EventNames.ADDED_TO_CART,
+          ),
         ).to.equal(1);
         const addedToCartEvent = profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.ADDED_TO_CART
+          profileTagHelper.EventNames.ADDED_TO_CART,
         )[0];
         expect(addedToCartEvent.data.productQty).to.eq(1);
         expect(addedToCartEvent.data.productSku).to.eq('280916');
@@ -60,12 +60,12 @@ describe('Profile-tag events', () => {
         expect(
           profileTagHelper.eventCount(
             win,
-            profileTagHelper.EventNames.CART_SNAPSHOT
-          )
+            profileTagHelper.EventNames.CART_SNAPSHOT,
+          ),
         ).to.equal(1);
         const cartSnapshotEvent = profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.CART_SNAPSHOT
+          profileTagHelper.EventNames.CART_SNAPSHOT,
         )[0];
         expect(cartSnapshotEvent.data.cart.entries.length).to.eq(1);
       });
@@ -76,7 +76,7 @@ describe('Profile-tag events', () => {
       cy.intercept({
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/anonymous/carts/*`,
       }).as('getRefreshedCart');
       cy.get('cx-add-to-cart button.btn-primary').click();
@@ -92,12 +92,12 @@ describe('Profile-tag events', () => {
         expect(
           profileTagHelper.eventCount(
             win,
-            profileTagHelper.EventNames.MODIFIED_CART
-          )
+            profileTagHelper.EventNames.MODIFIED_CART,
+          ),
         ).to.equal(1);
         const modifiedCart = profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.MODIFIED_CART
+          profileTagHelper.EventNames.MODIFIED_CART,
         )[0];
         expect(modifiedCart.data.productQty).to.eq(2);
         expect(modifiedCart.data.productSku).to.eq('280916');
@@ -110,12 +110,12 @@ describe('Profile-tag events', () => {
         expect(
           profileTagHelper.eventCount(
             win,
-            profileTagHelper.EventNames.CART_SNAPSHOT
-          )
+            profileTagHelper.EventNames.CART_SNAPSHOT,
+          ),
         ).to.equal(2);
         const cartSnapshotEvent = profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.CART_SNAPSHOT
+          profileTagHelper.EventNames.CART_SNAPSHOT,
         )[1];
         expect(cartSnapshotEvent.data.cart.entries.length).to.eq(1);
         expect(cartSnapshotEvent.data.cart.entries[0].quantity).to.eq(2);
@@ -130,7 +130,7 @@ describe('Profile-tag events', () => {
       cy.intercept({
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
+          'BASE_SITE',
         )}/users/anonymous/carts/*`,
       }).as('getRefreshedCart');
       cy.wait('@getRefreshedCart');
@@ -138,12 +138,12 @@ describe('Profile-tag events', () => {
         expect(
           profileTagHelper.eventCount(
             win,
-            profileTagHelper.EventNames.REMOVED_FROM_CART
-          )
+            profileTagHelper.EventNames.REMOVED_FROM_CART,
+          ),
         ).to.equal(1);
         const removedFromCart = profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.REMOVED_FROM_CART
+          profileTagHelper.EventNames.REMOVED_FROM_CART,
         )[0];
         expect(removedFromCart.data.productSku).to.eq('280916');
         expect(removedFromCart.data.categories).to.contain('577');
@@ -155,12 +155,12 @@ describe('Profile-tag events', () => {
         expect(
           profileTagHelper.eventCount(
             win,
-            profileTagHelper.EventNames.CART_SNAPSHOT
-          )
+            profileTagHelper.EventNames.CART_SNAPSHOT,
+          ),
         ).to.equal(2);
         const cartSnapshotEvent = profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.CART_SNAPSHOT
+          profileTagHelper.EventNames.CART_SNAPSHOT,
         )[1];
         expect(cartSnapshotEvent.data.cart.entries.length).to.eq(0);
       });
@@ -180,19 +180,19 @@ describe('Profile-tag events', () => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
-        )
+          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED,
+        ),
       ).to.equal(1);
       const productViewedEvent = profileTagHelper.getEvent(
         win,
-        profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
+        profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED,
       )[0];
       expect(productViewedEvent.data.productSku).to.equal(`${productSku}`);
       expect(productViewedEvent.data.productName).to.equal(productName);
       expect(productViewedEvent.data.productPrice).to.equal(productPrice);
       expect(productViewedEvent.data.productCategory).to.equal(productCategory);
       expect(productViewedEvent.data.productCategoryName).to.equal(
-        productCategoryName
+        productCategoryName,
       );
     });
   });
@@ -206,12 +206,12 @@ describe('Profile-tag events', () => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.KEYWORD_SEARCH
-        )
+          profileTagHelper.EventNames.KEYWORD_SEARCH,
+        ),
       ).to.equal(1);
       const keywordSearchEvent = profileTagHelper.getEvent(
         win,
-        profileTagHelper.EventNames.KEYWORD_SEARCH
+        profileTagHelper.EventNames.KEYWORD_SEARCH,
       )[0];
       expect(keywordSearchEvent.data.numResults).to.equal(149);
       expect(keywordSearchEvent.data.searchTerm).to.equal('camera');
@@ -224,14 +224,14 @@ describe('Profile-tag events', () => {
     cy.get('cx-added-to-cart-dialog .btn-primary').click();
     cy.location('pathname', { timeout: 10000 }).should(
       'include',
-      `/electronics-spa/en/USD/cart`
+      `/electronics-spa/en/USD/cart`,
     );
     cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.CART_PAGE_VIEWED
-        )
+          profileTagHelper.EventNames.CART_PAGE_VIEWED,
+        ),
       ).to.equal(1);
     });
   });
@@ -240,14 +240,14 @@ describe('Profile-tag events', () => {
     goToCart();
     cy.location('pathname', { timeout: 10000 }).should(
       'include',
-      `/electronics-spa/en/USD/cart`
+      `/electronics-spa/en/USD/cart`,
     );
     cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.CART_SNAPSHOT
-        )
+          profileTagHelper.EventNames.CART_SNAPSHOT,
+        ),
       ).to.equal(0);
     });
   });
@@ -265,26 +265,26 @@ describe('Profile-tag events', () => {
     checkoutFlowPersistentUser.selectPaymentMethod();
     cy.location('pathname', { timeout: 10000 }).should(
       'include',
-      `checkout/review-order`
+      `checkout/review-order`,
     );
     checkoutFlowPersistentUser.verifyAndPlaceOrder();
     cy.location('pathname', { timeout: 10000 }).should(
       'include',
-      `order-confirmation`
+      `order-confirmation`,
     );
     cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.ORDER_CONFIRMATION_PAGE_VIEWED
-        )
+          profileTagHelper.EventNames.ORDER_CONFIRMATION_PAGE_VIEWED,
+        ),
       ).to.equal(1);
     });
   });
 
   it('should send a Category View event when a Category View occurs', () => {
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
-      'lastRequest'
+      'lastRequest',
     );
     const productCategory = '575';
     const productCategoryName = 'Digital Cameras';
@@ -297,25 +297,25 @@ describe('Profile-tag events', () => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
-        )
+          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED,
+        ),
       ).to.equal(1);
       const categoryViewedEvent = profileTagHelper.getEvent(
         win,
-        profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
+        profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED,
       )[0];
       expect(categoryViewedEvent.data.productCategory).to.equal(
-        productCategory
+        productCategory,
       );
       expect(categoryViewedEvent.data.productCategoryName).to.equal(
-        productCategoryName
+        productCategoryName,
       );
     });
   });
 
   it('should send 2 Category View events when going to a Category, going to a different page type, and then back to the same category', () => {
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
-      'lastRequest'
+      'lastRequest',
     );
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
@@ -326,8 +326,8 @@ describe('Profile-tag events', () => {
         expect(
           profileTagHelper.eventCount(
             win,
-            profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
-          )
+            profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED,
+          ),
         ).to.equal(1);
       });
     });
@@ -339,14 +339,14 @@ describe('Profile-tag events', () => {
         expect(
           profileTagHelper.eventCount(
             win,
-            profileTagHelper.EventNames.KEYWORD_SEARCH
-          )
+            profileTagHelper.EventNames.KEYWORD_SEARCH,
+          ),
         ).to.equal(1);
       });
     });
 
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
-      'lastRequest2'
+      'lastRequest2',
     ); //waiting for the same request a 2nd time doesn't work
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
@@ -357,8 +357,8 @@ describe('Profile-tag events', () => {
         expect(
           profileTagHelper.eventCount(
             win,
-            profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
-          )
+            profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED,
+          ),
         ).to.equal(2);
       });
     });
@@ -366,7 +366,7 @@ describe('Profile-tag events', () => {
 
   it('should send 1 Category View event when going to a Category and clicking a facet', () => {
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
-      'lastRequest'
+      'lastRequest',
     );
 
     cy.get('cx-category-navigation cx-generic-link a')
@@ -378,8 +378,8 @@ describe('Profile-tag events', () => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
-        )
+          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED,
+        ),
       ).to.equal(1);
     });
     productSearch.clickFacet('Stores');
@@ -388,8 +388,8 @@ describe('Profile-tag events', () => {
       expect(
         profileTagHelper.eventCount(
           win2,
-          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
-        )
+          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED,
+        ),
       ).to.equal(1);
     });
   });
@@ -399,7 +399,7 @@ describe('Profile-tag events', () => {
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.window().should((win) => {
       expect(
-        profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
+        profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED),
       ).to.equal(1);
     });
   });
@@ -410,7 +410,7 @@ describe('Profile-tag events', () => {
     cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
     cy.window().should((win) => {
       expect(
-        profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
+        profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED),
       ).to.equal(0);
     });
   });
@@ -435,12 +435,12 @@ describe('Consent Changed', () => {
         expect(
           profileTagHelper.eventCount(
             win,
-            profileTagHelper.EventNames.CONSENT_CHANGED
-          )
+            profileTagHelper.EventNames.CONSENT_CHANGED,
+          ),
         ).to.equal(2);
         const consentRejected = profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.CONSENT_CHANGED
+          profileTagHelper.EventNames.CONSENT_CHANGED,
         )[0];
         expect(consentRejected.data.granted).to.eq(false);
       })
@@ -451,12 +451,12 @@ describe('Consent Changed', () => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.CONSENT_CHANGED
-        )
+          profileTagHelper.EventNames.CONSENT_CHANGED,
+        ),
       ).to.equal(3);
       const consentAccepted = profileTagHelper.getEvent(
         win,
-        profileTagHelper.EventNames.CONSENT_CHANGED
+        profileTagHelper.EventNames.CONSENT_CHANGED,
       )[2];
       expect(consentAccepted.data.granted).to.eq(true);
     });
@@ -468,7 +468,7 @@ describe('Consent Changed', () => {
     cy.window().should((win) => {
       const consentAccepted = profileTagHelper.getEvent(
         win,
-        profileTagHelper.EventNames.CONSENT_CHANGED
+        profileTagHelper.EventNames.CONSENT_CHANGED,
       );
       expect(consentAccepted.length).to.equal(1);
       expect(consentAccepted[0].data.granted).to.eq(true);
@@ -482,8 +482,8 @@ describe('Consent Changed', () => {
         expect(
           profileTagHelper.eventCount(
             win,
-            profileTagHelper.EventNames.HOME_PAGE_VIEWED
-          )
+            profileTagHelper.EventNames.HOME_PAGE_VIEWED,
+          ),
         ).to.equal(1);
       });
     });
@@ -544,7 +544,7 @@ function goToProductPage(): Cypress.Chainable<number> {
   const productCode = '280916';
   const productPage = checkoutFlow.waitForProductPage(
     productCode,
-    'getProductPage'
+    'getProductPage',
   );
   cy.get('.Section4 cx-banner').first().find('a').click({ force: true });
   return cy
@@ -554,11 +554,11 @@ function goToProductPage(): Cypress.Chainable<number> {
 }
 
 function gotToProductPageWithProductCode(
-  productCode: string
+  productCode: string,
 ): Cypress.Chainable<number> {
   const productPage = checkoutFlow.waitForProductPage(
     productCode,
-    'getProductPage'
+    'getProductPage',
   );
   cy.visit(`/product/${productCode}`);
   return cy
@@ -569,21 +569,21 @@ function gotToProductPageWithProductCode(
 
 function verifyCartSnapshotEventNumberOfEntries(
   cy: Cypress.cy,
-  expectedNumberOfEntries: number
+  expectedNumberOfEntries: number,
 ) {
   cy.window().should((win) => {
     expect(
       profileTagHelper.eventCount(
         win,
-        profileTagHelper.EventNames.CART_SNAPSHOT
-      )
+        profileTagHelper.EventNames.CART_SNAPSHOT,
+      ),
     ).to.equal(1);
     const cartSnapshotEvent = profileTagHelper.getEvent(
       win,
-      profileTagHelper.EventNames.CART_SNAPSHOT
+      profileTagHelper.EventNames.CART_SNAPSHOT,
     )[0];
     expect(cartSnapshotEvent.data.cart.entries.length).to.eq(
-      expectedNumberOfEntries
+      expectedNumberOfEntries,
     );
   });
 }

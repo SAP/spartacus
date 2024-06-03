@@ -26,7 +26,7 @@ export class OccPermissionListNormalizer
 
   convert(
     source: Occ.PermissionsList,
-    target?: EntitiesModel<Permission>
+    target?: EntitiesModel<Permission>,
   ): EntitiesModel<Permission> {
     if (target === undefined) {
       target = { ...(source as any) } as EntitiesModel<Permission>;

@@ -6,7 +6,7 @@
 
 export function parseCSV(
   raw: string | undefined,
-  defaultValues: string[] = []
+  defaultValues: string[] = [],
 ): string {
   if (!raw) {
     return defaultValues.map((x) => `'${x}'`).join(', ');

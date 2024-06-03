@@ -11,7 +11,7 @@ import { waitForPage } from '../checkout-flow';
 export function visitOrderApprovalListPage() {
   const alias = waitForPage(
     '/my-account/approval-dashboard',
-    'approvalListPage'
+    'approvalListPage',
   );
 
   cy.visit(`/my-account/approval-dashboard`);
@@ -31,9 +31,9 @@ export function getStubbedUnitLevelOrderDetails() {
     {
       method: 'GET',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
+        'BASE_SITE',
       )}/orgUsers/current/orgUnits/orders/*`,
     },
-    { body: unitLevelOrder }
+    { body: unitLevelOrder },
   );
 }

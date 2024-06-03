@@ -91,7 +91,7 @@ describe('BudgetCostCenterListService', () => {
 
   it('should filter selected cost-centers', () => {
     spyOn(budgetService, 'getCostCenters').and.returnValue(
-      of(mockCostCenterEntities2)
+      of(mockCostCenterEntities2),
     );
     let result: EntitiesModel<CostCenter>;
     service.getData().subscribe((table) => (result = table));

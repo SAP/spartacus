@@ -16,14 +16,14 @@ describe('CDC', () => {
       cy.intercept('/accounts.login', { times: 1 }, (req) => {
         req.body = req.body.replace(
           cdc.b2cConsentTestUser.encodedEmail,
-          cdc.b2cConsentTestUser.encodedStuntDoubleEmail
+          cdc.b2cConsentTestUser.encodedStuntDoubleEmail,
         );
         req.continue();
       });
       cy.visit('/login');
       cdc.loginWithoutScreenSet(
         cdc.b2cConsentTestUser.email,
-        cdc.b2cConsentTestUser.password
+        cdc.b2cConsentTestUser.password,
       );
       cy.get('.cx-dialog-header').contains('Profile Completion');
       cy.get('.close').click();
@@ -36,7 +36,7 @@ describe('CDC', () => {
       cy.intercept('/accounts.login', { times: 1 }, (req) => {
         req.body = req.body.replace(
           cdc.b2cConsentTestUser.encodedEmail,
-          cdc.b2cConsentTestUser.encodedStuntDoubleEmail
+          cdc.b2cConsentTestUser.encodedStuntDoubleEmail,
         );
         req.continue();
       });
@@ -52,12 +52,12 @@ describe('CDC', () => {
             statusReason: 'OK',
             time: '2023-06-12T17:25:50.729Z',
           },
-        }
+        },
       );
       cy.visit('/login');
       cdc.loginWithoutScreenSet(
         cdc.b2cConsentTestUser.email,
-        cdc.b2cConsentTestUser.password
+        cdc.b2cConsentTestUser.password,
       );
       cy.get('.cx-dialog-header').contains('Profile Completion');
       cy.get('.btn.btn-primary.disabled').contains('Submit');
@@ -142,7 +142,7 @@ describe('CDC', () => {
       cdc.verifyUpdatePasswordSuccess(
         cdc.user.email,
         cdc.updatedPassword,
-        cdc.nativeUser.fullName
+        cdc.nativeUser.fullName,
       );
       cdc.restoreUserPassword(cdc.user); //screenset user
     });
@@ -153,7 +153,7 @@ describe('CDC', () => {
       cdc.verifyUpdateEmailSuccess(
         tempEmail,
         cdc.user.password,
-        cdc.user.fullName
+        cdc.user.fullName,
       );
       cdc.restoreUserEmail({ ...cdc.user, email: tempEmail }); //screenset user
     });
@@ -190,7 +190,7 @@ describe('CDC', () => {
       cdc.updateEmailWithoutScreenset(
         cdc.nativeUser.email,
         'WRONG_Pswd', //wrong password
-        true //error testing
+        true, //error testing
       );
       cdc.verifyUpdateEmailError();
     });
@@ -201,7 +201,7 @@ describe('CDC', () => {
       cdc.verifyUpdateEmailSuccess(
         tempEmail,
         cdc.nativeUser.password,
-        cdc.nativeUser.fullName
+        cdc.nativeUser.fullName,
       );
       cdc.restoreUserEmail(cdc.nativeUser);
     });
@@ -221,7 +221,7 @@ describe('CDC', () => {
       cdc.updatePasswordWithoutScreenset(
         'WRONG_Pswd', //wrong password
         cdc.updatedPassword,
-        true
+        true,
       );
       cdc.verifyUpdatePasswordError();
     });
@@ -229,12 +229,12 @@ describe('CDC', () => {
     it('should update password in Native UI (CXSPA-3016)', () => {
       cdc.updatePasswordWithoutScreenset(
         cdc.nativeUser.password,
-        cdc.updatedPassword
+        cdc.updatedPassword,
       );
       cdc.verifyUpdatePasswordSuccess(
         cdc.nativeUser.email,
         cdc.updatedPassword,
-        cdc.nativeUser.fullName
+        cdc.nativeUser.fullName,
       );
       cdc.restoreUserPassword(cdc.nativeUser);
     });

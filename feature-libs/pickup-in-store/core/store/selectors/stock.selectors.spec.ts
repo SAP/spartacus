@@ -17,7 +17,7 @@ describe('StockSelectors', () => {
     stockLevel?: Partial<StockState['stockLevel']>,
     hideOutOfStock?: StockState['hideOutOfStock'],
     browserLocation?: StockState['browserLocation'],
-    stockLevelAtStore?: StockState['stockLevelAtStore']
+    stockLevelAtStore?: StockState['stockLevelAtStore'],
   ): StateWithStock => ({
     stock: {
       stockLevel: {
@@ -85,14 +85,14 @@ describe('StockSelectors', () => {
   describe('hasSearchStartedForProductCode', () => {
     it('should return true if the result is for the product code', () => {
       const result = hasSearchStartedForProductCode('productCode')(
-        stateFactory({ success: true, value: { productCode: {} } })
+        stateFactory({ success: true, value: { productCode: {} } }),
       );
       expect(result).toEqual(true);
     });
 
     it('should return false if the result is not for the product code', () => {
       const result = hasSearchStartedForProductCode('productCode')(
-        stateFactory({ success: true, value: { productCode2: {} } })
+        stateFactory({ success: true, value: { productCode2: {} } }),
       );
       expect(result).toEqual(false);
     });
@@ -123,9 +123,8 @@ describe('StockSelectors', () => {
     ];
 
     it('should return an empty list for a product without store data', () => {
-      const result = getStoresWithStockForProductCode('productCode')(
-        stateFactory()
-      );
+      const result =
+        getStoresWithStockForProductCode('productCode')(stateFactory());
       const expectedResult: PointOfServiceStock[] = [];
       expect(result).toEqual(expectedResult);
     });
@@ -133,7 +132,7 @@ describe('StockSelectors', () => {
     it('should return the store data hiding out of stock', () => {
       const state: StateWithStock = stateFactory(
         { value: { productCode: { stores } } },
-        true
+        true,
       );
       const result = getStoresWithStockForProductCode('productCode')(state);
       expect(result).toEqual([storeWithStockInfoAndStock]);
@@ -142,7 +141,7 @@ describe('StockSelectors', () => {
     it('should return the store data showing out of stock', () => {
       const state: StateWithStock = stateFactory(
         { value: { productCode: { stores } } },
-        false
+        false,
       );
       const result = getStoresWithStockForProductCode('productCode')(state);
       expect(result).toEqual(stores);
@@ -153,7 +152,7 @@ describe('StockSelectors', () => {
         undefined,
         undefined,
         undefined,
-        { productCode: { storeName: { stockLevel: 10 } } }
+        { productCode: { storeName: { stockLevel: 10 } } },
       );
       const result = getStockAtStore('productCode', 'storeName')(state);
       expect(result).toEqual({ stockLevel: 10 });
@@ -162,7 +161,7 @@ describe('StockSelectors', () => {
     it('should return undefined for missing productCode and storeName', () => {
       const result = getStockAtStore(
         'productCode',
-        'storeName'
+        'storeName',
       )(stateFactory());
       expect(result).toEqual(undefined);
     });

@@ -95,7 +95,7 @@ describe('ToggleLinkCellComponent', () => {
 
   it('should call toggle method', () => {
     const el: HTMLElement = fixture.debugElement.query(
-      By.css('button.tree-item-toggle')
+      By.css('button.tree-item-toggle'),
     ).nativeNode;
     el.click();
     expect(unitTreeService.toggle).toHaveBeenCalledWith(mockContext);
@@ -173,7 +173,7 @@ describe('ToggleLinkCellComponent', () => {
       component.onArrowDown(
         mockArrowDownEvent,
         currentSelectedIndex,
-        mockSiblingElements
+        mockSiblingElements,
       );
 
       expect(mockArrowDownEvent.preventDefault).toHaveBeenCalled();
@@ -188,7 +188,7 @@ describe('ToggleLinkCellComponent', () => {
       component.onArrowUp(
         mockArrowUpEvent,
         currentSelectedIndex,
-        mockSiblingElements
+        mockSiblingElements,
       );
 
       expect(mockArrowUpEvent.preventDefault).toHaveBeenCalled();

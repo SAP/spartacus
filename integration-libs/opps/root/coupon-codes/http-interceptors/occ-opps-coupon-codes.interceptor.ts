@@ -46,7 +46,7 @@ export class OccOppsCouponCodesInterceptor implements HttpInterceptor {
    */
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     if (
       this.winRef.isBrowser() &&

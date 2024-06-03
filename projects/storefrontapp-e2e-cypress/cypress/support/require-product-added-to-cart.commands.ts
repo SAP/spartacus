@@ -21,7 +21,7 @@ declare global {
        */
       requireProductAddedToCart: (
         auth: {},
-        productData?: {}
+        productData?: {},
       ) => Cypress.Chainable<any>;
     }
   }
@@ -34,7 +34,7 @@ Cypress.Commands.add(
       return cy.request({
         method: 'POST',
         url: `${Cypress.env('API_URL')}/${Cypress.env(
-          'OCC_PREFIX'
+          'OCC_PREFIX',
         )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
         body: {
           fields: 'DEFAULT',
@@ -52,9 +52,9 @@ Cypress.Commands.add(
         return cy.request({
           method: 'POST',
           url: `${Cypress.env('API_URL')}/${Cypress.env(
-            'OCC_PREFIX'
+            'OCC_PREFIX',
           )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
-            'OCC_PREFIX_USER_ENDPOINT'
+            'OCC_PREFIX_USER_ENDPOINT',
           )}/current/carts/${cartCode}/entries`,
           body: {
             code: productData.code,
@@ -71,9 +71,9 @@ Cypress.Commands.add(
       return cy.request({
         method: 'POST',
         url: `${Cypress.env('API_URL')}/${Cypress.env(
-          'OCC_PREFIX'
+          'OCC_PREFIX',
         )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
-          'OCC_PREFIX_USER_ENDPOINT'
+          'OCC_PREFIX_USER_ENDPOINT',
         )}/current/carts/${cartCode}/entries`,
         body: {
           product: {
@@ -105,5 +105,5 @@ Cypress.Commands.add(
         cy.wrap(response.body);
       });
     });
-  }
+  },
 );

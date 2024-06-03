@@ -38,7 +38,7 @@ export class CouponSearchPageResolver
     .getResults()
     .pipe(
       filter((data) => !!data?.pagination),
-      map((results) => results.pagination?.totalResults ?? 0)
+      map((results) => results.pagination?.totalResults ?? 0),
     );
 
   constructor(
@@ -46,7 +46,7 @@ export class CouponSearchPageResolver
     protected translation: TranslationService,
     protected authService: AuthService,
     protected route: ActivatedRoute,
-    protected semanticPathService: SemanticPathService
+    protected semanticPathService: SemanticPathService,
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -71,7 +71,7 @@ export class CouponSearchPageResolver
           });
         }
         return breadcrumbs;
-      })
+      }),
     );
   }
 
@@ -81,8 +81,8 @@ export class CouponSearchPageResolver
         this.translation.translate('pageMetaResolver.search.findProductTitle', {
           count: total,
           coupon: this.couponCode,
-        })
-      )
+        }),
+      ),
     );
   }
 

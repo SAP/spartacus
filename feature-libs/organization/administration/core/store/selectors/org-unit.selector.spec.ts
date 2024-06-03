@@ -55,7 +55,7 @@ describe('OrgUnit Selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
     });
@@ -125,7 +125,7 @@ describe('OrgUnit Selectors', () => {
         .subscribe((value) => (result = value));
 
       store.dispatch(
-        new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId })
+        new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
       );
       expect(result).toEqual({
         entities: {},

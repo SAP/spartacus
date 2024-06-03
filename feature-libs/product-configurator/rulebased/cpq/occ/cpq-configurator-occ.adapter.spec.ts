@@ -23,7 +23,7 @@ const owner: CommonConfigurator.Owner = {
   id: productCode,
   key: ConfiguratorModelUtils.getOwnerKey(
     CommonConfigurator.OwnerType.PRODUCT,
-    productCode
+    productCode,
   ),
   configuratorType: ConfiguratorType.CPQ,
 };
@@ -152,7 +152,7 @@ describe('CpqConfiguratorOccAdapter', () => {
     });
 
     adapterUnderTest = TestBed.inject(
-      CpqConfiguratorOccAdapter as Type<CpqConfiguratorOccAdapter>
+      CpqConfiguratorOccAdapter as Type<CpqConfiguratorOccAdapter>,
     );
 
     inputForUpdateConfiguration.updateType = Configurator.UpdateType.ATTRIBUTE;
@@ -160,7 +160,7 @@ describe('CpqConfiguratorOccAdapter', () => {
 
   it('should return correct configurator type', () => {
     expect(adapterUnderTest.getConfiguratorType()).toEqual(
-      ConfiguratorType.CPQ
+      ConfiguratorType.CPQ,
     );
   });
 
@@ -172,7 +172,7 @@ describe('CpqConfiguratorOccAdapter', () => {
     adapterUnderTest.createConfiguration(owner).subscribe((config) => {
       expect(config.owner).toEqual(owner);
       expect(mockedOccService.createConfiguration).toHaveBeenCalledWith(
-        productCode
+        productCode,
       );
     });
   });
@@ -184,7 +184,7 @@ describe('CpqConfiguratorOccAdapter', () => {
         expect(config.owner).toEqual(owner);
         expect(mockedOccService.readConfiguration).toHaveBeenCalledWith(
           productConfiguration.configId,
-          groupId
+          groupId,
         );
       });
   });
@@ -205,7 +205,7 @@ describe('CpqConfiguratorOccAdapter', () => {
       .subscribe((config) => {
         expect(config.owner).toEqual(owner);
         expect(mockedOccService.updateAttribute).toHaveBeenCalledWith(
-          inputForUpdateConfiguration
+          inputForUpdateConfiguration,
         );
       });
   });
@@ -222,7 +222,7 @@ describe('CpqConfiguratorOccAdapter', () => {
       .subscribe((config) => {
         expect(config.owner).toEqual(owner);
         expect(mockedOccService.updateValueQuantity).toHaveBeenCalledWith(
-          inputForUpdateConfiguration
+          inputForUpdateConfiguration,
         );
       });
   });
@@ -233,7 +233,7 @@ describe('CpqConfiguratorOccAdapter', () => {
       .subscribe((config) => {
         expect(config.configId).toEqual(configId);
         expect(mockedOccService.readConfigurationOverview).toHaveBeenCalledWith(
-          productConfiguration.configId
+          productConfiguration.configId,
         );
       });
   });
@@ -256,7 +256,7 @@ describe('CpqConfiguratorOccAdapter', () => {
         expect(response).toBe(productConfiguration);
         expect(response.owner).toBe(readConfigCartParams.owner);
         expect(
-          mockedOccService.readConfigurationForCartEntry
+          mockedOccService.readConfigurationForCartEntry,
         ).toHaveBeenCalledWith(readConfigCartParams);
       });
   });
@@ -268,7 +268,7 @@ describe('CpqConfiguratorOccAdapter', () => {
         expect(response).toBe(productConfiguration);
         expect(response.owner).toBe(readConfigOrderEntryParams.owner);
         expect(
-          mockedOccService.readConfigurationForOrderEntry
+          mockedOccService.readConfigurationForOrderEntry,
         ).toHaveBeenCalledWith(readConfigOrderEntryParams);
       });
   });
@@ -279,7 +279,7 @@ describe('CpqConfiguratorOccAdapter', () => {
       .subscribe((response) => {
         expect(response).toEqual(cartResponse);
         expect(mockedOccService.updateCartEntry).toHaveBeenCalledWith(
-          updateCartParams
+          updateCartParams,
         );
       });
   });

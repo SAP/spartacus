@@ -37,7 +37,7 @@ describe('Order Details Selectors', () => {
         new OrderActions.LoadOrderDetails({
           userId: 'curent',
           orderCode: '123',
-        })
+        }),
       );
 
       let result = false;

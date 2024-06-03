@@ -46,29 +46,27 @@ describe('ProductReviewsComponent in product', () => {
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          ItemCounterModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        providers: [
-          {
-            provide: ProductReviewService,
-            useClass: MockProductReviewService,
-          },
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-        ],
-        declarations: [MockStarRatingComponent, ProductReviewsComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        ItemCounterModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      providers: [
+        {
+          provide: ProductReviewService,
+          useClass: MockProductReviewService,
+        },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+      ],
+      declarations: [MockStarRatingComponent, ProductReviewsComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReviewsComponent);
@@ -123,8 +121,8 @@ describe('ProductReviewsComponent in product', () => {
       fixture.detectChanges();
       expect(
         fixture.debugElement.nativeElement.querySelector(
-          '.header>cx-star-rating'
-        )
+          '.header>cx-star-rating',
+        ),
       ).not.toBeNull();
     });
 
@@ -134,8 +132,8 @@ describe('ProductReviewsComponent in product', () => {
       fixture.detectChanges();
       expect(
         fixture.debugElement.nativeElement.querySelector(
-          '.header>cx-star-rating'
-        )
+          '.header>cx-star-rating',
+        ),
       ).toBeNull();
     });
 
@@ -144,7 +142,7 @@ describe('ProductReviewsComponent in product', () => {
       fixture = TestBed.createComponent(ProductReviewsComponent);
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'productDetails.noReviews'
+        'productDetails.noReviews',
       );
     });
   });

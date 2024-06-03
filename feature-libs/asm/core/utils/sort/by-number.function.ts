@@ -10,7 +10,7 @@ import { Comparator, SortOrder } from './sort.model';
  * Compare numbers. Ascending is smaller numbers first
  */
 export function byNumber(
-  ordering: SortOrder = SortOrder.ASC
+  ordering: SortOrder = SortOrder.ASC,
 ): Comparator<number> {
   return (a: number, b: number) => {
     if (a === b) {

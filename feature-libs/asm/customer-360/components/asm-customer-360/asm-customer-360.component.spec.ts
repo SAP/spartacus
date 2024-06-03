@@ -232,18 +232,18 @@ describe('AsmCustomer360Component', () => {
   it('should display customer general information', () => {
     const formatedDate = datePipe.transform(
       mockOverview.overview?.signedUpAt,
-      mockAsmConfig.asmCustomer360?.dateFormat
+      mockAsmConfig.asmCustomer360?.dateFormat,
     );
     const log = el.query(By.css('.header-profile-details-log'));
     expect(log.nativeElement.textContent).toContain(formatedDate);
     const email = el.query(By.css('.cx-asm-customer-email'));
     expect(email.nativeElement.textContent).toContain(
-      mockOverview.overview?.email
+      mockOverview.overview?.email,
     );
 
     const town = el.query(By.css('.cx-asm-customer-address'));
     expect(town.nativeElement.textContent).toContain(
-      mockOverview.overview?.address?.town
+      mockOverview.overview?.address?.town,
     );
   });
 
@@ -257,7 +257,7 @@ describe('AsmCustomer360Component', () => {
   it("should show a label with information on the emulated user's most recent order", () => {
     const formatedLatestOrderTime = datePipe.transform(
       mockOverview.overview?.latestOrderTime,
-      mockAsmConfig.asmCustomer360?.dateFormat
+      mockAsmConfig.asmCustomer360?.dateFormat,
     );
     const label = el.query(By.css('.header-account-details-recent-order'))
       .nativeElement.textContent;
@@ -326,7 +326,7 @@ describe('AsmCustomer360Component', () => {
   describe('Tab navigation', () => {
     it('should display tabs', () => {
       expect(component.tabHeaderItems.length).toBe(
-        mockAsmConfig.asmCustomer360?.tabs?.length
+        mockAsmConfig.asmCustomer360?.tabs?.length,
       );
     });
     it('should activate the close button', () => {
@@ -375,7 +375,7 @@ describe('AsmCustomer360Component', () => {
       spyOn(asmCustomer360Facade, 'get360Data').and.callFake(
         (components: Array<AsmCustomer360TabComponent>) => {
           const overview = components.filter(
-            (comp) => comp.requestData?.type === AsmCustomer360Type.OVERVIEW
+            (comp) => comp.requestData?.type === AsmCustomer360Type.OVERVIEW,
           );
           if (overview.length) {
             return throwError({
@@ -386,7 +386,7 @@ describe('AsmCustomer360Component', () => {
           } else {
             return of({ value: [mockOverview] });
           }
-        }
+        },
       );
       fixture = TestBed.createComponent(AsmCustomer360Component);
       component = fixture.componentInstance;
@@ -407,7 +407,7 @@ describe('AsmCustomer360Component', () => {
       spyOn(asmCustomer360Facade, 'get360Data').and.callFake(
         (components: Array<AsmCustomer360TabComponent>) => {
           const overview = components.filter(
-            (comp) => comp.requestData?.type === AsmCustomer360Type.OVERVIEW
+            (comp) => comp.requestData?.type === AsmCustomer360Type.OVERVIEW,
           );
           if (overview.length) {
             return of({ value: [mockOverview] });
@@ -418,7 +418,7 @@ describe('AsmCustomer360Component', () => {
               },
             });
           }
-        }
+        },
       );
       fixture = TestBed.createComponent(AsmCustomer360Component);
       component = fixture.componentInstance;

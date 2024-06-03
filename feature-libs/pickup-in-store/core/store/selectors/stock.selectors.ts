@@ -20,22 +20,22 @@ export const getStockEntities: MemoizedSelector<
   StateWithStock,
   StockLevelState
 > = createSelector(getStockLevelState, (state) =>
-  StateUtils.loaderValueSelector(state)
+  StateUtils.loaderValueSelector(state),
 );
 
 export const getStockLoading: MemoizedSelector<StateWithStock, boolean> =
   createSelector(getStockLevelState, (state) =>
-    StateUtils.loaderLoadingSelector(state)
+    StateUtils.loaderLoadingSelector(state),
   );
 
 export const getStockSuccess: MemoizedSelector<StateWithStock, boolean> =
   createSelector(getStockLevelState, (state) =>
-    StateUtils.loaderSuccessSelector(state)
+    StateUtils.loaderSuccessSelector(state),
   );
 
 export const getStockError: MemoizedSelector<StateWithStock, boolean> =
   createSelector(getStockLevelState, (state) =>
-    StateUtils.loaderErrorSelector(state)
+    StateUtils.loaderErrorSelector(state),
   );
 
 export const hasSearchStarted: MemoizedSelector<StateWithStock, boolean> =
@@ -44,37 +44,37 @@ export const hasSearchStarted: MemoizedSelector<StateWithStock, boolean> =
     getStockSuccess,
     getStockError,
     (_getStockLoading, _getStockSuccess, _getStockError) =>
-      _getStockLoading || _getStockSuccess || _getStockError
+      _getStockLoading || _getStockSuccess || _getStockError,
   );
 
 export const hasSearchStartedForProductCode = (
-  productCode: string
+  productCode: string,
 ): MemoizedSelector<StateWithStock, boolean> =>
   createSelector(
     hasSearchStarted,
     getStockEntities,
     (hasSearchBeenStarted, stockEntities) => {
       return hasSearchBeenStarted && !!stockEntities[productCode];
-    }
+    },
   );
 
 export const getStoresWithStockForProductCode = (
-  productCode: string
+  productCode: string,
 ): MemoizedSelector<StateWithStock, PointOfServiceStock[]> =>
   createSelector(
     getStockEntities,
     getHideOutOfStockState,
     (stockEntities, hideOutOfStock) =>
       stockEntities[productCode]?.stores?.filter(
-        (store) => !hideOutOfStock || storeHasStock(store)
-      ) ?? []
+        (store) => !hideOutOfStock || storeHasStock(store),
+      ) ?? [],
   );
 
 export const getStockAtStore = (
   productCode: string,
-  storeName: string
+  storeName: string,
 ): MemoizedSelector<StateWithStock, Stock | undefined> =>
   createSelector(
     getStockState,
-    (stockState) => stockState?.stockLevelAtStore?.[productCode]?.[storeName]
+    (stockState) => stockState?.stockLevelAtStore?.[productCode]?.[storeName],
   );

@@ -23,7 +23,7 @@ export type FeatureTogglesFactory = (...props: any[]) => FeatureToggles;
  * @param toggles FeatureToggles object
  */
 export function provideFeatureToggles(
-  toggles: FeatureToggles = {}
+  toggles: FeatureToggles = {},
 ): ValueProvider {
   return {
     provide: FeatureTogglesChunk,
@@ -42,7 +42,7 @@ export function provideFeatureToggles(
  * @param featureTogglesFactory Factory Function that returns FeatureToggles object
  */
 export function provideFeatureTogglesFactory(
-  featureTogglesFactory: FeatureTogglesFactory
+  featureTogglesFactory: FeatureTogglesFactory,
 ): FactoryProvider {
   return {
     provide: FeatureTogglesChunk,
@@ -59,7 +59,7 @@ export function provideFeatureTogglesFactory(
  * @param toggles FeatureToggles object
  */
 export function provideDefaultFeatureToggles(
-  toggles: FeatureToggles = {}
+  toggles: FeatureToggles = {},
 ): ValueProvider {
   return {
     provide: DefaultFeatureTogglesChunk,
@@ -76,7 +76,7 @@ export function provideDefaultFeatureToggles(
  * @param featureTogglesFactory Factory Function that returns FeatureToggles object
  */
 export function provideDefaultFeatureTogglesFactory(
-  featureTogglesFactory: FeatureTogglesFactory
+  featureTogglesFactory: FeatureTogglesFactory,
 ): FactoryProvider {
   return {
     provide: DefaultFeatureTogglesChunk,

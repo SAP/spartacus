@@ -31,7 +31,7 @@ export class PickUpItemsDetailsComponent implements OnInit {
 
   constructor(
     protected component: CmsComponentData<CmsPickupItemDetails>,
-    protected deliveryPointsService: DeliveryPointsService
+    protected deliveryPointsService: DeliveryPointsService,
   ) {}
   ngOnInit() {
     this.component.data$
@@ -44,7 +44,7 @@ export class PickUpItemsDetailsComponent implements OnInit {
               ? this.deliveryPointsService.getDeliveryPointsOfServiceFromOrder()
               : this.deliveryPointsService.getDeliveryPointsOfServiceFromCart();
         }),
-        take(1)
+        take(1),
       )
       .subscribe();
   }

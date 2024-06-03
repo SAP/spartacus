@@ -108,7 +108,7 @@ describe('CdcLogoutGuard', () => {
   it('logoutFromCdc should logout user from CDC', () => {
     const cdcLogout = spyOn(
       winRef.nativeWindow['gigya']?.accounts,
-      'logout'
+      'logout',
     ).and.stub();
     guard['logoutFromCdc']();
 

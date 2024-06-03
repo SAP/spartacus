@@ -15,7 +15,7 @@ export function getReducers(): ActionReducer<GlobalMessageState, any> {
 
 export const reducerToken: InjectionToken<ActionReducer<GlobalMessageState>> =
   new InjectionToken<ActionReducer<GlobalMessageState>>(
-    'GlobalMessageReducers'
+    'GlobalMessageReducers',
   );
 
 export const reducerProvider: Provider = {

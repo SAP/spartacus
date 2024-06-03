@@ -8,20 +8,20 @@
             : {
                 value: attributeOverview.value,
                 attribute: attributeOverview.attribute,
-                price: attributeOverview.valuePriceTotal.formattedValue
+                price: attributeOverview.valuePriceTotal.formattedValue,
               })
         : ('configurator.a11y.valueOfAttributeFullWithPrice'
           | cxTranslate
             : {
                 value: attributeOverview.value,
                 attribute: attributeOverview.attribute,
-                price: attributeOverview.valuePrice.formattedValue
+                price: attributeOverview.valuePrice.formattedValue,
               })
       : ('configurator.a11y.valueOfAttributeFull'
         | cxTranslate
           : {
               value: attributeOverview.value,
-              attribute: attributeOverview.attribute
+              attribute: attributeOverview.attribute,
             })
   }}
 </span>

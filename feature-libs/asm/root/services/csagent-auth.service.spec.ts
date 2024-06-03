@@ -87,7 +87,7 @@ describe('CsAgentAuthService', () => {
     it('should only login cs agent when there is not any active session', async () => {
       spyOn(
         oAuthLibWrapperService,
-        'authorizeWithPasswordFlow'
+        'authorizeWithPasswordFlow',
       ).and.callThrough();
       spyOn(store, 'dispatch').and.callFake(() => {});
       spyOn(userIdService, 'setUserId').and.callThrough();
@@ -102,12 +102,12 @@ describe('CsAgentAuthService', () => {
         .subscribe((target) => (tokenTarget = target));
 
       expect(
-        oAuthLibWrapperService.authorizeWithPasswordFlow
+        oAuthLibWrapperService.authorizeWithPasswordFlow,
       ).toHaveBeenCalledWith('testUser', 'testPass');
       expect(tokenTarget).toBe(TokenTarget.CSAgent);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
       expect(userIdService.setUserId).toHaveBeenCalledWith(
-        OCC_USER_ID_ANONYMOUS
+        OCC_USER_ID_ANONYMOUS,
       );
       expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
     });
@@ -116,12 +116,12 @@ describe('CsAgentAuthService', () => {
       const dispatch = spyOn(store, 'dispatch').and.callFake(() => {});
       spyOn(
         oAuthLibWrapperService,
-        'authorizeWithPasswordFlow'
+        'authorizeWithPasswordFlow',
       ).and.callThrough();
       spyOn(userIdService, 'setUserId').and.callThrough();
       spyOn(asmAuthStorageService, 'setEmulatedUserToken').and.callThrough();
       spyOn(userAccountFacade, 'get').and.returnValue(
-        of({ customerId: 'custId' })
+        of({ customerId: 'custId' }),
       );
       spyOn(featureConfig, 'isLevel').and.returnValue(true);
       asmAuthStorageService.setToken({ access_token: 'token' } as AuthToken);
@@ -135,7 +135,7 @@ describe('CsAgentAuthService', () => {
         .subscribe((target) => (tokenTarget = target));
 
       expect(
-        oAuthLibWrapperService.authorizeWithPasswordFlow
+        oAuthLibWrapperService.authorizeWithPasswordFlow,
       ).toHaveBeenCalledWith('testUser', 'testPass');
       expect(tokenTarget).toBe(TokenTarget.CSAgent);
       expect(dispatch.calls.argsFor(0)[0]).toEqual(new AuthActions.Logout());
@@ -152,7 +152,7 @@ describe('CsAgentAuthService', () => {
       spyOn(oAuthLibWrapperService, 'authorizeWithPasswordFlow').and.callFake(
         () => {
           return Promise.reject();
-        }
+        },
       );
       spyOn(userIdService, 'setUserId').and.callThrough();
       spyOn(asmAuthStorageService, 'setEmulatedUserToken').and.callThrough();
@@ -167,14 +167,14 @@ describe('CsAgentAuthService', () => {
         .subscribe((target) => (tokenTarget = target));
 
       expect(
-        oAuthLibWrapperService.authorizeWithPasswordFlow
+        oAuthLibWrapperService.authorizeWithPasswordFlow,
       ).toHaveBeenCalledWith('testUser', 'testPass');
       expect(tokenTarget).toBe(TokenTarget.User);
       expect(store.dispatch).not.toHaveBeenCalled();
       expect(userIdService.setUserId).not.toHaveBeenCalled();
       expect(asmAuthStorageService.setEmulatedUserToken).not.toHaveBeenCalled();
       expect(
-        asmAuthStorageService.clearEmulatedUserToken
+        asmAuthStorageService.clearEmulatedUserToken,
       ).not.toHaveBeenCalled();
     });
   });

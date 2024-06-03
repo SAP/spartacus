@@ -15,7 +15,7 @@ import { MockUrlPipe, URL_TESTING_ALLOWLISTED_PARAMS } from './mock-url.pipe';
 })
 export class UrlTestingModule {
   static allowlistParams(
-    allowlistedParams: string[]
+    allowlistedParams: string[],
   ): ModuleWithProviders<UrlTestingModule> {
     return {
       ngModule: UrlTestingModule,

@@ -36,7 +36,7 @@ export class ComponentHandlerService {
   constructor(
     @Optional()
     @Inject(ComponentHandler)
-    protected handlers: ComponentHandler[]
+    protected handlers: ComponentHandler[],
   ) {}
 
   protected invalidMappings = new Set<CmsComponentMapping<any>>();
@@ -47,7 +47,7 @@ export class ComponentHandlerService {
    * @param componentMapping
    */
   protected resolve(
-    componentMapping: CmsComponentMapping
+    componentMapping: CmsComponentMapping,
   ): ComponentHandler | undefined {
     const handler = resolveApplicable(this.handlers, [componentMapping]);
 
@@ -56,7 +56,7 @@ export class ComponentHandlerService {
         this.invalidMappings.add(componentMapping);
         this.logger.warn(
           "Can't resolve handler for component mapping: ",
-          componentMapping
+          componentMapping,
         );
       }
     }
@@ -75,7 +75,7 @@ export class ComponentHandlerService {
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
     elementInjector?: Injector,
-    module?: NgModuleRef<any>
+    module?: NgModuleRef<any>,
   ):
     | Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }>
     | undefined {
@@ -83,7 +83,7 @@ export class ComponentHandlerService {
       componentMapping,
       viewContainerRef,
       elementInjector,
-      module
+      module,
     );
   }
 }

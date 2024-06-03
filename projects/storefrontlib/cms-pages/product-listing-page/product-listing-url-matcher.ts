@@ -15,7 +15,7 @@ import { getSuffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/s
 
 export function getProductListingUrlMatcherFactory(
   service: UrlMatcherService,
-  defaultMatcherFactory: UrlMatcherFactory
+  defaultMatcherFactory: UrlMatcherFactory,
 ): UrlMatcherFactory {
   const factory = (route: Route) => {
     const defaultMatcher = defaultMatcherFactory(route);
@@ -45,6 +45,6 @@ export const PRODUCT_LISTING_URL_MATCHER =
     factory: () =>
       getProductListingUrlMatcherFactory(
         inject(UrlMatcherService),
-        inject(DEFAULT_URL_MATCHER)
+        inject(DEFAULT_URL_MATCHER),
       ),
   });

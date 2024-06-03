@@ -48,7 +48,7 @@ const sorts = [{ selected: true, name: 'code' }];
 class MockOrderApprovalConnector {
   get = createSpy().and.returnValue(of(orderApproval));
   getList = createSpy().and.returnValue(
-    of({ values: [orderApproval], pagination, sorts })
+    of({ values: [orderApproval], pagination, sorts }),
   );
   makeDecision = createSpy().and.returnValue(of(orderApprovalDecision));
 }
@@ -125,13 +125,13 @@ describe('OrderApproval Effects', () => {
       expect(effects.loadOrderApproval$).toBeObservable(expected);
       expect(orderApprovalConnector.get).toHaveBeenCalledWith(
         userId,
-        orderApprovalCode
+        orderApprovalCode,
       );
     });
 
     it('should return LoadOrderApprovalFail action if orderApproval not updated', () => {
       orderApprovalConnector.get = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrderApprovalActions.LoadOrderApproval({
         userId,
@@ -147,7 +147,7 @@ describe('OrderApproval Effects', () => {
       expect(effects.loadOrderApproval$).toBeObservable(expected);
       expect(orderApprovalConnector.get).toHaveBeenCalledWith(
         userId,
-        orderApprovalCode
+        orderApprovalCode,
       );
     });
   });
@@ -173,13 +173,13 @@ describe('OrderApproval Effects', () => {
       expect(effects.loadOrderApprovals$).toBeObservable(expected);
       expect(orderApprovalConnector.getList).toHaveBeenCalledWith(
         userId,
-        params
+        params,
       );
     });
 
     it('should return LoadOrderApprovalsFail action if orderApprovals not loaded', () => {
       orderApprovalConnector.getList = createSpy().and.returnValue(
-        throwError(() => httpErrorResponse)
+        throwError(() => httpErrorResponse),
       );
       const action = new OrderApprovalActions.LoadOrderApprovals({
         userId,
@@ -195,7 +195,7 @@ describe('OrderApproval Effects', () => {
       expect(effects.loadOrderApprovals$).toBeObservable(expected);
       expect(orderApprovalConnector.getList).toHaveBeenCalledWith(
         userId,
-        params
+        params,
       );
     });
   });
@@ -222,13 +222,13 @@ describe('OrderApproval Effects', () => {
       expect(orderApprovalConnector.makeDecision).toHaveBeenCalledWith(
         userId,
         orderApprovalCode,
-        orderApprovalDecision
+        orderApprovalDecision,
       );
     });
 
     it('should return MakeDecisionFail action if decision not created', () => {
       orderApprovalConnector.makeDecision = createSpy(
-        'makeDecision'
+        'makeDecision',
       ).and.returnValue(throwError(() => httpErrorResponse));
       const action = new OrderApprovalActions.MakeDecision({
         userId,
@@ -246,7 +246,7 @@ describe('OrderApproval Effects', () => {
       expect(orderApprovalConnector.makeDecision).toHaveBeenCalledWith(
         userId,
         orderApprovalCode,
-        orderApprovalDecision
+        orderApprovalDecision,
       );
     });
   });

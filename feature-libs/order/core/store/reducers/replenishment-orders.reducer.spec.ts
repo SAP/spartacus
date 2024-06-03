@@ -42,7 +42,7 @@ describe('User Orders Replenishment Reducer', () => {
     it('should populate the User Replenishment Orders state entities', () => {
       const { initialState } = fromReducer;
       const action = new OrderActions.LoadUserReplenishmentOrdersSuccess(
-        mockUserReplenishmentOrders
+        mockUserReplenishmentOrders,
       );
       const state = fromReducer.reducer(initialState, action);
 
@@ -53,7 +53,7 @@ describe('User Orders Replenishment Reducer', () => {
   describe('CANCEL_REPLENISHMENT_ORDER_SUCCESS action', () => {
     it('should update replenishment order details', () => {
       const action = new OrderActions.CancelReplenishmentOrderSuccess(
-        replenishmentOrders[0]
+        replenishmentOrders[0],
       );
       const state = fromReducer.reducer(mockUserReplenishmentOrders, action);
 

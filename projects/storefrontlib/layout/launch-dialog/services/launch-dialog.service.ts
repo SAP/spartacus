@@ -34,7 +34,7 @@ export class LaunchDialogService {
   constructor(
     @Inject(LaunchRenderStrategy)
     protected renderStrategies: LaunchRenderStrategy[],
-    protected layoutConfig: LayoutConfig
+    protected layoutConfig: LayoutConfig,
   ) {
     this.renderStrategies = this.renderStrategies || [];
   }
@@ -51,7 +51,7 @@ export class LaunchDialogService {
     caller: LAUNCH_CALLER | string,
     openElement?: ElementRef,
     vcr?: ViewContainerRef,
-    data?: any
+    data?: any,
   ): Observable<any> | undefined {
     const component = this.launch(caller, vcr, data);
 
@@ -63,7 +63,7 @@ export class LaunchDialogService {
           this.clear(caller);
           comp?.destroy();
         }),
-        map(([comp]) => comp)
+        map(([comp]) => comp),
       );
     }
   }
@@ -76,7 +76,7 @@ export class LaunchDialogService {
   launch(
     caller: LAUNCH_CALLER | string,
     vcr?: ViewContainerRef,
-    data?: any
+    data?: any,
   ): void | Observable<ComponentRef<any> | undefined> {
     const config = this.findConfiguration(caller);
     if (config) {
@@ -104,7 +104,7 @@ export class LaunchDialogService {
   openDialogAndSubscribe(
     caller: LAUNCH_CALLER | string,
     openElement?: ElementRef,
-    data?: any
+    data?: any,
   ): void {
     this.openDialog(caller, openElement, undefined, data)
       ?.pipe(take(1))
@@ -143,7 +143,7 @@ export class LaunchDialogService {
    * @param caller LAUNCH_CALLER
    */
   protected findConfiguration(
-    caller: LAUNCH_CALLER | string
+    caller: LAUNCH_CALLER | string,
   ): LaunchOptions | undefined {
     if (this.layoutConfig?.launch) {
       return this.layoutConfig.launch[caller];
@@ -157,7 +157,7 @@ export class LaunchDialogService {
    * @param config Configuration for launch
    */
   protected getStrategy(
-    config: LaunchOptions
+    config: LaunchOptions,
   ): LaunchRenderStrategy | undefined {
     return resolveApplicable(this.renderStrategies, [config]);
   }

@@ -54,7 +54,7 @@ export abstract class StoreFinderFacade {
     longitudeLatitude?: GeoPoint,
     countryIsoCode?: string,
     useMyLocation?: boolean,
-    radius?: number
+    radius?: number,
   ): void;
   abstract viewAllStores(): void;
   abstract viewStoreById(storeId: string): void;

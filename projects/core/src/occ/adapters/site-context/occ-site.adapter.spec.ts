@@ -46,7 +46,7 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
+    _propertiesToOmit?: BaseOccUrlProperties,
   ) {
     return endpoint;
   }
@@ -106,7 +106,7 @@ describe('OccSiteAdapter', () => {
       occSiteAdapter.loadLanguages().subscribe();
       httpMock.expectOne('languages').flush([]);
       expect(converterService.pipeableMany).toHaveBeenCalledWith(
-        LANGUAGE_NORMALIZER
+        LANGUAGE_NORMALIZER,
       );
     });
   });
@@ -135,7 +135,7 @@ describe('OccSiteAdapter', () => {
       occSiteAdapter.loadCurrencies().subscribe();
       httpMock.expectOne('currencies').flush([]);
       expect(converterService.pipeableMany).toHaveBeenCalledWith(
-        CURRENCY_NORMALIZER
+        CURRENCY_NORMALIZER,
       );
     });
   });
@@ -160,7 +160,7 @@ describe('OccSiteAdapter', () => {
       });
 
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'countries'
+        (req) => req.method === 'GET' && req.url === 'countries',
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -182,7 +182,7 @@ describe('OccSiteAdapter', () => {
       occSiteAdapter.loadCountries().subscribe();
       httpMock.expectOne('countries').flush({});
       expect(converterService.pipeableMany).toHaveBeenCalledWith(
-        COUNTRY_NORMALIZER
+        COUNTRY_NORMALIZER,
       );
     });
   });
@@ -212,7 +212,7 @@ describe('OccSiteAdapter', () => {
       });
 
       const mockReq = httpMock.expectOne(
-        (req) => req.method === 'GET' && req.url === 'regions'
+        (req) => req.method === 'GET' && req.url === 'regions',
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -227,7 +227,7 @@ describe('OccSiteAdapter', () => {
       occSiteAdapter.loadRegions('CA').subscribe();
       httpMock.expectOne('regions').flush({});
       expect(converterService.pipeableMany).toHaveBeenCalledWith(
-        REGION_NORMALIZER
+        REGION_NORMALIZER,
       );
     });
   });
@@ -297,7 +297,7 @@ describe('OccSiteAdapter', () => {
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
         'baseSites',
         {},
-        { baseSite: false }
+        { baseSite: false },
       );
       mockReq.flush({ baseSites: baseSites });
     });
@@ -307,7 +307,7 @@ describe('OccSiteAdapter', () => {
     occSiteAdapter.loadBaseSites().subscribe();
     httpMock.expectOne('baseSites').flush({});
     expect(converterService.pipeableMany).toHaveBeenCalledWith(
-      BASE_SITE_NORMALIZER
+      BASE_SITE_NORMALIZER,
     );
   });
 });

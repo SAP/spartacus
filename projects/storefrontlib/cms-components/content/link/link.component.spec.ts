@@ -18,7 +18,7 @@ const mockLinkData = {
 };
 
 const data$: BehaviorSubject<CmsLinkComponent> = new BehaviorSubject(
-  mockLinkData
+  mockLinkData,
 );
 
 class MockCmsComponentData {
@@ -80,7 +80,7 @@ describe('LinkComponent', () => {
 
       it('should return _blank for true', () => {
         expect(linkComponent.getTarget({ target: true as any })).toEqual(
-          '_blank'
+          '_blank',
         );
       });
     });

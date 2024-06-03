@@ -15,8 +15,8 @@ export function interceptProductDetails(productCode: string) {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/products/${productCode}?fields=*stock(DEFAULT)*&lang=en&curr=USD`
+      'BASE_SITE',
+    )}/products/${productCode}?fields=*stock(DEFAULT)*&lang=en&curr=USD`,
   ).as(GET_PRODUCT_DETAILS_ENDPOINT_ALIAS);
 
   return GET_PRODUCT_DETAILS_ENDPOINT_ALIAS;
@@ -37,7 +37,7 @@ export function configureInventoryDisplay(enable: boolean) {
 export function assertInventoryDisplay(
   productCode: string,
   alias: string,
-  functionality: string
+  functionality: string,
 ) {
   cy.get(`${alias}`).then((xhr) => {
     let isInventoryDisplayActive;
@@ -74,11 +74,11 @@ export function assertInventoryDisplay(
               functionality === 'categoryThresholdLimitReached'
             ) {
               expect(text).to.equal(
-                `${stock.stockLevel}+ ${sampleData.stockLabel}`
+                `${stock.stockLevel}+ ${sampleData.stockLabel}`,
               );
             } else {
               expect(text).to.equal(
-                `${stock.stockLevel} ${sampleData.stockLabel}`
+                `${stock.stockLevel} ${sampleData.stockLabel}`,
               );
             }
             /**
@@ -105,7 +105,7 @@ export function assertInventoryDisplay(
 
 export function testInventoryDisplay(
   productCode: string,
-  functionality: string = ''
+  functionality: string = '',
 ) {
   const productDetailsAlias = interceptProductDetails(productCode);
   visitProductPage(productCode);
@@ -157,7 +157,7 @@ export function runInventoryDisplayE2E(business: string, sampleData: any) {
       it('should render + if threshold applied and inventory display is on', () => {
         testInventoryDisplay(
           sampleData.THRESHOLD_STOCK,
-          'categoryThresholdLimitReached'
+          'categoryThresholdLimitReached',
         );
       });
 

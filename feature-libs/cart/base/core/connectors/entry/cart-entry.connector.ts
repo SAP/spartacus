@@ -20,7 +20,7 @@ export class CartEntryConnector {
     cartId: string,
     productCode: string,
     quantity?: number,
-    pickupStore?: string
+    pickupStore?: string,
   ): Observable<CartModification> {
     return this.adapter.add(userId, cartId, productCode, quantity, pickupStore);
   }
@@ -31,7 +31,7 @@ export class CartEntryConnector {
     entryNumber: string,
     qty?: number,
     pickupStore?: string,
-    pickupToDelivery: boolean = false
+    pickupToDelivery: boolean = false,
   ): Observable<CartModification> {
     return this.adapter.update(
       userId,
@@ -39,14 +39,14 @@ export class CartEntryConnector {
       entryNumber,
       qty,
       pickupStore,
-      pickupToDelivery
+      pickupToDelivery,
     );
   }
 
   public remove(
     userId: string,
     cartId: string,
-    entryNumber: string
+    entryNumber: string,
   ): Observable<any> {
     return this.adapter.remove(userId, cartId, entryNumber);
   }

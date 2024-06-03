@@ -78,7 +78,7 @@ export class VisualViewerService implements OnDestroy {
     protected visualizationLookupService: VisualizationLookupService,
     protected elementRef: ElementRef,
     protected changeDetectorRef: ChangeDetectorRef,
-    protected windowRef: WindowRef
+    protected windowRef: WindowRef,
   ) {
     if (!this.windowRef.isBrowser()) {
       return;
@@ -86,11 +86,11 @@ export class VisualViewerService implements OnDestroy {
     const ui5BootStrapped$: Observable<void> =
       this.bootstrapUi5('ui5bootstrap');
     const ui5Initialized$: Observable<void> = ui5BootStrapped$.pipe(
-      mergeMap(this.initializeUi5.bind(this))
+      mergeMap(this.initializeUi5.bind(this)),
     );
     this.viewportAdded$ = ui5Initialized$.pipe(
       mergeMap(this.addViewport.bind(this)),
-      shareReplay()
+      shareReplay(),
     );
     this.executeWhenSceneLoaded(this.setInitialPropertyValues.bind(this));
   }
@@ -105,7 +105,7 @@ export class VisualViewerService implements OnDestroy {
     return this._sceneNodeToProductLookupService;
   }
   private set sceneNodeToProductLookupService(
-    value: SceneNodeToProductLookupService
+    value: SceneNodeToProductLookupService,
   ) {
     this._sceneNodeToProductLookupService = value;
   }
@@ -300,7 +300,7 @@ export class VisualViewerService implements OnDestroy {
     this._backgroundBottomColor = backgroundBottomColor;
     this.executeWhenSceneLoaded(() => {
       this.viewport.setBackgroundColorBottom(
-        this.getCSSColor(backgroundBottomColor)
+        this.getCSSColor(backgroundBottomColor),
       );
     });
   }
@@ -323,7 +323,7 @@ export class VisualViewerService implements OnDestroy {
     this._hotspotSelectionColor = hotspotSelectionColor;
     this.executeWhenSceneLoaded(() => {
       this.viewStateManager.setHighlightColor(
-        this.getCSSColor(hotspotSelectionColor)
+        this.getCSSColor(hotspotSelectionColor),
       );
     });
   }
@@ -596,7 +596,7 @@ export class VisualViewerService implements OnDestroy {
         // sap.ui.vk library will have a public API to set the navigation mode in a future UI5 version
         (this.drawerToolbar as any)._activateGesture(
           (this.viewport as any).getImplementation(),
-          navigationMode
+          navigationMode,
         );
       }
     });
@@ -628,11 +628,11 @@ export class VisualViewerService implements OnDestroy {
         const selectedNodeRefs: NodeRef[] = [];
         if (this.is2D) {
           this.viewStateManager.enumerateSelection((nodeRef: NodeRef) =>
-            selectedNodeRefs.push(nodeRef)
+            selectedNodeRefs.push(nodeRef),
           );
         } else {
           this.viewStateManager.enumerateOutlinedNodes((nodeRef: NodeRef) =>
-            selectedNodeRefs.push(nodeRef)
+            selectedNodeRefs.push(nodeRef),
           );
         }
 
@@ -640,7 +640,7 @@ export class VisualViewerService implements OnDestroy {
       } else {
         this.viewport.setViewInfo(
           this.viewPriorToIsolateViewInfo,
-          this.flyToDurationInSeconds
+          this.flyToDurationInSeconds,
         );
       }
 
@@ -692,12 +692,12 @@ export class VisualViewerService implements OnDestroy {
         ZoomTo.All,
         null,
         this.flyToDurationInSeconds,
-        this.zoomToMargin
+        this.zoomToMargin,
       );
     } else {
       this.viewport.setViewInfo(
         this.initialViewInfo,
-        this.flyToDurationInSeconds
+        this.flyToDurationInSeconds,
       );
     }
 
@@ -786,16 +786,16 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private executeWhenSceneLoaded(
-    callback: (loadedSceneInfo: LoadedSceneInfo) => void
+    callback: (loadedSceneInfo: LoadedSceneInfo) => void,
   ): void {
     this.sceneLoadInfo$
       .pipe(
         filter(
           (sceneLoadInfo: { sceneLoadState: SceneLoadState }) =>
             sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded ||
-            sceneLoadInfo.sceneLoadState === SceneLoadState.Failed
+            sceneLoadInfo.sceneLoadState === SceneLoadState.Failed,
         ),
-        first()
+        first(),
       )
       .subscribe((sceneLoadInfo: SceneLoadInfo) => {
         if (sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded) {
@@ -824,7 +824,7 @@ export class VisualViewerService implements OnDestroy {
   private applyInclusionStyle2D(sceneNodeIds: string[]): void {
     const nodeRefsToInclude: NodeRef[] = this.persistentIdToNodeRef(
       sceneNodeIds,
-      true
+      true,
     );
     const hotspotNodeRefs: NodeRef[] = this.nodeHierarchy.getHotspotNodeIds();
     const hotspotNodeRefsSet: Set<NodeRef> = new Set(hotspotNodeRefs);
@@ -832,18 +832,18 @@ export class VisualViewerService implements OnDestroy {
     // Ignore the descendant nodes and apply modifications at the highest level only.
     const topLevelHotspotNodeRefs: NodeRef[] = hotspotNodeRefs.filter(
       (hotspotNodeRef: NodeRef) =>
-        this.isTopLevelHotspotNode(hotspotNodeRef, hotspotNodeRefsSet)
+        this.isTopLevelHotspotNode(hotspotNodeRef, hotspotNodeRefsSet),
     );
     if (this._showAllHotspotsEnabled) {
       const nodeRefsToIncludeSet = new Set(nodeRefsToInclude);
       const nodeRefsToExclude: NodeRef[] = topLevelHotspotNodeRefs.filter(
-        (nodeRef: NodeRef) => !nodeRefsToIncludeSet.has(nodeRef)
+        (nodeRef: NodeRef) => !nodeRefsToIncludeSet.has(nodeRef),
       );
       this.viewport.showHotspots(nodeRefsToExclude, false, 0);
       this.viewport.showHotspots(
         nodeRefsToInclude,
         true,
-        this.getCSSColor(this._showAllHotspotsColor)
+        this.getCSSColor(this._showAllHotspotsColor),
       );
     } else {
       this.viewport.showHotspots(topLevelHotspotNodeRefs, false, 0);
@@ -853,7 +853,7 @@ export class VisualViewerService implements OnDestroy {
   private applyInclusionStyle3D(sceneNodeIds: string[]): void {
     const nodeRefsToInclude: NodeRef[] = this.persistentIdToNodeRef(
       sceneNodeIds,
-      true
+      true,
     );
 
     if (!this.leafNodeRefs) {
@@ -861,28 +861,28 @@ export class VisualViewerService implements OnDestroy {
     }
 
     const leafNodeRefsToInclude = nodeRefsToInclude.flatMap(
-      (nodeRef: NodeRef) => this.getLeafDescendants(nodeRef, [])
+      (nodeRef: NodeRef) => this.getLeafDescendants(nodeRef, []),
     );
     const leafNodeRefsToIncludeSet = new Set(leafNodeRefsToInclude);
     const leafNodeRefsToExclude = this.leafNodeRefs.filter(
-      (leafNodeRef: NodeRef) => !leafNodeRefsToIncludeSet.has(leafNodeRef)
+      (leafNodeRef: NodeRef) => !leafNodeRefsToIncludeSet.has(leafNodeRef),
     );
 
     this.viewStateManager.setOpacity(
       leafNodeRefsToExclude,
-      this.excludedOpacity
+      this.excludedOpacity,
     );
     leafNodeRefsToInclude.forEach((nodeRef: NodeRef) =>
       this.viewStateManager.setOpacity(
         nodeRef,
-        this.viewStateManager.getRestOpacity(nodeRef)
-      )
+        this.viewStateManager.getRestOpacity(nodeRef),
+      ),
     );
   }
 
   private isTopLevelHotspotNode(
     hotspotNodeRef: NodeRef,
-    hotspotNodeRefs: Set<NodeRef>
+    hotspotNodeRefs: Set<NodeRef>,
   ): boolean {
     return !this.nodeHierarchy
       .getAncestors(hotspotNodeRef)
@@ -898,7 +898,7 @@ export class VisualViewerService implements OnDestroy {
 
   private getLeafDescendants(
     nodeRef: NodeRef,
-    leafNodeRefs: NodeRef[]
+    leafNodeRefs: NodeRef[],
   ): NodeRef[] {
     if (!this.isReferenceNode(nodeRef)) {
       const children = this.nodeHierarchy
@@ -909,7 +909,7 @@ export class VisualViewerService implements OnDestroy {
         leafNodeRefs.push(nodeRef);
       } else {
         children.forEach((childNodeRef: NodeRef) =>
-          this.getLeafDescendants(childNodeRef, leafNodeRefs)
+          this.getLeafDescendants(childNodeRef, leafNodeRefs),
         );
       }
     }
@@ -930,26 +930,26 @@ export class VisualViewerService implements OnDestroy {
       ZoomTo.Node,
       nodeRefsToIsolate,
       this.flyToDurationInSeconds,
-      this.zoomToMargin
+      this.zoomToMargin,
     );
 
     const currentVisibleSids: string[] =
       this.viewPriorToIsolateViewInfo.visibility.visible || [];
     const currentVisibleNodeRefs: NodeRef[] = this.persistentIdToNodeRef(
       currentVisibleSids,
-      true
+      true,
     );
     this.viewStateManager.setVisibilityState(
       currentVisibleNodeRefs,
       false,
       true,
-      false
+      false,
     );
     this.viewStateManager.setVisibilityState(
       nodeRefsToIsolate,
       true,
       true,
-      true
+      true,
     );
   }
 
@@ -1001,7 +1001,7 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private setVisualizationLoadInfo(
-    visualizationLoadInfo: VisualizationLoadInfo
+    visualizationLoadInfo: VisualizationLoadInfo,
   ) {
     this._visualizationLoadInfo = visualizationLoadInfo;
     this.visualizationLoadInfoChange.emit(visualizationLoadInfo);
@@ -1015,7 +1015,7 @@ export class VisualViewerService implements OnDestroy {
     new EventEmitter<VisualizationLoadInfo>();
 
   public loadVisualization(
-    productCode: string
+    productCode: string,
   ): Observable<VisualizationLoadInfo> {
     if (!this.windowRef.isBrowser()) {
       return of({
@@ -1035,7 +1035,7 @@ export class VisualViewerService implements OnDestroy {
               VisualizationLookupResult.UniqueMatchFound
             ) {
               this.sceneNodeToProductLookupService.populateMapsForScene(
-                this.sceneId
+                this.sceneId,
               );
 
               let mergedVisualizationLoadInfo: VisualizationLoadInfo = {
@@ -1055,7 +1055,7 @@ export class VisualViewerService implements OnDestroy {
                   } else {
                     this.selectedNodeIdsSubscription =
                       this.selectedNodeIds$.subscribe(
-                        this.handleSelectedNodeIds.bind(this)
+                        this.handleSelectedNodeIds.bind(this),
                       );
 
                     mergedVisualizationLoadInfo = {
@@ -1065,14 +1065,14 @@ export class VisualViewerService implements OnDestroy {
                   }
                   this.setVisualizationLoadInfo(mergedVisualizationLoadInfo);
                   return of(mergedVisualizationLoadInfo);
-                })
+                }),
               );
             } else {
               return of(visualizationLoadInfo);
             }
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
   }
 
@@ -1167,7 +1167,7 @@ export class VisualViewerService implements OnDestroy {
 
     if (viewStateManagerId && core.byId(viewStateManagerId)) {
       const viewStateManager = core.byId(
-        viewStateManagerId
+        viewStateManagerId,
       ) as ViewStateManager;
 
       if (viewStateManager) {
@@ -1209,7 +1209,7 @@ export class VisualViewerService implements OnDestroy {
           ) {
             contentLoader.attachLoadingFinished(
               this.onContentLoadingFinished,
-              this
+              this,
             );
           }
         });
@@ -1240,7 +1240,7 @@ export class VisualViewerService implements OnDestroy {
     return (
       !!productCodes &&
       productCodes.some((productCode: string) =>
-        this.includedProductCodes.includes(productCode)
+        this.includedProductCodes.includes(productCode),
       )
     );
   }
@@ -1253,19 +1253,20 @@ export class VisualViewerService implements OnDestroy {
 
     const hotSpots = pickedNodes.filter(
       (node: any) =>
-        node.nodeContentType && node.nodeContentType === NodeContentType.Hotspot
+        node.nodeContentType &&
+        node.nodeContentType === NodeContentType.Hotspot,
     );
     if (hotSpots.length === 0) {
       return;
     }
 
     const includedHotSpots: NodeRef[] = hotSpots.filter((nodeRef: NodeRef) =>
-      this.isNodeIncluded(nodeRef)
+      this.isNodeIncluded(nodeRef),
     );
 
     pickedNodes.splice(0);
     includedHotSpots.forEach((includedHotSpot: any) =>
-      pickedNodes.push(includedHotSpot)
+      pickedNodes.push(includedHotSpot),
     );
   }
 
@@ -1303,11 +1304,11 @@ export class VisualViewerService implements OnDestroy {
           sap_ui_vk_ViewStateManager: any,
           sap_ui_vk_AnimationPlayer: any,
           sap_ui_vk_ContentConnector: any,
-          sap_ui_vk_DrawerToolbar: any
+          sap_ui_vk_DrawerToolbar: any,
         ) => {
           const core: Core = this.getCore();
           const uiArea: UIArea | null | undefined = core.getUIArea(
-            this.elementRef.nativeElement
+            this.elementRef.nativeElement,
           );
           if (uiArea) {
             const oldViewport = uiArea.getContent()[0] as Viewport;
@@ -1321,15 +1322,15 @@ export class VisualViewerService implements OnDestroy {
           this.contentConnector = new sap_ui_vk_ContentConnector();
           this.contentConnector.attachContentChangesStarted(
             this.onContentChangesStarted,
-            this
+            this,
           );
           this.contentConnector.attachContentChangesFinished(
             this.onContentChangesFinished,
-            this
+            this,
           );
           this.contentConnector.attachContentLoadingFinished(
             this.onContentLoadingFinished,
-            this
+            this,
           );
 
           this.viewStateManager = new sap_ui_vk_ViewStateManager({
@@ -1353,11 +1354,11 @@ export class VisualViewerService implements OnDestroy {
           this.viewStateManager.setViewManager(this.viewManager);
           this.viewStateManager.attachSelectionChanged(
             this.onSelectionChanged,
-            this
+            this,
           );
           this.viewStateManager.attachOutliningChanged(
             this.onOutliningChanged,
-            this
+            this,
           );
 
           this.drawerToolbar = new sap_ui_vk_DrawerToolbar({
@@ -1368,7 +1369,7 @@ export class VisualViewerService implements OnDestroy {
           this.viewport.addDependent(this.drawerToolbar);
           subscriber.next();
           subscriber.complete();
-        }
+        },
       );
     });
   }
@@ -1376,7 +1377,7 @@ export class VisualViewerService implements OnDestroy {
   private getCSSPropertyValue(cssPropertyName: string): string {
     const storefrontElement = document.getElementsByTagName('cx-storefront')[0];
     return getComputedStyle(storefrontElement).getPropertyValue(
-      cssPropertyName
+      cssPropertyName,
     );
   }
 
@@ -1385,7 +1386,7 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private resolveVisualization(
-    productCode: string
+    productCode: string,
   ): Observable<VisualizationLoadInfo> {
     return this.visualizationLookupService
       .findMatchingVisualizations(productCode)
@@ -1429,16 +1430,16 @@ export class VisualViewerService implements OnDestroy {
           };
           this.setVisualizationLoadInfo(visualizationLoadInfo);
           return of(visualizationLoadInfo);
-        })
+        }),
       );
   }
 
   private persistentIdToNodeRef(
     nodeIds: string[],
-    filterUnresolvedValues: boolean
+    filterUnresolvedValues: boolean,
   ): NodeRef[] {
     const nodeRefs: NodeRef[] = (this.scene as any).persistentIdToNodeRef(
-      nodeIds
+      nodeIds,
     );
     return filterUnresolvedValues
       ? nodeRefs.filter((nodeRef) => !!nodeRef)
@@ -1447,7 +1448,7 @@ export class VisualViewerService implements OnDestroy {
 
   private nodeRefToPersistentId(
     nodeRefs: object[],
-    filterUnresolvedValues: boolean
+    filterUnresolvedValues: boolean,
   ): string[] {
     const sids: string[] = (this.scene as any).nodeRefToPersistentId(nodeRefs);
     return filterUnresolvedValues ? sids.filter((sid) => !!sid) : sids;
@@ -1477,13 +1478,13 @@ export class VisualViewerService implements OnDestroy {
   private handleSelectedNodes2D(selectedNodes: NodeRef[]): void {
     const existingSelection: NodeRef[] = [];
     this.viewStateManager.enumerateSelection((nodeRef: NodeRef) =>
-      existingSelection.push(nodeRef)
+      existingSelection.push(nodeRef),
     );
     this.viewStateManager.setSelectionStates(
       [],
       existingSelection,
       false,
-      true
+      true,
     );
     this.viewStateManager.setSelectionStates(selectedNodes, [], false, true);
   }
@@ -1491,19 +1492,19 @@ export class VisualViewerService implements OnDestroy {
   private handleSelectedNodes3D(selectedNodes: NodeRef[]): void {
     const existingOutlinedNodeRefs: NodeRef[] = [];
     this.viewStateManager.enumerateOutlinedNodes((nodeRef: NodeRef) =>
-      existingOutlinedNodeRefs.push(nodeRef)
+      existingOutlinedNodeRefs.push(nodeRef),
     );
     this.getViewStateManagerImplementation().setOutliningStates(
       [],
       existingOutlinedNodeRefs,
       false,
-      true
+      true,
     );
     this.getViewStateManagerImplementation().setOutliningStates(
       selectedNodes,
       [],
       false,
-      true
+      true,
     );
   }
 
@@ -1517,7 +1518,7 @@ export class VisualViewerService implements OnDestroy {
 
   private loadScene(
     sceneId: string,
-    contentType: ContentType
+    contentType: ContentType,
   ): Observable<SceneLoadInfo> {
     const epdVisualization = this.epdVisualizationConfig
       .epdVisualization as EpdVisualizationInnerConfig;
@@ -1537,7 +1538,7 @@ export class VisualViewerService implements OnDestroy {
         });
 
         this.viewport.setSelectionDisplayMode(
-          this.is2D ? 'Highlight' : 'Outline'
+          this.is2D ? 'Highlight' : 'Outline',
         );
 
         const baseUrl: string = visualizationApiConfig.baseUrl;
@@ -1573,7 +1574,7 @@ export class VisualViewerService implements OnDestroy {
               this.sceneLoadInfo$.next(sceneLoadInfo);
               subscriber.next(sceneLoadInfo);
               subscriber.complete();
-            }
+            },
           );
 
         this.contentLoadFinished.pipe(first()).subscribe(() => {
@@ -1595,7 +1596,7 @@ export class VisualViewerService implements OnDestroy {
   private onSelectionChanged(): void {
     const nodeRefs: NodeRef[] = [];
     this.viewStateManager.enumerateSelection((nodeRef: NodeRef) =>
-      nodeRefs.push(nodeRef)
+      nodeRefs.push(nodeRef),
     );
 
     const nodeIds: string[] = this.nodeRefToPersistentId(nodeRefs, true);
@@ -1610,7 +1611,7 @@ export class VisualViewerService implements OnDestroy {
   private onOutliningChanged(): void {
     const nodeRefs: NodeRef[] = [];
     this.viewStateManager.enumerateOutlinedNodes((nodeRef: NodeRef) =>
-      nodeRefs.push(nodeRef)
+      nodeRefs.push(nodeRef),
     );
 
     const nodeIds: string[] = this.nodeRefToPersistentId(nodeRefs, true);

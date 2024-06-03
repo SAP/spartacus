@@ -195,7 +195,7 @@ describe('AsmCustomer360CouponComponent', () => {
 
   it('should reload coupon list when applying coupon failed', () => {
     spyOn(cartVoucherService, 'getAddVoucherResultError').and.returnValue(
-      of(true)
+      of(true),
     );
     spyOn(component, 'refreshComponent').and.callThrough();
     component.ngOnInit();

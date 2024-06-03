@@ -176,7 +176,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getOrderCodeCardContent).toHaveBeenCalledWith(
-        mockOrder.code
+        mockOrder.code,
       );
     });
 
@@ -210,7 +210,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getOrderStatusCardContent).toHaveBeenCalledWith(
-        mockOrder.statusDisplay
+        mockOrder.statusDisplay,
       );
     });
   });
@@ -233,7 +233,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getPurchaseOrderNumber).toHaveBeenCalledWith(
-        mockOrder.purchaseOrderNumber
+        mockOrder.purchaseOrderNumber,
       );
     });
 
@@ -250,7 +250,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getMethodOfPaymentCardContent).toHaveBeenCalledWith(
-        mockOrder.paymentInfo
+        mockOrder.paymentInfo,
       );
     });
 
@@ -268,7 +268,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getCostCenterCardContent).toHaveBeenCalledWith(
-        mockOrder.costCenter
+        mockOrder.costCenter,
       );
     });
   });
@@ -287,14 +287,14 @@ describe('UnitLevelOrderOverviewComponent', () => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
           expect(data.textBold).toEqual(
-            mockOrder.paymentInfo.accountHolderName
+            mockOrder.paymentInfo.accountHolderName,
           );
           expect(data.text).toEqual([mockOrder.paymentInfo.cardNumber, 'test']);
         })
         .unsubscribe();
 
       expect(component.getPaymentInfoCardContent).toHaveBeenCalledWith(
-        mockOrder.paymentInfo
+        mockOrder.paymentInfo,
       );
     });
 
@@ -309,7 +309,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
           expect(data.textBold).toEqual(
-            `${billingAddress.firstName} ${billingAddress.lastName}`
+            `${billingAddress.firstName} ${billingAddress.lastName}`,
           );
           expect(data.text).toEqual([
             billingAddress.formattedAddress,
@@ -319,7 +319,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getBillingAddressCardContent).toHaveBeenCalledWith(
-        billingAddress
+        billingAddress,
       );
     });
   });
@@ -340,7 +340,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
           expect(data.textBold).toEqual(
-            `${deliveryAddress.firstName} ${deliveryAddress.lastName}`
+            `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
           );
           expect(data.text).toEqual([
             deliveryAddress.formattedAddress,
@@ -350,7 +350,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getAddressCardContent).toHaveBeenCalledWith(
-        deliveryAddress
+        deliveryAddress,
       );
     });
 
@@ -371,7 +371,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getDeliveryModeCardContent).toHaveBeenCalledWith(
-        mockOrder.deliveryMode
+        mockOrder.deliveryMode,
       );
     });
   });
@@ -379,7 +379,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
   describe('normalize formatted address', () => {
     it('should normalize address when line 2 is empty in address', () => {
       const address = component['normalizeFormattedAddress'](
-        mockUnformattedAddress
+        mockUnformattedAddress,
       );
 
       expect(address).toEqual('test1, test3, test4');
@@ -414,7 +414,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getBuyerNameCardContent).toHaveBeenCalledWith(
-        mockOrder.orgCustomer
+        mockOrder.orgCustomer,
       );
     });
 
@@ -431,7 +431,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getUnitNameCardContent).toHaveBeenCalledWith(
-        mockOrder.orgUnit.name
+        mockOrder.orgUnit.name,
       );
     });
   });

@@ -37,8 +37,8 @@ export class CDCB2BRegisterComponentService extends UserRegistrationFormService 
     ({ orgInfo }) =>
       // Registering user through CDC Gigya SDK
       this.cdcJSService.registerOrganisationWithoutScreenSet(
-        orgInfo
-      ) as unknown as Observable<OrganizationUserRegistrationForm>
+        orgInfo,
+      ) as unknown as Observable<OrganizationUserRegistrationForm>,
   );
 
   protected loadUserTokenFailed$: Observable<boolean> = this.eventService
@@ -49,7 +49,7 @@ export class CDCB2BRegisterComponentService extends UserRegistrationFormService 
         if (failed) {
           throw new Error(`User token failed to load.`);
         }
-      })
+      }),
     );
 
   constructor(
@@ -64,7 +64,7 @@ export class CDCB2BRegisterComponentService extends UserRegistrationFormService 
     protected globalMessageService: GlobalMessageService,
     protected authConfigService: AuthConfigService,
     protected routingService: RoutingService,
-    protected formBuilder: FormBuilder
+    protected formBuilder: FormBuilder,
   ) {
     super(
       userRegisterFacade,
@@ -74,7 +74,7 @@ export class CDCB2BRegisterComponentService extends UserRegistrationFormService 
       globalMessageService,
       authConfigService,
       routingService,
-      formBuilder
+      formBuilder,
     );
   }
 
@@ -114,20 +114,20 @@ export class CDCB2BRegisterComponentService extends UserRegistrationFormService 
             {
               key: 'errorHandlers.scriptFailedToLoad',
             },
-            GlobalMessageType.MSG_TYPE_ERROR
+            GlobalMessageType.MSG_TYPE_ERROR,
           );
           throw new Error(`CDC script didn't load.`);
         }
       }),
       switchMap(() =>
         // Logging in using CDC Gigya SDK, update the registerCommand
-        this.registerCommand.execute({ orgInfo })
+        this.registerCommand.execute({ orgInfo }),
       ),
       tap(() => {
         this.displayGlobalMessage();
         this.redirectToLogin();
         form.reset();
-      })
+      }),
     );
   }
 

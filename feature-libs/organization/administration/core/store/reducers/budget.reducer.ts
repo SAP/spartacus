@@ -13,7 +13,7 @@ export const budgetsInitialState: ListModel | undefined = undefined;
 
 export function budgetsEntitiesReducer(
   state = budgetInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): Budget | undefined {
   switch (action.type) {
     case BudgetActions.LOAD_BUDGET_SUCCESS:
@@ -32,7 +32,7 @@ export function budgetsEntitiesReducer(
 
 export function budgetsListReducer(
   state = budgetsInitialState,
-  action: StateUtils.LoaderAction
+  action: StateUtils.LoaderAction,
 ): ListModel | undefined {
   switch (action.type) {
     case BudgetActions.LOAD_BUDGETS_SUCCESS:

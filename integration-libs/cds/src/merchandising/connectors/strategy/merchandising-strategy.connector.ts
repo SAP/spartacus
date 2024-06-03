@@ -18,11 +18,11 @@ export class MerchandisingStrategyConnector {
 
   loadProductsForStrategy(
     strategyId: string,
-    strategyRequest?: StrategyRequest
+    strategyRequest?: StrategyRequest,
   ): Observable<StrategyProducts> {
     return this.strategyAdapter.loadProductsForStrategy(
       strategyId,
-      strategyRequest
+      strategyRequest,
     );
   }
 }

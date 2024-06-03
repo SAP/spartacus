@@ -79,7 +79,7 @@ export class AsmAuthStorageService extends AuthStorageService {
    */
   switchTokenTargetToCSAgent(): void {
     (this._tokenTarget$ as BehaviorSubject<TokenTarget>).next(
-      TokenTarget.CSAgent
+      TokenTarget.CSAgent,
     );
   }
 

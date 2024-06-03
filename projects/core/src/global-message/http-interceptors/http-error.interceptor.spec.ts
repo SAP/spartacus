@@ -162,7 +162,7 @@ describe('HttpErrorInterceptor', () => {
 
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: expectedKey },
-          GlobalMessageType.MSG_TYPE_ERROR
+          GlobalMessageType.MSG_TYPE_ERROR,
         );
       });
     });
@@ -187,7 +187,7 @@ describe('HttpErrorInterceptor', () => {
         mockReq.flush({}, { status: 123, statusText: 'unknown' });
         expect(console.warn).toHaveBeenCalledWith(
           `An unknown http error occurred\n`,
-          'Http failure response for /unknown: 123 unknown'
+          'Http failure response for /unknown: 123 unknown',
         );
       });
     });

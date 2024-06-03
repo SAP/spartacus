@@ -135,20 +135,20 @@ describe('AsmAuthService', () => {
     [AsmAuthService],
     (asmAuthService: AsmAuthService) => {
       expect(asmAuthService).toBeTruthy();
-    }
+    },
   ));
 
   describe('loginWithCredentials()', () => {
     it('should authorize if user can login', async () => {
       spyOn(
         oAuthLibWrapperService,
-        'authorizeWithPasswordFlow'
+        'authorizeWithPasswordFlow',
       ).and.callThrough();
 
       await service.loginWithCredentials(loginInfo.userId, loginInfo.password);
 
       expect(
-        oAuthLibWrapperService.authorizeWithPasswordFlow
+        oAuthLibWrapperService.authorizeWithPasswordFlow,
       ).toHaveBeenCalledWith(loginInfo.userId, loginInfo.password);
     });
 

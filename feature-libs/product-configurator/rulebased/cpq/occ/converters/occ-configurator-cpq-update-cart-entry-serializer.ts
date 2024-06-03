@@ -19,7 +19,7 @@ export class OccConfiguratorCpqUpdateCartEntrySerializer
 {
   convert(
     source: Configurator.UpdateConfigurationForCartEntryParameters,
-    target?: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters
+    target?: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters,
   ): OccCpqConfigurator.UpdateConfigurationForCartEntryParameters {
     const resultTarget: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters =
       {

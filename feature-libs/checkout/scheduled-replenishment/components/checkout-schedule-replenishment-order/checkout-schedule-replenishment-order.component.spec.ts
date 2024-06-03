@@ -37,29 +37,27 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
 
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule, IconTestingModule],
-        declarations: [CheckoutScheduleReplenishmentOrderComponent],
-        providers: [
-          {
-            provide: CheckoutReplenishmentFormService,
-            useClass: MockCheckoutReplenishmentFormService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule, IconTestingModule],
+      declarations: [CheckoutScheduleReplenishmentOrderComponent],
+      providers: [
+        {
+          provide: CheckoutReplenishmentFormService,
+          useClass: MockCheckoutReplenishmentFormService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      CheckoutScheduleReplenishmentOrderComponent
+      CheckoutScheduleReplenishmentOrderComponent,
     );
     component = fixture.componentInstance;
 
     checkoutReplenishmentFormService = TestBed.inject(
-      CheckoutReplenishmentFormService
+      CheckoutReplenishmentFormService,
     );
 
     component.scheduleReplenishmentFormData = mockReplenishmentOrderFormData;
@@ -76,7 +74,7 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
     component.changeOrderType(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
 
     expect(checkoutReplenishmentFormService.setOrderType).toHaveBeenCalledWith(
-      ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER
+      ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER,
     );
   });
 
@@ -86,7 +84,7 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
     component.changeNumberOfDays(mockNumberOfDays);
 
     expect(
-      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData,
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       numberOfDays: mockNumberOfDays,
@@ -99,7 +97,7 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
     component.changeNumberOfWeeks(mockNumberOfWeeks);
 
     expect(
-      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData,
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       numberOfWeeks: mockNumberOfWeeks,
@@ -112,7 +110,7 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
     component.changeRecurrencePeriodType(mockPeriodType);
 
     expect(
-      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData,
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       recurrencePeriod: mockPeriodType,
@@ -125,7 +123,7 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
     component.changeDayOfTheMonth(mockDayOfMonth);
 
     expect(
-      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData,
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       nthDayOfMonth: mockDayOfMonth,
@@ -138,7 +136,7 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
     component.changeReplenishmentStartDate(mockStartDate);
 
     expect(
-      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData,
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       replenishmentStartDate: mockStartDate,
@@ -151,7 +149,7 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
     component.changeRepeatDays(mockRepeatDays, true);
 
     expect(
-      checkoutReplenishmentFormService.setScheduleReplenishmentFormData
+      checkoutReplenishmentFormService.setScheduleReplenishmentFormData,
     ).toHaveBeenCalledWith({
       ...mockReplenishmentOrderFormData,
       daysOfWeek: [mockRepeatDays],

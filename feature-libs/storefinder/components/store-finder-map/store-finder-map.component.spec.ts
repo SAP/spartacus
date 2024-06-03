@@ -52,7 +52,7 @@ describe('StoreFinderMapComponent', () => {
     expect(mapRendererService.renderMap).toHaveBeenCalledWith(
       mapDomElement,
       [location],
-      jasmine.any(Function)
+      jasmine.any(Function),
     );
   });
 

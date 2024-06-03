@@ -27,7 +27,7 @@ context('Restart Dialog for Product Configuration', () => {
     configurationVc.checkCommerceRelease(
       electronicsShop,
       testProduct,
-      commerceRelease
+      commerceRelease,
     );
     createProductBoundConfiguration();
     navigateToConfigurationAndCheckDialog();
@@ -74,13 +74,13 @@ function createProductBoundConfiguration() {
     'CAMERA_MODE',
     RB,
     'P',
-    commerceRelease.isPricingEnabled
+    commerceRelease.isPricingEnabled,
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_COLOR',
     RB,
     'BLACK',
-    commerceRelease.isPricingEnabled
+    commerceRelease.isPricingEnabled,
   );
   configuration.clickExitConfigurationBtn();
 }

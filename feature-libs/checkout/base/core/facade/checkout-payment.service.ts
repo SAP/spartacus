@@ -66,15 +66,15 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                 tap((response) =>
                   this.eventService.dispatch(
                     { userId, cartId, paymentDetails: response },
-                    CheckoutPaymentDetailsCreatedEvent
-                  )
-                )
-              )
-          )
+                    CheckoutPaymentDetailsCreatedEvent,
+                  ),
+                ),
+              ),
+          ),
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
-      }
+      },
     );
 
   protected setPaymentMethodCommand: Command<PaymentDetails, unknown> =
@@ -97,15 +97,15 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                       cartId,
                       paymentDetailsId,
                     },
-                    CheckoutPaymentDetailsSetEvent
-                  )
-                )
+                    CheckoutPaymentDetailsSetEvent,
+                  ),
+                ),
               );
-          })
+          }),
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
-      }
+      },
     );
 
   constructor(
@@ -115,7 +115,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     protected commandService: CommandService,
     protected eventService: EventService,
     protected checkoutPaymentConnector: CheckoutPaymentConnector,
-    protected checkoutQueryFacade: CheckoutQueryFacade
+    protected checkoutQueryFacade: CheckoutQueryFacade,
   ) {}
 
   /**
@@ -137,7 +137,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
           throw new Error('Checkout conditions not met');
         }
         return [userId, cartId];
-      })
+      }),
     );
   }
 
@@ -147,7 +147,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
 
   getPaymentCardTypes(): Observable<CardType[]> {
     return this.getPaymentCardTypesState().pipe(
-      map((state) => state.data ?? [])
+      map((state) => state.data ?? []),
     );
   }
 

@@ -10,19 +10,19 @@ const sort = 'byDate';
 
 class MockUserAdapter implements CustomerCouponAdapter {
   getCustomerCoupons = createSpy('getCustomerCoupons').and.callFake((userId) =>
-    of(`loadList-${userId}`)
+    of(`loadList-${userId}`),
   );
   turnOnNotification = createSpy('turnOnNotification').and.callFake((userId) =>
-    of(`subscribe-${userId}`)
+    of(`subscribe-${userId}`),
   );
   turnOffNotification = createSpy('turnOffNotification').and.returnValue(
-    of({})
+    of({}),
   );
   claimCustomerCoupon = createSpy('claimCustomerCoupon').and.callFake(
-    (userId) => of(`claim-${userId}`)
+    (userId) => of(`claim-${userId}`),
   );
   disclaimCustomerCoupon = createSpy('disclaimCustomerCoupon').and.callFake(
-    (userId) => of(`disclaim-${userId}`)
+    (userId) => of(`disclaim-${userId}`),
   );
 }
 
@@ -55,7 +55,7 @@ describe('CustomerCouponConnector', () => {
       'user-id',
       PAGE_SIZE,
       currentPage,
-      sort
+      sort,
     );
   });
 
@@ -67,7 +67,7 @@ describe('CustomerCouponConnector', () => {
     expect(result).toEqual('subscribe-userId');
     expect(adapter.turnOnNotification).toHaveBeenCalledWith(
       'userId',
-      'couponCode'
+      'couponCode',
     );
   });
 
@@ -79,7 +79,7 @@ describe('CustomerCouponConnector', () => {
     expect(result).toEqual({});
     expect(adapter.turnOffNotification).toHaveBeenCalledWith(
       'userId',
-      'couponCode'
+      'couponCode',
     );
   });
 
@@ -91,7 +91,7 @@ describe('CustomerCouponConnector', () => {
     expect(result).toEqual('claim-userId');
     expect(adapter.claimCustomerCoupon).toHaveBeenCalledWith(
       'userId',
-      'couponCode'
+      'couponCode',
     );
   });
 
@@ -103,7 +103,7 @@ describe('CustomerCouponConnector', () => {
     expect(result).toEqual('disclaim-userId');
     expect(adapter.disclaimCustomerCoupon).toHaveBeenCalledWith(
       'userId',
-      'couponCode'
+      'couponCode',
     );
   });
 });

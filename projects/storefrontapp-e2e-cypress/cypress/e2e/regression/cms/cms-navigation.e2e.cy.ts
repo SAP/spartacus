@@ -41,7 +41,7 @@ context('Cms navigation', { testIsolation: false }, () => {
     cy.wait(1_000);
     cy.get('@getComponents.all', { timeout: 0 }).should(
       'have.length.at.most',
-      EXPECTED_MAX_COUNT_LOADING_CMS_COMPONENTS
+      EXPECTED_MAX_COUNT_LOADING_CMS_COMPONENTS,
     );
   });
 });

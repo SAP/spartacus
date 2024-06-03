@@ -13,12 +13,12 @@ export abstract class UserConsentAdapter {
   abstract giveConsent(
     userId: string,
     consentTemplateId: string,
-    consentTemplateVersion: number
+    consentTemplateVersion: number,
   ): Observable<ConsentTemplate>;
 
   abstract withdrawConsent(
     userId: string,
     consentCode: string,
-    consentId?: string
+    consentId?: string,
   ): Observable<{}>;
 }

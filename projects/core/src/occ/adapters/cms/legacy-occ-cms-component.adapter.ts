@@ -33,7 +33,7 @@ export class LegacyOccCmsComponentAdapter extends OccCmsComponentAdapter {
     fields = 'DEFAULT',
     currentPage = 0,
     pageSize = ids.length,
-    sort?: string
+    sort?: string,
   ): Observable<CmsComponent[]> {
     const idList: Occ.ComponentIDList = { idList: ids };
 
@@ -48,11 +48,11 @@ export class LegacyOccCmsComponentAdapter extends OccCmsComponentAdapter {
         idList,
         {
           headers: this.headers,
-        }
+        },
       )
       .pipe(
         map((componentList) => componentList.component ?? []),
-        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
+        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER),
       );
   }
 }

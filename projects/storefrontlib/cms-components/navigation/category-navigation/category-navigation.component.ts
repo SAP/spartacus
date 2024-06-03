@@ -18,13 +18,13 @@ import { NavigationService } from '../navigation/navigation.service';
 })
 export class CategoryNavigationComponent {
   node$: Observable<NavigationNode> = this.service.getNavigationNode(
-    this.componentData.data$
+    this.componentData.data$,
   );
 
   data$: Observable<CmsNavigationComponent> = this.componentData.data$;
 
   constructor(
     protected componentData: CmsComponentData<CmsNavigationComponent>,
-    protected service: NavigationService
+    protected service: NavigationService,
   ) {}
 }

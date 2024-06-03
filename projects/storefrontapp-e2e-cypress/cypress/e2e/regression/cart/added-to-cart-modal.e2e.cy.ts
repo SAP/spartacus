@@ -85,7 +85,7 @@ describe('Added to cart modal - Anonymous user', () => {
         cy.get('cx-added-to-cart-dialog').within(() => {
           cy.get('.cx-quantity cx-item-counter input').should(
             'have.value',
-            '1'
+            '1',
           );
           cy.get('.cx-dialog-total').should('contain', '3 items');
 
@@ -111,7 +111,7 @@ describe('Added to cart modal - Anonymous user', () => {
           .within(() => {
             cy.get('.cx-price:not(.cx-mobile-only) .cx-value').should(
               'contain',
-              cartEntryPrice
+              cartEntryPrice,
             );
             cy.get('.cx-total .cx-value').should('contain', cartEntryPrice);
             cy.get('cx-item-counter input').should('have.value', '1');
@@ -132,7 +132,7 @@ describe('Added to cart modal - Anonymous user', () => {
 
       cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
         'contain',
-        '1 item'
+        '1 item',
       );
 
       cy.reload();

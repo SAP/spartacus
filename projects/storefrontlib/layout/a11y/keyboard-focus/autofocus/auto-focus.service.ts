@@ -21,7 +21,7 @@ export class AutoFocusService extends EscapeFocusService {
    */
   findFirstFocusable(
     host: HTMLElement | null | undefined,
-    config: AutoFocusConfig = { autofocus: true }
+    config: AutoFocusConfig = { autofocus: true },
   ): HTMLElement | undefined | null {
     if (config?.autofocus === ':host') {
       return host;
@@ -37,7 +37,7 @@ export class AutoFocusService extends EscapeFocusService {
    */
   hasPersistedFocus(
     host: HTMLElement | null | undefined,
-    config: PersistFocusConfig
+    config: PersistFocusConfig,
   ): boolean {
     return !!this.getPersisted(host, this.getPersistenceGroup(host, config));
   }
@@ -51,15 +51,15 @@ export class AutoFocusService extends EscapeFocusService {
    */
   protected getPersisted(
     host?: HTMLElement | null,
-    group?: string | null
+    group?: string | null,
   ): HTMLElement | undefined {
     if (!this.get(group)) {
       return;
     }
     const focussed = Array.from(
       host?.querySelectorAll(
-        `[${FOCUS_ATTR}='${this.get(group)}']`
-      ) as NodeListOf<HTMLElement>
+        `[${FOCUS_ATTR}='${this.get(group)}']`,
+      ) as NodeListOf<HTMLElement>,
     );
     return focussed.length > 0 ? focussed[0] : undefined;
   }

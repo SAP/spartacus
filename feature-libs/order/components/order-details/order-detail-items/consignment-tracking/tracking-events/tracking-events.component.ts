@@ -43,7 +43,7 @@ export class TrackingEventsComponent implements OnDestroy, OnInit {
   constructor(
     protected orderHistoryFacade: OrderHistoryFacade,
     protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
+    protected el: ElementRef,
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +52,7 @@ export class TrackingEventsComponent implements OnDestroy, OnInit {
         if (data) {
           this.init(data.tracking$, data.shipDate);
         }
-      })
+      }),
     );
   }
 

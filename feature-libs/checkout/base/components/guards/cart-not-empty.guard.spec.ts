@@ -46,7 +46,7 @@ describe('CartNotEmptyGuard', () => {
     describe('when cart is NOT created', () => {
       beforeEach(() => {
         activeCartFacade.takeActive = createSpy().and.returnValue(
-          of(CART_NOT_CREATED)
+          of(CART_NOT_CREATED),
         );
       });
 
@@ -64,7 +64,7 @@ describe('CartNotEmptyGuard', () => {
     describe('when cart is empty', () => {
       beforeEach(() => {
         activeCartFacade.takeActive = createSpy().and.returnValue(
-          of(CART_EMPTY)
+          of(CART_EMPTY),
         );
       });
 
@@ -82,7 +82,7 @@ describe('CartNotEmptyGuard', () => {
     describe('when cart is NOT empty', () => {
       beforeEach(() => {
         activeCartFacade.takeActive = createSpy().and.returnValue(
-          of(CART_NOT_EMPTY)
+          of(CART_NOT_EMPTY),
         );
       });
 

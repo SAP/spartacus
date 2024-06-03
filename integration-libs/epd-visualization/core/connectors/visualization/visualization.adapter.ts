@@ -20,6 +20,6 @@ export abstract class VisualizationAdapter {
    */
   abstract lookupVisualization(
     visualizationUsageId: UsageId,
-    folderUsageId: UsageId
+    folderUsageId: UsageId,
   ): Observable<LookupVisualizationsResponse>;
 }

@@ -9,14 +9,12 @@ describe('TextfieldInputFieldComponent', () => {
   let fixture: ComponentFixture<ConfiguratorTextfieldInputFieldComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule],
-        declarations: [ConfiguratorTextfieldInputFieldComponent],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule],
+      declarations: [ConfiguratorTextfieldInputFieldComponent],
+    });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldInputFieldComponent);
@@ -41,13 +39,13 @@ describe('TextfieldInputFieldComponent', () => {
     spyOn(component.inputChange, 'emit').and.callThrough();
     component.onInputChange();
     expect(component.inputChange.emit).toHaveBeenCalledWith(
-      component.attribute
+      component.attribute,
     );
   });
 
   it('should generate id with prefixt', () => {
     expect(component.getId(component.attribute)).toEqual(
-      'cx-configurator-textfieldattributeName'
+      'cx-configurator-textfieldattributeName',
     );
   });
 
@@ -60,7 +58,7 @@ describe('TextfieldInputFieldComponent', () => {
         'cx-configurator-textfield-label',
         undefined,
         'aria-label',
-        'configurator.a11y.nameOfAttribute'
+        'configurator.a11y.nameOfAttribute',
       );
     });
 
@@ -72,7 +70,7 @@ describe('TextfieldInputFieldComponent', () => {
         'form-control',
         undefined,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:input123'
+        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:input123',
       );
     });
   });

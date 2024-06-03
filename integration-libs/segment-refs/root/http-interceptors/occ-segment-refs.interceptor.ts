@@ -27,7 +27,7 @@ export class OccSegmentRefsInterceptor implements HttpInterceptor {
   constructor(
     protected config: SegmentRefsConfig,
     protected occEndpoints: OccEndpointsService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
   ) {
     this.initialize();
   }
@@ -43,11 +43,11 @@ export class OccSegmentRefsInterceptor implements HttpInterceptor {
     if (this.segmentRefs) {
       this.winRef.localStorage?.setItem(
         this.SEGMENT_REFS_KEY,
-        this.segmentRefs
+        this.segmentRefs,
       );
     } else {
       this.segmentRefs = this.winRef.localStorage?.getItem(
-        this.SEGMENT_REFS_KEY
+        this.SEGMENT_REFS_KEY,
       );
     }
     if (this.winRef.isBrowser()) {
@@ -68,7 +68,7 @@ export class OccSegmentRefsInterceptor implements HttpInterceptor {
    */
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     if (
       this.winRef.isBrowser() &&

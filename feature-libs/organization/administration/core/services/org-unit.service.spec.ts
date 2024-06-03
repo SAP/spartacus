@@ -116,7 +116,7 @@ describe('OrgUnitService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           ORGANIZATION_FEATURE,
-          fromReducers.getReducers()
+          fromReducers.getReducers(),
         ),
       ],
       providers: [
@@ -139,7 +139,7 @@ describe('OrgUnitService', () => {
     [OrgUnitService],
     (orgUnitService: OrgUnitService) => {
       expect(orgUnitService).toBeTruthy();
-    }
+    },
   ));
 
   describe('get orgUnit', () => {
@@ -151,7 +151,7 @@ describe('OrgUnitService', () => {
         .pipe(ofType(OrgUnitActions.LOAD_ORG_UNIT), take(1))
         .subscribe((action) => {
           expect(action).toEqual(
-            new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
+            new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }),
           );
         });
 
@@ -173,7 +173,7 @@ describe('OrgUnitService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(orgUnitDetails).toEqual(orgUnit);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
+        new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }),
       );
     });
   });
@@ -206,13 +206,13 @@ describe('OrgUnitService', () => {
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(orgUnits).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrgUnitActions.LoadOrgUnitNodes({ userId })
+        new OrgUnitActions.LoadOrgUnitNodes({ userId }),
       );
     });
 
     it('getList() should be able to get orgUnits when they are present in the store', () => {
       store.dispatch(
-        new OrgUnitActions.LoadOrgUnitNodesSuccess([orgUnitNode, orgUnitNode2])
+        new OrgUnitActions.LoadOrgUnitNodesSuccess([orgUnitNode, orgUnitNode2]),
       );
       let orgUnits: B2BUnitNode[];
       service
@@ -225,7 +225,7 @@ describe('OrgUnitService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(orgUnits).toEqual(orgUnitList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new OrgUnitActions.LoadOrgUnitNodes({ userId })
+        new OrgUnitActions.LoadOrgUnitNodes({ userId }),
       );
     });
   });
@@ -233,47 +233,53 @@ describe('OrgUnitService', () => {
   describe('get ChildUnits', () => {
     it('findUnitChildrenInTree', () => {
       expect(
-        service['findUnitChildrenInTree'](mockedTree.id, mockedTree)
+        service['findUnitChildrenInTree'](mockedTree.id, mockedTree),
       ).toEqual(mockedTree.children);
 
       expect(
-        service['findUnitChildrenInTree'](mockedTree.children[0].id, mockedTree)
+        service['findUnitChildrenInTree'](
+          mockedTree.children[0].id,
+          mockedTree,
+        ),
       ).toEqual(mockedTree.children[0].children);
 
       expect(
         service['findUnitChildrenInTree'](
           mockedTree.children[0].children[0].id,
-          mockedTree
-        )
+          mockedTree,
+        ),
       ).toEqual(mockedTree.children[0].children[0].children);
 
       expect(
         service['findUnitChildrenInTree'](
           mockedTree.children[0].children[1].id,
-          mockedTree
-        )
+          mockedTree,
+        ),
       ).toEqual(mockedTree.children[0].children[1].children);
 
       expect(
-        service['findUnitChildrenInTree'](mockedTree.children[1].id, mockedTree)
+        service['findUnitChildrenInTree'](
+          mockedTree.children[1].id,
+          mockedTree,
+        ),
       ).toEqual(mockedTree.children[1].children);
 
       expect(
         service['findUnitChildrenInTree'](
           mockedTree.children[1].children[0].id,
-          mockedTree
-        )
+          mockedTree,
+        ),
       ).toEqual(mockedTree.children[1].children[0].children);
 
       expect(
         service['findUnitChildrenInTree'](
           mockedTree.children[1].children[0].children[0].id,
-          mockedTree
-        )
+          mockedTree,
+        ),
       ).toEqual(mockedTree.children[1].children[0].children[0].children);
 
       expect(service['findUnitChildrenInTree']('Fake ID', mockedTree)).toEqual(
-        []
+        [],
       );
     });
 
@@ -306,7 +312,7 @@ describe('OrgUnitService', () => {
         new OrgUnitActions.LoadOrgUnit({
           userId,
           orgUnitId,
-        })
+        }),
       );
     });
   });
@@ -317,7 +323,7 @@ describe('OrgUnitService', () => {
 
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrgUnitActions.CreateAddress({ userId, orgUnitId, address })
+        new OrgUnitActions.CreateAddress({ userId, orgUnitId, address }),
       );
     });
   });
@@ -333,7 +339,7 @@ describe('OrgUnitService', () => {
           orgUnitId,
           addressId,
           address,
-        })
+        }),
       );
     });
   });
@@ -348,7 +354,7 @@ describe('OrgUnitService', () => {
           userId,
           orgUnitId,
           addressId,
-        })
+        }),
       );
     });
   });
@@ -363,7 +369,7 @@ describe('OrgUnitService', () => {
           userId,
           orgCustomerId,
           roleId,
-        })
+        }),
       );
     });
   });
@@ -378,7 +384,7 @@ describe('OrgUnitService', () => {
           userId,
           orgCustomerId,
           roleId,
-        })
+        }),
       );
     });
   });
@@ -396,7 +402,7 @@ describe('OrgUnitService', () => {
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(approvalProcesses).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrgUnitActions.LoadApprovalProcesses({ userId })
+        new OrgUnitActions.LoadApprovalProcesses({ userId }),
       );
     });
 
@@ -408,8 +414,8 @@ describe('OrgUnitService', () => {
 
       store.dispatch(
         new OrgUnitActions.LoadApprovalProcessesSuccess(
-          b2bMockApprovalProcesses
-        )
+          b2bMockApprovalProcesses,
+        ),
       );
 
       service
@@ -422,7 +428,7 @@ describe('OrgUnitService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(b2bApprovalProcesses).toEqual(b2bMockApprovalProcesses);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new OrgUnitActions.LoadApprovalProcesses({ userId })
+        new OrgUnitActions.LoadApprovalProcesses({ userId }),
       );
     });
   });
@@ -436,7 +442,7 @@ describe('OrgUnitService', () => {
         new OrgUnitActions.CreateUnit({
           userId,
           unit,
-        })
+        }),
       );
     });
   });
@@ -453,7 +459,7 @@ describe('OrgUnitService', () => {
           userId,
           unitCode,
           unit,
-        })
+        }),
       );
     });
   });
@@ -497,7 +503,7 @@ describe('OrgUnitService', () => {
           orgUnitId,
           roleId,
           params,
-        })
+        }),
       );
     });
 
@@ -509,7 +515,7 @@ describe('OrgUnitService', () => {
           roleId,
           page,
           params,
-        })
+        }),
       );
       let users: EntitiesModel<B2BUser>;
       service
@@ -527,7 +533,7 @@ describe('OrgUnitService', () => {
           orgUnitId,
           roleId,
           params,
-        })
+        }),
       );
     });
   });
@@ -543,7 +549,7 @@ describe('OrgUnitService', () => {
           orgUnitId,
           orgCustomerId,
           roleId,
-        })
+        }),
       );
     });
   });
@@ -559,7 +565,7 @@ describe('OrgUnitService', () => {
           orgUnitId,
           orgCustomerId,
           roleId,
-        })
+        }),
       );
     });
   });
@@ -576,7 +582,7 @@ describe('OrgUnitService', () => {
 
       expect(unitNodes).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrgUnitActions.LoadOrgUnitNodes({ userId })
+        new OrgUnitActions.LoadOrgUnitNodes({ userId }),
       );
     });
 
@@ -587,7 +593,7 @@ describe('OrgUnitService', () => {
           { id: 'unit2', active: false } as B2BUnitNode,
           { id: 'unit3', active: true } as B2BUnitNode,
           { id: 'unit4', active: false } as B2BUnitNode,
-        ])
+        ]),
       );
       let unitNodes: B2BUnitNode[];
       service
@@ -610,7 +616,7 @@ describe('OrgUnitService', () => {
           { id: 'Cunit', active: true } as B2BUnitNode,
           { id: 'Aunit', active: true } as B2BUnitNode,
           { id: 'Dunit', active: true } as B2BUnitNode,
-        ])
+        ]),
       );
       let unitNodes: B2BUnitNode[];
       service
@@ -642,7 +648,7 @@ describe('OrgUnitService', () => {
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(unitNode).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrgUnitActions.LoadTree({ userId })
+        new OrgUnitActions.LoadTree({ userId }),
       );
     });
 
@@ -662,7 +668,7 @@ describe('OrgUnitService', () => {
       expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(resultUnitNode).toEqual(resultUnitNode);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new OrgUnitActions.LoadTree({ userId })
+        new OrgUnitActions.LoadTree({ userId }),
       );
     });
   });
@@ -693,7 +699,7 @@ describe('OrgUnitService', () => {
         new OrgUnitActions.LoadOrgUnitFail({
           orgUnitId,
           error: new Error(),
-        })
+        }),
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
@@ -710,7 +716,7 @@ describe('OrgUnitService', () => {
           userId,
           orgUnitId,
           address,
-        })
+        }),
       );
       service
         .getAddressLoadingStatus(addressId)
@@ -730,7 +736,7 @@ describe('OrgUnitService', () => {
           userId,
           orgUnitId,
           address,
-        })
+        }),
       );
       service
         .getAddressLoadingStatus(addressId)
@@ -740,7 +746,7 @@ describe('OrgUnitService', () => {
         new OrgUnitActions.CreateAddressFail({
           addressId,
           error: new Error(),
-        })
+        }),
       );
       expect(loadingStatus).toEqual({
         status: LoadStatus.ERROR,
@@ -755,7 +761,7 @@ describe('OrgUnitService', () => {
     it('should clear users data from store', () => {
       service.clearAssignedUsersList(orgUnitId, roleId, params);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrgUnitActions.ClearAssignedUsers({ orgUnitId, roleId, params })
+        new OrgUnitActions.ClearAssignedUsers({ orgUnitId, roleId, params }),
       );
     });
   });
@@ -770,7 +776,7 @@ describe('OrgUnitService', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
       spyOn<any>(service, 'getOrgUnitState').and.returnValue(
-        of({ loading: false, success: false, error: true })
+        of({ loading: false, success: false, error: true }),
       );
 
       service.getErrorState('code').subscribe((error) => (errorState = error));

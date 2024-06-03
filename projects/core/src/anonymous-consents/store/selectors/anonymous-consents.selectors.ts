@@ -15,8 +15,8 @@ export const getAnonymousConsents: MemoizedSelector<
 > = createSelector(getAnonymousConsentState, (state) => state.consents);
 
 export const getAnonymousConsentByTemplateCode = (
-  templateCode: string
+  templateCode: string,
 ): MemoizedSelector<StateWithAnonymousConsents, AnonymousConsent | undefined> =>
   createSelector(getAnonymousConsents, (consents) =>
-    consents.find((consent) => consent.templateCode === templateCode)
+    consents.find((consent) => consent.templateCode === templateCode),
   );

@@ -39,7 +39,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
   ) {}
 
   update(userId: string, user: User): Observable<unknown> {
@@ -51,7 +51,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     return this.http.patch(url, user).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 
@@ -67,7 +67,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       }),
-      this.converter.pipeable(USER_PROFILE_NORMALIZER)
+      this.converter.pipeable(USER_PROFILE_NORMALIZER),
     );
   }
 
@@ -86,7 +86,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       }),
-      this.converter.pipeable(USER_PROFILE_NORMALIZER)
+      this.converter.pipeable(USER_PROFILE_NORMALIZER),
     );
   }
 
@@ -94,7 +94,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const url = this.occEndpoints.buildUrl('userForgotPassword');
     const httpParams: HttpParams = new HttpParams().set(
       'userId',
-      userEmailAddress
+      userEmailAddress,
     );
     let headers = new HttpHeaders({
       ...CONTENT_TYPE_URLENCODED_HEADER,
@@ -103,7 +103,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     return this.http.post(url, httpParams, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 
@@ -117,14 +117,14 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     return this.http.post(url, { token, newPassword }, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 
   updateEmail(
     userId: string,
     currentPassword: string,
-    newUserId: string
+    newUserId: string,
   ): Observable<unknown> {
     const url = this.occEndpoints.buildUrl('userUpdateLoginId', {
       urlParams: { userId },
@@ -138,14 +138,14 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     return this.http.put(url, httpParams, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 
   updatePassword(
     userId: string,
     oldPassword: string,
-    newPassword: string
+    newPassword: string,
   ): Observable<unknown> {
     const url = this.occEndpoints.buildUrl('userUpdatePassword', {
       urlParams: { userId },
@@ -159,7 +159,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     return this.http.put(url, httpParams, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 
@@ -171,7 +171,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     return this.http.delete<User>(url).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
-      })
+      }),
     );
   }
 
@@ -182,7 +182,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
         throw normalizeHttpError(error, this.logger);
       }),
       map((titleList) => titleList.titles ?? []),
-      this.converter.pipeableMany(TITLE_NORMALIZER)
+      this.converter.pipeableMany(TITLE_NORMALIZER),
     );
   }
 }

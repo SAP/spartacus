@@ -129,7 +129,7 @@ describe('ProfileTagEventTracker', () => {
 
       // reset the mock correctly so that the existing script is detected
       spyOn(mockedWindowRef.document, 'querySelector').and.returnValue(
-        {} as Element
+        {} as Element,
       );
       // retrigger profile-tag
       subscription = profileTagLoaded$.subscribe();
@@ -174,7 +174,7 @@ describe('ProfileTagEventTracker', () => {
         })
       );
       eventListener[InternalProfileTagEventNames.DEBUG_FLAG_CHANGED](
-        debugEvent
+        debugEvent,
       );
       subscription.unsubscribe();
 
@@ -194,7 +194,7 @@ describe('ProfileTagEventTracker', () => {
         })
       );
       eventListener[InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED](
-        consentReferenceChangedEvent
+        consentReferenceChangedEvent,
       );
 
       consentReferenceChangedEvent = <ConsentReferenceEvent>(
@@ -203,7 +203,7 @@ describe('ProfileTagEventTracker', () => {
         })
       );
       eventListener[InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED](
-        consentReferenceChangedEvent
+        consentReferenceChangedEvent,
       );
       subscription.unsubscribe();
 
@@ -223,7 +223,7 @@ describe('ProfileTagEventTracker', () => {
         })
       );
       eventListener[InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED](
-        consentReferenceChangedEvent
+        consentReferenceChangedEvent,
       );
       const subscription2CR = profileTagEventTracker
         .getConsentReference()
@@ -257,13 +257,13 @@ describe('ProfileTagEventTracker', () => {
 
     it('Should load consent-reference from local storage on page refresh', () => {
       spyOn(window.localStorage, 'getItem').and.returnValue(
-        '{"cr":{"electronics-test-consentReference":{"consentReference": "abc"}}}'
+        '{"cr":{"electronics-test-consentReference":{"consentReference": "abc"}}}',
       );
       profileTagEventTracker = TestBed.inject(ProfileTagEventService);
 
       expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
       expect(profileTagEventTracker.latestConsentReference.value).toEqual(
-        'abc'
+        'abc',
       );
     });
 
@@ -273,19 +273,19 @@ describe('ProfileTagEventTracker', () => {
 
       expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
       expect(
-        profileTagEventTracker.latestConsentReference.value
+        profileTagEventTracker.latestConsentReference.value,
       ).not.toBeDefined();
     });
 
     it('Should not load consent-reference from local storage on page refresh if consent is not granted for this base-site', () => {
       spyOn(window.localStorage, 'getItem').and.returnValue(
-        '{"cr":{"electronics-x-consentReference":{"consentReference": "abc"}}}'
+        '{"cr":{"electronics-x-consentReference":{"consentReference": "abc"}}}',
       );
       profileTagEventTracker = TestBed.inject(ProfileTagEventService);
 
       expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
       expect(
-        profileTagEventTracker.latestConsentReference.value
+        profileTagEventTracker.latestConsentReference.value,
       ).not.toBeDefined();
     });
 

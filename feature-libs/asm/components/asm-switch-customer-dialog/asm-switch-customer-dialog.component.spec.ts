@@ -120,7 +120,7 @@ describe('AsmSwitchCustomerDialogComponent', () => {
       .triggerEventHandler('click');
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      SWITCH_CUSTOMER_DIALOG_ACTION.SWITCH
+      SWITCH_CUSTOMER_DIALOG_ACTION.SWITCH,
     );
     expect(asmComponentService.logoutCustomer).toHaveBeenCalled();
   });
@@ -133,7 +133,7 @@ describe('AsmSwitchCustomerDialogComponent', () => {
       .triggerEventHandler('click');
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      SWITCH_CUSTOMER_DIALOG_ACTION.CANCEL
+      SWITCH_CUSTOMER_DIALOG_ACTION.CANCEL,
     );
   });
 });

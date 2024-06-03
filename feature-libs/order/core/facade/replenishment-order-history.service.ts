@@ -32,7 +32,7 @@ export class ReplenishmentOrderHistoryService
   constructor(
     protected store: Store<StateWithOrder>,
     protected processStateStore: Store<StateWithProcess<void>>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {}
 
   /**
@@ -47,7 +47,7 @@ export class ReplenishmentOrderHistoryService
           new OrderActions.LoadReplenishmentOrderDetails({
             userId,
             replenishmentOrderCode,
-          })
+          }),
         );
       },
       error: () => {
@@ -61,7 +61,7 @@ export class ReplenishmentOrderHistoryService
    */
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return this.store.pipe(
-      select(OrderSelectors.getReplenishmentOrderDetailsValue)
+      select(OrderSelectors.getReplenishmentOrderDetailsValue),
     );
   }
 
@@ -70,7 +70,7 @@ export class ReplenishmentOrderHistoryService
    */
   getReplenishmentOrderDetailsLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(OrderSelectors.getReplenishmentOrderDetailsLoading)
+      select(OrderSelectors.getReplenishmentOrderDetailsLoading),
     );
   }
 
@@ -79,7 +79,7 @@ export class ReplenishmentOrderHistoryService
    */
   getReplenishmentOrderDetailsSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(OrderSelectors.getReplenishmentOrderDetailsSuccess)
+      select(OrderSelectors.getReplenishmentOrderDetailsSuccess),
     );
   }
 
@@ -88,7 +88,7 @@ export class ReplenishmentOrderHistoryService
    */
   getReplenishmentOrderDetailsError(): Observable<boolean> {
     return this.store.pipe(
-      select(OrderSelectors.getReplenishmentOrderDetailsError)
+      select(OrderSelectors.getReplenishmentOrderDetailsError),
     );
   }
 
@@ -111,7 +111,7 @@ export class ReplenishmentOrderHistoryService
           new OrderActions.CancelReplenishmentOrder({
             userId,
             replenishmentOrderCode,
-          })
+          }),
         );
       },
       error: () => {
@@ -127,9 +127,9 @@ export class ReplenishmentOrderHistoryService
     return this.processStateStore.pipe(
       select(
         ProcessSelectors.getProcessLoadingFactory(
-          CANCEL_REPLENISHMENT_ORDER_PROCESS_ID
-        )
-      )
+          CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -140,9 +140,9 @@ export class ReplenishmentOrderHistoryService
     return this.processStateStore.pipe(
       select(
         ProcessSelectors.getProcessSuccessFactory(
-          CANCEL_REPLENISHMENT_ORDER_PROCESS_ID
-        )
-      )
+          CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -153,9 +153,9 @@ export class ReplenishmentOrderHistoryService
     return this.processStateStore.pipe(
       select(
         ProcessSelectors.getProcessErrorFactory(
-          CANCEL_REPLENISHMENT_ORDER_PROCESS_ID
-        )
-      )
+          CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
+        ),
+      ),
     );
   }
 
@@ -170,7 +170,7 @@ export class ReplenishmentOrderHistoryService
    * Returns replenishment order history list
    */
   getReplenishmentOrderHistoryList(
-    pageSize: number
+    pageSize: number,
   ): Observable<ReplenishmentOrderList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getReplenishmentOrdersState),
@@ -183,7 +183,7 @@ export class ReplenishmentOrderHistoryService
           this.loadReplenishmentOrderList(pageSize);
         }
       }),
-      map((replenishmentOrderListState) => replenishmentOrderListState.value)
+      map((replenishmentOrderListState) => replenishmentOrderListState.value),
     );
   }
 
@@ -192,7 +192,7 @@ export class ReplenishmentOrderHistoryService
    */
   getReplenishmentOrderHistoryListLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(OrderSelectors.getReplenishmentOrdersLoading)
+      select(OrderSelectors.getReplenishmentOrdersLoading),
     );
   }
 
@@ -208,7 +208,7 @@ export class ReplenishmentOrderHistoryService
    */
   getReplenishmentOrderHistoryListSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(OrderSelectors.getReplenishmentOrdersSuccess)
+      select(OrderSelectors.getReplenishmentOrdersSuccess),
     );
   }
 
@@ -221,7 +221,7 @@ export class ReplenishmentOrderHistoryService
   loadReplenishmentOrderList(
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
   ): void {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) => {
@@ -231,7 +231,7 @@ export class ReplenishmentOrderHistoryService
             pageSize,
             currentPage,
             sort,
-          })
+          }),
         );
       },
       error: () => {

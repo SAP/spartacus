@@ -28,7 +28,7 @@ export function migrateComponentMigration(
   tree: Tree,
   context: SchematicContext,
   componentData: ComponentData[],
-  angularCompiler: typeof import('@angular/compiler')
+  angularCompiler: typeof import('@angular/compiler'),
 ): Tree {
   context.logger.info('Checking component selectors...');
 
@@ -47,7 +47,7 @@ export function migrateComponentMigration(
           tree,
           context,
           htmlFile,
-          deprecatedComponent
+          deprecatedComponent,
         );
       }
 
@@ -59,7 +59,7 @@ export function migrateComponentMigration(
           angularCompiler,
           sourcePath,
           sourceRoot,
-          deprecatedComponent
+          deprecatedComponent,
         );
       }
     }
@@ -72,7 +72,7 @@ function overwriteRemovedProperties(
   tree: Tree,
   context: SchematicContext,
   htmlFile: string,
-  deprecatedComponent: ComponentData
+  deprecatedComponent: ComponentData,
 ) {
   for (const removedProperty of deprecatedComponent.removedInputOutputProperties ||
     []) {
@@ -86,7 +86,7 @@ function overwriteRemovedProperties(
     const contentChange = insertComponentSelectorComment(
       content,
       deprecatedComponent.selector,
-      removedProperty
+      removedProperty,
     );
 
     overwriteChanges(tree, htmlFile, contentChange);
@@ -99,7 +99,7 @@ function overwriteInheritedRemovedProperties(
   angularCompiler: typeof import('@angular/compiler'),
   sourcePath: string,
   sourceRoot: string | undefined,
-  deprecatedComponent: ComponentData
+  deprecatedComponent: ComponentData,
 ) {
   for (const removedProperty of deprecatedComponent.removedProperties || []) {
     // 'source' has to be reloaded after each committed change
@@ -108,7 +108,7 @@ function overwriteInheritedRemovedProperties(
       sourcePath,
       source,
       removedProperty.name,
-      buildSpartacusComment(removedProperty.comment)
+      buildSpartacusComment(removedProperty.comment),
     );
 
     const templateInfo = getTemplateInfo(source);
@@ -131,7 +131,7 @@ function overwriteInheritedRemovedProperties(
       const contentChange = insertHtmlComment(
         content,
         removedProperty,
-        angularCompiler
+        angularCompiler,
       );
       overwriteChanges(tree, htmlFilePath, contentChange);
     } else if (templateInfo.inlineTemplateContent) {
@@ -139,14 +139,14 @@ function overwriteInheritedRemovedProperties(
       const contentChange = insertHtmlComment(
         oldContent,
         removedProperty,
-        angularCompiler
+        angularCompiler,
       );
       if (contentChange) {
         const replaceChange = new ReplaceChange(
           sourcePath,
           templateInfo.inlineTemplateStart || 0,
           oldContent,
-          contentChange
+          contentChange,
         );
         changes.push(replaceChange);
       }
@@ -158,7 +158,7 @@ function overwriteInheritedRemovedProperties(
 function overwriteChanges(
   tree: Tree,
   htmlFile: string,
-  contentChange: string | Buffer | undefined
+  contentChange: string | Buffer | undefined,
 ) {
   if (contentChange) {
     tree.overwrite(htmlFile, contentChange);

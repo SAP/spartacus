@@ -15,7 +15,7 @@ export class CDCUpdateProfileComponentService extends UpdateProfileComponentServ
   constructor(
     protected userProfile: UserProfileFacade,
     protected globalMessageService: GlobalMessageService,
-    protected cdcJsService: CdcJsService
+    protected cdcJsService: CdcJsService,
   ) {
     super(userProfile, globalMessageService);
   }
@@ -42,7 +42,7 @@ export class CDCUpdateProfileComponentService extends UpdateProfileComponentServ
     const errorMessage = _error?.errorMessage || ' ';
     this.globalMessageService.add(
       errorMessage,
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
     this.busy$.next(false);
   }

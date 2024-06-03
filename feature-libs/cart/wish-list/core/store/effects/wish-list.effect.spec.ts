@@ -154,7 +154,7 @@ describe('Wish List Effect', () => {
         {
           cart: wishList,
           cartId: getCartIdByUserId(wishList, userId),
-        }
+        },
       );
 
       const removeCartAction = new CartActions.RemoveCart({
@@ -177,7 +177,7 @@ describe('Wish List Effect', () => {
         new CartActions.SetCartTypeIndex({
           cartType: CartType.WISH_LIST,
           cartId: getCartIdByUserId(wishList, userId),
-        })
+        }),
       );
 
       const action = new SiteContextActions.CurrencyChange({

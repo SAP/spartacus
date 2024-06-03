@@ -20,7 +20,7 @@ import {
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner(
   SPARTACUS_SCHEMATICS,
-  collectionPath
+  collectionPath,
 );
 
 describe('Package utils', () => {
@@ -46,20 +46,20 @@ describe('Package utils', () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runSchematic(
       'add-spartacus',
       defaultOptions,
-      appTree
+      appTree,
     );
   });
 

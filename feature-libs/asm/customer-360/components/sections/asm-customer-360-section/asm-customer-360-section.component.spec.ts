@@ -37,7 +37,7 @@ describe('AsmCustomer360SectionComponent', () => {
     const data: any = 'foo';
 
     const context = fixture.debugElement.injector.get(
-      AsmCustomer360SectionContext
+      AsmCustomer360SectionContext,
     );
 
     const subscription = combineLatest([
@@ -75,7 +75,7 @@ describe('AsmCustomer360SectionComponent', () => {
     });
 
     const context = fixture.debugElement.injector.get(
-      AsmCustomer360SectionContext
+      AsmCustomer360SectionContext,
     );
 
     context.navigate$.next(command);

@@ -31,7 +31,7 @@ export class ConfiguratorAttributeBaseComponent {
   createValueUiKey(
     prefix: string,
     attributeId: string,
-    valueId: string
+    valueId: string,
   ): string {
     return (
       this.createAttributeUiKey(prefix, attributeId) +
@@ -47,12 +47,12 @@ export class ConfiguratorAttributeBaseComponent {
    */
   createAttributeValueIdForConfigurator(
     currentAttribute: Configurator.Attribute,
-    value: string
+    value: string,
   ): string {
     return this.createValueUiKey(
       this.getUiType(currentAttribute),
       currentAttribute.name,
-      value
+      value,
     );
   }
 
@@ -82,11 +82,11 @@ export class ConfiguratorAttributeBaseComponent {
    * @param currentAttribute
    */
   createAttributeIdForConfigurator(
-    currentAttribute: Configurator.Attribute
+    currentAttribute: Configurator.Attribute,
   ): string {
     return this.createAttributeUiKey(
       this.getUiType(currentAttribute),
-      currentAttribute.name
+      currentAttribute.name,
     );
   }
 
@@ -101,11 +101,11 @@ export class ConfiguratorAttributeBaseComponent {
     prefix: string,
     attributeId: string,
     valueId?: string,
-    hasQuantity?: boolean
+    hasQuantity?: boolean,
   ): string {
     let attributeUiKey = this.createAttributeUiKey(
       ConfiguratorAttributeBaseComponent.PREFIX_LABEL,
-      attributeId
+      attributeId,
     );
     if (valueId) {
       attributeUiKey +=
@@ -118,7 +118,7 @@ export class ConfiguratorAttributeBaseComponent {
         attributeUiKey +=
           this.createAttributeUiKey(
             ConfiguratorAttributeBaseComponent.PREFIX_DDLB_OPTION_PRICE_VALUE,
-            attributeId
+            attributeId,
           ) +
           ConfiguratorAttributeBaseComponent.SEPERATOR +
           valueId;
@@ -126,7 +126,7 @@ export class ConfiguratorAttributeBaseComponent {
         attributeUiKey +=
           this.createAttributeUiKey(
             ConfiguratorAttributeBaseComponent.PREFIX_OPTION_PRICE_VALUE,
-            attributeId
+            attributeId,
           ) +
           ConfiguratorAttributeBaseComponent.SEPERATOR +
           valueId;
@@ -157,7 +157,7 @@ export class ConfiguratorAttributeBaseComponent {
     expMode: boolean,
     label: string | undefined,
     techName: string | undefined,
-    value?: Configurator.Value
+    value?: Configurator.Value,
   ): string {
     let title = label ? label : '';
     if (expMode && techName) {
@@ -180,7 +180,7 @@ export class ConfiguratorAttributeBaseComponent {
     expMode: boolean,
     label: string | undefined,
     techName: string | undefined,
-    value?: Configurator.Value
+    value?: Configurator.Value,
   ): string {
     const labelForImage = this.getLabel(expMode, label, techName, value);
     return labelForImage?.trim().length >=
@@ -188,7 +188,7 @@ export class ConfiguratorAttributeBaseComponent {
       ? labelForImage
           .substring(
             0,
-            ConfiguratorAttributeBaseComponent.MAX_IMAGE_LABEL_CHARACTERS
+            ConfiguratorAttributeBaseComponent.MAX_IMAGE_LABEL_CHARACTERS,
           )
           .concat('...')
       : labelForImage;
@@ -239,7 +239,7 @@ export class ConfiguratorAttributeBaseComponent {
   getImgStyleClasses(
     attribute: Configurator.Attribute,
     value: Configurator.Value,
-    styleClass: string
+    styleClass: string,
   ): string {
     if (!this.isReadOnly(attribute)) {
       styleClass += ' cx-img-hover';
@@ -312,7 +312,7 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   protected getSelectedValue(
-    attribute: Configurator.Attribute
+    attribute: Configurator.Attribute,
   ): Configurator.Value | undefined {
     return attribute.values?.find((value) => value.selected);
   }
@@ -351,7 +351,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   protected isValueDisplayed(
     attribute: Configurator.Attribute,
-    value: Configurator.Value
+    value: Configurator.Value,
   ): boolean {
     return (
       (this.isReadOnly(attribute) && value.selected) ||

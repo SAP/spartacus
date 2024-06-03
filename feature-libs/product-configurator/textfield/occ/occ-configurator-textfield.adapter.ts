@@ -30,12 +30,12 @@ export class OccConfiguratorTextfieldAdapter
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
   ) {}
 
   createConfiguration(
     productCode: string,
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.http
       .get<OccConfiguratorTextfield.Configuration>(
@@ -43,7 +43,7 @@ export class OccConfiguratorTextfieldAdapter
           urlParams: {
             productCode,
           },
-        })
+        }),
       )
       .pipe(
         this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER),
@@ -52,12 +52,12 @@ export class OccConfiguratorTextfieldAdapter
             ...resultConfiguration,
             owner: owner,
           };
-        })
+        }),
       );
   }
 
   addToCart(
-    parameters: ConfiguratorTextfield.AddToCartParameters
+    parameters: ConfiguratorTextfield.AddToCartParameters,
   ): Observable<CartModification> {
     const url = this.occEndpointsService.buildUrl(
       'addTextfieldConfigurationToCart',
@@ -66,12 +66,12 @@ export class OccConfiguratorTextfieldAdapter
           userId: parameters.userId,
           cartId: parameters.cartId,
         },
-      }
+      },
     );
 
     const occAddToCartParameters = this.converterService.convert(
       parameters,
-      CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER
+      CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER,
     );
 
     return this.http
@@ -80,7 +80,7 @@ export class OccConfiguratorTextfieldAdapter
   }
 
   readConfigurationForCartEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters,
   ): Observable<ConfiguratorTextfield.Configuration> {
     const url = this.occEndpointsService.buildUrl(
       'readTextfieldConfigurationForCartEntry',
@@ -90,7 +90,7 @@ export class OccConfiguratorTextfieldAdapter
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
         },
-      }
+      },
     );
 
     return this.http.get<ConfiguratorTextfield.Configuration>(url).pipe(
@@ -102,11 +102,11 @@ export class OccConfiguratorTextfieldAdapter
             ...parameters.owner,
           },
         };
-      })
+      }),
     );
   }
   readConfigurationForOrderEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters,
   ): Observable<ConfiguratorTextfield.Configuration> {
     const url = this.occEndpointsService.buildUrl(
       'readTextfieldConfigurationForOrderEntry',
@@ -116,7 +116,7 @@ export class OccConfiguratorTextfieldAdapter
           orderId: parameters.orderId,
           orderEntryNumber: parameters.orderEntryNumber,
         },
-      }
+      },
     );
 
     return this.http.get<ConfiguratorTextfield.Configuration>(url).pipe(
@@ -128,12 +128,12 @@ export class OccConfiguratorTextfieldAdapter
             ...parameters.owner,
           },
         };
-      })
+      }),
     );
   }
 
   updateConfigurationForCartEntry(
-    parameters: ConfiguratorTextfield.UpdateCartEntryParameters
+    parameters: ConfiguratorTextfield.UpdateCartEntryParameters,
   ): Observable<CartModification> {
     const url = this.occEndpointsService.buildUrl(
       'updateTextfieldConfigurationForCartEntry',
@@ -143,12 +143,12 @@ export class OccConfiguratorTextfieldAdapter
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
         },
-      }
+      },
     );
 
     const occUpdateCartEntryParameters = this.converterService.convert(
       parameters,
-      CONFIGURATION_TEXTFIELD_UPDATE_CART_ENTRY_SERIALIZER
+      CONFIGURATION_TEXTFIELD_UPDATE_CART_ENTRY_SERIALIZER,
     );
 
     return this.http

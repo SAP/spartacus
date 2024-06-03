@@ -21,6 +21,6 @@ import { VerificationToken, VerificationTokenCreation } from '../model';
 })
 export abstract class VerificationTokenFacade {
   abstract createVerificationToken(
-    verificationTokenCreation: VerificationTokenCreation
+    verificationTokenCreation: VerificationTokenCreation,
   ): Observable<VerificationToken>;
 }

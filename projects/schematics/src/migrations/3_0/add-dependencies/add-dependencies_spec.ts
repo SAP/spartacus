@@ -21,7 +21,7 @@ describe('add dependencies migration', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../migrations.json')
+      require.resolve('../../migrations.json'),
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -34,7 +34,7 @@ describe('add dependencies migration', () => {
         dependencies: {
           '@spartacus/core': '^2.0.0',
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -43,7 +43,7 @@ describe('add dependencies migration', () => {
         compilerOptions: {
           lib: ['es2015'],
         },
-      })
+      }),
     );
     writeFile(
       host,
@@ -59,7 +59,7 @@ describe('add dependencies migration', () => {
             },
           },
         },
-      })
+      }),
     );
 
     previousWorkingDir = shx.pwd();

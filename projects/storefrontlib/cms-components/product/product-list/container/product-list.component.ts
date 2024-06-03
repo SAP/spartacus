@@ -37,7 +37,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private pageLayoutService: PageLayoutService,
     private productListComponentService: ProductListComponentService,
     private globalMessageService: GlobalMessageService,
-    public scrollConfig: ViewConfig
+    public scrollConfig: ViewConfig,
   ) {
     useFeatureStyles('a11ySortingOptionsTruncation');
     useFeatureStyles('a11yTruncatedTextForResponsiveView');
@@ -53,24 +53,24 @@ export class ProductListComponent implements OnInit, OnDestroy {
           this.viewMode$.next(
             template === 'ProductGridPageTemplate'
               ? ViewModes.Grid
-              : ViewModes.List
+              : ViewModes.List,
           );
-        })
+        }),
     );
 
     this.subscription.add(
       combineLatest([this.model$, this.viewMode$])
         .pipe(
           skip(1),
-          filter(([model, mode]) => !!model && !!mode)
+          filter(([model, mode]) => !!model && !!mode),
         )
         .subscribe(() =>
           this.globalMessageService.add(
             { key: 'sorting.pageViewUpdated' },
             GlobalMessageType.MSG_TYPE_ASSISTIVE,
-            500
-          )
-        )
+            500,
+          ),
+        ),
     );
   }
 

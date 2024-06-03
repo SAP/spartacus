@@ -42,18 +42,16 @@ describe('CouponClaimComponent', () => {
   const globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
     'add',
   ]);
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [CouponClaimComponent],
-        providers: [
-          { provide: CustomerCouponService, useValue: couponService },
-          { provide: RoutingService, useValue: routingService },
-          { provide: GlobalMessageService, useValue: globalMessageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [CouponClaimComponent],
+      providers: [
+        { provide: CustomerCouponService, useValue: couponService },
+        { provide: RoutingService, useValue: routingService },
+        { provide: GlobalMessageService, useValue: globalMessageService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     couponService.claimCustomerCoupon.and.stub();
@@ -76,14 +74,14 @@ describe('CouponClaimComponent', () => {
     fixture.detectChanges();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'myCoupons.claimCustomerCoupon' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
     );
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'coupons' });
   });
 
   it('should navigate to coupons page when claim fail', () => {
     couponService.getClaimCustomerCouponResultSuccess.and.returnValue(
-      of(false)
+      of(false),
     );
     component.ngOnInit();
     fixture.detectChanges();
@@ -103,7 +101,7 @@ describe('CouponClaimComponent', () => {
             couponCode: null,
           },
         },
-      })
+      }),
     );
     component.ngOnInit();
     fixture.detectChanges();

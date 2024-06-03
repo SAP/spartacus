@@ -109,7 +109,7 @@ describe('AsmBindCartDialogComponent', () => {
       .triggerEventHandler('click');
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      SAVE_CART_DIALOG_ACTION.SAVE
+      SAVE_CART_DIALOG_ACTION.SAVE,
     );
     expect(savedCartFacade.saveCart).toHaveBeenCalled();
   });
@@ -122,7 +122,7 @@ describe('AsmBindCartDialogComponent', () => {
       .triggerEventHandler('click');
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      SAVE_CART_DIALOG_ACTION.CANCEL
+      SAVE_CART_DIALOG_ACTION.CANCEL,
     );
     expect(savedCartFacade.saveCart).not.toHaveBeenCalled();
   });

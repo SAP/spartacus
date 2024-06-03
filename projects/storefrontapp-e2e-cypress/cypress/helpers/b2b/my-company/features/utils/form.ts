@@ -32,7 +32,7 @@ export function getValueKey(formType: FormType): 'createValue' | 'updateValue' {
 
 export function completeForm(
   rowConfigs: MyCompanyRowConfig[],
-  formType: FormType
+  formType: FormType,
 ) {
   const valueKey = getValueKey(formType);
   rowConfigs.forEach((input) => {
@@ -129,12 +129,12 @@ export function verifyDetails(config: MyCompanyConfig, formType: FormType) {
   }
 
   cy.get('cx-org-card div.header h3').contains(
-    ignoreCaseSensivity(`${config.name} Details`)
+    ignoreCaseSensivity(`${config.name} Details`),
   );
 
   headerRows.forEach((hRow) => {
     cy.get('cx-org-card div.header h4').contains(
-      ignoreCaseSensivity(hRow[valueKey])
+      ignoreCaseSensivity(hRow[valueKey]),
     );
   });
 
@@ -145,7 +145,7 @@ export function verifyDetails(config: MyCompanyConfig, formType: FormType) {
       cy.get('div.property label').should('contain.text', label);
       cy.get('div.property').should(
         'contain.text',
-        rowConfig[valueKey] || label
+        rowConfig[valueKey] || label,
       );
 
       const link = getLink(rowConfig);
@@ -154,7 +154,7 @@ export function verifyDetails(config: MyCompanyConfig, formType: FormType) {
         cy.get('div.property a').should(
           'have.attr',
           'href',
-          `/powertools-spa/en/USD${link}`
+          `/powertools-spa/en/USD${link}`,
         );
       }
     }

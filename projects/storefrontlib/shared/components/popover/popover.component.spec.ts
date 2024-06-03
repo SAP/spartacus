@@ -69,19 +69,19 @@ describe('PopoverComponent', () => {
 
   it('should render `content` property', () => {
     expect(fixture.debugElement.nativeNode.innerText).toContain(
-      mockPopoverProperties.content
+      mockPopoverProperties.content,
     );
   });
 
   it('should contain custom class', () => {
     expect(fixture.debugElement.nativeNode.classList).toContain(
-      mockPopoverProperties.customClass
+      mockPopoverProperties.customClass,
     );
   });
 
   it('should contain position class', () => {
     expect(fixture.debugElement.nativeNode.classList).toContain(
-      mockPopoverPosition
+      mockPopoverPosition,
     );
   });
 

@@ -23,7 +23,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
+    _vcr?: ViewContainerRef,
   ) {
     return EMPTY;
   }
@@ -70,7 +70,7 @@ describe('SavedCartDetailsActionComponent', () => {
       {
         cart: mockSavedCart,
         layoutOption: SavedCartFormType.DELETE,
-      }
+      },
     );
   });
 
@@ -84,7 +84,7 @@ describe('SavedCartDetailsActionComponent', () => {
       {
         cart: mockSavedCart,
         layoutOption: SavedCartFormType.RESTORE,
-      }
+      },
     );
   });
 });

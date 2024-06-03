@@ -26,7 +26,7 @@ export const getPermissionManagementState: MemoizedSelector<
   PermissionManagement
 > = createSelector(
   getOrganizationState,
-  (state: OrganizationState) => state[PERMISSION_FEATURE]
+  (state: OrganizationState) => state[PERMISSION_FEATURE],
 );
 
 export const getPermissionsState: MemoizedSelector<
@@ -34,11 +34,11 @@ export const getPermissionsState: MemoizedSelector<
   StateUtils.EntityLoaderState<Permission>
 > = createSelector(
   getPermissionManagementState,
-  (state: PermissionManagement) => state && state.entities
+  (state: PermissionManagement) => state && state.entities,
 );
 
 export const getPermissionState = (
-  permissionId: string
+  permissionId: string,
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<Permission>
@@ -46,7 +46,7 @@ export const getPermissionState = (
   createSelector(
     getPermissionsState,
     (state: StateUtils.EntityLoaderState<Permission>) =>
-      StateUtils.entityLoaderStateSelector(state, permissionId)
+      StateUtils.entityLoaderStateSelector(state, permissionId),
   );
 
 export const getPermissionTypesState: MemoizedSelector<
@@ -54,11 +54,11 @@ export const getPermissionTypesState: MemoizedSelector<
   StateUtils.EntityLoaderState<OrderApprovalPermissionType[]>
 > = createSelector(
   getPermissionManagementState,
-  (state: PermissionManagement) => state && state.permissionTypes
+  (state: PermissionManagement) => state && state.permissionTypes,
 );
 
 export const getPermission = (
-  permissionCode: string
+  permissionCode: string,
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<Permission>
@@ -66,25 +66,25 @@ export const getPermission = (
   createSelector(
     getPermissionsState,
     (state: StateUtils.EntityLoaderState<Permission>) =>
-      StateUtils.entityLoaderStateSelector(state, permissionCode)
+      StateUtils.entityLoaderStateSelector(state, permissionCode),
   );
 
 export const getPermissionValue = (
-  permissionCode: string
+  permissionCode: string,
 ): MemoizedSelector<StateWithOrganization, Permission> => {
   return createSelector(getPermission(permissionCode), (permissionState) =>
-    StateUtils.loaderValueSelector(permissionState)
+    StateUtils.loaderValueSelector(permissionState),
   );
 };
 
 export const getPermissionList = (
-  params: SearchConfig
+  params: SearchConfig,
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<Permission>>
 > =>
   createSelector(getPermissionManagementState, (state: PermissionManagement) =>
-    StateUtils.denormalizeSearch<Permission>(state, params)
+    StateUtils.denormalizeSearch<Permission>(state, params),
   );
 
 export const getPermissionTypes = (): MemoizedSelector<
@@ -94,5 +94,5 @@ export const getPermissionTypes = (): MemoizedSelector<
   createSelector(
     getPermissionTypesState,
     (state: StateUtils.EntityLoaderState<OrderApprovalPermissionType[]>) =>
-      StateUtils.entityLoaderStateSelector(state, PERMISSION_TYPES)
+      StateUtils.entityLoaderStateSelector(state, PERMISSION_TYPES),
   );

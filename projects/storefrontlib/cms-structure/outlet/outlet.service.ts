@@ -35,7 +35,7 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
     outlet: string,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     factory: T,
-    position?: OutletPosition
+    position?: OutletPosition,
   ): void;
   /**
    * @param templateOrFactory A `ComponentFactory` that inserts a component dynamically.
@@ -43,7 +43,7 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
   add(
     outlet: string,
     templateOrFactory: T,
-    position: OutletPosition = OutletPosition.REPLACE
+    position: OutletPosition = OutletPosition.REPLACE,
   ): void {
     const store = this.templatesRefs[position];
     if (store) {
@@ -65,7 +65,7 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
   get(
     outlet: string,
     position: OutletPosition = OutletPosition.REPLACE,
-    stacked = AVOID_STACKED_OUTLETS
+    stacked = AVOID_STACKED_OUTLETS,
   ): T[] | T | undefined {
     const store =
       this.templatesRefs[position] ||
@@ -81,7 +81,7 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
   remove(
     outlet: string,
     position: OutletPosition = OutletPosition.REPLACE,
-    value?: T
+    value?: T,
   ): void {
     const store =
       this.templatesRefs[position] ||
@@ -93,7 +93,7 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
   protected removeValueOrAll(
     store: Map<string, T[]>,
     outlet: string,
-    value?: T
+    value?: T,
   ): void {
     if (!value && store.has(outlet)) {
       store.delete(outlet);

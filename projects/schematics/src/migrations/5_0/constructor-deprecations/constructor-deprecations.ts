@@ -110,7 +110,7 @@ export function migrate(): Rule {
     return migrateConstructorDeprecation(
       tree,
       context,
-      CONSTRUCTOR_DEPRECATIONS_DATA
+      CONSTRUCTOR_DEPRECATIONS_DATA,
     );
   };
 }

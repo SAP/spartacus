@@ -19,7 +19,7 @@ import { ContextToken } from './context.model';
 export class RoutingContextService {
   constructor(
     protected activatedRoutesService: ActivatedRoutesService,
-    protected injector: UnifiedInjector
+    protected injector: UnifiedInjector,
   ) {}
 
   /**
@@ -32,7 +32,7 @@ export class RoutingContextService {
     Record<ContextToken, any>
   > = this.activatedRoutesService.routes$.pipe(
     map((routes) => this.getRoutesContextTokenMapping(routes)),
-    shareReplay({ refCount: true, bufferSize: 1 })
+    shareReplay({ refCount: true, bufferSize: 1 }),
   );
 
   /**
@@ -40,7 +40,7 @@ export class RoutingContextService {
    * defined in all Activated Angular Routes.
    */
   protected getRoutesContextTokenMapping(
-    routes: ActivatedRouteSnapshot[]
+    routes: ActivatedRouteSnapshot[],
   ): Record<ContextToken, any> {
     return Object.assign({}, ...routes.map((route) => route?.data?.cxContext));
   }
@@ -58,7 +58,7 @@ export class RoutingContextService {
         return !!providerToken
           ? this.injector.get<T>(providerToken)
           : of(undefined);
-      })
+      }),
     );
   }
 }

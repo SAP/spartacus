@@ -25,7 +25,7 @@ function getReducers(): ActionReducerMap<StockState> {
     hideOutOfStock: hideOutOfStockReducer,
     stockLevel: StateUtils.loaderReducer<StockLevelState, any>(
       STOCK_DATA,
-      stockReducer
+      stockReducer,
     ),
     stockLevelAtStore: stockAtStoreReducer,
   };
@@ -40,13 +40,13 @@ export const stockReducersProvider: Provider = {
 };
 
 export function clearStockState(
-  reducer: ActionReducer<StockState, Action>
+  reducer: ActionReducer<StockState, Action>,
 ): ActionReducer<StockState, Action> {
   return function (state, action) {
     const STATE = new Map([[StockLevelActions.CLEAR_STOCK_DATA, undefined]]);
     return reducer(
       STATE.has(action.type) ? STATE.get(action.type) : state,
-      action
+      action,
     );
   };
 }

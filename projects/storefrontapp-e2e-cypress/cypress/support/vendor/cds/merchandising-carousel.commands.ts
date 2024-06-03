@@ -32,6 +32,6 @@ Cypress.Commands.add('waitForCarouselEvent', (eventSchema: string) => {
   cy.get<Cypress.WaitXHR>(`@${carouselEventRequestAlias}-${eventSchema}`).then(
     ({ request }) => {
       return cy.wrap(request.body);
-    }
+    },
   );
 });

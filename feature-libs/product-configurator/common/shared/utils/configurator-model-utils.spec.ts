@@ -7,8 +7,8 @@ describe('ConfiguratorModelUtils', () => {
     expect(
       ConfiguratorModelUtils.getOwnerKey(
         CommonConfigurator.OwnerType.PRODUCT,
-        PRODUCT_CODE
-      )
+        PRODUCT_CODE,
+      ),
     ).toBe(CommonConfigurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE);
   });
 
@@ -16,7 +16,7 @@ describe('ConfiguratorModelUtils', () => {
     expect(function () {
       ConfiguratorModelUtils.getOwnerKey(
         CommonConfigurator.OwnerType.PRODUCT,
-        undefined
+        undefined,
       );
     }).toThrow();
   });
@@ -31,13 +31,13 @@ describe('ConfiguratorModelUtils', () => {
   it('should create owner from attributes', () => {
     const owner = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.CART_ENTRY,
-      PRODUCT_CODE
+      PRODUCT_CODE,
     );
     expect(owner.key).toBe(
       ConfiguratorModelUtils.getOwnerKey(
         CommonConfigurator.OwnerType.CART_ENTRY,
-        PRODUCT_CODE
-      )
+        PRODUCT_CODE,
+      ),
     );
     expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
     expect(owner.id).toBe(PRODUCT_CODE);

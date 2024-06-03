@@ -35,7 +35,7 @@ const scssFilePath = 'src/styles/spartacus/cart.scss';
 describe('Spartacus Cart schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CART,
-    collectionPath
+    collectionPath,
   );
 
   let appTree: UnitTestTree;
@@ -95,27 +95,27 @@ describe('Spartacus Cart schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      '../../projects/schematics/src/collection.json',
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
-      workspaceOptions
+      workspaceOptions,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
       appOptions,
-      appTree
+      appTree,
     );
 
     appTree = await schematicRunner.runExternalSchematic(
       SPARTACUS_SCHEMATICS,
       'ng-add',
       { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
+      appTree,
     );
   });
 
@@ -124,7 +124,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         { ...libraryNoFeaturesOptions, features: [] },
-        appTree
+        appTree,
       );
     });
 
@@ -166,7 +166,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           cartBaseFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -198,7 +198,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...cartBaseFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
@@ -215,7 +215,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           cartImportExportFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -242,7 +242,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...cartImportExportFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
@@ -259,7 +259,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           quickOrderFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -286,7 +286,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...quickOrderFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
@@ -303,7 +303,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           savedCartFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -314,7 +314,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
       it('should NOT install the required feature dependencies', async () => {
         const baseCartFeatureModule = appTree.readContent(
-          cartBaseFeatureModulePath
+          cartBaseFeatureModulePath,
         );
         expect(baseCartFeatureModule).toBeFalsy();
 
@@ -340,7 +340,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...savedCartFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 
@@ -357,7 +357,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           wishListFeatureOptions,
-          appTree
+          appTree,
         );
       });
 
@@ -368,7 +368,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
       it('should NOT install the required feature dependencies', async () => {
         const baseCartFeatureModule = appTree.readContent(
-          cartBaseFeatureModulePath
+          cartBaseFeatureModulePath,
         );
         expect(baseCartFeatureModule).toBeFalsy();
 
@@ -394,7 +394,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...wishListFeatureOptions, lazy: false },
-          appTree
+          appTree,
         );
       });
 

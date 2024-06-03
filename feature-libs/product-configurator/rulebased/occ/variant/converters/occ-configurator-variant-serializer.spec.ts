@@ -8,7 +8,7 @@ import { OccConfiguratorVariantSerializer } from './occ-configurator-variant-ser
 
 function createValue(
   valueCode: string,
-  isSelected: boolean
+  isSelected: boolean,
 ): Configurator.Value {
   return {
     valueCode: valueCode,
@@ -32,7 +32,7 @@ describe('OccConfiguratorVariantSerializer', () => {
   const sourceConfiguration: Configurator.Configuration = {
     ...ConfiguratorTestUtils.createConfiguration(
       '1234-56-7890',
-      ConfiguratorModelUtils.createInitialOwner()
+      ConfiguratorModelUtils.createInitialOwner(),
     ),
     complete: false,
     consistent: true,
@@ -150,7 +150,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     });
 
     occConfiguratorVariantSerializer = TestBed.inject(
-      OccConfiguratorVariantSerializer as Type<OccConfiguratorVariantSerializer>
+      OccConfiguratorVariantSerializer as Type<OccConfiguratorVariantSerializer>,
     );
   });
 
@@ -158,10 +158,10 @@ describe('OccConfiguratorVariantSerializer', () => {
     const convertedConfiguration =
       occConfiguratorVariantSerializer.convert(sourceConfiguration);
     expect(convertedConfiguration.complete).toEqual(
-      targetOccConfiguration.complete
+      targetOccConfiguration.complete,
     );
     expect(convertedConfiguration.configId).toEqual(
-      targetOccConfiguration.configId
+      targetOccConfiguration.configId,
     );
   });
 
@@ -169,7 +169,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     const occGroups: OccConfigurator.Group[] = [];
     occConfiguratorVariantSerializer.convertGroup(
       sourceConfiguration.groups[0],
-      occGroups
+      occGroups,
     );
     expect(occGroups.length).toBe(1);
     expect(occGroups[0].id).toBe(GROUP_ID);
@@ -179,7 +179,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     const occGroups: OccConfigurator.Group[] = [];
     occConfiguratorVariantSerializer.convertGroup(
       groupWithoutAttributes,
-      occGroups
+      occGroups,
     );
     expect(occGroups.length).toBe(1);
   });
@@ -201,26 +201,26 @@ describe('OccConfiguratorVariantSerializer', () => {
   it('should map group types properly', () => {
     expect(
       occConfiguratorVariantSerializer.convertGroupType(
-        Configurator.GroupType.ATTRIBUTE_GROUP
-      )
+        Configurator.GroupType.ATTRIBUTE_GROUP,
+      ),
     ).toBe(OccConfigurator.GroupType.CSTIC_GROUP);
 
     expect(
       occConfiguratorVariantSerializer.convertGroupType(
-        Configurator.GroupType.SUB_ITEM_GROUP
-      )
+        Configurator.GroupType.SUB_ITEM_GROUP,
+      ),
     ).toBe(OccConfigurator.GroupType.INSTANCE);
 
     expect(
       occConfiguratorVariantSerializer.convertGroupType(
-        Configurator.GroupType.CONFLICT_GROUP
-      )
+        Configurator.GroupType.CONFLICT_GROUP,
+      ),
     ).toBe(OccConfigurator.GroupType.CONFLICT);
 
     expect(
       occConfiguratorVariantSerializer.convertGroupType(
-        Configurator.GroupType.CONFLICT_HEADER_GROUP
-      )
+        Configurator.GroupType.CONFLICT_HEADER_GROUP,
+      ),
     ).toBe(OccConfigurator.GroupType.CONFLICT_HEADER);
   });
 
@@ -234,7 +234,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     const occAttributes: OccConfigurator.Attribute[] = [];
     occConfiguratorVariantSerializer.convertAttribute(
       numericAttribute,
-      occAttributes
+      occAttributes,
     );
     expect(occAttributes[0].formattedValue).toBe(numericAttribute.userInput);
     expect(occAttributes[0].retractTriggered).toBe(false);
@@ -250,7 +250,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     const occAttributes: OccConfigurator.Attribute[] = [];
     occConfiguratorVariantSerializer.convertAttribute(
       stringAttribute,
-      occAttributes
+      occAttributes,
     );
     expect(occAttributes[0].value).toBe(stringAttribute.userInput);
     expect(occAttributes[0].retractTriggered).toBe(false);
@@ -270,7 +270,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     const occAttributes: OccConfigurator.Attribute[] = [];
     occConfiguratorVariantSerializer.convertAttribute(
       mvAttribute,
-      occAttributes
+      occAttributes,
     );
     const domainValues = occAttributes[0].domainValues;
     if (domainValues) {
@@ -290,7 +290,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     const occAttributes: OccConfigurator.Attribute[] = [];
     occConfiguratorVariantSerializer.convertAttribute(
       attributeWithRetraction,
-      occAttributes
+      occAttributes,
     );
     expect(occAttributes[0].retractTriggered).toBe(true);
   });
@@ -304,7 +304,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     const occAttributes: OccConfigurator.Attribute[] = [];
     occConfiguratorVariantSerializer.convertAttribute(
       attributeWithRetraction,
-      occAttributes
+      occAttributes,
     );
     expect(occAttributes[0].retractTriggered).toBe(true);
   });
@@ -318,7 +318,7 @@ describe('OccConfiguratorVariantSerializer', () => {
       };
 
       expect(
-        occConfiguratorVariantSerializer['isRetractValue'](attribute)
+        occConfiguratorVariantSerializer['isRetractValue'](attribute),
       ).toBe(false);
     });
 
@@ -331,7 +331,7 @@ describe('OccConfiguratorVariantSerializer', () => {
       };
 
       expect(
-        occConfiguratorVariantSerializer['isRetractValue'](attribute)
+        occConfiguratorVariantSerializer['isRetractValue'](attribute),
       ).toBe(true);
     });
   });
@@ -346,7 +346,7 @@ describe('OccConfiguratorVariantSerializer', () => {
       };
 
       expect(
-        occConfiguratorVariantSerializer['getRetractedValue'](attribute)
+        occConfiguratorVariantSerializer['getRetractedValue'](attribute),
       ).toBeUndefined();
     });
 
@@ -364,7 +364,7 @@ describe('OccConfiguratorVariantSerializer', () => {
       };
 
       expect(
-        occConfiguratorVariantSerializer['getRetractedValue'](attribute)
+        occConfiguratorVariantSerializer['getRetractedValue'](attribute),
       ).toBeUndefined();
     });
 
@@ -382,7 +382,7 @@ describe('OccConfiguratorVariantSerializer', () => {
       };
 
       expect(
-        occConfiguratorVariantSerializer['getRetractedValue'](attribute)
+        occConfiguratorVariantSerializer['getRetractedValue'](attribute),
       ).toEqual(value4.valueCode);
     });
   });
@@ -404,7 +404,7 @@ describe('OccConfiguratorVariantSerializer', () => {
 
       occConfiguratorVariantSerializer['retractValue'](
         attribute,
-        targetAttribute
+        targetAttribute,
       );
       expect(targetAttribute.value).toEqual(attribute.selectedSingleValue);
       expect(targetAttribute.retractTriggered).toBeUndefined();
@@ -433,7 +433,7 @@ describe('OccConfiguratorVariantSerializer', () => {
 
       occConfiguratorVariantSerializer['retractValue'](
         attribute,
-        targetAttribute
+        targetAttribute,
       );
       expect(targetAttribute.value).toEqual(value4.valueCode);
       expect(targetAttribute.retractTriggered).toBe(true);
@@ -443,68 +443,68 @@ describe('OccConfiguratorVariantSerializer', () => {
   it('should map ui types properly', () => {
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.NUMERIC
-      )
+        Configurator.UiType.NUMERIC,
+      ),
     ).toBe(OccConfigurator.UiType.NUMERIC);
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.RADIOBUTTON
-      )
+        Configurator.UiType.RADIOBUTTON,
+      ),
     ).toBe(OccConfigurator.UiType.RADIO_BUTTON);
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.READ_ONLY
-      )
+        Configurator.UiType.READ_ONLY,
+      ),
     ).toBe(OccConfigurator.UiType.NOT_IMPLEMENTED);
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.DROPDOWN
-      )
+        Configurator.UiType.DROPDOWN,
+      ),
     ).toBe(OccConfigurator.UiType.DROPDOWN);
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.STRING
-      )
+        Configurator.UiType.STRING,
+      ),
     ).toBe(OccConfigurator.UiType.STRING);
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.CHECKBOXLIST
-      )
+        Configurator.UiType.CHECKBOXLIST,
+      ),
     ).toBe(OccConfigurator.UiType.CHECK_BOX_LIST);
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.CHECKBOX
-      )
+        Configurator.UiType.CHECKBOX,
+      ),
     ).toBe(OccConfigurator.UiType.CHECK_BOX);
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.MULTI_SELECTION_IMAGE
-      )
+        Configurator.UiType.MULTI_SELECTION_IMAGE,
+      ),
     ).toBe(OccConfigurator.UiType.MULTI_SELECTION_IMAGE);
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.SINGLE_SELECTION_IMAGE
-      )
+        Configurator.UiType.SINGLE_SELECTION_IMAGE,
+      ),
     ).toBe(OccConfigurator.UiType.SINGLE_SELECTION_IMAGE);
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT
-      )
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
+      ),
     ).toBe(OccConfigurator.UiType.RADIO_BUTTON_ADDITIONAL_INPUT);
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT
-      )
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
+      ),
     ).toBe(OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT);
   });
 });

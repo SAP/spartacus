@@ -65,7 +65,7 @@ Object.keys(translations).forEach((lang) => {
         fs.writeFileSync(
           path,
           firstLine + '=' + JSON.stringify(translations[lang][chunk], null, 2),
-          'utf8'
+          'utf8',
         );
       }
     });

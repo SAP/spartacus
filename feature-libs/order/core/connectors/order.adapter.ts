@@ -18,6 +18,6 @@ export abstract class OrderAdapter {
   abstract placeOrder(
     userId: string,
     cartId: string,
-    termsChecked: boolean
+    termsChecked: boolean,
   ): Observable<Order>;
 }

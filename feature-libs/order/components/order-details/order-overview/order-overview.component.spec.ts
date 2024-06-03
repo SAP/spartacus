@@ -166,7 +166,7 @@ describe('OrderOverviewComponent', () => {
   describe('when replenishment order code is defined', () => {
     beforeEach(() => {
       spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
-        of(mockReplenishmentOrder)
+        of(mockReplenishmentOrder),
       );
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
@@ -176,7 +176,7 @@ describe('OrderOverviewComponent', () => {
 
       component
         .getReplenishmentCodeCardContent(
-          mockReplenishmentOrder.replenishmentOrderCode
+          mockReplenishmentOrder.replenishmentOrderCode,
         )
         .subscribe((data) => {
           expect(data).toBeTruthy();
@@ -188,7 +188,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getReplenishmentCodeCardContent).toHaveBeenCalledWith(
-        mockReplenishmentOrder.replenishmentOrderCode
+        mockReplenishmentOrder.replenishmentOrderCode,
       );
     });
 
@@ -205,7 +205,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getReplenishmentActiveCardContent).toHaveBeenCalledWith(
-        mockReplenishmentOrder.active
+        mockReplenishmentOrder.active,
       );
     });
 
@@ -224,19 +224,19 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getReplenishmentStartOnCardContent).toHaveBeenCalledWith(
-        mockReplenishmentOrder.firstDate
+        mockReplenishmentOrder.firstDate,
       );
     });
 
     it('should call getReplenishmentFrequencyCardContent(frequency: string)', () => {
       spyOn(
         component,
-        'getReplenishmentFrequencyCardContent'
+        'getReplenishmentFrequencyCardContent',
       ).and.callThrough();
 
       component
         .getReplenishmentFrequencyCardContent(
-          mockReplenishmentOrder.trigger.displayTimeTable
+          mockReplenishmentOrder.trigger.displayTimeTable,
         )
         .subscribe((data) => {
           expect(data).toBeTruthy();
@@ -248,7 +248,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(
-        component.getReplenishmentFrequencyCardContent
+        component.getReplenishmentFrequencyCardContent,
       ).toHaveBeenCalledWith(mockReplenishmentOrder.trigger.displayTimeTable);
     });
 
@@ -267,7 +267,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(
-        component.getReplenishmentNextDateCardContent
+        component.getReplenishmentNextDateCardContent,
       ).toHaveBeenCalledWith(date);
     });
   });
@@ -290,7 +290,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getOrderCodeCardContent).toHaveBeenCalledWith(
-        mockOrder.code
+        mockOrder.code,
       );
     });
 
@@ -324,7 +324,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getOrderStatusCardContent).toHaveBeenCalledWith(
-        mockOrder.statusDisplay
+        mockOrder.statusDisplay,
       );
     });
   });
@@ -347,7 +347,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getPurchaseOrderNumber).toHaveBeenCalledWith(
-        mockOrder.purchaseOrderNumber
+        mockOrder.purchaseOrderNumber,
       );
     });
 
@@ -364,7 +364,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getMethodOfPaymentCardContent).toHaveBeenCalledWith(
-        mockOrder.paymentInfo
+        mockOrder.paymentInfo,
       );
     });
 
@@ -382,7 +382,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getCostCenterCardContent).toHaveBeenCalledWith(
-        mockOrder.costCenter
+        mockOrder.costCenter,
       );
     });
   });
@@ -410,7 +410,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getPaymentInfoCardContent).toHaveBeenCalledWith(
-        mockOrder.paymentInfo
+        mockOrder.paymentInfo,
       );
     });
 
@@ -419,7 +419,7 @@ describe('OrderOverviewComponent', () => {
         component.isPaymentInfoCardFull({
           ...mockOrder.paymentInfo,
           expiryMonth: undefined,
-        })
+        }),
       ).toBeFalsy();
     });
 
@@ -434,7 +434,7 @@ describe('OrderOverviewComponent', () => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
           expect(data.textBold).toEqual(
-            `${billingAddress.firstName} ${billingAddress.lastName}`
+            `${billingAddress.firstName} ${billingAddress.lastName}`,
           );
           expect(data.text).toEqual([
             billingAddress.formattedAddress,
@@ -444,7 +444,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getBillingAddressCardContent).toHaveBeenCalledWith(
-        billingAddress
+        billingAddress,
       );
     });
   });
@@ -465,7 +465,7 @@ describe('OrderOverviewComponent', () => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
           expect(data.textBold).toEqual(
-            `${deliveryAddress.firstName} ${deliveryAddress.lastName}`
+            `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
           );
           expect(data.text).toEqual([
             deliveryAddress.formattedAddress,
@@ -475,7 +475,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getAddressCardContent).toHaveBeenCalledWith(
-        deliveryAddress
+        deliveryAddress,
       );
     });
 
@@ -496,7 +496,7 @@ describe('OrderOverviewComponent', () => {
         .unsubscribe();
 
       expect(component.getDeliveryModeCardContent).toHaveBeenCalledWith(
-        mockOrder.deliveryMode
+        mockOrder.deliveryMode,
       );
     });
   });
@@ -504,7 +504,7 @@ describe('OrderOverviewComponent', () => {
   describe('normalize formatted address', () => {
     it('should normalize address when line 2 is empty in address', () => {
       const address = component['normalizeFormattedAddress'](
-        mockUnformattedAddress
+        mockUnformattedAddress,
       );
 
       expect(address).toEqual('test1, test3, test4');

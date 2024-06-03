@@ -39,7 +39,7 @@ describe('ConflictHandler', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.conflict' },
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
     );
   });
 });

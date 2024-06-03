@@ -49,7 +49,7 @@ context('Quote', () => {
       quote.prepareQuote(
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
-        true
+        true,
       );
       quote.clearSavedCarts();
     });
@@ -76,7 +76,7 @@ context('Quote', () => {
         BUYER_PASSWORD,
         BUYER_USER,
         SALESREP_EMAIL,
-        SALESREP_PASSWORD
+        SALESREP_PASSWORD,
       );
       quote.prepareSavedCartTemplate(TEST_PRODUCT_HAMMER_DRILLING_ID);
       quote.submitQuote(quote.STATUS_BUYER_CHECKOUT);

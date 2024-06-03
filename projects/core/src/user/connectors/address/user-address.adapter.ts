@@ -15,12 +15,12 @@ export abstract class UserAddressAdapter {
   abstract update(
     userId: string,
     addressId: string,
-    address: Address
+    address: Address,
   ): Observable<{}>;
 
   abstract verify(
     userId: string,
-    address: Address
+    address: Address,
   ): Observable<AddressValidation>;
 
   abstract delete(userId: string, addressId: string): Observable<{}>;

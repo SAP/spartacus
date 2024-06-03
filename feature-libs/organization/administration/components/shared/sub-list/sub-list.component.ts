@@ -49,7 +49,7 @@ export class SubListComponent extends ListComponent {
       switchMap((key) => this.service.getData(key)),
       tap((data) => {
         this.hasGhostData = this.service.hasGhostData(data);
-      })
+      }),
     );
 
   readonly dataStructure$: Observable<TableStructure> =

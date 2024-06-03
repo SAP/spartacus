@@ -60,9 +60,9 @@ describe('DynamicAttributeService', () => {
       expect(testComponentDecorator.decorate).toHaveBeenCalledWith(
         element,
         renderer,
-        { uid: 'testComponent' }
+        { uid: 'testComponent' },
       );
-    }
+    },
   ));
 
   it('should able to add dynamic attributes to slot', inject(
@@ -75,8 +75,8 @@ describe('DynamicAttributeService', () => {
       expect(testSlotDecorator.decorate).toHaveBeenCalledWith(
         element,
         renderer,
-        {}
+        {},
       );
-    }
+    },
   ));
 });
