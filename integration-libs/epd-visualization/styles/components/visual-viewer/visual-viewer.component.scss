@@ -26,6 +26,10 @@
     &:focus {
       outline-style: unset;
 
+      // z-index was being set to 1000 on focus
+      // when a11yVisibleFocusOverflows feature toggle was enabled
+      z-index: 0;
+
       canvas {
         outline-style: unset;
       }
