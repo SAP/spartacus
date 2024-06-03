@@ -561,9 +561,8 @@ function addAppRoutingModuleImport(
 
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const features = analyzeCrossFeatureDependencies(
-      normalizeOptionsFeatures(options)
-    );
+    options.features = normalizeOptionsFeatures(options);
+    const features = analyzeCrossFeatureDependencies(options.features);
     const dependencies = prepareDependencies(features);
     const spartacusRxjsDependency: NodeDependency[] = [
       dependencies.find((dep) => dep.name === RXJS) as NodeDependency,
