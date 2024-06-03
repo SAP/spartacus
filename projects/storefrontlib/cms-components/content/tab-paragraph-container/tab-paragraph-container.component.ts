@@ -1,4 +1,3 @@
-
 /*
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *

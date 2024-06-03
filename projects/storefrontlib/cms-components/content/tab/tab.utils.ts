@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * If the passed index its outside of the min and max boundaries,
  * wrap the index exceeding the max boundary to the min boundary or vice versa.
