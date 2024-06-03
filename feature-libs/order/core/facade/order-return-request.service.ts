@@ -1,15 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   ProcessSelectors,
+  StateWithProcess,
+  UserIdService,
+} from '@spartacus/core';
+import {
+  OrderReturnRequestFacade,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
-  StateWithProcess,
-  UserIdService,
-} from '@spartacus/core';
-import { OrderReturnRequestFacade } from '@spartacus/order/root';
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';
@@ -53,7 +61,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    * Gets order return request list
    */
   getOrderReturnRequestList(
-    pageSize: number
+    pageSize?: number
   ): Observable<ReturnRequestList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getOrderReturnRequestListState),
@@ -92,12 +100,12 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    * @param sort sort
    */
   loadOrderReturnRequestList(
-    pageSize: number,
+    pageSize?: number,
     currentPage?: number,
     sort?: string
   ): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         this.store.dispatch(
           new OrderActions.LoadOrderReturnRequestList({
             userId,
@@ -107,10 +115,10 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
           })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**

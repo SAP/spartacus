@@ -1,0 +1,72 @@
+<td role="cell">
+  <div class="cx-table-item-container">
+    <!-- Item Image -->
+    <a
+      [routerLink]="{ cxRoute: 'product', params: cartEntry.product } | cxUrl"
+      tabindex="-1"
+    >
+      <cx-media
+        [container]="cartEntry.product?.images?.PRIMARY"
+        format="thumbnail"
+      ></cx-media>
+    </a>
+    <div class="cx-info">
+      <div *ngIf="cartEntry.product?.name" class="cx-name">
+        <a
+          class="cx-link"
+          [routerLink]="
+            { cxRoute: 'product', params: cartEntry.product } | cxUrl
+          "
+          >{{ cartEntry.product?.name }}</a
+        >
+      </div>
+      <div *ngIf="cartEntry.product?.code" class="cx-code">
+        {{ 'cartItems.id' | cxTranslate }} {{ cartEntry.product?.code }}
+      </div>
+    </div>
+  </div>
+  <!-- Variants -->
+  <ng-container *ngIf="cartEntry.product?.baseOptions?.length">
+    <div
+      *ngFor="
+        let variant of cartEntry.product?.baseOptions[0]?.selected
+          ?.variantOptionQualifiers
+      "
+      class="cx-property"
+    >
+      <div class="cx-label" *ngIf="variant.name && variant.value">
+        {{ variant.name }}: {{ variant.value }}
+      </div>
+    </div>
+  </ng-container>
+</td>
+<!-- Item Price -->
+<td role="cell" *ngIf="cartEntry.basePrice" class="cx-price">
+  <div class="cx-mobile-header">
+    {{ 'cartItems.itemPrice' | cxTranslate }}
+  </div>
+  <div *ngIf="cartEntry.basePrice" class="cx-value">
+    {{ cartEntry.basePrice?.formattedValue }}
+  </div>
+</td>
+<!-- Action -->
+<td role="cell" class="cx-actions">
+  <ng-container
+    *ngIf="cartEntry.updateable"
+    cxInnerComponentsHost
+  ></ng-container>
+  <ng-template #outOfStock>
+    <span class="cx-out-of-stock">
+      {{ 'addToCart.outOfStock' | cxTranslate }}
+    </span>
+  </ng-template>
+  <button
+    *ngIf="cartEntry.updateable"
+    (click)="removeEntry(cartEntry)"
+    [cxAtMessage]="'wishlist.itemRemoved' | cxTranslate"
+    [disabled]="isLoading"
+    class="link cx-action-link cx-remove-btn"
+  >
+    {{ 'common.remove' | cxTranslate }}
+  </button>
+</td>

@@ -1,14 +1,24 @@
-import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  ElementRef,
+  Pipe,
+  PipeTransform,
+  ViewContainerRef,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import {
+  CustomerCoupon,
+  FeaturesConfig,
+  I18nTestingModule,
+} from '@spartacus/core';
+import { BehaviorSubject, EMPTY, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ModalService } from '../../../../shared/components/modal/index';
+import { LAUNCH_CALLER, LaunchDialogService } from '../../../../layout/index';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 import { CouponCardComponent } from './coupon-card.component';
-import createSpy = jasmine.createSpy;
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -59,15 +69,21 @@ class MyCouponsComponent {
     });
 }
 
-class MockModalService {
-  open = createSpy('open');
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef
+  ) {
+    return EMPTY;
+  }
 }
 
 describe('CouponCardComponent', () => {
   let component: MyCouponsComponent;
   let fixture: ComponentFixture<MyCouponsComponent>;
   let el: DebugElement;
-  let modalService: ModalService;
+  let launchDialogService: LaunchDialogService;
   const couponComponentService = jasmine.createSpyObj(
     'MyCouponsComponentService',
     ['launchSearchPage']
@@ -78,10 +94,16 @@ describe('CouponCardComponent', () => {
         declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
         imports: [I18nTestingModule, RouterTestingModule],
         providers: [
-          { provide: ModalService, useClass: MockModalService },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           {
             provide: MyCouponsComponentService,
             useValue: couponComponentService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.1' },
+            },
           },
         ],
       }).compileComponents();
@@ -93,7 +115,7 @@ describe('CouponCardComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     component.coupon.notificationOn = false;
-    modalService = TestBed.inject(ModalService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
     unsubLoading$.next(false);
     subLoading$.next(false);
   });
@@ -127,7 +149,8 @@ describe('CouponCardComponent', () => {
       .textContent;
     expect(couponEndDate).toBeTruthy();
 
-    const readMoreLink = el.query(By.css('a')).nativeElement.textContent;
+    const readMoreLink = el.query(By.css('.cx-card-read-more')).nativeElement
+      .textContent;
     expect(readMoreLink).toContain('myCoupons.readMore');
 
     const couponNotificationCheckbox = el.queryAll(By.css('.form-check-input'));
@@ -136,15 +159,17 @@ describe('CouponCardComponent', () => {
       .nativeElement.textContent;
     expect(couponNotificationLabel).toContain('myCoupons.notification');
 
-    const findProductBtn = el.query(By.css('button')).nativeElement.textContent;
+    const findProductBtn = el.query(By.css('button.btn-secondary'))
+      .nativeElement.textContent;
     expect(findProductBtn).toContain('myCoupons.findProducts');
   });
 
   it('should be able to open coupon detail dialog', () => {
+    spyOn(launchDialogService, 'openDialog').and.stub();
     fixture.detectChanges();
-    const readMoreLink = el.query(By.css('a'));
+    const readMoreLink = el.query(By.css('.cx-card-read-more'));
     readMoreLink.nativeElement.click();
-    expect(modalService.open).toHaveBeenCalled();
+    expect(launchDialogService.openDialog).toHaveBeenCalled();
   });
 
   it('should be able to show correct status when subscribe notification', () => {
@@ -184,7 +209,7 @@ describe('CouponCardComponent', () => {
 
   it('should be able to click `Find Product` button', () => {
     fixture.detectChanges();
-    el.query(By.css('button')).triggerEventHandler('click', null);
+    el.query(By.css('button.btn-secondary')).triggerEventHandler('click', null);
     expect(couponComponentService.launchSearchPage).toHaveBeenCalledWith(
       component.coupon
     );

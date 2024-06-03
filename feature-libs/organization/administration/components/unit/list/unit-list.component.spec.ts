@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { UnitListComponent } from '@spartacus/organization/administration/components';
+import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { UnitTreeService } from '../services/unit-tree.service';
 import createSpy = jasmine.createSpy;
@@ -11,11 +12,20 @@ import createSpy = jasmine.createSpy;
   template: '<ng-content select="[actions]"></ng-content>',
   selector: 'cx-org-list',
 })
-class MockListComponent {}
+class MockListComponent {
+  @Input() key: any;
+  @Input() hideAddButton = false;
+}
 
 class MockUnitTreeService {
   expandAll = createSpy('expandAll');
   collapseAll = createSpy('collapseAll');
+}
+
+class MockOrgUnitService implements Partial<OrgUnitService> {
+  isUpdatingUnitAllowed(): boolean {
+    return true;
+  }
 }
 
 describe('UnitListComponent', () => {
@@ -32,6 +42,10 @@ describe('UnitListComponent', () => {
         {
           provide: UnitTreeService,
           useClass: MockUnitTreeService,
+        },
+        {
+          provide: OrgUnitService,
+          useClass: MockOrgUnitService,
         },
       ],
     }).compileComponents();

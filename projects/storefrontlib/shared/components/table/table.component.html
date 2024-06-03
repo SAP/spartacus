@@ -19,7 +19,7 @@
             [cxOutlet]="getDataOutletRef(cell)"
             [cxOutletContext]="getDataOutletContext(cell, item)"
           >
-            {{ item[cell] }}
+            {{ $any(item)[cell] }}
           </ng-template>
         </td>
       </tr>
@@ -51,7 +51,7 @@
           [cxOutlet]="getDataOutletRef(cell)"
           [cxOutletContext]="getDataOutletContext(cell, item)"
         >
-          {{ item[cell] }}
+          {{ $any(item)[cell] }}
         </ng-template>
       </td>
     </tr>
@@ -76,7 +76,7 @@
           [cxOutlet]="getDataOutletRef(cell)"
           [cxOutletContext]="getDataOutletContext(cell, item)"
         >
-          {{ item[cell] }}
+          {{ $any(item)[cell] }}
         </ng-template>
       </td>
     </tr>

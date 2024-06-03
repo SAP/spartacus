@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   NG_ON_INIT,
   ON_RESTORE_COMPLETE,
@@ -6,9 +12,9 @@ import {
   SAVED_CART_DETAILS_ACTION_COMPONENT,
   SAVED_CART_FORM_DIALOG_COMPONENT,
   SAVED_CART_FORM_TYPE,
-  SPARTACUS_CART_SAVED_CART_COMPONENTS,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CART_SAVED_CART_COMPONENTS } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // feature-libs/cart/saved-cart/components/details/saved-cart-details-action/saved-cart-details-action.component.ts

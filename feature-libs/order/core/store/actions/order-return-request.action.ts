@@ -1,11 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
-  PROCESS_FEATURE,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
-  StateUtils,
-} from '@spartacus/core';
+} from '@spartacus/order/root';
 import {
   CANCEL_RETURN_PROCESS_ID,
   RETURN_REQUESTS,

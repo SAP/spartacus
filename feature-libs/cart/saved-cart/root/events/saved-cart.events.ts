@@ -1,4 +1,10 @@
-import { CartEvent } from '@spartacus/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { CartEvent } from '@spartacus/cart/base/root';
 
 /**
  * Base saved cart event. Most cart events should have these properties.
@@ -6,27 +12,6 @@ import { CartEvent } from '@spartacus/core';
 export abstract class SavedCartEvent extends CartEvent {}
 
 // =====================================================================
-
-export class DeleteSavedCartEvent extends SavedCartEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'DeleteSavedCartEvent';
-}
-
-export class DeleteSavedCartSuccessEvent extends SavedCartEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'DeleteSavedCartSuccessEvent';
-}
-
-export class DeleteSavedCartFailEvent extends SavedCartEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'DeleteSavedCartFailEvent';
-}
 
 export class SaveCartEvent extends SavedCartEvent {
   /**

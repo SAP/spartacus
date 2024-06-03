@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,8 +25,11 @@ export class ConfiguratorConflictDescriptionComponent {
   iconTypes = ICON_TYPE;
 
   @HostBinding('tabindex') tabindex = '0';
+  @HostBinding('role') role = 'note';
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   /**
    * Verifies whether the  conflict description should be displayed for the current group.

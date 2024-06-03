@@ -1,12 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   LANGUAGE_SERVICE,
   NGRX_STORE,
   SITE_CONTEXT_CONFIG,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   STORE,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const LANGUAGE_SERVICE_MIGRATION: ConstructorDeprecation = {

@@ -1,20 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { AbstractType, Injectable, Injector } from '@angular/core';
 import {
-  ConnectableObservable,
   EMPTY,
-  isObservable,
   Observable,
+  ReplaySubject,
+  connectable,
+  isObservable,
   throwError,
 } from 'rxjs';
-import {
-  delay,
-  map,
-  publishReplay,
-  shareReplay,
-  switchMap,
-} from 'rxjs/operators';
+import { delay, map, shareReplay, switchMap } from 'rxjs/operators';
 import { FeatureModulesService } from '../feature-modules.service';
 import { FacadeDescriptor } from './facade-descriptor';
+
+const PROXY_FACADE_INSTANCE_PROP = 'proxyFacadeInstance';
 
 /**
  * Service that can create proxy facade, which is a service that will expose
@@ -39,7 +42,7 @@ export class FacadeFactoryService {
   ): Observable<T> {
     if (!this.featureModules.isConfigured(feature)) {
       return throwError(
-        new Error(`Feature ${feature} is not configured properly`)
+        () => new Error(`Feature ${feature} is not configured properly`)
       );
     }
 
@@ -69,11 +72,14 @@ export class FacadeFactoryService {
     method: string,
     args: unknown[]
   ): Observable<unknown> {
-    const callResult$ = resolver$.pipe(
-      map((service) => service[method](...args)),
-      publishReplay()
+    const callResult$ = connectable(
+      resolver$.pipe(map((service) => service[method](...args))),
+      {
+        connector: () => new ReplaySubject(),
+        resetOnDisconnect: false,
+      }
     );
-    (callResult$ as ConnectableObservable<any>).connect();
+    callResult$.connect();
 
     return callResult$.pipe(
       switchMap((result) => {
@@ -112,13 +118,24 @@ export class FacadeFactoryService {
 
     const result: any = new (class extends (facade as any) {})();
     (methods ?? []).forEach((method) => {
-      result[method] = (...args) =>
+      result[method] = (...args: any[]) =>
         this.call(resolver$, method as string, args);
     });
     (properties ?? []).forEach((property) => {
       result[property] = this.get(resolver$, property as string);
     });
 
+    result[PROXY_FACADE_INSTANCE_PROP] = true;
+
     return result;
+  }
+
+  /**
+   * isProxyFacadeInstance tests if the provided facade is labeled as a proxy instance.
+   * Facade proxy instances contain an object key to label them as such.
+   * @param facade The facade object to evaluate
+   */
+  isProxyFacadeInstance(facade: any) {
+    return !!facade?.[PROXY_FACADE_INSTANCE_PROP];
   }
 }

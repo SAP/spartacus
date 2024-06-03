@@ -1,14 +1,21 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { from, Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { catchError, groupBy, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
+import { LoggerService } from '../../../logger';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
 import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import { serializePageContext } from '../../utils/cms-utils';
@@ -16,6 +23,8 @@ import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class ComponentsEffects {
+  protected logger = inject(LoggerService);
+
   constructor(
     private actions$: Actions,
     private cmsComponentConnector: CmsComponentConnector
@@ -46,7 +55,7 @@ export class ComponentsEffects {
               mergeMap((actions) =>
                 this.loadComponentsEffect(
                   actions.map((action) => action.payload.uid),
-                  actions[0].payload.pageContext
+                  actions[0].payload.pageContext ?? { id: '' }
                 )
               )
             )
@@ -77,7 +86,7 @@ export class ComponentsEffects {
               pageContext,
             })
           );
-          uidsLeft.delete(component.uid);
+          uidsLeft.delete(component.uid ?? '');
         }
         // we have to emit LoadCmsComponentFail for all component's uids that
         // are missing from the response
@@ -97,7 +106,7 @@ export class ComponentsEffects {
             (uid) =>
               new CmsActions.LoadCmsComponentFail({
                 uid,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
                 pageContext,
               })
           )

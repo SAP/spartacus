@@ -1,0 +1,26 @@
+%MultiStepCheckoutSummaryPageTemplate {
+  cx-page-slot {
+    &.SideContent {
+      cx-schedule-replenishment-order {
+        @include media-breakpoint-down(md) {
+          width: 50%;
+        }
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+      }
+
+      cx-schedule-replenishment-order {
+        flex: unset;
+        padding-top: 1rem;
+        padding-inline-start: 2.5rem;
+        padding-bottom: 0;
+        padding-inline-end: 0;
+
+        @include media-breakpoint-down(md) {
+          padding: 1rem 0 0 0;
+        }
+      }
+    }
+  }
+}

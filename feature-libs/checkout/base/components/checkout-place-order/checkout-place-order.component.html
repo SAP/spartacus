@@ -1,0 +1,41 @@
+<form class="cx-place-order-form form-check" [formGroup]="checkoutSubmitForm">
+  <div class="form-group">
+    <label>
+      <input
+        formControlName="termsAndConditions"
+        class="scaled-input form-check-input"
+        required="true"
+        type="checkbox"
+      />
+      <span class="form-check-label">
+        {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
+        <a
+          [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
+          class="cx-tc-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
+        </a>
+        <abbr
+          *cxFeature="'a11yRequiredAsterisks'"
+          class="text-decoration-none"
+          title="{{ 'common.required' | cxTranslate }}"
+          >*</abbr
+        >
+        <cx-form-errors
+          [control]="checkoutSubmitForm.get('termsAndConditions')"
+        ></cx-form-errors>
+      </span>
+    </label>
+  </div>
+
+  <button
+    (click)="submitForm()"
+    class="btn btn-primary btn-block"
+    [disabled]="termsAndConditionInvalid"
+    [cxAtMessage]="'checkoutReview.orderInProcess' | cxTranslate"
+  >
+    {{ 'checkoutReview.placeOrder' | cxTranslate }}
+  </button>
+</form>

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   HttpEvent,
   HttpHandler,
@@ -5,19 +11,20 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import { Injectable, isDevMode } from '@angular/core';
-import { OccEndpointsService, WindowRef } from '@spartacus/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { LoggerService, OccEndpointsService, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { PersonalizationConfig } from '../config/personalization-config';
-
-const PERSONALIZATION_TIME_KEY = 'personalization-time';
 
 @Injectable({ providedIn: 'root' })
 export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
   private timestamp?: string | null;
   private requestHeader?: string;
   private enabled = false;
+  protected readonly PERSONALIZATION_TIME_KEY = 'personalization-time';
+
+  protected logger = inject(LoggerService);
 
   constructor(
     private config: PersonalizationConfig,
@@ -31,17 +38,19 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
 
       if (this.enabled) {
         if (!this.config.personalization?.httpHeaderName && isDevMode()) {
-          console.warn(
+          this.logger.warn(
             `There is no httpHeaderName configured in Personalization`
           );
         }
         this.requestHeader =
           this.config.personalization?.httpHeaderName?.timestamp.toLowerCase();
         this.timestamp = this.winRef.localStorage?.getItem(
-          PERSONALIZATION_TIME_KEY
+          this.PERSONALIZATION_TIME_KEY
         );
-      } else if (this.winRef.localStorage?.getItem(PERSONALIZATION_TIME_KEY)) {
-        this.winRef.localStorage.removeItem(PERSONALIZATION_TIME_KEY);
+      } else if (
+        this.winRef.localStorage?.getItem(this.PERSONALIZATION_TIME_KEY)
+      ) {
+        this.winRef.localStorage.removeItem(this.PERSONALIZATION_TIME_KEY);
       }
     }
   }
@@ -68,20 +77,19 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       tap((event) => {
-        if (event instanceof HttpResponse) {
-          if (
-            this.requestHeader &&
-            event.headers.keys().includes(this.requestHeader)
-          ) {
-            const receivedTimestamp = event.headers.get(this.requestHeader);
-            if (this.timestamp !== receivedTimestamp) {
-              this.timestamp = receivedTimestamp;
-              if (this.timestamp) {
-                this.winRef.localStorage?.setItem(
-                  PERSONALIZATION_TIME_KEY,
-                  this.timestamp
-                );
-              }
+        if (
+          event instanceof HttpResponse &&
+          this.requestHeader &&
+          event.headers.keys().includes(this.requestHeader)
+        ) {
+          const receivedTimestamp = event.headers.get(this.requestHeader);
+          if (this.timestamp !== receivedTimestamp) {
+            this.timestamp = receivedTimestamp;
+            if (this.timestamp) {
+              this.winRef.localStorage?.setItem(
+                this.PERSONALIZATION_TIME_KEY,
+                this.timestamp
+              );
             }
           }
         }
@@ -89,3 +97,5 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
     );
   }
 }
+
+// CHECK SONAR

@@ -1,9 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   COLLAPSE_MENU_IF_CLICK_OUTSIDE,
-  SPARTACUS_STOREFRONTLIB,
   STOREFRONT_COMPONENT,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/storefrontlib/layout/main/storefront.component.ts

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ProductScope } from '../../../product/model/product-scope';
 import { OccConfig } from '../../config/occ-config';
 
@@ -11,7 +17,13 @@ export const defaultOccProductConfig: OccConfig = {
           list: 'products/${productCode}?fields=code,name,summary,price(formattedValue),images(DEFAULT,galleryIndex),baseProduct',
           details:
             'products/${productCode}?fields=averageRating,stock(DEFAULT),description,availableForPickup,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,tags,images(FULL)',
+          promotions:
+            'products/${productCode}?fields=potentialPromotions(description)',
           attributes: 'products/${productCode}?fields=classifications',
+          price: 'products/${productCode}?fields=price(formattedValue)',
+          stock: 'products/${productCode}?fields=stock(DEFAULT)',
+          list_item:
+            'products/${productCode}?fields=code,name,price(formattedValue),images(DEFAULT),baseProduct',
         },
 
         productReviews: 'products/${productCode}/reviews',
@@ -22,7 +34,7 @@ export const defaultOccProductConfig: OccConfig = {
           'products/${productCode}/references?fields=DEFAULT,references(target(images(FULL)))',
         /* eslint-disable max-len */
         productSearch:
-          'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery',
+          'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery,keywordRedirectUrl',
         /* eslint-enable */
         productSuggestions: 'products/suggestions',
       },

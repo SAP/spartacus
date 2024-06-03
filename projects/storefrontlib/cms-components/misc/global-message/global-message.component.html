@@ -1,5 +1,11 @@
 <div *ngIf="messages$ | async as messages">
   <div
+    class="cx-visually-hidden"
+    *ngFor="let assistiveMsg of messages[messageType.MSG_TYPE_ASSISTIVE]"
+  >
+    <span>{{ assistiveMsg | cxTranslate }}</span>
+  </div>
+  <div
     class="alert alert-success"
     *ngFor="
       let confMsg of messages[messageType.MSG_TYPE_CONFIRMATION];

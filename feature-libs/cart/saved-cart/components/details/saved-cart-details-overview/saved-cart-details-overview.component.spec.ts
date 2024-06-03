@@ -1,14 +1,15 @@
-import { ElementRef, ViewContainerRef } from '@angular/core';
+import { DebugElement, ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Cart, I18nTestingModule, TranslationService } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/base/root';
+import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import {
   CardModule,
+  IconTestingModule,
   LaunchDialogService,
   LAUNCH_CALLER,
-  IconTestingModule,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview.component';
 
@@ -43,7 +44,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -51,6 +52,7 @@ describe('SavedCartDetailsOverviewComponent', () => {
   let component: SavedCartDetailsOverviewComponent;
   let fixture: ComponentFixture<SavedCartDetailsOverviewComponent>;
   let launchDialogService: LaunchDialogService;
+  let el: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -73,6 +75,7 @@ describe('SavedCartDetailsOverviewComponent', () => {
 
     fixture = TestBed.createComponent(SavedCartDetailsOverviewComponent);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
 
     launchDialogService = TestBed.inject(LaunchDialogService);
 
@@ -207,5 +210,15 @@ describe('SavedCartDetailsOverviewComponent', () => {
         layoutOption: 'edit',
       }
     );
+  });
+
+  describe('Accessibility', () => {
+    it("should contain button with 'aria-label' attribute", () => {
+      const editButton: HTMLButtonElement =
+        el.nativeElement.querySelector('.cx-edit-cart');
+
+      expect(editButton.attributes?.hasOwnProperty('aria-label')).toBe(true);
+      expect(editButton.ariaLabel).toEqual('savedCartDetails.editSavedCart');
+    });
   });
 });

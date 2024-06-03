@@ -2,7 +2,7 @@
   *ngIf="content"
   class="cx-card"
   [tabindex]="border ? 0 : -1"
-  role="region"
+  [attr.role]="content.role ?? null"
   [attr.aria-label]="
     content.label ? (content.label | cxTranslate: { number: this.index }) : null
   "
@@ -35,25 +35,50 @@
           {{ content.textBold }}
         </div>
         <div *ngFor="let line of content.text">
-          <div *ngIf="!truncateText; else truncate" class="cx-card-label">
-            {{ line }}
-          </div>
-
-          <ng-template #truncate>
-            <cx-truncate-text-popover
-              [charactersLimit]="charactersLimit"
-              [content]="line"
-            ></cx-truncate-text-popover>
-          </ng-template>
+          <ng-container
+            *ngTemplateOutlet="
+              showText;
+              context: {
+                content: content,
+                truncateText: truncateText,
+                charactersLimit: charactersLimit,
+                class: 'cx-card-label',
+                text: line
+              }
+            "
+          >
+          </ng-container>
         </div>
-        <div class="cx-card-paragraph" *ngFor="let item of content.paragraphs">
+        <div
+          class="cx-card-paragraph"
+          *ngFor="let item of content.paragraphs; trackBy: trackByIndex"
+        >
           <div class="cx-card-paragraph-title">{{ item.title }}</div>
           <div *ngFor="let text of item.text">
-            <div class="cx-card-paragraph-text">
+            <ng-container *cxFeature="'storeFrontLibCardParagraphTruncated'">
+              <ng-container
+                *ngTemplateOutlet="
+                  showText;
+                  context: {
+                    content: content,
+                    truncateText: truncateParagraphText,
+                    charactersLimit: charactersLimit,
+                    class: 'cx-card-paragraph-text',
+                    text: text
+                  }
+                "
+              >
+              </ng-container
+            ></ng-container>
+            <div
+              *cxFeature="'!storeFrontLibCardParagraphTruncated'"
+              class="cx-card-paragraph-text"
+            >
               {{ text }}
             </div>
           </div>
         </div>
+        <ng-content select="[label_container_bottom]"></ng-content>
       </div>
       <!-- Image -->
       <div *ngIf="content.img" class="cx-card-img-container">
@@ -63,7 +88,11 @@
     <!-- Edit Mode Actions -->
     <div *ngIf="editMode" class="row cx-card-body-delete">
       <div class="col-md-6">
-        <button class="btn btn-block btn-secondary" (click)="cancelEdit()">
+        <button
+          [cxAtMessage]="'assistiveMessage.actionCancelled' | cxTranslate"
+          class="btn btn-block btn-secondary"
+          (click)="cancelEdit()"
+        >
           {{ 'common.cancel' | cxTranslate }}
         </button>
       </div>
@@ -76,44 +105,48 @@
     <!-- Actions -->
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
       <div *ngFor="let action of content.actions">
-        <div [ngSwitch]="action.event">
-          <button
-            type="button"
-            *ngSwitchCase="'delete'"
-            class="link cx-action-link"
-            (click)="delete()"
-          >
-            {{ action.name }}
-          </button>
-          <button
-            type="button"
-            *ngSwitchCase="'default'"
-            class="link cx-action-link"
-            (click)="setDefault()"
-          >
-            {{ action.name }}
-          </button>
-          <button
-            type="button"
-            *ngSwitchCase="'send'"
-            class="link cx-action-link"
-            (click)="send()"
-            [attr.aria-describedby]="
-              index >= 0 ? 'content-header-' + index : ''
-            "
-          >
-            {{ action.name }}
-          </button>
-          <button
-            type="button"
-            *ngSwitchCase="'edit'"
-            class="link cx-action-link"
-            (click)="edit()"
-          >
-            {{ action.name }}
-          </button>
+        <div>
+          <ng-container *ngIf="isCardAction(action)" [ngSwitch]="action.event">
+            <button
+              type="button"
+              *ngSwitchCase="'delete'"
+              class="link cx-action-link"
+              (click)="delete()"
+            >
+              {{ action.name }}
+            </button>
+            <button
+              type="button"
+              *ngSwitchCase="'default'"
+              class="link cx-action-link"
+              (click)="setDefault()"
+            >
+              {{ action.name }}
+            </button>
+            <button
+              type="button"
+              *ngSwitchCase="'send'"
+              class="link cx-action-link"
+              (click)="send()"
+              [attr.aria-describedby]="
+                index >= 0 && content.header && !editMode
+                  ? 'content-header-' + index
+                  : null
+              "
+            >
+              {{ action.name }}
+            </button>
+            <button
+              type="button"
+              *ngSwitchCase="'edit'"
+              class="link cx-action-link"
+              (click)="edit()"
+            >
+              {{ action.name }}
+            </button>
+          </ng-container>
           <a
-            *ngSwitchDefault
+            *ngIf="isCardLinkAction(action)"
             href="{{ action.link }}"
             class="link cx-action-link"
           >
@@ -124,3 +157,23 @@
     </div>
   </div>
 </div>
+
+<ng-template
+  #showText
+  let-content="content"
+  let-truncateText="truncateText"
+  let-charactersLimit="charactersLimit"
+  let-class="class"
+  let-text="text"
+>
+  <div *ngIf="!truncateText" [class]="class" [ngClass]="content.customClass">
+    {{ text }}
+  </div>
+
+  <cx-truncate-text-popover
+    *ngIf="truncateText"
+    [charactersLimit]="charactersLimit"
+    [content]="text"
+    [customClass]="content.customClass || class"
+  ></cx-truncate-text-popover>
+</ng-template>

@@ -1,0 +1,33 @@
+<div class="cx-order-items container" *ngIf="order$ | async as order">
+  <!-- TODO: (CXSPA-6313) - Remove feature flag next major release -->
+  <h3
+    *cxFeature="'a11yOrderConfirmationHeadingOrder'"
+    class="cx-order-items-header"
+  >
+    {{ 'checkoutOrderConfirmation.orderItems' | cxTranslate }}
+  </h3>
+  <h4
+    *cxFeature="'!a11yOrderConfirmationHeadingOrder'"
+    class="cx-order-items-header"
+  >
+    {{ 'checkoutOrderConfirmation.orderItems' | cxTranslate }}
+  </h4>
+
+  <cx-promotions
+    [promotions]="order.appliedOrderPromotions || []"
+  ></cx-promotions>
+
+  <ng-template
+    [cxAbstractOrderContext]="{
+      id: order.code,
+      type: abstractOrderType.ORDER
+    }"
+    [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+    [cxOutletContext]="{
+      items: order.entries,
+      readonly: true,
+      promotionLocation: promotionLocation
+    }"
+  >
+  </ng-template>
+</div>

@@ -7,6 +7,7 @@ import { IconConfig, IconResourceType, ICON_TYPE } from './icon.model';
 
 const FONT_AWESOME_RESOURCE =
   'https://use.fontawesome.com/releases/v5.8.1/css/all.css';
+const DIFFERENT_FONT_RESOURCE = 'different-font.css';
 const MockFontIconConfig: IconConfig = {
   icon: {
     symbols: {
@@ -18,6 +19,7 @@ const MockFontIconConfig: IconConfig = {
       CART: 'cartSymbol',
       INFO: 'infoSymbol',
       HAPPY: '😊',
+      HTML_IMG: '<img scr="./assets/sprite.svg">',
     },
     resources: [
       {
@@ -40,12 +42,12 @@ const MockFontIconConfig: IconConfig = {
       },
       {
         type: IconResourceType.LINK,
-        url: 'different-font.css',
+        url: DIFFERENT_FONT_RESOURCE,
         types: ['MASTERCARD'],
       },
       {
         type: IconResourceType.TEXT,
-        types: ['HAPPY'],
+        types: ['HAPPY', 'HTML_IMG'],
       },
     ],
     flipDirection: {
@@ -87,31 +89,62 @@ describe('IconLoaderService', () => {
   });
 
   describe('Linked resources', () => {
+    function getElements(querySelector: string): HTMLElement[] {
+      return Array.from(winRef.document.querySelectorAll(querySelector));
+    }
+
+    afterEach(() => {
+      // cleanup previous runs
+      getElements('link[rel=stylesheet]')
+        .filter((link) =>
+          [FONT_AWESOME_RESOURCE, DIFFERENT_FONT_RESOURCE].includes(
+            link.getAttribute('href') ?? ''
+          )
+        )
+        .forEach((link) => {
+          link.remove();
+        });
+    });
+
     it('should add the font resource', () => {
-      spyOn<any>(winRef.document, 'createElement').and.callThrough();
       service.addLinkResource(ICON_TYPE.VISA);
-      expect(winRef.document.createElement).toHaveBeenCalledWith('link');
+
+      const actual = getElements('link[rel=stylesheet]').find(
+        (link) => link.getAttribute('href') === FONT_AWESOME_RESOURCE
+      );
+      expect(actual).toBeDefined();
     });
 
     it('should not add the font resource for the same font icon', () => {
-      spyOn<any>(winRef.document, 'createElement').and.callThrough();
       service.addLinkResource(ICON_TYPE.VISA);
       service.addLinkResource(ICON_TYPE.VISA);
-      expect(winRef.document.createElement).toHaveBeenCalledTimes(1);
+
+      const actual = getElements('link[rel=stylesheet]').filter(
+        (link) => link.getAttribute('href') === FONT_AWESOME_RESOURCE
+      );
+      expect(actual.length).toBe(1);
     });
 
     it('should not add the same font resource for fonts with the same font resource', () => {
-      spyOn<any>(winRef.document, 'createElement').and.callThrough();
       service.addLinkResource(ICON_TYPE.VISA);
       service.addLinkResource('PAYPAL');
-      expect(winRef.document.createElement).toHaveBeenCalledTimes(1);
+
+      const actual = getElements('link[rel=stylesheet]').filter(
+        (link) => link.getAttribute('href') === FONT_AWESOME_RESOURCE
+      );
+      expect(actual.length).toBe(1);
     });
 
     it('should add 2 fonts resources for the different fonts', () => {
-      spyOn<any>(winRef.document, 'createElement').and.callThrough();
       service.addLinkResource(ICON_TYPE.VISA);
       service.addLinkResource('MASTERCARD');
-      expect(winRef.document.createElement).toHaveBeenCalledTimes(2);
+
+      const actual = getElements('link[rel=stylesheet]').filter((link) =>
+        [FONT_AWESOME_RESOURCE, DIFFERENT_FONT_RESOURCE].includes(
+          link.getAttribute('href') ?? ''
+        )
+      );
+      expect(actual.length).toBe(2);
     });
   });
 
@@ -135,6 +168,12 @@ describe('IconLoaderService', () => {
       spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
       service.getHtml('HAPPY');
       expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalled();
+    });
+
+    it(`should have converted HTML tag into text for text icon`, () => {
+      expect((service.getHtml('HTML_IMG') as any).toString()).toContain(
+        '&lt;img'
+      );
     });
 
     it('should have bypassed HTML sanitizing for sprited SVG', () => {

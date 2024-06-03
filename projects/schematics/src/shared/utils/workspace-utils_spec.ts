@@ -14,7 +14,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { SPARTACUS_CORE } from '../../shared/constants';
+import { SPARTACUS_CORE, SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
   buildDefaultPath,
   getAngularJsonFile,
@@ -30,7 +30,10 @@ import {
 } from './workspace-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
-const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+const schematicRunner = new SchematicTestRunner(
+  SPARTACUS_SCHEMATICS,
+  collectionPath
+);
 
 describe('Workspace utils', () => {
   let appTree: UnitTestTree;
@@ -42,10 +45,10 @@ describe('Workspace utils', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
@@ -54,24 +57,24 @@ describe('Workspace utils', () => {
   };
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
   });
 
   describe('getSourceRoot', () => {
@@ -85,14 +88,13 @@ describe('Workspace utils', () => {
     it('should return data about project', async () => {
       const workspaceInfo = getWorkspace(appTree);
       expect(workspaceInfo.path).toEqual('/angular.json');
-      expect(workspaceInfo.workspace.defaultProject).toEqual(appOptions.name);
     });
   });
 
   describe('getAngularJsonFile', () => {
     it('should return workspace', async () => {
       const workspace = getAngularJsonFile(appTree);
-      expect(workspace.defaultProject).toEqual(appOptions.name);
+      expect(workspace).not.toBeUndefined();
     });
 
     it('should throw an error if Angular not found', async () => {
@@ -259,7 +261,7 @@ describe('Workspace utils', () => {
       ).toThrowError(
         new SchematicsException(
           `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
-    To see more options, please check our documentation.`
+    To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
         )
       );
     });

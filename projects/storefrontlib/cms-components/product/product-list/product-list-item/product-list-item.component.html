@@ -1,25 +1,42 @@
 <div class="row">
   <div class="col-12 col-md-4">
     <a
+      [attr.aria-label]="
+        !product.images?.hasOwnProperty('PRIMARY')
+          ? ('productDetails.noProductImage'
+            | cxTranslate: { product: product.name })
+          : undefined
+      "
       [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
       class="cx-product-image-container"
-      tabindex="-1"
     >
       <cx-media
         class="cx-product-image"
         [container]="product.images?.PRIMARY"
         format="product"
-        [alt]="product.summary ?? product.name"
+        [alt]="product.name || product.summary"
       ></cx-media>
     </a>
   </div>
   <div class="col-12 col-md-8">
-    <a
-      [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
-      class="cx-product-name"
-    >
-      <h2 [innerHtml]="product.nameHtml"></h2>
-    </a>
+    <ng-container *cxFeature="'a11yExpandedFocusIndicator'">
+      <h2 class="cx-product-name">
+        <a
+          [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+          [innerHtml]="product.nameHtml"
+        ></a>
+      </h2>
+    </ng-container>
+
+    <!-- TODO: (CXSPA-5709) Remove feature flag next major -->
+    <ng-container *cxFeature="'!a11yExpandedFocusIndicator'">
+      <a
+        [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+        class="cx-product-name"
+      >
+        <h2 [innerHtml]="product.nameHtml"></h2>
+      </a>
+    </ng-container>
 
     <ng-template [cxOutlet]="ProductListOutlets.ITEM_DETAILS">
       <cx-star-rating
@@ -38,18 +55,14 @@
     </ng-template>
 
     <div class="row">
-      <div class="col-12 col-md-8">
+      <div class="col-12 col-md-7 col-xl-7">
         <p class="cx-product-summary" [innerHtml]="product.summary">
           {{ product.summary }}
         </p>
       </div>
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-5 col-xl-5">
         <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
-          <cx-add-to-cart
-            *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
-            [showQuantity]="false"
-            [product]="product"
-          ></cx-add-to-cart>
+          <ng-container cxInnerComponentsHost></ng-container>
         </ng-template>
       </div>
     </div>

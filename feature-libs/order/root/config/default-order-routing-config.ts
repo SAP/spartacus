@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { RoutingConfig } from '@spartacus/core';
 
 export const defaultOrderRoutingConfig: RoutingConfig = {
@@ -41,6 +47,8 @@ export const defaultOrderRoutingConfig: RoutingConfig = {
         paths: ['my-account/my-replenishment/:replenishmentOrderCode'],
         paramsMapping: { replenishmentOrderCode: 'replenishmentOrderCode' },
       },
+      replenishmentConfirmation: { paths: ['replenishment/confirmation'] },
+      orderConfirmation: { paths: ['order-confirmation'] },
     },
   },
 };

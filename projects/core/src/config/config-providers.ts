@@ -1,4 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { FactoryProvider, ValueProvider } from '@angular/core';
+import { ConfigFactory } from './config-factory';
 import { Config, ConfigChunk, DefaultConfigChunk } from './config-tokens';
 
 /**
@@ -28,7 +35,7 @@ export function provideConfig(
  * @param deps Optional dependencies to a factory function
  */
 export function provideConfigFactory(
-  configFactory: Function,
+  configFactory: ConfigFactory,
   deps?: any[],
   defaultConfig = false
 ): FactoryProvider {
@@ -60,7 +67,7 @@ export function provideDefaultConfig(config: Config = {}): ValueProvider {
  * @param deps Optional dependencies to a factory function
  */
 export function provideDefaultConfigFactory(
-  configFactory: Function,
+  configFactory: ConfigFactory,
   deps?: any[]
 ): FactoryProvider {
   return {

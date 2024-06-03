@@ -10,24 +10,26 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_TRACKING_PERSONALIZATION_FEATURE,
-  CLI_TRACKING_TMS_AEP_FEATURE,
-  CLI_TRACKING_TMS_GTM_FEATURE,
-  LibraryOptions as SpartacusTrackingOptions,
-  SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_TRACKING,
+  SpartacusOptions,
+  LibraryOptions as SpartacusTrackingOptions,
+  TRACKING_PERSONALIZATION_FEATURE_NAME,
+  TRACKING_TMS_AEP_FEATURE_NAME,
+  TRACKING_TMS_GTM_FEATURE_NAME,
+  trackingPersonalizationFeatureModulePath,
+  trackingTagManagementFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const personalizationModulePath =
-  'src/app/spartacus/features/tracking/personalization-feature.module.ts';
-const tagManagementModulePath =
-  'src/app/spartacus/features/tracking/tag-management-feature.module.ts';
 
 describe('Spartacus Tracking schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_TRACKING,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -40,10 +42,10 @@ describe('Spartacus Tracking schematics: ng-add', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -60,17 +62,17 @@ describe('Spartacus Tracking schematics: ng-add', () => {
 
   const personalizationFeatureOptions: SpartacusTrackingOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_TRACKING_PERSONALIZATION_FEATURE],
+    features: [TRACKING_PERSONALIZATION_FEATURE_NAME],
   };
 
   const gtmFeatureOptions: SpartacusTrackingOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_TRACKING_TMS_GTM_FEATURE],
+    features: [TRACKING_TMS_GTM_FEATURE_NAME],
   };
 
   const aepFeatureOptions: SpartacusTrackingOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_TRACKING_TMS_AEP_FEATURE],
+    features: [TRACKING_TMS_AEP_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -79,41 +81,43 @@ describe('Spartacus Tracking schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        libraryNoFeaturesOptions,
+        appTree
+      );
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(personalizationModulePath)).toBeFalsy();
-      expect(appTree.exists(tagManagementModulePath)).toBeFalsy();
+      expect(
+        appTree.exists(trackingPersonalizationFeatureModulePath)
+      ).toBeFalsy();
+      expect(
+        appTree.exists(trackingTagManagementFeatureModulePath)
+      ).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -145,14 +149,16 @@ describe('Spartacus Tracking schematics: ng-add', () => {
   describe('Personalization feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', personalizationFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          personalizationFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
         const personalizationModule = appTree.readContent(
-          personalizationModulePath
+          trackingPersonalizationFeatureModulePath
         );
         expect(personalizationModule).toMatchSnapshot();
       });
@@ -160,20 +166,20 @@ describe('Spartacus Tracking schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...personalizationFeatureOptions,
-              lazy: false,
-            },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          {
+            ...personalizationFeatureOptions,
+            lazy: false,
+          },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(personalizationModulePath);
+        const module = appTree.readContent(
+          trackingPersonalizationFeatureModulePath
+        );
         expect(module).toMatchSnapshot();
       });
     });
@@ -182,14 +188,16 @@ describe('Spartacus Tracking schematics: ng-add', () => {
   describe('Tag Management feature', () => {
     describe('GTM', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', gtmFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          gtmFeatureOptions,
+          appTree
+        );
       });
       describe('general setup', () => {
         it('should import appropriate modules (without lazy loaded syntax)', async () => {
           const tagManagementModule = appTree.readContent(
-            tagManagementModulePath
+            trackingTagManagementFeatureModulePath
           );
           expect(tagManagementModule).toMatchSnapshot();
         });
@@ -198,15 +206,17 @@ describe('Spartacus Tracking schematics: ng-add', () => {
 
     describe('AEP', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', aepFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          aepFeatureOptions,
+          appTree
+        );
       });
 
       describe('general setup', () => {
         it('should import appropriate modules (without lazy loaded syntax)', async () => {
           const tagManagementModule = appTree.readContent(
-            tagManagementModulePath
+            trackingTagManagementFeatureModulePath
           );
           expect(tagManagementModule).toMatchSnapshot();
         });
@@ -215,25 +225,23 @@ describe('Spartacus Tracking schematics: ng-add', () => {
 
     describe('GTM and AEP', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...libraryNoFeaturesOptions,
-              features: [
-                CLI_TRACKING_TMS_GTM_FEATURE,
-                CLI_TRACKING_TMS_AEP_FEATURE,
-              ],
-            },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          {
+            ...libraryNoFeaturesOptions,
+            features: [
+              TRACKING_TMS_GTM_FEATURE_NAME,
+              TRACKING_TMS_AEP_FEATURE_NAME,
+            ],
+          },
+          appTree
+        );
       });
 
       describe('general setup', () => {
         it('should import appropriate modules (without lazy loaded syntax)', async () => {
           const tagManagementModule = appTree.readContent(
-            tagManagementModulePath
+            trackingTagManagementFeatureModulePath
           );
           expect(tagManagementModule).toMatchSnapshot();
         });

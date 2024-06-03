@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-s4om/index#addS4OMFeature",
+      "description": "Add and configure Spartacus' S/4 HANA Synchronous Order Management feature",
+      "schema": "./add-s4om/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add-spartacus-library": {
+      "description": "Install a spartacus library",
+      "factory": "./add-library/index#addSpartacusLibrary",
+      "private": true,
+      "hidden": true
+    },
+    "add": {
+      "factory": "./add-s4om/index#addS4OMFeature",
+      "description": "Add and configure Spartacus' S/4 HANA Synchronous Order Management feature",
+      "schema": "./add-s4om/schema.json"
+    }
+  }
+}

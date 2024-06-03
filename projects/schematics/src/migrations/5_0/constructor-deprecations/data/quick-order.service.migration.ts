@@ -1,13 +1,21 @@
-import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ACTIVE_CART_SERVICE,
   EVENT_SERVICE,
   PRODUCT_ADAPTER,
   PRODUCT_SEARCH_CONNECTOR,
   QUICK_ORDER_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CART_QUICK_ORDER_CORE,
   SPARTACUS_CORE,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
+import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const QUICK_ORDER_SERVICE_MIGRATION: ConstructorDeprecation = {
   // feature-libs/cart/quick-order/core/services/quick-order.service.ts

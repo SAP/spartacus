@@ -1,6 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpErrorModel } from '../model/misc.model';
 import { isDevMode } from '@angular/core';
+import { LoggerService } from '../logger';
+import { HttpErrorModel } from '../model/misc.model';
 
 /**
  * Normalizes HttpErrorResponse to HttpErrorModel.
@@ -11,8 +18,13 @@ import { isDevMode } from '@angular/core';
  * (which usually happens when logic in NgRx Effect is not sealed correctly)
  */
 export function normalizeHttpError(
-  error: HttpErrorResponse | any
+  error: HttpErrorResponse | HttpErrorModel | any,
+  logger: LoggerService
 ): HttpErrorModel | undefined {
+  if (error instanceof HttpErrorModel) {
+    return error;
+  }
+
   if (error instanceof HttpErrorResponse) {
     const normalizedError = new HttpErrorModel();
     normalizedError.message = error.message;
@@ -36,10 +48,9 @@ export function normalizeHttpError(
   }
 
   if (isDevMode()) {
-    console.error(
-      'Error passed to normalizeHttpError is not HttpErrorResponse instance',
-      error
-    );
+    const logMessage =
+      'Error passed to normalizeHttpError is not HttpErrorResponse instance';
+    logger.error(logMessage, error);
   }
 
   return undefined;

@@ -1,12 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CONTEXT,
   PAGE_EVENT,
   PARAMS,
   SEMANTIC_ROUTE,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
   URL,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/storefrontlib/events/page/page.events.ts

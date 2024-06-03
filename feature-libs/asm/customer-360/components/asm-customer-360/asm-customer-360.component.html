@@ -1,0 +1,220 @@
+<div
+  class="cx-asm-customer-360 cx-modal-container cx-asm-dialog"
+  [cxFocus]="focusConfig"
+  (esc)="closeModal('Escape clicked')"
+>
+  <!-- Modal Header -->
+  <div class="cx-modal-content">
+    <div class="cx-dialog-header modal-header">
+      <div class="header-title">
+        <h3 id="asm-customer-360-title" class="modal-title">
+          {{ 'asmCustomer360.header.title' | cxTranslate }}
+        </h3>
+        <div id="asm-customer-360-desc" class="cx-visually-hidden">
+          {{
+            'asmCustomer360.header.subTitle'
+              | cxTranslate: { name: customer.firstName }
+          }}
+        </div>
+        <ng-template *ngTemplateOutlet="closeButton"></ng-template>
+      </div>
+      <cx-message
+        *ngIf="errorAlert$ | async"
+        [text]="'asmCustomer360.alertErrorMessage' | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_ERROR"
+        (closeMessage)="closeErrorAlert()"
+      >
+      </cx-message>
+      <div
+        class="header-content"
+        *ngIf="customerOverview$ | async as customerOverview"
+      >
+        <div class="header-profile-details">
+          <div class="header-profile-details-info">
+            <ng-container
+              *ngIf="
+                getAvatarImage | cxArgs: customerOverview as avatarImage;
+                else customerTextAvatar
+              "
+            >
+              <div class="cx-avatar-image">
+                <cx-media [container]="avatarImage"></cx-media>
+              </div>
+            </ng-container>
+
+            <ng-template #customerTextAvatar>
+              <div class="cx-avatar">
+                {{ getAvatarText | cxArgs: customer }}
+              </div>
+            </ng-template>
+            <div class="cx-asm-customer-info ml-3">
+              <div class="cx-asm-customer-name">
+                {{
+                  'asmCustomer360.header.subTitle'
+                    | cxTranslate: { name: customerOverview?.name }
+                }}
+              </div>
+              <div class="cx-asm-customer-email">
+                {{ customerOverview?.email }}
+              </div>
+              <div
+                class="cx-asm-customer-address"
+                *ngIf="customerOverview?.address?.town"
+              >
+                {{ customerOverview.address.town }}
+              </div>
+            </div>
+          </div>
+          <div
+            class="header-profile-details-log"
+            *ngIf="customerOverview?.signedUpAt"
+          >
+            {{
+              'asmCustomer360.header.signedUpAt'
+                | cxTranslate
+                  : {
+                      date:
+                        customerOverview.signedUpAt
+                        | cxDate
+                          : asmCustomer360Config?.asmCustomer360?.dateFormat
+                    }
+            }}
+          </div>
+        </div>
+        <div class="header-account-details">
+          <span
+            class="header-account-details-active-cart"
+            *ngIf="customerOverview?.cartCode"
+          >
+            <cx-icon class="account-icon" [type]="cartIcon"></cx-icon>
+            {{
+              'asmCustomer360.header.activeCartLabel'
+                | cxTranslate: { cartSize: customerOverview?.cartSize }
+            }}
+            <button
+              [attr.aria-label]="
+                'asmCustomer360.aria.activeCartCode'
+                  | cxTranslate: { code: customerOverview.cartCode }
+              "
+              class="cx-overview-title-link link"
+              (click)="navigateTo({ cxRoute: 'cart' })"
+            >
+              {{ customerOverview.cartCode }}
+            </button>
+          </span>
+          <span
+            class="header-account-details-recent-order"
+            *ngIf="customerOverview?.latestOrderCode"
+          >
+            <cx-icon class="account-icon" [type]="orderIcon"></cx-icon>
+            {{
+              'asmCustomer360.header.recentOrderLabel'
+                | cxTranslate: { price: customerOverview?.latestOrderTotal }
+            }}
+            <button
+              [attr.aria-label]="
+                'asmCustomer360.aria.recentOrderCode'
+                  | cxTranslate: { code: customerOverview.latestOrderCode }
+              "
+              class="cx-overview-title-link link"
+              (click)="
+                navigateTo({
+                  cxRoute: 'orderDetails',
+                  params: { code: customerOverview.latestOrderCode }
+                })
+              "
+            >
+              {{ customerOverview.latestOrderCode }}</button
+            >,
+            {{
+              customerOverview?.latestOrderTime
+                | cxDate: asmCustomer360Config?.asmCustomer360?.dateFormat
+            }}
+          </span>
+          <span
+            class="header-account-details-recent-ticket"
+            *ngIf="customerOverview?.latestOpenedTicketId"
+          >
+            <cx-icon class="account-icon" [type]="ticketIcon"></cx-icon>
+            {{ 'asmCustomer360.header.recentTicketLabel' | cxTranslate }}
+            <button
+              [attr.aria-label]="
+                'asmCustomer360.aria.recentOrderCode'
+                  | cxTranslate: { code: customerOverview.latestOpenedTicketId }
+              "
+              class="cx-overview-title-link link"
+              (click)="
+                navigateTo({
+                  cxRoute: 'supportTicketDetails',
+                  params: { ticketCode: customerOverview.latestOpenedTicketId }
+                })
+              "
+            >
+              {{ customerOverview.latestOpenedTicketId }}</button
+            >,
+            {{
+              customerOverview?.latestOpenedTicketCreatedAt
+                | cxDate: asmCustomer360Config?.asmCustomer360?.dateFormat
+            }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body">
+      <div class="cx-tab-headers" role="tablist">
+        <button
+          #tabHeaderItem
+          *ngFor="let tabHeader of tabs; let i = index"
+          class="cx-tab-header"
+          role="tab"
+          [attr.aria-selected]="activeTab === i"
+          attr.aria-controls="asm-customer-360-tab-panel"
+          (click)="selectTab(i)"
+          [class.active]="activeTab === i"
+          (keydown)="switchTab($event, i)"
+        >
+          {{ tabHeader.i18nNameKey | cxTranslate }}
+        </button>
+      </div>
+      <div id="asm-customer-360-tab-panel" class="cx-tab-content modal-body">
+        <ng-container *ngIf="showErrorTab$ | async; else tabContent">
+          <div class="cx-tab-error">
+            <div class="cx-tab-error-image"></div>
+            <div class="cx-tab-error-header">
+              {{ 'asmCustomer360.errorMessageHeader' | cxTranslate }}
+            </div>
+            <div class="cx-tab-error-message">
+              {{ 'asmCustomer360.alertErrorMessage' | cxTranslate }}
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #tabContent>
+          <ng-container
+            *ngIf="asmCustomer360Tabs$ | async as asmCustomer360Tabs"
+          >
+            <cx-asm-customer-360-section
+              *ngFor="let config of currentTab?.components; let i = index"
+              [component]="config.component"
+              [config]="config.config"
+              [data]="asmCustomer360Tabs?.[i]"
+              (navigate)="navigateTo($event)"
+            ></cx-asm-customer-360-section>
+          </ng-container>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #closeButton>
+  <button
+    type="button"
+    class="close"
+    attr.aria-label="{{ 'common.close' | cxTranslate }}"
+    (click)="closeModal('Cross click')"
+  >
+    <cx-icon [type]="closeIcon"></cx-icon>
+  </button>
+</ng-template>

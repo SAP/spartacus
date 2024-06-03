@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
   noop,
@@ -12,7 +18,6 @@ export default function (options: SpartacusOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
     return chain([
       schematic('add-spartacus', options),
-      options.pwa ? schematic('add-pwa', options) : noop(),
       options.ssr ? schematic('add-ssr', options) : noop(),
     ])(host, context);
   };

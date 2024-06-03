@@ -26,8 +26,8 @@
       </ng-container>
       <ng-template #loggedIn>
         {{ 'stockNotification.getNotify' | cxTranslate }}<br />
-        {{ 'stockNotification.activateChannelsPrefix' | cxTranslate
-        }}<a [routerLink]="['/my-account/notification-preference']">{{
+        {{ 'stockNotification.activateChannelsPrefix' | cxTranslate }}
+        <a [routerLink]="{ cxRoute: 'notificationPreference' } | cxUrl">{{
           'stockNotification.channelsLink' | cxTranslate
         }}</a
         >{{ 'stockNotification.activateChannelsSuffix' | cxTranslate }}
@@ -37,8 +37,9 @@
   <button
     class="btn btn-primary btn-block btn-notify"
     type="button"
-    disabled="true"
+    [attr.disabled]="anonymous ? true : null"
     aria-describedby="outOfStockMessage"
+    (click)="subscribe()"
   >
     {{ 'stockNotification.notifyMe' | cxTranslate }}
   </button>
@@ -46,6 +47,7 @@
 
 <ng-template #stopNotify>
   <ng-container *ngIf="!(isRemoveInterestLoading$ | async); else loading">
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <div class="stock-notification-notes">
       <p>{{ 'stockNotification.notified' | cxTranslate }}</p>
     </div>

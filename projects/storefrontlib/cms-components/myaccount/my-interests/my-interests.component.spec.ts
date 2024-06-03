@@ -1,16 +1,18 @@
 import {
   Component,
   DebugElement,
+  Directive,
   EventEmitter,
   Input,
   Output,
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  GlobalMessageService,
   I18nTestingModule,
   ImageType,
   NotificationType,
@@ -24,6 +26,7 @@ import {
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
+import { MockFeatureLevelDirective } from '../../../shared/test/mock-feature-level-directive';
 import { MyInterestsComponent } from './my-interests.component';
 
 @Component({
@@ -75,11 +78,23 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  remove() {}
+  add() {}
+}
+
 @Component({
   selector: 'cx-spinner',
   template: '',
 })
 class MockSpinnerComponent {}
+
+@Directive({
+  selector: '[cxAtMessage]',
+})
+class MockAtMessageDirective {
+  @Input() cxAtMessage: string | string[] | undefined;
+}
 
 const p553637$: Observable<Product> = of({
   code: '553637',
@@ -204,6 +219,7 @@ describe('MyInterestsComponent', () => {
           { provide: LayoutConfig, useValue: MockLayoutConfig },
           { provide: UserInterestsService, useValue: productInterestService },
           { provide: ProductService, useValue: productService },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
         declarations: [
           MyInterestsComponent,
@@ -212,6 +228,8 @@ describe('MyInterestsComponent', () => {
           MockSpinnerComponent,
           MockPaginationComponent,
           MockSortingComponent,
+          MockFeatureLevelDirective,
+          MockAtMessageDirective,
         ],
       }).compileComponents();
     })
@@ -240,6 +258,13 @@ describe('MyInterestsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should display header', () => {
+    fixture.detectChanges();
+    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+      'myInterests.header'
+    );
+  });
+
   it('should show loading spinner when data is loading', () => {
     productInterestService.getProdutInterestsLoading.and.returnValue(of(true));
     fixture.detectChanges();
@@ -260,41 +285,44 @@ describe('MyInterestsComponent', () => {
     productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
     fixture.detectChanges();
 
-    expect(el.queryAll(By.css('.cx-product-interests-title')).length).toEqual(
-      1
-    );
+    const table = el.query(By.css('.cx-product-interests-table'));
+    expect(table).toBeTruthy();
+
+    expect(el.query(By.css('.cx-product-interests-title'))).toBeTruthy();
     expect(el.queryAll(By.css('cx-sorting')).length).toEqual(2);
     expect(el.queryAll(By.css('cx-pagination')).length).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-product-item')).length
+      table.queryAll(By.css('.cx-product-interests-product-item')).length
     ).toEqual(2);
-    expect(el.queryAll(By.css('cx-media')).length).toEqual(2);
+    expect(table.queryAll(By.css('cx-media')).length).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-product-image-link')).length
+      table.queryAll(By.css('.cx-product-interests-product-image-link')).length
     ).toEqual(2);
-    expect(el.queryAll(By.css('.cx-name')).length).toEqual(2);
+    expect(table.queryAll(By.css('.cx-name')).length).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-product-code-link')).length
+      table.queryAll(By.css('.cx-product-interests-product-code-link')).length
     ).toEqual(2);
-    expect(el.queryAll(By.css('.cx-code')).length).toEqual(2);
+    expect(table.queryAll(By.css('.cx-code')).length).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-variant-name')).length
-    ).toEqual(2);
-    expect(
-      el.queryAll(By.css('.cx-product-interests-variant-value')).length
+      table.queryAll(By.css('.cx-product-interests-variant-name')).length
     ).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-product-stock')).length
+      table.queryAll(By.css('.cx-product-interests-variant-value')).length
     ).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-product-price')).length
-    ).toEqual(2);
-    expect(el.queryAll(By.css('.cx-product-interests-type')).length).toEqual(2);
-    expect(
-      el.queryAll(By.css('.cx-product-interests-expiration-date')).length
+      table.queryAll(By.css('.cx-product-interests-product-stock')).length
     ).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-remove-btn')).length
+      table.queryAll(By.css('.cx-product-interests-product-price')).length
+    ).toEqual(2);
+    expect(table.queryAll(By.css('.cx-product-interests-type')).length).toEqual(
+      2
+    );
+    expect(
+      table.queryAll(By.css('.cx-product-interests-expiration-date')).length
+    ).toEqual(2);
+    expect(
+      table.queryAll(By.css('.cx-product-interests-remove-btn')).length
     ).toEqual(2);
   });
 

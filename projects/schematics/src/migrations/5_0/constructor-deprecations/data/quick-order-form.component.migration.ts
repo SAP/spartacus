@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ANGULAR_CORE,
   CHANGE_DETECTOR_REF,
@@ -5,11 +11,13 @@ import {
   GLOBAL_MESSAGE_SERVICE,
   QUICK_ORDER_FACADE,
   QUICK_ORDER_FORM_COMPONENT,
+  WINDOW_REF,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CART_QUICK_ORDER_COMPONENTS,
   SPARTACUS_CART_QUICK_ORDER_ROOT,
   SPARTACUS_CORE,
-  WINDOW_REF,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const QUICK_ORDER_FORM_COMPONENT_MIGRATION: ConstructorDeprecation = {

@@ -1,19 +1,9 @@
-import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { Cart, Order } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
+import { OutletModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailTotalsComponent } from './order-detail-totals.component';
-
-@Component({
-  selector: 'cx-order-summary',
-  template: '',
-})
-class MockOrderSummaryComponent {
-  @Input()
-  cart: Cart;
-}
 
 const mockOrder: Order = {
   code: '1',
@@ -62,7 +52,6 @@ describe('OrderDetailTotalsComponent', () => {
   let component: OrderDetailTotalsComponent;
   let fixture: ComponentFixture<OrderDetailTotalsComponent>;
   let mockOrderDetailsService: OrderDetailsService;
-  let el: DebugElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -73,17 +62,17 @@ describe('OrderDetailTotalsComponent', () => {
       };
 
       TestBed.configureTestingModule({
+        imports: [OutletModule],
         providers: [
           { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         ],
-        declarations: [OrderDetailTotalsComponent, MockOrderSummaryComponent],
+        declarations: [OrderDetailTotalsComponent],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailTotalsComponent);
-    el = fixture.debugElement;
 
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -102,11 +91,5 @@ describe('OrderDetailTotalsComponent', () => {
       })
       .unsubscribe();
     expect(order).toEqual(mockOrder);
-  });
-
-  it('should order details order summary be rendered', () => {
-    fixture.detectChanges();
-    const element: DebugElement = el.query(By.css('cx-order-summary'));
-    expect(element).toBeTruthy();
   });
 });

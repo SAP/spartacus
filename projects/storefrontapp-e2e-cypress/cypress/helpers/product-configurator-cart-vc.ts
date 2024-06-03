@@ -1,15 +1,13 @@
-import { user } from '../sample-data/checkout-flow';
-import {
-  AddressData,
-  fillPaymentDetails,
-  fillShippingAddress,
-  PaymentDetails,
-} from './checkout-forms';
-import * as configurationCart from './product-configurator-cart';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-const shippingAddressData: AddressData = user;
-const billingAddress: AddressData = user;
-const paymentDetailsData: PaymentDetails = user;
+import * as checkoutForms from './checkout-forms';
+import * as checkout from './checkout-flow';
+import * as configurationCart from './product-configurator-cart';
+import { SampleUser } from '../sample-data/checkout-flow';
 
 /**
  * Verifies whether the issues banner is displayed.
@@ -19,11 +17,12 @@ const paymentDetailsData: PaymentDetails = user;
  */
 export function checkNotificationBanner(
   element,
+  cartItemIndex: number,
   numberOfIssues?: number
 ): void {
   const resolveIssuesText = 'must be resolved before checkout.  Resolve Issues';
   element
-    .get('#cx-error-msg')
+    .get(`#cx-error-msg-${cartItemIndex}`)
     .first()
     .invoke('text')
     .then((text) => {
@@ -46,65 +45,56 @@ export function verifyNotificationBannerInCart(
   cartItemIndex: number,
   numberOfIssues?: number
 ): void {
+  cy.log('cartItemIndex: ' + cartItemIndex);
+  cy.log('numberOfIssues: ' + numberOfIssues);
   const element = cy
     .get('cx-cart-item-list .cx-item-list-row')
     .eq(cartItemIndex)
     .find('cx-configurator-issues-notification');
 
   if (numberOfIssues) {
-    checkNotificationBanner(element, numberOfIssues);
+    checkNotificationBanner(element, cartItemIndex, numberOfIssues);
   } else {
     element.should('not.be.visible');
   }
 }
 
 /**
- * Conducts the checkout.
+ * Checks Terms & Conditions.
  */
-export function checkout(): void {
-  cy.log('Complete checkout process');
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-  cy.log('Fulfill shipping address form');
-  fillShippingAddress(shippingAddressData, false);
-
-  cy.log("Navigate to the next step 'Delivery mode' tab");
-  cy.get('button.btn-primary')
-    .contains('Continue')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/checkout/delivery-mode');
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-      cy.get('cx-delivery-mode').should('be.visible');
-    });
-
-  cy.log("Navigate to the next step 'Payment details' tab");
-  cy.get('button.btn-primary')
-    .contains('Continue')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/checkout/payment-details');
-      cy.get('.cx-checkout-title').should('contain', 'Payment');
-      cy.get('cx-payment-method').should('be.visible');
-    });
-
-  cy.log('Fulfill payment details form');
-  fillPaymentDetails(paymentDetailsData, billingAddress);
-
+export function checkTermsAndConditions(): void {
   cy.log("Check 'Terms & Conditions'");
   cy.get('input[formcontrolname="termsAndConditions"]')
     .check()
     .then(() => {
       cy.get('cx-place-order form').should('have.class', 'ng-valid');
     });
+}
 
+/**
+ * Place the order.
+ */
+export function placeOrder(): void {
   cy.log('Place order');
-  cy.get('cx-place-order button.btn-primary')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/order-confirmation');
-      cy.get('cx-breadcrumb').should('contain', 'Order Confirmation');
-    });
+  const orderConfirmationPage = checkout.waitForPage(
+    '/order-confirmation',
+    'getOrderConfirmationPage'
+  );
+  cy.get('cx-place-order button.btn-primary').should('be.enabled').click();
+  cy.wait(`@${orderConfirmationPage}`);
+}
 
+/**
+ * Conducts the checkout.
+ */
+export function completeCheckout(user: SampleUser): void {
+  cy.log('Fulfill shipping address form and submit');
+  checkoutForms.fillShippingAddress(<any>user, true);
+  checkout.verifyDeliveryMethod();
+  cy.log('Fulfill payment details form');
+  checkoutForms.fillPaymentDetails(user, <any>user, true);
+  checkTermsAndConditions();
+  placeOrder();
   cy.log('Define order number alias');
   configurationCart.defineOrderNumberAlias();
 }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   externalSchematic,
@@ -11,26 +17,35 @@ import {
   CallExpression,
   Expression,
   Node,
+  ObjectLiteralElementLike,
   SourceFile,
   ts as tsMorph,
 } from 'ts-morph';
-import ts from 'typescript';
 import { ANGULAR_CORE, ANGULAR_SCHEMATICS } from '../constants';
-import { getSpartacusProviders, normalizeConfiguration } from './config-utils';
+import { isSpartacusConfigDuplicate } from './config-utils';
 import { getTsSourceFile } from './file-utils';
-import { isImportedFrom } from './import-utils';
+import { createImports, isImportedFrom, removeImports } from './import-utils';
 import { getSourceRoot } from './workspace-utils';
 
+export type ModuleProperty =
+  | 'imports'
+  | 'exports'
+  | 'declarations'
+  | 'providers';
 export interface Import {
   moduleSpecifier: string;
   namedImports: string[];
 }
 
 export function ensureModuleExists(options: {
+  /** module's name */
   name: string;
+  /** path where to create the module */
   path: string;
-  module: string;
+  /** project name */
   project: string;
+  /** the declaring module */
+  module: string;
 }): Rule {
   return (host: Tree): Rule => {
     const modulePath = `${getSourceRoot(host, { project: options.project })}/${
@@ -38,18 +53,19 @@ export function ensureModuleExists(options: {
     }`;
     const filePath = `${modulePath}/${dasherize(options.name)}.module.ts`;
     if (host.exists(filePath)) {
-      const module = getTsSourceFile(host, filePath);
+      const moduleFile = getTsSourceFile(host, filePath);
       const metadata = getDecoratorMetadata(
-        module,
+        moduleFile,
         'NgModule',
         ANGULAR_CORE
-      )[0] as ts.ObjectLiteralExpression;
+      )[0];
 
       if (metadata) {
         return noop();
       }
     }
     return externalSchematic(ANGULAR_SCHEMATICS, 'module', {
+      project: options.project,
       name: dasherize(options.name),
       flat: true,
       commonModule: false,
@@ -59,6 +75,14 @@ export function ensureModuleExists(options: {
   };
 }
 
+/**
+ * Adds the given Module (import, content) to the `imports` array
+ * of the NgModule in the given source file.
+ *
+ * If `order` param is provided, the Module will be added at the specified array's index.
+ *
+ * Moreover, it adds the JS import of this Module in the source file.
+ */
 export function addModuleImport(
   sourceFile: SourceFile,
   insertOptions: {
@@ -129,7 +153,7 @@ export function addModuleProvider(
 
 function addToModuleInternal(
   sourceFile: SourceFile,
-  propertyName: 'imports' | 'exports' | 'declarations' | 'providers',
+  propertyName: ModuleProperty,
   insertOptions: {
     import: Import | Import[];
     content: string;
@@ -137,56 +161,74 @@ function addToModuleInternal(
   },
   createIfMissing = true
 ): Expression | undefined {
+  const initializer = getModulePropertyInitializer(
+    sourceFile,
+    propertyName,
+    createIfMissing
+  );
+  if (!initializer) {
+    return undefined;
+  }
+
+  if (isDuplication(initializer, propertyName, insertOptions.content)) {
+    return undefined;
+  }
+
+  const imports = ([] as Import[]).concat(insertOptions.import);
+  createImports(sourceFile, imports);
+
   let createdNode: Expression | undefined;
-
-  const module = getModule(sourceFile);
-  if (module) {
-    const args = module.getArguments();
-    if (args.length > 0) {
-      const arg = args[0];
-      if (Node.isObjectLiteralExpression(arg)) {
-        if (!arg.getProperty(propertyName) && createIfMissing) {
-          arg.addPropertyAssignment({
-            name: propertyName,
-            initializer: '[]',
-          });
-        }
-
-        const property = arg.getProperty(propertyName);
-        if (property && Node.isPropertyAssignment(property)) {
-          const initializer = property.getInitializerIfKind(
-            tsMorph.SyntaxKind.ArrayLiteralExpression
-          );
-          if (!initializer) {
-            return;
-          }
-
-          if (isDuplication(initializer, propertyName, insertOptions.content)) {
-            return;
-          }
-
-          const imports = ([] as Import[]).concat(insertOptions.import);
-          imports.forEach((specifiedImport) =>
-            sourceFile.addImportDeclaration({
-              moduleSpecifier: specifiedImport.moduleSpecifier,
-              namedImports: specifiedImport.namedImports,
-            })
-          );
-
-          if (insertOptions.order || insertOptions.order === 0) {
-            initializer.insertElement(
-              insertOptions.order,
-              insertOptions.content
-            );
-          } else {
-            createdNode = initializer.addElement(insertOptions.content);
-          }
-        }
-      }
-    }
+  if (insertOptions.order || insertOptions.order === 0) {
+    initializer.insertElement(insertOptions.order, insertOptions.content);
+  } else {
+    createdNode = initializer.addElement(insertOptions.content);
   }
 
   return createdNode;
+}
+
+/**
+ * Removes the given Module (importPath, content) from the `imports` array
+ * of the NgModule in the given source file.
+ *
+ * Moreover, it removes the JS import of this Module from the source file.
+ */
+export function removeModuleImport(
+  sourceFile: SourceFile,
+  removeOptions: {
+    importPath: string;
+    content: string;
+  }
+): Expression | undefined {
+  return removeFromModuleInternal(sourceFile, 'imports', removeOptions);
+}
+
+function removeFromModuleInternal(
+  sourceFile: SourceFile,
+  propertyName: ModuleProperty,
+  removeOptions: {
+    importPath: string;
+    content: string;
+  }
+): Expression | undefined {
+  const initializer = getModulePropertyInitializer(sourceFile, propertyName);
+  if (!initializer) {
+    return undefined;
+  }
+
+  removeImports(sourceFile, [
+    { node: removeOptions.content, importPath: removeOptions.importPath },
+  ]);
+
+  const nodeToRemove: Expression | undefined = initializer
+    .getElements()
+    .find((element) => element.getText() === removeOptions.content);
+
+  if (nodeToRemove) {
+    initializer.removeElement(nodeToRemove);
+  }
+
+  return nodeToRemove;
 }
 
 function isDuplication(
@@ -194,20 +236,11 @@ function isDuplication(
   propertyName: 'imports' | 'exports' | 'declarations' | 'providers',
   content: string
 ): boolean {
-  if (propertyName === 'providers') {
-    const normalizedContent = normalizeConfiguration(content);
-    const configs = getSpartacusProviders(initializer.getSourceFile());
-    for (const config of configs) {
-      const normalizedConfig = normalizeConfiguration(config);
-      if (normalizedContent === normalizedConfig) {
-        return true;
-      }
-    }
-
-    return false;
+  if (propertyName !== 'providers') {
+    return isTypeTokenDuplicate(initializer, content);
   }
 
-  return isTypeTokenDuplicate(initializer, content);
+  return isSpartacusConfigDuplicate(content, initializer);
 }
 
 function isTypeTokenDuplicate(
@@ -260,4 +293,45 @@ function normalizeTypeToken(token: string): string {
   }
 
   return newToken;
+}
+
+export function getModulePropertyInitializer(
+  source: SourceFile,
+  propertyName: ModuleProperty,
+  createIfMissing = true
+): ArrayLiteralExpression | undefined {
+  const property = getModuleProperty(source, propertyName, createIfMissing);
+  if (!property || !Node.isPropertyAssignment(property)) {
+    return undefined;
+  }
+
+  return property.getInitializerIfKind(
+    tsMorph.SyntaxKind.ArrayLiteralExpression
+  );
+}
+
+function getModuleProperty(
+  source: SourceFile,
+  propertyName: ModuleProperty,
+  createIfMissing = true
+): ObjectLiteralElementLike | undefined {
+  const moduleNode = getModule(source);
+  if (!moduleNode) {
+    return undefined;
+  }
+
+  const arg = moduleNode.getArguments()[0];
+  if (!arg || !Node.isObjectLiteralExpression(arg)) {
+    return undefined;
+  }
+
+  const property = arg.getProperty(propertyName);
+  if (!property && createIfMissing) {
+    arg.addPropertyAssignment({
+      name: propertyName,
+      initializer: '[]',
+    });
+  }
+
+  return arg.getProperty(propertyName);
 }

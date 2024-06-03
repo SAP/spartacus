@@ -1,8 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   CmsBreadcrumbsComponent,
   PageMetaService,
   TranslationService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,6 +30,7 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
     private translation: TranslationService
   ) {
     super(component, pageMetaService);
+    useFeatureStyles('a11yTruncatedTextForResponsiveView');
   }
 
   ngOnInit(): void {

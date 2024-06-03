@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ACTIVATED_ROUTE,
   ANGULAR_FORMS,
@@ -8,10 +14,12 @@ import {
   FORM_BUILDER,
   GLOBAL_MESSAGE_SERVICE,
   LOGIN_FORM_COMPONENT,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const LOGIN_FORM_COMPONENT_MIGRATION: ConstructorDeprecation = {

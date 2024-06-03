@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ANGULAR_CORE,
   CMS_COMPONENTS_SERVICE,
@@ -8,10 +14,12 @@ import {
   EVENT_SERVICE,
   INJECTOR,
   RENDERER_2,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   VIEW_CONTAINER_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION: ConstructorDeprecation = {

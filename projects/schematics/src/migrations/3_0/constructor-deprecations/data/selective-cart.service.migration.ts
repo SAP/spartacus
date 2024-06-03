@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   AUTH_SERVICE,
   BASE_SITE_SERVICE,
@@ -5,11 +11,11 @@ import {
   MULTI_CART_SERVICE,
   NGRX_STORE,
   SELECTIVE_CART_SERVICE,
-  SPARTACUS_CORE,
   STORE,
   USER_ID_SERVICE,
   USER_SERVICE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SELECTIVE_CART_SERVICE_MIGRATION: ConstructorDeprecation = {

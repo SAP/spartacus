@@ -1,0 +1,71 @@
+<ng-container *ngIf="cart$ | async as cart">
+  <div class="form-group">
+    <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
+      {{ 'formLegend.required' | cxTranslate }}
+    </p>
+    <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
+      <label class="cx-cart-coupon-title">
+        {{ 'voucher.coupon' | cxTranslate }}
+        <abbr
+          *cxFeature="'a11yRequiredAsterisks'"
+          class="text-decoration-none"
+          title="{{ 'common.required' | cxTranslate }}"
+          >*</abbr
+        >
+      </label>
+
+      <div class="cx-cart-coupon-container">
+        <input
+          [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
+          required="true"
+          type="text"
+          class="form-control input-coupon-code"
+          formControlName="couponCode"
+          placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
+        />
+        <button
+          class="btn btn-block btn-secondary apply-coupon-button"
+          type="submit"
+          [disabled]="cartIsLoading$ | async"
+          [class.disabled]="cartIsLoading$ | async"
+        >
+          {{ 'voucher.apply' | cxTranslate }}
+        </button>
+        <cx-form-errors
+          [control]="couponForm.get('couponCode')"
+        ></cx-form-errors>
+      </div>
+    </form>
+  </div>
+
+  <cx-applied-coupons
+    [vouchers]="cart.appliedVouchers"
+    [cartIsLoading]="cartIsLoading$ | async"
+    [isReadOnly]="false"
+  >
+  </cx-applied-coupons>
+
+  <ng-container *ngIf="applicableCoupons && applicableCoupons.length > 0">
+    <div class="cx-available-coupon">
+      <div class="title cx-cart-coupon-title">
+        {{ 'voucher.availableCoupons' | cxTranslate }}
+      </div>
+      <div class="message">
+        {{ 'voucher.availableCouponsLabel' | cxTranslate }}
+      </div>
+      <div class="scroll">
+        <div class="coupons card" *ngFor="let coupon of applicableCoupons">
+          <button
+            (click)="applyCustomerCoupon(coupon.couponId)"
+            class="coupon-id link"
+            [disabled]="cartIsLoading$ | async"
+            [class.disabled]="cartIsLoading$ | async"
+          >
+            {{ coupon.couponId }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

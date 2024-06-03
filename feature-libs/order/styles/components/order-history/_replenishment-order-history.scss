@@ -16,7 +16,9 @@
 
       tr {
         width: 100%;
-
+        &:hover {
+          background-color: var(--cx-color-background);
+        }
         @include media-breakpoint-down(sm) {
           border-width: 1px 0 0 0;
           border-color: var(--cx-color-light);
@@ -82,6 +84,7 @@
       .#{$block}-code {
         .#{$block}-value {
           text-decoration: underline;
+          color: var(--cx-color-primary);
         }
       }
 
@@ -105,8 +108,7 @@
         width: 15%;
 
         .cx-order-cancel {
-          text-decoration: underline;
-          text-transform: uppercase;
+          font-size: var(--cx-font-size, 0.875rem);
         }
 
         @include media-breakpoint-down(sm) {

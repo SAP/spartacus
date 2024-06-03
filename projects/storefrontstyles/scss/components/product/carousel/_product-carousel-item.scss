@@ -1,0 +1,10 @@
+%cx-product-carousel-item {
+  .actions {
+    width: 60%;
+    margin: auto;
+
+    > *:not(:first-child) {
+      margin-bottom: 4px;
+    }
+  }
+}

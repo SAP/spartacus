@@ -1,6 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CheckoutConfig } from '@spartacus/storefront';
-import * as checkout from './checkout-flow';
 import { getSampleUser } from '../sample-data/checkout-flow';
+import * as checkout from './checkout-flow';
 
 export function testExpressCheckout() {
   it('should go to first step of checkout when there is no default address/payment', () => {
@@ -23,7 +29,7 @@ export function testExpressCheckout() {
   it('should skip address and payment checkout steps once address and payment are set', () => {
     checkout.fillAddressFormWithCheapProduct();
     checkout.verifyDeliveryMethod();
-    checkout.fillPaymentFormWithCheapProduct();
+    checkout.fillPaymentFormWithCheapProduct(undefined, undefined, true);
     checkout.verifyReviewOrderPage();
 
     cy.get('cx-mini-cart').click();
@@ -31,7 +37,7 @@ export function testExpressCheckout() {
     cy.findByText(/proceed to checkout/i).click();
 
     checkout.verifyReviewOrderPage();
-    cy.get('.cx-review-card-shipping').should('contain', 'Standard Delivery');
+    cy.get('.cx-review-card-address').should('contain', 'Standard Delivery');
   });
 
   it('should setup express checkout with another preferred delivery mode', () => {
@@ -48,6 +54,6 @@ export function testExpressCheckout() {
     cy.findByText(/proceed to checkout/i).click();
 
     checkout.verifyReviewOrderPage();
-    cy.get('.cx-review-card-shipping').should('contain', 'Premium Delivery');
+    cy.get('.cx-review-card-address').should('contain', 'Premium Delivery');
   });
 }

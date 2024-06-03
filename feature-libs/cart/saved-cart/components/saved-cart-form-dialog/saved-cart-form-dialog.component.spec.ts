@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  DeleteSavedCartEvent,
-  DeleteSavedCartFailEvent,
-  SavedCartFacade,
-} from '@spartacus/cart/saved-cart/root';
-import {
   Cart,
+  DeleteCartEvent,
+  DeleteCartFailEvent,
+} from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -17,11 +17,11 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  LaunchDialogService,
   IconTestingModule,
   KeyboardFocusTestingModule,
+  LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import {
   SavedCartFormDialogComponent,
   SavedCartFormDialogOptions,
@@ -82,25 +82,25 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
   clearRestoreSavedCart(): void {}
   clearCloneSavedCart(): void {}
   getSaveCartProcessSuccess(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getSaveCartProcessLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getRestoreSavedCartProcessSuccess(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getCloneSavedCartProcessLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getRestoreSavedCartProcessLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockEventService implements Partial<EventService> {
   get(_event: any): Observable<any> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -454,10 +454,10 @@ describe('SavedCartFormDialogComponent', () => {
   describe('disabling and enabling delete button using events', () => {
     it('should return true when the trigger event fired', () => {
       spyOn(eventService, 'get').and.callFake((type) => {
-        if ((type as any).type === 'DeleteSavedCartEvent') {
-          return of(new DeleteSavedCartEvent() as any);
+        if ((type as any).type === 'DeleteCartEvent') {
+          return of(new DeleteCartEvent() as any);
         } else {
-          return of();
+          return EMPTY;
         }
       });
 
@@ -474,10 +474,10 @@ describe('SavedCartFormDialogComponent', () => {
 
     it('should return false when the fail event fired', () => {
       spyOn(eventService, 'get').and.callFake((type) => {
-        if ((type as any).type === 'DeleteSavedCartEvent') {
-          return of(new DeleteSavedCartEvent() as any);
+        if ((type as any).type === 'DeleteCartEvent') {
+          return of(new DeleteCartEvent() as any);
         } else {
-          return of(new DeleteSavedCartFailEvent() as any);
+          return of(new DeleteCartFailEvent() as any);
         }
       });
 

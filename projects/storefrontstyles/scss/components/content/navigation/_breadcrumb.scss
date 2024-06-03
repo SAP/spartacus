@@ -10,15 +10,31 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
   background-color: var(--cx-color-background);
 
   padding: var(--cx-spatial-base);
+
+  box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark);
+
+  @include media-breakpoint-up(lg) {
+    box-shadow: none;
+  }
+
   h1 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
+    text-transform: capitalize;
+
+    // TODO: (CXSPA-6003) Remove feature flags next major
+    @include forFeature('a11yTruncatedTextForResponsiveView') {
+      @include media-breakpoint-only(xs) {
+        white-space: wrap;
+        @include type('4');
+      }
+    }
   }
 
   nav {
-    font-size: 0.85rem;
+    font-size: var(--cx-font-size, 0.875rem);
     padding: 5px 0;
 
     display: flex;
@@ -29,10 +45,15 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
     text-overflow: ellipsis;
 
     ol {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       list-style: none;
       padding-inline-start: 0;
+      margin: 0;
+
       li {
-        display: inline;
+        display: flex;
         color: var(--cx-color-secondary);
 
         &:not(:last-child):after {
@@ -41,7 +62,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
         a {
           text-transform: capitalize;
           color: inherit;
-          padding: 5px 5px;
+          padding: 0px 5px;
         }
       }
     }

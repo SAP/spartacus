@@ -1,0 +1,17 @@
+%cx-cart-details {
+  display: block;
+
+  .cart-details-wrapper {
+    padding: 2rem 0;
+  }
+
+  .cx-promotions {
+    @include type('7');
+    color: var(--cx-color-success);
+    padding: 0.5rem 0;
+
+    li {
+      line-height: 1.6;
+    }
+  }
+}

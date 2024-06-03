@@ -1,24 +1,28 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import {
   CardModule,
-  CartSharedModule,
   ListNavigationModule,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { OrderDetailItemsComponent } from '../order-details/order-detail-items/order-detail-items.component';
-import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from '../order-details/order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from '../order-details/order-details.service';
+import { OrderOverviewComponent } from '../order-details/order-overview/order-overview.component';
 import { OrderHistoryComponent } from '../order-history/order-history.component';
 import { ReplenishmentOrderCancellationDialogModule } from '../replenishment-order-cancellation-dialog/replenishment-order-cancellation-dialog.module';
 import { defaultReplenishmentOrderCancellationLayoutConfig } from './default-replenishment-order-cancellation-layout.config';
@@ -29,7 +33,6 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
 
 @NgModule({
   imports: [
-    CartSharedModule,
     CardModule,
     CommonModule,
     I18nModule,
@@ -41,7 +44,7 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
     RouterModule,
   ],
   providers: [
-    provideConfig(defaultReplenishmentOrderCancellationLayoutConfig),
+    provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ReplenishmentDetailItemsComponent: {
@@ -63,7 +66,7 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
           ],
         },
         ReplenishmentDetailShippingComponent: {
-          component: OrderDetailShippingComponent,
+          component: OrderOverviewComponent,
           providers: [
             {
               provide: OrderDetailsService,

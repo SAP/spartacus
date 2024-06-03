@@ -1,11 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, Order, OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
+import { I18nTestingModule } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
+
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -14,7 +21,7 @@ import createSpy = jasmine.createSpy;
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
-  @Input() amendOrderForm: FormGroup;
+  @Input() amendOrderForm: UntypedFormGroup;
   @Input() backRoute: string;
   @Input() forwardRoute: string;
 }
@@ -34,13 +41,13 @@ const mockOrder: Order = {
   created: new Date('2019-02-11T13:02:58+0000'),
   cancellable: true,
 };
-const mockForm: FormGroup = new FormGroup({});
-const entryGroup = new FormGroup({});
+const mockForm: UntypedFormGroup = new UntypedFormGroup({});
+const entryGroup = new UntypedFormGroup({});
 mockForm.addControl('entries', entryGroup);
-mockForm.addControl('orderCode', new FormControl(mockOrder.code));
+mockForm.addControl('orderCode', new UntypedFormControl(mockOrder.code));
 mockOrder.entries.forEach((entry) => {
   const key = entry.entryNumber.toString();
-  entryGroup.addControl(key, new FormControl(0));
+  entryGroup.addControl(key, new UntypedFormControl(0));
 });
 
 class MockOrderAmendService {

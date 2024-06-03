@@ -9,7 +9,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import {
@@ -35,13 +35,13 @@ class MockOccEndpointsService {
 
 class MockAuthService {
   isUserLoggedIn(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockAnonymousConsentsService {
   getConsents(): Observable<AnonymousConsent[]> {
-    return of();
+    return EMPTY;
   }
   setConsents(_consents: AnonymousConsent[]): void {}
   serializeAndEncode(_consents: AnonymousConsent[]): string {

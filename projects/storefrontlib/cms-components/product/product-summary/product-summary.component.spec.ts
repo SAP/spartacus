@@ -1,32 +1,32 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, Product } from '@spartacus/core';
-import { AddToCartModule } from '../../../cms-components/cart/index';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import {
+  FeatureConfigService,
+  I18nTestingModule,
+  Product,
+} from '@spartacus/core';
+import { EMPTY, Observable } from 'rxjs';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ItemCounterModule } from '../../../shared/components/item-counter/item-counter.module';
-import { ProductSummaryComponent } from '../product-summary/product-summary.component';
-import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 
 describe('ProductSummaryComponent in product', () => {
   let productSummaryComponent: ProductSummaryComponent;
   let fixture: ComponentFixture<ProductSummaryComponent>;
+  let currentProductService: CurrentProductService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          AddToCartModule,
-          ItemCounterModule,
-          I18nTestingModule,
-          RouterTestingModule,
-        ],
+        imports: [ItemCounterModule, I18nTestingModule, RouterTestingModule],
         declarations: [ProductSummaryComponent, OutletDirective],
         providers: [
           {
@@ -41,9 +41,32 @@ describe('ProductSummaryComponent in product', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductSummaryComponent);
     productSummaryComponent = fixture.componentInstance;
+    currentProductService = TestBed.inject(CurrentProductService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   it('should be created', () => {
     expect(productSummaryComponent).toBeTruthy();
+  });
+
+  it('should get product details without promotions', () => {
+    spyOn(currentProductService, 'getProduct').and.stub();
+    spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+    productSummaryComponent['getProduct']();
+    expect(currentProductService.getProduct).toHaveBeenCalledWith([
+      'details',
+      'price',
+    ]);
+  });
+
+  it('should get product details with promotions', () => {
+    spyOn(currentProductService, 'getProduct').and.stub();
+    spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+    productSummaryComponent['getProduct']();
+    expect(currentProductService.getProduct).toHaveBeenCalledWith([
+      'details',
+      'price',
+      'promotions',
+    ]);
   });
 });

@@ -1,7 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ProductSearchPage } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  ProductSearchPage,
+  useFeatureStyles,
+} from '@spartacus/core';
+import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
+import { filter, skip, take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
 import { ViewConfig } from '../../../../shared/config/view-config';
 import { ViewModes } from '../product-view/product-view.component';
@@ -14,7 +25,7 @@ import { ProductListComponentService } from './product-list-component.service';
 export class ProductListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
-  isInfiniteScroll: boolean;
+  isInfiniteScroll: boolean | undefined;
 
   model$: Observable<ProductSearchPage> =
     this.productListComponentService.model$;
@@ -25,8 +36,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
   constructor(
     private pageLayoutService: PageLayoutService,
     private productListComponentService: ProductListComponentService,
+    private globalMessageService: GlobalMessageService,
     public scrollConfig: ViewConfig
-  ) {}
+  ) {
+    useFeatureStyles('a11ySortingOptionsTruncation');
+    useFeatureStyles('a11yTruncatedTextForResponsiveView');
+  }
 
   ngOnInit(): void {
     this.isInfiniteScroll = this.scrollConfig.view?.infiniteScroll?.active;
@@ -41,6 +56,21 @@ export class ProductListComponent implements OnInit, OnDestroy {
               : ViewModes.List
           );
         })
+    );
+
+    this.subscription.add(
+      combineLatest([this.model$, this.viewMode$])
+        .pipe(
+          skip(1),
+          filter(([model, mode]) => !!model && !!mode)
+        )
+        .subscribe(() =>
+          this.globalMessageService.add(
+            { key: 'sorting.pageViewUpdated' },
+            GlobalMessageType.MSG_TYPE_ASSISTIVE,
+            500
+          )
+        )
     );
   }
 

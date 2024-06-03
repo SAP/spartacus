@@ -1,6 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
+import { UntypedFormGroup } from '@angular/forms';
+import { OrderEntry } from '@spartacus/cart/base/root';
+import { GlobalMessageType } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OrderAmendService } from '../../amend-order.service';
@@ -12,8 +19,9 @@ import { OrderAmendService } from '../../amend-order.service';
 })
 export class CancelOrderComponent {
   orderCode: string;
+  globalMessageType = GlobalMessageType;
 
-  form$: Observable<FormGroup> = this.orderAmendService
+  form$: Observable<UntypedFormGroup> = this.orderAmendService
     .getForm()
     .pipe(tap((form) => (this.orderCode = form.value.orderCode)));
 

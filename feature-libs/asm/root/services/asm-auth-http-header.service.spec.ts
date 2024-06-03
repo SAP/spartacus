@@ -52,6 +52,9 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   getBaseUrl() {
     return 'some-server/occ';
   }
+  getRawEndpointValue(): string {
+    return 'some-endpoint';
+  }
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {

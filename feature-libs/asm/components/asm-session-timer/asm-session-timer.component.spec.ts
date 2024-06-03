@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Injectable,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -6,7 +11,7 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-import { AsmConfig } from '@spartacus/asm/core';
+import { AsmConfig } from '@spartacus/asm/root';
 import {
   I18nTestingModule,
   OCC_USER_ID_ANONYMOUS,
@@ -31,7 +36,7 @@ class MockUserIdService implements Partial<UserIdService> {
     return of('');
   }
 }
-
+@Injectable()
 class MockAsmComponentService implements Partial<AsmComponentService> {
   logoutCustomerSupportAgentAndCustomer(): void {}
 }

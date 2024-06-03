@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Observable } from 'rxjs';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/models/page-context.model';
@@ -16,6 +22,12 @@ export abstract class CmsComponentAdapter {
     fields?: string
   ): Observable<T>;
 
+  /**
+   * Abstract method to get components by list of ids.
+   *
+   * @param ids
+   * @param pageContext
+   */
   abstract findComponentsByIds(
     ids: string[],
     pageContext: PageContext

@@ -6,7 +6,7 @@
         params: { code: orderCode }
       } | cxUrl
     "
-    class="btn btn-block btn-action"
+    class="btn btn-block btn-secondary"
   >
     {{ 'common.back' | cxTranslate }}
   </a>
@@ -20,7 +20,14 @@
     {{ 'common.continue' | cxTranslate }}
   </button>
 
-  <button *ngIf="!forwardRoute" class="btn btn-block btn-primary" type="submit">
+  <button
+    *ngIf="!forwardRoute"
+    class="btn btn-block btn-primary"
+    type="submit"
+    [attr.aria-label]="
+      'orderDetails.cancellationAndReturn.submitDescription' | cxTranslate
+    "
+  >
     {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
   </button>
 </div>

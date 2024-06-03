@@ -1,11 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
-  SPARTACUS_CORE,
-  NGRX_STORE,
-  AUTH_SERVICE,
   ACTIONS,
+  AUTH_SERVICE,
+  NGRX_STORE,
   USER_CONNECTOR,
   USER_REGISTER_EFFECT,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const USER_REGISTER_EFFECT_MIGRATION: ConstructorDeprecation = {

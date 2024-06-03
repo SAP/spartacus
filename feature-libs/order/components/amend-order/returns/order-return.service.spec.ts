@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
-import { GlobalMessageService, Order, RoutingService } from '@spartacus/core';
-import { OrderReturnRequestFacade } from '@spartacus/order/root';
+import { UntypedFormGroup } from '@angular/forms';
+import { GlobalMessageService, RoutingService } from '@spartacus/core';
+import { Order, OrderReturnRequestFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderReturnService } from './order-return.service';
@@ -52,7 +52,7 @@ describe('OrderReturnService', () => {
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
 
-  let form: FormGroup;
+  let form: UntypedFormGroup;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

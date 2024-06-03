@@ -2,11 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import {
-  ActiveCartService,
+  ActiveCartFacade,
   Cart,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+} from '@spartacus/cart/base/root';
+import {
   EventService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -79,7 +82,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return cart$.asObservable();
   }
@@ -95,9 +98,10 @@ class MockActiveCartService implements Partial<ActiveCartService> {
 describe('CartQuickOrderFormComponent', () => {
   let component: CartQuickOrderFormComponent;
   let fixture: ComponentFixture<CartQuickOrderFormComponent>;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
   let eventService: EventService;
   let globalMessageService: GlobalMessageService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -109,7 +113,7 @@ describe('CartQuickOrderFormComponent', () => {
       ],
       declarations: [CartQuickOrderFormComponent],
       providers: [
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
           provide: EventService,
           useClass: MockEventService,
@@ -121,9 +125,10 @@ describe('CartQuickOrderFormComponent', () => {
     fixture = TestBed.createComponent(CartQuickOrderFormComponent);
     component = fixture.componentInstance;
 
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
     eventService = TestBed.inject(EventService);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
 
     fixture.detectChanges();
   });
@@ -205,20 +210,33 @@ describe('CartQuickOrderFormComponent', () => {
     });
   });
 
-  it('should show global error message on add entry fail event', () => {
-    spyOn(globalMessageService, 'add').and.callThrough();
-    spyOn(eventService, 'get').and.callThrough();
+  describe('global error message', () => {
+    it('should not show global error message on add entry fail event in case cartQuickOrderRemoveListeningToFailEvent is enabled', () => {
+      spyOn(globalMessageService, 'add').and.callThrough();
+      component.ngOnInit();
+      component.quickOrderForm.controls['productCode'].setValue('test');
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
 
-    component.ngOnInit();
-    component.quickOrderForm.controls['productCode'].setValue('test');
-    component.applyQuickOrder();
-    addEntryCartEvent$.next(mockCartAddEntryFailEvent);
+      component.applyQuickOrder();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
 
-    expect(globalMessageService.add).toHaveBeenCalledWith(
-      {
-        key: 'quickOrderCartForm.noResults',
-      },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
+    it('should show global error message on add entry fail event in case cartQuickOrderRemoveListeningToFailEvent is disabled', () => {
+      spyOn(globalMessageService, 'add').and.callThrough();
+      spyOn(eventService, 'get').and.callThrough();
+      component.ngOnInit();
+      component.quickOrderForm.controls['productCode'].setValue('test');
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+
+      component.applyQuickOrder();
+      addEntryCartEvent$.next(mockCartAddEntryFailEvent);
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'quickOrderCartForm.noResults',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    });
   });
 });

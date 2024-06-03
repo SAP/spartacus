@@ -1,6 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
   Rule,
+  SchematicContext,
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
@@ -17,7 +24,8 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_MODULE,
-} from '../constants';
+} from '../libs-constants';
+import { debugLogRule } from './logger-utils';
 import { ensureModuleExists } from './new-module-utils';
 
 const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
@@ -103,9 +111,7 @@ export function getProjectFromWorkspace<
 export function getDefaultProjectNameFromWorkspace(tree: Tree): string {
   const workspace = getWorkspace(tree).workspace;
 
-  return workspace.defaultProject !== undefined
-    ? workspace.defaultProject
-    : Object.keys(workspace.projects)[0];
+  return Object.keys(workspace.projects)[0];
 }
 
 export function getProjectTargets(project: WorkspaceProject): WorkspaceTargets;
@@ -171,32 +177,40 @@ export function validateSpartacusInstallation(packageJson: any): void {
   if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_CORE)) {
     throw new SchematicsException(
       `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
-    To see more options, please check our documentation.`
+    To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
     );
   }
 }
 
 export function scaffoldStructure(options: SpartacusOptions): Rule {
-  return (_tree: Tree) => {
+  const APP_PATH = 'app/spartacus';
+  return (_tree: Tree, _context: SchematicContext) => {
     return chain([
+      debugLogRule(
+        `⌛️ Scaffolding Spartacus file structure...`,
+        options.debug
+      ),
+
       ensureModuleExists({
         name: SPARTACUS_MODULE,
-        path: 'app/spartacus',
+        path: APP_PATH,
         module: 'app',
         project: options.project,
       }),
       ensureModuleExists({
         name: SPARTACUS_FEATURES_MODULE,
-        path: 'app/spartacus',
+        path: APP_PATH,
         module: 'spartacus',
         project: options.project,
       }),
       ensureModuleExists({
         name: SPARTACUS_CONFIGURATION_MODULE,
-        path: 'app/spartacus',
+        path: APP_PATH,
         module: 'spartacus',
         project: options.project,
       }),
+
+      debugLogRule(`✅ Spartacus file structure scaffolded.`, options.debug),
     ]);
   };
 }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -26,6 +32,13 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   multipleSelectionValues: SelectionValue[] = [];
 
   ngOnInit() {
+    this.initialize();
+  }
+
+  /**
+   * Initializes selection values and peventAction observable
+   */
+  protected initialize(): void {
     if (this.attribute.values && this.attribute.values.length > 0) {
       this.multipleSelectionValues = this.attribute.values.map(
         ({ name, quantity, selected, valueCode }) => ({
@@ -94,7 +107,9 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
         (selectionValue) => selectionValue.valueCode === eventValue.valueCode
       );
 
-    if (!value) return;
+    if (!value) {
+      return;
+    }
 
     value.quantity = eventValue.quantity;
 
@@ -112,36 +127,48 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
 
   onSelect(eventValue: any): void {
     this.loading$.next(true);
-    this.selectionChange.emit(
-      this.updateMultipleSelectionValues(eventValue, true)
+    const changes = this.updateMultipleSelectionValues(eventValue, true);
+
+    this.configuratorCommonsService.updateConfiguration(
+      changes.ownerKey,
+      changes.changedAttribute,
+      changes.updateType
     );
   }
 
   onDeselect(eventValue: any): void {
     this.loading$.next(true);
-    this.selectionChange.emit(
-      this.updateMultipleSelectionValues(eventValue, false)
+    const changes = this.updateMultipleSelectionValues(eventValue, false);
+    this.configuratorCommonsService.updateConfiguration(
+      changes.ownerKey,
+      changes.changedAttribute,
+      changes.updateType
     );
   }
 
   onDeselectAll(): void {
     this.loading$.next(true);
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         values: [],
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE,
-    };
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE
+    );
   }
 
   onChangeValueQuantity(eventValue: any): void {
     this.loading$.next(true);
-    this.selectionChange.emit(
-      this.updateMultipleSelectionValuesQuantity(eventValue)
-    );
+    const changes = this.updateMultipleSelectionValuesQuantity(eventValue);
+
+    if (changes) {
+      this.configuratorCommonsService.updateConfiguration(
+        changes.ownerKey,
+        changes.changedAttribute,
+        changes.updateType
+      );
+    }
   }
 
   onChangeAttributeQuantity(eventObject: any): void {
@@ -186,8 +213,8 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     index: number
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
-      disableAllButtons: disableAllButtons ? disableAllButtons : false,
-      hideRemoveButton: hideRemoveButton ? hideRemoveButton : false,
+      disableAllButtons: disableAllButtons ?? false,
+      hideRemoveButton: hideRemoveButton ?? false,
       productBoundValue: value,
       multiSelect: true,
       withQuantity: this.withQuantity,
@@ -196,9 +223,9 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       attributeLabel: this.attribute.label,
       attributeName: this.attribute.name,
       itemCount: this.attribute.values?.length
-        ? this.attribute.values?.length
+        ? this.attribute.values.length
         : 0,
-      itemIndex: index ? index : 0,
+      itemIndex: index,
     };
   }
 }

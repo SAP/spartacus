@@ -1,6 +1,21 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ModalService } from '@spartacus/storefront';
-import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Optional,
+  ViewChild,
+  ViewContainerRef,
+  inject,
+} from '@angular/core';
+import { take } from 'rxjs/operators';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-close-account',
@@ -8,12 +23,27 @@ import { CloseAccountModalComponent } from '../close-account-modal/close-account
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CloseAccountComponent {
-  modal: any;
-  constructor(protected modalService: ModalService) {}
+  @ViewChild('element') element: ElementRef;
+  @Optional() protected routingService = inject(RoutingService, {
+    optional: true,
+  });
+
+  constructor(
+    protected launchDialogService: LaunchDialogService,
+    protected vcr: ViewContainerRef
+  ) {}
 
   openModal(): void {
-    this.modal = this.modalService.open(CloseAccountModalComponent, {
-      centered: true,
-    }).componentInstance;
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.CLOSE_ACCOUNT,
+      this.element,
+      this.vcr
+    );
+
+    dialog?.pipe(take(1)).subscribe();
+  }
+
+  navigateTo(cxRoute: string): void {
+    this.routingService?.go({ cxRoute });
   }
 }

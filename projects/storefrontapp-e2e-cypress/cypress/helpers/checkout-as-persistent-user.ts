@@ -1,4 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { product } from '../sample-data/checkout-flow';
+import { addProductToCart as addToCart } from './applied-promotions';
+import { verifyReviewOrderPage } from './checkout-flow';
 
 export const username = 'test-user-with-orders@sap.cx.com';
 export const password = 'pw4all';
@@ -59,9 +67,7 @@ export function goToProductPageFromCategory() {
 
 export function addProductToCart() {
   cy.get('cx-item-counter').findByText('+').click();
-  cy.get('cx-add-to-cart')
-    .findByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.findByText(/view cart/i).click();
@@ -91,8 +97,8 @@ export function addPaymentMethod() {
           accountHolderName: 'test user',
           cardNumber: '4111111111111111',
           cardType: { code: 'visa' },
-          expiryMonth: '01',
-          expiryYear: '2125',
+          expiryMonth: '12',
+          expiryYear: '2027',
           defaultPayment: true,
           saved: true,
           billingAddress: {
@@ -119,7 +125,7 @@ export function selectShippingAddress() {
       'BASE_SITE'
     )}/cms/pages`,
     query: {
-      pageLabelOrId: '/checkout/shipping-address',
+      pageLabelOrId: '/checkout/delivery-address',
     },
   }).as('getShippingPage');
   cy.findByText(/proceed to checkout/i).click();
@@ -130,7 +136,7 @@ export function selectShippingAddress() {
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
+  cy.get('.cx-card-title').should('contain', 'Default Delivery Address');
   cy.get('.card-header').should('contain', 'Selected');
 
   cy.intercept({
@@ -163,7 +169,7 @@ export function selectDeliveryMethod() {
       pageLabelOrId: '/checkout/payment-details',
     },
   }).as('getPaymentPage');
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('button.btn-primary').click();
   cy.wait('@getPaymentPage').its('response.statusCode').should('eq', 200);
@@ -180,13 +186,13 @@ export function selectPaymentMethod() {
 }
 
 export function verifyAndPlaceOrder() {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
     .should('not.be.empty');
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Shipping Method')
+    .contains('cx-card', 'Delivery Method')
     .find('.cx-card-label-bold')
     .should('contain', 'Standard Delivery');
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(

@@ -1,0 +1,131 @@
+cx-account-summary-header {
+  .cx-account-summary {
+    background-color: var(--cx-color-background);
+    margin-top: 1.5rem;
+
+    @include media-breakpoint-down(md) {
+      background-color: var(--cx-color-inverse);
+    }
+
+    // Flexbox placeholder for the card groups: cx-summary-card-group-**
+    .cx-account-summary-header-cards {
+      display: flex;
+      flex-direction: row;
+
+      padding: 15px 0;
+
+      @include media-breakpoint-down(md) {
+        flex-direction: column;
+        padding: 0 1.25rem;
+      }
+
+      .cx-summary-card {
+        padding: 0 15px;
+
+        @include media-breakpoint-down(md) {
+          background-color: var(--cx-color-inverse);
+          border-width: 1px;
+          border-style: solid;
+          border-color: var(--cx-color-light);
+          margin: 0.625rem 0;
+        }
+
+        .cx-card-title {
+          @include type('4');
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+        }
+      }
+    }
+  }
+
+  // When in table or mobile, this places the cards side by side with a 2% vertical space down the middle
+  .cx-summary-card-responsive-group {
+    @include media-breakpoint-down(md) {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      & > * {
+        flex-basis: 49%;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+  }
+
+  // When in desktop mode, this places in the first column (Unit ID, Unit Name, Address)
+  .cx-summary-card-group-unit-address {
+    @include media-breakpoint-up(lg) {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+  }
+
+  // When in desktop mode, this places in the second column (Credit Rep/Line) and third column (Current/Open Balance)
+  .cx-summary-card-group-credit-balance {
+    @include media-breakpoint-up(lg) {
+      flex: 2;
+      justify-content: flex-start;
+      display: flex;
+      flex-direction: row;
+
+      & > * {
+        flex-basis: 50%;
+      }
+    }
+  }
+
+  // When in desktop mode, this places in the fourth (last) column the Past Due Balance information
+  .cx-summary-card-group-due {
+    @include media-breakpoint-up(lg) {
+      flex: 1;
+    }
+  }
+
+  // This places a black border around the Past Due Balance section in desktop mode, otherwise hides it
+  .cx-account-summary-header-past-due-section {
+    border: 1px solid var(--cx-color-text);
+    padding: 1rem;
+    margin-top: 1rem;
+
+    @include media-breakpoint-up(lg) {
+      margin-inline-end: 20px;
+    }
+    @include media-breakpoint-down(md) {
+      border: none;
+    }
+  }
+
+  // The summation bar in the Past Due Balance Section
+  .cx-account-summary-header-past-due-range-dates {
+    border-bottom: 1px solid var(--cx-color-text);
+  }
+
+  // In the Past Due Balance section, this places the date ranges and their amount side by side
+  .cx-account-summary-header-past-due-range-collection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+
+    .cx-past-due-range-date {
+      font-weight: var(--cx-font-weight-bold);
+    }
+  }
+
+  // Formatting of the Past Due Balance total
+  .cx-account-summary-header-past-due-balance-total {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-top: 1rem;
+
+    .cx-past-due-balance-label {
+      font-size: $font-size-base * 1.125;
+    }
+  }
+}

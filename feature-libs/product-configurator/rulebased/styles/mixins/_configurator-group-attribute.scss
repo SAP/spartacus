@@ -1,0 +1,20 @@
+@mixin cx-configurator-group-attribute {
+  padding-inline-start: 16px;
+  padding-inline-end: 16px;
+
+  padding-block-start: 12px;
+  padding-block-end: 12px;
+
+  @include media-breakpoint-down(sm) {
+    padding-inline-start: 0px;
+    padding-inline-end: 0px;
+    padding-block-start: 12px;
+    padding-block-end: 12px;
+
+    padding-block-end: 24px;
+  }
+
+  em {
+    @include cx-configurator-attribute-type();
+  }
+}

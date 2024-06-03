@@ -1,15 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { StateWithMultiCart } from '@spartacus/cart/base/core';
+import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
-  Cart,
-  MultiCartService,
   ProcessModule,
   StateUtils,
-  StateWithMultiCart,
   User,
   UserIdService,
-  UserService,
 } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { of } from 'rxjs';
 import { SavedCartActions } from '../store/actions/index';
 import { SavedCartService } from './saved-cart.service';
@@ -60,11 +59,11 @@ class MockUserIdService implements Partial<UserIdService> {
   takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
-class MockUserService implements Partial<UserService> {
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get = createSpy().and.returnValue(of(mockUser));
 }
 
-class MockMultiCartService implements Partial<MultiCartService> {
+class MockMultiCartService implements Partial<MultiCartFacade> {
   getCartEntity = createSpy().and.returnValue(of({}));
   isStable = createSpy().and.returnValue(of(true));
   getCarts = createSpy().and.returnValue(of(mockSavedCarts));
@@ -75,7 +74,7 @@ describe('SavedCartService', () => {
   let service: SavedCartService;
   let store: Store<StateWithMultiCart>;
   let userIdService: UserIdService;
-  let multiCartService: MultiCartService;
+  let multiCartService: MultiCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -83,15 +82,15 @@ describe('SavedCartService', () => {
       providers: [
         SavedCartService,
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: UserService, useClass: MockUserService },
-        { provide: MultiCartService, useClass: MockMultiCartService },
+        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
+        { provide: MultiCartFacade, useClass: MockMultiCartService },
       ],
     });
 
     service = TestBed.inject(SavedCartService);
     store = TestBed.inject(Store);
     userIdService = TestBed.inject(UserIdService);
-    multiCartService = TestBed.inject(MultiCartService);
+    multiCartService = TestBed.inject(MultiCartFacade);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -164,7 +163,7 @@ describe('SavedCartService', () => {
       })
     );
 
-    let result: StateUtils.ProcessesLoaderState<Cart> | undefined;
+    let result: StateUtils.ProcessesLoaderState<Cart | undefined> | undefined;
 
     service
       .getSavedCart(mockCartId)

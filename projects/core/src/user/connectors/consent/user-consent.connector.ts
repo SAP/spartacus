@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserConsentAdapter } from './user-consent.adapter';
@@ -25,7 +31,11 @@ export class UserConsentConnector {
     );
   }
 
-  withdrawConsent(userId: string, consentCode: string): Observable<{}> {
-    return this.adapter.withdrawConsent(userId, consentCode);
+  withdrawConsent(
+    userId: string,
+    consentCode: string,
+    consentId?: string
+  ): Observable<{}> {
+    return this.adapter.withdrawConsent(userId, consentCode, consentId);
   }
 }

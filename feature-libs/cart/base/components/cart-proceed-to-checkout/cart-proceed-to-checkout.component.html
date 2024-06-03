@@ -1,0 +1,15 @@
+<cx-progress-button
+  (clickEvent)="disableButtonWhileNavigation()"
+  [class]="'btn btn-primary btn-block'"
+  [disabled]="cartValidationInProgress"
+  [loading]="cartValidationInProgress"
+  [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
+  tabindex="-1"
+>
+  {{
+    (cartValidationInProgress
+      ? 'validation.inProgress'
+      : 'cartDetails.proceedToCheckout'
+    ) | cxTranslate
+  }}
+</cx-progress-button>

@@ -1,13 +1,19 @@
 import { AbstractStoreItemComponent } from './abstract-store-item.component';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 
-class MockStoreFinderService implements Partial<StoreFinderService> {
+export class MockStoreFinderService implements Partial<StoreFinderService> {
   getStoreLatitude(): number {
     return 1;
   }
 
   getStoreLongitude(): number {
     return 1;
+  }
+  getDirections(): string {
+    const google_map_url = 'https://www.google.com/maps/dir/Current+Location/';
+    const latitude = this.getStoreLatitude();
+    const longitude = this.getStoreLongitude();
+    return google_map_url + latitude + ',' + longitude;
   }
 }
 

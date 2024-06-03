@@ -1,11 +1,7 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import {
-  ConverterService,
-  Occ,
-  OccConfig,
-  ORDER_NORMALIZER,
-} from '@spartacus/core';
+import { ConverterService, Occ, OccConfig } from '@spartacus/core';
+import { ORDER_NORMALIZER } from '@spartacus/order/root';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OccOrderApprovalNormalizer } from './occ-order-approval-normalizer';
 

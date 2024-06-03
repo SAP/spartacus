@@ -22,6 +22,7 @@ import createSpy = jasmine.createSpy;
 class MockNavigationUIComponent {
   @Input() flyout = true;
   @Input() node: NavigationNode;
+  @Input() navAriaLabel: string;
 }
 
 const mockAnonymousConsentsConfig = {

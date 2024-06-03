@@ -1,13 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  EXTERNAL_JS_FILE_LOADER,
+  GOOGLE_MAP_RENDERER_SERVICE,
+  SCRIPT_LOADER,
+  STORE_DATA_SERVICE,
+  STORE_FINDER_CONFIG,
+  STORE_FINDER_SERVICE,
+} from '../../../../shared/constants';
 import {
   SPARTACUS_CORE,
-  STORE_FINDER_SERVICE,
   SPARTACUS_STOREFINDER,
-  GOOGLE_MAP_RENDERER_SERVICE,
-  STORE_FINDER_CONFIG,
-  STORE_DATA_SERVICE,
-  EXTERNAL_JS_FILE_LOADER,
-  SCRIPT_LOADER,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const GOOGLE_MAP_RENDERER_SERVICE_MIGRATION_V1: ConstructorDeprecation =

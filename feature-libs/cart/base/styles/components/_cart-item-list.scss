@@ -1,0 +1,133 @@
+%cx-cart-item-list {
+  @extend .cx-agnostic-table;
+
+  .cx-item-list-header {
+    border-bottom: none;
+
+    .cx-item-list-qty {
+      text-transform: uppercase;
+    }
+  }
+
+  .cx-item-list-items {
+    tr {
+      &:last-child {
+        border-bottom: 1px solid var(--cx-color-medium);
+      }
+    }
+  }
+
+  td.cx-actions {
+    cx-add-to-cart,
+    button {
+      white-space: nowrap;
+      display: block;
+      margin-inline-start: auto;
+
+      @include media-breakpoint-down(md) {
+        margin-inline-start: auto;
+      }
+
+      @include media-breakpoint-down(sm) {
+        min-height: 48px;
+      }
+    }
+
+    .cx-remove-btn {
+      @include media-breakpoint-down(md) {
+        margin: 0;
+      }
+
+      @include media-breakpoint-down(xs) {
+        margin-inline-start: auto;
+      }
+    }
+  }
+
+  .cx-table-item-container {
+    display: inline-grid;
+    grid-template-columns: 5rem 14rem;
+    gap: 1rem;
+    text-indent: 0;
+  }
+
+  .cx-name {
+    margin-top: 0.5rem;
+    font-size: var(--cx-font-size, 1rem);
+  }
+
+  .cx-code {
+    color: var(--cx-color-secondary);
+    margin-top: 0.5em;
+  }
+
+  .cx-link {
+    text-decoration: none;
+    color: var(--cx-color-text);
+    font-weight: var(--cx-font-weight-bold);
+
+    // TODO: (CXSPA-6903) - Remove feature flag next major release
+    @include forFeature('a11yCartItemsLinksStyles') {
+      text-decoration: underline;
+      color: var(--cx-color-primary);
+    }
+  }
+
+  .cx-total {
+    font-size: var(--cx-font-size, 1rem);
+    font-weight: var(--cx-font-weight-normal);
+  }
+
+  .cx-cart-addons {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+
+    cx-configurator-cart-entry-info {
+      margin-inline-start: 6rem;
+    }
+
+    cx-cart-pickup-options-container {
+      margin-inline-start: 6rem;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    .cx-table-item-container {
+      grid-template-columns: 5em auto;
+
+      .cx-price {
+        display: none;
+      }
+    }
+
+    .cx-quantity {
+      @include media-breakpoint-down(sm) {
+        .cx-mobile-header {
+          margin-bottom: 5px;
+        }
+      }
+    }
+
+    .cx-value {
+      cx-item-counter button[type='button'] {
+        margin-bottom: 0em;
+      }
+    }
+
+    .cx-actions button {
+      margin-inline-start: 0;
+      text-align: start;
+    }
+
+    td {
+      &:nth-of-type(1) {
+        padding-inline-start: 0;
+      }
+      &:not(:nth-of-type(1)) {
+        font-size: var(--cx-font-size, 0.875rem);
+        margin-inline-start: 5.7rem;
+      }
+    }
+  }
+}

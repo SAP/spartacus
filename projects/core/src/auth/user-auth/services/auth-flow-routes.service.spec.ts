@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { RoutingConfig } from 'projects/core/src/routing/configurable-routes/config/routing-config';
-import { UrlParsingService } from 'projects/core/src/routing/configurable-routes/url-translation/url-parsing.service';
+import { RoutingConfig } from '../../../routing/configurable-routes/config/routing-config';
+import { UrlParsingService } from '../../../routing/configurable-routes/url-translation/url-parsing.service';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 
 class MockUrlParsingService implements Partial<UrlParsingService> {

@@ -3,8 +3,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "declarationMap": true,
-    "target": "es2015",
-    "module": "es2020",
+    "module": "es2022",
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
@@ -13,7 +12,7 @@
     "importHelpers": true,
     "strict": false, // TODO: Fix strict errors and remove this option
     "types": [],
-    "lib": ["es2020", "dom"],
+    "lib": ["es2022", "dom"],
     "paths": {
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]
@@ -24,7 +23,8 @@
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "enableResourceInlining": true
+    "enableResourceInlining": true,
+    "strictTemplates": false
   },
-  "exclude": ["test.ts", "**/*.spec.ts"]
+  "exclude": ["test.ts", "setup-jest.ts", "**/*.spec.ts"]
 }

@@ -1,14 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { StateUtils } from '@spartacus/core';
 import {
+  ConsignmentTracking,
   Order,
   OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderList,
   ReturnRequest,
   ReturnRequestList,
-  StateUtils,
-} from '@spartacus/core';
-import { ConsignmentTracking } from '@spartacus/order/root';
-
+} from '@spartacus/order/root';
 export const ORDER_FEATURE = 'order';
 
 export const CANCEL_ORDER_PROCESS_ID = 'cancelOrder';
@@ -21,6 +26,9 @@ export const ORDER_DETAILS = '[Order] User Order Details';
 export const REPLENISHMENT_ORDERS = '[Order] User Replenishment Orders';
 export const REPLENISHMENT_ORDER_DETAILS =
   '[Order] User Replenishment Order Details';
+export const CONSIGNMENT_TRACKING_BY_ID_ENTITIES =
+  'consignment-tracking-by-id-entities';
+export const ORDER_BY_ID_ENTITIES = 'order-by-id-entities';
 
 export interface StateWithOrder {
   [ORDER_FEATURE]: OrderState;
@@ -34,8 +42,17 @@ export interface OrderState {
   orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
   consignmentTracking: ConsignmentTrackingState;
   replenishmentOrder: StateUtils.LoaderState<ReplenishmentOrder>;
+  consignmentTrackingById: StateUtils.EntityLoaderState<ConsignmentTracking>;
+  orderById: StateUtils.EntityLoaderState<Order>;
 }
 
 export interface ConsignmentTrackingState {
   tracking: ConsignmentTracking;
+}
+
+export function getConsignmentTrackingByIdEntityKey(
+  orderCode: string,
+  consignmentCode: string
+): string {
+  return `${orderCode},${consignmentCode}`;
 }

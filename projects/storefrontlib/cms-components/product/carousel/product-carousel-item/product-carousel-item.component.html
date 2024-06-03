@@ -1,0 +1,16 @@
+<a tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">
+  <cx-media
+    [container]="item.images?.PRIMARY"
+    format="product"
+    [alt]="item.name ?? ''"
+  ></cx-media>
+  <h3 class="cx-product-name">
+    {{ item.name }}
+  </h3>
+  <div class="price">
+    {{ item.price?.formattedValue }}
+  </div>
+</a>
+<div class="actions">
+  <ng-container cxInnerComponentsHost></ng-container>
+</div>

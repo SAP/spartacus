@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export interface TranslationChunksConfig {
   [chunk: string]: string[];
 }
@@ -16,22 +22,11 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'formErrors',
     'errorHandlers',
     'carousel',
-  ],
-  cart: [
-    'cartDetails',
-    'cartItems',
-    'orderCost',
-    'voucher',
-    'wishList',
-    'saveForLaterItems',
-    'validation',
-  ],
-  address: [
-    'addressForm',
-    'addressBook',
-    'addressCard',
-    'addressSuggestion',
-    'addressMessages',
+    'assistiveMessage',
+    'passwordVisibility',
+    'generalErrors',
+    'chatMessaging',
+    'formLegend',
   ],
   payment: [
     'paymentForm',
@@ -48,7 +43,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'updateProfileForm',
     'consentManagementForm',
     'myCoupons',
-    'wishlist',
     'notificationPreference',
     'myInterests',
     'AccountOrderHistoryTabContainer',
@@ -72,4 +66,8 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'productView',
   ],
   user: ['anonymousConsents', 'loginRegister', 'checkoutLogin', 'authMessages'],
+  video: ['player'],
+  deliveryMode: ['setDeliveryMode'],
+  myAccountV2NotifiationPerference: ['myAccountV2NotifiationPerference'],
+  myAccountV2Consent: ['myAccountV2Consent'],
 };

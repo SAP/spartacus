@@ -1,10 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  DoCheck,
   HostBinding,
   Input,
+  KeyValueDiffer,
+  KeyValueDiffers,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl, UntypedFormControl } from '@angular/forms';
 import { isObject } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -23,20 +33,21 @@ import { map, startWith } from 'rxjs/operators';
   templateUrl: './form-errors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormErrorsComponent {
-  _control: FormControl;
+export class FormErrorsComponent implements DoCheck {
+  constructor(
+    protected ChangeDetectionRef: ChangeDetectorRef,
+    protected keyValueDiffers: KeyValueDiffers
+  ) {}
 
-  /**
-   * @deprecated since 4.1 - use `errorsDetails$` instead, which contains not only
-   *                         the error key, but also the error details
-   */
-  errors$: Observable<string[]>;
+  _control: UntypedFormControl | AbstractControl;
 
   /**
    * Emits an array of errors, each represented by a tuple:
    * the error key and error details.
    */
-  errorsDetails$: Observable<Array<[string, string]>>;
+  errorsDetails$: Observable<Array<[string, string | boolean]>>;
+
+  protected differ: KeyValueDiffer<any, any>;
 
   /**
    * Prefix prepended to the translation key.
@@ -47,11 +58,17 @@ export class FormErrorsComponent {
    * Translation params to enrich the error details object.
    */
   @Input()
-  translationParams: { [key: string]: string };
+  translationParams: { [key: string]: string | null };
 
   @Input()
-  set control(control: FormControl) {
+  set control(control: AbstractControl | UntypedFormControl | null) {
+    if (!control) {
+      return;
+    }
+
     this._control = control;
+
+    this.differ = this.keyValueDiffers.find(this.control).create();
 
     this.errorsDetails$ = control?.statusChanges.pipe(
       startWith({}),
@@ -60,16 +77,22 @@ export class FormErrorsComponent {
         Object.entries(errors).filter(([_key, details]) => details)
       )
     );
-
-    this.errors$ = this.errorsDetails$.pipe(
-      map((errors) => errors.map(([key, _details]) => key))
-    );
   }
 
-  get control(): FormControl {
+  get control(): UntypedFormControl | AbstractControl {
     return this._control;
   }
 
+  ngDoCheck(): void {
+    const changes = this.differ?.diff(this.control);
+    if (changes) {
+      changes.forEachChangedItem((r) => {
+        if (r?.key === 'touched') {
+          this.ChangeDetectionRef.markForCheck();
+        }
+      });
+    }
+  }
   /**
    * Returns translation params composed of
    * the argument `errorDetails` (if only is an object) merged with
@@ -92,4 +115,8 @@ export class FormErrorsComponent {
   @HostBinding('class.control-touched') get touched() {
     return this.control?.touched;
   }
+  @HostBinding('class.cx-visually-hidden') get hidden() {
+    return !(this.invalid && (this.touched || this.dirty));
+  }
+  @HostBinding('attr.role') role = 'alert';
 }

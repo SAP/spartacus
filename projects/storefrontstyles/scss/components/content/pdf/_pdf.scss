@@ -1,0 +1,18 @@
+%cx-pdf {
+  .pdf-container {
+    padding-top: 0.938rem;
+    font-size: var(--cx-font-size, 0.875rem);
+    a {
+      color: var(--cx-color-text);
+      line-height: 1.1875rem;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+    cx-icon {
+      margin-inline-start: 0.3rem;
+      background-color: transparent;
+      border: none;
+      text-decoration: none;
+    }
+  }
+}

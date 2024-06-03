@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   AUTH_HTTP_HEADER_SERVICE,
   AUTH_REDIRECT_SERVICE,
@@ -7,8 +13,8 @@ import {
   OAUTH_LIB_WRAPPER_SERVICE,
   OCC_ENDPOINTS_SERVICE,
   ROUTING_SERVICE,
-  SPARTACUS_CORE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const AUTH_HTTP_HEADER_SERVICE_MIGRATION: ConstructorDeprecation = {

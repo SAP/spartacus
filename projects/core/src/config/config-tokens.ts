@@ -1,4 +1,10 @@
-import { inject, Injectable, InjectFlags, InjectionToken } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { inject, Injectable, InjectionToken } from '@angular/core';
 import { deepMerge } from './utils/deep-merge';
 
 export function configFactory() {
@@ -17,7 +23,7 @@ export abstract class Config {}
 export function defaultConfigFactory() {
   return deepMerge(
     {},
-    ...(inject(DefaultConfigChunk, InjectFlags.Optional) ?? [])
+    ...(inject(DefaultConfigChunk, { optional: true }) ?? [])
   );
 }
 /**
@@ -29,7 +35,7 @@ export const DefaultConfig = new InjectionToken('DefaultConfiguration', {
 });
 
 export function rootConfigFactory() {
-  return deepMerge({}, ...(inject(ConfigChunk, InjectFlags.Optional) ?? []));
+  return deepMerge({}, ...(inject(ConfigChunk, { optional: true }) ?? []));
 }
 
 /**

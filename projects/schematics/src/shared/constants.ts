@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const UTF_8 = 'utf-8';
 
 /***** Imports start *****/
@@ -6,6 +12,7 @@ export const ANGULAR_CORE = '@angular/core';
 export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
 export const ANGULAR_HTTP = '@angular/common/http';
+export const ANGULAR_SSR = '@angular/ssr';
 
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
@@ -13,66 +20,11 @@ export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
 export const PLATFORM_ID = 'PLATFORM_ID';
 export const ANGULAR_OAUTH2_OIDC = 'angular-oauth2-oidc';
 
-export const SPARTACUS_SCOPE = '@spartacus/';
-export const SPARTACUS_SCHEMATICS = '@spartacus/schematics';
-export const SPARTACUS_CORE = '@spartacus/core';
-export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
-export const SPARTACUS_SETUP = '@spartacus/setup';
-export const SPARTACUS_SETUP_SSR = `${SPARTACUS_SETUP}/ssr`;
-export const SPARTACUS_CDS = '@spartacus/cds';
-export const SPARTACUS_CDC = '@spartacus/cdc';
-export const SPARTACUS_DIGITAL_PAYMENTS = '@spartacus/digital-payments';
-export const SPARTACUS_ASSETS = '@spartacus/assets';
-export const SPARTACUS_STYLES = '@spartacus/styles';
-export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
-export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT = `${SPARTACUS_ORGANIZATION}/administration/root`;
-export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `${SPARTACUS_ORGANIZATION}/administration/core`;
-export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `${SPARTACUS_ORGANIZATION}/administration/components`;
-export const SPARTACUS_ASM = '@spartacus/asm';
-export const SPARTACUS_CART = '@spartacus/cart';
-export const SPARTACUS_CART_SAVED_CART_COMPONENTS = `${SPARTACUS_CART}/saved-cart/components`;
-export const SPARTACUS_CART_SAVED_CART_ROOT = `${SPARTACUS_CART}/saved-cart/root`;
-export const SPARTACUS_CART_QUICK_ORDER_CORE = `${SPARTACUS_CART}/quick-order/core`;
-export const SPARTACUS_CART_QUICK_ORDER_ROOT = `${SPARTACUS_CART}/quick-order/root`;
-export const SPARTACUS_CART_QUICK_ORDER_COMPONENTS = `${SPARTACUS_CART}/quick-order/components`;
-export const SPARTACUS_PRODUCT = '@spartacus/product';
-export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
-export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `${SPARTACUS_PRODUCT_CONFIGURATOR}/common`;
-export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED = `${SPARTACUS_PRODUCT_CONFIGURATOR}/rulebased`;
-export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
-export const SPARTACUS_QUALTRICS_COMPONENTS = `${SPARTACUS_QUALTRICS}/components`;
-export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
-export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
-export const SPARTACUS_TRACKING = '@spartacus/tracking';
-export const SPARTACUS_USER = '@spartacus/user';
-export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
-export const SPARTACUS_CHECKOUT_OCC = `${SPARTACUS_CHECKOUT}/occ`;
-export const SPARTACUS_CHECKOUT_CORE = `${SPARTACUS_CHECKOUT}/core`;
-export const SPARTACUS_CHECKOUT_ROOT = `${SPARTACUS_CHECKOUT}/root`;
-export const SPARTACUS_CHECKOUT_COMPONENTS = `${SPARTACUS_CHECKOUT}/components`;
-export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
-export const SPARTACUS_USER_PROFILE_OCC = `${SPARTACUS_USER_PROFILE}/occ`;
-export const SPARTACUS_USER_PROFILE_CORE = `${SPARTACUS_USER_PROFILE}/core`;
-export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
-export const SPARTACUS_USER_PROFILE_ROOT = `${SPARTACUS_USER_PROFILE}/root`;
-export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
-export const SPARTACUS_USER_ACCOUNT_OCC = `${SPARTACUS_USER_ACCOUNT}/occ`;
-export const SPARTACUS_USER_ACCOUNT_CORE = `${SPARTACUS_USER_ACCOUNT}/core`;
-export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
-export const SPARTACUS_ORDER = '@spartacus/order';
-export const SPARTACUS_ORDER_ROOT = '@spartacus/order/root';
-
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
 export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
-export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
 export const NG_BOOTSTRAP = '@ng-bootstrap/ng-bootstrap';
-
-export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS =
-  '@spartacus/product/variants/components';
-export const SPARTACUS_PRODUCT_VARIANTS_ROOT =
-  '@spartacus/product/variants/root';
 
 /***** Imports end *****/
 
@@ -92,6 +44,7 @@ export const FORM_BUILDER = 'FormBuilder';
 export const JSONLD_PRODUCT_REVIEW_BUILDER = 'JsonLdProductReviewBuilder';
 
 export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
+export const KEY_VALUE_DIFFERS = 'KeyValueDiffers';
 
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
@@ -118,6 +71,7 @@ export const EVENTS_MODULE = 'EventsModule';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
+export const PROVIDE_FEATURE_TOGGLES_FUNCTION = 'provideFeatureToggles';
 export const SITE_CONTEXT_CONFIG = 'SiteContextConfig';
 export const I18N_CONFIG = 'I18nConfig';
 export const OCC_CONFIG = 'OccConfig';
@@ -151,6 +105,7 @@ export const SPLIT_VIEW_SERVICE = 'SplitViewService';
 export const SAVED_CART_LIST_COMPONENT = 'SavedCartListComponent';
 export const SAVED_CART_FORM_DIALOG_COMPONENT = 'SavedCartFormDialogComponent';
 export const CONFIGURATOR_CART_SERVICE = 'ConfiguratorCartService';
+export const FORM_ERRORS_COMPONENT = 'FormErrorsComponent';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const BASE_PAGE_META_RESOLVER = 'BasePageMetaResolver';
@@ -178,6 +133,7 @@ export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CART_DATA_SERVICE = 'CartDataService';
 export const CART_SERVICE = 'CartService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
+export const ACTIVE_CART_FACADE = 'ActiveCartFacade';
 export const USER_ORDER_SERVICE = 'UserOrderService';
 export const USER_ORDERS_EFFECT = 'UserOrdersEffect';
 export const PROMOTION_SERVICE = 'PromotionService';
@@ -187,6 +143,8 @@ export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
 export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT =
   'OrderConfirmationOverviewComponent';
 export const ORDER_HISTORY_COMPONENT = 'OrderHistoryComponent';
+export const UNIT_LEVEL_ORDER_HISTORY_COMPONENT =
+  'UnitLevelOrderHistoryComponent';
 export const ORDER_OVERVIEW_COMPONENT = 'OrderOverviewComponent';
 export const AUTH_REDIRECT_SERVICE = 'AuthRedirectService';
 export const CHECKOUT_DETAILS_SERVICE = 'CheckoutDetailsService';
@@ -197,6 +155,8 @@ export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
 export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
 export const ADDED_TO_CART_DIALOG_COMPONENT = 'AddedToCartDialogComponent';
+export const ADDED_TO_CART_DIALOG_EVENT_LISTENER =
+  'AddedToCartDialogEventListener';
 export const MODAL_SERVICE = 'ModalService';
 export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
@@ -228,6 +188,7 @@ export const SMART_EDIT_CONFIG = 'SmartEditConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const LOGOUT_GUARD = 'LogoutGuard';
+export const LOGIN_GUARD = 'LoginGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
@@ -264,6 +225,7 @@ export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
 export const PROTECTED_ROUTES_GUARD = 'ProtectedRoutesGuard';
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
 export const REGISTER_COMPONENT = 'RegisterComponent';
+export const REGISTER_COMPONENT_SERVICE = 'RegisterComponentService';
 export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
 export const ANONYMOUS_CONSENTS_CONFIG = 'AnonymousConsentsConfig';
 export const STAR_RATING_COMPONENT = 'StarRatingComponent';
@@ -276,6 +238,7 @@ export const PRODUCT_LIST_COMPONENT_SERVICE = 'ProductListComponentService';
 export const PRODUCT_LIST_ITEM_COMPONENT = 'ProductListItemComponent';
 export const PRODUCT_LIST_ITEM_CONTEXT_SOURCE = 'ProductListItemContextSource';
 export const PRODUCT_GRID_ITEM_COMPONENT = 'ProductGridItemComponent';
+export const PRODUCT_INTRO_COMPONENT = 'ProductIntroComponent';
 export const CART_ITEM_CONTEXT_SOURCE = 'CartItemContextSource';
 export const CART_ITEM_CONTEXT = 'CartItemContext';
 export const PAGE_LAYOUT_SERVICE = 'PageLayoutService';
@@ -302,9 +265,11 @@ export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
 export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
 export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 export const ADDRESS_FORM_COMPONENT = `AddressFormComponent`;
+export const SUGGESTED_ADDRESS_DIALOG_COMPONENT = `SuggestedAddressDialogComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
+export const INNER_COMPONENTS_HOST_DIRECTIVE = 'InnerComponentsHostDirective';
 export const POPOVER_COMPONENT = 'PopoverComponent';
 export const POPOVER_DIRECTIVE = 'PopoverDirective';
 export const POPOVER_SERVICE = 'PopoverService';
@@ -322,6 +287,7 @@ export const PRODUCT_REVIEW_SERVICE = 'ProductReviewService';
 export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
 export const TAB_PARAGRAPH_CONTAINER_COMPONENT =
   'TabParagraphContainerComponent';
+export const PARAGRAPH_COMPONENT = 'ParagraphComponent';
 export const NAVIGATION_UI_COMPONENT = 'NavigationUIComponent';
 export const STORE_FINDER_LIST_ITEM_COMPONENT = 'StoreFinderListItemComponent';
 export const CART_CONFIG_SERVICE = 'CartConfigService';
@@ -332,7 +298,6 @@ export const RENDERER_FACTORY_2 = 'RendererFactory2';
 export const QUALTRICS_CONFIG = 'QualtricsConfig';
 export const QUALTRICS_COMPONENT = 'QualtricsComponent';
 export const QUALTRICS_EVENT_NAME = 'QUALTRICS_EVENT_NAME';
-export const QUALTRICS_MODULE = 'QualtricsModule';
 export const PRODUCT_FACET_NAVIGATION_COMPONENT =
   'ProductFacetNavigationComponent';
 export const BREAKPOINT_SERVICE = 'BreakpointService';
@@ -388,6 +353,9 @@ export const USER_PROFILE_FACADE = 'UserProfileFacade';
 export const USER_REGISTER_FACADE = 'UserRegisterFacade';
 export const UNIT_ADDRESS_FORM_SERVICE = 'UnitAddressFormService';
 export const GUEST_REGISTER_FORM_COMPONENT = 'GuestRegisterFormComponent';
+export const EPD_VISUALIZATION_CONFIG = 'EpdVisualizationConfig';
+export const CART_EVENT_BUILDER = 'CartEventBuilder';
+export const REGISTER_DELETE_CART = 'registerDeleteCart';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -445,6 +413,9 @@ export const SAVED_CART_DETAILS_OVERVIEW_COMPONENT =
   'SavedCartDetailsOverviewComponent ';
 export const SAVED_CART_DETAILS_SERVICE = 'SavedCartDetailsService';
 export const SAVED_CART_FACADE = 'SavedCartFacade';
+export const SAVED_CART_EVENT_BUILDER = 'SavedCartEventBuilder';
+export const REGISTER_DELETE_SAVED_CART_EVENTS =
+  'registerDeleteSavedCartEvents';
 
 export const REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE =
   'ReplenishmentOrderCancellationLaunchDialogService';
@@ -461,7 +432,10 @@ export const CONFIGURATOR_UI_SETTINGS_CONFIG = 'ConfiguratorUISettingsConfig';
 export const CONFIGURATOR_STOREFRONT_UTILS_SERVICE =
   'ConfiguratorStorefrontUtilsService';
 export const CONFIGURATOR_GROUPS_SERVICE = 'ConfiguratorGroupsService';
+export const CONFIGURATOR_EVENT_LISTENER = 'RulebasedConfiguratorEventListener';
 export const CONFIGURATOR_COMMONS_SERVICE = 'ConfiguratorCommonsService';
+export const CONFIGURATOR_REMOVE_OBSOLETE_PRODUCT_BOUND_CONFIGURATION =
+  'removeObsoleteProductBoundConfiguration';
 export const CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE =
   'ConfiguratorRouterExtractorService';
 export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
@@ -484,8 +458,12 @@ export const CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT =
   'ConfiguratorAttributeRadioButtonComponent';
 export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
   'ConfiguratorProductTitleComponent';
+export const CONFIGURATOR_GROUP_TITLE_COMPONENT =
+  'ConfiguratorGroupTitleComponent';
+export const CONFIGURATOR_CONFIGURATION_OBS = 'configuration$';
 export const CONFIGURATOR_GROUP_MENU_COMPONENT =
   'ConfiguratorGroupMenuComponent';
+export const CONFIGURATOR_TAB_BAR_COMPONENT = 'ConfiguratorTabBarComponent';
 export const CONFIGURATOR_GROUP_MENU_SERVICE = 'ConfiguratorGroupMenuService';
 export const MESSAGE_CONFIG = 'MessageConfig';
 export const CONFIGURATOR_MESSAGE_CONFIG = 'ConfiguratorMessageConfig';
@@ -498,6 +476,18 @@ export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT =
   'ConfiguratorCartEntryBundleInfoComponent';
 export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_SERVICE =
   'ConfiguratorCartEntryBundleInfoService';
+export const CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT =
+  'ConfiguratorAttributeHeaderComponent';
+export const CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT =
+  'ConfiguratorAttributeMultiSelectionBundleComponent';
+export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT =
+  'ConfiguratorAttributeSingleSelectionBundleComponent';
+export const CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT =
+  'ConfiguratorAttributeProductCardComponent';
+export const CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT =
+  'ConfiguratorOverviewBundleAttributeComponent';
+export const OCC_CONFIGURATOR_VARIANT_NORMALIZER =
+  'OccConfiguratorVariantNormalizer';
 export const DIRECTION_SERVICE = 'DirectionService';
 export const QUICK_ORDER_SERVICE = 'QuickOrderService';
 
@@ -533,6 +523,8 @@ export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
 export const ON_NAVIGATE_FOCUS_SERVICE = 'OnNavigateFocusService';
 export const KEYBOARD_FOCUS_CONFIG = 'KeyboardFocusConfig';
 
+export const CMS_PAGE_GUARD = 'CmsPageGuard';
+
 export const REFRESH_IN_PROGRESS = 'refreshInProgress';
 export const HANDLE_EXPIRED_TOKEN = 'handleExpiredToken';
 
@@ -540,6 +532,47 @@ export const SEARCH = 'search';
 export const REMOVE_ENTRY = 'removeEntry';
 export const QUICK_ORDER_FORM_COMPONENT = 'QuickOrderFormComponent';
 export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
+export const PROGRESS_BUTTON_COMPONENT = 'ProgressButtonComponent';
+
+export const REINITALIZE_MENU = 'reinitalizeMenu';
+export const PAGE_LAYOUT_HANDLER = 'PageLayoutHandler';
+
+export const BAD_REQUEST_HANDLER = 'BadRequestHandler';
+export const BAD_VOUCHER_REQUEST_HANDLER = 'BadVoucherRequestHandler';
+
+export const FACET_SERVICE = 'FacetService';
+export const PROFILE_TAG_EVENT_SERVICE = 'ProfileTagEventService';
+export const PROFILE_TAG_LIFECYCLE_SERVICE = 'ProfileTagLifecycleService';
+
+export const CDS_MERCHANDISING_PRODUCT_SERVICE =
+  'CdsMerchandisingProductService';
+export const MERCHANDISING_STRATEGY_CONNECTOR =
+  'MerchandisingStrategyConnector';
+export const CDS_MERCHANDISING_USER_CONTEXT_SERVICE =
+  'CdsMerchandisingUserContextService';
+export const CDS_MERCHANDISING_SITE_CONTEXT_SERVICE =
+  'CdsMerchandisingSiteContextService';
+export const CDS_MERCHANDISING_SEARCH_CONTEXT_SERVICE =
+  'CdsMerchandisingSearchContextService';
+export const CDS_MERCHANDISING_FACET_NORMALIZER =
+  'MerchandisingFacetNormalizer';
+export const CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER =
+  'MerchandisingFacetToQueryparamNormalizer';
+export const LOAD_PRODUCT_FOR_STRATEGY_METHOD = 'loadProductsForStrategy';
+
+export const CONSIGNMENT_TRACKING_COMPONENT = 'ConsignmentTrackingComponent';
+export const TRACKING_EVENTS_COMPONENT = 'TrackingEventsComponent';
+export const ORDER_HISTORY_FACADE = 'OrderHistoryFacade';
+export const NGB_ACTIVE_MODAL = 'NgbActiveModal';
+export const COUPON_CARD_COMPONENT = 'CouponCardComponent';
+export const COUPON_DIALOG_COMPONENT = 'CouponDialogComponent';
+export const MY_COUPONS_COMPONENT_SERVICE = 'MyCouponsComponentService';
+
+export const STOCK_NOTIFICATION_MODULE = 'StockNotificationtModule';
+export const STOCK_NOTIFICATION_DIALOG_COMPONENT =
+  'StockNotificationDialogComponent';
+
+export const SANITIZE_METHOD = 'sanitize';
 
 /***** Classes end *****/
 
@@ -553,7 +586,6 @@ export const CART_SELECTORS = 'CartSelectors';
 export const CART_DATA_CONST = 'CART_DATA';
 export const STATE_WITH_CART = 'StateWithCart';
 export const CARTS_STATE = 'CartsState';
-export const CART_FEATURE_CONST = 'CART_FEATURE';
 export const CART_STATE = 'CartState';
 
 export const GET_REDUCERS = 'getReducers';
@@ -646,7 +678,6 @@ export const ASM_ACTIONS = 'AsmActions';
 export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
 export const CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR =
   'CustomerSupportAgentTokenInterceptor ';
-export const ASM_MODULE = 'AsmModule';
 export const ASM_OCC_MODULE = 'AsmOccModule';
 export const OCC_ASM_ADAPTER = 'OccAsmAdapter';
 export const ASM_CONFIG = 'AsmConfig';
@@ -734,7 +765,6 @@ export const STORE_FINDER_HEADER_COMPONENT = 'StoreFinderHeaderComponent';
 export const STORE_FINDER_PAGINATION_DETAILS_COMPONENT =
   'StoreFinderPaginationDetailsComponent';
 export const STORE_FINDER_COMPONENT = 'StoreFinderComponent';
-export const STORE_FINDER_SCSS_FILE_NAME = 'storefinder.scss';
 
 export const ON_SUCCESS = 'onSuccess';
 
@@ -778,7 +808,6 @@ export const DEFAULT_STATE_CONFIG = 'defaultStateConfig';
 export const DEFAULT_LOCAL_STORAGE_KEY = 'DEFAULT_LOCAL_STORAGE_KEY';
 export const DEFAULT_SESSION_STORAGE_KEY = 'DEFAULT_SESSION_STORAGE_KEY';
 
-export const PERSONALIZATION_MODULE = 'PersonalizationModule';
 export const PERSONALIZATION_CONFIG = 'PersonalizationConfig';
 export const PERSONALIZATION_CONTEXT_SERVICE = 'PersonalizationContextService';
 export const PERSONALIZATION_ACTION = 'PersonalizationAction';
@@ -821,8 +850,6 @@ export const USER_DETAILS_ACTION = 'UserDetailsAction';
 export const USER_DETAILS_STATE_INTERFACE = 'UserDetailsState';
 export const USER_STATE_INTERFACE = 'UserState';
 export const USER_MODULE = 'UserModule';
-export const USER_ACCOUNT_MODULE = 'UserAccountModule';
-export const USER_PROFILE_MODULE = 'UserProfileModule';
 export const USER_PROFILE_FACADE_TRANSITIONAL_TOKEN =
   'UserProfileFacadeTransitionalToken';
 export const USER_REGISTER_FACADE_TRANSITIONAL_TOKEN =
@@ -840,6 +867,7 @@ export const LOGIN_MODULE = 'LoginModule';
 export const LOGIN_FORM_MODULE = 'LoginFormModule';
 export const LOGIN_REGISTER_COMPONENT = 'LoginRegisterComponent';
 export const LOGIN_REGISTER_MODULE = 'LoginRegisterModule';
+
 export const UPDATE_EMAIL_MODULE = 'UpdateEmailModule';
 export const UPDATE_PASSWORD_MODULE = 'UpdatePasswordModule';
 export const UPDATE_PROFILE_MODULE = 'UpdateProfileModule';
@@ -880,6 +908,13 @@ export const DEFAULT_USER_ROUTING_CONFIG = 'defaultUserRoutingConfig';
 // export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
 
 export const B2C_LAYOUT_CONFIG = 'b2cLayoutConfig';
+
+export const MODAL_OPTIONS = 'ModalOptions';
+export const MODAL_REF = 'ModalRef';
+export const MODAL_DIRECTIVE_OPTIONS = 'ModalDirectiveOptions';
+export const MODAL_DIRECTIVE_SERVICE = 'ModalDirectiveService';
+export const MODAL_DIRECTIVE = 'ModalDirective';
+export const MODAL_MODULE = 'ModalModule';
 
 /***** Removed public api end *****/
 
@@ -971,6 +1006,9 @@ export const TABLE_HEADER = 'TableHeader';
 
 export const PROMOTION_LOCATION$ = 'promotionLocation$';
 export const LOCATION$ = 'location$';
+
+export const CLIK_EVENT = 'clikEvent';
+export const CLICK_EVENT = 'clickEvent';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -986,6 +1024,8 @@ export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
 
 export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
 export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
+
+export const HANDLE_VOUCHER_OPERATION_ERROR = 'handleVoucherOperationError';
 
 export const IS_LAUNCH_IN_SMART_EDIT = 'isLaunchInSmartEdit';
 export const IS_LAUNCHED_IN_SMART_EDIT = 'isLaunchedInSmartEdit';
@@ -1043,8 +1083,6 @@ export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 export const GET_LOADED = 'getLoaded';
 export const IS_STABLE = 'isStable';
 
-export const STOREFINDER_MODULE = 'StoreFinderModule';
-
 export const GO = 'go';
 
 export const OCC_ENDPOINTS = 'OccEndpoints';
@@ -1067,19 +1105,29 @@ export const RESET_CHECKOUT_PROCESSES = 'resetCheckoutProcesses';
 export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
 export const GET_STABLE_CONFIG = 'getStableConfig';
 export const GET_STABLE = 'getStable';
+export const EXTRACT_PRODUCT_CARD_PARAMETERS = 'extractProductCardParameters';
+export const CONFIGURATOR_API_IS_ATTRIBUTE_GROUP = 'isAttributeGroup';
+export const CONFIGURATOR_API_GET_CONFLICT_MESSAGE_KEY =
+  'getConflictMessageKey';
+export const CONFIGURATOR_CONVERT_ATTRIBUTE_TYPE = 'convertAttributeType';
+export const CONFIGURATOR_IS_IN_VIEWPORT = 'isInViewport';
+
+export const REPORT_AUTH_GUARD = 'reportAuthGuard';
+export const SAVE_CURRENT_NAVIGATION_URL = 'saveCurrentNavigationUrl';
+export const REPORT_NOT_AUTH_GUARD = 'reportNotAuthGuard';
 
 /***** APIs end *****/
 
 /***** feature keys start *****/
 export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_OBSOLETE = 'rulebased';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE = 'textfield';
+
 export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE =
   'productConfiguratorRulebased';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
   'productConfiguratorTextfield';
 /***** feature keys end *****/
 
-/***** Storefinder start *****/
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
 export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
@@ -1089,53 +1137,27 @@ export const CSS_V4_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-4/';
 export const CSS_V5_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-5/';
-/***** Storefinder end *****/
+export const CSS_V6_DOCS_URL =
+  'https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT';
 
-/******* CLI start *******/
-export const SPARTACUS_ROUTING_MODULE = 'app-routing';
-export const SPARTACUS_MODULE = 'spartacus';
-export const SPARTACUS_FEATURES_MODULE = 'spartacus-features';
-export const SPARTACUS_FEATURES_NG_MODULE = 'SpartacusFeaturesModule';
-export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
+export const BANNER_COMPONENT = 'BannerComponent';
+export const GENERIC_LINK_COMPONENT = 'GenericLinkComponent';
+export const GENERIC_LINK_COMPONENT_SERVICE = 'GenericLinkComponentService';
 
-export const CLI_ASM_FEATURE = 'ASM';
+export const CDC_JS_SERVICE = 'CdcJsService';
 
-export const CLI_CART_IMPORT_EXPORT_FEATURE = 'Import-Export';
+export const SERVER_FILENAME = 'server.ts';
+export const SERVER_BAK_FILENAME = 'server.ts.bak';
+export const OLD_ZONE_IMPORT = 'zone.js/dist/zone-node';
+export const NEW_ZONE_IMPORT = 'zone.js/node';
+export const NGUNIVERSAL_IMPORT = '@nguniversal/express-engine';
+export const SSR_SETUP_IMPORT = '@spartacus/setup/ssr';
+export const EXPRESS_TOKENS = 'express.tokens';
 
-export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
+export const APP_ROUTING_MODULE = 'AppRoutingModule';
+export const APP_ROUTING_MODULE_LOCAL_PATH = './app-routing.module';
+export const APP_ROUTING_MODULE_LOCAL_FILENAME = 'app-routing.module.ts';
+export const BROWSER_MODULE = 'BrowserModule';
 
-export const CLI_CART_QUICK_ORDER_FEATURE = 'Quick-Order';
-
-export const CLI_CDC_FEATURE = 'CDC';
-
-export const CLI_CDS_FEATURE = 'CDS';
-export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
-
-export const CLI_ORGANIZATION_ADMINISTRATION_FEATURE = 'Administration';
-export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';
-
-export const CLI_PRODUCT_BULK_PRICING_FEATURE = 'Bulk-Pricing';
-export const CLI_PRODUCT_VARIANTS_FEATURE = 'Product-Variants';
-export const CLI_PRODUCT_IMAGE_ZOOM_FEATURE = 'Image-Zoom';
-
-export const CLI_PRODUCT_CONFIGURATOR_VC_FEATURE = 'VC-Configurator';
-export const CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
-  'Textfield-Configurator';
-export const CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE = 'CPQ-Configurator';
-
-export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
-
-export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
-
-export const CLI_STOREFINDER_FEATURE = 'Store-Finder';
-
-export const CLI_TRACKING_PERSONALIZATION_FEATURE = 'Personalization';
-export const CLI_TRACKING_TMS_GTM_FEATURE = 'TMS-GTM';
-export const CLI_TRACKING_TMS_AEP_FEATURE = 'TMS-AEPL';
-
-export const CLI_USER_ACCOUNT_FEATURE = 'Account';
-export const CLI_USER_PROFILE_FEATURE = 'Profile';
-
-export const CLI_CHECKOUT_FEATURE = 'Checkout';
-export const CLI_ORDER_FEATURE = 'Order';
-/******* CLI end *******/
+export const FEATURE_TOGGLES_COPIED_FROM_CORE_LIB_PATH =
+  '../feature-toggles.copied-from-core-lib';

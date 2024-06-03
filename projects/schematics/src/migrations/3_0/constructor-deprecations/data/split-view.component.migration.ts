@@ -1,11 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ANGULAR_CORE,
   BREAKPOINT_SERVICE,
   ELEMENT_REF,
-  SPARTACUS_STOREFRONTLIB,
   SPLIT_VIEW_COMPONENT,
   SPLIT_VIEW_SERVICE,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SPLIT_VIEW_COMPONENT_MIGRATION: ConstructorDeprecation = {

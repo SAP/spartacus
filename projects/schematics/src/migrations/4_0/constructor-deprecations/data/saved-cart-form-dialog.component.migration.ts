@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ANGULAR_CORE,
   CLEAR_CHECKOUT_SERVICE,
@@ -7,10 +13,12 @@ import {
   LAUNCH_DIALOG_SERVICE,
   ROUTING_SERVICE,
   SAVED_CART_FORM_DIALOG_COMPONENT,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CART,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION: ConstructorDeprecation =

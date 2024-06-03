@@ -135,6 +135,16 @@ describe('GigyaRaasComponent', () => {
       spyOn(window.gigya.accounts, 'showScreenSet');
     });
 
+    it('should invoke displayScreenSet', () => {
+      component.displayScreenSet(sampleComponentData, 'en');
+      expect(window.gigya.accounts.showScreenSet).toHaveBeenCalledWith({
+        screenSet: 'screenSet',
+        startScreen: 'startScreen',
+        lang: 'en',
+        sessionExpiration: 120,
+      });
+    });
+
     it('should show login embed according to component data', () => {
       component.showScreenSet(
         {

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ANGULAR_ROUTER,
   AUTH_REDIRECT_SERVICE,
@@ -7,9 +13,11 @@ import {
   PROTECTED_ROUTES_SERVICE,
   ROUTER,
   SEMANTIC_PATH_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const LOGOUT_GUARD_CONSTRUCTOR_MIGRATION: ConstructorDeprecation = {

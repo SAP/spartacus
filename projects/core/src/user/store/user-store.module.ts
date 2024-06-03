@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -8,9 +14,6 @@ import { effects } from './effects/index';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
 import { USER_FEATURE } from './user-state';
 
-/**
- * @deprecated since 3.2, moved to the `@spartacus/user` package.
- */
 @NgModule({
   imports: [
     CommonModule,

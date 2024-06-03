@@ -46,14 +46,24 @@ done
 
 set -- "${POSITIONAL[@]}"
 
+if [ "$SUITE" == ":ccv2" ]; then
+    export SPA_ENV='ccv2,b2c'
+fi
+
+if [ "$SUITE" == ":ccv2-b2b" ]; then
+    export SPA_ENV='ccv2,b2b'
+fi
+
 echo '-----'
 echo "Building Spartacus libraries"
 
-yarn install
+export NODE_OPTIONS=--dns-result-order=ipv4first
 
-(cd projects/storefrontapp-e2e-cypress && yarn install)
+npm ci
 
-yarn build:libs 2>&1 | tee build.log
+(cd projects/storefrontapp-e2e-cypress && npm ci)
+
+npm run build:libs 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "${results}" ]]; then
@@ -66,28 +76,40 @@ else
 fi
 echo '-----'
 echo "Building Spartacus storefrontapp"
-yarn build
+npm run build
 
 if [[ "${SSR}" = true ]]; then
     echo "Building Spartacus storefrontapp (SSR PROD mode)"
-    yarn build:ssr:ci
+    npm run build:ssr:ci
 
     echo "Starting Spartacus storefrontapp in SSR mode"
-    (yarn serve:ssr:ci &)
+    (npm run serve:ssr:ci &)
 
     echo '-----'
     echo "Running SSR Cypress smoke test"
 
-    yarn e2e:run:ci:ssr
+    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+      if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+        npm run e2e:run:ci:ssr
+      else 
+        npm run e2e:run:ci:core:ssr
+      fi
+    else
+        npm run e2e:run:ci:ssr"${SUITE}"
+    fi
 else
-    yarn start:pwa &
+    npm run start:pwa &
 
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
-        yarn e2e:run:ci"${SUITE}"
+    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+      if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+        npm run e2e:run:ci"${SUITE}"
+      else 
+        npm run e2e:run:ci:core"${SUITE}"
+      fi
     else
-        yarn e2e:run:ci:core"${SUITE}"
+        npm run e2e:run:ci"${SUITE}"
     fi
 fi

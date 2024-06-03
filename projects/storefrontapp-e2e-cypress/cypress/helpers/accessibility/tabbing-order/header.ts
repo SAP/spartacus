@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { verifyTabbingOrder } from '../tabbing-order';
 import { formats } from '../../../sample-data/viewports';
 import { TabElement } from '../tabbing-order.model';
@@ -46,7 +52,8 @@ export function subCategoryTabbingOrder(
   }
 
   cy.get('cx-category-navigation').within(() => {
-    cy.get('cx-navigation-ui').find('nav').should('have.length', 30);
+    cy.get('cx-navigation-ui').find('li:not(.back)').should('have.length', 30);
+    // no h5 elements anymore
     cy.get('cx-navigation-ui > nav > h5')
       .contains(subCategoryName)
       .should('be.visible')

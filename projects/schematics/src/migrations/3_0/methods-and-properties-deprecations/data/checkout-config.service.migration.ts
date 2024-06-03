@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CHECKOUT_CONFIG_SERVICE,
   CHECKOUT_STEP_SERVICE,
@@ -7,10 +13,10 @@ import {
   GET_FIRST_CHECKOUT_STEP_ROUTE,
   GET_NEXT_CHECKOUT_STEP_URL,
   GET_PREVIOUS_CHECKOUT_STEP_URL,
-  SPARTACUS_STOREFRONTLIB,
   STEPS,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/storefrontlib/cms-components/checkout/services/checkout-config.service.ts

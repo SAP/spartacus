@@ -1,8 +1,13 @@
 <ng-container *ngIf="container$ | async as container">
   <button
-    class="cx-config-exit-button"
+    class="btn btn-tertiary"
     tabindex="0"
     (click)="exitConfiguration()"
+    [attr.title]="
+      container.routerData.isOwnerCartEntry
+        ? ('configurator.button.cancelConfiguration' | cxTranslate)
+        : ('configurator.button.exit' | cxTranslate)
+    "
   >
     <ng-container *ngIf="!container.routerData.isOwnerCartEntry">
       <ng-container *ngIf="isDesktop() | async">

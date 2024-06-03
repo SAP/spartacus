@@ -1,6 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { Order, RoutingService } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+import { RoutingService } from '@spartacus/core';
+import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -18,7 +24,7 @@ export class OrderDetailsService {
   orderLoad$: Observable<{}>;
 
   constructor(
-    private userOrderService: OrderFacade,
+    private orderHistoryFacade: OrderHistoryFacade,
     private routingService: RoutingService
   ) {
     this.orderCode$ = this.routingService.getRouterState().pipe(
@@ -29,18 +35,22 @@ export class OrderDetailsService {
     this.orderLoad$ = this.orderCode$.pipe(
       tap((orderCode) => {
         if (orderCode) {
-          this.userOrderService.loadOrderDetails(orderCode);
+          this.orderHistoryFacade.loadOrderDetails(orderCode);
         } else {
-          this.userOrderService.clearOrderDetails();
+          this.orderHistoryFacade.clearOrderDetails();
         }
       }),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 
+  isOrderDetailsLoading(): Observable<boolean> {
+    return this.orderHistoryFacade.getOrderDetailsLoading();
+  }
+
   getOrderDetails(): Observable<Order> {
     return this.orderLoad$.pipe(
-      switchMap(() => this.userOrderService.getOrderDetails())
+      switchMap(() => this.orderHistoryFacade.getOrderDetails())
     );
   }
 }

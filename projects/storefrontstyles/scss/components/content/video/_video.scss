@@ -1,0 +1,28 @@
+%cx-video {
+  video {
+    display: inherit;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    z-index: 0;
+  }
+  a {
+    @include media-breakpoint-down(sm) {
+      font-size: 3vw;
+    }
+    @include type('3');
+    position: absolute;
+    top: 2.5rem;
+    left: 2.5rem;
+    z-index: 1;
+    padding: 0.5rem;
+    margin-inline-end: var(--cx-margin-right, 2.5rem);
+    color: var(--cx-color-text);
+    background-color: rgba(150, 150, 150, 0.8);
+    border-radius: 0.2rem;
+    font-weight: var(--cx-font-weight-bold);
+  }
+  .video-container {
+    position: relative;
+  }
+}

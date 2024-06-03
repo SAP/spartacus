@@ -1,11 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   CmsConfig,
   DeferLoadingStrategy,
-  FeaturesConfigModule,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { KeyboardFocusModule } from '../../layout/a11y/keyboard-focus/index';
@@ -14,14 +18,9 @@ import { defaultAnonymousConsentLayoutConfig } from './default-anonymous-consent
 import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-consent-open-dialog.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    FeaturesConfigModule,
-    KeyboardFocusModule,
-  ],
+  imports: [CommonModule, I18nModule, KeyboardFocusModule],
   providers: [
-    provideConfig(defaultAnonymousConsentLayoutConfig),
+    provideDefaultConfig(defaultAnonymousConsentLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AnonymousConsentManagementBannerComponent: {

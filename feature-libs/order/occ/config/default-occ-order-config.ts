@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { OccConfig } from '@spartacus/core';
 
 export const defaultOccOrderConfig: OccConfig = {
@@ -17,6 +23,21 @@ export const defaultOccOrderConfig: OccConfig = {
           'users/${userId}/orderReturns/${returnRequestCode}?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name,code,baseOptions,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
         cancelReturn: 'users/${userId}/orderReturns/${returnRequestCode}',
         /* eslint-enable */
+
+        /** scheduled replenishment endpoints start */
+        replenishmentOrderDetails:
+          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
+        replenishmentOrderDetailsHistory:
+          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}/orders',
+        cancelReplenishmentOrder:
+          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
+        replenishmentOrderHistory:
+          'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
+        /** scheduled replenishment endpoints end */
+
+        /** placing an order endpoints start **/
+        placeOrder: 'users/${userId}/orders?fields=FULL',
+        /** placing an order endpoints end **/
       },
     },
   },

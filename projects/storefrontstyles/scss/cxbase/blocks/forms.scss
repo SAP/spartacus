@@ -1,9 +1,10 @@
 @import '../../theme';
-@import '~bootstrap/scss/forms';
-@import '~bootstrap/scss/custom-forms';
+@import 'bootstrap/scss/forms';
+@import 'bootstrap/scss/custom-forms';
 
 .form-control {
   margin-bottom: 0.25rem;
+  color: var(--cx-color-text);
   &:focus {
     border-color: var(--cx-color-secondary);
     box-shadow: none;
@@ -12,15 +13,6 @@
 }
 
 cx-form-errors {
-  display: none;
-
-  &.control-invalid {
-    &.control-dirty,
-    &.control-touched {
-      display: initial;
-    }
-  }
-
   p {
     font-size: 14px;
     margin: 6px 0;
@@ -69,6 +61,10 @@ cx-file-upload {
 
   input[type='file'] {
     display: none;
+  }
+
+  button {
+    width: 100%;
   }
 }
 
@@ -124,6 +120,10 @@ label {
   }
 }
 
+.notes-content {
+  margin-top: 1rem;
+}
+
 legend {
   margin-bottom: $label-margin-bottom;
 }
@@ -144,6 +144,19 @@ legend {
 
   input + .form-check-label {
     color: var(--cx-color-text);
+
+    a {
+      color: var(--cx-color-text);
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+
+      @include media-breakpoint-down(sm) {
+        display: inline;
+      }
+    }
 
     &::after {
       content: none;
@@ -168,7 +181,7 @@ legend {
     border-style: solid;
     border-radius: 5px;
     border-width: 2px;
-    border-color: var(--cx-color-light);
+    border-color: var(--cx-color-medium);
 
     &:checked {
       font-style: normal;
@@ -207,7 +220,7 @@ input[type='radio'] {
   display: inline-block;
   border-style: solid;
   border-width: 2px;
-  border-color: var(--cx-color-light);
+  border-color: var(--cx-color-medium);
   position: absolute;
 
   &::after {
@@ -236,6 +249,12 @@ input[type='radio'] {
   &--danger {
     color: var(--cx-color-danger);
   }
+}
+
+.form-legend {
+  font-style: italic;
+  color: var(--cx-color-secondary);
+  margin-bottom: 1rem;
 }
 
 .ng-select,
@@ -325,5 +344,27 @@ input {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+  }
+}
+
+.ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  color: var(--cx-color-secondary);
+}
+
+.form-group {
+  input[type='text']::placeholder,
+  input[type='tel']::placeholder {
+    color: var(--cx-color-text);
+    opacity: 1;
+  }
+
+  input[type='text']:-ms-input-placeholder,
+  input[type='tel']:-ms-input-placeholder {
+    color: var(--cx-color-secondary);
+  }
+
+  input[type='text']::-ms-input-placeholder,
+  input[type='tel']::-ms-input-placeholder {
+    color: var(--cx-color-secondary);
   }
 }

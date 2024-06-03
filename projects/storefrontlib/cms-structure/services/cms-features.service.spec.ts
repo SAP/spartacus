@@ -1,12 +1,13 @@
+import { InjectionToken, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CmsFeaturesService } from './cms-features.service';
 import {
   CmsConfig,
   FeatureModulesService,
   provideConfig,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { InjectionToken, NgModule } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
+import { CmsFeaturesService } from './cms-features.service';
 
 const mockCmsConfig: CmsConfig = {
   featureModules: {
@@ -108,7 +109,7 @@ describe('CmsFeaturesService', () => {
 
     it('should return feature module', async () => {
       // initialize feature
-      await service.getCmsMapping('component1').toPromise();
+      await lastValueFrom(service.getCmsMapping('component1'));
 
       const module = service.getModule('component1');
 
@@ -119,7 +120,7 @@ describe('CmsFeaturesService', () => {
 
     it('should return dependency injectors', async () => {
       // initialize feature
-      await service.getCmsMapping('component2').toPromise();
+      await lastValueFrom(service.getCmsMapping('component2'));
 
       const module = service.getModule('component2');
       expect(module).toBeTruthy();

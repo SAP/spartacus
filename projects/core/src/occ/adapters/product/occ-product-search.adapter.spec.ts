@@ -5,6 +5,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
+  OCC_HTTP_TOKEN,
   PRODUCT_SEARCH_PAGE_NORMALIZER,
   PRODUCT_SUGGESTION_NORMALIZER,
 } from '@spartacus/core';
@@ -14,16 +15,21 @@ import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductSearchAdapter } from './occ-product-search.adapter';
 import createSpy = jasmine.createSpy;
+import { Router } from '@angular/router';
 
 class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
-    // eslint-disable-next-line no-shadow
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     (url) => url
   );
 }
 
 const queryText = 'test';
 const searchResults: ProductSearchPage = { products: [{ code: '123' }] };
+const searchResultsWithRedirectKeywords: ProductSearchPage = {
+  products: [{ code: '123' }],
+  keywordRedirectUrl: 'test',
+};
 const suggestionList: Occ.SuggestionList = { suggestions: [{ value: 'test' }] };
 const mockSearchConfig: SearchConfig = {
   pageSize: 5,
@@ -34,6 +40,7 @@ describe('OccProductSearchAdapter', () => {
   let httpMock: HttpTestingController;
   let endpoints: OccEndpointsService;
   let converter: ConverterService;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,6 +57,7 @@ describe('OccProductSearchAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     endpoints = TestBed.inject(OccEndpointsService);
+    router = TestBed.inject(Router);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -75,6 +83,9 @@ describe('OccProductSearchAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+        sendUserIdAsHeader: true,
+      });
       expect(endpoints.buildUrl).toHaveBeenCalledWith('productSearch', {
         queryParams: {
           query: queryText,
@@ -91,6 +102,18 @@ describe('OccProductSearchAdapter', () => {
       expect(converter.pipeable).toHaveBeenCalledWith(
         PRODUCT_SEARCH_PAGE_NORMALIZER
       );
+    });
+
+    it('should navigate to keywordRedirectUrl when it exists in the ProductSearchPage', () => {
+      service.search(queryText, mockSearchConfig).subscribe();
+      spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+      httpMock
+        .expectOne('productSearch')
+        .flush(searchResultsWithRedirectKeywords);
+
+      expect(router.navigate).toHaveBeenCalledWith([
+        searchResultsWithRedirectKeywords.keywordRedirectUrl,
+      ]);
     });
   });
 

@@ -3,7 +3,7 @@
 - Update [installation docs](https://sap.github.io/spartacus-docs/building-the-spartacus-storefront-from-libraries/):
     - update angular (cli) version
     - update `node` version
-    - update `yarn` version if needed
+    - update `npm` version if needed
     - add new requirements if any
     - review the rest of document for missing updates/new steps
 - Update installation script:

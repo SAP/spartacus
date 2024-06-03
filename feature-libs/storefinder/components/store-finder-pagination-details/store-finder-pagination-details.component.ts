@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, Input } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 
@@ -9,7 +15,9 @@ export class StoreFinderPaginationDetailsComponent {
   @Input()
   pagination: PaginationModel;
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   getResultsPerPage(): string {
     if (this.pagination.totalResults > this.pagination.pageSize) {

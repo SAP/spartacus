@@ -1,9 +1,8 @@
-import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { ActivatedRoutesService } from '@spartacus/core';
+import { ActivatedRoutesService, UnifiedInjector } from '@spartacus/core';
 import { RoutingContextService } from '@spartacus/storefront';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 const contextToken1 = 'contextToken1';
@@ -17,7 +16,9 @@ const contextInstance2 = 'contextInstance2';
 
 const mockInjector = {
   get: createSpy('get').and.callFake((providerToken: string) =>
-    providerToken === providerToken1 ? contextInstance1 : contextInstance2
+    providerToken === providerToken1
+      ? of(contextInstance1)
+      : of(contextInstance2)
   ),
 };
 
@@ -43,10 +44,14 @@ describe('RoutingContextService', () => {
             routes$: mockActivatedRoutes$,
           } as Partial<ActivatedRoutesService>,
         },
-        { provide: Injector, useValue: mockInjector },
+        { provide: UnifiedInjector, useValue: mockInjector },
       ],
     });
     service = TestBed.inject(RoutingContextService);
+  });
+
+  afterEach(() => {
+    mockInjector.get.calls.reset();
   });
 
   describe('get', () => {
@@ -56,8 +61,22 @@ describe('RoutingContextService', () => {
         .get(contextToken1)
         .subscribe((data) => (result = data))
         .unsubscribe();
-      expect(mockInjector.get).toHaveBeenCalledWith(providerToken1, undefined);
+      expect(mockInjector.get).toHaveBeenCalledWith(providerToken1);
       expect(result).toEqual(contextInstance1);
+    });
+  });
+
+  describe('get', () => {
+    it('should return undefined if providerToken is missing', () => {
+      mockActivatedRoutes$.next([]);
+
+      let result;
+      service
+        .get(contextToken1)
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+      expect(mockInjector.get).toHaveBeenCalledTimes(0);
+      expect(result).toEqual(undefined);
     });
   });
 
@@ -70,7 +89,7 @@ describe('RoutingContextService', () => {
         .get(contextToken1)
         .subscribe((contextInstance) => (result1 = contextInstance))
         .unsubscribe();
-      expect(mockInjector.get).toHaveBeenCalledWith(providerToken1, undefined);
+      expect(mockInjector.get).toHaveBeenCalledWith(providerToken1);
       expect(result1).toEqual(contextInstance1);
 
       let result2;
@@ -78,7 +97,7 @@ describe('RoutingContextService', () => {
         .get(contextToken2)
         .subscribe((contextInstance) => (result2 = contextInstance))
         .unsubscribe();
-      expect(mockInjector.get).toHaveBeenCalledWith(providerToken2, undefined);
+      expect(mockInjector.get).toHaveBeenCalledWith(providerToken2);
       expect(result2).toEqual(contextInstance2);
     });
   });

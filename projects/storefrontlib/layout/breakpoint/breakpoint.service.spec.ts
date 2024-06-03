@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { BREAKPOINT, LayoutConfig } from '../config/layout-config';
 import { BreakpointService } from './breakpoint.service';
 
@@ -9,7 +9,7 @@ class MockWindowRef {
     innerWidth: 1000,
   };
   get resize$(): Observable<any> {
-    return of();
+    return EMPTY;
   }
 }
 const MockWindow = {

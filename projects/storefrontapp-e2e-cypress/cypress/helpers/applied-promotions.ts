@@ -1,8 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { interceptGet } from '../support/utils/intercept';
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { registerCartPageRoute } from './cart';
 import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
-import { waitForPage } from './checkout-flow';
-import { waitForProductPage } from './checkout-flow';
+import { waitForPage, waitForProductPage } from './checkout-flow';
 
 export const eosCameraProductName = 'EOS450D';
 
@@ -33,15 +39,14 @@ export function checkForAppliedPromotions() {
 }
 
 export function addProductToCart() {
-  cy.intercept(
-    `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/carts/*`
-  ).as('addToCart');
+  interceptGet(
+    'cart_refresh',
+    '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*'
+  );
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
     .click();
-  cy.wait(`@addToCart`);
+  cy.wait(`@cart_refresh`);
 }
 
 export function goToCartDetailsView() {
@@ -54,13 +59,13 @@ export function selectShippingAddress() {
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
+  cy.get('.cx-card-title').should('contain', 'Default Delivery Address');
   cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
 }
 
 export function selectDeliveryMethod() {
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('button.btn-primary').click();
 }
@@ -97,7 +102,7 @@ export function checkAppliedPromotions() {
         .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
         .then(({ token }) => {
           const stateAuth = token;
-          cy.requireShippingAddressAdded(defaultAddress, stateAuth, cartId);
+          cy.requireDeliveryAddressAdded(defaultAddress, stateAuth, cartId);
           cy.requirePaymentMethodAdded(cartId);
         });
       selectShippingAddress();

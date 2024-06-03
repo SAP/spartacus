@@ -1,13 +1,17 @@
 import { DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from './item-counter.component';
 
-const form = new FormGroup({
-  quantity: new FormControl('1'),
+const form = new UntypedFormGroup({
+  quantity: new UntypedFormControl('1'),
 });
 
 describe('ItemCounterComponent', () => {
@@ -27,7 +31,7 @@ describe('ItemCounterComponent', () => {
     fixture = TestBed.createComponent(ItemCounterComponent);
     component = fixture.componentInstance;
 
-    component.control = <FormControl>form.get('quantity');
+    component.control = <UntypedFormControl>form.get('quantity');
 
     component.control.setValue(1);
     component.control.markAsPristine();
@@ -224,6 +228,20 @@ describe('ItemCounterComponent', () => {
       expect(
         (<HTMLButtonElement>button[0].nativeElement).disabled
       ).toBeTruthy();
+    });
+  });
+
+  describe('a11y', () => {
+    it('should update value on enter', () => {
+      const input: HTMLInputElement = fixture.debugElement.query(
+        By.css('input')
+      ).nativeElement;
+      input.focus();
+      input.value = '10';
+      input.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter' }));
+      fixture.detectChanges();
+
+      expect(component.control.value).toEqual('10');
     });
   });
 });

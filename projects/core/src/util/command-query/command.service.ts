@@ -1,16 +1,31 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, ReplaySubject, Subject, Subscription, zip } from 'rxjs';
 import {
+  EMPTY,
+  Observable,
+  ReplaySubject,
+  Subject,
+  Subscription,
+  defer,
+  zip,
+} from 'rxjs';
+import {
+  TapObserver,
+  catchError,
   concatMap,
   finalize,
   mergeMap,
-  retry,
   switchMap,
   tap,
 } from 'rxjs/operators';
 
-export abstract class Command<P = undefined, R = unknown> {
-  abstract execute(params: P): Observable<R>;
+export abstract class Command<PARAMS = undefined, RESULT = unknown> {
+  abstract execute(parameters: PARAMS): Observable<RESULT>;
 }
 
 export enum CommandStrategy {
@@ -28,41 +43,64 @@ export enum CommandStrategy {
 export class CommandService implements OnDestroy {
   protected subscriptions: Subscription = new Subscription();
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
-  create<P = undefined, R = unknown>(
-    commandFactory: (command: P) => Observable<any>,
+  create<PARAMS = undefined, RESULT = unknown>(
+    commandFactory: (command: PARAMS) => Observable<RESULT>,
     options?: { strategy?: CommandStrategy }
-  ): Command<P, R> {
-    const commands$ = new Subject<P>();
-    const results$ = new Subject<ReplaySubject<R>>();
+  ): Command<PARAMS, RESULT> {
+    const commands$ = new Subject<PARAMS>();
+    const results$ = new Subject<ReplaySubject<RESULT>>();
 
-    let process$: Observable<any>;
+    // We have to specify selectively the handlers after RxJS version 7.3.0.
+    // Otherwise, the `unsubscribe` handler would be forwarded implicitly
+    // to `notifier$` when calling `tap(notifier$)`.
+    // But we don't want to forward `unsubscribe`, in particular.
+    // To see more details, please check: https://github.com/ReactiveX/rxjs/pull/6527
+    const notify = (
+      notifier$: ReplaySubject<RESULT>
+    ): Partial<TapObserver<RESULT>> => ({
+      next: (x) => notifier$.next(x),
+      error: (e) => notifier$.error(e),
+      complete: () => notifier$.complete(),
+    });
+
+    let process$: Observable<unknown>;
 
     switch (options?.strategy) {
       case CommandStrategy.CancelPrevious:
       case CommandStrategy.ErrorPrevious:
         process$ = zip(commands$, results$).pipe(
           switchMap(([cmd, notifier$]) =>
-            commandFactory(cmd).pipe(
-              tap(notifier$),
-              finalize(() =>
-                options.strategy === CommandStrategy.CancelPrevious
-                  ? notifier$.complete()
-                  : notifier$.error(new Error('Canceled by next command'))
-              )
+            defer(() => commandFactory(cmd)).pipe(
+              tap(notify(notifier$)),
+              catchError(() => EMPTY),
+              finalize(() => {
+                // do not overwrite existing existing ending state
+                if (!notifier$.closed && !notifier$.hasError) {
+                  // command has not ended yet, so close notifier$ according to strategy
+                  if (options.strategy === CommandStrategy.ErrorPrevious) {
+                    notifier$.error(new Error('Canceled by next command'));
+                  } else {
+                    notifier$.complete();
+                  }
+                }
+              })
             )
-          ),
-          retry()
+          )
         );
         break;
 
       case CommandStrategy.Parallel:
         process$ = zip(commands$, results$).pipe(
           mergeMap(([cmd, notifier$]) =>
-            commandFactory(cmd).pipe(tap(notifier$))
-          ),
-          retry()
+            defer(() => commandFactory(cmd)).pipe(
+              tap(notify(notifier$)),
+              catchError(() => EMPTY)
+            )
+          )
         );
         break;
 
@@ -70,18 +108,23 @@ export class CommandService implements OnDestroy {
       default:
         process$ = zip(commands$, results$).pipe(
           concatMap(([cmd, notifier$]) =>
-            commandFactory(cmd).pipe(tap(notifier$))
-          ),
-          retry()
+            defer(() => commandFactory(cmd)).pipe(
+              tap(notify(notifier$)),
+              catchError(() => EMPTY)
+            )
+          )
         );
         break;
     }
 
     this.subscriptions.add(process$.subscribe());
 
-    const command: Command<P, R> = new (class extends Command {
-      execute = (parameters: P) => {
-        const result$ = new ReplaySubject<R>();
+    const command: Command<PARAMS, RESULT> = new (class extends Command<
+      PARAMS,
+      RESULT
+    > {
+      execute = (parameters: PARAMS) => {
+        const result$ = new ReplaySubject<RESULT>();
         results$.next(result$);
         commands$.next(parameters);
         return result$;

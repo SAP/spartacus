@@ -1,11 +1,12 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
-import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { OCC_USER_ID_CURRENT } from '../../../occ';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthToken } from '../models/auth-token.model';
+import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
@@ -33,7 +34,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   }
   initLoginFlow() {}
   tryLogin() {
-    return Promise.resolve(true);
+    return Promise.resolve({ result: true, tokenReceived: true });
   }
   events$ = oauthLibEvents;
 }
@@ -55,6 +56,15 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+class MockAuthMultisiteIsolationService {
+  getBaseSiteDecorator(): Observable<string> {
+    return of('');
+  }
+  decorateUserId(): Observable<string> {
+    return of('username');
+  }
+}
+
 describe('AuthService', () => {
   let service: AuthService;
   let routingService: RoutingService;
@@ -62,6 +72,7 @@ describe('AuthService', () => {
   let userIdService: UserIdService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let authRedirectService: AuthRedirectService;
+  let authMultisiteIsolationService: AuthMultisiteIsolationService;
   let store: Store;
 
   beforeEach(() => {
@@ -80,6 +91,10 @@ describe('AuthService', () => {
         { provide: AuthStorageService, useClass: MockAuthStorageService },
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: AuthMultisiteIsolationService,
+          useClass: MockAuthMultisiteIsolationService,
+        },
       ],
     });
 
@@ -89,6 +104,9 @@ describe('AuthService', () => {
     userIdService = TestBed.inject(UserIdService);
     oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
     authRedirectService = TestBed.inject(AuthRedirectService);
+    authMultisiteIsolationService = TestBed.inject(
+      AuthMultisiteIsolationService
+    );
     store = TestBed.inject(Store);
   });
 
@@ -122,7 +140,9 @@ describe('AuthService', () => {
 
     describe('when the token is NOT received', () => {
       it('should NOT redirect', async () => {
-        oauthLibEvents.next({ type: 'discovery_document_load_error' });
+        spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
+          Promise.resolve({ result: true, tokenReceived: false })
+        );
         spyOn(authRedirectService, 'redirect').and.stub();
 
         await service.checkOAuthParamsInUrl();
@@ -152,6 +172,7 @@ describe('AuthService', () => {
       spyOn(userIdService, 'setUserId').and.callThrough();
       spyOn(authRedirectService, 'redirect').and.callThrough();
       spyOn(store, 'dispatch').and.callThrough();
+      spyOn(authMultisiteIsolationService, 'decorateUserId').and.callThrough();
 
       await service.loginWithCredentials('username', 'pass');
 
@@ -164,21 +185,57 @@ describe('AuthService', () => {
     });
   });
 
-  describe('coreLogout()', () => {
-    it('should revoke tokens and logout', async () => {
-      spyOn(userIdService, 'clearUserId').and.callThrough();
-      spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callThrough();
+  describe('otpLoginWithCredentials()', () => {
+    it('should login user', async () => {
+      spyOn(
+        oAuthLibWrapperService,
+        'authorizeWithPasswordFlow'
+      ).and.callThrough();
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(authRedirectService, 'redirect').and.callThrough();
       spyOn(store, 'dispatch').and.callThrough();
 
-      await service.coreLogout();
+      const tokenId = '<LGN[OZ8Ijx92S7pf3KcqtuUxOvM0l2XmZQX+4TUEzXcJyjI=]>';
+      const tokenCode = 'XD2iuP';
+
+      await service.otpLoginWithCredentials(tokenId, tokenCode);
 
       expect(
-        (service.logoutInProgress$ as BehaviorSubject<boolean>).value
-      ).toBeTruthy();
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith(tokenId, tokenCode);
+      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+      expect(authRedirectService.redirect).toHaveBeenCalled();
+    });
+  });
+
+  describe('coreLogout()', () => {
+    it('should revoke tokens and logout', fakeAsync(() => {
+      spyOn(userIdService, 'clearUserId').and.callThrough();
+      spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callFake(() => {
+        return new Promise<void>((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, 100);
+        });
+      });
+      spyOn(store, 'dispatch').and.callThrough();
+
+      service.coreLogout();
       expect(userIdService.clearUserId).toHaveBeenCalled();
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
+      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(
+        (service.logoutInProgress$ as BehaviorSubject<boolean>).value
+      ).toBe(true);
+
+      tick(100);
+
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
-    });
+      expect(
+        (service.logoutInProgress$ as BehaviorSubject<boolean>).value
+      ).toBe(false);
+    }));
   });
 
   describe('isUserLoggedIn()', () => {

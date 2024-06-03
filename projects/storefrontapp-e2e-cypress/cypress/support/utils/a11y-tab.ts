@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const focusableSelectors = [
   `a[href]:not([tabindex='-1']):not([hidden])`,
   `area[href]:not([tabindex='-1']):not([hidden])`,
@@ -17,4 +23,13 @@ export function getNextFocusableElement(
   return activeElementIndex + 1 <= elements.length
     ? elements[activeElementIndex + 1]
     : elements[0];
+}
+
+export function getPreviousFocusableElement(
+  elements: HTMLElement[],
+  activeElementIndex: number
+): HTMLElement {
+  return activeElementIndex - 1 >= 0
+    ? elements[activeElementIndex - 1]
+    : elements[elements.length - 1];
 }

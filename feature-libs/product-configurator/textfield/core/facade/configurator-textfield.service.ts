@@ -1,17 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import {
-  ActiveCartService,
-  OCC_USER_ID_CURRENT,
-  UserIdService,
-} from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
@@ -23,10 +26,18 @@ import { ConfiguratorTextFieldSelectors } from '../state/selectors/index';
 export class ConfiguratorTextfieldService {
   constructor(
     protected store: Store<StateWithConfigurationTextfield>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected configuratorUtils: CommonConfiguratorUtilsService,
     protected userIdService: UserIdService
   ) {}
+
+  protected ensureConfigurationDefined: (
+    value?: ConfiguratorTextfield.Configuration
+  ) => ConfiguratorTextfield.Configuration = (configuration) =>
+    configuration ?? {
+      configurationInfos: [],
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+    };
 
   /**
    * Creates a default textfield configuration for a product specified by the configuration owner.
@@ -58,13 +69,7 @@ export class ConfiguratorTextfieldService {
       map((configurationState) => configurationState.loaderState.value),
       filter((configuration) => !this.isConfigurationInitial(configuration)),
       //save to assume configuration is defined, see previous filter
-      map(
-        (configuration) =>
-          configuration ?? {
-            configurationInfos: [],
-            owner: ConfiguratorModelUtils.createInitialOwner(),
-          }
-      )
+      map(this.ensureConfigurationDefined)
     );
   }
 
@@ -108,7 +113,7 @@ export class ConfiguratorTextfieldService {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
-      .subscribe((cartState) => {
+      .subscribe((cart) => {
         this.userIdService
           .getUserId()
           .pipe(take(1))
@@ -116,7 +121,7 @@ export class ConfiguratorTextfieldService {
             const addToCartParameters: ConfiguratorTextfield.AddToCartParameters =
               {
                 userId: userId,
-                cartId: this.configuratorUtils.getCartId(cartState.value),
+                cartId: this.configuratorUtils.getCartId(cart),
                 productCode: productCode,
                 configuration: configuration,
                 quantity: 1,
@@ -141,7 +146,7 @@ export class ConfiguratorTextfieldService {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
-      .subscribe((cartState) => {
+      .subscribe((cart) => {
         this.userIdService
           .getUserId()
           .pipe(take(1))
@@ -149,7 +154,7 @@ export class ConfiguratorTextfieldService {
             const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters =
               {
                 userId: userId,
-                cartId: this.configuratorUtils.getCartId(cartState.value),
+                cartId: this.configuratorUtils.getCartId(cart),
                 cartEntryNumber: cartEntryNumber,
                 configuration: configuration,
               };
@@ -173,17 +178,17 @@ export class ConfiguratorTextfieldService {
     owner: CommonConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.activeCartService.requireLoadedCart().pipe(
-      switchMap((cartState) =>
+      switchMap((cart) =>
         this.userIdService
           .getUserId()
           .pipe(
             take(1),
-            map((userId) => ({ cartState, userId: userId }))
+            map((userId) => ({ cart, userId: userId }))
           )
           .pipe(
             map((cont) => ({
               userId: cont.userId,
-              cartId: this.configuratorUtils.getCartId(cont.cartState.value),
+              cartId: this.configuratorUtils.getCartId(cont.cart),
               cartEntryNumber: owner.id,
               owner: owner,
             })),
@@ -194,7 +199,7 @@ export class ConfiguratorTextfieldService {
                 )
               )
             ),
-            switchMapTo(
+            switchMap(() =>
               this.store.pipe(
                 select(ConfiguratorTextFieldSelectors.getConfigurationContent)
               )
@@ -203,14 +208,7 @@ export class ConfiguratorTextfieldService {
               (configuration) => !this.isConfigurationInitial(configuration)
             ),
             //save to assume that the configuration exists, see previous filter
-            map((configuration) =>
-              configuration
-                ? configuration
-                : {
-                    configurationInfos: [],
-                    owner: ConfiguratorModelUtils.createInitialOwner(),
-                  }
-            )
+            map(this.ensureConfigurationDefined)
           )
       )
     );
@@ -242,14 +240,7 @@ export class ConfiguratorTextfieldService {
     return this.store.pipe(
       select(ConfiguratorTextFieldSelectors.getConfigurationContent),
       filter((configuration) => !this.isConfigurationInitial(configuration)),
-      map((configuration) =>
-        configuration
-          ? configuration
-          : {
-              configurationInfos: [],
-              owner: ConfiguratorModelUtils.createInitialOwner(),
-            }
-      )
+      map(this.ensureConfigurationDefined)
     );
   }
   /**

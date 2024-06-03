@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -5,7 +11,6 @@ import {
   EntitiesModel,
   SearchConfig,
   StateUtils,
-  StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
@@ -26,32 +31,32 @@ import { getItemStatus } from '../utils/get-item-status';
 @Injectable({ providedIn: 'root' })
 export class CostCenterService {
   constructor(
-    protected store: Store<StateWithOrganization | StateWithProcess<void>>,
+    protected store: Store<StateWithOrganization>,
     protected userIdService: UserIdService
   ) {}
 
   load(costCenterCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
-  loadList(params?: SearchConfig): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+  loadList(params: SearchConfig): void {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.LoadCostCenters({ userId, params })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   private getCostCenter(
@@ -63,18 +68,18 @@ export class CostCenterService {
   private getCostCenterValue(costCenterCode: string): Observable<CostCenter> {
     return this.store
       .select(getCostCenterValue(costCenterCode))
-      .pipe(filter(Boolean));
+      .pipe(filter((costCenter) => Boolean(costCenter)));
   }
 
   private getCostCenterList(
-    params
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<CostCenter>>> {
     return this.store.select(getCostCenterList(params));
   }
 
   private getBudgetList(
-    costCenterCode,
-    params
+    costCenterCode: string,
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<Budget>>> {
     return this.store.select(getAssignedBudgets(costCenterCode, params));
   }
@@ -95,7 +100,9 @@ export class CostCenterService {
     );
   }
 
-  getList(params: SearchConfig): Observable<EntitiesModel<CostCenter>> {
+  getList(
+    params: SearchConfig
+  ): Observable<EntitiesModel<CostCenter> | undefined> {
     return this.getCostCenterList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<CostCenter>>) => {
@@ -103,9 +110,8 @@ export class CostCenterService {
           this.loadList(params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<CostCenter>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<CostCenter>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
@@ -118,20 +124,20 @@ export class CostCenterService {
   }
 
   create(costCenter: CostCenter): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.CreateCostCenter({ userId, costCenter })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   update(costCenterCode: string, costCenter: CostCenter): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.UpdateCostCenter({
             userId,
@@ -139,10 +145,10 @@ export class CostCenterService {
             costCenter,
           })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   getLoadingStatus(
@@ -152,8 +158,8 @@ export class CostCenterService {
   }
 
   loadBudgets(costCenterCode: string, params: SearchConfig): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.LoadAssignedBudgets({
             userId,
@@ -161,16 +167,16 @@ export class CostCenterService {
             params,
           })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   getBudgets(
     costCenterCode: string,
     params: SearchConfig
-  ): Observable<EntitiesModel<Budget>> {
+  ): Observable<EntitiesModel<Budget> | undefined> {
     return this.getBudgetList(costCenterCode, params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<Budget>>) => {
@@ -178,17 +184,16 @@ export class CostCenterService {
           this.loadBudgets(costCenterCode, params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<Budget>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<Budget>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
   }
 
   assignBudget(costCenterCode: string, budgetCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.AssignBudget({
             userId,
@@ -196,15 +201,15 @@ export class CostCenterService {
             budgetCode,
           })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   unassignBudget(costCenterCode: string, budgetCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.UnassignBudget({
             userId,
@@ -212,15 +217,15 @@ export class CostCenterService {
             budgetCode,
           })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
-  getErrorState(costCenterCode): Observable<boolean> {
+  getErrorState(costCenterCode: string): Observable<boolean> {
     return this.getCostCenterState(costCenterCode).pipe(
-      map((state) => state.error)
+      map((state) => state.error ?? false)
     );
   }
 }

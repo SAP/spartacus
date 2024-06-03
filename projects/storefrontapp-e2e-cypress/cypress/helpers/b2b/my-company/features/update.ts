@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { MyCompanyConfig } from '../models/index';
 import {
   ignoreCaseSensivity,
@@ -26,7 +32,7 @@ export function updateTest(config: MyCompanyConfig) {
         entityId = codeRow.createValue;
         cy.visit(`${config.baseUrl}/${entityId}`);
       }
-      cy.wait(`@getEntity`);
+      cy.wait(`@getEntity`).its('response.statusCode').should('eq', 200);
     });
 
     it(`should update`, () => {
@@ -45,7 +51,9 @@ export function updateTest(config: MyCompanyConfig) {
 
       if (config.selectOptionsEndpoint) {
         config.selectOptionsEndpoint.forEach((endpoint) => {
-          cy.wait(`@getSelectOptionsFor${endpoint}`);
+          cy.wait(`@getSelectOptionsFor${endpoint}`)
+            .its('response.statusCode')
+            .should('eq', 200);
         });
       }
 
@@ -56,7 +64,7 @@ export function updateTest(config: MyCompanyConfig) {
       completeForm(config.rows, FormType.UPDATE);
       cy.get('div.header button').contains('Save').click();
       cy.wait('@saveEntityData');
-      cy.wait('@loadEntityData');
+      cy.wait('@loadEntityData').its('response.statusCode').should('eq', 200);
 
       verifyDetails(config, FormType.UPDATE);
     });

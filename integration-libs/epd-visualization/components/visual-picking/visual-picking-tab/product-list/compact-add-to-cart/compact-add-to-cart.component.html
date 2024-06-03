@@ -1,0 +1,10 @@
+<form *ngIf="productCode" [formGroup]="addToCartForm" (submit)="addToCart()">
+  <button
+    *ngIf="hasStock"
+    class="btn btn-sm btn-primary btn-block"
+    type="submit"
+    [disabled]="quantity <= 0 || quantity > maxQuantity"
+  >
+    <cx-icon class="fa fa-cart-plus"></cx-icon>
+  </button>
+</form>

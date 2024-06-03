@@ -1,19 +1,28 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import {
+  CART_BASE_FEATURE,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/cart/base/root';
 import {
   AuthGuard,
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import {
-  CmsPageGuard,
-  ORDER_ENTRIES_CONTEXT,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
-import { OrderDetailsOrderEntriesContext } from './pages/order-details-order-entries-context';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
+import {
+  OrderConfirmationOrderEntriesContextToken,
+  OrderDetailsOrderEntriesContextToken,
+} from './tokens/context';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultOrderComponentsConfig(): CmsConfig {
@@ -28,9 +37,13 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'AccountOrderDetailsActionsComponent',
           'AccountOrderDetailsItemsComponent',
           'AccountOrderDetailsTotalsComponent',
-          'AccountOrderDetailsShippingComponent',
+          'AccountOrderDetailsOverviewComponent',
+          'AccountOrderDetailsBillingComponent',
+          'AccountOrderDetailsGroupedItemsComponent',
+          'AccountOrderDetailsSimpleOverviewComponent',
           'AccountOrderHistoryComponent',
           'ReplenishmentDetailItemsComponent',
+          'AccountOrderDetailsReorderComponent',
           'ReplenishmentDetailTotalsComponent',
           'ReplenishmentDetailShippingComponent',
           'ReplenishmentDetailActionsComponent',
@@ -40,7 +53,20 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'ReturnRequestItemsComponent',
           'ReturnRequestTotalsComponent',
           'OrderReturnRequestListComponent',
+          'OrderConfirmationThankMessageComponent',
+          'OrderConfirmationItemsComponent',
+          'OrderConfirmationTotalsComponent',
+          'OrderConfirmationOverviewComponent',
+          'OrderConfirmationShippingComponent',
+          'OrderConfirmationBillingComponent',
+          'OrderConfirmationContinueButtonComponent',
+          'ReplenishmentConfirmationMessageComponent',
+          'ReplenishmentConfirmationOverviewComponent',
+          'ReplenishmentConfirmationItemsComponent',
+          'ReplenishmentConfirmationTotalsComponent',
+          'MyAccountViewOrderComponent',
         ],
+        dependencies: [CART_BASE_FEATURE],
       },
       // by default core is bundled together with components
       [ORDER_CORE_FEATURE]: ORDER_FEATURE,
@@ -67,7 +93,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
         data: {
           cxRoute: 'orderDetails',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: OrderDetailsOrderEntriesContext,
+            [ORDER_ENTRIES_CONTEXT]: OrderDetailsOrderEntriesContextToken,
           },
         },
       },
@@ -126,6 +152,18 @@ export function defaultOrderComponentsConfig(): CmsConfig {
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'returnRequestDetails' },
+      },
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: 'orderConfirmation',
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: OrderConfirmationOrderEntriesContextToken,
+          },
+        },
       },
     ]),
   ],

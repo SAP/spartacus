@@ -1,8 +1,11 @@
-import {
-  CDC_AUTH_SERVICE,
-  SPARTACUS_CDC,
-  TODO_SPARTACUS,
-} from '../../../../shared/constants';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { CDC_AUTH_SERVICE, TODO_SPARTACUS } from '../../../../shared/constants';
+import { SPARTACUS_CDC } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CDC_AUTH_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [

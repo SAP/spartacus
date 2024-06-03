@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
 import { ProfileTagEventService } from '../services/profiletag-event.service';
 import { ConsentReferenceInterceptor } from './consent-reference-interceptor';
 
@@ -15,7 +16,7 @@ describe('consent reference interceptor', () => {
   };
   beforeEach(() => {
     ProfileTagEventTrackerMock = {
-      latestConsentReference: null,
+      latestConsentReference: new BehaviorSubject(null),
     };
 
     TestBed.configureTestingModule({
@@ -42,7 +43,7 @@ describe('consent reference interceptor', () => {
     [HttpClient, HttpTestingController],
     (http: HttpClient, mock: HttpTestingController) => {
       const injectorMock = TestBed.inject(ProfileTagEventService);
-      injectorMock.latestConsentReference = 'test-123-abc-!@#';
+      injectorMock.latestConsentReference.next('test-123-abc-!@#');
       let response;
       http
         .get('/occ/hasHeader', {

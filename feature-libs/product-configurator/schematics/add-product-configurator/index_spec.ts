@@ -8,23 +8,31 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
-  LibraryOptions as SpartacusProductConfiguratorOptions,
+  PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME,
+  PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
+  PRODUCT_CONFIGURATOR_VC_FEATURE_NAME,
   SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_SCHEMATICS,
+  LibraryOptions as SpartacusProductConfiguratorOptions,
+  cartBaseFeatureModulePath,
+  checkoutFeatureModulePath,
+  orderFeatureModulePath,
+  productConfiguratorFeatureModulePath,
+  productConfiguratorRulebasedWrapperModulePath,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/product-configurator/product-configurator-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/product-configurator.scss';
 
 describe('Spartacus product configurator schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_PRODUCT_CONFIGURATOR,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -37,10 +45,10 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const libraryNoFeaturesOptions: SpartacusProductConfiguratorOptions = {
@@ -51,17 +59,17 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
   const libraryOptionsOnlyVC: SpartacusProductConfiguratorOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_PRODUCT_CONFIGURATOR_VC_FEATURE],
+    features: [PRODUCT_CONFIGURATOR_VC_FEATURE_NAME],
   };
 
   const libraryOptionsOnlyCPQ: SpartacusProductConfiguratorOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE],
+    features: [PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME],
   };
 
   const libraryOptionsOnlyTextfield: SpartacusProductConfiguratorOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE],
+    features: [PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -70,36 +78,34 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...libraryNoFeaturesOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...libraryNoFeaturesOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        libraryNoFeaturesOptions,
+        appTree
+      );
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -132,14 +138,42 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     describe('VC', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', libraryOptionsOnlyVC, appTree)
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            libraryOptionsOnlyVC,
+            appTree
+          );
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
+
+          expect(
+            appTree.readContent(productConfiguratorRulebasedWrapperModulePath)
+          ).toBeFalsy();
+        });
+
+        it('should NOT install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toBeFalsy();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toBeFalsy();
+
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toBeFalsy();
+
+          const checkoutFeatureModule = appTree.readContent(
+            checkoutFeatureModulePath
+          );
+          expect(checkoutFeatureModule).toBeFalsy();
         });
 
         describe('styling', () => {
@@ -157,18 +191,22 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...libraryOptionsOnlyVC, lazy: false },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...libraryOptionsOnlyVC, lazy: false },
+            appTree
+          );
         });
 
         it('should import appropriate modules', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
+
+          expect(
+            appTree.readContent(productConfiguratorRulebasedWrapperModulePath)
+          ).toBeFalsy();
         });
       });
     });
@@ -176,14 +214,49 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     describe('CPQ', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', libraryOptionsOnlyCPQ, appTree)
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            libraryOptionsOnlyVC,
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            libraryOptionsOnlyCPQ,
+            appTree
+          );
         });
 
         it('should add the feature using the lazy loading syntax, and include VC as well', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
+
+          const wrapperModule = appTree.readContent(
+            productConfiguratorRulebasedWrapperModulePath
+          );
+          expect(wrapperModule).toMatchSnapshot();
+        });
+
+        it('should NOT install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toBeFalsy();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toBeFalsy();
+
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toBeFalsy();
+
+          const checkoutFeatureModule = appTree.readContent(
+            checkoutFeatureModulePath
+          );
+          expect(checkoutFeatureModule).toBeFalsy();
         });
 
         describe('styling', () => {
@@ -210,18 +283,28 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...libraryOptionsOnlyCPQ, lazy: false },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...libraryOptionsOnlyVC, lazy: false },
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...libraryOptionsOnlyCPQ, lazy: false },
+            appTree
+          );
         });
 
         it('should import appropriate modules', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
+
+          expect(
+            appTree.readContent(productConfiguratorRulebasedWrapperModulePath)
+          ).toBeFalsy();
         });
       });
     });
@@ -229,14 +312,42 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     describe('Textfield', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', libraryOptionsOnlyTextfield, appTree)
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            libraryOptionsOnlyTextfield,
+            appTree
+          );
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
+
+          expect(
+            appTree.readContent(productConfiguratorRulebasedWrapperModulePath)
+          ).toBeFalsy();
+        });
+
+        it('should NOT install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toBeFalsy();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toBeFalsy();
+
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toBeFalsy();
+
+          const checkoutFeatureModule = appTree.readContent(
+            checkoutFeatureModulePath
+          );
+          expect(checkoutFeatureModule).toBeFalsy();
         });
 
         describe('styling', () => {
@@ -263,18 +374,22 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...libraryOptionsOnlyTextfield, lazy: false },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...libraryOptionsOnlyTextfield, lazy: false },
+            appTree
+          );
         });
 
         it('should import appropriate modules', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
+
+          expect(
+            appTree.readContent(productConfiguratorRulebasedWrapperModulePath)
+          ).toBeFalsy();
         });
       });
     });
@@ -282,24 +397,55 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     describe('CPQ and Textfield', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              {
-                ...libraryNoFeaturesOptions,
-                features: [
-                  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-                  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
-                ],
-              },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            libraryOptionsOnlyVC,
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            {
+              ...libraryNoFeaturesOptions,
+              features: [
+                PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME,
+                PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
+              ],
+            },
+            appTree
+          );
         });
 
         it('should add the feature using the lazy loading syntax, including VC as well', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
+
+          const wrapperModule = appTree.readContent(
+            productConfiguratorRulebasedWrapperModulePath
+          );
+          expect(wrapperModule).toMatchSnapshot();
+        });
+
+        it('should NOT install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toBeFalsy();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toBeFalsy();
+
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toBeFalsy();
+
+          const checkoutFeatureModule = appTree.readContent(
+            checkoutFeatureModulePath
+          );
+          expect(checkoutFeatureModule).toBeFalsy();
         });
 
         describe('styling', () => {
@@ -326,25 +472,35 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              {
-                ...libraryNoFeaturesOptions,
-                features: [
-                  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-                  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
-                ],
-                lazy: false,
-              },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...libraryOptionsOnlyVC, lazy: false },
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            {
+              ...libraryNoFeaturesOptions,
+              features: [
+                PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME,
+                PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
+              ],
+              lazy: false,
+            },
+            appTree
+          );
         });
 
         it('should import appropriate modules', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
+
+          expect(
+            appTree.readContent(productConfiguratorRulebasedWrapperModulePath)
+          ).toBeFalsy();
         });
       });
     });

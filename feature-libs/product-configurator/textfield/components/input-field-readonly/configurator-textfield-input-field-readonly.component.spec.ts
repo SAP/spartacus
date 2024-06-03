@@ -4,6 +4,7 @@ import { CommonConfiguratorTestUtilsService } from '../../../common/testing/comm
 
 import { ConfiguratorTextfieldInputFieldReadonlyComponent } from './configurator-textfield-input-field-readonly.component';
 
+const ATTRIBUTE_VALUE = 'input123';
 describe('TextfieldInputFieldReadonlyComponent', () => {
   let component: ConfiguratorTextfieldInputFieldReadonlyComponent;
   let htmlElem: HTMLElement;
@@ -26,7 +27,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
     htmlElem = fixture.nativeElement;
     component.attribute = {
       configurationLabel: 'attributeName',
-      configurationValue: 'input123',
+      configurationValue: ATTRIBUTE_VALUE,
     };
     fixture.detectChanges();
   });
@@ -55,9 +56,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
     const elementsDiv = htmlElem.querySelectorAll('div');
     expect(elementsDiv.length).toBe(1);
     const elementDiv = elementsDiv[0];
-    expect(elementDiv.innerHTML).toContain(
-      component.attribute.configurationValue
-    );
+    expect(elementDiv.innerHTML).toContain(ATTRIBUTE_VALUE);
   });
 
   describe('Accessibility', () => {

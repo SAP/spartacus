@@ -7,7 +7,7 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
@@ -34,7 +34,7 @@ function initializeWithObs(disableObs: Observable<boolean>) {
   fixture = TestBed.createComponent(ConfiguratorAttributeQuantityComponent);
 
   component = fixture.componentInstance;
-  component.quantity = new FormControl(1);
+  component.quantity = new UntypedFormControl(1);
 
   component.quantityOptions = {
     allowZero: true,

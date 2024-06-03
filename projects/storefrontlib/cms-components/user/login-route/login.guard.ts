@@ -1,16 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import {
-  AuthConfigService,
-  AuthRedirectService,
-  AuthService,
-  OAuthFlow,
-} from '@spartacus/core';
+import { AuthConfigService, AuthService, OAuthFlow } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
@@ -24,10 +24,9 @@ import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 @Injectable({
   providedIn: 'root',
 })
-export class LoginGuard implements CanActivate {
+export class LoginGuard {
   constructor(
     protected authService: AuthService,
-    protected authRedirectService: AuthRedirectService,
     protected authConfigService: AuthConfigService,
     protected cmsPageGuard: CmsPageGuard
   ) {}
@@ -46,8 +45,6 @@ export class LoginGuard implements CanActivate {
         ) {
           return this.cmsPageGuard.canActivate(route, state);
         } else {
-          // Remember the previous url, so we can redirect user to that page after OAuth server callback
-          this.authRedirectService.reportNotAuthGuard();
           // This method can trigger redirect to OAuth server that's why we don't return anything in this case
           const redirected = this.authService.loginWithRedirect();
           if (!redirected) {

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const DEFAULT_SCOPE = 'default';
 
 export interface OccEndpoint {
@@ -68,54 +74,6 @@ export interface OccEndpoints {
    */
   page?: string | OccEndpoint;
   /**
-   * Get all carts
-   *
-   * @member {string} [carts]
-   */
-  carts?: string | OccEndpoint;
-  /**
-   * Get a cart with a given identifier
-   *
-   * @member {string} [cart]
-   */
-  cart?: string | OccEndpoint;
-  /**
-   * Creates or restore a cart for a user
-   *
-   * @member {string} [createCart]
-   */
-  createCart?: string | OccEndpoint;
-  /**
-   * Deletes a cart with a given cart id
-   *
-   * @member {string} [deleteCart]
-   */
-  deleteCart?: string | OccEndpoint;
-  /**
-   * Adds a product to the cart
-   *
-   * @member {string} [addEntries]
-   */
-  addEntries?: string | OccEndpoint;
-  /**
-   * Update quantity and store the details of a cart entry
-   *
-   * @member {string} [updateEntries]
-   */
-  updateEntries?: string | OccEndpoint;
-  /**
-   * Deletes cart entry
-   *
-   * @member {string} [removeEntries]
-   */
-  removeEntries?: string | OccEndpoint;
-  /**
-   * Assign email to cart
-   *
-   * @member {string} [addEmail]
-   */
-  addEmail?: string | OccEndpoint;
-  /**
    * Get a list of available languages
    *
    * @member {string}
@@ -140,11 +98,6 @@ export interface OccEndpoints {
    */
   regions?: string | OccEndpoint;
   /**
-   * Titles used for user's personal info.
-   *
-   * @member {string}
-   */
-  /**
    * Payment details root endpoint.
    *
    * @member {string}
@@ -156,20 +109,6 @@ export interface OccEndpoints {
    * @member {string}
    */
   paymentDetail?: string | OccEndpoint;
-  /**
-   * Endpoint for the list of one user's orders
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  orderHistory?: string | OccEndpoint;
-  /**
-   * Endpoint for the details of one user's order
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  orderDetail?: string | OccEndpoint;
   /**
    * Endpoint for anonymous consent templates
    *
@@ -281,18 +220,11 @@ export interface OccEndpoints {
    */
   getVariantConfigurationOverview?: string;
   /**
-   * Endpoint for consignment tracking
-   * @deprecated since 4.2 - use order lib instead
+   * Endpoint for configurator variant search
    *
    * @member {string}
    */
-  consignmentTracking?: string | OccEndpoint;
-  /**
-   * Endpoint for cart voucher
-   *
-   * @member {string}
-   */
-  cartVoucher?: string | OccEndpoint;
+  searchConfiguratorVariants?: string;
   /**
    * Endpoint for coupons
    *
@@ -330,66 +262,6 @@ export interface OccEndpoints {
    */
   getProductInterests?: string | OccEndpoint;
   /**
-   * Endpoint for cancel an order
-   * @deprecated since 4.2 - use order lib instead
-   */
-  cancelOrder?: string | OccEndpoint;
-  /**
-   * Endpoint for creating order return request
-   * @deprecated since 4.2 - use order lib instead
-   */
-  returnOrder?: string | OccEndpoint;
-  /**
-   * Endpoint for user's order return requests
-   * @deprecated since 4.2 - use order lib instead
-   */
-  orderReturns?: string | OccEndpoint;
-  /**
-   * Endpoint for order return request details
-   * @deprecated since 4.2 - use order lib instead
-   */
-  orderReturnDetail?: string | OccEndpoint;
-  /**
-   * Endpoint for cancelling return request
-   * @deprecated since 4.2 - use order lib instead
-   */
-  cancelReturn?: string | OccEndpoint;
-  /**
-   * Endpoint to schedule a replenishment order
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  scheduleReplenishmentOrder?: string | OccEndpoint;
-  /**
-   * Endpoint for the list of one user's replenishment orders
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  replenishmentOrderHistory?: string | OccEndpoint;
-  /**
-   * Endpoint to get a replenishment order details
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  replenishmentOrderDetails?: string | OccEndpoint;
-  /**
-   * Endpoint to get a replenishment order history for a replenishment
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  replenishmentOrderDetailsHistory?: string | OccEndpoint;
-  /**
-   * Endpoint to get a replenishment order history for a replenishment
-   * @deprecated since 4.2 - use order lib instead
-   *
-   * @member {string}
-   */
-  cancelReplenishmentOrder?: string | OccEndpoint;
-  /**
    * Endpoint for getting all base sites
    *
    * @member {string}
@@ -400,281 +272,4 @@ export interface OccEndpoints {
    * @member {string}
    */
   getActiveCostCenters?: string | OccEndpoint;
-  /**
-   * Get cart validation results
-   */
-  validate?: string | OccEndpoint;
-
-  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
-  /**
-   * Get a store location
-   *
-   * @member {string} [page]
-   */
-  store?: string | OccEndpoint;
-  /**
-   * Get a list of store locations
-   *
-   * @member {string} [page]
-   */
-  stores?: string | OccEndpoint;
-  /**
-   * Gets a store location count per country and regions
-   *
-   * @member {string} [page]
-   */
-  storescounts?: string | OccEndpoint;
-  /**
-   * Endpoint for userGroupOrderApprovalPermission
-   *
-   * @member {string}
-   */
-  budget?: string | OccEndpoint;
-  /**
-   * Endpoint for budgets list
-   *
-   * @member {string}
-   */
-  budgets?: string | OccEndpoint;
-  /**
-   * Endpoint for organizations
-   *
-   * @member {string}
-   */
-  orgUnits?: string | OccEndpoint;
-  /**
-   * Endpoint for organizations list
-   *
-   * @member {string}
-   */
-  orgUnitsAvailable?: string | OccEndpoint;
-  /**
-   * Endpoint for organization units tree
-   *
-   * @member {string}
-   */
-  orgUnitsTree?: string | OccEndpoint;
-  /**
-   * Endpoint for approval processes for organization units
-   *
-   * @member {string}
-   */
-  orgUnitsApprovalProcesses?: string | OccEndpoint;
-  /**
-   * Endpoint for organization
-   *
-   * @member {string}
-   */
-  orgUnit?: string | OccEndpoint;
-  /**
-   * Endpoint for orgUnitUsers:
-   *
-   * @member {string}
-   */
-  orgUnitUsers?: string | OccEndpoint;
-  /**
-   * Endpoint for add orgUnitUserRoles (except approver):
-   *
-   * @member {string}
-   */
-  orgUnitUserRoles?: string | OccEndpoint;
-  /**
-   * Endpoint for remove orgUnitUserRole (except approver):
-   *
-   * @member {string}
-   */
-  orgUnitUserRole?: string | OccEndpoint;
-  /**
-   * Endpoint for add orgUnitApprovers:
-   *
-   * @member {string}
-   */
-  orgUnitApprovers?: string | OccEndpoint;
-  /**
-   * Endpoint for delete orgUnitApprover:
-   *
-   * @member {string}
-   */
-  orgUnitApprover?: string | OccEndpoint;
-  /**
-   * Endpoint for organizational unit addresses
-   *
-   * @member {string}
-   */
-  orgUnitsAddresses?: string | OccEndpoint;
-  /**
-   * Endpoint for organizational unit address
-   *
-   * @member {string}
-   */
-  orgUnitsAddress?: string | OccEndpoint;
-  /**
-   * Endpoint for organizational unit user groups list
-   *
-   * @member {string}
-   */
-  userGroups?: string | OccEndpoint;
-  /**
-   * Endpoint for organizational unit user group
-   *
-   * @member {string}
-   */
-  userGroup?: string | OccEndpoint;
-  /**
-   * Endpoint for costCenter list
-   *
-   * @member {string}
-   */
-  userGroupAvailableOrderApprovalPermissions?: string | OccEndpoint;
-  /**
-   * Endpoint for userGroupAvailableOrderApprovalPermissions list
-   *
-   * @member {string}
-   */
-  userGroupAvailableOrgCustomers?: string | OccEndpoint;
-  /**
-   * Endpoint for userGroupAvailableOrgCustomers list
-   *
-   * @member {string}
-   */
-  userGroupMembers?: string | OccEndpoint;
-  /**
-   * Endpoint for userGroupMembers list
-   *
-   * @member {string}
-   */
-  userGroupMember?: string | OccEndpoint;
-  /**
-   * Endpoint for userGroupMember
-   *
-   * @member {string}
-   */
-  userGroupOrderApprovalPermissions?: string | OccEndpoint;
-  /**
-   * Endpoint for userGroupOrderApprovalPermissions list
-   *
-   * @member {string}
-   */
-  userGroupOrderApprovalPermission?: string | OccEndpoint;
-  /**
-   * Endpoint for userGroupOrderApprovalPermission
-   *
-   * @member {string}
-   */
-  costCenters?: string | OccEndpoint;
-  /**
-   * Endpoint for all costCenters
-   *
-   * @member {string}
-   */
-  costCentersAll?: string | OccEndpoint;
-  /**
-   * Endpoint for costCenter
-   *
-   * @member {string}
-   */
-  costCenter?: string | OccEndpoint;
-  /**
-   * Endpoint for budgets assigned to costCenter
-   *
-   * @member {string}
-   */
-  costCenterBudgets?: string | OccEndpoint;
-  /**
-   * Endpoint for budget assigned to costCenter
-   *
-   * @member {string}
-   */
-  costCenterBudget?: string | OccEndpoint;
-  /**
-   * Endpoint for permission list
-   *
-   * @member {string}
-   */
-  permissions?: string | OccEndpoint;
-  /**
-   * Endpoint for permission
-   *
-   * @member {string}
-   */
-  permission?: string | OccEndpoint;
-  /**
-   * Endpoint for order approval permission types
-   *
-   * @member {string}
-   */
-  orderApprovalPermissionTypes?: string | OccEndpoint;
-  /**
-   * Endpoint for organization customers
-   *
-   * @member {string}
-   */
-  b2bUsers?: string | OccEndpoint;
-  /**
-   * Endpoint for organization customer
-   *
-   * @member {string}
-   */
-  b2bUser?: string | OccEndpoint;
-  /**
-   * Endpoint for organization customer approvers
-   *
-   * @member {string}
-   */
-  b2bUserApprovers?: string | OccEndpoint;
-  /**
-   * Endpoint for organization customer approver
-   *
-   * @member {string}
-   */
-  b2bUserApprover?: string | OccEndpoint;
-  /**
-   * Endpoint for organization customer user groups
-   *
-   * @member {string}
-   */
-  b2bUserUserGroups?: string | OccEndpoint;
-  /**
-   * Endpoint for organization customer user group
-   *
-   * @member {string}
-   */
-  b2bUserUserGroup?: string | OccEndpoint;
-  /**
-   * Endpoint for organization customer permissions
-   *
-   * @member {string}
-   */
-  b2bUserPermissions?: string | OccEndpoint;
-  /**
-   * Endpoint for organization customer permission
-   *
-   * @member {string}
-   */
-  b2bUserPermission?: string | OccEndpoint;
-  /**
-   * Endpoint for order approvals
-   *
-   * @member {string}
-   */
-  orderApprovals?: string | OccEndpoint;
-  /**
-   * Endpoint for order approval
-   *
-   * @member {string}
-   */
-  orderApproval?: string | OccEndpoint;
-  /**
-   * Endpoint for order approval decision
-   *
-   * @member {string}
-   */
-  orderApprovalDecision?: string | OccEndpoint;
-  /**
-   * Explicitly saves a cart
-   *
-   * @member {string}
-   */
-  saveCart?: string | OccEndpoint;
-  // DEPRECATION END
 }

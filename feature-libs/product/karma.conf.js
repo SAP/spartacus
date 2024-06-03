@@ -11,11 +11,17 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
+      require('karma-junit-reporter'),
     ],
     client: {
-      clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      clearContext: true, // close Jasmine Spec Runner output in browser to avoid 'Some of your tests did a full page reload!' error when '--no-watch' is active
     },
-    reporters: ['progress', 'kjhtml', 'dots'],
+    reporters: ['progress', 'kjhtml', 'dots', 'junit'],
+    junitReporter: {
+      outputFile: 'unit-test-product.xml',
+      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
+      useBrowserName: false,
+    },
     coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/product'),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
@@ -28,6 +34,10 @@ module.exports = function (config) {
         },
       },
     },
+    captureTimeout: 210000,
+    browserDisconnectTolerance: 3,
+    browserDisconnectTimeout: 210000,
+    browserNoActivityTimeout: 210000,
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

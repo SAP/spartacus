@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ANGULAR_ROUTER,
   BASE_PAGE_META_RESOLVER,
@@ -5,9 +11,9 @@ import {
   PRODUCT_PAGE_META_RESOLVER,
   PRODUCT_SERVICE,
   ROUTING_SERVICE,
-  SPARTACUS_CORE,
   TRANSLATION_SERVICE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PRODUCT_PAGE_META_RESOLVER_MIGRATION_V1: ConstructorDeprecation = {

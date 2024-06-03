@@ -1,10 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CART_ITEM_CONTEXT,
   COMMON_CONFIGURATOR_UTILS_SERVICE,
   CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION: ConstructorDeprecation =

@@ -1,13 +1,15 @@
-import { Component, DebugElement, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
   PaymentDetails,
   UserPaymentService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { FocusDirective } from '@spartacus/storefront';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
@@ -21,6 +23,13 @@ class MockGlobalMessageService {
   selector: 'cx-spinner',
 })
 class MockCxSpinnerComponent {}
+
+@Directive({
+  selector: '[cxAtMessage]',
+})
+class MockAtMessageDirective {
+  @Input() cxAtMessage: string | string[] | undefined;
+}
 
 const mockPayment: PaymentDetails = {
   defaultPayment: true,
@@ -39,12 +48,12 @@ const mockPayment: PaymentDetails = {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type;
+  @Input() type: ICON_TYPE;
 }
 
 class MockUserPaymentService {
   getPaymentMethodsLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return of([mockPayment]);
@@ -69,10 +78,18 @@ describe('PaymentMethodsComponent', () => {
           MockCxSpinnerComponent,
           CardComponent,
           MockCxIconComponent,
+          MockAtMessageDirective,
+          FocusDirective,
         ],
         providers: [
           { provide: UserPaymentService, useClass: MockUserPaymentService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.1' },
+            },
+          },
         ],
       }).compileComponents();
     })
@@ -87,6 +104,13 @@ describe('PaymentMethodsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display header', () => {
+    fixture.detectChanges();
+    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+      'paymentMethods.paymentMethods'
+    );
   });
 
   it('should show basic information', () => {

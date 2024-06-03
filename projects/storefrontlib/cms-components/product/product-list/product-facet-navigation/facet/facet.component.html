@@ -1,54 +1,106 @@
 <ng-container *ngIf="state$ | async as state">
-  <a
-    *ngFor="let value of facet.values | slice: 0:state.topVisible"
-    #facetValue
-    routerLink="./"
-    [queryParams]="getLinkParams(value)"
-    class="value"
-    [class.selected]="value.selected"
-    [cxFocus]="value.name"
-    (keydown.space)="openLink($event)"
+  <button
+    class="heading"
+    #facetHeader
+    (click)="toggleGroup($event)"
+    (keydown)="onKeydown($event)"
+    [attr.aria-expanded]="isExpanded"
+    [attr.aria-label]="
+      'productFacetNavigation.filterBy.name' | cxTranslate: { name: facet.name }
+    "
   >
-    <span>
-      <span class="label">{{ value.name }}</span>
-      <span class="count">{{ value.count }}</span>
-    </span>
-  </a>
+    {{ facet.name }}
+    <cx-icon class="collapse-icon" [type]="collapseIcon"></cx-icon>
+    <cx-icon class="expand-icon" [type]="expandIcon"></cx-icon>
+  </button>
 
-  <div class="more">
+  <div>
+    <!-- TODO: (CXSPA-6892) - Remove feature flag next major release. -->
     <a
-      *ngFor="
-        let value of facet.values | slice: state.topVisible:state.maxVisible
-      "
+      *ngFor="let value of facet.values | slice: 0:state.topVisible"
       #facetValue
       routerLink="./"
       [queryParams]="getLinkParams(value)"
       class="value"
+      [tabindex]="isFacetKeyboardNavigationEnabled ? -1 : 0"
       [class.selected]="value.selected"
-      [cxFocus]="value.name"
-      (keydown.space)="openLink($event)"
+      [cxFocus]="{ key: value.name }"
+      (keydown)="onKeydown($event)"
+      (keydown.space)="openLink($any($event))"
+      [attr.role]="facet.multiSelect ? 'checkbox' : null"
+      [attr.aria-checked]="facet.multiSelect ? value.selected : null"
+      attr.aria-label="{{
+        'productFacetNavigation.ariaLabelItemsAvailable'
+          | cxTranslate: { name: value.name, count: value.count }
+      }}"
     >
-      <span
-        >{{ value.name }}<span class="count">{{ value.count }}</span></span
+      <span aria-hidden="true"
+        >{{ value.name
+        }}<span aria-hidden="true" class="count">{{ value.count }}</span></span
       >
     </a>
 
-    <button
-      *ngIf="state.maxVisible > state.topVisible"
-      (click)="decreaseVisibleValues()"
-      class="cx-action-link"
-      cxFocus="moreorless"
-    >
-      {{ 'productList.showLess' | cxTranslate }}
-    </button>
+    <div class="more">
+      <a
+        *ngFor="
+          let value of facet.values
+            | slice: state.topVisible ?? 0:state.maxVisible
+        "
+        #facetValue
+        routerLink="./"
+        [tabindex]="isFacetKeyboardNavigationEnabled ? -1 : 0"
+        [queryParams]="getLinkParams(value)"
+        class="value"
+        [class.selected]="value.selected"
+        [cxFocus]="{ key: value.name }"
+        (keydown)="onKeydown($event)"
+        (keydown.space)="openLink($any($event))"
+      >
+        <span
+          >{{ value.name }}<span class="count">{{ value.count }}</span></span
+        >
+      </a>
 
-    <button
-      *ngIf="state.maxVisible > 0 && state.maxVisible < facet.values.length"
-      (click)="increaseVisibleValues()"
-      class="cx-action-link"
-      cxFocus="moreorless"
-    >
-      {{ 'productList.showMore' | cxTranslate }}
-    </button>
+      <button
+        *ngIf="
+          state.maxVisible &&
+          state.topVisible &&
+          state.maxVisible > state.topVisible
+        "
+        (click)="decreaseVisibleValues()"
+        [cxAtMessage]="
+          'productFacetNavigation.decreaseOptionsVisibility' | cxTranslate
+        "
+        aria-expanded="true"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelShowLess' | cxTranslate
+        }}"
+        class="cx-action-link"
+        [cxFocus]="{ key: 'moreorless' }"
+      >
+        {{ 'productList.showLess' | cxTranslate }}
+      </button>
+
+      <button
+        *ngIf="
+          state.maxVisible &&
+          facet.values &&
+          state.maxVisible > 0 &&
+          state.maxVisible < facet.values.length
+        "
+        (click)="increaseVisibleValues()"
+        [cxAtMessage]="
+          'productFacetNavigation.increaseOptionsVisibility' | cxTranslate
+        "
+        aria-expanded="false"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelShowMore' | cxTranslate
+        }}"
+        class="cx-action-link"
+        [cxFocus]="{ key: 'moreorless' }"
+      >
+        {{ 'productList.showMore' | cxTranslate }}
+      </button>
+    </div>
   </div>
 </ng-container>

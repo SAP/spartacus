@@ -1,7 +1,8 @@
 import { Product } from '../../../model/product.model';
+import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
+import { ProductScope } from '../../model/product-scope';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 import * as fromProduct from './product.action';
-import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 
 describe('Product Actions', () => {
   describe('LoadProduct Actions', () => {
@@ -52,6 +53,21 @@ describe('Product Actions', () => {
             PRODUCT_DETAIL_ENTITY,
             payload.code,
             ''
+          ),
+        });
+      });
+    });
+
+    describe('ClearProductPrice', () => {
+      it('should create an action', () => {
+        const action = new fromProduct.ClearProductPrice();
+
+        expect({ ...action }).toEqual({
+          type: fromProduct.CLEAR_PRODUCT_PRICE,
+          meta: EntityScopedLoaderActions.entityScopedResetMeta(
+            PRODUCT_DETAIL_ENTITY,
+            undefined,
+            ProductScope.PRICE
           ),
         });
       });

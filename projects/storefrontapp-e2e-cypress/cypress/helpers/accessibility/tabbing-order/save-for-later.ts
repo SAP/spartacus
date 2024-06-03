@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { addProduct, verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
@@ -16,5 +22,5 @@ function addCartItemsAndLoadCart() {
       .first()
       .click();
   });
-  cy.get('cx-cart-item .cx-sfl-btn button:not([disabled])');
+  cy.get('cx-cart-item button:not([disabled]).cx-sfl-btn');
 }

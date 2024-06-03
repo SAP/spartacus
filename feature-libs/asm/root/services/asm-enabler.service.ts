@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { FeatureModulesService, WindowRef } from '@spartacus/core';
@@ -39,7 +45,7 @@ export class AsmEnablerService {
         this.winRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
       }
     }
-    return this.isLaunched() || this.isUsedBefore();
+    return this.isLaunched() || this.isUsedBefore() || this.isEmulateInURL();
   }
 
   /**
@@ -49,6 +55,13 @@ export class AsmEnablerService {
   protected isLaunched(): boolean {
     const params = this.location.path().split('?')[1];
     return !!params && params.split('&').includes('asm=true');
+  }
+
+  /**
+   * check whether try to emulate customer from deeplink
+   * */
+  isEmulateInURL(): boolean {
+    return this.location.path().indexOf('assisted-service/emulate?') > 0;
   }
 
   /**

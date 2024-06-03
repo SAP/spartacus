@@ -3,7 +3,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Country } from '../../model';
-import { PaymentDetails } from '../../model/cart.model';
+import { PaymentDetails } from '../../model/payment.model';
 import { Occ } from '../../occ/occ-models/occ.models';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';

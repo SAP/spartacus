@@ -1,26 +1,32 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy, Type } from '@angular/core';
 import {
   BehaviorSubject,
   EMPTY,
+  Observable,
+  Subscription,
   iif,
   isObservable,
   merge,
-  Observable,
   of,
-  Subscription,
   using,
 } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
-  pluck,
+  map,
   share,
-  switchMapTo,
+  switchMap,
   takeUntil,
   tap,
 } from 'rxjs/operators';
-import { EventService } from '../../event/event.service';
 import { CxEvent } from '../../event/cx-event';
+import { EventService } from '../../event/event.service';
 
 export type QueryNotifier = Observable<unknown> | Type<CxEvent>;
 
@@ -30,9 +36,9 @@ export interface QueryState<T> {
   data: T | undefined;
 }
 
-export interface Query<T, P extends unknown[] = []> {
-  get(...params: P): Observable<T | undefined>;
-  getState(...params: P): Observable<QueryState<T>>;
+export interface Query<RESULT, PARAMS extends unknown[] = []> {
+  get(...params: PARAMS): Observable<RESULT | undefined>;
+  getState(...params: PARAMS): Observable<QueryState<RESULT>>;
 }
 
 @Injectable({
@@ -46,7 +52,9 @@ export class QueryService implements OnDestroy {
   create<T>(
     loaderFactory: () => Observable<T>,
     options?: {
+      /** Reloads the query, while preserving the `data` until the new data is loaded */
       reloadOn?: QueryNotifier[];
+      /** Resets the query to the initial state */
       resetOn?: QueryNotifier[];
     }
   ): Query<T> {
@@ -60,7 +68,11 @@ export class QueryService implements OnDestroy {
 
     // if the query will be unsubscribed from while the data is being loaded, we will end up with the loading flag set to true
     // we want to retry this load on next subscription
-    const onSubscribeLoad$ = iif(() => state$.value.loading, of(undefined));
+    const onSubscribeLoad$ = iif(
+      () => state$.value.loading,
+      of(undefined),
+      EMPTY
+    );
 
     const loadTrigger$ = this.getTriggersStream([
       onSubscribeLoad$, // we need to evaluate onSubscribeLoad$ before other triggers in order to avoid other triggers changing state$ value
@@ -71,19 +83,21 @@ export class QueryService implements OnDestroy {
     const resetTrigger$ = this.getTriggersStream(options?.resetOn ?? []);
     const reloadTrigger$ = this.getTriggersStream(options?.reloadOn ?? []);
 
+    const loader$ = loaderFactory().pipe(takeUntil(resetTrigger$));
+
     const load$ = loadTrigger$.pipe(
       tap(() => {
         if (!state$.value.loading) {
           state$.next({ ...state$.value, loading: true });
         }
       }),
-      switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
+      switchMap(() => loader$),
       tap((data) => {
         state$.next({ loading: false, error: false, data });
       }),
-      catchError((error, retryStream$) => {
+      catchError((error, sourceStream$) => {
         state$.next({ loading: false, error, data: undefined });
-        return retryStream$;
+        return sourceStream$;
       }),
       share()
     );
@@ -119,7 +133,10 @@ export class QueryService implements OnDestroy {
       () => state$
     );
 
-    const data$ = query$.pipe(pluck('data'), distinctUntilChanged());
+    const data$ = query$.pipe(
+      map((queryState) => queryState.data),
+      distinctUntilChanged()
+    );
 
     return { get: () => data$, getState: () => query$ };
   }

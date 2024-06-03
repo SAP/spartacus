@@ -1,19 +1,15 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
+import { CartItemContextSource } from '@spartacus/cart/base/components';
 import {
   Cart,
-  OCC_USER_ID_ANONYMOUS,
+  CartItemContext,
   OrderEntry,
   PromotionLocation,
-  UserIdService,
-} from '@spartacus/core';
-import {
-  BREAKPOINT,
-  CartItemContext,
-  CartItemContextSource,
-  LayoutConfig,
-} from '@spartacus/storefront';
+} from '@spartacus/cart/base/root';
+import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
+import { BREAKPOINT, LayoutConfig } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import {
   CommonConfigurator,
@@ -49,7 +45,7 @@ class MockUserIdService {
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
-  quantityControl$ = new ReplaySubject<FormControl>(1);
+  quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.ActiveCart
   );

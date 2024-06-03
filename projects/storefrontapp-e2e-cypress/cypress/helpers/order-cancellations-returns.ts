@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   cancellableOrder,
   cancelledReturnRequest,
@@ -286,8 +292,8 @@ function assertOrderItems(order: any, isConfirm = false) {
     cy.get('cx-amend-order-items .cx-item-list-row')
       .eq(index)
       .within(() => {
-        cy.get('.cx-list-item-desc').should('contain', entry.product.name);
-        cy.get('.cx-list-item-desc').should('contain', entry.product.code);
+        cy.get('.cx-name').should('contain', entry.product.name);
+        cy.get('.cx-code').should('contain', entry.product.code);
         cy.get('.cx-price').should('contain', entry.basePrice.formattedValue);
         if (isConfirm) {
           cy.get('.cx-quantity').should('contain', 1);

@@ -1,4 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
@@ -115,7 +115,8 @@ describe('UserGroupService', () => {
   ));
 
   describe('get userGroup', () => {
-    xit('get() should trigger load userGroup details when they are not present in the store', (done) => {
+    it('get() should trigger load userGroup details when they are not present in the store', fakeAsync(() => {
+      spyOn(service, 'load').and.callThrough();
       const sub = service.get(userGroupId).subscribe();
 
       actions$
@@ -127,10 +128,12 @@ describe('UserGroupService', () => {
               userGroupId,
             })
           );
-          sub.unsubscribe();
-          done();
         });
-    });
+
+      tick();
+      expect(service.load).toHaveBeenCalledWith(userGroupId);
+      sub.unsubscribe();
+    }));
 
     it('get() should be able to get userGroup details when they are present in the store', () => {
       store.dispatch(

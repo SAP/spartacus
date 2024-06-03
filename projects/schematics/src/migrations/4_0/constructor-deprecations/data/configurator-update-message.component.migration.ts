@@ -1,12 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CONFIGURATOR_COMMONS_SERVICE,
   CONFIGURATOR_MESSAGE_CONFIG,
   CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE,
   CONFIGURATOR_UPDATE_MESSAGE_COMPONENT,
   MESSAGE_CONFIG,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_UPDATE_MESSAGE_COMPONENT_MIGRATION: ConstructorDeprecation =

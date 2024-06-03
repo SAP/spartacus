@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -5,7 +11,6 @@ import {
   EntitiesModel,
   SearchConfig,
   StateUtils,
-  StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
@@ -23,30 +28,30 @@ import { getItemStatus } from '../utils/get-item-status';
 @Injectable({ providedIn: 'root' })
 export class BudgetService {
   constructor(
-    protected store: Store<StateWithOrganization | StateWithProcess<void>>,
+    protected store: Store<StateWithOrganization>,
     protected userIdService: UserIdService
   ) {}
 
   loadBudget(budgetCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new BudgetActions.LoadBudget({ userId, budgetCode })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
-  loadBudgets(params?: SearchConfig): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+  loadBudgets(params: SearchConfig): void {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params })),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   private getBudgetState(
@@ -56,11 +61,13 @@ export class BudgetService {
   }
 
   private getBudgetValue(budgetCode: string): Observable<Budget> {
-    return this.store.select(getBudgetValue(budgetCode)).pipe(filter(Boolean));
+    return this.store
+      .select(getBudgetValue(budgetCode))
+      .pipe(filter((budget) => Boolean(budget)));
   }
 
   private getBudgetList(
-    params
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<Budget>>> {
     return this.store.select(getBudgetList(params));
   }
@@ -81,7 +88,7 @@ export class BudgetService {
     );
   }
 
-  getList(params: SearchConfig): Observable<EntitiesModel<Budget>> {
+  getList(params: SearchConfig): Observable<EntitiesModel<Budget> | undefined> {
     return this.getBudgetList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<Budget>>) => {
@@ -89,9 +96,8 @@ export class BudgetService {
           this.loadBudgets(params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<Budget>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<Budget>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
@@ -108,30 +114,32 @@ export class BudgetService {
     );
   }
 
-  getErrorState(budgetCode): Observable<boolean> {
-    return this.getBudgetState(budgetCode).pipe(map((state) => state.error));
+  getErrorState(budgetCode: string): Observable<boolean> {
+    return this.getBudgetState(budgetCode).pipe(
+      map((state) => state.error ?? false)
+    );
   }
 
   create(budget: Budget): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget })),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   update(budgetCode: string, budget: Budget): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   getLoadingStatus(

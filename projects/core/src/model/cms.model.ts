@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export interface CmsComponent {
   modifiedTime?: Date;
   name?: string;
@@ -23,6 +29,10 @@ export interface CmsComponent {
    * The styleClasses can contain a "list" of space separated style classes.
    */
   styleClasses?: string;
+}
+
+export interface CmsComponentWithChildren extends CmsComponent {
+  children?: string;
 }
 
 export enum PageType {
@@ -52,6 +62,16 @@ export interface CmsLinkComponent extends CmsComponent {
 
 export interface CmsSiteContextSelectorComponent extends CmsComponent {
   context?: string;
+}
+
+export enum ScrollBehavior {
+  AUTO = 'auto',
+  SMOOTH = 'smooth',
+}
+
+export interface CmsScrollToTopComponent extends CmsComponent {
+  scrollBehavior?: ScrollBehavior;
+  displayThreshold?: number;
 }
 
 export interface CmsSearchBoxComponent extends CmsComponent {
@@ -97,6 +117,9 @@ export interface CmsBannerComponent extends CmsComponent {
   media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   urlLink?: string;
   external?: string | boolean;
+  contentPage?: string;
+  product?: string;
+  category?: string;
 }
 
 export enum CmsBannerCarouselEffect {
@@ -163,6 +186,7 @@ export interface CmsNavigationComponent extends CmsComponent {
   notice?: string;
   showLanguageCurrency?: string;
   navigationNode?: CmsNavigationNode;
+  resetMenuOnClose?: boolean;
 }
 
 export interface CmsProductFacetNavigationComponent extends CmsComponent {
@@ -175,3 +199,56 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
 export interface CmsAddToCartComponent extends CmsComponent {
   inventoryDisplay?: boolean;
 }
+
+export interface CmsOrderDetailItemsComponent extends CmsComponent {
+  enableAddToCart?: boolean;
+  groupCartItems?: boolean;
+}
+
+export interface CmsOrderDetailOverviewComponent extends CmsComponent {
+  simple?: boolean;
+}
+
+export interface CmsPDFDocumentComponent extends CmsComponent {
+  pdfFile?: CmsBannerComponentMedia;
+  title?: string;
+  height?: number;
+}
+
+export interface CmsVideoComponent extends CmsComponent {
+  overlayTitle?: string;
+  autoPlay?: string;
+  loop?: string;
+  mute?: string;
+  containerSize?: ContainerSizeOptions;
+  containerBackground?: ContainerBackgroundOptions;
+  thumbnailSelector?: ContainerBackgroundOptions;
+  videoContainerHeight?: number;
+  video?: CmsBannerComponentMedia;
+  container?: boolean;
+  videoMedia?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
+  thumbnail?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
+  url?: string;
+  category?: string;
+  product?: string;
+  contentPage?: string;
+}
+
+export enum ContainerBackgroundOptions {
+  NO_BACKGROUND = 'NO_BACKGROUND',
+  UPLOAD_RESPONSIVE_IMAGE = 'UPLOAD_RESPONSIVE_IMAGE',
+  UPLOAD_THUMBNAIL = 'UPLOAD_THUMBNAIL',
+}
+
+export enum ContainerSizeOptions {
+  FIT_TO_CONTENT_SIZE = 'FIT_TO_CONTENT_SIZE',
+  DEFINE_CONTAINER_HEIGHT = 'DEFINE_CONTAINER_HEIGHT',
+}
+
+export interface CmsPickupItemDetails extends CmsComponent {
+  showEdit: boolean;
+  context: string;
+}
+
+// TODO: (CXSPA-4886) Remove this flag in the major
+export const USER_CMS_ENDPOINTS = 'userCmsEndpoints';

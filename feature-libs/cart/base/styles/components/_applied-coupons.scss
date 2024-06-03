@@ -1,0 +1,60 @@
+%cx-applied-coupons {
+  .cx-applied-coupon-title {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .cx-coupon-list-wrap {
+    margin-bottom: 1rem;
+  }
+
+  .cx-coupon-card-grid {
+    display: grid;
+  }
+
+  .coupon-summary {
+    @include type('7');
+    display: inline-flex;
+    align-items: flex-start;
+    padding: var(--cx-padding, 0.25rem 0.25rem);
+    word-break: break-all;
+    margin-top: 0.25rem;
+    margin-inline-end: 0.25rem;
+    margin-bottom: 0;
+    margin-inline-start: 0;
+  }
+
+  .cx-coupon-card {
+    background: var(--cx-color-background);
+    border: 1px solid $light;
+    border-radius: $border-radius;
+  }
+
+  .cx-coupon-card-grid {
+    @include media-breakpoint-down(md) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
+  .textonly {
+    margin: 0 10px 10px 0;
+    font-size: 14px;
+  }
+
+  .cx-coupon-apply {
+    display: inline-flex;
+    align-items: center;
+    @include type('6');
+    padding: 1rem 1rem;
+    word-break: break-all;
+
+    .cx-cart-coupon-code {
+      flex: 1;
+    }
+
+    .close {
+      padding-inline-start: 0.7rem;
+    }
+  }
+}

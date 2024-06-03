@@ -10,16 +10,23 @@ a {
     cursor: var(--cx-cursor, not-allowed !important);
     opacity: 0.8;
   }
+
+  @include media-breakpoint-down(sm) {
+    min-height: 48px;
+    min-width: 48px;
+    display: block;
+  }
 }
 
 .cx-action-link {
-  @include type('7');
+  @include type('6');
   text-transform: var(--cx-button-text-transform);
   text-decoration: underline;
   cursor: pointer;
   display: inline-block;
+  color: var(--cx-color-primary);
   &:hover {
-    color: var(--cx-color-primary);
+    color: var(--cx-color-primary-accent);
     text-decoration: none;
   }
 }

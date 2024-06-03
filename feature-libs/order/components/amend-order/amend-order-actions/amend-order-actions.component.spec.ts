@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { AmendOrderActionsComponent } from './amend-order-actions.component';
 import { StoreModule } from '@ngrx/store';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Pipe({
   name: 'cxUrl',
@@ -70,8 +70,8 @@ describe('AmendOrderActionsComponent', () => {
   it('should proceed to forward route if control is valid', () => {
     const orderCode = 'test1';
     const forwardRoute = 'my-test';
-    const formControl = new FormGroup({
-      test: new FormControl(),
+    const formControl = new UntypedFormGroup({
+      test: new UntypedFormControl(),
     });
     const ev = {
       stopPropagation() {},

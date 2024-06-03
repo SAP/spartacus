@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { LibraryOptions } from '../shared/utils/lib-utils';
 
 export interface Schema extends LibraryOptions {
@@ -10,7 +16,6 @@ export interface Schema extends LibraryOptions {
   useMetaTags?: boolean;
   featureLevel?: string;
   overwriteAppComponent?: boolean;
-  pwa?: boolean;
   ssr?: boolean;
   theme?: string;
 }
@@ -42,10 +47,6 @@ export interface AngularComponentSchema {
    * template file is created and referenced in the component.ts file.
    */
   inlineTemplate: boolean;
-  /**
-   * When true, applies lint fixes after generating the component.
-   */
-  lintFix: boolean;
   /**
    * The name of the component.
    */
@@ -119,10 +120,6 @@ export interface AngularModuleSchema {
    * When true, creates the new files at the top level of the current project root.
    */
   flat: boolean;
-  /**
-   * When true, applies lint fixes after generating the module.
-   */
-  lintFix: boolean;
   /**
    * The declaring NgModule.
    */

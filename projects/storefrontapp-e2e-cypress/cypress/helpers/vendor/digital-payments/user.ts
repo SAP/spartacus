@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { waitForPage } from '../../checkout-flow';
 export const my_user = {
   fullName: 'New Customer',
@@ -24,7 +30,7 @@ export function checkoutShippingAddress() {
     '/checkout/delivery-mode',
     'getDeliveryModePage'
   );
-  cy.get('cx-shipping-address').within(() => {
+  cy.get('cx-delivery-address').within(() => {
     cy.findByText('Selected');
     cy.get('cx-card')
       .eq(0)

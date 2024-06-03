@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Config } from '../../config/config-tokens';
 import { GlobalMessageType } from '../models/global-message.model';
@@ -16,6 +22,7 @@ export abstract class GlobalMessageConfig {
     [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageTypeConfig;
     [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageTypeConfig;
     [GlobalMessageType.MSG_TYPE_WARNING]?: GlobalMessageTypeConfig;
+    [GlobalMessageType.MSG_TYPE_ASSISTIVE]?: GlobalMessageTypeConfig;
   };
 }
 

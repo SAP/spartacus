@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   BaseOption,
@@ -13,7 +13,7 @@ import {
   VariantQualifier,
   VariantType,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ProductVariantStyleSelectorComponent } from './product-variant-style-selector.component';
 
 const mockOccBackendUrl = 'https://base.com';
@@ -32,6 +32,13 @@ const mockVariant: BaseOption = {
   options: [],
   variantType: VariantType.SIZE,
 };
+
+const mockVariantWithIssue: BaseOption = {
+  selected: {
+    variantOptionQualifiers: [],
+  },
+};
+
 const mockProduct: Product = { name: 'TestName', code: 'test' };
 const mockQualifiers = [
   {
@@ -68,7 +75,7 @@ class MockRoutingService {
     });
   }
   go() {
-    return of();
+    return EMPTY;
   }
 }
 class MockProductService {
@@ -102,42 +109,76 @@ describe('ProductVariantStyleSelectorComponent', () => {
     })
   );
 
-  beforeEach(() => {
-    routingService = TestBed.inject(RoutingService);
-    fixture = TestBed.createComponent(ProductVariantStyleSelectorComponent);
-    component = fixture.componentInstance;
-    component.variants = mockVariant;
-    fixture.detectChanges();
+  describe('Empty config scenario', () => {
+    beforeEach(() => {
+      TestBed.overrideProvider(OccConfig, {
+        useValue: {},
+      });
+      routingService = TestBed.inject(RoutingService);
+      fixture = TestBed.createComponent(ProductVariantStyleSelectorComponent);
+      component = fixture.componentInstance;
+      component.variants = mockVariant;
+      fixture.detectChanges();
+    });
+
+    it('should get variant url for thumbnail type of qualifier and add undefined at the beggining because of missing config', () => {
+      const thumbnailUrl = component.getVariantThumbnailUrl(
+        component.variants.selected.variantOptionQualifiers
+      );
+      expect(thumbnailUrl).toEqual(
+        `undefined${mockVariant.selected.variantOptionQualifiers[0].image.url}`
+      );
+    });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  describe('Default scenario', () => {
+    beforeEach(() => {
+      routingService = TestBed.inject(RoutingService);
+      fixture = TestBed.createComponent(ProductVariantStyleSelectorComponent);
+      component = fixture.componentInstance;
+      component.variants = mockVariant;
+      fixture.detectChanges();
+    });
 
-  it('should get variant url for thumbnail type of qualifier', () => {
-    const thumbnailUrl = component.getVariantThumbnailUrl(
-      component.variants.selected.variantOptionQualifiers
-    );
-    expect(thumbnailUrl).toEqual(
-      mockOccBackendUrl +
-        mockVariant.selected.variantOptionQualifiers[0].image.url
-    );
-  });
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
 
-  it('should naviagate to product on changeStyle', () => {
-    spyOn(routingService, 'go').and.callThrough();
+    it('should get variant url for thumbnail type of qualifier', () => {
+      const thumbnailUrl = component.getVariantThumbnailUrl(
+        component.variants.selected.variantOptionQualifiers
+      );
+      expect(thumbnailUrl).toEqual(
+        mockOccBackendUrl +
+          mockVariant.selected.variantOptionQualifiers[0].image.url
+      );
+    });
 
-    component.changeStyle('test123');
-    expect(routingService.go).toHaveBeenCalled();
-  });
+    it('should not get variant url for thumbnail type of qualifier because of missing data', () => {
+      component.variants = mockVariantWithIssue;
+      fixture.detectChanges();
 
-  it('should find variant with proper qualifier', () => {
-    const result = component.getVariantOptionValue(mockQualifiers);
-    expect(result).toEqual(mockQualifiers[1].value);
-  });
+      const thumbnailUrl = component.getVariantThumbnailUrl(
+        component.variants.selected.variantOptionQualifiers
+      );
+      expect(thumbnailUrl).toEqual('');
+    });
 
-  it('should not find variant', () => {
-    const result = component.getVariantOptionValue([mockQualifiers2]);
-    expect(result).toEqual('');
+    it('should naviagate to product on changeStyle', () => {
+      spyOn(routingService, 'go').and.callThrough();
+
+      component.changeStyle('test123');
+      expect(routingService.go).toHaveBeenCalled();
+    });
+
+    it('should find variant with proper qualifier', () => {
+      const result = component.getVariantOptionValue(mockQualifiers);
+      expect(result).toEqual(mockQualifiers[1].value);
+    });
+
+    it('should not find variant', () => {
+      const result = component.getVariantOptionValue([mockQualifiers2]);
+      expect(result).toEqual('');
+    });
   });
 });

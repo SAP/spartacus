@@ -1,11 +1,11 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
-import { AsmConfig } from '@spartacus/asm/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AsmConfig } from '@spartacus/asm/root';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -14,14 +14,13 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-asm-session-timer',
   templateUrl: './asm-session-timer.component.html',
-  styleUrls: ['./asm-session-timer.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
   protected interval: any;
   protected maxStartDelayInSeconds = 60000;
   timeLeft: number;
+  expiredTime: number;
 
   constructor(
     protected config: AsmConfig,
@@ -32,11 +31,11 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.timeLeft = this.getTimerStartDelayInSeconds();
+    this.initTimer();
     this.interval = setInterval(() => {
-      if (this.timeLeft > 0) {
-        this.timeLeft--;
-      } else {
+      const currentSeconds = new Date().getTime() / 1000;
+      this.timeLeft = Math.floor(this.expiredTime - currentSeconds);
+      if (this.timeLeft <= 0) {
         clearInterval(this.interval);
         this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
       }
@@ -66,9 +65,16 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     );
   }
 
+  protected initTimer(): void {
+    const timeoutPropertyInSeconds = this.getTimerStartDelayInSeconds();
+    const currentSeconds = new Date().getTime() / 1000;
+    this.timeLeft = timeoutPropertyInSeconds;
+    this.expiredTime = currentSeconds + this.timeLeft;
+  }
+
   resetTimer(): void {
     if (this.timeLeft > 0) {
-      this.timeLeft = this.getTimerStartDelayInSeconds();
+      this.initTimer();
     }
   }
 

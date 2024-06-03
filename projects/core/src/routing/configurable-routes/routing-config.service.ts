@@ -1,4 +1,11 @@
-import { Injectable, isDevMode } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { LoggerService } from '../../logger';
 import { RouteLoadStrategy, RoutingConfig } from './config/routing-config';
 import { RouteConfig } from './routes-config';
 
@@ -9,12 +16,14 @@ export class RoutingConfigService {
    */
   protected routeNamesByPath: { [path: string]: string };
 
+  protected logger = inject(LoggerService);
+
   constructor(protected config: RoutingConfig) {}
 
   /**
    * Returns the route config for the given route name.
    */
-  getRouteConfig(routeName: string): RouteConfig {
+  getRouteConfig(routeName: string): RouteConfig | undefined {
     const routeConfig = this.config?.routing?.routes;
 
     const result = routeConfig && routeConfig[routeName];
@@ -24,9 +33,9 @@ export class RoutingConfigService {
     return result;
   }
 
-  private warn(...args) {
+  private warn(...args: string[]): void {
     if (isDevMode()) {
-      console.warn(...args);
+      this.logger.warn(...args);
     }
   }
 
@@ -51,7 +60,7 @@ export class RoutingConfigService {
    *
    * the `getRouteName('my-account/address-book')` returns `'addressBook'`.
    */
-  getRouteName(path: string) {
+  getRouteName(path: string): string {
     if (!this.routeNamesByPath) {
       this.initRouteNamesByPath();
     }
@@ -65,15 +74,15 @@ export class RoutingConfigService {
    * But this method builds up a structure with a 'reversed config'
    * to read quickly the route name by the path.
    */
-  protected initRouteNamesByPath() {
+  protected initRouteNamesByPath(): void {
     this.routeNamesByPath = {};
 
     for (const [routeName, routeConfig] of Object.entries(
-      this.config?.routing?.routes
+      this.config?.routing?.routes ?? {}
     )) {
       routeConfig?.paths?.forEach((path) => {
         if (isDevMode() && this.routeNamesByPath[path]) {
-          console.error(
+          this.logger.error(
             `The same path '${path}' is configured for two different route names: '${this.routeNamesByPath[path]}' and '${routeName}`
           );
         }

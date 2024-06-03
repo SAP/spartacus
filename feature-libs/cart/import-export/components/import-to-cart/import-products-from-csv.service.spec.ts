@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ProductData } from '@spartacus/storefront';
+import { ProductData } from '@spartacus/cart/base/root';
 import { ImportProductsFromCsvService } from './import-products-from-csv.service';
 
 const mockFileData: string[][] = [

@@ -1,4 +1,4 @@
-@import '~@spartacus/styles/scss/cxbase/blocks/modal';
+@import '@spartacus/styles/scss/cxbase/blocks/modal';
 
 cx-product-image-zoom-dialog {
   color: var(--cx-color-text);
@@ -37,6 +37,13 @@ cx-product-image-zoom-dialog {
         // Landscape phones
         @media only screen and (max-width: 900px) and (orientation: landscape) {
           padding: 1rem;
+        }
+
+        // TODO: (CXSPA-7212) - Remove feature flag next major release
+        @include forFeature('a11yCloseProductImageBtnFocus') {
+          .close {
+            outline-offset: -4px;
+          }
         }
       }
       .cx-dialog-body {

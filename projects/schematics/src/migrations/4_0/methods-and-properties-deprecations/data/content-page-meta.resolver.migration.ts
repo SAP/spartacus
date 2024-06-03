@@ -1,9 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CONTENT_PAGE_META_RESOLVER,
   PAGE_META_SERVICE,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONTENT_PAGE_META_RESOLVER_MIGRATION: MethodPropertyDeprecation[] =

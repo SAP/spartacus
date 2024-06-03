@@ -9,6 +9,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { UTF_8 } from '../constants';
+import { SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
   getMajorVersionNumber,
   getSpartacusCurrentFeatureLevel,
@@ -17,7 +18,10 @@ import {
 } from './package-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
-const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+const schematicRunner = new SchematicTestRunner(
+  SPARTACUS_SCHEMATICS,
+  collectionPath
+);
 
 describe('Package utils', () => {
   let appTree: UnitTestTree;
@@ -29,34 +33,34 @@ describe('Package utils', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
   const defaultOptions = {
     project: 'schematics-test',
   };
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
   });
 
   describe('readPackageJson', () => {
@@ -96,8 +100,8 @@ describe('Package utils', () => {
       const version = getSpartacusSchematicsVersion();
       const featureLevel = getSpartacusCurrentFeatureLevel();
       expect(featureLevel).toBeTruthy();
-      expect(featureLevel.length).toEqual(3);
-      expect(featureLevel).toEqual(version.substring(0, 3));
+      expect(featureLevel.length).toEqual(7);
+      expect(featureLevel).toEqual(version.substring(0, 7));
     });
   });
 });

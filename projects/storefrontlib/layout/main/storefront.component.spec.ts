@@ -2,7 +2,7 @@ import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { OutletDirective } from '../../cms-structure';
 import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
@@ -34,7 +34,7 @@ class MockFooterComponent {}
 
 class MockRoutingService {
   isNavigating(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
 }
 

@@ -4,9 +4,11 @@
     else loading
   "
 >
+  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
   <div *ngIf="locations?.stores.length">
     <div class="cx-pagination">
       <cx-pagination
+        aria-hidden="true"
         [pagination]="locations.pagination"
         (viewPageEvent)="viewPage($event)"
       ></cx-pagination>

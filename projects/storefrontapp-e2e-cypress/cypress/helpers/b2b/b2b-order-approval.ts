@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as sampleData from '../../sample-data/b2b-order-approval';
 import {
   approvalOrderDetail,
@@ -110,7 +116,7 @@ export function getStubbedApprovedOrderApprovalDetail() {
 
 export function checkApprovalDashboardMenuOptionExistence(exists: boolean) {
   cy.get('cx-navigation > cx-navigation-ui').within(() => {
-    cy.get('nav > cx-generic-link')
+    cy.get('nav > ul > li > .wrapper > ul > li > cx-generic-link')
       .contains('Approval Dashboard')
       .should(exists ? 'exist' : 'not.exist');
   });

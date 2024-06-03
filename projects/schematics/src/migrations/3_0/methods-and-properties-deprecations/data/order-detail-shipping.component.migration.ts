@@ -1,12 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   GET_ADDRESS_CARD_CONTENT,
   GET_DELIVERY_MODE_CARD_CONTENT,
   GET_PAYMENT_CARD_CONTENT,
   GET_SHIPPING_METHOD_CARD_CONTENT,
   ORDER_DETAIL_SHIPPING_COMPONENT,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 //projects/storefrontlib/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts;

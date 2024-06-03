@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap } from '@ngrx/store';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';

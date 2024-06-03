@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Directive,
   Injector,
@@ -6,21 +12,26 @@ import {
   Renderer2,
   ViewContainerRef,
 } from '@angular/core';
-import { CmsComponent, DynamicAttributeService } from '@spartacus/core';
-import { map } from 'rxjs/operators';
+import {
+  CmsComponent,
+  DynamicAttributeService,
+  EventService,
+} from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { CmsComponentData } from '../model/cms-component-data';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { CmsComponentsService } from '../../services/cms-components.service';
-import { ComponentHandlerService } from './services/component-handler.service';
-import { CmsInjectorService } from './services/cms-injector.service';
+import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
+import { CmsInjectorService } from './services/cms-injector.service';
+import { ComponentHandlerService } from './services/component-handler.service';
 
 @Directive({
   selector: '[cxInnerComponentsHost]',
 })
 export class InnerComponentsHostDirective implements OnInit, OnDestroy {
   protected innerComponents$ = this.data.data$.pipe(
-    map((data) => data?.composition?.inner ?? [])
+    map((data) => data?.composition?.inner ?? []),
+    distinctUntilChanged()
   );
 
   protected componentWrappers: any[] = [];
@@ -35,7 +46,8 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
-    protected cmsInjector: CmsInjectorService
+    protected cmsInjector: CmsInjectorService,
+    protected eventService: EventService
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +69,8 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
       this.dynamicAttributeService,
       this.renderer,
       this.componentHandler,
-      this.cmsInjector
+      this.cmsInjector,
+      this.eventService
     );
     componentWrapper.cxComponentWrapper = { flexType: component, uid: '' };
     componentWrapper.ngOnInit();

@@ -1,6 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
   AuthGuard,
   CmsConfig,
@@ -9,11 +16,10 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
-  AddToCartModule,
   CardModule,
-  CartSharedModule,
   IconModule,
   MediaModule,
+  OutletModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { SavedCartDetailsActionComponent } from './saved-cart-details-action/saved-cart-details-action.component';
@@ -22,16 +28,16 @@ import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview
 
 @NgModule({
   imports: [
-    CartSharedModule,
     CommonModule,
     I18nModule,
     UrlModule,
     RouterModule,
     CardModule,
     MediaModule,
-    AddToCartModule,
     IconModule,
     SpinnerModule,
+    OutletModule,
+    AddToCartModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SavedCartDetailsOverviewComponent: {

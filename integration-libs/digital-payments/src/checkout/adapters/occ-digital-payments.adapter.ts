@@ -1,18 +1,24 @@
-import { CURRENT_CART } from '../../utils/dp-constants';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  OccEndpointsService,
-  Occ,
-  PaymentDetails,
-  HttpParamsURIEncoder,
   ConverterService,
+  HttpParamsURIEncoder,
+  Occ,
+  OccEndpointsService,
+  PaymentDetails,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { CURRENT_CART } from '../../utils/dp-constants';
+import { DpPaymentRequest } from '../models/dp-checkout.model';
+import { DP_DETAILS_NORMALIZER, DP_REQUEST_NORMALIZER } from './converters';
 import { DigitalPaymentsAdapter } from './digital-payments.adapter';
 import { OccDpPaymentRequest } from './occ.models';
-import { DpPaymentRequest } from '../models';
-import { DP_DETAILS_NORMALIZER, DP_REQUEST_NORMALIZER } from './converters';
 
 @Injectable()
 export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {

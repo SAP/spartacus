@@ -3,10 +3,10 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   OCC_USER_ID_CURRENT,
   PROCESS_FEATURE,
-  ReturnRequestList,
   StateWithUser,
   UserIdService,
 } from '@spartacus/core';
+import { ReturnRequestList } from '@spartacus/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions';
@@ -149,7 +149,7 @@ describe('OrderReturnRequestService', () => {
 
   it('should NOT load order return requests list when user is anonymous', () => {
     spyOn(userIdService, 'takeUserId').and.callFake(() => {
-      return throwError('Error');
+      return throwError(() => 'Error');
     });
 
     orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');

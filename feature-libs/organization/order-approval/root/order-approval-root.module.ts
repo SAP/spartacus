@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -7,6 +13,7 @@ import {
   provideDefaultConfigFactory,
   RoutingConfig,
 } from '@spartacus/core';
+import { ORDER_FEATURE } from '@spartacus/order/root';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { ORGANIZATION_ORDER_APPROVAL_FEATURE } from './feature-name';
 
@@ -24,6 +31,7 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
           'OrderApprovalDetailFormComponent',
           'AccountOrderDetailsApprovalDetailsComponent',
         ],
+        dependencies: [ORDER_FEATURE],
       },
     },
   };
@@ -35,6 +43,7 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
   imports: [
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
@@ -54,7 +63,6 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
           },
           orderApprovalDetails: {
             paths: ['my-account/approval/:approvalCode'],
-            paramsMapping: { approvalCode: 'approvalCode' },
           },
         },
       },

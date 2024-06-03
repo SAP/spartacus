@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const googleMap = 'cx-store-finder-map .cx-store-map .gm-style';
 export const resultListItem = 'cx-store-finder-list-item';
 export const storeAddressDescription = '.cx-store-description-address';
@@ -19,7 +25,7 @@ export function testAllowViewStoreDetails() {
     cy.get(resultListItem)
       .first()
       .within(() => {
-        cy.get('.cx-store-name a').click();
+        cy.get('a').first().click();
       });
 
     cy.get(storeAddressDescription).should('not.to.be.empty');

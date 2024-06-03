@@ -7,7 +7,10 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  PasswordVisibilityToggleModule,
+} from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
@@ -48,7 +51,12 @@ describe('ResetPasswordComponentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        PasswordVisibilityToggleModule,
+      ],
       providers: [
         ResetPasswordComponentService,
         {
@@ -87,16 +95,16 @@ describe('ResetPasswordComponentService', () => {
       service['busy$'].next(true);
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeTrue();
-      expect(service.form.disabled).toBeTrue();
+      expect(result).toBeTruthy();
+      expect(service.form.disabled).toBeTruthy();
     });
 
     it('should return false', () => {
       service['busy$'].next(false);
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeFalse;
-      expect(service.form.disabled).toBeFalse();
+      expect(result).toBeFalsy();
+      expect(service.form.disabled).toBeFalsy();
     });
   });
 
@@ -166,7 +174,7 @@ describe('ResetPasswordComponentService', () => {
           const error = new HttpErrorModel();
           error.details = [{ message: 'error message' }];
           spyOn(userPasswordService, 'reset').and.returnValue(
-            throwError(error)
+            throwError(() => error)
           );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -176,13 +184,17 @@ describe('ResetPasswordComponentService', () => {
         });
 
         it('should not show error message', () => {
-          spyOn(userPasswordService, 'reset').and.returnValue(throwError(null));
+          spyOn(userPasswordService, 'reset').and.returnValue(
+            throwError(() => null)
+          );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).not.toHaveBeenCalled();
         });
 
         it('should not show error message', () => {
-          spyOn(userPasswordService, 'reset').and.returnValue(throwError({}));
+          spyOn(userPasswordService, 'reset').and.returnValue(
+            throwError(() => ({}))
+          );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).not.toHaveBeenCalled();
         });
@@ -190,7 +202,9 @@ describe('ResetPasswordComponentService', () => {
     });
 
     it('should not reset invalid form', () => {
-      spyOn(userPasswordService, 'reset').and.returnValue(throwError({}));
+      spyOn(userPasswordService, 'reset').and.returnValue(
+        throwError(() => ({}))
+      );
       passwordConfirm.setValue('Diff123!');
       service.resetPassword(resetToken);
       expect(userPasswordService.reset).not.toHaveBeenCalled();

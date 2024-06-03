@@ -1,0 +1,78 @@
+@mixin checkout-media-style() {
+  @include media-breakpoint-down(md) {
+    display: block;
+    background-color: var(--cx-color-transparent);
+  }
+
+  .col-md-12 {
+    @include media-breakpoint-down(md) {
+      padding: 0 0.813rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: 0 0.875rem;
+    }
+  }
+
+  .container {
+    @include media-breakpoint-down(md) {
+      width: 100%;
+    }
+  }
+
+  .cx-checkout-btns {
+    padding: 1rem 0;
+    justify-content: flex-end;
+
+    @include media-breakpoint-down(md) {
+      padding: 1.25rem 0;
+    }
+    @include media-breakpoint-down(sm) {
+      padding: 1.25rem 0;
+    }
+
+    .btn-secondary {
+      @include media-breakpoint-down(md) {
+        margin: 0 0 1rem;
+      }
+    }
+  }
+
+  .cx-checkout-title {
+    margin-inline-end: auto;
+    margin-inline-start: auto;
+    padding-inline-end: 0;
+    @include type('4');
+    background-color: var(--cx-color-transparent);
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0.438rem;
+    margin-bottom: 0.5rem;
+    padding-inline-start: 0;
+  }
+
+  .cx-checkout-body {
+    display: flex;
+    align-items: stretch;
+    margin: 0;
+
+    &.row {
+      @include media-breakpoint-down(md) {
+        padding: 0;
+      }
+    }
+  }
+
+  .cx-checkout-text {
+    margin-bottom: 1.25rem;
+
+    @include media-breakpoint-down(md) {
+      padding-inline-start: 0;
+    }
+  }
+
+  .cx-spinner {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+}

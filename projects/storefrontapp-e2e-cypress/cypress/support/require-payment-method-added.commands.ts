@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -38,8 +44,8 @@ Cypress.Commands.add('requirePaymentMethodAdded', (cartId) => {
           accountHolderName: 'Cypress User',
           cardNumber: '4111111111111111',
           cardType: { code: 'visa' },
-          expiryMonth: '01',
-          expiryYear: '2099',
+          expiryMonth: '12',
+          expiryYear: '2027',
           defaultPayment: true,
           saved: true,
           billingAddress: {

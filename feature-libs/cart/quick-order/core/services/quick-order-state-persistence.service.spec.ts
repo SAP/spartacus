@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
-  OrderEntry,
   Product,
   SiteContextParamsService,
   StatePersistenceService,

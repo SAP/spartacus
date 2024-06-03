@@ -4,7 +4,17 @@
     {
       "files": ["*.ts"],
       "rules": {
-        "@angular-eslint/component-selector": "off"
+        "@angular-eslint/component-selector": "off",
+        "@nx/workspace/use-provide-default-config": "off",
+        "@nx/workspace/use-provide-default-config-factory": "off",
+        "@nx/workspace/use-provide-default-feature-toggles": "off",
+        "@nx/workspace/use-provide-default-feature-toggles-factory": "off",
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "checkDynamicDependenciesExceptions": ["@spartacus/**"]
+          }
+        ]
       }
     }
   ]

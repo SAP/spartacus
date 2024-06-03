@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,7 +13,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Observable, Subscription, timer } from 'rxjs';
 import { debounce, distinct, take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
@@ -26,7 +32,7 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
 export class ConfiguratorAttributeQuantityComponent
   implements OnDestroy, OnInit
 {
-  quantity = new FormControl(1);
+  quantity = new UntypedFormControl(1);
   optionsChangeSub: Subscription = new Subscription();
   quantityChangeSub: Subscription = new Subscription();
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -58,7 +64,9 @@ export class ConfiguratorAttributeQuantityComponent
     return this.quantity.valueChanges
       .pipe(
         debounce(() =>
-          timer(this.config.productConfigurator?.updateDebounceTime?.quantity)
+          timer(
+            this.config.productConfigurator?.updateDebounceTime?.quantity ?? 0
+          )
         ),
         take(1)
       )

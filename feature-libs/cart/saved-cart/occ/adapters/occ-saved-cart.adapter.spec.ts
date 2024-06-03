@@ -3,11 +3,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import {
-  CART_NORMALIZER,
-  ConverterService,
-  OccEndpointsService,
-} from '@spartacus/core';
+import { CART_NORMALIZER } from '@spartacus/cart/base/root';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { OccSavedCartAdapter } from './occ-saved-cart.adapter';
 
@@ -106,25 +103,6 @@ describe('OccSavedCartAdapter', () => {
 
       const mockReq = httpMock.expectOne(
         (req) => req.method === 'PATCH' && req.url === `/restoreSavedCart`
-      );
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(mockSavedCartResult);
-      expect(converterService.pipeable).toHaveBeenCalledWith(CART_NORMALIZER);
-    });
-  });
-
-  describe('should save a cart from saveCart endpoint', () => {
-    it('should save a cart', () => {
-      adapter
-        .saveCart(mockUserId, mockCartId, mockCartName, mockCartDescription)
-        .subscribe((data) =>
-          expect(data).toEqual(mockSavedCartResult.savedCartData)
-        );
-
-      const mockReq = httpMock.expectOne(
-        (req) => req.method === 'PATCH' && req.url === `/saveCart`
       );
 
       expect(mockReq.cancelled).toBeFalsy();

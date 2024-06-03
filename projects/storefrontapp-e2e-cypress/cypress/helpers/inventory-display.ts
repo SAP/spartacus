@@ -1,7 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { visitProductPage } from '../helpers/coupons/cart-coupon';
 import * as sampleData from '../sample-data/inventory-display';
 
 export const stockSelector = 'cx-add-to-cart .info';
+
 export const GET_PRODUCT_DETAILS_ENDPOINT_ALIAS = 'getProductDetails';
 
 export function interceptProductDetails(productCode: string) {

@@ -1,12 +1,24 @@
-import { basename, strings } from '@angular-devkit/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { basename, normalize, strings } from '@angular-devkit/core';
 import {
-  chain,
-  externalSchematic,
-  noop,
+  MergeStrategy,
   Rule,
   SchematicContext,
   SchematicsException,
   Tree,
+  apply,
+  applyTemplates,
+  chain,
+  externalSchematic,
+  mergeWith,
+  move,
+  noop,
+  url,
 } from '@angular-devkit/schematics';
 import {
   getDecoratorMetadata,
@@ -24,11 +36,14 @@ import {
   CONFIG_MODULE_CLASS,
   OBSERVABLE_CLASS,
   RXJS,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   UTF_8,
 } from '../shared/constants';
 import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../shared/libs-constants';
+import {
+  InsertDirection,
   commitChanges,
   defineProperty,
   findConstructor,
@@ -36,7 +51,6 @@ import {
   getPathResultsForFile,
   getTsSourceFile,
   injectService,
-  InsertDirection,
 } from '../shared/utils/file-utils';
 import {
   addToModuleDeclarations,
@@ -376,7 +390,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       flat,
       inlineStyle,
       inlineTemplate,
-      lintFix,
       prefix,
       project,
       selector,
@@ -401,6 +414,14 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
     const createCmsModule = !Boolean(declareCmsModule);
     const skipImport = createCmsModule;
 
+    const templateSource = apply(url('./files'), [
+      applyTemplates({
+        ...strings,
+        ...options,
+      }),
+      move(normalize(`/${options.path}/${strings.dasherize(options.name)}`)),
+    ]);
+
     return chain([
       // we are creating a new module if the declared module is not provided
       createCmsModule
@@ -412,7 +433,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
             routingScope,
             route,
             commonModule,
-            lintFix,
             module: declaringModule,
           })
         : noop(),
@@ -422,7 +442,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         flat,
         inlineStyle,
         inlineTemplate,
-        lintFix,
         module: componentModule,
         name: componentName,
         prefix,
@@ -434,7 +453,9 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         style,
         viewEncapsulation,
         skipImport,
+        standalone: false,
       }),
+      mergeWith(templateSource, MergeStrategy.Overwrite),
       updateModule(options),
       updateComponent(options),
       updateTemplate(options),

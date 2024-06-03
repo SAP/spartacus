@@ -8,10 +8,10 @@ import {
   I18nTestingModule,
   PageType,
   ProductSearchService,
-  RoutingService,
   RouterState,
+  RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, ReplaySubject, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
@@ -38,7 +38,7 @@ const mockSearchBoxComponentData: CmsSearchBoxComponent = {
 
 class MockCmsComponentData {
   get data$(): Observable<CmsSearchBoxComponent> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -46,7 +46,9 @@ class MockCmsComponentData {
   name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
-  transform(): any {}
+  transform(): any {
+    return ['test', 'url'];
+  }
 }
 
 @Pipe({
@@ -110,6 +112,9 @@ describe('SearchBoxComponent', () => {
   class SearchBoxComponentServiceSpy
     implements Partial<SearchBoxComponentService>
   {
+    chosenWord = new ReplaySubject<string>();
+    sharedEvent = new ReplaySubject<KeyboardEvent>();
+
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     getResults = jasmine.createSpy('search').and.callFake(() =>
       of(<SearchResults>{
@@ -278,6 +283,14 @@ describe('SearchBoxComponent', () => {
 
         expect(box.value).toBe('');
         expect(box).toBe(getFocusedElement());
+      });
+
+      it('should not be focusable while hidden on mobile', () => {
+        searchBoxComponent.searchBoxActive = false;
+        expect(searchBoxComponent.getTabIndex(true)).toBe(-1);
+        searchBoxComponent.searchBoxActive = true;
+        expect(searchBoxComponent.getTabIndex(true)).toBe(0);
+        expect(searchBoxComponent.getTabIndex(false)).toBe(0);
       });
     });
 

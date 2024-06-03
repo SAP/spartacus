@@ -73,8 +73,12 @@
   }
 }
 
+// TODO: (CXSPA-6624) - Remove feature flag + redundant code
 %organizationTitle {
   .title {
+    cx-popover {
+      text-transform: initial;
+    }
     h3 {
       button {
         border: none;
@@ -82,6 +86,23 @@
         cx-icon {
           pointer-events: none;
           color: var(--cx-color, var(--cx-color-info));
+        }
+      }
+    }
+  }
+  @include forFeature('a11yOrganizationListHeadingOrder') {
+    .title {
+      h2,
+      h3 {
+        @include type('3', 'normal');
+        text-transform: uppercase;
+        button {
+          border: none;
+          background-color: inherit;
+          cx-icon {
+            pointer-events: none;
+            color: var(--cx-color, var(--cx-color-info));
+          }
         }
       }
     }
@@ -245,7 +266,7 @@
   }
 
   cx-org-toggle-link-cell {
-    padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
+    padding-inline-start: calc((var(--cx-depth-level) + 3) * 20px);
     button.tree-item-toggle {
       margin-inline-start: -40px;
       min-width: 40px;
@@ -254,7 +275,7 @@
 
   @include media-breakpoint-down(md) {
     cx-org-toggle-link-cell {
-      padding-inline-start: calc(2.5rem + var(--cx-depth-level) * 1.5rem);
+      padding-inline-start: calc(3rem + var(--cx-depth-level) * 1.5rem);
     }
   }
 }
@@ -278,6 +299,12 @@
       &:focus-within {
         @include visible-focus();
         outline-offset: -2px;
+      }
+      // TODO: (CXSPA-6457) - Remove feature flag next major release
+      @include forFeature('a11yListOversizedFocus') {
+        & cx-org-active-link-cell a:focus {
+          outline: none;
+        }
       }
 
       .hide-focus-border {
@@ -303,6 +330,12 @@
           display: none;
         }
         tr {
+          // TODO: (CXSPA-6457) - Remove feature flag next major release
+          @include forFeature('a11yListOversizedFocus') {
+            &:focus-within {
+              outline: none;
+            }
+          }
           td {
             &.actions {
               width: 1px;
@@ -353,7 +386,12 @@
 
     td:last-child a {
       // last cell will have an icon, which is why we add additional padding
+      // TODO: (CXSPA-6457) - Remove feature flag next major release
       padding-inline-end: 40px;
+      @include forFeature('a11yListOversizedFocus') {
+        padding-inline-end: unset;
+        margin-inline-end: 40px;
+      }
     }
 
     td:last-child span {
@@ -376,7 +414,6 @@
       padding: 0;
     }
     th {
-      padding-inline-start: 20px;
       font-size: 14px;
     }
 
@@ -405,11 +442,28 @@
           }
         }
       }
+      // TODO: (CXSPA-6804) - Remove feature flag next major release
+      @include forFeature('a11yUnitsListKeyboardControls') {
+        cx-org-active-link-cell a,
+        cx-org-toggle-link-cell a {
+          color: var(--cx-color-primary);
+          text-decoration: underline;
+        }
+      }
       a {
+        // TODO: (CXSPA-6804) - Remove feature flag next major release
+        @include forFeature('a11yUnitsListKeyboardControls') {
+          color: inherit;
+          text-decoration: none;
+        }
         display: flex;
         align-items: center;
         width: 100%;
+        // TODO: (CXSPA-6457) - Remove feature flag next major release
         min-height: 74px;
+        @include forFeature('a11yListOversizedFocus') {
+          min-height: unset;
+        }
 
         @include media-breakpoint-up(lg) {
           .text {
@@ -417,7 +471,7 @@
             padding-inline-start: 0;
           }
         }
-
+        // TODO: (CXSPA-6804) - Remove feature flag next major release
         &[tabindex='0'],
         &[tabindex='0']:hover {
           text-decoration: underline;
@@ -428,6 +482,19 @@
         &[tabindex='-1']:hover {
           color: inherit;
           text-decoration: none;
+        }
+        @include forFeature('a11yUnitsListKeyboardControls') {
+          &[tabindex='0'],
+          &[tabindex='0']:hover {
+            text-decoration: unset;
+            color: unset;
+          }
+
+          &[tabindex='-1'],
+          &[tabindex='-1']:hover {
+            color: unset;
+            text-decoration: unset;
+          }
         }
       }
     }
@@ -453,11 +520,15 @@
   .list {
     .header {
       padding: 0 6px 38px 6px;
-      height: 130px;
+      min-height: 130px;
 
       h3 {
         text-transform: uppercase;
         margin: 0 0 23px 0;
+
+        @include media-breakpoint-down(sm) {
+          font-size: 1.1rem;
+        }
       }
       @include media-breakpoint-down(md) {
         padding: 20px;
@@ -471,6 +542,15 @@
         label {
           align-items: center;
           display: inline-flex;
+
+          @include media-breakpoint-down(sm) {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: center;
+            padding-bottom: 0;
+          }
+
           span {
             margin-inline-end: 0.5rem;
           }

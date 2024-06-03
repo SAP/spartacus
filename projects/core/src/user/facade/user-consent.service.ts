@@ -1,16 +1,31 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { iif, Observable } from 'rxjs';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, iif, Observable } from 'rxjs';
+import {
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
+import { OCC_USER_ID_CURRENT } from '../../occ';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
+import { isNotUndefined } from '../../util/type-guards';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import {
@@ -45,7 +60,7 @@ export class UserConsentService {
   getConsents(loadIfMissing = false): Observable<ConsentTemplate[]> {
     return iif(
       () => loadIfMissing,
-      this.store.pipe(
+      (<Store<StateWithUser>>this.store).pipe(
         select(UsersSelectors.getConsentsValue),
         withLatestFrom(
           this.getConsentsResultLoading(),
@@ -63,7 +78,9 @@ export class UserConsentService {
         filter(([templates, _loading]) => Boolean(templates)),
         map(([templates, _loading]) => templates)
       ),
-      this.store.pipe(select(UsersSelectors.getConsentsValue))
+      (<Store<StateWithUser>>this.store).pipe(
+        select(UsersSelectors.getConsentsValue)
+      )
     );
   }
 
@@ -71,21 +88,27 @@ export class UserConsentService {
    * Returns the consents loading flag
    */
   getConsentsResultLoading(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getConsentsLoading));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getConsentsLoading)
+    );
   }
 
   /**
    * Returns the consents success flag
    */
   getConsentsResultSuccess(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getConsentsSuccess));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getConsentsSuccess)
+    );
   }
 
   /**
    * Returns the consents error flag
    */
   getConsentsResultError(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getConsentsError));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getConsentsError)
+    );
   }
 
   /**
@@ -102,16 +125,31 @@ export class UserConsentService {
    *
    * @param templateId a template ID by which to filter the registered templates.
    */
-  getConsent(templateId: string): Observable<Consent> {
-    return this.authService.isUserLoggedIn().pipe(
-      filter(Boolean),
+  getConsent(templateId: string): Observable<Consent | undefined> {
+    // To ensure data consistency and avoid race-conditions, we only consider the user
+    // as "logged in" when both the `access_token` observable emits a value
+    // with a token and the `userId` observable emits a value with a non-anonymous user id.
+    //
+    // This is due to the fact that the observables with `access_token` and `userId`
+    // emit values at slightly different timings during the process of login and logout.
+
+    // NOTE: This is a temporary solution and the issue should be solved in the roots.
+    // Here is the ticket to track the issue: https://jira.tools.sap/browse/CXSPA-2988
+    return combineLatest([
+      this.authService.isUserLoggedIn(),
+      this.userIdService.getUserId(),
+    ]).pipe(
+      filter(
+        ([loggedIn, userId]) => loggedIn && userId === OCC_USER_ID_CURRENT
+      ),
       switchMap(() => this.getConsents(true)),
+      take(1),
       switchMap(() =>
-        this.store.pipe(
+        (<Store<StateWithUser>>this.store).pipe(
           select(UsersSelectors.getConsentByTemplateId(templateId))
         )
       ),
-      filter((template) => Boolean(template)),
+      filter(isNotUndefined),
       map((template) => template.currentConsent)
     );
   }
@@ -136,9 +174,9 @@ export class UserConsentService {
    *
    * @param consent to check
    */
-  isConsentWithdrawn(consent: Consent): boolean {
+  isConsentWithdrawn(consent: Consent | undefined): boolean {
     if (Boolean(consent)) {
-      return Boolean(consent.consentWithdrawnDate);
+      return Boolean(consent?.consentWithdrawnDate);
     }
     return true;
   }
@@ -164,7 +202,7 @@ export class UserConsentService {
    * Returns the give consent process loading flag
    */
   getGiveConsentResultLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessLoadingFactory(GIVE_CONSENT_PROCESS_ID))
     );
   }
@@ -173,7 +211,7 @@ export class UserConsentService {
    * Returns the give consent process success flag
    */
   getGiveConsentResultSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessSuccessFactory(GIVE_CONSENT_PROCESS_ID))
     );
   }
@@ -182,7 +220,7 @@ export class UserConsentService {
    * Returns the give consent process error flag
    */
   getGiveConsentResultError(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessErrorFactory(GIVE_CONSENT_PROCESS_ID))
     );
   }
@@ -198,12 +236,13 @@ export class UserConsentService {
    * Withdraw consent for the given `consentCode`
    * @param consentCode for which to withdraw the consent
    */
-  withdrawConsent(consentCode: string): void {
+  withdrawConsent(consentCode: string, consentId?: string): void {
     this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.WithdrawUserConsent({
           userId,
           consentCode,
+          consentId,
         })
       );
     });
@@ -213,7 +252,7 @@ export class UserConsentService {
    * Returns the withdraw consent process loading flag
    */
   getWithdrawConsentResultLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessLoadingFactory(WITHDRAW_CONSENT_PROCESS_ID))
     );
   }
@@ -222,7 +261,7 @@ export class UserConsentService {
    * Returns the withdraw consent process success flag
    */
   getWithdrawConsentResultSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessSuccessFactory(WITHDRAW_CONSENT_PROCESS_ID))
     );
   }
@@ -231,7 +270,7 @@ export class UserConsentService {
    * Returns the withdraw consent process error flag
    */
   getWithdrawConsentResultError(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessErrorFactory(WITHDRAW_CONSENT_PROCESS_ID))
     );
   }
@@ -262,7 +301,7 @@ export class UserConsentService {
 
     const updatedTemplateList: ConsentTemplate[] = [];
     for (const template of templateList) {
-      const show = !hideTemplateIds.includes(template.id);
+      const show = template.id && !hideTemplateIds.includes(template.id);
       if (show) {
         updatedTemplateList.push(template);
       }

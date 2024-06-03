@@ -1,0 +1,58 @@
+<div
+  class="cx-asm-switch-customer-dialog cx-modal-container cx-asm-dialog"
+  [cxFocus]="focusConfig"
+  (esc)="closeModal(SWITCH_CUSTOMER_DIALOG_ACTION.CANCEL)"
+>
+  <div class="cx-modal-content">
+    <!-- Modal Header -->
+    <div class="cx-dialog-header modal-header">
+      <div>
+        <span>
+          <cx-icon type="WARNING"></cx-icon>
+        </span>
+        <span id="asm-switch-customer-dialog-title" class="title modal-title">
+          {{ 'asm.switchCustomer.dialog.title' | cxTranslate }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="cx-dialog-row switch-customer-content">
+        <div class="cx-dialog-item">
+          {{
+            'asm.switchCustomer.dialog.body'
+              | cxTranslate
+                : {
+                    customerA: curCustomerName,
+                    customerB: switchCustomerName
+                  }
+          }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="cx-dialog-footer modal-footer">
+      <button
+        (click)="closeModal(SWITCH_CUSTOMER_DIALOG_ACTION.SWITCH)"
+        [attr.aria-label]="
+          'asm.switchCustomer.dialog.actions.switch' | cxTranslate
+        "
+        class="btn btn-primary"
+        type="button"
+      >
+        {{ 'asm.switchCustomer.dialog.actions.switch' | cxTranslate }}
+      </button>
+
+      <button
+        (click)="closeModal(SWITCH_CUSTOMER_DIALOG_ACTION.CANCEL)"
+        [attr.aria-label]="'common.cancel' | cxTranslate"
+        class="btn btn-secondary"
+        type="button"
+      >
+        {{ 'common.cancel' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</div>

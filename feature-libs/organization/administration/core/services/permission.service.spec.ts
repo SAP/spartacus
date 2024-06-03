@@ -1,4 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
@@ -83,7 +83,8 @@ describe('PermissionService', () => {
   ));
 
   describe('get permission', () => {
-    xit('get() should trigger load permission details when they are not present in the store', (done) => {
+    it('get() should trigger load permission details when they are not present in the store', fakeAsync(() => {
+      spyOn(service, 'loadPermission').and.callThrough();
       const sub = service.get(permissionCode).subscribe();
 
       actions$
@@ -92,10 +93,12 @@ describe('PermissionService', () => {
           expect(action).toEqual(
             new PermissionActions.LoadPermission({ userId, permissionCode })
           );
-          sub.unsubscribe();
-          done();
         });
-    });
+
+      tick();
+      expect(service.loadPermission).toHaveBeenCalledWith(permissionCode);
+      sub.unsubscribe();
+    }));
 
     it('get() should be able to get permission details when they are present in the store', () => {
       store.dispatch(

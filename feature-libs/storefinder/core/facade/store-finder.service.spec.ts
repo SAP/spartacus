@@ -8,7 +8,7 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, of } from 'rxjs';
+import { BehaviorSubject, EMPTY } from 'rxjs';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderSelectors } from '../store';
 import { StoreFinderActions } from '../store/actions/index';
@@ -225,7 +225,7 @@ describe('StoreFinderService', () => {
       winRef.nativeWindow.navigator.geolocation,
       'clearWatch'
     ).and.callThrough();
-    spyOn(routingService, 'getParams').and.returnValue(of());
+    spyOn(routingService, 'getParams').and.returnValue(EMPTY);
   });
 
   it('should inject StoreFinderService', inject(

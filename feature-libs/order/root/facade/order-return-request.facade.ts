@@ -1,13 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
+import { facadeFactory } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { ORDER_CORE_FEATURE } from '../feature-name';
 import {
-  facadeFactory,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
-} from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { ORDER_CORE_FEATURE } from '../feature-name';
+} from '../model/order.model';
 
 export function orderReturnRequestFacadeFactory() {
   return facadeFactory({

@@ -1,12 +1,23 @@
-import { DpPaymentRequest } from '../models/dp-checkout.model';
-import { Observable } from 'rxjs';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { PaymentDetails } from '@spartacus/core';
-import { Command, CommandService, CommandStrategy } from '@spartacus/core';
-import { Query, QueryService } from '@spartacus/core';
-import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
+import {
+  Command,
+  CommandService,
+  CommandStrategy,
+  PaymentDetails,
+  Query,
+  QueryService,
+  UserIdService,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UserIdService } from '@spartacus/core';
+import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
+import { DpPaymentRequest } from '../models/dp-checkout.model';
 @Injectable({
   providedIn: 'root',
 })

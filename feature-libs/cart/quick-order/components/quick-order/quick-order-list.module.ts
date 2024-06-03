@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +15,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
+  AtMessageModule,
   FormErrorsModule,
   IconModule,
   ItemCounterModule,
@@ -23,17 +30,18 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
 
 @NgModule({
   imports: [
+    AtMessageModule,
     CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
     FormErrorsModule,
     I18nModule,
     IconModule,
     ItemCounterModule,
     MediaModule,
-    UrlModule,
-    ProgressButtonModule,
     MessageComponentModule,
+    ProgressButtonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    UrlModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

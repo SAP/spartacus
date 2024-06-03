@@ -1,9 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  ContextService,
   OrderEntriesContext,
   ORDER_ENTRIES_CONTEXT,
-} from '@spartacus/storefront';
+} from '@spartacus/cart/base/root';
+import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 

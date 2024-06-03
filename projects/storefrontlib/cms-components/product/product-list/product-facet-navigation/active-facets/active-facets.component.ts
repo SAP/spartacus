@@ -1,4 +1,15 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+} from '@angular/core';
 import { Breadcrumb } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
@@ -15,6 +26,10 @@ import { FacetService } from '../services/facet.service';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ActiveFacetsComponent {
+  @HostBinding('attr.role') role = 'group';
+  @HostBinding('attr.aria-labelledby') labelledby =
+    'cx-active-facets-groupName';
+
   /** Active facets which are applied to the product results. */
   facetList$: Observable<FacetList> = this.facetService.facetList$;
 
@@ -24,7 +39,9 @@ export class ActiveFacetsComponent {
   constructor(protected facetService: FacetService) {}
 
   getLinkParams(facet: Breadcrumb) {
-    return this.facetService.getLinkParams(facet.removeQuery?.query?.value);
+    return this.facetService.getLinkParams(
+      facet.removeQuery?.query?.value ?? ''
+    );
   }
 
   /**
@@ -41,5 +58,16 @@ export class ActiveFacetsComponent {
     )
       ? ''
       : facet.facetValueName;
+  }
+
+  /**
+   * Purpose of this function is to allow keyboard users to click on a filter they
+   * wish to remove by pressing spacebar. Event not handled natively by <a> elements.
+   *
+   * @param event spacebar keydown
+   */
+  removeFilterWithSpacebar(event?: Event): void {
+    event?.preventDefault(); // Avoid spacebar scroll
+    event?.target?.dispatchEvent(new MouseEvent('click', { cancelable: true }));
   }
 }

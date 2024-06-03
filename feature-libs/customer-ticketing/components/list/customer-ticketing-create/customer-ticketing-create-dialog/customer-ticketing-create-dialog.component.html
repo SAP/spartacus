@@ -1,0 +1,164 @@
+<div
+  [cxFocus]="focusConfig"
+  (esc)="close('Escape clicked')"
+  class="cx-customer-ticket-form-dialog"
+>
+  <form [formGroup]="form" class="cx-customer-ticket-form-container">
+    <div class="modal-header cx-customer-ticket-form-header">
+      <div class="cx-customer-ticket-form-title modal-title">
+        {{ 'createCustomerTicket.addNewRequest' | cxTranslate }}
+      </div>
+      <button
+        (click)="close('Close Create Request Dialog')"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        class="cx-customer-ticket-form-close close"
+        type="button"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+
+    <div class="cx-customer-ticket-form-body">
+      <div class="cx-customer-ticket-form-row">
+        <label>
+          <span class="cx-customer-ticket-label label-content">
+            {{ 'createCustomerTicket.subject' | cxTranslate }}
+          </span>
+          <textarea
+            [maxLength]="inputCharactersForSubject"
+            class="form-control"
+            formControlName="subject"
+            rows="1"
+          ></textarea>
+
+          <cx-form-errors [control]="form.get('subject')"></cx-form-errors>
+          <p class="cx-customer-ticket-input-hint">
+            {{
+              'customerTicketing.charactersLeft'
+                | cxTranslate: { count: subjectCharacterLeft }
+            }}
+          </p>
+        </label>
+
+        <label *ngIf="ticketCategories$ | async as ticketCategories">
+          <span class="cx-customer-ticket-label label-content">
+            {{ 'createCustomerTicket.category' | cxTranslate }}
+          </span>
+          <select class="form-control" formControlName="ticketCategory">
+            <option value="" disabled selected>
+              {{ 'createCustomerTicket.selectCategory' | cxTranslate }}
+            </option>
+            <option
+              *ngFor="let category of ticketCategories"
+              [ngValue]="category"
+              [selected]="category.id === selectedCategory?.id"
+            >
+              {{ category.name }}
+            </option>
+          </select>
+
+          <cx-form-errors
+            [control]="form.get('ticketCategory')"
+          ></cx-form-errors>
+        </label>
+
+        <ng-container
+          *ngIf="ticketAssociatedObjects$ | async as ticketAssociatedObjects"
+        >
+          <label *ngIf="ticketAssociatedObjects.length > 0">
+            <span class="cx-customer-ticket-label label-content">
+              {{ 'createCustomerTicket.associateTo' | cxTranslate }}
+            </span>
+            <select class="form-control" formControlName="associatedTo">
+              <option value="" disabled selected>
+                {{
+                  'createCustomerTicket.optionallySelectAssociatedObject'
+                    | cxTranslate
+                }}
+              </option>
+              <option
+                *ngFor="let associatedObject of ticketAssociatedObjects"
+                [ngValue]="associatedObject"
+                [selected]="
+                  associatedObject.code === selectedAssociatedObject?.code
+                "
+              >
+                {{ associatedObject.type }}
+                {{ associatedObject.code }}
+              </option>
+            </select>
+          </label>
+        </ng-container>
+
+        <label>
+          <span class="cx-customer-ticket-label label-content">
+            {{ 'customerTicketing.message' | cxTranslate }}
+          </span>
+          <textarea
+            [maxLength]="inputCharactersLimit"
+            class="form-control"
+            formControlName="message"
+            rows="5"
+          ></textarea>
+
+          <cx-form-errors [control]="form.get('message')"></cx-form-errors>
+
+          <p class="cx-customer-ticket-input-hint">
+            {{
+              'customerTicketing.charactersLeft'
+                | cxTranslate: { count: messagesCharacterLeft }
+            }}
+          </p>
+        </label>
+
+        <div>
+          <cx-file-upload
+            [formControl]="$any(form.get('file'))"
+            [accept]="allowedTypes"
+          >
+            <ng-template>
+              <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
+              <span class="cx-message-footer-text">{{
+                'customerTicketing.uploadFile' | cxTranslate
+              }}</span>
+            </ng-template>
+          </cx-file-upload>
+
+          <p class="cx-customer-ticket-file-upload-hint">
+            {{
+              'customerTicketing.fileSizeLimit'
+                | cxTranslate: { count: maxSize }
+            }}
+          </p>
+          <p class="cx-customer-ticket-file-upload-hint">
+            {{ 'customerTicketing.maximumAttachment' | cxTranslate }}
+          </p>
+
+          <cx-form-errors
+            [control]="form.get('file')"
+            prefix="formErrors.file"
+          ></cx-form-errors>
+        </div>
+      </div>
+
+      <div class="cx-customer-ticket-form-footer">
+        <button
+          (click)="close('Close Create Request Dialog')"
+          class="btn btn-secondary"
+          type="button"
+        >
+          {{ 'customerTicketing.cancel' | cxTranslate }}
+        </button>
+        <button
+          (click)="createTicketRequest()"
+          class="btn btn-primary"
+          type="button"
+        >
+          {{ 'customerTicketing.submit' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

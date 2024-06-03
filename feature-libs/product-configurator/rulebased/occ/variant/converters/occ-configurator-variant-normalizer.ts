@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter, OccConfig, TranslationService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
@@ -11,6 +17,9 @@ export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration>
 {
+  /**
+   * @deprecated since 6.2
+   */
   static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
 
   constructor(
@@ -34,6 +43,11 @@ export class OccConfiguratorVariantNormalizer
       productCode: source.rootProduct,
       groups: [],
       flatGroups: [],
+      kbKey: source.kbKey ?? undefined,
+      pricingEnabled: source.pricingEnabled ?? true,
+      hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
+      immediateConflictResolution: source.immediateConflictResolution ?? false,
+      newConfiguration: source.newConfiguration, // we need a trinary state true, false, undefined!
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
@@ -94,8 +108,8 @@ export class OccConfiguratorVariantNormalizer
     sourceAttribute: OccConfigurator.Attribute,
     attributeList: Configurator.Attribute[]
   ): void {
-    const numberOfConflicts = sourceAttribute?.conflicts
-      ? sourceAttribute?.conflicts?.length
+    const numberOfConflicts = sourceAttribute.conflicts
+      ? sourceAttribute.conflicts.length
       : 0;
 
     const attributeImages: Configurator.Image[] = [];
@@ -114,16 +128,21 @@ export class OccConfiguratorVariantNormalizer
         this.convertValue(value, attributeValues)
       );
     }
-
+    const uiType = this.convertAttributeType(sourceAttribute);
     const attribute: Configurator.Attribute = {
       name: sourceAttribute.name,
       label: sourceAttribute.langDepName,
       required: sourceAttribute.required,
-      uiType: this.convertAttributeType(
-        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
-      ),
+      uiType: uiType,
+      uiTypeVariation: sourceAttribute.type,
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
-      userInput: sourceAttribute.formattedValue,
+      userInput:
+        uiType === Configurator.UiType.NUMERIC ||
+        uiType === Configurator.UiType.STRING
+          ? sourceAttribute.formattedValue
+            ? sourceAttribute.formattedValue
+            : ''
+          : undefined,
       maxlength:
         (sourceAttribute.maxlength ?? 0) +
         (sourceAttribute.negativeAllowed ? 1 : 0),
@@ -134,6 +153,11 @@ export class OccConfiguratorVariantNormalizer
       hasConflicts: numberOfConflicts > 0,
       images: attributeImages,
       values: attributeValues,
+      intervalInDomain: sourceAttribute.intervalInDomain,
+      key: sourceAttribute.key,
+      validationType: sourceAttribute.validationType,
+      visible: sourceAttribute.visible,
+      description: sourceAttribute.longText,
     };
 
     this.setSelectedSingleValue(attribute);
@@ -169,7 +193,8 @@ export class OccConfiguratorVariantNormalizer
   ) {
     if (
       attributeType === Configurator.UiType.DROPDOWN ||
-      attributeType === Configurator.UiType.RADIOBUTTON
+      attributeType === Configurator.UiType.RADIOBUTTON ||
+      attributeType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
       if (attributeType === Configurator.UiType.DROPDOWN && value.selected) {
         this.translation
@@ -185,28 +210,61 @@ export class OccConfiguratorVariantNormalizer
     }
   }
 
+  protected hasSourceAttributeConflicts(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.conflicts
+      ? sourceAttribute.conflicts.length > 0
+      : false;
+  }
+
+  protected isSourceAttributeTypeReadOnly(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return (
+      sourceAttribute.type === OccConfigurator.UiType.READ_ONLY ||
+      sourceAttribute.type ===
+        OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE ||
+      sourceAttribute.type ===
+        OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
+    );
+  }
+
+  protected isRetractBlocked(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.retractBlocked
+      ? sourceAttribute.retractBlocked
+      : false;
+  }
+
   protected addRetractValue(
     sourceAttribute: OccConfigurator.Attribute,
     values: Configurator.Value[]
   ) {
-    if (this.uiSettingsConfig?.productConfigurator?.addRetractOption) {
-      const attributeType = this.convertAttributeType(
-        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
-      );
+    const isRetractBlocked = this.isRetractBlocked(sourceAttribute);
+    const isConflicting = this.hasSourceAttributeConflicts(sourceAttribute);
 
+    if (!isRetractBlocked) {
       if (
-        attributeType === Configurator.UiType.RADIOBUTTON ||
-        attributeType === Configurator.UiType.DROPDOWN
+        this.uiSettingsConfig?.productConfigurator?.addRetractOption ||
+        (this.isSourceAttributeTypeReadOnly(sourceAttribute) && isConflicting)
       ) {
-        const value: Configurator.Value = {
-          valueCode: OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE,
-          valueDisplay: '',
-          selected: this.isRetractValueSelected(sourceAttribute),
-        };
+        const attributeType = this.convertAttributeType(sourceAttribute);
+        if (
+          attributeType === Configurator.UiType.RADIOBUTTON ||
+          attributeType === Configurator.UiType.DROPDOWN ||
+          attributeType === Configurator.UiType.SINGLE_SELECTION_IMAGE
+        ) {
+          const value: Configurator.Value = {
+            valueCode: Configurator.RetractValueCode,
+            selected: this.isRetractValueSelected(sourceAttribute),
+          };
 
-        this.setRetractValueDisplay(attributeType, value);
+          this.setRetractValueDisplay(attributeType, value);
 
-        values.push(value);
+          values.push(value);
+        }
       }
     }
   }
@@ -228,6 +286,7 @@ export class OccConfiguratorVariantNormalizer
       name: occValue.name,
       selected: occValue.selected,
       images: valueImages,
+      description: occValue.longText,
     };
 
     values.push(value);
@@ -257,17 +316,95 @@ export class OccConfiguratorVariantNormalizer
     images.push(image);
   }
 
-  convertAttributeType(type: OccConfigurator.UiType): Configurator.UiType {
-    let uiType: Configurator.UiType;
-    switch (type) {
+  protected getSingleSelectionUiType(
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
+    switch (coreSourceType) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
         uiType = Configurator.UiType.RADIOBUTTON;
+        break;
+      }
+      case OccConfigurator.UiType.RADIO_BUTTON_ADDITIONAL_INPUT: {
+        uiType = Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
         break;
       }
       case OccConfigurator.UiType.DROPDOWN: {
         uiType = Configurator.UiType.DROPDOWN;
         break;
       }
+      case OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT: {
+        uiType = Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+        break;
+      }
+      case OccConfigurator.UiType.CHECK_BOX: {
+        uiType = Configurator.UiType.CHECKBOX;
+        break;
+      }
+      case OccConfigurator.UiType.SINGLE_SELECTION_IMAGE: {
+        uiType = Configurator.UiType.SINGLE_SELECTION_IMAGE;
+        break;
+      }
+    }
+    return uiType;
+  }
+
+  protected getMultiSelectionUiType(
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
+    switch (coreSourceType) {
+      case OccConfigurator.UiType.CHECK_BOX_LIST: {
+        uiType = Configurator.UiType.CHECKBOXLIST;
+        break;
+      }
+      case OccConfigurator.UiType.MULTI_SELECTION_IMAGE: {
+        uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
+        break;
+      }
+    }
+    return uiType;
+  }
+
+  protected getReadOnlyUiType(
+    sourceAttribute: OccConfigurator.Attribute,
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
+    switch (coreSourceType) {
+      case OccConfigurator.UiType.READ_ONLY: {
+        uiType =
+          !sourceAttribute.retractBlocked &&
+          this.hasSourceAttributeConflicts(sourceAttribute)
+            ? Configurator.UiType.RADIOBUTTON
+            : Configurator.UiType.READ_ONLY;
+        break;
+      }
+      case OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE: {
+        uiType =
+          !sourceAttribute.retractBlocked &&
+          this.hasSourceAttributeConflicts(sourceAttribute)
+            ? Configurator.UiType.SINGLE_SELECTION_IMAGE
+            : Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+        break;
+      }
+      case OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE: {
+        uiType =
+          !sourceAttribute.retractBlocked &&
+          this.hasSourceAttributeConflicts(sourceAttribute)
+            ? Configurator.UiType.MULTI_SELECTION_IMAGE
+            : Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+        break;
+      }
+    }
+    return uiType;
+  }
+
+  protected getInputUiType(
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
+    switch (coreSourceType) {
       case OccConfigurator.UiType.STRING: {
         uiType = Configurator.UiType.STRING;
         break;
@@ -276,31 +413,32 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.NUMERIC;
         break;
       }
-      case OccConfigurator.UiType.READ_ONLY: {
-        uiType = Configurator.UiType.READ_ONLY;
-        break;
-      }
-      case OccConfigurator.UiType.CHECK_BOX_LIST: {
-        uiType = Configurator.UiType.CHECKBOXLIST;
-        break;
-      }
-      case OccConfigurator.UiType.CHECK_BOX: {
-        uiType = Configurator.UiType.CHECKBOX;
-        break;
-      }
-      case OccConfigurator.UiType.MULTI_SELECTION_IMAGE: {
-        uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
-        break;
-      }
-      case OccConfigurator.UiType.SINGLE_SELECTION_IMAGE: {
-        uiType = Configurator.UiType.SINGLE_SELECTION_IMAGE;
-        break;
-      }
-      default: {
-        uiType = Configurator.UiType.NOT_IMPLEMENTED;
-      }
     }
     return uiType;
+  }
+
+  convertAttributeType(
+    sourceAttribute: OccConfigurator.Attribute
+  ): Configurator.UiType {
+    let uiType = Configurator.UiType.NOT_IMPLEMENTED;
+    const sourceType: string = sourceAttribute.type?.toString() ?? '';
+    const coreSourceType = this.determineCoreUiType(sourceType);
+
+    uiType = this.getSingleSelectionUiType(coreSourceType, uiType);
+    uiType = this.getMultiSelectionUiType(coreSourceType, uiType);
+    uiType = this.getInputUiType(coreSourceType, uiType);
+    uiType = this.getReadOnlyUiType(sourceAttribute, coreSourceType, uiType);
+
+    return uiType;
+  }
+
+  protected determineCoreUiType(sourceType: string) {
+    const indexCustomSeparator = sourceType.indexOf(
+      Configurator.CustomUiTypeIndicator
+    );
+    return indexCustomSeparator > 0
+      ? sourceType.substring(0, indexCustomSeparator)
+      : sourceType;
   }
 
   convertGroupType(
@@ -379,11 +517,12 @@ export class OccConfiguratorVariantNormalizer
 
     switch (attribute.uiType) {
       case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
+      case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
       case Configurator.UiType.DROPDOWN: {
         if (
           !attribute.selectedSingleValue ||
-          attribute.selectedSingleValue ===
-            OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+          attribute.selectedSingleValue === Configurator.RetractValueCode
         ) {
           attribute.incomplete = true;
         }

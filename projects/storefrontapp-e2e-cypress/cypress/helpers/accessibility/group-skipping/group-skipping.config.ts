@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export interface GroupSkippingPageConfig {
   pageUrl: string;
   expectedSkipperCount: number;
@@ -60,7 +66,7 @@ export const groupSkippingConfigMyAccount: GroupSkippingConfig = {
 
 export const groupSkippingConfigCheckout: GroupSkippingConfig = {
   shippingAddress: {
-    pageUrl: '/checkout/shipping-address',
+    pageUrl: '/checkout/delivery-address',
     expectedSkipperCount: 3,
   },
   deliveryMode: { pageUrl: '/checkout/delivery-mode', expectedSkipperCount: 3 },

@@ -1,0 +1,45 @@
+%cx-epd-visualization-product-filter {
+  display: block;
+
+  .form-control[type='text']::placeholder {
+    color: var(--cx-color-light);
+    @include type(7, $font-weight-normal);
+  }
+
+  .form-control[type='text'] {
+    background-color: var(--cx-color-inverse);
+
+    @include media-breakpoint-down(lg) {
+      @include type(7, $font-weight-normal);
+      height: 36px;
+    }
+
+    &:focus {
+      background-color: var(--cx-color-inverse);
+    }
+  }
+
+  .search-wrapper {
+    position: relative;
+
+    input {
+      padding: 0 46px 0 1em;
+    }
+
+    cx-icon {
+      position: absolute;
+      top: 17px;
+      right: 17px;
+      cursor: pointer;
+
+      @include media-breakpoint-down(lg) {
+        top: 10px;
+      }
+    }
+
+    .disabled-action {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
+}

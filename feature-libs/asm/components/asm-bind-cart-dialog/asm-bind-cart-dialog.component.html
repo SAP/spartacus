@@ -1,0 +1,44 @@
+<div
+  class="cx-asm-bind-cart-dialog cx-modal-container cx-asm-dialog"
+  [cxFocus]="focusConfig"
+  (esc)="closeModal(BIND_CART_ACTION.CANCEL)"
+>
+  <div class="cx-modal-content">
+    <!-- Modal Header -->
+    <div class="cx-dialog-header modal-header">
+      <h2 id="asm-bind-cart-dialog-title" class="title modal-title">
+        {{ 'asm.bindCart.dialog.title' | cxTranslate }}
+      </h2>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="cx-dialog-row">
+        <div class="cx-dialog-item">
+          {{ 'asm.bindCart.dialog.body' | cxTranslate }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="cx-dialog-footer modal-footer">
+      <button
+        (click)="closeModal(BIND_CART_ACTION.REPLACE)"
+        [attr.aria-label]="'asm.bindCart.dialog.actions.replace' | cxTranslate"
+        class="btn btn-primary"
+        type="button"
+      >
+        {{ 'asm.bindCart.dialog.actions.replace' | cxTranslate }}
+      </button>
+
+      <button
+        (click)="closeModal(BIND_CART_ACTION.CANCEL)"
+        [attr.aria-label]="'common.cancel' | cxTranslate"
+        class="btn btn-secondary"
+        type="button"
+      >
+        {{ 'common.cancel' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</div>

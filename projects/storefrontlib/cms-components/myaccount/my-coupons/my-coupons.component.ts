@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   CustomerCouponSearchResult,
@@ -23,7 +29,7 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   private PAGE_SIZE = 10;
-  private sortMapping = {
+  private sortMapping: { [key: string]: string } = {
     byStartDateAsc: 'startDate:asc',
     byStartDateDesc: 'startDate:desc',
     byEndDateAsc: 'endDate:asc',
@@ -70,10 +76,10 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
         tap(
           (coupons) =>
             (this.pagination = {
-              currentPage: coupons.pagination.page,
-              pageSize: coupons.pagination.count,
-              totalPages: coupons.pagination.totalPages,
-              totalResults: coupons.pagination.totalCount,
+              currentPage: coupons.pagination?.page,
+              pageSize: coupons.pagination?.count,
+              totalPages: coupons.pagination?.totalPages,
+              totalResults: coupons.pagination?.totalCount,
               sort: this.sort,
             })
         )
@@ -87,21 +93,20 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
     );
     this.sortLabels = this.myCouponsComponentService.getSortLabels();
 
-    this.subscriptions
-      .add(
-        this.couponService
-          .getSubscribeCustomerCouponResultError()
-          .subscribe((error) => {
-            this.subscriptionFail(error);
-          })
-      )
-      .add(
-        this.couponService
-          .getUnsubscribeCustomerCouponResultError()
-          .subscribe((error) => {
-            this.subscriptionFail(error);
-          })
-      );
+    this.subscriptions.add(
+      this.couponService
+        .getSubscribeCustomerCouponResultError()
+        .subscribe((error) => {
+          this.subscriptionFail(error);
+        })
+    );
+    this.subscriptions.add(
+      this.couponService
+        .getUnsubscribeCustomerCouponResultError()
+        .subscribe((error) => {
+          this.subscriptionFail(error);
+        })
+    );
   }
 
   private subscriptionFail(error: boolean) {

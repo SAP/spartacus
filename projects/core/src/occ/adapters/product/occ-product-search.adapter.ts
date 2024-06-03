@@ -1,7 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import {
   ProductSearchPage,
   Suggestion,
@@ -13,27 +19,44 @@ import {
 import { ProductSearchAdapter } from '../../../product/connectors/search/product-search.adapter';
 import { SearchConfig } from '../../../product/model/search-config';
 import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-
-const DEFAULT_SEARCH_CONFIG: SearchConfig = {
-  pageSize: 20,
-};
-
+import { OCC_HTTP_TOKEN } from '../../utils';
+import { Router } from '@angular/router';
 @Injectable()
 export class OccProductSearchAdapter implements ProductSearchAdapter {
+  protected router = inject(Router, {
+    optional: true,
+  });
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 
+  readonly DEFAULT_SEARCH_CONFIG: SearchConfig = {
+    pageSize: 20,
+  };
+
   search(
     query: string,
-    searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
+    searchConfig: SearchConfig = this.DEFAULT_SEARCH_CONFIG
   ): Observable<ProductSearchPage> {
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
+      sendUserIdAsHeader: true,
+    });
+
     return this.http
-      .get(this.getSearchEndpoint(query, searchConfig))
-      .pipe(this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER));
+      .get(this.getSearchEndpoint(query, searchConfig), { context })
+      .pipe(
+        this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER),
+        tap(
+          (productSearchPage) =>
+            productSearchPage.keywordRedirectUrl &&
+            this.router?.navigate([productSearchPage.keywordRedirectUrl])
+        )
+      );
   }
 
   loadSuggestions(
@@ -41,9 +64,11 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
     pageSize: number = 3
   ): Observable<Suggestion[]> {
     return this.http
-      .get(this.getSuggestionEndpoint(term, pageSize.toString()))
+      .get<Occ.SuggestionList>(
+        this.getSuggestionEndpoint(term, pageSize.toString())
+      )
       .pipe(
-        pluck('suggestions'),
+        map((suggestionsList) => suggestionsList.suggestions ?? []),
         this.converter.pipeableMany(PRODUCT_SUGGESTION_NORMALIZER)
       );
   }

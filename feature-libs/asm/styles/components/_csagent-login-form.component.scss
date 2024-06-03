@@ -1,0 +1,63 @@
+%cx-csagent-login-form {
+  form {
+    display: flex;
+    width: 100%;
+
+    @media (max-width: 575px) {
+      flex-direction: column;
+    }
+
+    label {
+      margin: 0 0 15px;
+      min-width: auto;
+
+      @media (min-width: 575px) {
+        margin-inline-end: 15px;
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-inline-start: 0;
+        min-width: 18rem;
+      }
+
+      input {
+        border: 1px solid #f1f1f1;
+        border-bottom-color: #556b81;
+        box-shadow: 0px 0px 0px 1px rgba(85, 107, 130, 0.25) inset;
+        width: 100%;
+        &:focus {
+          border: 2px solid rgba(0, 100, 217, 1);
+          box-shadow: 0px 0px 1px rgba(120, 143, 166, 0.72);
+          outline: none;
+          background-color: #ffffff;
+        }
+        &:hover {
+          box-shadow: 0px 0px 0px 1px rgba(104, 174, 255, 0.5) inset;
+        }
+      }
+    }
+
+    .label-content {
+      color: #556b82;
+      max-width: 110px;
+      margin-inline-end: 6px;
+      white-space: nowrap;
+      @media (min-width: 575px) {
+        padding-top: 7px;
+      }
+    }
+  }
+
+  button[type='submit'] {
+    color: #256f3a;
+    border-radius: 8px;
+    border-color: #dbeda1;
+    background-color: #ebf5cb;
+    &:hover {
+      background-color: #e3f1b6;
+    }
+  }
+
+  cx-dot-spinner {
+    color: #0a6ed1;
+  }
+}

@@ -2,7 +2,7 @@
   <div class="cx-login-greet">
     {{ 'miniLogin.userGreeting' | cxTranslate: { name: user.name } }}
   </div>
-  <cx-page-slot position="HeaderLinks"></cx-page-slot>
+  <cx-page-slot id="account-nav" position="HeaderLinks"></cx-page-slot>
 </ng-container>
 
 <ng-template #login>

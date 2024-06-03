@@ -16,7 +16,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { OutletDirective, OutletModule } from '@spartacus/storefront';
-import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListItemComponent } from './product-list-item.component';
@@ -105,7 +105,7 @@ describe('ProductListItemComponent in product-list', () => {
           MockStarRatingComponent,
           MockUrlPipe,
           MockCxIconComponent,
-          MockFeatureLevelDirective,
+          MockFeatureDirective,
           MockOutletDirective,
         ],
         providers: [
@@ -188,21 +188,6 @@ describe('ProductListItemComponent in product-list', () => {
     expect(fixture.debugElement.nativeElement.innerText).toContain(
       'productDetails.noReviews'
     );
-  });
-
-  it('should display add to cart component', () => {
-    expect(
-      fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
-    ).not.toBeNull();
-  });
-
-  it('should not display add to cart component when product is out of stock', () => {
-    component.product.stock.stockLevelStatus = 'outOfStock';
-    fixture.detectChanges();
-
-    expect(
-      fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
-    ).toBeNull();
   });
 
   it('should have defined instance of list item context', () => {

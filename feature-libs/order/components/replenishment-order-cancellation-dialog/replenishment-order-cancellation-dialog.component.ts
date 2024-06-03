@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,8 +13,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { ReplenishmentOrderFacade } from '@spartacus/order/root';
-import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
+import { ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { combineLatest, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
@@ -21,6 +31,8 @@ export class ReplenishmentOrderCancellationDialogComponent
   implements OnInit, OnDestroy
 {
   private subscription = new Subscription();
+
+  iconTypes = ICON_TYPE;
 
   replenishmentOrderCode: string;
 
@@ -40,7 +52,7 @@ export class ReplenishmentOrderCancellationDialogComponent
   }
 
   constructor(
-    protected userReplenishmentOrderService: ReplenishmentOrderFacade,
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
     protected globalMessageService: GlobalMessageService,
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
@@ -49,7 +61,7 @@ export class ReplenishmentOrderCancellationDialogComponent
   ngOnInit(): void {
     this.subscription.add(
       combineLatest([
-        this.userReplenishmentOrderService
+        this.replenishmentOrderHistoryFacade
           .getReplenishmentOrderDetails()
           .pipe(startWith(null)),
         this.launchDialogService.data$,
@@ -60,7 +72,7 @@ export class ReplenishmentOrderCancellationDialogComponent
     );
 
     this.subscription.add(
-      this.userReplenishmentOrderService
+      this.replenishmentOrderHistoryFacade
         .getCancelReplenishmentOrderSuccess()
         .subscribe((value) => this.onSuccess(value))
     );
@@ -82,7 +94,7 @@ export class ReplenishmentOrderCancellationDialogComponent
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
-    this.userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState();
+    this.replenishmentOrderHistoryFacade.clearCancelReplenishmentOrderProcessState();
   }
 
   close(reason: string): void {
@@ -90,7 +102,7 @@ export class ReplenishmentOrderCancellationDialogComponent
   }
 
   cancelReplenishment(): void {
-    this.userReplenishmentOrderService.cancelReplenishmentOrder(
+    this.replenishmentOrderHistoryFacade.cancelReplenishmentOrder(
       this.replenishmentOrderCode
     );
   }

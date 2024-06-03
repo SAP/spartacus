@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CONFIGURATOR_COMMONS_SERVICE,
   CONFIGURATOR_GROUPS_SERVICE,
@@ -7,10 +13,12 @@ import {
   CONFIGURATOR_STOREFRONT_UTILS_SERVICE,
   DIRECTION_SERVICE,
   HAMBURGER_MENU_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION: ConstructorDeprecation =

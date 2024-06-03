@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   Facet,
@@ -40,7 +46,7 @@ export class OccProductSearchPageNormalizer
     return target;
   }
 
-  private normalizeFacets(target: ProductSearchPage): void {
+  protected normalizeFacets(target: ProductSearchPage): void {
     this.normalizeFacetValues(target);
     this.normalizeUselessFacets(target);
   }
@@ -54,7 +60,7 @@ export class OccProductSearchPageNormalizer
    * any facet that does not have a count < the total results will be dropped from
    * the facets.
    */
-  private normalizeUselessFacets(target: ProductSearchPage): void {
+  protected normalizeUselessFacets(target: ProductSearchPage): void {
     if (target.facets) {
       target.facets = target.facets.filter((facet) => {
         return (
@@ -64,7 +70,8 @@ export class OccProductSearchPageNormalizer
             facet.values &&
             facet.values.find((value) => {
               return (
-                value.selected || value.count < target.pagination.totalResults
+                value.selected ||
+                (value.count ?? 0) < (target.pagination?.totalResults ?? 0)
               );
             }))
         );
@@ -81,12 +88,14 @@ export class OccProductSearchPageNormalizer
    * provides all facet values AND topValues, we normalize the data to not bother
    * the UI with this specific feature.
    */
-  private normalizeFacetValues(target: ProductSearchPage): void {
+  protected normalizeFacetValues(target: ProductSearchPage): void {
     if (target.facets) {
       target.facets = target.facets.map((facetSource: Facet) => {
         const { topValues, ...facetTarget } = facetSource;
         facetTarget.topValueCount =
-          topValues?.length > 0 ? topValues.length : this.DEFAULT_TOP_VALUES;
+          topValues && topValues.length > 0
+            ? topValues.length
+            : this.DEFAULT_TOP_VALUES;
         return facetTarget;
       });
     }

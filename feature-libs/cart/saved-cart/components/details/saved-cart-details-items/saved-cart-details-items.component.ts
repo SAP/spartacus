@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,19 +11,22 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  DeleteSavedCartSuccessEvent,
-  SavedCartFacade,
-} from '@spartacus/cart/saved-cart/root';
-import {
   Cart,
+  CartOutlets,
+  CartType,
+  DeleteCartSuccessEvent as DeleteSavedCartSuccessEvent,
+  PromotionLocation,
+} from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
-  PromotionLocation,
   RoutingService,
+  TranslationService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { mapTo, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 
 @Component({
@@ -28,7 +37,11 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
+  readonly CartOutlets = CartOutlets;
+  readonly CartType = CartType;
   CartLocation = PromotionLocation;
+
+  buyItAgainTranslation$: Observable<string>;
 
   cartLoaded$: Observable<boolean> = this.savedCartDetailsService
     .getSavedCartId()
@@ -49,15 +62,23 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
     protected savedCartService: SavedCartFacade,
     protected eventSercvice: EventService,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected translation: TranslationService
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
       this.eventSercvice
         .get(DeleteSavedCartSuccessEvent)
-        .pipe(take(1), mapTo(true))
+        .pipe(
+          take(1),
+          map(() => true)
+        )
         .subscribe((success) => this.onDeleteComplete(success))
+    );
+
+    this.buyItAgainTranslation$ = this.translation.translate(
+      'addToCart.addToActiveCart'
     );
   }
 

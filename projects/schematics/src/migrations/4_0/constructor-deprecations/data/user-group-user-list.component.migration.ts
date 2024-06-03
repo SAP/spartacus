@@ -1,10 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CURRENT_USER_GROUP_SERVICE,
   MESSAGE_SERVICE,
-  SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
   USER_GROUP_USER_LIST_COMPONENT,
   USER_GROUP_USER_LIST_SERVICE,
 } from '../../../../shared/constants';
+import { SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const USER_GROUP_USER_LIST_COMPONENT_MIGRATION: ConstructorDeprecation =

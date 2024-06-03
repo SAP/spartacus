@@ -1,13 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ASSIGNMENT_LABELS,
   CONFIRMATION_LABELS,
   MyCompanyConfig,
 } from '../models/index';
-import { completeForm, FormType } from './utils/form';
 import {
   ignoreCaseSensivity,
   loginAsMyCompanyAdmin,
 } from '../my-company.utils';
+import { completeForm, FormType } from './utils/form';
 
 export function assignmentsTest(config: MyCompanyConfig) {
   config?.subCategories?.forEach((subConfig: MyCompanyConfig) => {
@@ -80,6 +86,11 @@ export function assignmentsTest(config: MyCompanyConfig) {
           );
           cy.get('div.header button').contains('Save').click();
           cy.wait('@save');
+
+          // Avoids regression for issue where 'undefined' values for new ids/codes
+          // were not added to ngrx state and no notification was made.
+          cy.get('cx-org-notification.info').should('be.visible');
+
           cy.wait('@getEntityData');
 
           const headerRows = subConfig.createConfig.rows?.filter(
@@ -169,17 +180,17 @@ export function assignmentsTest(config: MyCompanyConfig) {
         });
       }
 
-      if (subConfig.rolesConfig) {
-        it('should modify user roles', () => {
+      if (subConfig.rolesAndRightsConfig) {
+        it('should modify user roles and rights', () => {
           cy.get('cx-org-sub-list cx-table tr td')
-            .contains(ASSIGNMENT_LABELS.ROLES)
+            .contains(ASSIGNMENT_LABELS.ROLES_AND_RIGHTS)
             .click();
 
           checkRoles();
           checkRoles(true);
 
           function checkRoles(uncheck?: boolean) {
-            subConfig.rolesConfig.rows.forEach((row) => {
+            subConfig.rolesAndRightsConfig.rows.forEach((row) => {
               cy.get('cx-org-card cx-view[position="3"] label span')
                 .contains(row.updateValue)
                 .parent()
@@ -198,7 +209,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
 
       if (subConfig.manageAssignments) {
         it('should assign and unassign from assigned list', () => {
-          cy.wait(1000);
+          cy.wait(2000);
           clickManage();
 
           cy.get('cx-org-sub-list cx-table tr td')
@@ -268,13 +279,12 @@ export function assignmentsTest(config: MyCompanyConfig) {
     function clickManage(waitForAssignable = true) {
       if (waitForAssignable) {
         cy.intercept({ method: 'GET', path: `**` }).as('getAssignable');
-        cy.wait(1000);
+        cy.wait('@getAssignable');
         cy.get('cx-org-card .header a')
           .contains(ASSIGNMENT_LABELS.MANAGE)
           .click();
-        cy.wait('@getAssignable');
       } else {
-        cy.wait(1000);
+        cy.wait(2000);
         cy.get('cx-org-card .header a')
           .contains(ASSIGNMENT_LABELS.MANAGE)
           .click();

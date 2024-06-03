@@ -1,16 +1,16 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
-  ActiveCartService,
+  FeaturesConfig,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
-  OrderEntry,
   Product,
   Translatable,
 } from '@spartacus/core';
@@ -18,7 +18,7 @@ import {
   CmsComponentData,
   MessageComponentModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsQuickOrderComponent } from '../../core/models/cms.model';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
@@ -99,7 +99,7 @@ class MockQuickOrderStatePersistenceService
 const mockIsStable$ = new BehaviorSubject<boolean>(true);
 const mockCartId$ = new BehaviorSubject<string>('123456789');
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActiveCartId(): Observable<string> {
     return mockCartId$.asObservable();
   }
@@ -131,6 +131,7 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 })
 class MockQuickOrderFormComponent {
   @Input() isLoading: boolean;
+  @Input() limit: number;
 }
 
 @Component({
@@ -168,7 +169,7 @@ describe('QuickOrderComponent', () => {
         MockProgressButtonComponent,
       ],
       providers: [
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
         {
@@ -178,6 +179,12 @@ describe('QuickOrderComponent', () => {
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
+          },
         },
       ],
     }).compileComponents();
@@ -201,6 +208,12 @@ describe('QuickOrderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display header', () => {
+    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+      'quickOrderList.header'
+    );
   });
 
   it('should call service method clearDeletedEntries on component destroy', () => {

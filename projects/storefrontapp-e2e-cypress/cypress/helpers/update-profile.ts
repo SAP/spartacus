@@ -1,18 +1,36 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import * as login from '../helpers/login';
+import { SampleUser } from '../sample-data/checkout-flow';
+import { isolateTests } from '../support/utils/test-isolation';
 import * as alerts from './global-message';
 import { checkBanner } from './homepage';
-import * as login from '../helpers/login';
 
-export const newTitle = 'dr';
+export const newTitle = 'Dr.';
 export const newFirstName = 'N';
 export const newLastName = 'Z';
 export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
-export function updateProfile() {
-  cy.get('cx-update-profile').within(() => {
-    cy.get('[formcontrolname="titleCode"]').select(newTitle, { force: true });
+export function updateProfile(user?: SampleUser) {
+  if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+    cy.get('.editButton').click();
+  }
+  if (user) {
+    cy.get('[formcontrolname="firstName"]').should(
+      'have.value',
+      user.firstName
+    );
+    cy.get('[formcontrolname="lastName"]').should('have.value', user.lastName);
+  }
+  cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
+    cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
     cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
     cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
-    cy.get('button').click();
+    cy.get('button.btn-primary').click();
   });
 
   // check for the global message and home screen
@@ -33,10 +51,11 @@ export function validateUpdateProfileForm(
   firstName: string,
   lastName: string
 ) {
-  cy.get('cx-update-profile').within(() => {
-    cy.get('[formcontrolname="titleCode"]')
-      .find(':selected')
-      .should('have.value', title);
+  cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
+    cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
+      'have.text',
+      title
+    );
     cy.get('[formcontrolname="firstName"]').should('have.value', firstName);
     cy.get('[formcontrolname="lastName"]').should('have.value', lastName);
   });
@@ -44,10 +63,14 @@ export function validateUpdateProfileForm(
 
 export function verifyUpdatedProfile() {
   // check where the user's details updated in the previous test
-  cy.get('cx-update-profile').within(() => {
-    cy.get('[formcontrolname="titleCode"]')
-      .find(':selected')
-      .should('have.value', newTitle);
+  if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+    cy.get('.editButton').click();
+  }
+  cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
+    cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
+      'have.text',
+      newTitle
+    );
     cy.get('[formcontrolname="firstName"]').should('have.value', newFirstName);
     cy.get('[formcontrolname="lastName"]').should('have.value', newLastName);
   });
@@ -55,11 +78,14 @@ export function verifyUpdatedProfile() {
 
 export function testUpdateProfileDetails() {
   it('should be able to update profile details', () => {
-    cy.get('cx-update-profile').within(() => {
-      cy.get('[formcontrolname="titleCode"]').select(newTitle, { force: true });
+    if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+      cy.get('.editButton').click();
+    }
+    cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
+      cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
       cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
       cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
-      cy.get('button').click();
+      cy.get('button.btn-primary').click();
     });
 
     // check for the global message and home screen
@@ -78,11 +104,15 @@ export function testUpdateProfileDetails() {
 
 export function testSeeNewProfileInfo() {
   it('should be able to see the new profile info', () => {
+    if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+      cy.get('.editButton').click();
+    }
     // check where the user's details updated in the previous test
-    cy.get('cx-update-profile').within(() => {
-      cy.get('[formcontrolname="titleCode"]')
-        .find(':selected')
-        .should('have.value', newTitle);
+    cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
+      cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
+        'have.text',
+        newTitle
+      );
       cy.get('[formcontrolname="firstName"]').should(
         'have.value',
         newFirstName
@@ -93,28 +123,33 @@ export function testSeeNewProfileInfo() {
 }
 
 export function testUpdateProfileLoggedInUser() {
-  describe('update profile test for logged in user', () => {
-    before(() => {
-      cy.requireLoggedIn();
-      cy.visit('/');
-    });
-
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-      cy.selectUserMenuOption({
-        option: 'Personal Details',
+  describe(
+    'update profile test for logged in user',
+    { testIsolation: false },
+    () => {
+      isolateTests();
+      before(() => {
+        cy.requireLoggedIn();
+        cy.visit('/');
       });
-    });
 
-    testUpdateProfileDetails();
-    testSeeNewProfileInfo();
+      beforeEach(() => {
+        cy.restoreLocalStorage();
+        cy.selectUserMenuOption({
+          option: 'Personal Details',
+        });
+      });
 
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
+      testUpdateProfileDetails();
+      testSeeNewProfileInfo();
 
-    after(() => {
-      login.signOutUser();
-    });
-  });
+      afterEach(() => {
+        cy.saveLocalStorage();
+      });
+
+      after(() => {
+        login.signOutUser();
+      });
+    }
+  );
 }

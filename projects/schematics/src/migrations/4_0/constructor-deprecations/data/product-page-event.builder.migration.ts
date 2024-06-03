@@ -1,12 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   EVENT_SERVICE,
   FEATURE_CONFIG_SERVICE,
   PRODUCT_PAGE_EVENT_BUILDER,
   PRODUCT_SEARCH_SERVICE,
   PRODUCT_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION: ConstructorDeprecation =

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { b2bProduct } from '../sample-data/b2b-checkout';
 import { savedActiveCartForm } from '../sample-data/b2b-saved-cart';
 

@@ -1,7 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
-import { ADD_TO_CART_COMPONENT_MIGRATION } from './data/add-to-cart.component.migration';
+import {
+  ADD_TO_CART_COMPONENT_MIGRATION,
+  ADD_TO_CART_COMPONENT_MIGRATION_2,
+} from './data/add-to-cart.component.migration';
 import { ASM_AUTH_HTTP_HEADER_SERVICE_MIGRATION } from './data/asm-auth-http-header.service.migration';
 import { CART_PAGE_LAYOUT_HANDLER_MIGRATIONS } from './data/cart-page-layout-handler.migration';
 import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
@@ -23,6 +32,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CATEGORY_PAGE_META_RESOLVER_MIGRATION,
   CHECKOUT_PAGE_META_RESOLVER_MIGRATION,
   ADD_TO_CART_COMPONENT_MIGRATION,
+  ADD_TO_CART_COMPONENT_MIGRATION_2,
   ...CART_PAGE_LAYOUT_HANDLER_MIGRATIONS,
   CURRENT_PRODUCT_SERVICE_MIGRATION,
   ...PAGE_SLOT_COMPONENT_MIGRATION,

@@ -2,9 +2,8 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
-  ActiveCartService,
-  Cart,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   UserIdService,
@@ -115,13 +114,9 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
 };
 
-const cartState: any = {
-  value: cart,
-};
-
 class MockActiveCartService {
   requireLoadedCart(): any {
-    return of(cartState);
+    return of(cart);
   }
 }
 
@@ -151,7 +146,7 @@ describe('ConfiguratorTextfieldService', () => {
         providers: [
           ConfiguratorTextfieldService,
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
           {
@@ -176,40 +171,54 @@ describe('ConfiguratorTextfieldService', () => {
   it('should create service', () => {
     expect(serviceUnderTest).toBeDefined();
   });
+  describe('createConfiguration', () => {
+    it('should return a configuration if one is present', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValues(
+        mockConfigLoaderStateReturned
+      );
+      const configurationFromStore =
+        serviceUnderTest.createConfiguration(owner);
 
-  it('should return a configuration if one is present on createConfiguration', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(
-      mockConfigLoaderStateReturned
-    );
-    const configurationFromStore = serviceUnderTest.createConfiguration(owner);
+      expect(configurationFromStore).toBeDefined();
 
-    expect(configurationFromStore).toBeDefined();
+      configurationFromStore
+        .subscribe((configuration) =>
+          expect(configuration.configurationInfos.length).toBe(1)
+        )
+        .unsubscribe();
+    });
 
-    configurationFromStore
-      .subscribe((configuration) =>
-        expect(configuration.configurationInfos.length).toBe(1)
-      )
-      .unsubscribe();
+    it('should create a configuration if nothing is present in store yet', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValues(
+        mockConfigLoaderStateNothingPresent
+      );
+      const configurationFromStore =
+        serviceUnderTest.createConfiguration(owner);
+
+      expect(configurationFromStore).toBeDefined();
+
+      configurationFromStore
+        .subscribe(() =>
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new ConfiguratorTextfieldActions.CreateConfiguration({
+              productCode: owner.id,
+              owner: owner,
+            })
+          )
+        )
+        .unsubscribe();
+    });
   });
 
-  it('should create a configuration if nothing is present in store yet', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(
-      mockConfigLoaderStateNothingPresent
-    );
-    const configurationFromStore = serviceUnderTest.createConfiguration(owner);
-
-    expect(configurationFromStore).toBeDefined();
-
-    configurationFromStore
-      .subscribe(() =>
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new ConfiguratorTextfieldActions.CreateConfiguration({
-            productCode: owner.id,
-            owner: owner,
-          })
-        )
-      )
-      .unsubscribe();
+  describe('ensureConfigurationDefined', () => {
+    it('should be able to deal with undefined configurations', () => {
+      const initialConfiguration =
+        serviceUnderTest['ensureConfigurationDefined'](undefined);
+      expect(initialConfiguration).toBeDefined();
+      expect(initialConfiguration.owner).toEqual(
+        ConfiguratorModelUtils.createInitialOwner()
+      );
+    });
   });
 
   it('should dispatch the correct action when readFromCartEntry is called', () => {

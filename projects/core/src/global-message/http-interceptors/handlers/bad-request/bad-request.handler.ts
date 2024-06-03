@@ -1,6 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { isCartNotFoundError } from '../../../../cart/utils/utils';
 import { ErrorModel } from '../../../../model/misc.model';
 import { Priority } from '../../../../util/applicable';
 import { GlobalMessageType } from '../../../models/global-message.model';
@@ -18,10 +23,9 @@ export class BadRequestHandler extends HttpErrorHandler {
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.handleBadPassword(request, response);
     this.handleBadLoginResponse(request, response);
-    this.handleBadCartRequest(request, response);
     this.handleValidationError(request, response);
-    this.handleVoucherOperationError(request, response);
     this.handleGuestDuplicateEmail(request, response);
+    this.handleUnknownIdentifierError(request, response);
   }
 
   protected handleBadPassword(
@@ -35,7 +39,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     ) {
       this.globalMessageService.add(
         {
-          key: 'httpHandlers.badRequestPleaseLoginAgain',
+          key: this.getErrorTranslationKey(response.error?.error_description),
           params: {
             errorMessage:
               response.error.error_description || response.message || '',
@@ -54,8 +58,15 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.getErrors(response)
       .filter((error) => error.type === 'PasswordMismatchError')
       .forEach(() => {
+        // Updating email and changing password share same http error occurence.
+        // Determine the context of global error message based on request url
+        const url = new URL(_request.url);
+        const key = url.pathname.endsWith('/password')
+          ? 'httpHandlers.badRequestOldPasswordIncorrect'
+          : 'httpHandlers.validationErrors.invalid.password';
+
         this.globalMessageService.add(
-          { key: 'httpHandlers.badRequestOldPasswordIncorrect' },
+          { key },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
@@ -72,38 +83,6 @@ export class BadRequestHandler extends HttpErrorHandler {
           {
             key: `httpHandlers.validationErrors.${error.reason}.${error.subject}`,
           },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      });
-  }
-
-  protected handleBadCartRequest(
-    _request: HttpRequest<any>,
-    response: HttpErrorResponse
-  ): void {
-    this.getErrors(response)
-      .filter((e) => isCartNotFoundError(e))
-      .forEach(() => {
-        this.globalMessageService.add(
-          { key: 'httpHandlers.cartNotFound' },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      });
-  }
-
-  protected handleVoucherOperationError(
-    _request: HttpRequest<any>,
-    response: HttpErrorResponse
-  ): void {
-    this.getErrors(response)
-      .filter(
-        (e) =>
-          e.message === 'coupon.invalid.code.provided' &&
-          e.type === 'VoucherOperationError'
-      )
-      .forEach(() => {
-        this.globalMessageService.add(
-          { key: 'httpHandlers.invalidCodeProvided' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
@@ -128,9 +107,25 @@ export class BadRequestHandler extends HttpErrorHandler {
       });
   }
 
+  protected handleUnknownIdentifierError(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter((e) => e.type === 'UnknownIdentifierError')
+      .forEach((error) => {
+        this.globalMessageService.add(
+          error.message
+            ? error.message
+            : { key: 'httpHandlers.unknownIdentifier' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error) => error.type !== 'JaloObjectNoLongerValidError'
+      (error: ErrorModel) => error.type !== 'JaloObjectNoLongerValidError'
     );
   }
 

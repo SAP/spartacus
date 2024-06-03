@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "lib": ["es2018", "dom"],
+    "baseUrl": "./",
+    "module": "CommonJs",
+    "types": ["jest"],
+    "paths": {
+      "@spartacus/core": ["../../projects/core/public_api"]
+    },
     "declaration": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -16,8 +18,6 @@
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
-    "target": "es6",
-    "types": ["jest", "node"],
     "resolveJsonModule": true,
     "esModuleInterop": true
   },

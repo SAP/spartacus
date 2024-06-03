@@ -65,6 +65,10 @@
           transition: all 0.6s;
         }
 
+        &.active {
+          font-weight: bold;
+        }
+
         &.active,
         &:hover {
           color: var(--cx-color-primary);

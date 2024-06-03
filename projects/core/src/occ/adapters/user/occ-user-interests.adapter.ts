@@ -1,17 +1,25 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { Observable, throwError, forkJoin } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Observable, forkJoin } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
+import { LoggerService } from '../../../logger';
 import {
-  ProductInterestSearchResult,
-  ProductInterestEntryRelation,
   NotificationType,
+  ProductInterestEntryRelation,
+  ProductInterestSearchResult,
 } from '../../../model/product-interest.model';
-import { OccConfig } from '../../config/occ-config';
-import { ConverterService } from '../../../util/converter.service';
 import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
+import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
+import { ConverterService } from '../../../util/converter.service';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { OccConfig } from '../../config/occ-config';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 const headers = new HttpHeaders({
   'Content-Type': 'application/json',
@@ -19,6 +27,8 @@ const headers = new HttpHeaders({
 
 @Injectable()
 export class OccUserInterestsAdapter implements UserInterestsAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -60,7 +70,9 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
       )
       .pipe(
         this.converter.pipeable(PRODUCT_INTERESTS_NORMALIZER),
-        catchError((error: any) => throwError(error))
+        catchError((error: any) => {
+          throw normalizeHttpError(error, this.logger);
+        })
       );
   }
 
@@ -69,9 +81,9 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     item: ProductInterestEntryRelation
   ): Observable<any[]> {
     const r: Observable<any>[] = [];
-    item.productInterestEntry.forEach((entry: any) => {
+    item.productInterestEntry?.forEach((entry: any) => {
       const params: HttpParams = new HttpParams()
-        .set('productCode', item.product.code)
+        .set('productCode', item.product?.code ?? '')
         .set('notificationType', entry.interestType);
       r.push(
         this.http
@@ -83,7 +95,11 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
               params: params,
             }
           )
-          .pipe(catchError((error: any) => throwError(error)))
+          .pipe(
+            catchError((error: any) => {
+              throw normalizeHttpError(error, this.logger);
+            })
+          )
       );
     });
     return forkJoin(r);
@@ -108,6 +124,10 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
           params,
         }
       )
-      .pipe(catchError((error: any) => throwError(error)));
+      .pipe(
+        catchError((error: any) => {
+          throw normalizeHttpError(error, this.logger);
+        })
+      );
   }
 }
