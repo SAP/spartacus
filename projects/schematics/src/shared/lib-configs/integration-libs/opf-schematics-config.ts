@@ -119,7 +119,7 @@ function buildOpfCheckoutConfig(
     providers: {
       import: [
         {
-          moduleSpecifier: SPARTACUS_OPF_CHECKOUT_ROOT,
+          moduleSpecifier: SPARTACUS_OPF_BASE_ROOT,
           namedImports: [OPF_CONFIG],
         },
       ],
