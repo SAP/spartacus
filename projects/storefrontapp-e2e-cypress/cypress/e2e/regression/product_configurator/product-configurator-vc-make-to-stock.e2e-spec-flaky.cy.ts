@@ -19,7 +19,7 @@ context('Product Configuration', () => {
     clickAllowAllFromBanner();
   });
 
-  describe('Support Make-to-Stock for Product Variants (CXSPA-5951)', () => {
+  describe('Support make-to-stock for product variants (CXSPA-5951)', () => {
     describe('support back navigation to the product detail page after clicking Show Details button', () => {
       it('should display a product overview from the catalog', () => {
         configuration.searchForProduct(testProduct);

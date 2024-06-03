@@ -84,7 +84,7 @@ context('Product Configuration', () => {
     configUISettings.productConfigurator.enableNavigationToConflict = false;
   });
 
-  describe('Navigate to Product Configuration Page', () => {
+  describe('Navigate to product configuration page', () => {
     it('should be able to navigate from the cart', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
@@ -106,7 +106,7 @@ context('Product Configuration', () => {
       configurationCart.clickOnEditConfigurationLink(0);
     });
 
-    it('should be able to to add more than one piece of a configured product in the cart via a quantity stepper next to the add-to-cart button (CXSPA-3193)', () => {
+    it('should increase quantity of a configured product via a quantity stepper (CXSPA-3193)', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
@@ -281,7 +281,7 @@ context('Product Configuration', () => {
       configuration.completeOrderProcess(testProductMultiLevel, true);
     });
 
-    it('should support changeable configurable variant', () => {
+    it('should support partially configurable variant', () => {
       configuration.completeOrderProcess(testProductVariant, true);
     });
   });
