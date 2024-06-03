@@ -244,6 +244,13 @@ export interface FeatureTogglesInterface {
    * Empty wishlist notification will be displayed in a paragraph instead of a heading.
    */
   a11yEmptyWishlistHeading?: boolean;
+
+  /**
+   * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
+   * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
+   * `LoginRegisterComponent`, `ConfigureProductComponent`
+   */
+  a11yUseButtonsForBtnLinks?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -287,4 +294,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
   a11yEmptyWishlistHeading: false,
+  a11yUseButtonsForBtnLinks: false,
 };
