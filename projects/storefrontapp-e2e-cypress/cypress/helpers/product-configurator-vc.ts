@@ -133,11 +133,10 @@ export function checkGlobalMessageContains(text: string): void {
 
 /**
  * Clicks on 'Configure' button in catalog list.
- *
- * @param productName - product name
  */
-export function clickOnConfigureBtnInCatalog(productName: string): void {
-  cy.get(`cx-configure-product a[href*='/vc/product/entityKey/${productName}'`)
+export function clickOnConfigureBtnInCatalog(): void {
+  cy.get('cx-configure-product button')
+    .contains('Configure')
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/product/entityKey/');
