@@ -197,6 +197,31 @@ export function toggleSidebar(): void {
 }
 
 /**
+ * Verifies whether `Price-Relevant Options` filter option is displayed.
+ */
+export function checkPriceFilterOptionDisplayed(): void {
+  cy.get('#cx-configurator-overview-filter-option-price').should('exist');
+}
+
+/**
+ * Verifies whether `My Selections` filter option is displayed.
+ */
+export function checkMySelectionsFilterOptionDisplayed(): void {
+  cy.get('#cx-configurator-overview-filter-option-mySelections').should(
+    'exist'
+  );
+}
+
+/**
+ * Verifies whether `My Selections` filter option is not displayed.
+ */
+export function checkMySelectionsFilterOptionNotDisplayed(): void {
+  cy.get('#cx-configurator-overview-filter-option-mySelections').should(
+    'not.exist'
+  );
+}
+
+/**
  * Toggles the given configuration overview group filter
  * @param {string} groupId - id of group filter to toggle
  */
