@@ -132,7 +132,8 @@
         "password": "Password entered is not valid.",
         "uid": "UID is not valid.",
         "code": "Code is not valid.",
-        "email": "Email is not valid."
+        "email": "Email is not valid.",
+        "loginId": "Email is not valid."
       }
     },
     "cartNotFound": "Cart not found.",
@@ -160,7 +161,7 @@
   "carousel": {
     "previousSlide": "Previous slide",
     "nextSlide": "Next slide",
-    "slideNumber": "Slide {{currentSlideNumber}}",
+    "slideNumber": "Slide {{currentSlideNumber}} contains {{numberOfSlides}} items",
     "carouselForProduct": "Carousel, Images for {{product}}"
   },
   "formErrors": {

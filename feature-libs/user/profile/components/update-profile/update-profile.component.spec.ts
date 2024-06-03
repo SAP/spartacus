@@ -9,13 +9,18 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
 import createSpy = jasmine.createSpy;
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',
@@ -46,10 +51,15 @@ class MockUpdateProfileService
   updateProfile = createSpy().and.stub();
 }
 
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
+}
+
 describe('UpdateProfileComponent', () => {
   let component: UpdateProfileComponent;
   let fixture: ComponentFixture<UpdateProfileComponent>;
   let el: DebugElement;
+  let routingService: RoutingService;
 
   let service: UpdateProfileComponentService;
 
@@ -69,6 +79,7 @@ describe('UpdateProfileComponent', () => {
           UpdateProfileComponent,
           MockCxSpinnerComponent,
           MockNgSelectA11yDirective,
+          MockFeatureDirective,
         ],
         providers: [
           {
@@ -81,6 +92,7 @@ describe('UpdateProfileComponent', () => {
               features: { level: '5.2' },
             },
           },
+          { provide: RoutingService, useClass: MockRoutingService },
         ],
       }).compileComponents();
     })
@@ -92,6 +104,7 @@ describe('UpdateProfileComponent', () => {
     el = fixture.debugElement;
 
     service = TestBed.inject(UpdateProfileComponentService);
+    routingService = TestBed.inject(RoutingService);
 
     fixture.detectChanges();
   });
@@ -105,7 +118,7 @@ describe('UpdateProfileComponent', () => {
       component.form.disable();
       fixture.detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
-        By.css('button')
+        By.css('button.btn-primary')
       ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });
@@ -143,6 +156,13 @@ describe('UpdateProfileComponent', () => {
     it('should call the service method on submit', () => {
       component.onSubmit();
       expect(service.updateProfile).toHaveBeenCalled();
+    });
+
+    it('should navigate to home on cancel', () => {
+      spyOn(routingService, 'go');
+      const cancelBtn = el.query(By.css('button.btn-secondary'));
+      cancelBtn.triggerEventHandler('click');
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     });
   });
 });
