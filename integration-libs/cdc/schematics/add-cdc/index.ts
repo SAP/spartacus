@@ -16,7 +16,7 @@ import {
   analyzeApplication,
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
-  getFeaturesOptions,
+  normalizeOptionsFeatures,
   readPackageJson,
   SpartacusCdcOptions,
   validateSpartacusInstallation,
@@ -28,7 +28,7 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    options.features = getFeaturesOptions(options);
+    options.features = normalizeOptionsFeatures(options);
 
     const features = analyzeCrossFeatureDependencies(
       options.features as string[]

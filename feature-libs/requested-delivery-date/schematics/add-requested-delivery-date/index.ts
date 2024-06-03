@@ -17,7 +17,7 @@ import {
   analyzeApplication,
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
-  getFeaturesOptions,
+  normalizeOptionsFeatures,
   LibraryOptions as SpartacusRequestedDeliveryDateOptions,
   readPackageJson,
   validateSpartacusInstallation,
@@ -30,7 +30,7 @@ export function addRequestedDeliveryDateFeature(
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
-    options.features = getFeaturesOptions(options);
+    options.features = normalizeOptionsFeatures(options);
 
     const features = analyzeCrossFeatureDependencies(
       options.features as string[]

@@ -31,7 +31,7 @@ import {
 import {
   addFeatures,
   analyzeApplication,
-  getFeaturesOptions,
+  normalizeOptionsFeatures,
 } from '../shared/utils/feature-utils';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
@@ -562,7 +562,7 @@ function addAppRoutingModuleImport(
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const features = analyzeCrossFeatureDependencies(
-      getFeaturesOptions(options)
+      normalizeOptionsFeatures(options)
     );
     const dependencies = prepareDependencies(features);
     const spartacusRxjsDependency: NodeDependency[] = [

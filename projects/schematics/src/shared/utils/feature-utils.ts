@@ -492,13 +492,13 @@ function createDependentFeaturesLog(
  * may not work correctly in some situations, and might only work on the
  * second attempt.
  */
-export function getFeaturesOptions<OPTIONS extends LibraryOptions>(
+export function normalizeOptionsFeatures<OPTIONS extends LibraryOptions>(
   options: OPTIONS
 ): string[] {
-  return getArrayOptions(options.features ?? []);
+  return convertToArray(options.features ?? []);
 }
 
-export function getArrayOptions(values: string[] | string): string[] {
+export function convertToArray(values: string[] | string): string[] {
   let optionsArray: string[] = [];
   if (Array.isArray(values)) {
     optionsArray = values;

@@ -16,7 +16,7 @@ import {
   analyzeApplication,
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
-  getFeaturesOptions,
+  normalizeOptionsFeatures,
   readPackageJson,
   SpartacusCdsOptions,
   validateSpartacusInstallation,
@@ -27,7 +27,7 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
-    options.features = getFeaturesOptions(options);
+    options.features = normalizeOptionsFeatures(options);
 
     const features = analyzeCrossFeatureDependencies(
       options.features as string[]

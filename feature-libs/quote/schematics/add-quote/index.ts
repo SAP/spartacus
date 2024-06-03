@@ -16,7 +16,7 @@ import {
   analyzeApplication,
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
-  getFeaturesOptions,
+  normalizeOptionsFeatures,
   LibraryOptions as SpartacusQuoteOptions,
   readPackageJson,
   validateSpartacusInstallation,
@@ -27,7 +27,7 @@ export function addQuoteFeatures(options: SpartacusQuoteOptions): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
-    options.features = getFeaturesOptions(options);
+    options.features = normalizeOptionsFeatures(options);
 
     const features = analyzeCrossFeatureDependencies(
       options.features as string[]

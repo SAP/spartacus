@@ -18,7 +18,7 @@ import {
   finalizeInstallation,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
   readPackageJson,
-  getFeaturesOptions,
+  normalizeOptionsFeatures,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -29,7 +29,7 @@ export function addDigitalPaymentsFeature(
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
-    options.features = getFeaturesOptions(options);
+    options.features = normalizeOptionsFeatures(options);
 
     const features = analyzeCrossFeatureDependencies(
       options.features as string[]

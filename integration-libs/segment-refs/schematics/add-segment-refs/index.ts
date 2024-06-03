@@ -17,7 +17,7 @@ import {
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
   readPackageJson,
-  getFeaturesOptions,
+  normalizeOptionsFeatures,
   validateSpartacusInstallation,
   LibraryOptions as SpartacusSegmentRefsOptions,
 } from '@spartacus/schematics';
@@ -29,7 +29,7 @@ export function addSegmentRefsFeature(
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
-    options.features = getFeaturesOptions(options);
+    options.features = normalizeOptionsFeatures(options);
 
     const features = analyzeCrossFeatureDependencies(
       options.features as string[]
