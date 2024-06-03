@@ -53,7 +53,7 @@ class MockRoutingService {
   go = () => Promise.resolve(true);
 }
 
-let product: Product = undefined;
+let product: Product;
 
 class MockProductService {
   get(): Observable<Product> {
