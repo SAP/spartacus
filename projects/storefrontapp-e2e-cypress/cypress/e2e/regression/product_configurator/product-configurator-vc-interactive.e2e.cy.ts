@@ -95,13 +95,13 @@ context('Product Configuration', () => {
     it('should be able to navigate from the product search result', () => {
       clickAllowAllFromBanner();
       configuration.searchForProduct(testProduct);
-      configurationVc.clickOnConfigureBtnInCatalog(testProduct);
+      configurationVc.clickOnConfigureBtnInCatalog();
     });
 
     it('should be able to navigate from the product details page', () => {
       clickAllowAllFromBanner();
       common.goToPDPage(electronicsShop, testProduct);
-      configurationVc.clickOnConfigureBtnInCatalog(testProduct);
+      configurationVc.clickOnConfigureBtnInCatalog();
     });
 
     it('should be able to navigate from the add-to-cart dialog by clicking on "Edit Configuration" link', () => {
