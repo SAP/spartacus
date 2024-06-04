@@ -471,7 +471,6 @@ function takeOverPricingChanges(
       ...content.interactionState,
       issueNavigationDone: true,
     },
-    includesPrices: true,
   };
   return result;
 }

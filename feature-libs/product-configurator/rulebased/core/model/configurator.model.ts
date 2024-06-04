@@ -107,7 +107,6 @@ export namespace Configurator {
     hideBasePriceAndSelectedOptions?: boolean;
     immediateConflictResolution?: boolean;
     newConfiguration?: boolean;
-    includesPrices?: boolean;
   }
 
   export interface ConfigurationWithOverview extends Configuration {
