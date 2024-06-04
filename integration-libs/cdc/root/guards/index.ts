@@ -5,4 +5,5 @@
  */
 
 export * from './cdc-logout.guard';
-export * from './cdc-auth.guard';
+// export * from './cdc-auth.guard';
+// export * from './cdc-cms-page.guard';

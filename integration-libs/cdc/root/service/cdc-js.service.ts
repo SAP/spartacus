@@ -12,6 +12,7 @@ import {
   NgZone,
   OnDestroy,
   PLATFORM_ID,
+  inject,
 } from '@angular/core';
 import {
   AuthService,
@@ -847,17 +848,35 @@ export class CdcJsService implements OnDestroy {
     this.invokeAPI('accounts.logout', {});
   }
 
-  verifySession(): Observable<{ errorCode: number; errorMessage: string }> {
-    return this.invokeAPI('accounts.session.verify', {}).pipe(
-      catchError((error) => {
-        return of(error);
-      })
-    );
-  }
+  // verifySession(): Observable<{ errorCode: number; errorMessage: string }> {
+  //   return this.invokeAPI('accounts.session.verify', {}).pipe(
+  //     catchError((error) => {
+  //       return of(error);
+  //     })
+  //   );
+  // }
 
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  protected authService = inject(AuthService);
+  verifySession(): Observable<{ errorCode: number; errorDetails: string }> {
+    return this.authService.isUserLoggedIn().pipe(
+      switchMap((loggedIn) => {
+        if (loggedIn) {
+          console.log('session is verified');
+          return this.invokeAPI('accounts.session.verify', {}).pipe(
+            catchError((error) => {
+              return of(error);
+            })
+          );
+        } else {
+          return of({ errorCode: 0, errorDetails: '' });
+        }
+      })
+    );
   }
 }
