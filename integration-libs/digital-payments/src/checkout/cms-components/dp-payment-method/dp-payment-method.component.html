@@ -79,6 +79,7 @@
   <ng-template #loadingPaymentDetails>
     <cx-dp-payment-callback
       (paymentDetailsAdded)="paymentDetailsAdded($event)"
+      (paymentDetailsAddedAndGoBack)="paymentDetailsAddedAndGotBack($event)"
       (closeCallback)="hideCallbackScreen()"
     ></cx-dp-payment-callback>
   </ng-template>

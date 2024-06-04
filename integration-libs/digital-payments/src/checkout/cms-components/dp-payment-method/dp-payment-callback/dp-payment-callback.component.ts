@@ -26,6 +26,8 @@ export class DpPaymentCallbackComponent implements OnInit {
   closeCallback = new EventEmitter<any>();
   @Output()
   paymentDetailsAdded = new EventEmitter<any>();
+  @Output()
+  paymentDetailsAddedAndGoBack = new EventEmitter<any>();
   protected featureConfig = inject(FeatureConfigService);
   protected billingAddressService = inject(CheckoutBillingAddressFormService);
   showBillingAddressForm = false;
@@ -56,20 +58,23 @@ export class DpPaymentCallbackComponent implements OnInit {
     }
   }
 
-  next(): void {
+  next(showCardsList: boolean): void {
     if (
       this.billingAddressService.isBillingAddressSameAsDeliveryAddress() ||
       this.billingAddressService.isBillingAddressFormValid()
     ) {
       const billingAddress: Address =
         this.billingAddressService.getBillingAddress();
-      this.fetchPaymentDetails(billingAddress);
+      this.fetchPaymentDetails(billingAddress, showCardsList);
     } else {
       this.billingAddressService.markAllAsTouched();
     }
   }
 
-  private fetchPaymentDetails(billingAddress?: Address) {
+  private fetchPaymentDetails(
+    billingAddress?: Address,
+    showCardsList?: boolean
+  ) {
     const paymentRequest = this.dpStorageService.readCardRegistrationState();
 
     if (paymentRequest?.sessionId && paymentRequest?.signature) {
@@ -81,7 +86,11 @@ export class DpPaymentCallbackComponent implements OnInit {
         )
         .subscribe((details) => {
           if (details?.id) {
-            this.paymentDetailsAdded.emit(details);
+            if (showCardsList) {
+              this.paymentDetailsAddedAndGoBack.emit(details);
+            } else {
+              this.paymentDetailsAdded.emit(details);
+            }
           } else if (details) {
             this.globalMsgService.add(
               { key: 'dpPaymentForm.error.paymentFetch' },

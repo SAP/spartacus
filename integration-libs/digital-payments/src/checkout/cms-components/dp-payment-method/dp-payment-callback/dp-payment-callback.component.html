@@ -4,7 +4,12 @@
   <!-- BUTTON SECTION -->
   <div class="cx-checkout-btns row">
     <div class="col-md-12 col-lg-6">
-      <button class="btn btn-block btn-primary" (click)="next()" type="submit">
+      <button class="btn btn-block btn-secondary" (click)="next(true)">
+        {{ 'dpPaymentForm.backToOptions' | cxTranslate }}
+      </button>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <button class="btn btn-block btn-primary" (click)="next(false)">
         {{ 'common.continue' | cxTranslate }}
       </button>
     </div>

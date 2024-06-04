@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentMethodComponent as CorePaymentMethodComponent,
@@ -30,6 +30,7 @@ import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 })
 export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
   showCallbackScreen = false;
+  protected router = inject(Router);
 
   isDpCallback(): boolean {
     const queryParams = this.activatedRoute.snapshot.queryParamMap.get(
@@ -46,6 +47,19 @@ export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
   paymentDetailsAdded(paymentDetails: PaymentDetails) {
     this.savePaymentMethod(paymentDetails);
     this.next();
+  }
+
+  paymentDetailsAddedAndGotBack(paymentDetails: PaymentDetails) {
+    this.savePaymentMethod(paymentDetails);
+    this.userPaymentService.loadPaymentMethods();
+    let queryParams = { ...this.activatedRoute.snapshot.queryParams };
+    delete queryParams[DP_CARD_REGISTRATION_STATUS];
+    this.hideCallbackScreen();
+    this.router.navigate([], {
+      queryParams,
+      relativeTo: this.activatedRoute,
+    });
+
   }
 
   // TODO:#checkout - handle breaking changes
