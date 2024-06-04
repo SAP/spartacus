@@ -42,6 +42,7 @@ export namespace Configurator {
     key?: string;
     validationType?: string;
     visible?: boolean;
+    state?: string;
   }
 
   export interface Value {
@@ -68,6 +69,7 @@ export namespace Configurator {
     complete?: boolean;
     consistent?: boolean;
     subGroups: Group[];
+    state?: string;
   }
 
   export interface ValueSupplement {
@@ -105,6 +107,7 @@ export namespace Configurator {
     hideBasePriceAndSelectedOptions?: boolean;
     immediateConflictResolution?: boolean;
     newConfiguration?: boolean;
+    includesPrices?: boolean;
   }
 
   export interface ConfigurationWithOverview extends Configuration {

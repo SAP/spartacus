@@ -62,14 +62,8 @@ export class OccConfiguratorVariantNormalizer
     source: OccConfigurator.Group,
     groupList: Configurator.Group[],
     flatGroupList: Configurator.Group[]
-  ) {
+  ): Configurator.Group {
     const attributes: Configurator.Attribute[] = [];
-    if (source.attributes) {
-      source.attributes.forEach((sourceAttribute) =>
-        this.convertAttribute(sourceAttribute, attributes)
-      );
-    }
-
     const group: Configurator.Group = {
       description: source.description,
       configurable: source.configurable,
@@ -78,17 +72,30 @@ export class OccConfiguratorVariantNormalizer
       groupType: this.convertGroupType(source.groupType),
       name: source.name,
       id: source.id,
-      attributes: attributes,
       subGroups: [],
     };
 
     this.setGroupDescription(group);
 
+    group.state = JSON.stringify(group);
+
     if (source.subGroups) {
-      source.subGroups.forEach((sourceSubGroup) =>
-        this.convertGroup(sourceSubGroup, group.subGroups, flatGroupList)
+      source.subGroups.forEach((sourceSubGroup) => {
+        let subGroup = this.convertGroup(
+          sourceSubGroup,
+          group.subGroups,
+          flatGroupList
+        );
+        group.state += subGroup.state ?? '';
+      });
+    }
+
+    if (source.attributes) {
+      source.attributes.forEach((sourceAttribute) =>
+        this.convertAttribute(sourceAttribute, attributes)
       );
     }
+    group.attributes = attributes;
 
     if (
       group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP ||
@@ -96,8 +103,8 @@ export class OccConfiguratorVariantNormalizer
     ) {
       flatGroupList.push(group);
     }
-
     groupList.push(group);
+    return group;
   }
 
   getGroupId(key: string, name: string): string {
@@ -158,12 +165,15 @@ export class OccConfiguratorVariantNormalizer
       validationType: sourceAttribute.validationType,
       visible: sourceAttribute.visible,
       description: sourceAttribute.longText,
+      //timestamp: Date.now(),
     };
 
     this.setSelectedSingleValue(attribute);
 
     //Has to be called after setSelectedSingleValue because it depends on the value of this property
     this.compileAttributeIncomplete(attribute);
+
+    attribute.state = JSON.stringify(attribute);
     attributeList.push(attribute);
   }
 

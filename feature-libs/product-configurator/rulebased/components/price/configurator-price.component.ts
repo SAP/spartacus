@@ -4,10 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { useFeatureStyles } from '@spartacus/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '../../core/model/configurator.model';
+import { Subscription, filter, switchMap } from 'rxjs';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 
 export interface ConfiguratorPriceComponentOptions {
   quantity?: number;
@@ -21,10 +31,16 @@ export interface ConfiguratorPriceComponentOptions {
   templateUrl: './configurator-price.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorPriceComponent {
+export class ConfiguratorPriceComponent implements OnInit, OnDestroy {
   @Input() formula: ConfiguratorPriceComponentOptions;
+  subscription: Subscription;
 
-  constructor(protected directionService: DirectionService) {
+  constructor(
+    protected directionService: DirectionService,
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+    protected cdr: ChangeDetectorRef
+  ) {
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
@@ -164,5 +180,32 @@ export class ConfiguratorPriceComponent {
     }
 
     return styleClass;
+  }
+
+  ngOnInit() {
+    this.cdr.detach();
+    this.subscription = this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) => {
+          return this.configuratorCommonsService.getConfiguration(
+            routerData.owner
+          );
+        })
+      )
+      .pipe(filter((config) => config.includesPrices === true))
+      .subscribe(() => {
+        // this is a dummy change, actually we would try to find the correct price data using the attribute and value key (which would need to passed in from parent instead of formula)
+        this.formula.price = {
+          value: 120.0,
+          formattedValue: '$120,00',
+          currencyIso: 'USD',
+        };
+        this.cdr.detectChanges();
+      });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

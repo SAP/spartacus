@@ -7,7 +7,11 @@
   <div
     class="cx-group-attribute"
     [class.cx-hidden]="!attribute.visible"
-    *ngFor="let attribute of group.attributes; let indexOfAttribute = index"
+    *ngFor="
+      let attribute of group.attributes;
+      let indexOfAttribute = index;
+      trackBy: trackByFn
+    "
   >
     <ng-container *ngIf="isConflictGroupType(group.groupType)">
       <cx-configurator-conflict-suggestion

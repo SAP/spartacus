@@ -683,4 +683,8 @@ export class ConfiguratorGroupMenuComponent {
   isDialogActive(configuration: Configurator.Configuration): boolean {
     return configuration.interactionState.showConflictSolverDialog ?? false;
   }
+
+  trackByFn(_index: number, group: Configurator.Group) {
+    return group.state;
+  }
 }

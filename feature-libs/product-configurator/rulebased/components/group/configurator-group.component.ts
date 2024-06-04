@@ -18,7 +18,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 @Component({
   selector: 'cx-configurator-group',
   templateUrl: './configurator-group.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ConfiguratorGroupComponent {
   protected readonly typePrefix = 'AttributeType_';
@@ -101,5 +101,9 @@ export class ConfiguratorGroupComponent {
     )
       ? this.typePrefix + attribute.uiTypeVariation
       : this.typePrefix + attribute.uiType;
+  }
+
+  trackByFn(_index: number, attribute: Configurator.Attribute) {
+    return attribute.state;
   }
 }
