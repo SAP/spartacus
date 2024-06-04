@@ -21,7 +21,6 @@ import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';
 import { CdcJsService } from './service/cdc-js.service';
 import { cdcInterceptors } from './http-interceptors';
-//import { CdcCmsPageGuard } from './guards';
 
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
@@ -56,18 +55,12 @@ export function defaultCdcComponentsConfig(): CmsConfig {
     ...cdcInterceptors,
     provideDefaultConfigFactory(defaultCdcComponentsConfig),
     { provide: LogoutGuard, useExisting: CdcLogoutGuard },
-   // { provide: AuthGuard, useExisting: CdcAuthGuard },
     {
       provide: APP_INITIALIZER,
       useFactory: cdcJsFactory,
       deps: [CdcJsService, ConfigInitializerService],
       multi: true,
     },
-    // {
-    //   provide: BEFORE_CMS_PAGE_GUARD,
-    //   useClass: CdcCmsPageGuard,
-    //   multi: true,
-    // },
     provideDefaultConfig(defaultCdcRoutingConfig),
   ],
 })
