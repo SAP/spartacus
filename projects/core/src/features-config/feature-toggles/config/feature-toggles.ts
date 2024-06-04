@@ -246,12 +246,6 @@ export interface FeatureTogglesInterface {
   a11yEmptyWishlistHeading?: boolean;
 
   /**
-   * In `ConfiguratorOverviewFilterComponent` it hides `My Selections` filter option on the overview page in case
-   * the current product is a variant in the display only view.
-   */
-  productConfiguratorHideMySelectionsFilterOptions?: boolean;
-
-  /**
    * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
    * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
    * `LoginRegisterComponent`, `ConfigureProductComponent`
@@ -300,6 +294,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
   a11yEmptyWishlistHeading: false,
-  productConfiguratorHideMySelectionsFilterOptions: false,
   a11yUseButtonsForBtnLinks: false,
 };

@@ -1,19 +1,13 @@
 import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  I18nTestingModule,
-  Product,
-  ProductService,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -78,20 +72,6 @@ class MockConfiguratorStorefrontUtilsService {
   getVerticallyScrolledPixels(): void {}
 }
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(ConfigurationTestData.mockRouterState);
-  }
-
-  go = () => Promise.resolve(true);
-}
-
-class MockProductService {
-  get(): Observable<Product> {
-    return EMPTY;
-  }
-}
-
 @Component({
   selector: 'cx-configurator-overview-filter',
   template: '',
@@ -130,14 +110,6 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: MockConfiguratorStorefrontUtilsService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
           },
         ],
       }).compileComponents();

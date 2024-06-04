@@ -19,19 +19,19 @@ context('Product Configuration', () => {
     clickAllowAllFromBanner();
   });
 
-  describe('Support make-to-stock for product variants (CXSPA-5951)', () => {
+  describe('Support Make-to-Stock for Product Variants (CXSPA-5951)', () => {
     describe('support back navigation to the product detail page after clicking Show Details button', () => {
       it('should display a product overview from the catalog', () => {
         configuration.searchForProduct(testProduct);
         configurationVc.clickOnShowDetailsBtn();
-        checkDisplayOnlyOverviewPage();
+        configurationOverview.checkConfigOverviewPageDisplayed();
         configurationOverview.clickCloseBtnOnOP();
       });
 
       it('should display a product overview from the products details page', () => {
         common.goToPDPage(electronicsShop, testProduct);
         configurationVc.clickOnShowDetailsBtn();
-        checkDisplayOnlyOverviewPage();
+        configurationOverview.checkConfigOverviewPageDisplayed();
         configurationOverview.clickCloseBtnOnOP();
       });
     });
@@ -47,7 +47,7 @@ context('Product Configuration', () => {
         configuration.searchForProduct(testProduct);
         common.clickOnAddToCartBtnOnPD();
         common.clickOnConfigurationLink(true);
-        checkDisplayOnlyOverviewPage();
+        configurationOverview.checkConfigOverviewPageDisplayed();
         configurationOverview.clickCloseBtnOnOP(false, true);
       });
 
@@ -55,7 +55,7 @@ context('Product Configuration', () => {
         common.goToPDPage(electronicsShop, testProduct);
         common.clickOnAddToCartBtnOnPD();
         common.clickOnConfigurationLink(true);
-        checkDisplayOnlyOverviewPage();
+        configurationOverview.checkConfigOverviewPageDisplayed();
         configurationOverview.clickCloseBtnOnOP(false, true);
       });
 
@@ -65,7 +65,7 @@ context('Product Configuration', () => {
         common.clickOnViewCartBtnOnPD();
         cart.verifyCartNotEmpty();
         configurationCart.clickOnDisplayConfigurationLink(0);
-        checkDisplayOnlyOverviewPage();
+        configurationOverview.checkConfigOverviewPageDisplayed();
         configurationOverview.clickCloseBtnOnOP(false, true);
       });
     });
@@ -77,13 +77,3 @@ context('Product Configuration', () => {
     });
   });
 });
-
-function checkDisplayOnlyOverviewPage() {
-  configurationOverview.checkConfigOverviewPageDisplayed();
-  configurationOverviewVc.checkSidebarDisplayed();
-  configurationOverviewVc.checkMenuDisplayed();
-  configurationOverviewVc.toggleSidebar();
-  configurationOverviewVc.checkFilterDisplayed();
-  configurationOverviewVc.checkPriceFilterOptionDisplayed();
-  configurationOverviewVc.checkMySelectionsFilterOptionNotDisplayed();
-}

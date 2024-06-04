@@ -2,16 +2,8 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  Config,
-  I18nTestingModule,
-  Product,
-  ProductService,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -26,51 +18,17 @@ const configId = '1234-56-7890';
 let component: ConfiguratorOverviewFilterComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterComponent>;
 let htmlElem: HTMLElement;
-let config: Config;
 
 let mockConfigCommonsService: ConfiguratorCommonsService;
-let overview: Configurator.ConfigurationWithOverview;
-const PRODUCT_CODE = 'CONF_LAPTOP';
-const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
-const mockRouterState: any = {
-  state: {
-    params: {
-      entityKey: PRODUCT_CODE,
-      ownerType: CommonConfigurator.OwnerType.PRODUCT,
-    },
-    queryParams: {},
-    semanticRoute: CONFIGURATOR_ROUTE,
-  },
-};
 
-let routerStateObservable: any = null;
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-
-  go = () => Promise.resolve(true);
-}
-
-let product: Product;
-
-class MockProductService {
-  get(): Observable<Product> {
-    return of(product);
-  }
-}
-
-class MockConfig {
-  features = [{ productConfiguratorHideMySelectionsFilterOptions: false }];
-}
+let ovConfig: Configurator.ConfigurationWithOverview;
 
 function initTestData() {
-  overview = structuredClone({
+  ovConfig = structuredClone({
     ...ConfiguratorTestUtils.createConfiguration(configId, owner),
     overview: ConfigurationTestData.productConfiguration.overview,
   });
-  overview.overview.possibleGroups = structuredClone(overview.overview.groups);
+  ovConfig.overview.possibleGroups = structuredClone(ovConfig.overview.groups);
 }
 
 function initMocks() {
@@ -83,14 +41,9 @@ function initTestComponent() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFilterComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
-  component.config = overview;
+  component.config = ovConfig;
   component.ngOnChanges();
-  product = undefined;
   fixture.detectChanges();
-
-  config = TestBed.inject(Config);
-  (config.features ?? {}).productConfiguratorHideMySelectionsFilterOptions =
-    false;
 }
 
 @Component({
@@ -102,73 +55,34 @@ class MockConfiguratorOverviewFilterBarComponent {
 }
 
 describe('ConfiguratorOverviewFilterComponent', () => {
-  function configureTestingModule(): TestBed {
-    mockRouterState.state.params.displayOnly = false;
-    routerStateObservable = of(mockRouterState);
-
-    return TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [
-        ConfiguratorOverviewFilterComponent,
-        MockConfiguratorOverviewFilterBarComponent,
-      ],
-      providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useValue: mockConfigCommonsService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
-        { provide: Config, useClass: MockConfig },
-      ],
-    });
-  }
-
-  beforeEach(
-    waitForAsync(() => {
-      initTestData();
-      initMocks();
-      configureTestingModule().compileComponents();
-      initTestComponent();
-    })
-  );
-
   describe('in a component test environment', () => {
+    beforeEach(
+      waitForAsync(() => {
+        initTestData();
+        initMocks();
+        TestBed.configureTestingModule({
+          imports: [I18nTestingModule, ReactiveFormsModule],
+          declarations: [
+            ConfiguratorOverviewFilterComponent,
+            MockConfiguratorOverviewFilterBarComponent,
+          ],
+          providers: [
+            {
+              provide: ConfiguratorCommonsService,
+              useValue: mockConfigCommonsService,
+            },
+          ],
+        }).compileComponents();
+      })
+    );
+
     it('should create component', () => {
+      initTestComponent();
       expect(component).toBeDefined();
     });
 
-    it('should not render `My Selections` filter option in case `productConfiguratorHideMySelectionsFilterOptions` feature flag is enabled', () => {
-      mockRouterState.state.params.displayOnly = true;
-      mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
-      product = {
-        baseProduct: 'BASE' + PRODUCT_CODE,
-      };
-      (config.features ?? {}).productConfiguratorHideMySelectionsFilterOptions =
-        true;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '#cx-configurator-overview-filter-option-mySelections'
-      );
-    });
-
-    it('should render `My Selections` filter option in case `productConfiguratorHideMySelectionsFilterOptions` feature flag is disabled', () => {
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '#cx-configurator-overview-filter-option-mySelections'
-      );
-    });
-
     it('should render filter options', () => {
+      initTestComponent();
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
@@ -178,6 +92,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should render both filter headers', () => {
+      initTestComponent();
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
@@ -187,8 +102,9 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should render always default options', () => {
-      overview.overview.possibleGroups = [];
-      fixture.detectChanges();
+      ovConfig.overview.possibleGroups = [];
+      initTestComponent();
+
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
@@ -198,6 +114,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should render filter bar by default', () => {
+      initTestComponent();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -206,6 +123,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should hide filter bar if requested', () => {
+      initTestComponent();
       component.showFilterBar = false;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -216,6 +134,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should update overview on change of filter option', () => {
+      initTestComponent();
       fixture.debugElement
         .queryAll(By.css('.cx-overview-filter-option input'))
         .forEach((element) => {
@@ -229,6 +148,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
 
     describe('to support A11Y', () => {
       it('price filter label should be linked to checkbox', () => {
+        initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -239,6 +159,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('price filter label should have a11y text', () => {
+        initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -249,6 +170,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('my selections filter label should be linked to checkbox', () => {
+        initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -260,6 +182,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('my selections filter label should have a11y text', () => {
+        initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -270,6 +193,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('group filter label should be linked to checkbox', () => {
+        initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -281,6 +205,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('group filter label should have a11y text', () => {
+        initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -293,36 +218,45 @@ describe('ConfiguratorOverviewFilterComponent', () => {
   });
 
   describe('in a unit test environment', () => {
+    beforeEach(() => {
+      initTestData();
+      initMocks();
+      component = new ConfiguratorOverviewFilterComponent(
+        mockConfigCommonsService
+      );
+      component.config = ovConfig;
+    });
+
     it('extractAttrFilterState should extract attribute filters state', () => {
-      overview.overview.attributeFilters = [
+      ovConfig.overview.attributeFilters = [
         Configurator.OverviewFilter.PRICE_RELEVANT,
       ];
-      component['extractAttrFilterState'](overview);
+      component['extractAttrFilterState'](ovConfig);
       expect(component.priceFilter.value).toBeTruthy();
       expect(component.mySelectionsFilter.value).toBeFalsy();
     });
 
     describe('extractGroupFilterState', () => {
       it('should extract group filters state when all groups are selected', () => {
-        overview.overview.groupFilters = ['1', '2'];
-        component['extractGroupFilterState'](overview);
+        ovConfig.overview.groupFilters = ['1', '2'];
+        component['extractGroupFilterState'](ovConfig);
         expect(component.groupFilters.length).toBe(2);
         expect(component.groupFilters[0].value).toBeTruthy();
         expect(component.groupFilters[1].value).toBeTruthy();
       });
 
       it('should extract group filters state when no group is available', () => {
-        overview.overview.possibleGroups = [];
-        component['extractGroupFilterState'](overview);
+        ovConfig.overview.possibleGroups = [];
+        component['extractGroupFilterState'](ovConfig);
         expect(component.groupFilters.length).toBe(0);
       });
     });
 
     it('ngOnChanges should extract filters state', () => {
-      overview.overview.attributeFilters = [
+      ovConfig.overview.attributeFilters = [
         Configurator.OverviewFilter.USER_INPUT,
       ];
-      overview.overview.groupFilters = ['1'];
+      ovConfig.overview.groupFilters = ['1'];
       component.ngOnChanges();
       expect(component.priceFilter.value).toBeFalsy();
       expect(component.mySelectionsFilter.value).toBeTruthy();
@@ -350,7 +284,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
 
     describe('collectGroupFilters', () => {
       it('should collect group filters when nothing selected', () => {
-        let groupFilters = component['collectGroupFilters'](overview.overview);
+        let groupFilters = component['collectGroupFilters'](ovConfig.overview);
         expect(groupFilters).toEqual([]);
       });
 
@@ -359,7 +293,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           new UntypedFormControl(false),
           new UntypedFormControl(true),
         ];
-        let groupFilters = component['collectGroupFilters'](overview.overview);
+        let groupFilters = component['collectGroupFilters'](ovConfig.overview);
         expect(groupFilters).toEqual(['2']);
       });
     });
@@ -370,67 +304,36 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         new UntypedFormControl(false),
         new UntypedFormControl(true),
       ];
-      component.onFilter(overview);
+      component.onFilter(ovConfig);
       expect(
         mockConfigCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledWith({
-        ...overview,
+        ...ovConfig,
         overview: {
-          configId: overview.configId,
-          productCode: overview.productCode,
+          configId: ovConfig.configId,
+          productCode: ovConfig.productCode,
           attributeFilters: [Configurator.OverviewFilter.USER_INPUT],
           groupFilters: ['2'],
-          possibleGroups: overview.overview.possibleGroups,
+          possibleGroups: ovConfig.overview.possibleGroups,
         },
       });
     });
 
     it('createInputConfig should create input config', () => {
       let inputConfig = component['createInputConfig'](
-        overview,
+        ovConfig,
         [Configurator.OverviewFilter.PRICE_RELEVANT],
         ['3', '5']
       );
       expect(inputConfig).toEqual({
-        ...overview,
+        ...ovConfig,
         overview: {
-          configId: overview.configId,
-          productCode: overview.productCode,
+          configId: ovConfig.configId,
+          productCode: ovConfig.productCode,
           attributeFilters: [Configurator.OverviewFilter.PRICE_RELEVANT],
           groupFilters: ['3', '5'],
-          possibleGroups: overview.overview.possibleGroups,
+          possibleGroups: ovConfig.overview.possibleGroups,
         },
-      });
-    });
-
-    describe('isDisplayOnlyVariant', () => {
-      it('should return `false` in case the product is `undefined`', () => {
-        mockRouterState.state.params.displayOnly = true;
-        mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
-        fixture.detectChanges();
-
-        component
-          .isDisplayOnlyVariant()
-          .subscribe((isDisplayOnlyVariant) => {
-            expect(isDisplayOnlyVariant).toBe(false);
-          })
-          .unsubscribe();
-      });
-
-      it('should return `true` in case the product is a variant product in the display only view', () => {
-        mockRouterState.state.params.displayOnly = true;
-        mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
-        product = {
-          baseProduct: 'BASE' + PRODUCT_CODE,
-        };
-        fixture.detectChanges();
-
-        component
-          .isDisplayOnlyVariant()
-          .subscribe((isDisplayOnlyVariant) => {
-            expect(isDisplayOnlyVariant).toBe(true);
-          })
-          .unsubscribe();
       });
     });
   });

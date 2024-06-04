@@ -4,16 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import {
-  Config,
-  ProductScope,
-  ProductService,
-  RoutingService,
-} from '@spartacus/core';
-import { EMPTY, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -22,10 +14,6 @@ import { Configurator } from '../../core/model/configurator.model';
   templateUrl: './configurator-overview-filter.component.html',
 })
 export class ConfiguratorOverviewFilterComponent implements OnChanges {
-  protected productService = inject(ProductService);
-  protected routingService = inject(RoutingService);
-  protected _config = inject(Config);
-
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {}
@@ -45,7 +33,7 @@ export class ConfiguratorOverviewFilterComponent implements OnChanges {
   /**
    * Updates the overview based on the filters currently selected in the UI
    *
-   * @param config - current configuration with overview data
+   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
    */
   onFilter(config: Configurator.ConfigurationWithOverview) {
     const inputConfig = this.createInputConfig(
@@ -54,35 +42,6 @@ export class ConfiguratorOverviewFilterComponent implements OnChanges {
       this.collectGroupFilters(config.overview)
     );
     this.configuratorCommonsService.updateConfigurationOverview(inputConfig);
-  }
-
-  /**
-   * Verifies whether a product is a variant product in the display only view.
-   *
-   * @returns - if `baseProduct` property of the current product is defined
-   * and provides the product code of the base product,
-   * and the current product is in the display only view
-   * then returns `true`, otherwise `false`.
-   */
-  isDisplayOnlyVariant(): Observable<boolean> {
-    return this.routingService
-      .getRouterState()
-      .pipe(
-        filter((routerState) => routerState.state.params.displayOnly),
-        switchMap((routerState) => {
-          return routerState.state.queryParams.productCode
-            ? this.productService.get(
-                routerState.state.queryParams.productCode,
-                ProductScope.LIST
-              )
-            : EMPTY;
-        })
-      )
-      .pipe(
-        map((product) => {
-          return (product && !!product.baseProduct) ?? false;
-        })
-      );
   }
 
   protected extractGroupFilterState(
