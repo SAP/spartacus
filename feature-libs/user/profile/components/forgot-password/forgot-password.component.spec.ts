@@ -14,7 +14,6 @@ import { BehaviorSubject } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import createSpy = jasmine.createSpy;
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 const isBusySubject = new BehaviorSubject(false);
 class MockForgotPasswordService

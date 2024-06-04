@@ -21,7 +21,6 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { BehaviorSubject } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import createSpy = jasmine.createSpy;
 
 @Component({
