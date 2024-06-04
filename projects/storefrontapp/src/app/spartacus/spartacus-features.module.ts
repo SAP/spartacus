@@ -310,6 +310,7 @@ if (environment.estimatedDeliveryDate) {
         a11yCloseProductImageBtnFocus: true,
         descriptiveErrorMessages: false,
         a11yEmptyWishlistHeading: true,
+        a11yUseButtonsForBtnLinks: true,
       };
       return appFeatureToggles;
     }),

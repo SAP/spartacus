@@ -7,13 +7,14 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import createSpy = jasmine.createSpy;
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 const isBusySubject = new BehaviorSubject(false);
 class MockForgotPasswordService
@@ -33,11 +34,16 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
+}
+
 describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
   let fixture: ComponentFixture<ForgotPasswordComponent>;
   let el: DebugElement;
   let service: ForgotPasswordComponentService;
+  let routingService: RoutingService;
 
   beforeEach(
     waitForAsync(() => {
@@ -59,6 +65,10 @@ describe('ForgotPasswordComponent', () => {
             provide: ForgotPasswordComponentService,
             useClass: MockForgotPasswordService,
           },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
         ],
       }).compileComponents();
     })
@@ -67,6 +77,7 @@ describe('ForgotPasswordComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);
     service = TestBed.inject(ForgotPasswordComponentService);
+    routingService = TestBed.inject(RoutingService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -81,7 +92,7 @@ describe('ForgotPasswordComponent', () => {
       component.form.disable();
       fixture.detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
-        By.css('button')
+        By.css('button.btn-primary')
       ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });
@@ -119,6 +130,13 @@ describe('ForgotPasswordComponent', () => {
     it('should call the service method on submit', () => {
       component.onSubmit();
       expect(service.requestEmail).toHaveBeenCalled();
+    });
+
+    it('should navigate to login on cancel', () => {
+      spyOn(routingService, 'go');
+      const cancelBtn = el.query(By.css('button.btn-secondary'));
+      cancelBtn.triggerEventHandler('click');
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     });
   });
 });
