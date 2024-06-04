@@ -27,7 +27,7 @@ export class DpPaymentCallbackComponent implements OnInit {
   @Output()
   paymentDetailsAdded = new EventEmitter<any>();
   @Output()
-  paymentDetailsAddedAndGoBack = new EventEmitter<any>();
+  paymentDetailsAddedAndGotBack = new EventEmitter<any>();
   protected featureConfig = inject(FeatureConfigService);
   protected billingAddressService = inject(CheckoutBillingAddressFormService);
   showBillingAddressForm = false;
@@ -87,7 +87,7 @@ export class DpPaymentCallbackComponent implements OnInit {
         .subscribe((details) => {
           if (details?.id) {
             if (showCardsList) {
-              this.paymentDetailsAddedAndGoBack.emit(details);
+              this.paymentDetailsAddedAndGotBack.emit(details);
             } else {
               this.paymentDetailsAdded.emit(details);
             }

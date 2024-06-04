@@ -276,14 +276,15 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       );
     });
     describe('checking 2 buttons on billing address form', () => {
-      beforeEach(()=>{
+      beforeEach(() => {
         spyOn(
           billingAddressService,
           'isBillingAddressSameAsDeliveryAddress'
         ).and.returnValue(true);
-        spyOn(billingAddressService, 'isBillingAddressFormValid').and.returnValue(
-          true
-        );
+        spyOn(
+          billingAddressService,
+          'isBillingAddressFormValid'
+        ).and.returnValue(true);
         spyOn(billingAddressService, 'getBillingAddress').and.returnValue({});
       });
       it('should add payment details when `continue` is clicked', async () => {
@@ -291,9 +292,9 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         expect(component.paymentDetailsAdded.emit).toHaveBeenCalled();
       });
       it('should add payment details and go back when `save and back` is clicked', async () => {
-        spyOn(component.paymentDetailsAddedAndGoBack, 'emit').and.callThrough();
+        spyOn(component.paymentDetailsAddedAndGotBack, 'emit').and.callThrough();
         component.next(true);
-        expect(component.paymentDetailsAddedAndGoBack.emit).toHaveBeenCalled();
+        expect(component.paymentDetailsAddedAndGotBack.emit).toHaveBeenCalled();
       });
     });
 

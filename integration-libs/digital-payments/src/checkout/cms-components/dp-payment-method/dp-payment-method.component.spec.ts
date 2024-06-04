@@ -88,8 +88,8 @@ class MockActiveCartService {
   }
 }
 
-class MockRouter{
-  navigate(_commands: any[], _extras?: any){}
+class MockRouter {
+  navigate(_commands: any[], _extras?: any) {}
 }
 
 describe('DpPaymentMethodComponent', () => {
@@ -128,8 +128,8 @@ describe('DpPaymentMethodComponent', () => {
         },
         {
           provide: Router,
-          useClass: MockRouter
-        }
+          useClass: MockRouter,
+        },
       ],
     }).compileComponents();
   });
@@ -158,7 +158,7 @@ describe('DpPaymentMethodComponent', () => {
   it('should call paymentDetailsAddedAndGotBack', () => {
     spyOn<any>(component, 'savePaymentMethod').and.callThrough();
     spyOn(component, 'hideCallbackScreen').and.callThrough();
-    spyOn(router,'navigate').and.callThrough();
+    spyOn(router, 'navigate').and.callThrough();
     component.paymentDetailsAddedAndGotBack(mockPaymentDetails);
     expect(component['savePaymentMethod']).toHaveBeenCalledWith(
       mockPaymentDetails

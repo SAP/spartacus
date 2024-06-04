@@ -59,7 +59,6 @@ export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
       queryParams,
       relativeTo: this.activatedRoute,
     });
-
   }
 
   // TODO:#checkout - handle breaking changes
