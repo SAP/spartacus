@@ -244,6 +244,12 @@ export interface FeatureTogglesInterface {
    * Empty wishlist notification will be displayed in a paragraph instead of a heading.
    */
   a11yEmptyWishlistHeading?: boolean;
+
+  /**
+   * Removes the `tabindex` attribute from the `StorefrontComponent`.
+   * This helps to reduce the screen reader bloat.
+   */
+  a11yScreenReaderBloatFix?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -287,4 +293,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
   a11yEmptyWishlistHeading: false,
+  a11yScreenReaderBloatFix: false,
 };

@@ -11,9 +11,11 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
+  Optional,
   ViewChild,
+  inject,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { FeatureConfigService, RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   FocusConfig,
@@ -33,9 +35,21 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   readonly StorefrontOutlets = StorefrontOutlets;
 
+  @Optional() featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
   @HostBinding('attr.role') role = 'presentation';
+
+  // TODO: (CXSPA-7464) - Remove feature flag and following binding next major release.
+  // required by esc focus
+  @HostBinding('tabindex') tabindex = this?.featureConfigService?.isEnabled(
+    'a11yScreenReaderBloatFix'
+  )
+    ? '-1'
+    : '0';
 
   @ViewChild(SkipLinkComponent) child: SkipLinkComponent;
 
