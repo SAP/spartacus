@@ -7,34 +7,58 @@
     <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
       <label class="cx-cart-coupon-title">
         {{ 'voucher.coupon' | cxTranslate }}
-        <abbr
-          *cxFeature="'a11yRequiredAsterisks'"
-          class="text-decoration-none"
-          title="{{ 'common.required' | cxTranslate }}"
-          >*</abbr
-        >
+        <ng-container *cxFeature="'!a11yDisabledButtonInsteadOfRequiredFields'">
+          <abbr
+            *cxFeature="'a11yRequiredAsterisks'"
+            class="text-decoration-none"
+            title="{{ 'common.required' | cxTranslate }}"
+            >*</abbr
+          >
+        </ng-container>
       </label>
 
       <div class="cx-cart-coupon-container">
-        <input
-          [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
-          required="true"
-          type="text"
-          class="form-control input-coupon-code"
-          formControlName="couponCode"
-          placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
-        />
-        <button
-          class="btn btn-block btn-secondary apply-coupon-button"
-          type="submit"
-          [disabled]="cartIsLoading$ | async"
-          [class.disabled]="cartIsLoading$ | async"
-        >
-          {{ 'voucher.apply' | cxTranslate }}
-        </button>
-        <cx-form-errors
-          [control]="couponForm.get('couponCode')"
-        ></cx-form-errors>
+        <ng-container *cxFeature="'a11yDisabledButtonInsteadOfRequiredFields'">
+          <input
+            [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
+            type="text"
+            class="form-control input-coupon-code"
+            formControlName="couponCode"
+            placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
+          />
+          <button
+            class="btn btn-block btn-secondary apply-coupon-button"
+            type="submit"
+            [disabled]="
+              (cartIsLoading$ | async) || !couponForm?.get('couponCode')?.value
+            "
+            [class.disabled]="cartIsLoading$ | async"
+          >
+            {{ 'voucher.apply' | cxTranslate }}
+          </button>
+        </ng-container>
+
+        <ng-container *cxFeature="'!a11yDisabledButtonInsteadOfRequiredFields'">
+          <input
+            [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
+            required="true"
+            type="text"
+            class="form-control input-coupon-code"
+            formControlName="couponCode"
+            placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
+          />
+          <button
+            class="btn btn-block btn-secondary apply-coupon-button"
+            type="submit"
+            [disabled]="cartIsLoading$ | async"
+            [class.disabled]="cartIsLoading$ | async"
+          >
+            {{ 'voucher.apply' | cxTranslate }}
+          </button>
+          <cx-form-errors
+            [control]="couponForm.get('couponCode')"
+          ></cx-form-errors>
+        </ng-container>
       </div>
     </form>
   </div>

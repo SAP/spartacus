@@ -251,6 +251,13 @@ export interface FeatureTogglesInterface {
    * `LoginRegisterComponent`, `ConfigureProductComponent`
    */
   a11yUseButtonsForBtnLinks?: boolean;
+
+  /**
+   * When enabled disable "Apply" button in promo code component in cart for empty input,
+   * disable "Add" button in quick order component when input is empty and remove
+   * required validators for both inputs
+   */
+  a11yDisabledButtonInsteadOfRequiredFields?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -295,4 +302,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCloseProductImageBtnFocus: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yDisabledButtonInsteadOfRequiredFields: false,
 };
