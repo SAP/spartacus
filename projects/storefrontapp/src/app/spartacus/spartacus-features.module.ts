@@ -311,6 +311,7 @@ if (environment.estimatedDeliveryDate) {
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
         a11yEmptyWishlistHeading: true,
+        a11yUseButtonsForBtnLinks: true,
       };
       return appFeatureToggles;
     }),
