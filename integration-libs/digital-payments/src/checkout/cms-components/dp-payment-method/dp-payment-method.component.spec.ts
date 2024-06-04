@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ActivatedRoute,
   convertToParamMap,
+  Router,
   RouterModule,
 } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -87,9 +88,14 @@ class MockActiveCartService {
   }
 }
 
+class MockRouter{
+  navigate(_commands: any[], _extras?: any){}
+}
+
 describe('DpPaymentMethodComponent', () => {
   let component: DpPaymentMethodComponent;
   let fixture: ComponentFixture<DpPaymentMethodComponent>;
+  let router: Router;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DpPaymentMethodComponent],
@@ -120,10 +126,15 @@ describe('DpPaymentMethodComponent', () => {
           provide: ActivatedRoute,
           useValue: mockActivatedRoute,
         },
+        {
+          provide: Router,
+          useClass: MockRouter
+        }
       ],
     }).compileComponents();
   });
   beforeEach(() => {
+    router = TestBed.inject(Router);
     fixture = TestBed.createComponent(DpPaymentMethodComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -143,6 +154,17 @@ describe('DpPaymentMethodComponent', () => {
       mockPaymentDetails
     );
     expect(component.next).toHaveBeenCalled();
+  });
+  it('should call paymentDetailsAddedAndGotBack', () => {
+    spyOn<any>(component, 'savePaymentMethod').and.callThrough();
+    spyOn(component, 'hideCallbackScreen').and.callThrough();
+    spyOn(router,'navigate').and.callThrough();
+    component.paymentDetailsAddedAndGotBack(mockPaymentDetails);
+    expect(component['savePaymentMethod']).toHaveBeenCalledWith(
+      mockPaymentDetails
+    );
+    expect(component.hideCallbackScreen).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalled();
   });
   it('should call hideCallbackScreen', () => {
     component.hideCallbackScreen();

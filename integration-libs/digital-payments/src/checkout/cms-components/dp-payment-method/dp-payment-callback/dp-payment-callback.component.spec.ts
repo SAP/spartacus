@@ -275,6 +275,28 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         undefined
       );
     });
+    describe('checking 2 buttons on billing address form', () => {
+      beforeEach(()=>{
+        spyOn(
+          billingAddressService,
+          'isBillingAddressSameAsDeliveryAddress'
+        ).and.returnValue(true);
+        spyOn(billingAddressService, 'isBillingAddressFormValid').and.returnValue(
+          true
+        );
+        spyOn(billingAddressService, 'getBillingAddress').and.returnValue({});
+      });
+      it('should add payment details when `continue` is clicked', async () => {
+        component.next(false);
+        expect(component.paymentDetailsAdded.emit).toHaveBeenCalled();
+      });
+      it('should add payment details and go back when `save and back` is clicked', async () => {
+        spyOn(component.paymentDetailsAddedAndGoBack, 'emit').and.callThrough();
+        component.next(true);
+        expect(component.paymentDetailsAddedAndGoBack.emit).toHaveBeenCalled();
+      });
+    });
+
     it('should send billing address if form is valid/billing address same as delivery address', () => {
       spyOn(
         billingAddressService,
@@ -284,7 +306,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         true
       );
       spyOn(billingAddressService, 'getBillingAddress').and.returnValue({});
-      component.next();
+      component.next(false);
       expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
         mockSessionId,
@@ -300,7 +322,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       spyOn(billingAddressService, 'isBillingAddressFormValid').and.returnValue(
         false
       );
-      component.next();
+      component.next(false);
       expect(dpStorageService.readCardRegistrationState).not.toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).not.toHaveBeenCalled();
     });
