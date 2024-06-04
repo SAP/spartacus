@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-opps/index#addOppsFeature",
+      "description": "Add and configure Spartacus' OPPS feature",
+      "schema": "./add-opps/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-opps/index#addOppsFeature",
+      "description": "Add and configure Spartacus' OPPS feature",
+      "schema": "./add-opps/schema.json"
+    }
+  }
+}

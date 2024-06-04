@@ -55,6 +55,13 @@
     width: 330px;
     z-index: 20;
 
+    // TODO: (CXSPA-6003) Remove feature flags next major
+    @include forFeature('a11yTruncatedTextForResponsiveView') {
+      @include media-breakpoint-only(xs) {
+        width: 95%;
+      }
+    }
+
     .quick-order-results-products {
       list-style: none;
       margin: 0px;

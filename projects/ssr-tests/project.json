@@ -1,0 +1,22 @@
+{
+  "name": "ssr-tests",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "projects/ssr-tests/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": ["projects/ssr-tests/**/*.ts"]
+      }
+    },
+    "test-jest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test --verbose",
+        "cwd": "projects/ssr-tests"
+      }
+    }
+  },
+  "tags": ["type:util"]
+}
