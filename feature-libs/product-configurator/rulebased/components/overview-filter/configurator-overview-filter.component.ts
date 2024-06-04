@@ -6,14 +6,9 @@
 
 import { Component, inject, Input, OnChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import {
-  Config,
-  ProductScope,
-  ProductService,
-  RoutingService,
-} from '@spartacus/core';
+import { ProductScope, ProductService, RoutingService } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -24,7 +19,6 @@ import { Configurator } from '../../core/model/configurator.model';
 export class ConfiguratorOverviewFilterComponent implements OnChanges {
   protected productService = inject(ProductService);
   protected routingService = inject(RoutingService);
-  protected _config = inject(Config);
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService
@@ -65,24 +59,20 @@ export class ConfiguratorOverviewFilterComponent implements OnChanges {
    * then returns `true`, otherwise `false`.
    */
   isDisplayOnlyVariant(): Observable<boolean> {
-    return this.routingService
-      .getRouterState()
-      .pipe(
-        filter((routerState) => routerState.state.params.displayOnly),
-        switchMap((routerState) => {
-          return routerState.state.queryParams.productCode
-            ? this.productService.get(
-                routerState.state.queryParams.productCode,
-                ProductScope.LIST
-              )
-            : EMPTY;
-        })
-      )
-      .pipe(
-        map((product) => {
-          return (product && !!product.baseProduct) ?? false;
-        })
-      );
+    return this.routingService.getRouterState().pipe(
+      switchMap((routerState) => {
+        return routerState.state.params.displayOnly &&
+          routerState.state.queryParams.productCode
+          ? this.productService.get(
+              routerState.state.queryParams.productCode,
+              ProductScope.LIST
+            )
+          : EMPTY;
+      }),
+      map((product) => {
+        return (product && !!product.baseProduct) ?? false;
+      })
+    );
   }
 
   protected extractGroupFilterState(

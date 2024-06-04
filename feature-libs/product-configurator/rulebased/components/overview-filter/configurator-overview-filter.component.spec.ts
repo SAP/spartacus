@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
-  Config,
   I18nTestingModule,
   Product,
   ProductService,
@@ -26,7 +25,6 @@ const configId = '1234-56-7890';
 let component: ConfiguratorOverviewFilterComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterComponent>;
 let htmlElem: HTMLElement;
-let config: Config;
 
 let mockConfigCommonsService: ConfiguratorCommonsService;
 let overview: Configurator.ConfigurationWithOverview;
@@ -50,7 +48,7 @@ class MockRoutingService {
     return routerStateObservable;
   }
 
-  go = () => Promise.resolve(true);
+  go() {}
 }
 
 let product: Product;
@@ -59,10 +57,6 @@ class MockProductService {
   get(): Observable<Product> {
     return of(product);
   }
-}
-
-class MockConfig {
-  features = [{ productConfiguratorHideMySelectionsFilterOptions: false }];
 }
 
 function initTestData() {
@@ -87,10 +81,6 @@ function initTestComponent() {
   component.ngOnChanges();
   product = undefined;
   fixture.detectChanges();
-
-  config = TestBed.inject(Config);
-  (config.features ?? {}).productConfiguratorHideMySelectionsFilterOptions =
-    false;
 }
 
 @Component({
@@ -125,7 +115,6 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
-        { provide: Config, useClass: MockConfig },
       ],
     });
   }
@@ -142,30 +131,6 @@ describe('ConfiguratorOverviewFilterComponent', () => {
   describe('in a component test environment', () => {
     it('should create component', () => {
       expect(component).toBeDefined();
-    });
-
-    it('should not render `My Selections` filter option in case `productConfiguratorHideMySelectionsFilterOptions` feature flag is enabled', () => {
-      mockRouterState.state.params.displayOnly = true;
-      mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
-      product = {
-        baseProduct: 'BASE' + PRODUCT_CODE,
-      };
-      (config.features ?? {}).productConfiguratorHideMySelectionsFilterOptions =
-        true;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '#cx-configurator-overview-filter-option-mySelections'
-      );
-    });
-
-    it('should render `My Selections` filter option in case `productConfiguratorHideMySelectionsFilterOptions` feature flag is disabled', () => {
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '#cx-configurator-overview-filter-option-mySelections'
-      );
     });
 
     it('should render filter options', () => {
@@ -186,6 +151,22 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       );
     });
 
+    it('should render one filter header for variant', () => {
+      mockRouterState.state.params.displayOnly = true;
+      mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
+      product = {
+        baseProduct: 'BASE' + PRODUCT_CODE,
+      };
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-overview-filter-header',
+        1
+      );
+    });
+
     it('should render always default options', () => {
       overview.overview.possibleGroups = [];
       fixture.detectChanges();
@@ -194,6 +175,22 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         htmlElem,
         '.cx-overview-filter-option',
         2 //2 default
+      );
+    });
+
+    it('should not render any filter options', () => {
+      mockRouterState.state.params.displayOnly = true;
+      mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
+      product = {
+        baseProduct: 'BASE' + PRODUCT_CODE,
+      };
+      overview.overview.possibleGroups = [];
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-overview-filter-option'
       );
     });
 
