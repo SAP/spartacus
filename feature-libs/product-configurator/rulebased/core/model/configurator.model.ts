@@ -42,7 +42,7 @@ export namespace Configurator {
     key?: string;
     validationType?: string;
     visible?: boolean;
-    state?: string;
+    stateHash?: number;
   }
 
   export interface Value {
@@ -69,7 +69,7 @@ export namespace Configurator {
     complete?: boolean;
     consistent?: boolean;
     subGroups: Group[];
-    state?: string;
+    stateHash?: number;
   }
 
   export interface ValueSupplement {

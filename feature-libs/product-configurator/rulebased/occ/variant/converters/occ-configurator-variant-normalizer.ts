@@ -77,7 +77,7 @@ export class OccConfiguratorVariantNormalizer
 
     this.setGroupDescription(group);
 
-    group.state = JSON.stringify(group);
+    group.stateHash = this.hashCode(JSON.stringify(group));
 
     if (source.subGroups) {
       source.subGroups.forEach((sourceSubGroup) => {
@@ -86,7 +86,9 @@ export class OccConfiguratorVariantNormalizer
           group.subGroups,
           flatGroupList
         );
-        group.state += subGroup.state ?? '';
+        group.stateHash = this.hashCode(
+          group.stateHash?.toString() ?? '' + subGroup.stateHash?.toString()
+        );
       });
     }
 
@@ -172,7 +174,7 @@ export class OccConfiguratorVariantNormalizer
     //Has to be called after setSelectedSingleValue because it depends on the value of this property
     this.compileAttributeIncomplete(attribute);
 
-    attribute.state = JSON.stringify(attribute);
+    attribute.stateHash = this.hashCode(JSON.stringify(attribute));
     attributeList.push(attribute);
   }
 
@@ -560,5 +562,21 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
     }
+  }
+
+  /**
+   * Returns a hash code from a string
+   * @param  {String} stringToHash The string to hash.
+   * @return {Number} A 32bit integer
+   * @see http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+   */
+  hashCode(stringToHash: string): number {
+    let hash = 0;
+    for (let i = 0, len = stringToHash.length; i < len; i++) {
+      let chr = stringToHash.charCodeAt(i);
+      hash = (hash << 5) - hash + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
   }
 }
