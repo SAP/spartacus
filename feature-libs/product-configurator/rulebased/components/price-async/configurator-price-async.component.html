@@ -1,0 +1,10 @@
+<ng-container *ngIf="configuration$ | async as configuration">
+  <ng-container *ngIf="configuration.pricingEnabled">
+    <div
+      [ngClass]="styleClass"
+      [attr.aria-label]="'configurator.a11y.valueSurcharge' | cxTranslate"
+    >
+      {{ getPrice(configuration) }}
+    </div>
+  </ng-container>
+</ng-container>
