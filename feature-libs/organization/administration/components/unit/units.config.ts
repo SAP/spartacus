@@ -199,12 +199,12 @@ export function unitsTableConfigFactory(
 ): TableConfig {
   if (featureConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
     // TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
-    return NewUnitsTableConfig;
+    return newUnitsTableConfig;
   }
   return unitsTableConfig;
 }
 
-export const NewUnitsTableConfig: TableConfig = {
+export const newUnitsTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.UNIT]: {
       cells: ['name'],
