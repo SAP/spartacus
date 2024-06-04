@@ -291,6 +291,9 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
             this.deepLinkCartId = this.asmComponentService?.getSearchParameter(
               'cartId'
             ) as string;
+            if (cartType === 'inactive') {
+              this.cartId.setValue(this.deepLinkCartId);
+            }
             this.asmComponentService?.setShowDeeplinkCartInfoAlert(true);
             this.asmComponentService?.handleDeepLinkNavigation();
           }
