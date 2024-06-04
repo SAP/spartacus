@@ -16,7 +16,7 @@ const commerceRelease: configurationVc.CommerceRelease = {};
  * Requires commerce 2211.4 with feature flag enabled:
  * 'toggle.sapproductconfigservices.getDefaultConfigurationEnhancements.enabled=true'
  */
-context('Restart dialog for product configuration', () => {
+context('Restart Dialog for Product Configuration', () => {
   beforeEach(() => {
     cy.visit('/');
     clickAllowAllFromBanner();
@@ -52,7 +52,7 @@ context('Restart dialog for product configuration', () => {
     restartDialog.checkIsClosed();
   });
 
-  it('should navigate back to product details page without a decision on close (CXSPA-1786)', () => {
+  it('navigate back to product details page without a decision on close (CXSPA-1786)', () => {
     restartDialog.close(testProduct);
 
     configurationVc.clickOnConfigureBtnInCatalog();
