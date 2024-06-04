@@ -462,7 +462,7 @@ function takeOverPricingChanges(
         )
       : state.groups;
 
-  const result: Configurator.Configuration = {
+  const result = {
     ...state,
     ...content,
     groups: groups,
