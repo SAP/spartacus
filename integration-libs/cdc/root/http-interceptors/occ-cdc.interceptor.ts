@@ -24,7 +24,6 @@ export class OccCdcInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log('interceptor called');
     this.cdcService.verifySession().subscribe((data: any) => {
       if (data.errorCode && data.error!== 0) {
         // when user resets password using 'forgot password?', kill any alive session of that user
