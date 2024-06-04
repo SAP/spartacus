@@ -77,7 +77,7 @@ export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
       featureModuleName: OPF_CHECKOUT_MODULE,
     },
   ],
-  customConfig: buildOpfCheckoutConfig,
+  customConfig: buildOpfConfig,
 };
 
 export const OPF_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
@@ -109,34 +109,10 @@ export const OPF_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  customConfig: buildOpfBaseConfig,
+  customConfig: buildOpfConfig,
 };
 
-function buildOpfCheckoutConfig(
-  options: SpartacusOpfOptions
-): AdditionalFeatureConfiguration<SpartacusOpfOptions> {
-  return {
-    providers: {
-      import: [
-        {
-          moduleSpecifier: SPARTACUS_OPF_BASE_ROOT,
-          namedImports: [OPF_CONFIG],
-        },
-      ],
-      content: `<${OPF_CONFIG}>{
-          opf: {
-            baseUrl: "${options.baseUrl || 'PLACEHOLDER_OPF_BASE_URL'}",
-            commerceCloudPublicKey: "${
-              options.commerceCloudPublicKey ||
-              'PLACEHOLDER_COMMERCE_CLOUD_PUBLIC_KEY'
-            }",
-          },
-        }`,
-    },
-  };
-}
-
-function buildOpfBaseConfig(
+function buildOpfConfig(
   options: SpartacusOpfOptions
 ): AdditionalFeatureConfiguration<SpartacusOpfOptions> {
   return {
