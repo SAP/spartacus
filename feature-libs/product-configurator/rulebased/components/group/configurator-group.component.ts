@@ -18,7 +18,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 @Component({
   selector: 'cx-configurator-group',
   templateUrl: './configurator-group.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorGroupComponent {
   protected readonly typePrefix = 'AttributeType_';

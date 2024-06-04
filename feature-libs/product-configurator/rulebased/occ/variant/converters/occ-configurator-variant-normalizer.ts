@@ -165,7 +165,6 @@ export class OccConfiguratorVariantNormalizer
       validationType: sourceAttribute.validationType,
       visible: sourceAttribute.visible,
       description: sourceAttribute.longText,
-      //timestamp: Date.now(),
     };
 
     this.setSelectedSingleValue(attribute);
