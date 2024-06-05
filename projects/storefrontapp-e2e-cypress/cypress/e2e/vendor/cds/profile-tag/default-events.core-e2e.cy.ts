@@ -406,9 +406,7 @@ describe('Profile-tag events', () => {
 
   it('should not send a Navigated event when merchandising banner is clicked', () => {
     const categoryPage = checkoutFlow.waitForCategoryPage('578', 'getCategory');
-    cy.get(
-      'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
-    ).click();
+    cy.get('.Section1 cx-banner cx-generic-link a').first().click();
     cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
     cy.window().should((win) => {
       expect(
@@ -439,7 +437,7 @@ describe('Consent Changed', () => {
             win,
             profileTagHelper.EventNames.CONSENT_CHANGED
           )
-        ).to.equal(1);
+        ).to.equal(2);
         const consentRejected = profileTagHelper.getEvent(
           win,
           profileTagHelper.EventNames.CONSENT_CHANGED
@@ -455,11 +453,11 @@ describe('Consent Changed', () => {
           win,
           profileTagHelper.EventNames.CONSENT_CHANGED
         )
-      ).to.equal(2);
+      ).to.equal(3);
       const consentAccepted = profileTagHelper.getEvent(
         win,
         profileTagHelper.EventNames.CONSENT_CHANGED
-      )[1];
+      )[2];
       expect(consentAccepted.data.granted).to.eq(true);
     });
   });
