@@ -1,9 +1,3 @@
-<cx-tab
-  *cxFeature="'a11yTabComponent'"
-  [tabs$]="tabs$"
-  [config]="tabConfig$ | async"
-></cx-tab>
-
 <ng-container *cxFeature="'!a11yTabComponent'">
   <ng-container *ngIf="components$ | async as components">
     <div
@@ -43,3 +37,9 @@
     </div>
   </ng-container>
 </ng-container>
+
+<cx-tab
+  *cxFeature="'a11yTabComponent'"
+  [tabs$]="tabs$"
+  [config]="tabConfig$ | async"
+></cx-tab>
