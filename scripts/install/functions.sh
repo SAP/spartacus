@@ -80,7 +80,7 @@ function clone_repo {
 
 function update_projects_versions {
     if [[ "${SPARTACUS_VERSION}" == "next" ]] || [[ "${SPARTACUS_VERSION}" == "latest" ]]; then
-        SPARTACUS_VERSION="999.999.999"
+        SPARTACUS_VERSION="999.999.990"
     fi
 
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
@@ -421,7 +421,7 @@ function build_ssr {
         printh "Building ssr app"
         if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
             buildCommands="npm run build"
-        else 
+        else
             buildCommands="npm run build && npm run build:ssr"
         fi
        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
@@ -436,7 +436,7 @@ function build_ssr_pwa {
         printh "Building ssr app with PWA"
         if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
             buildCommands="npm run build"
-        else 
+        else
             buildCommands="npm run build && npm run build:ssr"
         fi
        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
@@ -790,7 +790,7 @@ function parseInstallArgs {
                 ADD_OPPS=true
                 echo "➖ Added OPPS"
                 shift
-                ;;                
+                ;;
             s4om)
                 ADD_S4OM=true
                 echo "➖ Added S4OM"
@@ -984,7 +984,7 @@ function compareSemver() {
     # Remove delimiters like ~ or ^
     local version1=$(echo "$1" | tr -d '^~')
     local version2=$(echo "$2" | tr -d '^~')
-    
+
     # Split the version numbers into major, minor, and patch
     version1=(${version1//./ })
     version2=(${version2//./ })
