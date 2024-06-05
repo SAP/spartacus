@@ -90,8 +90,8 @@ export class FacetListComponent implements AfterViewInit {
   ) {}
 
   /**
-   *    * Toggles the facet group in case it is not expanded.
-   *       */
+   * Toggles the facet group in case it is not expanded.
+   */
   expandFacetGroup(facet: Facet, ref: FacetComponent) {
     if (!ref.isExpanded) {
       this.facetService.toggle(facet, ref.isExpanded);

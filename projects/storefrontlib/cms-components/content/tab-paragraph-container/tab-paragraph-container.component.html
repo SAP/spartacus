@@ -1,7 +1,7 @@
 <cx-tab
   *cxFeature="'a11yTabComponent'"
   [tabs$]="tabs$"
-  [config]="tabConfig"
+  [config]="tabConfig$ | async"
 ></cx-tab>
 
 <ng-container *cxFeature="'!a11yTabComponent'">

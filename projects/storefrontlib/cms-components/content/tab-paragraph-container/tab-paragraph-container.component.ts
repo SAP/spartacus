@@ -17,12 +17,17 @@ import {
   CMSTabParagraphContainer,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { Tab, TabConfig } from '../tab/Tab';
+
+const defaultTabConfig = {
+  openTabs: [0],
+  breakpoint: BREAKPOINT.md,
+};
 
 @Component({
   selector: 'cx-tab-paragraph-container',
@@ -38,10 +43,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
 
   tabTitleParams: (Observable<any> | null)[] = [];
 
-  tabConfig: TabConfig = {
-    openTabs: [0],
-    breakpoint: BREAKPOINT.md,
-  };
+  tabConfig$ = new BehaviorSubject<TabConfig>(defaultTabConfig);
 
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
@@ -71,11 +73,10 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
                 };
               }
 
-              this.tabConfig = {
+              this.tabConfig$.next({
                 label: <string>data.name,
-                openTabs: [0],
-                breakpoint: BREAKPOINT.md,
-              };
+                ...defaultTabConfig,
+              });
 
               return {
                 ...tab,
