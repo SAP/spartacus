@@ -221,16 +221,6 @@ describe('AsmBindCartComponent', () => {
     expect(component.cartId.value).toEqual('');
   });
 
-  it('should reset the input with the active cart ID when left empty', () => {
-    fixture.detectChanges();
-    let input = fixture.debugElement.query(By.css('input'));
-
-    component.cartId.setValue('');
-    input.triggerEventHandler('blur');
-
-    expect(component.cartId.value).toEqual(prevActiveCartId);
-  });
-
   it('should clear field when clear input is clicked', () => {
     fixture.detectChanges();
     let button = fixture.debugElement.query(By.css('.cx-asm-reset'));

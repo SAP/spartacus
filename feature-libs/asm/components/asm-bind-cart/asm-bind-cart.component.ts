@@ -113,11 +113,6 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     );
   }
 
-  resetInput() {
-    if (!this.cartId.value) {
-      this.cartId.setValue(this.activeCartId);
-    }
-  }
 
   /**
    * Bind the input cart number to the customer
