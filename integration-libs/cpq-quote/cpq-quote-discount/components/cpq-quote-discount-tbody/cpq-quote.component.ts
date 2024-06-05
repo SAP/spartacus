@@ -1,7 +1,8 @@
-import { Component, Optional, OnDestroy, OnInit, Inject, EventEmitter, Output } from '@angular/core';
+import { Component, Optional, OnDestroy, OnInit, Inject} from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CpqDiscounts } from 'integration-libs/cpq-quote/root/model';
 import { EMPTY, Observable, Subscription } from 'rxjs';
+import { CpqQuoteService } from '../../cpq-qute.service';
 
 // Extend the OrderEntry interface to include cpqDiscounts property
 interface ExtendedOrderEntry extends OrderEntry {
@@ -11,6 +12,7 @@ interface ExtendedOrderEntry extends OrderEntry {
 @Component({
   selector: 'cx-cpq-quote',
   templateUrl: './cpq-quote.component.html',
+  styleUrls: ['./cpq-quote.component.scss'],
 })
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   quoteDiscountData: ExtendedOrderEntry | null;
@@ -22,14 +24,17 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   constructor(
     @Optional()
     @Inject(CartItemContext)
-    protected cartItemContext: CartItemContext
+    protected cartItemContext: CartItemContext,
+    private cpqQuoteService: CpqQuoteService
   ) {}
 
   ngOnInit(): void {
     if (this.cartItemContext) {
       this.subscription = this.orderEntry$.subscribe((data) => {
         this.quoteDiscountData = data;
-        if(this.quoteDiscountData){ this.updateFlag(true);}
+        this.cpqQuoteService.setIsFlag(
+          !this.quoteDiscountData?.cpqDiscounts || this.quoteDiscountData.cpqDiscounts.length === 0
+        );
 
       });
     } else {
@@ -40,16 +45,6 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
-    }
-  }
-  flag: boolean = false;
-
-  @Output() flagChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  updateFlag(newValue: boolean) {
-    if (this.flag !== newValue) { // Only emit if flag value changes
-      this.flag = newValue;
-      this.flagChange.emit(this.flag);
     }
   }
   getDiscountedPrice(basePrice: number | undefined, discountPercentage: number | undefined): number | undefined {

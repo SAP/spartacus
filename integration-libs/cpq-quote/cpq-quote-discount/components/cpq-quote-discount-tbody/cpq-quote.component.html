@@ -14,19 +14,17 @@
 </ng-container> -->
 
 
-
-<ng-container
-  *ngIf="
-    quoteDiscountData &&
-    quoteDiscountData.basePrice?.value !== undefined &&
-    quoteDiscountData.cpqDiscounts &&
-    quoteDiscountData.cpqDiscounts.length > 0
-  "
-  class="cpq-quote-discount"
->
-  <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts">
+<ng-container *ngIf="quoteDiscountData && quoteDiscountData.basePrice?.value !== undefined && quoteDiscountData.cpqDiscounts && quoteDiscountData.cpqDiscounts.length > 0" class="cpq-quote-discount">
+ <td class="center"> <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts">
     <span role="cell" class="cx-total cx-discount">
-      {{discount.isoCode}}{{ getDiscountedPrice(quoteDiscountData.basePrice?.value, discount.value) }}
+      {{ discount.isoCode }}{{ getDiscountedPrice(quoteDiscountData.basePrice?.value, discount.value) }}
     </span>
   </ng-container>
+
+  <!-- Iterate over quoteDiscountData.basePrice -->
+  <span *ngIf="quoteDiscountData.basePrice" [ngClass]="{'strike-through': quoteDiscountData.basePrice?.formattedValue}">
+    {{ quoteDiscountData.basePrice?.formattedValue }}
+  </span>
+</td>
 </ng-container>
+

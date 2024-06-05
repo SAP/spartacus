@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, OnDestroy, Optional} from '@angular/core';
 import { CartItemContext } from '@spartacus/cart/base/root';
 import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemContextSource } from '../cart-item/model/cart-item-context-source.model';
 import { QuoteOutlet } from '@spartacus/quote/root';
+  import { CpqQuoteService } from '@spartacus/cpq-quote/cpq-quote-discount';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
@@ -18,11 +20,20 @@ import { QuoteOutlet } from '@spartacus/quote/root';
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],
 })
-export class CartItemListRowComponent extends CartItemComponent {
-  readonly quoteOutlet = QuoteOutlet;
-  flag: boolean = false;
-  receiveFlag(flag: boolean) {
-    this.flag = flag;
-    console.log( this.flag);
+export class CartItemListRowComponent extends CartItemComponent implements OnDestroy {
+  isFlagquote = true; // Default value
+  private subscription: Subscription;
+  constructor(
+    cartItemContextSource: CartItemContextSource,
+    @Optional() CpqQuoteService: CpqQuoteService,
+  ) {
+    super(cartItemContextSource);
+    this.subscription = CpqQuoteService.isFlag$.subscribe(isFlag => {
+      this.isFlagquote = isFlag;
+    });
   }
+    readonly quoteOutlet = QuoteOutlet;
+    ngOnDestroy(): void {
+      this.subscription.unsubscribe();
+    }
 }

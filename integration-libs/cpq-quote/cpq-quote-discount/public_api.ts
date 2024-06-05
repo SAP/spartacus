@@ -8,3 +8,5 @@
 export * from './cpq-discount.module';
 export * from './components/cpq-quote-discount-tbody/cpq-quote.component';
 export * from './components/cpq-quote-heading/cpq-quote-heading.component';
+export * from './cpq-qute.service';
+
