@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CpqQuoteService {
   private isFlagSubject = new BehaviorSubject<boolean>(true); // Default value is true
@@ -19,4 +19,3 @@ export class CpqQuoteService {
     this.isFlagSubject.next(value);
   }
 }
-

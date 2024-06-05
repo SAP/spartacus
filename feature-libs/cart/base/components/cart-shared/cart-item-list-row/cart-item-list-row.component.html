@@ -30,12 +30,13 @@
           {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
         </div>
         <!-- Item Price -->
-        <ng-container *ngIf="isFlagquote"> <div *ngIf="item.basePrice" class="cx-price">
-          <div *ngIf="item.basePrice" class="cx-value">
-            {{ item.basePrice?.formattedValue }}
-          </div>
-        </div></ng-container>
-
+        <ng-container *ngIf="isFlagquote">
+          <div *ngIf="item.basePrice" class="cx-price">
+            <div *ngIf="item.basePrice" class="cx-value">
+              {{ item.basePrice?.formattedValue }}
+            </div>
+          </div></ng-container
+        >
       </div>
     </div>
     <div class="cx-cart-addons">
@@ -82,20 +83,17 @@
     </div>
   </td>
 
-
-<!-- item price with discount -->
+  <!-- item price with discount -->
   <ng-template
-  role="cell"
-  [cxOutlet]="quoteOutlet.CPQ_QUOTE_MODULE"
-  [cxOutletContext]="{
-items: item
-}"
-></ng-template>
+    role="cell"
+    [cxOutlet]="quoteOutlet.CPQ_QUOTE_MODULE"
+    [cxOutletContext]="{
+      items: item
+    }"
+  ></ng-template>
 
-
-
-<!-- item price with discount -->
-<!-- <ng-template
+  <!-- item price with discount -->
+  <!-- <ng-template
   role="cell"
   [cxOutlet]="quoteOutlet.CPQ_QUOTE_MODULE"
   [cxOutletContext]="{

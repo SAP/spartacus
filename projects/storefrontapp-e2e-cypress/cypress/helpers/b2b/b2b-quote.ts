@@ -1759,10 +1759,6 @@ function log(comment: string, functionName: string) {
   cy.log(`##### ${comment} <${functionName}> #####`);
 }
 
-
-
-
-
 /**
  * Registers read vendor quote route.
  */

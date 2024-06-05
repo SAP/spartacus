@@ -29,8 +29,6 @@ import { QuoteOutlet } from '@spartacus/quote/root';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
-import { CpqQuoteService } from '@spartacus/cpq-quote/cpq-quote-discount';
-
 
 interface ItemListContext {
   readonly?: boolean;
@@ -94,7 +92,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartFacade,
     protected cd: ChangeDetectorRef,
-    protected CpqQuoteService?: CpqQuoteService,
     @Optional() protected outlet?: OutletContextData<ItemListContext>
   ) {}
 
