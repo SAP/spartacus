@@ -11,9 +11,12 @@
           extractQuantityParameters(attribute.quantity, !attribute.required)
         "
       ></cx-configurator-attribute-quantity>
-      <cx-configurator-price
-        [formula]="extractPriceFormulaParameters()"
-      ></cx-configurator-price>
+      <cx-configurator-price-async
+        [options]="{
+          attributeKey: attribute.key,
+          isLightedUp: true,
+        }"
+      ></cx-configurator-price-async>
     </div>
     <ng-container *ngFor="let value of attribute.values; let i = index">
       <div class="form-check">
@@ -76,9 +79,13 @@
           ></cx-configurator-show-more>
         </div>
         <div class="cx-value-price">
-          <cx-configurator-price
-            [formula]="extractValuePriceFormulaParameters(value)"
-          ></cx-configurator-price>
+          <cx-configurator-price-async
+            [options]="{
+              attributeKey: attribute.key,
+              valueName: value.name,
+              isLightedUp: value.selected
+            }"
+          ></cx-configurator-price-async>
         </div>
       </div>
       <cx-configurator-attribute-quantity

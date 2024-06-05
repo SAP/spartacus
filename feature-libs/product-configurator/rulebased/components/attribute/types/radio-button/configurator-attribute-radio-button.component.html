@@ -57,7 +57,11 @@
 
       <div class="cx-value-price">
         <cx-configurator-price-async
-          [options]="{ attributeKey: attribute.key, valueName: value.name }"
+          [options]="{
+            attributeKey: attribute.key,
+            valueName: value.name,
+            isLightedUp: value.selected
+          }"
         ></cx-configurator-price-async>
       </div>
     </div>

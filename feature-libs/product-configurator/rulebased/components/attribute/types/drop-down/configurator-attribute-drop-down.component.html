@@ -82,9 +82,13 @@
     *ngIf="!withQuantity && getSelectedValue()?.valuePrice"
     class="cx-value-price"
   >
-    <cx-configurator-price
-      [formula]="extractValuePriceFormulaParameters(getSelectedValue())"
-    ></cx-configurator-price>
+    <cx-configurator-price-async
+      [options]="{
+        attributeKey: attribute.key,
+        valueName: getSelectedValue().name,
+        isLightedUp: true,
+      }"
+    ></cx-configurator-price-async>
   </div>
 </div>
 <div *ngIf="withQuantity" class="cx-attribute-level-quantity-price">

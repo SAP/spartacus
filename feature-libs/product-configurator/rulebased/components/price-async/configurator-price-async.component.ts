@@ -18,6 +18,12 @@ export interface ConfiguratorPriceAsyncComponentOptions {
   isLightedUp?: boolean;
 }
 
+type PriceData = {
+  totalPrice?: Configurator.PriceDetails;
+  valuePrice?: Configurator.PriceDetails;
+  quantity?: number;
+};
+
 @Component({
   selector: 'cx-configurator-price-async',
   templateUrl: './configurator-price-async.component.html',
@@ -81,12 +87,7 @@ export class ConfiguratorPriceAsyncComponent {
     }
   }
 
-  /**
-   * Retrieves price.
-   *
-   * @return {string} - value price formula
-   */
-  getPrice(configuration: Configurator.Configuration): string {
+  getPriceData(configuration: Configurator.Configuration): PriceData {
     console.log(this.options);
     let attribute = configuration.groups
       .find(
@@ -98,21 +99,32 @@ export class ConfiguratorPriceAsyncComponent {
       );
 
     console.log(attribute);
-    let price = attribute?.attributePriceTotal;
+    let priceData: PriceData = { totalPrice: attribute?.attributePriceTotal };
 
     if (this.options.valueName) {
       let value = attribute?.values?.find(
         (value) => value.name === this.options.valueName
       );
-      price = value?.valuePrice;
+      priceData.totalPrice = value?.valuePriceTotal;
+      priceData.valuePrice = value?.valuePrice;
     }
-    console.log(price);
+    console.log(priceData);
+    return priceData;
+  }
 
+  getDisplayPrice(priceData: PriceData): string {
+    let priceDetails = priceData.totalPrice ?? priceData.valuePrice;
     return this.compileFormattedValue(
-      price?.value ?? 0,
-      price?.formattedValue,
+      priceDetails?.value ?? 0,
+      priceDetails?.formattedValue,
       this.isRTLDirection()
     );
+  }
+
+  displayPriceOnly(priceData: PriceData): boolean {
+    const valuePrice = priceData.valuePrice?.value ?? 0;
+    const totalPrice = priceData.totalPrice?.value ?? 0;
+    return valuePrice !== 0 || totalPrice !== 0;
   }
 
   /**
