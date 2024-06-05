@@ -494,7 +494,7 @@ export function checkHamburgerDisplayed(): void {
  * Clicks on 'Proceed to Checkout' on the product details page.
  */
 export function clickOnProceedToCheckoutBtnOnPD(): void {
-  cy.get('div.cx-dialog-buttons a.btn-secondary')
+  cy.get('div.cx-dialog-buttons button.btn-secondary')
     .contains('proceed to checkout')
     .click()
     .then(() => {
