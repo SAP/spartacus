@@ -80,6 +80,32 @@
       {{ item.basePrice?.formattedValue }}
     </div>
   </td>
+
+
+<!-- item price with discount -->
+<td role="cell"   >
+  <ng-template
+  role="cell"
+  [cxOutlet]="quoteOutlet.CPQ_QUOTE_MODULE"
+  [cxOutletContext]="{
+items: item
+}"
+></ng-template>
+  <div *ngIf="item.basePrice" class="cx-price">
+    <div *ngIf="item.basePrice" class="cx-value strike-through" [ngClass]="{ '': flag }">
+     {{ item.basePrice?.formattedValue }}
+    </div>
+  </div>
+{{flag}}
+</td>
+<!-- item price with discount -->
+<!-- <ng-template
+  role="cell"
+  [cxOutlet]="quoteOutlet.CPQ_QUOTE_MODULE"
+  [cxOutletContext]="{
+items: item,
+}"
+></ng-template> -->
   <!-- Item Quantity -->
   <td role="cell" class="cx-quantity">
     <div

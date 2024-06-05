@@ -1,0 +1,40 @@
+{
+  "name": "cpq-quote",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "integration-libs/cpq-quote",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "./tools/build-lib:augmented-types",
+      "options": {
+        "tsConfig": "integration-libs/cpq-quote/tsconfig.lib.json",
+        "project": "integration-libs/cpq-quote/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "integration-libs/cpq-quote/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "integration-libs/cpq-quote/test.ts",
+        "tsConfig": "integration-libs/cpq-quote/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "integration-libs/cpq-quote/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "integration-libs/cpq-quote/**/*.ts",
+          "integration-libs/cpq-quote/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature"]
+}
