@@ -15,6 +15,7 @@ BASE_SITE=
 OCC_PREFIX="/occ/v2/"
 
 URL_PARAMETERS="baseSite,language,currency"
+CURRENCY="USD,EUR"
 
 SPARTACUS_PROJECTS=(
         "dist/core:projects/core"
