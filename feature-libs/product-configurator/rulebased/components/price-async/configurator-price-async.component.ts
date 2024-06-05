@@ -88,7 +88,6 @@ export class ConfiguratorPriceAsyncComponent {
   }
 
   getPriceData(configuration: Configurator.Configuration): PriceData {
-    console.log(this.options);
     let attribute = configuration.groups
       .find(
         // find active group
@@ -98,7 +97,6 @@ export class ConfiguratorPriceAsyncComponent {
         (attribute) => attribute.key === this.options.attributeKey
       );
 
-    console.log(attribute);
     let priceData: PriceData = { totalPrice: attribute?.attributePriceTotal };
 
     if (this.options.valueName) {
@@ -108,7 +106,6 @@ export class ConfiguratorPriceAsyncComponent {
       priceData.totalPrice = value?.valuePriceTotal;
       priceData.valuePrice = value?.valuePrice;
     }
-    console.log(priceData);
     return priceData;
   }
 
