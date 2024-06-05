@@ -17,10 +17,17 @@ import {
   CMSTabParagraphContainer,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
+import { Tab, TabConfig } from '../tab/Tab';
+
+const defaultTabConfig = {
+  openTabs: [0],
+  breakpoint: BREAKPOINT.md,
+};
 
 @Component({
   selector: 'cx-tab-paragraph-container',
@@ -35,6 +42,8 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   children!: QueryList<ComponentWrapperDirective>;
 
   tabTitleParams: (Observable<any> | null)[] = [];
+
+  tabConfig$ = new BehaviorSubject<TabConfig>(defaultTabConfig);
 
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
@@ -64,6 +73,11 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
                 };
               }
 
+              this.tabConfig$.next({
+                label: <string>data.name,
+                ...defaultTabConfig,
+              });
+
               return {
                 ...tab,
                 title: `${data.uid}.tabs.${tab.uid}`,
@@ -72,6 +86,15 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
           )
         )
       )
+    )
+  );
+
+  tabs$: Observable<Tab[]> = this.components$.pipe(
+    map((components) =>
+      components.map((component) => ({
+        headerKey: component.title,
+        content: component,
+      }))
     )
   );
 

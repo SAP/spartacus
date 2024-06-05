@@ -251,6 +251,13 @@ export interface FeatureTogglesInterface {
    * `LoginRegisterComponent`, `ConfigureProductComponent`
    */
   a11yUseButtonsForBtnLinks?: boolean;
+
+  /**
+   * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
+   * of the FacetListComponent and TabParagraphComponent to make then keyboard accessible
+   * and responsive in tab and accordion stles.
+   */
+  a11yTabComponent?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -295,4 +302,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCloseProductImageBtnFocus: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yTabComponent: false,
 };

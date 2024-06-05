@@ -1,5 +1,6 @@
 <ng-container *ngIf="components$ | async as components">
   <div
+    *cxFeature="'!a11yTabComponent'"
     role="region"
     tabindex="-1"
     [attr.aria-label]="ariaLabel | cxTranslate"
@@ -12,8 +13,7 @@
           (click)="select(i, $event)"
           [attr.aria-expanded]="i === activeTabNum"
         >
-          {{
-            component.title | cxTranslate: { param: tabTitleParams[i] | async }
+          {{ component.title | cxTranslate: { param: tabTitleParams[i] | async }
           }}
 
           <span class="accordion-icon" aria-hidden="true"></span>
@@ -36,3 +36,9 @@
     </ng-container>
   </div>
 </ng-container>
+
+<cx-tab
+  *cxFeature="'a11yTabComponent'"
+  [tabs$]="tabs$"
+  [config]="tabConfig$ | async"
+></cx-tab>
