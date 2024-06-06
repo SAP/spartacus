@@ -89,8 +89,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
     this.cartVoucherService.resetAddVoucherProcessingState();
 
+    // TODO: (CXSPA-7479) Remove feature flags next major
     const shouldHaveRequiredValidator = !this.featureConfigService?.isEnabled(
-      'a11yDisabledButtonInsteadOfRequiredFields'
+      'a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
     );
 
     this.couponForm = this.formBuilder.group({

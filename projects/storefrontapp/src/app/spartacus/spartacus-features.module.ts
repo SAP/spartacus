@@ -310,7 +310,8 @@ if (environment.estimatedDeliveryDate) {
         a11yCloseProductImageBtnFocus: true,
         a11yEmptyWishlistHeading: true,
         a11yUseButtonsForBtnLinks: true,
-        a11yDisabledButtonInsteadOfRequiredFields: true,
+        a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
+          true,
       };
       return appFeatureToggles;
     }),

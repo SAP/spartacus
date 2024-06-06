@@ -257,7 +257,7 @@ export interface FeatureTogglesInterface {
    * disable "Add" button in quick order component when input is empty and remove
    * required validators for both inputs
    */
-  a11yDisabledButtonInsteadOfRequiredFields?: boolean;
+  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -302,5 +302,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCloseProductImageBtnFocus: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
-  a11yDisabledButtonInsteadOfRequiredFields: false,
+  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
 };
