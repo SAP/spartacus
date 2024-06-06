@@ -26,7 +26,9 @@
     "loaded": "Loaded",
     "results": "Results",
     "of": "of",
-    "required": "required"
+    "required": "required",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out"
   },
   "pageMetaResolver": {
     "category": {

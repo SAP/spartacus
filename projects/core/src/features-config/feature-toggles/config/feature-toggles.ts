@@ -186,6 +186,11 @@ export interface FeatureTogglesInterface {
    * of adding to the cart.
    */
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
+
+  /**
+   * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
+   */
+  a11yKeyboardAccessibleZoom?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -220,4 +225,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartItemsLinksStyles: false,
   a11yFocusableCarouselControls: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yKeyboardAccessibleZoom: false,
 };

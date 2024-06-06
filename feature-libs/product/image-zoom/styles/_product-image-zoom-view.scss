@@ -11,6 +11,12 @@ cx-product-image-zoom-view {
     // Landscape phones
     @media only screen and (max-width: 900px) and (orientation: landscape) {
       height: 100%;
+      // TODO: (CXSPA-7492) - Remove feature flag next major release.
+      @include forFeature('a11yKeyboardAccessibleZoom') {
+        cx-media {
+          display: unset;
+        }
+      }
     }
 
     .cx-navigate-image {
@@ -26,6 +32,12 @@ cx-product-image-zoom-view {
         box-shadow: none;
       }
     }
+    // TODO: (CXSPA-7492) - Remove feature flag next major release.
+    @include forFeature('a11yKeyboardAccessibleZoom') {
+      @include media-breakpoint-up(lg) {
+        height: calc(90vh - 200px);
+      }
+    }
 
     .cx-default-image-zoom {
       display: flex;
@@ -34,6 +46,10 @@ cx-product-image-zoom-view {
 
       @include media-breakpoint-up(lg) {
         height: calc(90vh - 200px);
+        // TODO: (CXSPA-7492) - Remove feature flag next major release.
+        @include forFeature('a11yKeyboardAccessibleZoom') {
+          height: unset;
+        }
       }
 
       // Landscape phones
@@ -91,31 +107,33 @@ cx-product-image-zoom-view {
       }
     }
   }
-  .cx-image-container {
-    position: relative;
-    .cx-indicator-container {
-      width: auto;
-      height: auto;
-      position: absolute;
-      padding: 2%;
-      top: 0;
-      right: 0;
-    }
-    .cx-zoom-btn {
+  // TODO: (CXSPA-7492) - Remove feature flag next major release.
+  @include forFeature('a11yKeyboardAccessibleZoom') {
+    .cx-image-container {
+      display: unset;
       position: relative;
-      padding: 0;
-      & > * {
-        text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-        font-size: 1.5rem;
-        opacity: 0.7;
+
+      @include media-breakpoint-up(lg) {
+        height: fit-content;
       }
-      &:focus {
-        box-shadow: none;
-      }
-      .cx-zoom-indicator {
+
+      .cx-zoom-btn {
+        margin: 0.5rem;
+        border-radius: 100%;
+        background-color: var(--cx-color-medium);
         position: absolute;
-        top: 17%;
-        right: 40%;
+        padding: 0;
+        right: 0;
+        bottom: 0;
+
+        &:focus {
+          box-shadow: none;
+        }
+
+        .cx-zoom-indicator {
+          color: var(--cx-color-background-dark);
+          font-size: 2rem;
+        }
       }
     }
   }
