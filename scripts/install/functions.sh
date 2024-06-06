@@ -80,7 +80,7 @@ function clone_repo {
 
 function update_projects_versions {
     if [[ "${SPARTACUS_VERSION}" == "next" ]] || [[ "${SPARTACUS_VERSION}" == "latest" ]]; then
-        SPARTACUS_VERSION="999.999.990"
+        SPARTACUS_VERSION="999.999.999"
     fi
 
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
