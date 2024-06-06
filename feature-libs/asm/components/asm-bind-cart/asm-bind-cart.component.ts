@@ -109,15 +109,8 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.activeCartFacade.getActiveCartId().subscribe((response) => {
         this.activeCartId = response ?? '';
-        this.cartId.setValue(this.deepLinkCartId || this.activeCartId);
       })
     );
-  }
-
-  resetInput() {
-    if (!this.cartId.value) {
-      this.cartId.setValue(this.activeCartId);
-    }
   }
 
   /**
@@ -292,7 +285,9 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
             this.deepLinkCartId = this.asmComponentService?.getSearchParameter(
               'cartId'
             ) as string;
-            this.cartId.setValue(this.deepLinkCartId);
+            if (cartType === 'inactive') {
+              this.cartId.setValue(this.deepLinkCartId);
+            }
             this.asmComponentService?.setShowDeeplinkCartInfoAlert(true);
             this.asmComponentService?.handleDeepLinkNavigation();
           }

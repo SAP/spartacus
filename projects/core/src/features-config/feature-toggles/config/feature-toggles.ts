@@ -251,8 +251,14 @@ export interface FeatureTogglesInterface {
    * `LoginRegisterComponent`, `ConfigureProductComponent`
    */
   a11yUseButtonsForBtnLinks?: boolean;
-}
 
+  /**
+   * In `FacetListComponent` dialog view focus will be moved to the first facet
+   * after single-select facet selection.
+   * New "Back To Results" button is added
+   */
+  a11yFacetsDialogFocusHandling?: boolean;
+}
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDownloadProposalButton: false,
   showPromotionsInPDP: false,
@@ -295,4 +301,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCloseProductImageBtnFocus: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yFacetsDialogFocusHandling: false,
 };
