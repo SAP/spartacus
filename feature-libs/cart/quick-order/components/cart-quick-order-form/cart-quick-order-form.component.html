@@ -9,44 +9,77 @@
           <label class="cx-cart-quick-order-form-label">
             {{ 'quickOrderCartForm.productCodeLabel' | cxTranslate }}
             <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-            <abbr *cxFeature="'a11yRequiredAsterisks'" class="text-decoration-none"
-              title="{{ 'common.required' | cxTranslate }}">*</abbr>
+            <abbr
+              *cxFeature="'a11yRequiredAsterisks'"
+              class="text-decoration-none"
+              title="{{ 'common.required' | cxTranslate }}"
+              >*</abbr
+            >
           </label>
-          <input [attr.aria-label]="
+          <input
+            [attr.aria-label]="
               'quickOrderCartForm.entryProductCode' | cxTranslate
-            " aria-required="true" class="form-control input-product-code" formControlName="productCode"
-            required="true" placeholder="{{
+            "
+            aria-required="true"
+            class="form-control input-product-code"
+            formControlName="productCode"
+            required="true"
+            placeholder="{{
               'quickOrderCartForm.productCodePlaceholder' | cxTranslate
-            }}" type="text" />
+            }}"
+            type="text"
+          />
         </span>
 
         <span class="cx-cart-quick-order-form-qty">
           <label class="cx-cart-quick-order-form-label">
             {{ 'quickOrderCartForm.quantityLabel' | cxTranslate }}
           </label>
-          <input [attr.aria-label]="'quickOrderCartForm.quantity' | cxTranslate" aria-required="true"
-            class="form-control input-quantity" formControlName="quantity" required="true" type="number" />
+          <input
+            [attr.aria-label]="'quickOrderCartForm.quantity' | cxTranslate"
+            aria-required="true"
+            class="form-control input-quantity"
+            formControlName="quantity"
+            required="true"
+            type="number"
+          />
         </span>
-        <button [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
-          [class.disabled]="cartIsLoading$ | async" [disabled]="cartIsLoading$ | async"
-          class="btn btn-block btn-secondary apply-quick-order-button" type="submit">
+        <button
+          [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
+          [class.disabled]="cartIsLoading$ | async"
+          [disabled]="cartIsLoading$ | async"
+          class="btn btn-block btn-secondary apply-quick-order-button"
+          type="submit"
+        >
           {{ 'quickOrderCartForm.add' | cxTranslate }}
         </button>
 
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-        <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+        <cx-form-errors
+          *cxFeature="'formErrorsDescriptiveMessages'"
+          [translationParams]="{
             label: 'quickOrderCartForm.productCodeLabel' | cxTranslate
-          }" [control]="quickOrderForm.get('productCode')"></cx-form-errors>
+          }"
+          [control]="quickOrderForm.get('productCode')"
+        ></cx-form-errors>
 
-        <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
-          [control]="quickOrderForm.get('productCode')"></cx-form-errors>
+        <cx-form-errors
+          *cxFeature="'!formErrorsDescriptiveMessages'"
+          [control]="quickOrderForm.get('productCode')"
+        ></cx-form-errors>
 
-        <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+        <cx-form-errors
+          *cxFeature="'formErrorsDescriptiveMessages'"
+          [translationParams]="{
             label: 'quickOrderCartForm.quantityLabel' | cxTranslate
-          }" [control]="quickOrderForm.get('quantity')"></cx-form-errors>
+          }"
+          [control]="quickOrderForm.get('quantity')"
+        ></cx-form-errors>
 
-        <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
-          [control]="quickOrderForm.get('quantity')"></cx-form-errors>
+        <cx-form-errors
+          *cxFeature="'!formErrorsDescriptiveMessages'"
+          [control]="quickOrderForm.get('quantity')"
+        ></cx-form-errors>
       </div>
     </form>
   </div>

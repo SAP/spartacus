@@ -7,31 +7,54 @@
     <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
       <label class="cx-cart-coupon-title">
         {{ 'voucher.coupon' | cxTranslate }}
-        <abbr *cxFeature="'a11yRequiredAsterisks'" class="text-decoration-none"
-          title="{{ 'common.required' | cxTranslate }}">*</abbr>
+        <abbr
+          *cxFeature="'a11yRequiredAsterisks'"
+          class="text-decoration-none"
+          title="{{ 'common.required' | cxTranslate }}"
+          >*</abbr
+        >
       </label>
 
       <div class="cx-cart-coupon-container">
-        <input [attr.aria-label]="'voucher.couponLabel' | cxTranslate" required="true" type="text"
-          class="form-control input-coupon-code" formControlName="couponCode"
-          placeholder="{{ 'voucher.placeholder' | cxTranslate }}" />
-        <button class="btn btn-block btn-secondary apply-coupon-button" type="submit"
-          [disabled]="cartIsLoading$ | async" [class.disabled]="cartIsLoading$ | async">
+        <input
+          [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
+          required="true"
+          type="text"
+          class="form-control input-coupon-code"
+          formControlName="couponCode"
+          placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
+        />
+        <button
+          class="btn btn-block btn-secondary apply-coupon-button"
+          type="submit"
+          [disabled]="cartIsLoading$ | async"
+          [class.disabled]="cartIsLoading$ | async"
+        >
           {{ 'voucher.apply' | cxTranslate }}
         </button>
 
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-        <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+        <cx-form-errors
+          *cxFeature="'formErrorsDescriptiveMessages'"
+          [translationParams]="{
             label: 'voucher.placeholder' | cxTranslate
-          }" [control]="couponForm.get('couponCode')"></cx-form-errors>
+          }"
+          [control]="couponForm.get('couponCode')"
+        ></cx-form-errors>
 
-        <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
-          [control]="couponForm.get('couponCode')"></cx-form-errors>
+        <cx-form-errors
+          *cxFeature="'!formErrorsDescriptiveMessages'"
+          [control]="couponForm.get('couponCode')"
+        ></cx-form-errors>
       </div>
     </form>
   </div>
 
-  <cx-applied-coupons [vouchers]="cart.appliedVouchers" [cartIsLoading]="cartIsLoading$ | async" [isReadOnly]="false">
+  <cx-applied-coupons
+    [vouchers]="cart.appliedVouchers"
+    [cartIsLoading]="cartIsLoading$ | async"
+    [isReadOnly]="false"
+  >
   </cx-applied-coupons>
 
   <ng-container *ngIf="applicableCoupons && applicableCoupons.length > 0">
@@ -44,8 +67,12 @@
       </div>
       <div class="scroll">
         <div class="coupons card" *ngFor="let coupon of applicableCoupons">
-          <button (click)="applyCustomerCoupon(coupon.couponId)" class="coupon-id link"
-            [disabled]="cartIsLoading$ | async" [class.disabled]="cartIsLoading$ | async">
+          <button
+            (click)="applyCustomerCoupon(coupon.couponId)"
+            class="coupon-id link"
+            [disabled]="cartIsLoading$ | async"
+            [class.disabled]="cartIsLoading$ | async"
+          >
             {{ coupon.couponId }}
           </button>
         </div>

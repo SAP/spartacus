@@ -3,69 +3,117 @@
     <label>
       <span class="label-content required">{{
         'orgUnit.name' | cxTranslate
-        }}</span>
-      <input type="text" class="form-control" required placeholder="{{ 'orgUnit.name' | cxTranslate }}"
-        formControlName="name" (blur)="createUidWithName(form.get('name'), form.get('uid'))" />
-      <cx-form-errors [translationParams]="{
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        required
+        placeholder="{{ 'orgUnit.name' | cxTranslate }}"
+        formControlName="name"
+        (blur)="createUidWithName(form.get('name'), form.get('uid'))"
+      />
+      <cx-form-errors
+        [translationParams]="{
           label: 'orgUnit.name' | cxTranslate
-        }" [control]="form.get('name')"></cx-form-errors>
+        }"
+        [control]="form.get('name')"
+      ></cx-form-errors>
     </label>
 
     <label>
       <span class="label-content required">{{
         'orgUnit.uid' | cxTranslate
-        }}</span>
-      <input class="form-control" type="text" required placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
-        formControlName="uid" />
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
+        formControlName="uid"
+      />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
           label: 'orgUnit.uid' | cxTranslate
-        }" [control]="form.get('uid')"></cx-form-errors>
+        }"
+        [control]="form.get('uid')"
+      ></cx-form-errors>
 
-      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('uid')"></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('uid')"
+      ></cx-form-errors>
     </label>
 
     <label formGroupName="approvalProcess" class="full-width">
       <span class="label-content required">{{
         'orgUnit.approvalProcess' | cxTranslate
-        }}</span>
-      <ng-select [inputAttrs]="{ required: 'true' }" formControlName="code" [searchable]="false"
-        [items]="approvalProcess$ | async" bindLabel="name" bindValue="code" appendTo="cx-org-list"
-        [placeholder]="'orgUnit.approvalProcess' | cxTranslate">
+      }}</span>
+      <ng-select
+        [inputAttrs]="{ required: 'true' }"
+        formControlName="code"
+        [searchable]="false"
+        [items]="approvalProcess$ | async"
+        bindLabel="name"
+        bindValue="code"
+        appendTo="cx-org-list"
+        [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
+      >
       </ng-select>
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
           label: 'orgUnit.approvalProcess' | cxTranslate
-        }" [control]="form.get('approvalProcess.code')"></cx-form-errors>
+        }"
+        [control]="form.get('approvalProcess.code')"
+      ></cx-form-errors>
 
-      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
-        [control]="form.get('approvalProcess.code')"></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('approvalProcess.code')"
+      ></cx-form-errors>
     </label>
     <ng-container *ngIf="form.get('parentOrgUnit'); else parentOrgUnitNotes">
       <label formGroupName="parentOrgUnit">
         <span class="label-content required">{{
           'orgUnit.form.parentOrgUnit' | cxTranslate
-          }}</span>
-        <ng-select [inputAttrs]="{ required: 'true' }" formControlName="uid" [searchable]="true" [clearable]="false"
-          [items]="(units$ | async) ?? null" bindLabel="name" bindValue="id" appendTo="cx-org-list"
-          [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate">
+        }}</span>
+        <ng-select
+          [inputAttrs]="{ required: 'true' }"
+          formControlName="uid"
+          [searchable]="true"
+          [clearable]="false"
+          [items]="(units$ | async) ?? null"
+          bindLabel="name"
+          bindValue="id"
+          appendTo="cx-org-list"
+          [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
+        >
         </ng-select>
 
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-        <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+        <cx-form-errors
+          *cxFeature="'formErrorsDescriptiveMessages'"
+          [translationParams]="{
             label: 'orgUnit.form.parentOrgUnit' | cxTranslate
-          }" [control]="form.get('parentOrgUnit.uid')"></cx-form-errors>
+          }"
+          [control]="form.get('parentOrgUnit.uid')"
+        ></cx-form-errors>
 
-        <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
-          [control]="form.get('parentOrgUnit.uid')"></cx-form-errors>
+        <cx-form-errors
+          *cxFeature="'!formErrorsDescriptiveMessages'"
+          [control]="form.get('parentOrgUnit.uid')"
+        ></cx-form-errors>
       </label>
     </ng-container>
     <ng-template #parentOrgUnitNotes>
       <span class="notes-content">{{
         'orgUnit.form.parentOrgUnitNotes' | cxTranslate
-        }}</span>
+      }}</span>
     </ng-template>
   </ng-container>
 </cx-org-form>

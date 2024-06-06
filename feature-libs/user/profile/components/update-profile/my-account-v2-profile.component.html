@@ -3,7 +3,8 @@
 <div>
   <div>
     <div class="flex-line">
-      <label class="headertext">{{ 'myAccountV2UserProfile.myInformation' | cxTranslate }}
+      <label class="headertext"
+        >{{ 'myAccountV2UserProfile.myInformation' | cxTranslate }}
       </label>
       <button class="editButton" *ngIf="!isEditing" (click)="onEdit()">
         {{ 'common.edit' | cxTranslate }}
@@ -41,54 +42,100 @@
       <label>
         <span class="label-content, text-head">{{
           'myAccountV2UserProfile.title' | cxTranslate
-          }}</span>
-        <ng-select [clearable]="false" [searchable]="false" formControlName="titleCode" id="title-select"
+        }}</span>
+        <ng-select
+          [clearable]="false"
+          [searchable]="false"
+          formControlName="titleCode"
+          id="title-select"
           [cxNgSelectA11y]="{
             ariaLabel: 'myAccountV2UserProfile.title' | cxTranslate
-          }">
-          <ng-option *ngFor="let title of titles$ | async" [value]="title.code">{{ title.name }}</ng-option>
+          }"
+        >
+          <ng-option
+            *ngFor="let title of titles$ | async"
+            [value]="title.code"
+            >{{ title.name }}</ng-option
+          >
         </ng-select>
       </label>
       <label>
         <span class="label-content, text-head">{{
           'myAccountV2UserProfile.firstName' | cxTranslate
-          }}</span>
-        <input required="true" type="text" class="form-control" name="firstName" formControlName="firstName" />
+        }}</span>
+        <input
+          required="true"
+          type="text"
+          class="form-control"
+          name="firstName"
+          formControlName="firstName"
+        />
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-        <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+        <cx-form-errors
+          *cxFeature="'formErrorsDescriptiveMessages'"
+          [translationParams]="{
             label: 'updateProfileForm.firstName.label' | cxTranslate
-          }" [control]="form.get('firstName')"></cx-form-errors>
+          }"
+          [control]="form.get('firstName')"
+        ></cx-form-errors>
 
-        <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
-          [control]="form.get('firstName')"></cx-form-errors>
+        <cx-form-errors
+          *cxFeature="'!formErrorsDescriptiveMessages'"
+          [control]="form.get('firstName')"
+        ></cx-form-errors>
       </label>
 
       <label>
         <span class="label-content, text-head">{{
           'myAccountV2UserProfile.lastName' | cxTranslate
-          }}</span>
-        <input required="true" type="text" class="form-control" name="lastName" formControlName="lastName" />
+        }}</span>
+        <input
+          required="true"
+          type="text"
+          class="form-control"
+          name="lastName"
+          formControlName="lastName"
+        />
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-        <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+        <cx-form-errors
+          *cxFeature="'formErrorsDescriptiveMessages'"
+          [translationParams]="{
             label: 'updateProfileForm.lastName.label' | cxTranslate
-          }" [control]="form.get('lastName')"></cx-form-errors>
+          }"
+          [control]="form.get('lastName')"
+        ></cx-form-errors>
 
-        <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('lastName')"></cx-form-errors>
+        <cx-form-errors
+          *cxFeature="'!formErrorsDescriptiveMessages'"
+          [control]="form.get('lastName')"
+        ></cx-form-errors>
       </label>
 
       <label>
         <span class="label-content, text-head">{{
           'myAccountV2UserProfile.customerId' | cxTranslate
-          }}</span>
-        <input required="true" type="text" class="form-control" name="customerId" formControlName="customerId"
-          readonly />
+        }}</span>
+        <input
+          required="true"
+          type="text"
+          class="form-control"
+          name="customerId"
+          formControlName="customerId"
+          readonly
+        />
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-        <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+        <cx-form-errors
+          *cxFeature="'formErrorsDescriptiveMessages'"
+          [translationParams]="{
             label: 'updateProfileForm.customerId' | cxTranslate
-          }" [control]="form.get('customerId')"></cx-form-errors>
+          }"
+          [control]="form.get('customerId')"
+        ></cx-form-errors>
 
-        <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
-          [control]="form.get('customerId')"></cx-form-errors>
+        <cx-form-errors
+          *cxFeature="'!formErrorsDescriptiveMessages'"
+          [control]="form.get('customerId')"
+        ></cx-form-errors>
       </label>
     </form>
 
@@ -96,7 +143,11 @@
       <button class="btn button-cancel button" (click)="cancelEdit()">
         {{ 'common.cancel' | cxTranslate }}
       </button>
-      <button class="btn btn-primary button" (click)="onSubmit()" [disabled]="form.disabled">
+      <button
+        class="btn btn-primary button"
+        (click)="onSubmit()"
+        [disabled]="form.disabled"
+      >
         {{ 'common.save' | cxTranslate }}
       </button>
     </div>

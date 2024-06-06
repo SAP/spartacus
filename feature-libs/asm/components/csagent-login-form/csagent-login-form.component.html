@@ -1,34 +1,59 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="csAgentLoginForm" *ngIf="!csAgentTokenLoading">
+<form
+  (ngSubmit)="onSubmit()"
+  [formGroup]="csAgentLoginForm"
+  *ngIf="!csAgentTokenLoading"
+>
   <span class="label-content">
     {{ 'asm.loginForm.userId.label' | cxTranslate }}
   </span>
   <label>
-    <input required="true" type="text" formControlName="userId"
-      [attr.aria-label]="'asm.loginForm.userId.label' | cxTranslate" />
+    <input
+      required="true"
+      type="text"
+      formControlName="userId"
+      [attr.aria-label]="'asm.loginForm.userId.label' | cxTranslate"
+    />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-    <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+    <cx-form-errors
+      *cxFeature="'formErrorsDescriptiveMessages'"
+      [translationParams]="{
         label: 'asm.loginForm.userId.label' | cxTranslate
-      }" [control]="csAgentLoginForm.get('userId')"></cx-form-errors>
+      }"
+      [control]="csAgentLoginForm.get('userId')"
+    ></cx-form-errors>
 
-    <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
-      [control]="csAgentLoginForm.get('userId')"></cx-form-errors>
+    <cx-form-errors
+      *cxFeature="'!formErrorsDescriptiveMessages'"
+      [control]="csAgentLoginForm.get('userId')"
+    ></cx-form-errors>
   </label>
 
   <span class="label-content">
     {{ 'asm.loginForm.password.label' | cxTranslate }}
   </span>
   <label>
-    <input required="true" type="password" formControlName="password"
-      [attr.aria-label]="'asm.loginForm.password.label' | cxTranslate" cxPasswordVisibilitySwitch />
-    <cx-form-errors [translationParams]="{
+    <input
+      required="true"
+      type="password"
+      formControlName="password"
+      [attr.aria-label]="'asm.loginForm.password.label' | cxTranslate"
+      cxPasswordVisibilitySwitch
+    />
+    <cx-form-errors
+      [translationParams]="{
         label: 'asm.loginForm.password.label' | cxTranslate
-      }" [control]="csAgentLoginForm.get('password')"></cx-form-errors>
+      }"
+      [control]="csAgentLoginForm.get('password')"
+    ></cx-form-errors>
   </label>
   <button type="submit">
     {{ 'asm.loginForm.submit' | cxTranslate }}
   </button>
 </form>
 
-<cx-dot-spinner *ngIf="csAgentTokenLoading" aria-hidden="false"
-  [attr.aria-label]="'common.loading' | cxTranslate"></cx-dot-spinner>
+<cx-dot-spinner
+  *ngIf="csAgentTokenLoading"
+  aria-hidden="false"
+  [attr.aria-label]="'common.loading' | cxTranslate"
+></cx-dot-spinner>

@@ -5,10 +5,18 @@
   <ng-container *ngIf="!isWritingReview; else writeReview">
     <div class="header">
       <h3>{{ 'productReview.overallRating' | cxTranslate }}</h3>
-      <button #writeReviewButton class="btn btn-primary" (click)="initiateWriteReview()">
+      <button
+        #writeReviewButton
+        class="btn btn-primary"
+        (click)="initiateWriteReview()"
+      >
         {{ 'productReview.writeReview' | cxTranslate }}
       </button>
-      <cx-star-rating *ngIf="product.averageRating" class="rating" [rating]="product.averageRating"></cx-star-rating>
+      <cx-star-rating
+        *ngIf="product.averageRating"
+        class="rating"
+        [rating]="product.averageRating"
+      ></cx-star-rating>
       <div class="rating" *ngIf="!product.averageRating">
         {{ 'productDetails.noReviews' | cxTranslate }}
       </div>
@@ -16,7 +24,11 @@
 
     <ng-container *ngIf="!isWritingReview; else writeReview">
       <ng-container *ngIf="reviews$ | async as reviews">
-        <div class="review" tabindex="0" *ngFor="let review of reviews | slice: 0:maxListItems">
+        <div
+          class="review"
+          tabindex="0"
+          *ngFor="let review of reviews | slice: 0:maxListItems"
+        >
           <div class="title">{{ review.headline }}</div>
           <cx-star-rating [rating]="review.rating ?? 0"></cx-star-rating>
           <div class="name">
@@ -26,12 +38,18 @@
           <div class="text">{{ review.comment }}</div>
         </div>
         <div *ngIf="reviews.length > initialMaxListItems">
-          <button class="btn btn-primary" (click)="maxListItems = reviews.length"
-            *ngIf="maxListItems === initialMaxListItems">
+          <button
+            class="btn btn-primary"
+            (click)="maxListItems = reviews.length"
+            *ngIf="maxListItems === initialMaxListItems"
+          >
             {{ 'productReview.more' | cxTranslate }}
           </button>
-          <button class="btn btn-primary" (click)="maxListItems = initialMaxListItems"
-            *ngIf="maxListItems !== initialMaxListItems">
+          <button
+            class="btn btn-primary"
+            (click)="maxListItems = initialMaxListItems"
+            *ngIf="maxListItems !== initialMaxListItems"
+          >
             {{ 'productReview.less' | cxTranslate }}
           </button>
         </div>
@@ -47,64 +65,114 @@
     <form (ngSubmit)="submitReview(product)" [formGroup]="reviewForm">
       <div class="form-group">
         <label>
-          <span class="label-content">{{ 'productReview.reviewTitle' | cxTranslate }}
+          <span class="label-content"
+            >{{ 'productReview.reviewTitle' | cxTranslate }}
             <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
           </span>
-          <input required="true" #titleInput type="text" class="form-control" formControlName="title" />
+          <input
+            required="true"
+            #titleInput
+            type="text"
+            class="form-control"
+            formControlName="title"
+          />
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-          <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+          <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
               label: 'productReview.reviewTitle' | cxTranslate
-            }" [control]="reviewForm.get('title')"></cx-form-errors>
+            }"
+            [control]="reviewForm.get('title')"
+          ></cx-form-errors>
 
-          <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
-            [control]="reviewForm.get('title')"></cx-form-errors>
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
+            [control]="reviewForm.get('title')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
         <label>
-          <span class="label-content">{{ 'productReview.writeYourComments' | cxTranslate }}
+          <span class="label-content"
+            >{{ 'productReview.writeYourComments' | cxTranslate }}
             <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
           </span>
-          <textarea required="true" class="form-control" rows="3" formControlName="comment"></textarea>
+          <textarea
+            required="true"
+            class="form-control"
+            rows="3"
+            formControlName="comment"
+          ></textarea>
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-          <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+          <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
               label: 'productReview.writeYourComments' | cxTranslate
-            }" [control]="reviewForm.get('comment')"></cx-form-errors>
+            }"
+            [control]="reviewForm.get('comment')"
+          ></cx-form-errors>
 
-          <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
-            [control]="reviewForm.get('comment')"></cx-form-errors>
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
+            [control]="reviewForm.get('comment')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
         <label>
-          <span class="label-content">{{ 'productReview.rating' | cxTranslate }}
+          <span class="label-content"
+            >{{ 'productReview.rating' | cxTranslate }}
             <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
           </span>
-          <input required="true" type="number" formControlName="rating" class="rating-input" />
-          <cx-star-rating tabindex="0" [attr.aria-label]="'productReview.ratingRequired' | cxTranslate"
-            (change)="setRating($event)" [disabled]="false"></cx-star-rating>
+          <input
+            required="true"
+            type="number"
+            formControlName="rating"
+            class="rating-input"
+          />
+          <cx-star-rating
+            tabindex="0"
+            [attr.aria-label]="'productReview.ratingRequired' | cxTranslate"
+            (change)="setRating($event)"
+            [disabled]="false"
+          ></cx-star-rating>
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-          <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
+          <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
               label: 'productReview.rating' | cxTranslate
-            }" [control]="reviewForm.get('rating')"></cx-form-errors>
+            }"
+            [control]="reviewForm.get('rating')"
+          ></cx-form-errors>
 
-          <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
-            [control]="reviewForm.get('rating')"></cx-form-errors>
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
+            [control]="reviewForm.get('rating')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
         <label>
-          <span class="label-content">{{ 'productReview.reviewerName' | cxTranslate }}
+          <span class="label-content"
+            >{{ 'productReview.reviewerName' | cxTranslate }}
           </span>
-          <input type="text" class="form-control" formControlName="reviewerName" />
+          <input
+            type="text"
+            class="form-control"
+            formControlName="reviewerName"
+          />
         </label>
       </div>
       <div class="form-group row">
         <div class="col-12 col-md-4">
-          <button type="button" class="btn btn-block btn-secondary" (click)="cancelWriteReview()">
+          <button
+            type="button"
+            class="btn btn-block btn-secondary"
+            (click)="cancelWriteReview()"
+          >
             {{ 'common.cancel' | cxTranslate }}
           </button>
         </div>
@@ -119,6 +187,10 @@
 </div>
 
 <ng-template #requiredAsterisk>
-  <abbr *cxFeature="'a11yRequiredAsterisks'" class="text-decoration-none"
-    title="{{ 'common.required' | cxTranslate }}">*</abbr>
+  <abbr
+    *cxFeature="'a11yRequiredAsterisks'"
+    class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
 </ng-template>
