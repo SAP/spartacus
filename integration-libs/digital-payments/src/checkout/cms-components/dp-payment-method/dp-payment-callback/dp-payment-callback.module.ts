@@ -10,6 +10,7 @@ import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CheckoutBillingAddressFormModule } from '@spartacus/checkout/base/components';
+import { DpConfirmationDialogModule } from '../dp-confirmation-dialog/dp-confirmation-dialog.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { CheckoutBillingAddressFormModule } from '@spartacus/checkout/base/compo
     I18nModule,
     CheckoutBillingAddressFormModule,
     FeaturesConfigModule,
+    DpConfirmationDialogModule,
   ],
   declarations: [DpPaymentCallbackComponent],
   exports: [DpPaymentCallbackComponent],

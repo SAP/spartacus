@@ -16,6 +16,8 @@ import {
 import { DpCheckoutPaymentService } from '../../../facade';
 import { Component, OnInit, EventEmitter, Output, inject } from '@angular/core';
 import { CheckoutBillingAddressFormService } from '@spartacus/checkout/base/components';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'cx-dp-payment-callback',
@@ -26,10 +28,10 @@ export class DpPaymentCallbackComponent implements OnInit {
   closeCallback = new EventEmitter<any>();
   @Output()
   paymentDetailsAdded = new EventEmitter<any>();
-  @Output()
-  paymentDetailsAddedAndGotBack = new EventEmitter<any>();
+
   protected featureConfig = inject(FeatureConfigService);
   protected billingAddressService = inject(CheckoutBillingAddressFormService);
+  protected launchDialogService = inject(LaunchDialogService);
   showBillingAddressForm = false;
 
   constructor(
@@ -58,23 +60,38 @@ export class DpPaymentCallbackComponent implements OnInit {
     }
   }
 
-  next(showCardsList: boolean): void {
+  back(): void {
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.DP_SHOW_CONFIRMATION_DIALOG,
+      undefined,
+      undefined
+    );
+    if (dialog) {
+      dialog.pipe(take(1)).subscribe((result) => {
+        if (result.instance.cardSaveCancelled === true) {
+          this.globalMsgService.add(
+            { key: 'dpPaymentForm.cancelledOrFailed' },
+            GlobalMessageType.MSG_TYPE_WARNING
+          );
+          this.closeCallback.emit();
+        }
+      });
+    }
+  }
+  next(): void {
     if (
       this.billingAddressService.isBillingAddressSameAsDeliveryAddress() ||
       this.billingAddressService.isBillingAddressFormValid()
     ) {
       const billingAddress: Address =
         this.billingAddressService.getBillingAddress();
-      this.fetchPaymentDetails(billingAddress, showCardsList);
+      this.fetchPaymentDetails(billingAddress);
     } else {
       this.billingAddressService.markAllAsTouched();
     }
   }
 
-  private fetchPaymentDetails(
-    billingAddress?: Address,
-    showCardsList?: boolean
-  ) {
+  private fetchPaymentDetails(billingAddress?: Address) {
     const paymentRequest = this.dpStorageService.readCardRegistrationState();
 
     if (paymentRequest?.sessionId && paymentRequest?.signature) {
@@ -86,11 +103,7 @@ export class DpPaymentCallbackComponent implements OnInit {
         )
         .subscribe((details) => {
           if (details?.id) {
-            if (showCardsList) {
-              this.paymentDetailsAddedAndGotBack.emit(details);
-            } else {
-              this.paymentDetailsAdded.emit(details);
-            }
+            this.paymentDetailsAdded.emit(details);
           } else if (details) {
             this.globalMsgService.add(
               { key: 'dpPaymentForm.error.paymentFetch' },

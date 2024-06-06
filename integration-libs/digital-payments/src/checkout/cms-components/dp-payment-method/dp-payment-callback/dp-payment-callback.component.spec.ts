@@ -20,6 +20,7 @@ import { DpLocalStorageService } from './../../../facade/dp-local-storage.servic
 import { DpPaymentRequest } from './../../../models/dp-checkout.model';
 import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
 import { CheckoutBillingAddressFormService } from '@spartacus/checkout/base/components';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 
 class MockDpCheckoutPaymentService
   implements Partial<DpCheckoutPaymentService>
@@ -83,6 +84,13 @@ const mockPaymentDetails: PaymentDetails = {
   template: '',
 })
 class MockSpinnerComponent {}
+class MockLaunchDialogService {
+  openDialog(_x: any, _y: any, _z: any) {
+    return of({
+      instance: { cardSaveCancelled: true },
+    });
+  }
+}
 
 describe('DpPaymentCallbackComponent with success query param', () => {
   let component: DpPaymentCallbackComponent;
@@ -92,6 +100,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
   let msgService: GlobalMessageService;
   let featureConfig: FeatureConfigService;
   let billingAddressService: CheckoutBillingAddressFormService;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -130,10 +139,12 @@ describe('DpPaymentCallbackComponent with success query param', () => {
           provide: CheckoutBillingAddressFormService,
           useClass: MockCheckoutBillingAddressFormService,
         },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
 
     dpPaymentService = TestBed.inject(DpCheckoutPaymentService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
     dpStorageService = TestBed.inject(DpLocalStorageService);
     msgService = TestBed.inject(GlobalMessageService);
     featureConfig = TestBed.inject(FeatureConfigService);
@@ -288,13 +299,22 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         spyOn(billingAddressService, 'getBillingAddress').and.returnValue({});
       });
       it('should add payment details when `continue` is clicked', async () => {
-        component.next(false);
+        component.next();
         expect(component.paymentDetailsAdded.emit).toHaveBeenCalled();
       });
-      it('should add payment details and go back when `save and back` is clicked', async () => {
-        spyOn(component.paymentDetailsAddedAndGotBack, 'emit').and.callThrough();
-        component.next(true);
-        expect(component.paymentDetailsAddedAndGotBack.emit).toHaveBeenCalled();
+      it('should not add payment details and open a dialog when `back` is clicked', async () => {
+        spyOn(launchDialogService, 'openDialog').and.callThrough();
+        component.back();
+        expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+          LAUNCH_CALLER.DP_SHOW_CONFIRMATION_DIALOG,
+          undefined,
+          undefined
+        );
+        expect(msgService.add).toHaveBeenCalledWith(
+          { key: 'dpPaymentForm.cancelledOrFailed' },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
+        expect(component.closeCallback.emit).toHaveBeenCalled();
       });
     });
 
@@ -307,7 +327,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         true
       );
       spyOn(billingAddressService, 'getBillingAddress').and.returnValue({});
-      component.next(false);
+      component.next();
       expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
         mockSessionId,
@@ -323,7 +343,7 @@ describe('DpPaymentCallbackComponent with success query param', () => {
       spyOn(billingAddressService, 'isBillingAddressFormValid').and.returnValue(
         false
       );
-      component.next(false);
+      component.next();
       expect(dpStorageService.readCardRegistrationState).not.toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).not.toHaveBeenCalled();
     });
@@ -368,6 +388,7 @@ describe('DpPaymentCallbackComponent without query param', () => {
           provide: CheckoutBillingAddressFormService,
           useClass: MockCheckoutBillingAddressFormService,
         },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
 
