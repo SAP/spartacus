@@ -48,7 +48,6 @@
         (click)="closeIfClickedTheSameLink(node)"
         [tabindex]="getTabIndex(node, depth)"
         (focus)="depth || reinitializeMenu()"
-        (keydown.space)="toggleOpen($any($event))"
       >
         {{ node.title }}
       </cx-generic-link>
@@ -89,6 +88,7 @@
             (click)="toggleOpen($any($event))"
             (mouseenter)="onMouseEnter($event)"
             (keydown.space)="onSpace($any($event))"
+            (keydown.enter)="onSpace($any($event))"
             (keydown.esc)="back()"
             (keydown.arrowDown)="focusOnNode($any($event))"
             (focus)="depth || reinitializeMenu()"
