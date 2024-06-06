@@ -71,12 +71,19 @@
     <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
   </label>
 
-  <a
-    class="btn btn-block btn-secondary"
-    [routerLink]="{ cxRoute: 'home' } | cxUrl"
-  >
-    {{ 'common.cancel' | cxTranslate }}
-  </a>
+  <!-- TODO: (CXSPA-7252) - Remove feature flag next major release -->
+  <ng-container *cxFeature="'a11yUseButtonsForBtnLinks'">
+    <button class="btn btn-block btn-secondary" (click)="navigateTo('home')">
+      {{ 'common.cancel' | cxTranslate }}
+    </button>
+  </ng-container>
+  <ng-container *cxFeature="'!a11yUseButtonsForBtnLinks'">
+    <a
+      [routerLink]="{ cxRoute: 'home' } | cxUrl"
+      class="btn btn-block btn-secondary"
+      >{{ 'common.cancel' | cxTranslate }}</a
+    >
+  </ng-container>
 
   <button class="btn btn-block btn-primary" [disabled]="form.disabled">
     {{ 'common.save' | cxTranslate }}

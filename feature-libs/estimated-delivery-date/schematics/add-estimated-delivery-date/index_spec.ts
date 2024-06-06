@@ -76,17 +76,11 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      path.join(
-        __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
+      '../../projects/schematics/src/collection.json'
     );
     schematicRunner.registerCollection(
       SPARTACUS_CART_BASE,
-      path.join(
-        __dirname,
-        '../../../../feature-libs/checkout/schematics/collection.json'
-      )
+      '../feature-libs/cart/schematics/collection.json'
     );
 
     appTree = await schematicRunner.runExternalSchematic(

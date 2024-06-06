@@ -23,14 +23,14 @@ context('Product Configuration', () => {
     describe('support back navigation to the product detail page after clicking Show Details button', () => {
       it('should display a product overview from the catalog', () => {
         configuration.searchForProduct(testProduct);
-        configurationVc.clickOnShowDetailsBtn(testProduct);
+        configurationVc.clickOnShowDetailsBtn();
         configurationOverview.checkConfigOverviewPageDisplayed();
         configurationOverview.clickCloseBtnOnOP();
       });
 
       it('should display a product overview from the products details page', () => {
         common.goToPDPage(electronicsShop, testProduct);
-        configurationVc.clickOnShowDetailsBtn(testProduct);
+        configurationVc.clickOnShowDetailsBtn();
         configurationOverview.checkConfigOverviewPageDisplayed();
         configurationOverview.clickCloseBtnOnOP();
       });
