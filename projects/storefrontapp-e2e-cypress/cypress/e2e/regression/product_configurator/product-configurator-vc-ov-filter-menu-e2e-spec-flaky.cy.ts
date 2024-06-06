@@ -26,7 +26,7 @@ context('Product Configuration', () => {
     );
   });
 
-  it('should display sidebar with filter and menu on overview page', () => {
+  it('should display sidebar with menu and filter tabs on overview page', () => {
     clickAllowAllFromBanner();
 
     configurationOverviewVc.goToConfigOverviewPage(

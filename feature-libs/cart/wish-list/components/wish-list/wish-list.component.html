@@ -33,5 +33,11 @@
 </ng-container>
 
 <ng-template #emptyWishList>
-  <h2>{{ 'wishlist.empty' | cxTranslate }}</h2>
+  <!-- TODO: (CXSPA-7288) - Remove feature flag next major release -->
+  <p *cxFeature="'a11yEmptyWishlistHeading'" class="cx-empty-wish-list">
+    {{ 'wishlist.empty' | cxTranslate }}
+  </p>
+  <h2 *cxFeature="'!a11yEmptyWishlistHeading'">
+    {{ 'wishlist.empty' | cxTranslate }}
+  </h2>
 </ng-template>

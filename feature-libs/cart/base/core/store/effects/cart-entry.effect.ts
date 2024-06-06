@@ -51,8 +51,6 @@ export class CartEntryEffects {
               (cartModification: CartModification) =>
                 new CartActions.CartAddEntrySuccess({
                   ...payload,
-                  productCode: cartModification.entry?.product
-                    ?.code as Required<string>,
                   ...(cartModification as Required<CartModification>),
                 })
             ),
