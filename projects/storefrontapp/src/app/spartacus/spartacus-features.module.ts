@@ -306,6 +306,7 @@ if (environment.estimatedDeliveryDate) {
         cartQuickOrderRemoveListeningToFailEvent: true,
         a11yVisibleFocusOverflows: true,
         a11yTruncatedTextForResponsiveView: true,
+        a11ySemanticPaginationLabel: true,
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
         formErrorsDescriptiveMessages: true,
