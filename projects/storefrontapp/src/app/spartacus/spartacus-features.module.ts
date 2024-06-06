@@ -312,6 +312,7 @@ if (environment.estimatedDeliveryDate) {
         a11yUseButtonsForBtnLinks: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
+        a11yFacetsDialogFocusHandling: true,
       };
       return appFeatureToggles;
     }),
