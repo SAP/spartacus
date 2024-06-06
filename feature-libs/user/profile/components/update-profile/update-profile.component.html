@@ -7,107 +7,56 @@
   <label>
     <span class="label-content">{{
       'updateProfileForm.title' | cxTranslate
-    }}</span>
-    <ng-select
-      [clearable]="false"
-      [searchable]="false"
-      formControlName="titleCode"
-      id="title-select"
-      [cxNgSelectA11y]="{
+      }}</span>
+    <ng-select [clearable]="false" [searchable]="false" formControlName="titleCode" id="title-select" [cxNgSelectA11y]="{
         ariaLabel: 'updateProfileForm.title' | cxTranslate
-      }"
-    >
+      }">
       <ng-option *ngFor="let title of titles$ | async" [value]="title.code">{{
         title.name
-      }}</ng-option>
+        }}</ng-option>
     </ng-select>
   </label>
   <label>
-    <span class="label-content"
-      >{{ 'updateProfileForm.firstName.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-    ></span>
-    <input
-      required="true"
-      type="text"
-      class="form-control"
-      name="firstName"
-      placeholder="{{
+    <span class="label-content">{{ 'updateProfileForm.firstName.label' | cxTranslate }}
+      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template></span>
+    <input required="true" type="text" class="form-control" name="firstName" placeholder="{{
         'updateProfileForm.firstName.placeholder' | cxTranslate
-      }}"
-      formControlName="firstName"
-    />
+      }}" formControlName="firstName" />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-    <cx-form-errors
-      *cxFeature="'descriptiveErrorMessages'"
-      [translationParams]="{
+    <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
         label: 'updateProfileForm.firstName.label' | cxTranslate
-      }"
-      [control]="form.get('firstName')"
-    ></cx-form-errors>
+      }" [control]="form.get('firstName')"></cx-form-errors>
 
-    <cx-form-errors
-      *cxFeature="'!descriptiveErrorMessages'"
-      [control]="form.get('firstName')"
-    ></cx-form-errors>
+    <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('firstName')"></cx-form-errors>
   </label>
 
   <label>
-    <span class="label-content"
-      >{{ 'updateProfileForm.lastName.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-    ></span>
-    <input
-      required="true"
-      type="text"
-      class="form-control"
-      name="lastName"
-      placeholder="{{ 'updateProfileForm.lastName.placeholder' | cxTranslate }}"
-      formControlName="lastName"
-    />
+    <span class="label-content">{{ 'updateProfileForm.lastName.label' | cxTranslate }}
+      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template></span>
+    <input required="true" type="text" class="form-control" name="lastName"
+      placeholder="{{ 'updateProfileForm.lastName.placeholder' | cxTranslate }}" formControlName="lastName" />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-    <cx-form-errors
-      *cxFeature="'descriptiveErrorMessages'"
-      [translationParams]="{
+    <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
         label: 'updateProfileForm.lastName.label' | cxTranslate
-      }"
-      [control]="form.get('lastName')"
-    ></cx-form-errors>
+      }" [control]="form.get('lastName')"></cx-form-errors>
 
-    <cx-form-errors
-      *cxFeature="'!descriptiveErrorMessages'"
-      [control]="form.get('lastName')"
-    ></cx-form-errors>
+    <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('lastName')"></cx-form-errors>
   </label>
 
   <label>
     <span class="label-content">{{
       'updateProfileForm.customerId' | cxTranslate
-    }}</span>
-    <input
-      required="true"
-      type="text"
-      class="form-control"
-      name="customerId"
-      formControlName="customerId"
-      readonly
-    />
+      }}</span>
+    <input required="true" type="text" class="form-control" name="customerId" formControlName="customerId" readonly />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-    <cx-form-errors
-      *cxFeature="'descriptiveErrorMessages'"
-      [translationParams]="{
+    <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
         label: 'updateProfileForm.customerId' | cxTranslate
-      }"
-      [control]="form.get('customerId')"
-    ></cx-form-errors>
+      }" [control]="form.get('customerId')"></cx-form-errors>
 
-    <cx-form-errors
-      *cxFeature="'!descriptiveErrorMessages'"
-      [control]="form.get('customerId')"
-    ></cx-form-errors>
+    <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('customerId')"></cx-form-errors>
   </label>
 
   <!-- TODO: (CXSPA-7252) - Remove feature flag next major release -->
@@ -117,11 +66,8 @@
     </button>
   </ng-container>
   <ng-container *cxFeature="'!a11yUseButtonsForBtnLinks'">
-    <a
-      [routerLink]="{ cxRoute: 'home' } | cxUrl"
-      class="btn btn-block btn-secondary"
-      >{{ 'common.cancel' | cxTranslate }}</a
-    >
+    <a [routerLink]="{ cxRoute: 'home' } | cxUrl" class="btn btn-block btn-secondary">{{ 'common.cancel' | cxTranslate
+      }}</a>
   </ng-container>
 
   <button class="btn btn-block btn-primary" [disabled]="form.disabled">
@@ -130,10 +76,6 @@
 </form>
 
 <ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
+  <abbr *cxFeature="'a11yRequiredAsterisks'" class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}">*</abbr>
 </ng-template>

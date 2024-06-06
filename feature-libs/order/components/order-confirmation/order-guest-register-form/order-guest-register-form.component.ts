@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy, Optional, inject } from '@angular/core';
+import { Component, Input, OnDestroy, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -25,12 +25,10 @@ import { Subscription } from 'rxjs';
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
   // TODO: (CXSPA-7315) Remove feature toggle in the next major
-  @Optional() featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  private featureConfigService = inject(FeatureConfigService);
 
-  private passwordValidators = this.featureConfigService?.isEnabled(
-    'descriptiveErrorMessages'
+  protected passwordValidators = this.featureConfigService?.isEnabled(
+    'formErrorsDescriptiveMessages'
   )
     ? [CustomFormValidators.passwordValidator]
     : CustomFormValidators.passwordValidators;

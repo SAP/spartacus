@@ -10,27 +10,15 @@
       {{ 'loginForm.emailAddress.label' | cxTranslate }}
       <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
     </span>
-    <input
-      required="true"
-      type="email"
-      class="form-control"
-      formControlName="userId"
-      placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
-    />
+    <input required="true" type="email" class="form-control" formControlName="userId"
+      placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}" />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-    <cx-form-errors
-      *cxFeature="'descriptiveErrorMessages'"
-      [translationParams]="{
+    <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
         label: 'loginForm.emailAddress.label' | cxTranslate
-      }"
-      [control]="form.get('userId')"
-    ></cx-form-errors>
+      }" [control]="form.get('userId')"></cx-form-errors>
 
-    <cx-form-errors
-      *cxFeature="'!descriptiveErrorMessages'"
-      [control]="form.get('userId')"
-    ></cx-form-errors>
+    <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('userId')"></cx-form-errors>
   </label>
 
   <label>
@@ -38,49 +26,28 @@
       {{ 'loginForm.password.label' | cxTranslate }}
       <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
     </span>
-    <input
-      required="true"
-      type="password"
-      class="form-control"
-      placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
-      formControlName="password"
-      [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
-      cxPasswordVisibilitySwitch
-    />
+    <input required="true" type="password" class="form-control"
+      placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}" formControlName="password"
+      [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate" cxPasswordVisibilitySwitch />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-    <cx-form-errors
-      *cxFeature="'descriptiveErrorMessages'"
-      [translationParams]="{
+    <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
         label: 'loginForm.password.label' | cxTranslate
-      }"
-      [control]="form.get('password')"
-    ></cx-form-errors>
+      }" [control]="form.get('password')"></cx-form-errors>
 
-    <cx-form-errors
-      *cxFeature="'!descriptiveErrorMessages'"
-      [control]="form.get('password')"
-    ></cx-form-errors>
+    <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('password')"></cx-form-errors>
   </label>
 
   <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">
     {{ 'loginForm.forgotPassword' | cxTranslate }}
   </a>
 
-  <button
-    type="submit"
-    class="btn btn-block btn-primary"
-    [disabled]="form.disabled"
-  >
+  <button type="submit" class="btn btn-block btn-primary" [disabled]="form.disabled">
     {{ 'loginForm.signIn' | cxTranslate }}
   </button>
 </form>
 
 <ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
+  <abbr *cxFeature="'a11yRequiredAsterisks'" class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}">*</abbr>
 </ng-template>

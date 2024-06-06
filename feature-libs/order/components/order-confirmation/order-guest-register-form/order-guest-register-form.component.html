@@ -3,8 +3,8 @@
     <h3>{{ 'checkoutOrderConfirmation.createAccount' | cxTranslate }}</h3>
     <p>
       {{
-        'checkoutOrderConfirmation.createAccountForNext'
-          | cxTranslate: { email: email }
+      'checkoutOrderConfirmation.createAccountForNext'
+      | cxTranslate: { email: email }
       }}
     </p>
 
@@ -13,23 +13,13 @@
         <label>
           <span class="label-content">{{
             'register.password.label' | cxTranslate
-          }}</span>
-          <input
-            required="true"
-            class="form-control"
-            type="password"
-            name="password"
-            placeholder="{{ 'register.password.placeholder' | cxTranslate }}"
-            formControlName="password"
-            [attr.aria-label]="'register.password.placeholder' | cxTranslate"
-            cxPasswordVisibilitySwitch
-          />
-          <cx-form-errors
-            [translationParams]="{
+            }}</span>
+          <input required="true" class="form-control" type="password" name="password"
+            placeholder="{{ 'register.password.placeholder' | cxTranslate }}" formControlName="password"
+            [attr.aria-label]="'register.password.placeholder' | cxTranslate" cxPasswordVisibilitySwitch />
+          <cx-form-errors [translationParams]="{
               label: 'register.password.label' | cxTranslate
-            }"
-            [control]="guestRegisterForm.get('password')"
-          ></cx-form-errors>
+            }" [control]="guestRegisterForm.get('password')"></cx-form-errors>
         </label>
       </div>
 
@@ -37,35 +27,20 @@
         <label>
           <span class="label-content">{{
             'register.confirmPassword.label' | cxTranslate
-          }}</span>
-          <input
-            required="true"
-            class="form-control"
-            type="password"
-            name="passwordconf"
-            placeholder="{{
+            }}</span>
+          <input required="true" class="form-control" type="password" name="passwordconf" placeholder="{{
               'register.confirmPassword.placeholder' | cxTranslate
-            }}"
-            formControlName="passwordconf"
-            [attr.aria-label]="
+            }}" formControlName="passwordconf" [attr.aria-label]="
               'register.confirmPassword.placeholder' | cxTranslate
-            "
-            cxPasswordVisibilitySwitch
-          />
+            " cxPasswordVisibilitySwitch />
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-          <cx-form-errors
-            *cxFeature="'descriptiveErrorMessages'"
-            [translationParams]="{
+          <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
               label: 'register.confirmPassword.label' | cxTranslate
-            }"
-            [control]="guestRegisterForm.get('passwordconf')"
-          ></cx-form-errors>
+            }" [control]="guestRegisterForm.get('passwordconf')"></cx-form-errors>
 
-          <cx-form-errors
-            *cxFeature="'!descriptiveErrorMessages'"
-            [control]="guestRegisterForm.get('passwordconf')"
-          ></cx-form-errors>
+          <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
+            [control]="guestRegisterForm.get('passwordconf')"></cx-form-errors>
         </label>
       </div>
 

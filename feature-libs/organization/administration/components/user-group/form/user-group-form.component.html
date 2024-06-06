@@ -3,83 +3,49 @@
     <label>
       <span class="label-content required">{{
         'orgUserGroup.name' | cxTranslate
-      }}</span>
-      <input
-        type="text"
-        class="form-control"
-        required
-        placeholder="{{ 'orgUserGroup.name' | cxTranslate }}"
-        formControlName="name"
-        (blur)="createUidWithName(form.get('name'), form.get('uid'))"
-      />
+        }}</span>
+      <input type="text" class="form-control" required placeholder="{{ 'orgUserGroup.name' | cxTranslate }}"
+        formControlName="name" (blur)="createUidWithName(form.get('name'), form.get('uid'))" />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUserGroup.name' | cxTranslate }"
-        [control]="form.get('name')"
-      ></cx-form-errors>
+        [control]="form.get('name')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('name')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('name')"></cx-form-errors>
     </label>
 
     <label>
       <span class="label-content required">{{
         'orgUserGroup.uid' | cxTranslate
-      }}</span>
-      <input
-        class="form-control"
-        type="text"
-        required
-        placeholder="{{ 'orgUserGroup.uid' | cxTranslate }}"
-        formControlName="uid"
-      />
+        }}</span>
+      <input class="form-control" type="text" required placeholder="{{ 'orgUserGroup.uid' | cxTranslate }}"
+        formControlName="uid" />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
-        [translationParams]="{ label: 'orgUserGroup.uid' | cxTranslate }"
-        [control]="form.get('uid')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{ label: 'orgUserGroup.uid' | cxTranslate }" [control]="form.get('uid')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('uid')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('uid')"></cx-form-errors>
     </label>
 
     <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required">{{
         'orgUserGroup.orgUnit' | cxTranslate
-      }}</span>
-      <ng-select
-        [inputAttrs]="{ required: 'true' }"
-        formControlName="uid"
-        [searchable]="true"
-        [clearable]="false"
-        [items]="(units$ | async) ?? null"
-        bindLabel="name"
-        bindValue="id"
-        [readonly]="form.get('orgUnit.uid')?.disabled ?? false"
-        appendTo="cx-org-list"
-        [placeholder]="'orgUserGroup.orgUnit' | cxTranslate"
-      >
+        }}</span>
+      <ng-select [inputAttrs]="{ required: 'true' }" formControlName="uid" [searchable]="true" [clearable]="false"
+        [items]="(units$ | async) ?? null" bindLabel="name" bindValue="id"
+        [readonly]="form.get('orgUnit.uid')?.disabled ?? false" appendTo="cx-org-list"
+        [placeholder]="'orgUserGroup.orgUnit' | cxTranslate">
       </ng-select>
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUserGroup.orgUnit' | cxTranslate }"
-        [control]="form.get('orgUnit.uid')"
-      ></cx-form-errors>
+        [control]="form.get('orgUnit.uid')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('orgUnit.uid')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('orgUnit.uid')"></cx-form-errors>
     </label>
   </ng-container>
 </cx-org-form>

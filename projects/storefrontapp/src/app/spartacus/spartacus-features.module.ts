@@ -308,7 +308,7 @@ if (environment.estimatedDeliveryDate) {
         a11yTruncatedTextForResponsiveView: true,
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
-        descriptiveErrorMessages: false,
+        formErrorsDescriptiveMessages: true,
         a11yEmptyWishlistHeading: true,
         a11yUseButtonsForBtnLinks: true,
         a11yFacetsDialogFocusHandling: true,

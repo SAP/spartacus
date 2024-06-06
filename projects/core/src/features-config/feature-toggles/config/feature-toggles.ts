@@ -240,9 +240,18 @@ export interface FeatureTogglesInterface {
   a11yCloseProductImageBtnFocus?: boolean;
 
   /**
-   * When enabled use translation fallback keys enabling to use descriptive error message in non-destructive way
+   * In `FormErrorsComponent` it uses more descriptive validation error messages
+   * in all UI form fields existing before v2211.25.
+   *
+   * 1. The `FormErrorsComponent` uses new i18n keys:
+   * `formErrors.labeled.<validatorName>` instead of `formErrors.<validatorName>`,
+   * for example `formErrors.labeled.required` instead of `formErrors.required`.
+   *
+   * 2. The existing usages of `CustomFormValidators.passwordValidator` are replaced with
+   * an array of new, more specific validators `CustomFormValidators.passwordValidators`
+   * (with the plural `...Validators`)
    */
-  descriptiveErrorMessages?: boolean;
+  formErrorsDescriptiveMessages?: boolean;
 
   /**
    * Modifies the template of 'WishListComponent'.
@@ -304,7 +313,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTruncatedTextForResponsiveView: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
-  descriptiveErrorMessages: false,
+  formErrorsDescriptiveMessages: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
   a11yFacetsDialogFocusHandling: false,

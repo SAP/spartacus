@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Optional, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -28,12 +28,10 @@ import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 @Injectable()
 export class UpdatePasswordComponentService {
   // TODO: (CXSPA-7315) Remove feature toggle in the next major
-  @Optional() featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  private featureConfigService = inject(FeatureConfigService);
 
-  private passwordValidators = this.featureConfigService?.isEnabled(
-    'descriptiveErrorMessages'
+  protected passwordValidators = this.featureConfigService?.isEnabled(
+    'formErrorsDescriptiveMessages'
   )
     ? [CustomFormValidators.passwordValidator]
     : CustomFormValidators.passwordValidators;

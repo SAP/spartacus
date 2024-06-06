@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, inject, Injectable, isDevMode, Optional } from '@angular/core';
+import { Inject, inject, Injectable, isDevMode } from '@angular/core';
 import { i18n, TOptions } from 'i18next';
 import { Observable } from 'rxjs';
 import { FeatureConfigService } from '../../features-config';
@@ -18,10 +18,8 @@ import { I18NEXT_INSTANCE } from './i18next-instance';
 export class I18nextTranslationService implements TranslationService {
   private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
   protected readonly NAMESPACE_SEPARATOR = ':';
-  @Optional() protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
+  private featureConfigService = inject(FeatureConfigService);
   protected logger = inject(LoggerService);
 
   constructor(
@@ -114,15 +112,15 @@ export class I18nextTranslationService implements TranslationService {
 
   protected getFallbackValue(keyOrKeys: string | string[]): string {
     // TODO: (CXSPA-7315) Remove feature toggle in the next major
-    const descriptiveErrorMessagesEnabled =
-      this.featureConfigService?.isEnabled('descriptiveErrorMessages');
+    const formErrorsDescriptiveMessagesEnabled =
+      this.featureConfigService.isEnabled('formErrorsDescriptiveMessages');
 
-    if (Array.isArray(keyOrKeys) && descriptiveErrorMessagesEnabled) {
+    if (Array.isArray(keyOrKeys) && formErrorsDescriptiveMessagesEnabled) {
       return isDevMode()
         ? `[${keyOrKeys.join(', ')}]`
         : this.NON_BREAKING_SPACE;
     } else {
-      return isDevMode() && descriptiveErrorMessagesEnabled
+      return isDevMode() && formErrorsDescriptiveMessagesEnabled
         ? `[${keyOrKeys}]`
         : this.NON_BREAKING_SPACE;
     }

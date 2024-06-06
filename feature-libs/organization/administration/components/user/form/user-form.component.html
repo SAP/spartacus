@@ -3,104 +3,60 @@
     <label>
       <span class="label-content required">{{
         'orgUser.title' | cxTranslate
-      }}</span>
-      <ng-select
-        formControlName="titleCode"
-        [searchable]="false"
-        [clearable]="false"
-        [items]="titles$ | async"
-        bindLabel="name"
-        bindValue="code"
-        appendTo="cx-org-list"
-        [placeholder]="'orgUser.title' | cxTranslate"
-      >
+        }}</span>
+      <ng-select formControlName="titleCode" [searchable]="false" [clearable]="false" [items]="titles$ | async"
+        bindLabel="name" bindValue="code" appendTo="cx-org-list" [placeholder]="'orgUser.title' | cxTranslate">
       </ng-select>
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUser.title' | cxTranslate }"
-        [control]="form.get('titleCode')"
-      ></cx-form-errors>
+        [control]="form.get('titleCode')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('titleCode')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('titleCode')"></cx-form-errors>
     </label>
     <label>
       <span class="label-content required">{{
         'orgUser.firstName' | cxTranslate
-      }}</span>
-      <input
-        type="text"
-        class="form-control"
-        required
-        placeholder="{{ 'orgUser.firstName' | cxTranslate }}"
-        formControlName="firstName"
-      />
+        }}</span>
+      <input type="text" class="form-control" required placeholder="{{ 'orgUser.firstName' | cxTranslate }}"
+        formControlName="firstName" />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUser.firstName' | cxTranslate }"
-        [control]="form.get('firstName')"
-      ></cx-form-errors>
+        [control]="form.get('firstName')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('firstName')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('firstName')"></cx-form-errors>
     </label>
 
     <label>
       <span class="label-content required">{{
         'orgUser.lastName' | cxTranslate
-      }}</span>
-      <input
-        type="text"
-        class="form-control"
-        required
-        placeholder="{{ 'orgUser.lastName' | cxTranslate }}"
-        formControlName="lastName"
-      />
+        }}</span>
+      <input type="text" class="form-control" required placeholder="{{ 'orgUser.lastName' | cxTranslate }}"
+        formControlName="lastName" />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUser.lastName' | cxTranslate }"
-        [control]="form.get('lastName')"
-      ></cx-form-errors>
+        [control]="form.get('lastName')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('lastName')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('lastName')"></cx-form-errors>
     </label>
 
     <label>
       <span class="label-content required">{{
         'orgUser.email' | cxTranslate
-      }}</span>
-      <input
-        class="form-control"
-        type="email"
-        required
-        placeholder="{{ 'orgUser.email' | cxTranslate }}"
-        formControlName="email"
-      />
+        }}</span>
+      <input class="form-control" type="email" required placeholder="{{ 'orgUser.email' | cxTranslate }}"
+        formControlName="email" />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
-        [translationParams]="{ label: 'orgUser.email' | cxTranslate }"
-        [control]="form.get('email')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{ label: 'orgUser.email' | cxTranslate }" [control]="form.get('email')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('email')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('email')"></cx-form-errors>
     </label>
 
     <fieldset required="true" class="full-width" formArrayName="roles">
@@ -108,18 +64,9 @@
         {{ 'orgUser.roles' | cxTranslate }}
       </legend>
 
-      <label
-        class="form-check"
-        *ngFor="let role of availableRoles; let i = index"
-      >
-        <input
-          type="checkbox"
-          class="form-check-input"
-          [value]="role"
-          [checked]="roles?.value?.includes(role)"
-          (change)="updateRoles($any($event))"
-          [disabled]="form?.status === 'DISABLED'"
-        />
+      <label class="form-check" *ngFor="let role of availableRoles; let i = index">
+        <input type="checkbox" class="form-check-input" [value]="role" [checked]="roles?.value?.includes(role)"
+          (change)="updateRoles($any($event))" [disabled]="form?.status === 'DISABLED'" />
         <span class="form-check-label">
           {{ 'organization.userRoles.' + role | cxTranslate }}
         </span>
@@ -131,18 +78,9 @@
         {{ 'orgUser.rights' | cxTranslate }}
       </legend>
 
-      <label
-        class="form-check"
-        *ngFor="let right of availableRights; let i = index"
-      >
-        <input
-          type="checkbox"
-          class="form-check-input"
-          [value]="right"
-          [checked]="roles?.value?.includes(right)"
-          (change)="updateRoles($any($event))"
-          [disabled]="form?.status === 'DISABLED'"
-        />
+      <label class="form-check" *ngFor="let right of availableRights; let i = index">
+        <input type="checkbox" class="form-check-input" [value]="right" [checked]="roles?.value?.includes(right)"
+          (change)="updateRoles($any($event))" [disabled]="form?.status === 'DISABLED'" />
         <span class="form-check-label">
           {{ 'organization.userRights.' + right | cxTranslate }}
         </span>
@@ -152,43 +90,27 @@
     <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required">{{
         'orgUser.orgUnit' | cxTranslate
-      }}</span>
-      <ng-select
-        [inputAttrs]="{ required: 'true' }"
-        formControlName="uid"
-        [searchable]="true"
-        [clearable]="false"
-        [items]="(units$ | async) ?? null"
-        bindLabel="name"
-        bindValue="id"
-        appendTo="cx-org-list"
-        [placeholder]="'orgUser.orgUnit' | cxTranslate"
-      >
+        }}</span>
+      <ng-select [inputAttrs]="{ required: 'true' }" formControlName="uid" [searchable]="true" [clearable]="false"
+        [items]="(units$ | async) ?? null" bindLabel="name" bindValue="id" appendTo="cx-org-list"
+        [placeholder]="'orgUser.orgUnit' | cxTranslate">
       </ng-select>
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUser.orgUnit' | cxTranslate }"
-        [control]="form.get('orgUnit.uid')"
-      ></cx-form-errors>
+        [control]="form.get('orgUnit.uid')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('orgUnit.uid')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('orgUnit.uid')"></cx-form-errors>
     </label>
 
     <div *ngIf="isAssignedToApprovers" class="full-width">
       <label class="form-check">
-        <input
-          type="checkbox"
-          class="form-check-input"
-          formControlName="isAssignedToApprovers"
-        />
+        <input type="checkbox" class="form-check-input" formControlName="isAssignedToApprovers" />
         <span class="form-check-label">{{
           'orgUser.assignApprover' | cxTranslate
-        }}</span>
+          }}</span>
       </label>
     </div>
   </ng-container>

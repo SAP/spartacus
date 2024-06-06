@@ -1,237 +1,138 @@
-<cx-org-form
-  i18nRoot="orgUnitAddress"
-  [animateBack]="!(key$ | async)"
-  [subtitle]="
+<cx-org-form i18nRoot="orgUnitAddress" [animateBack]="!(key$ | async)" [subtitle]="
     'orgUnitAddress.details.subtitle' | cxTranslate: { item: (unit$ | async) }
-  "
->
+  ">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label formGroupName="country">
       <span class="label-content required">{{
         'orgUnitAddress.country' | cxTranslate
-      }}</span>
-      <ng-select
-        [inputAttrs]="{ required: 'true' }"
-        class="country-select"
-        formControlName="isocode"
-        [searchable]="true"
-        [clearable]="false"
-        [items]="countries$ | async"
-        bindLabel="name"
-        bindValue="isocode"
-        placeholder="{{ 'orgUnitAddress.selectOne' | cxTranslate }}"
-        appendTo="cx-org-list"
-      >
+        }}</span>
+      <ng-select [inputAttrs]="{ required: 'true' }" class="country-select" formControlName="isocode"
+        [searchable]="true" [clearable]="false" [items]="countries$ | async" bindLabel="name" bindValue="isocode"
+        placeholder="{{ 'orgUnitAddress.selectOne' | cxTranslate }}" appendTo="cx-org-list">
       </ng-select>
-      <cx-form-errors
-        [translationParams]="{ label: 'orgUnitAddress.country' | cxTranslate }"
-        [control]="form.get('country.isocode')"
-      ></cx-form-errors>
+      <cx-form-errors [translationParams]="{ label: 'orgUnitAddress.country' | cxTranslate }"
+        [control]="form.get('country.isocode')"></cx-form-errors>
     </label>
 
     <label>
       <span class="label-content required">{{
         'orgUnitAddress.titles' | cxTranslate
-      }}</span>
-      <ng-select
-        formControlName="titleCode"
-        [searchable]="false"
-        [clearable]="false"
-        [items]="titles$ | async"
-        bindLabel="name"
-        bindValue="code"
-        placeholder="{{ 'orgUnitAddress.selectOne' | cxTranslate }}"
-        appendTo="cx-org-list"
-      >
+        }}</span>
+      <ng-select formControlName="titleCode" [searchable]="false" [clearable]="false" [items]="titles$ | async"
+        bindLabel="name" bindValue="code" placeholder="{{ 'orgUnitAddress.selectOne' | cxTranslate }}"
+        appendTo="cx-org-list">
       </ng-select>
     </label>
 
     <label>
       <span class="label-content required">{{
         'orgUnitAddress.firstName' | cxTranslate
-      }}</span>
-      <input
-        required="true"
-        class="form-control"
-        type="text"
-        placeholder="{{ 'orgUnitAddress.firstName' | cxTranslate }}"
-        formControlName="firstName"
-      />
+        }}</span>
+      <input required="true" class="form-control" type="text"
+        placeholder="{{ 'orgUnitAddress.firstName' | cxTranslate }}" formControlName="firstName" />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
-        [translationParams]="{
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
           label: 'orgUnitAddress.firstName' | cxTranslate
-        }"
-        [control]="form.get('firstName')"
-      ></cx-form-errors>
+        }" [control]="form.get('firstName')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('firstName')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('firstName')"></cx-form-errors>
     </label>
     <label>
       <span class="label-content required">{{
         'orgUnitAddress.lastName' | cxTranslate
-      }}</span>
-      <input
-        required="true"
-        type="text"
-        class="form-control"
-        placeholder="{{ 'orgUnitAddress.lastName' | cxTranslate }}"
-        formControlName="lastName"
-      />
+        }}</span>
+      <input required="true" type="text" class="form-control"
+        placeholder="{{ 'orgUnitAddress.lastName' | cxTranslate }}" formControlName="lastName" />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUnitAddress.lastName' | cxTranslate }"
-        [control]="form.get('lastName')"
-      ></cx-form-errors>
+        [control]="form.get('lastName')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('lastName')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('lastName')"></cx-form-errors>
     </label>
 
     <label class="full-width">
       <span class="label-content required">{{
         'orgUnitAddress.address1' | cxTranslate
-      }}</span>
-      <input
-        required="true"
-        type="text"
-        class="form-control"
-        placeholder="{{ 'orgUnitAddress.streetAddress' | cxTranslate }}"
-        formControlName="line1"
-      />
+        }}</span>
+      <input required="true" type="text" class="form-control"
+        placeholder="{{ 'orgUnitAddress.streetAddress' | cxTranslate }}" formControlName="line1" />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUnitAddress.address1' | cxTranslate }"
-        [control]="form.get('line1')"
-      ></cx-form-errors>
+        [control]="form.get('line1')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('line1')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('line1')"></cx-form-errors>
     </label>
 
     <label class="full-width">
       <span class="label-content">{{
         'orgUnitAddress.address2' | cxTranslate
-      }}</span>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="{{ 'orgUnitAddress.aptSuite' | cxTranslate }}"
-        formControlName="line2"
-      />
+        }}</span>
+      <input type="text" class="form-control" placeholder="{{ 'orgUnitAddress.aptSuite' | cxTranslate }}"
+        formControlName="line2" />
     </label>
 
     <label class="full-width">
       <span class="label-content">{{
         'orgUnitAddress.phoneNumber' | cxTranslate
-      }}</span>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="{{ 'orgUnitAddress.phoneNumber' | cxTranslate }}"
-        formControlName="phone"
-      />
+        }}</span>
+      <input type="text" class="form-control" placeholder="{{ 'orgUnitAddress.phoneNumber' | cxTranslate }}"
+        formControlName="phone" />
     </label>
 
     <label>
       <span class="label-content required">{{
         'orgUnitAddress.city' | cxTranslate
-      }}</span>
-      <input
-        required="true"
-        type="text"
-        class="form-control"
-        placeholder="{{ 'orgUnitAddress.city' | cxTranslate }}"
-        formControlName="town"
-      />
+        }}</span>
+      <input required="true" type="text" class="form-control" placeholder="{{ 'orgUnitAddress.city' | cxTranslate }}"
+        formControlName="town" />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUnitAddress.city' | cxTranslate }"
-        [control]="form.get('town')"
-      ></cx-form-errors>
+        [control]="form.get('town')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('town')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('town')"></cx-form-errors>
     </label>
 
     <label>
       <span class="label-content required">{{
         'orgUnitAddress.zipCode' | cxTranslate
-      }}</span>
-      <input
-        required="true"
-        type="text"
-        class="form-control"
-        placeholder="{{ 'orgUnitAddress.zipCode' | cxTranslate }}"
-        formControlName="postalCode"
-      />
+        }}</span>
+      <input required="true" type="text" class="form-control" placeholder="{{ 'orgUnitAddress.zipCode' | cxTranslate }}"
+        formControlName="postalCode" />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-form-errors
-        *cxFeature="'descriptiveErrorMessages'"
+      <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUnitAddress.zipCode' | cxTranslate }"
-        [control]="form.get('postalCode')"
-      ></cx-form-errors>
+        [control]="form.get('postalCode')"></cx-form-errors>
 
-      <cx-form-errors
-        *cxFeature="'!descriptiveErrorMessages'"
-        [control]="form.get('postalCode')"
-      ></cx-form-errors>
+      <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="form.get('postalCode')"></cx-form-errors>
     </label>
 
     <label></label>
 
     <ng-container *ngIf="regions$ | async as regions">
-      <label
-        class="full-width"
-        formGroupName="region"
-        *ngIf="regions.length > 0"
-      >
+      <label class="full-width" formGroupName="region" *ngIf="regions.length > 0">
         <span class="label-content required">{{
           'orgUnitAddress.state' | cxTranslate
-        }}</span>
-        <ng-select
-          [inputAttrs]="{ required: 'true' }"
-          class="region-select"
-          formControlName="isocode"
-          [searchable]="true"
-          [clearable]="false"
-          [items]="regions"
-          bindLabel="name"
-          bindValue="isocode"
-          placeholder="{{ 'orgUnitAddress.selectOne' | cxTranslate }}"
-          appendTo="cx-org-list"
-        >
+          }}</span>
+        <ng-select [inputAttrs]="{ required: 'true' }" class="region-select" formControlName="isocode"
+          [searchable]="true" [clearable]="false" [items]="regions" bindLabel="name" bindValue="isocode"
+          placeholder="{{ 'orgUnitAddress.selectOne' | cxTranslate }}" appendTo="cx-org-list">
         </ng-select>
 
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-        <cx-form-errors
-          *cxFeature="'descriptiveErrorMessages'"
+        <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{ label: 'orgUnitAddress.state' | cxTranslate }"
-          [control]="form.get('region.isocode')"
-        ></cx-form-errors>
+          [control]="form.get('region.isocode')"></cx-form-errors>
 
-        <cx-form-errors
-          *cxFeature="'!descriptiveErrorMessages'"
-          [control]="form.get('region.isocode')"
-        ></cx-form-errors>
+        <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
+          [control]="form.get('region.isocode')"></cx-form-errors>
       </label>
     </ng-container>
   </ng-container>

@@ -1,34 +1,17 @@
-<input
-  class="form-control"
-  type="date"
-  [formControl]="control"
-  [attr.min]="min"
-  [attr.max]="max"
-  [attr.required]="required === false ? undefined : required"
-  (change)="change()"
-  [placeholder]="placeholder"
-  [pattern]="pattern"
-/>
+<input class="form-control" type="date" [formControl]="control" [attr.min]="min" [attr.max]="max"
+  [attr.required]="required === false ? undefined : required" (change)="change()" [placeholder]="placeholder"
+  [pattern]="pattern" />
 
 <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-<cx-form-errors
-  *cxFeature="'descriptiveErrorMessages'"
-  [control]="control"
-  prefix="formErrors.labeled.date"
-  fallbackPrefix="formErrors.date"
-  [translationParams]="{
+<cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [control]="control" prefix="formErrors.labeled.date"
+  fallbackPrefix="formErrors.date" [translationParams]="{
     label: label ?? '' | cxTranslate,
     max: getDate(max) | cxDate,
     min: getDate(min) | cxDate
-  }"
-></cx-form-errors>
+  }"></cx-form-errors>
 
-<cx-form-errors
-  *cxFeature="'!descriptiveErrorMessages'"
-  [control]="control"
-  prefix="formErrors.date"
+<cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'" [control]="control" prefix="formErrors.date"
   [translationParams]="{
     max: getDate(max) | cxDate,
     min: getDate(min) | cxDate
-  }"
-></cx-form-errors>
+  }"></cx-form-errors>
