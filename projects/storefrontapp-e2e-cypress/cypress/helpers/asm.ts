@@ -284,8 +284,9 @@ export function asmCustomerLists(): void {
 
   cy.get('cx-customer-list')
     .find('.cx-btn-cell')
-    .not('[aria-label="Order"]')
-    .not('[aria-label="Cart"]')
+    .not('[aria-label="Orders"]')
+    .not('[aria-label="Active Cart"]')
+    .not('[aria-label="Customer 360°"]')
     .then(($rows) => {
       expect($rows.length).to.eq(5);
       cy.wrap($rows[0]).click();
@@ -467,6 +468,23 @@ export function asmCustomerListPagination(): void {
   );
   cy.get('cx-pagination').should('not.be.visible');
   cy.get('button').contains('Cancel').click();
+}
+
+export function asmCustomerListC360Link(): void {
+  cy.log('--> Starting customer list');
+  asm.asmOpenCustomerList();
+  cy.get('cx-customer-list table').should('exist');
+
+  cy.log('--> click 360 view link');
+  cy.get('cx-customer-list')
+    .find('.cx-btn-cell')
+    .find('.fa-circle-user')
+    .then(($rows) => {
+      cy.wrap($rows[0]).click();
+      cy.get('.cx-asm-customer-360').should('exist');
+      cy.get('.header-profile-details-log').should('exist');
+      cy.get('.cx-asm-customer-email').invoke('text').should('not.be.empty');
+    });
 }
 
 export function startCustomerEmulation(customer, b2b = false): void {
