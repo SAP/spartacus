@@ -11,6 +11,7 @@ import { take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../components/config/configurator-ui-settings.config';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
+import { md5 } from 'js-md5';
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantNormalizer
@@ -87,7 +88,7 @@ export class OccConfiguratorVariantNormalizer
           flatGroupList
         );
         group.stateHash = this.hashCode(
-          group.stateHash?.toString() ?? '' + subGroup.stateHash?.toString()
+          group.stateHash ?? '' + subGroup.stateHash
         );
       });
     }
@@ -567,16 +568,16 @@ export class OccConfiguratorVariantNormalizer
   /**
    * Returns a hash code from a string
    * @param  {String} stringToHash The string to hash.
-   * @return {Number} A 32bit integer
-   * @see http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+   * @return {string} md5
    */
-  hashCode(stringToHash: string): number {
-    let hash = 0;
-    for (let i = 0, len = stringToHash.length; i < len; i++) {
-      let chr = stringToHash.charCodeAt(i);
-      hash = (hash << 5) - hash + chr;
-      hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
+  hashCode(stringToHash: string): string {
+    return md5(stringToHash);
+    //  let hash = 0;
+    //  for (let i = 0, len = stringToHash.length; i < len; i++) {
+    //    let chr = stringToHash.charCodeAt(i);
+    //    hash = (hash << 5) - hash + chr;
+    //    hash |= 0; // Convert to 32bit integer
+    //  }
+    //  return hash;
   }
 }
