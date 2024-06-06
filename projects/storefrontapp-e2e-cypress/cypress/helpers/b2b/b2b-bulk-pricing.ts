@@ -83,7 +83,7 @@ export function loginB2bUser() {
 
 export function placeOrder() {
   cy.get(
-    'cx-added-to-cart-dialog .cx-dialog-buttons a.btn.btn-secondary'
+    'cx-added-to-cart-dialog .cx-dialog-buttons button.btn.btn-secondary'
   ).click();
 
   b2bCheckout.enterPONumber();
