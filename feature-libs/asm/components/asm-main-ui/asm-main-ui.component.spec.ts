@@ -6,7 +6,13 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import {
@@ -460,6 +466,27 @@ describe('AsmMainUiComponent', () => {
     });
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
   });
+
+  it('should be able to open c360 dialog', fakeAsync(() => {
+    spyOn(launchDialogService, 'openDialogAndSubscribe');
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+    spyOn(userAccountFacade, 'get').and.returnValue(
+      of({ customerId: 'testuser' })
+    );
+    component.ngOnInit();
+    dialogClose$.next({
+      selectedUser: {},
+      actionType: CustomerListColumnActionType.CUSTOMER_360,
+    });
+
+    tick(1000);
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ASM_CUSTOMER_360,
+      component.element,
+      // any parameter is accept
+      jasmine.any(Object)
+    );
+  }));
 
   it('should be able to open create account dialog', () => {
     spyOn(launchDialogService, 'openDialogAndSubscribe');
