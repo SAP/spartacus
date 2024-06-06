@@ -1,5 +1,10 @@
 <ng-container *ngIf="cart">
-  <div [cxFocus]="focusConfig" (esc)="close('Escape clicked')" class="cx-saved-cart-form-dialog">
+  <div
+    [cxFocus]="focusConfig"
+    (esc)="close('Escape clicked')"
+    class="cx-saved-cart-form-dialog"
+    role="dialog"
+  >
     <form [formGroup]="form" class="cx-saved-cart-form-container">
       <!-- Modal Header -->
       <div class="modal-header cx-saved-cart-form-header">
