@@ -60,7 +60,8 @@ export function goToCPQConfigurationPage(
  * Clicks on 'Add to Cart' button in catalog list.
  */
 export function clickOnConfigureBtnInCatalog(): void {
-  cy.get('cx-configure-product a')
+  cy.get('cx-configure-product button')
+    .contains('Configure')
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/product/entityKey/');
