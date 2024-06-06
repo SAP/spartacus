@@ -9,10 +9,13 @@ import {
   Component,
   EventEmitter,
   Input,
+  Optional,
   Output,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { PaginationModel } from '@spartacus/core';
+import { PaginationModel, TranslationService } from '@spartacus/core';
+import { Observable, combineLatest, map, of } from 'rxjs';
 import { PaginationBuilder } from './pagination.builder';
 import { PaginationItem, PaginationItemType } from './pagination.model';
 
@@ -54,6 +57,11 @@ export class PaginationComponent {
 
   pages: PaginationItem[] = [];
 
+  // TODO: (CXSPA-7289) - Make required next major release
+  @Optional() translationService = inject(TranslationService, {
+    optional: true,
+  });
+
   constructor(
     private paginationBuilder: PaginationBuilder,
     private activatedRoute: ActivatedRoute
@@ -72,10 +80,43 @@ export class PaginationComponent {
   /**
    * Format aria-label based on pagination item type.
    *
+   * @param item PaginationItem
+   * @returns Observable
+   */
+  getAriaLabel$(item: PaginationItem): Observable<string> {
+    // Convert 'Start' to First, and 'End' to Last for a more natural screen read.
+    let type = item.type;
+    type = type === PaginationItemType.START ? PaginationItemType.FIRST : type;
+    type = type === PaginationItemType.END ? PaginationItemType.LAST : type;
+    const initialLabel =
+      type === PaginationItemType.PAGE
+        ? `${type} ${item.label}`
+        : `${type} ${PaginationItemType.PAGE}`;
+
+    if (!this.translationService) {
+      return of(initialLabel);
+    }
+    return combineLatest([
+      this.translationService?.translate('navigation.goTo', {
+        location: initialLabel,
+      }),
+      this.translationService?.translate('common.selected'),
+    ]).pipe(
+      map(([goToTranslation, selectedTranslation]) => {
+        return this.isCurrent(item)
+          ? `${goToTranslation}, ${selectedTranslation}`
+          : goToTranslation;
+      })
+    );
+  }
+  /**
+   * Format aria-label based on pagination item type.
+   *
    * @param label string
    * @param type PaginationItemType
    * @returns string
    */
+  // TODO: (CXSPA-7289) - Remove deprecated method next major release
   getAriaLabel(label?: string, type?: PaginationItemType): string {
     // Convert 'Start' to First, and 'End' to Last for a more natural screen read.
     type = type === PaginationItemType.START ? PaginationItemType.FIRST : type;
